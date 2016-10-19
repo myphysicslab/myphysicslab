@@ -6,7 +6,7 @@
         "src/test/"
     ],
     "closureLibraryDir": "closure-library/closure/goog",
-    "readme": "README.md",
+    "readme": "src/docs/doc_start.md",
     "useMarkdown": "true",
     "typeFilters": [
         ".*\.i18n",
