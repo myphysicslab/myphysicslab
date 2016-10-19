@@ -56,7 +56,7 @@ forces, but this is specific to only this particular single pendulum scenario.
 
 The pendulum is regarded as a _rigid body_ consisting of a uniform disk at end of a
 massless rigid arm. We find the reaction forces by solving a matrix equation, following
-the steps shown at <http://www.myphysicslab.com/contact.html>.
+the steps shown at <http://67.199.21.25/contact.html>.
 
 Variables
 --------------------------

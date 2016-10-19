@@ -49,8 +49,8 @@ var Vector = myphysicslab.lab.util.Vector;
 attached to the ball. The track can take any shape as defined by a NumericalPath. The
 simulation is not functional until a path has been provided with {@link #setPath}.
 
-For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>
-and <http://www.myphysicslab.com/RollerSpring.html>.
+For derivation equations of motion see <http://67.199.21.25/RollerSimple.html>
+and <http://67.199.21.25/RollerSpring.html>.
 
 
 * @param {boolean=} hasSpring whether the simulation should have a spring attaching

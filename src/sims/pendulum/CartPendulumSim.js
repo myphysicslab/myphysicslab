@@ -67,7 +67,7 @@ Parameters:
 Equations of Motion
 -------------------------
 
-See derivation at <http://www.myphysicslab.com/pendulum_cart.html>.
+See derivation at <http://67.199.21.25/pendulum_cart.html>.
 
     x' = v
     h' = w

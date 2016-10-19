@@ -85,8 +85,8 @@ See explanations at:
 + [Engine2D Overview](Engine2D.html)
 
 + The math and physics underlying
-    [RigidBodySim, ImpulseSim](http://www.myphysicslab.com/collision.html) and
-    [ContactSim](http://www.myphysicslab.com/contact.html) are described on the
+    [RigidBodySim, ImpulseSim](http://67.199.21.25/collision.html) and
+    [ContactSim](http://67.199.21.25/contact.html) are described on the
     myPhysicsLab website.
 
 + [ContactSim Math](ContactSim_Math.html)  has more details about the math.

@@ -61,7 +61,7 @@ Fixed parameters:
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown at
-<http://www.myphysicslab.com/dangle_stick.html>.
+<http://67.199.21.25/dangle_stick.html>.
 See also the Mathematica notebook [DangleStick.nb](DangleStick.pdf).
   
     theta'' = (-4 m1(m1+m2)r' theta'

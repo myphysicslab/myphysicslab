@@ -34,8 +34,8 @@ See background information at:
     an easily digestible summary of how ContactSim works.
 
 + The math and physics underlying
-    [RigidBodySim, ImpulseSim](http://www.myphysicslab.com/collision.html) and
-    [ContactSim](http://www.myphysicslab.com/contact.html) are described on the
+    [RigidBodySim, ImpulseSim](http://67.199.21.25/collision.html) and
+    [ContactSim](http://67.199.21.25/contact.html) are described on the
     myPhysicsLab website.
 
 + David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid Bodies.][Baraff_94]
@@ -52,7 +52,7 @@ Information about myPhysicsLab software in general:
     and interfaces.
 + See [myPhysicsLab README](index.html) for detailed documentation of classes and
     interfaces.
-+ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
++ The [myPhysicsLab website](http://67.199.21.25) shows the simulations
     running and contains explanations of the math behind them.
 + See [Building myPhysicsLab Software](Building.html) for information about building,
     testing, internationalization, and general programming issues.

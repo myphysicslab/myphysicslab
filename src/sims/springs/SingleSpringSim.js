@@ -67,7 +67,7 @@ fixed point so that the resting position is still x=0.
 
 Equations of Motion
 -------------------------
-See also <http://www.myphysicslab.com/spring1.html>.
+See also <http://67.199.21.25/spring1.html>.
 
 The spring force is `-k (L - R)`.  Damping force is `- b v`.
 

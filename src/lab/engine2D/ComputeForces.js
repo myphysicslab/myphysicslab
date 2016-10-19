@@ -46,7 +46,7 @@ More info at:
 
 + [Engine2D Overview](Engine2D.html)
 
-+ [The Math and Physics Underlying ContactSim](http://www.myphysicslab.com/contact.html)
++ [The Math and Physics Underlying ContactSim](http://67.199.21.25/contact.html)
 
 + {@link myphysicslab.lab.engine2D.ContactSim}
 

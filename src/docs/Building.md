@@ -10,7 +10,7 @@ Title: Building myPhysicsLab
 
 # Building myPhysicsLab Software
 
-[myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time
+[myPhysicsLab](http://67.199.21.25) provides classes to build real-time
 interactive animated physics simulations. This page has information about building the
 myPhysicsLab software, running tests, internationalization and general programming
 issues.
@@ -82,7 +82,7 @@ named `LICENSE`.
 
 Source code is available at http://www.github.com/myphysicslab
 
-The [myPhysicsLab](http://www.myphysicslab.com) project was started in 2001 by Erik
+The [myPhysicsLab](http://67.199.21.25) project was started in 2001 by Erik
 Neumann <erikn@myphysicslab.com>. It was originally written in Java, improved and
 enhanced over the years and converted to JavaScript from 2013 to 2016.
 

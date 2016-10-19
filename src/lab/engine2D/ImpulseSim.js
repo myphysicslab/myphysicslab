@@ -90,8 +90,8 @@ More information:
 + [Engine2D Overview](Engine2D.html)
 
 + The math and physics underlying
-    [RigidBodySim, ImpulseSim](http://www.myphysicslab.com/collision.html) and
-    [ContactSim](http://www.myphysicslab.com/contact.html) are described on the
+    [RigidBodySim, ImpulseSim](http://67.199.21.25/collision.html) and
+    [ContactSim](http://67.199.21.25/contact.html) are described on the
     myPhysicsLab website.
 
 + {@link myphysicslab.lab.engine2D.ContactSim} has more about how resting contacts are
@@ -179,7 +179,7 @@ this corresponds to the equation in {@link myphysicslab.lab.engine2D.ComputeForc
 
 so we put the `(1+e) v_i` factor into the `b` vector when passing to ComputeForces.
 
-If you look at the web page <http://www.myphysicslab.com/collision.html> you will see a
+If you look at the web page <http://67.199.21.25/collision.html> you will see a
 derivation of the following equation giving the value of `j` for a single collision.
 
     ma = mass of body A

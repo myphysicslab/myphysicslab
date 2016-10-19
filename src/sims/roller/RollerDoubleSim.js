@@ -47,9 +47,9 @@ var Vector = myphysicslab.lab.util.Vector;
 /** Simulation of 2 balls along a curved roller coaster track, with a spring connecting
 them.
 
-For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>,
-<http://www.myphysicslab.com/RollerSpring.html> and
-<http://www.myphysicslab.com/RollerDouble.html>.
+For derivation equations of motion see <http://67.199.21.25/RollerSimple.html>,
+<http://67.199.21.25/RollerSpring.html> and
+<http://67.199.21.25/RollerDouble.html>.
 
 Variables Array
 -------------------------

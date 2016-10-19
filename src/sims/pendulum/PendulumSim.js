@@ -81,10 +81,10 @@ Equations of Motion
 
 The derivation of the equations of motion is shown at
 
-+ <http://www.myphysicslab.com/dbl_pendulum1.html> for simple pendulum (no driving
++ <http://67.199.21.25/dbl_pendulum1.html> for simple pendulum (no driving
   force and no damping)
 
-+ <http://www.myphysicslab.com/dbl_pendulum2.html> for the damped, driven pendulum.
++ <http://67.199.21.25/dbl_pendulum2.html> for the damped, driven pendulum.
 The following summarizes the derivation shown there.
 
 Use the rotational analog of Newton's second law:

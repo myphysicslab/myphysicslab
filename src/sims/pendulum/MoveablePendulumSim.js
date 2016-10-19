@@ -64,7 +64,7 @@ anchor vertical velocity such that the anchor stays centered at its current
 position.  Otherwise, the anchor tends to move rapidly out of view.
 
 Derivation of equations of motion is shown at
-<http://www.myphysicslab.com/Moveable-pendulum.html>.
+<http://67.199.21.25/Moveable-pendulum.html>.
 
 Variables Array
 -------------------------

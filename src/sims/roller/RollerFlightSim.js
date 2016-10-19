@@ -54,7 +54,7 @@ var Vector = myphysicslab.lab.util.Vector;
 /** Simulation of a ball moving on a track, where the ball can fly off the
 track.
 
-See <http://www.myphysicslab.com/RollerFlight.html> for additional explanations
+See <http://67.199.21.25/RollerFlight.html> for additional explanations
 of the math involved here.
 
 Radial Acceleration

@@ -12,7 +12,7 @@ Title: Architecture of myPhysicsLab
 
 # myPhysicsLab Architecture
 
-[myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time
+[myPhysicsLab](http://67.199.21.25) provides classes to build real-time
 interactive animated physics simulations. This page gives an introduction to the
 architecture of the myPhysicsLab software.
 
@@ -35,7 +35,7 @@ Additional information:
     interfaces.
 + See [Engine2D Overview](Engine2D.html) for an overview of the 2d rigid body physics
     engine.
-+ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
++ The [myPhysicsLab website](http://67.199.21.25) shows the simulations
     running and contains explanations of the math behind them.
 + See [Customizing myPhysicsLab Simulations](Customizing.html) about how to customize
     using only a browser and text editor.
