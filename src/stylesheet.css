@@ -1,0 +1,183 @@
+/* Copyright 2016 Erik Neumann. All Rights Reserved.
+* Use of this source code is governed by the Apache License, Version 2.0.
+* See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+*/
+/* Stylesheet for myPhysicsLab
+* Organization of this style sheet is roughly similar to our typical page:
+* HTML & BODY
+* HEADER-BAR (LOGO, TABS, LANGUAGE MENU, NAV-LINKS)
+* CANVAS
+* UI CONTROLS
+* GENERAL TEXT & HEADINGS
+*/
+
+/* After orientation change (portrait to landscape), to keep the text from getting
+* bigger we need webkit-text-size-adjust:none
+*/
+html {
+  -webkit-text-size-adjust: none;
+}
+
+/****** HEADER BAR: LOGO, TABS, LANGUAGE MENU, NAV-LINKS **********/
+
+a#logo {
+  float: right;
+  margin: -9px 5px 0 0;
+}
+ul#header_bar, ul.horiz_tabs {
+  padding: 3px 0;
+  margin: 3px 0;
+}
+ul.horiz_tabs {
+  border-bottom: 1px solid #778;
+}
+ul#header_bar li {
+  list-style: none;
+}
+ul.horiz_tabs li {
+  list-style: none;
+  display: inline;
+  padding: 3px 0.5em;
+  margin: 0 3px 0 0;
+  border: 1px solid #778;
+  border-bottom-color: #DDE; /* same as background */
+  background: #DDE;
+  text-decoration: none;
+  font: bold 12px Verdana, sans-serif;
+  white-space: nowrap;
+}
+ul.horiz_tabs li.selected {
+  background: white;
+  border-bottom-color: white; /* same as background */
+}
+/* this div contains language_menu and next/prev nav_links */
+div#header_nav {
+  clear: right; /* because logo is above */
+  display: inline-block;
+  float: right;
+  margin: 0 0.5em 0 0;
+}
+select#compiled_menu {
+  margin: 0 0.5em 0 0;
+}
+select#language_menu {
+  margin: 0 0.5em 0 0;
+}
+a.nav_link {
+  font: 100% sans-serif;
+  margin: 0 0 0 0.5em;
+}
+
+/********  CANVAS  ********/
+
+/*see also SimController.mouseDown;  it has a fix for 'cursor change while drag' */
+canvas {
+    cursor: crosshair;
+    border:1px solid silver;
+    /*outline: none; /* turns off outline drawn when selecting with mouse */
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+/* Removed Jan 10 2016 because it results in empty space below SimView when
+window is resized to be wide.
+landscape mode:  leave blank area on right for user to scroll on iPhone etc
+@media screen and (orientation:landscape) {
+  canvas {
+    width: 92%;
+  }
+}
+*/
+canvas:active {
+    cursor: default;
+    border:1px dashed red;
+}
+
+/*********** UI CONTROLS *************/
+
+div.control_container {
+  clear: both; /* otherwise floating nav-links above are covered up, can't click */
+  width: 100%;
+}
+div.control_container p {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+div.control_group {
+  vertical-align: top;
+}
+textarea {
+  font-family: monospace, monospace;
+  border:1px solid silver;
+  max-width: 50em;
+}
+label {
+  white-space: nowrap; /* keep checkbox and label text together */
+}
+div.slider {
+  display: inline;
+}
+label, div.slider {
+  font-family: sans-serif;
+  font-size: 90%;
+  margin-left: 0.3em; margin-bottom: 0.3em;
+}
+div.control_container input, div.control_container select {
+  margin-left: 0.7em; margin-right: 0.3em; 
+}
+/* align slider controls, fixes Firefox layout */
+div.control_container input[type='range'] {
+  vertical-align: bottom;
+}
+
+button.icon {
+  margin: 0;
+  padding: 0;
+  border-style: none;
+  background-color: transparent;
+}
+button.icon:active {
+  background-color: gray;
+}
+/* kludge for Firefox to get buttons to be same size as icon images they contain.
+* http://stackoverflow.com/questions/8859908/buttons-too-tall-on-firefox
+*/
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/******** GENERAL TEXT & HEADINGS ******/
+
+h1 {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font: bold 130% sans-serif;
+  color: gray;
+}
+p {
+  max-width: 50em;
+  margin-top: 1em;
+}
+
+/****** FOOTER ********/
+
+div#footer2 {
+  text-align: right;
+  margin: 1.2em 0 0.3em 0;
+}
+
+div#copyright {
+  display: inline-block;
+  float: left;
+  text-align: left;
+  font: bold 90% Verdana, sans-serif;
+}
+
+span#revised_date {
+  font-weight: normal;
+  font-size: 80%;
+}
+
+a#valid_html {
+  margin: 0 0.5em;
+}

@@ -1,0 +1,80 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.springs.SingleSpringApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>sims/springs/MultiSpringApp #DEBUG_STATUS</h1>
+
+<!--
+* Demonstrates two independent versions of a simulation running simultaneoulsy on a
+* single page.
+*
+* Note that there are two separate sets of HTML elements, each with unique
+* names specified in the `elem_ids`.
+* And each application is stored in a separate global variable.
+*
+* TO DO: MultiSpringApp should be able to have minimal sets of controls so we can see
+* both apps simultaneously. Perhaps set the SimRects to be more squat and wide. Perhaps
+* have fewer controls (perhaps make them in script?) and use VerticalLayout so that
+* controls are in smaller area.
+-->
+#HEADER_BAR
+#define #APP_NUM 1
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+
+<p style="clear: both;">Second version:</p>
+
+<ul id="tab_list2" class="horiz_tabs">
+  #TAB_ITEMS
+</ul>
+#define #APP_NUM 2
+#CONTROLS_CONTAINER
+
+#TEST_PAGE{springs/single-spring/single-spring}
+
+  <p>This demonstrates two independent versions of a simulation running
+    simultaneoulsy on a single page. Also demonstrates customizing
+    a simulation with JavaScript.
+  </p>
+
+<p>Current language is #LANGUAGE.</p>
+#PAGE_INFO
+#LOREM_IPSUM
+
+#LOAD_APP
+  <script>
+  (function() {
+    #define #APP_NUM 1
+    #ELEM_IDS
+    app1 = new myphysicslab.sims.springs.SingleSpringApp(elem_ids1);
+    app1.defineNames('app1');
+    app1.eval('SPRING_STIFFNESS=10;DAMPING=0.01;RUNNING=true');
+    app1.start();
+  })();
+  </script>
+  <script>
+  (function() {
+    #define #APP_NUM 2
+    #define #TAB_LIST_ID tab_list2
+    #ELEM_IDS
+    app2 = new myphysicslab.sims.springs.SingleSpringApp(elem_ids2);
+    app2.defineNames('app2');
+    app2.eval('RUNNING=true;');
+    app2.start();
+  })();
+  </script>
+#SHOW_ALL
+#PAGE_FOOTER
+</body>
+</html>

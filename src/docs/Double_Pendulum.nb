@@ -1,0 +1,493 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     15464,        484]
+NotebookOptionsPosition[     14043,        431]
+NotebookOutlinePosition[     14554,        451]
+CellTagsIndexPosition[     14511,        448]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+ StyleBox["Double Pendulum \n",
+  FontWeight->"Plain"],
+ StyleBox["Equations of Motion",
+  FontSize->24,
+  FontWeight->"Plain"]
+}], "Title",
+ CellChangeTimes->{{3.661186931788331*^9, 3.66118693471447*^9}, {
+  3.6611881134520693`*^9, 3.661188120745121*^9}}],
+
+Cell[TextData[{
+ "This notebook shows derivation of the equations of motion for the double \
+pendulum simulation.  See ",
+ StyleBox["http://www.myphysicslab.com/dbl_pendulum.html.",
+  FontFamily->"Courier"],
+ "\n\nAuthor: Erik Neumann\n\nWe regard ",
+ Cell[BoxData[
+  FormBox["y", TraditionalForm]]],
+ " as increasing upwards.  Origin is at the fixed base pivot.\n\[Theta]1 is \
+the angle at  the (fixed) base pivot between the rod and the downward \
+vertical position.\n\[Theta]2 is the angle between the downward vertical from \
+mass 1 and the second rod.\nd is the derivative operator with respect to \
+time.\nL1, L2 are the lengths of the rods.\nm1, m2 are masses.\ng is \
+gravitational constant.\nx1,y1 is position of mass 1.\nx2,y2 is position of \
+mass2.\nWe start with the following:\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"x1", "=", 
+    RowBox[{"L1", " ", 
+     RowBox[{"Sin", "[", "\[Theta]1", "]"}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"y1", "=", 
+    RowBox[{
+     RowBox[{"-", "L1"}], " ", 
+     RowBox[{"Cos", "[", "\[Theta]1", "]"}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"x2", "=", 
+    RowBox[{"x1", "+", 
+     RowBox[{"L2", " ", 
+      RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"y2", "=", 
+    RowBox[{"y1", "-", 
+     RowBox[{"L2", " ", 
+      RowBox[{"Cos", "[", "\[Theta]2", "]"}]}]}]}], TraditionalForm]]],
+ "\nThen take two derivatives to get dd\[Theta]1 and dd\[Theta]2 as given \
+below.\n\nNaming convention: the letter d indicates derivative (with respect \
+to time), dd indicates second derivative. For example:\nx1\[CloseCurlyQuote] \
+= dx1\nx1\[CloseCurlyQuote]\[CloseCurlyQuote] = ddx1\n\[Theta]1\
+\[CloseCurlyQuote] = d\[Theta]1\n\
+\[Theta]1\[CloseCurlyQuote]\[CloseCurlyQuote] = dd\[Theta]1"
+}], "Text",
+ CellChangeTimes->{{3.6611870048330097`*^9, 3.661187044549665*^9}, {
+  3.661187095924919*^9, 3.6611870959269943`*^9}, {3.661187204872465*^9, 
+  3.6611872371532373`*^9}, {3.661187320285849*^9, 3.661187337057941*^9}, {
+  3.661187470606865*^9, 3.661187528193585*^9}, {3.661188135426656*^9, 
+  3.661188141714292*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ddx1", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     SuperscriptBox["d\[Theta]1", "2"]}], "L1", " ", 
+    RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "+", 
+   RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+    RowBox[{"Cos", "[", "\[Theta]1", "]"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"General", "::", "\<\"spell1\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"Possible spelling error: new symbol name \\\"\\!\\(dd\
+\[Theta]1\\)\\\" is similar to existing symbol \\\"\\!\\(d\[Theta]1\\)\\\".\"\
+\>"}]], "Message"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+   RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "-", 
+  RowBox[{
+   SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+   RowBox[{"Sin", "[", "\[Theta]1", "]"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ddy1", "=", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+    RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+   RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+    RowBox[{"Sin", "[", "\[Theta]1", "]"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"General", "::", "\<\"spell1\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"Possible spelling error: new symbol name \\\"\\!\\(ddy1\\)\
+\\\" is similar to existing symbol \\\"\\!\\(ddx1\\)\\\".\"\>"}]], "Message"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+   RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+  RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+   RowBox[{"Sin", "[", "\[Theta]1", "]"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ddx2", "=", 
+  RowBox[{"ddx1", " ", "-", " ", 
+   RowBox[{
+    SuperscriptBox["d\[Theta]2", "2"], "L2", " ", 
+    RowBox[{"Sin", "[", "\[Theta]2", "]"}]}], "+", 
+   RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+    RowBox[{"Cos", "[", "\[Theta]2", "]"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"General", "::", "\<\"spell1\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"Possible spelling error: new symbol name \\\"\\!\\(dd\
+\[Theta]2\\)\\\" is similar to existing symbol \\\"\\!\\(d\[Theta]2\\)\\\".\"\
+\>"}]], "Message"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+   RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+  RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+   RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "-", 
+  RowBox[{
+   SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+   RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "-", 
+  RowBox[{
+   SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", 
+   RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ddy2", "=", 
+  RowBox[{"ddy1", " ", "+", " ", 
+   RowBox[{
+    SuperscriptBox["d\[Theta]2", "2"], "L2", " ", 
+    RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "+", 
+   RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+    RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"General", "::", "\<\"spell1\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"Possible spelling error: new symbol name \\\"\\!\\(ddy2\\)\
+\\\" is similar to existing symbol \\\"\\!\\(ddx2\\)\\\".\"\>"}]], "Message"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+   RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+  RowBox[{
+   SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", 
+   RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "+", 
+  RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+   RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "+", 
+  RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+   RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"eq1", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"m1", " ", "ddx1"}], " ", "+", " ", 
+      RowBox[{"m2", " ", "ddx2"}]}], ")"}]}], " ", "\[Equal]", " ", 
+   RowBox[{
+    RowBox[{"Sin", "[", "\[Theta]1", "]"}], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"m1", " ", "ddy1"}], "+", 
+      RowBox[{"m2", " ", "ddy2"}], "+", 
+      RowBox[{"m2", " ", "g"}], " ", "+", 
+      RowBox[{"m1", " ", "g"}]}], ")"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", 
+    RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"m1", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+         RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "-", 
+        RowBox[{
+         SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+         RowBox[{"Sin", "[", "\[Theta]1", "]"}]}]}], ")"}]}], "+", 
+     RowBox[{"m2", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+         RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+        RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+         RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "-", 
+        RowBox[{
+         SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+         RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "-", 
+        RowBox[{
+         SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", 
+         RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}], ")"}]}]}], ")"}]}], "==", 
+  RowBox[{
+   RowBox[{"Sin", "[", "\[Theta]1", "]"}], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"g", " ", "m1"}], "+", 
+     RowBox[{"g", " ", "m2"}], "+", 
+     RowBox[{"m1", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+         RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+        RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+         RowBox[{"Sin", "[", "\[Theta]1", "]"}]}]}], ")"}]}], "+", 
+     RowBox[{"m2", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+         RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+        RowBox[{
+         SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", 
+         RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "+", 
+        RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+         RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "+", 
+        RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+         RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}], ")"}]}]}], 
+    ")"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"eq2", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], " ", "m2", " ", "ddx2"}], " ", 
+   "\[Equal]", " ", 
+   RowBox[{
+    RowBox[{"Sin", "[", "\[Theta]2", "]"}], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"m2", " ", "ddy2"}], "+", 
+      RowBox[{"m2", " ", "g"}]}], ")"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", "m2"}], " ", 
+   RowBox[{"Cos", "[", "\[Theta]2", "]"}], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+      RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+     RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+      RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "-", 
+     RowBox[{
+      SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+      RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "-", 
+     RowBox[{
+      SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", 
+      RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}], ")"}]}], "==", 
+  RowBox[{
+   RowBox[{"Sin", "[", "\[Theta]2", "]"}], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"g", " ", "m2"}], "+", 
+     RowBox[{"m2", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+         RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+        RowBox[{
+         SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", 
+         RowBox[{"Cos", "[", "\[Theta]2", "]"}]}], "+", 
+        RowBox[{"dd\[Theta]1", " ", "L1", " ", 
+         RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "+", 
+        RowBox[{"dd\[Theta]2", " ", "L2", " ", 
+         RowBox[{"Sin", "[", "\[Theta]2", "]"}]}]}], ")"}]}]}], 
+    ")"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"eq1", ",", "eq2"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"dd\[Theta]1", ",", "dd\[Theta]2"}], "}"}]}], "]"}], "//", 
+  "Simplify"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"dd\[Theta]1", "\[Rule]", 
+     RowBox[{"-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"g", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", " ", "m1"}], "+", "m2"}], ")"}], " ", 
+          RowBox[{"Sin", "[", "\[Theta]1", "]"}]}], "+", 
+         RowBox[{"m2", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"g", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{"\[Theta]1", "-", 
+               RowBox[{"2", " ", "\[Theta]2"}]}], "]"}]}], "+", 
+            RowBox[{"2", " ", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                SuperscriptBox["d\[Theta]2", "2"], " ", "L2"}], "+", 
+               RowBox[{
+                SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+                RowBox[{"Cos", "[", 
+                 RowBox[{"\[Theta]1", "-", "\[Theta]2"}], "]"}]}]}], ")"}], 
+             " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{"\[Theta]1", "-", "\[Theta]2"}], "]"}]}]}], ")"}]}]}], 
+        ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"L1", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", " ", "m1"}], "+", "m2", "-", 
+           RowBox[{"m2", " ", 
+            RowBox[{"Cos", "[", 
+             RowBox[{"2", " ", 
+              RowBox[{"(", 
+               RowBox[{"\[Theta]1", "-", "\[Theta]2"}], ")"}]}], "]"}]}]}], 
+          ")"}]}], ")"}]}]}]}], ",", 
+    RowBox[{"dd\[Theta]2", "\[Rule]", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"2", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           SuperscriptBox["d\[Theta]1", "2"], " ", "L1", " ", 
+           RowBox[{"(", 
+            RowBox[{"m1", "+", "m2"}], ")"}]}], "+", 
+          RowBox[{"g", " ", 
+           RowBox[{"(", 
+            RowBox[{"m1", "+", "m2"}], ")"}], " ", 
+           RowBox[{"Cos", "[", "\[Theta]1", "]"}]}], "+", 
+          RowBox[{
+           SuperscriptBox["d\[Theta]2", "2"], " ", "L2", " ", "m2", " ", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"\[Theta]1", "-", "\[Theta]2"}], "]"}]}]}], ")"}], " ", 
+        RowBox[{"Sin", "[", 
+         RowBox[{"\[Theta]1", "-", "\[Theta]2"}], "]"}]}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{"L2", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", " ", "m1"}], "+", "m2", "-", 
+          RowBox[{"m2", " ", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"2", " ", 
+             RowBox[{"(", 
+              RowBox[{"\[Theta]1", "-", "\[Theta]2"}], ")"}]}], "]"}]}]}], 
+         ")"}]}], ")"}]}]}]}], "}"}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{930, 810},
+WindowMargins->{{785, Automatic}, {Automatic, 34}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+Magnification:>FEPrivate`If[
+  FEPrivate`Equal[FEPrivate`$VersionNumber, 6.], 1.25, 1.25 Inherited],
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (August 26, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 272, 8, 139, "Title"],
+Cell[854, 32, 2182, 52, 486, "Text"],
+Cell[CellGroupData[{
+Cell[3061, 88, 286, 8, 37, "Input"],
+Cell[3350, 98, 254, 6, 41, "Message"],
+Cell[3607, 106, 240, 6, 38, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3884, 117, 270, 7, 37, "Input"],
+Cell[4157, 126, 239, 5, 41, "Message"],
+Cell[4399, 133, 240, 6, 38, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4676, 144, 288, 7, 37, "Input"],
+Cell[4967, 153, 254, 6, 41, "Message"],
+Cell[5224, 161, 450, 11, 38, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5711, 177, 288, 7, 37, "Input"],
+Cell[6002, 186, 239, 5, 41, "Message"],
+Cell[6244, 193, 450, 11, 38, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6731, 209, 547, 17, 33, "Input"],
+Cell[7281, 228, 2060, 55, 123, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9378, 288, 363, 12, 33, "Input"],
+Cell[9744, 302, 1307, 35, 69, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11088, 342, 242, 8, 33, "Input"],
+Cell[11333, 352, 2682, 75, 149, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

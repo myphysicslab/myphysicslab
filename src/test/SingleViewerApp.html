@@ -1,0 +1,31 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ..
+#define #APP_PATH test.SingleViewerApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+
+<p>SingleViewerApp is hard-coded to run a single test, similar to TestViewerApp but
+without the menus to select tests.
+</p>
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

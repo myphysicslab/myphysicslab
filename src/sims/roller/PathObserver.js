@@ -1,0 +1,228 @@
+// Copyright 2016 Erik Neumann.  All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the 'License');
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an 'AS IS' BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+goog.provide('myphysicslab.sims.roller.PathObserver');
+
+goog.require('myphysicslab.lab.model.NumericalPath');
+goog.require('myphysicslab.lab.model.SimList');
+goog.require('myphysicslab.lab.model.SimObject');
+goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.GenericObserver');
+goog.require('myphysicslab.lab.util.Observer');
+goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.DisplayPath');
+goog.require('myphysicslab.lab.view.LabView');
+goog.require('myphysicslab.lab.view.SimView');
+
+goog.scope(function() {
+
+var DisplayPath = myphysicslab.lab.view.DisplayPath;
+var DoubleRect = myphysicslab.lab.util.DoubleRect;
+var GenericObserver = myphysicslab.lab.util.GenericObserver;
+var LabView = myphysicslab.lab.view.LabView;
+var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NumericalPath = myphysicslab.lab.model.NumericalPath;
+var Observer = myphysicslab.lab.util.Observer;
+var SimList = myphysicslab.lab.model.SimList;
+var SimObject = myphysicslab.lab.model.SimObject;
+var SimView = myphysicslab.lab.view.SimView;
+var Subject = myphysicslab.lab.util.Subject;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Vector = myphysicslab.lab.util.Vector;
+
+/** Automatically creates a DisplayPath when a NumericalPath is added to a SimList.
+Observes the SimList of a Simulation, adding or removing DisplayPath to represent the
+NumericalPath in SimView with a `zIndex` of -10 so that it appears underneath other objects.
+
+Note that the DisplayPath shows only a single NumericalPath, and is destroyed
+when that NumericalPath is removed from the SimList.
+
+
+### Setting Style of DisplayPath
+
+To control the style (color, line thickness, etc) used for a particular DisplayPath
+there are two approaches:
+
+
+#### 1. Set the Default Style
+
+Set the default style **before adding** the NumericalPath to the SimList.
+PathObserver creates the DisplayPath at the moment when the NumericalPath is added to
+the SimList. Here is an example:
+
+You can set the {@link myphysicslab.lab.view.DrawingStyle}
+for the next path that is added to the DisplayPath by
+changing the public property {@link myphysicslab.lab.view.DisplayPath#style}.
+
+    DisplayPath.style = DrawingStyle.lineStyle('red', 2);
+    simList.add(path1);
+
+
+#### 2. Modify the style directly
+
+Modify the DisplayPath's style directly after it has been created. Here
+is an example:
+
+    var dispPath1 = simView.getDisplayList().findSimObject(path1);
+    dispPath1.setStyle(0, DrawingStyle.lineStyle('red', 2));
+
+
+### Resize the SimView to match NumericalPath
+
+Often we want the SimView's dimensions to match that of the NumericalPath. To have the
+PathObserver change the bounding rectangle of the SimView to match that of the
+NumericalPath, specify the `simRectSetter` argument in the constructor. This will
+occur whenever the NumericalPath changes.
+
+
+@param {!myphysicslab.lab.model.SimList} simList SimList to observe
+@param {!myphysicslab.lab.view.SimView} simView the SimView to add DisplayObjects to
+@param {?function(!DoubleRect)} simRectSetter function to use for resizing the
+    simulation rectangle of the SimView; if `null` then resizing is not done
+@param {number=} opt_expand  factor to multiply the width and height by
+     to expand the path bounds, which yields the rectangle used for resizing the
+     SimView.  For example, 1.1 will make the bounds 10% larger.
+@implements {myphysicslab.lab.util.Observer}
+@constructor
+@final
+@struct
+*/
+myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter,
+      opt_expand) {
+  /**
+  * @type {!myphysicslab.lab.view.SimView}
+  * @private
+  */
+  this.simView_ = simView;
+  /**
+  * @type {!myphysicslab.lab.view.DisplayList}
+  * @private
+  */
+  this.displayList_ = simView.getDisplayList();
+  /**
+  @type {!myphysicslab.lab.model.SimList}
+  @private
+  */
+  this.simList_ = simList;
+  /**
+  @type {?function(!DoubleRect)}
+  @private
+  */
+  this.simRectSetter_ = simRectSetter;
+  /**
+  * @type {number}
+  * @private
+  */
+  this.expansionFactor_ = opt_expand || 1.1;
+  this.simList_.addObserver(this);
+  /** List of DisplayPaths and GenericObservers we made. When DisplayPath is removed
+  * from SimView we disconnect things, which helps garbage collection.
+  * @type {Array<!PathObserver.memObjects>}
+  * @private
+  */
+  this.memObjs_ = [];
+};
+var PathObserver = myphysicslab.sims.roller.PathObserver;
+
+if (!UtilityCore.ADVANCED) {
+  /** @inheritDoc */
+  PathObserver.prototype.toString = function() {
+    return 'PathObserver{'
+      +'simList_: '+this.simList_.toStringShort()
+      +', simView_: '+this.simView_.toStringShort()
+      +', expansionFactor: '+NF(this.expansionFactor_)
+      +', displayList_: '+this.displayList_.toStringShort()
+      +'}';
+  };
+
+  /** @inheritDoc */
+  PathObserver.prototype.toStringShort = function() {
+    return 'PathObserver{}';
+  };
+};
+
+/**
+* @typedef {{simObj: !NumericalPath, obs: !GenericObserver, dispPath: !DisplayPath}}
+*/
+PathObserver.memObjects;
+
+/** Creates DisplayPath for the NumericalPath, and adds DisplayPath to SimView.
+* @param {!NumericalPath} np
+* @private
+*/
+PathObserver.prototype.addPath = function(np) {
+  if (this.displayList_.findSimObject(np) != null) {
+    // we already have a DisplayPath for this NumericalPath, don't add a new one.
+    return;
+  }
+  var displayPath = new DisplayPath();
+  displayPath.setScreenRect(this.simView_.getScreenRect());
+  displayPath.addPath(np);
+  this.displayList_.add(displayPath, /*zIndex=*/-10);
+  if (this.simRectSetter_ != null) {
+    // modify size of display to fit this path
+    var r = np.getBoundsWorld().scale(this.expansionFactor_);
+    if (r.isEmpty()) {
+      // for empty rectangle: expand bounds to be at least a unit square
+      var unitRect = DoubleRect.makeCentered(r.getCenter(), 1, 1);
+      r = r.union(unitRect);
+    }
+    this.simRectSetter_(r);
+  }
+  var obs = new GenericObserver(this.simView_, goog.bind(function(event) {
+    if (event.getSubject() == this.simView_) {
+      if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
+        displayPath.setScreenRect(this.simView_.getScreenRect());
+      }
+    }
+  }, this), 'resize displayPath when screenRect changes');
+  // Remember the combo of NumericalPath, GenericObserver and DisplayPath.
+  this.memObjs_.push({simObj: np, obs: obs, dispPath: displayPath});
+};
+
+/** Removes DisplayPath for the given NumericalPath from SimView.
+* @param {!NumericalPath} np
+* @private
+*/
+PathObserver.prototype.removePath = function(np) {
+  var memObj = goog.array.find(this.memObjs_, function(element) {
+    return element.simObj == np;
+  });
+  if (memObj != null) {
+    // Disconnect things to help with garbage collection.
+    this.displayList_.remove(memObj.dispPath);
+    memObj.obs.disconnect();
+    memObj.dispPath.removePath(np);
+    goog.array.remove(this.memObjs_, memObj);
+  }
+};
+
+/** @inheritDoc */
+PathObserver.prototype.observe =  function(event) {
+  if (event.getSubject() == this.simList_) {
+    var obj = /** @type {!SimObject} */ (event.getValue());
+    if (obj instanceof NumericalPath) {
+      var np = /** @type {!NumericalPath} */(obj);
+      if (event.nameEquals(SimList.OBJECT_ADDED)) {
+        this.addPath(np);
+      } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
+        this.removePath(np);
+      }
+    }
+  }
+};
+
+});  // goog.scope

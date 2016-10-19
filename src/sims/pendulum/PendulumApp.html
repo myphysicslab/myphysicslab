@@ -1,0 +1,33 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.pendulum.PendulumApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+#TEST_PAGE{pendulums/chaotic-pendulum/chaotic-pendulum}
+#LOREM_IPSUM
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+<script>
+  app.eval('DRIVE_AMPLITUDE=0;DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;'
+    +'ANGLE_VELOCITY=0;DRAW_MODE=lines;');
+</script>
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

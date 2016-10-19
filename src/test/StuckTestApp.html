@@ -1,0 +1,38 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ..
+#define #APP_PATH test.StuckTestApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+
+<p>StuckTestApp runs a simulation that is guaranteed to become "stuck", at which
+point we should get an error dialog and be able to restart the simulation. This is
+mainly a check that the error handling mechanism is working properly.
+</p>
+
+<p>The simulation being run is ImpulseSim rather than the usual ContactSim. The
+scenario is `CircleStraightTest.ball_falls_on_floor_setup` in which a ball bounces
+on the floor, each bounce is less high and eventually the simulation becomes stuck
+because of the lack of contact forces.
+</p>
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

@@ -1,0 +1,301 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+
+#comment Defines common macros (substitution rules like C preprocessor)
+#comment which are used in .html files.
+#comment The perl program prep_html.pl is what does the macro substitution.
+#comment We expect the calling HTML file to define macros: #TOP_DIR, #APP_PATH.
+#comment Macros #LOCALE and #COMPILE_LEVEL are predefined by prep_html.pl.
+#comment We expect layout macros to define: #ELEM_IDS, #CONTROLS_CONTAINER.
+#comment The layout macros are defined in macros_tab.html and macros_vert.html.
+#comment
+#comment Ordering in this file corresponds to order of usage on typical web page.
+
+#define #IMAGES_DIR #TOP_DIR/images
+
+#define #DOC_TYPE <!DOCTYPE html>
+
+#define #STYLE_SHEET stylesheet.css
+
+#define #MYPHYSICSLAB_URL http://67.199.21.25/
+
+#comment  On iPhone (Safari on iOS), the "width=device-width" makes the viewport be
+#comment the width of the device, instead of the default which is 980 px. The page
+#comment then appears larger on the screen instead of tiny. The "initial-scale=1"
+#comment seems to help with orientation changes.
+
+#define #META_TAGS \
+<meta charset="UTF-8">\
+<meta name="viewport" content="width=device-width, initial-scale=1">\
+<link rel="stylesheet" type="text/css" href="#TOP_DIR/#STYLE_SHEET">\
+<title>myphysicslab.#APP_PATH</title>
+
+#comment Internet Explorer displays webpages that contain the HTML5 document
+#comment type in standards mode.  So we don't need the X-UA-Compatible.
+#comment See https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx
+#comment
+#comment Internet Explorer provides so-called emulation modes for backward\
+#comment compatibility to its legacy versions. These emulation modes have been\
+#comment deprecated since Internet Explorer 11. MathJax is fastest when in the\
+#comment standards mode of each IE version, so it is best to force the highest mode\
+#comment possible.\
+#comment <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+#define #MATH_JAX \
+<script type="text/javascript" async\
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">\
+</script>
+
+#define #HIDE_ALL \
+<script>\
+  document.getElementsByTagName("html")[0].style.visibility = "hidden";\
+</script>
+
+#define #SHOW_ALL \
+<script>\
+  document.getElementsByTagName("html")[0].style.visibility = "visible";\
+</script>
+
+#define #SITE_LOGO \
+<a id="logo" href="#TOP_DIR/index_#LOCALE.html">\
+  <img src="#IMAGES_DIR/myphysicslogo.png" width="162" height="32" alt="my physics lab logo">\
+</a>
+
+
+#define #LANGUAGE ##LOCALE#_LANGUAGE
+#define #en_LANGUAGE English
+#define #de_LANGUAGE Deutsch
+
+#define #I18N_LOCALE ##LOCALE#_LOCALE
+#define #en_LOCALE English
+#define #de_LOCALE Deutsch
+
+#define #I18N_ENGLISH ##LOCALE#_ENGLISH
+#define #en_ENGLISH English
+#define #de_ENGLISH Englisch
+
+#define #I18N_GERMAN ##LOCALE#_GERMAN
+#define #en_GERMAN German
+#define #de_GERMAN Deutsch
+
+#define #I18N_ENGLISH_SELECTED ##LOCALE#_ENGLISH_SELECTED
+#define #en_ENGLISH_SELECTED selected
+#define #de_ENGLISH_SELECTED
+
+#define #I18N_GERMAN_SELECTED ##LOCALE#_GERMAN_SELECTED
+#define #en_GERMAN_SELECTED
+#define #de_GERMAN_SELECTED selected
+
+#define #I18N_NEXT ##LOCALE#_NEXT
+#define #en_NEXT next
+#define #de_NEXT n&auml;chste
+
+#define #I18N_PREVIOUS ##LOCALE#_PREVIOUS
+#define #en_PREVIOUS previous
+#define #de_PREVIOUS vorherig
+
+#define #LANGUAGE_MENU \
+  <select id="language_menu"\
+    onchange="location = this.options[this.selectedIndex].value;">\
+    <option value="#FILE_NAME#_en.html" #I18N_ENGLISH_SELECTED>#I18N_ENGLISH</option>\
+    <option value="#FILE_NAME#_de.html" #I18N_GERMAN_SELECTED>#I18N_GERMAN</option>\
+  </select>
+
+#define #PREV_ANCHOR_TAG <a class="nav_link" \
+   href="#TOP_DIR/#PREV_LINK#_#LOCALE.html">#I18N_PREVIOUS</a>
+
+#define #NEXT_ANCHOR_TAG <a class="nav_link" \
+   href="#TOP_DIR/#NEXT_LINK#_#LOCALE.html">#I18N_NEXT</a>
+
+#comment #HEADER_BAR holds the language menu, navigation links, and optionally can
+#comment have tab items for the tabbed interface.
+
+#define #HEADER_BAR <div id="header_nav">\
+#LANGUAGE_MENU\
+#PREV_ANCHOR_TAG\
+#NEXT_ANCHOR_TAG\
+</div>\
+<ul id="header_bar">\
+</ul>
+
+#comment #FILE_PATH will be whatever #APP_PATH is, modified by the regexp
+#defineFrom #FILE_PATH {#APP_PATH} s~\.~/~g
+
+#comment #APP_NAME allows the HTML file to use a JavaScript app with a different name
+#comment (see for example TerminalSpring2DApp).
+#defineFrom #APP_NAME {#APP_PATH} s~.*\.~~g
+
+#comment "compiled" menu lets user select between "simple" and "advanced" versions.
+#define #COMPILED_MENU ##COMPILE_LEVEL#_COMPILED_MENU
+#define #debug_COMPILED_MENU
+#define #simple_COMPILED_MENU <label>compiled: \
+  <select id="compiled_menu"\
+    onchange="location = this.options[this.selectedIndex].value;">\
+    <option value="#FILE_NAME#_#LOCALE#.html" selected>simple</option>\
+    <option value="#TOP_DIR/../adv-build/#FILE_PATH#_#LOCALE#.html">advanced</option>\
+  </select>\
+  </label>
+#define #advanced_COMPILED_MENU <label>compiled: \
+  <select id="compiled_menu"\
+    onchange="location = this.options[this.selectedIndex].value;">\
+    <option value="#TOP_DIR/../build/#FILE_PATH#_#LOCALE#.html">simple</option>\
+    <option value="#FILE_NAME#_#LOCALE#.html" selected>advanced</option>\
+  </select>\
+  </label>
+
+
+#comment Set MYPHYSICSLAB_DIR to relative URL for testing on local machine
+#define #MYPHYSICSLAB_DIR #TOP_DIR/../..
+#comment Set MYPHYSICSLAB_DIR to absolute URL for production
+#comment #MYPHYSICSLAB_DIR http://www.myphysicslab.com
+
+#define #PAGE_INFO ##LOCALE#_PAGE_INFO
+#define #en_PAGE_INFO <p style="clear: both;">This page is for testing and development\
+please see <a href="http://www.myphysicslab.com">myPhysicsLab</a> for the published\
+version of this simulation.</p>
+
+#define #de_PAGE_INFO <p style="clear: both;">Dies ist eine\
+<em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie\
+<a href="http://www.myphysicslab.com">myPhysicsLab</a> f&uuml; die\
+ver&ouml;ffentlichte Version dieser Simulation.</p>
+
+
+#define #TEST_PAGE ##LOCALE#_TEST_PAGE
+#rule s~#en_TEST_PAGE{(.+?)}~<p style="clear: both;">This is a <em>test page for development</em>, please see the <a href="#MYPHYSICSLAB_DIR/$1_#LOCALE#.html">published version of this simulation</a>.</p>~g
+
+#rule s~#de_TEST_PAGE{(.+?)}~<p style="clear: both;">Dies ist eine <em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie die <a href="#MYPHYSICSLAB_DIR/$1_#LOCALE#.html">ver&ouml;ffentlichte Version dieser Simulation</a> um das vollst&auml;ndige Experiment zu sehen.</p>~g
+
+
+#define #LOAD_APP ##COMPILE_LEVEL#_LOAD_APP
+
+#define #simple_LOAD_APP <script src="#APP_NAME#_#LOCALE.js"></script>
+
+#define #advanced_LOAD_APP #simple_LOAD_APP
+
+#define #debug_LOAD_APP \
+<!-- When running from uncompiled source code, the goog.require() \
+* statement writes many script tags at this point in the html file; \
+* these define the classes needed for the required class, \
+* in the correct dependency order specified by deps.js. \
+* We must do "new App" from a separate script tag, to ensure all those \
+* emitted class definitions have executed. \
+* \
+* More info:  Closure: The Definitive Guide, Chapter 3, the section on \
+* Dependency Management. See especially the html example at end of the \
+* section about goog.addDependency. --> \
+  <script src="#TOP_DIR/../closure-library/closure/goog/base.js"></script>\
+  <script src="#TOP_DIR/deps.js"></script>\
+  <script>\
+    goog.define('goog.LOCALE', '#LOCALE');\
+    goog.require('myphysicslab.#APP_PATH');\
+  </script>
+
+#define #DEBUG_STATUS ##COMPILE_LEVEL#_DEBUG_STATUS
+#define #simple_DEBUG_STATUS
+#define #advanced_DEBUG_STATUS
+#define #debug_DEBUG_STATUS – UNCOMPILED
+
+#define #LANG_MENU_IDX ##LOCALE#_LANG_MENU_IDX
+#define #en_LANG_MENU_IDX 0
+#define #de_LANG_MENU_IDX 1
+
+#define #INSTANTIATE_APP app = new myphysicslab.#APP_PATH(elem_ids);
+
+#comment BUILD_APP notes:
+#comment In Browsers that support BFCache (FireFox and Safari) using the back-button
+#comment will restore the state of (almost) everything on the web-page.
+#comment Chrome will just rebuild the page from scratch, it does not implement BFCache.
+#comment https://developer.mozilla.org/en-US/docs/Working_with_BFCache
+#comment https://developer.mozilla.org/en-US/Firefox/Releases/1.5/Using_Firefox_1.5_caching
+#comment http://stackoverflow.com/questions/2638292/after-travelling-back-in-firefox-history-javascript-wont-run
+#comment
+#comment For some reason the language menu does NOT get restored after clicking
+#comment the back-button. Since the pageshow event fires even after using the
+#comment back-button we set the state of the language menu in the pageshow function.
+
+#define #BUILD_APP \
+<script>\
+  (function build() {\
+    #ELEM_IDS\
+    #INSTANTIATE_APP\
+    app.defineNames('app');\
+    window.addEventListener('pageshow', function(event){\
+      // set language menu to correct language\
+      var menu = document.getElementById('language_menu');\
+      if (menu) { menu.selectedIndex = #LANG_MENU_IDX; }\
+    }, /*capturing=*/false);\
+  }());\
+</script>
+
+#comment Need to do app.setup() after any custom parameter-setting in the app's html
+#comment file, so that ScriptParser.saveStart() records the correct initial settings
+#comment of all Parameters (if saveStart() is called in app.setup).
+#comment Errors can occur during app.setup(), like during parsing of URL query commands,
+#comment therefore we put app.setup() and app.start() in separate script tags.
+#comment If an error occurs during app.setup(), the user will get an error dialog
+#comment but the following script tag will execute and the app will still start
+#comment running.
+
+#define #START_APP \
+<script>app.setup();</script>\
+<script>app.start();</script>
+
+#define #PAGE_FOOTER <div id="footer2" >\
+  <div id="copyright">\
+    &copy; <a href="mailto:erikn\@MyPhysicsLab.com" \
+    title="copyright 2016 Erik Neumann">\
+    Erik Neumann</a> 2016, available under\
+    <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2</a>\
+    <br><span id="revised_date">revised #DATE_TIME</span>\
+  </div>\
+  <a id="valid_html" href="http://validator.w3.org/check?uri=referer;outline=1;"\
+      title="check if this page is valid HTML">\
+  <img  src="#IMAGES_DIR/ValidHTML401.png" alt="Valid HTML 4.01" \
+      height="31" width="88">\
+  </a>\
+</div>
+
+#define #LOREM_IPSUM  \
+  <p style="clear: both;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
+  Donec accumsan erat mi,\
+  in ornare ex pretium vel. Duis at lectus id tortor varius facilisis sed sed sem. Ut\
+  vel dolor nec ligula scelerisque imperdiet. Suspendisse nisi nulla, dignissim eget\
+  ultrices nec, accumsan quis dui. Suspendisse tristique malesuada iaculis. Praesent\
+  mollis luctus magna eu auctor. Nam in mauris ut nunc aliquam varius. Quisque vitae mi\
+  bibendum, lacinia risus in, blandit mi. Nunc porta, enim ut dictum consectetur, odio\
+  neque feugiat eros, id vestibulum ante augue ac mauris. Duis tempor fermentum enim\
+  mattis. Sed vulputate sem vitae laoreet fringilla. Suspendisse dictum vehicula\
+  interdum. Praesent sollicitudin, nibh ac pellentesque malesuada, tellus mi vulputate\
+  tellus, in rutrum metus sem quis ipsum. Mauris facilisis turpis felis, quis\
+  sollicitudin urna elementum sed. Phasellus gravida scelerisque eros id sollicitudin.\
+  Morbi tempor malesuada nunc eget elementum. </p>\
+\
+   <p> Cras a libero ac dolor luctus aliquam non id turpis. Donec eleifend dui eget ex\
+  accumsan, sit amet pretium metus consectetur. Nunc ut condimentum sem. Mauris elit\
+  rhoncus, ornare orci ac, ornare libero. Mauris ac placerat mauris. Integer ornare\
+  euismod justo, a scelerisque diam porta sed. Nulla scelerisque leo consectetur porta\
+  porttitor. Cras finibus, massa vel finibus faucibus, mauris nisi hendrerit urna, sit\
+  amet consequat elit nunc eget tellus. Nulla laoreet odio sem, cursus porttitor erat\
+  bibendum sed. Nullam auctor, diam a malesuada vulputate, lectus lorem imperdiet urna,\
+  a tempus nisi nunc condimentum erat. Vivamus in ante sed turpis volutpat sagittis.\
+  Donec egestas nulla vitae felis suscipit, quis fringilla sapien vulputate. </p>\
+\
+   <p> Mauris consequat, ex a ultrices finibus, est sapien imperdiet velit, ac\
+  ullamcorper elit turpis a leo. Etiam ut turpis metus. In vulputate consequat lacus,\
+  sit amet vulputate sem tincidunt vitae. Vestibulum eget consequat est, quis sagittis\
+  dui. Etiam sit amet convallis risus. Sed ut porttitor eros, ut sodales nibh. In id\
+  pharetra risus. </p>\
+\
+   <p> Vivamus dignissim sit amet quam ac faucibus. Phasellus luctus augue sed erat\
+  hendrerit, ac efficitur lacus malesuada. Sed a venenatis nisl. Aenean pharetra\
+  tortor, at faucibus mi hendrerit vel. Curabitur pellentesque dapibus sapien, dapibus\
+  consectetur nulla varius et. Pellentesque ac nisl lorem. Donec pharetra at neque ut\
+  vestibulum. Nullam ipsum lorem, accumsan id enim nec, maximus gravida lectus. Aliquam\
+  in pretium tellus. </p>\
+\
+  <p> Maecenas condimentum nisi vel felis vulputate, a dignissim lectus dictum. Nulla\
+  facilisi. Curabitur ut nisi sem. Donec elementum vehicula lobortis. Vestibulum ante\
+  ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ut\
+  fringilla, ultrices enim non, sollicitudin dui. In egestas nunc ut sodales cursus.\
+  </p>

@@ -1,0 +1,48 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+
+#comment Macros for apps that use VerticalLayout.
+
+#define #CONTROLS_CONTAINER \
+<div class="control_container">\
+  <div id="sim_applet">\
+  </div>\
+  <form id="show_hide_form"  style="margin: 5px 0px 5px 0px;">\
+    <label><input type="checkbox" id="show_controls">controls</label>\
+    <label><input type="checkbox" id="show_graph">graph</label>\
+    <label id="label_terminal">\
+      <input type="checkbox" id="show_terminal">terminal\
+    </label>\
+  </form>\
+  <form id="sim_controls" onsubmit="return false;" style="margin: 5px 0px 5px 0px;">\
+  </form>\
+  <div id="div_graph" style="margin: 0px;">\
+    <form id="graph_controls" onsubmit="return false;">\
+    </form>\
+  </div>\
+  <!-- \
+  * The "onsubmit=return false" is to prevent the page from reloading after\
+  * enter key is typed in the text input field.\
+  -->\
+  <form id="form_terminal" onsubmit="return false;" style="margin: 0px;">\
+    <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>\
+    <label>command:<input type="text" id="term_input" size="80"></label>\
+  </form>\
+</div>
+
+#define #ELEM_IDS \
+    var elem_ids = { term_output: 'term_output',\
+      term_input: 'term_input',\
+      sim_applet: 'sim_applet',\
+      div_graph: 'div_graph',\
+      graph_controls: 'graph_controls',\
+      show_graph: 'show_graph',\
+      sim_controls: 'sim_controls',\
+      show_controls: 'show_controls',\
+      form_terminal: 'form_terminal',\
+      label_terminal: 'label_terminal',\
+      show_terminal: 'show_terminal',\
+      show_hide_form: 'show_hide_form',\
+      images_dir: '#IMAGES_DIR'\
+    };

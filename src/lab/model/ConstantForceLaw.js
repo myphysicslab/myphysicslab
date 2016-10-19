@@ -1,0 +1,98 @@
+// Copyright 2016 Erik Neumann.  All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the 'License');
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an 'AS IS' BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+goog.provide('myphysicslab.lab.model.ConstantForceLaw');
+
+goog.require('myphysicslab.lab.model.Force');
+goog.require('myphysicslab.lab.model.ForceLaw');
+goog.require('myphysicslab.lab.util.UtilityCore');
+
+goog.scope(function() {
+
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+
+/** A ForceLaw that applies a single constant Force. The Force can be set to `null`, in
+which case this ForceLaw does nothing.
+
+@todo  Be able to add several constant forces, and remove them.
+@todo  Be able to specify a RigidBody and location on the RigidBody,
+           see for example RotatingTestForce
+
+* @param {?myphysicslab.lab.model.Force} force the constant Force to apply, or `null`
+* @constructor
+* @final
+* @struct
+* @implements {myphysicslab.lab.model.ForceLaw}
+*/
+myphysicslab.lab.model.ConstantForceLaw = function(force) {
+  /**
+  * @type {?myphysicslab.lab.model.Force}
+  * @private
+  */
+  this.force_ = force;
+};
+var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
+
+if (!UtilityCore.ADVANCED) {
+  /** @inheritDoc */
+  ConstantForceLaw.prototype.toString = function() {
+    return this.toStringShort();
+  };
+
+  /** @inheritDoc */
+  ConstantForceLaw.prototype.toStringShort = function() {
+    return 'ConstantForceLaw{force='+this.force_+'}';
+  };
+};
+
+/** @inheritDoc */
+ConstantForceLaw.prototype.getBodies = function() {
+  return [this.force_.getBody()];
+};
+
+/** @inheritDoc */
+ConstantForceLaw.prototype.calculateForces = function() {
+  if (this.force_ != null)
+    return [this.force_];
+  else
+    return [];
+};
+
+/** @inheritDoc */
+ConstantForceLaw.prototype.disconnect = function() {
+};
+
+/** Returns the constant Force that this ForceLaw applies or `null` if there is no
+Force.
+@return {?myphysicslab.lab.model.Force} the constant Force that this ForceLaw applies
+    or `null`
+*/
+ConstantForceLaw.prototype.getForce = function() {
+  return this.force_;
+};
+
+/** @inheritDoc */
+ConstantForceLaw.prototype.getPotentialEnergy = function() {
+  return 0;
+};
+
+/** Sets the constant Force that this ForceLaw applies
+@param {?myphysicslab.lab.model.Force} force the constant Force that this ForceLaw
+    should apply, or `null`
+*/
+ConstantForceLaw.prototype.setForce = function(force) {
+  this.force_ = force;
+};
+
+}); // goog.scope

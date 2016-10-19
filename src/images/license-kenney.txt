@@ -1,0 +1,26 @@
+
+###############################################################################
+
+	Game icon pack by Kenney Vleugels (www.kenney.nl)
+
+			------------------------------
+
+			        License (CC0)
+	       http://creativecommons.org/publicdomain/zero/1.0/
+
+	You may use these graphics in personal and commercial projects.
+	Credit (Kenney or www.kenney.nl) would be nice but is not mandatory.
+
+###############################################################################
+
+The following icons are from Kenney Vleugels:
+backward.png
+down.png
+forward.png
+minus.png
+next.png
+pause.png
+plus.png
+rewind.png
+target.png
+up.png

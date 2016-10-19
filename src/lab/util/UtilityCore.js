@@ -1,0 +1,1033 @@
+// Copyright 2016 Erik Neumann.  All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the 'License');
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an 'AS IS' BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+goog.provide('myphysicslab.lab.util.UtilityCore');
+
+goog.require('goog.array');
+goog.require('goog.asserts');
+
+goog.scope(function() {
+
+/** Provides static utility functions.
+
+@todo Some functions are not being used or not used much and could be eliminated.
+@todo Too many number formatting functions, get rid of some?
+@constructor
+@final
+@struct
+@private
+*/
+myphysicslab.lab.util.UtilityCore = function() {
+  throw new Error();
+};
+
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+
+/** Flag indicates when advanced-compile option is being used during compilation
+* by Closure Compiler. This disables usage of command-line Terminal.
+* See [Advanced vs. Simple Compile](Building.html#advancedvs.simplecompile).
+* See the shell script `compile_js.sh` which sets this flag at compile time.
+* @define {boolean}
+*/
+UtilityCore.ADVANCED = false;
+
+/**  A string listing the the hexadecimal digits '0123456789abcdef'
+* @type {string}
+* @const
+*/
+UtilityCore.HEX_DIGITS = '0123456789abcdef';
+
+/** Specifies the relative URL of the directory containing images related to the user
+* interface.
+* @type {string}
+*/
+UtilityCore.IMAGES_DIR = '.';
+
+/** Maximum number of errors to report by {@link #setErrorHandler}.
+* @type {number}
+* @const
+*/
+UtilityCore.maxErrors = 3;
+
+/** Maximum representable integer.  Need to avoid having an index ever
+* reach this value because we can then no longer increment by 1.
+* That is:  2^53 + 1 == 2^53 because of how floating point works.
+* @type {number}
+* @const
+*/
+UtilityCore.MAX_INTEGER = Math.pow(2, 53);
+
+/** Minimum representable integer.
+* @type {number}
+* @const
+*/
+UtilityCore.MIN_INTEGER = -Math.pow(2, 53);
+
+/**  Using this constant allows the compiler to rename and minify.
+* @type {number}
+* @const
+*/
+UtilityCore.NaN = Number.NaN;
+
+/**  Using this constant allows the compiler to rename and minify.
+* @type {number}
+* @const
+*/
+UtilityCore.NEGATIVE_INFINITY = Number.NEGATIVE_INFINITY;
+
+/** Number of errors reported by {@link #setErrorHandler}.
+* @type {number}
+*/
+UtilityCore.numErrors = 0;
+
+/**  Using this constant allows the compiler to rename and minify.
+* @type {number}
+* @const
+*/
+UtilityCore.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
+
+/** Returns the current version number for the myphysiclab library, using
+* [Semantic Versioning](http://semver.org).
+*
+* Given a version number MAJOR.MINOR.PATCH, increment the:
+* + MAJOR version when you make incompatible API changes,
+* + MINOR version when you add functionality in a backwards-compatible manner, and
+* + PATCH version when you make backwards-compatible bug fixes.
+*
+* Additional labels for pre-release and build metadata are available as extensions to
+* the MAJOR.MINOR.PATCH format.
+*
+* @type {string}
+* @const
+*/
+UtilityCore.version = '2.0.0';
+
+/** Converts an array of numbers to string, with commas between each number.
+* @param {!(Array<number>|Float64Array)} r  the array to print
+* @param {function(number) : string=} nf  number format function to use
+* @param {string=} separator the text to insert between each value; default is ', '
+* @return {string} the array of numbers converted to a string
+*/
+UtilityCore.array2string = function(r, nf, separator) {
+  nf = nf || UtilityCore.NF7E;
+  if (!goog.isDef(separator)) {
+    separator = ', ';
+  }
+  var n = r.length;
+  var s = '';
+  for (var i=0; i<n; i++) {
+    s += (i > 0 ? separator : '') + nf(r[i]);
+  }
+  return s;
+};
+
+/** Converts an array of booleans to string, with commas between each boolean.
+* @param {!(Array<boolean>|Float64Array)} r  the array to print
+* @param {string=} trueString the string that indicates a true value
+* @param {string=} falseString the string that indicates a false value
+* @return {string} the array of booleans converted to a string
+*/
+UtilityCore.arrayBool2string = function(r, trueString, falseString) {
+  trueString = trueString || 'true';
+  falseString = falseString || 'false';
+  var n = r.length;
+  var s = '';
+  for (var i=0; i<n; i++) {
+    s += r[i] ? trueString : falseString;
+    if (i<n-1) {
+      s += ', ';
+    }
+  }
+  return s;
+};
+
+/** Assert that all elements of the array are unique, that there are no duplicates.
+* Uses `goog.asserts` for the assertion.
+* @param {!Array<string>} arr the array to examine
+*/
+UtilityCore.assertUnique = function(arr) {
+  var len = arr.length;
+  if (len < 2)
+    return;
+  // make a copy so that we don't modify the passed-in array
+  /** @type {!Array<string>} */
+  var a = new Array(len);
+  for (var i=0; i<len; i++) {
+    a[i] = arr[i];
+  }
+  goog.array.sort(a);
+  var last = /** @type {string} */(a[0]);
+  for (i=1; i<len; i++) {
+    goog.asserts.assert(last != a[i], 'not unique: '+last);
+    last = a[i];
+  }
+};
+
+/** Removes digits above 1000 from the given number.  Used to make the system
+* clock time (a huge number in trillions) readable for debugging.
+* @param {number} time the time to chop
+* @return {number} the time with digits above 1000 removed
+*/
+UtilityCore.chopTime = function(time) {
+    return time - 1000*Math.floor(time/1000);
+};
+
+/** Converts an array of 3 numbers (each from 0 to 1) to a CSS3 style color string (3
+digit hex string, preceded by '#').
+@param {!Array<number>} colors  array of 3 numbers, each from 0.0 to 1.0
+@return {string} the corresponding CSS3 style color string with 3 hex digits
+*/
+UtilityCore.colorToString3 = function(colors) {
+  goog.asserts.assert( colors.length >= 3 );
+  var s = '#';
+  for (var i=0; i<3; i++) {
+    s += UtilityCore.numToHexChar1(colors[i]);
+  }
+  goog.asserts.assert( s.length == 4 );
+  return s;
+};
+
+/** Converts an array of 3 numbers (each from 0 to 1) to a CSS3 style color string (6
+digit hex string, preceded by '#')
+@param {!Array<number>} colors  array of 3 numbers, each from 0.0 to 1.0
+@return {string} the corresponding CSS3 style color string with 6 hex digits
+*/
+UtilityCore.colorToString6 = function(colors) {
+  goog.asserts.assert( colors.length >= 3 );
+  var s = '#';
+  for (var i=0; i<3; i++) {
+    s += UtilityCore.numToHexChar2(colors[i]);
+  }
+  goog.asserts.assert( s.length == 7 );
+  return s;
+};
+
+/** Creates an `HTMLImageElement` from the given URL.
+* @param {string} url location of the image as a URL
+* @param {number} width width of the image in pixels
+* @param {number=} opt_height  optional height of image in pixels
+* @return {!HTMLImageElement}  an HTMLImageElement
+*/
+UtilityCore.createImage = function(url, width, opt_height) {
+  var img =  /** @type {!HTMLImageElement} */(document.createElement('img'));
+  img.src = url;
+  img.width = width;
+  img.height = goog.isDef(opt_height) ? opt_height : width;
+  return img;
+};
+
+/** Returns text with specified number of characters removed from start or end of
+* string.
+* @param {string} text
+* @param {number} n  number of characters to drop; if positive the characters are
+*     removed from front of string; if negative then from end of string
+* @return {string}
+*/
+UtilityCore.drop = function(text, n) {
+  if (n >= 0) {
+    return text.slice(n);
+  } else {
+    return text.slice(0, text.length+n);
+  }
+};
+
+/** Adds `quantity` new entries at end of array, with each value initialized to the given value or array of values.
+* @param {!Array} array the array to be expanded
+* @param {number} quantity  number of new entries or if negative number to delete
+* @param {*} value  the value to assign to the new array entries, or array of values
+*/
+UtilityCore.extendArray = function(array, quantity, value) {
+  if (quantity == 0) {
+    return;
+  }
+  if (quantity < 0) {
+    throw new Error();
+  }
+  var startIdx = array.length;
+  array.length = startIdx + quantity;
+  if (goog.isArray(value)) {
+    if (value.length != quantity) {
+      throw new Error();
+    }
+    for (var i=startIdx, n=array.length; i<n; i++) {
+      array[i] = value[i - startIdx];
+    }
+  } else {
+    for (var i=startIdx, n=array.length; i<n; i++) {
+      array[i] = value;
+    }
+  }
+};
+
+/** Returns a new array which is an expanded copy of the given array. Adds `quantity`
+new entries at `position` location in the array. Negative quantity will delete array
+entries.
+* @param {!Array} array the array to be expanded
+* @param {number} position  where in array to place the new entries
+* @param {number} quantity  number of new entries or if negative number to delete
+* @param {*} value  the value to assign to the new array entries, or array of values
+* @return {!Array}  a new array which is an expanded copy of the given array.
+*/
+UtilityCore.expandArray = function(array, position, quantity, value) {
+  var n = array.length + quantity;
+  var a = new Array(n);
+  var i, len;
+  for (i=0, len=array.length; i<len; i++) {
+    if (i < position) {
+      a[i] = array[i];
+    } else if (i+quantity >= position) {
+      a[i+quantity] = array[i];
+    }
+  }
+  if (goog.isArray(value)) {
+    if (value.length != quantity) {
+      throw new Error();
+    }
+    for (i=0; i<quantity; i++) {
+      a[position+i] = value[i];
+    }
+  } else {
+    for (i=0; i<quantity; i++) {
+      a[position+i] = value;
+    }
+  }
+  return a;
+};
+
+/** Returns the specified element of an array. Useful in Terminal scripts
+where we prohibit square brackets with anything other than simple index numbers.
+* @param {!Array} array the array to access
+* @param {number} index index of element
+* @return {*} the specified element of the array
+*/
+UtilityCore.get = function(array, index) {
+  if (!goog.isNumber(index)) {
+    throw new Error('index is not a number: '+index);
+  }
+  return array[index];
+};
+
+/** Returns the current time as given by the system clock, in seconds.
+* @return {number} the current time as given by the system clock, in seconds
+*/
+UtilityCore.getSystemTime = function() {
+  return goog.now()*1E-3;
+};
+
+/** Returns the length of hypotenuse of right triangle.
+* @param {number} a length of a side of the right triangle
+* @param {number} b length of other side of the right triangle
+* @return {number} length of hypotenuse = sqrt(a^2 + b^2)
+*/
+UtilityCore.hypot = function(a, b) {
+  return Math.sqrt(a*a + b*b);
+};
+
+/**  Returns `true` if running under Chrome browser.
+* @return {boolean} `true` if running under Chrome browser
+*/
+UtilityCore.isChrome = function() {
+  var nav = navigator;
+  if (nav != null) {
+    return nav.userAgent.match(/.*Chrome.*/) != null;
+  } else {
+    return false;
+  }
+};
+
+/**  Returns `true` if running on iPhone.
+* @return {boolean} `true` if running on iPhone
+*/
+UtilityCore.isIPhone = function() {
+  var nav = navigator;
+  if (nav != null) {
+    return nav.platform == 'iPhone';
+  } else {
+    return false;
+  }
+};
+
+/** Returns the given angle limited to the range -pi to +pi.
+@param {number} angle  the angle in radians
+@return {number} the equivalent angle in the range -pi to +pi
+*/
+UtilityCore.limitAngle = function(angle) {
+  var n;
+  if (angle > Math.PI) {
+    n = Math.floor((angle - -Math.PI)/(2*Math.PI));
+    return angle - 2*Math.PI*n;
+  } else if (angle < -Math.PI) {
+    n = Math.floor(-(angle - Math.PI)/(2*Math.PI));
+    return angle + 2*Math.PI*n;
+  } else {
+    return angle;
+  }
+};
+
+/** Returns list of names of methods (functions) defined on the given object.
+* @param {!Object} obj object to examine
+* @return {!Array<string>} list of names of functions defined on the given object
+*/
+UtilityCore.methodsOf = function(obj) {
+  var s = [];
+  for (var p in obj) {
+    if (goog.isFunction(obj[p])) {
+      s.push(p);
+    }
+  }
+  goog.array.sort(s);
+  return s;
+};
+
+/** Returns the name of the property with the given value, within the given object.
+* @param {!Object} obj  the object whose values are examined
+* @param {!Object} value the value of interest
+* @return {string} the name of the property with the given value, within the object;
+*   or the empty string if value not found.
+*/
+UtilityCore.nameOf = function(obj, value) {
+  for (var p in obj) {
+    if (obj[p] === value) {
+      return p;
+    }
+  }
+  return '';
+};
+
+/** Returns a boolean array with all entries initialized to `false`.
+* @param {number} n length of array
+* @return {!Array<boolean>} array of booleans with all entries initialized to `false`.
+*/
+UtilityCore.newBooleanArray = function(n) {
+  var a = new Array(n);
+  for (var i=0; i<n; i++) {
+    a[i] = false;
+  }
+  return a;
+};
+
+/** Returns an array of numbers with all entries initialized to zero.
+* @param {number} n length of array
+* @return {!Array<number>} an array of numbers with all entries initialized to zero.
+*/
+UtilityCore.newNumberArray = function(n) {
+  var a = new Array(n);
+  for (var i=0; i<n; i++) {
+    a[i] = 0;
+  }
+  return a;
+};
+
+/** Formats a number with 0 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 0 decimal places
+*/
+UtilityCore.NF0 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(0);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 18 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 18 decimal places
+*/
+UtilityCore.NF18 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(18);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 1 decimal place and a plus sign if positive.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 1 decimal place and a plus sign if positive
+*/
+UtilityCore.NF1S = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return (num > 0 ? '+' : '') + num.toFixed(1);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 2 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 2 decimal places
+*/
+UtilityCore.NF2 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(2);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 3 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 3 decimal places
+*/
+UtilityCore.NF3 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(3);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 5 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 5 decimal places
+*/
+UtilityCore.NF5 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(5);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 5 decimal places, but if too small then switch
+* to exponential.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 5 decimal places
+*/
+UtilityCore.NF5E = function(num) {
+  if (goog.isDefAndNotNull(num)) {
+    if (Math.abs(num) > 2E-4 || num == 0) {
+      return num.toFixed(5);
+    } else {
+      return num.toExponential(5);
+    }
+  } else {
+    return num === null ? 'null' : 'undefined';
+  }
+};
+
+/** Formats a number with from zero to 5 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with zero to 5 decimal places
+*/
+UtilityCore.nf5 = function(num) {
+  if (goog.isDefAndNotNull(num)) {
+    var s = num.toFixed(5);
+    // remove trailing zeros, and possibly decimal point
+    return s.replace(/\.?0+$/, '');
+  } else {
+    return num === null ? 'null' : 'undefined';
+  }
+};
+
+/** Formats a number with 7 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 7 decimal places
+*/
+UtilityCore.NF7 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(7);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with 7 decimal places, but if too small then switch
+* to exponential.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 7 decimal places
+*/
+UtilityCore.NF7E = function(num) {
+  if (goog.isDefAndNotNull(num)) {
+    if (Math.abs(num) > 2E-6) {
+      return num.toFixed(7);
+    } else {
+      return num.toExponential(7);
+    }
+  } else {
+    return num === null ? 'null' : 'undefined';
+  }
+};
+
+/** Formats a number with from zero to 7 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with zero to 7 decimal places
+*/
+UtilityCore.nf7 = function(num) {
+  if (goog.isDefAndNotNull(num)) {
+    var s = num.toFixed(7);
+    // remove trailing zeros, and possibly decimal point
+    return s.replace(/\.?0+$/, '');
+  } else {
+    return num === null ? 'null' : 'undefined';
+  }
+};
+
+/** Formats a number with 9 decimal places.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number with 9 decimal places
+*/
+UtilityCore.NF9 = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toFixed(9);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with exponential notation.
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number in exponential notation
+*/
+UtilityCore.NFE = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toExponential(7);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/** Formats a number with exponential notation
+* @param {?number=} num the number to format, null or undefined are OK
+* @return {string} the number in exponential notation
+*/
+UtilityCore.NFSCI = function(num) {
+  if (goog.isDefAndNotNull(num))
+    return num.toExponential(17);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
+/**  Maps a number in range 0 to 1 to a single hexadecimal character from 0 to f.
+* @param {number} n  number between 0 and 1
+* @return {string}  the number converted to a single hexadecimal character
+*/
+UtilityCore.numToHexChar1 = function(n) {
+  n = Math.floor(0.5 + 16*n);
+  if (n >= 15)
+    return 'f';
+  else if (n <= 0)
+    return '0';
+  else {
+    return UtilityCore.HEX_DIGITS.charAt(n);
+  }
+};
+
+/**  Maps a number in range 0 to 1 to a two-digit hexadecimal number.
+* @param {number} n  number between 0 and 1
+* @return {string}  the number converted to a two-digit hexadecimal number
+*/
+UtilityCore.numToHexChar2 = function(n) {
+  n = Math.floor(0.5 + 256*n);
+  if (n >= 255)
+    return 'ff';
+  else if (n <= 0)
+    return '00';
+  else {
+    var i = Math.floor(n/16);
+    var j = n % 16;
+    return UtilityCore.HEX_DIGITS.charAt(i) + UtilityCore.HEX_DIGITS.charAt(j);
+  }
+};
+
+/** Formats the `toString` represention of an object to be more readable. Adds
+new lines and spaces so that each property of an object appears on a separate line, and
+is indented according to the 'level depth' of objects being formatted.
+
+Assumes that the object's `toString` is formatted according to Javascript conventions
+like this:
+
+    ClassName{property1: value1, property2: value2}
+
+Semi-colons or commas are equivalent for separating properties.
+
+The `level` depth works as follows: Level 1 means that the each property of the
+object appears on a separate line preceded a single indent string. For example:
+
+    ClassName{
+      property1: value1,
+      property2: value2,
+    }
+
+Level 2 is like level 1, but additionally any object that appears as the value of a
+level 1 property is also expanded:
+
+    ClassName{
+      property1: ClassName2{
+        property3: value3,
+        property4: value4
+      },
+      property2: value2,
+    }
+
+Level 3 adds another level of expansion for objects found at Level 2. And so on for
+higher levels.
+
+    ClassName{
+      property1: ClassName2{
+        property3: value3,
+        property4: ClassName3{
+          property5: value5,
+          property6: value6
+        }
+      },
+      property2: value2,
+    }
+
+The 'property detection' is done by just looking for commas or semi-colons.
+A new level is begun whenever a brace '{' or bracket '[' is seen.
+Anything in quotes is ignored.  Works for arrays also.
+
+@todo  escaped quotes in strings should be ignored.
+
+* @param {string|!Object} input the string to reformat, typically this is the `toString`
+*     representation of an object
+* @param {number=} level how much nesting of the object to pay attention to; nesting
+*     occurs whenever braces '{' or brackets '[' are seen in the input string
+* @param {string=} indent amount to indent for each new level of nesting
+* @return {string} the input string formatted to be more readable
+*/
+UtilityCore.prettyPrint = function(input, level, indent) {
+  if (!goog.isNumber(level)) {
+    level = 2;
+  }
+  if (!goog.isString(indent)) {
+    indent = '  ';
+  }
+  var inp = String(input);
+  var out = '';
+  var lvl = 0;  // number of unbalanced braces seen
+  var n = inp.length;
+  var ignoreSpace = false;
+  /** @type {!Array<string>} */
+  var closeList = [];
+  /** @type {string} */
+  var closeSymbol = '';
+  next_char: for (var i = 0; i<n; i++) {
+    var c = inp.charAt(i);
+    // we ignore spaces until we find a non-space
+    if (ignoreSpace) {
+      if (c == ' ') {
+        continue;
+      } else {
+        ignoreSpace = false;
+      }
+    }
+    if (c == '{' || c == '[') {
+      lvl++;
+      if (lvl <= level) {
+        // after every open brace, insert a new line and some spaces
+        out += c+'\n';
+        // indent according to level
+        for (var l=0; l<lvl; l++) {
+          out += indent;
+        }
+        ignoreSpace = true;
+      } else {
+        // beyond desired level, so just write the open brace
+        out += c;
+      }
+      closeList.push(closeSymbol);
+      closeSymbol = (c == '{') ? '}' : ']';
+    } else if (c == closeSymbol) {
+      if (lvl <= level) {
+        lvl--;
+        out += '\n';
+        // indent according to level
+        for (var l=0; l<lvl; l++) {
+          out += indent;
+        }
+        out += c;
+      } else {
+        // beyond desired level, so just write the close brace
+        lvl--;
+        out += c;
+      }
+      closeSymbol = closeList.pop();
+      if (lvl < 0)
+        throw new Error('unbalanced '+closeSymbol+' at '+i+' in '+input);
+    } else if (c == '"' || c == '\'') {
+      var q = c;
+      var k = i;  // index of starting quote
+      out += c;
+      // read entire quoted string
+      while (++i<n) {
+        c = inp.charAt(i);
+        out += c;
+        if (c == q) {
+          // found balancing quote
+          continue next_char;
+        }
+      }
+      throw new Error('unbalanced quote at '+k+' in '+input);
+    } else if ((c == ',' || c == ';') && lvl <= level) {
+      // after every comma, insert a new line and some spaces
+      out += c+'\n';
+      // indent according to level
+      for (var l=0; l<lvl; l++) {
+        out += indent;
+      }
+      ignoreSpace = true;
+    } else {
+      out += c;
+    }
+  }
+  // cludge:  eliminate blank lines (happens with empty arrays).
+  out = out.replace(/^\s+\n/gm, '');
+  return out;
+};
+
+/** Prints array of numbers to `console.log` on multiple lines so that each line
+* is no longer than `lineLength`.
+* @param {!Array<number>} array the array to print
+* @param {number=} lineLength  maximum length of a line, default 80
+* @param {function(number) : string=} format  formatting function, default is NF5E
+*/
+UtilityCore.printArray = function(array, lineLength, format) {
+  if (goog.DEBUG) {
+    lineLength = lineLength || 80;
+    format = format || UtilityCore.NF5E;
+    var s = '';
+    for (var i=0, len=array.length; i<len; i++) {
+      var r = format(array[i]);
+      if (s.length + r.length > lineLength) {
+        console.log(s);
+        s = '  ' + r;  // indent lines after first
+      } else {
+        s += ' '+ r;
+      }
+    }
+    if (s.length > 0) {
+      console.log(s);
+    }
+  }
+};
+
+/** Print the string to debug console. The advantage of using this is that
+`UtilityCore.println` can be minified by the compiler, whereas `console.log`
+cannot be. A disadvantage is that in console, you always see this file and line number
+as the location of each println message, instead of where the message is actually from
+(the caller).
+* @param {string} s the string to print
+*/
+UtilityCore.println = function(s) {
+  console.log(s);
+};
+
+/** Prints to `console.log` a variable set of numbers using `NF5` format.
+@param {string} s prefix to print
+@param {...number} nums numbers to print, variable number of arguments
+*/
+UtilityCore.printNums5 = function(s, nums) {
+  for (var i=1; i<arguments.length; i++) {
+    s += ' '+UtilityCore.NF5(arguments[i]);
+  }
+  console.log(s);
+};
+
+/** Returns list of names of (non-function) properties defined on the given object, and
+optionally also shows the values of the properties.
+* @param {?Object} obj the object to examine, or null
+* @param {boolean=} showValues whether to show values of the properties (default is
+*    `false`)
+* @return {!Array<string>} array of names of properties of the object (and possibly
+*    their values)
+*/
+UtilityCore.propertiesOf = function(obj, showValues) {
+  if (obj === null) {
+    return ['null'];
+  }
+  showValues = showValues || false;
+  var s = [];
+  /** @type {string} */
+  var p;
+  for (p in obj) {
+    if (goog.isFunction(obj[p])) {
+      continue;
+    }
+    if (showValues) {
+      s.push(p+': '+obj[p]);
+    } else {
+      s.push(p);
+    }
+  }
+  goog.array.sort(s);
+  return s;
+};
+
+
+/** Sets the specified element of an array. Useful in Terminal scripts
+where we prohibit square brackets with anything other than simple index numbers.
+* @param {!Array} array the array to access
+* @param {number} index index of element
+* @param {*} value
+* @return {*} the specified element of the array
+*/
+UtilityCore.set = function(array, index, value) {
+  if (!goog.isNumber(index)) {
+    throw new Error('index is not a number: '+index);
+  }
+  array[index] = value;
+};
+
+/** Sets a global error handler function in `window.onerror` to alert user.
+* @return {undefined}
+*/
+UtilityCore.setErrorHandler = function() {
+  window.onerror = function(msg, url, line) {
+    var s = msg + '\n' + url + ':' + line;
+    if (goog.DEBUG) {
+      console.log(s);
+    }
+    if (UtilityCore.numErrors++ < UtilityCore.maxErrors) {
+      alert(s);
+      //return true;  this causes compile error under NTI
+    }
+  }
+};
+
+/** Specifies the relative URL of the directory containing images related to the user
+* interface.  The value is accessible via {@link #IMAGES_DIR}.
+* @param {string=} images_dir the relative URL of the images directory;
+*     if undefined `IMAGES_DIR` is not changed.
+*/
+UtilityCore.setImagesDir = function(images_dir) {
+  if (images_dir !== undefined) {
+    UtilityCore.IMAGES_DIR = images_dir;
+  }
+};
+
+/** Returns specified number of characters from start or end of string.
+* @param {string} text
+* @param {number} n  number of characters to take; if positive the characters are
+*     taken from front of string; if negative then from end of string
+* @return {string}
+*/
+UtilityCore.take = function(text, n) {
+  if (n == 0) {
+    return '';
+  } else if (n > 0) {
+    return text.slice(0,n);
+  } else {
+    return text.slice(text.length+n, text.length);
+  }
+};
+
+/** Throws an error if the argument is not a number.
+* @param {number} value the number to test
+* @return {number} the value that passed the test
+* @throws {Error} if the argument is not a finite number
+*/
+UtilityCore.testNumber = function(value) {
+  if (typeof value != 'number' || isNaN(value)) {
+    throw new Error('not a number '+value);
+  }
+  return value;
+};
+
+/** Throws an error if the argument is not a finite number.
+* @param {number} value the number to test
+* @return {number} the value that passed the test
+* @throws {Error} if the argument is not a finite number
+*/
+UtilityCore.testFinite = function(value) {
+  if (typeof value != 'number' || !isFinite(value)) {
+    throw new Error('not a finite number '+value);
+  }
+  return value;
+};
+
+/** Converts the text to the corresponding name identifier by changing to uppercase
+* and replacing spaces and dashes with underscores.
+* @param {string} text
+* @return {string} the text upper-cased and with spaces and dashes replaced by
+*   underscores
+*/
+UtilityCore.toName = function(text) {
+  return text.toUpperCase().replace(/[ -]/g, '_');
+};
+
+/** Ensures the given text consists of only uppercase letters, numbers and underscore
+* and first character is a letter or underscore.
+* @param {string} text
+* @return {string} the validated text
+* @throws {Error} if text does not qualify as a name
+*/
+UtilityCore.validName = function(text) {
+  if (!text.match(/^[A-Z_][A-Z_0-9]*$/)) {
+    throw new Error('not a valid name: '+text);
+  }
+  return text;
+};
+
+/** Returns `true` if the numbers are significantly different to a certain tolerance
+level, adjusting the tolerance for larger numbers. For numbers with absolute value
+smaller than `magnitude` the numbers are compared using a fixed tolerance of
+`magnitude*epsilon`. For numbers larger than `magnitude`, the tolerance is
+`epsilon` times the larger of the absolute values of the numbers being compared.
+
+Unless specified, uses defaults for `magnitude` of 1.0 and `epsilon` of
+1E-14. This returns true if the numbers are significantly different to approximately 14
+decimal digits.
+
+The goal is to have a test that is immune to the inaccuracy of double arithmetic.
+Doubles have 15 to 17 significant decimal digits of accuracy, so comparing 14
+significant digits should be fairly safe from the inaccuracy in double arithmetic.
+
+This method takes into account the size of the numbers being compared, so it is
+safer than code such as
+
+    if (Math.abs(a - b) > 1E-16)  // do something
+
+Doubles have 15 to 17 significant decimal digits of accuracy. When the numbers being
+compared are much bigger in magnitude than 1.0, then this test is too strict -- it
+effectively is comparing to zero, meaning exact equality.
+
+See [Comparing Floating Point Numbers, 2012
+Edition](https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/) by Bruce Dawson.
+
+See [StackOverflow: How dangerous is it to compare floating point values?](http://stackoverflow.com/questions/10334688/how-dangerous-is-it-to-compare-floating-point-values)
+
+
+@param {number} arg1  the first number to compare
+@param {number} arg2  the second number to compare
+@param {number=} epsilon the small value used with `magnitude` to calculate
+    the tolerance for deciding when the numbers are different
+@param {number=} magnitude the approximate magnitude of the numbers being compared
+@return {boolean} true if the doubles are different to 14 significant decimal digits
+@throws {Error} if `magnitude` or `epsilon` is negative or zero
+*/
+UtilityCore.veryDifferent = function(arg1, arg2, epsilon, magnitude) {
+  epsilon = epsilon || 1E-14;
+  if (epsilon <= 0) {
+    throw new Error('epsilon must be positive '+epsilon);
+  }
+  magnitude = magnitude || 1.0;
+  if (magnitude <= 0) {
+    throw new Error('magnitude must be positive '+magnitude);
+  }
+  var maxArg = Math.max(Math.abs(arg1), Math.abs(arg2));
+  var max = maxArg > magnitude ? maxArg : magnitude;
+  return Math.abs(arg1 - arg2) > max * epsilon;
+};
+
+/** Sets all values of array to zero
+* @param {!Array<number>} array the array to modify
+*/
+UtilityCore.zeroArray = function(array) {
+  var n = array.length;
+  for (var i=0; i<n; i++) {
+    array[i] = 0;
+  }
+};
+
+/**  The default number format to use in `toString` methods.
+* @type {function(?number=): string}
+* @const
+*/
+UtilityCore.NF = UtilityCore.nf5;
+
+}); // goog.scope

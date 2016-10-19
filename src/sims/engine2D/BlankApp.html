@@ -1,0 +1,70 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.BlankApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+
+<p>BlankApp lets you experiment building a rigid body simulation via scripting.
+It has a ContactSim, LabCanvas, SimView, Terminal and other objects already created.
+Here is a sample script to try by entering in Terminal:
+</p>
+
+<pre>
+ELASTICITY=0.9;
+SHOW_CLOCK=true;
+DisplayShape.fillStyle="black";
+Walls.make(sim,12,12,0.01);
+var p=Shapes.makeBall(0.2,"fast_ball");
+DisplayShape.fillStyle="green";
+p.setMass(0.1);
+p.setPosition(new Vector(-5, 0));
+p.setVelocity(new Vector(200, 153));
+p.setElasticity(0.9);
+sim.addBody(p);
+sim.saveInitialState();
+app.addStandardControls();
+</pre>
+
+<p>A script can be provided in the query portion of the URL (after the question mark)
+  for this page . For example, the following URL contains the above script.
+</p>
+
+<p>Example of a script that works with BlankApp:</p>
+
+<p>
+<a href='#MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;SHOW_CLOCK=true;DisplayShape.fillStyle=%22black%22;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,%22fast_ball%22);DisplayShape.fillStyle=%22green%22;p.setMass(0.1);p.setPosition(new%20Vector(-5,0));p.setVelocity(new%20Vector(200,153));p.setElasticity(0.9);sim.addBody(p);sim.saveInitialState();app.addStandardControls()'> #MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;<br>
+SHOW_CLOCK=true;DisplayShape.fillStyle="black";Walls.make(sim,12,12,0.01);<br>
+var p=Shapes.makeBall(0.2,"fast_ball");DisplayShape.fillStyle="green";p.setMass(0.1);<br>
+p.setPosition(new Vector(-5,0));p.setVelocity(new Vector(200,153));p.setElasticity(0.9);sim.addBody(p);<br>
+sim.saveInitialState();app.addStandardControls()
+</a>
+</p>
+
+<p>Note that because of
+<a href="https://en.wikipedia.org/wiki/Percent-encoding">Percent-encoding</a>
+we should substitute <code>%22</code> for double-quote and <code>%20</code> for space in
+the URL.</p>
+
+#PAGE_INFO
+#LOREM_IPSUM
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

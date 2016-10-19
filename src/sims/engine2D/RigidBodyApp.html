@@ -1,0 +1,35 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.RigidBodyApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+
+<p>This simulation uses RigidBodySim instead of the usual ContactSim. It handles forces
+like springs, gravity, damping, and thrust forces but does not calculate contact forces
+or collision impulses. Therefore objects pass thru each other. Activate thrust forces
+by clicking in the canvas and then use arrow keys or the letter keys "jkli" or
+"sdfe".</p>
+
+#PAGE_INFO
+#LOREM_IPSUM
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

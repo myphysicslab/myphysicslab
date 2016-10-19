@@ -1,0 +1,94 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+
+#comment Macros for apps that use TabLayout.
+
+#define #TIME_GRAPH ##LOCALE#_TIME_GRAPH
+#define en_TIME_GRAPH Time Graph
+#define de_TIME_GRAPH Zeit Graph
+
+#define #MULTI_GRAPH ##LOCALE#_MULTI_GRAPH
+#define en_MULTI_GRAPH Multi Graph
+#define de_MULTI_GRAPH Multi Graphen
+
+#comment SIM_TAB_SELECTED and GRAPH_TAB_SELECTED allow specifying which tab is
+#comment initially selected.
+#define #SIM_TAB_SELECTED selected
+#define #GRAPH_TAB_SELECTED
+
+#define #TAB_ITEMS \
+  <li class="sim #SIM_TAB_SELECTED">Sim</li>\
+  <li class="graph #GRAPH_TAB_SELECTED">Graph</li>\
+  <li class="time_graph">#TIME_GRAPH</li>\
+  <li class="multi_graph">#MULTI_GRAPH</li>
+
+#define #HEADER_BAR <div id="header_nav">\
+#LANGUAGE_MENU\
+#PREV_ANCHOR_TAG\
+#NEXT_ANCHOR_TAG\
+</div>\
+<ul id="header_bar" class="horiz_tabs">\
+  #TAB_ITEMS\
+</ul>
+
+#comment TAB_LIST_ID allows specifying a second set of tabs via ELEM_IDS for 2nd app.
+#define #TAB_LIST_ID header_bar
+
+#comment We might have 2 or more of the same application on a page
+#comment therefore #APP_NUM can distinguish which controls go with which app.
+
+#define #APP_NUM
+
+#define #CONTROLS_CONTAINER \
+<div id="container#APP_NUM" class="control_container">\
+  <div id="div_graph#APP_NUM" >\
+  </div>\
+  <div id="div_time_graph#APP_NUM" >\
+  </div>\
+  <div id="sim_applet#APP_NUM" >\
+  </div>\
+  <div id="sim_controls#APP_NUM" class="control_group">\
+  </div>\
+  <div id="graph_controls#APP_NUM" class="control_group">\
+  </div>\
+  <div id="time_graph_controls#APP_NUM" class="control_group">\
+  </div>\
+  <p>\
+  <label id="label_show_sim#APP_NUM">\
+    <input type="checkbox" id="show_sim#APP_NUM">show sim\
+  </label>\
+  <label id="label_terminal#APP_NUM">\
+    <input type="checkbox" id="show_terminal#APP_NUM">terminal\
+  </label>\
+  <div id="div_terminal#APP_NUM">\
+    <textarea id="term_output#APP_NUM" cols=80 rows=20 wrap="soft"></textarea> <br>\
+    <label style="display:inline-block">command:\
+      <input type="text" id="term_input#APP_NUM" size="80">\
+    </label>\
+  </div>\
+</div>
+
+#comment #ELEM_IDS communicates to the layout the various ID's of the UI elements.
+
+#define #ELEM_IDS var elem_ids#APP_NUM = {\
+      tab_list: '#TAB_LIST_ID',\
+      container: 'container#APP_NUM',\
+      term_output: 'term_output#APP_NUM',\
+      term_input: 'term_input#APP_NUM',\
+      sim_applet: 'sim_applet#APP_NUM',\
+      div_graph: 'div_graph#APP_NUM',\
+      graph_controls: 'graph_controls#APP_NUM',\
+      sim_controls: 'sim_controls#APP_NUM',\
+      div_terminal: 'div_terminal#APP_NUM',\
+      div_time_graph: 'div_time_graph#APP_NUM',\
+      time_graph_controls: 'time_graph_controls#APP_NUM',\
+      div_multi_graph: 'div_multi_graph#APP_NUM',\
+      multi_graph_controls: 'multi_graph_controls#APP_NUM',\
+      label_terminal: 'label_terminal#APP_NUM',\
+      show_terminal: 'show_terminal#APP_NUM',\
+      show_sim: 'show_sim#APP_NUM',\
+      images_dir: '#IMAGES_DIR'\
+    };
+
+#define #INSTANTIATE_APP app = new myphysicslab.#APP_PATH(elem_ids#APP_NUM);

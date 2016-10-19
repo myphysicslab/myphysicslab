@@ -1,0 +1,35 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.experimental.SimpleApp
+#include "#TOP_DIR/macros.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+
+<div id="canvas_div"></div>
+<p>Simple App is a demo of using a minimal set of myPhysicsLab classes.</p>
+
+<p>This displays something like the SingleSpringSim simulation, but it uses a very simple
+math routine to move the objects instead of a differential equation. There are no
+DiffEqSolver or Simulation classes involved. SimpleApp.js sets up the LabCanvas and
+DisplayObjects and defines the callback that drives the animation.</p>
+
+#COMPILED_MENU
+
+#LOAD_APP
+  <script>
+    myphysicslab.sims.experimental.SimpleApp.makeApp();
+  </script>
+#SHOW_ALL
+#PAGE_FOOTER
+</body>
+</html>

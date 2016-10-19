@@ -1,0 +1,78 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.roller.BrachistoApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#MATH_JAX
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+#COMPILED_MENU
+
+#mathDefine x_1 x<sub>1</sub>
+#mathDefine x_2 x<sub>2</sub>
+#mathDefine y_1 y<sub>1</sub>
+#mathDefine y_2 y<sub>2</sub>
+#rule s~#inline{(.+?)}~<span class="inline-math">\n#mathOn\n$1\n#mathOff\n</span>~g
+
+#define #eqn_start \
+#mathOn \
+<p class="display-equation">
+
+#define #eqn_end </p> \
+#mathOff
+
+#define num_eqn_start <table class="html-math numbered-equation" cellpadding="0" cellspacing="0">\
+<tr><td class="equation-number">&nbsp;&nbsp;</td><td>\
+#mathOn
+
+#rule s~#?\bnum_eqn_end\b\((.+?)\)~\n#mathOff\n</td><td class="equation-number">($1)</td></tr></table>~g
+
+<p>Test macros for
+#mathOn
+x_1, x_2, y_1, y_2
+#mathOff
+whereas these should not be changed: x_1, x_2, y_1, y_2.  Here is an inline
+version:  #inline{y_2 = y_1 + f1(x_1) + f2(x_2)} of a math equation.
+And again  these should not be changed: x_1, x_2, y_1, y_2. </p>
+
+<p> Here is an example of using the eqn_start macro:</p>
+#eqn_start
+y_2 = y_1 + f1(x_1) + f2(x_2)
+#eqn_end
+
+<p>Here is a MathJax version \(y_1 + f1(x_1) + f2(x_2)\) which is inline within text.</p>
+
+<h2>The Euler-Lagrange Equation</h2>
+
+The Euler-Lagrange equation is a differential equation that \(y(x)\) must satisfy in
+order to minimize (or possibly maximize) an integral of the form
+
+$$ I = \int_{x_1}^{x_2} f(x, y, y') dx $$
+
+where also \(y(x)\) must pass through the two fixed end points \(y(x_1) = y_1\) and
+\(y(x_2) = y_2\).  Through reasoning about families of curves that include the
+minimizing curve \(y(x)\), we can get the Euler-Lagrange equation:
+
+$$ \frac{\partial f}{\partial y} - \frac{d}{dx} \left( \frac{\partial f}{\partial y'} \right) = 0 $$
+
+
+#PAGE_INFO
+#LOREM_IPSUM
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

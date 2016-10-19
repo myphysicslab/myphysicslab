@@ -1,0 +1,104 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.experimental.GraphCalcApp
+#include "#TOP_DIR/macros.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+
+<div id="graph_div">
+</div>
+<!-- the "onsubmit=return false" is to prevent the page from reloading after
+enter key is typed in the text input field.
+-->
+<form id="script_terminal" onsubmit="return false;">
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
+  <label>command:<input type="text" id="term_input" size="80"></label>
+  #COMPILED_MENU
+</form>
+
+<p>This graph shows a single GraphLine. However, you can change the style (color, line
+width, dots vs. lines) at any time, so it can look like there are several different
+graphs being drawn.
+</p>
+
+<p>To clear all points from the GraphLine:</p>
+<pre>
+  graphLine.reset();
+</pre>
+
+<p>To plot a new graph use the "plot" command.  This adds points to the GraphLine, with the value for "x" going between the two given numbers.</p>
+<pre>
+  plot("x*x", -5, 5);
+</pre>
+
+<p>You can specify the number of points plotted as the 4th argument to plot (the
+default is 200). To add points to the GraphLine in a new color:</p>
+<pre>
+  graphLine.setColor("red");
+  plot("-x*x", -5, 5, 50);
+</pre>
+
+<p>To change the area being shown:</p>
+<pre>
+  simView.setSimRect(new DoubleRect(-6, -30, 6, 30));
+</pre>
+
+<p>To change line width or drawing mode:</p>
+<pre>
+  graphLine.setLineWidth(2);
+  plot("x", -10, 10);
+  graphLine.setDrawingMode("dots");
+  graphLine.setColor("black");
+  plot("-x", -10, 10);
+</pre>
+
+<p>To redraw the entire GraphLine with a different style:</p>
+<pre>
+  graphLine.setColor('blue');
+  graphLine.resetStyle();
+  graph.reset();
+</pre>
+
+<p>To create a URL with a script that draws an equation: you can provide any of the
+above commands in the "query" portion of the URL (after the question mark) for this web
+page. Example:
+</p>
+
+<pre><a href='#MYPHYSICSLAB_URL/develop/build/sims/experimental/GraphCalcApp_en.html?graphLine.reset();plot(%228*Math.sin(x/2)*Math.sin(10*x)%22,-10,10,1000);'>
+#MYPHYSICSLAB_URL/develop/build/sims/experimental/GraphCalcApp_en.html?graphLine.reset()
+<br>;plot("8*Math.sin(x/2)*Math.sin(10*x)",-10,10,1000);</a>
+</pre>
+
+<br>
+<br>
+<br>
+
+#LOAD_APP
+  <script>
+    (function build() {
+      var elem_ids = {
+        graph_div: 'graph_div',
+        term_output: 'term_output',
+        term_input: 'term_input',
+        images_dir: '#IMAGES_DIR'
+      };
+      app = new myphysicslab.sims.experimental.GraphCalcApp(elem_ids);
+      app.defineNames('app');
+      app.eval('plot("x*Math.sin(5*x)", -10, 10)');
+    }());
+  </script>
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

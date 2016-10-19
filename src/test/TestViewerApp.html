@@ -1,0 +1,55 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ..
+#define #APP_PATH test.TestViewerApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_vert.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+
+#HEADER_BAR
+
+<div class="control_container">
+  <div id="sim_applet">
+  </div>
+  <form id="show_hide_form"  style="margin: 5px 0px 5px 0px;">
+    <label><input type="checkbox" id="show_controls">controls</label>
+    <label><input type="checkbox" id="show_graph">graph</label>
+    #COMPILED_MENU
+    <label id="label_terminal">
+      <input type="checkbox" id="show_terminal">terminal
+    </label>
+  </form>
+  <form id="sim_controls" onsubmit="return false;" style="margin: 5px 0px 5px 0px;">
+    <label>damping <input type="text" id="damping_control"></label>
+    <label>gravity <input type="text" id="gravity_control"></label>
+  </form>
+  <div id="div_graph" style="margin: 0px;">
+    <form id="graph_controls" onsubmit="return false;">
+    </form>
+  </div>
+  <form id="form_terminal" onsubmit="return false;" style="margin: 0px;">
+    <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
+    <label>command:<input type="text" id="term_input" size="80"></label>
+  </form>
+</div>
+
+  <p><em>Does not work under advanced-compile.</em></p>
+
+#PAGE_INFO
+#LOREM_IPSUM
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Auto detect text files and perform LF normalization
+*        text=auto
+
+*.java  text
+*.tex   text
+*.css   text
+*.html  text
+*.txt   text
+*.sh    text
+*.xml   text
+*.js    text
+*.prep  text
+*.mk    text
+*.pl    text
+
+*.pdf   binary
+*.jpg   binary
+*.png   binary
+*.graffle binary
+*.svg   binary
+*.nb    binary

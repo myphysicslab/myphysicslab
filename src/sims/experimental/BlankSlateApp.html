@@ -1,0 +1,82 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.experimental.BlankSlateApp
+#include "#TOP_DIR/macros.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+
+<div id="sim_canvas">
+</div>
+<!-- the "onsubmit=return false" is to prevent the page from reloading after
+enter key is typed in the text input field.
+-->
+<form id="script_terminal" onsubmit="return false;">
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
+  <label>command:<input type="text" id="term_input" size="80"></label>
+  #COMPILED_MENU
+</form>
+
+<p>BlankSlateApp has a LabCanvas and Terminal, and lets you experiment building
+things with scripts.  Here is a sample script to try:
+</p>
+
+<pre>
+var r = PointMass.makeSquare(4);
+var dr = new DisplayShape(r);
+displayList.add(dr);
+dr.strokeStyle = 'red';
+r.setPosition(new Vector(0, 0));
+var clock = new Clock();
+var timer = new Timer();
+var callback = function () {
+    r.setAngle(Math.sin(clock.getTime()));
+    simCanvas.paint();
+    timer.fire();
+};
+timer.setCallBack(callback);
+clock.resume();
+timer.fire();
+</pre>
+
+<p>A script can be provided in the query portion of the URL (after the question mark)
+  for this page. For example, the following URL contains the above script.
+</p>
+<p>
+<a href="#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var%20r=PointMass.makeSquare(4);var%20dr=new%20DisplayShape(r);displayList.add(dr);dr.strokeStyle='red';r.setPosition(new%20Vector(0,0));var%20clock=new%20Clock();var%20timer=new%20Timer();var%20callback=function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fire();};timer.setCallBack(callback);clock.resume();timer.fire();">
+#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var r=PointMass.makeSquare(4);<br>
+var dr=new DisplayShape(r);displayList.add(dr);dr.strokeStyle='red';r.setPosition(new Vector(0,0));<br>
+var clock=new Clock();var timer=new Timer();<br>
+timer.setCallBack(function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fire();});<br>
+clock.resume();timer.fire();</a>
+</p>
+
+<p><em>Does not work under advanced-compile.</em></p>
+
+#LOAD_APP
+<script>
+  (function build() {
+    var elem_ids = {
+      sim_canvas: 'sim_canvas',
+      term_output: 'term_output',
+      term_input: 'term_input',
+      images_dir: '#IMAGES_DIR'
+    };
+    app = new myphysicslab.sims.experimental.BlankSlateApp(elem_ids);
+    app.defineNames('app');
+  }());
+</script>
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

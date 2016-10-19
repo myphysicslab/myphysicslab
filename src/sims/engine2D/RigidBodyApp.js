@@ -1,0 +1,391 @@
+// Copyright 2016 Erik Neumann.  All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the 'License');
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an 'AS IS' BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+goog.provide('myphysicslab.sims.engine2D.RigidBodyApp');
+
+goog.require('myphysicslab.lab.controls.NumericControl');
+goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+goog.require('myphysicslab.lab.model.DampingLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
+goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+goog.require('myphysicslab.lab.engine2D.Polygon');
+goog.require('myphysicslab.lab.engine2D.RigidBody');
+goog.require('myphysicslab.lab.engine2D.Scrim');
+goog.require('myphysicslab.lab.engine2D.Shapes');
+goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.SimpleAdvance');
+goog.require('myphysicslab.lab.model.Spring');
+goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.ParameterNumber');
+goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.DisplayShape');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+goog.require('myphysicslab.sims.engine2D.SixThrusters');
+goog.require('myphysicslab.sims.layout.CommonControls');
+goog.require('myphysicslab.sims.layout.TabLayout');
+
+goog.scope(function() {
+
+var lab = myphysicslab.lab;
+var sims = myphysicslab.sims;
+
+var NumericControl = lab.controls.NumericControl;
+var CommonControls = sims.layout.CommonControls;
+var ConcreteVertex = lab.engine2D.ConcreteVertex;
+var CoordType = lab.model.CoordType;
+var DampingLaw = lab.model.DampingLaw;
+var DisplayShape = lab.view.DisplayShape;
+var DoubleRect = lab.util.DoubleRect;
+var Engine2DApp = sims.engine2D.Engine2DApp;
+var GravityLaw = lab.model.GravityLaw;
+var RigidBodySim = lab.engine2D.RigidBodySim;
+var ParameterNumber = lab.util.ParameterNumber;
+var Polygon = lab.engine2D.Polygon;
+var Scrim = myphysicslab.lab.engine2D.Scrim;
+var Shapes = lab.engine2D.Shapes;
+var SimpleAdvance = lab.model.SimpleAdvance;
+var SixThrusters = sims.engine2D.SixThrusters;
+var Spring = lab.model.Spring;
+var UtilityCore = lab.util.UtilityCore;
+var Vector = lab.util.Vector;
+
+/**  RigidBodyApp demonstrates using RigidBodySim (instead of the usual ContactSim) with
+a set of simple rectangular objects.
+
+This sim has a config() function which looks at a set of options
+and rebuilds the simulation accordingly. UI controls are created to change the options.
+
+* @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
+*    elementId's to look for in the HTML document; these elements are where the user
+*    interface of the simulation is created.
+* @constructor
+* @final
+* @struct
+* @extends {Engine2DApp}
+* @export
+*/
+sims.engine2D.RigidBodyApp = function(elem_ids) {
+  var simRect = new DoubleRect(-4, -4, 4, 4);
+  this.mySim = new RigidBodySim();
+  var advance = new SimpleAdvance(this.mySim);
+  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.elasticity.setElasticity(1.0);
+  this.mySim.setShowForces(false);
+  /** @type {!lab.model.DampingLaw} */
+  this.dampingLaw = new DampingLaw(0, 0.1, this.simList);
+  /** @type {!lab.model.GravityLaw} */
+  this.gravityLaw = new GravityLaw(0, this.simList);
+  /** @type {number} */
+  this.numBods = 5;
+  /** @type {number} */
+  this.thrust = 1.5;
+  /** @type {!lab.engine2D.ThrusterSet} */
+  this.thrust1;
+  /** @type {!lab.engine2D.ThrusterSet} */
+  this.thrust2;
+  /** @type {!Array<!lab.model.Spring>} */
+  this.springs_ = [];
+  /** @type {number} */
+  this.restLength = 0.75;
+  /** @type {number} */
+  this.stiffness = 1;
+
+  this.addPlaybackControls();
+  /** @type {!lab.util.ParameterNumber} */
+  var pn;
+  this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
+      RigidBodyApp.i18n.NUM_BODIES,
+      this.getNumBods, this.setNumBods).setDecimalPlaces(0));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.THRUST,
+      RigidBodyApp.i18n.THRUST,
+      this.getThrust, this.setThrust));
+  this.addControl(new NumericControl(pn));
+
+  pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
+  this.addControl(new NumericControl(pn));
+  this.watchEnergyChange(pn);
+
+  pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(
+      pn = new ParameterNumber(this, RigidBodyApp.en.SPRING_STIFFNESS,
+      RigidBodyApp.i18n.SPRING_STIFFNESS,
+      this.getStiffness, this.setStiffness));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(
+      pn = new ParameterNumber(this, RigidBodyApp.en.SPRING_LENGTH,
+      RigidBodyApp.i18n.SPRING_LENGTH,
+      this.getRestLength, this.setRestLength));
+  this.addControl(new NumericControl(pn));
+
+  this.addStandardControls();
+
+  this.makeScriptParser();
+  this.addURLScriptButton();
+  this.config();
+  this.graphSetup();
+};
+var RigidBodyApp = sims.engine2D.RigidBodyApp;
+goog.inherits(RigidBodyApp, Engine2DApp);
+
+if (!UtilityCore.ADVANCED) {
+  /** @inheritDoc */
+  RigidBodyApp.prototype.toString = function() {
+    return this.toStringShort().slice(0, -1)
+        +', dampingLaw: '+this.dampingLaw.toStringShort()
+        +', gravityLaw: '+this.gravityLaw.toStringShort()
+        + RigidBodyApp.superClass_.toString.call(this);
+  };
+};
+
+/** @inheritDoc */
+RigidBodyApp.prototype.getClassName = function() {
+  return 'RigidBodyApp';
+};
+
+/** @inheritDoc */
+RigidBodyApp.prototype.defineNames = function(myName) {
+  RigidBodyApp.superClass_.defineNames.call(this, myName);
+  this.terminal.addRegex('gravityLaw|dampingLaw',
+       myName);
+  this.terminal.addRegex('RigidBodyApp|Engine2DApp',
+       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+};
+
+/** @inheritDoc */
+RigidBodyApp.prototype.getSubjects = function() {
+  var subjects = RigidBodyApp.superClass_.getSubjects.call(this);
+  return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
+};
+
+/**
+* @return {undefined}
+*/
+RigidBodyApp.prototype.config = function() {
+  var elasticity = this.elasticity.getElasticity();
+  this.mySim.cleanSlate();
+  Polygon.ID = 1;
+  this.springs_ = [];
+  this.advance.reset();
+  this.mySim.addForceLaw(this.dampingLaw);
+  this.dampingLaw.connect(this.mySim.getSimList());
+  this.mySim.addForceLaw(this.gravityLaw);
+  this.gravityLaw.connect(this.mySim.getSimList());
+  var addSpring = goog.bind(function(s) {
+    this.springs_.push(s);
+    this.mySim.addForceLaw(s);
+    this.simList.add(s);
+  }, this);
+  DisplayShape.fillStyle = 'gray';
+  DisplayShape.nameFont = '10pt sans-serif';
+
+  if (this.numBods >= 1) {
+    DisplayShape.fillStyle = 'cyan';
+    var p1 = Shapes.makeBlock(1, 3);
+    p1.setPosition(new Vector(-3.3,  0),  0);
+    p1.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
+    this.mySim.addBody(p1);
+    this.thrust2 = SixThrusters.make(this.thrust, p1);
+    this.rbeh.setThrusters(this.thrust2, 'left');
+    this.mySim.addForceLaw(this.thrust2);
+    addSpring(new Spring('spring 1',
+        Scrim.getScrim(), new Vector(-2, -2),
+        p1, new Vector(0.15, 0.7),
+        this.restLength, this.stiffness));
+
+    if (this.numBods >= 2) {
+      DisplayShape.fillStyle = 'orange';
+      var p2 = Shapes.makeBlock(1, 3);
+      p2.setPosition(new Vector(-2.2,  0),  0);
+      p2.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
+      this.mySim.addBody(p2);
+      this.thrust1 = SixThrusters.make(this.thrust, p2);
+      this.rbeh.setThrusters(this.thrust1, 'right');
+      this.mySim.addForceLaw(this.thrust1);
+      addSpring(new Spring('spring 2',
+          Scrim.getScrim(), new Vector(2, 2),
+          p2, new Vector(0.15, 0.7),
+          this.restLength, this.stiffness));
+      addSpring(new Spring('spring 3',
+          p2, new Vector(0.15, -0.7),
+          p1, new Vector(0.15, -0.7),
+          this.restLength, this.stiffness));
+
+      if (this.numBods >= 3) {
+        DisplayShape.fillStyle = '#9f3'; // light green
+        var p3 = Shapes.makeBlock(1, 3);
+        p3.setPosition(new Vector(2.867,  -0.113),  0);
+        p3.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
+        this.mySim.addBody(p3);
+        addSpring(new Spring('spring 4',
+            p3, new Vector(0.15, 0.7),
+            p2, new Vector(0.15, -0.7),
+            this.restLength, this.stiffness));
+
+        if (this.numBods >= 4) {
+          DisplayShape.fillStyle = '#f6c'; // hot pink
+          var p4 = Shapes.makeBlock(1, 3);
+          p4.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
+          p4.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
+          this.mySim.addBody(p4);
+          addSpring(new Spring('spring 5',
+              p4, new Vector(0.15, 0.7),
+              p3, new Vector(0.15, -0.7),
+              this.restLength, this.stiffness));
+
+          if (this.numBods >= 5) {
+            DisplayShape.fillStyle = '#39f';
+            var p5 = Shapes.makeBlock(1, 3);
+            p5.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
+            this.mySim.addBody(p5);
+            addSpring(new Spring('spring 6',
+                p5, new Vector(0.15, 0.7),
+                p4, new Vector(0.15, -0.7),
+                this.restLength, this.stiffness));
+
+            if (this.numBods >= 6) {
+              DisplayShape.fillStyle = '#c99';
+              var p6 = Shapes.makeBlock(1, 3);
+              p6.setPosition(new Vector(0.08,  0.127),  0.888);
+              this.mySim.addBody(p6);
+              addSpring(new Spring('spring 7',
+                  p6, new Vector(0.15, 0.7),
+                  p5, new Vector(0.15, -0.7),
+                  this.restLength, this.stiffness));
+            }
+          }
+        }
+      }
+    }
+  }
+  this.mySim.getVarsList().setTime(0);
+  this.mySim.saveInitialState();
+  this.clock.setTime(0);
+  this.clock.setRealTime(0);
+  this.scriptParser.update();
+};
+
+/**
+* @return {number}
+*/
+RigidBodyApp.prototype.getNumBods = function() {
+  return this.numBods;
+};
+
+/**
+* @param {number} value
+*/
+RigidBodyApp.prototype.setNumBods = function(value) {
+  this.numBods = value;
+  this.config();
+  this.broadcastParameter(RigidBodyApp.en.NUM_BODIES);
+};
+
+/**
+* @return {number}
+*/
+RigidBodyApp.prototype.getStiffness = function() {
+  return this.stiffness;
+};
+
+/**
+* @param {number} value
+*/
+RigidBodyApp.prototype.setStiffness = function(value) {
+  this.stiffness = value;
+  goog.array.forEach(this.springs_, function(s){ s.setStiffness(value);});
+  // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
+  this.mySim.getVarsList().incrSequence(2, 3);
+  this.broadcastParameter(RigidBodyApp.en.SPRING_STIFFNESS);
+};
+
+/**
+* @return {number}
+*/
+RigidBodyApp.prototype.getRestLength = function() {
+  return this.restLength;
+};
+
+/**
+* @param {number} value
+*/
+RigidBodyApp.prototype.setRestLength = function(value) {
+  this.restLength = value;
+  goog.array.forEach(this.springs_, function(s){ s.setRestLength(value);});
+  // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
+  this.mySim.getVarsList().incrSequence(2, 3);
+  this.broadcastParameter(RigidBodyApp.en.SPRING_LENGTH);
+};
+
+/**
+* @return {number}
+*/
+RigidBodyApp.prototype.getThrust = function() {
+  return this.thrust;
+};
+
+/**
+* @param {number} value
+*/
+RigidBodyApp.prototype.setThrust = function(value) {
+  this.thrust = value;
+  this.thrust1.setMagnitude(value);
+  this.thrust2.setMagnitude(value);
+  this.broadcastParameter(RigidBodyApp.en.THRUST);
+};
+
+/** Set of internationalized strings.
+@typedef {{
+  NUM_BODIES: string,
+  SPRING_LENGTH: string,
+  SPRING_STIFFNESS: string,
+  THRUST: string
+  }}
+*/
+RigidBodyApp.i18n_strings;
+
+/**
+@type {RigidBodyApp.i18n_strings}
+*/
+RigidBodyApp.en = {
+  NUM_BODIES: 'number of objects',
+  SPRING_LENGTH: 'spring length',
+  SPRING_STIFFNESS: 'spring stiffness',
+  THRUST: 'thrust'
+};
+
+/**
+@private
+@type {RigidBodyApp.i18n_strings}
+*/
+RigidBodyApp.de_strings = {
+  NUM_BODIES: 'Anzahl von Objekten',
+  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_STIFFNESS: 'Federsteifheit',
+  THRUST: 'Schubkraft'
+};
+
+/** Set of internationalized strings.
+@type {RigidBodyApp.i18n_strings}
+*/
+RigidBodyApp.i18n = goog.LOCALE === 'de' ? RigidBodyApp.de_strings :
+    RigidBodyApp.en;
+
+}); // goog.scope

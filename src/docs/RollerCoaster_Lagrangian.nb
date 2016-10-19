@@ -1,0 +1,1032 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     28467,       1022]
+NotebookOptionsPosition[     26667,        955]
+NotebookOutlinePosition[     27023,        971]
+CellTagsIndexPosition[     26980,        968]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "Here is derivation of equations of motion for the roller coaster with hump. \
+ This derivation is using Lagrangian.  The equation of the hump is\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"y", "(", "x", ")"}], "=", 
+    RowBox[{"3", "-", 
+     RowBox[{
+      FractionBox["7", "6"], 
+      SuperscriptBox["x", "2"]}], "+", 
+     RowBox[{
+      FractionBox["1", "6"], 
+      SuperscriptBox["x", "4"]}]}]}], TraditionalForm]]],
+ "\nKinetic energy = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"T", " ", "=", " ", 
+    RowBox[{
+     RowBox[{
+      FractionBox["1", "2"], "m", " ", 
+      SuperscriptBox["v", "2"]}], "=", 
+     RowBox[{
+      FractionBox["1", "2"], 
+      SuperscriptBox[
+       RowBox[{"m", "(", 
+        FractionBox[
+         RowBox[{"d", " ", "s"}], 
+         RowBox[{"d", " ", "t"}]], ")"}], "2"]}]}]}], TraditionalForm]]],
+ "\nDescribe the curve parametrically as ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"x", "(", "\[Theta]", ")"}], ",", " ", 
+    RowBox[{"y", "(", "\[Theta]", ")"}]}], TraditionalForm]]],
+ ".\nIn this case we have ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"x", "=", "\[Theta]"}], TraditionalForm]]],
+ ".\nDistance = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"s", "(", "\[Tau]", ")"}], "=", 
+    RowBox[{
+     UnderoverscriptBox["\[Integral]", "0", "\[Tau]"], 
+     RowBox[{
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}]], "d", " ", 
+      "\[Theta]"}]}]}], TraditionalForm]]],
+ "\nBy Fundamental theorem of calculus, ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"d", " ", "s"}], 
+     RowBox[{"d", " ", "\[Theta]"}]], "="}], TraditionalForm]]],
+ "the integrand above\n(or does this only work because ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Theta]", "=", "x"}], TraditionalForm]]],
+ "?).\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"d", " ", "s"}], 
+     RowBox[{"d", " ", "t"}]], "=", 
+    RowBox[{
+     RowBox[{
+      FractionBox[
+       RowBox[{"d", " ", "s"}], 
+       RowBox[{"d", " ", "\[Theta]"}]], 
+      FractionBox[
+       RowBox[{"d", " ", "\[Theta]"}], 
+       RowBox[{"d", " ", "t"}]]}], "=", 
+     RowBox[{
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}]], 
+      FractionBox[
+       RowBox[{"d", " ", "\[Theta]"}], 
+       RowBox[{"d", " ", "t"}]]}]}]}], TraditionalForm]]],
+ "\nThis works out to\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"d", " ", "s"}], 
+     RowBox[{"d", " ", "t"}]], "=", 
+    RowBox[{
+     SqrtBox[
+      RowBox[{"1", "+", 
+       FractionBox[
+        RowBox[{"49", " ", 
+         SuperscriptBox["\[Theta]", "2"]}], "9"], "-", 
+       FractionBox[
+        RowBox[{"28", " ", 
+         SuperscriptBox["\[Theta]", "4"]}], "9"], "+", 
+       FractionBox[
+        RowBox[{"4", " ", 
+         SuperscriptBox["\[Theta]", "6"]}], "9"]}]], 
+     FractionBox[
+      RowBox[{"d", " ", "\[Theta]"}], 
+      RowBox[{"d", " ", "t"}]]}]}], TraditionalForm]]],
+ "\nLet ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Omega]", "=", 
+    FractionBox[
+     RowBox[{"d", " ", "\[Theta]"}], 
+     RowBox[{"d", " ", "t"}]]}], TraditionalForm]]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"T", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"m", "/", "2"}], ")"}], 
+   RowBox[{"(", 
+    RowBox[{"1", "/", "9"}], ")"}], 
+   RowBox[{"(", 
+    RowBox[{"9", "+", 
+     RowBox[{"49", 
+      RowBox[{"\[Theta]", "^", "2"}]}], "-", 
+     RowBox[{"28", 
+      RowBox[{"\[Theta]", "^", "4"}]}], "+", 
+     RowBox[{"4", 
+      RowBox[{"\[Theta]", "^", "6"}]}]}], ")"}], 
+   RowBox[{"\[Omega]", "^", "2"}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "18"], " ", "m", " ", 
+  RowBox[{"(", 
+   RowBox[{"9", "+", 
+    RowBox[{"49", " ", 
+     SuperscriptBox["\[Theta]", "2"]}], "-", 
+    RowBox[{"28", " ", 
+     SuperscriptBox["\[Theta]", "4"]}], "+", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["\[Theta]", "6"]}]}], ")"}], " ", 
+  SuperscriptBox["\[Omega]", "2"]}]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+ "Potential energy = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"V", "=", 
+    RowBox[{"m", " ", "g", " ", "y"}]}], TraditionalForm]]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"V", "=", 
+  RowBox[{"m", " ", "g", " ", 
+   RowBox[{"(", 
+    RowBox[{"1", "/", "6"}], ")"}], 
+   RowBox[{"(", 
+    RowBox[{"18", "-", 
+     RowBox[{"7", 
+      RowBox[{"\[Theta]", "^", "2"}]}], "+", 
+     RowBox[{"\[Theta]", "^", "4"}]}], ")"}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "6"], " ", "g", " ", "m", " ", 
+  RowBox[{"(", 
+   RowBox[{"18", "-", 
+    RowBox[{"7", " ", 
+     SuperscriptBox["\[Theta]", "2"]}], "+", 
+    SuperscriptBox["\[Theta]", "4"]}], ")"}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"L", "=", 
+  RowBox[{"T", "-", "V"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", 
+    FractionBox["1", "6"]}], " ", "g", " ", "m", " ", 
+   RowBox[{"(", 
+    RowBox[{"18", "-", 
+     RowBox[{"7", " ", 
+      SuperscriptBox["\[Theta]", "2"]}], "+", 
+     SuperscriptBox["\[Theta]", "4"]}], ")"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "18"], " ", "m", " ", 
+   RowBox[{"(", 
+    RowBox[{"9", "+", 
+     RowBox[{"49", " ", 
+      SuperscriptBox["\[Theta]", "2"]}], "-", 
+     RowBox[{"28", " ", 
+      SuperscriptBox["\[Theta]", "4"]}], "+", 
+     RowBox[{"4", " ", 
+      SuperscriptBox["\[Theta]", "6"]}]}], ")"}], " ", 
+   SuperscriptBox["\[Omega]", "2"]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"D", "[", 
+  RowBox[{"L", ",", "\[Theta]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", 
+    FractionBox["1", "6"]}], " ", "g", " ", "m", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "14"}], " ", "\[Theta]"}], "+", 
+     RowBox[{"4", " ", 
+      SuperscriptBox["\[Theta]", "3"]}]}], ")"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "18"], " ", "m", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"98", " ", "\[Theta]"}], "-", 
+     RowBox[{"112", " ", 
+      SuperscriptBox["\[Theta]", "3"]}], "+", 
+     RowBox[{"24", " ", 
+      SuperscriptBox["\[Theta]", "5"]}]}], ")"}], " ", 
+   SuperscriptBox["\[Omega]", "2"]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"D", "[", 
+  RowBox[{"L", ",", "\[Omega]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "9"], " ", "m", " ", 
+  RowBox[{"(", 
+   RowBox[{"9", "+", 
+    RowBox[{"49", " ", 
+     SuperscriptBox["\[Theta]", "2"]}], "-", 
+    RowBox[{"28", " ", 
+     SuperscriptBox["\[Theta]", "4"]}], "+", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["\[Theta]", "6"]}]}], ")"}], " ", "\[Omega]"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[Theta]", "/:", 
+  RowBox[{"Dt", "[", "\[Theta]", "]"}], "=", "\[Omega]"}]], "Input"],
+
+Cell[BoxData["\[Omega]"], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"m", ",", "g"}], "}"}], ",", "Constant"}], "]"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Dt", "[", 
+   RowBox[{"D", "[", 
+    RowBox[{"L", ",", "\[Omega]"}], "]"}], "]"}], "//", "Simplify"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "9"], " ", "m", " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"2", " ", "\[Theta]", " ", 
+     RowBox[{"(", 
+      RowBox[{"49", "-", 
+       RowBox[{"56", " ", 
+        SuperscriptBox["\[Theta]", "2"]}], "+", 
+       RowBox[{"12", " ", 
+        SuperscriptBox["\[Theta]", "4"]}]}], ")"}], " ", 
+     SuperscriptBox["\[Omega]", "2"]}], "+", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"9", "+", 
+       RowBox[{"49", " ", 
+        SuperscriptBox["\[Theta]", "2"]}], "-", 
+       RowBox[{"28", " ", 
+        SuperscriptBox["\[Theta]", "4"]}], "+", 
+       RowBox[{"4", " ", 
+        SuperscriptBox["\[Theta]", "6"]}]}], ")"}], " ", 
+     RowBox[{"Dt", "[", "\[Omega]", "]"}]}]}], ")"}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"eqn1", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Dt", "[", 
+     RowBox[{"D", "[", 
+      RowBox[{"L", ",", "\[Omega]"}], "]"}], "]"}], "-", 
+    RowBox[{"D", "[", 
+     RowBox[{"L", ",", "\[Theta]"}], "]"}]}], "/.", 
+   RowBox[{
+    RowBox[{"Dt", "[", "\[Omega]", "]"}], "\[Rule]", "W"}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   FractionBox["1", "6"], " ", "g", " ", "m", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "14"}], " ", "\[Theta]"}], "+", 
+     RowBox[{"4", " ", 
+      SuperscriptBox["\[Theta]", "3"]}]}], ")"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "9"], " ", "m", " ", "W", " ", 
+   RowBox[{"(", 
+    RowBox[{"9", "+", 
+     RowBox[{"49", " ", 
+      SuperscriptBox["\[Theta]", "2"]}], "-", 
+     RowBox[{"28", " ", 
+      SuperscriptBox["\[Theta]", "4"]}], "+", 
+     RowBox[{"4", " ", 
+      SuperscriptBox["\[Theta]", "6"]}]}], ")"}]}], "-", 
+  RowBox[{
+   FractionBox["1", "18"], " ", "m", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"98", " ", "\[Theta]"}], "-", 
+     RowBox[{"112", " ", 
+      SuperscriptBox["\[Theta]", "3"]}], "+", 
+     RowBox[{"24", " ", 
+      SuperscriptBox["\[Theta]", "5"]}]}], ")"}], " ", 
+   SuperscriptBox["\[Omega]", "2"]}], "+", 
+  RowBox[{
+   FractionBox["1", "9"], " ", "m", " ", "\[Omega]", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"98", " ", "\[Theta]", " ", "\[Omega]"}], "-", 
+     RowBox[{"112", " ", 
+      SuperscriptBox["\[Theta]", "3"], " ", "\[Omega]"}], "+", 
+     RowBox[{"24", " ", 
+      SuperscriptBox["\[Theta]", "5"], " ", "\[Omega]"}]}], 
+    ")"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"soln", "=", 
+  RowBox[{
+   RowBox[{"Solve", "[", 
+    RowBox[{
+     RowBox[{"eqn1", "\[Equal]", "0"}], ",", 
+     RowBox[{"{", "W", "}"}]}], "]"}], "//", "Simplify"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"W", "\[Rule]", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"\[Theta]", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "7"}], "+", 
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[Theta]", "2"]}]}], ")"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"3", " ", "g"}], "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "7"}], "+", 
+            RowBox[{"6", " ", 
+             SuperscriptBox["\[Theta]", "2"]}]}], ")"}], " ", 
+          SuperscriptBox["\[Omega]", "2"]}]}], ")"}]}], 
+      RowBox[{"9", "+", 
+       RowBox[{"49", " ", 
+        SuperscriptBox["\[Theta]", "2"]}], "-", 
+       RowBox[{"28", " ", 
+        SuperscriptBox["\[Theta]", "4"]}], "+", 
+       RowBox[{"4", " ", 
+        SuperscriptBox["\[Theta]", "6"]}]}]]}]}], "}"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"soln", "[", 
+    RowBox[{"[", "1", "]"}], "]"}], "[", 
+   RowBox[{"[", "1", "]"}], "]"}], "//", "CForm"}]], "Input"],
+
+Cell["\<\
+Rule(W,-((\[Theta]*(-7 + 2*Power(\[Theta],2))*
+        (3*g + 
+          (-7 + 6*Power(\[Theta],2))*
+           Power(\[Omega],2)))/
+      (9 + 49*Power(\[Theta],2) - 
+        28*Power(\[Theta],4) + 4*Power(\[Theta],6))
+      ))\
+\>", "Output"]
+}, Open  ]],
+
+Cell["\<\
+Next I'm trying out a formula I developed for a general Lagrangian of a \
+general roller coaster curve.  I'll explain below....\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"y", "[", "\[Theta]_", "]"}], ":=", 
+  RowBox[{"3", "-", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"7", "/", "6"}], ")"}], 
+    RowBox[{"\[Theta]", "^", "2"}]}], "+", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", "6"}], ")"}], 
+    RowBox[{"\[Theta]", "^", "4"}]}]}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"y", "'"}], "[", "\[Theta]", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   FractionBox[
+    RowBox[{"7", " ", "\[Theta]"}], "3"]}], "+", 
+  FractionBox[
+   RowBox[{"2", " ", 
+    SuperscriptBox["\[Theta]", "3"]}], "3"]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "g"}], " ", 
+      RowBox[{
+       RowBox[{"y", "'"}], "[", "\[Theta]", "]"}]}], "-", 
+     RowBox[{
+      RowBox[{"\[Omega]", "^", "2"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"y", "'"}], "[", "\[Theta]", "]"}], " ", 
+        RowBox[{
+         RowBox[{"y", "''"}], "[", "\[Theta]", "]"}]}], ")"}]}]}], ")"}], "/",
+    
+   RowBox[{"(", 
+    RowBox[{"1", "+", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"y", "'"}], "[", "\[Theta]", "]"}], ")"}], "^", "2"}]}], 
+    ")"}]}], "//", "Simplify"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"-", 
+  FractionBox[
+   RowBox[{"\[Theta]", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "7"}], "+", 
+      RowBox[{"2", " ", 
+       SuperscriptBox["\[Theta]", "2"]}]}], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"3", " ", "g"}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "7"}], "+", 
+         RowBox[{"6", " ", 
+          SuperscriptBox["\[Theta]", "2"]}]}], ")"}], " ", 
+       SuperscriptBox["\[Omega]", "2"]}]}], ")"}]}], 
+   RowBox[{"9", "+", 
+    RowBox[{"49", " ", 
+     SuperscriptBox["\[Theta]", "2"]}], "-", 
+    RowBox[{"28", " ", 
+     SuperscriptBox["\[Theta]", "4"]}], "+", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["\[Theta]", "6"]}]}]]}]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+ "Kinetic energy = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"T", " ", "=", " ", 
+    RowBox[{
+     RowBox[{
+      FractionBox["1", "2"], "m", " ", 
+      SuperscriptBox["v", "2"]}], "=", 
+     RowBox[{
+      FractionBox["1", "2"], 
+      SuperscriptBox[
+       RowBox[{"m", "(", 
+        FractionBox[
+         RowBox[{"d", " ", "s"}], 
+         RowBox[{"d", " ", "t"}]], ")"}], "2"]}]}]}], TraditionalForm]]],
+ "\nDescribe the curve parametrically as ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"x", "(", "\[Theta]", ")"}], ",", " ", 
+    RowBox[{"y", "(", "\[Theta]", ")"}]}], TraditionalForm]]],
+ ".\nIn this case we have ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"x", "=", "\[Theta]"}], TraditionalForm]]],
+ ".\nDistance = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"s", "(", "\[Tau]", ")"}], "=", 
+    RowBox[{
+     UnderoverscriptBox["\[Integral]", "0", "\[Tau]"], 
+     RowBox[{
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}]], "d", " ", 
+      "\[Theta]"}]}]}], TraditionalForm]]],
+ "\nBy Fundamental theorem of calculus, ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"d", " ", "s"}], 
+     RowBox[{"d", " ", "\[Theta]"}]], "="}], TraditionalForm]]],
+ "the integrand above\n(or does this only work because ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Theta]", "=", "x"}], TraditionalForm]]],
+ "?).\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"d", " ", "s"}], 
+     RowBox[{"d", " ", "t"}]], "=", 
+    RowBox[{
+     RowBox[{
+      FractionBox[
+       RowBox[{"d", " ", "s"}], 
+       RowBox[{"d", " ", "\[Theta]"}]], 
+      FractionBox[
+       RowBox[{"d", " ", "\[Theta]"}], 
+       RowBox[{"d", " ", "t"}]]}], "=", 
+     RowBox[{
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}]], 
+      OverscriptBox["\[Theta]", "."]}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"V", "=", 
+    RowBox[{"m", " ", "g", " ", 
+     RowBox[{"y", "(", "\[Theta]", ")"}]}]}], TraditionalForm]]],
+ "  potential energy\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"L", "=", 
+    RowBox[{
+     RowBox[{"T", "-", "V"}], "=", 
+     RowBox[{
+      RowBox[{
+       FractionBox["m", "2"], 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", 
+           FractionBox[
+            RowBox[{"d", " ", "x"}], 
+            RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           FractionBox[
+            RowBox[{"d", " ", "y"}], 
+            RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}], ")"}], 
+       SuperscriptBox[
+        OverscriptBox["\[Theta]", "."], "2"]}], "-", 
+      RowBox[{"m", " ", "g", " ", 
+       RowBox[{"y", "(", "\[Theta]", ")"}]}]}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "L"}], 
+     RowBox[{"\[PartialD]", "\[Theta]"}]], "=", 
+    RowBox[{
+     RowBox[{
+      FractionBox["m", "2"], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", 
+         FractionBox[
+          RowBox[{"d", " ", "x"}], 
+          RowBox[{"d", " ", "\[Theta]"}]], 
+         FractionBox[
+          RowBox[{
+           SuperscriptBox["d", "2"], " ", "x"}], 
+          RowBox[{"d", " ", 
+           SuperscriptBox["\[Theta]", "2"]}]]}], "+", 
+        RowBox[{"2", 
+         FractionBox[
+          RowBox[{"d", " ", "y"}], 
+          RowBox[{"d", " ", "\[Theta]"}]], 
+         FractionBox[
+          RowBox[{
+           SuperscriptBox["d", "2"], " ", "y"}], 
+          RowBox[{"d", " ", 
+           SuperscriptBox["\[Theta]", "2"]}]]}]}], ")"}], 
+      SuperscriptBox[
+       OverscriptBox["\[Theta]", "."], "2"]}], "-", 
+     RowBox[{"m", " ", "g", " ", 
+      FractionBox[
+       RowBox[{"d", " ", "y"}], 
+       RowBox[{"d", " ", "\[Theta]"}]]}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "L"}], 
+     RowBox[{"\[PartialD]", 
+      OverscriptBox["\[Theta]", "."]}]], "=", 
+    RowBox[{
+     FractionBox["m", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", 
+         FractionBox[
+          RowBox[{"d", " ", "x"}], 
+          RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         FractionBox[
+          RowBox[{"d", " ", "y"}], 
+          RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}], ")"}], "2", 
+     OverscriptBox["\[Theta]", "."]}]}], TraditionalForm]]],
+ "\nnote on next line:  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     FractionBox["d", 
+      RowBox[{"d", " ", "t"}]], 
+     RowBox[{"{", "X", "}"}]}], "=", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"d", " ", "\[Theta]"}], 
+      RowBox[{"d", " ", "t"}]], 
+     FractionBox["d", 
+      RowBox[{"d", " ", "\[Theta]"}]], 
+     RowBox[{"{", "X", "}"}]}]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     FractionBox["d", 
+      RowBox[{"d", " ", "t"}]], 
+     RowBox[{"(", 
+      FractionBox[
+       RowBox[{"\[PartialD]", "L"}], 
+       RowBox[{"\[PartialD]", 
+        OverscriptBox["\[Theta]", "."]}]], ")"}]}], "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"m", "(", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}], ")"}], 
+      OverscriptBox["\[Theta]", "\[DoubleDot]"]}], "+", 
+     RowBox[{"m", " ", 
+      RowBox[{
+       OverscriptBox["\[Theta]", "."], "(", 
+       RowBox[{
+        RowBox[{"2", 
+         FractionBox[
+          RowBox[{"d", " ", "x"}], 
+          RowBox[{"d", " ", "\[Theta]"}]], 
+         FractionBox[
+          RowBox[{
+           SuperscriptBox["d", "2"], " ", "x"}], 
+          RowBox[{"d", " ", 
+           SuperscriptBox["\[Theta]", "2"]}]], 
+         OverscriptBox["\[Theta]", "."]}], "+", 
+        RowBox[{"2", 
+         FractionBox[
+          RowBox[{"d", " ", "y"}], 
+          RowBox[{"d", " ", "\[Theta]"}]], 
+         FractionBox[
+          RowBox[{
+           SuperscriptBox["d", "2"], " ", "y"}], 
+          RowBox[{"d", " ", 
+           SuperscriptBox["\[Theta]", "2"]}]], 
+         OverscriptBox["\[Theta]", "."]}]}], ")"}]}]}]}], TraditionalForm]]],
+ "\nLet ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["W", "\[Theta]"], TraditionalForm]]],
+ " be the work done by a tiny movement in ",
+ Cell[BoxData[
+  FormBox["\[Theta]", TraditionalForm]]],
+ ".\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["W", "\[Theta]"], "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       FractionBox["d", 
+        RowBox[{"d", " ", "t"}]], 
+       RowBox[{"(", 
+        FractionBox[
+         RowBox[{"\[PartialD]", "L"}], 
+         RowBox[{"\[PartialD]", 
+          OverscriptBox["\[Theta]", "."]}]], ")"}]}], "-", 
+      FractionBox[
+       RowBox[{"\[PartialD]", "L"}], 
+       RowBox[{"\[PartialD]", "\[Theta]"}]]}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"m", "(", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", 
+           FractionBox[
+            RowBox[{"d", " ", "x"}], 
+            RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           FractionBox[
+            RowBox[{"d", " ", "y"}], 
+            RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}], ")"}], 
+       OverscriptBox["\[Theta]", "\[DoubleDot]"]}], "+", 
+      RowBox[{"m", " ", 
+       RowBox[{
+        SuperscriptBox[
+         OverscriptBox["\[Theta]", "."], "2"], "(", 
+        RowBox[{
+         RowBox[{
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], 
+          FractionBox[
+           RowBox[{
+            SuperscriptBox["d", "2"], " ", "x"}], 
+           RowBox[{"d", " ", 
+            SuperscriptBox["\[Theta]", "2"]}]]}], "+", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], 
+          FractionBox[
+           RowBox[{
+            SuperscriptBox["d", "2"], " ", "y"}], 
+           RowBox[{"d", " ", 
+            SuperscriptBox["\[Theta]", "2"]}]]}]}], ")"}]}], "+", 
+      RowBox[{"m", " ", "g", " ", 
+       FractionBox[
+        RowBox[{"d", " ", "y"}], 
+        RowBox[{"d", " ", "\[Theta]"}]]}]}]}]}], TraditionalForm]]],
+ "\nFigure work done by damping:\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["W", "\[Theta]"], "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "b"}], " ", 
+      FractionBox[
+       RowBox[{"d", " ", "s"}], 
+       RowBox[{"d", " ", "t"}]]}], "=", 
+     RowBox[{
+      RowBox[{"-", "b"}], 
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}]], 
+      OverscriptBox["\[Theta]", "."]}]}]}], TraditionalForm]]],
+ "\nEquate the above two expressions and solve for ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["\[Theta]", "\[DoubleDot]"], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    OverscriptBox["\[Theta]", "\[DoubleDot]"], "=", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"m", " ", 
+        RowBox[{
+         SuperscriptBox[
+          OverscriptBox["\[Theta]", "."], "2"], "(", 
+         RowBox[{
+          RowBox[{
+           FractionBox[
+            RowBox[{"d", " ", "x"}], 
+            RowBox[{"d", " ", "\[Theta]"}]], 
+           FractionBox[
+            RowBox[{
+             SuperscriptBox["d", "2"], " ", "x"}], 
+            RowBox[{"d", " ", 
+             SuperscriptBox["\[Theta]", "2"]}]]}], "+", 
+          RowBox[{
+           FractionBox[
+            RowBox[{"d", " ", "y"}], 
+            RowBox[{"d", " ", "\[Theta]"}]], 
+           FractionBox[
+            RowBox[{
+             SuperscriptBox["d", "2"], " ", "y"}], 
+            RowBox[{"d", " ", 
+             SuperscriptBox["\[Theta]", "2"]}]]}]}], ")"}]}], "+", 
+       RowBox[{"m", " ", "g", " ", 
+        FractionBox[
+         RowBox[{"d", " ", "y"}], 
+         RowBox[{"d", " ", "\[Theta]"}]]}], "+", 
+       RowBox[{"b", 
+        SqrtBox[
+         RowBox[{
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"d", " ", "x"}], 
+             RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"d", " ", "y"}], 
+             RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}]], 
+        OverscriptBox["\[Theta]", "."]}]}], 
+      RowBox[{"m", "(", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "x"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox[
+           RowBox[{"d", " ", "y"}], 
+           RowBox[{"d", " ", "\[Theta]"}]], ")"}], "2"]}], ")"}]]}]}], 
+   TraditionalForm]]],
+ "\nThat should work for any parmetrized curve!"
+}], "Text"]
+},
+WindowSize->{958, 1086},
+WindowMargins->{{24, Automatic}, {Automatic, 0}},
+Magnification->1.5,
+FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (June 19, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[568, 21, 3774, 131, 471, "Text"],
+Cell[CellGroupData[{
+Cell[4367, 156, 442, 15, 40, "Input"],
+Cell[4812, 173, 369, 11, 63, "Output"]
+}, Open  ]],
+Cell[5196, 187, 159, 6, 39, "Text"],
+Cell[CellGroupData[{
+Cell[5380, 197, 284, 9, 40, "Input"],
+Cell[5667, 208, 241, 7, 63, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5945, 220, 72, 2, 40, "Input"],
+Cell[6020, 224, 642, 20, 63, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6699, 249, 84, 2, 40, "Input"],
+Cell[6786, 253, 617, 20, 63, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7440, 278, 84, 2, 40, "Input"],
+Cell[7527, 282, 344, 10, 63, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7908, 297, 110, 2, 40, "Input"],
+Cell[8021, 301, 35, 0, 40, "Output"]
+}, Open  ]],
+Cell[8071, 304, 145, 4, 40, "Input"],
+Cell[CellGroupData[{
+Cell[8241, 312, 147, 4, 40, "Input"],
+Cell[8391, 318, 744, 22, 63, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9172, 345, 327, 10, 40, "Input"],
+Cell[9502, 357, 1282, 39, 111, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10821, 401, 203, 6, 40, "Input"],
+Cell[11027, 409, 908, 28, 72, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11972, 442, 163, 5, 40, "Input"],
+Cell[12138, 449, 254, 8, 157, "Output"]
+}, Open  ]],
+Cell[12407, 460, 151, 3, 62, "Text"],
+Cell[12561, 465, 323, 11, 42, "Input"],
+Cell[CellGroupData[{
+Cell[12909, 480, 79, 2, 40, "Input"],
+Cell[12991, 484, 200, 7, 67, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13228, 496, 657, 24, 40, "Input"],
+Cell[13888, 522, 758, 25, 72, "Output"]
+}, Open  ]],
+Cell[14661, 550, 12002, 403, 768, "Text"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

@@ -1,0 +1,37 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ..
+#define #APP_PATH test.Engine2DTests
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_vert.html"
+#include "macros_test.html"
+#DOC_TYPE
+<!--
+* Runs "integration tests": non-performance tests of engine2D.
+* Test results are printed on this page as they occur. Tests are scheduled to run with a
+* setTimeout command so that the HTML page can update/refresh after each test finishes.
+-->
+<html lang="en">
+<head>
+#META_TAGS
+#TEST_STYLE
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+
+#COMPILED_MENU
+  <p id="test_results">Test results:<br></p>
+
+<script src="../../MachineName.js"></script>
+#LOAD_APP
+<!-- Have a small delay so that web page can update before test starts -->
+<script>setTimeout(myphysicslab.test.Engine2DTests.runTests, 10);</script>
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>
