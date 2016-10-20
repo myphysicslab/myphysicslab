@@ -240,17 +240,16 @@ The prerequisite tools are
 
 + Make, for building with `makefile`
 
-+ Closure Compiler
++ Closure Compiler, see [Closure Compiler References][]
 
-+ Closure Library
++ Closure Library, see [Closure Library References][]
+
++ Python to run `depswriter.py` when [Debugging (running uncompiled)][]
 
 + Dossier for [Building Documentation][]
 
 + MultiMarkdown for [Building Documentation][]
 
-+ Python to run `depswriter.py` when [Debugging (running uncompiled)][]
-
-+ git, for obtaining the source code
 
 See [References][] for where to obtain these tools.
 

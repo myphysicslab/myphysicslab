@@ -353,7 +353,7 @@ lab_js := $(shell find src/lab -name '*.js')
 
 $(BUILD_DIR)/deps.js : $(src_js)
 	mkdir -p $(dir $@)
-	python closure-library/closure/bin/build/depswriter.py \
+	python ./closure-library/closure/bin/build/depswriter.py \
 	--root_with_prefix="src ../../../src" > $@
 
 
@@ -501,11 +501,11 @@ $(BUILD_DIR)/test/Engine2DTests*.js : GOOG_DEBUG := false
 
 apps_js_en := $(addsuffix _en.js,$(bld_apps)) $(addsuffix _en.js,$(bld_combos))
 $(apps_js_en): $(BUILD_DIR)/%_en.js : src/%.js
-	compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
+	./compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
 
 apps_js_de := $(addsuffix _de.js,$(bld_apps)) $(addsuffix _de.js,$(bld_combos))
 $(apps_js_de): $(BUILD_DIR)/%_de.js : src/%.js
-	compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
+	./compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
 
 unit_test := $(BUILD_DIR)/test/UnitTest_en $(BUILD_DIR)/test/UnitTest_de
 unit_test_js := $(addsuffix .js,$(unit_test))
@@ -515,7 +515,7 @@ unit_test_js := $(addsuffix .js,$(unit_test))
 $(unit_test_js) : $(BUILD_DIR)/test/UnitTest%.js : $(lab_js) \
 src/sims/springs/test/*.js \
 src/sims/pendulum/test/*.js
-	compile_test.sh src $@ $(COMPILE_LEVEL)
+	./compile_test.sh src $@ $(COMPILE_LEVEL)
 
 # Extra requirement for some HTML test files
 $(BUILD_DIR)/test/Engine2DTests*.html \
@@ -524,36 +524,36 @@ $(BUILD_DIR)/test/SingleTest*.html : src/test/macros_test.html
 
 # UnitTestOne needs special options: debug (uncompiled), no index_order file, no locale
 $(BUILD_DIR)/test/UnitTestOne.html: src/test/UnitTestOne.html | $(BUILD_DIR)/deps.js
-	prep_html.pl $< $@ "" debug
+	./prep_html.pl $< $@ "" debug
 
 ifeq "$(COMPILE_LEVEL)" "debug"
 # make HTML file that loads uncompiled (source) JavaScript. Needs deps.js.
 $(BUILD_DIR)/%_en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
-	prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/%_de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
-	prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 else
 # special rule for HTML file which requires different-named JS file
 $(BUILD_DIR)/sims/springs/TerminalSpring2DApp%.html : src/sims/springs/TerminalSpring2DApp.html $(macros_req) | $(BUILD_DIR)/sims/springs/TerminalSpringApp%.js $(build_images) $(bld_css) settings
-	prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp.html $(macros_req) | $(BUILD_DIR)/sims/springs/SingleSpringApp%.js $(build_images) $(bld_css) settings
-	prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 # rule for HTML file which requires same-named JS file (most apps are like this)
 $(BUILD_DIR)/%_en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%_en.js $(build_images) $(bld_css) settings
-	prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/%_de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%_de.js $(build_images) $(bld_css) settings
-	prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 endif
 
 index_files := $(BUILD_DIR)/index_en.html $(BUILD_DIR)/index_de.html
 $(index_files): $(BUILD_DIR)/index_%.html : src/index.html src/macros.html
 	mkdir -p $(dir $@)
-	prep_html.pl $< $@ "" $(COMPILE_LEVEL)
+	./prep_html.pl $< $@ "" $(COMPILE_LEVEL)
 
 # Copy all .css files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
