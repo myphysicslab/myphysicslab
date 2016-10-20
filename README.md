@@ -8,10 +8,16 @@ The [myPhysicsLab website](http://67.199.21.25) shows the simulations running an
 contains explanations of the math behind them.
 
 
+Building
+--------
+Build instructions are at <http://67.199.21.25/develop/docs/Building.html>
+
+NOTE: the HTML files in the source directories cannot be used directly from a browser.
+You must complete the build process first.
+
 Documentation
 -------------
-Documentation and build instructions are at
-http://67.199.21.25/develop/docs/index.html
+Documentation is at <http://67.199.21.25/develop/docs/index.html>
 
 
 Author and License

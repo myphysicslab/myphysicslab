@@ -80,7 +80,7 @@ myPhysicsLab is provided as open source software under the
 [Apache 2.0 License](http://www.apache.org/licenses/). See the accompanying file
 named `LICENSE`.
 
-Source code is available at http://www.github.com/myphysicslab
+Source code is available at <http://www.github.com/myphysicslab/myphysicslab>
 
 The [myPhysicsLab](http://67.199.21.25) project was started in 2001 by Erik
 Neumann <erikn@myphysicslab.com>. It was originally written in Java, improved and
@@ -92,6 +92,10 @@ enhanced over the years and converted to JavaScript from 2013 to 2016.
 # Building
 
 ![](Overview_Build_Process.svg)
+
+NOTE: the HTML files in the source directories **cannot be used** directly from a
+browser. You must complete the build process first. Skip to [Environment Setup][] for
+instructions if you are in a hurry.
 
 Note that it is  possible to customize a myPhysicsLab application without using Closure
 Compiler, see [Customizing myPhysicsLab Simulations](Customizing.html).
