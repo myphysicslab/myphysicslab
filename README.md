@@ -52,9 +52,8 @@ Once the prerequisites are on your system, follow these steps:
 NOTE: the HTML files in the source directories **cannot be used directly** from
 a browser. You must complete the build process first.
 
-More details about building myPhysicsLab software are at
-<http://67.199.21.25/develop/docs/Building.html>.
-
+See [Building myPhysicsLab Software](http://67.199.21.25/develop/docs/Building.html)
+for more information about the build process.
 
 
 Documentation
