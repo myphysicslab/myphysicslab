@@ -133,10 +133,12 @@ For example, to find the angular velocity of a RigidBody:
     var idx = body.getVarsIndex();
     return vars[idx + RigidBodySim.VW_];
 
-There are also variables for time, kinetic energy, potential energy, and total energy.
-The time variable is positioned at the beginning of the variables array at
-`vars[0]`. Energy variables follow in the next 3 positions of the variables
-array.
+Variables at the beginning of the VariablesList:
+
++ time
++ kinetic energy
++ potential energy
++ total energy
 
 The set of RigidBodys can change over time via {@link #addBody} and {@link #removeBody}.
 Therefore the set of variables can change accordingly. Removing a RigidBody results in

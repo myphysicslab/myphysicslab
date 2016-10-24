@@ -35,6 +35,12 @@ This can be entered in {@link myphysicslab.lab.util.Terminal} if using simple-co
     var task = new ClockTask(5, function() { clock.pause(); });
     clock.addTask(task);
 
+Here is an example of a ClockTask that resets the simulation every 15 seconds. This can
+be entered in Terminal if using simple-compile.
+
+    var redo = function() { sim.reset(); };
+    clock.addTask(new ClockTask(15, redo));
+
 * @param {number} time the clock time in seconds when the callBack should start
 * @param {function():*} callBack the function to execute at the given clock time
 * @constructor

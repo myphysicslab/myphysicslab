@@ -560,8 +560,8 @@ Polygon.prototype.calculateSize = function() {
   this.top_body_ = ymax;
 };
 
-/** Checks if this Polygon has a collision or contact with another Polygon, if so adds a
-new RigidBodyCollision to the list of collisions.
+/** Checks if this Polygon has a collision or contact with another Polygon, if so adds
+a new RigidBodyCollision to the list of collisions.
 @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions  the list of
     collisions to add to
 @param {!myphysicslab.lab.engine2D.Polygon} body the rigid body to check for

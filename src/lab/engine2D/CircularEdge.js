@@ -280,7 +280,7 @@ myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center
   * @private
   */
   this.completeCircle_ = Math.abs(2*Math.PI - (this.angle_high_ - this.angle_low_)) <
-    CircularEdge.SMALL_POSITIVE;
+      CircularEdge.SMALL_POSITIVE;
 };
 
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
@@ -354,8 +354,9 @@ CircularEdge.make = function(body, vertex1, vertex2, radius, aboveRight, clockwi
   // distance from vertex1 to midpoint
   var a = UtilityCore.hypot(vertex1.locBodyX() - mx, vertex1.locBodyY() - my);
   var d = radius*radius - a*a;
-  if (d < CircularEdge.TINY_POSITIVE)
+  if (d < CircularEdge.TINY_POSITIVE) {
     throw new Error('radius '+radius+' is too small, must be >= '+a);
+  }
   // distance from midpoint to center
   var b = Math.sqrt(d);
   // if Vertexes are on a vertical line
@@ -412,7 +413,7 @@ CircularEdge.prototype.addPath = function(context) {
   // situation where two different conventions about angles and 'y increases up'
   // cancel out.  However, the 'anticlockwise' argument is flipped.
   context.arc(this.center_body_.getX(), this.center_body_.getY(), this.radius_,
-    this.startAngle_, this.finishAngle_, this.clockwise_);
+      this.startAngle_, this.finishAngle_, this.clockwise_);
 };
 
 /** Returns the location on this CircularEdge corresponding to the given angle, in body
@@ -422,7 +423,7 @@ coordinates.
 */
 CircularEdge.prototype.angleToBody = function(angle) {
   return this.edgeToBody(
-    new Vector(this.radius_*Math.cos(angle), this.radius_*Math.sin(angle)));
+      new Vector(this.radius_*Math.cos(angle), this.radius_*Math.sin(angle)));
 };
 
 /** Converts from body coordinates to edge coordinates.
@@ -444,7 +445,7 @@ CircularEdge.prototype.chordError = function() {
   // Length of long edge is sqrt(r^2 - (α r/2)^2) = r sqrt(1 - α^2/4)
   // Length of chord error is r - r sqrt(1 - α^2/4).
   return this.radius_ *
-    (1 - Math.sqrt(1 - this.decoratedAngle_*this.decoratedAngle_/4.0));
+      (1 - Math.sqrt(1 - this.decoratedAngle_*this.decoratedAngle_/4.0));
 };
 
 /** Returns the thickest distance between arc and the line between the end points of
@@ -491,10 +492,11 @@ CircularEdge.prototype.distanceToLine = function(p_body) {
 /** @inheritDoc */
 CircularEdge.prototype.distanceToPoint = function(p_body) {
   var p_edge = this.bodyToEdge(p_body);
-  if (this.isWithinArc(p_edge))
+  if (this.isWithinArc(p_edge)) {
     return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
-  else
+  } else {
     return UtilityCore.POSITIVE_INFINITY;
+  }
 };
 
 /** Converts from edge coordinates to body coordinates.
@@ -625,11 +627,12 @@ CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
 CircularEdge.prototype.getBottomBody = function() {
   var angle = -Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
-  if (this.angle_low_ <= angle && angle <= this.angle_high_)
+  if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getY() - this.radius_;
-  else
+  } else {
     return this.v1_.locBodyY() < this.v2_.locBodyY() ?
-      this.v1_.locBodyY() : this.v2_.locBodyY();
+        this.v1_.locBodyY() : this.v2_.locBodyY();
+  }
 };
 
 /** Returns the location of the center of the circular arc of this CircularEdge, in
@@ -665,19 +668,21 @@ CircularEdge.prototype.getDecoratedVertexes = function() {
 CircularEdge.prototype.getLeftBody = function() {
   var angle = Math.PI;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
-  if (this.angle_low_ <= angle && angle <= this.angle_high_)
+  if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getX() - this.radius_;
-  else
+  } else {
     return this.v1_.locBodyX() < this.v2_.locBodyX() ?
-      this.v1_.locBodyX() : this.v2_.locBodyX();
+        this.v1_.locBodyX() : this.v2_.locBodyX();
+  }
 };
 
 /** @inheritDoc */
 CircularEdge.prototype.getNormalBody = function(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   var h = p_edge.length();
-  if (h < CircularEdge.TINY_POSITIVE)
+  if (h < CircularEdge.TINY_POSITIVE) {
     throw new Error(goog.DEBUG ? ('cannot get normal at point '+p_body) : '');
+  }
   // note: because bodyToEdge does not rotate, the normal is same in edge or body coords
   return p_edge.multiply(this.outsideIsOut_ ? 1/h : -1/h);
 };
@@ -702,22 +707,24 @@ CircularEdge.prototype.getRadius = function() {
 CircularEdge.prototype.getRightBody = function() {
   var angle = 0;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
-  if (this.angle_low_ <= angle && angle <= this.angle_high_)
+  if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getX() + this.radius_;
-  else
+  } else {
     return this.v1_.locBodyX() > this.v2_.locBodyX() ?
-      this.v1_.locBodyX() : this.v2_.locBodyX();
+        this.v1_.locBodyX() : this.v2_.locBodyX();
+  }
 };
 
 /** @inheritDoc */
 CircularEdge.prototype.getTopBody = function() {
   var angle = Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
-  if (this.angle_low_ <= angle && angle <= this.angle_high_)
+  if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getY() + this.radius_;
-  else
+  } else {
     return this.v1_.locBodyY() > this.v2_.locBodyY() ?
-      this.v1_.locBodyY() : this.v2_.locBodyY();
+        this.v1_.locBodyY() : this.v2_.locBodyY();
+  }
 };
 
 /** @inheritDoc */
@@ -728,10 +735,11 @@ CircularEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
   if (edge instanceof StraightEdge) {
     CircleStraight.improveAccuracy(rbc, this, edge);
   } else if (edge instanceof CircularEdge) {
-    if (rbc.getNormalBody() == edge.getBody())
+    if (rbc.getNormalBody() == edge.getBody()) {
       CircleCircle.improveAccuracy(rbc, this, edge);
-    else
+    } else {
       CircleCircle.improveAccuracy(rbc, edge, this);
+    }
   } else {
     throw new Error();
   }
@@ -752,8 +760,9 @@ CircularEdge.prototype.intersection = function(p1_body, p2_body) {
   if (Math.abs(pe2.getX() - pe1.getX())<CircularEdge.TINY_POSITIVE) {
     // vertical line is special case
     var x = (pe1.getX() + pe2.getX())/2;  // average x coordinate, just in case
-    if (Math.abs(x) > this.radius_)
+    if (Math.abs(x) > this.radius_) {
       return null;
+    }
     var y = Math.sqrt(this.radius_*this.radius_ - x*x);
     var ylow = pe1.getY() < pe2.getY() ? pe1.getY() : pe2.getY();
     var yhigh = pe1.getY() > pe2.getY() ? pe1.getY() : pe2.getY();
@@ -797,8 +806,9 @@ CircularEdge.prototype.intersection = function(p1_body, p2_body) {
     var k12 = 1 + k*k;
     var d = pe1.getY() - k*pe1.getX();
     var e = k12*this.radius_*this.radius_ - d*d;
-    if (e < 0)
+    if (e < 0) {
       return null;
+    }
     e = Math.sqrt(e);
     var x1 = -(k*d + e)/k12;
     var x2 = (k*(-d) + e)/k12;
@@ -808,26 +818,33 @@ CircularEdge.prototype.intersection = function(p1_body, p2_body) {
     var xhigh = pe1.getX() > pe2.getX() ? pe1.getX() : pe2.getX();
     var ylow = pe1.getY() < pe2.getY() ? pe1.getY() : pe2.getY();
     var yhigh = pe1.getY() > pe2.getY() ? pe1.getY() : pe2.getY();
-    if (xlow <= x1 && x1 <= xhigh && ylow <= y1 && y1 <= yhigh)
+    if (xlow <= x1 && x1 <= xhigh && ylow <= y1 && y1 <= yhigh) {
       qe1 = new Vector(x1, y1);
-    if (xlow <= x2 && x2 <= xhigh && ylow <= y2 && y2 <= yhigh)
+    }
+    if (xlow <= x2 && x2 <= xhigh && ylow <= y2 && y2 <= yhigh) {
       qe2 = new Vector(x2, y2);
+    }
   }
   // qb1, qb2 = intersection points in body coords
   var qb1 = null;
   var qb2 = null;
   // are the points we found on the circle within the arc of this edge?
-  if (qe1 != null && this.isWithinArc(qe1))
+  if (qe1 != null && this.isWithinArc(qe1)) {
     qb1 = this.edgeToBody(qe1);
-  if (qe2 != null && this.isWithinArc(qe2))
+  }
+  if (qe2 != null && this.isWithinArc(qe2)) {
     qb2 = this.edgeToBody(qe2);
+  }
   // box up the points into an array of points
-  if (qb1==null && qb2==null)
+  if (qb1==null && qb2==null) {
     return null;
-  if (qb1!=null && qb2!=null)
+  }
+  if (qb1!=null && qb2!=null) {
     return [qb1, qb2];
-  if (qb1!=null)
+  }
+  if (qb1!=null) {
     return [qb1];
+  }
   goog.asserts.assert(qb2!=null);
   return [qb2];
 };
@@ -849,8 +866,9 @@ CircularEdge.isWithinArc = function(p_edge, angleLow, angleHigh) {
   goog.asserts.assert(!isNaN(p_edge.getX()));
   goog.asserts.assert(!isNaN(p_edge.getY()));
   var angle = p_edge.getAngle();
-  if (angle < angleLow)
+  if (angle < angleLow) {
     angle += 2*Math.PI;
+  }
   return angleLow <= angle && angle <= angleHigh;
 };
 
@@ -861,8 +879,9 @@ from the origin to the point, compares this angle to the angle range of this arc
 @return {boolean} true if the given point is within this arc.
 */
 CircularEdge.prototype.isWithinArc = function(p_edge) {
-  if (this.completeCircle_)
+  if (this.completeCircle_) {
     return true;
+  }
   return CircularEdge.isWithinArc(p_edge, this.angle_low_, this.angle_high_);
 };
 
@@ -873,8 +892,9 @@ from the origin to the point, compares this angle to the angle range of this arc
 @return {boolean} true if the given point is within this arc.
 */
 CircularEdge.prototype.isWithinArc2 = function(p_world) {
-  if (this.completeCircle_)
+  if (this.completeCircle_) {
     return true;
+  }
   var p_edge = this.bodyToEdge(this.body_.worldToBody(p_world));
   return CircularEdge.isWithinArc(p_edge, this.angle_low_, this.angle_high_);
 };
@@ -893,8 +913,9 @@ Examples of reflected arcs:
 @return {boolean} true if the given point is within the reflected arc.
 */
 CircularEdge.prototype.isWithinReflectedArc = function(p_edge) {
-  if (p_edge==null)
+  if (p_edge==null) {
     return false;
+  }
   var angle = p_edge.getAngle();
   while (angle < this.angle_low_ + Math.PI) {
     angle += 2*Math.PI;
@@ -943,9 +964,10 @@ CircularEdge.prototype.nearestPointByAngle = function(p_body) {
         angle - this.angle_high_ : (2*Math.PI + angle) - this.angle_high_;
     var angle_new = d1 < d2 ? this.angle_low_ : this.angle_high_;
     var qb2 = this.angleToBody(angle_new);
-    if (0 == 1 && goog.DEBUG) console.log('nearestOldPointTo angle '
-        +NF5(angle)+' became '
-        +NF5(angle_new)+' body '+p_body+' became '+qb2);
+    if (0 == 1 && goog.DEBUG) {
+      console.log('nearestOldPointTo angle '+NF5(angle)+' became '
+          +NF5(angle_new)+' body '+p_body+' became '+qb2);
+    }
     return qb2;
   }
 };
@@ -962,12 +984,14 @@ CircularEdge.prototype.outsideIsOut = function() {
 /** @inheritDoc */
 CircularEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
-    if (goog.DEBUG)
+    if (goog.DEBUG) {
       UtilityCollision.edgeEdgeCollisionTests++;
+    }
     CircleStraight.testCollision(collisions, edge, this, time);
   } else if (edge instanceof CircularEdge) {
-    if (goog.DEBUG)
+    if (goog.DEBUG) {
       UtilityCollision.edgeEdgeCollisionTests++;
+    }
     CircleCircle.testCollision(collisions, edge, this, time);
   } else {
     throw new Error();
