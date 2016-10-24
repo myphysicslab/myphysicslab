@@ -37,13 +37,12 @@ Once the prerequisites are on your system, follow these steps:
 2. Copy the file `sampleConfig.mk` to `myConfig.mk` and edit `myConfig.mk` to
     specify location of Closure Compiler in the `CLOSURE_COMPILER` variable.
 
-3. Create a **symbolic link** to `closure-library` in the `myphysicslab`
-    directory. Example of how to create the symbolic link:
+3. Create a **symbolic link** to `closure-library` in the directory that has
+    the `makefile`. Example of how to create the symbolic link:
 
         $ ln -s ../closure-library/ closure-library
 
-4. Execute `make` at the command line with your directory set to the directory
-    containing the myphysicslab `makefile`.
+4. Execute `make` at the command line. (Set your directory to where the `makefile` is).
     This will compile all applications and tests in all language versions (using the
     default option `COMPILE_LEVEL=simple`).
     Execute `make help` to see available options.
