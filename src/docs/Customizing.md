@@ -30,7 +30,7 @@ Additional information:
 
 + See [myPhysicsLab Architecture](Architecture.html) for an introduction to classes
     and interfaces.
-+ See [myPhysicsLab README](index.html) for detailed documentation of classes and
++ See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
     interfaces.
 + See [Building myPhysicsLab Software](Building.html) for information about building,
     testing, internationalization, and general programming issues.

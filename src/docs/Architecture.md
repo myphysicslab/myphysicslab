@@ -31,7 +31,7 @@ Contents of this page:
 
 Additional information:
 
-+ See [myPhysicsLab README](index.html) for detailed documentation of classes and
++ See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
     interfaces.
 + See [Engine2D Overview](Engine2D.html) for an overview of the 2d rigid body physics
     engine.

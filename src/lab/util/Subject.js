@@ -26,7 +26,7 @@ of its Observers. An Observer is connected to the Subject via the {@link #addObs
 method, which is typically called by the Observer's constructor or the entity that
 creates the Observer.
 
-See the MyPhysicsLab Overview section
+See also the myPhysicsLab documentation about
 [Subject, Observer, Parameter](Architecture.html#subjectobserverparameter).
 
 When a change occurs in the Subject, the {@link #broadcast} method should be called to inform all

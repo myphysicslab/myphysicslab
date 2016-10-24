@@ -50,7 +50,7 @@ Information about myPhysicsLab software in general:
 
 + See [myPhysicsLab Architecture](Architecture.html) for an introduction to classes
     and interfaces.
-+ See [myPhysicsLab README](index.html) for detailed documentation of classes and
++ See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
     interfaces.
 + The [myPhysicsLab website](http://67.199.21.25) shows the simulations
     running and contains explanations of the math behind them.
