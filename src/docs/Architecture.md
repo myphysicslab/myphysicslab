@@ -44,6 +44,8 @@ Additional information:
 
 # Overall Architecture
 
+_Key Points:_
+
 + Application creates and initializes objects
 
 + Model, View, Controller pattern is used thereafter
@@ -105,6 +107,8 @@ set to a specific time; and it can keep track of any slippage from real time.
 
 
 # Model
+
+_Key Points:_
 
 + Simulation is the model
 
@@ -182,6 +186,8 @@ contact forces, gravity, and more.
 
 
 # View
+
+_Key Points:_
 
 + LabCanvas manages an HTML5 canvas and draws one or more LabViews
 
@@ -282,6 +288,8 @@ typically [SimRunner.callback](myphysicslab.lab.app.SimRunner.html#callback).
 
 # Graph
 
+_Key Points:_
+
 + GraphLine gathers data from a VarsList and stores it in a HistoryList
 
 + DisplayGraph draws the GraphLine
@@ -350,6 +358,8 @@ rectangle changes.
 
 # Controller
 
+_Key Points:_
+
 + SimController sends mouse and key events to an EventHandler
 
 + EventHandler is often (but not always) implemented by the Simulation
@@ -413,6 +423,8 @@ Parameter but only a function or two.
 
 
 # Subject, Observer, Parameter
+
+_Key Points:_
 
 + This is an implementation of the Observer Design Pattern
 
@@ -480,6 +492,8 @@ Note that Parameters and GenericEvent all implement the
 [SubjectEvent](myphysicslab.lab.util.SubjectEvent.html) interface.
 
 # Application
+
+_Key Points:_
 
 + Application's constructor creates the objects it needs, possibly including some DOM
     objects.
@@ -550,6 +564,8 @@ Here are some of them:
 
 
 # Start-Up HTML File
+
+_Key Points:_
 
 + When the web page loads, a script creates the application.
 
