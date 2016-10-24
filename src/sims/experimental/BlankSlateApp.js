@@ -15,15 +15,21 @@
 goog.provide('myphysicslab.sims.experimental.BlankSlateApp');
 
 goog.require('myphysicslab.lab.app.SimController');
+goog.require('myphysicslab.lab.controls.CheckBoxControl');
 goog.require('myphysicslab.lab.graph.DisplayAxes');
+goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.model.ModifiedEuler');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
+goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.GenericObserver');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.Terminal');
+goog.require('myphysicslab.lab.util.Timer');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -31,7 +37,6 @@ goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.view.DisplayText');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.ScreenRect');
@@ -42,27 +47,35 @@ goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 goog.scope(function() {
 
-var CommonControls = myphysicslab.sims.layout.CommonControls;
-var DisplayClock = myphysicslab.lab.view.DisplayClock;
-var DisplayLine = myphysicslab.lab.view.DisplayLine;
-var DisplayShape = myphysicslab.lab.view.DisplayShape;
-var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
-var DisplayText = myphysicslab.lab.view.DisplayText;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var EnergyBarGraph = myphysicslab.lab.graph.EnergyBarGraph;
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
-var LabCanvas = myphysicslab.lab.view.LabCanvas;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var PointMass = myphysicslab.lab.model.PointMass;
-var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var SimController = myphysicslab.lab.app.SimController;
-var SimView = myphysicslab.lab.view.SimView;
-var Spring = myphysicslab.lab.model.Spring;
-var DisplayAxes = myphysicslab.lab.graph.DisplayAxes;
-var Terminal = myphysicslab.lab.util.Terminal;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Vector = myphysicslab.lab.util.Vector;
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+var lab = myphysicslab.lab;
+var sims = myphysicslab.sims;
+
+var AbstractSubject = lab.util.AbstractSubject;
+var CheckBoxControl = lab.controls.CheckBoxControl;
+var CommonControls = sims.layout.CommonControls;
+var DisplayAxes = lab.graph.DisplayAxes;
+var DisplayClock = lab.view.DisplayClock;
+var DisplayLine = lab.view.DisplayLine;
+var DisplayShape = lab.view.DisplayShape;
+var DisplaySpring = lab.view.DisplaySpring;
+var DisplayText = lab.view.DisplayText;
+var DoubleRect = lab.util.DoubleRect;
+var EnergyBarGraph = lab.graph.EnergyBarGraph;
+var GenericObserver = lab.util.GenericObserver;
+var HorizAlign = lab.view.HorizAlign;
+var LabCanvas = lab.view.LabCanvas;
+var NF5 = lab.util.UtilityCore.NF5;
+var ParameterBoolean = lab.util.ParameterBoolean;
+var PointMass = lab.model.PointMass;
+var ScreenRect = lab.view.ScreenRect;
+var SimController = lab.app.SimController;
+var SimView = lab.view.SimView;
+var Spring = lab.model.Spring;
+var Terminal = lab.util.Terminal;
+var Timer = lab.util.Timer;
+var UtilityCore = lab.util.UtilityCore;
+var Vector = lab.util.Vector;
+var VerticalAlign = lab.view.VerticalAlign;
 
 /** BlankSlateApp has a LabCanvas and Terminal, and let's you experiment building
 things with scripts.
@@ -70,22 +83,30 @@ things with scripts.
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
+* @extends {AbstractSubject}
 * @final
 * @struct
 * @export
 */
 myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   UtilityCore.setErrorHandler();
+  AbstractSubject.call(this, 'APP');
   UtilityCore.setImagesDir(elem_ids['images_dir']);
-  var div = BlankSlateApp.getElementById(elem_ids, 'sim_canvas');
+  var div_sim = BlankSlateApp.getElementById(elem_ids, 'sim_canvas');
+  // 'relative' allows absolute positioning of icon controls over the canvas
+  div_sim.style.position = 'relative';
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
   * @type {!myphysicslab.lab.view.LabCanvas}
   * @private
   */
   this.simCanvas = new LabCanvas(canvas, 'canvas1');
-  this.simCanvas.setSize(500, 300);
-  div.appendChild(this.simCanvas.getCanvas());
+  this.simCanvas.setSize(500, 500);
+  div_sim.appendChild(this.simCanvas.getCanvas());
+  /** div for sim controls
+  * @type {!Element}
+  */
+  this.sim_controls = BlankSlateApp.getElementById(elem_ids, 'sim_controls');
 
   var term_output = /** @type {!HTMLInputElement} */
       (BlankSlateApp.getElementById(elem_ids, 'term_output'));
@@ -98,11 +119,14 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
   this.terminal.setAfterEval(goog.bind(this.simCanvas.paint, this.simCanvas));
+
+  /** @type {!lab.util.DoubleRect} */
+  this.simRect = new DoubleRect(-6, -6, 6, 6);
   /**
   * @type {!myphysicslab.lab.view.SimView}
   * @private
   */
-  this.simView = new SimView('simView', new DoubleRect(-10, -6, 10, 6));
+  this.simView = new SimView('simView', this.simRect);
   this.simCanvas.addView(this.simView);
   this.displayList = this.simView.getDisplayList();
   /**
@@ -116,16 +140,40 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   * @private
   */
   this.simCtrl = new SimController(this.simCanvas, /*eventHandler=*/null,
-      /*panModifier=*/{alt:true, control:false, meta:false, shift:false});
+      /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
+  var panzoom = CommonControls.makePanZoomControls(this.simView,
+      /*overlay=*/true,
+      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+  div_sim.appendChild(panzoom);
+  /** @type {!ParameterBoolean} */
+  this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
+  this.panZoomParam.setValue(true);
+  var zoomCtrl = new CheckBoxControl(this.panZoomParam);
+  var element = zoomCtrl.getElement();
+  element.style.display = 'block';
+  this.sim_controls.appendChild(element);
+
+  // make a callback which continuously redraws the canvas.
+  // So that if anything changes (like pan-zoom) we see the effect.
+  this.timer = new Timer();
+  var callback = goog.bind(function () {
+      this.simCanvas.paint();
+      this.timer.fire();
+  }, this);
+  this.timer.setCallBack(callback);
+  this.timer.fire();
 };
 var BlankSlateApp = myphysicslab.sims.experimental.BlankSlateApp;
+goog.inherits(BlankSlateApp, AbstractSubject);
 
 /**  Names of HTML div, form, and input element's to search for by using
 * `document.getElementById()`.
 * @typedef {{
 *   sim_canvas: string,
+*   sim_controls: string,
 *   term_output: string,
-*   term_input: string
+*   term_input: string,
+*   images_dir: string
 * }}
 */
 BlankSlateApp.elementIds;
@@ -145,6 +193,11 @@ BlankSlateApp.getElementById = function(elem_ids, elementId) {
     throw new Error('elementId not found: '+elementId);
   }
   return e;
+};
+
+/** @inheritDoc */
+BlankSlateApp.prototype.getClassName = function() {
+  return 'BlankSlateApp';
 };
 
 /** Define short-cut name replacement rules.  For example 'x' is replaced

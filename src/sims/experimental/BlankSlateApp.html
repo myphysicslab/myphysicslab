@@ -17,6 +17,8 @@
 
 <div id="sim_canvas">
 </div>
+<div id="sim_controls" class="control_group">
+</div>
 <!-- the "onsubmit=return false" is to prevent the page from reloading after
 enter key is typed in the text input field.
 -->
@@ -67,6 +69,7 @@ clock.resume();timer.fire();</a>
   (function build() {
     var elem_ids = {
       sim_canvas: 'sim_canvas',
+      sim_controls: 'sim_controls',
       term_output: 'term_output',
       term_input: 'term_input',
       images_dir: '#IMAGES_DIR'
