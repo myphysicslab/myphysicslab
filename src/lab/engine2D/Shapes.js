@@ -270,6 +270,34 @@ Shapes.makePendulum = function(width, length, radius, opt_name, opt_localName) {
   return p;
 };
 
+/** Creates a Polygon whose vertices are at the given points.
+@param {!Array<!Vector>} points array of points giving location of vertices in body
+    coordinates
+@param {!Array<boolean>} outIsUp the value of outsideIsUp for each edge
+@param {number} moment moment about center of mass
+@return {!Polygon} Polygon whose vertices are at the given points
+*/
+Shapes.makePolygon = function(points, outIsUp, moment) {
+  if (points.length < 3 || points.length != outIsUp.length) {
+    throw new Error();
+  }
+  var p = new Polygon();
+  var v0 = points[0];
+  var v1 = v0;
+  p.startPath(new ConcreteVertex(v1));
+  for (var i=1; i<points.length; i++) {
+    var v2 = points[i];
+    p.addStraightEdge(v2, outIsUp[i-1]);
+    v1 = v2;
+  }
+  p.addStraightEdge(v0, /*outsideIsUp=*/outIsUp[points.length-1]);
+  p.finish();
+  p.setMomentAboutCM(moment);
+  p.setElasticity(0.8);
+  // don't set centroid, it will be calculated
+  return p;
+};
+
 /** Creates a randomly shaped polygon with given number of sides.  The corners lie
 on a circle with given radius centered at origin.
 @param {number} sides number of sides, minumum is 3
