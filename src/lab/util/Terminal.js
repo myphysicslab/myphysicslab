@@ -1089,7 +1089,7 @@ Terminal.stdRegex = function(terminal) {
 
   terminal.addRegex('CollisionAdvance|CoordType|EulersMethod|ExpressionVariable'
       +'|FunctionVariable|MassObject|ModifiedEuler|ConcreteLine|NumericalPath'
-      +'|PointMass|RungeKutta|SimList|SimpleAdvance|Spring|VarsList',
+      +'|PointMass|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
       'myphysicslab.lab.model', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine'
