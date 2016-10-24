@@ -110,9 +110,6 @@ To build from source code the required tools are
     download from Closure Compiler. It is a collection of JavaScript source
     code.
 
-+ Python is only required when [Debugging (running uncompiled)][] to run
-    `depswriter.py`
-
 Once the prerequisites are on your system, follow these steps:
 
 0. Download the myPhysicsLab source code from
@@ -1028,6 +1025,13 @@ In contrast, advanced-compiled code is very difficult to interpret because of
 minimization of symbols. Even simple-compiled code is concatenated into very long lines
 that don't correspond to the source code, and local variable names are minimized.
 
+[Python 2.7](https://www.python.org) or above is required in order to create the
+`deps.js` file. The `deps.js` file is created automatically by the `makefile` when you
+specify `COMPILE_LEVEL=debug`. It is created by using the
+[depswriter.py](https://developers.google.com/closure/library/docs/depswriter) tool
+which is supplied in [Closure Library][Closure Library References].
+
+
 To run, for example, [DoubleSpringApp](myphysicslab.sims.springs.DoubleSpringApp.html)
 from source code:
 
@@ -1069,10 +1073,6 @@ different in the uncompiled case versus the compiled case.
 
 Note that `closure-library` is a symbolic link to wherever Closure Library is on your
 system, see [Build Instructions][].
-
-The `deps.js` file is created automatically by the `makefile` when you specify
-`COMPILE_LEVEL=debug`. It is created by using the
-[depswriter.py](https://developers.google.com/closure/library/docs/depswriter) tool.
 
 Setting `goog.LOCALE` (seen in the script above) is optional, if you leave that out
 then the default locale will be used. Similarly for `goog.DEBUG`, setting it is
