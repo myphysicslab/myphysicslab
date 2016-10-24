@@ -20,7 +20,7 @@ Contents of this page:
 + [License and Source Code][]
 
 + [Building][]
-    + [Environment Setup][]
+    + [Build Instructions][]
     + [Customizing The Build Process][]
     + [Building the Documentation][]
     + [Inside the Build Process][]
@@ -38,7 +38,7 @@ Contents of this page:
     + [What should not be localized?][]
 
 + [Testing][]
-    + [HTML Example Files for Applications][]
+    + [HTML Example Files][]
     + [Unit Tests][]
     + [Engine2D Tests][]
     + [TestViewerApp][]
@@ -91,16 +91,12 @@ enhanced over the years and converted to JavaScript from 2013 to 2016.
 
 # Building
 
-NOTE: the HTML files in the source directories **cannot be used directly** from a
-browser. You must complete the build process first.
+## Build Instructions
 
 It is possible to customize a myPhysicsLab simulation without building from
 source code, see [Customizing myPhysicsLab Simulations](Customizing.html).
 
-
-## Environment Setup
-
-The prerequisite tools are
+To build from source code the required tools are
 
 + [Java 7 or higher](www.java.com)
 
@@ -345,7 +341,7 @@ For reference, the following describes the purpose and origin of the various fil
         + `test` – contains compiled tests
 
     + `closure-library` – *(create manually)* – a symbolic link to Closure Library
-        JavaScript files on your system, see [Environment Setup][].
+        JavaScript files on your system, see [Build Instructions][].
 
     + `compile_js.sh` – runs the closure-compiler (which is a Java program)
 
@@ -375,7 +371,7 @@ For reference, the following describes the purpose and origin of the various fil
     + `myConfig.mk` – *(create manually)* – Specifies information that is unique to
        your development environment, such as where tools are located, build options,
        etc. **Create this manually, by copying from `sampleConfig.mk`**
-       see [Environment Setup][].
+       see [Build Instructions][].
 
     + `prep_html.pl` – transforms the HTML files into language-specific compiled
         versions, and does macro substitutions.
@@ -690,7 +686,7 @@ remain correct in case the string is ever changed.
 + TestViewerApp allows seeing how the tests behave
 
 
-## HTML Example Files for Applications
+## HTML Example Files
 
 The [HTML Example Files](http://67.199.21.25/develop/build/index_en.html) are examples
 for developer testing, not meant to be finished web pages.
@@ -1083,7 +1079,7 @@ different in the uncompiled case versus the compiled case.
         </script>
 
 Note that `closure-library` is a symbolic link to wherever Closure Library is on your
-system, see [Environment Setup][].
+system, see [Build Instructions][].
 
 The `deps.js` file is created automatically by the `makefile` when you specify
 `COMPILE_LEVEL=debug`. It is created by using the

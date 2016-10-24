@@ -14,7 +14,7 @@ It is possible to customize a myPhysicsLab simulation without
 building from source code, see
 [Customizing myPhysicsLab Simulations](http://67.199.21.25/develop/docs/Customizing.html).
 
-The prerequisite tools are
+To build from source code the required tools are
 
 + [Java 7 or higher](http://www.java.com)
 
