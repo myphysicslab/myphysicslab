@@ -58,7 +58,8 @@ for more information about the build process.
 
 Documentation
 -------------
-myPhysicsLab Documentation is at <http://67.199.21.25/develop/docs/index.html>
+See [myPhysicsLab Documentation](http://67.199.21.25/develop/docs/index.html)
+for overview of architecture and for detailed documentation of software.
 
 
 Author and License
