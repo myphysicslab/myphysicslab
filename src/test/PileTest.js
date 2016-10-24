@@ -366,13 +366,13 @@ PileTest.near_stable_connected_blocks_pile_test = function() {
     Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
     Engine2DTestRig.setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
     Engine2DTestRig.setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 4, -1.3073175, -0, -7.6795634, 0, 3.9269908, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, 0, 3.9269908, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 6, -0.8635095, -0, -7.4433597, 0, 16.4933614, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 7, -0.2794896, 0.0000002, -8.8895748, 0.0000002, 21.2057504, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 8, 0.1624338, 0.0000457, -8.8758441, 0.0001069, -0.7854061, -0.000092);
-    Engine2DTestRig.setBodyVars(sim, vars, 9, 0.7732416, -0, -7.8054737, 0, 3.9269908, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 10, 0.1992876, 0, -7.7913929, 0, 3.9269908, -0);
+    Engine2DTestRig.setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, -0);
+    Engine2DTestRig.setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, -0, 3.9269908, 0);
+    Engine2DTestRig.setBodyVars(sim, vars, 6, -0.48321, -0, -7.392295, -0, 16.4933614, -0);
+    Engine2DTestRig.setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, -0, 21.2057504, 0);
+    Engine2DTestRig.setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, -0, -0.7853982, 0);
+    Engine2DTestRig.setBodyVars(sim, vars, 9, 0.773236, -0, -7.8054793, -0, 3.9269908, 0);
+    Engine2DTestRig.setBodyVars(sim, vars, 10, 0.1992931, 0, -7.7913985, -0, 3.9269908, -0);
   } else {
     Engine2DTestRig.setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
     Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);

@@ -16,6 +16,7 @@ goog.provide('myphysicslab.test.StraightStraightTest');
 
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
 goog.require('myphysicslab.lab.model.Gravity2Law');
@@ -49,6 +50,7 @@ var NF1S = myphysicslab.lab.util.UtilityCore.NF1S;
 var NF2 = myphysicslab.lab.util.UtilityCore.NF2;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
@@ -100,6 +102,7 @@ StraightStraightTest.test = function() {
   Engine2DTestRig.schedule(StraightStraightTest.corner_collision);
   Engine2DTestRig.schedule(StraightStraightTest.rounded_corner_collision);
   Engine2DTestRig.schedule(StraightStraightTest.oblique_corner_collision);
+  Engine2DTestRig.schedule(StraightStraightTest.acute_corners);
 };
 
 /**
@@ -706,8 +709,8 @@ StraightStraightTest.six_blocks_4 = function() {
   StraightStraightTest.six_blocks_4_setup(sim, advance);
   var energyDiff, expectCollisions;
   if (UtilityCore.isChrome()) {
-    energyDiff = -1.8618318;
-    expectCollisions = 4;
+    energyDiff = -1.751934748;
+    expectCollisions = 7;
   } else {
     energyDiff = -1.7;
     expectCollisions = 5;
@@ -1032,8 +1035,8 @@ StraightStraightTest.six_blocks_9 = function() {
   if (UtilityCore.isChrome()) {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
        /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
-       /*expectedEnergyDiff=*/-0.306636612, /*energyTol=*/0.001,
-       /*expectedCollisions=*/4);
+       /*expectedEnergyDiff=*/-0.313720709, /*energyTol=*/0.001,
+       /*expectedCollisions=*/3);
   } else {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
        /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
@@ -1758,6 +1761,168 @@ StraightStraightTest.oblique_corner_collision = function() {
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/1);
+};
+
+
+/** Two polygons with acute angle corners both resting on the ground, and their corners
+are colliding (there are 4 other Polygons as well).
+
+This test resulted in bringing back CornerCornerCollision, and adding a tolerance
+setting to `UtilEngine.linesIntersect`. This was found from a `probablyPointInside`
+error on Oct 20, 2016 in `UtilityCollision.testCollisionVertex`.
+
+The error is caused by having two Polygons (numbers 3 and 6) with acute angle corners,
+they are both resting on the ground, and their corners are colliding. We can't form
+vertex-edge contacts because of the geometry of this particular case. Both corners are
+"beyond the edge". This is calculated by looking at the normal to the edge (like
+`Edge.distanceToPoint` returns infinity when the point is beyond the endpoint).
+
+My first approach to solving this was to add collision testing between two
+StraightEdges, by creating the static class StraightStraight. This did result in
+surviving the situation, but there is never a contact force generated, and there are
+endless collisions happening at that corner. To fix that I brought back
+CornerCornerCollision, which gives a contact force there and stops the collisions.
+
+After looking into why the `probablyPointInside` error occurs (when we don't have
+CornerCornerCollision or StraightStraight edge testing) it seems to be a case of a
+small floating point calculation error in finding the intersection of lines. Adding a
+small tolerance in `UtilEngine.linesIntersect` results in getting collisions instead of
+the `probablyPointInside` error (even when we don't have CornerCornerCollision or
+StraightStraight edge testing). This shows that the StraightStraight class is not
+needed, that we can assume that vertex-edge collisions are sufficient for finding
+collisions between StraightEdges, as long as this tolerance is large enough in
+`UtilEngine.linesIntersect`.
+
+@param {!myphysicslab.lab.engine2D.ContactSim} sim
+@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@export
+*/
+StraightStraightTest.acute_corners_setup = function(sim, advance) {
+  StraightStraightTest.commonSetup1(sim, advance, /*damping=*/0);
+  sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS);
+  DisplayShape.fillStyle = 'lightGray';
+  var zel = Walls.make2(sim, new DoubleRect(-4.5, -3.6, 3.1, 4));
+  Polygon.ID = 1;
+  DisplayShape.fillStyle = 'cyan';
+  var p = Shapes.makePolygon([new Vector(1, 0),
+      new Vector(-0.513177951173234170, 0.858282232386085031),
+      new Vector(-0.969768795922141824, 0.244025577462116117),
+      new Vector(0.513177951173234059, -0.858282232386085142)
+  ], [true, true, false, false], /*moment=*/1/6);
+  sim.addBody(p);
+  DisplayShape.fillStyle = 'orange';
+  sim.addBody(Shapes.makeBlock(1, 3));
+  DisplayShape.fillStyle = '#9f3'; // light green
+  p = Shapes.makePolygon([new Vector(1, 0),
+      new Vector(-0.516830731524381637, 0.856087609390518200),
+      new Vector(-0.814535453253508290, -0.580113777972133482),
+      new Vector(0.615548804248536530, -0.788098768929502258)
+  ], [true, true, false, false], /*moment=*/1/6);
+  sim.addBody(p);
+  DisplayShape.fillStyle = '#f6c'; // hot pink
+  sim.addBody(Shapes.makeBlock(1, 3));
+  DisplayShape.fillStyle = '#39f';
+  sim.addBody(Shapes.makeBlock(1, 3));
+  DisplayShape.fillStyle = '#c99';
+  p = Shapes.makePolygon([new Vector(1, 0),
+      new Vector(-0.518913825057696454, 0.854826556772770418),
+      new Vector(-0.971381139582120134, 0.237526170482626198),
+      new Vector(-0.087331206181348126, -0.996179331459406847)
+  ], [true, true, false, false], /*moment=*/1/6);
+  sim.addBody(p);
+
+  var gravity = new GravityLaw(3.0, sim.getSimList());
+  sim.setElasticity(0.8);
+  sim.addForceLaw(gravity);
+  gravity.setZeroEnergyLevel(zel);
+  var va = sim.getVarsList();
+  va.setValue(0, 0);
+  va.setValue(1, 0.03178706216753517);
+  va.setValue(2, 21.275092573513827);
+  va.setValue(3, 21.306879635681362);
+  va.setValue(4, -0.7);
+  va.setValue(5, 0);
+  va.setValue(6, -4.1);
+  va.setValue(7, 0);
+  va.setValue(8, 0);
+  va.setValue(9, 0);
+  va.setValue(10, 3.5999999999999996);
+  va.setValue(11, 0);
+  va.setValue(12, 0.19999999999999996);
+  va.setValue(13, 0);
+  va.setValue(14, 0);
+  va.setValue(15, 0);
+  va.setValue(16, -0.7);
+  va.setValue(17, 0);
+  va.setValue(18, 4.5);
+  va.setValue(19, 0);
+  va.setValue(20, 0);
+  va.setValue(21, 0);
+  va.setValue(22, -5);
+  va.setValue(23, 0);
+  va.setValue(24, 0.19999999999999996);
+  va.setValue(25, 0);
+  va.setValue(26, 0);
+  va.setValue(27, 0);
+  va.setValue(28, -3.994175423172596);
+  va.setValue(29, -3.375246109755061e-7);
+  va.setValue(30, -2.7383266394583425);
+  va.setValue(31, -5.942141763683848e-9);
+  va.setValue(32, -1.0548398616079855);
+  va.setValue(33, -9.118912363980537e-9);
+  va.setValue(34, -2.003265933175177);
+  va.setValue(35, -4.007266059523297e-7);
+  va.setValue(36, -3.0949999992492216);
+  va.setValue(37, -2.805109218609374e-8);
+  va.setValue(38, -1.5707963271905572);
+  va.setValue(39, 1.4783921554646415e-8);
+  va.setValue(40, 2.1894973957584805);
+  va.setValue(41, -0.002607801649199815);
+  va.setValue(42, -2.8567099904181865);
+  va.setValue(43, -1.137377229716843e-13);
+  va.setValue(44, 0.14442290824138998);
+  va.setValue(45, -3.3018032752131266e-14);
+  va.setValue(46, 0.5531761073947989);
+  va.setValue(47, -0.07606659236252189);
+  va.setValue(48, -1.7549648725459994);
+  va.setValue(49, -0.0375339986382553);
+  va.setValue(50, 1.8055032081848377);
+  va.setValue(51, -0.030052137616049142);
+  va.setValue(52, -1.7979653247900453);
+  va.setValue(53, 0.186005234323005);
+  va.setValue(54, -1.089999995447982);
+  va.setValue(55, -1.7043644812988394e-7);
+  va.setValue(56, 3.141592646020941);
+  va.setValue(57, 2.8341393571213067e-7);
+  va.setValue(58, 0.6357229411480702);
+  va.setValue(59, 0.14498910247394578);
+  va.setValue(60, -2.9733009783756574);
+  va.setValue(61, -4.2449932455742765e-13);
+  va.setValue(62, 0.9490286328488056);
+  va.setValue(63, 3.497165520156307e-13);
+};
+
+/**
+@return {undefined}
+*/
+StraightStraightTest.acute_corners = function() {
+  Engine2DTestRig.testName = StraightStraightTest.groupName+'acute_corners';
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  StraightStraightTest.acute_corners_setup(sim, advance);
+  var vars = Engine2DTestRig.makeVars(10*6);
+  Engine2DTestRig.setBodyVars(sim, vars, 0, -0.7, 0, -4.1, 0, 0, 0);
+  Engine2DTestRig.setBodyVars(sim, vars, 1, 3.6, 0, 0.2, 0, 0, 0);
+  Engine2DTestRig.setBodyVars(sim, vars, 2, -0.7, 0, 4.5, 0, 0, 0);
+  Engine2DTestRig.setBodyVars(sim, vars, 3, -5, 0, 0.2, 0, 0, 0);
+  Engine2DTestRig.setBodyVars(sim, vars, 4, -4.1032991, -0.0000002, -2.6832517, 0.0000001, -0.9315825, 0.0000002);
+  Engine2DTestRig.setBodyVars(sim, vars, 5, -1.8781805, 0.0192418, -3.095, -0, -1.5707963, -0);
+  Engine2DTestRig.setBodyVars(sim, vars, 6, 2.1928624, 0.0025583, -2.852029, 0.0201551, 0.1502213, 0.0250336);
+  Engine2DTestRig.setBodyVars(sim, vars, 7, -1.0789055, -0.0480727, -2.0371939, -0.0180137, 1.6062169, -0.0121602);
+  Engine2DTestRig.setBodyVars(sim, vars, 8, -3.350931, 0.047195, -1.0558168, -0.0178603, 3.3357669, -0.0708072);
+  Engine2DTestRig.setBodyVars(sim, vars, 9, 0.6897072, 0.0187622, -2.9732101, -0.0026702, 0.9488974, 0.0038532);
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/5.0,
+              /*expectedVars=*/vars, /*tolerance=*/0.00001);
 };
 
 }); // goog.scope

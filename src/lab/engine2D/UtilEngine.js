@@ -460,9 +460,15 @@ UtilEngine.formatArray = function(r, opt_start, opt_n, opt_nf) {
 returns `null`. The first line is between points 1 and 2, the second line is
 between points 3 and 4.
 
-May 27 2013: made tolerance smaller (1E-16 instead of 1E-10). This fixes a problem
+May 27 2013: made parallel_tol smaller (1E-16 instead of 1E-10). This fixes a problem
 that showed up with Sumo game or RigidBodySim (without ContactSim) where dragging a
 block into the left wall would eventually fall thru the wall.
+
+Oct 21 2016: add tolerance at endpoints. This fixes a problem where objects with acute
+angled corners are sliding on the floor, and their acute corners collide. Due to
+floating point errors, we can miss finding an intersection in that case. Adding a small
+tolerance extends the edge slightly and lets us find an intersection.
+See {@link myphysicslab.test.StraightStraightTest#acute_corners_setup}.
 
 @param {!myphysicslab.lab.util.Vector} p1  point 1, start of first line
 @param {!myphysicslab.lab.util.Vector} p2  point 2, end of first line
@@ -481,7 +487,10 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
   var y3 = p3.getY();
   var x4 = p4.getX();
   var y4 = p4.getY();
-  var tolerance = 1E-16;
+  var parallel_tol = 1E-16; // tolerance for whether lines are parallel
+  // tol = tolerance at end points: this makes the edges slightly longer
+  // and increases chance of finding intersection at endpoints.
+  var tol = 1E-14;
   if (goog.DEBUG && UtilEngine.debugIntersect) {
     console.log('linesIntersect '+x1+' '+y1+' '+x2+' '+y2+' '+x3+' '+y3+' '+x4+' '+y4);
   }
@@ -501,9 +510,9 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
       return null;
   }
   //console.log('linesIntersect '+x1+' '+y1+' '+x2+' '+y2+' '+x3+' '+y3+' '+x4+' '+y4);
-  if (Math.abs(x2-x1) < tolerance) {
+  if (Math.abs(x2-x1) < parallel_tol) {
     // first line is vertical
-    if (Math.abs(x4-x3) < tolerance) // both lines are vertical
+    if (Math.abs(x4-x3) < parallel_tol) // both lines are vertical
       return null;
     k2 = (y4-y3)/(x4-x3);  // slope of 2nd line
     xi = x1;
@@ -513,9 +522,15 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
     if (x2 < x1) { d=x1; x1=x2; x2=d; }
     if (x4 < x3) { d=x3; x3=x4; x4=d; }
     if (y4 < y3) { d=y3; y3=y4; y4=d; }
-    return (y1 <= yi && yi <= y2 && x3 <= xi  && xi <= x4 && y3 <= yi && yi <= y4) ?
-      new Vector(xi, yi) : null;
-  } else if (Math.abs(x4-x3) < tolerance) {
+    if (y1-tol <= yi && yi <= y2+tol) {
+      if (x3-tol <= xi  && xi <= x4+tol) {
+        if (y3-tol <= yi && yi <= y4+tol) {
+          return new Vector(xi, yi);
+        }
+      }
+    }
+    return null;
+  } else if (Math.abs(x4-x3) < parallel_tol) {
     // second line is vertical
     k1 = (y2-y1)/(x2-x1); // slope of 1st line
     xi = x3;
@@ -525,20 +540,26 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
     if (x2 < x1) { d=x1; x1=x2; x2=d; }
     if (x4 < x3) { d=x3; x3=x4; x4=d; }
     if (y4 < y3) { d=y3; y3=y4; y4=d; }
-    return (x1 <= xi && xi <= x2 && y1 <= yi && yi <= y2 && y3 <= yi && yi <= y4) ?
-      new Vector(xi, yi) : null;
+    if (x1-tol <= xi && xi <= x2+tol) {
+      if (y1-tol <= yi && yi <= y2+tol) {
+        if (y3-tol <= yi && yi <= y4+tol) {
+          return new Vector(xi, yi);
+        }
+      }
+    }
+    return null;
   } else {
     k1 = (y2-y1)/(x2-x1); // slope of 1st line
     k2 = (y4-y3)/(x4-x3);  // slope of 2nd line
-    if (Math.abs(k2-k1) < tolerance)
+    if (Math.abs(k2-k1) < parallel_tol)
       return null;  // parallel lines don't intersect
-    if (Math.abs(k2) < tolerance) {
+    if (Math.abs(k2) < parallel_tol) {
       // second line is horizontal
       // yi = k1 (xi - x1) + y1  ; equation of 1st line
       // (yi - y1)/k1 + x1 = xi
       yi = (y3 + y4) /2;  // they are pretty much equal, but average them anyway
       xi = (yi - y1)/k1 + x1;
-    } else if (Math.abs(k1) < tolerance) {
+    } else if (Math.abs(k1) < parallel_tol) {
       // first line is horizontal
       // yi = k2 (xi - x3) + y3 ; equation of 2nd line
       // (yi - y3)/k2 + x3 = xi
@@ -560,9 +581,16 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
     //console.log((x1 <= xi )+' '+( xi <= x2 )+' '+( y1 <= yi )
     //+' '+( yi <= y2 )+' '+( x3 <= xi  )+' '+( xi <= x4 )+' '+( y3 <= yi )
     //+' '+( yi <= y4));
-    return (x1 <= xi && xi <= x2 && y1 <= yi && yi <= y2 && x3 <= xi  && xi <= x4 &&
-        y3 <= yi && yi <= y4) ?
-      new Vector(xi, yi) : null;
+    if (x1-tol <= xi && xi <= x2+tol) {
+      if (y1-tol <= yi && yi <= y2+tol) {
+        if (x3-tol <= xi  && xi <= x4+tol) {
+          if (y3-tol <= yi && yi <= y4+tol) {
+            return new Vector(xi, yi);
+          }
+        }
+      }
+    }
+    return null;
   }
 };
 

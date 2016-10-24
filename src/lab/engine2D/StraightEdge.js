@@ -14,9 +14,10 @@
 
 goog.provide('myphysicslab.lab.engine2D.StraightEdge');
 
+goog.require('myphysicslab.lab.engine2D.AbstractEdge');
+goog.require('myphysicslab.lab.engine2D.CornerCornerCollision');
 goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
 goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.AbstractEdge');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -26,8 +27,9 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
+var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
+var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
@@ -114,6 +116,30 @@ StraightEdge.prototype.addPath = function(context) {
   context.lineTo(this.v2_.locBodyX(), this.v2_.locBodyY());
 };
 
+/**
+* @param {!myphysicslab.lab.engine2D.Vertex} v the Vertex of interest
+* @param {!myphysicslab.lab.util.Vector} p_body the body coordinate position of the Vertex
+* @param {number} distTol the distance tolerance
+* @return {?myphysicslab.lab.engine2D.RigidBodyCollision}
+* @private
+*/
+StraightEdge.prototype.checkVertexVertex = function(v, p_body, distTol) {
+  var dist = this.v1_.locBody().distanceTo(p_body);
+  // The distance between the vertexes must be large enough to be a valid normal
+  // vector. When they are very close together then the normal direction is random.
+  // We use 0.6*distTol to avoid making an unwanted collision in DoNothingGrinder;
+  // otherwise these contacts are occasionally made and they wind up causing the
+  // shuttle to stop suddenly.
+  if (dist >= 1E-6 && dist <= 0.6*distTol) {
+    return this.makeVertexVertex(this.v1_, v, p_body, dist);
+  }
+  dist = this.v2_.locBody().distanceTo(p_body);
+  if (dist >= 1E-6 && dist <= 0.6*distTol) {
+    return this.makeVertexVertex(this.v2_, v, p_body, dist);
+  }
+  return null;
+};
+
 /** @inheritDoc */
 StraightEdge.prototype.chordError = function() {
   return 0;
@@ -139,9 +165,11 @@ StraightEdge.prototype.distanceToLine = function(p_body) {
   var x2 = this.v2_.locBodyX();
   var y1 = this.v1_.locBodyY();
   var y2 = this.v2_.locBodyY();
-  if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) { // vertical edge
+  if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {
+    // vertical edge
     r = this.outsideIsUp_ ? pbx - x1 : x1 - pbx;
-  } else if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {  // horizontal edge
+  } else if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {
+    // horizontal edge
     r = this.outsideIsUp_ ? pby - y1 : y1 - pby;
   } else {
     var k = (y2 - y1)/(x2 - x1);  // slope of the edge
@@ -150,7 +178,9 @@ StraightEdge.prototype.distanceToLine = function(p_body) {
     var dx = pbx-qx;
     var dy = pby-qy;
     var d = Math.sqrt(dx*dx + dy*dy);
-    if (pby < qy) d = -d;
+    if (pby < qy) {
+      d = -d;
+    }
     r = this.outsideIsUp_ ? d : -d;
   }
   if (isNaN(r)) {
@@ -171,18 +201,22 @@ StraightEdge.prototype.distanceToPoint = function(p_body) {
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {
     // vertical edge
     // if p is beyond endpoints of this edge segment, return infinite distance
-    if (y1 > y2 && (pby > y1 || pby < y2))
+    if (y1 > y2 && (pby > y1 || pby < y2)) {
       return UtilityCore.POSITIVE_INFINITY;
-    if (y2 > y1 && (pby > y2 || pby < y1))
+    }
+    if (y2 > y1 && (pby > y2 || pby < y1)) {
       return UtilityCore.POSITIVE_INFINITY;
+    }
     return this.outsideIsUp_ ? pbx - x1 : x1 - pbx;
   } else if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {
     // horizontal edge
     // if p is beyond endpoints of this edge segment, return infinite distance
-    if (x1 > x2 && (pbx > x1 || pbx < x2))
+    if (x1 > x2 && (pbx > x1 || pbx < x2)) {
       return UtilityCore.POSITIVE_INFINITY;
-    if (x2 > x1 && (pbx > x2 || pbx < x1))
+    }
+    if (x2 > x1 && (pbx > x2 || pbx < x1)) {
       return UtilityCore.POSITIVE_INFINITY;
+    }
     return this.outsideIsUp_ ? pby - y1 : y1 - pby;
   } else {
     // edge is neither horizontal or vertical
@@ -190,14 +224,18 @@ StraightEdge.prototype.distanceToPoint = function(p_body) {
     var k = (y2 - y1)/(x2 - x1);
     var qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
     var qy = y1 + k * (qx - x1);
-    if (x1 < x2 && (qx < x1 || qx > x2))
+    if (x1 < x2 && (qx < x1 || qx > x2)) {
       return UtilityCore.POSITIVE_INFINITY;
-    if (x2 < x1 && (qx < x2 || qx > x1))
+    }
+    if (x2 < x1 && (qx < x2 || qx > x1)) {
       return UtilityCore.POSITIVE_INFINITY;
+    }
     var dx = pbx-qx;
     var dy = pby-qy;
     var d = Math.sqrt(dx*dx + dy*dy);
-    if (pby < qy) d = -d;
+    if (pby < qy) {
+      d = -d;
+    }
     return this.outsideIsUp_ ? d : -d;
   }
 };
@@ -214,13 +252,16 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {  // vertical edge
     var vx = (x1 + x2)/2;  // average in case slightly different
     // is p is beyond endpoints of this edge segment?
-    if (y1 > y2 && (pby > y1 || pby < y2))
-      return null;
-    if (y2 > y1 && (pby > y2 || pby < y1))
-      return null;
+    if (y1 > y2 && (pby > y1 || pby < y2)) {
+      return this.checkVertexVertex(v, p_body, distTol);
+    }
+    if (y2 > y1 && (pby > y2 || pby < y1)) {
+      return this.checkVertexVertex(v, p_body, distTol);
+    }
     var dist = this.outsideIsUp_ ? pbx - vx : vx - pbx;
-    if (dist < 0 || dist > distTol)
+    if (dist < 0 || dist > distTol) {
       return null;
+    }
     var rbc = new CornerEdgeCollision(v, this);
     rbc.distance = dist;
     // rw = near point in world coords
@@ -238,10 +279,12 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {  // horizontal edge
     var vy = (y1 + y2)/2;  // average in case slightly different
     // is p is beyond endpoints of this edge segment?
-    if (x1 > x2 && (pbx > x1 || pbx < x2))
-      return null;
-    if (x2 > x1 && (pbx > x2 || pbx < x1))
-      return null;
+    if (x1 > x2 && (pbx > x1 || pbx < x2)) {
+      return this.checkVertexVertex(v, p_body, distTol);
+    }
+    if (x2 > x1 && (pbx > x2 || pbx < x1)) {
+      return this.checkVertexVertex(v, p_body, distTol);
+    }
     var dist = this.outsideIsUp_ ? pby - vy : vy - pby;
     if (dist < 0 || dist > distTol) {
       return null;
@@ -265,17 +308,22 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   var rbx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
   var rby = y1 + k * (rbx - x1);
   // is rb is beyond endpoints of this edge segment?
-  if (x1 < x2 && (rbx < x1 || rbx > x2))
-    return null;
-  if (x2 < x1 && (rbx < x2 || rbx > x1))
-    return null;
+  if (x1 < x2 && (rbx < x1 || rbx > x2)) {
+    return this.checkVertexVertex(v, p_body, distTol);
+  }
+  if (x2 < x1 && (rbx < x2 || rbx > x1)) {
+    return this.checkVertexVertex(v, p_body, distTol);
+  }
   var dx = pbx-rbx;
   var dy = pby-rby;
   var dist = Math.sqrt(dx*dx + dy*dy);
-  if (pby < rby) dist = -dist;
+  if (pby < rby) {
+    dist = -dist;
+  }
   dist = this.outsideIsUp_ ? dist : -dist;
-  if (dist < 0 || dist > distTol)
+  if (dist < 0 || dist > distTol) {
     return null;
+  }
   var rbc = new CornerEdgeCollision(v, this);
   rbc.distance = dist;
   // rw = near point in world coords
@@ -384,7 +432,11 @@ StraightEdge.prototype.highlight = function() {
 StraightEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
   if (edge instanceof StraightEdge) {
     // no collisions between straight edges;
-    // these are handled by corner collisions. See Polygon.checkCollision.
+    /*if (rbc.getNormalBody() == edge.getBody()) {
+      StraightStraight.improveAccuracy(rbc, this, edge);
+    } else {
+      StraightStraight.improveAccuracy(rbc, edge, this);
+    }*/
   } else {
     edge.improveAccuracyEdge(rbc, this);
   }
@@ -395,7 +447,9 @@ StraightEdge.prototype.intersection = function(p1_body, p2_body) {
   if (p1_body == p2_body) {
     return null;
   }
-  var q = UtilEngine.linesIntersect(this.v1_.locBody(), this.v2_.locBody(), p1_body, p2_body);
+  var v1 = this.v1_.locBody();
+  var v2 = this.v2_.locBody();
+  var q = UtilEngine.linesIntersect(v1, v2, p1_body, p2_body);
   return q == null ? null : [q];
 };
 
@@ -416,6 +470,45 @@ StraightEdge.prototype.intersectionPossible = function(edge, swellage) {
 /** @inheritDoc */
 StraightEdge.prototype.isStraight = function() {
   return true;
+};
+
+/** Makes a Vertex/Vertex contact.
+* @param {!myphysicslab.lab.engine2D.Vertex} myV
+* @param {!myphysicslab.lab.engine2D.Vertex} otherV
+* @param {!myphysicslab.lab.util.Vector} p_body
+* @param {number} dist
+* @return {?myphysicslab.lab.engine2D.RigidBodyCollision}
+* @private
+*/
+StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
+  goog.asserts.assert( myV.getEdge1() == this || myV.getEdge2() == this );
+  var rbc = new CornerCornerCollision(otherV, myV);
+  rbc.distance = dist;
+  // rw = near point in world coords
+  var rw = this.body_.bodyToWorld(myV.locBody());
+  rbc.impact1 = rw;
+  // nb = normal in body coords
+  var nb = p_body.subtract(myV.locBody()).normalize();
+  if (nb == null) {
+    // the vector between the other vertex and my vertex is zero,
+    // we can't figure out a normal, so give up.
+    return null;
+  }
+  // nw = normal in world coords
+  var nw = this.body_.rotateBodyToWorld(nb);
+  rbc.normal = nw;
+  rbc.r2 = rbc.impact1.subtract(this.body_.getPosition());
+  // problem with this is that the radius is small and can change quickly
+  rbc.ballObject = false;
+  rbc.radius1 = UtilityCore.NaN;
+  rbc.ballNormal = true;
+  rbc.radius2 = dist;
+  rbc.u2 = rbc.r2;
+  rbc.creator = goog.DEBUG ? "StraightEdge.makeVertexVertex" : "";
+  rbc.normalVelocity = rbc.calcNormalVelocity();
+  // Only low velocity contacts are valid. At high speeds, CornerCornerCollisions
+  // are likely not valid.
+  return rbc.contact() ? rbc : null;
 };
 
 /** @inheritDoc */
@@ -463,7 +556,10 @@ StraightEdge.prototype.projectionOntoLine = function(p_body) {
 /** @inheritDoc */
 StraightEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
-    // no collisions between straight edges;  these are handled by corner collisions.
+    // no collisions or contacts between StraightEdges, only between vertex and
+    // StraightEdge.
+    // However, if desired here is a way to detect when StraightEdges intersect:
+    // StraightStraight.testCollision(collisions, edge, this, time);
   } else {
     edge.testCollisionEdge(collisions, this, time);
   }

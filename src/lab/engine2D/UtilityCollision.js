@@ -664,7 +664,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
     UtilityCollision.vertexBodyCollisionTests++;
   var edge2 = vertex2.getEdge1();
   if (edge2 == null) {
-    throw new Error('vertex2 has no edge: '+vertex2);
+    throw new Error(goog.DEBUG ? 'vertex2 has no edge: '+vertex2 : '');
   }
   // type needed for NTI?
   /** @type {!myphysicslab.lab.engine2D.Polygon} */
@@ -695,7 +695,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
     }
     if (goog.DEBUG && body1.probablyPointInside(v_body)) {
       // sanity check
-      throw new Error('corner is inside 1: '+v_body+' '+body1);
+      throw new Error('probablyPointInside: '+v_body+' '+body1);
     }
     // no possible collision
     return;
@@ -764,8 +764,9 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
       // There can be zero, one or two points of intersection in r1_array,
       // (for example, the line of travel of a vertex could pass thru a circle
       // in two points).
-      if (goog.DEBUG && debugPenetration)
+      if (goog.DEBUG && debugPenetration) {
         console.log('v_body='+v_body+' e1='+e1);
+      }
       var r1_array = e1.intersection(v_body, v_body_old);
       if (r1_array == null) {
         if (goog.DEBUG && debugPenetration) {
@@ -783,15 +784,18 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
           return;  // continue to next edge
         /** @type {?RigidBodyCollision} */
         var c = e1.findVertexContact(vertex2, v_body, distTol);
-        if (goog.DEBUG && debugPenetration)
+        if (goog.DEBUG && debugPenetration) {
           console.log('findVertexContact '+c);
-        if (c != null)
+        }
+        if (c != null) {
           UtilityCollision.addContact(collisions, c, body2, body1, e1, vertex2, time);
+        }
         return;  // continue to next edge
       }
       goog.asserts.assert(v_body != v_body_old);
-      if (0 == 1 && goog.DEBUG)
+      if (0 == 1 && goog.DEBUG) {
         console.log('r1_array[0]='+r1_array[0]);
+      }
       //checkPrint('intersection found', body2, vertex2, e, v_body);
       // A vertex could pass thru several edges, but we want only the first edge
       // that it passed thru.
@@ -805,14 +809,16 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         }
         // @todo  use distance squared instead -- its faster!
         var d = v_body_old.subtract(r1b).length();
-        if (goog.DEBUG && debugPenetration)
+        if (goog.DEBUG && debugPenetration) {
           console.log('distance_old='+distance_old+' d='+d);
+        }
         if (d < distance_old) {
           distance_old = d;
           e1_body = r1b;
           edge1 = e1;
-          if (goog.DEBUG && debugPenetration)
+          if (goog.DEBUG && debugPenetration) {
             console.log('edge1='+edge1);
+          }
         }
       }); // forEach in r1_array
     }); // forEach in body1.getEdges_()
@@ -823,50 +829,48 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
           /** @type {!Vector}*/(e1_body), v_body, time);
       break;
     } else {
-      // No intersection was found.
-      // NOTE: we ignore if there is a 'special edge' on this polygon,
-      // because it is then a wall and there are likely edges with zero max radius,
-      // so are inactive for collisions, so a vertex can reach the inside by going
-      // thru those inactive edges.
-      // An example is in PileConfig.makeDoubleVPit where two walls overlap,
-      // and a vertex collision would not be detected on one wall, but would be
-      // detected on the other wall.  So we need to ignore the 'corner is inside'
-      // situation and trust that the other overlapping wall will generate a
-      // collision.
-      // history: Jan 18 2014:  add back the check for special edge which was
-      // removed on May 27 2013.
-
-      // both bodies must be Polygon's, because Scrim doesn't collide with anything
-      goog.asserts.assert(body1 instanceof myphysicslab.lab.engine2D.Polygon);
-      var noSpecialEdge = body1.getSpecialNormalWorld() == null;
-
-      // note May 9 2016: If you make an EdgeRange or EdgeGroup such that two
-      // polygons cannot collide, this Error will still occur when the polygons
-      // are overlapping. Use RigidBody.addNonCollide instead in that case.
-      // (Alternatively, we could disable all these checks somehow, perhaps
-      // with an option setting on ImpulseSim).
-
-      // Check whether the point is inside the polygon.
-      var probablyInside = noSpecialEdge && body1.probablyPointInside(v_body);
-
-      // On the second pass, or if not debugging, throw an exception.
-      if (debugPenetration || (probablyInside && !goog.DEBUG)) {
-        //UtilityCore.myWait(30);
-        throw new Error('corner is inside: v_body='+v_body
-            +'\nvertex2='+vertex2+'\nbody1='+body1+'\nbody2='+body2);
-      }
-      // If no penetration, then not finding an intersection is OK, so done.
-      if (!probablyInside) {
+      if (!goog.DEBUG) {
         break;
-      }
-      // There is penetration, but no intersection/collision found -- trouble!
-      // Go back thru the above code and print debug info.
-      goog.asserts.assert( probablyInside );
-      debugPenetration = probablyInside;
-      if (goog.DEBUG) {
-        UtilEngine.debugIntersect = probablyInside;
-        console.log('no intersection found;  probablyInside='
-            +probablyInside);
+      } else {
+        // No intersection was found.
+        // NOTE: we ignore if there is a 'special edge' on this polygon,
+        // because it is then a wall and there are likely edges with zero max radius,
+        // so are inactive for collisions, so a vertex can reach the inside by going
+        // thru those inactive edges.
+        // An example is in PileConfig.makeDoubleVPit where two walls overlap,
+        // and a vertex collision would not be detected on one wall, but would be
+        // detected on the other wall.  So we need to ignore the 'corner is inside'
+        // situation and trust that the other overlapping wall will generate a
+        // collision.
+        // history: Jan 18 2014:  add back the check for special edge which was
+        // removed on May 27 2013.
+
+        // both bodies must be Polygon's, because Scrim doesn't collide with anything
+        goog.asserts.assert(body1 instanceof myphysicslab.lab.engine2D.Polygon);
+        var noSpecialEdge = body1.getSpecialNormalWorld() == null;
+
+        // note May 9 2016: If you make an EdgeRange or EdgeGroup such that two
+        // polygons cannot collide, this Error will still occur when the polygons
+        // are overlapping. Use RigidBody.addNonCollide instead in that case.
+        // (Alternatively, we could disable all these checks somehow, perhaps
+        // with an option setting on ImpulseSim).
+
+        // Check whether the point is inside the polygon.
+        var probablyInside = noSpecialEdge && body1.probablyPointInside(v_body);
+        // If no penetration, then not finding an intersection is OK, so done.
+        if (!probablyInside) {
+          break;
+        }
+        // At end of second pass throw an error
+        if (debugPenetration) {
+          throw new Error('probablyPointInside: v_body='+v_body
+                +'\nvertex2='+vertex2+'\nbody1='+body1+'\nbody2='+body2);
+        }
+        // There is penetration, but no intersection/collision found -- trouble!
+        // Go back thru the above code a second time and print debug info.
+        debugPenetration = true;
+        UtilEngine.debugIntersect = true;
+        console.log('no intersection found;  probablyInside='+probablyInside);
       }
     }
   }
