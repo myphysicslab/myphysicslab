@@ -22,12 +22,11 @@ The prerequisite tools are
 
 + [GNU Make](https://www.gnu.org/software/make/)
 
-+ [Closure Compiler](https://github.com/google/closure-compiler), see also
-    [Closure Compiler References](http://67.199.21.25/develop/docs/Building.html#closurecompilerreferences)
++ [Closure Compiler](https://github.com/google/closure-compiler)
 
 + [Closure Library](https://github.com/google/closure-library) is a separate
     download from Closure Compiler. It is a collection of JavaScript source
-    code, see [Closure Library References](http://67.199.21.25/develop/docs/Building.html#closurelibraryreferences).
+    code.
 
 Once the prerequisites are on your system, follow these steps:
 
