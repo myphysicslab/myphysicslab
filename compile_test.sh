@@ -21,6 +21,13 @@
 #set dbg to "true" to show some debug statements
 dbg=""
 
+# check if closure-library link exists
+if [ ! -f ./closure-library/closure/goog/array/array.js ]; then
+	echo "$0 ERROR: cannot find closure-library. Create a symbolic link with a command like:"
+	echo "       ln -s ../closure-library/ closure-library"
+	exit 1
+fi
+
 rootDir="${1}"
 if [ -z "$rootDir" ] ; then
 	echo "$0 ERROR: no source directory specified"

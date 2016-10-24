@@ -7,29 +7,34 @@
 # 1. where tools are located such as closure compiler
 # 2. build options such as compile level, locale, name of build directory, etc.
 
-# COMPILE_LEVEL determines whether HTML file loads advanced-compiled, simple-compiled
-# or uncompiled source code.
-# COMPILE_LEVEL can be "advanced", "simple", or "debug".
-COMPILE_LEVEL ?= simple
-
-# GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
-# GOOG_DEBUG ?= true
-
-# LOCALE can be "en" or "de"
-LOCALE ?= en
-
-# Need to export these variables so that shell script can see them.
-CLOSURE_COMPILER := ../closure-compiler/target/closure-compiler-1.0-SNAPSHOT.jar
-#CLOSURE_COMPILER := ../compiler-latest/closure-compiler-v20160822.jar
+#CLOSURE_COMPILER := ../closure-compiler/target/closure-compiler-1.0-SNAPSHOT.jar
+CLOSURE_COMPILER := ../compiler-latest/closure-compiler-v20160911.jar
 export CLOSURE_COMPILER
 
-# location of js-dossier which builds documentation using closure compiler.
+# (optional: DOSSIER is for building documentation, otherwise you can ignore this)
+# Location of js-dossier which builds documentation using closure compiler.
 # See https://github.com/jleyba/js-dossier
 # Install Bazel, then build js-dossier with command ./gendossier.sh -r
 DOSSIER := ../js-dossier/bazel-bin/src/java/com/github/jsdossier/dossier_deploy.jar
 export DOSSIER
 
-# custom locations for build directories can be specified like this:
+# COMPILE_LEVEL determines whether HTML file loads advanced-compiled, simple-compiled
+# or uncompiled source code.
+# COMPILE_LEVEL can be "advanced", "simple", or "debug".
+COMPILE_LEVEL ?= simple
+
+# GOOG_DEBUG is passed to compile_js.sh, it determines whether goog.DEBUG=true
+# Leave GOOG_DEBUG unspecified to let it be determined by COMPILE_LEVEL flag.
+# GOOG_DEBUG ?= true
+
+# LOCALE can be "en" or "de"
+LOCALE ?= en
+
+# Leave BUILD_DIR unspecified to let it be determined by COMPILE_LEVEL flag.
+# Or specify BUILD_DIR if desired.
+# BUILD_DIR ?= build
+
+# Custom locations for build directories can be specified like this:
 #ADV_BUILD_DIR := adv-build_foo
 #export ADV_BUILD_DIR
 #SIMPLE_BUILD_DIR := build_foo

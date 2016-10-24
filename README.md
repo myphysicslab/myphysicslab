@@ -11,23 +11,23 @@ and contains explanations of the math behind them.
 Building
 --------
 It is possible to customize a myPhysicsLab simulation without
-building from source code, see [Customizing myPhysicsLab
-Simulations](Customizing.html).
+building from source code, see
+[Customizing myPhysicsLab Simulations](http://67.199.21.25/develop/docs/Customizing.html).
 
 The prerequisite tools are
 
-+ [Java 7 or higher](www.java.com)
++ [Java 7 or higher](http://www.java.com)
 
 + [Perl](https://www.perl.org)
 
 + [GNU Make](https://www.gnu.org/software/make/)
 
 + [Closure Compiler](https://github.com/google/closure-compiler), see also
-    [Closure Compiler References](Building.html#closurecompilerreferences)
+    [Closure Compiler References](http://67.199.21.25/develop/docs/Building.html#closurecompilerreferences)
 
 + [Closure Library](https://github.com/google/closure-library) is a separate
     download from Closure Compiler. It is a collection of JavaScript source
-    code, see [Closure Library References](Building.html#closurelibraryreferences).
+    code, see [Closure Library References](http://67.199.21.25/develop/docs/Building.html#closurelibraryreferences).
 
 Once the prerequisites are on your system, follow these steps:
 

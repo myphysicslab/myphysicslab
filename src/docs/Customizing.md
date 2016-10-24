@@ -25,6 +25,10 @@ Contents of this page:
     + [Terminal Utilities][]
     + [Command Short Names][]
 + [Miscellaneous Script Places][]
+    + [Memorizable][]
+    + [ExpressionVariable][]
+    + [ClockTask][]
+    + [GenericObserver][]
 
 Additional information:
 
@@ -397,7 +401,7 @@ Scripts can be put in a variety of other locations besides Terminal and the Star
 Some of these will execute the script repeatedly (Memorizable, ExpressionVariable),
 others will execute only when certain events occur (ClockTask, GenericObserver).
 
-## GenericMemo
+## Memorizable
 
 [GenericMemo](myphysicslab.lab.util.GenericMemo.html) is a
 [Memorizable](myphysicslab.lab.util.Memorizable.html) which can be installed so that it
