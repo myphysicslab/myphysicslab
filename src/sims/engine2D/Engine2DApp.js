@@ -36,6 +36,7 @@ goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Termi
 goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
 goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.SimList');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -63,6 +64,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
@@ -70,7 +72,6 @@ var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CommonControls = sims.layout.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
 var DisplayClock = lab.view.DisplayClock;
 var DoubleRect = lab.util.DoubleRect;
@@ -97,6 +98,7 @@ var TabLayout = sims.layout.TabLayout;
 var TimeGraph1 = sims.layout.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
+var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
 /** Abstract base class that creates the standard set of views, graphs and controls
@@ -161,6 +163,8 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   sim.setShowForces(true);
   /** @type {!lab.model.SimList} */
   this.simList = sim.getSimList();
+  /** @type {!VarsList} */
+  this.varsList = sim.getVarsList();
   /** @type {!ODEAdvance} */
   this.advance = advance;
   /** @type {!lab.view.SimView} */
@@ -265,7 +269,7 @@ Engine2DApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
   +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView|timeGraph'
-  +'|displayList|scriptParser|terminal|statusList|elasticity',
+  +'|displayList|scriptParser|terminal|statusList|elasticity|varsList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
@@ -298,10 +302,10 @@ Engine2DApp.prototype.getSubjects = function() {
     this.elasticity,
     this.diffEqSolver,
     this.simRun,
-    this.simRun.getClock(),
+    this.clock,
     this.simView,
     this.statusView,
-    this.sim.getVarsList()
+    this.varsList
   ];
   return goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());

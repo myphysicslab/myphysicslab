@@ -36,6 +36,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -114,6 +115,7 @@ var StandardGraph1 = sims.layout.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var UtilityCore = lab.util.UtilityCore;
+var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 var VerticalLayout = sims.layout.VerticalLayout;
 var WayPoint = lab.model.CollisionAdvance.WayPoint;
@@ -286,6 +288,9 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   this.sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   this.simList = this.sim.getSimList();
+  /** @type {!VarsList} */
+  this.varsList = this.sim.getVarsList();
+  this.varsList.setHistory(true);
   /** @type {!myphysicslab.lab.model.CollisionAdvance} */
   this.advance = new CollisionAdvance(this.sim);
   this.advance.setJointSmallImpacts(true);
@@ -463,7 +468,7 @@ TestViewerApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
-      +'|simView|statusView|terminal',
+      +'|simView|statusView|terminal|varsList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
@@ -473,7 +478,7 @@ TestViewerApp.prototype.defineNames = function(myName) {
 
 /** @inheritDoc */
 TestViewerApp.prototype.getSubjects = function() {
-  // Important that sim.getVarsList() come after app (=this) and sim, because they
+  // Important that varsList come after app (=this) and sim, because they
   // might have parameters that change the configuration which changes the set of
   // variables.
   var subjects = [
@@ -481,13 +486,13 @@ TestViewerApp.prototype.getSubjects = function() {
     this.sim,
     this.diffEqSolver,
     this.simRun,
-    this.simRun.getClock(),
+    this.clock,
     this.simView,
     this.statusView,
     this.layout.simCanvas,
     this.layout.graphCanvas,
     this.elasticity,
-    this.sim.getVarsList()
+    this.varsList
   ];
   return goog.array.concat(subjects, this.graph.getSubjects());
 };

@@ -35,6 +35,7 @@ goog.require('myphysicslab.lab.model.EnergySystem');
 goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.SimList');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -96,6 +97,7 @@ var TabLayout = sims.layout.TabLayout;
 var TimeGraph1 = sims.layout.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
+var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
 /** Abstract base class that creates the standard set of views, graphs and controls
@@ -158,6 +160,8 @@ sims.layout.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   this.advance  = advance;
   /** @type {!SimList} */
   this.simList = sim.getSimList();
+  /** @type {!VarsList} */
+  this.varsList = sim.getVarsList();
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, eventHandler);
   /** @type {!SimView} */
@@ -288,7 +292,7 @@ AbstractApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
       +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView'
-      +'|timeGraph|scriptParser|terminal',
+      +'|timeGraph|scriptParser|terminal|varsList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
@@ -313,7 +317,7 @@ AbstractApp.prototype.makeScriptParser = function(opt_volatile) {
 
 /** @inheritDoc */
 AbstractApp.prototype.getSubjects = function() {
-  // Important that sim.getVarsList() come after app (=this) and sim, because they
+  // Important that varsList come after app (=this) and sim, because they
   // might have parameters that change the configuration which changes the set of
   // variables.
   var subjects = [
@@ -321,10 +325,10 @@ AbstractApp.prototype.getSubjects = function() {
     this.sim,
     this.diffEqSolver,
     this.simRun,
-    this.simRun.getClock(),
+    this.clock,
     this.simView,
     this.statusView,
-    this.sim.getVarsList()
+    this.varsList
   ];
   return goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
