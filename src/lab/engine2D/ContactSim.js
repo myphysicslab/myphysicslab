@@ -1165,7 +1165,7 @@ ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
   var accel = UtilEngine.matrixMultiply(A, f);
   accel = UtilEngine.vectorAdd(accel, b);
   if (!ComputeForces.checkForceAccel(tol, f, accel, joint)) {
-    this.varsList_.printHistory();
+    console.log(this.varsList_.printHistory());
     throw new Error(NF7(this.getTime())
         +' compute_forces failed error='+error
         +' with tol='+NFE(tol));

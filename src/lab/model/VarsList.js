@@ -31,8 +31,6 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 var Subject = myphysicslab.lab.util.Subject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -149,6 +147,7 @@ if (!UtilityCore.ADVANCED) {
   VarsList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', timeIdx_: '+this.timeIdx_
+        +', history_: '+this.history_
         + ', ' + goog.array.map(this.varList_, function(v, idx) {
             return '('+idx+') '+ v.getName()+': '+NF5E(v.getValue()); })
         + VarsList.superClass_.toString.call(this);
@@ -299,6 +298,13 @@ VarsList.prototype.findOpenSlot_ = function(quantity) {
   return startIdx;
 };
 
+/** Whether recent history is being stored, see {@link #saveHistory}.
+@return {boolean} true if recent history is being stored
+*/
+VarsList.prototype.getHistory = function() {
+  return this.history_;
+};
+
 /** @inheritDoc */
 VarsList.prototype.getParameter = function(name) {
   name = UtilityCore.toName(name);
@@ -402,33 +408,39 @@ VarsList.prototype.numVariables = function() {
   return this.varList_.length;
 };
 
+/** Prints one set of history variables.
+@param {number} idx the index of the snapshot to print, where 1 is most recent;
+@return {string}
+@private
+*/
+VarsList.prototype.printOneHistory = function (idx) {
+  var r = '';
+  if (this.history_ && idx <= this.histArray_.length) {
+    var v = this.histArray_[this.histArray_.length - idx];
+    r = '//time = '+NF5(v[v.length-1]);
+    for (var i=0, len=v.length-1; i<len; i++) {
+      r += '\nsim.getVarsList().setValue('+i+', '+v[i]+');';
+    }
+  }
+  return r;
+};
+
 /** Prints recent 'history' set of variables to console for debugging.
 Prints the `n`-th oldest snapshot, where `n=1` is the most recent snapshot, `n=2` is
 the snapshot previous to the most recent, etc. See {@link #saveHistory}.
 @param {number=} index the index of the snapshot to print, where 1 is most recent;
     if no index is specified, then prints a selected set of recent histories.
+@return {string} the history variables formatted as code to recreate the situation
 */
 VarsList.prototype.printHistory = function(index) {
-  if (!goog.DEBUG) {
-    return;
-  }
-  var that = this;
-  var printOneHistory = function (/** number*/idx) {
-    if (goog.DEBUG && that.history_ && idx <= that.histArray_.length) {
-      var v = that.histArray_[that.histArray_.length - idx];
-      console.log('//time = '+NF5(v[v.length-1]));
-      for (var i=0, len=v.length-1; i<len; i++) {
-        console.log('sim.getVarsList().setValue('+i+', '+v[i]+');');
-      }
-    };
-  };
   if (goog.isNumber(index)) {
-    printOneHistory(index);
+    return this.printOneHistory(index);
   } else {
-    printOneHistory(10);
-    printOneHistory(3);
-    printOneHistory(2);
-    printOneHistory(1);
+    var r = this.printOneHistory(10);
+    r += '\n' + this.printOneHistory(3);
+    r += '\n' + this.printOneHistory(2);
+    r += '\n' + this.printOneHistory(1);
+    return r;
   }
 };
 
@@ -437,7 +449,7 @@ reproduce an error condition. See {@link #printHistory}.
 @return {undefined}
 */
 VarsList.prototype.saveHistory = function() {
-  if (goog.DEBUG && this.history_) {
+  if (this.history_) {
     var v = this.getValues();
     v.push(this.getTime());
     this.histArray_.push(v); // adds element to end of histArray_
@@ -458,6 +470,13 @@ VarsList.prototype.setComputed = function(indexes) {
     this.checkIndex_(idx);
     this.varList_[idx].setComputed(true);
   }
+};
+
+/** Sets whether to store recent history, see {@link #saveHistory}.
+@param {boolean} value true means recent history should be stored
+*/
+VarsList.prototype.setHistory = function(value) {
+  this.history_ = value;
 };
 
 /** Sets the current simulation time.  There are no explicit units for the time, so

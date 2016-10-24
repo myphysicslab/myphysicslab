@@ -580,7 +580,7 @@ CollisionAdvance.prototype.checkNoneCollide = function() {
       this.myPrint('TROUBLE: found '+numIllegal+' colliding at end of loop');
       this.myPrint('stats '+this.stats_);
       this.printCollisions('TROUBLE', true);
-      this.sim_.getVarsList().printHistory();
+      console.log(this.sim_.getVarsList().printHistory());
       throw new Error('checkNoneCollide numIllegal='+numIllegal);
     }
   }
@@ -1096,7 +1096,7 @@ CollisionAdvance.prototype.print = function(wayPoint) {
       this.myPrint('STUCK collision was not resolved after '+this.stuckCount_+' tries');
       this.printCollisions('STUCK', true);
       // print history so we can reproduce the error
-      this.sim_.getVarsList().printHistory();
+      console.log(this.sim_.getVarsList().printHistory());
       break;
 
     default:
