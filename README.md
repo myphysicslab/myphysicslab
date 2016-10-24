@@ -16,7 +16,7 @@ Simulations](Customizing.html).
 
 The prerequisite tools are
 
-+ [Java 7 or higher](www.java.com) is required for building.
++ [Java 7 or higher](www.java.com)
 
 + [Perl](https://www.perl.org)
 
@@ -55,7 +55,7 @@ NOTE: the HTML files in the source directories **cannot be used directly** from
 a browser. You must complete the build process first.
 
 More details about building myPhysicsLab software are at
-<http://67.199.21.25/develop/docs/Building.html>. See
+<http://67.199.21.25/develop/docs/Building.html>.
 
 
 
