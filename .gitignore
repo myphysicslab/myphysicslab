@@ -3,6 +3,7 @@
 .DS_Store
 /build
 /docs
+/debug
 # adv-build contains advance-compiled build
 /adv-build
 # myConfig.mk is the user's customized copy of makeConfig.mk
