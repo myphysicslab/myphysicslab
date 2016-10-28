@@ -675,9 +675,9 @@ to not create any global variables other than the globals for the applications.
 
 # About Units Of Measurement
 
-The simulations provided in myPhysicsLab do not have units of measurements specified
-such as meters, kilograms, seconds. The units of measurement can be interpreted however
-you want, but they must be **consistent within the simulation**.
+The myPhysicsLab simulations do not have units of measurements specified such as
+meters, kilograms, seconds. The units of measurement are **dimensionless**, they can be
+interpreted however you want, but they must be **consistent within the simulation**.
 
 Consider the
 [single spring simulation](myphysicslab.sims.springs.SingleSpringSim.html) as an

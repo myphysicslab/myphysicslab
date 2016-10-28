@@ -91,6 +91,8 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   /** @type {number} */
   this.numBods = 5;
   /** @type {number} */
+  this.mass1 = 1;
+  /** @type {number} */
   this.thrust = 1.5;
   /** @type {!lab.engine2D.ThrusterSet} */
   this.thrust1;
@@ -114,6 +116,11 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.THRUST,
       RigidBodyApp.i18n.THRUST,
       this.getThrust, this.setThrust));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.MASS1,
+      RigidBodyApp.i18n.MASS1,
+      this.getMass1, this.setMass1));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -176,6 +183,15 @@ RigidBodyApp.prototype.getSubjects = function() {
 };
 
 /**
+* @param {number} num
+* @return {!Polygon}
+* @private
+*/
+RigidBodyApp.makeBlock = function(num) {
+  return Shapes.makeBlock(1, 3, RigidBodyApp.en.BLOCK+num, RigidBodyApp.i18n.BLOCK+num);
+};
+
+/**
 * @return {undefined}
 */
 RigidBodyApp.prototype.config = function() {
@@ -198,9 +214,10 @@ RigidBodyApp.prototype.config = function() {
 
   if (this.numBods >= 1) {
     DisplayShape.fillStyle = 'cyan';
-    var p1 = Shapes.makeBlock(1, 3);
+    var p1 = RigidBodyApp.makeBlock(1);
     p1.setPosition(new Vector(-3.3,  0),  0);
     p1.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
+    p1.setMass(this.mass1);
     this.mySim.addBody(p1);
     this.thrust2 = SixThrusters.make(this.thrust, p1);
     this.rbeh.setThrusters(this.thrust2, 'left');
@@ -212,7 +229,7 @@ RigidBodyApp.prototype.config = function() {
 
     if (this.numBods >= 2) {
       DisplayShape.fillStyle = 'orange';
-      var p2 = Shapes.makeBlock(1, 3);
+      var p2 = RigidBodyApp.makeBlock(2);
       p2.setPosition(new Vector(-2.2,  0),  0);
       p2.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
       this.mySim.addBody(p2);
@@ -230,7 +247,7 @@ RigidBodyApp.prototype.config = function() {
 
       if (this.numBods >= 3) {
         DisplayShape.fillStyle = '#9f3'; // light green
-        var p3 = Shapes.makeBlock(1, 3);
+        var p3 = RigidBodyApp.makeBlock(3);
         p3.setPosition(new Vector(2.867,  -0.113),  0);
         p3.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
         this.mySim.addBody(p3);
@@ -241,7 +258,7 @@ RigidBodyApp.prototype.config = function() {
 
         if (this.numBods >= 4) {
           DisplayShape.fillStyle = '#f6c'; // hot pink
-          var p4 = Shapes.makeBlock(1, 3);
+          var p4 = RigidBodyApp.makeBlock(4);
           p4.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
           p4.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
           this.mySim.addBody(p4);
@@ -252,7 +269,7 @@ RigidBodyApp.prototype.config = function() {
 
           if (this.numBods >= 5) {
             DisplayShape.fillStyle = '#39f';
-            var p5 = Shapes.makeBlock(1, 3);
+            var p5 = RigidBodyApp.makeBlock(5);
             p5.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
             this.mySim.addBody(p5);
             addSpring(new Spring('spring 6',
@@ -262,7 +279,7 @@ RigidBodyApp.prototype.config = function() {
 
             if (this.numBods >= 6) {
               DisplayShape.fillStyle = '#c99';
-              var p6 = Shapes.makeBlock(1, 3);
+              var p6 = RigidBodyApp.makeBlock(6);
               p6.setPosition(new Vector(0.08,  0.127),  0.888);
               this.mySim.addBody(p6);
               addSpring(new Spring('spring 7',
@@ -280,6 +297,25 @@ RigidBodyApp.prototype.config = function() {
   this.clock.setTime(0);
   this.clock.setRealTime(0);
   this.scriptParser.update();
+};
+
+/**
+* @return {number}
+*/
+RigidBodyApp.prototype.getMass1 = function() {
+  return this.mass1;
+};
+
+/**
+* @param {number} value
+*/
+RigidBodyApp.prototype.setMass1 = function(value) {
+  if (this.mass1 != value) {
+    this.mass1 = value;
+    var body1 = this.mySim.getBody(RigidBodyApp.en.BLOCK+'1');
+    body1.setMass(value);
+    this.broadcastParameter(RigidBodyApp.en.MASS1);
+  }
 };
 
 /**
@@ -356,7 +392,9 @@ RigidBodyApp.prototype.setThrust = function(value) {
   NUM_BODIES: string,
   SPRING_LENGTH: string,
   SPRING_STIFFNESS: string,
-  THRUST: string
+  THRUST: string,
+  BLOCK: string,
+  MASS1: string
   }}
 */
 RigidBodyApp.i18n_strings;
@@ -368,7 +406,9 @@ RigidBodyApp.en = {
   NUM_BODIES: 'number of objects',
   SPRING_LENGTH: 'spring length',
   SPRING_STIFFNESS: 'spring stiffness',
-  THRUST: 'thrust'
+  THRUST: 'thrust',
+  BLOCK: 'block',
+  MASS1: 'mass of block1'
 };
 
 /**
@@ -379,7 +419,9 @@ RigidBodyApp.de_strings = {
   NUM_BODIES: 'Anzahl von Objekten',
   SPRING_LENGTH: 'Federl\u00e4nge',
   SPRING_STIFFNESS: 'Federsteifheit',
-  THRUST: 'Schubkraft'
+  THRUST: 'Schubkraft',
+  BLOCK: 'Block',
+  MASS1: 'Masse von Block1'
 };
 
 /** Set of internationalized strings.

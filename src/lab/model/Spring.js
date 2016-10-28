@@ -55,7 +55,7 @@ length) but it temporarily disconnects from the second attachment point during e
 is at the first attachment point on `body1`, but the end point is rest-length away from
 start point in the direction of the second attachment point.
 
-* @param {string} name name of the object
+* @param {string} name language-independent name of this object
 * @param {!myphysicslab.lab.model.MassObject} body1 body to attach to start point of the
 *    Spring
 * @param {!myphysicslab.lab.util.GenericVector} attach1_body attachment point in body

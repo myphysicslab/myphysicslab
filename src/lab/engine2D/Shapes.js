@@ -275,13 +275,15 @@ Shapes.makePendulum = function(width, length, radius, opt_name, opt_localName) {
     coordinates
 @param {!Array<boolean>} outIsUp the value of outsideIsUp for each edge
 @param {number} moment moment about center of mass
+* @param {string=} opt_name name of the Polygon
+* @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} Polygon whose vertices are at the given points
 */
-Shapes.makePolygon = function(points, outIsUp, moment) {
+Shapes.makePolygon = function(points, outIsUp, moment, opt_name, opt_localName) {
   if (points.length < 3 || points.length != outIsUp.length) {
     throw new Error();
   }
-  var p = new Polygon();
+  var p = new Polygon(opt_name, opt_localName);
   var v0 = points[0];
   var v1 = v0;
   p.startPath(new ConcreteVertex(v1));

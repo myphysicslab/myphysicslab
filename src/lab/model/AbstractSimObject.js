@@ -29,7 +29,7 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** Base class that provides common methods for SimObjects.
 
-* @param {string=} opt_name name of this SimObject (optional)
+* @param {string=} opt_name language-independent name of this SimObject (optional)
 * @param {string=} opt_localName localized name of this SimObject (optional)
 * @constructor
 * @struct

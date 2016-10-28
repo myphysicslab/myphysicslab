@@ -89,6 +89,8 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
   /** @type {number} */
   this.numBods = 3;
   /** @type {number} */
+  this.mass1 = 1;
+  /** @type {number} */
   this.thrust = 1.5;
   /** @type {!lab.engine2D.ThrusterSet} */
   this.thrust1;
@@ -106,6 +108,11 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.THRUST,
       ImpulseApp.i18n.THRUST,
       this.getThrust, this.setThrust));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.MASS1,
+      ImpulseApp.i18n.MASS1,
+      this.getMass1, this.setMass1));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -186,6 +193,7 @@ ImpulseApp.prototype.config = function() {
     p = ImpulseApp.makeBlock(1);
     p.setPosition(new Vector(-3.3,  0),  0);
     p.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
+    p.setMass(this.mass1);
     this.mySim.addBody(p);
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
@@ -268,11 +276,31 @@ ImpulseApp.prototype.setThrust = function(value) {
   this.broadcastParameter(ImpulseApp.en.THRUST);
 };
 
+/**
+* @return {number}
+*/
+ImpulseApp.prototype.getMass1 = function() {
+  return this.mass1;
+};
+
+/**
+* @param {number} value
+*/
+ImpulseApp.prototype.setMass1 = function(value) {
+  if (this.mass1 != value) {
+    this.mass1 = value;
+    var body1 = this.mySim.getBody(ImpulseApp.en.BLOCK+'1');
+    body1.setMass(value);
+    this.broadcastParameter(ImpulseApp.en.MASS1);
+  }
+};
+
 /** Set of internationalized strings.
 @typedef {{
   NUM_BODIES: string,
   THRUST: string,
-  BLOCK: string
+  BLOCK: string,
+  MASS1: string
   }}
 */
 ImpulseApp.i18n_strings;
@@ -283,7 +311,8 @@ ImpulseApp.i18n_strings;
 ImpulseApp.en = {
   NUM_BODIES: 'number of objects',
   THRUST: 'thrust',
-  BLOCK: 'block'
+  BLOCK: 'block',
+  MASS1: 'mass of block1'
 };
 
 /**
@@ -293,7 +322,8 @@ ImpulseApp.en = {
 ImpulseApp.de_strings = {
   NUM_BODIES: 'Anzahl von Objekten',
   THRUST: 'Schubkraft',
-  BLOCK: 'Block'
+  BLOCK: 'Block',
+  MASS1: 'Masse von Block1'
 };
 
 /** Set of internationalized strings.

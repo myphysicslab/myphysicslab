@@ -86,6 +86,8 @@ sims.engine2D.ContactApp = function(elem_ids) {
   /** @type {number} */
   this.numBods = 6;
   /** @type {number} */
+  this.mass1 = 1;
+  /** @type {number} */
   this.thrust = 1.5;
   /** @type {!lab.engine2D.ThrusterSet} */
   this.thrust1;
@@ -104,6 +106,11 @@ sims.engine2D.ContactApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.THRUST,
       ContactApp.i18n.THRUST,
       this.getThrust, this.setThrust));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, ContactApp.en.MASS1,
+      ContactApp.i18n.MASS1,
+      this.getMass1, this.setMass1));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -173,9 +180,12 @@ ContactApp.prototype.config = function() {
   DisplayShape.nameFont = '10pt sans-serif';
   if (this.numBods >= 1) {
     DisplayShape.fillStyle = 'cyan';
-    p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1);
+    p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
+        /*minAngle=*/undefined, /*maxAngle=*/undefined,
+        ContactApp.en.BLOCK+1, ContactApp.i18n.BLOCK+1);
     p.setPosition(new Vector(-3.4,  0),  0);
     p.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
+    p.setMass(this.mass1);
     this.mySim.addBody(p);
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
@@ -183,7 +193,7 @@ ContactApp.prototype.config = function() {
   }
   if (this.numBods >= 2) {
     DisplayShape.fillStyle = 'orange';
-    p = Shapes.makeBlock(1, 3);
+    p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+2, ContactApp.i18n.BLOCK+2);
     p.setPosition(new Vector(-1.8,  0),  0);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p);
@@ -193,29 +203,31 @@ ContactApp.prototype.config = function() {
   }
   if (this.numBods >= 3) {
     DisplayShape.fillStyle = '#9f3'; // light green
-    p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1);
-    //p = Shapes.makeBlock('block 3', 1, 3);
+    p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
+        /*minAngle=*/undefined, /*maxAngle=*/undefined,
+        ContactApp.en.BLOCK+3, ContactApp.i18n.BLOCK+3);
     p.setPosition(new Vector(2,  -0.113),  0);
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
   }
   if (this.numBods >= 4) {
     DisplayShape.fillStyle = '#f6c'; // hot pink
-    p = Shapes.makeBlock(1, 3);
+    p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+4, ContactApp.i18n.BLOCK+4);
     p.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
   }
   if (this.numBods >= 5) {
     DisplayShape.fillStyle = '#39f';
-    p = Shapes.makeBlock(1, 3);
+    p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+5, ContactApp.i18n.BLOCK+5);
     p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
   }
   if (this.numBods >= 6) {
     DisplayShape.fillStyle = '#c99';
-    p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1);
-    //p = Shapes.makeBlock('block 6', 1, 3);
+    p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
+        /*minAngle=*/undefined, /*maxAngle=*/undefined,
+        ContactApp.en.BLOCK+6, ContactApp.i18n.BLOCK+6);
     p.setPosition(new Vector(0,  0),  0);
     this.mySim.addBody(p);
   }
@@ -225,6 +237,25 @@ ContactApp.prototype.config = function() {
   this.clock.setTime(0);
   this.clock.setRealTime(0);
   this.scriptParser.update();
+};
+
+/**
+* @return {number}
+*/
+ContactApp.prototype.getMass1 = function() {
+  return this.mass1;
+};
+
+/**
+* @param {number} value
+*/
+ContactApp.prototype.setMass1 = function(value) {
+  if (this.mass1 != value) {
+    this.mass1 = value;
+    var body1 = this.mySim.getBody(ContactApp.en.BLOCK+'1');
+    body1.setMass(value);
+    this.broadcastParameter(ContactApp.en.MASS1);
+  }
 };
 
 /**
@@ -263,7 +294,9 @@ ContactApp.prototype.setThrust = function(value) {
 /** Set of internationalized strings.
 @typedef {{
   NUM_BODIES: string,
-  THRUST: string
+  THRUST: string,
+  BLOCK: string,
+  MASS1: string
   }}
 */
 ContactApp.i18n_strings;
@@ -273,7 +306,9 @@ ContactApp.i18n_strings;
 */
 ContactApp.en = {
   NUM_BODIES: 'number of objects',
-  THRUST: 'thrust'
+  THRUST: 'thrust',
+  BLOCK: 'block',
+  MASS1: 'mass of block1'
 };
 
 /**
@@ -282,7 +317,9 @@ ContactApp.en = {
 */
 ContactApp.de_strings = {
   NUM_BODIES: 'Anzahl von Objekten',
-  THRUST: 'Schubkraft'
+  THRUST: 'Schubkraft',
+  BLOCK: 'Block',
+  MASS1: 'Masse von Block1'
 };
 
 /** Set of internationalized strings.

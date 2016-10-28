@@ -46,7 +46,7 @@ A range of options are available for customizing myPhysicsLab simulations. The g
 flexibility comes from obtaining the source code and building new or modified
 simulations as described in [Building myPhysicsLab Software](Building.html). But this
 requires installing and using many tools such as Closure Compiler and Library, perl,
-Java, make, python, git, etc.
+Java, make, etc.
 
 
 ## Terminal
