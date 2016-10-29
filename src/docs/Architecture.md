@@ -670,10 +670,13 @@ access the various objects from a script, as is discussed further in the section
 [Terminal: An Interactive Programming Environment](Customizing.html#terminal:aninteractiveprogrammingenvironment)
 
 It is possible to have **two independent versions** of an application running on a
-single page. This is demonstrated in `MultiSpringApp.html`. Note that there are two
-separate sets of HTML elements there, each with unique names specified in the
-`elem_ids`. To be able to run two or more versions of an application, it is important
-to not create any global variables other than the globals for the applications.
+single page. This is demonstrated in
+[MultiSpringApp](http://67.199.21.25/develop/adv-build/sims/springs/MultiSpringApp_en.html)
+which has two versions of SingleSpringApp running.
+Note that there are two separate sets of HTML elements on that page, each with unique
+names specified in the `elem_ids`. To be able to run two or more versions of an
+application, it is important to not create any global variables other than the globals
+for the applications.
 
 
 # About Units Of Measurement

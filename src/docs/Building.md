@@ -45,7 +45,7 @@ Contents of this page:
     + [What should not be localized?][]
 
 + [Programming Details][]
-    + [HTML Files use Macros][]
+    + [Macros in HTML Files][]
     + [Advanced vs. Simple Compile][]
     + [Debugging (running uncompiled)][]
     + [Global Variable Usage][]
@@ -127,7 +127,7 @@ Once the prerequisites are on your system, follow these steps:
     default option `COMPILE_LEVEL=simple`).
     Execute `make help` to see available options.
 
-5.  Open the file `myphysicslab/build/index_en.html` with a browser. This has
+5.  Open the file `/build/index_en.html` with a browser. This has
     links to all the files that were built.
 
 NOTE: the HTML files in the source directories **cannot be used directly** from
@@ -919,7 +919,7 @@ remain correct in case the string is ever changed.
 # Programming Details
 
 
-## HTML Files use Macros
+## Macros in HTML Files
 
 The reason that the HTML files in the source directories **cannot be used directly**
 from a browser is that they contain macros (or "templates") which must be expanded to

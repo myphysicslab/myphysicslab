@@ -170,6 +170,7 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=unknownDefines \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
+--emit_use_strict \
 --language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
 --dependency_mode=STRICT \

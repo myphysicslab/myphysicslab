@@ -54,7 +54,7 @@ Once the prerequisites are on your system, follow these steps:
     default option `COMPILE_LEVEL=simple`).
     Execute `make help` to see available options.
 
-5.  Open the file `myphysicslab/build/index_en.html` with a browser. This has
+5.  Open the file `/build/index_en.html` with a browser. This has
     links to all the files that were built.
 
 NOTE: the HTML files in the source directories **cannot be used directly** from
