@@ -60,12 +60,12 @@ issues involved. See the following references for the math and physics behind th
 physics engine. The rest of this overview assumes some familiarity with this
 information.
 
-+ [2d Rigid Body Physics Engine](http://67.199.21.25/explain/physics-engine_de.html)
++ [2d Rigid Body Physics Engine](http://67.199.21.25/explain/physics-engine_en.html)
     introduction to the Physics Engine
 + [differential equations](http://67.199.21.25/engine2D/rigid-body/rigid-body_en.html#differential_equations)
     for movement of RigidBody objects with various forces acting
 + [physics of collisions for rigid bodies](http://67.199.21.25/engine2D/collision/collision_en.html#collision_physics).
-+ [contact force calculation](http://67.199.21.25/engine2D/contact_en/contact.html)
++ [contact force calculation](http://67.199.21.25/engine2D/contact/contact_en.html)
 + [ContactSim Math](ContactSim_Math.html) has details about the math involved in
     the physics engine.
 + [ContactSim documentation](myphysicslab.lab.engine2D.ContactSim.html) has
@@ -81,8 +81,8 @@ Relevant papers:
     [An Introduction to Physically Based Modeling: Rigid Body Simulation     II—Nonpenetration Constraints.](Baraff_Siggraph_97_Course_Notes.pdf)
     *Siggraph '97 Course Notes*.
 
-+ Erik Neumann, [Curved Edge Physics](CEP_Curved_Edge_Physics.pdf) about modifications
-    of the Baraff algorithm for curved edges.
++ Erik Neumann, [Curved Edge Physics](CEP_Curved_Edge_Physics.pdf)
+    about modifications of the Baraff algorithm for curved edges.
 
 
 Information about myPhysicsLab software in general:

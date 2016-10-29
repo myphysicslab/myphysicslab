@@ -10,8 +10,10 @@ Title: ContactSim Math
 
 # ContactSim Math
 
-This describes some of the math involved in
-[ContactSim](myphysicslab.lab.engine2D.ContactSim.html).
+This describes details of the math involved in the class
+[ContactSim](myphysicslab.lab.engine2D.ContactSim.html) which is part of the
+[2d Rigid Body Physics Engine](http://67.199.21.25/explain/physics-engine_en.html)
+of [myPhysicsLab](http://67.199.21.25).
 
 + [Resources][]
 + [Calculate the 'A' Matrix][]
@@ -22,29 +24,19 @@ This describes some of the math involved in
     + [Conclusion][]
     + [Extra Acceleration][]
 
-
-
 # Resources
 
-See background information at:
+Please see [2D Physics Engine Overview](Engine2D.html) which has important
+information and references.
 
-+ [2D Physics Engine Overview](Engine2D.html)
+The two main references are:
 
-+ [ContactSim documentation](myphysicslab.lab.engine2D.ContactSim.html) has
-    an easily digestible summary of how ContactSim works.
-
-+ The math and physics underlying
-    [RigidBodySim, ImpulseSim](http://67.199.21.25/collision.html) and
-    [ContactSim](http://67.199.21.25/contact.html) are described on the
-    myPhysicsLab website.
-
-+ David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid Bodies.][Baraff_94]
++ **Baraff '94** David Baraff,
+    [Fast Contact Force Computation for Nonpenetrating Rigid Bodies.][Baraff_94]
     Computer Graphics Proceedings, Annual Conference Series, 1994; pages 23-34.
 
-+ David Baraff, [An Introduction to Physically Based Modeling: Rigid Body Simulation II—Nonpenetration Constraints.](Baraff_Siggraph_97_Course_Notes.pdf) Siggraph '97 Course Notes.
-
-+ [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf)
-    paper about modifications to Baraff algorithm for curved edges.
++ Erik Neumman, [Curved Edge Physics](CEP_Curved_Edge_Physics.pdf)
+    about modifications to Baraff algorithm for curved edges.
 
 Information about myPhysicsLab software in general:
 
@@ -462,8 +454,8 @@ vector), and the normal vector `Ni`.
 Extra acceleration is added to eliminate velocity at contact. See ExtraAccel enum for
 explanations of the various options.
 
-See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik Neumann
-explaining the math involved in extra acceleration for curved edges.
+See the paper [Curved Edge Physics ](CEP_Curved_Edge_Physics.pdf) which explains the
+math involved in extra acceleration for curved edges.
 
 This is a major new (as of Oct 2011) experimental change to contact handling
 policy. Add extra acceleration at contacts to offset the residual velocity. Turn off
