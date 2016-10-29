@@ -91,19 +91,22 @@ code is executed:
     Example: a CheckBoxControl reacts to change events on an HTML checkbox control.
 
 2.  A **callback function** is repeatedly executed at around 40 times per second.
+    The callback advances the simulation to synchronize with Clock time and
+    then redraws the scene.
 
-    The callback advances the simulation to match the current Clock time and
-    redraws the scene.
+A [Timer](myphysicslab.lab.util.Timer.html) object periodically executes the
+callback function. Timer is a fancier version of JavaScript's `setInterval()` function.
 
-The callback function is typically `SimRunner.callback`. The
-[SimRunner](myphysicslab.lab.app.SimRunner.html) class is
-used to drive most myPhysicsLab simulations, though it is not required.
-See [Start-Up HTML File][] for more about when the callback is started.
-
-The [Timer](myphysicslab.lab.util.Timer.html) class is used to manage the execution of
-the callback function. A [Clock](myphysicslab.lab.util.Clock.html) keeps track of the
-current time. The Clock can run at different speeds; the Clock can be paused; it can be
+A [Clock](myphysicslab.lab.util.Clock.html) keeps track of the
+current time. The Clock can run at different speeds; it can be paused; it can be
 set to a specific time; and it can keep track of any slippage from real time.
+
+The callback function is typically
+[`SimRunner.callback`](myphysicslab.lab.app.SimRunner.html#callback).
+The callback tells an [AdvanceStrategy](myphysicslab.lab.model.AdvanceStrategy.html)
+to advance the simulation to the current Clock time.
+
+See [Start-Up HTML File][] for more about when the callback is started.
 
 
 # Model
@@ -704,7 +707,3 @@ Note in particular that a **unit of time** can mean anything from a millisecond 
 millenium. However, the Clock class is used to advance the Simulation time along with
 real time as though each unit of time is equal to one second of real time. See
 [Clock](myphysicslab.lab.util.Clock.html) for more information.
-
-
-
-

@@ -25,7 +25,7 @@ var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Periodically executes a callback function; essentially a fancier version of
+/** Periodically executes a callback function; Timer is a fancier version of
 JavaScript's `setInterval()` function.
 
 
