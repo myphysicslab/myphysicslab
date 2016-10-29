@@ -58,7 +58,7 @@ of RigidBodyCollision are 'package private' meaning that any code in the
 `myphysicslab.lab.engine2D` package can modify the field directly. This avoids having to
 make dozens of getter/setter methods for those fields.
 
-See explanations at [Engine2D Overview](Engine2D.html).
+See explanations at [2D Physics Engine Overview](Engine2D.html).
 
 
 ## Terminology

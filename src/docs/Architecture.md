@@ -33,7 +33,7 @@ Additional information:
 
 + See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
     interfaces.
-+ See [Engine2D Overview](Engine2D.html) for an overview of the 2d rigid body physics
++ See [2D Physics Engine Overview](Engine2D.html) for an overview of the 2d rigid body physics
     engine.
 + The [myPhysicsLab website](http://67.199.21.25) shows the simulations
     running and contains explanations of the math behind them.
@@ -183,7 +183,7 @@ example, tests such as
 [myphysicslab.test.Engine2DTests](myphysicslab.test.Engine2DTests.html) are usually run
 without any display or user interface.
 
-See [Engine2D overview](Engine2D.html) about the rigid body physics engine which extends
+See [2D Physics Engine Overview](Engine2D.html) which extends
 the `myphysicslab.lab.model` classes to simulate 2D rigid body objects with collisions,
 contact forces, gravity, and more.
 

@@ -87,7 +87,7 @@ impulse to handle the collision.
 
 More information:
 
-+ [Engine2D Overview](Engine2D.html)
++ [2D Physics Engine Overview](Engine2D.html)
 
 + The math and physics underlying
     [RigidBodySim, ImpulseSim](http://67.199.21.25/collision.html) and

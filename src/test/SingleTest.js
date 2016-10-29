@@ -45,7 +45,7 @@ var StraightStraightTest = myphysicslab.test.StraightStraightTest;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See
-[Engine2D Overview](Engine2D.html).
+[2D Physics Engine Overview](Engine2D.html).
 
 Unlike other tests, the makefile does not set `GOOG_DEBUG` to false for this test, so
 `goog.DEBUG` should be true when this is compiled.

@@ -44,7 +44,7 @@ Computer Graphics Proceedings, Annual Conference Series: 23-34, 1994. 12 pages.
 
 More info at:
 
-+ [Engine2D Overview](Engine2D.html)
++ [2D Physics Engine Overview](Engine2D.html)
 
 + [The Math and Physics Underlying ContactSim](http://67.199.21.25/contact.html)
 
@@ -273,7 +273,8 @@ performance test.
 
 ### Future Improvements
 
-See [Future Improvements](Engine2D.html#futureimprovements) in Engine2D overview.
+See [Future Improvements](Engine2D.html#futureimprovements) in 2D Physics Engine
+Overview.
 
 
 ### Remaining Mysteries

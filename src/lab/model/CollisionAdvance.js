@@ -65,9 +65,8 @@ the AdvanceStrategy process where debug info can be printed. See the methods
 {@link #addWayPoints}, {@link #setWayPoints}. The method {@link #setDebugLevel} selects a
 pre-defined group of WayPoints.
 
-See [Observing The Collision Handling
-Process](Engine2D.html#observingthecollisionhandlingprocess)
-in Engine2D overview, and {@link CollisionAdvance.DebugLevel}.
+See [Observing The Collision Handling Process](Engine2D.html#observingthecollisionhandlingprocess)
+in 2D Physics Engine Overview, and {@link CollisionAdvance.DebugLevel}.
 
 * @param {!myphysicslab.lab.model.CollisionSim} sim the CollisionSim to advance in time
 * @param {!myphysicslab.lab.model.DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to

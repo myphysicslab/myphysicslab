@@ -33,7 +33,7 @@ results in a low-velocity collision or a loss of contact.
 More information:
 
 + 'Extra Acceleration' in {@link myphysicslab.lab.engine2D.ContactSim}
-+ [How to Stop Jitter](Engine2D.html#howtostopjitter) in the engine2D overview
++ [How to Stop Jitter](Engine2D.html#howtostopjitter) in the 2D Physics Engine Overview
 + 'Distance and Target Gap' in {@link myphysicslab.lab.engine2D.RigidBodyCollision}.
 
 * Note that enum types do not appear correctly in the documentation, they appear

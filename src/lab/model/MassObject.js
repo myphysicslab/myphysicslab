@@ -28,7 +28,7 @@ potentially be dragged by the user.
 
 ## Body Coordinates
 
-See also the Engine2D overview section about
+See also the 2D Physics Engine Overview section about
 [Body Coordinates](Engine2D.html#bodycoordinates),
 and {@link myphysicslab.lab.model.CoordType}.
 

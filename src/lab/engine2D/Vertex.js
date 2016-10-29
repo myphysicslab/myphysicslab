@@ -31,7 +31,7 @@ See {@link myphysicslab.lab.engine2D.Polygon}, and
 ## Decorated Mid-Point Vertexes
 
 See also the section on [Decorated Vertexes](Engine2D.html#decoratedvertexes) in the
-engine2D overview.
+2D Physics Engine Overview.
 
 We add 'decorated mid-point Vertexes' along a curved edge to help with collision and
 contact detection.

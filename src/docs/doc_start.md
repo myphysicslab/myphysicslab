@@ -22,8 +22,7 @@ Documentation
 + See [myPhysicsLab Architecture](Architecture.html) for an introduction to classes
     and interfaces.
 
-+ See [Engine2D Overview](Engine2D.html) for an overview of the 2d rigid body physics
-    engine.
++ See [2D Physics Engine Overview](Engine2D.html)
 
 + See [Customizing myPhysicsLab Simulations](Customizing.html) about how to customize
     using only a browser and text editor.

@@ -60,7 +60,7 @@ var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** A RigidBody made of connected Edges and Vertexes.
 
-See [Engine2D Overview](Engine2D.html) about the rigid body physics engine.
+See [2D Physics Engine Overview](Engine2D.html) about the rigid body physics engine.
 
 ### Body Coordinates
 

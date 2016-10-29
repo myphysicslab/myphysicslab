@@ -43,7 +43,8 @@ var StraightStraightTest = myphysicslab.test.StraightStraightTest;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Runs performance tests of the rigid body physics engine. See
-[Engine2D Overview](Engine2D.html).  Each test has an expected time, if it takes significantly longer then a failure is reported.
+[2D Physics Engine Overview](Engine2D.html). Each test has an expected time, if it
+takes significantly longer then a failure is reported.
 The function {@link myphysicslab.test.Engine2DTestRig#getPerfLimit} contains the
 policy for 'how much longer than expected is a failure'.
 
