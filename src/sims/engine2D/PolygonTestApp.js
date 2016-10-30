@@ -85,7 +85,7 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.elasticity.setElasticity(0.8);
-  this.mySim.setShowForces(true);
+  this.mySim.setShowForces(false);
   /** @type {!lab.model.DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
   /** @type {!lab.model.GravityLaw} */
