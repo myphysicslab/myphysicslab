@@ -183,7 +183,7 @@ comparependulum: $(BUILD_DIR)/sims/pendulum/ComparePendulumApp_$(LOCALE).html
 contact: $(BUILD_DIR)/sims/engine2D/ContactApp_$(LOCALE).html
 curvedtest: $(BUILD_DIR)/sims/engine2D/CurvedTestApp_$(LOCALE).html
 danglestick: $(BUILD_DIR)/sims/springs/DangleStickApp_$(LOCALE).html
-donothinggrinder: $(BUILD_DIR)/sims/engine2D/DoNothingGrinderApp_$(LOCALE).html
+donothing: $(BUILD_DIR)/sims/engine2D/DoNothingApp_$(LOCALE).html
 double2dspring: $(BUILD_DIR)/sims/springs/Double2DSpringApp_$(LOCALE).html
 doublependulum: $(BUILD_DIR)/sims/pendulum/DoublePendulumApp_$(LOCALE).html
 doublependulum2: $(BUILD_DIR)/sims/engine2D/DoublePendulum2App_$(LOCALE).html
@@ -243,7 +243,7 @@ sims/engine2D/CartPendulum2App \
 sims/engine2D/ChainApp \
 sims/engine2D/ContactApp \
 sims/engine2D/CurvedTestApp \
-sims/engine2D/DoNothingGrinderApp \
+sims/engine2D/DoNothingApp \
 sims/engine2D/DoublePendulum2App \
 sims/engine2D/FastBallApp \
 sims/engine2D/GearsApp \
@@ -367,7 +367,7 @@ $(BUILD_DIR)/sims/engine2D/ChainApp*.js : src/sims/engine2D/ChainConfig.js
 
 $(BUILD_DIR)/sims/engine2D/CurvedTestApp*.js : src/sims/engine2D/SixThrusters.js
 
-$(BUILD_DIR)/sims/engine2D/DoNothingGrinderApp*.js : src/sims/engine2D/RotatingTestForce.js
+$(BUILD_DIR)/sims/engine2D/DoNothingApp*.js : src/sims/engine2D/RotatingTestForce.js
 
 $(BUILD_DIR)/sims/engine2D/GearsApp*.js : src/sims/engine2D/GearsConfig.js
 
@@ -469,7 +469,7 @@ src/sims/layout/TimeGraph1.js
 # tests require only a few .js files from src/sims/engine2D
 test_req := src/test/*.js $(lab_js) \
 src/sims/engine2D/GearsConfig.js \
-src/sims/engine2D/DoNothingGrinderApp.js \
+src/sims/engine2D/DoNothingApp.js \
 src/sims/engine2D/CurvedTestApp.js \
 src/sims/engine2D/PendulumClockConfig.js \
 src/sims/engine2D/RotatingTestForce.js \

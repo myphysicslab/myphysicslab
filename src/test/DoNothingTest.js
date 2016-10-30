@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.DoNothingGrinderApp');
+goog.require('myphysicslab.sims.engine2D.DoNothingApp');
 goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
 goog.require('myphysicslab.test.Engine2DTestRig');
 
@@ -39,7 +39,7 @@ var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DampingLaw = myphysicslab.lab.model.DampingLaw;
-var DoNothingGrinderApp = myphysicslab.sims.engine2D.DoNothingGrinderApp;
+var DoNothingApp = myphysicslab.sims.engine2D.DoNothingApp;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
@@ -78,7 +78,7 @@ DoNothingTest.test = function() {
 */
 DoNothingTest.groupName = 'DoNothingTest.';
 
-/** DoNothingGrinderApp with variable rotating force on handle.
+/** DoNothingApp with variable rotating force on handle.
 @param {!myphysicslab.lab.engine2D.ContactSim} sim
 @param {!myphysicslab.lab.model.CollisionAdvance} advance
 @export
@@ -94,7 +94,7 @@ DoNothingTest.do_nothing_variable_setup = function(sim, advance) {
   sim.setExtraAccel(ExtraAccel.VELOCITY);
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  DoNothingGrinderApp.setup(sim, /*tightFit=*/true);
+  DoNothingApp.setup(sim, /*tightFit=*/true);
   sim.setElasticity(0.8);
   sim.setSimRect(new DoubleRect(-5, -5, 5, 5));
   // add a rotating force turning the handle
@@ -103,7 +103,7 @@ DoNothingTest.do_nothing_variable_setup = function(sim, advance) {
     /*magnitude=*/2, /*rotation_rate=*/0.3));
 };
 
-/** Test of DoNothingGrinderApp with variable rotating force on handle.
+/** Test of DoNothingApp with variable rotating force on handle.
 This test has many redundant contacts, which activates code in ComputeForces
 that looks for singular matrices.
 * @return {undefined}
@@ -127,7 +127,7 @@ DoNothingTest.do_nothing_variable_test = function() {
   Engine2DTestRig.checkTightJoints(sim, 0.005);
 };
 
-/** Runs the DoNothingGrinderApp simulation with a constant force turning
+/** Runs the DoNothingApp simulation with a constant force turning
 the handle and no damping, so the speed increases to high velocity,
 and eventually leads to the simulation failing to find accurate solution.
 @todo  Can we find accurate solution here at high speed by reducing
@@ -146,7 +146,7 @@ DoNothingTest.do_nothing_constant_setup = function(sim, advance) {
   advance.setJointSmallImpacts(true);
   advance.setDiffEqSolver(new RungeKutta(sim));
   advance.setTimeStep(0.025);
-  DoNothingGrinderApp.setup(sim, /*tightFit=*/true);
+  DoNothingApp.setup(sim, /*tightFit=*/true);
   sim.setElasticity(0.8);
   sim.setSimRect(new DoubleRect(-5, -5, 5, 5));
   // add a constant force turning the handle
@@ -157,7 +157,7 @@ DoNothingTest.do_nothing_constant_setup = function(sim, advance) {
   sim.addForceLaw(new ConstantForceLaw(f));
 };
 
-/** Confirm that the DoNothingGrinderApp simulation with constant turning force
+/** Confirm that the DoNothingApp simulation with constant turning force
 and high velocity eventually leads to an exception from poor accuracy.
 
 Running past 38 seconds leads to ComputeForces failures.  Previously we had
@@ -199,7 +199,7 @@ DoNothingTest.do_nothing_constant_1b_setup = function(sim, advance) {
   sim.setExtraAccel(ExtraAccel.NONE);
 };
 
-/** Shows that the DoNothingGrinderApp simulation with constant turning force
+/** Shows that the DoNothingApp simulation with constant turning force
 and high velocity can survive with tight joints using new joint policy.
 
 TO DO:  Check that this is no longer happening.  This was in ContactSim's extraAccel
@@ -230,7 +230,7 @@ DoNothingTest.do_nothing_grinder_test1b = function() {
   Engine2DTestRig.checkTightJoints(sim, 0.01);
 };
 
-/** Confirms that DoNothingGrinderApp will coast with near-constant energy.
+/** Confirms that DoNothingApp will coast with near-constant energy.
 * @return {undefined}
 */
 DoNothingTest.do_nothing_grinder_test2 = function() {
@@ -265,7 +265,7 @@ DoNothingTest.do_nothing_grinder_test2 = function() {
 
 TO DO: fix or prevent this error.
 
-DoNothingGrinderApp gets stuck when extra
+DoNothingApp gets stuck when extra
 accel is set to 'none', but it is OK when set to anything else, such as 'velocity'.
 Must also have `advance.setJointSmallImpacts(false)`.
 

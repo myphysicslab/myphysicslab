@@ -178,8 +178,9 @@ Vector.prototype.divide = function(factor) {
 */
 Vector.prototype.dotProduct = function(vector) {
   var r = this.x_ * vector.getX() + this.y_ * vector.getY() + this.z_ * vector.getZ();
-  if (isNaN(r))
+  if (isNaN(r)) {
     throw new Error(goog.DEBUG ? ('dotproduct is not a number '+this+' '+vector) : '');
+  }
   return r;
 };
 
@@ -188,8 +189,9 @@ Vector.prototype.dotProduct = function(vector) {
 @return {boolean}  true iff the other object is a GenericVector with the same values.
 */
 Vector.prototype.equals = function(vector)  {
-  if (goog.isNull(vector))
+  if (goog.isNull(vector)) {
     return false;
+  }
   return vector.getX() === this.x_ &&
          vector.getY() === this.y_ &&
          vector.getZ() === this.z_;
@@ -239,10 +241,11 @@ returns sum of absolute value of each component `x, y, z`.
 */
 Vector.prototype.lengthCheap = function() {
   var r = Math.abs(this.x_) + Math.abs(this.y_);
-  if (this.z_ == 0.0)
+  if (this.z_ == 0.0) {
     return r;
-  else
+  } else {
     return r + Math.abs(this.z_);
+  }
 };
 
 /** Returns length squared of this Vector.  Computationally cheap because it only

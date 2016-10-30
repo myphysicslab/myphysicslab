@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.DoNothingGrinderApp');
+goog.provide('myphysicslab.sims.engine2D.DoNothingApp');
 
 goog.require('myphysicslab.lab.controls.CheckBoxControl');
 goog.require('myphysicslab.lab.controls.ChoiceControl');
@@ -88,7 +88,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 * @extends {Engine2DApp}
 * @export
 */
-sims.engine2D.DoNothingGrinderApp = function(elem_ids) {
+sims.engine2D.DoNothingApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
   this.mySim = new ContactSim();
   this.mySim.setShowForces(true);
@@ -115,23 +115,23 @@ sims.engine2D.DoNothingGrinderApp = function(elem_ids) {
   var pb;
   /** @type {!lab.util.ParameterNumber} */
   var pn;
-  this.addParameter(pb = new ParameterBoolean(this, DoNothingGrinderApp.en.TIGHT_FIT,
-      DoNothingGrinderApp.i18n.TIGHT_FIT,
+  this.addParameter(pb = new ParameterBoolean(this, DoNothingApp.en.TIGHT_FIT,
+      DoNothingApp.i18n.TIGHT_FIT,
       this.getTightFit, this.setTightFit));
   this.addControl(new CheckBoxControl(pb));
 
-  this.addParameter(pb= new ParameterBoolean(this, DoNothingGrinderApp.en.EXTRA_BLOCK,
-      DoNothingGrinderApp.i18n.EXTRA_BLOCK,
+  this.addParameter(pb= new ParameterBoolean(this, DoNothingApp.en.EXTRA_BLOCK,
+      DoNothingApp.i18n.EXTRA_BLOCK,
       this.getExtraBlock, this.setExtraBlock));
   this.addControl(new CheckBoxControl(pb));
 
-  this.addParameter(pn=new ParameterNumber(this, DoNothingGrinderApp.en.HANDLE_FORCE,
-      DoNothingGrinderApp.i18n.HANDLE_FORCE,
+  this.addParameter(pn=new ParameterNumber(this, DoNothingApp.en.HANDLE_FORCE,
+      DoNothingApp.i18n.HANDLE_FORCE,
       this.getHandleForce, this.setHandleForce));
   this.addControl(new NumericControl(pn));
 
-  this.addParameter(pn= new ParameterNumber(this, DoNothingGrinderApp.en.ROTATE_RATE,
-      DoNothingGrinderApp.i18n.ROTATE_RATE,
+  this.addParameter(pn= new ParameterNumber(this, DoNothingApp.en.ROTATE_RATE,
+      DoNothingApp.i18n.ROTATE_RATE,
       this.getRotateRate, this.setRotateRate));
   this.addControl(new NumericControl(pn));
 
@@ -144,55 +144,55 @@ sims.engine2D.DoNothingGrinderApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var DoNothingGrinderApp = sims.engine2D.DoNothingGrinderApp;
-goog.inherits(DoNothingGrinderApp, Engine2DApp);
+var DoNothingApp = sims.engine2D.DoNothingApp;
+goog.inherits(DoNothingApp, Engine2DApp);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
-  DoNothingGrinderApp.prototype.toString = function() {
+  DoNothingApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
-        + DoNothingGrinderApp.superClass_.toString.call(this);
+        + DoNothingApp.superClass_.toString.call(this);
   };
 };
 
 /** @inheritDoc */
-DoNothingGrinderApp.prototype.getClassName = function() {
-  return 'DoNothingGrinderApp';
+DoNothingApp.prototype.getClassName = function() {
+  return 'DoNothingApp';
 };
 
 /** @inheritDoc */
-DoNothingGrinderApp.prototype.defineNames = function(myName) {
-  DoNothingGrinderApp.superClass_.defineNames.call(this, myName);
+DoNothingApp.prototype.defineNames = function(myName) {
+  DoNothingApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
        myName);
-  this.terminal.addRegex('DoNothingGrinderApp|Engine2DApp',
+  this.terminal.addRegex('DoNothingApp|Engine2DApp',
        'myphysicslab.sims.engine2D', /*addToVars=*/false);
 };
 
 /** @inheritDoc */
-DoNothingGrinderApp.prototype.getSubjects = function() {
-  var subjects = DoNothingGrinderApp.superClass_.getSubjects.call(this);
+DoNothingApp.prototype.getSubjects = function() {
+  var subjects = DoNothingApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-DoNothingGrinderApp.prototype.config = function() {
+DoNothingApp.prototype.config = function() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
-  DoNothingGrinderApp.setup(this.mySim, this.tightFit);
+  DoNothingApp.setup(this.mySim, this.tightFit);
   DisplayShape.nameColor = 'gray';
   DisplayShape.nameFont = '12pt sans-serif';
   DisplayShape.nameRotate = 0;
   if (this.extraBlock) {
     // add an optional extra free block
-    var block = Shapes.makeBlock(1, 3, DoNothingGrinderApp.en.EXTRA_BLOCK,
-        DoNothingGrinderApp.i18n.EXTRA_BLOCK);
+    var block = Shapes.makeBlock(1, 3, DoNothingApp.en.EXTRA_BLOCK,
+        DoNothingApp.i18n.EXTRA_BLOCK);
     block.setPosition(new Vector(-5.5,  -4));
     DisplayShape.fillStyle = 'blue';
     this.mySim.addBody(block);
@@ -241,27 +241,27 @@ The handle does not interact with the fixed groove blocks.
   shuttles are in constant contact at all four corners;  false gives a little
   wiggle room for the shuttles.
 */
-DoNothingGrinderApp.setup = function(sim, tightFit) {
-  var handle = Shapes.makeBlock(0.8, 6.2, DoNothingGrinderApp.en.HANDLE,
-      DoNothingGrinderApp.i18n.HANDLE);
+DoNothingApp.setup = function(sim, tightFit) {
+  var handle = Shapes.makeBlock(0.8, 6.2, DoNothingApp.en.HANDLE,
+      DoNothingApp.i18n.HANDLE);
   handle.setMass(0.5);
   handle.setDragPoints([new Vector(0, -2.8)]);
-  DisplayShape.fillStyle = 'rgba(255,255,255,0.333)';
-  DisplayShape.strokeStyle = 'gray';
+  DisplayShape.fillStyle = 'rgb(160,160,160)';
+  DisplayShape.strokeStyle = '';
   var saveZIndex = RigidBodyObserver.zIndex;
   RigidBodyObserver.zIndex = 2;
   sim.addBody(handle);
   // 2 shuttle pieces
   var shuttle_width = tightFit ? 1.0 : 0.98;
-  var s1 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingGrinderApp.en.SHUTTLE+1,
-      DoNothingGrinderApp.i18n.SHUTTLE+1);
+  var s1 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+1,
+      DoNothingApp.i18n.SHUTTLE+1);
   s1.setPosition(new Vector(0,  2.0),  Math.PI);
-  DisplayShape.fillStyle = 'lightGray';
+  DisplayShape.fillStyle = 'rgb(200,200,200)';
   DisplayShape.strokeStyle = '';
   RigidBodyObserver.zIndex = 1;
   sim.addBody(s1);
-  var s2 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingGrinderApp.en.SHUTTLE+2,
-      DoNothingGrinderApp.i18n.SHUTTLE+2);
+  var s2 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+2,
+      DoNothingApp.i18n.SHUTTLE+2);
   s2.setPosition(new Vector(-2.5,  0),  Math.PI/2);
   sim.addBody(s2);
   // create 4 fixed blocks that form the grooves which the shuttles move thru
@@ -270,8 +270,8 @@ DoNothingGrinderApp.setup = function(sim, tightFit) {
     for (var j=0; j<2; j++) {
       var size = 4;
       var id = j + 2*i;
-      var p = Shapes.makeBlock(size, size, DoNothingGrinderApp.en.FIXED_BLOCK+id,
-          DoNothingGrinderApp.i18n.FIXED_BLOCK+id);
+      var p = Shapes.makeBlock(size, size, DoNothingApp.en.FIXED_BLOCK+id,
+          DoNothingApp.i18n.FIXED_BLOCK+id);
       var d = 0.507 + size/2;
       p.setPosition(new Vector(d*(1 - 2*i), d*(1 - 2*j)), 0);
       p.setMass(UtilityCore.POSITIVE_INFINITY);
@@ -307,51 +307,51 @@ DoNothingGrinderApp.setup = function(sim, tightFit) {
 };
 
 /** @return {number} */
-DoNothingGrinderApp.prototype.getHandleForce = function() {
+DoNothingApp.prototype.getHandleForce = function() {
   return this.handleForce;
 };
 
 /** @param {number} value */
-DoNothingGrinderApp.prototype.setHandleForce = function(value) {
+DoNothingApp.prototype.setHandleForce = function(value) {
   this.handleForce = value;
   this.config();
-  this.broadcastParameter(DoNothingGrinderApp.en.HANDLE_FORCE);
+  this.broadcastParameter(DoNothingApp.en.HANDLE_FORCE);
 };
 
 /** @return {number} */
-DoNothingGrinderApp.prototype.getRotateRate = function() {
+DoNothingApp.prototype.getRotateRate = function() {
   return this.rotateRate;
 };
 
 /** @param {number} value */
-DoNothingGrinderApp.prototype.setRotateRate = function(value) {
+DoNothingApp.prototype.setRotateRate = function(value) {
   this.rotateRate = value;
   this.config();
-  this.broadcastParameter(DoNothingGrinderApp.en.ROTATE_RATE);
+  this.broadcastParameter(DoNothingApp.en.ROTATE_RATE);
 };
 
 /** @return {boolean} */
-DoNothingGrinderApp.prototype.getTightFit = function() {
+DoNothingApp.prototype.getTightFit = function() {
   return this.tightFit;
 };
 
 /** @param {boolean} value */
-DoNothingGrinderApp.prototype.setTightFit = function(value) {
+DoNothingApp.prototype.setTightFit = function(value) {
   this.tightFit = value;
   this.config();
-  this.broadcastParameter(DoNothingGrinderApp.en.TIGHT_FIT);
+  this.broadcastParameter(DoNothingApp.en.TIGHT_FIT);
 };
 
 /** @return {boolean} */
-DoNothingGrinderApp.prototype.getExtraBlock = function() {
+DoNothingApp.prototype.getExtraBlock = function() {
   return this.extraBlock;
 };
 
 /** @param {boolean} value */
-DoNothingGrinderApp.prototype.setExtraBlock = function(value) {
+DoNothingApp.prototype.setExtraBlock = function(value) {
   this.extraBlock = value;
   this.config();
-  this.broadcastParameter(DoNothingGrinderApp.en.EXTRA_BLOCK);
+  this.broadcastParameter(DoNothingApp.en.EXTRA_BLOCK);
 };
 
 /** Set of internationalized strings.
@@ -365,12 +365,12 @@ DoNothingGrinderApp.prototype.setExtraBlock = function(value) {
   FIXED_BLOCK: string
   }}
 */
-DoNothingGrinderApp.i18n_strings;
+DoNothingApp.i18n_strings;
 
 /**
-@type {DoNothingGrinderApp.i18n_strings}
+@type {DoNothingApp.i18n_strings}
 */
-DoNothingGrinderApp.en = {
+DoNothingApp.en = {
   HANDLE_FORCE: 'handle force',
   ROTATE_RATE: 'force rotation rate',
   TIGHT_FIT: 'tight fit',
@@ -382,9 +382,9 @@ DoNothingGrinderApp.en = {
 
 /**
 @private
-@type {DoNothingGrinderApp.i18n_strings}
+@type {DoNothingApp.i18n_strings}
 */
-DoNothingGrinderApp.de_strings = {
+DoNothingApp.de_strings = {
   HANDLE_FORCE: 'Griff Kraft',
   ROTATE_RATE: 'Kraft, Rotation Tempo',
   TIGHT_FIT: 'exakt passend',
@@ -395,9 +395,9 @@ DoNothingGrinderApp.de_strings = {
 };
 
 /** Set of internationalized strings.
-@type {DoNothingGrinderApp.i18n_strings}
+@type {DoNothingApp.i18n_strings}
 */
-DoNothingGrinderApp.i18n = goog.LOCALE === 'de' ? DoNothingGrinderApp.de_strings :
-    DoNothingGrinderApp.en;
+DoNothingApp.i18n = goog.LOCALE === 'de' ? DoNothingApp.de_strings :
+    DoNothingApp.en;
 
 }); // goog.scope

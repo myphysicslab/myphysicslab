@@ -5,7 +5,7 @@ sims/engine2D/CartPendulum2App
 sims/engine2D/ChainApp
 sims/engine2D/ContactApp
 sims/engine2D/CurvedTestApp
-sims/engine2D/DoNothingGrinderApp
+sims/engine2D/DoNothingApp
 sims/engine2D/DoublePendulum2App
 sims/engine2D/FastBallApp
 sims/engine2D/GearsApp
