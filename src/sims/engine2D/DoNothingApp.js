@@ -246,7 +246,7 @@ DoNothingApp.setup = function(sim, tightFit) {
       DoNothingApp.i18n.HANDLE);
   handle.setMass(0.5);
   handle.setDragPoints([new Vector(0, -2.8)]);
-  DisplayShape.fillStyle = 'rgb(160,160,160)';
+  DisplayShape.fillStyle = '#B0C4DE';
   DisplayShape.strokeStyle = '';
   var saveZIndex = RigidBodyObserver.zIndex;
   RigidBodyObserver.zIndex = 2;
