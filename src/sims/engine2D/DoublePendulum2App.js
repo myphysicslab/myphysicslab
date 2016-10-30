@@ -87,10 +87,10 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
-  this.mySim.setShowForces(true);
-  this.dampingLaw = new DampingLaw(0.1, 0.15, this.simList);
+  this.mySim.setShowForces(false);
+  this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
   this.mySim.addForceLaw(this.dampingLaw);
-  this.gravityLaw = new GravityLaw(3, this.simList);
+  this.gravityLaw = new GravityLaw(8, this.simList);
   this.mySim.addForceLaw(this.gravityLaw);
 
   this.block1 = Shapes.makeBlock(1, 3, DoublePendulum2App.en.BLOCK+1,
@@ -98,10 +98,10 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   this.block1.setPosition(new Vector(-1,  -1),  Math.PI/4);
   this.block2 = Shapes.makeBlock(1, 3, DoublePendulum2App.en.BLOCK+2,
       DoublePendulum2App.i18n.BLOCK+2);
-  this.block2.setPosition(new Vector(0,  -3),  Math.PI);
+  this.block2.setPosition(new Vector(0,  0),  0);
   this.block3 = Shapes.makeBlock(1, 3, DoublePendulum2App.en.BLOCK+3,
       DoublePendulum2App.i18n.BLOCK+3);
-  this.block3.setPosition(new Vector(-3,  3),  0);
+  this.block3.setPosition(new Vector(-4,  -4),  Math.PI/2);
 
   var b1, b2, b3;
   DisplayShape.fillStyle = '';
@@ -123,6 +123,7 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
     // of bounding rectangle, and we are in semi-screen coords, except rotated
     // along with the body.  Kind of 'body-screen' coords.
     // Also, think of these happening in reverse order.
+    at = at.scale(2.8, 2.8);
     at = at.translate(27, 20);
     at = at.rotate(Math.PI/2);
     b3.imageAT = at;
@@ -154,7 +155,7 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
       this.block2, /*attach_body*/new Vector(0, -1.0), CoordType.WORLD);
   Joint.attachRigidBody(this.mySim,
       this.block2, /*attach_body=*/new Vector(0, 1.0),
-      this.block1, /*attach_body=*/new Vector(0, -1.0),
+      this.block1, /*attach_body=*/new Vector(0, 1.0),
       /*normalType=*/CoordType.BODY
     );
   /* move the bodies so their joints line up over each other. */
