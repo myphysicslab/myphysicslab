@@ -95,9 +95,7 @@ Stability Condition
 -------------------------
 The stability condition is:
 
-    abs(v) delta(t) / delta(x) < 1
-
-Note that we are very limited by `delta(t)`; can't choose `delta(x)` to be very small without also decreasing `delta(t)`.
+    sqrt(tension / density) delta_t / delta_x < 1
 
 
 @todo Proved a VarsList for graphing. We could provide variables corresponding to
@@ -571,6 +569,13 @@ StringSim.prototype.setTension = function(value) {
   this.broadcastParameter(StringSim.en.TENSION);
 };
 
+/** Returns the stability condition number, which must be less than one for
+the simulation to be stable.
+@return {number} the stability condition number
+*/
+StringSim.prototype.getStability = function() {
+  return Math.sqrt(this.tension_/this.density_)*this.deltaT_/this.deltaX_;
+};
 
 /** Set of internationalized strings.
 @typedef {{

@@ -29,6 +29,7 @@ goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.GenericMemo');
 goog.require('myphysicslab.lab.util.Observer');
@@ -79,10 +80,12 @@ var DisplayText = lab.view.DisplayText;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingStyle = lab.view.DrawingStyle;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
+var GenericEvent = lab.util.GenericEvent;
 var GenericObserver = lab.util.GenericObserver;
 var HorizAlign = lab.view.HorizAlign;
 var LabControl = lab.controls.LabControl;
 var GenericMemo = lab.util.GenericMemo;
+var NF5 = lab.util.UtilityCore.NF5;
 var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterString = lab.util.ParameterString;
@@ -154,10 +157,6 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   /** @type {!StringSim} */
   this.sim = new StringSim(this.shapes[1]);
   this.terminal.setAfterEval(goog.bind(this.sim.modifyObjects, this.sim));
-  // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim, goog.bind(function(evt) {
-    this.sim.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
   this.simList = this.sim.getSimList();
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.sim);
@@ -240,6 +239,24 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
     this.block.imageClip = false;
   }*/
 
+  // Show the stability condition as text
+  this.stability = -1;
+  this.stabilityText = new DisplayText();
+  this.stabilityText.setPosition(new Vector(-5, -7));
+  this.statusView.getDisplayList().add(this.stabilityText);
+  // Ensure that changes to parameters or variables cause display to update
+  new GenericObserver(this.sim, goog.bind(function(evt) {
+    this.sim.modifyObjects();
+    var s = this.sim.getStability();
+    if (this.stability != s) {
+      this.stabilityText.setText('stability = '+NF5(s));
+      this.stability = s;
+      this.stabilityText.fillStyle = s < 1 ? 'rgb(160,160,160)' : 'red';
+    }
+  }, this), 'modifyObjects after parameter or variable change');
+  // broadcast an event to get the stability to appear
+  this.sim.broadcast(new GenericEvent(this.sim, /*name=*/'event'));
+
   /** @type {!StringPath} */
   this.path = new StringPath(this.sim);
   /** @type {!DisplayPath} */
@@ -248,7 +265,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   // offscreen buffer is not useful because StringPath is always changing
   this.displayPath.setUseBuffer(false);
   this.displayList.add(this.displayPath, /*zIndex=*/-1);
-  this.displayPath.addPath(this.path, DrawingStyle.dotStyle('red', /*dotSize=*/1));
+  this.displayPath.addPath(this.path, DrawingStyle.dotStyle('red', /*dotSize=*/2));
 
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
 
@@ -273,7 +290,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
   pn = this.sim.getParameterNumber(StringSim.en.DAMPING);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
-  pn = this.simRun.getParameterNumber(SimRunner.en.TIME_STEP);
+  pn = this.sim.getParameterNumber(StringSim.en.TIME_STEP);
   this.addControl(new NumericControl(pn).setDecimalPlaces(7));
   pn = this.clock.getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
