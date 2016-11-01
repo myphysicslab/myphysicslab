@@ -165,22 +165,23 @@ CartPendulum2App.prototype.configure = function() {
   var wallPivotX = -0.85;
   var wallPivotY = 0;
   var displacement = 0.13; //=(6.0/5.83)*0.13; initial displacement; to match other sim.
-  
+
   // the cart (on track)
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'black';
+  DisplayShape.fillStyle = 'rgb(200,200,200)';
+  DisplayShape.strokeStyle = '';
   var cart = Shapes.makeBlock2(0.3, 1.0, CartPendulum2App.en.CART,
       CartPendulum2App.i18n.CART);
   var pivotX = 0.5*cart.getWidth();
-  var pivotY = 0.85*cart.getHeight();
+  var pivot1Y = 0.85*cart.getHeight();
+  var pivot2Y = 0.15*cart.getHeight();
   var bodyX = 0.3*cart.getWidth(); // was 0.5
   var bodyY = 0.5*cart.getHeight();
   //cart.setDragPoints([Vector.ORIGIN]);
   this.mySim.addBody(cart);
-  
+
   // the pendulum
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'orange';
+  DisplayShape.fillStyle = '#B0C4DE';
+  DisplayShape.strokeStyle = '';
   DisplayShape.drawCenterOfMass = true;
   var pendulum = Shapes.makePendulum(/*stickwidth=*/0.03,
       /*sticklength=*/1.0, /*radius=*/0.15, CartPendulum2App.en.PENDULUM,
@@ -191,7 +192,7 @@ CartPendulum2App.prototype.configure = function() {
   //var otherBodyY = .85* pendulum.getHeight();
   this.mySim.addBody(pendulum);
   //this.mySim.addBody(this.mySim.getScrim());
-  
+
   DisplaySpring.width = 0.3;
   this.spring = new Spring('spring1',
       cart, new Vector(0.5*cart.getWidth(), 0.5*cart.getHeight()),
@@ -200,22 +201,13 @@ CartPendulum2App.prototype.configure = function() {
   this.spring.setDamping(this.springDamping);
   this.mySim.addForceLaw(this.spring);
   this.mySim.getSimList().add(this.spring);
-  
-  // The wallPivotX specifies the starting position of cart, and hence the whole assembly.
-  // Where the body would be at in equilibrium to the spring:  springConnectionX - restLength
-  // See also in PendulumCart.stop() where the offset is 0.85.
-  // The offset from equilibrium is given by:  cart.getX() - (springConnectionX - restLength)
-  // set cart so it is on the pivot, and at a bit of an angle
-  //cart.alignTo(
-  //         /*p_body=*/new Vector(pivotX, pivotY), 
-  //         /*p_world=*/new Vector(wallPivotX + displacement, wallPivotY), 
-  //         /*angle=*/Math.PI/2);  
+
   cart.setPosition(new Vector(1,  0),  Math.PI/2);
-  
+
   // Make joints to keep the cart on the track.
   // These joints are only pushing vertically, one joint is forward, 
   // the other aft on the body.
-  var pivot1_body = new Vector(pivotX, pivotY);
+  var pivot1_body = new Vector(pivotX, pivot1Y);
   var fixed1_world = cart.bodyToWorld(pivot1_body);
   var j1 = new Joint(
     cart, pivot1_body,
@@ -223,7 +215,7 @@ CartPendulum2App.prototype.configure = function() {
     CoordType.WORLD, Vector.SOUTH
     );
   this.mySim.addConnector(j1);
-  var pivot2_body = new Vector(pivotX, pivotY - 0.75);
+  var pivot2_body = new Vector(pivotX, pivot2Y);
   var fixed2_world = cart.bodyToWorld(pivot2_body);
   var j2 = new Joint(
     cart, pivot2_body,
@@ -242,21 +234,19 @@ CartPendulum2App.prototype.configure = function() {
   // set zero energy level for cart & pendulum
   cart.setZeroEnergyLevel(cart.getPosition().getY());
   pendulum.setZeroEnergyLevel(pendulum.getPosition().getY());
-  
+
   var Icm = pendulum.momentAboutCM();
   // distance from pivot to CM on the pendulum
   //var R = otherBodyY-bods[1].cmy;
   var R = 0.5;
   var r = (Icm/(pendulum.getMass() * R)) + R;
-  if (0 == 1 && goog.DEBUG) console.log('Icm='+Icm+' R='+R+'  r='+r);
+  //console.log('Icm='+Icm+' R='+R+'  r='+r);
   // parallel axis theorem: I = Icm + m R^2
   // equation of motion:  th'' = torque / rotational inertia
   // rigid body pendulum with R = length from pivot to cm has I = Icm + m R^2
   // th'' = -R m g sin th / (Icm + m R^2)
-  
   // ideal pendulum with length r and point mass m has I = m r^2
   // th'' = -r m g sin th / (m r^2)
-  
   // to equate these two:
   // r / (m r^2) = R / (Icm + m R^2)
   // invert and simplify:
@@ -264,7 +254,9 @@ CartPendulum2App.prototype.configure = function() {
   // r = (Icm / m R) + R
   R = 0.35;
   r = (Icm/(pendulum.getMass() * R)) + R;
-  if (0 == 1 && goog.DEBUG) console.log('or Icm='+Icm+' R='+R+'  r='+r);
+  //console.log('or Icm='+Icm+' R='+R+'  r='+r);
+  DisplayShape.fillStyle = 'lightGray';
+  Walls.make(this.mySim, /*width=*/6, /*height=*/4, /*thickness=*/1.0);
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);

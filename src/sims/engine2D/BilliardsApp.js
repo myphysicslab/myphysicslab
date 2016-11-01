@@ -238,6 +238,7 @@ BilliardsApp.make = function(sim, formation, offset, speed) {
     default:
       throw new Error();
   }
+  DisplayShape.fillStyle = 'lightGray';
   var sz = 2 * BilliardsApp.WALL_DISTANCE;
   Walls.make(sim, /*width=*/sz, /*height=*/sz, /*thickness=*/1.0);
 };
