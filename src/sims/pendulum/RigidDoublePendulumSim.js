@@ -55,9 +55,9 @@ var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Simulation of a double pendulum as two rigid bodies. This uses RigidBody's and
-Joint's, but only for geometry. This does not use
-{@link myphysicslab.lab.engine2D.ContactSim}, instead it is an ODE simulation like
-{@link myphyscislab.sims.pendulum.DoublePendulum}.
+Joint's, but only for geometry. This does not use the general physics engine
+{@link myphysicslab.lab.engine2D.ContactSim}, instead this is a specialized simulation
+like {@link myphysicslab.sims.pendulum.DoublePendulum}.
 
 For derivation of equations of motion, see the paper
 [Double Pendulum as Rigid Bodies](Rigid_Double_Pendulum.pdf)

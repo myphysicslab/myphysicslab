@@ -219,14 +219,15 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.simList2 = this.sim2.getSimList();
   DisplayShape.drawCenterOfMass = true;
   DisplayShape.drawDragPoints = true;
-  DisplayShape.strokeStyle = 'red';
-  DisplayShape.fillStyle = '';
+  DisplayShape.strokeStyle = '';
+  DisplayShape.fillStyle = '#f99';
   new RigidBodyObserver(this.simList2, this.simView.getDisplayList());
   // move the parts horizontally so that we can see them side-by-side with other sim
   var pivot = new Vector(this.separation, 0);
   this.parts2 = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0, pivot)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0, pivot);
   this.sim2.addBody(this.parts2.bodies[0]);
+  DisplayShape.fillStyle = '#f66';
   this.sim2.addBody(this.parts2.bodies[1]);
   this.sim2.addConnectors(this.parts2.joints);
   this.sim2.alignConnectors();
@@ -272,11 +273,12 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
 
   DisplayShape.drawCenterOfMass = true;
   DisplayShape.drawDragPoints = false;
-  DisplayShape.strokeStyle = 'blue';
-  DisplayShape.fillStyle = '';
+  DisplayShape.strokeStyle = '';
+  DisplayShape.fillStyle = '#3cf';
   this.bob0 = new DisplayShape(this.parts.bodies[0]);
   this.bob0.setDragable(false);
   this.displayList.add(this.bob0);
+  DisplayShape.fillStyle = '#39c';
   this.bob1 = new DisplayShape(this.parts.bodies[1]);
   this.bob1.setDragable(false);
   this.displayList.add(this.bob1);
