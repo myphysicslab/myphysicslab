@@ -165,10 +165,11 @@ build process. These variables have default values which can be overridden in
         make BUILD_DIR=debug
 
 + `LOCALE` – selects which locale to use for [Internationalization (i18n)][], but only
-    for single files specified with a shortcut (see below). Examples:
+    for single files specified with a shortcut (more about shortcuts below). Examples:
 
         make doublependulum LOCALE=en
         make doublependulum LOCALE=de
+        make doublependulum LOCALE="en de"
 
     To build all apps for a particular locale use targets `apps-en` or `apps-de`.
 

@@ -27,7 +27,7 @@ COMPILE_LEVEL ?= simple
 # Leave GOOG_DEBUG unspecified to let it be determined by COMPILE_LEVEL flag.
 # GOOG_DEBUG ?= true
 
-# LOCALE can be "en" or "de"
+# LOCALE can be "en" or "de" or "en de" (but without the quotes)
 LOCALE ?= en
 
 # Leave BUILD_DIR unspecified to let it be determined by COMPILE_LEVEL flag.

@@ -162,79 +162,84 @@ ifndef BUILD_DIR
     endif
 endif
 
+# if LOCALE is not specified, then build all locale versions
+ifndef LOCALE
+    LOCALE := en de
+endif
+
 # GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
 GOOG_DEBUG ?= false
 
-biketimer: $(BUILD_DIR)/sims/experimental/BikeTimerApp_$(LOCALE).html
-billiards: $(BUILD_DIR)/sims/engine2D/BilliardsApp_$(LOCALE).html
-blank: $(BUILD_DIR)/sims/engine2D/BlankApp_$(LOCALE).html
-blankslate: $(BUILD_DIR)/sims/experimental/BlankSlateApp_$(LOCALE).html
-brachisto: $(BUILD_DIR)/sims/roller/BrachistoApp_$(LOCALE).html
-carsuspension: $(BUILD_DIR)/sims/engine2D/CarSuspensionApp_$(LOCALE).html
-cartpendulum2: $(BUILD_DIR)/sims/engine2D/CartPendulum2App_$(LOCALE).html
-cartpendulum: $(BUILD_DIR)/sims/pendulum/CartPendulumApp_$(LOCALE).html
-chain: $(BUILD_DIR)/sims/engine2D/ChainApp_$(LOCALE).html
-chainofsprings: $(BUILD_DIR)/sims/springs/ChainOfSpringsApp_$(LOCALE).html
-collideblocks: $(BUILD_DIR)/sims/springs/CollideBlocksApp_$(LOCALE).html
-collidespring: $(BUILD_DIR)/sims/springs/CollideSpringApp_$(LOCALE).html
-collisioncombo: $(BUILD_DIR)/sims/experimental/CollisionCombo_$(LOCALE).js
-comparedoublependulum: $(BUILD_DIR)/sims/pendulum/CompareDoublePendulumApp_$(LOCALE).html
-comparependulum: $(BUILD_DIR)/sims/pendulum/ComparePendulumApp_$(LOCALE).html
-contact: $(BUILD_DIR)/sims/engine2D/ContactApp_$(LOCALE).html
-curvedtest: $(BUILD_DIR)/sims/engine2D/CurvedTestApp_$(LOCALE).html
-danglestick: $(BUILD_DIR)/sims/springs/DangleStickApp_$(LOCALE).html
-donothing: $(BUILD_DIR)/sims/engine2D/DoNothingApp_$(LOCALE).html
-double2dspring: $(BUILD_DIR)/sims/springs/Double2DSpringApp_$(LOCALE).html
-doublependulum: $(BUILD_DIR)/sims/pendulum/DoublePendulumApp_$(LOCALE).html
-doublependulum2: $(BUILD_DIR)/sims/engine2D/DoublePendulum2App_$(LOCALE).html
-doublespring: $(BUILD_DIR)/sims/springs/DoubleSpringApp_$(LOCALE).html
-fastball: $(BUILD_DIR)/sims/engine2D/FastBallApp_$(LOCALE).html
-gears: $(BUILD_DIR)/sims/engine2D/GearsApp_$(LOCALE).html
-graphcalc: $(BUILD_DIR)/sims/experimental/GraphCalcApp_$(LOCALE).html
-impulse: $(BUILD_DIR)/sims/engine2D/ImpulseApp_$(LOCALE).html
-index: $(BUILD_DIR)/index_$(LOCALE).html
-lagrangeroller: $(BUILD_DIR)/sims/roller/LagrangeRollerApp_$(LOCALE).html
-marsmoon: $(BUILD_DIR)/sims/engine2D/MarsMoonApp_$(LOCALE).html
-marsmoon: $(BUILD_DIR)/sims/engine2D/MarsMoonApp_$(LOCALE).html
-molecule1: $(BUILD_DIR)/sims/springs/Molecule1App_$(LOCALE).html
-molecule3: $(BUILD_DIR)/sims/springs/Molecule3App_$(LOCALE).html
-moveabledoublependulum: $(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp_$(LOCALE).html
-moveablependulum: $(BUILD_DIR)/sims/pendulum/MoveablePendulumApp_$(LOCALE).html
-multiplecollision: $(BUILD_DIR)/sims/engine2D/MultipleCollisionApp_$(LOCALE).html
-multispring: $(BUILD_DIR)/sims/springs/MultiSpringApp_$(LOCALE).html
-mutualattract: $(BUILD_DIR)/sims/engine2D/MutualAttractApp_$(LOCALE).html
-newtonscradle: $(BUILD_DIR)/sims/engine2D/NewtonsCradleApp_$(LOCALE).html
-pendulum: $(BUILD_DIR)/sims/pendulum/PendulumApp_$(LOCALE).html
-pendulumclock: $(BUILD_DIR)/sims/engine2D/PendulumClockApp_$(LOCALE).html
-pendulumspring: $(BUILD_DIR)/sims/engine2D/PendulumSpringApp_$(LOCALE).html
-perf: $(BUILD_DIR)/test/PerformanceTests_$(LOCALE).html
-pile: $(BUILD_DIR)/sims/engine2D/PileApp_$(LOCALE).html
-pileattract: $(BUILD_DIR)/sims/engine2D/PileAttractApp_$(LOCALE).html
-polygontest: $(BUILD_DIR)/sims/engine2D/PolygonTestApp_$(LOCALE).html
-reactionpendulum: $(BUILD_DIR)/sims/pendulum/ReactionPendulumApp_$(LOCALE).html
-rigidbody: $(BUILD_DIR)/sims/engine2D/RigidBodyApp_$(LOCALE).html
-rigidbodyroller: $(BUILD_DIR)/sims/roller/RigidBodyRollerApp_$(LOCALE).html
-rigiddoublependulum: $(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp_$(LOCALE).html
-rollerdouble: $(BUILD_DIR)/sims/roller/RollerDoubleApp_$(LOCALE).html
-rollerflight: $(BUILD_DIR)/sims/roller/RollerFlightApp_$(LOCALE).html
-rollersingle: $(BUILD_DIR)/sims/roller/RollerSingleApp_$(LOCALE).html
-rollerspring: $(BUILD_DIR)/sims/roller/RollerSpringApp_$(LOCALE).html
-simple: $(BUILD_DIR)/sims/experimental/SimpleApp_$(LOCALE).html
-singletest: $(BUILD_DIR)/test/SingleTest_$(LOCALE).html
-singleviewer: $(BUILD_DIR)/test/SingleViewerApp_$(LOCALE).html
-singlespring: $(BUILD_DIR)/sims/springs/SingleSpringApp_$(LOCALE).html
-singlespring2: $(BUILD_DIR)/sims/springs/SingleSpring2App_$(LOCALE).html
-spring2d: $(BUILD_DIR)/sims/springs/Spring2DApp_$(LOCALE).html
-string: $(BUILD_DIR)/sims/pde/StringApp_$(LOCALE).html
-stucktest: $(BUILD_DIR)/test/StuckTestApp_$(LOCALE).html
-terminalspring: $(BUILD_DIR)/sims/springs/TerminalSpringApp_$(LOCALE).html
-terminalspring2d: $(BUILD_DIR)/sims/springs/TerminalSpring2DApp_$(LOCALE).html
-test: $(BUILD_DIR)/test/Engine2DTests_$(LOCALE).html
-testbody: $(BUILD_DIR)/sims/engine2D/TestBodyApp_$(LOCALE).html
-testviewer: $(BUILD_DIR)/test/TestViewerApp_$(LOCALE).html
-unittest: $(BUILD_DIR)/test/UnitTest_$(LOCALE).html
+biketimer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BikeTimerApp_$(loc).html )
+billiards: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BilliardsApp_$(loc).html )
+blank: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BlankApp_$(loc).html )
+blankslate: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BlankSlateApp_$(loc).html )
+brachisto: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/BrachistoApp_$(loc).html )
+carsuspension: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CarSuspensionApp_$(loc).html )
+cartpendulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CartPendulum2App_$(loc).html )
+cartpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CartPendulumApp_$(loc).html )
+chain: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ChainApp_$(loc).html )
+chainofsprings: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/ChainOfSpringsApp_$(loc).html )
+collideblocks: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideBlocksApp_$(loc).html )
+collidespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideSpringApp_$(loc).html )
+collisioncombo: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/CollisionCombo_$(loc).js )
+comparedoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CompareDoublePendulumApp_$(loc).html )
+comparependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ComparePendulumApp_$(loc).html )
+contact: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ContactApp_$(loc).html )
+curvedtest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CurvedTestApp_$(loc).html )
+danglestick: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DangleStickApp_$(loc).html )
+donothing: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoNothingApp_$(loc).html )
+double2dspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Double2DSpringApp_$(loc).html )
+doublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/DoublePendulumApp_$(loc).html )
+doublependulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoublePendulum2App_$(loc).html )
+doublespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DoubleSpringApp_$(loc).html )
+fastball: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/FastBallApp_$(loc).html )
+gears: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/GearsApp_$(loc).html )
+graphcalc: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalcApp_$(loc).html )
+impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp_$(loc).html )
+index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index_$(loc).html )
+lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp_$(loc).html )
+marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp_$(loc).html )
+marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp_$(loc).html )
+molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App_$(loc).html )
+molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App_$(loc).html )
+moveabledoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp_$(loc).html )
+moveablependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveablePendulumApp_$(loc).html )
+multiplecollision: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MultipleCollisionApp_$(loc).html )
+multispring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/MultiSpringApp_$(loc).html )
+mutualattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MutualAttractApp_$(loc).html )
+newtonscradle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/NewtonsCradleApp_$(loc).html )
+pendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/PendulumApp_$(loc).html )
+pendulumclock: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PendulumClockApp_$(loc).html )
+pendulumspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PendulumSpringApp_$(loc).html )
+perf: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/PerformanceTests_$(loc).html )
+pile: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PileApp_$(loc).html )
+pileattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PileAttractApp_$(loc).html )
+polygontest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PolygonTestApp_$(loc).html )
+reactionpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ReactionPendulumApp_$(loc).html )
+rigidbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RigidBodyApp_$(loc).html )
+rigidbodyroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RigidBodyRollerApp_$(loc).html )
+rigiddoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp_$(loc).html )
+rollerdouble: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerDoubleApp_$(loc).html )
+rollerflight: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerFlightApp_$(loc).html )
+rollersingle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSingleApp_$(loc).html )
+rollerspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSpringApp_$(loc).html )
+simple: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/SimpleApp_$(loc).html )
+singletest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleTest_$(loc).html )
+singleviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleViewerApp_$(loc).html )
+singlespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpringApp_$(loc).html )
+singlespring2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpring2App_$(loc).html )
+spring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Spring2DApp_$(loc).html )
+string: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pde/StringApp_$(loc).html )
+stucktest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/StuckTestApp_$(loc).html )
+terminalspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpringApp_$(loc).html )
+terminalspring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpring2DApp_$(loc).html )
+test: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/Engine2DTests_$(loc).html )
+testbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/TestBodyApp_$(loc).html )
+testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp_$(loc).html )
+unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest_$(loc).html )
 unittestone: $(BUILD_DIR)/test/UnitTestOne.html
-vectorgraphpendulum: $(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp_$(LOCALE).html
+vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp_$(loc).html )
 
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
