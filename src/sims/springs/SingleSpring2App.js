@@ -172,6 +172,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
       }, this));
   this.layout.div_sim.appendChild(panzoom);
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
+  this.panZoomParam.setValue(false);
 
   this.diffEqSolver = new DiffEqSolverSubject(this.sim, this.sim, this.advance);
 

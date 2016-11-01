@@ -205,6 +205,7 @@ sims.layout.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
+  this.panZoomParam.setValue(false);
 
   /** @type {!DiffEqSolverSubject} */
   this.diffEqSolver = new DiffEqSolverSubject(sim, energySystem, advance);

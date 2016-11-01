@@ -412,7 +412,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
-  this.panZoomParam.setValue(true);
+  this.panZoomParam.setValue(false);
   this.addControl(new CheckBoxControl(this.panZoomParam));
 
   br = new GroupControl('BR', document.createElement('BR'), []);
