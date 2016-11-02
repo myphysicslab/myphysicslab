@@ -298,12 +298,13 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   var displayBob1 = new DisplayShape(this.simList1.getPointMass('bob'));
   displayBob1.drawCenterOfMass = false;
   displayBob1.drawDragPoints = false;
-  displayBob1.fillStyle = '';
-  displayBob1.strokeStyle = 'blue';
+  displayBob1.fillStyle = '#3cf';
+  displayBob1.strokeStyle = '';
   this.displayList.add(displayBob1);
   displayBob1.setDragable(false);
   var displayRod1 = new DisplayLine(this.simList1.getConcreteLine('rod'));
-  displayRod1.color = 'blue';
+  displayRod1.color = '#39c';
+  displayRod1.thickness = 3;
   this.displayList.add(displayRod1);
 
   /** @type {!lab.model.SimList} */
@@ -556,16 +557,19 @@ ReactionPendulumApp.prototype.observe =  function(event) {
         var d = new DisplayShape(p);
         d.drawCenterOfMass = true;
         d.drawDragPoints = false;
-        d.fillStyle = '';
-        d.strokeStyle = 'red';
-        this.displayList.add(d);
+        d.fillStyle = '#f66';
+        d.strokeStyle = '';
+        this.displayList.add(d, /*zIndex=*/-1);
       } else if (obj instanceof ConcreteLine) {
         var line = /** @type {!ConcreteLine} */(obj);
         var dl = new DisplayLine(line);
-        if (obj.getName() == 'rod') {
-          dl.color = 'red';
+        if (obj.nameEquals('rod')) {
+          dl.color = '#f99';
+          dl.thickness = 4;
         } else {
-          dl.color = 'orange';
+          dl.color = 'green';
+          dl.thickness = 4;
+          dl.lineDash = [3, 5];
         }
         this.displayList.add(dl);
       }
