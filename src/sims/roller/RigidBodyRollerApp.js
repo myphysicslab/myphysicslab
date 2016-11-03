@@ -38,7 +38,9 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.DisplayPath');
 goog.require('myphysicslab.lab.view.DisplayShape');
+goog.require('myphysicslab.lab.view.DrawingStyle');
 goog.require('myphysicslab.lab.util.GenericMemo');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
@@ -68,8 +70,10 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
+var DisplayPath = lab.view.DisplayPath;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
+var DrawingStyle = lab.view.DrawingStyle;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var FlatPath = sims.roller.FlatPath;
 var FunctionVariable = lab.model.FunctionVariable;
@@ -246,11 +250,12 @@ RigidBodyRollerApp.prototype.config = function() {
   this.gravityLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
+  DisplayPath.style = DrawingStyle.lineStyle('black', 3);
   this.simList.add(this.path);
   DisplayShape.drawCenterOfMass = true;
   DisplayShape.drawDragPoints = true;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'cyan';
+  DisplayShape.fillStyle = 'rgba(51,204,255,0.5)';
+  DisplayShape.strokeStyle = '';
   /** @type {!lab.engine2D.RigidBody} */
   this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
       RigidBodyRollerApp.i18n.BLOCK);
