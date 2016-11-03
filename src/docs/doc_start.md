@@ -8,7 +8,7 @@ physics simulations.
 Documentation
 -------------
 
-+ The [myPhysicsLab website](http://67.199.21.25) shows the simulations
++ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 
 + Documentation for each class and interface is available on this page.

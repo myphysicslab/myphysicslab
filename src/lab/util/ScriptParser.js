@@ -76,7 +76,7 @@ the URL of the current page along with a script that sets Parameters to their cu
 values. The script follows a question mark in the URL, so it is called a 'query script'
 or 'query URL'. Here is an example:
 
-    http://67.199.21.25/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
+    http://www.myphysicslab.com/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
     DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines
 
 A user can then send this custom URL to someone else, and when that other user enters

@@ -73,7 +73,7 @@ Parameters:
 
 Equations Of Motion
 -----------------------------
-See also <http://67.199.21.25/collideSpring.html>.
+See also <http://www.myphysicslab.com/collideSpring.html>.
 
 
 Spring force and damping look like this:

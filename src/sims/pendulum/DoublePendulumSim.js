@@ -70,7 +70,7 @@ This diagram shows how the sticks and masses are connected:
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown at
-<http://67.199.21.25/dbl_pendulum.html>. See also the
+<http://www.myphysicslab.com/dbl_pendulum.html>. See also the
 [Double Pendulum Mathematica notebook](Double_Pendulum.pdf) which uses an algebra
 solver to find the above equations.
 

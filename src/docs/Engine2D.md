@@ -10,7 +10,7 @@ Title: 2D Physics Engine Overview
 
 # 2D Physics Engine Overview
 
-[myPhysicsLab](http://67.199.21.25) provides classes to build real-time
+[myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time
 interactive animated physics simulations. This page gives an introduction to the
 2D Rigid Body Physics Engine which is contained in the namespace
 `myphysicslab.lab.engine2D`.
@@ -60,12 +60,12 @@ issues involved. See the following references for the math and physics behind th
 physics engine. The rest of this overview assumes some familiarity with this
 information.
 
-+ [2d Rigid Body Physics Engine](http://67.199.21.25/explain/physics-engine_en.html)
++ [2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine_en.html)
     introduction to the Physics Engine
-+ [differential equations](http://67.199.21.25/engine2D/rigid-body/rigid-body_en.html#differential_equations)
++ [differential equations](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body_en.html#differential_equations)
     for movement of RigidBody objects with various forces acting
-+ [physics of collisions for rigid bodies](http://67.199.21.25/engine2D/collision/collision_en.html#collision_physics).
-+ [contact force calculation](http://67.199.21.25/engine2D/contact/contact_en.html)
++ [physics of collisions for rigid bodies](http://www.myphysicslab.com/engine2D/collision/collision_en.html#collision_physics).
++ [contact force calculation](http://www.myphysicslab.com/engine2D/contact/contact_en.html)
 + [ContactSim Math](ContactSim_Math.html) has details about the math involved in
     the physics engine.
 + [ContactSim documentation](myphysicslab.lab.engine2D.ContactSim.html) has
@@ -91,7 +91,7 @@ Information about myPhysicsLab software in general:
     and interfaces.
 + See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
     interfaces.
-+ The [myPhysicsLab website](http://67.199.21.25) shows the simulations
++ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 + See [Building myPhysicsLab Software](Building.html) for information about building,
     testing, internationalization, and general programming issues.
@@ -516,7 +516,7 @@ A collision between two RigidBodys is a momentary event that results in an
 which reverses the collision. Collisions are resolved *between* time steps of the
 differential equation solver during the method
 [ImpulseSim.handleCollisions](myphysicslab.lab.engine2D.ImpulseSim.html#handleCollisions). See the myPhysicsLab website for math details about
-[how collision impulse is calculated](http://67.199.21.25/collision.html).
+[how collision impulse is calculated](http://www.myphysicslab.com/collision.html).
 
 For any Polygon you can specify what other objects it *does not* collide with, see
 [`Polygon.addNonCollide`](myphysicslab.lab.engine2D.Polygon.html#addNonCollide)
@@ -543,7 +543,7 @@ CollisionAdvance.
 Contacts are points where two RigidBodys are touching and exerting a contact force on
 each other. The bodies must be very close together at the contact point and not
 colliding. See the myPhysicsLab website for math details about
-[how contact force is calculated](http://67.199.21.25/contact.html).
+[how contact force is calculated](http://www.myphysicslab.com/contact.html).
 
 At each contact point an appropriate contact force is determined which is just enough
 to keep the objects from penetrating into each other – but not more than that, so the
@@ -706,7 +706,7 @@ Summary:
 
 There isn't a guaranteed theoretically correct way to handle multiple simultaneous
 collisions. See the web page at
-<http://67.199.21.25/beta/Collision-methods.html> for a discussion.
+<http://www.myphysicslab.com/beta/Collision-methods.html> for a discussion.
 The `engine2D` code makes several collision handling methods available.
 
 The desired method is specified via

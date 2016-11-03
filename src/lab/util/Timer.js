@@ -58,7 +58,7 @@ Here is some example code showing how to use a Timer, from
     timer.fire();
 
 You can try that code out by pasting it into the Terminal on the
-[BlankSlateApp example page](http://67.199.21.25/develop/sims/experimental/BlankSlateApp_en.html).
+[BlankSlateApp example page](http://www.myphysicslab.com/develop/sims/experimental/BlankSlateApp_en.html).
 
 
 ## Timing of Callbacks

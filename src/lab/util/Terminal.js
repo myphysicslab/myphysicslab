@@ -144,7 +144,7 @@ executed when the page is loaded. This provides a convenient way to share a cust
 The script follows a question mark in the URL, so it is called a 'query script'
 or 'query URL'. Here is an example:
 
-    http://67.199.21.25/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
+    http://www.myphysicslab.com/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
     DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines
 
 The URL Query Script is executed at startup by calling {@link #parseURL} or
@@ -833,8 +833,8 @@ local storage.
 Terminal.prototype.pageKey = function() {
   // This is the name of the html file, and therefore includes a locale suffix,
   // so that each language has a separate script stored.
-  // For example: http://67.199.21.25/pendulum_en.html is the English version
-  // and http://67.199.21.25/pendulum_de.html is the German version.
+  // For example: http://www.myphysicslab.com/pendulum_en.html is the English version
+  // and http://www.myphysicslab.com/pendulum_de.html is the German version.
   // (We could erase the locale from the key if desired).
   var loc = window.location.href;
   var query = loc.indexOf('?');

@@ -73,7 +73,7 @@ Parameters:
 
 Equations of Motion
 -------------------------
-See also <http://67.199.21.25/dbl_spring1.html>.
+See also <http://www.myphysicslab.com/dbl_spring1.html>.
 
 Forces:
 

@@ -77,7 +77,7 @@ Parameters:
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown in more detail at
-<http://67.199.21.25/spring2d.html>.
+<http://www.myphysicslab.com/spring2d.html>.
 
     Fx = - k L sin(th) - b Vx = m Vx'
     Fy = - m g + k L cos(th) - b Vy = m Vy'

@@ -50,7 +50,7 @@ entries.
 Many of the NumericalPath methods pass information via a
 {@link myphysicslab.lab.model.PathPoint} for both input and output.
 
-See the [Roller Roaster Simulation](http://67.199.21.25/RollerSimple.html) for
+See the [Roller Roaster Simulation](http://www.myphysicslab.com/RollerSimple.html) for
 more about the math involved here.
 
 

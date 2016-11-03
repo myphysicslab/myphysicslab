@@ -12,7 +12,7 @@ Title: Architecture of myPhysicsLab
 
 # myPhysicsLab Architecture
 
-[myPhysicsLab](http://67.199.21.25) provides classes to build real-time
+[myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time
 interactive animated physics simulations. This page gives an introduction to the
 architecture of the myPhysicsLab software.
 
@@ -35,7 +35,7 @@ Additional information:
     interfaces.
 + See [2D Physics Engine Overview](Engine2D.html) for an overview of the 2d rigid body physics
     engine.
-+ The [myPhysicsLab website](http://67.199.21.25) shows the simulations
++ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 + See [Customizing myPhysicsLab Simulations](Customizing.html) about how to customize
     using only a browser and text editor.
@@ -671,7 +671,7 @@ access the various objects from a script, as is discussed further in the section
 
 It is possible to have **two independent versions** of an application running on a
 single page. This is demonstrated in
-[MultiSpringApp](http://67.199.21.25/develop/adv-build/sims/springs/MultiSpringApp_en.html)
+[MultiSpringApp](http://www.myphysicslab.com/develop/adv-build/sims/springs/MultiSpringApp_en.html)
 which has two versions of SingleSpringApp running.
 Note that there are two separate sets of HTML elements on that page, each with unique
 names specified in the `elem_ids`. To be able to run two or more versions of an

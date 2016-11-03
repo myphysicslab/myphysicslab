@@ -68,7 +68,7 @@ Parameters:
 
 Equations of Motion
 -------------------------
-See also <http://67.199.21.25/dbl_spring2d.html>.
+See also <http://www.myphysicslab.com/dbl_spring2d.html>.
 
     F1x = -k1 L1 sin(th1) + k2 L2 sin(th2) - b1 V1x = m1 V1x'
     F1y = -m1 g + k1 L1 cos(th1) - k2 L2 cos(th2) - b1 V1y = m1 V1y'
