@@ -121,22 +121,22 @@ Something to notice is that the reaction force diverges more from the stick vect
 the size of disk increases. This is because a smaller disk is closer to the ideal of a
 point mass in the classic pendulum simulation.
 
+
 Keep Parameters Synchronized
 ------------------------------
-
 We keep the parameters for gravity, mass and length of pendulum synchronized between the
 two simulations (though length is slightly different, see below).
 
 The damping model is different for the two simulations so we don't try to synchronize
 the damping; we just leave both simulations with zero damping.
 
+
 Length of Equivalent Classic Pendulum
 ------------------------------------------
-
-To match motion of the two simulations, the lengths are slightly different. The
+To match the motion of the two simulations, the lengths are slightly different. The
 ReactionPendulumSim simulation models the pendulum as a rigid disc with mass distributed
-evenly. The classic ideal PendulumSim models the pendulum a point mass at end of
-massless stick.
+evenly. The classic ideal PendulumSim models the pendulum as a point mass at the end of
+a massless rod.
 
 We want to find the length of the simple ideal pendulum that is equivalent to the rigid
 body disk pendulum.
@@ -185,7 +185,6 @@ So the equivalent ideal pendulum is longer:  `R > h`
 
 Another Way to Calculate Equivalent Length
 -------------------------------------------
-
 Here's another way to calculate equivalent classic ideal pendulum length. Suppose we
 have rotational inertia about the pivot point (not about the CM) is `I`, and length to
 the CM is `h`.
@@ -213,7 +212,6 @@ which is the same as the previous answer.
 
 App Setup
 ---------------------------
-
 Creates instance objects such as the simulation and display objects;
 defines regular expressions for easy Terminal scripting of these objects using short
 names instead of fully qualified property names.
