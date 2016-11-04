@@ -91,10 +91,10 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 sims.engine2D.DoNothingApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
   this.mySim = new ContactSim();
-  this.mySim.setShowForces(true);
   this.mySim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim.setShowForces(false);
   this.elasticity.setElasticity(0.8);
   /** @type {!lab.model.DampingLaw} */
   this.dampingLaw = new DampingLaw(0.1, 0.15, this.simList);
@@ -104,7 +104,7 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   */
   this.tightFit = true;
   /** @type {number} */
-  this.handleForce = 2;
+  this.handleForce = 0;
   /** @type {number} */
   this.rotateRate = 0.3;
   /** @type {boolean} */
@@ -142,6 +142,8 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   this.makeScriptParser();
   this.addURLScriptButton();
   this.config();
+  // initial conditions with the mechanism moving at a medium velocity.
+  this.terminal.eval('HANDLE_X_POSITION=1.9216618122934424;HANDLE_X_VELOCITY=6.979809406442353;HANDLE_Y_POSITION=0.2943297250353547;HANDLE_Y_VELOCITY=-0.9426842022640329;HANDLE_ANGLE=25.88819308072886;HANDLE_ANGULAR_VELOCITY=3.424130668635809;SHUTTLE1_X_POSITION=0.001990449861582921;SHUTTLE1_X_VELOCITY=0.0003366291043680146;SHUTTLE1_Y_POSITION=2.3326774474691243;SHUTTLE1_Y_VELOCITY=-7.5158036361020635;SHUTTLE1_ANGULAR_VELOCITY=2.0530580453163819e-16;SHUTTLE2_X_POSITION=2.196971562128215;SHUTTLE2_X_VELOCITY=7.9807707907250105;SHUTTLE2_Y_POSITION=0.0019999999991728978;SHUTTLE2_Y_VELOCITY=3.1722152763666444e-11;SHUTTLE2_ANGULAR_VELOCITY=2.2709675909489905e-15;');
   this.graphSetup();
 };
 var DoNothingApp = sims.engine2D.DoNothingApp;
@@ -186,9 +188,9 @@ DoNothingApp.prototype.config = function() {
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   DoNothingApp.setup(this.mySim, this.tightFit);
-  DisplayShape.nameColor = 'gray';
-  DisplayShape.nameFont = '12pt sans-serif';
-  DisplayShape.nameRotate = 0;
+  //DisplayShape.nameColor = 'gray';
+  //DisplayShape.nameFont = '12pt sans-serif';
+  //DisplayShape.nameRotate = 0;
   if (this.extraBlock) {
     // add an optional extra free block
     var block = Shapes.makeBlock(1, 3, DoNothingApp.en.EXTRA_BLOCK,
@@ -246,7 +248,8 @@ DoNothingApp.setup = function(sim, tightFit) {
       DoNothingApp.i18n.HANDLE);
   handle.setMass(0.5);
   handle.setDragPoints([new Vector(0, -2.8)]);
-  DisplayShape.fillStyle = '#B0C4DE';
+  DisplayShape.fillStyle = 'rgba(51,204,255,0.5)';
+  //DisplayShape.fillStyle = '#B0C4DE';
   DisplayShape.strokeStyle = '';
   var saveZIndex = RigidBodyObserver.zIndex;
   RigidBodyObserver.zIndex = 2;
@@ -292,6 +295,7 @@ DoNothingApp.setup = function(sim, tightFit) {
   var a = Math.atan(-p1.getY()/p2.getX());
   //console.log('a '+NF5(a));
   handle.setAngle(-Math.PI/2 + a);
+  RigidBodyObserver.zIndex = 3;
   Joint.attachRigidBody(sim,
     s1,  /*attach point on s1, body coords=*/new Vector(0, 0),
     handle,  /*attach point on handle, body coords=*/new Vector(0, 2.8),

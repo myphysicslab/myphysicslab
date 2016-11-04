@@ -160,7 +160,7 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   new GenericObserver(sim, goog.bind(function(evt) {
     sim.modifyObjects();
   }, this), 'modifyObjects after parameter or variable change');
-  sim.setShowForces(true);
+  sim.setShowForces(false);
   /** @type {!lab.model.SimList} */
   this.simList = sim.getSimList();
   /** @type {!VarsList} */
