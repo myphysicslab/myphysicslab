@@ -315,6 +315,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
       goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
   this.layout.div_sim.appendChild(panzoom);
   pb = CommonControls.makeShowPanZoomParam(panzoom, this);
+  pb.setValue(false);
   this.addControl(new CheckBoxControl(pb));
 
   // keep the SimRunner's timeStep to be same as the Simulation's timeStep
