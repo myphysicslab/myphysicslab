@@ -317,8 +317,8 @@ bld_combos := $(addprefix $(BUILD_DIR)/,$(combo_names))
 # Copy .css files to build/sims/layout
 bld_css := $(BUILD_DIR)/stylesheet.css
 $(bld_css): $(BUILD_DIR)/%.css : src/%.css
-	mkdir -p $(dir $@)
-	cp -v -a $< $@
+	@mkdir -v -p $(dir $@)
+	@cp -v -a $< $@
 
 # Copy images to build/images
 img_files := $(wildcard src/images/*.png src/images/*.gif src/images/*.jpg \
@@ -326,8 +326,8 @@ src/images/*.mp3)
 
 build_images := $(subst src/,$(BUILD_DIR)/,$(img_files))
 $(build_images): $(BUILD_DIR)/images/% : src/images/%
-	mkdir -p $(dir $@)
-	cp -v -a $< $@
+	@mkdir -v -p $(dir $@)
+	@cp -v -a $< $@
 
 src_js := $(shell find src -name '*.js')
 lab_js := $(shell find src/lab -name '*.js')
@@ -357,7 +357,7 @@ lab_js := $(shell find src/lab -name '*.js')
 # goog/../../../src/lab/util/GenericVector.js
 
 $(BUILD_DIR)/deps.js : $(src_js)
-	mkdir -p $(dir $@)
+	@mkdir -v -p $(dir $@)
 	python ./closure-library/closure/bin/build/depswriter.py \
 	--root_with_prefix="src ../../../src" > $@
 
@@ -557,7 +557,7 @@ endif
 
 index_files := $(BUILD_DIR)/index_en.html $(BUILD_DIR)/index_de.html
 $(index_files): $(BUILD_DIR)/index_%.html : src/index.html src/macros.html
-	mkdir -p $(dir $@)
+	@mkdir -v -p $(dir $@)
 	./prep_html.pl $< $@ "" $(COMPILE_LEVEL)
 
 # Copy all .css files from src/docs/ to docs/ directory.
@@ -565,39 +565,39 @@ $(index_files): $(BUILD_DIR)/index_%.html : src/index.html src/macros.html
 # and delete them after copying.
 doc_css := $(subst src/docs/,docs/,$(wildcard src/docs/*.css))
 $(doc_css): docs/%.css : src/docs/%.css
-	mkdir -p $(dir $@)
-	cp -v -a $< $@
+	@mkdir -v -p $(dir $@)
+	@cp -v -a $< $@
 
 # Copy all .svg files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
 # and delete them after copying.
 doc_svg := $(subst src/docs/,docs/,$(wildcard src/docs/*.svg))
 $(doc_svg): docs/%.svg : src/docs/%.svg
-	mkdir -p $(dir $@)
-	cp -v -a $< $@
+	@mkdir -v -p $(dir $@)
+	@cp -v -a $< $@
 
 # Copy all .pdf files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
 # and delete them after copying.
 doc_pdf := $(subst src/docs/,docs/,$(wildcard src/docs/*.pdf))
 $(doc_pdf): docs/%.pdf : src/docs/%.pdf
-	mkdir -p $(dir $@)
-	cp -v -a $< $@
+	@mkdir -v -p $(dir $@)
+	@cp -v -a $< $@
 
 # Copy all .png files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
 # and delete them after copying.
 doc_png := $(subst src/docs/,docs/,$(wildcard src/docs/*.png))
 $(doc_png): docs/%.png : src/docs/%.png
-	mkdir -p $(dir $@)
-	cp -v -a $< $@
+	@mkdir -v -p $(dir $@)
+	@cp -v -a $< $@
 
 # Markdown documentation .md files are transformed to .html files by multimarkdown
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
 # and delete them after copying.
 doc_md := $(subst .md,.html,$(subst src/docs/,docs/,$(wildcard src/docs/*.md)))
 $(doc_md): docs/%.html : src/docs/%.md | $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png)
-	mkdir -p $(dir $@)
+	@mkdir -v -p $(dir $@)
 	multimarkdown $< --output=$@
 
 docs-md: $(doc_md)
@@ -608,7 +608,7 @@ docs-md: $(doc_md)
 # have any kind of "smart update" that does minimal work.  Instead we always
 # recreate all the Dossier files whenever requesting to build "docs" target.
 docs: $(doc_md) $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) dossier_config.json $(src_js)
-	mkdir -p $(dir $@)
+	@mkdir -v -p $(dir $@)
 	java -jar $(DOSSIER) -c dossier_config.json --num_threads=1
 
 apps-en: $(BUILD_DIR)/index_en.html $(addsuffix _en.html,$(bld_apps))

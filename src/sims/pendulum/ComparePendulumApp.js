@@ -273,6 +273,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
       goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
+  pb.setValue(true);
   this.addControl(new CheckBoxControl(pb));
 
   pn = this.simRun.getParameterNumber(SimRunner.en.TIME_STEP);
