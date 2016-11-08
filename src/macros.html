@@ -196,6 +196,10 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #define #advanced_DEBUG_STATUS
 #define #debug_DEBUG_STATUS – UNCOMPILED
 
+#define #COMPILED_MENU_IDX ##COMPILE_LEVEL#_COMPILED_MENU_IDX
+#define #simple_COMPILED_MENU_IDX 0
+#define #advanced_COMPILED_MENU_IDX 1
+
 #define #LANG_MENU_IDX ##LOCALE#_LANG_MENU_IDX
 #define #en_LANG_MENU_IDX 0
 #define #de_LANG_MENU_IDX 1
@@ -210,8 +214,8 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #comment https://developer.mozilla.org/en-US/Firefox/Releases/1.5/Using_Firefox_1.5_caching
 #comment http://stackoverflow.com/questions/2638292/after-travelling-back-in-firefox-history-javascript-wont-run
 #comment
-#comment For some reason the language menu does NOT get restored after clicking
-#comment the back-button. Since the pageshow event fires even after using the
+#comment For some reason the language and compiled menus do NOT get restored after
+#comment clicking the back-button. Since the pageshow event fires even after using the
 #comment back-button we set the state of the language menu in the pageshow function.
 
 #define #BUILD_APP \
@@ -221,9 +225,11 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
     #INSTANTIATE_APP\
     app.defineNames('app');\
     window.addEventListener('pageshow', function(event){\
-      // set language menu to correct language\
+      // set language menu and compiled menus in case of back-button \
       var menu = document.getElementById('language_menu');\
       if (menu) { menu.selectedIndex = #LANG_MENU_IDX; }\
+      menu = document.getElementById('compiled_menu');\
+      if (menu) { menu.selectedIndex = #COMPILED_MENU_IDX; }\
     }, /*capturing=*/false);\
   }());\
 </script>
