@@ -11,6 +11,9 @@ Documentation
 + The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 
++ The [How Does It Work?](http://www.myphysicslab.com/index_en.html#how-does-it-work)
+    section of myPhysicsLab explains how physics simulations work in general.
+
 + Documentation for each class and interface is available on this page.
     + Open the drop-down menu at upper left to navigate among the Types menu.
     + Type in the "Search" bar above to find a specific class or method
@@ -98,7 +101,7 @@ interfaces listed for ease of browsing.
     + [myphysicslab.lab.view.LabView](myphysicslab.lab.view.LabView.html)
     + [myphysicslab.lab.view.SimView](myphysicslab.lab.view.SimView.html)
 
-+ `myphysicslab.sims.engine2D` applications displaying rigid body simulations
++ `myphysicslab.sims.engine2D` applications displaying rigid body physics engine simulations
     + [myphysicslab.sims.engine2D.ChainApp](myphysicslab.sims.engine2D.ChainApp.html)
     + [myphysicslab.sims.engine2D.Engine2DApp](myphysicslab.sims.engine2D.Engine2DApp.html)
     + [myphysicslab.sims.engine2D.NewtonsCradleApp](myphysicslab.sims.engine2D.NewtonsCradleApp.html)
