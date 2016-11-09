@@ -3,7 +3,7 @@ myPhysicsLab README
 myPhysicsLab provides JavaScript classes to build real-time interactive
 animated physics simulations.
 
-The [myPhysicsLab website](http://67.199.21.25) shows the simulations running
+The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations running
 and contains explanations of the math behind them.
 
 
@@ -20,7 +20,7 @@ Building
 --------
 It is possible to customize a myPhysicsLab simulation without
 building from source code, see
-[Customizing myPhysicsLab Simulations](http://67.199.21.25/develop/docs/Customizing.html).
+[Customizing myPhysicsLab Simulations](http://www.myphysicslab.com/develop/docs/Customizing.html).
 
 To build from source code the required tools are
 
@@ -60,13 +60,13 @@ Once the prerequisites are on your system, follow these steps:
 NOTE: the HTML files in the source directories **cannot be used directly** from
 a browser. You must complete the build process first.
 
-See [Building myPhysicsLab Software](http://67.199.21.25/develop/docs/Building.html)
+See [Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html)
 for more information about the build process.
 
 
 Documentation
 -------------
-See [myPhysicsLab Documentation](http://67.199.21.25/develop/docs/index.html)
+See [myPhysicsLab Documentation](http://www.myphysicslab.com/develop/docs/index.html)
 for overview of architecture and for detailed documentation of software.
 
 
@@ -76,7 +76,7 @@ There are around 50 different simulations in the source code, each of which has
 has an example file which is mainly for development and testing.
 
 The example files are available online in two forms:
-[advanced-compiled](http://67.199.21.25/develop/adv-build/index_en.html)
+[advanced-compiled](http://www.myphysicslab.com/develop/adv-build/index_en.html)
 which loads faster and
-[simple-compiled](http://67.199.21.25/develop/build/index_en.html)
+[simple-compiled](http://www.myphysicslab.com/develop/build/index_en.html)
 which allows for more customization.
