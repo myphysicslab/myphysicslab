@@ -98,6 +98,8 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
     this.displayList.add(this.marker1Shape);
   }
 
+  this.graph.line.setXVariable(0); // angle-1
+  this.graph.line.setYVariable(2); // angle-2
   // test of polar graph feature
   if (0 == 1) {
     this.graph.line.xTransform = function(x,y) { return y*Math.cos(x); };
