@@ -6,7 +6,7 @@
 # compile unit tests
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
 # param: {string} rootDir = top level source directory, example: src/
-# param: {string} target = output file, example: build/test/UnitTest_en.js
+# param: {string} target = output file, example: build/test/UnitTest-en.js
 # param: {string} COMPILE_LEVEL = "simple" or "advanced", whether to compile with advanced
 #                 closure compiler optimizations
 # input: the variable CLOSURE_COMPILER must be set; it is set in myConfig.mk
@@ -47,9 +47,9 @@ if [ -z "$target" ] ; then
 	exit 1
 fi
 
-# Find locale from suffix of target:  foo_en.js is "en";  bar_de.js is "de"
+# Find locale from suffix of target:  foo-en.js is "en";  bar-de.js is "de"
 # ${variable##pattern} Trim the longest match from the beginning
-locale=${target##*_}
+locale=${target##*-}
 # ${variable%%pattern} Trim the longest match from the end:
 # remove the ".js" suffix
 locale=${locale%%.*}

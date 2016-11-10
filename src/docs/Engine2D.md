@@ -60,12 +60,12 @@ issues involved. See the following references for the math and physics behind th
 physics engine. The rest of this overview assumes some familiarity with this
 information.
 
-+ [2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine_en.html)
++ [2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine-en.html)
     introduction to the Physics Engine
-+ [differential equations](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body_en.html#differential_equations)
++ [differential equations](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body-en.html#differential_equations)
     for movement of RigidBody objects with various forces acting
-+ [physics of collisions for rigid bodies](http://www.myphysicslab.com/engine2D/collision/collision_en.html#collision_physics).
-+ [contact force calculation](http://www.myphysicslab.com/engine2D/contact/contact_en.html)
++ [physics of collisions for rigid bodies](http://www.myphysicslab.com/engine2D/collision/collision-en.html#collision_physics).
++ [contact force calculation](http://www.myphysicslab.com/engine2D/contact/contact-en.html)
 + [ContactSim Math](ContactSim_Math.html) has details about the math involved in
     the physics engine.
 + [ContactSim documentation](myphysicslab.lab.engine2D.ContactSim.html) has

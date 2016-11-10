@@ -12,7 +12,7 @@ Title: ContactSim Math
 
 This describes details of the math involved in the class
 [ContactSim](myphysicslab.lab.engine2D.ContactSim.html) which is part of the
-[2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine_en.html)
+[2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine-en.html)
 of [myPhysicsLab](http://www.myphysicslab.com).
 
 + [Resources][]

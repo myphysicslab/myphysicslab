@@ -30,14 +30,14 @@
 # ** compile javascript **
 # We compile Spring1App.js via the compile_js script to create localized (english,
 # german, etc.) versions, these are put in the corresponding build directory at
-# for example build/sims/springs/Spring1App_de.js.
+# for example build/sims/springs/Spring1App-de.js.
 # To see compiler options:
 #    java -jar ../javascript/closure-compiler/build/compiler.jar --help
 #
 # ** process html **
 # We process Spring1App.html to create versions that load the compiled javascript 
 # in english or german via prep_html.pl. These are put in the corresponding
-# build directory at for example build/sims/springs/Spring1App_de.html.
+# build directory at for example build/sims/springs/Spring1App-de.html.
 #
 # ** prerequisites **
 # This makefile attempts to reduce recompiling files when not needed by specifying
@@ -55,7 +55,7 @@
 # While developing, to avoid compiling every app you will typically specify a single
 # app to compile.  To reduce typing you can add a shorthand target name to your
 # myConfig.mk, like this:
-#      spring1: $(BUILD_DIR)/sims/springs/Spring1App_en.html
+#      spring1: $(BUILD_DIR)/sims/springs/Spring1App-en.html
 # Then to compile that one app type just:
 #      make spring1
 #
@@ -170,76 +170,76 @@ endif
 # GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
 GOOG_DEBUG ?= false
 
-biketimer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BikeTimerApp_$(loc).html )
-billiards: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BilliardsApp_$(loc).html )
-blank: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BlankApp_$(loc).html )
-blankslate: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BlankSlateApp_$(loc).html )
-brachisto: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/BrachistoApp_$(loc).html )
-carsuspension: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CarSuspensionApp_$(loc).html )
-cartpendulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CartPendulum2App_$(loc).html )
-cartpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CartPendulumApp_$(loc).html )
-chain: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ChainApp_$(loc).html )
-chainofsprings: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/ChainOfSpringsApp_$(loc).html )
-collideblocks: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideBlocksApp_$(loc).html )
-collidespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideSpringApp_$(loc).html )
-collisioncombo: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/CollisionCombo_$(loc).js )
-comparedoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CompareDoublePendulumApp_$(loc).html )
-comparependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ComparePendulumApp_$(loc).html )
-contact: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ContactApp_$(loc).html )
-curvedtest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CurvedTestApp_$(loc).html )
-danglestick: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DangleStickApp_$(loc).html )
-donothing: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoNothingApp_$(loc).html )
-double2dspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Double2DSpringApp_$(loc).html )
-doublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/DoublePendulumApp_$(loc).html )
-doublependulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoublePendulum2App_$(loc).html )
-doublespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DoubleSpringApp_$(loc).html )
-fastball: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/FastBallApp_$(loc).html )
-gears: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/GearsApp_$(loc).html )
-graphcalc: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalcApp_$(loc).html )
-impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp_$(loc).html )
-index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index_$(loc).html )
-lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp_$(loc).html )
-marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp_$(loc).html )
-marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp_$(loc).html )
-molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App_$(loc).html )
-molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App_$(loc).html )
-moveabledoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp_$(loc).html )
-moveablependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveablePendulumApp_$(loc).html )
-multiplecollision: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MultipleCollisionApp_$(loc).html )
-multispring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/MultiSpringApp_$(loc).html )
-mutualattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MutualAttractApp_$(loc).html )
-newtonscradle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/NewtonsCradleApp_$(loc).html )
-pendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/PendulumApp_$(loc).html )
-pendulumclock: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PendulumClockApp_$(loc).html )
-pendulumspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PendulumSpringApp_$(loc).html )
-perf: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/PerformanceTests_$(loc).html )
-pile: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PileApp_$(loc).html )
-pileattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PileAttractApp_$(loc).html )
-polygontest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PolygonTestApp_$(loc).html )
-reactionpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ReactionPendulumApp_$(loc).html )
-rigidbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RigidBodyApp_$(loc).html )
-rigidbodyroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RigidBodyRollerApp_$(loc).html )
-rigiddoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp_$(loc).html )
-rollerdouble: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerDoubleApp_$(loc).html )
-rollerflight: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerFlightApp_$(loc).html )
-rollersingle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSingleApp_$(loc).html )
-rollerspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSpringApp_$(loc).html )
-simple: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/SimpleApp_$(loc).html )
-singletest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleTest_$(loc).html )
-singleviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleViewerApp_$(loc).html )
-singlespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpringApp_$(loc).html )
-singlespring2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpring2App_$(loc).html )
-spring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Spring2DApp_$(loc).html )
-string: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pde/StringApp_$(loc).html )
-stucktest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/StuckTestApp_$(loc).html )
-terminalspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpringApp_$(loc).html )
-terminalspring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpring2DApp_$(loc).html )
-test: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/Engine2DTests_$(loc).html )
-testbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/TestBodyApp_$(loc).html )
-testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp_$(loc).html )
-unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest_$(loc).html )
+biketimer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BikeTimerApp-$(loc).html )
+billiards: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BilliardsApp-$(loc).html )
+blank: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BlankApp-$(loc).html )
+blankslate: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BlankSlateApp-$(loc).html )
+brachisto: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/BrachistoApp-$(loc).html )
+carsuspension: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CarSuspensionApp-$(loc).html )
+cartpendulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CartPendulum2App-$(loc).html )
+cartpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CartPendulumApp-$(loc).html )
+chain: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ChainApp-$(loc).html )
+chainofsprings: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/ChainOfSpringsApp-$(loc).html )
+collideblocks: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideBlocksApp-$(loc).html )
+collidespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideSpringApp-$(loc).html )
+collisioncombo: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/CollisionCombo-$(loc).js )
+comparedoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CompareDoublePendulumApp-$(loc).html )
+comparependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ComparePendulumApp-$(loc).html )
+contact: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ContactApp-$(loc).html )
+curvedtest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CurvedTestApp-$(loc).html )
+danglestick: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DangleStickApp-$(loc).html )
+donothing: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoNothingApp-$(loc).html )
+double2dspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Double2DSpringApp-$(loc).html )
+doublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/DoublePendulumApp-$(loc).html )
+doublependulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoublePendulum2App-$(loc).html )
+doublespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DoubleSpringApp-$(loc).html )
+fastball: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/FastBallApp-$(loc).html )
+gears: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/GearsApp-$(loc).html )
+graphcalc: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalcApp-$(loc).html )
+impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp-$(loc).html )
+index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index-$(loc).html )
+lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp-$(loc).html )
+marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).html )
+marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).html )
+molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App-$(loc).html )
+molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App-$(loc).html )
+moveabledoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp-$(loc).html )
+moveablependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveablePendulumApp-$(loc).html )
+multiplecollision: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MultipleCollisionApp-$(loc).html )
+multispring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/MultiSpringApp-$(loc).html )
+mutualattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MutualAttractApp-$(loc).html )
+newtonscradle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/NewtonsCradleApp-$(loc).html )
+pendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/PendulumApp-$(loc).html )
+pendulumclock: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PendulumClockApp-$(loc).html )
+pendulumspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PendulumSpringApp-$(loc).html )
+perf: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/PerformanceTests-$(loc).html )
+pile: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PileApp-$(loc).html )
+pileattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PileAttractApp-$(loc).html )
+polygontest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/PolygonTestApp-$(loc).html )
+reactionpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ReactionPendulumApp-$(loc).html )
+rigidbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RigidBodyApp-$(loc).html )
+rigidbodyroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RigidBodyRollerApp-$(loc).html )
+rigiddoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp-$(loc).html )
+rollerdouble: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerDoubleApp-$(loc).html )
+rollerflight: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerFlightApp-$(loc).html )
+rollersingle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSingleApp-$(loc).html )
+rollerspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSpringApp-$(loc).html )
+simple: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/SimpleApp-$(loc).html )
+singletest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleTest-$(loc).html )
+singleviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleViewerApp-$(loc).html )
+singlespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpringApp-$(loc).html )
+singlespring2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpring2App-$(loc).html )
+spring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Spring2DApp-$(loc).html )
+string: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pde/StringApp-$(loc).html )
+stucktest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/StuckTestApp-$(loc).html )
+terminalspring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpringApp-$(loc).html )
+terminalspring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpring2DApp-$(loc).html )
+test: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/Engine2DTests-$(loc).html )
+testbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/TestBodyApp-$(loc).html )
+testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp-$(loc).html )
+unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest-$(loc).html )
 unittestone: $(BUILD_DIR)/test/UnitTestOne.html
-vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp_$(loc).html )
+vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp-$(loc).html )
 
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
@@ -504,15 +504,15 @@ $(BUILD_DIR)/test/UnitTest*.js : $(test_req)
 $(BUILD_DIR)/test/PerformanceTests*.js \
 $(BUILD_DIR)/test/Engine2DTests*.js : GOOG_DEBUG := false
 
-apps_js_en := $(addsuffix _en.js,$(bld_apps)) $(addsuffix _en.js,$(bld_combos))
-$(apps_js_en): $(BUILD_DIR)/%_en.js : src/%.js
+apps_js_en := $(addsuffix -en.js,$(bld_apps)) $(addsuffix -en.js,$(bld_combos))
+$(apps_js_en): $(BUILD_DIR)/%-en.js : src/%.js
 	./compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
 
-apps_js_de := $(addsuffix _de.js,$(bld_apps)) $(addsuffix _de.js,$(bld_combos))
-$(apps_js_de): $(BUILD_DIR)/%_de.js : src/%.js
+apps_js_de := $(addsuffix -de.js,$(bld_apps)) $(addsuffix -de.js,$(bld_combos))
+$(apps_js_de): $(BUILD_DIR)/%-de.js : src/%.js
 	./compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
 
-unit_test := $(BUILD_DIR)/test/UnitTest_en $(BUILD_DIR)/test/UnitTest_de
+unit_test := $(BUILD_DIR)/test/UnitTest-en $(BUILD_DIR)/test/UnitTest-de
 unit_test_js := $(addsuffix .js,$(unit_test))
 
 # UnitTest is built with a special shell script and prerequisites.
@@ -533,10 +533,10 @@ $(BUILD_DIR)/test/UnitTestOne.html: src/test/UnitTestOne.html | $(BUILD_DIR)/dep
 
 ifeq "$(COMPILE_LEVEL)" "debug"
 # make HTML file that loads uncompiled (source) JavaScript. Needs deps.js.
-$(BUILD_DIR)/%_en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
-$(BUILD_DIR)/%_de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 else
@@ -548,15 +548,15 @@ $(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 # rule for HTML file which requires same-named JS file (most apps are like this)
-$(BUILD_DIR)/%_en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%_en.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%-en.js $(build_images) $(bld_css) settings
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
-$(BUILD_DIR)/%_de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%_de.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%-de.js $(build_images) $(bld_css) settings
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 endif
 
-index_files := $(BUILD_DIR)/index_en.html $(BUILD_DIR)/index_de.html
-$(index_files): $(BUILD_DIR)/index_%.html : src/index.html src/macros.html
+index_files := $(BUILD_DIR)/index-en.html $(BUILD_DIR)/index-de.html
+$(index_files): $(BUILD_DIR)/index-%.html : src/index.html src/macros.html
 	@mkdir -v -p $(dir $@)
 	./prep_html.pl $< $@ "" $(COMPILE_LEVEL)
 
@@ -611,13 +611,13 @@ docs: $(doc_md) $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) dossier_config.json 
 	@mkdir -v -p $(dir $@)
 	java -jar $(DOSSIER) -c dossier_config.json --num_threads=1
 
-apps-en: $(BUILD_DIR)/index_en.html $(addsuffix _en.html,$(bld_apps))
+apps-en: $(BUILD_DIR)/index-en.html $(addsuffix -en.html,$(bld_apps))
 
-apps-de: $(BUILD_DIR)/index_de.html $(addsuffix _de.html,$(bld_apps))
+apps-de: $(BUILD_DIR)/index-de.html $(addsuffix -de.html,$(bld_apps))
 
 apps: apps-en apps-de
 
-combos: $(addsuffix _en.js,$(bld_combos)) $(addsuffix _de.js,$(bld_combos))
+combos: $(addsuffix -en.js,$(bld_combos)) $(addsuffix -de.js,$(bld_combos))
 
 deps: $(BUILD_DIR)/deps.js
 

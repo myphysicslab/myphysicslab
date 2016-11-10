@@ -141,7 +141,7 @@ Here are some ways to use ScriptParser:
 
 + In Terminal you can enter ScriptParser scripts at the command line.
     Here is an example that you can try in the online version of
-    [PendulumApp](http://www.myphysicslab.com/develop/adv-build/sims/pendulum/PendulumApp_en.html):
+    [PendulumApp](http://www.myphysicslab.com/develop/adv-build/sims/pendulum/PendulumApp-en.html):
 
         ANGLE=-2.5; ANGLE_VELOCITY=-4; GRAVITY=5; DAMPING=0.1;
 
@@ -156,7 +156,7 @@ Here are some ways to use ScriptParser:
     [ScriptParser.scriptURL](myphysicslab.lab.util.ScriptParser.html#scriptURL).
     Here is an example:
 
-        http://www.myphysicslab.com/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
+        http://www.myphysicslab.com/PendulumApp-en.html?DRIVE_AMPLITUDE=0;
         DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines;
 
 + Use the **URL Script Button** to automatically make a URL query script that
@@ -183,7 +183,7 @@ Here is an example of JavaScript commands which can be pasted into the Terminal 
 area while running
 [DoublePendulumApp](myphysicslab.sims.pendulum.DoublePendulumApp.html).
 You can try it with the online
-[simple-compiled DoublePendulumApp](http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp_en.html).
+[simple-compiled DoublePendulumApp](http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html).
 
     simRun.pause();
     simRun.reset();
@@ -242,7 +242,7 @@ compiled code which defines various myPhysicsLab classes.
 You will, however, need to **install the new HTML file somewhere** (such as your local
 machine or a web server), as well as any other files that are needed such as
 
-+ the compiled JavaScript application (for example `PendulumApp_en.js`)
++ the compiled JavaScript application (for example `PendulumApp-en.js`)
 + image files (for example `rewind.png`)
 + CSS style file (for example `stylesheet.css`)
 

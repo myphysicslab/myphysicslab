@@ -5,13 +5,13 @@
 
 # compile a single simulation.
 # param: {string} source = source file name, example: src/sims/mechanics/Spring1App.js
-# param: {string} target = output file, example: build/sims/mechanics/Spring1App_en.js
+# param: {string} target = output file, example: build/sims/mechanics/Spring1App-en.js
 # param: {boolean} debug = whether to compile with goog.DEBUG=true
 # param: {string} COMPILE_LEVEL = "simple" or "advanced", whether to compile with
 #        advanced closure compiler optimizations
 # input: the variable CLOSURE_COMPILER must be set; it is set in myConfig.mk
 #        so that each user can specify it for their environment.
-# output: compiled version of that file, example: build/sims/mechanics/Spring1App_de.js
+# output: compiled version of that file, example: build/sims/mechanics/Spring1App-de.js
 
 #set dbg to "true" to show some debug statements
 dbg=""
@@ -40,9 +40,9 @@ if [ -z "$target" ] ; then
 	exit 1
 fi
 
-# Find locale from suffix of target:  foo_en.js is "en";  bar_de.js is "de"
+# Find locale from suffix of target:  foo-en.js is "en";  bar-de.js is "de"
 # ${variable##pattern} Trim the longest match from the beginning
-locale=${target##*_}
+locale=${target##*-}
 # ${variable%%pattern} Trim the longest match from the end:  remove the ".js"
 locale=${locale%%.*}
 if [ -z "$locale" ] ; then
@@ -80,7 +80,7 @@ fi
 
 # We are starting with
 # source = src/sims/mechanics/Spring1App.js
-# target:  build/sims/mechanics/Spring1App_de.js
+# target:  build/sims/mechanics/Spring1App-de.js
 
 # We need to generate the strings:
 # buildRoot: build/

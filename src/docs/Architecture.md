@@ -588,16 +588,16 @@ In myPhysicsLab the convention is to **use the same name** for the JavaScript
 application file and the start-up HTML file. For example, `DoublePendulumApp.html` and
 `DoublePendulumApp.js`. After compilation, a **suffix** is added to these file names to
 indicate what **language** they use. For example, the German versions would be
-`DoublePendulumApp_de.html` and `DoublePendulumApp_de.js`. See documentation about
+`DoublePendulumApp-de.html` and `DoublePendulumApp-de.js`. See documentation about
 [Internationalization (i18n)](Building.html#internationalizationi18n).
 
 Here is a **typical start-up script** from the HTML start-up file
-`DoublePendulumApp_en.html` (the `_en` suffix means it is
+`DoublePendulumApp-en.html` (the `-en` suffix means it is
 an English version). This script creates a
 [DoublePendulumApp](myphysicslab.sims.pendulum.DoublePendulumApp.html) application
 object which is stored in the `app` global variable.
 
-    <script src='DoublePendulumApp_en.js'></script>
+    <script src='DoublePendulumApp-en.js'></script>
     <script>
     (function build() {
         var elem_ids = {
@@ -620,7 +620,7 @@ object which is stored in the `app` global variable.
     <script>app.start();</script>
 
 The first script tag **loads the compiled version** of the application and various
-classes it needs from the file `DoublePendulumApp_en.js`. Loading the compiled JavaScript file **defines the classes**, but does not instantiate
+classes it needs from the file `DoublePendulumApp-en.js`. Loading the compiled JavaScript file **defines the classes**, but does not instantiate
 the application. (Note that the loading process is considerably different when
 [debugging – running uncompiled)](Building.html#debuggingrunninguncompiled)).
 
@@ -671,7 +671,7 @@ access the various objects from a script, as is discussed further in the section
 
 It is possible to have **two independent versions** of an application running on a
 single page. This is demonstrated in
-[MultiSpringApp](http://www.myphysicslab.com/develop/adv-build/sims/springs/MultiSpringApp_en.html)
+[MultiSpringApp](http://www.myphysicslab.com/develop/adv-build/sims/springs/MultiSpringApp-en.html)
 which has two versions of SingleSpringApp running.
 Note that there are two separate sets of HTML elements on that page, each with unique
 names specified in the `elem_ids`. To be able to run two or more versions of an

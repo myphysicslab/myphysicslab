@@ -58,7 +58,7 @@
 </script>
 
 #define #SITE_LOGO \
-<a id="logo" href="#TOP_DIR/index_#LOCALE.html">\
+<a id="logo" href="#TOP_DIR/index-#LOCALE.html">\
   <img src="#IMAGES_DIR/myphysicslogo.png" width="162" height="32" alt="my physics lab logo">\
 </a>
 
@@ -98,15 +98,15 @@
 #define #LANGUAGE_MENU \
   <select id="language_menu"\
     onchange="location = this.options[this.selectedIndex].value;">\
-    <option value="#FILE_NAME#_en.html" #I18N_ENGLISH_SELECTED>#I18N_ENGLISH</option>\
-    <option value="#FILE_NAME#_de.html" #I18N_GERMAN_SELECTED>#I18N_GERMAN</option>\
+    <option value="#FILE_NAME#-en.html" #I18N_ENGLISH_SELECTED>#I18N_ENGLISH</option>\
+    <option value="#FILE_NAME#-de.html" #I18N_GERMAN_SELECTED>#I18N_GERMAN</option>\
   </select>
 
 #define #PREV_ANCHOR_TAG <a class="nav_link" \
-   href="#TOP_DIR/#PREV_LINK#_#LOCALE.html">#I18N_PREVIOUS</a>
+   href="#TOP_DIR/#PREV_LINK#-#LOCALE.html">#I18N_PREVIOUS</a>
 
 #define #NEXT_ANCHOR_TAG <a class="nav_link" \
-   href="#TOP_DIR/#NEXT_LINK#_#LOCALE.html">#I18N_NEXT</a>
+   href="#TOP_DIR/#NEXT_LINK#-#LOCALE.html">#I18N_NEXT</a>
 
 #comment #HEADER_BAR holds the language menu, navigation links, and optionally can
 #comment have tab items for the tabbed interface.
@@ -132,15 +132,15 @@
 #define #simple_COMPILED_MENU <label>compiled: \
   <select id="compiled_menu"\
     onchange="location = this.options[this.selectedIndex].value;">\
-    <option value="#FILE_NAME#_#LOCALE#.html" selected>simple</option>\
-    <option value="#TOP_DIR/../adv-build/#FILE_PATH#_#LOCALE#.html">advanced</option>\
+    <option value="#FILE_NAME#-#LOCALE#.html" selected>simple</option>\
+    <option value="#TOP_DIR/../adv-build/#FILE_PATH#-#LOCALE#.html">advanced</option>\
   </select>\
   </label>
 #define #advanced_COMPILED_MENU <label>compiled: \
   <select id="compiled_menu"\
     onchange="location = this.options[this.selectedIndex].value;">\
-    <option value="#TOP_DIR/../build/#FILE_PATH#_#LOCALE#.html">simple</option>\
-    <option value="#FILE_NAME#_#LOCALE#.html" selected>advanced</option>\
+    <option value="#TOP_DIR/../build/#FILE_PATH#-#LOCALE#.html">simple</option>\
+    <option value="#FILE_NAME#-#LOCALE#.html" selected>advanced</option>\
   </select>\
   </label>
 
@@ -162,14 +162,14 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 
 
 #define #TEST_PAGE ##LOCALE#_TEST_PAGE
-#rule s~#en_TEST_PAGE{(.+?)}~<p style="clear: both;">This is a <em>test page for development</em>, please see the <a href="#MYPHYSICSLAB_DIR/$1_#LOCALE#.html">published version of this simulation</a>.</p>~g
+#rule s~#en_TEST_PAGE{(.+?)}~<p style="clear: both;">This is a <em>test page for development</em>, please see the <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">published version of this simulation</a>.</p>~g
 
-#rule s~#de_TEST_PAGE{(.+?)}~<p style="clear: both;">Dies ist eine <em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie die <a href="#MYPHYSICSLAB_DIR/$1_#LOCALE#.html">ver&ouml;ffentlichte Version dieser Simulation</a> um das vollst&auml;ndige Experiment zu sehen.</p>~g
+#rule s~#de_TEST_PAGE{(.+?)}~<p style="clear: both;">Dies ist eine <em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie die <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">ver&ouml;ffentlichte Version dieser Simulation</a> um das vollst&auml;ndige Experiment zu sehen.</p>~g
 
 
 #define #LOAD_APP ##COMPILE_LEVEL#_LOAD_APP
 
-#define #simple_LOAD_APP <script src="#APP_NAME#_#LOCALE.js"></script>
+#define #simple_LOAD_APP <script src="#APP_NAME#-#LOCALE.js"></script>
 
 #define #advanced_LOAD_APP #simple_LOAD_APP
 

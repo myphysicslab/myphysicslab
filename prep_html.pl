@@ -8,9 +8,9 @@
 #
 # @param {string} file = source file name, example: src/sims/mechanics/Spring1App.html
 #
-# @param {string} target = output file, example: build/sims/mechanics/Spring1App_en.html
+# @param {string} target = output file, example: build/sims/mechanics/Spring1App-en.html
 #        The suffix determines the value of the #LOCALE macro.  For example
-#        #LOCALE would be "en" for "Spring1App_en.html".  Default locale is "en"
+#        #LOCALE would be "en" for "Spring1App-en.html".  Default locale is "en"
 #        when there is no suffix.
 #
 # @param {string} orderFile = file containing list of files for next/previous links,
@@ -161,9 +161,9 @@
 # include different files depending on variables like #LOCALE or #COMPILE_LEVEL.
 # For example:
 #
-#     #include "macros_#LOCALE.html"
+#     #include "macros-#LOCALE.html"
 #
-# Would include the file "macros_de.html" when #LOCALE is "de".
+# Would include the file "macros-de.html" when #LOCALE is "de".
 #
 #
 # ------------- #comment -----------------------
@@ -195,7 +195,7 @@
 # #DATE_TIME gives the current date
 #
 # #LOCALE gives the two-letter ISO 639-1 locale (for example en, de) derived
-# from suffix of the target file name (for example _en, _de).
+# from suffix of the target file name (for example -en, -de).
 # If target file doesn't end with a locale, then #LOCALE is empty string.
 #
 # #COMPILE_LEVEL indicates what level of compilation is being used for the
@@ -392,11 +392,11 @@ $target =~ m{([^/\n]+)\.\w+$} or die "$0 ERROR cannot parse base name of $target
 my $targetName = $1;
 
 # locale: get from the suffix of targetName
-# example:  src/spring1_en.html means locale is 'en'.
+# example:  src/spring1-en.html means locale is 'en'.
 # Default is "en" when we cannot determine locale from suffix.
 my $locale = "en";
-if ($targetName =~ /_(\w{2})$/) {
-	$locale = $1;
+if ($targetName =~ /(_|-)(\w{2})$/) {
+	$locale = $2;
 }
 
 if ($debug)	{

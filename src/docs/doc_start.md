@@ -11,7 +11,7 @@ Documentation
 + The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 
-+ The [How Does It Work?](http://www.myphysicslab.com/index_en.html#how-does-it-work)
++ The [How Does It Work?](http://www.myphysicslab.com/index-en.html#how-does-it-work)
     section of myPhysicsLab explains how physics simulations work in general.
 
 + Documentation for each class and interface is available on this page.
