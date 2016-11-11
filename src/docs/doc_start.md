@@ -11,27 +11,29 @@ Documentation
 + The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 
-+ The [How Does It Work?](http://www.myphysicslab.com/index-en.html#how-does-it-work)
-    section of myPhysicsLab explains how physics simulations work in general.
-
 + Documentation for each class and interface is available on this page.
     + Open the drop-down menu at upper left to navigate among the Types menu.
     + Type in the "Search" bar above to find a specific class or method
     + Click a link to one of the representative classes listed below.
 
-+ See [Building myPhysicsLab Software](Building.html) for information about building,
++ [Building myPhysicsLab Software](Building.html) has information about building,
     testing, internationalization, and general programming issues.
 
-+ See [myPhysicsLab Architecture](Architecture.html) for an introduction to classes
-    and interfaces.
++ The [How Does It Work?](http://www.myphysicslab.com/index-en.html#how-does-it-work)
+    section of myPhysicsLab explains how physics simulations work in general.
 
-+ See [2D Physics Engine Overview](Engine2D.html)
++ [myPhysicsLab Architecture](Architecture.html) is the best place to start for
+    understanding the software.
 
-+ See [Customizing myPhysicsLab Simulations](Customizing.html) about how to customize
++ [2D Physics Engine Overview](Engine2D.html) covers the most complex piece of software
+    included in myPhysicsLab.
+
++ [Customizing myPhysicsLab Simulations](Customizing.html) tells how to customize
     using only a browser and text editor.
 
 + [Closure Library](http://google.github.io/closure-library/api/) has documentation
     about the Closure Library classes used here, for example `goog.array`.
+
 
 Author and License
 ------------------

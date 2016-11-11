@@ -1483,13 +1483,10 @@ JavaScript source code comments. It uses [CommonMark](http://commonmark.org) to 
 the markdown within source code comments. CommonMark is a more rigorous version of
 [standard markdown](http://daringfireball.net/projects/markdown/syntax).
 
-[LaTeX](https://en.wikipedia.org/wiki/LaTeX) is used to produce papers such as
-[Curved Edge Physics](CEP_Curved_Edge_Physics.pdf). That `.pdf` file is produced by
-running the command
-
-    pdflatex CEP_Curved_Edge_Physics.tex
-
-Note that you need to run the command twice to get references defined.
+[LaTeX](https://en.wikipedia.org/wiki/LaTeX) is used to produce `.pdf` files from
+`.tex` files using the `pdflatex` command.
+The [MacTeX Distribution](http://www.tug.org/mactex/index.html) is an easy way for Mac
+users to get the necessary tools.
 
 [MultiMarkdown](http://fletcherpenney.net/multimarkdown/) is used for myPhysicsLab
 documentation files ending in `.md` such as `Overview.md`. MultiMarkdown adds some
