@@ -609,7 +609,7 @@ docs-md: $(doc_md)
 # recreate all the Dossier files whenever requesting to build "docs" target.
 docs: $(doc_md) $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) dossier_config.json $(src_js)
 	@mkdir -v -p $(dir $@)
-	java -jar $(DOSSIER) -c dossier_config.json --num_threads=1
+	java -jar $(DOSSIER) -c dossier_config.json
 
 apps-en: $(BUILD_DIR)/index-en.html $(addsuffix -en.html,$(bld_apps))
 

@@ -13,7 +13,8 @@
         "myphysicslab.lab.util.Terminal.regexPair"
     ],
     "excludes": [
-        "goog/",
+        "closure-library/closure/goog/html",
+        "closure-library/closure/goog/testing",
         "src/lab/engine2D/test",
         "src/lab/graph/test",
         "src/lab/model/test",
