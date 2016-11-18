@@ -99,11 +99,17 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
+  this.protoMass = new DisplayShape().setFillStyle('blue');
+  this.protoAnchor = new DisplayShape().setFillStyle('gray');
+  this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
+      .setColorExpanded('#6f6');
+  this.protoSpring.setZIndex(-1);
+
   // Make DisplayObjects for all SimObjects currently on the SimList.
   goog.array.forEach(this.simList.toArray(), function(obj) {
       this.addBody(obj);
     }, this);
-  // In future, the update() method will make DisplayObjects in response to seeing
+  // The update() method will make DisplayObjects in response to seeing
   // SimObjects being added to the SimList.
   this.simList.addObserver(this);
 
@@ -182,28 +188,17 @@ ChainOfSpringsApp.prototype.getClassName = function() {
 @private
 */
 ChainOfSpringsApp.prototype.addBody = function(obj) {
-  if (this.displayList.findSimObject(obj) != null) {
+  if (this.displayList.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
   }
   if (obj instanceof PointMass) {
     var pm = /** @type {!PointMass} */(obj);
-    //DisplayShape.nameFont = '10pt sans-serif';
-    DisplayShape.drawCenterOfMass = false;
-    DisplayShape.drawDragPoints = false;
-    if (pm.getShape() == ShapeType.OVAL) {
-      DisplayShape.fillStyle = 'blue';
-    } else {
-      DisplayShape.fillStyle = 'gray';
-    }
-    DisplayShape.strokeStyle = '';
-    this.displayList.add(new DisplayShape(pm));
+    var proto = pm.getShape() == ShapeType.OVAL ? this.protoMass : this.protoAnchor;
+    this.displayList.add(new DisplayShape(pm, proto));
   } else if (obj instanceof Spring) {
     var s = /** @type {!Spring} */(obj);
-    DisplaySpring.width = 0.3;
-    DisplaySpring.colorCompressed = '#0c0';  // darker green
-    DisplaySpring.colorExpanded = '#6f6'; // brighter green
-    this.displayList.add(new DisplaySpring(s));
+    this.displayList.add(new DisplaySpring(s, this.protoSpring));
   }
 };
 
@@ -214,7 +209,7 @@ ChainOfSpringsApp.prototype.observe =  function(event) {
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.findSimObject(obj);
+      var d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }

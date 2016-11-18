@@ -36,26 +36,36 @@ size of the circle stays the same regardless of the zoom level on the
 The position is determined by the position of the Connector, so {@link #setPosition}
 has no effect, and the DisplayConnector is never dragable.
 
-* @param {!myphysicslab.lab.engine2D.Connector} connector the Connector to display
+* @param {?Connector=} connector the Connector to display
+* @param {?DisplayConnector=} proto the prototype DisplayConnector to inherit
+*    properties from
 * @constructor
 * @final
 * @struct
 * @implements {myphysicslab.lab.view.DisplayObject}
 */
-myphysicslab.lab.view.DisplayConnector = function(connector) {
+myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
   /**
-  * @type {!myphysicslab.lab.engine2D.Connector}
+  * @type {?Connector}
   * @private
   */
-  this.connector_ = connector;
+  this.connector_ = goog.isDefAndNotNull(connector) ? connector : null;
   /** Color to draw the joint, a CSS3 color value.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.color = DisplayConnector.color;
+  this.color;
   /** Radius of circle to draw, in screen coordinates.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.radius = DisplayConnector.radius;
+  this.radius;
+  /**
+  * @type {number|undefined}
+  */
+  this.zIndex;
+  /**
+  * @type {?DisplayConnector}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayConnector = myphysicslab.lab.view.DisplayConnector;
 
@@ -63,26 +73,19 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   DisplayConnector.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', radius: '+NF5(this.radius)
-        +', color: "'+this.color+'"'
+        +', radius: '+NF5(this.getRadius())
+        +', color: "'+this.getColor()+'"'
+        +', zIndex: '+this.getZIndex()
+        +', proto: '+(this.proto != null ? this.proto.toStringShort() : 'null')
         +'}';
   };
 
   /** @inheritDoc */
   DisplayConnector.prototype.toStringShort = function() {
-    return 'DisplayConnector{connector_: '+this.connector_.toStringShort()+'}';
+    return 'DisplayConnector{connector_: '+
+        (this.connector_ != null ? this.connector_.toStringShort() : 'null')+'}';
   };
 }
-
-/** Default value for {@link #color}, used when creating a DisplayConnector.
-* @type {string}
-*/
-DisplayConnector.color = 'blue';
-
-/** Default value for {@link #radius}, used when creating a DisplayConnector.
-* @type {number}
-*/
-DisplayConnector.radius = 2;
 
 /** @inheritDoc */
 DisplayConnector.prototype.contains = function(p_world) {
@@ -91,14 +94,17 @@ DisplayConnector.prototype.contains = function(p_world) {
 
 /** @inheritDoc */
 DisplayConnector.prototype.draw = function(context, map) {
+  if (this.connector_ == null) {
+    return;
+  }
   // Use CoordMap.simToScreenRect to calc screen coords of the shape.
   context.save();
-  context.fillStyle = this.color;
+  context.fillStyle = this.getColor();
   var p = map.simToScreen(this.getPosition());
   context.translate(p.getX(), p.getY());
   context.beginPath();
   //var r = map.screenToSimScaleX(this.radius);
-  context.arc(0, 0, this.radius, 0, 2*Math.PI, false);
+  context.arc(0, 0, this.getRadius(), 0, 2*Math.PI, false);
   context.closePath();
   context.fill();
   context.restore();
@@ -109,6 +115,19 @@ DisplayConnector.prototype.isDragable = function() {
   return false;
 };
 
+/** Color to draw the joint, a CSS3 color value.
+* @return {string}
+*/
+DisplayConnector.prototype.getColor = function() {
+  if (this.color !== undefined) {
+    return this.color;
+  } else if (this.proto != null) {
+    return this.proto.getColor();
+  } else {
+    return 'blue';
+  }
+};
+
 /** @inheritDoc */
 DisplayConnector.prototype.getMassObjects = function() {
   return [];
@@ -116,12 +135,45 @@ DisplayConnector.prototype.getMassObjects = function() {
 
 /** @inheritDoc */
 DisplayConnector.prototype.getPosition = function() {
-  return this.connector_.getPosition1();
+  return this.connector_ == null ? Vector.ORIGIN : this.connector_.getPosition1();
+};
+
+/** Radius of circle to draw, in screen coordinates.
+* @return {number}
+*/
+DisplayConnector.prototype.getRadius = function() {
+  if (this.radius !== undefined) {
+    return this.radius;
+  } else if (this.proto != null) {
+    return this.proto.getRadius();
+  } else {
+    return 2;
+  }
 };
 
 /** @inheritDoc */
 DisplayConnector.prototype.getSimObjects = function() {
-  return [ this.connector_ ];
+  return this.connector_ == null ? [ ] : [ this.connector_ ];
+};
+
+/** @inheritDoc */
+DisplayConnector.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 10;
+  }
+};
+
+/** Color used when drawing this Connector, a CSS3 color value.
+* @param {string|undefined} color
+* @return {!DisplayConnector} this object for chaining setters
+*/
+DisplayConnector.prototype.setColor = function(color) {
+  this.color = color;
+  return this;
 };
 
 /** @inheritDoc */
@@ -132,6 +184,20 @@ DisplayConnector.prototype.setDragable = function(dragable) {
 /** @inheritDoc */
 DisplayConnector.prototype.setPosition = function(position) {
   // do nothing, connectors cannot be moved
+};
+
+/** Radius of circle to draw, in screen coordinates.
+* @param {number|undefined} value
+* @return {!DisplayConnector} this object for chaining setters
+*/
+DisplayConnector.prototype.setRadius = function(value) {
+  this.radius = value;
+  return this;
+};
+
+/** @inheritDoc */
+DisplayConnector.prototype.setZIndex = function(zIndex) {
+  this.zIndex = zIndex;
 };
 
 });  // goog.scope

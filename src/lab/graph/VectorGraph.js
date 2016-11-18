@@ -117,6 +117,10 @@ myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
   * @type {string}
   */
   this.lineStyle = 'blue';
+  /**
+  * @type {number}
+  */
+  this.zIndex = 0;
 };
 var VectorGraph = myphysicslab.lab.graph.VectorGraph;
 
@@ -125,6 +129,7 @@ if (!UtilityCore.ADVANCED) {
   VectorGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
+        +', zIndex: '+this.zIndex
         +'}';
   };
 
@@ -282,6 +287,11 @@ VectorGraph.prototype.getSimObjects = function() {
 };
 
 /** @inheritDoc */
+VectorGraph.prototype.getZIndex = function() {
+  return this.zIndex;
+};
+
+/** @inheritDoc */
 VectorGraph.prototype.isDragable = function() {
   return false;
 };
@@ -311,6 +321,11 @@ VectorGraph.prototype.setPosition = function(position) {
 VectorGraph.prototype.setScreenRect = function(screenRect) {
   this.screenRect_ = screenRect;
   this.offScreen_ = null; // force reallocation of offscreen
+};
+
+/** @inheritDoc */
+VectorGraph.prototype.setZIndex = function(zIndex) {
+  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
 });  // goog.scope

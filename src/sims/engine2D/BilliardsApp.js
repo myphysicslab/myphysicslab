@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -44,7 +44,7 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
+var DisplayList = lab.view.DisplayList;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var NumericControl = lab.controls.NumericControl;
@@ -175,7 +175,8 @@ BilliardsApp.prototype.config = function() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
-  BilliardsApp.make(this.mySim, this.formation, this.offset, this.speed);
+  BilliardsApp.make(this.mySim, this.displayList, this.formation, this.offset,
+      this.speed);
   this.mySim.setElasticity(elasticity);
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
@@ -187,58 +188,57 @@ BilliardsApp.prototype.config = function() {
 
 /**
 * @param {!ContactSim} sim
+* @param {!DisplayList} displayList
 * @param {!BilliardsApp.Formation} formation
 * @param {number} offset gap between balls
 * @param {number} speed initial velocity of cue ball
 */
-BilliardsApp.make = function(sim, formation, offset, speed) {
+BilliardsApp.make = function(sim, displayList, formation, offset, speed) {
   var r = 0.5;
   var x1 = (2*r + sim.getDistanceTol()/2 + offset) * Math.sqrt(3)/2.0;
   switch (formation) {
     case Formation.ONE_HITS_SIX:
       var body = BilliardsApp.makeBall(4, r);
-      DisplayShape.fillStyle = 'aqua';
-      DisplayShape.strokeStyle = '';
       body.setPosition(new Vector(2*x1,  0),  0);
       sim.addBody(body);
+      displayList.find(body).setFillStyle('aqua');
 
       body = BilliardsApp.makeBall(5, r);
-      DisplayShape.fillStyle = 'fuchsia';
       body.setPosition(new Vector(2*x1, 2*r+sim.getDistanceTol()/4 + offset/2), 0);
       sim.addBody(body);
+      displayList.find(body).setFillStyle('fuchsia');
 
       body = BilliardsApp.makeBall(6, r);
-      DisplayShape.fillStyle = 'orange';
       body.setPosition(new Vector(2*x1, -2*r-sim.getDistanceTol()/4 - offset/2), 0);
       sim.addBody(body);
+      displayList.find(body).setFillStyle('orange');
+
       // INTENTIONAL FALL THRU to next case
     case Formation.ONE_HITS_THREE:
       var body0 = BilliardsApp.makeBall(0, r);
-      DisplayShape.fillStyle = 'black';
       body0.setPosition(new Vector(-BilliardsApp.WALL_DISTANCE+1,  0),  0);
       body0.setVelocity(new Vector(speed,  0),  0);
       sim.addBody(body0);
+      displayList.find(body0).setFillStyle('black');
 
       var body1 = BilliardsApp.makeBall(1, r);
-      DisplayShape.fillStyle = 'red';
-      DisplayShape.strokeStyle = '';
       body1.setPosition(new Vector(0,  0),  0);
       sim.addBody(body1);
+      displayList.find(body1).setFillStyle('red');
 
       var body2 = BilliardsApp.makeBall(2, r);
-      DisplayShape.fillStyle = 'green';
       body2.setPosition(new Vector(x1, r + sim.getDistanceTol()/4 + offset/2), 0);
       sim.addBody(body2);
+      displayList.find(body2).setFillStyle('green');
 
       var body3 = BilliardsApp.makeBall(3, r);
-      DisplayShape.fillStyle = 'blue';
       body3.setPosition(new Vector(x1, -r - sim.getDistanceTol()/4 - offset/2), 0);
       sim.addBody(body3);
+      displayList.find(body3).setFillStyle('blue');
       break;
     default:
       throw new Error();
   }
-  DisplayShape.fillStyle = 'lightGray';
   var sz = 2 * BilliardsApp.WALL_DISTANCE;
   Walls.make(sim, /*width=*/sz, /*height=*/sz, /*thickness=*/1.0);
 };

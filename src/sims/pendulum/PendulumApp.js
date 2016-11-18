@@ -78,10 +78,7 @@ sims.pendulum.PendulumApp = function(elem_ids) {
   this.displayList.add(this.rod);
   this.drive = new DisplayArc(this.simList.getArc('drive'));
   this.displayList.add(this.drive);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'blue';
-  this.bob = new DisplayShape(this.simList.getPointMass('bob'));
+  this.bob = new DisplayShape(this.simList.getPointMass('bob')).setFillStyle('blue');
   this.displayList.add(this.bob);
   sim.modifyObjects();
 

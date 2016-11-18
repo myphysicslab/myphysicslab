@@ -25,7 +25,6 @@ goog.require('myphysicslab.lab.util.Random');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 
 goog.scope(function() {
 
@@ -33,7 +32,6 @@ var lab = myphysicslab.lab;
 
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Joint = lab.engine2D.Joint;
 var NF5 = lab.util.UtilityCore.NF5;
@@ -76,7 +74,6 @@ PileConfig.makeVPit = function(sim, opt_offset) {
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.LEFT);
   p1.setPosition(new Vector(-5,  -5+offset),  -Math.PI/4);
   p1.setMass(UtilityCore.POSITIVE_INFINITY);
-  DisplayShape.fillStyle = '#ddd';
   sim.addBody(p1);
   var p2 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.RIGHT,
@@ -143,8 +140,6 @@ PileConfig.makeDoubleVPit = function(sim, opt_offset) {
       Walls.i18n.WALL_LEFT);
   w.setPosition(new Vector(-10.5,  7.5+offset),  0);
   walls.push(w);
-  DisplayShape.fillStyle = '#ddd';
-  DisplayShape.strokeStyle = '';
   goog.array.forEach(walls, function(p) {
     p.setMass(UtilityCore.POSITIVE_INFINITY);
     sim.addBody(p);
@@ -203,33 +198,44 @@ PileConfig.makeUniformBlocks = function(sim, rect, circular, size, buffer, limit
 the first one at the given location and position the others to the right
 of that first block.  The sizes of the blocks range from 0.2 to 1.2 on each
 side.
-@param {!ContactSim} sim  the ContactSim to add the blocks to
+@param {!ContactSim} sim  the ContactSim to add the bodies
 @param {number} n  the number of blocks to create
 @param {number} x  the location for the first block
 @param {number} y  the location for the first block
 @param {!Random} random  the random number generator to use for building blocks
+@param {boolean=} rightAngle whether to make right-angle blocks
+@return {!Array<!Polygon>} the blocks that were created
 */
-PileConfig.makeRandomBlocks = function(sim, n, x, y, random) {
+PileConfig.makeRandomBlocks = function(sim, n, x, y, random, rightAngle) {
+  rightAngle = goog.isDef(rightAngle) ? rightAngle : true;
+  var bods = [];
   for (var i=0; i<n; i++) {
     var width = 0.2+ random.nextFloat();
     var height = 0.2+ random.nextFloat();
     var angle = Math.PI * random.nextFloat();
-    DisplayShape.fillStyle = PileConfig.getRandomColor(random);
-    DisplayShape.strokeStyle = '';
-    var p = Shapes.makeBlock(width, height);
+    // this is here only to preserve test results (legacy code)
+    var unusedColor = PileConfig.getRandomColor(random);
+    var p;
+    if (rightAngle) {
+      p = Shapes.makeBlock(width, height);
+    } else {
+      p = Shapes.makeRandomPolygon(/*sides=*/4,
+         /*radius=*/Math.sqrt(width*width+height*height)/2);
+    }
     var cmx = width*random.nextFloat()/4;
     var cmy = height*random.nextFloat()/4;
     // ensure the center of mass is within the body, and not right at an edge
     var xmin = 0.9*width/2.0;
     var ymin = 0.9*height/2.0;
-    if (cmx < -xmin)
+    if (cmx < -xmin) {
       cmx = -xmin;
-    else if (cmx > xmin)
+    } else if (cmx > xmin) {
       cmx = xmin;
-    if (cmy < -ymin)
+    } if (cmy < -ymin) {
       cmy = -ymin;
-    else if (cmy > ymin)
+    } else if (cmy > ymin) {
       cmy = ymin;
+    }
     p.setCenterOfMass(cmx, cmy);
     // set temp position to (x, y), but only to find how much we need to move it
     p.setPosition(new Vector(x,  y),  angle);
@@ -240,7 +246,9 @@ PileConfig.makeRandomBlocks = function(sim, n, x, y, random) {
     x = p.getRightWorld() + 0.05;
     p.setMass(p.getWidth() * p.getHeight());
     sim.addBody(p);
+    bods.push(p);
   }
+  return bods;
 };
 
 /** Makes two blocks that are rigidly connected by two double joints, so that
@@ -256,13 +264,10 @@ PileConfig.makeConnectedBlocks = function(sim, x, y, angle) {
   var p1 = Shapes.makeBlock(1.0, 1.0);
   p1.setMass(0.6);
   p1.setPosition(new Vector(x,  y),  angle);
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
   sim.addBody(p1);
   var p2 = Shapes.makeBlock(0.9, 1.1);
   p2.setMass(0.6);
   p2.setPosition(new Vector(x,  y),  angle);
-  DisplayShape.fillStyle = 'darkGray';
   sim.addBody(p2);
   Joint.attachRigidBody(sim,
     p1,  /* attach point on p1, body coords=*/new Vector(0, -0.4),
@@ -287,20 +292,16 @@ PileConfig.getRandomColor = function(random) {
   var nearWhite = true;
   for (var i=0; i<3; i++) {
     // bias the color to be brighter
-    var c = 0.1 + 1.5 * random.nextFloat();
-    if (c < 0)
-      c = 0;
-    if (c > 1.0)
-      c = 1.0;
-    if (c < 0.9)
+    var c = Math.min(1, Math.max(0, 0.1 + 1.5 * random.nextFloat()));
+    if (c < 0.9) {
       nearWhite = false;
+    }
     colors[i] = c;
   }
   if (nearWhite) {
-    //console.log('nearWhite '+colors);
     return PileConfig.getRandomColor(random);
   } else {
-    return UtilityCore.colorToString6(colors);
+    return UtilityCore.colorString6(colors[0], colors[1], colors[2]);
   }
 };
 
@@ -316,7 +317,8 @@ PileConfig.getRandomColor = function(random) {
   RANDOM_SEED: string,
   WALL: string,
   LEFT: string,
-  RIGHT: string
+  RIGHT: string,
+  SQUARE_BLOCKS: string
   }}
 */
 PileConfig.i18n_strings;
@@ -335,7 +337,8 @@ PileConfig.en = {
   RANDOM_SEED: 'random seed',
   WALL: 'wall',
   LEFT: 'left',
-  RIGHT: 'right'
+  RIGHT: 'right',
+  SQUARE_BLOCKS: 'square blocks'
 };
 
 /**
@@ -353,7 +356,8 @@ PileConfig.de_strings = {
   RANDOM_SEED: 'Zufallskern',
   WALL: 'Wand',
   LEFT: 'links',
-  RIGHT: 'rechts'
+  RIGHT: 'rechts',
+  SQUARE_BLOCKS: 'rechteckig Blöcke'
 };
 
 /** Set of internationalized strings.

@@ -23,6 +23,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
+var Arc = myphysicslab.lab.model.Arc;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var SimObject = myphysicslab.lab.model.SimObject;
@@ -31,37 +32,47 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link myphysicslab.lab.model.Arc}.
 
-* @param {!myphysicslab.lab.model.Arc} arc the Arc to display
+* @param {?Arc=} arc the Arc to display
+* @param {?DisplayArc=} proto the prototype DisplayArc to inherit
+*    properties from
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayArc = function(arc) {
+myphysicslab.lab.view.DisplayArc = function(arc, proto) {
   /**
-  * @type {!myphysicslab.lab.model.Arc}
+  * @type {?Arc}
   * @private
   */
-  this.arc_ = arc;
+  this.arc_ = goog.isDefAndNotNull(arc) ? arc : null;
   /** Color used when drawing the line, a CSS3 color value.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.color = DisplayArc.color;
+  this.color;
   /** Thickness to use when drawing the line, in screen coordinates, so a unit
   * is a screen pixel.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.thickness = DisplayArc.thickness;
+  this.thickness;
   /** Line dash array used when drawing the line.  Corresponds to lengths of dashes
   * and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
   * length 3 with spaces of length 5. Empty array indicates solid line.
-  * @type {!Array<number>}
+  * @type {!Array<number>|undefined}
   */
-  this.lineDash = DisplayArc.lineDash;
+  this.lineDash;
   /** Length of arrowhead
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.arrowHeadLength = 0.2;
+  this.arrowHeadLength;
+  /**
+  * @type {number|undefined}
+  */
+  this.zIndex;
+  /**
+  * @type {?DisplayArc}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
 
@@ -69,39 +80,19 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   DisplayArc.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', thickness: '+NF(this.thickness)
-        +', color: "'+this.color+'"'
+        +', thickness: '+NF(this.getThickness())
+        +', arrowHeadLength: '+NF(this.getArrowHeadLength())
+        +', color: "'+this.getColor()+'"'
+        +', lineDash: ['+this.getLineDash()+']'
+        +', zIndex: '+this.getZIndex()
         +'}';
   };
 
   /** @inheritDoc */
   DisplayArc.prototype.toStringShort = function() {
-    return 'DisplayArc{arc_: '+this.arc_.toStringShort()+'}';
+    return 'DisplayArc{arc_: '+
+        (this.arc_ != null ? this.arc_.toStringShort() : 'null')+'}';
   };
-};
-
-/** Default value for {@link #color}, used when creating a DisplayArc.
-* @type {string}
-*/
-DisplayArc.color = 'black';
-
-/** Default value for {@link #lineDash}, used when creating a DisplayArc.
-* @type {!Array<number>}
-*/
-DisplayArc.lineDash = [3, 5];
-
-/** Default value for {@link #thickness}, used when creating a DisplayArc.
-* @type {number}
-*/
-DisplayArc.thickness = 4.0;
-
-/**  Sets the defaults to match the given DisplayArc.
-* @param {!myphysicslab.lab.view.DisplayArc} dispObj the DisplayArc to get style from
-*/
-DisplayArc.setStyle = function(dispObj) {
-  DisplayArc.color = dispObj.color;
-  DisplayArc.thickness = dispObj.thickness;
-  DisplayArc.lineDash = dispObj.lineDash;
 };
 
 /** @inheritDoc */
@@ -111,6 +102,9 @@ DisplayArc.prototype.contains = function(point) {
 
 /** @inheritDoc */
 DisplayArc.prototype.draw = function(context, map) {
+  if (this.arc_ == null) {
+    return;
+  }
   var centerX = map.simToScreenX(this.arc_.getCenter().getX());
   var centerY = map.simToScreenY(this.arc_.getCenter().getY());
   // assumption: x & y are scaled same
@@ -119,10 +113,11 @@ DisplayArc.prototype.draw = function(context, map) {
 
   if ((angle != 0) && (r > 0))  {
     context.save();
-    context.lineWidth = this.thickness;
-    context.strokeStyle = this.color;
-    if (this.lineDash.length > 0 && context.setLineDash) {
-      context.setLineDash(this.lineDash);
+    context.lineWidth = this.getThickness();
+    context.strokeStyle = this.getColor();
+    var lineDash = this.getLineDash();
+    if (lineDash.length > 0 && context.setLineDash) {
+      context.setLineDash(lineDash);
     }
     var startAngle = -this.arc_.getStartAngle();
     // Canvas.arc uses 'angle increases clockwise' convention, therefore subtract angle.
@@ -140,7 +135,7 @@ DisplayArc.prototype.draw = function(context, map) {
     x = this.arc_.getCenter().getX() + this.arc_.getRadius()*Math.cos(a);
     y = this.arc_.getCenter().getY() - this.arc_.getRadius()*Math.sin(a);
 
-    var h = Math.min(this.arrowHeadLength, 0.5*this.arc_.getRadius());
+    var h = Math.min(this.getArrowHeadLength(), 0.5*this.arc_.getRadius());
     if (a1 > 0) {
       h = -h;
     }
@@ -171,6 +166,47 @@ DisplayArc.prototype.draw = function(context, map) {
   }
 };
 
+/** Length of arrowhead, in simulation coordinates.
+* @return {number}
+*/
+DisplayArc.prototype.getArrowHeadLength = function() {
+  if (this.arrowHeadLength !== undefined) {
+    return this.arrowHeadLength;
+  } else if (this.proto != null) {
+    return this.proto.getArrowHeadLength();
+  } else {
+    return 0.2;
+  }
+};
+
+/** Color used when drawing the arc, a CSS3 color value.
+* @return {string}
+*/
+DisplayArc.prototype.getColor = function() {
+  if (this.color !== undefined) {
+    return this.color;
+  } else if (this.proto != null) {
+    return this.proto.getColor();
+  } else {
+    return 'gray';
+  }
+};
+
+/** Line dash array used when drawing the arc.  Corresponds to lengths of dashes
+* and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
+* length 3 with spaces of length 5. Empty array indicates solid arc.
+* @return {!Array<number>}
+*/
+DisplayArc.prototype.getLineDash = function() {
+  if (this.lineDash !== undefined) {
+    return this.lineDash;
+  } else if (this.proto != null) {
+    return this.proto.getLineDash();
+  } else {
+    return [3, 5];
+  }
+};
+
 /** @inheritDoc */
 DisplayArc.prototype.getMassObjects = function() {
   return [ ];
@@ -179,12 +215,37 @@ DisplayArc.prototype.getMassObjects = function() {
 /** @inheritDoc */
 DisplayArc.prototype.getPosition = function() {
   // return midpoint of the line
-  return this.arc_.getCenter();
+  return this.arc_ == null ? Vector.ORIGIN : this.arc_.getCenter();
 };
 
 /** @inheritDoc */
 DisplayArc.prototype.getSimObjects = function() {
-  return [ this.arc_ ];
+  return this.arc_ == null ? [ ] : [ this.arc_ ];
+};
+
+/** Thickness to use when drawing the arc, in screen coordinates, so a unit
+* is a screen pixel.
+* @return {number}
+*/
+DisplayArc.prototype.getThickness = function() {
+  if (this.thickness !== undefined) {
+    return this.thickness;
+  } else if (this.proto != null) {
+    return this.proto.getThickness();
+  } else {
+    return 4.0;
+  }
+};
+
+/** @inheritDoc */
+DisplayArc.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 0;
+  }
 };
 
 /** @inheritDoc */
@@ -192,14 +253,58 @@ DisplayArc.prototype.isDragable = function() {
   return false;
 };
 
+/** Length of arrowhead, in simulation coordinates.
+* @param {number|undefined} value
+* @return {!DisplayArc} this object for chaining setters
+*/
+DisplayArc.prototype.setArrowHeadLength = function(value) {
+  this.arrowHeadLength = value;
+  return this;
+};
+
+/** Color used when drawing the arc, a CSS3 color value.
+* @param {string|undefined} value
+* @return {!DisplayArc} this object for chaining setters
+*/
+DisplayArc.prototype.setColor = function(value) {
+  this.color = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayArc.prototype.setDragable = function(dragable) {
   // does nothing
 };
 
+/** Line dash array used when drawing the arc.  Corresponds to lengths of dashes
+* and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
+* length 3 with spaces of length 5. Empty array indicates solid arc.
+* @param {!Array<number>|undefined} value
+* @return {!DisplayArc} this object for chaining setters
+*/
+DisplayArc.prototype.setLineDash = function(value) {
+  this.lineDash = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayArc.prototype.setPosition = function(position) {
   // does nothing
+};
+
+/** Thickness to use when drawing the arc, in screen coordinates, so a unit
+* is a screen pixel.
+* @param {number|undefined} value
+* @return {!DisplayArc} this object for chaining setters
+*/
+DisplayArc.prototype.setThickness = function(value) {
+  this.thickness = value;
+  return this;
+};
+
+/** @inheritDoc */
+DisplayArc.prototype.setZIndex = function(value) {
+  this.zIndex = value;
 };
 
 });  // goog.scope

@@ -81,7 +81,7 @@ CommonControls.makeAxes = function (simView) {
         axes.setSimRect(r);
       }
     }, 'resize axes');
-  simView.getDisplayList().add(axes, /*zIndex=*/100);
+  simView.getDisplayList().add(axes);
   return axes;
 };
 

@@ -32,7 +32,6 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.sims.engine2D.ChainConfig');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
@@ -50,7 +49,6 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var ExtraAccel = lab.engine2D.ExtraAccel;
@@ -230,8 +228,10 @@ ChainApp.prototype.getSubjects = function() {
 ChainApp.prototype.config = function() {
   if (this.debug_) {
     // show names of objects
-    DisplayShape.nameFont = '10pt sans-serif';
+    this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   }
+  this.rbo.protoPolygon.setFillStyle('rgba(255,255,255,0.5)');
+  this.rbo.protoPolygon.setStrokeStyle('black');
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -239,12 +239,8 @@ ChainApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  DisplayShape.fillStyle = 'rgba(255,255,255,0.5)';
-  DisplayShape.strokeStyle = 'black';
   var r = ChainConfig.makeChain(this.mySim, this.options);
   if (this.walls) {
-    DisplayShape.fillStyle = 'lightGray';
-    DisplayShape.strokeStyle = '';
     /* ensure walls are wide apart enough to contain chain */
     r = r.scale(1.15);
     var zel = Walls.make2(this.mySim, r.union(this.simView.getSimRect()));
@@ -254,9 +250,8 @@ ChainApp.prototype.config = function() {
     var block = Shapes.makeBlock(1, 3, ChainConfig.en.EXTRA_BODY,
         ChainConfig.i18n.EXTRA_BODY);
     block.setPosition(new Vector(-4,  -4));
-    DisplayShape.fillStyle = 'blue';
-    DisplayShape.strokeStyle = '';
     this.mySim.addBody(block);
+    this.displayList.find(block).setFillStyle('blue');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

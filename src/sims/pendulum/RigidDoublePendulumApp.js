@@ -85,13 +85,11 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
     }
   }, this), 'sync clock time on reset');
 
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.strokeStyle = 'blue';
-  DisplayShape.fillStyle = '';
-  this.bob0 = new DisplayShape(this.parts.bodies[0]);
+  this.protoBob = new DisplayShape().setFillStyle('').setStrokeStyle('blue')
+      .setDrawCenterOfMass(true).setThickness(3);
+  this.bob0 = new DisplayShape(this.parts.bodies[0], this.protoBob);
   this.displayList.add(this.bob0);
-  this.bob1 = new DisplayShape(this.parts.bodies[1]);
+  this.bob1 = new DisplayShape(this.parts.bodies[1], this.protoBob);
   this.displayList.add(this.bob1);
   this.joint0 = new DisplayConnector(this.parts.joints[0]);
   this.displayList.add(this.joint0);
@@ -138,7 +136,7 @@ RigidDoublePendulumApp.prototype.getClassName = function() {
 /** @inheritDoc */
 RigidDoublePendulumApp.prototype.defineNames = function(myName) {
   RigidDoublePendulumApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('joint0|joint1|bob1|bob0',
+  this.terminal.addRegex('joint0|joint1|bob1|bob0|protoBob',
       myName);
 };
 

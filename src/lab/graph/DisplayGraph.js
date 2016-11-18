@@ -111,6 +111,10 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
   * @private
   */
   this.useBuffer_ = true;
+  /**
+  * @type {number}
+  */
+  this.zIndex = 0;
 };
 var DisplayGraph = myphysicslab.lab.graph.DisplayGraph;
 
@@ -120,6 +124,7 @@ if (!UtilityCore.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
         +', useBuffer_: '+this.useBuffer_
+        +', zIndex: '+this.zIndex
         +', graphLines_: ['
         + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
         +']}';
@@ -355,6 +360,11 @@ DisplayGraph.prototype.getUseBuffer = function() {
   return this.useBuffer_;
 };
 
+/** @inheritDoc */
+DisplayGraph.prototype.getZIndex = function() {
+  return this.zIndex;
+};
+
 /** Draws only the recent points into the given Graphics context.
 Keeps track of what was the last point drawn.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
@@ -430,6 +440,11 @@ DisplayGraph.prototype.setUseBuffer = function(value) {
   if (!this.useBuffer_) {
     this.offScreen_ = null;
   }
+};
+
+/** @inheritDoc */
+DisplayGraph.prototype.setZIndex = function(zIndex) {
+  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
 });  // goog.scope

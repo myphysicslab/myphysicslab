@@ -146,8 +146,6 @@ MiscellanyTest.newtons_cradle_setup = function(sim, advance) {
       numBods: 5,
       startAngle: -Math.PI/4
     };
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
   NewtonsCradleApp.make(sim, options);
   sim.setElasticity(1.0);
   sim.addForceLaw(new DampingLaw(0.0, 0.15, sim.getSimList()));
@@ -201,8 +199,6 @@ MiscellanyTest.chain_setup = function(sim, advance) {
       blockHeight: 3.0,
       numLinks: 7
     };
-  DisplayShape.fillStyle = 'rgba(255,255,255,0.5)';
-  DisplayShape.strokeStyle = 'black';
   var r = ChainConfig.makeChain(sim, options);
   sim.setElasticity(0.8);
   sim.setSimRect(r.scale(1.15));
@@ -305,8 +301,6 @@ MiscellanyTest.commonSetup1 = function(sim, advance) {
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
   advance.setDiffEqSolver(new RungeKutta(sim));
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /** Test the feature whereby a body can selectively not collide with certain edges of
@@ -321,10 +315,8 @@ MiscellanyTest.non_collide_edges_setup = function(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   var p1 = Shapes.makePendulum(0.05, 3.0, 0.6, 'pendulum1');
   p1.setPosition(new Vector(0,  0),  5*Math.PI/4);
-  DisplayShape.strokeStyle = 'black';
   sim.addBody(p1);
   var p2 = Shapes.makeBall(0.5, 'ball');
-  DisplayShape.strokeStyle = 'blue';
   p2.setMass(0.7);
   p2.setPosition(new Vector(-0.2,  -2),  0);
   var pendulumStart = p1.getEdges()[0].getIndex();
@@ -338,7 +330,6 @@ MiscellanyTest.non_collide_edges_setup = function(sim, advance) {
   var floor = p3.getTopWorld();
   p1.setZeroEnergyLevel(floor + 0.6);
   p2.setZeroEnergyLevel(floor + 0.5);
-  DisplayShape.fillStyle = 'black';
   sim.addBody(p3);
   sim.setElasticity(0.8);
   sim.addForceLaw(new GravityLaw(3.0, sim.getSimList()));
@@ -370,13 +361,11 @@ MiscellanyTest.damping_init = function(sim) {
   //console.log('small moment '+p1.momentAboutCM());
   p1.setPosition(new Vector(2,  0),  0);
   p1.setVelocity(new Vector(0,  0),  2.0);
-  DisplayShape.strokeStyle = 'blue';
   sim.addBody(p1);
   var p2 = Shapes.makeBall(1.0, 'large');
   //console.log('large moment '+p2.momentAboutCM());
   p2.setPosition(new Vector(-2,  0),  0);
   p2.setVelocity(new Vector(0,  0),  2.0);
-  DisplayShape.strokeStyle = 'orange';
   sim.addBody(p2);
   sim.setElasticity(0.8);
 };
@@ -434,18 +423,14 @@ MiscellanyTest.three_body_spin_setup = function(sim, advance, damping) {
   var block1 = Shapes.makeBlock(1, 3, 'block1');
   block1.setMass(2);
   block1.setVelocity(new Vector(-6,  0),  -6);
-  DisplayShape.fillStyle = 'darkGray';
-  DisplayShape.strokeStyle = '';
   sim.addBody(block1);
   var block2 = Shapes.makeBlock(1, 6, 'block2');
   block2.setMass(0.2);
-  DisplayShape.fillStyle = 'lightGray';
   sim.addBody(block2);
   var block3 = Shapes.makeBlock(1, 3, 'block3');
   block3.setAngle(Math.PI);
   block3.setMass(1);
   block3.setVelocity(new Vector(12,  0),  -6);
-  DisplayShape.fillStyle = 'gray';
   sim.addBody(block3);
   block2.addNonCollide([block1, block3]);
   block1.addNonCollide([block3]);
@@ -870,7 +855,7 @@ MiscellanyTest.curved_test_error_setup = function(sim, advance) {
   var damping = new DampingLaw(0, 0.15);
   /** @type {!myphysicslab.lab.model.GravityLaw} */
   var gravity = new GravityLaw(3.0);
-  CurvedTestApp.make(sim, gravity, damping, /*numBods=*/6, r);
+  CurvedTestApp.make(sim, gravity, damping, /*numBods=*/6, r, /*displayList=*/null);
   MiscellanyTest.setupCurvedError(sim);
 };
 
@@ -900,10 +885,6 @@ MiscellanyTest.roller_hump_setup = function(sim, advance) {
   sim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
   var path = new NumericalPath(new HumpPath());
   sim.getSimList().add(path);
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = true;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'cyan';
   var block = Shapes.makeBlock(1, 3, 'block');
   block.setPosition(new Vector(-4,  4),  Math.PI/4);
   block.setVelocity(new Vector(0,  0),  0);
@@ -946,10 +927,6 @@ MiscellanyTest.roller_end_point_setup = function(sim, advance) {
   sim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
   var path = new NumericalPath(new CirclePath(/*radius=*/3));
   sim.getSimList().add(path);
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = true;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'cyan';
   var block = Shapes.makeBlock(1, 3, 'block');
   block.setPosition(new Vector(-4,  4),  Math.PI/4);
   block.setVelocity(new Vector(0,  0),  0);

@@ -217,18 +217,19 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.rbeh);
 
   this.simList2 = this.sim2.getSimList();
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = true;
-  DisplayShape.strokeStyle = '';
-  DisplayShape.fillStyle = '#f99';
-  new RigidBodyObserver(this.simList2, this.simView.getDisplayList());
+  this.rbo = new RigidBodyObserver(this.simList2, this.simView.getDisplayList());
+  this.rbo.protoDragSpring.setWidth(0.2);
+  this.rbo.protoPolygon = new DisplayShape().setDrawCenterOfMass(true)
+      .setDrawDragPoints(true);
   // move the parts horizontally so that we can see them side-by-side with other sim
   var pivot = new Vector(this.separation, 0);
   this.parts2 = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0, pivot)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0, pivot);
-  this.sim2.addBody(this.parts2.bodies[0]);
-  DisplayShape.fillStyle = '#f66';
-  this.sim2.addBody(this.parts2.bodies[1]);
+  var bod = this.parts2.bodies[0];
+  this.sim2.addBody(bod);
+  this.displayList.find(bod).setFillStyle('#f99');
+  this.sim2.addBody(bod =this.parts2.bodies[1]);
+  this.displayList.find(bod).setFillStyle('#f66');
   this.sim2.addConnectors(this.parts2.joints);
   this.sim2.alignConnectors();
   this.sim2.saveInitialState();
@@ -271,15 +272,13 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
     }
   }, this), 'set separation after reset');
 
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.strokeStyle = '';
-  DisplayShape.fillStyle = '#3cf';
-  this.bob0 = new DisplayShape(this.parts.bodies[0]);
+  this.protoRigidBody = new DisplayShape().setDrawCenterOfMass(true);
+  this.bob0 = new DisplayShape(this.parts.bodies[0], this.protoRigidBody)
+      .setFillStyle('#3cf');
   this.bob0.setDragable(false);
   this.displayList.add(this.bob0);
-  DisplayShape.fillStyle = '#39c';
-  this.bob1 = new DisplayShape(this.parts.bodies[1]);
+  this.bob1 = new DisplayShape(this.parts.bodies[1], this.protoRigidBody)
+      .setFillStyle('#39c');
   this.bob1.setDragable(false);
   this.displayList.add(this.bob1);
   this.joint0 = new DisplayConnector(this.parts.joints[0]);
@@ -514,7 +513,7 @@ CompareDoublePendulumApp.prototype.defineNames = function(myName) {
   this.terminal.addRegex('advance1|advance2|axes|clock|displayClock'
       +'|energyGraph1|energyGraph2|graph|layout|sim1|sim2|simCtrl|simList'
       +'|simRect|simRun|simView|statusView|timeGraph|scriptParser'
-      +'|displayList|bob0|bob1|joint0|joint1|terminal',
+      +'|displayList|bob0|bob1|joint0|joint1|terminal|rbo',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

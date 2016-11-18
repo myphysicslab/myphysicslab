@@ -121,6 +121,10 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
   * @private
   */
   this.verticalName_ = 'y';
+  /**
+  * @type {number}
+  */
+  this.zIndex = 100;
 };
 var DisplayAxes = myphysicslab.lab.graph.DisplayAxes;
 
@@ -133,6 +137,7 @@ if (!UtilityCore.ADVANCED) {
         +', drawColor_: "'+this.drawColor_+'"'
         +', numFont_: "'+this.numFont_+'"'
         +', simRect_: '+this.simRect_
+        +', zIndex: '+this.zIndex
         +'}';
   };
 
@@ -413,6 +418,11 @@ DisplayAxes.prototype.getYAxisAlignment = function() {
 };
 
 /** @inheritDoc */
+DisplayAxes.prototype.getZIndex = function() {
+  return this.zIndex;
+};
+
+/** @inheritDoc */
 DisplayAxes.prototype.isDragable = function() {
   return false;
 };
@@ -497,6 +507,13 @@ DisplayAxes.prototype.setYAxisAlignment = function(alignment) {
   this.vertAxisAlignment_ = alignment;
   this.needRedraw_ = true;
   return this;
+};
+
+/** @inheritDoc */
+DisplayAxes.prototype.setZIndex = function(zIndex) {
+  if (goog.isDef(zIndex)) {
+    this.zIndex = zIndex;
+  }
 };
 
 }); // goog.scope

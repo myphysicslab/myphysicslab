@@ -73,21 +73,14 @@ myphysicslab.sims.springs.Spring2DApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'red';
-  /** @type {!lab.view.DisplayShape} */
-  this.anchor = new DisplayShape(this.simList.getPointMass('anchor'));
+  this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
+      .setFillStyle('').setStrokeStyle('red').setThickness(4);
   this.displayList.add(this.anchor);
-  DisplayShape.fillStyle = 'blue';
-  DisplayShape.strokeStyle = '';
-  /** @type {!lab.view.DisplayShape} */
-  this.bob = new DisplayShape(this.simList.getPointMass('bob'));
+  this.bob = new DisplayShape(this.simList.getPointMass('bob'))
+      .setFillStyle('blue');
   this.displayList.add(this.bob);
-  DisplaySpring.width = 0.3;
-  /** @type {!lab.view.DisplaySpring} */
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring'))
+      .setWidth(0.3);
   this.displayList.add(this.spring);
   sim.saveInitialState();
 
@@ -111,7 +104,6 @@ myphysicslab.sims.springs.Spring2DApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  /** @type {!myphysicslab.lab.controls.ButtonControl} */
   var bc = new ButtonControl(Spring2DSim.i18n.REST_STATE,
       goog.bind(sim.restState, sim));
   this.addControl(bc);

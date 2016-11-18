@@ -72,21 +72,19 @@ myphysicslab.sims.springs.DangleStickApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/null);
 
+  this.protoMass = new DisplayShape().setFillStyle('blue');
+
   /** @type {!lab.view.DisplayLine} */
   this.stick = new DisplayLine(this.simList.getConcreteLine('stick'));
   this.displayList.add(this.stick);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'blue';
   /** @type {!lab.view.DisplayShape} */
-  this.bob1 = new DisplayShape(this.simList.getPointMass('bob1'));
+  this.bob1 = new DisplayShape(this.simList.getPointMass('bob1'), this.protoMass);
   this.displayList.add(this.bob1);
   /** @type {!lab.view.DisplayShape} */
-  this.bob2 = new DisplayShape(this.simList.getPointMass('bob2'));
+  this.bob2 = new DisplayShape(this.simList.getPointMass('bob2'),this.protoMass);
   this.displayList.add(this.bob2);
-  DisplaySpring.width = 0.3;
   /** @type {!lab.view.DisplaySpring} */
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring')).setWidth(0.3);
   this.displayList.add(this.spring);
 
   this.addPlaybackControls();
@@ -138,7 +136,7 @@ DangleStickApp.prototype.getClassName = function() {
 /** @inheritDoc */
 DangleStickApp.prototype.defineNames = function(myName) {
   DangleStickApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('stick|bob1|bob2|spring',
+  this.terminal.addRegex('stick|bob1|bob2|spring|protoMass',
       myName);
 };
 

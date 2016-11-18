@@ -95,8 +95,6 @@ CircleCircleTest.commonSetup1 = function(sim, advance) {
   sim.setRandomSeed(99999);
   advance.setTimeStep(0.025);
   advance.setDiffEqSolver(new RungeKutta(sim));
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /** Two balls start in contact and in motion, with mutual gravitation. Both balls have
@@ -111,12 +109,10 @@ CircleCircleTest.ball_ball_contact_setup = function(sim, advance) {
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-0.754,  -0.2),  0);
   body0.setVelocity(new Vector(0,  0),  1.0);
-  DisplayShape.strokeStyle = 'green';
   sim.addBody(body0);
   var body1 = Shapes.makeBall(1, 'ball2');
   body1.setCenterOfMass(0, -0.3);
   body1.setPosition(new Vector(0.95,  0.3),  Math.PI);
-  DisplayShape.strokeStyle = 'blue';
   sim.addBody(body1);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -157,12 +153,10 @@ CircleCircleTest.concave_circle_and_ball_setup = function(sim, advance) {
   CircleCircleTest.commonSetup1(sim, advance);
   var p = TestShapes.makeConcaveCirclePoly();
   p.setPosition(new Vector(0,  -2),  0);
-  DisplayShape.strokeStyle = 'cyan';
   sim.addBody(p);
   var p2 = Shapes.makeBall(0.5, 'ball');
   p2.setCenterOfMass(0.2, 0);
   p2.setPosition(new Vector(0.5,  -0.22),  0);
-  DisplayShape.strokeStyle = 'gray';
   sim.addBody(p2);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));

@@ -34,7 +34,6 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.PileConfig');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
@@ -54,7 +53,6 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -116,13 +114,11 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 * @export
 */
 sims.engine2D.PileApp = function(elem_ids) {
-  var simRect = new DoubleRect(-5, 0, 5, 9);
+  var simRect = new DoubleRect(-3, -0.2, 3, 5.2);
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, 'PILE_APP');
-  DisplayShape.nameColor = 'gray';
-  DisplayShape.nameFont = '10pt sans-serif';
-  DisplayShape.nameRotate = 0;
+  this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(false);
   this.mySim.setDistanceTol(0.01);
@@ -136,9 +132,11 @@ sims.engine2D.PileApp = function(elem_ids) {
   /** @type {boolean} */
   this.twoPiles = false;
   /** @type {boolean} */
-  this.connectedBlocks = true;
+  this.squareBlocks = false;
+  /** @type {boolean} */
+  this.connectedBlocks = false;
   /** @type {number} */
-  this.numBlocks = 6;
+  this.numBlocks = 7;
   /** @type {boolean} */
   this.endlessLoop = false;
   /* make a 'repeat' ClockTask which resets the sim every 6 seconds. */
@@ -169,6 +167,11 @@ sims.engine2D.PileApp = function(elem_ids) {
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.CONNECTED_BLOCKS,
       PileConfig.i18n.CONNECTED_BLOCKS,
       this.getConnectedBlocks, this.setConnectedBlocks));
+  this.addControl(new CheckBoxControl(pb));
+
+  this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.SQUARE_BLOCKS,
+      PileConfig.i18n.SQUARE_BLOCKS,
+      this.getSquareBlocks, this.setSquareBlocks));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.ENDLESS_LOOP,
@@ -261,31 +264,36 @@ PileApp.prototype.config = function() {
   } else {
     this.clock.removeTask(this.task);
   }
+  var blocks = [];
   if (this.twoPiles) {
-    DisplayShape.strokeStyle = 'gray';
     this.zeroEnergyLevel = PileConfig.makeDoubleVPit(this.mySim, 5);
-    PileConfig.makeRandomBlocks(this.mySim, this.numBlocks, -7, 10,
-        this.buildRNG);
+    goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, this.numBlocks,
+         -7, 10, this.buildRNG, /*rightAngle=*/this.squareBlocks));
   } else {
-    DisplayShape.strokeStyle = 'gray';
     this.zeroEnergyLevel = PileConfig.makeVPit(this.mySim, 9.348706704297266);
     var half = Math.floor(this.numBlocks/2);
     var rest = this.numBlocks-half;
-    PileConfig.makeRandomBlocks(this.mySim, rest, -9.9, 19,
-        this.buildRNG);
-    if (half > 0) {
-      PileConfig.makeRandomBlocks(this.mySim, half, -9, 16,
-        this.buildRNG);
-    }
+    goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, rest, -9.9, 19,
+        this.buildRNG, /*rightAngle=*/this.squareBlocks));
+    goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, half, -9, 16,
+          this.buildRNG, /*rightAngle=*/this.squareBlocks));
   }
   this.gravityLaw.setZeroEnergyLevel(this.zeroEnergyLevel);
+
   if (this.connectedBlocks) {
     var connect = PileConfig.makeConnectedBlocks(this.mySim, 3, /*y=*/21, /*angle=*/0);
     /* thrust forces are operated by pressing keys like up/down/left/right arrows */
     var thrustForce1 = SixThrusters.make(10.0, connect[0]);
     this.rbeh.setThrusters(thrustForce1, 'right');
     this.mySim.addForceLaw(thrustForce1);
+    goog.array.extend(blocks, connect);
   }
+
+  // set random colors for blocks
+  goog.array.forEach(blocks, function(b) {
+        this.displayList.find(b).setFillStyle(PileConfig.getRandomColor());
+      }, this);
+
   this.mySim.setElasticity(elasticity);
   this.mySim.modifyObjects();
   this.mySim.getVarsList().setTime(0);
@@ -299,10 +307,11 @@ PileApp.prototype.config = function() {
 * @return {undefined}
 */
 PileApp.prototype.addBlock = function() {
-  var b = Shapes.makeBlock(1, 1);
+  var b = this.squareBlocks ? Shapes.makeBlock(1, 1) :
+      Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/0.7);
   b.setPosition(new Vector(0,  10));
-  DisplayShape.fillStyle = PileConfig.getRandomColor(new RandomLCG());
   this.mySim.addBody(b);
+  this.displayList.find(b).setFillStyle(PileConfig.getRandomColor());
   this.mySim.saveInitialState();
 };
 
@@ -405,6 +414,22 @@ PileApp.prototype.setRandomSeed = function(value) {
   this.buildRNG.setSeed(value);
   this.config();
   this.broadcastParameter(PileConfig.en.RANDOM_SEED);
+};
+
+/**
+* @return {boolean}
+*/
+PileApp.prototype.getSquareBlocks = function() {
+  return this.squareBlocks;
+};
+
+/**
+* @param {boolean} value
+*/
+PileApp.prototype.setSquareBlocks = function(value) {
+  this.squareBlocks = value;
+  this.config();
+  this.broadcastParameter(PileConfig.en.SQUARE_BLOCKS);
 };
 
 }); // goog.scope

@@ -69,17 +69,16 @@ sims.roller.LagrangeRollerApp = function(elem_ids) {
   this.simRect = sim.getPath().getBoundsWorld().scale(1.2);
   this.simView.setSimRect(this.simRect);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'));
+  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
+      .setFillStyle('blue');
   this.displayList.add(this.ball1);
-  this.ball1.fillStyle = 'blue';
 
   this.displayPath = new DisplayPath();
   this.displayPath.setScreenRect(this.simView.getScreenRect());
-  this.displayList.add(this.displayPath, /*zIndex=*/-1);
+  this.displayPath.setZIndex(-1);
+  this.displayList.add(this.displayPath);
   this.displayPath.addPath(sim.getPath(),
-      DrawingStyle.lineStyle('gray', /*lineWidth=*/1));
+      DrawingStyle.lineStyle('gray', /*lineWidth=*/4));
 
   this.addPlaybackControls();
   /** @type {!lab.util.ParameterNumber} */

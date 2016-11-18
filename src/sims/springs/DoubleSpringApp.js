@@ -78,30 +78,25 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
-  this.wall1 = new DisplayShape(this.simList.getPointMass('wall1'));
-  this.wall2 = new DisplayShape(this.simList.getPointMass('wall2'));
+  this.protoWall = new DisplayShape().setFillStyle('lightGray');
+  this.protoBlock = new DisplayShape().setFillStyle('blue');
+  this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
+      .setColorExpanded('#6f6');
+
+  this.wall1 = new DisplayShape(this.simList.getPointMass('wall1'), this.protoWall);
+  this.wall2 = new DisplayShape(this.simList.getPointMass('wall2'), this.protoWall);
   this.displayList.add(this.wall1);
   this.displayList.add(this.wall2);
-  DisplayShape.fillStyle = 'blue';
-  DisplayShape.strokeStyle = '';
-  this.block1 = new DisplayShape(this.simList.getPointMass('block1'));
-  this.block2 = new DisplayShape(this.simList.getPointMass('block2'));
-  this.displayList.add(this.block1);
-  this.displayList.add(this.block2);
-  DisplaySpring.width = 0.3;
-  DisplaySpring.colorCompressed = '#0c0';  // darker green
-  DisplaySpring.colorExpanded = '#6f6'; // brighter green
-  DisplaySpring.thickness = 6;
-  this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'));
-  this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'));
-  this.spring3 = new DisplaySpring(this.simList.getSpring('spring3'));
+  this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'), this.protoSpring);
+  this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'), this.protoSpring);
+  this.spring3 = new DisplaySpring(this.simList.getSpring('spring3'), this.protoSpring);
   this.displayList.add(this.spring1);
   this.displayList.add(this.spring2);
   this.displayList.add(this.spring3);
+  this.block1 = new DisplayShape(this.simList.getPointMass('block1'), this.protoBlock);
+  this.block2 = new DisplayShape(this.simList.getPointMass('block2'), this.protoBlock);
+  this.displayList.add(this.block1);
+  this.displayList.add(this.block2);
   sim.saveInitialState();
 
   this.addPlaybackControls();
@@ -163,8 +158,8 @@ DoubleSpringApp.prototype.getClassName = function() {
 /** @inheritDoc */
 DoubleSpringApp.prototype.defineNames = function(myName) {
   DoubleSpringApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('wall1|wall2|block1|block2|spring1|spring2|spring3',
-      myName);
+  this.terminal.addRegex('wall1|wall2|block1|block2|spring1|spring2|spring3'
+      +'|protoWall|protoBlock|protoSpring', myName);
 };
 
 }); // goog.scope

@@ -26,38 +26,49 @@ Here is a sample script to try by entering in Terminal:
 <pre>
 ELASTICITY=0.9;
 SHOW_CLOCK=true;
-DisplayShape.fillStyle="black";
 Walls.make(sim,12,12,0.01);
-var p=Shapes.makeBall(0.2,"fast_ball");
-DisplayShape.fillStyle="green";
+var p=Shapes.makeBall(0.2,'fast_ball');
 p.setMass(0.1);
 p.setPosition(new Vector(-5, 0));
 p.setVelocity(new Vector(200, 153));
 p.setElasticity(0.9);
 sim.addBody(p);
+displayList.find(p).setFillStyle('green');
 sim.saveInitialState();
 app.addStandardControls();
 </pre>
 
-<p>A script can be provided in the query portion of the URL (after the question mark)
-  for this page . For example, the following URL contains the above script.
+<p>A script can be provided in the
+<a href="https://en.wikipedia.org/wiki/Query_string">query string</a>
+of the URL (after the question mark)
+for this page. For example, the following URL contains the above script.
 </p>
 
-<p>Example of a script that works with BlankApp:</p>
-
 <p>
-<a href='#MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;SHOW_CLOCK=true;DisplayShape.fillStyle=%22black%22;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,%22fast_ball%22);DisplayShape.fillStyle=%22green%22;p.setMass(0.1);p.setPosition(new%20Vector(-5,0));p.setVelocity(new%20Vector(200,153));p.setElasticity(0.9);sim.addBody(p);sim.saveInitialState();app.addStandardControls()'> #MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;<br>
-SHOW_CLOCK=true;DisplayShape.fillStyle="black";Walls.make(sim,12,12,0.01);<br>
-var p=Shapes.makeBall(0.2,"fast_ball");DisplayShape.fillStyle="green";p.setMass(0.1);<br>
-p.setPosition(new Vector(-5,0));p.setVelocity(new Vector(200,153));p.setElasticity(0.9);sim.addBody(p);<br>
-sim.saveInitialState();app.addStandardControls()
+<a href="#MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;SHOW_CLOCK=true;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,'fast_ball');p.setMass(0.1);p.setPosition(new%20Vector(-5,0));p.setVelocity(new%20Vector(200,153));p.setElasticity(0.9);sim.addBody(p);displayList.find(p).setFillStyle('green');sim.saveInitialState();app.addStandardControls()">
+<code>
+#MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;<br>
+SHOW_CLOCK=true;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,'fast_ball');<br>
+p.setMass(0.1);p.setPosition(new Vector(-5,0));p.setVelocity(new Vector(200,153));<br>
+p.setElasticity(0.9);sim.addBody(p);displayList.find(p).setFillStyle('green');<br>
+sim.saveInitialState();app.addStandardControls();
+</code>
 </a>
 </p>
 
-<p>Note that because of
-<a href="https://en.wikipedia.org/wiki/Percent-encoding">Percent-encoding</a>
-we should substitute <code>%22</code> for double-quote and <code>%20</code> for space in
-the URL.</p>
+<p>Because of
+<a href="https://en.wikipedia.org/wiki/Percent-encoding">percent-encoding</a>
+we must substitute in the URL:
+</p>
+<ul>
+  <li><code>%20</code> for space</li>
+  <li><code>%22</code> for double-quote</li>
+</ul>
+
+<p>See this
+<a href="https://perishablepress.com/stop-using-unsafe-characters-in-urls/">character
+encoding chart</a> to learn which other characters must be percent-encoded.
+</p>
 
 #PAGE_INFO
 #LOREM_IPSUM

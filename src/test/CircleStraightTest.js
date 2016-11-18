@@ -114,8 +114,6 @@ CircleStraightTest.commonSetup1 = function(sim, advance, damping) {
   }
   advance.setTimeStep(0.025);
   advance.setDiffEqSolver(new RungeKutta(sim));
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /**  Ball collides with corner of a block.
@@ -129,11 +127,9 @@ CircleStraightTest.ball_block_collide_setup = function(sim, advance) {
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-2,  2),  0);
   body0.setVelocity(new Vector(1,  -1),  1);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 1, 'block');
   body1.setPosition(new Vector(0,  0),  0);
-  DisplayShape.fillStyle = 'blue';
   sim.addBody(body1);
   sim.setElasticity(1.0);
   //sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -184,12 +180,10 @@ CircleStraightTest.ball_block_attract_setup = function(sim, advance) {
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-2,  2),  0);
   body0.setVelocity(new Vector(0.1,  -0.1),  1);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 1, 'block');
   body1.setPosition(new Vector(0,  0),  0);
   body1.setVelocity(new Vector(-0.1,  0.1),  -1);
-  DisplayShape.fillStyle = 'blue';
   sim.addBody(body1);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -224,12 +218,10 @@ CircleStraightTest.ball_block_contact_setup = function(sim, advance) {
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-0.2525,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  1);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 3, 'block');
   body1.setPosition(new Vector(1,  0),  0);
   body1.setVelocity(new Vector(0,  -0.6),  0);
-  DisplayShape.fillStyle = 'blue';
   sim.addBody(body1);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -273,11 +265,9 @@ CircleStraightTest.circle_arc_block_setup = function(sim, advance) {
   advance.setTimeStep(0.01);
   var p = TestShapes.makeBlockRoundEdge();
   p.setPosition(new Vector(0,  -1),  0);
-  DisplayShape.fillStyle = 'cyan';
   sim.addBody(p);
   var p2 = Shapes.makeBlock(1, 1, 'block');
   p2.setPosition(new Vector(2.5,  0.3),  Math.PI/8 - Math.PI/24);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(p2);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -316,11 +306,10 @@ CircleStraightTest.concave_ball_block_collide_setup = function(sim, advance) {
   var p = TestShapes.makeConcaveCirclePoly();
   //p.printAll();
   p.setPosition(new Vector(0,  -2),  0);
-  DisplayShape.fillStyle = 'cyan';
   sim.addBody(p);
   var p2 = Shapes.makeBlock(1, 1, 'block');
   p2.setPosition(new Vector(0.5,  -0.22),  Math.PI/8 - Math.PI/24);
-  DisplayShape.fillStyle = 'orange';
+
   sim.addBody(p2);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -369,11 +358,9 @@ CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
   // Set position so the center of the circle is at the origin.
   p.setPosition(new Vector(0,  -2.3228757),  0);
   p.setElasticity(0.8);
-  DisplayShape.fillStyle = 'cyan';
   sim.addBody(p);
   var p2 = Shapes.makeBlock(1, 1, 'block');
   p2.setElasticity(0.8);
-  DisplayShape.fillStyle = 'orange';
   var angle = Math.PI/16; // angle to set block at
   var dist = 1.5;  // distance from origin to place block at
   var error = UtilityCore.POSITIVE_INFINITY;
@@ -471,12 +458,10 @@ CircleStraightTest.rotating_block_vs_ball_init = function(sim, advance) {
   var body0 = Shapes.makeBall(0.75, 'ball');
   body0.setPosition(new Vector(-0.4,  0),  0);
   body0.setVelocity(new Vector(0,  0),  0);
-  DisplayShape.fillStyle = 'lightGray';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 3, 'block');
   body1.setPosition(new Vector(1.5,  0),  -Math.PI/4);
   body1.setVelocity(new Vector(-0.2,  0),  0.5);
-  DisplayShape.fillStyle = 'lightGray';
   sim.addBody(body1);
   sim.setElasticity(0.8);
 };
@@ -546,12 +531,10 @@ CircleStraightTest.ball_falls_on_floor_setup = function(sim, advance) {
   sim.clearForceLaws();
   var body0 = Shapes.makeBall(0.5, 'ball');
   body0.setPosition(new Vector(0,  0),  0);
-  DisplayShape.fillStyle = 'cyan';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(10, 1, 'wall');
   body1.setMass(UtilityCore.POSITIVE_INFINITY);
   body1.setPosition(new Vector(0,  -2.5),  0);
-  DisplayShape.fillStyle = 'lightGray';
   sim.addBody(body1);
   var floor = body1.getTopWorld();
   body0.setZeroEnergyLevel(floor + body0.getMinHeight());
@@ -585,12 +568,10 @@ CircleStraightTest.wedged_ball_setup = function(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   sim.setCollisionAccuracy(0.6);
-  DisplayShape.fillStyle = 'gold';
   var body0 = Shapes.makeBall(1.5, 'ball');
   body0.setCenterOfMass(0.4, 0.2);
   body0.setPosition(new Vector(-5.5+1.5+.01,  -3),  0);
   sim.addBody(body0);
-  DisplayShape.fillStyle = '#ddd';
   var body1 = Shapes.makeBlock(1, 1, 'fixed block');
   body1.setPosition(new Vector(-2.5,  -5),  0);
   body1.setMass(UtilityCore.POSITIVE_INFINITY);
@@ -630,9 +611,6 @@ CircleStraightTest.wedged_ball = function() {
 CircleStraightTest.elastic_balls_setup = function(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
-  DisplayShape.fillStyle = '#99ccff';
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.drawCenterOfMass = false;
   var body = Shapes.makeBall(0.8, 'ball1');
   body.setPosition(new Vector(-5,  2));
   body.setElasticity(1.0);
@@ -659,7 +637,6 @@ CircleStraightTest.elastic_balls_setup = function(sim, advance) {
   sim.addBody(body);
   var gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   gravity.setZeroEnergyLevel(zel);
 };

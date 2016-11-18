@@ -71,26 +71,21 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'red';
-  this.topMass = new DisplayShape(this.simList.getPointMass('top'));
+  this.protoBob = new DisplayShape().setFillStyle('blue');
+  this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
+      .setColorExpanded('#6f6');
+
+  this.topMass = new DisplayShape(this.simList.getPointMass('top'))
+      .setFillStyle('red');
   this.displayList.add(this.topMass);
-  DisplayShape.fillStyle = 'blue';
-  DisplayShape.strokeStyle = '';
-  this.bob1 = new DisplayShape(this.simList.getPointMass('bob1'));
-  this.displayList.add(this.bob1);
-  this.bob2 = new DisplayShape(this.simList.getPointMass('bob2'));
-  this.displayList.add(this.bob2);
-  DisplaySpring.width = 0.3;
-  DisplaySpring.colorCompressed = '#0c0';  // darker green
-  DisplaySpring.colorExpanded = '#6f6'; // brighter green
-  /** @type {!lab.view.DisplaySpring} */
-  this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'));
+  this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'), this.protoSpring);
   this.displayList.add(this.spring1);
-  this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'));
+  this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'), this.protoSpring);
   this.displayList.add(this.spring2);
+  this.bob1 = new DisplayShape(this.simList.getPointMass('bob1'), this.protoBob);
+  this.displayList.add(this.bob1);
+  this.bob2 = new DisplayShape(this.simList.getPointMass('bob2'), this.protoBob);
+  this.displayList.add(this.bob2);
 
   this.addPlaybackControls();
   /** @type {!lab.util.ParameterNumber} */
@@ -147,7 +142,7 @@ Double2DSpringApp.prototype.getClassName = function() {
 /** @inheritDoc */
 Double2DSpringApp.prototype.defineNames = function(myName) {
   Double2DSpringApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('topMass|bob1|bob2|spring1|spring2',
+  this.terminal.addRegex('topMass|bob1|bob2|spring1|spring2|protoBob|protoSpring',
       myName);
 };
 

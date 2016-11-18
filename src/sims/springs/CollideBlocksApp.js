@@ -68,21 +68,23 @@ myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
 
   //this.advance.setDebugLevel(DebugLevel.OPTIMAL);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'blue';
-  this.block1 = new DisplayShape(this.simList.getPointMass('block1'));
+  this.protoBlock = new DisplayShape().setFillStyle('blue');
+  this.protoWall = new DisplayShape().setFillStyle('lightGray');
+  this.protoSpring = new DisplaySpring();
+
+  this.block1 = new DisplayShape(this.simList.getPointMass('block1'), this.protoBlock);
   this.displayList.add(this.block1);
-  this.block2 = new DisplayShape(this.simList.getPointMass('block2'));
+  this.block2 = new DisplayShape(this.simList.getPointMass('block2'), this.protoBlock);
   this.displayList.add(this.block2);
-  DisplayShape.fillStyle = 'lightGray';
-  this.wallLeft = new DisplayShape(this.simList.getPointMass('wallLeft'));
+  this.wallLeft = new DisplayShape(this.simList.getPointMass('wallLeft'),
+      this.protoWall);
   this.displayList.add(this.wallLeft);
-  this.wallRight = new DisplayShape(this.simList.getPointMass('wallRight'));
+  this.wallRight = new DisplayShape(this.simList.getPointMass('wallRight'),
+      this.protoWall);
   this.displayList.add(this.wallRight);
-  this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'));
+  this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'), this.protoSpring);
   this.displayList.add(this.spring1);
-  this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'));
+  this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'), this.protoSpring);
   this.displayList.add(this.spring2);
 
   this.addPlaybackControls();
@@ -137,7 +139,8 @@ CollideBlocksApp.prototype.getClassName = function() {
 /** @inheritDoc */
 CollideBlocksApp.prototype.defineNames = function(myName) {
   CollideBlocksApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('block1|block2|wallLeft|wallRight|spring1|spring2',
+  this.terminal.addRegex('block1|block2|wallLeft|wallRight|spring1|spring2'
+      +'|protoBlock|protoWall|protoSpring',
       myName);
 };
 

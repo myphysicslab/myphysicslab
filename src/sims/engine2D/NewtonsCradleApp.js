@@ -27,7 +27,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -42,7 +41,6 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -249,7 +247,6 @@ NewtonsCradleApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  DisplayShape.fillStyle = 'lightGray';
   NewtonsCradleApp.make(this.mySim, this.options);
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);
@@ -280,8 +277,6 @@ NewtonsCradleApp.make = function(sim, options) {
         options.radius, NewtonsCradleApp.en.PENDULUM+(i+1),
         NewtonsCradleApp.i18n.PENDULUM+(i+1));
     body.setAngle(0);
-    DisplayShape.drawDragPoints = false;
-    DisplayShape.drawCenterOfMass = false;
     sim.addBody(body);
     Joint.attachRigidBody(sim,
         Scrim.getScrim(), /* fixed point in world coords=*/new Vector(x, 2),

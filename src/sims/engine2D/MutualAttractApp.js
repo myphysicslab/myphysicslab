@@ -27,7 +27,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -44,7 +43,6 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Gravity2Law = lab.model.Gravity2Law;
@@ -146,14 +144,10 @@ MutualAttractApp.prototype.getSubjects = function() {
 };
 
 /**
-* @param {string} color
-* @param {number} index
 * @return {!myphysicslab.lab.engine2D.Polygon}
 * @private
 */
-MutualAttractApp.prototype.makeBody = function(color, index) {
-  DisplayShape.fillStyle = color;
-  DisplayShape.strokeStyle = '';
+MutualAttractApp.prototype.makeBody = function() {
   return this.circleBody ?  Shapes.makeBall(0.2) : Shapes.makeBlock(1, 1);
 };
 
@@ -171,40 +165,51 @@ MutualAttractApp.prototype.config = function() {
   this.gravityLaw.connect(this.mySim.getSimList());
   var v = 0.6;
   for (var i=0; i<this.numBods; i++) {
-    var bodyi;
+    var body;
     switch (i) {
-     case 0: 
-      bodyi = this.makeBody('green', i);
-      bodyi.setPosition(new Vector(-4,  0.5),  0);
-      bodyi.setVelocity(new Vector(-0.5,  1.0*v));
+    case 0:
+      body = this.makeBody();
+      body.setPosition(new Vector(-4,  0.5),  0);
+      body.setVelocity(new Vector(-0.5,  1.0*v));
+      this.mySim.addBody(body);
+      this.displayList.find(body).setFillStyle('green');
       break;
     case 1:
-      bodyi = this.makeBody('blue', i);
-      bodyi.setPosition(new Vector(-2.5,  1),  0);
-      bodyi.setVelocity(new Vector(1.5*v,  -0.5*v));
+      body = this.makeBody();
+      body.setPosition(new Vector(-2.5,  1),  0);
+      body.setVelocity(new Vector(1.5*v,  -0.5*v));
+      this.mySim.addBody(body);
+      this.displayList.find(body).setFillStyle('blue');
       break;
     case 2:
-      bodyi = this.makeBody('lightGray', i);
-      bodyi.setPosition(new Vector(-0.5,  -3),  0);
-      bodyi.setVelocity(new Vector(-1.5*v,  0));
+      body = this.makeBody();
+      body.setPosition(new Vector(-0.5,  -3),  0);
+      body.setVelocity(new Vector(-1.5*v,  0));
+      this.mySim.addBody(body);
+      this.displayList.find(body).setFillStyle('lightGray');
       break;
     case 3:
-      bodyi = this.makeBody('cyan', i);
-      bodyi.setPosition(new Vector(1,  1),  0);
-      bodyi.setVelocity(new Vector(0.5*v,  -0.5*v));
+      body = this.makeBody();
+      body.setPosition(new Vector(1,  1),  0);
+      body.setVelocity(new Vector(0.5*v,  -0.5*v));
+      this.mySim.addBody(body);
+      this.displayList.find(body).setFillStyle('cyan');
       break;
     case 4:
-      bodyi = this.makeBody('magenta', i);
-      bodyi.setPosition(new Vector(3,  -1),  0);
+      body = this.makeBody();
+      body.setPosition(new Vector(3,  -1),  0);
+      this.mySim.addBody(body);
+      this.displayList.find(body).setFillStyle('magenta');
       break;
     case 5:
-      bodyi = this.makeBody('orange', i);
-      bodyi.setPosition(new Vector(5,  2),  0);
+      body = this.makeBody();
+      body.setPosition(new Vector(5,  2),  0);
+      this.mySim.addBody(body);
+      this.displayList.find(body).setFillStyle('orange');
       break;
     default:
       throw new Error('too many bodies');
     }
-    this.mySim.addBody(bodyi);
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

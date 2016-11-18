@@ -84,11 +84,8 @@ sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
   /** @type {!lab.view.DisplayLine} */
   this.rod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(this.rod);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'blue';
   /** @type {!lab.view.DisplayShape} */
-  this.bob = new DisplayShape(this.simList.getPointMass('bob'));
+  this.bob = new DisplayShape(this.simList.getPointMass('bob')).setFillStyle('blue');
   this.displayList.add(this.bob);
 
   this.graph.line.setDrawingMode(DrawingMode.LINES);

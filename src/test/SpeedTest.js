@@ -95,8 +95,6 @@ SpeedTest.commonSetup1 = function(sim, advance, damping) {
   advance.setDiffEqSolver(new RungeKutta(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /**
@@ -107,7 +105,6 @@ SpeedTest.commonSetup1 = function(sim, advance, damping) {
 SpeedTest.ball_vs_wall_setup = function(sim, advance) {
   SpeedTest.commonSetup1(sim, advance);
   var p = Shapes.makeBall(0.2, 'fast_ball');
-  DisplayShape.fillStyle = 'green';
   p.setMass(0.1);
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);
@@ -159,7 +156,6 @@ SpeedTest.ball_vs_wall_1 = function() {
 SpeedTest.ball_vs_circle_setup = function(sim, advance) {
   SpeedTest.commonSetup1(sim, advance);
   var p = Shapes.makeBall(0.2, 'fast_ball');
-  DisplayShape.fillStyle = 'green';
   p.setMass(0.1);
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);
@@ -169,7 +165,6 @@ SpeedTest.ball_vs_circle_setup = function(sim, advance) {
   var b = Shapes.makeBall(4, 'fixBall');
   b.setMass(UtilityCore.POSITIVE_INFINITY);
   b.setPosition(new Vector(0,  0),  0);
-  DisplayShape.fillStyle = 'lightGray';
   sim.addBody(b);
   sim.setElasticity(0.95);
 };
@@ -218,11 +213,9 @@ SpeedTest.small_small_setup = function(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   // use large time step of 0.1 to ensure that object passes thru in single step
   advance.setTimeStep(0.1);
-  DisplayShape.fillStyle = 'orange';
   var b1 = Shapes.makeBlock(1, 1, 'block0');
   b1.setPosition(new Vector(-30,  0),  Math.PI/4);
   b1.setVelocity(new Vector(100,  0),  0);  // high speed moving rightwards
-  DisplayShape.fillStyle = 'lightGray';
   var b2 = Shapes.makeBlock(1, 1.3, 'block1');
   b2.setPosition(new Vector(5,  0));  // stationary
   sim.addBody(b1);

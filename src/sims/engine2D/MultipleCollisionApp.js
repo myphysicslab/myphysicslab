@@ -33,7 +33,6 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -52,7 +51,6 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Joint = lab.engine2D.Joint;
@@ -295,10 +293,9 @@ MultipleCollisionApp.prototype.makePuck = function() {
 * @private
 */
 MultipleCollisionApp.prototype.addBody = function(body) {
-  DisplayShape.fillStyle = MultipleCollisionApp.massToColor(body.getMass());
-  DisplayShape.strokeStyle = '';
-  DisplayShape.drawCenterOfMass = true;
+  var c = MultipleCollisionApp.massToColor(body.getMass());
   this.mySim.addBody(body);
+  this.displayList.find(body).setFillStyle(c).setDrawCenterOfMass(true);
 };
 
 /** Returns dark color for heavier mass, light color for light mass.
@@ -528,8 +525,8 @@ MultipleCollisionApp.prototype.config = function() {
       body2 = Shapes.makeBlock(2, 1);
       body2.setPosition(new Vector(-2,  0));
       body2.setMass(0.5);
-      DisplayShape.fillStyle = 'rgb(240,240,240)';
       this.mySim.addBody(body2);
+      this.displayList.find(body2).setFillStyle('rgb(240,240,240)')
 
       Joint.attachRigidBody(this.mySim,
         body2, /*attach_body1=*/new Vector(0.75, 0),
@@ -579,7 +576,6 @@ MultipleCollisionApp.prototype.config = function() {
       throw new Error();
   }
 
-  DisplayShape.fillStyle = 'lightGray';
   Walls.make(this.mySim, 2*this.space_half_width, 2*this.space_half_height,
       /*thickness=*/1.0);
 

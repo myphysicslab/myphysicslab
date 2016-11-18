@@ -98,22 +98,19 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
   /** @type {!DisplayShape} */
-  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'));
+  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
+      .setFillStyle('red');
   this.displayList.add(this.ball1);
-  this.ball1.fillStyle = 'red';
   /** @type {!DisplayShape} */
-  this.ball2 = new DisplayShape(this.simList.getPointMass('ball2'));
+  this.ball2 = new DisplayShape(this.simList.getPointMass('ball2'))
+      .setFillStyle('blue');
   this.displayList.add(this.ball2);
-  this.ball2.fillStyle = 'blue';
   /** @type {!DisplaySpring} */
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring'))
+      .setWidth(0.2).setColorCompressed('red')
+      .setColorExpanded('#6f6'); /* brighter green */
   this.displayList.add(this.spring);
-  this.spring.width = 0.2;
-  this.spring.colorCompressed = 'red';
-  this.spring.colorExpanded = '#6f6'; /* brighter green */
   /** @type {!Array<!lab.model.ParametricPath>} **/
   this.paths = [
       new HumpPath(),

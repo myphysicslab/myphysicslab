@@ -25,7 +25,9 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 /** A generic {@link myphysicslab.lab.util.Memorizable Memorizable} object that
 calls a JavaScript function.
 
-Example: make a GenericMemo that prints the angle variable of a simulation
+Example 1
+---------
+Make a GenericMemo that prints the angle variable of a simulation
 into the {@link myphysicslab.lab.util.Terminal} output area.
 Here `simRun` is an instance of {@link myphysicslab.lab.app.SimRunner}.
 
@@ -34,7 +36,26 @@ Here `simRun` is an instance of {@link myphysicslab.lab.app.SimRunner}.
     simRun.addMemo(memo);
 
 This code can be entered as Terminal commands in
-{@link myphysicslab.sims.pendulum.PendulumApp} (if using simple-compile).
+{@link myphysicslab.sims.pendulum.PendulumApp} if using simple-compiled version.
+
+Example 2
+---------
+This sets the color of a spring depending on how much it is stretched.
+
+    var spring = simList.get('spring1');
+    var dispSpring = displayList.find(spring);
+    var memo = new GenericMemo(function() {
+      var stretch = Math.max(Math.min(spring.getStretch(), 1), -1);
+      if (stretch < 0) {
+        dispSpring.setColorCompressed(UtilityCore.colorString3(-stretch, 0, 0));
+      } else {
+        dispSpring.setColorExpanded(UtilityCore.colorString3(0, stretch, 0));
+      }
+    });
+    simRun.addMemo(memo);
+
+This script can be entered as Terminal commands in
+{@link myphysicslab.sims.engine2D.CartPendulum2App} if using simple-compiled version.
 
 
 @param {function()} func  function to execute

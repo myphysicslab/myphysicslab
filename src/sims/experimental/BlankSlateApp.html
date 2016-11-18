@@ -34,9 +34,8 @@ things with scripts.  Here is a sample script to try:
 
 <pre>
 var r = PointMass.makeSquare(4);
-var dr = new DisplayShape(r);
+var dr = new DisplayShape(r).setStrokeStyle('red').setThickness(4);
 displayList.add(dr);
-dr.strokeStyle = 'red';
 r.setPosition(new Vector(0, 0));
 var clock = new Clock();
 var timer = new Timer();
@@ -54,7 +53,7 @@ timer.fire();
   for this page. For example, the following URL contains the above script.
 </p>
 <p>
-<a href="#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var%20r=PointMass.makeSquare(4);var%20dr=new%20DisplayShape(r);displayList.add(dr);dr.strokeStyle='red';r.setPosition(new%20Vector(0,0));var%20clock=new%20Clock();var%20timer=new%20Timer();var%20callback=function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fire();};timer.setCallBack(callback);clock.resume();timer.fire();">
+<a href="#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var%20r=PointMass.makeSquare(4);var%20dr=new%20DisplayShape(r).setStrokeStyle('red').setThickness(4);displayList.add(dr);r.setPosition(new%20Vector(0,0));var%20clock=new%20Clock();var%20timer=new%20Timer();var%20callback=function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fire();};timer.setCallBack(callback);clock.resume();timer.fire();">
 #MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var r=PointMass.makeSquare(4);<br>
 var dr=new DisplayShape(r);displayList.add(dr);dr.strokeStyle='red';r.setPosition(new Vector(0,0));<br>
 var clock=new Clock();var timer=new Timer();<br>

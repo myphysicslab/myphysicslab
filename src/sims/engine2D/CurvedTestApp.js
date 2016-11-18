@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('myphysicslab.sims.layout.CommonControls');
@@ -44,7 +44,7 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
+var DisplayList = lab.view.DisplayList;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -76,6 +76,8 @@ sims.engine2D.CurvedTestApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.rbo.protoPolygon.setDrawCenterOfMass(true).setNameFont('10pt sans-serif');
+  this.rbo.protoSpring.setWidth(0.3);
   this.mySim.setShowForces(true);
   /** @type {!lab.model.DampingLaw} */
   this.dampingLaw = new myphysicslab.lab.model.DampingLaw(0, 0.15, this.simList);
@@ -158,9 +160,8 @@ CurvedTestApp.prototype.config = function() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
-  DisplayShape.drawCenterOfMass = true;
   CurvedTestApp.make(this.mySim, this.gravityLaw, this.dampingLaw,
-      this.numBods, this.simView.getSimRect());
+      this.numBods, this.simView.getSimRect(), this.displayList);
   /** @type {!RigidBody} */
   var b;
   if (this.numBods >= 1) {
@@ -169,7 +170,6 @@ CurvedTestApp.prototype.config = function() {
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
   }
-  DisplayShape.fillStyle = 'orange';
   if (this.numBods >= 2) {
     b = this.mySim.getBody('ball2');
     this.thrust1 = sims.engine2D.SixThrusters.make(this.thrust, b);
@@ -190,17 +190,16 @@ CurvedTestApp.prototype.config = function() {
 * @param {number} numBods number of free moving bodies to make, from 1 to 6.
 * @param {!DoubleRect} simRect rectangle for making a set of enclosing
 *   walls, in simulation coords.
+* @param {?DisplayList} displayList
 * @return {undefined}
 */
-CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect) {
+CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayList) {
   sim.addForceLaw(damping);
   damping.connect(sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.connect(sim.getSimList());
   /** @type {!RigidBody} */
   var b;
-  DisplayShape.nameFont = '10pt sans-serif';
-  DisplayShape.fillStyle = 'lightGray';
   b = Shapes.makeBlock(2.0, 2.0, CurvedTestApp.en.FIX_BLOCK+1,
       CurvedTestApp.i18n.FIX_BLOCK+1);
   b.setMass(UtilityCore.POSITIVE_INFINITY);
@@ -209,7 +208,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect) {
   b = Shapes.makeBall(2, CurvedTestApp.en.FIX_BALL+2,
       CurvedTestApp.i18n.FIX_BALL+2);
   b.setMass(UtilityCore.POSITIVE_INFINITY);
-  b.setPosition(new Vector(3,  2.5-4.5-0.1),  0);
+  b.setPosition(new Vector(3,  2.5-4.5-0.1), 0);
   sim.addBody(b);
   b = Shapes.makeBlock(2.0, 2.0, CurvedTestApp.en.FIX_BLOCK+3,
       CurvedTestApp.i18n.FIX_BLOCK+3);
@@ -221,14 +220,13 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect) {
   b.setMass(UtilityCore.POSITIVE_INFINITY);
   b.setPosition(new Vector(6.7, -1.0), -0.2);
   sim.addBody(b);
-  DisplayShape.fillStyle = 'cyan';
   if (numBods >= 1) {
     b = Shapes.makeBlock(0.8, 1.5, CurvedTestApp.en.BLOCK+1,
       CurvedTestApp.i18n.BLOCK+1);
     b.setPosition(new Vector(-2.0,  -2),  0);
     sim.addBody(b);
+    if (displayList != null) { displayList.find(b).setFillStyle('cyan'); };
   }
-  DisplayShape.fillStyle = 'orange';
   if (numBods >= 2) {
     b = Shapes.makeBall(0.8, CurvedTestApp.en.BALL+2,
         CurvedTestApp.i18n.BALL+2);
@@ -236,8 +234,8 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect) {
         b.getBottomBody() + 0.2*b.getHeight());
     b.setPosition(new Vector(-1.7,  1),  0);
     sim.addBody(b);
+    if (displayList != null) { displayList.find(b).setFillStyle('orange'); };
   }
-  DisplayShape.fillStyle = '#9f3'; // light green
   if (numBods >= 3) {
     b = Shapes.makeBall(1, CurvedTestApp.en.BALL+2,
         CurvedTestApp.i18n.BALL+2);
@@ -247,32 +245,32 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect) {
     y += 1 - 0.3;
     b.setPosition(new Vector(x, 0.1+y+ sim.getDistanceTol() / 2.0), Math.PI);
     sim.addBody(b);
+    if (displayList != null) { displayList.find(b).setFillStyle('#9f3'); };
   }
-  DisplayShape.fillStyle = '#f6c'; // hot pink
   if (numBods >= 4) {
     b = Shapes.makeBlock(0.8, 2, CurvedTestApp.en.BLOCK+4,
         CurvedTestApp.i18n.BLOCK+4);
     b.setMass(2);
-    b.setPosition(new Vector(5,  2));
+    b.setPosition(new Vector(5, 0), 0.2);
     sim.addBody(b);
+    if (displayList != null) { displayList.find(b).setFillStyle('#f6c'); };
   }
-  DisplayShape.fillStyle = '#39f';
   if (numBods >= 5) {
-    b = Shapes.makeBall(0.3, CurvedTestApp.en.BALL+5,
+    b = Shapes.makeBall(0.4, CurvedTestApp.en.BALL+5,
         CurvedTestApp.i18n.BALL+5);
     b.setMass(1.5);
-    b.setPosition(new Vector(5.9, 4.2));
+    b.setPosition(new Vector(5.9, 2));
     sim.addBody(b);
+    if (displayList != null) { displayList.find(b).setFillStyle('#39f'); };
   }
-  DisplayShape.fillStyle = '#c99';
   if (numBods >= 6) {
     b = Shapes.makeBall(1.0, CurvedTestApp.en.BALL+6,
         CurvedTestApp.i18n.BALL+6);
     b.setMass(1.0);
     b.setPosition(new Vector(-2.5,  4));
     sim.addBody(b);
+    if (displayList != null) { displayList.find(b).setFillStyle('#c99'); };
   }
-  DisplayShape.fillStyle = 'gray';
   var zel = Walls.make2(sim, simRect);
   gravity.setZeroEnergyLevel(zel);
 };

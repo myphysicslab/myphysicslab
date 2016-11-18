@@ -86,9 +86,9 @@ sims.engine2D.GearsApp = function(elem_ids) {
   this.elasticity.setElasticity(0.3);
   this.mySim.setShowForces(true);
   /** @type {!lab.model.DampingLaw} */
-  this.dampingLaw = new myphysicslab.lab.model.DampingLaw(0, 0.15, this.simList);
+  this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
   /** @type {!lab.model.GravityLaw} */
-  this.gravityLaw = new myphysicslab.lab.model.GravityLaw(0, this.simList);
+  this.gravityLaw = new GravityLaw(0, this.simList);
 
   /** @type {boolean} */
   this.twoGears = true;
@@ -195,15 +195,15 @@ GearsApp.prototype.config = function() {
       GearsConfig.i18n.LEFT_GEAR);
   this.gearLeft.setPosition(new Vector(0,  0),  0);
   this.gearLeft.setMass(1);
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
   this.mySim.addBody(this.gearLeft);
+  this.displayList.find(this.gearLeft).setFillStyle('lightGray');
   if (this.twoGears) {
     this.gearRight = GearsConfig.makeGear(2.7, [], GearsConfig.en.RIGHT_GEAR,
         GearsConfig.i18n.RIGHT_GEAR);
     var tooth = 2*Math.PI/36;
     this.gearRight.setPosition(new Vector((2 * 2.7) +0.008+0.35, 0), -tooth/5);
     this.mySim.addBody(this.gearRight);
+    this.displayList.find(this.gearRight).setFillStyle('lightGray');
   } else {
     this.gearRight = null;
   }
@@ -220,8 +220,6 @@ GearsApp.prototype.config = function() {
     this.gravityLaw.setGravity(0);
   } else {
     // gears freely moving, dropping onto floor
-    DisplayShape.fillStyle = '#ddd';
-
     var zel = Walls.make(this.mySim, /*width=*/60, /*height=*/12, /*thickness=*/1.0);
     this.gravityLaw.setZeroEnergyLevel(zel);
     this.gravityLaw.setGravity(3);

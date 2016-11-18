@@ -293,7 +293,7 @@ AbstractApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
       +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView'
-      +'|timeGraph|scriptParser|terminal|varsList',
+      +'|timeGraph|scriptParser|terminal|varsList|displayList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

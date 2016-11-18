@@ -58,22 +58,24 @@ methods {@link #addPath}, {@link #removePath}.
 @todo Could allow setting background color.
 @todo getPosition() and contains() should return something related to position of
     screenRect.
+* @param {?DisplayPath=} proto the prototype DisplayPath to inherit properties
+*     from
 * @constructor
 * @final
 * @struct
 * @implements {myphysicslab.lab.view.DisplayObject}
 */
-myphysicslab.lab.view.DisplayPath = function() {
+myphysicslab.lab.view.DisplayPath = function(proto) {
   /**
   * @type {?HTMLCanvasElement}
   * @private
   */
   this.offScreen_ = null;
   /** Whether to draw into the offscreen buffer.
-  * @type {boolean}
+  * @type {boolean|undefined}
   * @private
   */
-  this.useBuffer_ = true;
+  this.useBuffer_;
   /**
   * @type {!Array<!lab.model.Path>}
   * @private
@@ -84,11 +86,6 @@ myphysicslab.lab.view.DisplayPath = function() {
   * @private
   */
   this.styles_ = [];
-  /**  tells when need to redraw the bitmap from the paths
-  * @type {boolean}
-  * @private
-  */
-  this.redraw_ = true;
   /** sequence numbers indicate when a path has changed.
   * @type {Array<number>}
   * @private
@@ -99,16 +96,28 @@ myphysicslab.lab.view.DisplayPath = function() {
   * @private
   */
   this.screenRect_ = ScreenRect.EMPTY_RECT;
+  /**  tells when need to redraw the bitmap from the paths
+  * @type {boolean}
+  * @private
+  */
+  this.redraw_ = true;
   /** to detect when redraw needed;  when the coordmap changes, we need to redraw.
   * @type {?lab.view.CoordMap}
   * @private
   */
   this.lastMap_ = null;
   /**
-  * @type {boolean}
-  * @private
+  * @type {number|undefined}
   */
-  this.debug_ = false;
+  this.zIndex;
+  /** Default style for drawing a path, used as default in {@link #addPath}.
+  * @type {!DrawingStyle|undefined}
+  */
+  this.defaultStyle;
+  /**
+  * @type {?DisplayPath}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 
@@ -117,7 +126,14 @@ if (!UtilityCore.ADVANCED) {
   DisplayPath.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
-        +', paths_: ['+this.paths_+']}';
+        +', zIndex: '+this.zIndex
+        +', useBuffer_: '+this.useBuffer_
+        +', defaultStyle: '+this.defaultStyle
+        +', paths_: ['
+        + goog.array.map(this.paths_, function(p, idx) {
+            return idx+': '+p.toString();
+          })
+        +']}';
   };
 
   /** @inheritDoc */
@@ -133,15 +149,10 @@ if (!UtilityCore.ADVANCED) {
 */
 DisplayPath.DRAW_POINTS = 3000;
 
-/** Default style for drawing a path, used as default in {@link #addPath}.
-* @type {!DrawingStyle}
-*/
-DisplayPath.style = DrawingStyle.lineStyle('gray', /*lineWidth=*/4);
-
 /** Adds a Path to the set of paths to display.
 * @param {!lab.model.Path} path the Path to display
-* @param {!DrawingStyle=} opt_style the DrawingStyle to use for drawing this Path (optional);
-*     uses {@link #style} if not specified
+* @param {!DrawingStyle=} opt_style the DrawingStyle to use for drawing this Path;
+*     uses the default style if not specified, see {@link #setStyle}.
 */
 DisplayPath.prototype.addPath = function(path, opt_style) {
   if (!this.containsPath(path)) {
@@ -149,7 +160,7 @@ DisplayPath.prototype.addPath = function(path, opt_style) {
     if (goog.isDefAndNotNull(opt_style)) {
       this.styles_.push(opt_style);
     } else {
-      this.styles_.push(DisplayPath.style);
+      this.styles_.push(this.getDefaultStyle());
     }
     this.sequence_.push(path.getSequence());
     this.redraw_ = true;
@@ -173,15 +184,6 @@ DisplayPath.prototype.containsPath = function(path) {
 
 /** @inheritDoc */
 DisplayPath.prototype.draw = function(context, map) {
-  goog.array.forEach(this.paths_, function(path, idx) {
-      var seq = path.getSequence();
-      // Change in sequence number indicates path has changed.
-      // If any of the paths have changed, then need to redraw.
-      if (seq != this.sequence_[idx]) {
-        this.sequence_[idx] = seq;
-        this.redraw_ = true;
-      }
-    }, this);
   var r = this.screenRect_;
   if (r.isEmpty()) {
     // don't bother if the screen isn't visible
@@ -192,30 +194,38 @@ DisplayPath.prototype.draw = function(context, map) {
   var w = r.getWidth();
   var h = r.getHeight();
   context.save();
+  goog.array.forEach(this.paths_, function(path, idx) {
+      var seq = path.getSequence();
+      // Change in sequence number indicates path has changed.
+      // If any of the paths have changed, then need to redraw.
+      if (seq != this.sequence_[idx]) {
+        this.sequence_[idx] = seq;
+        this.redraw_ = true;
+      }
+    }, this);
   if (this.lastMap_ == null || this.lastMap_ != map) {
     this.lastMap_ = map;
-    if (goog.DEBUG && this.debug_)
-      console.log('DisplayPath: redraw because coordmap changed');
+    // redraw because coordmap changed
     this.redraw_ = true;
   }
   // compare size of image to that of the screen rect; reallocate if different
-  if (this.useBuffer_ && this.offScreen_ != null)  {
+  var useBuffer = this.getUseBuffer();
+  if (useBuffer && this.offScreen_ != null)  {
     if (this.offScreen_.width != w || this.offScreen_.height != h) {
       this.flush();
     }
   }
-  if (this.useBuffer_ && this.offScreen_ == null)  {
+  if (useBuffer && this.offScreen_ == null)  {
     this.offScreen_=/** @type {!HTMLCanvasElement}*/(document.createElement('canvas'));
     this.offScreen_.width = w;
     this.offScreen_.height = h;
+    // redraw because image reallocated
     this.redraw_ = true;
-    if (goog.DEBUG && this.debug_)
-      console.log('DisplayPath: redraw because image reallocated');
   }
-  var ctx = this.useBuffer_ ? /** @type {!CanvasRenderingContext2D}*/(
+  var ctx = useBuffer ? /** @type {!CanvasRenderingContext2D}*/(
           this.offScreen_.getContext('2d')) : context;
-  if (this.redraw_ || !this.useBuffer_) {
-    if (this.useBuffer_) {
+  if (this.redraw_ || !useBuffer) {
+    if (useBuffer) {
       // Clear image with transparent alpha by drawing a rectangle
       // 'clearRect fills with transparent black'
       ctx.clearRect(0, 0, w, h);
@@ -225,7 +235,7 @@ DisplayPath.prototype.draw = function(context, map) {
       }, this);
     this.redraw_ = false;
   }
-  if (this.useBuffer_) {
+  if (useBuffer) {
     context.drawImage(this.offScreen_, 0, 0, w, h);
   }
   context.restore();
@@ -295,9 +305,45 @@ DisplayPath.prototype.flush = function() {
   this.offScreen_ = null;
 }
 
+/** Sets default DrawingStyle used in {@link #addPath}.
+* @return {!DrawingStyle} the default DrawingStyle to use when adding a Path
+*/
+DisplayPath.prototype.getDefaultStyle = function() {
+  if (this.defaultStyle !== undefined) {
+    return this.defaultStyle;
+  } else if (this.proto != null) {
+    return this.proto.getDefaultStyle();
+  } else {
+    return DrawingStyle.lineStyle('gray', /*lineWidth=*/4);
+  }
+};
+
 /** @inheritDoc */
 DisplayPath.prototype.getMassObjects = function() {
   return [ ];
+};
+
+/** Returns the specified Path.
+* @param {number|string} arg  index number or name of Path. Name should be English
+    or language-independent version of name.
+* @return {!lab.model.Path} path the Path of interest
+*/
+DisplayPath.prototype.getPath = function(arg) {
+  if (goog.isNumber(arg)) {
+    if (arg >= 0 && arg < this.paths_.length) {
+      return this.paths_[arg];
+    }
+  } else if (goog.isString(arg)) {
+    arg = UtilityCore.toName(arg);
+    var e = goog.array.find(this.paths_,
+      function (/** !Path */obj) {
+        return obj.getName() == arg;
+      });
+    if (e != null) {
+      return e;
+    }
+  }
+  throw new Error('DisplayPath did not find '+arg);
 };
 
 /** @inheritDoc */
@@ -320,7 +366,7 @@ DisplayPath.prototype.getSimObjects = function() {
   return goog.array.clone(this.paths_);
 };
 
-/** Returns color used for drawing a Path.
+/** Returns DrawingStyle used for drawing a Path.
 * @param {number} idx index of Path
 * @return {!DrawingStyle} the DrawingStyle being used for drawing the Path
 */
@@ -335,7 +381,24 @@ DisplayPath.prototype.getStyle = function(idx) {
 * @return {boolean} true when drawing the Paths into an offscreen buffer
 */
 DisplayPath.prototype.getUseBuffer = function() {
-  return this.useBuffer_;
+  if (this.useBuffer_ !== undefined) {
+    return this.useBuffer_;
+  } else if (this.proto != null) {
+    return this.proto.getUseBuffer();
+  } else {
+    return true;
+  }
+};
+
+/** @inheritDoc */
+DisplayPath.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 0;
+  }
 };
 
 /** @inheritDoc */
@@ -359,6 +422,16 @@ DisplayPath.prototype.removePath = function(path) {
   }
 };
 
+/** Sets default DrawingStyle used in {@link #addPath}.
+* @param {!DrawingStyle|undefined} value the default DrawingStyle to use when adding
+*      a Path
+* @return {!DisplayPath} this object for chaining setters
+*/
+DisplayPath.prototype.setDefaultStyle = function(value) {
+  this.defaultStyle = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayPath.prototype.setDragable = function(dragable) {
 };
@@ -377,7 +450,7 @@ DisplayPath.prototype.setScreenRect = function(screenRect) {
   this.flush();
 };
 
-/** Sets color used for drawing a Path.
+/** Sets DrawingStyle used for drawing a Path.
 * @param {number} idx index of Path
 * @param {!DrawingStyle} value the DrawingStyle to use for drawing the Path
 */
@@ -387,17 +460,24 @@ DisplayPath.prototype.setStyle = function(idx, value) {
   }
   this.styles_[idx] = value;
   this.redraw_ = true;
-}
+};
 
 /** Whether to draw the Paths into an offscreen buffer. For a Path that changes every
 frame, it saves time to *not* use an offscreen buffer.
-* @param {boolean} value Whether to draw the Paths into an offscreen buffer
+* @param {boolean|undefined} value Whether to draw the Paths into an offscreen buffer
+* @return {!DisplayPath} this object for chaining setters
 */
 DisplayPath.prototype.setUseBuffer = function(value) {
   this.useBuffer_ = value;
-  if (!this.useBuffer_) {
-    this.offScreen_ = null;
+  if (!this.getUseBuffer()) {
+    this.flush();
   }
+  return this;
+};
+
+/** @inheritDoc */
+DisplayPath.prototype.setZIndex = function(zIndex) {
+  this.zIndex = zIndex;
 };
 
 });  // goog.scope

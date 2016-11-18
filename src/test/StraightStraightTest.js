@@ -137,8 +137,6 @@ StraightStraightTest.commonSetup1 = function(sim, advance, damping) {
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
   advance.setDiffEqSolver(new RungeKutta(sim));
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /** Performance test that runs the six_blocks_settle test.
@@ -165,7 +163,6 @@ One of the blocks has less mass than the others.
 StraightStraightTest.six_blocks_settle_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   sim.setCollisionAccuracy(0.6);
-  DisplayShape.fillStyle = '#cff';
   for (var i=0; i<6; i++) {
     var p = Shapes.makeBlock(1, 3, 'block'+i);
     if (i==0)
@@ -176,7 +173,6 @@ StraightStraightTest.six_blocks_settle_setup = function(sim, advance) {
   var gravity = new GravityLaw(5.0, sim.getSimList());
   sim.setElasticity(0.6);
   sim.addForceLaw(gravity);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   gravity.setZeroEnergyLevel(zel);
 };
@@ -248,34 +244,6 @@ StraightStraightTest.six_blocks_settle2 = function() {
   Engine2DTestRig.checkContactDistances(sim, 1E-8);
 };
 
-/**  This is not a real test... just being used for developing RandomLCG class;
-should delete this eventually.
-* @return {undefined}
-* @private
-*/
-StraightStraightTest.testRandom1 = function() {
-  var rseed = 0;
-  console.log('random seed = '+rseed);
-  var prng = new RandomLCG(rseed);
-  var s = '';
-  var i;
-  s = '';
-  for (i = 0; i<100; i++) {
-    var r = prng.nextInt();
-    s += r+' ';
-  }
-  console.log(s);
-  s = '';
-  var tot = 0;
-  for (i = 0; i<100; i++) {
-    var r = prng.nextRange(100);
-    tot += r;
-    s += r+' ';
-  }
-  console.log(s);
-  console.log('average '+(tot/100));
-};
-
 /** Six blocks start in a configuration on the ground, with one block being
 nearly vertical and leaning and rocking on neighbors.
 History:  previously resulted in a stuck state with many messages about
@@ -291,33 +259,11 @@ the A matrix be non-singular.
 */
 StraightStraightTest.six_blocks_1_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   for (var i=0; i<6; i++) {
-    /** @type {!myphysicslab.lab.engine2D.RigidBody} */
-    var p;
-    switch (i) {
-      case 0: p = Shapes.makeBlock(1, 3, 'black');
-        var block1 = p;
-        DisplayShape.fillStyle = 'black';
-        break;
-      case 1: p = Shapes.makeBlock(1, 3, 'blue');
-        DisplayShape.fillStyle = 'blue';
-        break;
-      case 2: p = Shapes.makeBlock(1, 3, 'lightGray');
-        DisplayShape.fillStyle = 'lightGray';
-        break;
-      case 3: p = Shapes.makeBlock(1, 3, 'cyan');
-        DisplayShape.fillStyle = 'cyan';
-        break;
-      case 4: p = Shapes.makeBlock(1, 3, 'magenta');
-        DisplayShape.fillStyle = 'magenta';
-        break;
-      case 5: p = Shapes.makeBlock(1, 3, 'orange');
-        DisplayShape.fillStyle = 'orange';
-        break;
-      default:
-        throw new Error();
+    var p = Shapes.makeBlock(1, 3);
+    if (i == 0) {
+      var block1 = p;
     }
     sim.addBody(p);
   }
@@ -398,26 +344,11 @@ StraightStraightTest.six_blocks_1 = function() {
 */
 StraightStraightTest.six_blocks_2_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   for (var i=0; i<6; i++) {
-    var p;
-    switch (i) {
-      case 0: p = Shapes.makeBlock(1, 3, 'black');
-        var block1 = p;
-        DisplayShape.fillStyle = 'black'; break;
-      case 1: p = Shapes.makeBlock(1, 3, 'blue');
-        DisplayShape.fillStyle = 'blue'; break;
-      case 2: p = Shapes.makeBlock(1, 3, 'lightGray');
-        DisplayShape.fillStyle = 'lightGray'; break;
-      case 3: p = Shapes.makeBlock(1, 3, 'cyan');
-        DisplayShape.fillStyle = 'cyan'; break;
-      case 4: p = Shapes.makeBlock(1, 3, 'magenta');
-        DisplayShape.fillStyle = 'magenta'; break;
-      case 5: p = Shapes.makeBlock(1, 3, 'orange');
-        DisplayShape.fillStyle = 'orange'; break;
-      default:
-        throw new Error();
+    var p = Shapes.makeBlock(1, 3);
+    if (i == 0) {
+      var block1 = p;
     }
     sim.addBody(p);
   }
@@ -499,26 +430,11 @@ needs to be increased.
 */
 StraightStraightTest.six_blocks_3_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance, /*damping=*/0.05);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   for (var i=0; i<6; i++) {
-    var p;
-    switch (i) {
-      case 0: p = Shapes.makeBlock(1, 3, 'black');
-        var block1 = p;
-        DisplayShape.fillStyle = 'black'; break;
-      case 1: p = Shapes.makeBlock(1, 3, 'blue');
-        DisplayShape.fillStyle = 'blue'; break;
-      case 2: p = Shapes.makeBlock(1, 3, 'lightGray');
-        DisplayShape.fillStyle = 'lightGray'; break;
-      case 3: p = Shapes.makeBlock(1, 3, 'cyan');
-        DisplayShape.fillStyle = 'cyan'; break;
-      case 4: p = Shapes.makeBlock(1, 3, 'magenta');
-        DisplayShape.fillStyle = 'magenta'; break;
-      case 5: p = Shapes.makeBlock(1, 3, 'orange');
-        DisplayShape.fillStyle = 'orange'; break;
-      default:
-        throw new Error();
+    var p = Shapes.makeBlock(1, 3);
+    if (i == 0) {
+      var block1 = p;
     }
     sim.addBody(p);
   }
@@ -605,32 +521,16 @@ StraightStraightTest.setup_six_blocks = function(sim, advance, v, wallsFirst) {
   StraightStraightTest.commonSetup1(sim, advance, 0.05);
   var zel = 0;
   if (wallsFirst) {
-    DisplayShape.fillStyle = '#ddd';
     zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   }
   for (var i=0; i<6; i++) {
-    var p;
-    switch (i) {
-      case 0: p = Shapes.makeBlock(1, 3, 'black');
-        var block1 = p;
-        DisplayShape.fillStyle = 'black'; break;
-      case 1: p = Shapes.makeBlock(1, 3, 'blue');
-        DisplayShape.fillStyle = 'blue'; break;
-      case 2: p = Shapes.makeBlock(1, 3, 'lightGray');
-        DisplayShape.fillStyle = 'lightGray'; break;
-      case 3: p = Shapes.makeBlock(1, 3, 'cyan');
-        DisplayShape.fillStyle = 'cyan'; break;
-      case 4: p = Shapes.makeBlock(1, 3, 'magenta');
-        DisplayShape.fillStyle = 'magenta'; break;
-      case 5: p = Shapes.makeBlock(1, 3, 'orange');
-        DisplayShape.fillStyle = 'orange'; break;
-      default:
-        throw new Error();
+    var p = Shapes.makeBlock(1, 3);
+    if (i == 0) {
+      var block1 = p;
     }
     sim.addBody(p);
   }
   if (!wallsFirst) {
-    DisplayShape.fillStyle = '#ddd';
     zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   }
   goog.asserts.assert( v.length >= 36 );
@@ -1293,11 +1193,9 @@ StraightStraightTest.hexagon_1_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   var a = Math.sin(Math.PI/3);
   var hex = Shapes.makeHexagon(1.0, 'hexagon');
-  DisplayShape.fillStyle = 'green';
   hex.setPosition(new Vector(0,  a + 0.009), -2*Math.PI/3);
   sim.addBody(hex);
   var block = Shapes.makeBlock(1, 1, 'block');
-  DisplayShape.fillStyle = 'orange';
   block.setPosition(new Vector(0, 2*a + 2*0.009 + Math.sqrt(2)/2), Math.PI/4);
   sim.addBody(block);
   var floor = Shapes.makeBlock(6, 1, 'floor');
@@ -1449,12 +1347,10 @@ StraightStraightTest.ngon_block_setup = function(sim, advance) {
   body0.setCenterOfMass(0, -0.2);
   body0.setPosition(new Vector(-0.255,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  1);
-  DisplayShape.strokeStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 3, 'block');
   body1.setPosition(new Vector(1,  0),  0);
   body1.setVelocity(new Vector(0,  -0.6),  0);
-  DisplayShape.strokeStyle = 'cyan';
   sim.addBody(body1);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -1485,11 +1381,9 @@ StraightStraightTest.diamonds_setup = function(sim, advance) {
   advance.setTimeStep(0.01);
   var body0 = Shapes.makeDiamond(1, 1, Math.PI/4, 'diamond1');
   body0.setPosition(new Vector(-2,  0.5),  0);
-  DisplayShape.strokeStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeDiamond(1, 2, -Math.PI/4, 'diamond2');
   body1.setPosition(new Vector(2,  -0.5),  0);
-  DisplayShape.strokeStyle = 'cyan';
   sim.addBody(body1);
   sim.setElasticity(0.5);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
@@ -1533,10 +1427,8 @@ time step, etc.
 StraightStraightTest.one_block1_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   var block = Shapes.makeBlock(1, 3, 'blue');
-  DisplayShape.fillStyle = 'blue';
   block.setPosition(new Vector(-4,  -4));
   sim.addBody(block);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/20, /*height=*/20);
   var gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
@@ -1569,11 +1461,9 @@ StraightStraightTest.one_block2_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   sim.setExtraAccel(ExtraAccel.NONE);
   var block = Shapes.makeBlock(1, 3, 'blue');
-  DisplayShape.fillStyle = 'blue';
   block.setPosition(new Vector(0,  -5 + 1.5 + 0.005),  0.01);
   block.setVelocity(new Vector(0,  -0.3));
   sim.addBody(block);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/10, /*height=*/10);
   var gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
@@ -1607,10 +1497,8 @@ cannot backup to a time when distance was around targetGap.
 StraightStraightTest.fast_close_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   sim.setExtraAccel(ExtraAccel.NONE);
-  DisplayShape.fillStyle = '#ddd';
   var zel = Walls.make(sim, /*width=*/10, /*height=*/10);
   var block = Shapes.makeBlock(1, 3, 'blue');
-  DisplayShape.fillStyle = 'blue';
   block.setPosition(new Vector(0,  -5 + 1.5 + 0.005),  0.01);
   block.setVelocity(new Vector(0,  -3));
   sim.addBody(block);
@@ -1645,11 +1533,9 @@ StraightStraightTest.corner_collision_setup = function(sim, advance) {
   var body0 = Shapes.makeDiamond(1, 1, Math.PI/4, 'diamond1');
   body0.setPosition(new Vector(-2,  0),  0);
   body0.setVelocity(new Vector(3,  0),  0);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeDiamond(1, 1, -Math.PI/4, 'diamond2');
   body1.setPosition(new Vector(2,  0),  0);
-  DisplayShape.fillStyle = 'cyan';
   sim.addBody(body1);
   sim.setElasticity(0.5);
 };
@@ -1680,11 +1566,9 @@ StraightStraightTest.rounded_corner_collision_setup = function(sim, advance) {
   var body0 = Shapes.makeRoundCornerBlock(1, 1, 0.02, 'rounded1');
   body0.setPosition(new Vector(-2,  0),  Math.PI/4);
   body0.setVelocity(new Vector(3,  0),  0);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(body0);
   var body1 = Shapes.makeRoundCornerBlock(1, 1, 0.02, 'rounded2');
   body1.setPosition(new Vector(2,  0),  Math.PI/4);
-  DisplayShape.fillStyle = 'cyan';
   sim.addBody(body1);
   sim.setElasticity(0.5);
 };
@@ -1731,7 +1615,6 @@ StraightStraightTest.oblique_corner_collision_setup = function(sim, advance) {
   body0.setMass(UtilityCore.POSITIVE_INFINITY);
   // origin is top-left corner of fixed block
   body0.setPosition(new Vector(1,  -1),  0);
-  DisplayShape.fillStyle = '#ccc';
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 1, 'moving');
   // bottom right corner starts at (-0.025, 0.01)
@@ -1741,7 +1624,6 @@ StraightStraightTest.oblique_corner_collision_setup = function(sim, advance) {
   // velocity vector is 1.7 * (0.4, -0.15)/0.427 = (1.5925, -0.597)
   body1.setPosition(new Vector(-0.5-0.025,  0.5+0.01),  0);
   body1.setVelocity(new Vector(1.5925,  -0.597),  0);
-  DisplayShape.fillStyle = 'rgba(255, 153, 0, 0.5)';
   sim.addBody(body1);
   sim.setElasticity(0.5);
 };
@@ -1800,30 +1682,23 @@ collisions between StraightEdges, as long as this tolerance is large enough in
 StraightStraightTest.acute_corners_setup = function(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS);
-  DisplayShape.fillStyle = 'lightGray';
   var zel = Walls.make2(sim, new DoubleRect(-4.5, -3.6, 3.1, 4));
   Polygon.ID = 1;
-  DisplayShape.fillStyle = 'cyan';
   var p = Shapes.makePolygon([new Vector(1, 0),
       new Vector(-0.513177951173234170, 0.858282232386085031),
       new Vector(-0.969768795922141824, 0.244025577462116117),
       new Vector(0.513177951173234059, -0.858282232386085142)
   ], [true, true, false, false], /*moment=*/1/6);
   sim.addBody(p);
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(Shapes.makeBlock(1, 3));
-  DisplayShape.fillStyle = '#9f3'; // light green
   p = Shapes.makePolygon([new Vector(1, 0),
       new Vector(-0.516830731524381637, 0.856087609390518200),
       new Vector(-0.814535453253508290, -0.580113777972133482),
       new Vector(0.615548804248536530, -0.788098768929502258)
   ], [true, true, false, false], /*moment=*/1/6);
   sim.addBody(p);
-  DisplayShape.fillStyle = '#f6c'; // hot pink
   sim.addBody(Shapes.makeBlock(1, 3));
-  DisplayShape.fillStyle = '#39f';
   sim.addBody(Shapes.makeBlock(1, 3));
-  DisplayShape.fillStyle = '#c99';
   p = Shapes.makePolygon([new Vector(1, 0),
       new Vector(-0.518913825057696454, 0.854826556772770418),
       new Vector(-0.971381139582120134, 0.237526170482626198),

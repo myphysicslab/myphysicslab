@@ -30,7 +30,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('myphysicslab.sims.layout.CommonControls');
@@ -47,7 +46,6 @@ var CollisionHandling = lab.engine2D.CollisionHandling;
 var CommonControls = sims.layout.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -182,58 +180,57 @@ ImpulseApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  DisplayShape.fillStyle = 'gray';
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   /** @type {!lab.engine2D.RigidBody} */
   var p;
-  DisplayShape.nameFont = '10pt sans-serif';
+  this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   if (this.numBods >= 1) {
-    DisplayShape.fillStyle = 'cyan';
     p = ImpulseApp.makeBlock(1);
     p.setPosition(new Vector(-3.3,  0),  0);
     p.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
     p.setMass(this.mass1);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('cyan')
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
   }
   if (this.numBods >= 2) {
-    DisplayShape.fillStyle = 'orange';
     p = ImpulseApp.makeBlock(2);
     p.setPosition(new Vector(-2.2,  0),  0);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('orange')
     this.thrust1 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
   }
   if (this.numBods >= 3) {
-    DisplayShape.fillStyle = '#9f3'; // light green
     p = ImpulseApp.makeBlock(3);
     p.setPosition(new Vector(2.867,  -0.113),  0);
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#9f3'); // light green
   }
   if (this.numBods >= 4) {
-    DisplayShape.fillStyle = '#f6c'; // hot pink
     p = ImpulseApp.makeBlock(4);
     p.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#f6c'); // hot pink
   }
   if (this.numBods >= 5) {
-    DisplayShape.fillStyle = '#39f';
     p = ImpulseApp.makeBlock(5);
     p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#39f');
   }
   if (this.numBods >= 6) {
-    DisplayShape.fillStyle = '#c99';
     p = ImpulseApp.makeBlock(6);
     p.setPosition(new Vector(0.08,  0.127),  0.888);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#c99');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

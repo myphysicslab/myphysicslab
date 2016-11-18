@@ -118,8 +118,6 @@ JointTest.commonSetup1 = function(sim, advance) {
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
   advance.setDiffEqSolver(new RungeKutta(sim));
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /**
@@ -179,7 +177,6 @@ JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
   p1.setDragPoints([new Vector(0.0, -2.0)]);
   p1.setPosition(new Vector(0.0,  -2.0),  0.0);
   p1.setZeroEnergyLevel();
-  DisplayShape.fillStyle = 'lightGray';
   sim.addBody(p1);
   var attach1 = new Vector(0.0, 2.0);
   var attach2 = new Vector(0.0, 0.0);
@@ -203,10 +200,6 @@ JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
   // always add the 'first' joint
   {
     Joint.addSingleFixedJoint(sim, p1, attach1, normalType, normal0);
-    DisplayShape.strokeStyle = 'green';
-    DisplayShape.fillStyle = '';
-    DisplayShape.drawCenterOfMass = false;
-    DisplayShape.drawDragPoints = false;
     var pt1 = PointMass.makeCircle(0.2, 'ATTACH1')
         .setMass(UtilityCore.POSITIVE_INFINITY);
     pt1.setPosition(p1.bodyToWorld(attach1));
@@ -245,9 +238,7 @@ JointTest.makeConnectedBlocks = function(sim, testConfig, normalType) {
   p2.setMass(0.6);
   p1.setPosition(new Vector(x,  y),  angle);
   p2.setPosition(new Vector(x,  y),  angle);
-  DisplayShape.strokeStyle = 'lightGray';
   sim.addBody(p1);
-  DisplayShape.strokeStyle = 'gray';
   sim.addBody(p2);
   p1.setZeroEnergyLevel(zeroEnergyLevel);
   p2.setZeroEnergyLevel(zeroEnergyLevel);

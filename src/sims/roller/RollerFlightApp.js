@@ -82,30 +82,27 @@ myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
   /** @type {!lab.view.DisplayShape} */
-  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'));
+  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
+      .setFillStyle('blue');
   this.displayList.add(this.ball1);
-  this.ball1.fillStyle = 'blue';
 
   /** @type {!lab.view.DisplayShape} */
-  this.anchor = new DisplayShape(this.simList.getPointMass('anchor'));
+  this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
+      .setFillStyle('red');
   this.displayList.add(this.anchor);
-  this.anchor.fillStyle = 'red';
 
   /** @type {!lab.view.DisplaySpring} */
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring'))
+      .setWidth(0.2).setColorCompressed('red')
+      .setColorExpanded('#6f6'); /* brighter green */
   this.displayList.add(this.spring);
-  this.spring.width = 0.2;
-  this.spring.colorCompressed = 'red';
-  this.spring.colorExpanded = '#6f6'; /* brighter green */
 
   /** @type {!lab.view.DisplayPath} */
   this.displayPath = new DisplayPath();
   this.displayPath.setScreenRect(this.simView.getScreenRect());
-  this.displayPath.addPath(this.path, DrawingStyle.lineStyle('gray', /*lineWidth=*/2));
-  this.displayList.add(this.displayPath, /*zIndex=*/-1);
+  this.displayPath.addPath(this.path);
+  this.displayList.add(this.displayPath);
 
   // modify size of display to fit this path
   this.simView.setSimRect(this.path.getBoundsWorld().scale(1.1));
@@ -114,7 +111,7 @@ myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   var trackVar = sim.getVarsList().getVariable(6);
   new GenericObserver(sim.getVarsList(), goog.bind(function(evt) {
     if (evt == trackVar) {
-      this.ball1.fillStyle = trackVar.getValue() > 0 ? 'blue' : 'red';
+      this.ball1.setFillStyle(trackVar.getValue() > 0 ? 'blue' : 'red');
     }
   }, this), 'change color of ball when in free flight');
 

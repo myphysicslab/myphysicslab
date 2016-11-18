@@ -18,6 +18,7 @@ goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.color');
 goog.require('myphysicslab.lab.model.MassObject');
+goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -32,6 +33,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var MassObject = myphysicslab.lab.model.MassObject;
+var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
@@ -46,37 +48,62 @@ and name of the MassObject.
 ### Setting Display Attributes
 
 DisplayShape has attributes to determine fill color, border color, border thickness,
-whether to draw a center of mass symbol, etc. There are several ways to specify these
+whether to draw a center of mass symbol, etc. There are two ways to specify these
 attributes:
 
-+ Set default values of DisplayShape class properties such as
-  {@link myphysicslab.lab.view.DisplayShape.fillStyle
-  DisplayShape.fillStyle} *before creating* the DisplayShape.
+#### 1. Modify the style directly
 
-+ Set multiple default values at once with {@link #setStyle} *before creating*
-the DisplayShape.
+Modify the DisplayShape's style directly after it has been created. Here is a typical
+example where the DisplayShape is created by
+{@link myphysicslab.sims.engine2D.RigidBodyObserver}.
 
-+ Set public properties such as {@link #fillStyle}, {@link #strokeStyle},
-{@link #thickness}, *after creating* the DisplayShape.
+    simList.add(polygon1); // RigidBodyObserver creates a DisplayShape here
+    var dispPoly1 = displayList.find(polygon1);
+    dispPoly1.setFillStyle('red');
+
+
+#### 2. Modify the prototype
+
+DisplayShape allows specifying a **prototype** DisplayShape. When a display
+property is `undefined`, then the property is fetched from the prototype. If it is also
+`undefined` on the prototype then a default value is used.
+
+Keep in mind that **all** objects with a given prototype will be affected by any
+changes made to the prototype.
+
+Here is an example where we make a prototype that causes the names to be drawn.
+
+    var protoShape = new DisplayShape().setNameFont('10pt sans-serif');
+    var shape1 = new DisplayShape(mass1, protoShape);
+
+See {@link myphysicslab.sims.engine2D.RigidBodyObserver} which sets up several
+prototype objects.
 
 
 ### Drawing Name of MassObject
 
-The name of the MassObject is drawn when the {@link #nameFont} property is set. There
-are also {@link #nameColor} and {@link #nameRotate} properties that affect how the name
-is drawn. Example code:
+The name of the MassObject is drawn when the {@link #setNameFont} property has a valid
+font specifier string. There are also {@link #setNameColor} and {@link #setNameRotate}
+properties that affect how the name is drawn. Example code:
 
-    myPolygon.nameFont = '12pt sans-serif';
+    myPolygon.setNameFont('12pt sans-serif').setNameColor('gray');
 
-Here is a one-liner that can be executed in Terminal to show names on all objects:
+Here is a script that can be executed in Terminal to show names on all DisplayShapes:
 
-    goog.array.forEach(simView.getDisplayList().toArray(), function(d) { d.nameFont='12pt sans-serif'; })
+    goog.array.forEach(displayList.toArray(), function(d) {
+        if (d instanceof DisplayShape) {
+          d.setNameFont('12pt sans-serif');
+        }
+    })
+
+Or, if the objects of interest have the same prototype, then you can just change
+the prototype object.
 
 
 ### Drawing an Image
 
 You can draw an image in the DisplayShape by getting an HTMLImageElement that is on
-the HTML page and assigning it to the {@link #image} property. For example in the HTML
+the HTML page and using {@link #setImage}. For example in the HTML
 page you would have
 
     <img id="myImage" src="../../images/myImage.png" width="32" height="32">
@@ -84,20 +111,20 @@ page you would have
 Then in the JavaScript application after making the DisplayShape, you can assign
 the image to the DisplayShape:
 
-    myPolygon.image = document.getElementById('myImage');
+    myPolygon.setImage(document.getElementById('myImage'));
 
 You can further translate, scale, and rotate the image within in DisplayShape by
-making an AffineTransform and assigning it to {@link #imageAT}.  You can clip the
-image to the boundary of the MassObject by setting {@link #imageClip} to `true`.
+making an AffineTransform and using {@link #setImageAT}.  You can clip the
+image to the boundary of the MassObject by using {@link #setImageClip}.
 
-You can assign a function to {@link #imageDraw} and do the drawing within
+You can assign a function to {@link #setImageDraw} and do the drawing within
 that function. The same coordinate system modifications are done in that case. The
 current path is the shape of the MassObject, so you can for example fill with a pattern.
 
-Both `image` and `imageDraw` can be specified.  The `image` is drawn first, then
-`imageDraw` function is called.
+Both `setImage` and `setImageDraw` can be used together. The `image` is drawn first,
+then the `imageDraw` function is called.
 
-The application {@link myphysicslab.sims.engine2D.RigidBody1App} has examples of
+The application {@link myphysicslab.sims.engine2D.DoublePendulum2App} has examples of
 
 + drawing a scaled and rotated image inside a DisplayShape
 + filling with a color gradient
@@ -110,23 +137,24 @@ The application {@link myphysicslab.sims.engine2D.RigidBody1App} has examples of
 When drawing an image it is important to understand the several coordinate systems
 involved:
 
-+ ***simulation coordinates*** use the *Y increases up* convention. The origin can be
++ ***simulation coordinates*** uses the *Y increases up* convention. The origin can be
 anywhere, and the units can be any size.
 
-+ JavaScript canvas ***screen coordinates*** use the *Y increases down* convention,
-usually with the origin at the top-left corner of the canvas, and with each unit
++ JavaScript canvas ***screen coordinates*** uses the *Y increases down* convention,
+with the origin at the top-left corner of the canvas, and with each unit
 corresponding to a pixel. The transformation between simulation and screen coordinates
-is handled by a {@link myphysicslab.lab.view.CoordMap}.
+is handled by a {@link myphysicslab.lab.view.CoordMap} which can be set for the
+{@link myphysicslab.lab.view.LabView}.
 
 + ***body coordinates*** rotates and translates along with a
 {@link myphysicslab.lab.model.MassObject}.  Like simulation coordinates it uses the
-* *Y increases up* convention, and has the same unit size.
+* *Y increases up* convention, and has the same unit size as simulation coordinates.
 See [Body Coordinates](Engine2D.html#bodycoordinates),
 and {@link myphysicslab.lab.model.MassObject}.
 
-For drawing the MassObject, we set the canvas to be in body coordinates. But when drawing
-an image or text, the difference of whether the Y coordinate increases up or down can
-cause the image or text to be drawn ***mirrored upside down***.
+For drawing the MassObject, we set the canvas to be in body coordinates. But when
+drawing an image or text, the difference of whether the Y coordinate increases up or
+down can cause the image or text to be drawn ***mirrored upside down***.
 
 Therefore, before the image is drawn, we make additional transformations  to return to
 something like screen coordinates with
@@ -135,9 +163,9 @@ something like screen coordinates with
 + each unit corresponds to a pixel
 + the origin is at top-left corner of the DisplayShape bounding box
 + but the coordinates are still oriented (rotated and translated) to align with the
-DisplayShape, similar to body coordinates.
+    DisplayShape, similar to body coordinates.
 
-The {@link #imageAT} AffineTransform can then be specified to cause the image to be
+The {@link #setImageAT} AffineTransform can then be specified to cause the image to be
 appear with any combination of rotation, scaling, and positioning.  See the diagram
 below.
 
@@ -145,116 +173,128 @@ There are also differences in how angles are specified in the different coordina
 systems; see 'About Coordinates and Angles' in
 {@link myphysicslab.lab.engine2D.CircularEdge} for more information.
 
-<img src="DisplayShape_Image.pdf">
+<img src="DisplayPolygon_Image.pdf">
 
-The above examples of using AffineTransform on an image were generated by altering the
-application {@link myphysicslab.sims.engine2D.RigidBody1App}.
+The above examples of using an {@link myphysicslab.lab.util.AffineTransform} on an
+image were generated by altering the application
+{@link myphysicslab.sims.engine2D.DoublePendulum2App}.
 
 
 @todo provide an AffineTransform for drawing the name, instead of nameRotate.
 
-* @param {!myphysicslab.lab.model.MassObject} massObject the MassObject to display
+* @param {?myphysicslab.lab.model.MassObject=} massObject the MassObject to display
+* @param {?DisplayShape=} proto the prototype DisplayShape to inherit properties
+*     from
 * @constructor
 * @final
 * @struct
 * @implements {myphysicslab.lab.view.DisplayObject}
 */
-myphysicslab.lab.view.DisplayShape = function(massObject) {
+myphysicslab.lab.view.DisplayShape = function(massObject, proto) {
   /** The MassObject to display.
   * @type {!myphysicslab.lab.model.MassObject}
   * @private
   */
-  this.massObject_ = massObject;
+  this.massObject_ = goog.isDefAndNotNull(massObject) ?
+      massObject : new PointMass('proto');
+  /**
+  * @type {?DisplayShape}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
   /** Whether the MassObject is dragable.
   * @type {boolean}
   * @private
   */
-  this.dragable_ = isFinite(massObject.getMass())
-      && massObject.getDragPoints().length > 0;
+  this.dragable_ = isFinite(this.massObject_.getMass())
+      && this.massObject_.getDragPoints().length > 0;
   /** The color or gradient used when drawing (filling) the massObject.
   * It can be a CSS3 color value (possibly including transparency) or a ColorGradient.
   * Set this to the empty string to not fill the massObject.
-  * @type {string|!CanvasGradient}
+  * @type {string|!CanvasGradient|undefined}
   */
-  this.fillStyle = DisplayShape.fillStyle;
+  this.fillStyle;
   /** The color to use for drawing the border, or the empty string to not draw the
   * border. It should be a CSS3 color value (possibly including transparency).
   * The thickness of the border is set by {@link #thickness}.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.strokeStyle = DisplayShape.strokeStyle;
+  this.strokeStyle;
   /** Thickness of border drawn, see {@link #strokeStyle}, in screen coordinates.
   * A value of 1 corresponds to a single pixel thickness.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.thickness = DisplayShape.thickness;
+  this.thickness;
   /** Line dash array used when drawing the border. Corresponds to lengths of dashes
   * and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
   * length 3 with spaces of length 5. Empty array indicates solid line.
-  * @type {!Array<number>}
+  * @type {!Array<number>|undefined}
   */
-  this.borderDash = DisplayShape.borderDash;
+  this.borderDash;
   /** Whether to draw the 'drag points' on the object; these are the places that
   * a spring can be attached to for dragging the object.
-  * @type {boolean}
+  * @type {boolean|undefined}
   */
-  this.drawDragPoints = DisplayShape.drawDragPoints;
+  this.drawDragPoints;
   /** Whether to draw the location of the center of mass; it is drawn as two small
   * crossed lines.
-  * @type {boolean}
+  * @type {boolean|undefined}
   */
-  this.drawCenterOfMass = DisplayShape.drawCenterOfMass;
+  this.drawCenterOfMass;
   /** Font for drawing name of the object, or the empty string to not draw the name.
   * It should be a CSS3 font value such as '16pt sans-serif'.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.nameFont = DisplayShape.nameFont;
+  this.nameFont;
   /** Color for drawing name of the object; a CSS3 color value.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.nameColor = DisplayShape.nameColor;
+  this.nameColor;
   /** Angle of rotation for drawing name, in radians.  Rotation is relative to the
   * position in body coordinates.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.nameRotate = DisplayShape.nameRotate;
+  this.nameRotate;
   /** Image to draw, after the massObject is filled and border is drawn. The
   * AffineTransform {@link #imageAT} is applied first, and the image is clipped if
   * {@link #imageClip} is set. This disables the name being drawn.
-  * @type {?HTMLImageElement}
+  * @type {?HTMLImageElement|undefined}
   */
-  this.image = null;
+  this.image;
   /** AffineTransform to use when drawing image.  The image is drawn in coordinates
   * that are oriented like body coordinates, but are like screen coordinates in that
   * the origin is at top left of the DisplayShape bounding box, Y increases downwards,
   * and units are equal to a screen pixel.
   * The `imageAT` AffineTransform is applied to further modify the coordinate system
   * before the image is drawn using the command `context.drawImage(this.image, 0, 0)`.
-  * @type {!myphysicslab.lab.util.AffineTransform}
+  * @type {!AffineTransform|undefined}
   */
-  this.imageAT = AffineTransform.IDENTITY;
+  this.imageAT;
   /** Whether to clip the image with the shape of the MassObject.
-  * @type {boolean}
+  * @type {boolean|undefined}
   */
-  this.imageClip = false;
+  this.imageClip;
   /** Function to draw an image, it is called after the massObject is filled, the border
   * is drawn and the {@link #image} is drawn.
   * The AffineTransform {@link #imageAT} is applied first,
   * and the image is clipped if {@link #imageClip} is set.
   * The current path is the outline of the massObject.
-  * @type {?function(!CanvasRenderingContext2D):undefined}
+  * @type {?function(!CanvasRenderingContext2D):undefined|undefined}
   */
-  this.imageDraw = null;
+  this.imageDraw;
   /**
-  * @type {boolean}
-  * @private
+  * @type {number|undefined}
   */
-  this.isDarkColor_ = DisplayShape.darkColor(this.fillStyle);
+  this.zIndex;
   /** Remember the last color drawn, to keep isDarkColor_ in sync with fillStyle.
   * @type {*}
   * @private
   */
-  this.lastColor_ = this.fillStyle;
+  this.lastColor_ = this.getFillStyle();
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.isDarkColor_ = DisplayShape.darkColor(this.lastColor_);
 };
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 
@@ -263,14 +303,16 @@ if (!UtilityCore.ADVANCED) {
   DisplayShape.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dragable_: '+this.dragable_
-        +', fillStyle: "'+this.fillStyle+'"'
-        +', strokeStyle: "'+this.strokeStyle+'"'
-        +', thickness: '+NF(this.thickness)
-        +', drawDragPoints: '+this.drawDragPoints
-        +', drawCenterOfMass: '+this.drawCenterOfMass
-        +', nameFont: '+this.nameFont
-        +', nameColor: '+this.nameColor
-        +', nameRotate: '+NF(this.nameRotate)
+        +', fillStyle: "'+this.getFillStyle()+'"'
+        +', strokeStyle: "'+this.getStrokeStyle()+'"'
+        +', thickness: '+NF(this.getThickness())
+        +', drawDragPoints: '+this.getDrawDragPoints()
+        +', drawCenterOfMass: '+this.getDrawCenterOfMass()
+        +', nameFont: "'+this.getNameFont()+'"'
+        +', nameColor: "'+this.getNameColor()+'"'
+        +', nameRotate: '+NF(this.getNameRotate())
+        +', zIndex: '+this.getZIndex()
+        +', proto: '+(this.proto != null ? this.proto.toStringShort() : 'null')
         +'}';
   };
 
@@ -278,83 +320,6 @@ if (!UtilityCore.ADVANCED) {
   DisplayShape.prototype.toStringShort = function() {
     return 'DisplayShape{massObject_: '+this.massObject_.toStringShort()+'}';
   };
-};
-
-/** Default value for {@link #borderDash}, used when creating a DisplayShape.
-* @type {!Array<number>}
-*/
-DisplayShape.borderDash = [ ];
-
-/** Default value for {@link #drawCenterOfMass}, used when creating a DisplayShape.
-* @type {boolean}
-*/
-DisplayShape.drawCenterOfMass = false;
-
-/** Default value for {@link #drawDragPoints}, used when creating a DisplayShape.
-* @type {boolean}
-*/
-DisplayShape.drawDragPoints = false;
-
-/** Default value for {@link #fillStyle}, used when creating a DisplayShape.
-* @type {string|!CanvasGradient}
-*/
-DisplayShape.fillStyle = 'lightGray';
-
-/** Default value for {@link #nameColor}, used when creating a DisplayShape.
-* @type {string}
-*/
-DisplayShape.nameColor = 'black';
-
-/** Default value for {@link #nameFont}, used when creating a DisplayShape.
-* @type {string}
-*/
-DisplayShape.nameFont = '';
-
-/** Default value for {@link #nameRotate}, used when creating a DisplayShape.
-* @type {number}
-*/
-DisplayShape.nameRotate = 0;
-
-/** Default value for {@link #strokeStyle}, used when creating a DisplayShape.
-* @type {string}
-*/
-DisplayShape.strokeStyle = '';
-
-/** Default value for {@link #thickness}, used when creating a DisplayShape.
-* @type {number}
-*/
-DisplayShape.thickness = 4.0;
-
-/** Sets the default style used when creating a new DisplayShape to initial values.
-* @return {undefined}
-*/
-DisplayShape.resetStyle = function() {
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
-  DisplayShape.thickness = 1;
-  DisplayShape.drawDragPoints = true;
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.nameFont = '';
-  DisplayShape.nameColor = 'black';
-  DisplayShape.nameRotate = 0;
-  DisplayShape.borderDash = [ ];
-};
-
-/** Sets the default style used when creating a new DisplayShape to match
-* the given DisplayShape.
-* @param {!myphysicslab.lab.view.DisplayShape} dispObj the DisplayShape to get
-*    style from
-*/
-DisplayShape.setStyle = function(dispObj) {
-  DisplayShape.fillStyle = dispObj.fillStyle;
-  DisplayShape.strokeStyle = dispObj.strokeStyle;
-  DisplayShape.thickness = dispObj.thickness;
-  DisplayShape.drawDragPoints = dispObj.drawDragPoints;
-  DisplayShape.drawCenterOfMass = dispObj.drawCenterOfMass;
-  DisplayShape.nameFont = dispObj.nameFont;
-  DisplayShape.nameColor = dispObj.nameColor;
-  DisplayShape.nameRotate = dispObj.nameRotate;
-  DisplayShape.borderDash = dispObj.borderDash;
 };
 
 /** @inheritDoc */
@@ -399,50 +364,55 @@ DisplayShape.prototype.draw = function(context, map) {
       sim_to_screen.concatenate(this.massObject_.bodyToWorldTransform());
   body_to_screen.setTransform(context);
   this.massObject_.createCanvasPath(context);
-  if (this.imageClip) {
+  if (this.getImageClip()) {
     context.clip();
   }
-  if (this.fillStyle !== '') {
-    context.fillStyle = this.fillStyle;
+  var fillStyle = this.getFillStyle();
+  if (fillStyle) {
+    context.fillStyle = fillStyle;
     context.fill();
   }
-  if (this.strokeStyle !== '') {
-    context.lineWidth = map.screenToSimScaleX(this.thickness);
-    if (this.borderDash.length > 0 && goog.isFunction(context.setLineDash)) {
+  var strokeStyle = this.getStrokeStyle();
+  if (strokeStyle) {
+    context.lineWidth = map.screenToSimScaleX(this.getThickness());
+    var borderDash = this.getBorderDash();
+    if (borderDash.length > 0 && goog.isFunction(context.setLineDash)) {
       // convert the borderDash to be in sim coords
-      var ld = goog.array.map(this.borderDash, function(n) {
+      var ld = goog.array.map(borderDash, function(n) {
           return map.screenToSimScaleX(n);
-        });
+          });
       context.setLineDash(ld);
     }
-    context.strokeStyle = this.strokeStyle;
+    context.strokeStyle = strokeStyle;
     context.stroke();
     context.setLineDash([]);
   }
-  if (this.image != null || this.imageDraw != null) {
+  var image = this.getImage();
+  var imageDraw = this.getImageDraw();
+  if (image != null || imageDraw != null) {
     // Set origin to be top left corner of massObject bounding box.
     context.translate(this.massObject_.getLeftBody(), this.massObject_.getTopBody());
     // undo the 'y increases up' convention of sim coordinates
     context.scale(sim_to_screen_units, -sim_to_screen_units);
-    this.imageAT.applyTransform(context);
-    if (this.image != null) {
-      context.drawImage(this.image, 0, 0);
+    this.getImageAT().applyTransform(context);
+    if (image != null) {
+      context.drawImage(image, 0, 0);
     }
-    if (this.imageDraw != null) {
-      this.imageDraw(context);
+    if (imageDraw != null) {
+      imageDraw(context);
     }
   }
   // Draw adornments for moveable objects (mass less than infinity).
   if (this.massObject_.getMass() != UtilityCore.POSITIVE_INFINITY) {
     body_to_screen.setTransform(context);
     // detect when fillStyle changes, to update isDarkColor_
-    if (this.lastColor_ !== this.fillStyle) {
-      this.lastColor_ = this.fillStyle;
-      this.isDarkColor_ = DisplayShape.darkColor(this.fillStyle);
+    if (this.lastColor_ !== fillStyle) {
+      this.lastColor_ = fillStyle;
+      this.isDarkColor_ = DisplayShape.darkColor(fillStyle);
     }
     var pixel = map.screenToSimScaleX(1);
     context.lineWidth = pixel; // one pixel wide stroke.
-    if (this.drawCenterOfMass) {
+    if (this.getDrawCenterOfMass()) {
       var cm_body = this.massObject_.getCenterOfMassBody();
       // draw a cross at the center of mass
       if (this.isDarkColor_) {
@@ -467,7 +437,7 @@ DisplayShape.prototype.draw = function(context, map) {
       context.stroke();
     }
     // draw a dot at the drag points
-    if (this.drawDragPoints) {
+    if (this.getDrawDragPoints()) {
       var d = 4*pixel;
       var sz = 0.15 * Math.min(this.massObject_.getWidth(),
           this.massObject_.getHeight());
@@ -487,17 +457,18 @@ DisplayShape.prototype.draw = function(context, map) {
       }, this);
     }
   }
-  if (this.nameFont) {
+  if (this.getNameFont()) {
     // draw name of massObject
     var cen = this.massObject_.getCentroidBody();
     var at = body_to_screen.translate(cen);
-    if (this.nameRotate) {
-      at = at.rotate(this.nameRotate);
+    var nameRotate = this.getNameRotate();
+    if (nameRotate) {
+      at = at.rotate(nameRotate);
     }
     at = at.scale(sim_to_screen_units, -sim_to_screen_units);
     at.setTransform(context);
-    context.fillStyle = this.nameColor;
-    context.font = this.nameFont;
+    context.fillStyle = this.getNameColor();
+    context.font = this.getNameFont();
     context.textAlign = 'center';
     var tx = this.massObject_.getName(/*localized=*/true);
     // find height of text from width of 'M', because is a roughly square letter.
@@ -507,9 +478,172 @@ DisplayShape.prototype.draw = function(context, map) {
   context.restore();
 };
 
+
+/** Line dash array used when drawing the border. Corresponds to lengths of dashes
+* and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
+* length 3 with spaces of length 5. Empty array indicates solid line.
+* @return {!Array<number>}
+*/
+DisplayShape.prototype.getBorderDash = function() {
+  if (this.borderDash !== undefined) {
+    return this.borderDash;
+  } else if (this.proto != null) {
+    return this.proto.getBorderDash();
+  } else {
+    return [ ];
+  }
+};
+
+/** Whether to draw the location of the center of mass; it is drawn as two small
+* crossed lines.
+* @return {boolean}
+*/
+DisplayShape.prototype.getDrawCenterOfMass = function() {
+  if (this.drawCenterOfMass !== undefined) {
+    return this.drawCenterOfMass;
+  } else if (this.proto != null) {
+    return this.proto.getDrawCenterOfMass();
+  } else {
+    return false;
+  }
+};
+
+/** Whether to draw the 'drag points' on the object; these are the places that
+* a spring can be attached to for dragging the object.
+* @return {boolean}
+*/
+DisplayShape.prototype.getDrawDragPoints = function() {
+  if (this.drawDragPoints !== undefined) {
+    return this.drawDragPoints;
+  } else if (this.proto != null) {
+    return this.proto.getDrawDragPoints();
+  } else {
+    return false;
+  }
+};
+
+/** The color or gradient used when drawing (filling) the massObject.
+* It can be a CSS3 color value (possibly including transparency) or a ColorGradient.
+* Set this to the empty string to not fill the massObject.
+* @return {string|!CanvasGradient}
+*/
+DisplayShape.prototype.getFillStyle = function() {
+  if (this.fillStyle !== undefined) {
+    return this.fillStyle;
+  } else if (this.proto != null) {
+    return this.proto.getFillStyle();
+  } else {
+    return 'lightGray';
+  }
+};
+
+/** Image to draw, after the massObject is filled and border is drawn. The
+* AffineTransform {@link #imageAT} is applied first, and the image is clipped if
+* {@link #imageClip} is set. This disables the name being drawn.
+* @return {?HTMLImageElement}
+*/
+DisplayShape.prototype.getImage = function() {
+  if (this.image !== undefined) {
+    return this.image;
+  } else if (this.proto != null) {
+    return this.proto.getImage();
+  } else {
+    return null;
+  }
+};
+
+/** AffineTransform to use when drawing image.  The image is drawn in coordinates
+* that are oriented like body coordinates, but are like screen coordinates in that
+* the origin is at top left of the DisplayShape bounding box, Y increases downwards,
+* and units are equal to a screen pixel.
+* The `imageAT` AffineTransform is applied to further modify the coordinate system
+* before the image is drawn using the command `context.drawImage(this.image, 0, 0)`.
+* @return {!myphysicslab.lab.util.AffineTransform}
+*/
+DisplayShape.prototype.getImageAT = function() {
+  if (this.imageAT !== undefined) {
+    return this.imageAT;
+  } else if (this.proto != null) {
+    return this.proto.getImageAT();
+  } else {
+    return AffineTransform.IDENTITY;
+  }
+};
+
+/** Whether to clip the image with the shape of the MassObject.
+* @return {boolean}
+*/
+DisplayShape.prototype.getImageClip = function() {
+  if (this.imageClip !== undefined) {
+    return this.imageClip;
+  } else if (this.proto != null) {
+    return this.proto.getImageClip();
+  } else {
+    return false;
+  }
+};
+
+/** Function to draw an image, it is called after the massObject is filled, the border
+* is drawn and the {@link #image} is drawn.
+* The AffineTransform {@link #imageAT} is applied first,
+* and the image is clipped if {@link #imageClip} is set.
+* The current path is the outline of the massObject.
+* @return {?function(!CanvasRenderingContext2D):undefined}
+*/
+DisplayShape.prototype.getImageDraw = function() {
+  if (this.imageDraw !== undefined) {
+    return this.imageDraw;
+  } else if (this.proto != null) {
+    return this.proto.getImageDraw();
+  } else {
+    return null;
+  }
+};
+
 /** @inheritDoc */
 DisplayShape.prototype.getMassObjects = function() {
   return [ this.massObject_ ];
+};
+
+/** Color for drawing name of the object; a CSS3 color value.
+* @return {string}
+*/
+DisplayShape.prototype.getNameColor = function() {
+  if (this.nameColor !== undefined) {
+    return this.nameColor;
+  } else if (this.proto != null) {
+    return this.proto.getNameColor();
+  } else {
+    return 'black';
+  }
+};
+
+/** Font for drawing name of the object, or the empty string to not draw the name.
+* It should be a CSS3 font value such as '16pt sans-serif'.
+* @return {string}
+*/
+DisplayShape.prototype.getNameFont = function() {
+  if (this.nameFont !== undefined) {
+    return this.nameFont;
+  } else if (this.proto != null) {
+    return this.proto.getNameFont();
+  } else {
+    return '';
+  }
+};
+
+/** Angle of rotation for drawing name, in radians.  Rotation is relative to the
+* position in body coordinates.
+* @return {number}
+*/
+DisplayShape.prototype.getNameRotate = function() {
+  if (this.nameRotate !== undefined) {
+    return this.nameRotate;
+  } else if (this.proto != null) {
+    return this.proto.getNameRotate();
+  } else {
+    return 0;
+  }
 };
 
 /** @inheritDoc */
@@ -522,9 +656,60 @@ DisplayShape.prototype.getSimObjects = function() {
   return [ this.massObject_ ];
 };
 
+/** The color to use for drawing the border, or the empty string to not draw the
+* border. It should be a CSS3 color value (possibly including transparency).
+* The thickness of the border is set by {@link #getThickness}.
+* @return {string}
+*/
+DisplayShape.prototype.getStrokeStyle = function() {
+  if (this.strokeStyle !== undefined) {
+    return this.strokeStyle;
+  } else if (this.proto != null) {
+    return this.proto.getStrokeStyle();
+  } else {
+    return '';
+  }
+};
+
+/** Thickness of border drawn, see {@link #getStrokeStyle}, in screen coordinates.
+* A value of 1 corresponds to a single pixel thickness.
+* @return {number}
+*/
+DisplayShape.prototype.getThickness = function() {
+  if (this.thickness !== undefined) {
+    return this.thickness;
+  } else if (this.proto != null) {
+    return this.proto.getThickness();
+  } else {
+    return 1;
+  }
+};
+
+/** @inheritDoc */
+DisplayShape.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 0;
+  }
+};
+
 /** @inheritDoc */
 DisplayShape.prototype.isDragable = function() {
   return this.dragable_;
+};
+
+/** Line dash array used when drawing the border. Corresponds to lengths of dashes
+* and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
+* length 3 with spaces of length 5. Empty array indicates solid line.
+* @param {!Array<number>} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setBorderDash = function(value) {
+  this.borderDash = value;
+  return this;
 };
 
 /** @inheritDoc */
@@ -532,9 +717,142 @@ DisplayShape.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
 
+/** Whether to draw the location of the center of mass; it is drawn as two small
+* crossed lines.
+* @param {boolean} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setDrawCenterOfMass = function(value) {
+  this.drawCenterOfMass = value;
+  return this;
+};
+
+/** Whether to draw the 'drag points' on the object; these are the places that
+* a spring can be attached to for dragging the object.
+* @param {boolean} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setDrawDragPoints = function(value) {
+  this.drawDragPoints = value;
+  return this;
+};
+
+/** The color or gradient used when drawing (filling) the massObject.
+* It can be a CSS3 color value (possibly including transparency) or a ColorGradient.
+* Set this to the empty string to not fill the massObject.
+* @param {string|!CanvasGradient} value
+* @return {!DisplayShape}
+*/
+DisplayShape.prototype.setFillStyle = function(value) {
+  this.fillStyle = value;
+  return this;
+};
+
+/** Image to draw, after the massObject is filled and border is drawn. The
+* AffineTransform {@link #imageAT} is applied first, and the image is clipped if
+* {@link #imageClip} is set. This disables the name being drawn.
+* @param {?HTMLImageElement} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setImage = function(value) {
+  this.image = value;
+  return this;
+};
+
+/** AffineTransform to use when drawing image.  The image is drawn in coordinates
+* that are oriented like body coordinates, but are like screen coordinates in that
+* the origin is at top left of the DisplayShape bounding box, Y increases downwards,
+* and units are equal to a screen pixel.
+* The `imageAT` AffineTransform is applied to further modify the coordinate system
+* before the image is drawn using the command `context.drawImage(this.image, 0, 0)`.
+* @param {!myphysicslab.lab.util.AffineTransform} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setImageAT = function(value) {
+  this.imageAT = value;
+  return this;
+};
+
+/** Whether to clip the image with the shape of the MassObject.
+* @param {boolean} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setImageClip = function(value) {
+  this.imageClip = value;
+  return this;
+};
+
+/** Function to draw an image, it is called after the massObject is filled, the border
+* is drawn and the {@link #image} is drawn.
+* The AffineTransform {@link #imageAT} is applied first,
+* and the image is clipped if {@link #imageClip} is set.
+* The current path is the outline of the massObject.
+* @param {?function(!CanvasRenderingContext2D):undefined} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setImageDraw = function(value) {
+  this.imageDraw = value;
+  return this;
+};
+
+/** Color for drawing name of the object; a CSS3 color value.
+* @param {string} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setNameColor = function(value) {
+  this.nameColor = value;
+  return this;
+};
+
+/** Font for drawing name of the object, or the empty string to not draw the name.
+* It should be a CSS3 font value such as '16pt sans-serif'.
+* @param {string} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setNameFont = function(value) {
+  this.nameFont = value;
+  return this;
+};
+
+/** Angle of rotation for drawing name, in radians.  Rotation is relative to the
+* position in body coordinates.
+* @param {number} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setNameRotate = function(value) {
+  this.nameRotate = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayShape.prototype.setPosition = function(position) {
   this.massObject_.setPosition(position);
+};
+
+/** The color to use for drawing the border, or the empty string to not draw the
+* border. It should be a CSS3 color value (possibly including transparency).
+* The thickness of the border is set by {@link #getThickness}.
+* @param {string} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setStrokeStyle = function(value) {
+  this.strokeStyle = value;
+  return this;
+};
+
+/** Thickness of border drawn, see {@link #getStrokeStyle}, in screen coordinates.
+* A value of 1 corresponds to a single pixel thickness.
+* @param {number} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setThickness = function(value) {
+  this.thickness = value;
+  return this;
+};
+
+/** @inheritDoc */
+DisplayShape.prototype.setZIndex = function(zIndex) {
+  this.zIndex = zIndex;
 };
 
 });  // goog.scope

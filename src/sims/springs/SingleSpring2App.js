@@ -109,7 +109,7 @@ var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
 /** SingleSpring2App displays the SingleSpringSim simulation. The difference
-between this and SingleSpringApp is: this doesn't inherit from AbstractApp, and
+between this and SingleSpringApp is: this doesn't inherit from AbstractApp because
 this uses TimeGraph2 instead of TimeGraph1.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
@@ -131,7 +131,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   var canvasWidth = 800;
   var canvasHeight =
       Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
-  this.layout = new myphysicslab.sims.layout.TabLayout(elem_ids, canvasWidth, canvasHeight);
+  this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
@@ -183,17 +183,12 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.timeGraph = new TimeGraph2(this.sim.getVarsList(), this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  this.block = new DisplayShape(this.simList.getPointMass('block'));
+  this.block = new DisplayShape(this.simList.getPointMass('block'))
+      .setFillStyle('blue');
   this.displayList.add(this.block);
-  this.block.fillStyle = 'blue';
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring'))
+      .setWidth(0.4).setThickness(6);
   this.displayList.add(this.spring);
-  this.spring.width = 0.4;
-  this.spring.colorCompressed = 'blue';
-  this.spring.colorExpanded = 'green';
-  this.spring.thickness = 6;
 
   // Demo of adding an ExpressionVariable.
   if (!UtilityCore.ADVANCED) {
@@ -309,7 +304,7 @@ SingleSpring2App.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
-      +'|simView|statusView|timeGraph|scriptParser|terminal',
+      +'|simView|statusView|timeGraph|scriptParser|terminal|displayList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

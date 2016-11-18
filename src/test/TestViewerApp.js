@@ -25,20 +25,21 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.model.GravityLaw');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.graph.DisplayAxes');
+goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
+goog.require('myphysicslab.lab.model.Gravity2Law');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -53,6 +54,7 @@ goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
+goog.require('myphysicslab.sims.engine2D.PileConfig');
 goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.StandardGraph1');
@@ -74,19 +76,20 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CommonControls = sims.layout.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
 var ConstantForceLaw = lab.model.ConstantForceLaw;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
@@ -103,6 +106,8 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PathObserver = sims.roller.PathObserver;
+var Polygon = lab.engine2D.Polygon;
+var PileConfig = sims.engine2D.PileConfig;
 var RigidBodyEventHandler = lab.app.RigidBodyEventHandler;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RigidBodySim = lab.engine2D.RigidBodySim;
@@ -110,7 +115,6 @@ var ScriptParser = lab.util.ScriptParser;
 var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
-var DisplayAxes = lab.graph.DisplayAxes;
 var StandardGraph1 = sims.layout.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
@@ -432,9 +436,9 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.graph = new StandardGraph1(this.sim.getVarsList(), this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun, 'inline');
 
-  DisplayShape.nameColor = 'gray';
-  DisplayShape.nameFont = '12pt sans-serif';
-  DisplayShape.nameRotate = 0;
+  this.rbo.protoPolygon.setFillStyle('rgba(51,204,255,0.5)')
+      .setNameColor('gray').setNameFont('12pt sans-serif')
+      .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
   /** @type {!ScriptParser} */
   this.scriptParser = this.makeScriptParser();
@@ -468,7 +472,7 @@ TestViewerApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
-      +'|simView|statusView|terminal|varsList',
+      +'|simView|statusView|terminal|varsList|displayList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
@@ -627,24 +631,44 @@ reset method is re-using the ContactSim and not rebuilding controls etc.
 */
 TestViewerApp.prototype.startTest_ = function(testIndex) {
   goog.asserts.assert(goog.isNumber(testIndex));
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = true;
 
   this.sim.setDistanceTol(0.01);
   this.sim.setVelocityTol(0.5);
   this.sim.setCollisionAccuracy(0.6);
   this.sim.cleanSlate();
   this.advance.reset();
+  var groupName = this.groupNames_[this.groupSelected_];
+  var testName = this.testNames_[testIndex];
   if (goog.DEBUG) {
-    console.log('TestViewerApp.startTest group='
-      +this.groupNames_[this.groupSelected_]
-      +' test="'+this.testNames_[testIndex]+'"');
+    console.log('TestViewerApp.startTest group='+groupName+' test="'+testName+'"');
   }
   // preserve the 'show forces' setting
   var showForce = this.sim.getShowForces();
+  // start naming polygons from "1"
+  Polygon.ID = 1;
 
   // Run the '_setup' method which sets the test initial conditions.
   this.tests_[testIndex](this.sim, this.advance);
+
+  // Set moveable blocks to random colors. Helps distinguish them visually.
+  goog.array.forEach(this.displayList.toArray(), function(d) {
+      if (d instanceof DisplayShape) {
+        var ds = /** @type {!DisplayShape} */(d);
+        var p = ds.getMassObjects()[0];
+        if (isFinite(p.getMass())) {
+          ds.setFillStyle(PileConfig.getRandomColor());
+        }
+        // clock-with-gears needs special display
+        if (groupName == 'Miscellany' && testName == 'clock with gears') {
+          ds.setStrokeStyle('black');
+          if (p.nameEquals('escape wheel')) {
+            ds.setZIndex(-1);
+          }
+        }
+      }
+    });
+
+
   // ensure that we use same timestep that is used in the Engine2DTestRig
   this.simRun.setTimeStep(this.advance.getTimeStep());
 

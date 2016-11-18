@@ -33,7 +33,6 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -50,7 +49,6 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var ExtraAccel = lab.engine2D.ExtraAccel;
@@ -92,12 +90,9 @@ myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
 
   this.block = Shapes.makeBlock2(1, 3, TestBodyApp.en.BLOCK, TestBodyApp.i18n.BLOCK);
   this.block.setPosition(new Vector(0,  -5.49500),  -7.85398);
-
-  DisplayShape.fillStyle = '#ccf';
-  DisplayShape.nameColor = 'gray';
-  DisplayShape.nameFont = '12pt sans-serif';
-  DisplayShape.nameRotate = Math.PI/2;
   this.mySim.addBody(this.block);
+  this.displayList.find(this.block).setFillStyle('#ccf').setNameColor('gray')
+      .setNameFont('12pt sans-serif').setNameRotate(Math.PI/2);
 
   if (1 == 1) {
     this.spring = new Spring('spring',
@@ -108,7 +103,6 @@ myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
     this.simList.add(this.spring);
   }
 
-  DisplayShape.fillStyle = 'lightGray';
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
 

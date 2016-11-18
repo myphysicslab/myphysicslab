@@ -70,7 +70,7 @@ var Walls = lab.engine2D.Walls;
 /** A simple example app using ContactSim, this shows two blocks
 connected like a double pendulum, and a third free moving block.
 
-DoublePendulum2App demonstrates having an image inside a DisplayShape. It uses an
+DoublePendulum2App also demonstrates having an image inside a DisplayShape. It uses an
 AffineTransform to rotate, scale, and position the image within the DisplayShape.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
@@ -103,21 +103,22 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
       DoublePendulum2App.i18n.BLOCK+3);
   this.block3.setPosition(new Vector(-4,  -4),  Math.PI/2);
 
-  var b1, b2, b3;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'lightGray';
-  this.displayList.add(b1 = new DisplayShape(this.block1));
+  this.protoBlock = new DisplayShape().setStrokeStyle('lightGray')
+      .setFillStyle('').setThickness(3);
+  var b1 = new DisplayShape(this.block1, this.protoBlock);
+  this.displayList.add(b1);
   this.mySim.addBody(this.block1);
-  this.displayList.add(b2 = new DisplayShape(this.block2));
+  var b2 = new DisplayShape(this.block2, this.protoBlock);
+  this.displayList.add(b2);
   this.mySim.addBody(this.block2);
-  this.displayList.add(b3 = new DisplayShape(this.block3));
+  var b3 = new DisplayShape(this.block3, this.protoBlock).setStrokeStyle('orange');
+  this.displayList.add(b3);
   this.mySim.addBody(this.block3);
-  b3.strokeStyle = 'orange';
 
   // demonstrate using an image with DisplayShape.
   var img = /** @type {!HTMLImageElement} */(document.getElementById('tipper'));
   if (goog.isObject(img)) {
-    b3.image = img;
+    b3.setImage(img);
     var at = AffineTransform.IDENTITY;
     // See notes in DisplayShape:  the origin here is at top left corner
     // of bounding rectangle, and we are in semi-screen coords, except rotated
@@ -126,28 +127,28 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
     at = at.scale(2.8, 2.8);
     at = at.translate(27, 20);
     at = at.rotate(Math.PI/2);
-    b3.imageAT = at;
-    b3.imageClip = false;
-    b3.nameFont = '';
+    b3.setImageAT(at);
+    b3.setImageClip(false);
+    b3.setNameFont('');
   }
 
   // draw a gradient for block2, and demo some fancy name options
   var cg = this.layout.simCanvas.getContext().createLinearGradient(-1, -1, 1, 1);
   cg.addColorStop(0, '#87CEFA'); // light blue
   cg.addColorStop(1, 'white');
-  b2.fillStyle = cg;
-  b2.nameColor = 'gray';
-  b2.nameFont = '12pt sans-serif';
-  b2.nameRotate = Math.PI/2;
+  b2.setFillStyle(cg);
+  b2.setNameColor('gray');
+  b2.setNameFont('12pt sans-serif');
+  b2.setNameRotate(Math.PI/2);
 
   // draw pattern of repeating trucks for block1
   if (goog.isObject(img)) {
-    b1.imageDraw = function(/** !CanvasRenderingContext2D*/context) {
+    b1.setImageDraw(function(/** !CanvasRenderingContext2D*/context) {
       var pt = context.createPattern(img, 'repeat');
       context.fillStyle = pt;
       context.fill();
-    }
-    b1.nameFont = '';
+    });
+    b1.setNameFont('');
   }
 
   /* joints to attach upper block to a fixed point, and both blocks together */
@@ -161,8 +162,6 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   /* move the bodies so their joints line up over each other. */
   this.mySim.alignConnectors();
 
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
 
@@ -178,7 +177,7 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
     extraBody: false,
     walls: false
   };
-  DisplayShape.strokeStyle = 'black';
+  this.rbo.protoPolygon = new DisplayShape().setStrokeStyle('black');
   ChainConfig.makeChain(this.mySim, options);
   */
 

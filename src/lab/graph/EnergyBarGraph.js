@@ -287,6 +287,10 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   */
   this.needResize_ = true;
   /**
+  * @type {number}
+  */
+  this.zIndex = 0;
+  /**
   * @type {boolean}
   * @private
   * @const
@@ -315,6 +319,7 @@ if (!UtilityCore.ADVANCED) {
         +', megaMaxEnergy: '+NF(this.megaMaxEnergy_)
         +', totalEnergy: '+NF(this.totalEnergy_)
         +', time: '+NF(UtilityCore.getSystemTime()-this.lastTime_)
+        +', zIndex: '+this.zIndex
         +'}';
   };
 
@@ -636,6 +641,11 @@ EnergyBarGraph.prototype.getVisibleArea = function() {
 };
 
 /** @inheritDoc */
+EnergyBarGraph.prototype.getZIndex = function() {
+  return this.zIndex;
+};
+
+/** @inheritDoc */
 EnergyBarGraph.prototype.isDragable = function() {
   return this.dragable_;
 };
@@ -875,6 +885,11 @@ EnergyBarGraph.prototype.setPosition = function(position) {
 EnergyBarGraph.prototype.setVisibleArea = function(visibleArea) {
   this.visibleRect_ = visibleArea;
   this.needResize_ = true;
+};
+
+/** @inheritDoc */
+EnergyBarGraph.prototype.setZIndex = function(zIndex) {
+  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
 /**

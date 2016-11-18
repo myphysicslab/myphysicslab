@@ -21,7 +21,6 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 
@@ -33,7 +32,6 @@ var sims = myphysicslab.sims;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Shapes = lab.engine2D.Shapes;
@@ -58,14 +56,14 @@ sims.engine2D.FastBallApp = function(elem_ids) {
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   var p = Shapes.makeBall(0.2, FastBallApp.en.FAST_BALL, FastBallApp.i18n.FAST_BALL);
-  DisplayShape.fillStyle = 'green';
   p.setMass(0.1);
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);
   this.mySim.addBody(p);
+  this.displayList.find(p).setFillStyle('green');
   this.mySim.setElasticity(0.9);
   // super-thin walls
-  DisplayShape.fillStyle = 'black';
+  this.rbo.protoFixedPolygon.setFillStyle('black');
   Walls.make(this.mySim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/0.01);
   this.addPlaybackControls();
   this.addStandardControls();

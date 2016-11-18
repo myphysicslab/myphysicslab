@@ -35,7 +35,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -55,7 +54,6 @@ var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
 var DisplayGraph = lab.graph.DisplayGraph;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GraphLine = lab.graph.GraphLine;
@@ -74,7 +72,8 @@ var Walls = lab.engine2D.Walls;
 The pendulum is a rigid body with a pivot attached to the background.
 
 Includes demonstration of using a DisplayGraph to show the movement of a body
-as trailing lines following the body.
+as trailing lines following the body. Also demonstrates automatically zooming
+the view to show the graph as it is drawn.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -105,13 +104,12 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   var wallPivotX = 2.0;
   var wallPivotY = 0;
   var map = this.simView.getCoordMap();
-  DisplayShape.strokeStyle = 'black';
-  DisplayShape.fillStyle = '';
   var pendulum = Shapes.makeBlock2(0.3, 1.0, PendulumSpringApp.en.PENDULUM,
       PendulumSpringApp.i18n.PENDULUM);
   var bodyX = 0.5*pendulum.getWidth();
   var bodyY = 0.15*pendulum.getHeight();
   this.mySim.addBody(pendulum);
+  this.displayList.find(pendulum).setFillStyle('#B0C4DE');
   // joints to attach upper pendulum to a fixed point.
   Joint.attachRigidBody(this.mySim,
       Scrim.getScrim(), /*attach_body=*/new Vector(wallPivotX, wallPivotY),
@@ -121,10 +119,11 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   var block = Shapes.makeBlock2(0.3, 1.0, PendulumSpringApp.en.BLOCK,
       PendulumSpringApp.i18n.BLOCK);
   block.setPosition(new Vector(-1.2,  -2.5),  0.2);
-  DisplayShape.fillStyle = 'rgba(255, 165, 0, 0.5)';  //transparent orange
-  DisplayShape.strokeStyle = '';
   this.mySim.addBody(block);
+   //transparent orange
+  this.displayList.find(block).setFillStyle('rgba(255, 165, 0, 0.5)');
 
+  this.rbo.protoSpring.setWidth(0.3);
   var addSpring = goog.bind(function(s) {
     this.springs_.push(s);
     this.mySim.addForceLaw(s);
@@ -144,7 +143,6 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
       /*restLength=*/0.75, /*stiffness=*/1.0));
 
   // Walls.make also sets zero energy level for each block.
-  DisplayShape.fillStyle = 'lightGray';
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
 
@@ -193,8 +191,9 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.autoScale = new AutoScale('TRAILS_AUTO_SCALE', this.graphLine, this.simView);
   /** @type {!DisplayGraph} */
   this.dispGraph = new DisplayGraph(this.graphLine);
+  this.dispGraph.setZIndex(3);
   this.dispGraph.setScreenRect(this.simView.getScreenRect());
-  this.displayList.add(this.dispGraph, /*zIndex=*/3);
+  this.displayList.add(this.dispGraph);
 
   this.panZoomParam.setValue(true);
   this.makeScriptParser();

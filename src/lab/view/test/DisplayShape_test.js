@@ -129,8 +129,6 @@ var testDisplayShape = function() {
       VerticalAlign.FULL);
   var point1 = PointMass.makeRectangle(2, 1.6);
   point1.setPosition(new Vector(2, -2));
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
   var shape1 = new DisplayShape(point1);
   shape1.fillStyle = 'orange';
   // check starting conditions

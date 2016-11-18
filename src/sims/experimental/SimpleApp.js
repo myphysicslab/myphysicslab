@@ -85,15 +85,10 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
       point1, Vector.ORIGIN,
       /*restLength=*/1, /*stiffness=*/3);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  var shape1 = new DisplayShape(point1);
-  shape1.fillStyle = 'orange';
-  DisplaySpring.width = 1.0;
-  DisplaySpring.colorCompressed = 'yellow';
-  DisplaySpring.colorExpanded = 'blue';
-  var dspring = new DisplaySpring(spring1);
+  var shape1 = new DisplayShape(point1).setFillStyle('orange');
   simView.getDisplayList().add(shape1);
+  var dspring = new DisplaySpring(spring1).setWidth(1.0).setColorCompressed('yellow')
+      .setColorExpanded('blue');
   simView.getDisplayList().add(dspring);
 
   simCanvas.addView(simView);

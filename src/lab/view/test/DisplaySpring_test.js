@@ -97,17 +97,15 @@ var testDisplaySpring = function() {
       p2, Vector.ORIGIN,
       p3, Vector.ORIGIN,
       /*restLength=*/8, /*stiffness=*/12);
-  DisplaySpring.width = 1.0;
-  DisplaySpring.colorCompressed = 'fuschia';
-  DisplaySpring.colorExpanded = 'gray';
-  var dspring = new DisplaySpring(spring1);
+  var dspring = new DisplaySpring(spring1).setWidth(1.0)
+      .setColorCompressed('fuschia').setColorExpanded('gray');
 
   // check starting conditions
   assertEquals(spring1, dspring.getSimObjects()[0]);
   assertFalse(dspring.contains(new Vector(2, -2)));
   assertTrue(dspring.getPosition().nearEqual(Vector.ORIGIN, tol));
-  assertEquals('fuschia', dspring.colorCompressed);
-  assertEquals('gray', dspring.colorExpanded);
+  assertEquals('fuschia', dspring.getColorCompressed());
+  assertEquals('gray', dspring.getColorExpanded());
 
   // set expected start point to be drawn
   mockContext.startPoint = new Vector(75, 75);
@@ -118,10 +116,10 @@ var testDisplaySpring = function() {
   assertTrue(mockContext.lastPoint.nearEqual(new Vector(225, 225), 1E-13));
 
   // change colors
-  dspring.colorCompressed = 'yellow';
-  dspring.colorExpanded = 'blue';
-  assertEquals('yellow', dspring.colorCompressed);
-  assertEquals('blue', dspring.colorExpanded);
+  dspring.setColorCompressed('yellow');
+  dspring.setColorExpanded('blue');
+  assertEquals('yellow', dspring.getColorCompressed());
+  assertEquals('blue', dspring.getColorExpanded());
 
   // move the spring so it is compressed
   p3.setPosition(new Vector(0,  0));

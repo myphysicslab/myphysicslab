@@ -110,6 +110,10 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
   * @type {string}
   */
   this.fillStyle = 'rgba(255, 255, 255, 0.75)';
+  /**
+  * @type {number}
+  */
+  this.zIndex = 0;
 };
 var DisplayClock = myphysicslab.lab.view.DisplayClock;
 
@@ -120,6 +124,7 @@ if (!UtilityCore.ADVANCED) {
         +', radius: '+NF(this.radius)
         +', period: '+NF(this.period)
         +', location_: '+this.location_
+        +', zIndex: '+this.zIndex
         +'}';
   };
 
@@ -203,6 +208,11 @@ DisplayClock.prototype.getSimObjects = function() {
 };
 
 /** @inheritDoc */
+DisplayClock.prototype.getZIndex = function() {
+  return this.zIndex;
+};
+
+/** @inheritDoc */
 DisplayClock.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
@@ -210,6 +220,11 @@ DisplayClock.prototype.setDragable = function(dragable) {
 /** @inheritDoc */
 DisplayClock.prototype.setPosition = function(position) {
   this.location_ = position;
+};
+
+/** @inheritDoc */
+DisplayClock.prototype.setZIndex = function(zIndex) {
+  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
 /** Set of internationalized strings.

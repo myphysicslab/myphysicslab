@@ -31,7 +31,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('myphysicslab.sims.layout.CommonControls');
@@ -47,7 +46,6 @@ var CommonControls = sims.layout.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -82,6 +80,8 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.mySim = new RigidBodySim();
   var advance = new SimpleAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
+  this.rbo.protoSpring.setThickness(4).setWidth(.4);
   this.elasticity.setElasticity(1.0);
   this.mySim.setShowForces(false);
   /** @type {!lab.model.DampingLaw} */
@@ -209,11 +209,9 @@ RigidBodyApp.prototype.config = function() {
     this.mySim.addForceLaw(s);
     this.simList.add(s);
   }, this);
-  DisplayShape.fillStyle = 'gray';
-  DisplayShape.nameFont = '10pt sans-serif';
 
+  make_blocks:
   if (this.numBods >= 1) {
-    DisplayShape.fillStyle = 'cyan';
     var p1 = RigidBodyApp.makeBlock(1);
     p1.setPosition(new Vector(-3.3,  0),  0);
     p1.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
@@ -226,71 +224,77 @@ RigidBodyApp.prototype.config = function() {
         Scrim.getScrim(), new Vector(-2, -2),
         p1, new Vector(0.15, 0.7),
         this.restLength, this.stiffness));
+    this.displayList.find(p1).setFillStyle('cyan');
 
-    if (this.numBods >= 2) {
-      DisplayShape.fillStyle = 'orange';
-      var p2 = RigidBodyApp.makeBlock(2);
-      p2.setPosition(new Vector(-2.2,  0),  0);
-      p2.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
-      this.mySim.addBody(p2);
-      this.thrust1 = SixThrusters.make(this.thrust, p2);
-      this.rbeh.setThrusters(this.thrust1, 'right');
-      this.mySim.addForceLaw(this.thrust1);
-      addSpring(new Spring('spring 2',
-          Scrim.getScrim(), new Vector(2, 2),
-          p2, new Vector(0.15, 0.7),
-          this.restLength, this.stiffness));
-      addSpring(new Spring('spring 3',
-          p2, new Vector(0.15, -0.7),
-          p1, new Vector(0.15, -0.7),
-          this.restLength, this.stiffness));
-
-      if (this.numBods >= 3) {
-        DisplayShape.fillStyle = '#9f3'; // light green
-        var p3 = RigidBodyApp.makeBlock(3);
-        p3.setPosition(new Vector(2.867,  -0.113),  0);
-        p3.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
-        this.mySim.addBody(p3);
-        addSpring(new Spring('spring 4',
-            p3, new Vector(0.15, 0.7),
-            p2, new Vector(0.15, -0.7),
-            this.restLength, this.stiffness));
-
-        if (this.numBods >= 4) {
-          DisplayShape.fillStyle = '#f6c'; // hot pink
-          var p4 = RigidBodyApp.makeBlock(4);
-          p4.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
-          p4.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
-          this.mySim.addBody(p4);
-          addSpring(new Spring('spring 5',
-              p4, new Vector(0.15, 0.7),
-              p3, new Vector(0.15, -0.7),
-              this.restLength, this.stiffness));
-
-          if (this.numBods >= 5) {
-            DisplayShape.fillStyle = '#39f';
-            var p5 = RigidBodyApp.makeBlock(5);
-            p5.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
-            this.mySim.addBody(p5);
-            addSpring(new Spring('spring 6',
-                p5, new Vector(0.15, 0.7),
-                p4, new Vector(0.15, -0.7),
-                this.restLength, this.stiffness));
-
-            if (this.numBods >= 6) {
-              DisplayShape.fillStyle = '#c99';
-              var p6 = RigidBodyApp.makeBlock(6);
-              p6.setPosition(new Vector(0.08,  0.127),  0.888);
-              this.mySim.addBody(p6);
-              addSpring(new Spring('spring 7',
-                  p6, new Vector(0.15, 0.7),
-                  p5, new Vector(0.15, -0.7),
-                  this.restLength, this.stiffness));
-            }
-          }
-        }
-      }
+    if (this.numBods < 2) {
+      break make_blocks;
     }
+    var p2 = RigidBodyApp.makeBlock(2);
+    p2.setPosition(new Vector(-2.2,  0),  0);
+    p2.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
+    this.mySim.addBody(p2);
+    this.thrust1 = SixThrusters.make(this.thrust, p2);
+    this.rbeh.setThrusters(this.thrust1, 'right');
+    this.mySim.addForceLaw(this.thrust1);
+    addSpring(new Spring('spring 2',
+        Scrim.getScrim(), new Vector(2, 2),
+        p2, new Vector(0.15, 0.7),
+        this.restLength, this.stiffness));
+    addSpring(new Spring('spring 3',
+        p2, new Vector(0.15, -0.7),
+        p1, new Vector(0.15, -0.7),
+        this.restLength, this.stiffness));
+    this.displayList.find(p2).setFillStyle('orange');
+
+    if (this.numBods < 3) {
+      break make_blocks;
+    }
+    var p3 = RigidBodyApp.makeBlock(3);
+    p3.setPosition(new Vector(2.867,  -0.113),  0);
+    p3.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
+    this.mySim.addBody(p3);
+    addSpring(new Spring('spring 4',
+        p3, new Vector(0.15, 0.7),
+        p2, new Vector(0.15, -0.7),
+        this.restLength, this.stiffness));
+    this.displayList.find(p3).setFillStyle('#9f3'); // light green
+
+    if (this.numBods < 4) {
+      break make_blocks;
+    }
+    var p4 = RigidBodyApp.makeBlock(4);
+    p4.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
+    p4.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
+    this.mySim.addBody(p4);
+    addSpring(new Spring('spring 5',
+        p4, new Vector(0.15, 0.7),
+        p3, new Vector(0.15, -0.7),
+        this.restLength, this.stiffness));
+    this.displayList.find(p4).setFillStyle('#f6c'); // hot pink
+
+    if (this.numBods < 5) {
+      break make_blocks;
+    }
+    var p5 = RigidBodyApp.makeBlock(5);
+    p5.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
+    this.mySim.addBody(p5);
+    addSpring(new Spring('spring 6',
+        p5, new Vector(0.15, 0.7),
+        p4, new Vector(0.15, -0.7),
+        this.restLength, this.stiffness));
+    this.displayList.find(p5).setFillStyle('#39f');
+
+    if (this.numBods >= 6) {
+      break make_blocks;
+    }
+    var p6 = RigidBodyApp.makeBlock(6);
+    p6.setPosition(new Vector(0.08,  0.127),  0.888);
+    this.mySim.addBody(p6);
+    addSpring(new Spring('spring 7',
+        p6, new Vector(0.15, 0.7),
+        p5, new Vector(0.15, -0.7),
+        this.restLength, this.stiffness));
+    this.displayList.find(p6).setFillStyle('#c99');
   }
   this.mySim.getVarsList().setTime(0);
   this.mySim.saveInitialState();

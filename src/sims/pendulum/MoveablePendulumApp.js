@@ -81,26 +81,21 @@ sims.pendulum.MoveablePendulumApp = function(elem_ids) {
 
   this.simRun.setTimeStep(0.01);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'red';
   /** @type {!lab.view.DisplayShape} */
-  this.anchor = new DisplayShape(this.simList.getPointMass('anchor'));
+  this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
+      .setFillStyle('').setStrokeStyle('red').setThickness(4);
   this.displayList.add(this.anchor);
-  DisplayShape.fillStyle = 'blue';
-  DisplayShape.strokeStyle = '';
-  /** @type {!lab.view.DisplayShape} */
-  this.bob = new DisplayShape(this.simList.getPointMass('bob'));
-  this.displayList.add(this.bob);
   /** @type {!lab.view.DisplayLine} */
   this.rod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(this.rod);
+  /** @type {!lab.view.DisplayShape} */
+  this.bob = new DisplayShape(this.simList.getPointMass('bob'))
+      .setFillStyle('blue');
+  this.displayList.add(this.bob);
 
   // make observer which will add/remove the spring during mouse drag
   var dragSpring = sim.getDragSpring();
-  DisplaySpring.width = 0.2;
-  var dispSpring = new DisplaySpring(dragSpring);
+  var dispSpring = new DisplaySpring(dragSpring).setWidth(0.2);
   new GenericObserver(this.simList, goog.bind(function(evt) {
     if (evt.getValue() == dragSpring) {
       if (evt.nameEquals(SimList.OBJECT_ADDED)) {

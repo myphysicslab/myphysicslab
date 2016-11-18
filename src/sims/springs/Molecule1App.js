@@ -65,27 +65,18 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'gray';
-  /** @type {!lab.view.DisplayShape} */
-  this.walls = new DisplayShape(this.simList.getPointMass('walls'));
+  this.walls = new DisplayShape(this.simList.getPointMass('walls'))
+      .setFillStyle('').setStrokeStyle('gray');
   this.displayList.add(this.walls);
-  DisplayShape.fillStyle = 'blue';
-  DisplayShape.strokeStyle = '';
-  /** @type {!lab.view.DisplayShape} */
-  this.atom1 = new DisplayShape(this.simList.getPointMass('atom1'));
-  this.displayList.add(this.atom1);
-  DisplayShape.fillStyle = 'red';
-  /** @type {!lab.view.DisplayShape} */
-  this.atom2 = new DisplayShape(this.simList.getPointMass('atom2'));
-  this.displayList.add(this.atom2);
-  DisplaySpring.width = 0.3;
-  DisplaySpring.thickness = 3;
-  /** @type {!lab.view.DisplaySpring} */
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring'))
+      .setWidth(0.3).setThickness(3);
   this.displayList.add(this.spring);
+  this.atom1 = new DisplayShape(this.simList.getPointMass('atom1'))
+      .setFillStyle('blue');
+  this.displayList.add(this.atom1);
+  this.atom2 = new DisplayShape(this.simList.getPointMass('atom2'))
+      .setFillStyle('red');
+  this.displayList.add(this.atom2);
 
   this.addPlaybackControls();
   /** @type {!lab.util.ParameterNumber} */

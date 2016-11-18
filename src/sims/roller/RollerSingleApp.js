@@ -94,12 +94,10 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
   /** @type {!lab.view.DisplayShape} */
-  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'));
+  this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
+      .setFillStyle('blue');
   this.displayList.add(this.ball1);
-  this.ball1.fillStyle = 'blue';
   /** @type {!Array<!lab.model.ParametricPath>} **/
   this.paths = [
       new HumpPath(),

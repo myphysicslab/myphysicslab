@@ -161,8 +161,6 @@ MultipleCollisionTest.commonSetup1 = function(sim, advance) {
   advance.setJointSmallImpacts(false);
   advance.setTimeStep(0.025);
   advance.setDiffEqSolver(new RungeKutta(sim));
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /** 'one hits wall':  Square block collides into a wall, both corners simultaneously.
@@ -690,15 +688,12 @@ a collision.
 */
 MultipleCollisionTest.joint_collision_setup = function(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  DisplayShape.fillStyle = '#eee';
   var zel = Walls.make(sim, /*width=*/20, /*height=*/10);
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  -5 + 0.5 + 0.005),  Math.PI/2);
   var j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(4,  -5 + 0.5 + 0.005),  Math.PI/2);
-  DisplayShape.fillStyle = '#fcc';
   sim.addBody(j1);
-  DisplayShape.fillStyle = 'rgba(192, 255, 192, 0.5)';
   sim.addBody(j2);
   Joint.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
@@ -710,7 +705,6 @@ MultipleCollisionTest.joint_collision_setup = function(sim, advance) {
   var f1 = Shapes.makeBlock(1, 3, 'free1');
   f1.setPosition(new Vector(-6,  -5 + 0.5 + 0.005),  Math.PI/2);
   f1.setVelocity(new Vector(3,  0),  0);
-  DisplayShape.fillStyle = '#ccf';
   sim.addBody(f1);
   var gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
@@ -752,9 +746,7 @@ MultipleCollisionTest.joint_collision_2_setup = function(sim, advance) {
   var j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   j2.setVelocity(new Vector(3,  0),  0);
-  DisplayShape.fillStyle = '#fcc';
   sim.addBody(j1);
-  DisplayShape.fillStyle = 'rgba(192, 255, 192, 0.5)';
   sim.addBody(j2);
   Joint.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
@@ -795,11 +787,9 @@ MultipleCollisionTest.joint_collision_3_setup = function(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
-  DisplayShape.fillStyle = '#fcc';
   sim.addBody(j1);
   var j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
-  DisplayShape.fillStyle = 'rgba(192, 255, 192, 0.5)';
   sim.addBody(j2);
   Joint.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
@@ -811,7 +801,6 @@ MultipleCollisionTest.joint_collision_3_setup = function(sim, advance) {
   var f1 = Shapes.makeBall(/*radius=*/0.5, 'free1');
   f1.setPosition(new Vector(-6,  0),  Math.PI/2);
   f1.setVelocity(new Vector(3,  0),  0);
-  DisplayShape.fillStyle = '#ccf';
   sim.addBody(f1);
   sim.setElasticity(1.0);
 };
@@ -846,12 +835,10 @@ MultipleCollisionTest.joint_collision_4_setup = function(sim, advance) {
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
   j1.setVelocity(new Vector(0,  0),  3);
-  DisplayShape.fillStyle = '#fcc';
   sim.addBody(j1);
   var j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   j2.setVelocity(new Vector(0,  0),  -5);
-  DisplayShape.fillStyle = 'rgba(192, 255, 192, 0.5)';
   sim.addBody(j2);
   Joint.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),

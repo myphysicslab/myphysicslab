@@ -293,16 +293,12 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
     this.sim1.modifyObjects();
   }, this), 'modifyObjects after parameter or variable change');
 
-  var displayBob1 = new DisplayShape(this.simList1.getPointMass('bob'));
-  displayBob1.drawCenterOfMass = false;
-  displayBob1.drawDragPoints = false;
-  displayBob1.fillStyle = '#3cf';
-  displayBob1.strokeStyle = '';
-  this.displayList.add(displayBob1);
+  var displayBob1 = new DisplayShape(this.simList1.getPointMass('bob'))
+      .setFillStyle('#3cf');
   displayBob1.setDragable(false);
-  var displayRod1 = new DisplayLine(this.simList1.getConcreteLine('rod'));
-  displayRod1.color = '#39c';
-  displayRod1.thickness = 3;
+  this.displayList.add(displayBob1);
+  var displayRod1 = new DisplayLine(this.simList1.getConcreteLine('rod'))
+      .setColor('#39c').setThickness(3);
   this.displayList.add(displayRod1);
 
   /** @type {!lab.model.SimList} */
@@ -547,33 +543,28 @@ ReactionPendulumApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList2) {
     var obj = /** @type {!myphysicslab.lab.model.SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
-      if (this.displayList.findSimObject(obj) != null) {
+      if (this.displayList.find(obj) != null) {
         // we already have a DisplayObject for this SimObject, don't add a new one.
         return;
       }
       if (obj instanceof Polygon) {
         var p = /** @type {!myphysicslab.lab.engine2D.Polygon} */(obj);
-        var d = new DisplayShape(p);
-        d.drawCenterOfMass = true;
-        d.drawDragPoints = false;
-        d.fillStyle = '#f66';
-        d.strokeStyle = '';
-        this.displayList.add(d, /*zIndex=*/-1);
+        var d = new DisplayShape(p).setDrawCenterOfMass(true).setFillStyle('#f66');
+        d.setZIndex(-1);
+        this.displayList.add(d);
       } else if (obj instanceof ConcreteLine) {
         var line = /** @type {!ConcreteLine} */(obj);
-        var dl = new DisplayLine(line);
+        var dl = new DisplayLine(line).setThickness(4);
         if (obj.nameEquals('rod')) {
-          dl.color = '#f99';
-          dl.thickness = 4;
+          dl.setColor('#f99');
         } else {
-          dl.color = 'green';
-          dl.thickness = 4;
-          dl.lineDash = [3, 5];
+          dl.setColor('green');
+          dl.setLineDash([3, 5]);
         }
         this.displayList.add(dl);
       }
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.findSimObject(obj);
+      var d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }
@@ -687,7 +678,7 @@ ReactionPendulumApp.prototype.defineNames = function(myName) {
   if (UtilityCore.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
-  this.terminal.addRegex('advance2|advance1|axes|clock'
+  this.terminal.addRegex('advance2|advance1|axes|clock|displayList'
       +'|displayClock|energyGraph|graph|layout|scriptParser|sim2|sim1'
       +'|simCtrl|simList2|simList1|simRun|simView|statusView|terminal|timeGraph',
       myName);

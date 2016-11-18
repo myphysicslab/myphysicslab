@@ -95,7 +95,8 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
   */
   this.displayPath_ = new DisplayPath();
   this.displayPath_.setScreenRect(simView.getScreenRect());
-  this.displayList_.add(this.displayPath_, /*zIndex=*/-10);
+  this.displayPath_.setZIndex(-10);
+  this.displayList_.add(this.displayPath_);
   /**
   @type {!myphysicslab.lab.model.SimList}
   @private
@@ -108,7 +109,7 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
   * @private
   */
   this.message_ = new DisplayText(BrachistoObserver.i18n.QUESTION);
-  this.message_.fillStyle = 'gray';
+  this.message_.setFillStyle('gray');
   this.message_.setDragable(false);
   this.message_.setPosition(this.getTextPosition());
   this.statusView_.getDisplayList().add(this.message_);
@@ -148,10 +149,7 @@ BrachistoObserver.prototype.addBodies = function(bodies) {
 * @param {!SimObject} obj
 */
 BrachistoObserver.prototype.addBody = function(obj) {
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.strokeStyle = '';
-  var dobj = this.displayList_.findSimObject(obj);
+  var dobj = this.displayList_.find(obj);
   if (dobj != null) {
     // if we already have a DisplayObject for this, don't add a new one.
     return;
@@ -164,16 +162,17 @@ BrachistoObserver.prototype.addBody = function(obj) {
     var dp = new DisplayShape(pm);
     dp.setDragable(false);
     if (pm.getName().match(/BALL_SELECTED/)) {
-      dp.fillStyle = 'red';
+      dp.setFillStyle('red');
       this.displayList_.add(dp);
     } else if (pm.getName().match(/BALL/)) {
-      dp.fillStyle = 'blue';
+      dp.setFillStyle('blue');
       this.displayList_.add(dp);
     } else if (pm.getName().match(/(START|END)/)) {
-      dp.fillStyle = '';
-      dp.strokeStyle = 'gray';
-      dp.thickness = 1;
-      this.displayList_.add(dp, /*zIndex=*/-1);
+      dp.setFillStyle('');
+      dp.setStrokeStyle('gray');
+      dp.setThickness(1);
+      dp.setZIndex(-1);
+      this.displayList_.add(dp);
     }
   } else {
     throw new Error('BrachistoObserver unknown object '+obj);
@@ -222,7 +221,7 @@ BrachistoObserver.prototype.observe =  function(event) {
         this.displayPath_.removePath(np);
       } else if (obj instanceof PointMass) {
         var so = /** @type {!SimObject} */(obj);
-        var dispObj = this.displayList_.findSimObject(so);
+        var dispObj = this.displayList_.find(so);
         if (dispObj != null) {
           this.displayList_.remove(dispObj);
         }

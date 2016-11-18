@@ -29,16 +29,46 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 /** Observes a Subject; when the Subject broadcasts a SubjectEvent then this executes a
 specified function.
 
+Example 1
+---------
 Here is an example of a GenericObserver that prints any event broadcast by a
 {@link myphysicslab.lab.util.Clock}:
 
-    var obs = new GenericObserver(clock, function(evt) { println('event='+evt); });
+    var obs = new GenericObserver(clock, function(evt) {
+      println('event='+evt);
+    });
 
-The next example prints only when a particular event occurs:
+Example 2
+---------
+This prints only when a particular Clock event occurs:
 
     var obs = new GenericObserver(clock, function(evt) {
-        if (evt.nameEquals(Clock.CLOCK_PAUSE)) { println('event='+evt);}
+        if (evt.nameEquals(Clock.CLOCK_PAUSE)) {
+          println('event='+evt);
+        }
     });
+
+Example 3
+---------
+This sets color of a contact force line by gap distance: red = zero distance,
+green = max distance.
+
+    var obs = new GenericObserver(displayList, function(evt) {
+      if (evt.nameEquals(DisplayList.OBJECT_ADDED)) {
+        var obj = evt.getValue();
+        if (obj instanceof DisplayLine) {
+          var f = obj.getSimObjects()[0];
+          if (f.getName().match(/^CONTACT_FORCE1/)) {
+            var pct = Math.max(0, Math.min(1, f.contactDistance/f.contactTolerance));
+            obj.color = UtilityCore.colorString3(1-pct, pct, 0);
+          }
+        }
+      }
+    });
+
+The above script can be entered into Terminal for simple-compiled applications using
+{@link myphysicslab.lab.engine2D.ContactSim}. It is useful to study the effects of
+using different settings for {@link myphysicslab.lab.engine2D.ExtraAccel}.
 
 
 @param {!Subject} subject  the Subject to observe

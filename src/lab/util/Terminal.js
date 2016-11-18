@@ -138,8 +138,10 @@ URL Query Script
 ----------------
 <a name="urlqueryscript"></a>
 
-A Terminal script can be embedded into a URL as a 'query script' which will be
-executed when the page is loaded. This provides a convenient way to share a customized simulation with someone else.
+A Terminal script can be embedded into a URL
+[query string](https://en.wikipedia.org/wiki/Query_string) which will be
+executed when the page is loaded. This provides a convenient way to share a
+customized simulation with someone else.
 
 The script follows a question mark in the URL, so it is called a 'query script'
 or 'query URL'. Here is an example:
@@ -152,6 +154,17 @@ The URL Query Script is executed at startup by calling {@link #parseURL} or
 
 The ScriptParser must first be installed with {@link #setParser} if ScriptParser
 scripts are used.
+
+Because of [percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding)
+we must substitute in the URL:
+
+  + `%20` for space
+  + `%22` for double-quote
+
+See this
+[character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
+to learn which other characters must be percent-encoded.
+
 
 
 Session History
@@ -1092,7 +1105,7 @@ Terminal.stdRegex = function(terminal) {
       +'|PointMass|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
       'myphysicslab.lab.model', /*addToVars=*/false);
 
-  terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine'
+  terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'
       +'|DrawingMode|DrawingStyle|EnergyBarGraph|HorizAlign|LabCanvas|LabView'
       +'|ScreenRect|SimView|VerticalAlign',

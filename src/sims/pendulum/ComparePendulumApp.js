@@ -201,22 +201,15 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   /** @type {!lab.view.DisplayLine} */
   var displayRod2 = new DisplayLine(this.simList2.getConcreteLine('rod'));
   this.displayList.add(displayRod2);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'red';
   this.bob2 = this.simList2.getPointMass('bob');
-  var displayBob2 = new DisplayShape(this.bob2);
+  var displayBob2 = new DisplayShape(this.bob2).setFillStyle('red');
   this.displayList.add(displayBob2);
   displayBob2.setDragable(false);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'blue';
   this.bob1 = this.simList.getPointMass('bob');
-  var displayBob = new DisplayShape(this.bob1);
+  var displayBob = new DisplayShape(this.bob1).setFillStyle('blue');
   this.displayList.add(displayBob);
-  var displayRod = new DisplayLine(
-      this.simList.getConcreteLine('rod'));
+  var displayRod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(displayRod);
   var displayDrive = new DisplayArc(this.simList.getArc('drive'));
   this.displayList.add(displayDrive);
@@ -410,7 +403,7 @@ ComparePendulumApp.prototype.defineNames = function(myName) {
   if (UtilityCore.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
-  this.terminal.addRegex('advance1|advance2|axes|clock|displayClock'
+  this.terminal.addRegex('advance1|advance2|axes|clock|displayClock|displayList'
       +'|energyGraph|graph|layout|sim1|sim2|simCtrl|simList|simList2'
       +'|simRect|simRun|simView|statusView|timeGraph|scriptParser|terminal',
       myName);

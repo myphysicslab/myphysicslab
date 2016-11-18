@@ -70,37 +70,31 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  //DisplayShape.nameFont = '10pt sans-serif';
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = '';
-  DisplayShape.strokeStyle = 'gray';
-  /** @type {!lab.view.DisplayShape} */
-  this.walls = new DisplayShape(this.simList.getPointMass('walls'));
+  this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
+      .setColorExpanded('green').setThickness(3);
+  this.protoSpecialSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#c00')
+      .setColorExpanded('red').setThickness(3);
+
+  this.walls = new DisplayShape(this.simList.getPointMass('walls'))
+      .setFillStyle('').setStrokeStyle('gray');
   this.displayList.add(this.walls);
+  goog.array.forEach(this.simList.toArray(), function(simObj) {
+    if (simObj instanceof Spring) {
+      var s = /** @type {!Spring} */(simObj);
+      var proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
+          this.protoSpring;
+      this.displayList.add(new DisplaySpring(s, proto));
+    }
+  }, this);
   /** @type {!Array<!lab.view.DisplayShape>} */
   this.atoms = [];
   var cm = ['red', 'blue', 'magenta', 'orange', 'gray', 'green'];
   for (var i=0; i<this.numAtoms; i++) {
-    DisplayShape.fillStyle = cm[i];
-    DisplayShape.strokeStyle = '';
-    DisplayShape.nameFont = ''; //10pt sans-serif";
-    /** @type {!lab.view.DisplayShape} */
-    var atom = new DisplayShape(this.simList.getPointMass('atom'+(i+1)));
+    var atom = new DisplayShape(this.simList.getPointMass('atom'+(i+1)))
+        .setFillStyle(cm[i]);
     this.atoms.push(atom);
     this.displayList.add(atom);
   }
-  DisplaySpring.width = 0.3;
-  DisplaySpring.thickness = 3;
-  goog.array.forEach(this.simList.toArray(), function(simObj) {
-    if (simObj instanceof Spring) {
-      var s = /** @type {!Spring} */(simObj);
-      var special = s.getName().match(/^SPECIAL/);
-      DisplaySpring.colorCompressed = special ? '#c00' : '#0c0';
-      DisplaySpring.colorExpanded = special ? 'red' : 'green';
-      this.displayList.add(new DisplaySpring(s));
-    }
-  }, this);
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
@@ -158,7 +152,7 @@ Molecule3App.prototype.getClassName = function() {
 /** @inheritDoc */
 Molecule3App.prototype.defineNames = function(myName) {
   Molecule3App.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('walls|atoms',
+  this.terminal.addRegex('walls|atoms|protoSpecialSpring|protoSpring',
       myName);
 };
 

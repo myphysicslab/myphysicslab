@@ -489,10 +489,11 @@ You can use the "remember" function of Terminal to save these various settings f
 next time you run the simulation.
 See [Script Storage](myphysicslab.lab.util.Terminal.html#scriptstorage).
 
-It is helpful to show the names of the objects in the simulation view by setting this
-class property before making DisplayShape objects:
+It is helpful to show the names of the objects in the simulation view.
+See [RigidBodyObserver](myphysicslab.sims.engine2D.RigidBodyObserver.html)
+where the following code snippet is explained:
 
-    DisplayShape.nameFont = '10pt sans-serif';
+    this.rbo.protoPolygon.setNameFont('10pt sans-serif');
 
 It is possible to see a visual representation of the collision handling mechanism
 happen. See the documentation in the source code of the private property `debugPaint_`

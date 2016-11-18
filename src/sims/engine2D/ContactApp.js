@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
+goog.require('myphysicslab.lab.engine2D.ExtraAccel');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -29,7 +30,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('myphysicslab.sims.layout.CommonControls');
@@ -46,9 +46,9 @@ var CommonControls = sims.layout.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
+var ExtraAccel = lab.engine2D.ExtraAccel;
 var GravityLaw = lab.model.GravityLaw;
 var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = lab.engine2D.Polygon;
@@ -75,6 +75,8 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 sims.engine2D.ContactApp = function(elem_ids) {
   var simRect = new DoubleRect(-4.5, -3.6, 3.1, 4);
   this.mySim = new ContactSim();
+  // Try different ExtraAccel values here. Can also do this in Terminal.
+  //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.mySim.setShowForces(true);
@@ -172,14 +174,12 @@ ContactApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  DisplayShape.fillStyle = 'gray';
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   /** @type {!lab.engine2D.RigidBody} */
   var p;
-  DisplayShape.nameFont = '10pt sans-serif';
+  this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   if (this.numBods >= 1) {
-    DisplayShape.fillStyle = 'cyan';
     p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
         /*minAngle=*/undefined, /*maxAngle=*/undefined,
         ContactApp.en.BLOCK+1, ContactApp.i18n.BLOCK+1);
@@ -187,49 +187,50 @@ ContactApp.prototype.config = function() {
     p.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
     p.setMass(this.mass1);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('cyan')
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
   }
   if (this.numBods >= 2) {
-    DisplayShape.fillStyle = 'orange';
     p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+2, ContactApp.i18n.BLOCK+2);
     p.setPosition(new Vector(-1.8,  0),  0);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('orange')
     this.thrust1 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
   }
   if (this.numBods >= 3) {
-    DisplayShape.fillStyle = '#9f3'; // light green
     p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
         /*minAngle=*/undefined, /*maxAngle=*/undefined,
         ContactApp.en.BLOCK+3, ContactApp.i18n.BLOCK+3);
     p.setPosition(new Vector(2,  -0.113),  0);
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#9f3'); // light green
   }
   if (this.numBods >= 4) {
-    DisplayShape.fillStyle = '#f6c'; // hot pink
     p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+4, ContactApp.i18n.BLOCK+4);
     p.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#f6c'); // hot pink
   }
   if (this.numBods >= 5) {
-    DisplayShape.fillStyle = '#39f';
     p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+5, ContactApp.i18n.BLOCK+5);
     p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#39f');
   }
   if (this.numBods >= 6) {
-    DisplayShape.fillStyle = '#c99';
     p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
         /*minAngle=*/undefined, /*maxAngle=*/undefined,
         ContactApp.en.BLOCK+6, ContactApp.i18n.BLOCK+6);
     p.setPosition(new Vector(0,  0),  0);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#c99');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

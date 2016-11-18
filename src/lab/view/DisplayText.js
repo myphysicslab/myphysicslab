@@ -33,12 +33,14 @@ var Vector = myphysicslab.lab.util.Vector;
 @param {string=} opt_text the text to display (default is empty string)
 @param {!Vector=} opt_position the position in simulation coords to display the text
     (default is origin)
+* @param {?DisplayText=} proto the prototype DisplayText to inherit properties
+*     from
 * @constructor
 * @final
 * @struct
 * @implements {myphysicslab.lab.view.DisplayObject}
 */
-myphysicslab.lab.view.DisplayText = function(opt_text, opt_position) {
+myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
   /**
   * @type {!string}
   * @private
@@ -50,28 +52,36 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position) {
   */
   this.location_ = opt_position || Vector.ORIGIN;
   /** The color used when drawing the text, a CSS3 color value.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.fillStyle = DisplayText.fillStyle;
+  this.fillStyle;
   /** The font used when drawing the text, a CSS3 font specification.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.font = DisplayText.font;
+  this.font;
   /** The horizontal alignment of text; legal values are 'left', 'center', 'right',
   * 'start' and 'end'.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.textAlign = DisplayText.textAlign;
+  this.textAlign;
   /** The vertical alignment of text; legal values are 'top', 'middle', 'bottom',
   * 'alphabetic', 'hanging', and 'ideographic'.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.textBaseline = DisplayText.textBaseline;
+  this.textBaseline;
+  /**
+  * @type {number|undefined}
+  */
+  this.zIndex = 0;
   /**
   * @type {boolean}
   * @private
   */
   this.dragable_ = false;
+  /**
+  * @type {?DisplayText}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayText = myphysicslab.lab.view.DisplayText;
 
@@ -79,50 +89,19 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   DisplayText.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-      +', location: '+this.location_
-      +', font: '+this.font
-      +', fillStyle: "'+this.fillStyle+'"'
-      +', textAlign: '+this.textAlign
-      +', textBaseline: '+this.textBaseline
-      +'}';
+        +', location: '+this.location_
+        +', font: '+this.getFont()
+        +', fillStyle: "'+this.getFillStyle()+'"'
+        +', textAlign: '+this.getTextAlign()
+        +', textBaseline: '+this.getTextBaseline()
+        +', zIndex: '+this.getZIndex()
+        +'}';
   };
 
   /** @inheritDoc */
   DisplayText.prototype.toStringShort = function() {
     return 'DisplayText{text_: '+this.text_+'}';
   };
-};
-
-/** Default value for {@link #fillStyle}, used when creating a DisplayText.
-* @type {string}
-*/
-DisplayText.fillStyle = 'black';
-
-/** Default value for {@link #font}, used when creating a DisplayText.
-* @type {string}
-*/
-DisplayText.font = '12pt sans-serif';
-
-/** Default value for {@link #textAlign}, used when creating a DisplayText.
-* @type {string}
-*/
-DisplayText.textAlign = 'left';
-
-/** Default value for {@link #textBaseline}, used when creating a DisplayText.
-* @type {string}
-*/
-DisplayText.textBaseline = 'alphabetic';
-
-/** Sets the default style used when creating a new DisplayText to match
-* the given DisplayText.
-* @param {!myphysicslab.lab.view.DisplayText} dispObj the DisplayText to get
-*    style from
-*/
-DisplayText.setStyle = function(dispObj) {
-  DisplayText.fillStyle = dispObj.fillStyle;
-  DisplayText.font = dispObj.font;
-  DisplayText.textAlign = dispObj.textAlign;
-  DisplayText.textBaseline = dispObj.textBaseline;
 };
 
 /** @inheritDoc */
@@ -133,10 +112,10 @@ DisplayText.prototype.contains = function(point) {
 /** @inheritDoc */
 DisplayText.prototype.draw = function(context, map) {
   context.save()
-  context.fillStyle = this.fillStyle;
-  context.font = this.font;
-  context.textAlign = this.textAlign;
-  context.textBaseline = this.textBaseline;
+  context.fillStyle = this.getFillStyle();
+  context.font = this.getFont();
+  context.textAlign = this.getTextAlign();
+  context.textBaseline = this.getTextBaseline();
   var x1 = map.simToScreenX(this.location_.getX());
   var y1 = map.simToScreenY(this.location_.getY());
   /*if (this.centered_) {
@@ -145,6 +124,32 @@ DisplayText.prototype.draw = function(context, map) {
   }*/
   context.fillText(this.text_, x1, y1);
   context.restore();
+};
+
+/** Color used when drawing the text, a CSS3 color value.
+* @return {string}
+*/
+DisplayText.prototype.getFillStyle = function() {
+  if (this.fillStyle !== undefined) {
+    return this.fillStyle;
+  } else if (this.proto != null) {
+    return this.proto.getFillStyle();
+  } else {
+    return 'black';
+  }
+};
+
+/** Font used when drawing the text, a CSS3 color value.
+* @return {string}
+*/
+DisplayText.prototype.getFont = function() {
+  if (this.font !== undefined) {
+    return this.font;
+  } else if (this.proto != null) {
+    return this.proto.getFont();
+  } else {
+    return '12pt sans-serif';
+  }
 };
 
 /** @inheritDoc */
@@ -162,11 +167,50 @@ DisplayText.prototype.getSimObjects = function() {
   return [ ];
 };
 
+/** The horizontal alignment of text; allowed values are 'left', 'center', 'right',
+* 'start' and 'end'.
+* @return {string}
+*/
+DisplayText.prototype.getTextAlign = function() {
+  if (this.textAlign !== undefined) {
+    return this.textAlign;
+  } else if (this.proto != null) {
+    return this.proto.getTextAlign();
+  } else {
+    return 'left';
+  }
+};
+
+/** The vertical alignment of text; allowed values are 'top', 'middle', 'bottom',
+* 'alphabetic', 'hanging', and 'ideographic'.
+* @return {string}
+*/
+DisplayText.prototype.getTextBaseline = function() {
+  if (this.textBaseline !== undefined) {
+    return this.textBaseline;
+  } else if (this.proto != null) {
+    return this.proto.getTextBaseline();
+  } else {
+    return 'alphabetic';
+  }
+};
+
 /** Returns the text being drawn.
 * @return {string} the text being drawn.
 */
 DisplayText.prototype.getText = function() {
   return this.text_;
+};
+
+/** @inheritDoc */
+DisplayText.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 0;
+  }
 };
 
 /** @inheritDoc */
@@ -179,6 +223,24 @@ DisplayText.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
 
+/** Color used when drawing the text, a CSS3 color value.
+* @param {string|undefined} value
+* @return {!DisplayText} this object for chaining setters
+*/
+DisplayText.prototype.setFillStyle = function(value) {
+  this.fillStyle = value;
+  return this;
+};
+
+/** Font used when drawing the text, a CSS3 color value.
+* @param {string|undefined} value
+* @return {!DisplayText} this object for chaining setters
+*/
+DisplayText.prototype.setFont = function(value) {
+  this.font = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayText.prototype.setPosition = function(position) {
   this.location_ = position;
@@ -189,6 +251,31 @@ DisplayText.prototype.setPosition = function(position) {
 */
 DisplayText.prototype.setText = function(text) {
   this.text_ = text;
+};
+
+/** The horizontal alignment of text; allowed values are 'left', 'center', 'right',
+* 'start' and 'end'.
+* @param {string|undefined} value
+* @return {!DisplayText} this object for chaining setters
+*/
+DisplayText.prototype.setTextAlign = function(value) {
+  this.textAlign = value;
+  return this;
+};
+
+/** The vertical alignment of text; allowed values are 'top', 'middle', 'bottom',
+* 'alphabetic', 'hanging', and 'ideographic'.
+* @param {string|undefined} value
+* @return {!DisplayText} this object for chaining setters
+*/
+DisplayText.prototype.setTextBaseline = function(value) {
+  this.textBaseline = value;
+  return this;
+};
+
+/** @inheritDoc */
+DisplayText.prototype.setZIndex = function(zIndex) {
+  this.zIndex = zIndex;
 };
 
 });  // goog.scope

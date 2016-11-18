@@ -269,7 +269,7 @@ Engine2DApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
   +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView|timeGraph'
-  +'|displayList|scriptParser|terminal|statusList|elasticity|varsList',
+  +'|displayList|scriptParser|terminal|statusList|elasticity|varsList|rbo',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

@@ -35,6 +35,10 @@ is the visible representation of a {@link myphysicslab.lab.model.SimObject}.
 Each DisplayObject has a default policy about when the SimObject it represents is
 dragable; this can be overridden via the {@link #setDragable} method.
 
+Many DisplayObjects allow specifying a **prototype** DisplayObject. When a display
+property is `undefined`, then the property is fetched from the prototype. If it is also
+`undefined` on the prototype then a default value is used.
+
 See the View section of [myPhysicsLab Architecture](Architecture.html#view) for more
 about how DisplayObjects are used within an application.
 
@@ -83,6 +87,12 @@ Returns an empty list if this DisplayObject doesn't represent a SimObject.
 */
 DisplayObject.prototype.getSimObjects;
 
+/** Sets the z-index which specifies front-to-back ordering of objects;
+objects with a higher zIndex are drawn over (in front of) objects with a lower zIndex.
+@return {number} the zIndex of this DisplayObject
+*/
+DisplayObject.prototype.getZIndex;
+
 /** Sets whether this DisplayObject is currently dragable; has no effect on objects
 that are not dragable.
 @param {boolean} dragable whether this DisplayObject should be dragable
@@ -106,5 +116,12 @@ will have an effect. Generally the policies are:
 simulation coordinates.
 */
 DisplayObject.prototype.setPosition;
+
+/** Sets the z-index which specifies front-to-back ordering of objects;
+objects with a higher zIndex are drawn over objects with a lower zIndex.
+Default is zero.
+@param {number|undefined} zIndex the zIndex of this DisplayObject
+*/
+DisplayObject.prototype.setZIndex;
 
 });  // goog.scope

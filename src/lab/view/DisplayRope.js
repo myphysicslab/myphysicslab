@@ -34,37 +34,47 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link myphysicslab.lab.engine2D.Rope} by showing a straight line when
 the Rope is tight, or a jagged line when the Rope has slack. Can have a different color
-when tight or slack, see {@link #colorTight} and {@link #colorSlack}.
+when tight or slack, see {@link #setColorTight} and {@link #setColorSlack}.
 
 The position is reported as the midpoint of the Rope by {@link #getPosition}.
 The position is determined by the position of the Rope, so {@link #setPosition}
 has no effect, and the DisplayRope is never dragable.
 
-* @param {!myphysicslab.lab.engine2D.Rope} rope
+* @param {?Rope=} rope the Rope to display
+* @param {?DisplayRope=} proto the prototype DisplayRope to inherit properties
+*     from
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayRope = function(rope) {
+myphysicslab.lab.view.DisplayRope = function(rope, proto) {
   /**
-  * @type {!myphysicslab.lab.engine2D.Rope}
+  * @type {?Rope}
   * @private
   */
-  this.rope_ = rope;
+  this.rope_ = goog.isDefAndNotNull(rope) ? rope : null;
   /** Color when rope is tight; a CSS3 color value
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.colorTight = DisplayRope.colorTight;
+  this.colorTight;
   /** Color when rope is slack; a CSS3 color value
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.colorSlack = DisplayRope.colorSlack;
+  this.colorSlack;
   /** Thickness of lines when drawing the rope, in screen coordinates, so a
   * value of 1 means a 1 pixel thick line.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.thickness = DisplayRope.thickness;
+  this.thickness;
+  /**
+  * @type {number|undefined}
+  */
+  this.zIndex;
+  /**
+  * @type {?DisplayRope}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayRope = myphysicslab.lab.view.DisplayRope;
 
@@ -72,27 +82,19 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   DisplayRope.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', colorTight: "'+this.colorTight+'"'
-        +', colorSlack: "'+this.colorSlack+'"'
-        +', thickness: '+NF(this.thickness)
+        +', colorTight: "'+this.getColorTight()+'"'
+        +', colorSlack: "'+this.getColorSlack()+'"'
+        +', thickness: '+NF(this.getThickness())
+        +', zIndex: '+this.getZIndex()
         +'}';
   };
 
   /** @inheritDoc */
   DisplayRope.prototype.toStringShort = function() {
-    return 'DisplayRope{rope_: '+this.rope_.toStringShort()+'}';
+    return 'DisplayRope{rope_: '+
+        (this.rope_ != null ? this.rope_.toStringShort() : 'null')+'}';
   };
 };
-
-/** Default value for {@link #colorSlack}, used when creating a DisplayRope.
-* @type {string}
-*/
-DisplayRope.colorSlack = 'green';
-
-/** Default value for {@link #colorTight}, used when creating a DisplayRope.
-* @type {string}
-*/
-DisplayRope.colorTight = 'red';
 
 /**  the fixed length of the un-transformed path
 * @type {number}
@@ -108,20 +110,6 @@ DisplayRope.pathLength = 6.0;
 */
 DisplayRope.pathWidth = 0.5;
 
-/** Default value for {@link #thickness}, used when creating a DisplayRope.
-* @type {number}
-*/
-DisplayRope.thickness = 4;
-
-/**  Sets the default style to match the given DisplayRope.
-* @param {!myphysicslab.lab.view.DisplayRope} dispObj the DisplayRope to get style from
-*/
-DisplayRope.setStyle = function(dispObj) {
-  DisplayRope.colorTight = dispObj.colorTight;
-  DisplayRope.colorSlack = dispObj.colorSlack;
-  DisplayRope.thickness = dispObj.thickness;
-};
-
 /** @inheritDoc */
 DisplayRope.prototype.contains = function(p_world) {
   return false;
@@ -129,17 +117,20 @@ DisplayRope.prototype.contains = function(p_world) {
 
 /** @inheritDoc */
 DisplayRope.prototype.draw = function(context, map) {
+  if (this.rope_ == null) {
+    return;
+  }
   var len = this.rope_.getLength();
   if (len < 1e-6)
     return;
   context.save()
-  context.lineWidth = this.thickness;
+  context.lineWidth = this.getThickness();
   var tight = this.rope_.isTight();
   var slack = tight ? 0 : this.rope_.getRestLength() - len;
   if (tight) {
-    context.strokeStyle = this.colorTight;
+    context.strokeStyle = this.getColorTight();
   } else {
-    context.strokeStyle = this.colorSlack;
+    context.strokeStyle = this.getColorSlack();
   }
   var p1 = this.rope_.getStartPoint();
   var p2 = this.rope_.getEndPoint();
@@ -203,6 +194,32 @@ DisplayRope.drawRope = function(context, at) {
   context.stroke();
 };
 
+/** Color when rope is slack; a CSS3 color value
+* @return {string}
+*/
+DisplayRope.prototype.getColorSlack = function() {
+  if (this.colorSlack !== undefined) {
+    return this.colorSlack;
+  } else if (this.proto != null) {
+    return this.proto.getColorSlack();
+  } else {
+    return 'green';
+  }
+};
+
+/** Color when rope is tight; a CSS3 color value
+* @return {string}
+*/
+DisplayRope.prototype.getColorTight = function() {
+  if (this.colorTight !== undefined) {
+    return this.colorTight;
+  } else if (this.proto != null) {
+    return this.proto.getColorTight();
+  } else {
+    return 'red';
+  }
+};
+
 /** @inheritDoc */
 DisplayRope.prototype.getMassObjects = function() {
   return [ ];
@@ -211,17 +228,61 @@ DisplayRope.prototype.getMassObjects = function() {
 /** @inheritDoc */
 DisplayRope.prototype.getPosition = function() {
   // return midpoint of the line
-  return this.rope_.getStartPoint().add(this.rope_.getEndPoint()).multiply(0.5);
+  return this.rope_ == null ? Vector.ORIGIN :
+      this.rope_.getStartPoint().add(this.rope_.getEndPoint()).multiply(0.5);
 };
 
 /** @inheritDoc */
 DisplayRope.prototype.getSimObjects = function() {
-  return [ this.rope_ ];
+  return this.rope_ == null ? [ ] : [ this.rope_ ];
+};
+
+/** Thickness to use when drawing the line, in screen coordinates, so a unit
+* is a screen pixel.
+* @return {number}
+*/
+DisplayRope.prototype.getThickness = function() {
+  if (this.thickness !== undefined) {
+    return this.thickness;
+  } else if (this.proto != null) {
+    return this.proto.getThickness();
+  } else {
+    return 3;
+  }
+};
+
+/** @inheritDoc */
+DisplayRope.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 0;
+  }
 };
 
 /** @inheritDoc */
 DisplayRope.prototype.isDragable = function() {
   return false;
+};
+
+/** Color when rope is slack; a CSS3 color value
+* @param {string|undefined} value
+* @return {!DisplayRope} this object for chaining setters
+*/
+DisplayRope.prototype.setColorSlack = function(value) {
+  this.colorSlack = value;
+  return this;
+};
+
+/** Color when rope is tight; a CSS3 color value
+* @param {string|undefined} value
+* @return {!DisplayRope} this object for chaining setters
+*/
+DisplayRope.prototype.setColorTight = function(value) {
+  this.colorTight = value;
+  return this;
 };
 
 /** @inheritDoc */
@@ -232,6 +293,21 @@ DisplayRope.prototype.setDragable = function(dragable) {
 /** @inheritDoc */
 DisplayRope.prototype.setPosition = function(position) {
   //throw new Error('unsupported operation');
+};
+
+/** Thickness to use when drawing the line, in screen coordinates, so a unit
+* is a screen pixel.
+* @param {number|undefined} value
+* @return {!DisplayRope} this object for chaining setters
+*/
+DisplayRope.prototype.setThickness = function(value) {
+  this.thickness = value;
+  return this;
+};
+
+/** @inheritDoc */
+DisplayRope.prototype.setZIndex = function(zIndex) {
+  this.zIndex = zIndex;
 };
 
 });  // goog.scope

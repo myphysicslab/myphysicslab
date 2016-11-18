@@ -240,6 +240,11 @@ DisplayObject for the new SimObject. An example is
 [RigidBodyObserver](myphysicslab.sims.engine2D.RigidBodyObserver.html).
 See the [Subject, Observer, Parameter][] section below for more about Observers.
 
+Many DisplayObjects allow specifying a **prototype** DisplayObject. When a display
+property (color, line thickness, etc.) is `undefined`, then the property is fetched
+from the prototype. If the property is also `undefined` on the prototype then a default
+value is used.
+
 The Simulation will modify its SimObjects over time. For example, the location of a
 SimObject may change, and therefore the DisplayObject that mirrors that SimObject will
 change over time. A DisplayObject has a reference to the SimObject that it represents so

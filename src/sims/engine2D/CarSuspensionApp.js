@@ -48,6 +48,7 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
+var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -79,6 +80,8 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.rbo.protoSpring.setWidth(0.3);
+  this.protoWheel = new DisplayShape().setFillStyle('#CCF');
   this.mySim.setShowForces(false);
   /** @type {!lab.model.DampingLaw} */
   this.dampingLaw = new DampingLaw(/*damping=*/0.1, /*rotateRatio=*/0.15,
@@ -167,7 +170,7 @@ CarSuspensionApp.prototype.getClassName = function() {
 /** @inheritDoc */
 CarSuspensionApp.prototype.defineNames = function(myName) {
   CarSuspensionApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('dampingLaw|gravityLaw',
+  this.terminal.addRegex('dampingLaw|gravityLaw|protoWheel',
       myName);
   this.terminal.addRegex('CarSuspensionApp|Engine2DApp',
        'myphysicslab.sims.engine2D', /*addToVars=*/false);
@@ -204,6 +207,7 @@ CarSuspensionApp.prototype.configure = function() {
   car.setMass(this.carMass);
   car.setPosition(new Vector(0,  -1),  0);
   this.mySim.addBody(car);
+  this.displayList.find(car).setFillStyle('lightGray');
   switch (this.formation) {
     case Formation.TWO_SPRINGS:
       var wheel1 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+1,
@@ -211,56 +215,60 @@ CarSuspensionApp.prototype.configure = function() {
       wheel1.setMass(this.wheelMass);
       wheel1.setPosition(new Vector(-1.0,  -3.0),  0);
       this.mySim.addBody(wheel1);
+      this.displayList.find(wheel1).proto = this.protoWheel;
       var wheel2 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+2,
           CarSuspensionApp.i18n.WHEEL+2);
       wheel2.setMass(this.wheelMass);
       wheel2.setPosition(new Vector(2.0,  -3.0),  0);
       this.mySim.addBody(wheel2);
+      this.displayList.find(wheel2).proto = this.protoWheel;
       this.addSpring(new Spring('spring1',
-        car, new Vector(-2.1, -1.0),
-        wheel1, Vector.ORIGIN,
-        this.springLength, this.stiffness));
+          car, new Vector(-2.1, -1.0),
+          wheel1, Vector.ORIGIN,
+          this.springLength, this.stiffness));
       this.addSpring(new Spring('spring2',
-        car, new Vector(-0.9, -1.0),
-        wheel1, Vector.ORIGIN,
-        this.springLength, this.stiffness));
+          car, new Vector(-0.9, -1.0),
+          wheel1, Vector.ORIGIN,
+          this.springLength, this.stiffness));
       this.addSpring(new Spring('spring3',
-        car, new Vector(0.9, -1.0),
-        wheel2, Vector.ORIGIN,
-        this.springLength, this.stiffness));
+          car, new Vector(0.9, -1.0),
+          wheel2, Vector.ORIGIN,
+          this.springLength, this.stiffness));
       this.addSpring(new Spring('spring4',
-        car, new Vector(2.1, -1.0),
-        wheel2, Vector.ORIGIN,
-        this.springLength, this.stiffness));
+          car, new Vector(2.1, -1.0),
+          wheel2, Vector.ORIGIN,
+          this.springLength, this.stiffness));
       break;
     case Formation.ROD_SPRING:
       var p1 = Shapes.makePendulum(0.05, this.springLength, 0.4,
           CarSuspensionApp.en.WHEEL+1, CarSuspensionApp.i18n.WHEEL+1);
       p1.setAngle(0);
       this.mySim.addBody(p1);
+      this.displayList.find(p1).proto = this.protoWheel;
       Joint.attachRigidBody(this.mySim,
-        car, /*attach1_body=*/new Vector(-0.9, -1.0),
-        p1, /*attach2_body*/new Vector(0, this.springLength),
-        /*normalType=*/CoordType.WORLD
-        );
+          car, /*attach1_body=*/new Vector(-0.9, -1.0),
+          p1, /*attach2_body*/new Vector(0, this.springLength),
+          /*normalType=*/CoordType.WORLD
+          );
       this.addSpring(new Spring('spring1',
-        car, new Vector(-2.1, -1.0),
-        p1, Vector.ORIGIN,
-        this.springLength, this.stiffness));
+          car, new Vector(-2.1, -1.0),
+          p1, Vector.ORIGIN,
+          this.springLength, this.stiffness));
       var p2 = Shapes.makePendulum(0.05, this.springLength, 0.4,
           CarSuspensionApp.en.WHEEL+2, CarSuspensionApp.i18n.WHEEL+2);
       p2.setAngle(0);
       this.mySim.addBody(p2);
+      this.displayList.find(p2).proto = this.protoWheel;
       Joint.attachRigidBody(this.mySim,
-        car, /*attach1_body=*/new Vector(0.9, -1.0),
-        p2, /*attach2_body=*/new Vector(0, this.springLength),
-        /*normalType=*/CoordType.WORLD
-        );
+          car, /*attach1_body=*/new Vector(0.9, -1.0),
+          p2, /*attach2_body=*/new Vector(0, this.springLength),
+          /*normalType=*/CoordType.WORLD
+          );
       this.addSpring(new Spring('spring2',
-        car, new Vector(2.1, -1.0),
-        p2, Vector.ORIGIN,
-        this.springLength, this.stiffness));
-        this.mySim.alignConnectors();
+          car, new Vector(2.1, -1.0),
+          p2, Vector.ORIGIN,
+          this.springLength, this.stiffness));
+          this.mySim.alignConnectors();
       break;
     default:
       throw new Error();

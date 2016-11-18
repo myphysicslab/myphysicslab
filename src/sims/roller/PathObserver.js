@@ -76,7 +76,7 @@ changing the public property {@link myphysicslab.lab.view.DisplayPath#style}.
 Modify the DisplayPath's style directly after it has been created. Here
 is an example:
 
-    var dispPath1 = simView.getDisplayList().findSimObject(path1);
+    var dispPath1 = simView.getDisplayList().find(path1);
     dispPath1.setStyle(0, DrawingStyle.lineStyle('red', 2));
 
 
@@ -134,6 +134,11 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
   * @private
   */
   this.memObjs_ = [];
+  /**
+  * @type {!DisplayPath|undefined}
+  */
+  this.protoDisplayPath = new DisplayPath();
+  this.protoDisplayPath.setZIndex(-10);
 };
 var PathObserver = myphysicslab.sims.roller.PathObserver;
 
@@ -164,14 +169,14 @@ PathObserver.memObjects;
 * @private
 */
 PathObserver.prototype.addPath = function(np) {
-  if (this.displayList_.findSimObject(np) != null) {
+  if (this.displayList_.find(np) != null) {
     // we already have a DisplayPath for this NumericalPath, don't add a new one.
     return;
   }
-  var displayPath = new DisplayPath();
+  var displayPath = new DisplayPath(this.protoDisplayPath);
   displayPath.setScreenRect(this.simView_.getScreenRect());
   displayPath.addPath(np);
-  this.displayList_.add(displayPath, /*zIndex=*/-10);
+  this.displayList_.add(displayPath);
   if (this.simRectSetter_ != null) {
     // modify size of display to fit this path
     var r = np.getBoundsWorld().scale(this.expansionFactor_);

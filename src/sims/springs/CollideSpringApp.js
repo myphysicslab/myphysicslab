@@ -84,14 +84,26 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  /** @type {number} */
+  /**
+  * @type {number}
+  * @private
+  */
   this.startPosition = CollideSpringSim.START_MIDDLE;
-  /** @type {number} */
+  /**
+  * @type {number}
+  * @private
+  */
   this.numBlocks = 3;
   /** Gap between objects in starting position
   * @type {number}
+  * @private
   */
   this.startGap = 0.1;
+
+  this.protoBlock = new DisplayShape().setFillStyle('blue');
+  this.protoWall = new DisplayShape().setFillStyle('lightGray');
+  this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
+      .setColorExpanded('#6f6');
 
   // The update() method will make DisplayObjects in response to seeing SimObjects
   // being added to the SimList.  Important that no SimObjects were added prior.
@@ -163,29 +175,29 @@ CollideSpringApp.prototype.getClassName = function() {
   return 'CollideSpringApp';
 };
 
+/** @inheritDoc */
+CollideSpringApp.prototype.defineNames = function(myName) {
+  CollideSpringApp.superClass_.defineNames.call(this, myName);
+  this.terminal.addRegex('protoBlock|protoWall|protoSpring',
+      myName);
+};
+
 /**
 @param {!SimObject} obj
 @private
 */
 CollideSpringApp.prototype.addBody = function(obj) {
-  if (this.displayList.findSimObject(obj) != null) {
+  if (this.displayList.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
   }
   if (obj instanceof PointMass) {
     var rm = /** @type {!PointMass} */(obj);
-    var isWall = rm.getName().match(/^WALL/);
-    DisplayShape.drawCenterOfMass = false;
-    DisplayShape.drawDragPoints = false;
-    DisplayShape.fillStyle = isWall ? 'lightGray' : 'blue';
-    DisplayShape.strokeStyle = '';
-    this.displayList.add(new DisplayShape(rm));
+    var proto = rm.getName().match(/^WALL/) ? this.protoWall : this.protoBlock;
+    this.displayList.add(new DisplayShape(rm, proto));
   } else if (obj instanceof Spring) {
     var s = /** @type {!Spring} */(obj);
-    DisplaySpring.width = 0.3;
-    DisplaySpring.colorCompressed = '#0c0';  // darker green
-    DisplaySpring.colorExpanded = '#6f6'; // brighter green
-    this.displayList.add(new DisplaySpring(s));
+    this.displayList.add(new DisplaySpring(s, this.protoSpring));
   }
 };
 
@@ -196,7 +208,7 @@ CollideSpringApp.prototype.observe =  function(event) {
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.findSimObject(obj);
+      var d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }

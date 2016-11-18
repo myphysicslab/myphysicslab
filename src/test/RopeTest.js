@@ -106,8 +106,6 @@ RopeTest.commonSetup1 = function(sim, advance) {
   advance.setDiffEqSolver(new RungeKutta(sim));
   advance.setJointSmallImpacts(false);
   advance.setTimeStep(0.01);
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = '';
 };
 
 /**
@@ -120,7 +118,6 @@ RopeTest.pendulum_rope_init = function(sim, advance, ropeType) {
   RopeTest.commonSetup1(sim, advance);
   var b1 = Shapes.makeBlock(1, 3, 'block');
   // let the rope align the body
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(b1);
   var rope = new Rope(
       /*body1=*/Scrim.getScrim(), /*attach1_body=*/new Vector(0, 2),
@@ -218,7 +215,6 @@ RopeTest.pendulum_rod_test = function() {
 RopeTest.pendulum_rope_bounce_setup = function(sim, advance) {
   RopeTest.commonSetup1(sim, advance);
   var b1 = Shapes.makeBlock(1, 3, 'block');
-  DisplayShape.fillStyle = 'orange';
   sim.addBody(b1);
   var rope = new Rope(
       /*body1=*/Scrim.getScrim(), /*attach1_body=*/new Vector(0, 2),
@@ -268,11 +264,9 @@ RopeTest.pendulum_rope_bounce_test = function() {
 RopeTest.double_rope_init = function(sim, advance, ropeType, thrust) {
   RopeTest.commonSetup1(sim, advance);
   var b1 = Shapes.makeBlock(1, 3, 'block');
-  DisplayShape.fillStyle = 'orange';
   b1.setPosition(new Vector(-1.5,  0),  Math.PI/4);
   b1.setVelocity(new Vector(0,  -4),  0);
   var b2 = Shapes.makeBall(1.0, 'ball');
-  DisplayShape.fillStyle = 'lightGray';
   b2.setPosition(new Vector(1.5,  0),  3*Math.PI/4);
   b2.setVelocity(new Vector(0,  4),  0);
   var rope = new Rope(

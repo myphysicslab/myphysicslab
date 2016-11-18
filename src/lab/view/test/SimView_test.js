@@ -213,8 +213,6 @@ var testSimView1 = function() {
   var point1 = PointMass.makeSquare(1);
   var v1 = new Vector(2.5, 0);
   point1.setPosition(v1);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
   var shape1 = new DisplayShape(point1);
   shape1.fillStyle = 'orange';
   var fixedPt = PointMass.makeSquare(1).setMass(UtilityCore.POSITIVE_INFINITY);
@@ -223,10 +221,8 @@ var testSimView1 = function() {
       fixedPt, Vector.ORIGIN,
       point1, Vector.ORIGIN,
       /*restLength=*/2, /*stiffness=*/12);
-  DisplaySpring.width = 1.0;
-  DisplaySpring.colorCompressed = 'red';
-  DisplaySpring.colorExpanded = 'green';
-  var dspring1 = new DisplaySpring(spring1);
+  var dspring1 = new DisplaySpring(spring1).setWidth(1.0)
+      .setColorCompressed('red').setColorExpanded('green')
 
   displayList1.add(shape1);
   displayList1.add(dspring1);
@@ -235,8 +231,8 @@ var testSimView1 = function() {
   assertEquals(2, displayList1.toArray().length);
   assertTrue(goog.array.contains(displayList1.toArray(), shape1));
   assertTrue(goog.array.contains(displayList1.toArray(), dspring1));
-  assertEquals(shape1, displayList1.findSimObject(point1));
-  assertEquals(dspring1, displayList1.findSimObject(spring1));
+  assertEquals(shape1, displayList1.find(point1));
+  assertEquals(dspring1, displayList1.find(spring1));
 
   // set expected rectangle to be drawn
   mockContext.expectRect1 = map.simToScreen(new Vector(2, -0.5));

@@ -30,6 +30,10 @@ points, not velocity. The objects keep moving because of the slight residual vel
 that exists when the contact is first detected. Eventually this residual velocity
 results in a low-velocity collision or a loss of contact.
 
+See {@link myphysicslab.lab.util.GenericObserver} for a way to observe the effects
+of the various ExtraAccel settings by coloring the display of contact forces
+based on the gap distance at each contact.
+
 More information:
 
 + 'Extra Acceleration' in {@link myphysicslab.lab.engine2D.ContactSim}

@@ -31,7 +31,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('myphysicslab.sims.layout.CommonControls');
@@ -51,7 +50,6 @@ var ConcreteVertex = lab.engine2D.ConcreteVertex;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -84,6 +82,7 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(false);
   /** @type {!lab.model.DampingLaw} */
@@ -170,14 +169,11 @@ PolygonTestApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  DisplayShape.fillStyle = 'gray';
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   /** @type {!lab.engine2D.RigidBody} */
   var p;
-  DisplayShape.nameFont = '10pt sans-serif';
   if (this.numBods >= 1) {
-    DisplayShape.fillStyle = 'cyan';
     // rectangle with one circular edge
     p = new Polygon(PolygonTestApp.en.ROUND_CORNER, PolygonTestApp.i18n.ROUND_CORNER);
     p.startPath(new ConcreteVertex(new Vector(0, 1)));
@@ -194,9 +190,9 @@ PolygonTestApp.prototype.config = function() {
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
+    this.displayList.find(p).setFillStyle('cyan').setDrawCenterOfMass(true);
   }
   if (this.numBods >= 2) {
-    DisplayShape.fillStyle = 'orange';
     // small triangular pie wedge with one circular edge
     var r = 1.5;
     p = new Polygon(PolygonTestApp.en.PIE_WEDGE, PolygonTestApp.i18n.PIE_WEDGE);
@@ -210,20 +206,18 @@ PolygonTestApp.prototype.config = function() {
     p.setDragPoints([new Vector(r*0.75, r*0.25)]);
     p.setPosition(new Vector(2,  -2),  Math.PI);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
-    DisplayShape.drawCenterOfMass = true;
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('orange').setDrawCenterOfMass(true);
   }
   if (this.numBods >= 3) {
-    DisplayShape.fillStyle = '#9f3'; // light green
     p = Shapes.makeHexagon(1.0, PolygonTestApp.en.HEXAGON, PolygonTestApp.i18n.HEXAGON);
     p.setPosition(new Vector(2.867,  -0.113),  0);
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
-    DisplayShape.drawCenterOfMass = false;
+    // light green
+    this.displayList.find(p).setFillStyle('#9f3');
   }
   if (this.numBods >= 4) {
-    DisplayShape.fillStyle = '#f6c'; // hot pink
-    DisplayShape.drawCenterOfMass = true;
     p = new Polygon(PolygonTestApp.en.L_SHAPE, PolygonTestApp.i18n.L_SHAPE);
     p.startPath(new ConcreteVertex(new Vector(0, 0)));
     p.addStraightEdge(new Vector(2, 0), /*outsideIsUp=*/false);
@@ -237,38 +231,39 @@ PolygonTestApp.prototype.config = function() {
     p.setPosition(new Vector(1,  2.5),  Math.PI-0.1);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
-    DisplayShape.drawCenterOfMass = false;
+    // hot pink
+    this.displayList.find(p).setFillStyle('#f6c').setDrawCenterOfMass(true);
   }
   if (this.numBods >= 5) {
-    DisplayShape.fillStyle = '#39f';
     p = Shapes.makeBall(1.0, PolygonTestApp.en.BALL, PolygonTestApp.i18n.BALL);
     p.setPosition(new Vector(-1, -2.5));
     //p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#39f');
   }
   if (this.numBods >= 6) {
-    DisplayShape.fillStyle = '#c99';
     p = Shapes.makeBlock(1.2, 2.8, PolygonTestApp.en.BLOCK, PolygonTestApp.i18n.BLOCK);
     p.setPosition(new Vector(0.08,  0.127),  0.888);
     this.mySim.addBody(p);
     this.thrust1 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
+    this.displayList.find(p).setFillStyle('#c99');
   }
   if (this.numBods >= 7) {
-    DisplayShape.fillStyle = '#990';
     p = Shapes.makeFrame(1.8, 1.2, 0.25, PolygonTestApp.en.HOLLOW_BOX,
         PolygonTestApp.i18n.HOLLOW_BOX);
     //p.setPosition(new Vector(-1, -2.5));
     p.setPosition(new Vector(-2, 2.5));
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#990');
   }
   if (this.numBods >= 8) {
-    DisplayShape.fillStyle = '#9cc';
     p = Shapes.makeBall(0.15, PolygonTestApp.en.BALL_IN_BOX,
         PolygonTestApp.i18n.BALL_IN_BOX);
     p.setPosition(new Vector(-2, 2.5));
     this.mySim.addBody(p);
+    this.displayList.find(p).setFillStyle('#9cc');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

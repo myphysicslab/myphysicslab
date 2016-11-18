@@ -32,7 +32,6 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
 goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
@@ -52,7 +51,6 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -197,8 +195,6 @@ PendulumClockApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  DisplayShape.fillStyle = 'lightGray';
-  DisplayShape.strokeStyle = 'black';
   if (this.withGears) {
     PendulumClockConfig.makeClockWithGears(this.mySim, this.pendulumLength,
         /*center=*/Vector.ORIGIN);
@@ -206,15 +202,24 @@ PendulumClockApp.prototype.config = function() {
     PendulumClockConfig.makeClock(this.mySim, this.pendulumLength,
         /*center=*/Vector.ORIGIN);
   }
+  var escapeWheel = this.displayList.find(PendulumClockConfig.en.ESCAPE_WHEEL);
+  escapeWheel.setFillStyle('#D3D3D3');
+  if (this.withGears) {
+    escapeWheel.setStrokeStyle('black');
+    var gear2 = this.displayList.find(PendulumClockConfig.en.GEAR+2);
+    gear2.setFillStyle('#B0C4DE').setZIndex(2);
+  }
+  var anchor = this.displayList.find(PendulumClockConfig.en.ANCHOR);
+  anchor.setFillStyle('#B0C4DE').setZIndex(3);
   this.setTurningForce(this.turningForce);
   if (this.extraBody) {
     // optional free moving block, to demonstrate interactions.
-    var block = Shapes.makeBlock(/*width=*/0.2, /*height=*/1,
+    var block = Shapes.makeBlock(/*width=*/0.12, /*height=*/0.5,
         PendulumClockConfig.en.EXTRA_BODY, PendulumClockConfig.i18n.EXTRA_BODY);
-    block.setMass(.1);
-    block.setPosition(new Vector(-4,  0),  0);
-    DisplayShape.strokeStyle = 'cyan';
+    block.setMass(0.3);
+    block.setPosition(new Vector(0, 6), Math.PI/2);
     this.mySim.addBody(block);
+    this.displayList.find(block).setStrokeStyle('cyan');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

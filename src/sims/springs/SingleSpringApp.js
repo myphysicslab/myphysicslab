@@ -70,19 +70,12 @@ myphysicslab.sims.springs.SingleSpringApp = function(elem_ids, opt_name) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  /** @type {!myphysicslab.lab.view.DisplayShape} */
-  this.block = new DisplayShape(this.simList.getPointMass('block'));
+  this.block = new DisplayShape(this.simList.getPointMass('block'))
+      .setFillStyle('blue');
   this.displayList.add(this.block);
-  this.block.fillStyle = 'blue';
-  /** @type {!myphysicslab.lab.view.DisplaySpring} */
-  this.spring = new DisplaySpring(this.simList.getSpring('spring'));
+  this.spring = new DisplaySpring(this.simList.getSpring('spring'))
+      .setWidth(0.4).setThickness(6);
   this.displayList.add(this.spring);
-  this.spring.width = 0.4;
-  this.spring.colorCompressed = 'blue';
-  this.spring.colorExpanded = 'green';
-  this.spring.thickness = 6;
 
   // Demo of adding an ExpressionVariable.
   if (!UtilityCore.ADVANCED) {

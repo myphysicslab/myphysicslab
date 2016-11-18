@@ -286,8 +286,6 @@ var testLabCanvas1 = function() {
   var point1 = PointMass.makeSquare(1);
   var v1 = new Vector(2.5, 0);
   point1.setPosition(v1);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
   var shape1 = new DisplayShape(point1);
   shape1.fillStyle = 'orange';
   var fixedPt = PointMass.makeSquare(1).setMass(UtilityCore.POSITIVE_INFINITY);
@@ -296,11 +294,9 @@ var testLabCanvas1 = function() {
       fixedPt, Vector.ORIGIN,
       point1, Vector.ORIGIN,
       /*restLength=*/2, /*stiffness=*/12);
-  DisplaySpring.width = 1.0;
-  DisplaySpring.colorCompressed = 'red';
-  DisplaySpring.colorExpanded = 'green';
-  DisplaySpring.drawMode = DisplaySpring.STRAIGHT;
-  var dspring1 = new DisplaySpring(spring1);
+  var dspring1 = new DisplaySpring(spring1).setWidth(1.0)
+      .setColorCompressed('red').setColorExpanded('green')
+      .setDrawMode(DisplaySpring.STRAIGHT);
   displayList1.add(shape1);
   displayList1.add(dspring1);
 

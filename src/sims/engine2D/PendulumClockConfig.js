@@ -23,21 +23,17 @@ goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.GearsConfig');
-goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 
 goog.scope(function() {
 
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CoordType = myphysicslab.lab.model.CoordType;
-var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 var Joint = myphysicslab.lab.engine2D.Joint;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var RigidBodyObserver = myphysicslab.sims.engine2D.RigidBodyObserver;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
@@ -146,7 +142,7 @@ PendulumClockConfig.makeEscapeWheel = function(scale, withGear, startEdges) {
   p.closePath();
   if (withGear) {
     GearsConfig.addGear(p, /*inside radius=*/radius * 0.8, /*depth of teeth=*/0.3,
-      /*numTeeth=*/36, /*outPercent=*/30, /*inPercent=*/30, startEdges);
+        /*numTeeth=*/36, /*outPercent=*/30, /*inPercent=*/30, startEdges);
   }
   p.finish();
   p.setCenterOfMass(0, 0);
@@ -163,15 +159,12 @@ PendulumClockConfig.makeEscapeWheel = function(scale, withGear, startEdges) {
 * @param {!myphysicslab.lab.util.Vector} center location of escape wheel center, in world coords
 */
 PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
-  var saveZIndex = RigidBodyObserver.zIndex;
   var escapeEdges = [];
   // escape wheel is the sharp toothed gear, which drives the clock.
-  var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03, /*withGear=*/false,
-      escapeEdges);
+  var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
+      /*withGear=*/false, escapeEdges);
   escapeWheel.setPosition(center,  0);
   escapeWheel.setMass(1);
-  DisplayShape.fillStyle = '#D3D3D3';
-  RigidBodyObserver.zIndex = 0;
   sim.addBody(escapeWheel);
   Joint.attachFixedPoint(sim, escapeWheel, Vector.ORIGIN, CoordType.WORLD);
 
@@ -184,9 +177,6 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
   // anchorEdges contains start edge for anchor and pendulum
   goog.asserts.assert(anchorEdges.length >= 2);
   anchor.setMass(10);
-  DisplayShape.fillStyle = '#B0C4DE';
-  DisplayShape.strokeStyle = 'black';
-  RigidBodyObserver.zIndex = 3;
   sim.addBody(anchor);
 
   // move anchor to zero energy position, and record zero energy level
@@ -202,7 +192,6 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
   escapeWheel.setZeroEnergyLevel();
   // escape wheel does not interact with the pendulum, only with the anchor
   escapeWheel.setNonCollideEdge(EdgeRange.fromEdge(anchorEdges[1]));
-  RigidBodyObserver.zIndex = saveZIndex;
 };
 
 /**
@@ -212,7 +201,6 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
 *    in world coords
 */
 PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
-  var saveZIndex = RigidBodyObserver.zIndex;
   // anchor is the rocking pendulum which regulates movement of escape wheel
   var scale = 0.03;
   var anchorJoint = new Vector(109*scale, 166*scale);
@@ -222,8 +210,6 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   // anchorEdges contains start edges for anchor and pendulum
   goog.asserts.assert(anchorEdges.length >= 2);
   anchor.setMass(10);
-  DisplayShape.fillStyle = '#B0C4DE';
-  RigidBodyObserver.zIndex = 3;
   sim.addBody(anchor);
   // move anchor to zero energy position, and record zero energy level
   var p = center.add(new Vector(0, 4.6));
@@ -248,8 +234,6 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   // gear2 does not interact with anchor
   gear2.addNonCollide([anchor]);
   anchor.addNonCollide([gear2]);
-  DisplayShape.fillStyle = '#B0C4DE';
-  RigidBodyObserver.zIndex = 2;
   sim.addBody(gear2);
   Joint.attachFixedPoint(sim, gear2, new Vector(0, 0), CoordType.WORLD);
   gear2.setZeroEnergyLevel();
@@ -259,15 +243,12 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   // A set of rectangular gears is added to to the escape wheel to interact
   // with the second gear.
   var escapeEdges = [];
-  var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03, /*withGear=*/true,
-      escapeEdges);
+  var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
+      /*withGear=*/true, escapeEdges);
   // escapeEdges contains start edges for escape wheel and gear
   goog.asserts.assert(escapeEdges.length >= 2);
   escapeWheel.setPosition(center,  0);
   escapeWheel.setMass(1);
-  DisplayShape.fillStyle = '#D3D3D3';
-  DisplayShape.strokeStyle = 'black';
-  RigidBodyObserver.zIndex = 0;
   sim.addBody(escapeWheel);
   Joint.attachFixedPoint(sim, escapeWheel, /*attach_body=*/Vector.ORIGIN,
       /*normalType=*/CoordType.WORLD);
@@ -278,7 +259,6 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   gear2.setNonCollideEdge(EdgeRange.fromEdge(escapeEdges[0]));
   // anchor does not interact with the gear on escape wheel
   anchor.setNonCollideEdge(EdgeRange.fromEdge(escapeEdges[1]));
-  RigidBodyObserver.zIndex = saveZIndex;
 };
 
 /** Set of internationalized strings.

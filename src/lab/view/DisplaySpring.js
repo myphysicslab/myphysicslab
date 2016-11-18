@@ -41,42 +41,52 @@ The position is reported as the midpoint of the Spring by {@link #getPosition}.
 The position is determined by the position of the Spring, so {@link #setPosition}
 has no effect, and the DisplaySpring is never dragable.
 
-* @param {!myphysicslab.lab.model.Spring} spring the Spring to display
+* @param {?myphysicslab.lab.model.Spring=} spring the Spring to display
+* @param {?DisplaySpring=} proto the prototype DisplaySpring to inherit properties
+*     from
 * @constructor
 * @final
 * @struct
 * @implements {myphysicslab.lab.view.DisplayObject}
 */
-myphysicslab.lab.view.DisplaySpring = function(spring) {
+myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {?myphysicslab.lab.model.Spring}
   * @private
   */
-  this.spring_ = spring;
+  this.spring_ = goog.isDefAndNotNull(spring) ? spring : null;
   /** How wide back-and-forth the jagged lines go when drawing the Spring,
   * in simulation coordinates.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.width = DisplaySpring.width;
+  this.width;
   /** Color drawn when Spring is compressed to less than its rest length,
   * a CSS3 color value.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.colorCompressed = DisplaySpring.colorCompressed;
+  this.colorCompressed;
   /**  Color drawn when Spring is stretched to more than its rest length,
   * a CSS3 color value.
-  * @type {string}
+  * @type {string|undefined}
   */
-  this.colorExpanded = DisplaySpring.colorExpanded;
+  this.colorExpanded;
   /** Thickness of lines when drawing the Spring, in screen coordinates, so a
   * value of 1 means a 1 pixel thick line.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.thickness = DisplaySpring.thickness;
+  this.thickness;
   /** Whether the Spring is drawn {@link #JAGGED} or {@link #STRAIGHT}.
-  * @type {number}
+  * @type {number|undefined}
   */
-  this.drawMode = DisplaySpring.drawMode;
+  this.drawMode;
+  /**
+  * @type {number|undefined}
+  */
+  this.zIndex;
+  /**
+  * @type {?DisplaySpring}
+  */
+  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 
@@ -84,17 +94,19 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   DisplaySpring.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-      +', width: '+NF(this.width)
-      +', colorCompressed: "'+this.colorCompressed+'"'
-      +', colorExpanded: "'+this.colorExpanded+'"'
-      +', thickness: '+NF(this.thickness)
-      +', drawMode: '+this.drawMode
-      +'}';
+        +', width: '+NF(this.getWidth())
+        +', colorCompressed: "'+this.getColorCompressed()+'"'
+        +', colorExpanded: "'+this.getColorExpanded()+'"'
+        +', thickness: '+NF(this.getThickness())
+        +', drawMode: '+this.getDrawMode()
+        +', zIndex: '+this.getZIndex()
+        +'}';
   };
 
   /** @inheritDoc */
   DisplaySpring.prototype.toStringShort = function() {
-    return 'DisplaySpring{spring_: '+this.spring_.toStringShort()+'}';
+    return 'DisplaySpring{spring_: '+
+        (this.spring_ != null ? this.spring_.toStringShort() : 'null')+'}';
   };
 };
 
@@ -110,21 +122,6 @@ DisplaySpring.JAGGED = 1;
 */
 DisplaySpring.STRAIGHT = 2;
 
-/** Default value for {@link #colorCompressed}, used when creating a DisplaySpring.
-* @type {string}
-*/
-DisplaySpring.colorCompressed = 'red';
-
-/** Default value for {@link #colorExpanded}, used when creating a DisplaySpring.
-* @type {string} a CSS3 color value
-*/
-DisplaySpring.colorExpanded = 'green';
-
-/** Default value for {@link #drawMode}, used when creating a DisplaySpring.
-* @type {number}
-*/
-DisplaySpring.drawMode = DisplaySpring.JAGGED;
-
 /** The fixed length of the un-transformed path
 * @type {number}
 * @private
@@ -139,28 +136,6 @@ DisplaySpring.pathLength = 6.0;
 */
 DisplaySpring.pathWidth = 0.5;
 
-/** Default value for {@link #thickness}, used when creating a DisplaySpring.
-* @type {number}
-*/
-DisplaySpring.thickness = 4;
-
-/** Default value for {@link #width}, used when creating a DisplaySpring.
-* @type {number}
-*/
-DisplaySpring.width = 0.5;
-
-/**  Sets the default style used when creating a new DisplaySpring to match
-* the given DisplaySpring.
-* @param {!myphysicslab.lab.view.DisplaySpring} dispObj the DisplaySpring to get
-*    style from
-*/
-DisplaySpring.setStyle = function(dispObj) {
-  DisplaySpring.colorCompressed = dispObj.colorCompressed;
-  DisplaySpring.colorExpanded = dispObj.colorExpanded;
-  DisplaySpring.width = dispObj.width;
-  DisplaySpring.thickness = dispObj.thickness;
-  DisplaySpring.drawMode = dispObj.drawMode;
-};
 
 /** @inheritDoc */
 DisplaySpring.prototype.contains = function(p_world) {
@@ -169,18 +144,21 @@ DisplaySpring.prototype.contains = function(p_world) {
 
 /** @inheritDoc */
 DisplaySpring.prototype.draw = function(context, map) {
+  if (this.spring_ == null) {
+    return;
+  }
   var len = this.spring_.getLength();
   if (len < 1e-6 || this.spring_.getStiffness()==0)
     return;
   context.save()
-  context.lineWidth = this.thickness;
+  context.lineWidth = this.getThickness();
   // the 0.00001 factor prevents flickering between red/green when springs are at rest.
   if (len < this.spring_.getRestLength() - 0.00001) {
-    context.strokeStyle = this.colorCompressed;
+    context.strokeStyle = this.getColorCompressed();
   } else {
-    context.strokeStyle = this.colorExpanded;
+    context.strokeStyle = this.getColorExpanded();
   }
-  if (this.drawMode === DisplaySpring.JAGGED) {
+  if (this.getDrawMode() === DisplaySpring.JAGGED) {
     // draw as a jagged line
     // note that the transforms are applied in reverse order  (because of
     // how matrix multiplication works).
@@ -191,7 +169,7 @@ DisplaySpring.prototype.draw = function(context, map) {
     var theta = Math.atan2(p2.getY()-p1.getY(), p2.getX()-p1.getX());
     at = at.rotate(theta);
     // stretch out the spring to the desired length & width
-    at = at.scale(len/DisplaySpring.pathLength, this.width/0.5);
+    at = at.scale(len/DisplaySpring.pathLength, this.getWidth()/0.5);
     DisplaySpring.drawSpring(context, at);
   } else {
     // draw as a straight line
@@ -231,6 +209,47 @@ DisplaySpring.drawSpring = function(context, at) {
   context.stroke();
 };
 
+/** Color drawn when Spring is compressed to less than its rest length,
+* a CSS3 color value.
+* @return {string}
+*/
+DisplaySpring.prototype.getColorCompressed = function() {
+  if (this.colorCompressed !== undefined) {
+    return this.colorCompressed;
+  } else if (this.proto != null) {
+    return this.proto.getColorCompressed();
+  } else {
+    return 'red';
+  }
+};
+
+/**  Color drawn when Spring is stretched to more than its rest length,
+* a CSS3 color value.
+* @return {string}
+*/
+DisplaySpring.prototype.getColorExpanded = function() {
+  if (this.colorExpanded !== undefined) {
+    return this.colorExpanded;
+  } else if (this.proto != null) {
+    return this.proto.getColorExpanded();
+  } else {
+    return 'green';
+  }
+};
+
+/** Whether the Spring is drawn {@link #JAGGED} or {@link #STRAIGHT}.
+* @return {number}
+*/
+DisplaySpring.prototype.getDrawMode = function() {
+  if (this.drawMode !== undefined) {
+    return this.drawMode;
+  } else if (this.proto != null) {
+    return this.proto.getDrawMode();
+  } else {
+    return DisplaySpring.JAGGED;
+  }
+};
+
 /** @inheritDoc */
 DisplaySpring.prototype.getMassObjects = function() {
   return [ ];
@@ -239,12 +258,52 @@ DisplaySpring.prototype.getMassObjects = function() {
 /** @inheritDoc */
 DisplaySpring.prototype.getPosition = function() {
   // return midpoint of the line
-  return this.spring_.getStartPoint().add(this.spring_.getEndPoint()).multiply(0.5);
+  return this.spring_ == null ? Vector.ORIGIN :
+      this.spring_.getStartPoint().add(this.spring_.getEndPoint()).multiply(0.5);
 };
 
 /** @inheritDoc */
 DisplaySpring.prototype.getSimObjects = function() {
-  return [ this.spring_ ];
+  return this.spring_ == null ? [ ] : [ this.spring_ ];
+};
+
+/** Thickness of lines when drawing the Spring, in screen coordinates, so a
+* value of 1 means a 1 pixel thick line.
+* @return {number}
+*/
+DisplaySpring.prototype.getThickness = function() {
+  if (this.thickness !== undefined) {
+    return this.thickness;
+  } else if (this.proto != null) {
+    return this.proto.getThickness();
+  } else {
+    return 4.0;
+  }
+};
+
+/** How wide back-and-forth the jagged lines go when drawing the Spring,
+* in simulation coordinates.
+* @return {number}
+*/
+DisplaySpring.prototype.getWidth = function() {
+  if (this.width !== undefined) {
+    return this.width;
+  } else if (this.proto != null) {
+    return this.proto.getWidth();
+  } else {
+    return 0.5;
+  }
+};
+
+/** @inheritDoc */
+DisplaySpring.prototype.getZIndex = function() {
+  if (this.zIndex !== undefined) {
+    return this.zIndex;
+  } else if (this.proto != null) {
+    return this.proto.getZIndex();
+  } else {
+    return 0;
+  }
 };
 
 /** @inheritDoc */
@@ -252,14 +311,68 @@ DisplaySpring.prototype.isDragable = function() {
   return false;
 };
 
+/** Color drawn when Spring is compressed to less than its rest length,
+* a CSS3 color value.
+* @param {string|undefined} colorCompressed
+* @return {!DisplaySpring} this object for chaining setters
+*/
+DisplaySpring.prototype.setColorCompressed = function(colorCompressed) {
+  this.colorCompressed = colorCompressed;
+  return this;
+};
+
+/**  Color drawn when Spring is stretched to more than its rest length,
+* a CSS3 color value.
+* @param {string|undefined} colorExpanded
+* @return {!DisplaySpring} this object for chaining setters
+*/
+DisplaySpring.prototype.setColorExpanded = function(colorExpanded) {
+  this.colorExpanded = colorExpanded;
+  return this;
+};
+
 /** @inheritDoc */
 DisplaySpring.prototype.setDragable = function(dragable) {
   // does nothing
 };
 
+/** Whether the Spring is drawn {@link #JAGGED} or {@link #STRAIGHT}.
+* @param {number|undefined} drawMode
+* @return {!DisplaySpring} this object for chaining setters
+*/
+DisplaySpring.prototype.setDrawMode = function(drawMode) {
+  this.drawMode = drawMode;
+  return this;
+};
+
 /** @inheritDoc */
 DisplaySpring.prototype.setPosition = function(position) {
   //throw new Error('unsupported operation');
+};
+
+/** Thickness of lines when drawing the Spring, in screen coordinates, so a
+* value of 1 means a 1 pixel thick line.
+* @param {number|undefined} thickness
+* @return {!DisplaySpring} this object for chaining setters
+*/
+DisplaySpring.prototype.setThickness = function(thickness) {
+  this.thickness = thickness;
+  return this;
+};
+
+/** How wide back-and-forth the jagged lines go when drawing the Spring,
+* in simulation coordinates.
+* @param {number|undefined} width
+* @return {!DisplaySpring} this object for chaining setters
+*/
+DisplaySpring.prototype.setWidth = function(width) {
+  this.width = width;
+  return this;
+};
+
+/** @inheritDoc */
+DisplaySpring.prototype.setZIndex = function(zIndex) {
+  this.zIndex = zIndex;
 };
 
 });  // goog.scope

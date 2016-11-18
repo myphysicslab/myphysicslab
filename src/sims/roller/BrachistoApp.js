@@ -92,7 +92,7 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
   /** BrachistoObserver handles making all DisplayObjects
   * @type {!BrachistoObserver}
   */
-  this.brachObsvr = new BrachistoObserver(sim, this.simList, this.simView,
+  this.brachistoObserver = new BrachistoObserver(sim, this.simList, this.simView,
       this.statusView);
 
   /** This 'repeat' ClockTask will reset the sim every 6 seconds.
@@ -157,7 +157,7 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   BrachistoApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-      +', brachObsvr: '+this.brachObsvr.toStringShort()
+      +', brachistoObserver: '+this.brachistoObserver.toStringShort()
       +', paths: [ '+this.paths+' ]'
       + BrachistoApp.superClass_.toString.call(this);
   };
@@ -204,7 +204,7 @@ BrachistoApp.prototype.setRepeatTime = function(value) {
 /** @inheritDoc */
 BrachistoApp.prototype.defineNames = function(myName) {
   BrachistoApp.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('brachObsvr|paths',
+  this.terminal.addRegex('brachistoObserver|paths',
       myName);
 };
 

@@ -111,7 +111,7 @@ UtilityCore.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
 * @type {string}
 * @const
 */
-UtilityCore.version = '2.0.0';
+UtilityCore.version = '3.0.0';
 
 /** Converts an array of numbers to string, with commas between each number.
 * @param {!(Array<number>|Float64Array)} r  the array to print
@@ -183,14 +183,17 @@ UtilityCore.chopTime = function(time) {
     return time - 1000*Math.floor(time/1000);
 };
 
-/** Converts an array of 3 numbers (each from 0 to 1) to a CSS3 style color string (3
-digit hex string, preceded by '#').
-@param {!Array<number>} colors  array of 3 numbers, each from 0.0 to 1.0
-@return {string} the corresponding CSS3 style color string with 3 hex digits
+/** Returns a [CSS3 color string](https://www.w3.org/TR/css3-color/#rgb-color)
+composed of a `#` followed by 3 hex digits corresponding to given red, green, blue
+proportions.
+@param {number} red proportion of red from 0.0 to 1.0
+@param {number} green proportion of green from 0.0 to 1.0
+@param {number} blue proportion of blue from 0.0 to 1.0
+@return {string} the corresponding CSS3 color string with 3 hex digits
 */
-UtilityCore.colorToString3 = function(colors) {
-  goog.asserts.assert( colors.length >= 3 );
+UtilityCore.colorString3 = function(red, green, blue) {
   var s = '#';
+  var colors = [red, green, blue];
   for (var i=0; i<3; i++) {
     s += UtilityCore.numToHexChar1(colors[i]);
   }
@@ -198,14 +201,17 @@ UtilityCore.colorToString3 = function(colors) {
   return s;
 };
 
-/** Converts an array of 3 numbers (each from 0 to 1) to a CSS3 style color string (6
-digit hex string, preceded by '#')
-@param {!Array<number>} colors  array of 3 numbers, each from 0.0 to 1.0
-@return {string} the corresponding CSS3 style color string with 6 hex digits
+/** Returns a [CSS3 color string](https://www.w3.org/TR/css3-color/#rgb-color)
+composed of a `#` followed by 6 hex digits corresponding to given red, green, blue
+proportions.
+@param {number} red proportion of red from 0.0 to 1.0
+@param {number} green proportion of green from 0.0 to 1.0
+@param {number} blue proportion of blue from 0.0 to 1.0
+@return {string} the corresponding CSS3 color string with 6 hex digits
 */
-UtilityCore.colorToString6 = function(colors) {
-  goog.asserts.assert( colors.length >= 3 );
+UtilityCore.colorString6 = function(red, green, blue) {
   var s = '#';
+  var colors = [red, green, blue];
   for (var i=0; i<3; i++) {
     s += UtilityCore.numToHexChar2(colors[i]);
   }

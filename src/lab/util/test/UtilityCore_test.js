@@ -74,17 +74,17 @@ var testUtilityCore = function() {
   assertEquals('e', UtilityCore.numToHexChar1(0.9));
   assertEquals('2', UtilityCore.numToHexChar1(0.1));
 
-  assertEquals('#ff0000', UtilityCore.colorToString6([1, 0, 0]));
-  assertEquals('#00ff00', UtilityCore.colorToString6([0, 1, 0]));
-  assertEquals('#0000ff', UtilityCore.colorToString6([0, 0, 1]));
-  assertEquals('#80ff20', UtilityCore.colorToString6([0.5, 1, 0.125]));
-  assertEquals('#e6e01a', UtilityCore.colorToString6([0.9, 14/16, 0.1]));
+  assertEquals('#ff0000', UtilityCore.colorString6(1, 0, 0));
+  assertEquals('#00ff00', UtilityCore.colorString6(0, 1, 0));
+  assertEquals('#0000ff', UtilityCore.colorString6(0, 0, 1));
+  assertEquals('#80ff20', UtilityCore.colorString6(0.5, 1, 0.125));
+  assertEquals('#e6e01a', UtilityCore.colorString6(0.9, 14/16, 0.1));
 
-  assertEquals('#f00', UtilityCore.colorToString3([1, 0, 0]));
-  assertEquals('#0f0', UtilityCore.colorToString3([0, 1, 0]));
-  assertEquals('#00f', UtilityCore.colorToString3([0, 0, 1]));
-  assertEquals('#8f2', UtilityCore.colorToString3([0.5, 1, 0.125]));
-  assertEquals('#ee2', UtilityCore.colorToString3([0.9, 14/16, 0.1]));
+  assertEquals('#f00', UtilityCore.colorString3(1, 0, 0));
+  assertEquals('#0f0', UtilityCore.colorString3(0, 1, 0));
+  assertEquals('#00f', UtilityCore.colorString3(0, 0, 1));
+  assertEquals('#8f2', UtilityCore.colorString3(0.5, 1, 0.125));
+  assertEquals('#ee2', UtilityCore.colorString3(0.9, 14/16, 0.1));
 
   assertEquals('FOO', UtilityCore.toName('foo'));
   assertEquals('FOO2', UtilityCore.toName('foo2'));

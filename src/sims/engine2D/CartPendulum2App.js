@@ -29,8 +29,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -46,8 +44,6 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
-var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
@@ -167,8 +163,6 @@ CartPendulum2App.prototype.configure = function() {
   var displacement = 0.13; //=(6.0/5.83)*0.13; initial displacement; to match other sim.
 
   // the cart (on track)
-  DisplayShape.fillStyle = 'rgb(200,200,200)';
-  DisplayShape.strokeStyle = '';
   var cart = Shapes.makeBlock2(0.3, 1.0, CartPendulum2App.en.CART,
       CartPendulum2App.i18n.CART);
   var pivotX = 0.5*cart.getWidth();
@@ -178,11 +172,9 @@ CartPendulum2App.prototype.configure = function() {
   var bodyY = 0.5*cart.getHeight();
   //cart.setDragPoints([Vector.ORIGIN]);
   this.mySim.addBody(cart);
+  this.displayList.find(cart).setFillStyle('rgb(200,200,200)');
 
   // the pendulum
-  DisplayShape.fillStyle = '#B0C4DE';
-  DisplayShape.strokeStyle = '';
-  DisplayShape.drawCenterOfMass = true;
   var pendulum = Shapes.makePendulum(/*stickwidth=*/0.03,
       /*sticklength=*/1.0, /*radius=*/0.15, CartPendulum2App.en.PENDULUM,
       CartPendulum2App.i18n.PENDULUM);
@@ -191,9 +183,9 @@ CartPendulum2App.prototype.configure = function() {
   //var otherBodyX = .5* pendulum.getWidth();
   //var otherBodyY = .85* pendulum.getHeight();
   this.mySim.addBody(pendulum);
+  this.displayList.find(pendulum).setFillStyle('#B0C4DE').setDrawCenterOfMass(true);
   //this.mySim.addBody(this.mySim.getScrim());
 
-  DisplaySpring.width = 0.3;
   this.spring = new Spring('spring1',
       cart, new Vector(0.5*cart.getWidth(), 0.5*cart.getHeight()),
       Scrim.getScrim(), new Vector(3, 0),
@@ -201,6 +193,7 @@ CartPendulum2App.prototype.configure = function() {
   this.spring.setDamping(this.springDamping);
   this.mySim.addForceLaw(this.spring);
   this.mySim.getSimList().add(this.spring);
+  this.displayList.find(this.spring).setWidth(0.3);
 
   cart.setPosition(new Vector(1,  0),  Math.PI/2);
 
@@ -255,7 +248,6 @@ CartPendulum2App.prototype.configure = function() {
   R = 0.35;
   r = (Icm/(pendulum.getMass() * R)) + R;
   //console.log('or Icm='+Icm+' R='+R+'  r='+r);
-  DisplayShape.fillStyle = 'lightGray';
   Walls.make(this.mySim, /*width=*/6, /*height=*/4, /*thickness=*/1.0);
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());

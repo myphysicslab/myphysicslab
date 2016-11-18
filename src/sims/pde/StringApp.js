@@ -21,17 +21,17 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.graph.DisplayAxes');
+goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.ShapeType');
+goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.GenericMemo');
+goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
@@ -50,16 +50,16 @@ goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
-goog.require('myphysicslab.sims.pde.MultiSineShape');
 goog.require('myphysicslab.sims.pde.FlatShape');
 goog.require('myphysicslab.sims.pde.HalfSinePulseShape');
-goog.require('myphysicslab.sims.pde.TrianglePulseShape');
+goog.require('myphysicslab.sims.pde.MultiSineShape');
 goog.require('myphysicslab.sims.pde.SinePulseShape');
 goog.require('myphysicslab.sims.pde.SquarePulseShape');
 goog.require('myphysicslab.sims.pde.StringAdvance');
 goog.require('myphysicslab.sims.pde.StringPath');
 goog.require('myphysicslab.sims.pde.StringShape');
 goog.require('myphysicslab.sims.pde.StringSim');
+goog.require('myphysicslab.sims.pde.TrianglePulseShape');
 goog.require('myphysicslab.sims.pde.TriangleShape');
 
 goog.scope(function() {
@@ -67,12 +67,13 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AffineTransform = lab.util.AffineTransform;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CommonControls = sims.layout.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayPath = lab.view.DisplayPath;
 var DisplayShape = lab.view.DisplayShape;
@@ -81,10 +82,10 @@ var DoubleRect = lab.util.DoubleRect;
 var DrawingStyle = lab.view.DrawingStyle;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var GenericEvent = lab.util.GenericEvent;
+var GenericMemo = lab.util.GenericMemo;
 var GenericObserver = lab.util.GenericObserver;
 var HorizAlign = lab.view.HorizAlign;
 var LabControl = lab.controls.LabControl;
-var GenericMemo = lab.util.GenericMemo;
 var NF5 = lab.util.UtilityCore.NF5;
 var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
@@ -96,7 +97,6 @@ var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
-var DisplayAxes = lab.graph.DisplayAxes;
 var StringPath = sims.pde.StringPath;
 var StringShape = sims.pde.StringShape;
 var StringSim = sims.pde.StringSim;
@@ -183,22 +183,16 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
 
   // Note: if you set the strokeStyle, the line is distorted because the
   // aspect ratio of the SimView is around 1:30 (width to height).
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'rgba(0,0,255,0.2)'; // transparent blue
-  DisplayShape.strokeStyle = '';
-  //DisplayShape.nameFont = '12pt sans-serif';
   /** @type {!PointMass} */
   this.blockMass = this.simList.getPointMass('block');
   /** @type {!DisplayShape} */
-  this.block = new DisplayShape(this.blockMass);
+  this.block = new DisplayShape(this.blockMass).setFillStyle('rgba(0,0,255,0.2)');
   this.displayList.add(this.block);
 
   // Because the SimView is so distorted (aspect ratio is like 1:30), we set
   // up a DisplayText in StatusView that tracks position of the block.
-  this.blockText = new DisplayText('drag');
-  this.blockText.textAlign = 'center';
-  this.blockText.fillStyle = 'rgba(255,255,255,0.7)'
+  this.blockText = new DisplayText('drag').setFillStyle('rgba(255,255,255,0.7)')
+      .setTextAlign('center');
   this.statusView.getDisplayList().add(this.blockText);
   this.statusView.addMemo(new GenericMemo(goog.bind(function() {
     var map1 = this.simView.getCoordMap();
@@ -212,9 +206,8 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   // stroke the shape with a uniform size of line.
   // (This is mainly a demo and test of this capability).
   this.shadow = PointMass.makeSquare(1, 'shadow');
-  this.showShadow = new DisplayShape(this.shadow);
-  this.showShadow.fillStyle = '';
-  this.showShadow.strokeStyle = 'gray';
+  this.showShadow = new DisplayShape(this.shadow).setFillStyle('')
+      .setStrokeStyle('gray');
   this.statusView.getDisplayList().add(this.showShadow);
   this.statusView.addMemo(new GenericMemo(goog.bind(function() {
     var map1 = this.simView.getCoordMap();
@@ -231,14 +224,6 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
     this.shadow.setPosition(map2.screenToSim(loc));
   }, this), 'shadow outline follows blockMass'));
 
-  // demonstrate using an image with DisplayShape.
-  //var img = /** @type {!HTMLImageElement} */(document.getElementById('tipper'));
-  /*if (goog.isObject(img)) {
-    this.block.image = img;
-    this.block.imageAT = AffineTransform.IDENTITY.translate(-7, 10);
-    this.block.imageClip = false;
-  }*/
-
   // Show the stability condition as text
   this.stability = -1;
   this.stabilityText = new DisplayText();
@@ -251,7 +236,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
     if (this.stability != s) {
       this.stabilityText.setText('stability = '+NF5(s));
       this.stability = s;
-      this.stabilityText.fillStyle = s < 1 ? 'rgb(160,160,160)' : 'red';
+      this.stabilityText.setFillStyle(s < 1 ? 'rgb(160,160,160)' : 'red');
     }
   }, this), 'modifyObjects after parameter or variable change');
   // broadcast an event to get the stability to appear
@@ -264,7 +249,8 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   this.displayPath.setScreenRect(this.simView.getScreenRect());
   // offscreen buffer is not useful because StringPath is always changing
   this.displayPath.setUseBuffer(false);
-  this.displayList.add(this.displayPath, /*zIndex=*/-1);
+  this.displayPath.setZIndex(-1);
+  this.displayList.add(this.displayPath);
   this.displayPath.addPath(this.path, DrawingStyle.dotStyle('red', /*dotSize=*/2));
 
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
@@ -394,7 +380,7 @@ StringApp.prototype.defineNames = function(myName) {
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|block|blockMass|clock|displayClock|energyGraph'
-      +'|path|displayPath'
+      +'|path|displayPath|displayList'
       +'|layout|sim|simCtrl|simList|simRun|simView|statusView|terminal|scriptParser',
       myName);
   this.terminal.addRegex('simCanvas',

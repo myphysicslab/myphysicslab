@@ -218,7 +218,7 @@ RigidBodyEventHandler.prototype.startDrag = function(simObject, location, offset
         this.startDragAngle_ = Math.atan2(offset.getY(), offset.getX());
       }
     } else if (dragBody != null) {
-      this.dragSpring_ = new Spring('drag',
+      this.dragSpring_ = new Spring(RigidBodyEventHandler.en.DRAG,
           /*body1=*/body, /*attach1_body=*/dragBody,
           /*body2=*/this.mousePoint_, /*attach2_body=*/Vector.ORIGIN,
           /*restLength=*/0, /*stiffness=*/this.dragStiffness_);
@@ -256,7 +256,7 @@ RigidBodyEventHandler.prototype.finishDrag = function(simObject, location, offse
   if (1 == 0) {
     // demonstration of giving a onMouseUp action to a RigidBody.
     // Clicking on the body named 'click' causes a ball to be created.
-    if (simObject != null && simObject.nameEquals('click')) {
+    if (simObject != null && simObject.nameEquals(RigidBodyEventHandler.en.CLICK)) {
       var b = Shapes.makeBlock(0.2, 0.2, RigidBodyEventHandler.en.CLICK,
           RigidBodyEventHandler.i18n.CLICK);
       b.setPosition(new Vector(-2,  2));
@@ -378,7 +378,8 @@ RigidBodyEventHandler.prototype.setDragStiffness = function(stiffness) {
 
 /** Set of internationalized strings.
 @typedef {{
-  CLICK: string
+  CLICK: string,
+  DRAG: string
   }}
 */
 RigidBodyEventHandler.i18n_strings;
@@ -387,7 +388,8 @@ RigidBodyEventHandler.i18n_strings;
 @type {RigidBodyEventHandler.i18n_strings}
 */
 RigidBodyEventHandler.en = {
-  CLICK: 'click'
+  CLICK: 'click',
+  DRAG: 'drag'
 };
 
 /**
@@ -395,7 +397,8 @@ RigidBodyEventHandler.en = {
 @type {RigidBodyEventHandler.i18n_strings}
 */
 RigidBodyEventHandler.de_strings = {
-  CLICK: 'klicken'
+  CLICK: 'klicken',
+  DRAG: 'ziehen'
 };
 
 /** Set of internationalized strings.

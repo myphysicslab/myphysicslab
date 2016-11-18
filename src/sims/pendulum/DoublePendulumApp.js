@@ -73,14 +73,11 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
   /** @type {!lab.view.DisplayLine} */
   this.rod2 = new DisplayLine(this.simList.getConcreteLine('rod2'));
   this.displayList.add(this.rod2);
-  DisplayShape.drawCenterOfMass = false;
-  DisplayShape.drawDragPoints = false;
-  DisplayShape.fillStyle = 'blue';
   /** @type {!lab.view.DisplayShape} */
-  this.bob1 = new DisplayShape(this.simList.getPointMass('bob1'));
+  this.bob1 = new DisplayShape(this.simList.getPointMass('bob1')).setFillStyle('blue');
   this.displayList.add(this.bob1);
   /** @type {!lab.view.DisplayShape} */
-  this.bob2 = new DisplayShape(this.simList.getPointMass('bob2'));
+  this.bob2 = new DisplayShape(this.simList.getPointMass('bob2')).setFillStyle('blue');
   this.displayList.add(this.bob2);
 
   // make a dragable square to use for marking positions
@@ -91,10 +88,9 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
     this.marker1 = PointMass.makeCircle(0.2, 'marker1');
     // put the object outside of the visible area, to avoid confusion
     this.marker1.setPosition(new Vector(-3, 1));
-    this.marker1Shape = new DisplayShape(this.marker1);
+    this.marker1Shape = new DisplayShape(this.marker1).setFillStyle('')
+        .setStrokeStyle('red');
     this.marker1Shape.setDragable(true);
-    this.marker1Shape.fillStyle = '';
-    this.marker1Shape.strokeStyle = 'red';
     this.displayList.add(this.marker1Shape);
   }
 

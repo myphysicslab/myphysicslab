@@ -28,6 +28,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.ModifiedEuler');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
@@ -57,6 +58,7 @@ var Engine2DApp = sims.engine2D.Engine2DApp;
 var Gravity2Law = lab.model.Gravity2Law;
 var ModifiedEuler = lab.model.ModifiedEuler;
 var NumericControl = lab.controls.NumericControl;
+var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var PileConfig = sims.engine2D.PileConfig;
 var Polygon = lab.engine2D.Polygon;
@@ -87,13 +89,12 @@ sims.engine2D.PileAttractApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.rbo.protoDragSpring.setWidth(0.3);
+  this.rbo.protoPolygon.setDrawCenterOfMass(true);
   if (1 == 0) {
     // draw names of blocks
-    DisplayShape.nameColor = 'gray';
-    DisplayShape.nameFont = '10pt sans-serif';
-    DisplayShape.nameRotate = 0;
+    this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
   }
-  DisplayShape.drawCenterOfMass = true;
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(false);
   this.mySim.setDistanceTol(0.01);
@@ -106,6 +107,8 @@ sims.engine2D.PileAttractApp = function(elem_ids) {
   this.gravityLaw = new Gravity2Law(1);
   /** @type {number} */
   this.numBlocks = 8;
+  /** @type {boolean} */
+  this.squareBlocks = false;
   /** @type {number} */
   this.randomSeed = 0;
   /** @type {!lab.util.RandomLCG} */
@@ -114,12 +117,19 @@ sims.engine2D.PileAttractApp = function(elem_ids) {
   this.zeroEnergyLevel = 0;
 
   this.addPlaybackControls();
+  /** @type {!lab.util.ParameterBoolean} */
+  var pb;
   /** @type {!lab.util.ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.NUM_BLOCKS,
       PileConfig.i18n.NUM_BLOCKS,
       this.getNumBlocks, this.setNumBlocks).setDecimalPlaces(0));
   this.addControl(new NumericControl(pn));
+
+  this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.SQUARE_BLOCKS,
+      PileConfig.i18n.SQUARE_BLOCKS,
+      this.getSquareBlocks, this.setSquareBlocks));
+  this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.RANDOM_SEED,
       PileConfig.i18n.RANDOM_SEED,
@@ -191,10 +201,17 @@ PileAttractApp.prototype.config = function() {
   this.gravityLaw.connect(this.mySim.getSimList());
   var half = Math.floor(this.numBlocks/2);
   var rest = this.numBlocks-half;
-  PileConfig.makeRandomBlocks(this.mySim, /* num blocks=*/half,
-      /* x=*/-half/2, /* y=*/1, this.buildRNG);
-  PileConfig.makeRandomBlocks(this.mySim, /* num blocks=*/rest,
-      /* x=*/-half/2, /* y=*/-1, this.buildRNG);
+  var blocks = PileConfig.makeRandomBlocks(this.mySim, /* num blocks=*/half,
+      /* x=*/-half/2, /* y=*/1, this.buildRNG, /*rightAngle=*/this.squareBlocks);
+  goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim,
+      /* num blocks=*/rest, /* x=*/-half/2, /* y=*/-1, this.buildRNG,
+      /*rightAngle=*/this.squareBlocks));
+
+  // set random colors for blocks
+  goog.array.forEach(blocks, function(b) {
+        this.displayList.find(b).setFillStyle(PileConfig.getRandomColor());
+      }, this);
+
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);
   this.mySim.saveInitialState();
@@ -234,6 +251,22 @@ PileAttractApp.prototype.setRandomSeed = function(value) {
   this.buildRNG.setSeed(value);
   this.config();
   this.broadcastParameter(PileConfig.en.RANDOM_SEED);
+};
+
+/**
+* @return {boolean}
+*/
+PileAttractApp.prototype.getSquareBlocks = function() {
+  return this.squareBlocks;
+};
+
+/**
+* @param {boolean} value
+*/
+PileAttractApp.prototype.setSquareBlocks = function(value) {
+  this.squareBlocks = value;
+  this.config();
+  this.broadcastParameter(PileConfig.en.SQUARE_BLOCKS);
 };
 
 }); // goog.scope

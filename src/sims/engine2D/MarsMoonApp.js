@@ -26,7 +26,6 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -41,7 +40,6 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Gravity2Law = lab.model.Gravity2Law;
@@ -203,10 +201,8 @@ MarsMoonApp.prototype.config = function() {
   this.moon.setPosition(new Vector(0,  0),  0);
   this.moon.setVelocity(new Vector(0,  moon_v),  this.moonSpin);
   this.moon.setElasticity(elasticity);
-  DisplayShape.strokeStyle = '';
-  DisplayShape.fillStyle = '#E0E0E0';
-  DisplayShape.drawCenterOfMass = true;
   this.mySim.addBody(this.moon);
+  this.displayList.find(this.moon).setFillStyle('#E0E0E0').setDrawCenterOfMass(true);
 
   this.asteroid = Shapes.makeBall(0.2, MarsMoonApp.en.ASTERIOD,
       MarsMoonApp.i18n.ASTERIOD);
@@ -214,9 +210,8 @@ MarsMoonApp.prototype.config = function() {
   this.asteroid.setMass(this.asteroidMass);
   this.asteroid.setVelocity(new Vector(0,  this.velocity),  0);
   this.asteroid.setElasticity(elasticity);
-  DisplayShape.fillStyle = 'Blue';
-  DisplayShape.drawCenterOfMass = false;
   this.mySim.addBody(this.asteroid);
+  this.displayList.find(this.asteroid).setFillStyle('Blue')
 
   this.mySim.getVarsList().setTime(0);
   this.mySim.saveInitialState();

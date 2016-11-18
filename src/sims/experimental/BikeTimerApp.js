@@ -80,9 +80,9 @@ BikeTimerApp.makeApp = function(sound_url) {
   var clock = new Clock();
 
   var dtext1 = new DisplayText('0.0', new Vector(2, -1));
-  dtext1.font = '160pt sans-serif';
-  dtext1.textAlign = 'center';
-  dtext1.textBaseline = 'middle';
+  dtext1.setFont('160pt sans-serif');
+  dtext1.setTextAlign('center');
+  dtext1.setTextBaseline('middle');
   simView.getDisplayList().add(dtext1);
 
   simCanvas.addView(simView);

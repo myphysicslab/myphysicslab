@@ -33,7 +33,6 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
@@ -52,7 +51,6 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
-var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var ExtraAccel = lab.engine2D.ExtraAccel;
@@ -94,6 +92,7 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   this.mySim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.rbo.protoFixedPolygon.setFillStyle('rgb(240,240,240)');
   this.mySim.setShowForces(false);
   this.elasticity.setElasticity(0.8);
   /** @type {!lab.model.DampingLaw} */
@@ -188,16 +187,17 @@ DoNothingApp.prototype.config = function() {
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   DoNothingApp.setup(this.mySim, this.tightFit);
-  //DisplayShape.nameColor = 'gray';
-  //DisplayShape.nameFont = '12pt sans-serif';
-  //DisplayShape.nameRotate = 0;
+  this.displayList.find(DoNothingApp.en.HANDLE).setFillStyle('rgba(51,204,255,0.5)')
+      .setZIndex(2);
+  this.displayList.find(DoNothingApp.en.SHUTTLE+1).setFillStyle('rgb(200,200,200)');
+  this.displayList.find(DoNothingApp.en.SHUTTLE+2).setFillStyle('rgb(200,200,200)');
   if (this.extraBlock) {
     // add an optional extra free block
     var block = Shapes.makeBlock(1, 3, DoNothingApp.en.EXTRA_BLOCK,
         DoNothingApp.i18n.EXTRA_BLOCK);
     block.setPosition(new Vector(-5.5,  -4));
-    DisplayShape.fillStyle = 'blue';
     this.mySim.addBody(block);
+    this.displayList.find(block).setFillStyle('blue');
     // the free block does not collide with fixed blocks
     goog.array.forEach(this.mySim.getBodies(), function(bod, index, array) {
         if (bod.getName().match(/^FIXED.*/) != null) {
@@ -248,27 +248,18 @@ DoNothingApp.setup = function(sim, tightFit) {
       DoNothingApp.i18n.HANDLE);
   handle.setMass(0.5);
   handle.setDragPoints([new Vector(0, -2.8)]);
-  DisplayShape.fillStyle = 'rgba(51,204,255,0.5)';
-  //DisplayShape.fillStyle = '#B0C4DE';
-  DisplayShape.strokeStyle = '';
-  var saveZIndex = RigidBodyObserver.zIndex;
-  RigidBodyObserver.zIndex = 2;
   sim.addBody(handle);
   // 2 shuttle pieces
   var shuttle_width = tightFit ? 1.0 : 0.98;
   var s1 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+1,
       DoNothingApp.i18n.SHUTTLE+1);
   s1.setPosition(new Vector(0,  2.0),  Math.PI);
-  DisplayShape.fillStyle = 'rgb(200,200,200)';
-  DisplayShape.strokeStyle = '';
-  RigidBodyObserver.zIndex = 1;
   sim.addBody(s1);
   var s2 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+2,
       DoNothingApp.i18n.SHUTTLE+2);
   s2.setPosition(new Vector(-2.5,  0),  Math.PI/2);
   sim.addBody(s2);
   // create 4 fixed blocks that form the grooves which the shuttles move thru
-  RigidBodyObserver.zIndex = 0;
   for (var i=0; i<2; i++) {
     for (var j=0; j<2; j++) {
       var size = 4;
@@ -278,9 +269,6 @@ DoNothingApp.setup = function(sim, tightFit) {
       var d = 0.507 + size/2;
       p.setPosition(new Vector(d*(1 - 2*i), d*(1 - 2*j)), 0);
       p.setMass(UtilityCore.POSITIVE_INFINITY);
-      DisplayShape.strokeStyle = '';
-      DisplayShape.fillStyle = 'rgb(240,240,240)';
-      DisplayShape.strokeStyle = '';
       sim.addBody(p);
       // the handle does not collide with fixed blocks
       handle.addNonCollide([p]);
@@ -295,7 +283,6 @@ DoNothingApp.setup = function(sim, tightFit) {
   var a = Math.atan(-p1.getY()/p2.getX());
   //console.log('a '+NF5(a));
   handle.setAngle(-Math.PI/2 + a);
-  RigidBodyObserver.zIndex = 3;
   Joint.attachRigidBody(sim,
     s1,  /*attach point on s1, body coords=*/new Vector(0, 0),
     handle,  /*attach point on handle, body coords=*/new Vector(0, 2.8),
@@ -307,7 +294,6 @@ DoNothingApp.setup = function(sim, tightFit) {
     /*normalType=*/CoordType.BODY
     );
   sim.alignConnectors();
-  RigidBodyObserver.zIndex = saveZIndex;
 };
 
 /** @return {number} */

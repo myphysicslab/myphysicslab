@@ -153,6 +153,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.pathSelect = new PathSelector(this, this.paths);
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this), /*expansionFactor=*/1.5);
+
   /** Because one of the scenarios removes the pathJoint, this Observer
   * will add back the PathJoint when a RESET event occurs.
   * @type {?GenericObserver}
@@ -250,18 +251,15 @@ RigidBodyRollerApp.prototype.config = function() {
   this.gravityLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
-  DisplayPath.style = DrawingStyle.lineStyle('black', 3);
   this.simList.add(this.path);
-  DisplayShape.drawCenterOfMass = true;
-  DisplayShape.drawDragPoints = true;
-  DisplayShape.fillStyle = 'rgba(51,204,255,0.5)';
-  DisplayShape.strokeStyle = '';
   /** @type {!lab.engine2D.RigidBody} */
   this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
       RigidBodyRollerApp.i18n.BLOCK);
   this.block.setPosition(new Vector(-4,  4),  Math.PI/4);
   this.block.setVelocity(new Vector(0,  0),  0);
   this.mySim.addBody(this.block);
+  this.displayList.find(this.block).setFillStyle('rgba(51,204,255,0.5)')
+      .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
   var attach = this.block.getDragPoints()[1];
   this.pathJoint = new PathJoint(this.path, this.block, attach);
