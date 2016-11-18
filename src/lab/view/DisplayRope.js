@@ -111,7 +111,7 @@ DisplayRope.pathWidth = 0.5;
 /** Default value for {@link #thickness}, used when creating a DisplayRope.
 * @type {number}
 */
-DisplayRope.thickness = 1;
+DisplayRope.thickness = 4;
 
 /**  Sets the default style to match the given DisplayRope.
 * @param {!myphysicslab.lab.view.DisplayRope} dispObj the DisplayRope to get style from

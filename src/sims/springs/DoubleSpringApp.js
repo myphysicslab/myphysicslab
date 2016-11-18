@@ -95,6 +95,7 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
   DisplaySpring.width = 0.3;
   DisplaySpring.colorCompressed = '#0c0';  // darker green
   DisplaySpring.colorExpanded = '#6f6'; // brighter green
+  DisplaySpring.thickness = 6;
   this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'));
   this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'));
   this.spring3 = new DisplaySpring(this.simList.getSpring('spring3'));

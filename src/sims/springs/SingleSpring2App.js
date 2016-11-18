@@ -193,6 +193,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.spring.width = 0.4;
   this.spring.colorCompressed = 'blue';
   this.spring.colorExpanded = 'green';
+  this.spring.thickness = 6;
 
   // Demo of adding an ExpressionVariable.
   if (!UtilityCore.ADVANCED) {

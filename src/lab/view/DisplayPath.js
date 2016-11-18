@@ -136,7 +136,7 @@ DisplayPath.DRAW_POINTS = 3000;
 /** Default style for drawing a path, used as default in {@link #addPath}.
 * @type {!DrawingStyle}
 */
-DisplayPath.style = DrawingStyle.lineStyle('gray', /*lineWidth=*/1);
+DisplayPath.style = DrawingStyle.lineStyle('gray', /*lineWidth=*/4);
 
 /** Adds a Path to the set of paths to display.
 * @param {!lab.model.Path} path the Path to display

@@ -102,14 +102,20 @@ var testSimList = function() {
   var l1 = new ConcreteLine('line1');
   l1.setStartPoint(new Vector(2, 0));
   l1.setEndPoint(new Vector(0, 2));
+  l1.setExpireTime(/*time=*/3);
   var l2 = new ConcreteLine('line2');
   l2.setStartPoint(new Vector(2.01, 0.01));
   l2.setEndPoint(new Vector(0.02, 2.02));
+  l2.setExpireTime(/*time=*/3);
   // l3 is similar to l1, and so will not be added to SimList
   var l3 = new ConcreteLine('line3');
   l3.setStartPoint(new Vector(2.01, 0.01));
   l3.setEndPoint(new Vector(0.02, 2.02));
   l3.setExpireTime(/*time=*/3);
+  var l4 = new ConcreteLine('line4');
+  l4.setStartPoint(new Vector(20, 20));
+  l4.setEndPoint(new Vector(40, 40));
+  l4.setExpireTime(/*time=*/3);
   var s1 = new Spring('spring1',
       p1, Vector.ORIGIN,
       p2, Vector.ORIGIN,
@@ -124,29 +130,29 @@ var testSimList = function() {
   assertEquals(1, simList.length());
   simList.add(p2);
   assertEquals(2, simList.length());
-  simList.add(l1, s1);  // add multiple arguments at once
+  simList.add(l3, s1);  // add multiple arguments at once
   assertEquals(4, simList.length());
   simList.add(r1);
   assertEquals(5, simList.length());
 
-  // l3 is similar to l1, and so will not be added to SimList
+  // l3 is similar to l1, and so l3 will be removed from SimList
   assertTrue(l1.similar(l3, 0.1));
-  assertEquals(l1, simList.getSimilar(l3));
-  simList.add(l3);
+  assertEquals(l3, simList.getSimilar(l1));
+  simList.add(l1);
   assertEquals(5, simList.length());
   assertFalse(simList.contains(l3));
 
   // get objects by index
   assertEquals(p1, simList.get(0));
   assertEquals(p2, simList.get(1));
-  assertEquals(l1, simList.get(2));
-  assertEquals(s1, simList.get(3));
-  assertEquals(r1, simList.get(4));
+  assertEquals(s1, simList.get(2));
+  assertEquals(r1, simList.get(3));
+  assertEquals(l1, simList.get(4));
   assertEquals(0, simList.indexOf(p1));
   assertEquals(1, simList.indexOf(p2));
-  assertEquals(2, simList.indexOf(l1));
-  assertEquals(3, simList.indexOf(s1));
-  assertEquals(4, simList.indexOf(r1));
+  assertEquals(2, simList.indexOf(s1));
+  assertEquals(3, simList.indexOf(r1));
+  assertEquals(4, simList.indexOf(l1));
   assertTrue(simList.contains(p1));
   assertTrue(simList.contains(p2));
   assertTrue(simList.contains(l1));
@@ -174,25 +180,23 @@ var testSimList = function() {
 
   // remove the observer so it can't observe changes
   simList.removeObserver(myMockObserver);
-  simList.add(l2);
+  simList.add(l4);
   assertEquals(1, myMockObserver.numLines);
-  simList.remove(l2);
+  simList.remove(l4);
   assertEquals(1, myMockObserver.numLines);
   // add back the observer, and show that removals are observed
   simList.addObserver(myMockObserver);
-  simList.add(l2);
-  assertTrue(simList.contains(l2));
+  simList.add(l4);
+  assertTrue(simList.contains(l4));
   assertEquals(2, myMockObserver.numLines);
 
-  // set l2 expire time AFTER adding to list, otherwise SimList would
-  // not add because it is similar to l1.
-  l2.setExpireTime(/*time=*/3);
-  simList.removeTemporary(/*time=*/10); // removes l2
-  assertFalse(simList.contains(l2));
-  assertThrows(function() { simList.get('line2') });
-  assertEquals(1, myMockObserver.numLines);
+  simList.removeTemporary(/*time=*/10); // removes l1, l4
+  assertFalse(simList.contains(l4));
+  assertThrows(function() { simList.get('line4') });
+  assertEquals(0, myMockObserver.numLines);
 
   simList.clear();
+  assertEquals(0, simList.toArray().length);
   assertEquals(0, myMockObserver.numPoints);
   assertEquals(0, myMockObserver.numLines);
   assertEquals(0, myMockObserver.numSprings);

@@ -93,7 +93,7 @@ DisplayArc.lineDash = [3, 5];
 /** Default value for {@link #thickness}, used when creating a DisplayArc.
 * @type {number}
 */
-DisplayArc.thickness = 1.0;
+DisplayArc.thickness = 4.0;
 
 /**  Sets the defaults to match the given DisplayArc.
 * @param {!myphysicslab.lab.view.DisplayArc} dispObj the DisplayArc to get style from

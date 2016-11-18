@@ -93,7 +93,7 @@ DisplayLine.lineDash = [ ];
 /** Default value for {@link #thickness}, used when creating a DisplayLine.
 * @type {number}
 */
-DisplayLine.thickness = 1.0;
+DisplayLine.thickness = 4.0;
 
 /**  Sets the defaults to match the given DisplayLine.
 * @param {!myphysicslab.lab.view.DisplayLine} dispObj the DisplayLine to get style from

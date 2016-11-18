@@ -91,6 +91,7 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
     this.displayList.add(atom);
   }
   DisplaySpring.width = 0.3;
+  DisplaySpring.thickness = 3;
   goog.array.forEach(this.simList.toArray(), function(simObj) {
     if (simObj instanceof Spring) {
       var s = /** @type {!Spring} */(simObj);

@@ -142,7 +142,7 @@ DisplaySpring.pathWidth = 0.5;
 /** Default value for {@link #thickness}, used when creating a DisplaySpring.
 * @type {number}
 */
-DisplaySpring.thickness = 2;
+DisplaySpring.thickness = 4;
 
 /** Default value for {@link #width}, used when creating a DisplaySpring.
 * @type {number}

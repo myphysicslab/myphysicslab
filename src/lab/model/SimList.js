@@ -101,7 +101,9 @@ if (!UtilityCore.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', tolerance_: '+NF(this.tolerance_)
         +', elements_: ['
-        + goog.array.map(this.elements_, function(e) { return e.toStringShort(); })
+        + goog.array.map(this.elements_, function(e, idx) {
+            return idx+': '+e.toStringShort();
+          })
         + ']' + SimList.superClass_.toString.call(this);
   };
 
@@ -138,8 +140,8 @@ SimList.OBJECT_REMOVED = 'OBJECT_REMOVED';
 
 /** Adds the SimObject to this SimList. Notifies Observers by broadcasting
 the {@link #OBJECT_ADDED} event. For SimObjects with finite
-{@link myphysicslab.lab.model.SimObject#getExpireTime expiration time}, they are only
-added if there is not already a similar SimObject in this SimList, as found using
+{@link myphysicslab.lab.model.SimObject#getExpireTime expiration time}, we remove
+any existing similar SimObject in this SimList, as found using
 {@link #getSimilar} with the default tolerance from {@link #getTolerance}.
 @param {...!myphysicslab.lab.model.SimObject} simObjs the SimObjects to add
 */
@@ -147,23 +149,18 @@ SimList.prototype.add = function(simObjs) {
   for (var i=0; i<arguments.length; i++) {
     /** @type {!myphysicslab.lab.model.SimObject} */
     var element = arguments[i];
-    if (!goog.isDefAndNotNull(element))
+    if (!goog.isDefAndNotNull(element)) {
       throw new Error('cannot add invalid SimObject');
-    var shouldAdd = false;
+    }
     var expire = element.getExpireTime();
     if (isFinite(expire)) {
-      var similar = this.getSimilar(element, this.tolerance_);
-      shouldAdd = similar == null;
-      // extend expire time if necessary
-      if (similar != null && expire > similar.getExpireTime()) {
-        similar.setExpireTime(expire);
+      var similar;
+      while (similar = this.getSimilar(element)) {
+        this.remove(similar);
       }
-    } else {
-      // avoid adding the an element more than once
-      shouldAdd = !goog.array.contains(this.elements_, element);
     }
-    if (shouldAdd) {
-      var len = this.elements_.push(element);
+    if (!goog.array.contains(this.elements_, element)) {
+      this.elements_.push(element);
       this.broadcast(new GenericEvent(this, SimList.OBJECT_ADDED, element));
     }
   }
@@ -184,10 +181,7 @@ SimList.prototype.addAll = function(objList) {
 * @return {undefined}
 */
 SimList.prototype.clear = function() {
-  var simobj;
-  while (goog.isDef(simobj = this.elements_.pop())) {
-    this.broadcast(new GenericEvent(this, SimList.OBJECT_REMOVED, simobj));
-  }
+  this.removeAll(this.toArray());
 };
 
 /** Returns true if the SimObject is in this SimList.
@@ -200,7 +194,8 @@ SimList.prototype.contains = function(simObj) {
 
 /** Returns the SimObject at the specified position in this SimList, or the first
 SimObject in this SimList with the given name.
-@param {number|string} arg  index number or name of object to find
+@param {number|string} arg  index number or name of SimObject. Name should be English
+    or language-independent version of name.
 @return {!myphysicslab.lab.model.SimObject} the SimObject at the specified position in
     this SimList, or with the given name
 @throws {Error} if SimObject not found or index out of range
@@ -327,8 +322,7 @@ SimList.prototype.length = function() {
 @param {!myphysicslab.lab.model.SimObject} simObj the SimObject to remove
 */
 SimList.prototype.remove = function(simObj) {
-  if (goog.array.contains(this.elements_, simObj)) {
-    goog.array.remove(this.elements_, simObj);
+  if (goog.array.remove(this.elements_, simObj)) {
     this.broadcast(new GenericEvent(this, SimList.OBJECT_REMOVED, simObj));
   }
 };

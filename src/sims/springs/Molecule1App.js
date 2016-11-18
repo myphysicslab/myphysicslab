@@ -82,6 +82,7 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
   this.atom2 = new DisplayShape(this.simList.getPointMass('atom2'));
   this.displayList.add(this.atom2);
   DisplaySpring.width = 0.3;
+  DisplaySpring.thickness = 3;
   /** @type {!lab.view.DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring'));
   this.displayList.add(this.spring);

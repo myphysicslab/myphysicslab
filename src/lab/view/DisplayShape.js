@@ -323,7 +323,7 @@ DisplayShape.strokeStyle = '';
 /** Default value for {@link #thickness}, used when creating a DisplayShape.
 * @type {number}
 */
-DisplayShape.thickness = 1.0;
+DisplayShape.thickness = 4.0;
 
 /** Sets the default style used when creating a new DisplayShape to initial values.
 * @return {undefined}

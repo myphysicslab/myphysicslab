@@ -90,8 +90,8 @@ A visual effect where moving objects leave behind a smeared out trail can be don
 setting the {@link #background} color and {@link #trailsAlpha}. Here are example
 settings, which can be done in a {@link myphysicslab.lab.util.Terminal} session:
 
-    labCanvas.background = 'white'
-    labCanvas.trailsAlpha = 0.005
+    simCanvas.background = 'white';
+    simCanvas.trailsAlpha = 0.05;
 
 The trails effect happens because instead of clearing entirely to white (which happens
 when `trailsAlpha` is 1.0), we paint a translucent white rectangle over the old frame,
@@ -196,7 +196,7 @@ if (!UtilityCore.ADVANCED) {
         +', height: '+this.canvas_.height
         +', focusView_: '
         + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
-        +', background: '+this.background
+        +', background: "'+this.background+'"'
         +', trailsAlpha: '+NF5(this.trailsAlpha)
         +', labViews_: ['
         + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
