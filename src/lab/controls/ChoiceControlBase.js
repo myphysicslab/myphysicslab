@@ -57,16 +57,19 @@ the target's value returned by the `getter`. When a menu item is selected, we ca
 
 'No Selection' State
 --------------------
-A ChoiceControlBase can be in a state of 'no selection', which is indicated by the a value
-of `–1`, see {@link #setChoice}. This happens when the value is not among the array of
-values. When moving into a state of 'no selection', no notification is given via the
+A ChoiceControlBase can be in a state of 'no selection', which is indicated by index of
+`–1` in {@link #setChoice} or {@link #getChoice}. This can also happen when
+ChoiceControlBase observes that the value returned by the `getter` function is not
+among the array of values specified to the constructor or to {@link #setChoices}.
+
+When moving into a state of 'no selection', no notification is given via the
 specified `setter` function. When moving out of the 'no selection' state, the `setter`
 is called as normal.
 
 
 Updating The Control
 --------------------
-To keep the control in sync with the target object, call the {@link #update} method
+To keep the control in sync with the target object, call the {@link #observe} method
 whenever a change in the value of the target object occurs. If the target
 object is a {@link myphysicslab.lab.util.Subject} then you can add this control as an
 Observer of the Subject.
@@ -75,7 +78,7 @@ Observer of the Subject.
 * @param {!Array<string>} choices an array of localized strings giving the names
    of the menu items.
 * @param {!Array<string>} values array of values corresponding to the choices, in
-    string form
+    string form; these values are supplied to the setter function.
 * @param {function():string} getter function that returns the value that corresponds
   to the target state
 * @param {function(string)} setter function that modifies the target state to
@@ -154,12 +157,6 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
   */
   this.changeKey_ = goog.events.listen(this.selectMenu_, goog.events.EventType.CHANGE,
       /*callback=*/goog.bind(this.itemStateChanged, this), /*capture=*/true);
-  /**
-  * @type {boolean}
-  * @const
-  * @private
-  */
-  this.DEBUG_ = false;
 };
 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
@@ -186,15 +183,10 @@ if (!UtilityCore.ADVANCED) {
 * @private
 */
 ChoiceControlBase.prototype.buildSelectMenu = function() {
-  // empty options from list
+  // remove any existing options from list
   this.selectMenu_.options.length = 0;
   for (var i=0, len=this.choices_.length; i<len; i++) {
-    // compiler bug: can no longer make an Option this way. April 25, 2016.
-    // See https://github.com/google/closure-compiler/issues/1759
-    //this.selectMenu_.options[i] = new Option(this.choices_[i]);
-    var opt =  /** @type {HTMLOptionElement} */(document.createElement('option'));
-    opt.text = this.choices_[i];
-    this.selectMenu_.options[i] = opt;
+    this.selectMenu_.options[i] = new Option(this.choices_[i]);
   }
 };
 
