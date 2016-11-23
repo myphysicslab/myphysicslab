@@ -71,12 +71,14 @@ a.nav_link {
 /********  CANVAS  ********/
 
 /*see also SimController.mouseDown;  it has a fix for 'cursor change while drag' */
+/* Note Nov 22 2016: the 'outline: none' solves a performance problem that is visible
+ * as a "stutter" when using "black with trails" background mode. */
 canvas {
     cursor: crosshair;
     border:1px solid silver;
-    /*outline: none; /* turns off outline drawn when selecting with mouse */
+    outline: none; /* turns off outline drawn when selecting with mouse */
     width: 100%;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    /*-webkit-tap-highlight-color: rgba(255, 255, 255, 0);*/
 }
 /* Removed Jan 10 2016 because it results in empty space below SimView when
 window is resized to be wide.
