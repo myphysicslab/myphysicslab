@@ -72,6 +72,8 @@ myphysicslab.sims.springs.Spring2DApp = function(elem_ids) {
   var advance = new SimpleAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
   this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
       .setFillStyle('').setStrokeStyle('red').setThickness(4);

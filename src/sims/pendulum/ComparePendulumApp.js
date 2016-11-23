@@ -141,6 +141,8 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   AbstractSubject.call(this, 'APP');
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   // keep reference to terminal to make for shorter 'expanded' names
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
@@ -266,7 +268,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
       goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
-  pb.setValue(true);
+  pb.setValue(false);
   this.addControl(new CheckBoxControl(pb));
 
   pn = this.simRun.getParameterNumber(SimRunner.en.TIME_STEP);

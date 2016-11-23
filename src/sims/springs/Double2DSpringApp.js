@@ -70,6 +70,7 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
   var advance = new SimpleAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('black');
 
   this.protoBob = new DisplayShape().setFillStyle('blue');
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')

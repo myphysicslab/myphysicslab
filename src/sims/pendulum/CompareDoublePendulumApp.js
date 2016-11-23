@@ -164,6 +164,8 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.separation = 1.0;
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   // keep reference to terminal to make for shorter 'expanded' names
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;

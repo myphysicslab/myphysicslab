@@ -89,6 +89,7 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
   this.mySim.setShowForces(false);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0.05, 0.15, this.simList);

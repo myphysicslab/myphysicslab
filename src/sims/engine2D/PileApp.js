@@ -118,8 +118,10 @@ sims.engine2D.PileApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, 'PILE_APP');
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
-  this.elasticity.setElasticity(0.8);
+  this.elasticity.setElasticity(0.95);
   this.mySim.setShowForces(false);
   this.mySim.setDistanceTol(0.01);
   this.mySim.setCollisionAccuracy(0.6);

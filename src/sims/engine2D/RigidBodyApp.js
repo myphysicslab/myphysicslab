@@ -80,6 +80,7 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.mySim = new RigidBodySim();
   var advance = new SimpleAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
   this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
   this.rbo.protoSpring.setThickness(4).setWidth(.4);
   this.elasticity.setElasticity(1.0);

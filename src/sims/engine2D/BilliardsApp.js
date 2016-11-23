@@ -75,6 +75,8 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.95);
   this.mySim.setShowForces(false);
   //this.advance.setDebugLevel(CollisionAdvance.DebugLevel.LOW);
@@ -84,7 +86,7 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   /** @type {number} */
   this.offset = 0;
   /** @type {number} */
-  this.speed = 12;
+  this.speed = 30;
   /** @type {BilliardsApp.Formation} */
   this.formation = BilliardsApp.Formation.ONE_HITS_SIX;
 
@@ -219,7 +221,7 @@ BilliardsApp.make = function(sim, displayList, formation, offset, speed) {
       body0.setPosition(new Vector(-BilliardsApp.WALL_DISTANCE+1,  0),  0);
       body0.setVelocity(new Vector(speed,  0),  0);
       sim.addBody(body0);
-      displayList.find(body0).setFillStyle('black');
+      displayList.find(body0).setStrokeStyle('black').setFillStyle('white');
 
       var body1 = BilliardsApp.makeBall(1, r);
       body1.setPosition(new Vector(0,  0),  0);

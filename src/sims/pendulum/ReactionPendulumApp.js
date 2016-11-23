@@ -260,6 +260,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   this.radius = 0.4;
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
+  this.layout.simCanvas.setBackground('black');
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
   /** @type {!lab.util.DoubleRect} */

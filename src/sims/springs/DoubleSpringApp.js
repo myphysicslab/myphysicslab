@@ -77,6 +77,7 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
   var advance = new SimpleAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('black');
 
   this.protoWall = new DisplayShape().setFillStyle('lightGray');
   this.protoBlock = new DisplayShape().setFillStyle('blue');

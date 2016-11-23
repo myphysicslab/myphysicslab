@@ -69,6 +69,7 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('black');
 
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('green').setThickness(3);

@@ -64,6 +64,8 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('white');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
   this.walls = new DisplayShape(this.simList.getPointMass('walls'))
       .setFillStyle('').setStrokeStyle('gray');

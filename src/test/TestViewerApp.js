@@ -274,6 +274,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
 
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
+  this.layout.simCanvas.setBackground('black');
   var sim_controls = this.layout.sim_controls;
   // keep reference to terminal to make for shorter 'expanded' names
   this.terminal = this.layout.terminal;
@@ -418,6 +419,8 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
   this.addControl(new CheckBoxControl(this.panZoomParam));
+  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  this.addControl(bm);
 
   br = new GroupControl('BR', document.createElement('BR'), []);
   this.addControl(br);

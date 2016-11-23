@@ -81,6 +81,8 @@ myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
   /** @type {!lab.view.DisplayShape} */
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))

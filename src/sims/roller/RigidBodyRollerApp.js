@@ -124,6 +124,8 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(true);
   this.mySim.setExtraAccel(lab.engine2D.ExtraAccel.VELOCITY_JOINTS);

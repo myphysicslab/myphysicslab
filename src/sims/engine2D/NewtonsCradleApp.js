@@ -73,8 +73,10 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(1.0);
-  this.mySim.setShowForces(true);
+  this.mySim.setShowForces(false);
   // JointSmallImpacts==true seems to help with energy stability and joint tightness,
   // but then we get lots of small collisions, which is kind of distracting.
   this.advance.setJointSmallImpacts(false);

@@ -79,6 +79,8 @@ sims.engine2D.ContactApp = function(elem_ids) {
   //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(true);
   /** @type {!lab.model.DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.1, this.simList);

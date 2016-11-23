@@ -108,6 +108,8 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, opt_name);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   this.elasticity.setElasticity(1.0);
   this.mySim.setShowForces(true);

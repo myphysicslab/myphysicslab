@@ -78,6 +78,8 @@ sims.pendulum.MoveableDoublePendulumApp = function(elem_ids) {
   var advance = new SimpleAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
   this.simRun.setTimeStep(0.01);
   sim.setDriveAmplitude(0);

@@ -89,6 +89,18 @@ CommonControls.makeAxes = function(simView) {
   return axes;
 };
 
+/** Value of alpha for "short trails" effect.
+* @type {number}
+* @const
+*/
+CommonControls.SHORT_TRAILS = 0.1;
+
+/** Value of alpha for "long trails" effect.
+* @type {number}
+* @const
+*/
+CommonControls.LONG_TRAILS = 0.05;
+
 /** Makes pop-up menu of choices for background color plus options for "trails" which
 turns on the global alpha transparency feature in LabCanvas. See
 {@link myphysicslab.lab.view.LabCanvas#setAlpha} and
@@ -114,8 +126,8 @@ CommonControls.makeBackgroundMenu = function(labCanvas) {
       CommonControls.en.BLACK_WITH_LONG_TRAILS
     ];
   values = goog.array.map(values, function(v) { return UtilityCore.toName(v); });
-  var longAlpha = 0.05;
-  var shortAlpha = 0.1;
+  var longAlpha = CommonControls.LONG_TRAILS;
+  var shortAlpha = CommonControls.SHORT_TRAILS;
   var getter = function() {
     var bg = labCanvas.getBackground();
     var alpha = labCanvas.getAlpha();
