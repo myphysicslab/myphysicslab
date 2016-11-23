@@ -251,27 +251,23 @@ DisplayPath.prototype.draw = function(context, map) {
 DisplayPath.prototype.drawPath = function(path, context, map, style) {
   var point = new MutableVector(0, 0);
   var firstTime = true;
+  var w = style.lineWidth;
   var pointsIterator = path.getIterator(DisplayPath.DRAW_POINTS);
   while (pointsIterator.nextPoint(point)) {
     var scrX = map.simToScreenX(point.getX());
     var scrY = map.simToScreenY(point.getY());
+    if (firstTime) {
+      context.beginPath();
+      context.moveTo(scrX, scrY);
+      firstTime = false;
+    }
     switch (style.drawMode) {
       case DrawingMode.LINES:
-        if (firstTime) {
-          context.beginPath();
-          context.moveTo(scrX, scrY);
-          firstTime = false;
-        } else {
+        if (!firstTime) {
           context.lineTo(scrX, scrY);
         }
         break;
       case DrawingMode.DOTS:
-        var w = style.lineWidth;
-        if (firstTime) {
-          context.beginPath();
-          context.moveTo(scrX, scrY);
-          firstTime = false;
-        }
         context.rect(scrX, scrY, w, w);
         break;
       default:
