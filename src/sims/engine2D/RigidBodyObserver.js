@@ -161,8 +161,8 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
   /** Prototype DisplayLine for showing contact forces.
   * @type {!DisplayLine|undefined}
   */
-  this.protoContactForce = new DisplayLine().setThickness(1).setColor('red')
-      .setLineDash([3,5]);
+  this.protoContactForce = new DisplayLine().setThickness(1).setColor('red');
+  // .setLineDash([3,5]);
   this.protoContactForce.setZIndex(10);
   /** Prototype DisplayLine for showing thrust forces.
   * @type {!DisplayLine|undefined}
