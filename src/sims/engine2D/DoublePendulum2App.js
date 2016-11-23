@@ -87,6 +87,8 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
+  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(false);
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
   this.mySim.addForceLaw(this.dampingLaw);

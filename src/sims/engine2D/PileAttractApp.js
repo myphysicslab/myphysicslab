@@ -89,6 +89,7 @@ sims.engine2D.PileAttractApp = function(elem_ids) {
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.layout.simCanvas.setBackground('black');
   this.rbo.protoDragSpring.setWidth(0.3);
   this.rbo.protoPolygon.setDrawCenterOfMass(true);
   if (1 == 0) {
