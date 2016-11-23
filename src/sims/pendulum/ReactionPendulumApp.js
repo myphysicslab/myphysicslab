@@ -404,6 +404,8 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
+  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  this.addControl(bm);
 
   /** translate variable index of sim1 to equivalent variable of sim2
   * @type {function(number): number}

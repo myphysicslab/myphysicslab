@@ -273,6 +273,8 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
+  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  this.addControl(bm);
 
   /** @type {!lab.graph.GraphLine} */
   var line1 = new GraphLine('GRAPH_LINE_1', va1);

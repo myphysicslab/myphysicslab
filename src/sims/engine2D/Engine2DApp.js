@@ -387,6 +387,8 @@ Engine2DApp.prototype.addStandardControls = function() {
   this.addControl(new NumericControl(pn));
   var ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
+  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  this.addControl(bm);
   //ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   //this.addControl(new ChoiceControl(ps));
 };

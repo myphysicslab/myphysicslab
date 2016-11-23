@@ -223,6 +223,8 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.addControl(new NumericControl(pn));
   var ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
+  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  this.addControl(bm);
 
   // Important that sim.getVarsList() come after app (=this) and sim, because they
   // might have parameters that change the configuration which changes the set of

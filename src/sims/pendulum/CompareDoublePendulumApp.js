@@ -366,6 +366,8 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
+  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  this.addControl(bm);
 
   var gamma1 = this.sim1.getGamma1();
   var gamma2 = this.sim1.getGamma2();

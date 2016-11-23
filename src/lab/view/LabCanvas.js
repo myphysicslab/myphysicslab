@@ -23,6 +23,7 @@ goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MemoList');
 goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.ParameterNumber');
+goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -41,6 +42,7 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabView = myphysicslab.lab.view.LabView;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -77,25 +79,32 @@ drag. The focus view can be changed via {@link #setFocusView}.
 Whenever {@link #paint} is called to draw a new frame, the first step is to clear the
 old frame from the HTML canvas.
 
-+ If no {@link #background} color is specified (an empty string) then we use the
++ If no background color is specified (an empty string) then we use the
 JavaScript `canvas.clearRect()` method which clears to transparent black pixels.
 
-+ If a {@link #background} color is specified, then we use JavaScript
++ If a background color is specified, then we use JavaScript
 `canvas.fillRect()` to fill the HTML canvas with that color.
+
+The background color can be set with {@link #setBackground}.
 
 
 ### Trails Effect
 
 A visual effect where moving objects leave behind a smeared out trail can be done by
-setting the {@link #background} color and {@link #trailsAlpha}. Here are example
-settings, which can be done in a {@link myphysicslab.lab.util.Terminal} session:
+setting the background color and the *alpha* transparency, see {@link #setAlpha}.
+Here are example settings, which can be done in a
+{@link myphysicslab.lab.util.Terminal} session:
 
-    simCanvas.background = 'white';
-    simCanvas.trailsAlpha = 0.05;
+    simCanvas.setBackground('black');
+    simCanvas.setAlpha(0.05);
 
-The trails effect happens because instead of clearing entirely to white (which happens
-when `trailsAlpha` is 1.0), we paint a translucent white rectangle over the old frame,
-which gradually makes the old image disappear after several iterations of painting.
+When `alpha` is 1.0 then there is no trails effect because the old frame is entirely
+painted over with an opaque color.
+
+The trails effect happens when `alpha` is less than 1 because we paint a translucent
+rectangle over the old frame, which gradually makes the old image disappear after
+several iterations of painting.
+
 
 ### Parameters Created
 
@@ -167,13 +176,15 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   /** The transparency used when painting the background color; a number between
   * 0.0 (fully transparent) and 1.0 (fully opaque).
   * @type {number}
+  * @private
   */
-  this.trailsAlpha = 1.0;
+  this.alpha_ = 1.0;
   /** The background color; either a CSS3 color value or the empty string. Transparent
   * black is used if it is the empty string.
   * @type {string}
+  * @private
   */
-  this.background = '';
+  this.background_ = '';
   /**
   * @type {boolean}
   * @private
@@ -184,6 +195,10 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
       LabCanvas.i18n.WIDTH, this.getWidth, this.setWidth));
   this.addParameter(new ParameterNumber(this, LabCanvas.en.HEIGHT,
       LabCanvas.i18n.HEIGHT, this.getHeight, this.setHeight));
+  this.addParameter(new ParameterNumber(this, LabCanvas.en.ALPHA,
+      LabCanvas.i18n.ALPHA, this.getAlpha, this.setAlpha));
+  this.addParameter(new ParameterString(this, LabCanvas.en.BACKGROUND,
+      LabCanvas.i18n.BACKGROUND, this.getBackground, this.setBackground));
 };
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 goog.inherits(LabCanvas, AbstractSubject);
@@ -194,15 +209,15 @@ if (!UtilityCore.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', width: '+this.canvas_.width
         +', height: '+this.canvas_.height
+        +', background_: "'+this.background_+'"'
+        +', alpha_: '+NF5(this.alpha_)
         +', focusView_: '
         + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
-        +', background: "'+this.background+'"'
-        +', trailsAlpha: '+NF5(this.trailsAlpha)
         +', labViews_: ['
         + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
         +'], memorizables_: ['
         + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
-        +'], canvas_: '+this.canvas_
+        +']'
         + LabCanvas.superClass_.toString.call(this);
   };
 };
@@ -281,6 +296,23 @@ LabCanvas.prototype.focus = function() {
   // see http://stackoverflow.com/questions/1829586/
   //     how-do-i-give-an-html-canvas-the-keyboard-focus-using-jquery
   this.canvas_.focus();
+};
+
+/** Returns the transparency used when painting; a number between 0.0 (fully
+transparent) and 1.0 (fully opaque). Only has an effect if the background color is
+non-empty string.
+* @return {number} transparency used when painting, between 0 and 1.
+*/
+LabCanvas.prototype.getAlpha = function() {
+  return this.alpha_;
+};
+
+/** Returns the background color; either a CSS3 color value or the empty string. Empty
+string means that background is cleared to transparent black.
+* @return {string} the background color; either a CSS3 color value or the empty string
+*/
+LabCanvas.prototype.getBackground = function() {
+  return this.background_;
 };
 
 /** Returns the HTML canvas being managed by this LabCanvas.
@@ -363,7 +395,7 @@ LabCanvas.prototype.notifySizeChanged = function() {
 };
 
 /** Clears the canvas to the background color; then paints each LabView.
-See {@link #background} and {@link #trailsAlpha}.
+See {@link #background_} and {@link #alpha_}.
 @return {undefined}
 */
 LabCanvas.prototype.paint = function() {
@@ -377,13 +409,23 @@ LabCanvas.prototype.paint = function() {
     var context = /** @type {!CanvasRenderingContext2D} */
         (this.canvas_.getContext('2d'));
     context.save();
-    context.globalAlpha = this.trailsAlpha;
-    if (this.background != '') {
-      context.fillStyle = this.background;
+    if (this.background_ != '') {
+      // Notes Nov 22, 2016:
+      // Setting a fillStyle color with transparency doesn't work here.
+      // For example rgb(0,0,0,0.05). Only setting globalAlpha works.
+      // Does fillRect() always ignore the alpha value of the color?
+      // That does not seem to be according to spec.
+      // Note also that globalAlpha has no effect on fill() because in that
+      // case the fillStyle's alpha is always used, and if not specified then
+      // it seems to assume alpha = 1.
+      context.globalAlpha = this.alpha_;
+      context.fillStyle = this.background_;
       context.fillRect(0, 0, this.canvas_.width, this.canvas_.height);
+      context.globalAlpha = 1;
     } else {
       // clearRect sets all pixels in the rectangle to transparent black,
       // erasing any previously drawn content.
+      // clearRect is supposed to be faster than fillRect.
       context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
     }
     goog.array.forEach(this.labViews_, function(view) {
@@ -414,6 +456,35 @@ LabCanvas.prototype.removeView = function(view) {
   }
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_REMOVED, view));
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_LIST_MODIFIED));
+};
+
+/** Sets the transparency used when painting; a number between 0.0 (fully
+transparent) and 1.0 (fully opaque). Only has an effect if the background color is
+non-empty string.
+* @param {number} value transparency used when painting, between 0 and 1
+*/
+LabCanvas.prototype.setAlpha = function(value) {
+  if (UtilityCore.veryDifferent(this.alpha_, value)) {
+    this.alpha_ = value;
+    // Alpha has no effect when background is empty string which means
+    // "clear to transparent black". Set background to white in that case.
+    if (UtilityCore.veryDifferent(value, 1) && this.background_ == '') {
+      this.setBackground('white');
+    }
+    this.broadcastParameter(LabCanvas.en.ALPHA);
+  }
+};
+
+/** Sets the background color; either a CSS3 color value or the empty string. Empty
+string means that background is cleared to transparent black.
+* @param {string} value the background color; either a CSS3 color value or the empty
+*    string
+*/
+LabCanvas.prototype.setBackground = function(value) {
+  if (this.background_ != value) {
+    this.background_ = value;
+    this.broadcastParameter(LabCanvas.en.BACKGROUND);
+  }
 };
 
 /** Sets the focus LabView which is the main focus of the LabCanvas. Notifies any
@@ -499,7 +570,9 @@ LabCanvas.prototype.setWidth = function(value) {
 /** Set of internationalized strings.
 @typedef {{
   WIDTH: string,
-  HEIGHT: string
+  HEIGHT: string,
+  ALPHA: string,
+  BACKGROUND: string
   }}
 */
 LabCanvas.i18n_strings;
@@ -509,7 +582,9 @@ LabCanvas.i18n_strings;
 */
 LabCanvas.en = {
   WIDTH: 'width',
-  HEIGHT: 'height'
+  HEIGHT: 'height',
+  ALPHA: 'alpha',
+  BACKGROUND: 'background'
 };
 
 /**
@@ -518,7 +593,9 @@ LabCanvas.en = {
 */
 LabCanvas.de_strings = {
   WIDTH: 'Breite',
-  HEIGHT: 'H\u00f6he'
+  HEIGHT: 'H\u00f6he',
+  ALPHA: 'alpha',
+  BACKGROUND: 'Hintergrund'
 };
 
 /** Set of internationalized strings.

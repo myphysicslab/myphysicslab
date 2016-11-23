@@ -17,10 +17,11 @@ goog.provide('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.lab.app.SimRunner');
 goog.require('myphysicslab.lab.controls.ButtonControl');
 goog.require('myphysicslab.lab.controls.GroupControl');
+goog.require('myphysicslab.lab.controls.ChoiceControlBase');
 goog.require('myphysicslab.lab.controls.ToggleControl');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -29,6 +30,7 @@ goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
+goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
 
@@ -36,18 +38,20 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var ButtonControl = lab.controls.ButtonControl;
 var AbstractSubject = lab.util.AbstractSubject;
+var ButtonControl = lab.controls.ButtonControl;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var GenericObserver = lab.util.GenericObserver;
 var GroupControl = lab.controls.GroupControl;
+var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
+var ChoiceControlBase = lab.controls.ChoiceControlBase;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ScriptParser = lab.util.ScriptParser;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
-var DisplayAxes = lab.graph.DisplayAxes;
 var Subject = lab.util.Subject;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
@@ -72,7 +76,7 @@ changes (for example because of pan-zoom controls).
 * @param {!myphysicslab.lab.view.SimView} simView the SimView to add axes to
 * @return {!myphysicslab.lab.graph.DisplayAxes} the axes that were created
 */
-CommonControls.makeAxes = function (simView) {
+CommonControls.makeAxes = function(simView) {
   /** @type {!DisplayAxes} */
   var axes = new DisplayAxes(simView.getSimRect());
   new GenericObserver(simView, function(evt) {
@@ -85,7 +89,78 @@ CommonControls.makeAxes = function (simView) {
   return axes;
 };
 
-/**  Makes controls for pan and zoom of a SimView.
+/** Makes pop-up menu of choices for background color plus options for "trails" which
+turns on the global alpha transparency feature in LabCanvas. See
+{@link myphysicslab.lab.view.LabCanvas#setAlpha} and
+{@link myphysicslab.lab.view.LabCanvas#setBackground}.
+* @param {!myphysicslab.lab.view.LabCanvas} labCanvas
+* @return {!myphysicslab.lab.controls.ChoiceControlBase}
+*/
+CommonControls.makeBackgroundMenu = function(labCanvas) {
+  var choices = [
+      CommonControls.i18n.WHITE,
+      CommonControls.i18n.BLACK,
+      CommonControls.i18n.WHITE_WITH_TRAILS,
+      CommonControls.i18n.BLACK_WITH_TRAILS,
+      CommonControls.i18n.WHITE_WITH_LONG_TRAILS,
+      CommonControls.i18n.BLACK_WITH_LONG_TRAILS
+    ];
+  var values = [
+      CommonControls.en.WHITE,
+      CommonControls.en.BLACK,
+      CommonControls.en.WHITE_WITH_TRAILS,
+      CommonControls.en.BLACK_WITH_TRAILS,
+      CommonControls.en.WHITE_WITH_LONG_TRAILS,
+      CommonControls.en.BLACK_WITH_LONG_TRAILS
+    ];
+  values = goog.array.map(values, function(v) { return UtilityCore.toName(v); });
+  var longAlpha = 0.05;
+  var shortAlpha = 0.1;
+  var getter = function() {
+    var bg = labCanvas.getBackground();
+    var alpha = labCanvas.getAlpha();
+    if (bg == '') {
+      return values[0];
+    } else if (bg == 'black') {
+      if (!UtilityCore.veryDifferent(alpha, 1)) {
+        return values[1];
+      } else if (!UtilityCore.veryDifferent(alpha, shortAlpha)) {
+        return values[3];
+      } else if (!UtilityCore.veryDifferent(alpha, longAlpha)) {
+        return values[5];
+      }
+    } else if (bg == 'white') {
+      if (!UtilityCore.veryDifferent(alpha, 1)) {
+        return values[0];
+      } else if (!UtilityCore.veryDifferent(alpha, shortAlpha)) {
+        return values[2];
+      } else if (!UtilityCore.veryDifferent(alpha, longAlpha)) {
+        return values[4];
+      }
+    }
+    return -1;
+  };
+  /** @type function(string) */
+  var setter = function(value) {
+    var idx = goog.array.indexOf(values, value);
+    switch (idx) {
+      case 0: labCanvas.setBackground(''); labCanvas.setAlpha(1); break;
+      case 1: labCanvas.setBackground('black'); labCanvas.setAlpha(1); break;
+      case 2: labCanvas.setBackground('white'); labCanvas.setAlpha(shortAlpha); break;
+      case 3: labCanvas.setBackground('black'); labCanvas.setAlpha(shortAlpha); break;
+      case 4: labCanvas.setBackground('white'); labCanvas.setAlpha(longAlpha); break;
+      case 5: labCanvas.setBackground('black'); labCanvas.setAlpha(longAlpha); break;
+      default:
+    }
+  };
+  var menu = new ChoiceControlBase(choices, values, getter, setter,
+      CommonControls.i18n.BACKGROUND);
+  labCanvas.addObserver(menu);
+  return menu;
+};
+
+/** Makes controls for pan and zoom of a SimView. Use gray icons so that they are
+* visible with black background or white background.
 * @param {!myphysicslab.lab.view.SimView} simView the SimView under control
 * @param {boolean} overlay whether the controls should appear over the parent element
 * @param {function()} resetFunc function to execute when click on center button, it
@@ -120,7 +195,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   var up_div = /** @type {!Element}*/(document.createElement('div'));
   if (debug) up_div.style.border = 'dashed red thin';
   up_div.style.width = (sz*3.2)+'px';
-  var img = UtilityCore.createImage(imagesPath+'up.png', sz);
+  var img = UtilityCore.createImage(imagesPath+'up_gray.png', sz);
   /** @type {!myphysicslab.lab.controls.ButtonControl} */
   var bc = new ButtonControl('up', goog.bind(simView.panUp, simView), img);
   bc.repeatDelay = 100;
@@ -129,20 +204,20 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   var mid_div = /** @type {!Element}*/(document.createElement('div'));
   if (debug) mid_div.style.border = 'dashed red thin';
   mid_div.style.width = up_div.style.width;
-  img = UtilityCore.createImage(imagesPath+'backward.png', sz);
+  img = UtilityCore.createImage(imagesPath+'backward_gray.png', sz);
   bc = new ButtonControl('left', goog.bind(simView.panLeft, simView), img);
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
-  img = UtilityCore.createImage(imagesPath+'target.png', sz);
+  img = UtilityCore.createImage(imagesPath+'target_gray.png', sz);
   bc = new ButtonControl('reset', resetFunc, img);
   mid_div.appendChild(bc.getElement());
-  img = UtilityCore.createImage(imagesPath+'forward.png', sz);
+  img = UtilityCore.createImage(imagesPath+'forward_gray.png', sz);
   bc = new ButtonControl('right', goog.bind(simView.panRight, simView), img);
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
 
   var down_div = /** @type {!Element}*/(document.createElement('div'));
-  img = UtilityCore.createImage(imagesPath+'down.png', sz);
+  img = UtilityCore.createImage(imagesPath+'down_gray.png', sz);
   bc = new ButtonControl('down', goog.bind(simView.panDown, simView), img);
   bc.repeatDelay = 100;
   down_div.appendChild(bc.getElement());
@@ -157,12 +232,12 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   pan_div.style.textAlign = 'center';
 
   var zoom_div = /** @type {!Element}*/(document.createElement('div'));
-  img = UtilityCore.createImage(imagesPath+'plus.png', sz);
+  img = UtilityCore.createImage(imagesPath+'plus_gray.png', sz);
   bc = new ButtonControl('zoomIn', goog.bind(simView.zoomIn, simView), img);
   bc.repeatDelay = 100;
   zoom_div.appendChild(bc.getElement());
   zoom_div.appendChild(document.createElement('BR'));
-  img = UtilityCore.createImage(imagesPath+'minus.png', sz);
+  img = UtilityCore.createImage(imagesPath+'minus_gray.png', sz);
   bc = new ButtonControl('zoomOut', goog.bind(simView.zoomOut, simView), img);
   bc.repeatDelay = 100;
   zoom_div.appendChild(bc.getElement());
@@ -181,7 +256,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
     panzoom_div.style.position = 'absolute';
     panzoom_div.style.right = '10%';
     panzoom_div.style.bottom = '12%';
-    panzoom_div.style.opacity=0.13;
+    //panzoom_div.style.opacity=0.13;
     panzoom_div.style.width = (sz*4.2)+'px';
   }
   panzoom_div.appendChild(zoom_div);
@@ -386,7 +461,14 @@ CommonControls.makeURLScriptButton = function(scriptParser, simRun) {
 
 /** Set of internationalized strings.
 @typedef {{
-  PAN_ZOOM: string
+  PAN_ZOOM: string,
+  BACKGROUND: string,
+  WHITE: string,
+  BLACK: string,
+  WHITE_WITH_TRAILS: string,
+  BLACK_WITH_TRAILS: string,
+  WHITE_WITH_LONG_TRAILS: string,
+  BLACK_WITH_LONG_TRAILS: string
   }}
 */
 CommonControls.i18n_strings;
@@ -395,7 +477,14 @@ CommonControls.i18n_strings;
 @type {CommonControls.i18n_strings}
 */
 CommonControls.en = {
-  PAN_ZOOM: 'pan-zoom'
+  PAN_ZOOM: 'pan-zoom',
+  BACKGROUND: 'background',
+  WHITE: 'white',
+  BLACK: 'black',
+  WHITE_WITH_TRAILS: 'white with trails',
+  BLACK_WITH_TRAILS: 'black with trails',
+  WHITE_WITH_LONG_TRAILS: 'white with long trails',
+  BLACK_WITH_LONG_TRAILS: 'black with long trails'
 };
 
 /**
@@ -403,7 +492,14 @@ CommonControls.en = {
 @type {CommonControls.i18n_strings}
 */
 CommonControls.de_strings = {
-  PAN_ZOOM: 'pan-zoom'
+  PAN_ZOOM: 'pan-zoom',
+  BACKGROUND: 'Hintergrund',
+  WHITE: 'weiss',
+  BLACK: 'schwarz',
+  WHITE_WITH_TRAILS: 'weiss mit Pfade',
+  BLACK_WITH_TRAILS: 'schwarz mit Pfade',
+  WHITE_WITH_LONG_TRAILS: 'weiss mit lange Pfade',
+  BLACK_WITH_LONG_TRAILS: 'schwarz mit lange Pfade'
 };
 
 /** Set of internationalized strings.
