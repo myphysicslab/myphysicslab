@@ -180,6 +180,11 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   * @private
   */
   this.needRescale_ = true;
+  /** Whether to draw a semi-transparent white rectangle, in case background is black.
+  * @type {boolean}
+  * @private
+  */
+  this.drawBackground_ = true;
   /** Color of the potential energy bar, a CSS3 color value
   * @type {string}
   */
@@ -399,8 +404,8 @@ EnergyBarGraph.prototype.draw = function(context, map) {
       - EnergyBarGraph.RIGHT_MARGIN;
   var maxWidth = this.rightEdge_ - this.leftEdge_;
   var top_ = map.simToScreenY(this.rect_.getTop());
-  if (goog.isDef(undefined)) {
-    // draw a semi-transparent white rectangle, in case background is black or gray
+  if (this.drawBackground_) {
+    // draw a semi-transparent white rectangle, in case background is black
     context.fillStyle = 'rgba(255,255,255,0.75)'; // transparent white
     context.fillRect(this.leftEdge_- EnergyBarGraph.LEFT_MARGIN,
         top_ + EnergyBarGraph.TOP_MARGIN,
