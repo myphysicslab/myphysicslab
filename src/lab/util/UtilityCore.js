@@ -970,14 +970,17 @@ UtilityCore.validName = function(text) {
 };
 
 /** Returns `true` if the numbers are significantly different to a certain tolerance
-level, adjusting the tolerance for larger numbers. For numbers with absolute value
-smaller than `magnitude` the numbers are compared using a fixed tolerance of
-`magnitude*epsilon`. For numbers larger than `magnitude`, the tolerance is
+level, adjusting the tolerance for larger numbers.
+
+For numbers with absolute value smaller than `magnitude` the numbers are compared using
+a fixed tolerance of `magnitude*epsilon`.
+
+For numbers with absolute value larger than `magnitude`, the tolerance is
 `epsilon` times the larger of the absolute values of the numbers being compared.
 
-Unless specified, uses defaults for `magnitude` of 1.0 and `epsilon` of
-1E-14. This returns true if the numbers are significantly different to approximately 14
-decimal digits.
+Unless specified, the default for `magnitude` is 1.0 and `epsilon` is 1E-14. These
+settings return `true` if the numbers are significantly different to approximately 14
+decimal digits when their magnitude is near 1.0.
 
 The goal is to have a test that is immune to the inaccuracy of double arithmetic.
 Doubles have 15 to 17 significant decimal digits of accuracy, so comparing 14

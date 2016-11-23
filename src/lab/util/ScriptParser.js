@@ -112,7 +112,7 @@ conditions for that configuration are in place.
 This is accomplished by specifying a set of 'volatile' Subjects as an argument to the
 constructor. The {@link myphysicslab.lab.model.VarsList} is the most common volatile
 Subject, but there can be others as well. These are treated differently in that
-we **recalculate the initial settings for all Parameters during the {@link #update}
+we **recalculate the initial settings for all Parameters during the {@link #observe}
 method, which should be called whenever the configuration changes**. (Note that
 Variables are also Parameters).
 

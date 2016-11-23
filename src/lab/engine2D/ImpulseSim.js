@@ -946,7 +946,7 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
   return impulse;
 };
 
-/** Handles a set of collisions using the 'serial' collision handling method. We keep
+/** Handles a set of collisions using the *serial* collision handling method. We keep
 handling collisions at random until we reach a state where there is no collision. Note
 that this can take many times thru the loop, up to thousands of times.
 
@@ -958,7 +958,7 @@ tiny gap, so that when object A is struck, it then collides with object B, and t
 object B collides with object C and so forth. But this gap is so tiny that no time
 passes, and we can calculate the results of all these collisions here very quickly.
 
-Each time thru the loop, we pick a single 'focus' collision to resolve. If there
+Each time thru the loop, we pick a single *focus* collision to resolve. If there
 are no joints, then we simply resolve that single collision. If there are joints on
 either body involved in the chosen focus collision, we find all the joints that are
 connected via other joints (for example, a chain would include all the joints in the
@@ -973,16 +973,15 @@ integers each time thru the loop. For example if the same sequence were used eve
 time thru the loop, then the contacts at the start of the sequence would be processed
 much more frequently, and the algorithm would be much less efficient.
 
-To provide a “non-random” option you can use the {@link #setRandomSeed} method to set
+To provide a non-random option you can use the {@link #setRandomSeed} method to set
 the seed used by the random number generator. This will provide a reproducible series
 of random numbers. This is done when running tests.
 
-Turn on the 'showVelo' flag to show visually the velocity at each contact point and
-get a sense of how this algorithm works.  Note:  you need to turn on a kluge in
-BaseBuilder.update so that each newly drawn vector line can be updated during
-this method.
+Turn on the `showVelo` flag to show visually the velocity at each contact point and
+get a sense of how this algorithm works. See {@link #setDebugPaint} for additional
+steps needed to have the contact forces drawn while stepping thru this method.
 
-The 'hybrid' option uses the following policy: Each time thru the loop, we
+The `hybrid` option uses the following policy: Each time thru the loop, we
 focus on the collision with the largest velocity, and we include the set of 'active'
 collisions (non-joint and non-contact) that are happening on either body involved in
 the initial focus collision; we then do simultaneous type collision handling on this

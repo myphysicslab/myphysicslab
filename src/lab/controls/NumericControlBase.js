@@ -324,7 +324,7 @@ NumericControlBase.prototype.getSignifDigits = function() {
 };
 
 /** Returns the value of this control. The displayed value may be different due to
-rounding.  Call {@link #update} to ensure this value matches the target value.
+rounding.  Call {@link #observe} to ensure this value matches the target value.
 @return {number} the value of this control
 */
 NumericControlBase.prototype.getValue = function() {
