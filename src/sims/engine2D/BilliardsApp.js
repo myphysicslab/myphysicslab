@@ -20,6 +20,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.Polygon');
+goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
@@ -50,6 +51,7 @@ var Engine2DApp = sims.engine2D.Engine2DApp;
 var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = lab.engine2D.Polygon;
+var RigidBodySim = lab.engine2D.RigidBodySim;
 var Shapes = lab.engine2D.Shapes;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
@@ -117,6 +119,9 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
+
+  ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
+  this.addControl(new ChoiceControl(ps));
 
   this.makeScriptParser();
   this.addURLScriptButton();
