@@ -54,6 +54,7 @@ var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Joint = lab.engine2D.Joint;
+var NF = lab.util.UtilityCore.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var Polygon = lab.engine2D.Polygon;
@@ -109,7 +110,6 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, opt_name);
   this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   this.elasticity.setElasticity(1.0);
   this.mySim.setShowForces(true);
@@ -117,7 +117,7 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(/*damping=*/0, /*rotateRatio=*/0.15,
       this.simList);
-  /** @type {MultipleCollisionApp.Shape} */
+  /** @type {string} */
   this.shape = MultipleCollisionApp.Shape.SQUARE;
   /** @type {number} */
   this.offset = 0;
@@ -125,61 +125,61 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   this.angle = 0;
   /** @type {number} */
   this.speed = 3;
-  /** @type {Formation} */
-  this.formation = Formation.ONE_HITS_TWO;
+  var choices = [ MultipleCollisionApp.i18n.ONE_HITS_TWO,
+      MultipleCollisionApp.i18n.ONE_HITS_THREE,
+      MultipleCollisionApp.i18n.ONE_HITS_TWO_SEPARATE,
+      MultipleCollisionApp.i18n.ONE_HITS_ONE_ON_WALL,
+      MultipleCollisionApp.i18n.ONE_HITS_TWO_ON_WALL,
+      MultipleCollisionApp.i18n.TWO_HIT_ONE,
+      MultipleCollisionApp.i18n.TWO_HIT_ONE_ASYMMETRIC,
+      MultipleCollisionApp.i18n.ONE_HITS_ONE,
+      MultipleCollisionApp.i18n.ONE_HITS_ONE_ASYMMETRIC,
+      MultipleCollisionApp.i18n.ONE_HITS_WALL,
+      MultipleCollisionApp.i18n.ONE_HITS_CHAIN,
+      MultipleCollisionApp.i18n.ONE_HITS_CHAIN_PLUS_ONE,
+      MultipleCollisionApp.i18n.TWO_IN_BOX,
+      MultipleCollisionApp.i18n.ONE_HITS_TWO_IN_BOX,
+      MultipleCollisionApp.i18n.TWO_ON_WALL
+    ];
+  /** @type {!Array<string>} */
+  this.formations = [ MultipleCollisionApp.en.ONE_HITS_TWO,
+      MultipleCollisionApp.en.ONE_HITS_THREE,
+      MultipleCollisionApp.en.ONE_HITS_TWO_SEPARATE,
+      MultipleCollisionApp.en.ONE_HITS_ONE_ON_WALL,
+      MultipleCollisionApp.en.ONE_HITS_TWO_ON_WALL,
+      MultipleCollisionApp.en.TWO_HIT_ONE,
+      MultipleCollisionApp.en.TWO_HIT_ONE_ASYMMETRIC,
+      MultipleCollisionApp.en.ONE_HITS_ONE,
+      MultipleCollisionApp.en.ONE_HITS_ONE_ASYMMETRIC,
+      MultipleCollisionApp.en.ONE_HITS_WALL,
+      MultipleCollisionApp.en.ONE_HITS_CHAIN,
+      MultipleCollisionApp.en.ONE_HITS_CHAIN_PLUS_ONE,
+      MultipleCollisionApp.en.TWO_IN_BOX,
+      MultipleCollisionApp.en.ONE_HITS_TWO_IN_BOX,
+      MultipleCollisionApp.en.TWO_ON_WALL
+    ];
+  this.formations = goog.array.map(this.formations, function(v) {
+        return UtilityCore.toName(v);
+      });
+  /** @type {string} */
+  this.formation = this.formations[0];
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
   var pn;
   /** @type {!ParameterString} */
   var ps;
-  this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.FORMATION,
+  this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.FORMATION,
       MultipleCollisionApp.i18n.FORMATION,
-      this.getFormation, this.setFormation,
-      [ MultipleCollisionApp.i18n.ONE_HITS_TWO,
-        MultipleCollisionApp.i18n.ONE_HITS_THREE,
-        MultipleCollisionApp.i18n.ONE_HITS_TWO_SEPARATE,
-        MultipleCollisionApp.i18n.ONE_HITS_ONE_ON_WALL,
-        MultipleCollisionApp.i18n.ONE_HITS_TWO_ON_WALL,
-        MultipleCollisionApp.i18n.TWO_HIT_ONE,
-        MultipleCollisionApp.i18n.TWO_HIT_ONE_ASYMMETRIC,
-        MultipleCollisionApp.i18n.ONE_HITS_ONE,
-        MultipleCollisionApp.i18n.ONE_HITS_ONE_ASYMMETRIC,
-        MultipleCollisionApp.i18n.ONE_HITS_WALL,
-        MultipleCollisionApp.i18n.ONE_HITS_CHAIN,
-        MultipleCollisionApp.i18n.ONE_HITS_CHAIN_PLUS_ONE,
-        MultipleCollisionApp.i18n.TWO_IN_BOX,
-        MultipleCollisionApp.i18n.ONE_HITS_TWO_IN_BOX,
-        MultipleCollisionApp.i18n.TWO_ON_WALL
-      ],
-      [ Formation.ONE_HITS_TWO,
-        Formation.ONE_HITS_THREE,
-        Formation.ONE_HITS_TWO_SEPARATE,
-        Formation.ONE_HITS_ONE_ON_WALL,
-        Formation.ONE_HITS_TWO_ON_WALL,
-        Formation.TWO_HIT_ONE,
-        Formation.TWO_HIT_ONE_ASYMMETRIC,
-        Formation.ONE_HITS_ONE,
-        Formation.ONE_HITS_ONE_ASYMMETRIC,
-        Formation.ONE_HITS_WALL,
-        Formation.ONE_HITS_CHAIN,
-        Formation.ONE_HITS_CHAIN_PLUS_ONE,
-        Formation.TWO_IN_BOX,
-        Formation.ONE_HITS_TWO_IN_BOX,
-        Formation.TWO_ON_WALL
-      ]));
-  this.addControl(new ChoiceControl(pn));
+      this.getFormation, this.setFormation, choices, this.formations));
+  this.addControl(new ChoiceControl(ps));
 
-  this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.SHAPE,
+  this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.SHAPE,
       MultipleCollisionApp.i18n.SHAPE,
       this.getShape, this.setShape,
-      [ MultipleCollisionApp.i18n.SQUARE,
-        MultipleCollisionApp.i18n.CIRCLE
-      ],
-      [ MultipleCollisionApp.Shape.SQUARE,
-        MultipleCollisionApp.Shape.CIRCLE
-      ]));
-  this.addControl(new ChoiceControl(pn));
+      [ MultipleCollisionApp.i18n.SQUARE, MultipleCollisionApp.i18n.CIRCLE ],
+      [ MultipleCollisionApp.Shape.SQUARE, MultipleCollisionApp.Shape.CIRCLE ]));
+  this.addControl(new ChoiceControl(ps));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.OFFSET,
       MultipleCollisionApp.i18n.OFFSET,
@@ -221,6 +221,11 @@ if (!UtilityCore.ADVANCED) {
   MultipleCollisionApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
+        +', formation: '+this.formation
+        +', shape: '+this.shape
+        +', angle: '+NF(this.angle)
+        +', offset: '+NF(this.offset)
+        +', speed: '+NF(this.speed)
         + MultipleCollisionApp.superClass_.toString.call(this);
   };
 };
@@ -230,34 +235,13 @@ MultipleCollisionApp.prototype.getClassName = function() {
   return 'MultipleCollisionApp';
 };
 
-/**
-* @enum {number}
-*/
-MultipleCollisionApp.Formation = {
-  ONE_HITS_TWO: 0,
-  TWO_HIT_ONE: 1,
-  ONE_HITS_TWO_ON_WALL: 2,
-  ONE_HITS_TWO_SEPARATE: 3,
-  TWO_HIT_ONE_ASYMMETRIC: 4,
-  ONE_HITS_ONE: 5,
-  ONE_HITS_ONE_ASYMMETRIC: 6,
-  ONE_HITS_WALL: 7,
-  ONE_HITS_ONE_ON_WALL: 8,
-  ONE_HITS_CHAIN: 9,
-  ONE_HITS_CHAIN_PLUS_ONE: 10,
-  ONE_HITS_THREE: 11,
-  TWO_IN_BOX: 12,
-  ONE_HITS_TWO_IN_BOX: 13,
-  TWO_ON_WALL: 14
-};
-var Formation = MultipleCollisionApp.Formation;
 
 /**
-* @enum {number}
+* @enum {string}
 */
 MultipleCollisionApp.Shape = {
-  SQUARE: 0,
-  CIRCLE: 1
+  SQUARE: 'SQUARE',
+  CIRCLE: 'CIRCLE'
 };
 
 /** @inheritDoc */
@@ -303,15 +287,14 @@ MultipleCollisionApp.prototype.addBody = function(body) {
 /** Returns dark color for heavier mass, light color for light mass.
 
     mass log10(mass)  rgb
-    0.1    -1         252
-    1.0     0         200
-    10      1         100
-    100     2          0
+    0.1    -1         229
+    1.0     0         186
+    10      1         143
+    100     2         100
 
 This translates to equation:
 
-    rgb = -(252/3)*log10(mass) + 2*252/3
-        = (252/3)* (-log10(mass) + 2)
+    rgb = 100 + 43 (-log10(mass) + 2)
 
 * @param {number} mass
 * @return {string} color corresponding to mass
@@ -323,7 +306,7 @@ MultipleCollisionApp.massToColor = function(mass) {
   } else if (logm > 2) {
     logm = 2;
   }
-  var rgb = Math.floor(0.5 + (252/3)* (-logm + 2));
+  var rgb = Math.floor(0.5 + 100 + 43 * (-logm + 2));
   var s = rgb.toString();
   return 'rgb('+s+','+s+','+s+')';
 };
@@ -339,9 +322,25 @@ MultipleCollisionApp.prototype.config = function() {
   this.advance.reset();
   var distTol = this.mySim.getDistanceTol();
   var body, body1, body2, body3, body4;
-  switch (this.formation) {
+  var idx = goog.array.indexOf(this.formations, this.formation);
+  switch (idx) {
 
-    case Formation.ONE_HITS_THREE:
+    case 0: //ONE_HITS_TWO:
+      body = this.makePuck();
+      body.setPosition(new Vector(-5,  0),  this.angle);
+      body.setVelocity(new Vector(this.speed,  0),  0);
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(0,  0));
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(1 + distTol/2 + this.offset,  0));
+      this.addBody(body);
+      break;
+
+    case 1: //ONE_HITS_THREE:
       body = this.makePuck();
       body.setPosition(new Vector(-5,  0),  this.angle);
       body.setVelocity(new Vector(this.speed,  0),  0);
@@ -360,78 +359,7 @@ MultipleCollisionApp.prototype.config = function() {
       this.addBody(body);
       break;
 
-    case Formation.ONE_HITS_TWO:
-      body = this.makePuck();
-      body.setPosition(new Vector(-5,  0),  this.angle);
-      body.setVelocity(new Vector(this.speed,  0),  0);
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(0,  0));
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(1 + distTol/2 + this.offset,  0));
-      this.addBody(body);
-      break;
-
-    case Formation.TWO_HIT_ONE:
-      body = this.makePuck();
-      body.setPosition(new Vector(-5,  0),  this.angle);
-      body.setVelocity(new Vector(this.speed,  0),  0);
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(0,  0));
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(5,  0),  this.angle);
-      body.setVelocity(new Vector(-this.speed,  0),  0);
-      this.addBody(body);
-      break;
-
-    case Formation.TWO_ON_WALL:
-      body = this.makePuck();
-      body.setMass(1);
-      body.setPosition(new Vector(this.space_half_width - 1.5 - distTol,  0),  0);
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(this.space_half_width - 0.5 - distTol/2,  0),  0);
-      body.setVelocity(new Vector(this.speed,  0),  0);
-      this.addBody(body);
-      break;
-
-    case Formation.ONE_HITS_ONE_ON_WALL:
-
-      body = this.makePuck();
-      body.setMass(1000);
-      body.setPosition(new Vector(0,  0),  this.angle);
-      body.setVelocity(new Vector(this.speed,  0),  0);
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(this.space_half_width - 0.5 - distTol/2,  0),  0);
-      this.addBody(body);
-      break;
-
-    case Formation.ONE_HITS_TWO_ON_WALL:
-      body = this.makePuck();
-      body.setPosition(new Vector(0,  0),  this.angle);
-      body.setVelocity(new Vector(this.speed,  0),  0);
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(this.space_half_width - 1.5 - distTol,  0),  0);
-      this.addBody(body);
-
-      body = this.makePuck();
-      body.setPosition(new Vector(this.space_half_width - 0.5 - distTol/2,  0),  0);
-      this.addBody(body);
-      break;
-
-    case Formation.ONE_HITS_TWO_SEPARATE:
+    case 2: //ONE_HITS_TWO_SEPARATE:
       body = Shapes.makeBlock(1, 3);
       body.setMass(2);
       body.setPosition(new Vector(-5,  0),  this.angle);
@@ -447,7 +375,50 @@ MultipleCollisionApp.prototype.config = function() {
       this.addBody(body);
       break;
 
-    case Formation.TWO_HIT_ONE_ASYMMETRIC:
+    case 3: //ONE_HITS_ONE_ON_WALL:
+      body = this.makePuck();
+      body.setMass(1000);
+      body.setPosition(new Vector(0,  0),  this.angle);
+      body.setVelocity(new Vector(this.speed,  0),  0);
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(this.space_half_width - 0.5 - distTol/2,  0),  0);
+      this.addBody(body);
+      break;
+
+    case 4: //ONE_HITS_TWO_ON_WALL:
+      body = this.makePuck();
+      body.setPosition(new Vector(0,  0),  this.angle);
+      body.setVelocity(new Vector(this.speed,  0),  0);
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(this.space_half_width - 1.5 - distTol,  0),  0);
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(this.space_half_width - 0.5 - distTol/2,  0),  0);
+      this.addBody(body);
+      break;
+
+    case 5: //TWO_HIT_ONE:
+      body = this.makePuck();
+      body.setPosition(new Vector(-5,  0),  this.angle);
+      body.setVelocity(new Vector(this.speed,  0),  0);
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(0,  0));
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(5,  0),  this.angle);
+      body.setVelocity(new Vector(-this.speed,  0),  0);
+      this.addBody(body);
+      break;
+
+    case 6: //TWO_HIT_ONE_ASYMMETRIC:
       /* Here is why we need to add distTol/2 to starting position of body1:
        * The collision happens when the blocks are distTol/2 apart, so the distance
        * travelled is slightly less than you would expect.
@@ -475,7 +446,7 @@ MultipleCollisionApp.prototype.config = function() {
       this.addBody(body);
       break;
 
-    case Formation.ONE_HITS_ONE:
+    case 7: //ONE_HITS_ONE:
       body = this.makePuck();
       body.setPosition(new Vector(-5,  0),  this.angle);
       body.setVelocity(new Vector(this.speed,  0),  0);
@@ -486,7 +457,7 @@ MultipleCollisionApp.prototype.config = function() {
       this.addBody(body);
       break;
 
-    case Formation.ONE_HITS_ONE_ASYMMETRIC:
+    case 8: //ONE_HITS_ONE_ASYMMETRIC:
       body = this.makePuck();
       body.setPosition(new Vector(-5,  0),  this.angle);
       body.setVelocity(new Vector(this.speed,  0),  0);
@@ -498,21 +469,21 @@ MultipleCollisionApp.prototype.config = function() {
       this.addBody(body);
       break;
 
-    case Formation.ONE_HITS_WALL:
+    case 9: //ONE_HITS_WALL:
       body = this.makePuck();
       body.setPosition(new Vector(0,  0),  this.angle);
       body.setVelocity(new Vector(this.speed,  0),  0);
       this.addBody(body);
       break;
 
-    case Formation.ONE_HITS_CHAIN_PLUS_ONE:
+    case 11: //ONE_HITS_CHAIN_PLUS_ONE:
       body = this.makePuck();
       body.setMass(2);
       body.setPosition(new Vector(1 + distTol/2,  0));
       this.addBody(body);
-      // intentional fall-thru!
+      // ***** INTENTIONAL FALL-THRU ******
 
-    case Formation.ONE_HITS_CHAIN:
+    case 10: //ONE_HITS_CHAIN:
       body = this.makePuck();
       body.setMass(2);
       body.setPosition(new Vector(-5,  0),  this.angle);
@@ -538,7 +509,7 @@ MultipleCollisionApp.prototype.config = function() {
       this.mySim.alignConnectors();
       break;
 
-    case Formation.TWO_IN_BOX:
+    case 12: //TWO_IN_BOX:
       body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
           /*height=*/1 + 2*distTol/2 + 0.2, /*thickness=*/0.2);
       body.setPosition(new Vector(0,  0));
@@ -554,7 +525,7 @@ MultipleCollisionApp.prototype.config = function() {
       this.addBody(body);
       break;
 
-    case Formation.ONE_HITS_TWO_IN_BOX:
+    case 13: //ONE_HITS_TWO_IN_BOX:
       body1 = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
           /*height=*/1 + 2*distTol/2 + 0.2, /*thickness=*/0.2);
       body1.setPosition(new Vector(0,  0));
@@ -572,6 +543,18 @@ MultipleCollisionApp.prototype.config = function() {
       body4.setPosition(new Vector(-5,  0));
       body4.setVelocity(new Vector(this.speed,  0),  0);
       this.addBody(body4);
+      break;
+
+    case 14: //TWO_ON_WALL:
+      body = this.makePuck();
+      body.setMass(1);
+      body.setPosition(new Vector(this.space_half_width - 1.5 - distTol,  0),  0);
+      this.addBody(body);
+
+      body = this.makePuck();
+      body.setPosition(new Vector(this.space_half_width - 0.5 - distTol/2,  0),  0);
+      body.setVelocity(new Vector(this.speed,  0),  0);
+      this.addBody(body);
       break;
 
     default:
@@ -592,19 +575,25 @@ MultipleCollisionApp.prototype.config = function() {
 };
 
 /**
-* @return {number}
+* @return {string}
 */
 MultipleCollisionApp.prototype.getFormation = function() {
   return this.formation;
 };
 
 /**
-* @param {number} value
+* @param {string} value
 */
 MultipleCollisionApp.prototype.setFormation = function(value) {
-  this.formation = /** @type {Formation} */(value);
-  this.config();
-  this.broadcastParameter(MultipleCollisionApp.en.FORMATION);
+  value = UtilityCore.toName(value);
+  if (this.formation != value) {
+    if (!goog.array.contains(this.formations, value)) {
+      throw new Error('unknown formation: '+value);
+    }
+    this.formation = value;
+    this.config();
+    this.broadcastParameter(MultipleCollisionApp.en.FORMATION);
+  }
 };
 
 /**
@@ -656,19 +645,22 @@ MultipleCollisionApp.prototype.setAngle = function(value) {
 };
 
 /**
-* @return {number}
+* @return {string}
 */
 MultipleCollisionApp.prototype.getShape = function() {
   return this.shape;
 };
 
 /**
-* @param {number} value
+* @param {string} value
 */
 MultipleCollisionApp.prototype.setShape = function(value) {
-  this.shape = /** @type {MultipleCollisionApp.Shape}*/(value);
-  this.config();
-  this.broadcastParameter(MultipleCollisionApp.en.SHAPE);
+  value = UtilityCore.toName(value);
+  if (this.shape != value) {
+    this.shape = value;
+    this.config();
+    this.broadcastParameter(MultipleCollisionApp.en.SHAPE);
+  }
 };
 
 /** Set of internationalized strings.
@@ -717,7 +709,7 @@ MultipleCollisionApp.en = {
   ONE_HITS_ONE_ASYMMETRIC: 'one hits one asymmetric',
   ONE_HITS_WALL: 'one hits wall',
   ONE_HITS_CHAIN: 'one hits chain',
-  ONE_HITS_CHAIN_PLUS_ONE: 'one hits chain+1',
+  ONE_HITS_CHAIN_PLUS_ONE: 'one hits chain plus one',
   TWO_IN_BOX: 'two in box',
   ONE_HITS_TWO_IN_BOX: 'one hits two in box',
   TWO_ON_WALL: 'two on wall',
