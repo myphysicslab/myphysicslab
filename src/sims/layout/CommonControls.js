@@ -274,6 +274,8 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   panzoom_div.appendChild(zoom_div);
   panzoom_div.appendChild(pan_div);
   if (debug) panzoom_div.style.border = 'solid gray thin';
+  // Default is not visible.
+  panzoom_div.style.display = 'none';
   return panzoom_div;
 };
 
