@@ -1,9 +1,9 @@
 /* adapted from dossier.css; with following modifications:
-  body: margin and background.
+  body: margin, background, max-width.
   code: font-size
 */
 @import url(https://fonts.googleapis.com/css?family=Lato:400, 700, 400italic, 700italic|Inconsolata);
-    * {
+* {
     margin: 0;
     padding: 0;
 }
@@ -17,10 +17,11 @@ body {
     font-family: "Lato", sans-serif;
     line-height: 1.6;
     word-wrap: break-word;
-    margin: 0 1rem;
+    margin: 0 1.5em;
     padding: 0;
     background: #fff;
     font-size: 1.4rem;
+    max-width: 50em;
 }
 body a[id], body .property, body .function {
     padding-top: 6.4rem;
