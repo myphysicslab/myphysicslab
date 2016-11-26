@@ -298,9 +298,10 @@ DisplayGraph.prototype.drawPoints = function(context, coordMap, from, graphLine)
       context.fillStyle = style.color_;
       context.fillRect(x, y, w, w);
     } else {
-      // Only draw lines that are visible.
-      if (!simRect.contains(last) && !simRect.contains(next))
+      // Don't draw lines that are not possibly visible.
+      if (!simRect.maybeVisible(last, next)) {
         continue;
+      }
       var x1 = coordMap.simToScreenX(last.x);
       var y1 = coordMap.simToScreenY(last.y);
       var x2 = coordMap.simToScreenX(next.x);

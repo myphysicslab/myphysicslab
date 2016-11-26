@@ -106,11 +106,6 @@ UtilEngine.square = function(x) {
 
 /**
 * @type {boolean}
-*/
-UtilEngine.debugIntersect = false;
-
-/**
-* @type {boolean}
 * @private
 * @const
 */
@@ -478,7 +473,7 @@ See {@link myphysicslab.test.StraightStraightTest#acute_corners_setup}.
     segments do not intersect
 */
 UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
-  var d, xi, yi, k1, k2;
+  var xi, yi, k1, k2;
   var x1 = p1.getX();
   var y1 = p1.getY();
   var x2 = p2.getX();
@@ -491,23 +486,22 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
   // tol = tolerance at end points: this makes the edges slightly longer
   // and increases chance of finding intersection at endpoints.
   var tol = 1E-14;
-  if (goog.DEBUG && UtilEngine.debugIntersect) {
-    console.log('linesIntersect '+x1+' '+y1+' '+x2+' '+y2+' '+x3+' '+y3+' '+x4+' '+y4);
-  }
   // quick test whether intersection is possible
-  {
-    d = x1 > x2 ? x1 : x2;
-    if (x3 > d && x4 > d)
-      return null;
-    d = x1 < x2 ? x1 : x2;
-    if (x3 < d && x4 < d)
-      return null;
-    d = y1 > y2 ? y1 : y2;
-    if (y3 > d && y4 > d)
-      return null;
-    d = y1 < y2 ? y1 : y2;
-    if (y3 < d && y4 < d)
-      return null;
+  var d = x1 > x2 ? x1 : x2;
+  if (x3 > d && x4 > d) {
+    return null;
+  }
+  d = x1 < x2 ? x1 : x2;
+  if (x3 < d && x4 < d) {
+    return null;
+  }
+  d = y1 > y2 ? y1 : y2;
+  if (y3 > d && y4 > d) {
+    return null;
+  }
+  d = y1 < y2 ? y1 : y2;
+  if (y3 < d && y4 < d) {
+    return null;
   }
   //console.log('linesIntersect '+x1+' '+y1+' '+x2+' '+y2+' '+x3+' '+y3+' '+x4+' '+y4);
   if (Math.abs(x2-x1) < parallel_tol) {

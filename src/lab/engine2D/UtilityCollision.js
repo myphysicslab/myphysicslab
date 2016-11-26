@@ -869,7 +869,6 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         // There is penetration, but no intersection/collision found -- trouble!
         // Go back thru the above code a second time and print debug info.
         debugPenetration = true;
-        UtilEngine.debugIntersect = true;
         console.log('no intersection found;  probablyInside='+probablyInside);
       }
     }

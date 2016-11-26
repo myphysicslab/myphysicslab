@@ -279,6 +279,42 @@ DoubleRect.prototype.isEmpty = function(opt_tolerance) {
   return this.getWidth() < tol || this.getHeight() < tol;
 };
 
+/** Returns true if the line between the two points might be visible in the rectangle.
+* @param {!GenericVector} p1 first end point of line
+* @param {!GenericVector} p2 second end point of line
+* @return {boolean} true if the line between the two points might be visible in the
+*    rectangle
+*/
+DoubleRect.prototype.maybeVisible = function(p1, p2) {
+  // if either point is inside the rect, then line is visible
+  if (this.contains(p1) || this.contains(p2)) {
+    return true;
+  }
+  // if both points are "outside" one of the rectangle sides, then line is not visible
+  var p1x = p1.getX();
+  var p1y = p1.getY();
+  var p2x = p2.getX();
+  var p2y = p2.getY();
+  var d = this.left_;
+  if (p1x < d && p2x < d) {
+    return false;
+  }
+  d = this.right_;
+  if (p1x > d && p2x > d) {
+    return false;
+  }
+  d = this.bottom_;
+  if (p1y < d && p2y < d) {
+    return false;
+  }
+  d = this.top_;
+  if (p1y > d && p2y > d) {
+    return false;
+  }
+  // we could check for intersection of the line with the rectangle here.
+  return true;
+};
+
 /** Returns `true` if this DoubleRect is nearly equal to another DoubleRect.
 The optional tolerance value corresponds to the `epsilon` in
 {@link myphysicslab.lab.util.UtilityCore#veryDifferent}, so the actual tolerance
