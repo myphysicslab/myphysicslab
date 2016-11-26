@@ -511,6 +511,10 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   this.scriptParser = CommonControls.makeScriptParser(subjects, [], this.simRun);
   this.terminal.setParser(this.scriptParser);
   this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.graph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.timeGraph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
 };
 var ReactionPendulumApp = myphysicslab.sims.pendulum.ReactionPendulumApp;
 goog.inherits(ReactionPendulumApp, myphysicslab.lab.util.AbstractSubject);

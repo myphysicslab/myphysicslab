@@ -376,6 +376,10 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   this.scriptParser = CommonControls.makeScriptParser(subjects, [], this.simRun);
   this.terminal.setParser(this.scriptParser);
   this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.graph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.timeGraph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
 };
 var ComparePendulumApp = myphysicslab.sims.pendulum.ComparePendulumApp;
 goog.inherits(ComparePendulumApp, AbstractSubject);

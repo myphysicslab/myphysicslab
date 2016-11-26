@@ -368,6 +368,10 @@ Engine2DApp.prototype.addPlaybackControls = function() {
 */
 Engine2DApp.prototype.addURLScriptButton = function() {
   this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.graph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.timeGraph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
 };
 
 /** Adds the standard set of engine2D controls.

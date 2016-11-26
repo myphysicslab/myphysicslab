@@ -342,6 +342,10 @@ AbstractApp.prototype.getSubjects = function() {
 */
 AbstractApp.prototype.addURLScriptButton = function() {
   this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.graph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.timeGraph.addControl(
+    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
 };
 
 /**

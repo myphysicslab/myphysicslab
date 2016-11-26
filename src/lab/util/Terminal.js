@@ -862,8 +862,8 @@ Terminal.prototype.pageKey = function() {
 after a question mark) as a script. Here is an example of a
 URL with a query script:
 
-    www.myphysicslab.com/pendulum/PendulumApp_de.html?LENGTH=2;GRAVITY=3.2;ANGLE=1.8;
-    DRIVE_AMPLITUDE=0
+    http://www.myphysicslab.com/pendulum/PendulumApp_de.html?LENGTH=2;GRAVITY=3.2;
+    ANGLE=1.8;DRIVE_AMPLITUDE=0
 
 See {@link myphysicslab.lab.util.ScriptParser} for details about the syntax used
 in the script.
@@ -883,7 +883,7 @@ Terminal.prototype.parseURL = function() {
     // decode the percent-encoded URL
     // See https://en.wikipedia.org/wiki/Percent-encoding
     // To test: paste the following link into a browser address field:
-    // (edit the address for your environment of course):
+    // (edit the address for your environment):
     // file:///Users/erikn/Documents/Programming/jssimlab/build/sims/experimental/BlankSlateApp_en.html?println('hello +(2+3*4)!/=?[];{}.<>:|^$"_-~`@#')
     // You should see in Terminal the string without percent encoding.
     cmd = decodeURIComponent(cmd);

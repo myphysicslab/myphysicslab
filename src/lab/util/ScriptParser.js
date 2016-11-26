@@ -214,6 +214,9 @@ myphysicslab.lab.util.ScriptParser = function(subjects, volatile) {
   * @private
   */
   this.commandHelp_ = [];
+  this.addCommand('url', goog.bind(function() {
+        return this.scriptURL();
+      }, this), 'prints URL with script to recreate current state');
   this.addCommand('script', goog.bind(function() {
         return this.script();
       }, this), 'prints script to recreate current state');
@@ -591,8 +594,8 @@ ScriptParser.i18n_strings;
 @type {ScriptParser.i18n_strings}
 */
 ScriptParser.en = {
-  URL_SCRIPT: 'URL script',
-  PROMPT_URL: 'Press command-C to copy this URL script to the clipboard, it will replicate this simulation with current parameters.',
+  URL_SCRIPT: 'share',
+  PROMPT_URL: 'Press command-C to copy this URL to the clipboard, it will replicate this simulation with current parameters.',
   WARN_URL_2048: 'WARNING: URL is longer than 2048 characters.'
 };
 
@@ -601,8 +604,8 @@ ScriptParser.en = {
 @type {ScriptParser.i18n_strings}
 */
 ScriptParser.de_strings = {
-  URL_SCRIPT: 'URL Skript',
-  PROMPT_URL: 'Dr\u00fccken Sie command-C um diesen URL Skript in die Zwischenablage zu kopieren, dies beinhaltet die eingegebenen Parameter.',
+  URL_SCRIPT: 'mitteilen',
+  PROMPT_URL: 'Dr\u00fccken Sie command-C um diesen URL in die Zwischenablage zu kopieren, dies beinhaltet die eingegebenen Parameter.',
   WARN_URL_2048: 'Achtung: URL is l\u00e4nger als 2048 Zeichen.'
 };
 
