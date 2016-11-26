@@ -442,7 +442,7 @@ CommonControls.makeShowPanZoomParam = function(panZoomDiv, subject) {
   return pb;
 };
 
-/** Creates a 'URL script' button that allows the user to copy the URL for the current
+/** Creates a 'share' button that allows the user to copy the URL for the current
 page including the script that will set all of the available Parameters.
 Presents the user with a prompt showing a text box with the URL + script.
 * @param {!ScriptParser} scriptParser

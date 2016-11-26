@@ -44,9 +44,31 @@ Additional information:
 
 A range of options are available for customizing myPhysicsLab simulations. The greatest
 flexibility comes from obtaining the source code and building new or modified
-simulations as described in [Building myPhysicsLab Software](Building.html). But this
-requires installing and using many tools such as Closure Compiler and Library, perl,
-Java, make, etc.
+simulations, see [Building myPhysicsLab Software](Building.html). But you can do a lot
+with just a browser and text editor.
+
+
+## Share Button
+
+This is the **easiest way to customize** a simulation.
+
+1. Modify the simulation by changing parameters such as gravity, damping, etc.
+    If desired, you can also modify the starting position of the objects,
+    or drag objects around to change their velocities.
+
+2. Click the "share" button. Copy the URL from the dialog.
+
+3. Paste the URL in an email. Or save it in a text file for later use.
+
+When the recipient clicks the URL, the script that is embedded in the URL will
+replicate the conditions that you set up.
+
+If you click the *share button* while the simulation is **paused**, then the resulting URL
+will contain `RUNNING=false;`. You should change that to `RUNNING=true;` if you want
+the simulation to start immediately when the recipient clicks on the link.
+
+Note that some initial conditions such as velocity can only be set via scripting. See
+below for how to do this.
 
 
 ## Terminal
@@ -146,22 +168,29 @@ Here are some ways to use ScriptParser:
         ANGLE=-2.5; ANGLE_VELOCITY=-4; GRAVITY=5; DAMPING=0.1;
 
 + In Terminal the `script` command shows the simplest script that replicates the current
-    simulation state. This script can be copied from the Terminal history area after executing the command:
+    simulation state. This script can be copied from the Terminal history area after executing the `script` command. Here is an example:
 
         script
+        // DRIVE_AMPLITUDE=0;DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines;
+
+    The `//` at the start indicates that this was the result of the command, it is
+    a JavaScript comment symbol so don't include that when copying the script for
+    later use.
 
 + Create a **URL query script**. The *query* part of the URL is the part following the
     question mark. The URL can be saved or sent to someone else to view the customized
-    simulation. See the method
+    simulation. In Terminal the `url` command will do this for you. See the method
     [ScriptParser.scriptURL](myphysicslab.lab.util.ScriptParser.html#scriptURL).
     Here is an example:
 
-        http://www.myphysicslab.com/PendulumApp-en.html?DRIVE_AMPLITUDE=0;
+        url
+        // http://www.myphysicslab.com/PendulumApp-en.html?DRIVE_AMPLITUDE=0;
         DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines;
 
-+ Use the **URL Script Button** to automatically make a URL query script that
-    replicates the current simulation state and settings. Many applications include
-    the URL Script Button among their user interface controls. See
++ Click the **Share Button** which displays a URL query script that
+    replicates the current simulation state and settings. You can then copy the
+    URL to the clipboard and paste it in an email. Many applications include
+    the "share" button among their user interface controls. See
      [CommonControls.makeURLScriptButton](myphysicslab.sims.layout.CommonControls.html#CommonControls.makeURLScriptButton).
 
 + In an application's [Start-Up HTML file](Architecture.html#start-uphtmlfile),

@@ -301,7 +301,7 @@ AbstractApp.prototype.defineNames = function(myName) {
       myName+'.layout');
 };
 
-/** Creates the ScriptParser for this app, and adds a 'URL script' button.
+/** Creates the ScriptParser for this app.
 *
 * If any volatile Subjects are specified, then when a new configuration is set up
 * `ScriptParser.update()` will re-memorize those volatile Subjects.
