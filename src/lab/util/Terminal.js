@@ -623,7 +623,7 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
       execute_script:
       {
         if (this.parser_ != null) {
-          // Let ScriptParser evaluate the script before expanding with regex's.
+          // Let Parser evaluate the script before expanding with regex's.
           // For example: 'sim.gravity' is recognized by ScriptParser but
           // 'app.sim.gravity' is not.
           //

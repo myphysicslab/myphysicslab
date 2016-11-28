@@ -29,9 +29,9 @@ creates the Observer.
 See also the myPhysicsLab documentation about
 [Subject, Observer, Parameter](Architecture.html#subjectobserverparameter).
 
-When a change occurs in the Subject, the {@link #broadcast} method should be called to inform all
-Observers of the change. For a Parameter, the 'setter' method of the Subject should call
-{@link #broadcastParameter} at the end of the setter method.
+When a change occurs in the Subject, the {@link #broadcast} method should be called to
+inform all Observers of the change. For a Parameter, the 'setter' method of the Subject
+should call {@link #broadcastParameter} at the end of the setter method.
 
 To enable universal scripting of simulations, we need Parameters and SubjectEvents to
 have language independent names. Therefore `Parameter.getName()` and

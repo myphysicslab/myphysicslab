@@ -44,7 +44,7 @@ Parser.prototype.addCommand;
 Parser.prototype.parse;
 
 /** Saves current state to compare against when generating a script later on. This
-* helps shortens the script by not including settings that are unchanged.
+* helps shorten the script by not including settings that are unchanged.
 * @return {undefined}
 */
 Parser.prototype.saveStart;

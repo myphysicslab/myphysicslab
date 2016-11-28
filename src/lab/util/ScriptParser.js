@@ -32,19 +32,26 @@ var Parameter = myphysicslab.lab.util.Parameter;
 {@link myphysicslab.lab.util.Subject Subject}s
 
 
-Syntax of Script
-----------------
+ScriptParser Syntax
+-------------------
+
+The 'getter' syntax is
+
+    [SubjectName.]ParameterName[;]
+
+where square brackets indicate optional elements. This returns the current value of
+that Parameter. This is useful for inspecting values in
+{@link myphysicslab.lab.util.Terminal Terminal}. Also, that value is then available in
+the `result` variable in Terminal for use in later scripts.
 
 The 'setter' syntax is
 
     [SubjectName.]ParameterName=value[;]
 
-where square brackets indicate optional elements.  The 'getter' syntax is
+where square brackets indicate optional elements.
 
-    [SubjectName.]ParameterName[;]
-
-In each case the value of the Parameter is available via {@link #getResult} after
-the script is parsed. Multiple scripts are separated by a semicolon.
+With both setter and getter syntax the value of the Parameter is available via {@link
+#getResult} after the script is parsed. Multiple scripts are separated by a semicolon.
 
 + `SubjectName` is the language-independent name returned by
 {@link myphysicslab.lab.util.Subject#getName}. If `SubjectName` is not provided, then
@@ -64,8 +71,8 @@ If not surrounded with quotes then the string ends at the semicolon.
 
 The English language version of Parameter or Subject names can also be given, they are
 converted to the language-independent form using
-{@link myphysicslab.lab.util.UtilityCore#toName}. Leading and trailing spaces are trimmed from
-names and (unquoted) values.
+{@link myphysicslab.lab.util.UtilityCore#toName}. Leading and trailing spaces are
+trimmed from names and (unquoted) values.
 
 
 Script Embedded in URL
@@ -93,9 +100,10 @@ command, or to put in an HTML file, or paste into Terminal
 Volatile Subjects
 -----------------
 
-Summary: The initial settings for Parameters of volatile Subjects are recalculated
-whenever the configuration changes and ScriptParser.update() is called. This results
-in a shorter script when specifying a different configuration at time zero.
+Summary: The *initial settings* for Parameters of *volatile Subjects* are recalculated
+whenever {@link #update} is called (which indicates that the configuration has
+changed). This results in a shorter script when specifying a different configuration at
+time zero.
 
 Many applications have multiple configurations that the user can choose between. For
 example, in the {@link myphysicslab.sim.engine2D.NewtonsCradle Newtons Cradle}
@@ -112,9 +120,9 @@ conditions for that configuration are in place.
 This is accomplished by specifying a set of 'volatile' Subjects as an argument to the
 constructor. The {@link myphysicslab.lab.model.VarsList} is the most common volatile
 Subject, but there can be others as well. These are treated differently in that
-we **recalculate the initial settings for all Parameters during the {@link #observe}
-method, which should be called whenever the configuration changes**. (Note that
-Variables are also Parameters).
+we recalculate the initial settings for Parameters of volatile Subjects during the
+{@link #update} method, which should be called whenever the configuration changes.
+(Note that Variables are also Parameters).
 
 Other than recalculating the initial settings more frequently, the volatile Subjects
 are treated the same as other Subjects.
@@ -124,14 +132,14 @@ Technical Notes
 ---------------
 The set of Parameters can change over time; this is especially true for Variables which
 are a type of Parameter. It is common for the `engine2D` physics engine apps (which use
-ContactSim) to have a `config()` method which changes the set of rigid bodies and
-therefore the set of Variables.
+{@link myphysicslab.lab.engine2D.ContactSim}) to have a `config()` method which changes
+the set of rigid bodies and therefore the set of Variables.
 
 To cope with a changing set of Parameters, we store only Parameter names, not
 references to actual Parameters. We store a parallel list of Subjects, so we can get
 the actual Parameter by asking the Subject for a Parameter with that name. This allows
 for the Parameter to be a different object, but as long as it has the same name and
-belongs to the same Subject we treat it as being the same Parameter.
+belongs to the same Subject we can find the Parameter and set or get it's value.
 
 
 * @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from;

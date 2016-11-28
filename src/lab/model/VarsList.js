@@ -36,13 +36,20 @@ var Subject = myphysicslab.lab.util.Subject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Variable = myphysicslab.lab.model.Variable;
 
-/** A set of Variables. Variables are numbered from `0` to `n-1`
-where `n` is the number of variables. As a {@link myphysicslab.lab.util.Subject} this
-will broadcast to Observers when the set of variables is modified, see
-{@link #VARS_MODIFIED}, such as when variables are added or removed.
+/** A set of {@link myphysicslab.lab.model.Variable Variables}. Variables are numbered
+from `0` to `n-1` where `n` is the number of Variables.
 
-Unlike other Subject classes, VarsList prohibits adding general Parameters in its
+VarsList is a {@link myphysicslab.lab.util.Subject} and each Variable is a
+{@link myphysicslab.lab.util.Parameter Parameter} of the VarsList. This makes the set
+of Variables available for scripting with {@link myphysicslab.lab.util.ScriptParser}.
+
+Unlike other Subject classes, VarsList does not broadcast each Variable whenever the
+Variable changes. And VarsList prohibits adding general Parameters in its
 {@link #addParameter} method, because it can only contain Variables.
+
+As a Subject, the VarsList will broadcast the {@link #VARS_MODIFIED} event to its
+Observers whenever Variables are added or removed.
+
 
 ### Continuous vs. Discontinuous Changes
 
@@ -61,21 +68,21 @@ discontinuous by incrementing the sequence number:
 
 1. When a change increments only a few variables, be sure to increment any variables
 that are **dependent** on those variables. For example, if velocity of an object is
-changed, then the kinetic, potential and total energy should all be marked as
-discontinuous.
+discontinuously changed, then the kinetic, potential and total energy should all be
+marked as discontinuous.
 
-2. When **dragging** object 1, don't increment variables of object 2 (asssuming the
-simulation is still running on object 2).
+2. When **dragging** an object, don't increment variables of other objects.
 
-3. When a **parameter** changes, increment any derived variables (such as energy) that
-depend on that parameter. For example, if gravity or mass changes, then the energy
-variables should be marked as discontinuous.
+3. When some **parameter** such as gravity or mass changes, increment any derived
+variables (like energy) that depend on that parameter.
+
 
 ## Deleted Variables
 
 When a variable is no longer used it has the reserved name 'DELETED'. Any such variable
 should be ignored.  This allows variables to be added or removed without affecting the
 index of other existing variables.
+
 
 ### Events Broadcast
 
