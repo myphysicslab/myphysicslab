@@ -34,7 +34,7 @@ var testTerminal1 = function() {
   var t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
-  assertEquals('2+2\n// 4\n', output_elem.value);
+  assertEquals('> 2+2\n4\n', output_elem.value);
   assertEquals('myphysicslab.lab.util.DoubleRect', t.expand('DoubleRect'));
   // test that expand() ignores quoted strings containing escaped quotes
   var txt = 'replace this DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
@@ -47,7 +47,7 @@ var testTerminal1 = function() {
   t.eval('z.a = 1;');
   output_elem.value = '';
   t.eval('z.a');
-  assertEquals('z.a\n// 1\n', output_elem.value);
+  assertEquals('> z.a\n1\n', output_elem.value);
   // Test that semi-colons inside strings or braces don't break up the command
   assertTrue(t.eval('UtilityCore.toName("foo;")=="FOO;"'));
   assertEquals(6, t.eval('{1;2;3+3}'));

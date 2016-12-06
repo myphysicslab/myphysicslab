@@ -36,9 +36,6 @@ After the command is executed the result is converted to text and displayed in t
 output text field. The output is not displayed if the result is `undefined` or the
 command ends with a semi-colon.
 
-The output is wrapped with Javascript comment symbols. For multi-line results we use
-slash-star comment style; for single-line results we use slash-slash comment style.
-
 See also [Customizing myPhysicsLab Software](Customizing.html).
 
 
@@ -145,12 +142,12 @@ The Result Variable
 The result of the last Terminal command is stored in a variable named `result`. Here is
 an example Terminal session:
 
-    2+2
-    // 4
-    result*2
-    // 8
-    result*2
-    // 16
+    > 2+2
+    4
+    > result*2
+    8
+    > result*2
+    16
 
 Note that {@link #eval} has an argument called `output` which if set to `false`
 prevents `result` from being updated.
@@ -162,12 +159,13 @@ Scripts are processed by splitting them into smaller scripts delimited by a semi
 Only semi-colons at the 'top level' of the script have this effect. Semi-colons within
 brackets or inside of a quoted string are ignored for command splitting.
 
-An unusual result of this policy is that **a semi-colon will end a comment**.  Here
-we enter what looks like a single comment, but it is interpreted as two separate
-scripts:
+An unusual result of this policy is that **a semi-colon will end a comment**. Here we
+enter `// this is a comment; 2+2` which looks like a single comment, but it is
+interpreted as two separate scripts.
 
-    // this is a comment; 2+2
-    // 4
+    > // this is a comment;
+    > 2+2
+    4
 
 
 
@@ -222,10 +220,10 @@ Most applications call {@parseURLorRecall} when starting, therefore whenever the
 loads, the remembered script will be executed (unless there is a URL script which would
 take priority).
 
-If no script is explicitly supplied to `remember()`, then the current contents of the
-Terminal output window are saved. A user can edit the contents of the Terminal output
-window to change what is remembered. Comments are removed when saving the Terminal
-output.
+If no script is explicitly supplied to `remember()`, then the commands in the Terminal
+output window are saved, as returned by the method {@link #commands}. A user can edit
+the contents of the Terminal output window to change what is remembered. Commands are
+any line in the output text area that start with '> '.
 
 The {@link #remember} command saves a script specific for the current page and browser.
 If you load the page under a different browser, or for a different locale (which is a
@@ -238,10 +236,10 @@ Strict mode prevents adding global variables when using the JavaScript `eval` co
 To allow making variables that persist between commands, Terminal provides an object
 named `z` where properties can be added:
 
-    z.a = 1
-    // 1
-    z.a
-    // 1
+    > z.a = 1
+    1
+    > z.a
+    1
 
 This `z` object is a property of Terminal; `z` is initially an object with no
 properties. We define a 'short name' regular expression so that referring to `z` is
@@ -525,25 +523,22 @@ Terminal.prototype.checkVars = function(names) {
   });
 };
 
-/** Returns commands in current Terminal output as array of strings, minus comments,
-* for use with {@link #remember}.
-* Each command is also trimmed of leading or trailing whitespace.
+/** Returns commands in current Terminal output text area, as array of strings,
+* for use with {@link #remember}. Commands are any line in the output text area that
+* start with '> '. Each command is also trimmed of leading or trailing whitespace.
 * @return {!Array<string>}  array of command strings in current Terminal output
 */
 Terminal.prototype.commands = function() {
-  // Remove comments with syntax /* comment */
-  // Explanation of this regexp:  [\s\S] matches any character including newline
-  // [\s\S]*? is a non-greedy match.
-  // We also match trailing spaces and trailing newline, if any.
-  var t = this.term_output_.value.replace(/\/\*[\s\S]*?\*\/(\s*)\n?/g, '');
+  var t = this.term_output_.value;
   t = t.split('\n');
   // remove leading and trailing whitespace on each command
   t = goog.array.map(t, function(e) { return e.trim(); });
-  // filter out empty commands, comments, and the 'terminal.remember()' command
+  // filter out non-commands, and the 'terminal.remember()' command
   t = goog.array.filter(t, function(/** string */e) {
-    return e.length>0 && e.substr(0,2)!= '//'
-        && !e.match(/^(terminal|this).remember\(\s*\);?$/);
+    return e.length>2 && e.substr(0,2)== '> '
+        && !e.match(/^> (terminal|this).(remember|commands)\(\s*\);?$/);
     });
+  t = goog.array.map(t, function(e) { return e.substr(2); });
   return t;
 };
 
@@ -608,11 +603,12 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
     // The afterEvalFn_ can call eval() when an ExpressionVariable is evaluated during
     // modifyObjects.  This gives one level of recursion. Since output==false the result
     // is preserved.  Further recursion is not possible because you can't call eval()
-    // from a Terminal sript.
+    // from a Terminal script.
     goog.asserts.assert(this.evalCalls_ <= 2);
     var saveResult = this.result;
     this.result = undefined;
   }
+  var prefix = '> ';
   try {
     this.vetBrackets(command);
     // split the command into pieces at each semi-colon, evaluate one piece at a time
@@ -640,33 +636,25 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
             // the parser was successful
             this.result = parseResult;
             if (output) {
-              this.println(script);
+              this.println(prefix + script);
             }
             break execute_script;
           }
         }
         // print before evaluating & expanding so that it is clear what caused an error
         if (output && !this.verbose_) {
-          this.println(script);
+          this.println(prefix + script);
         }
         script = this.expand(script);
         if (output && this.verbose_) {
-          this.println(script);
+          this.println(prefix + script);
         }
         this.result = this.myEval(script);
       }
     }
     // don't show results when command ends with semi-colon, or undefined result
     if (output && goog.isDef(this.result) && command.slice(-1) != ';') {
-      var resultString = String(this.result);
-      // wrap results in comment symbols
-      if (resultString.indexOf('\n') < 0) {
-        // single line result
-        this.println('// '+resultString);
-      } else {
-        // multi line result
-        this.println('/* '+resultString+' */');
-      }
+      this.println(String(this.result));
     }
     if (output && goog.isDef(this.afterEvalFn_)) {
       this.afterEvalFn_();
@@ -674,7 +662,7 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
   } catch (ex) {
     if (output) {
       this.result = undefined;
-      this.println('// '+ex);
+      this.println(ex);
     } else {
       this.result = saveResult;
     }
@@ -831,8 +819,7 @@ Terminal.prototype.inputCallback = function(evt) {
 * @private
 */
 Terminal.prototype.myEval = function(script) {
-  // avoid eval when script is a comment
-  if (!UtilityCore.ADVANCED && script.substr(0,2) != '//') {
+  if (!UtilityCore.ADVANCED) {
     return eval('"use strict"; '+script);
   } else {
     return undefined;
@@ -937,15 +924,20 @@ Terminal.prototype.recall = function(opt_execute) {
   this.recalling = false;
 };
 
-/** Remember the given script to execute when this page is
-loaded in future. Note that each browser has a separate local storage, so this
-will only be remembered for the current browser and page.
-If no script is provided then the current Terminal output is used.
-* @param {string=} opt_command the script to remember
+/** Remember the given script to execute when this page is loaded in future. Note that
+each browser has a separate local storage, so this will only be remembered for the
+current browser and page.
+
+If no script is provided then the set of Terminal commands in the output text area are
+stored, as returned by {@link #commands}.
+* @param {string|!Array<string>|undefined} opt_command the script(s) to remember
 * @return {undefined}
 */
 Terminal.prototype.remember = function(opt_command) {
-  var command = goog.isDef(opt_command) ? opt_command : this.commands().join('\n');
+  var command = goog.isDef(opt_command) ? opt_command : this.commands();
+  if (goog.isArray(command)) {
+    command = command.join('\n');
+  }
   var k = this.pageKey();
   // store the script under the current file name
   var localStore = window.localStorage;

@@ -604,8 +604,9 @@ EasyScriptParser.prototype.update =  function() {
   this.initialVolatile_ = this.namesAndValues(true).split(';');
 };
 
-/** Returns the set of Parameter names that can be set by this EasyScriptParser, and their
-* current values. Each Parameter name is preceded by the name of its Subject and a dot.
+/** Returns the set of Parameter names that can be set by this EasyScriptParser, and
+* their current values. Each Parameter name is preceded by the name of its Subject and
+* a dot.
 * @return {string} the set of Parameter names that can be
 *    set by this EasyScriptParser and their current values
 */

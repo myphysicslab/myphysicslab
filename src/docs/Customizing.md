@@ -79,8 +79,8 @@ the above EasyScript. See the section below
 To find other possible parameter names, type `values` into Terminal which shows all the
 names that can be set and their current values:
 
-    values
-    /* APP.SHOW_ENERGY=false;
+    > values
+    APP.SHOW_ENERGY=false;
     APP.SHOW_CLOCK=false;
     APP.PAN_ZOOM=false;
     SIM.LENGTH=1;
@@ -113,10 +113,6 @@ names that can be set and their current values:
     SIM_VARS.KINETIC_ENERGY=1.164100961126811e-13;
     SIM_VARS.POTENTIAL_ENERGY=-3.999999999989643;
     SIM_VARS.TOTAL_ENERGY=-3.9999999999895266;
-    */
-
-Output from commands are surrounded with JavaScript comment symbols `/*` and `*/`. Or
-preceded by JavaScript comment symbol `//` for single line output.
 
 Consider the first value shown:
 
@@ -147,12 +143,8 @@ Here are some ways to use EasyScript:
 + In Terminal the `script` command prints the simplest EasyScript that replicates the
     current simulation state. This script can be copied and used later.
 
-        script
-        // DAMPING=0.1;GRAVITY=5;RUNNING=false;ANGLE=-2.5;ANGLE_VELOCITY=-4;
-
-    The `//` at the start indicates that this was the output of the command, it is
-    a JavaScript comment symbol so don't include that when copying the script for
-    later use.
+        > script
+        DAMPING=0.1;GRAVITY=5;RUNNING=false;ANGLE=-2.5;ANGLE_VELOCITY=-4;
 
     When the simulation is paused you will see `RUNNING=false`. Change the value
     to `RUNNING=true` to have the simulation start playing when the EasyScript
@@ -166,8 +158,8 @@ Here are some ways to use EasyScript:
     The URL can be saved in a text file or sent to someone else to view the customized
     simulation. Here is an example:
 
-        url
-        // http://www.myphysicslab.com/PendulumApp-en.html?DAMPING=0.1;GRAVITY=5;
+        > url
+        http://www.myphysicslab.com/PendulumApp-en.html?DAMPING=0.1;GRAVITY=5;
         RUNNING=true;ANGLE=-2.5;ANGLE_VELOCITY=-4;
 
 EasyScript can be mixed with JavaScript, see [Customizing with JavaScript][] below.
@@ -355,17 +347,16 @@ visible by **clicking the "Terminal" checkbox**, as seen in this screenshot:
 
 The Terminal class provides an **input text area** for the user to enter JavaScript or
 EasyScript scripts, and an **output text area** showing the results of the scripts
-that are entered.
+that are entered. In the output text area, commands are preceded by '> '.
 
 
 
 ## Terminal Utilities
 
 When you type a command into Terminal, it is executed and the result is displayed in
-the Terminal output text area. The result is converted to text and wrapped with
-JavaScript comment symbols. If the command ends with a semi-colon then the printing of
-the result is suppressed. Multiple commands separated by semi-colons can be given in
-one line.
+the Terminal output text area. If the command ends with a semi-colon then the printing
+of the result is suppressed. Multiple commands separated by semi-colons or new lines
+can be given in one line.
 
 Some useful utilities available in Terminal:
 
