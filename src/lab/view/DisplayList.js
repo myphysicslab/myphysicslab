@@ -205,7 +205,7 @@ DisplayList.prototype.find = function(search) {
 DisplayList.prototype.get = function(index) {
   var n = this.drawables_.length;
   if (index < 0 || index >= n) {
-    throw new Error(index+' is not in range 0 to '+n-1);
+    throw new Error(index+' is not in range 0 to '+(n-1));
   }
   this.sort();
   return this.drawables_[index];
