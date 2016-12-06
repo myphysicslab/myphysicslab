@@ -149,7 +149,7 @@ myphysicslab.sims.engine2D.BlankApp = function(elem_ids) {
   Engine2DApp.call(this, elem_ids, simRect, sim, advance);
   this.addPlaybackControls();
   //this.addStandardControls();
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.graphSetup();
 };
 var BlankApp = myphysicslab.sims.engine2D.BlankApp;

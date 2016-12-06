@@ -43,7 +43,7 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.UtilityCore');
@@ -83,7 +83,7 @@ var ODESim =lab.model.ODESim;
 var Parameter = lab.util.Parameter;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimRunner = lab.app.SimRunner;
@@ -219,8 +219,8 @@ sims.layout.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   this.timeGraph = new TimeGraph1(sim.getVarsList(), this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
-  /** @type {!ScriptParser} */
-  this.scriptParser;
+  /** @type {!EasyScriptParser} */
+  this.easyScript;
 };
 var AbstractApp = sims.layout.AbstractApp;
 goog.inherits(AbstractApp, AbstractSubject);
@@ -244,7 +244,7 @@ if (!UtilityCore.ADVANCED) {
       +', graph: '+this.graph.toStringShort()
       +', timeGraph: '+this.timeGraph.toStringShort()
       +', layout: '+this.layout.toStringShort()
-      +', scriptParser: '+this.scriptParser.toStringShort()
+      +', easyScript: '+this.easyScript.toStringShort()
       +', terminal: '+this.terminal
       + AbstractApp.superClass_.toString.call(this);
   };
@@ -295,27 +295,27 @@ AbstractApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
       +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView'
-      +'|timeGraph|scriptParser|terminal|varsList|displayList',
+      +'|timeGraph|easyScript|terminal|varsList|displayList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
 };
 
-/** Creates the ScriptParser for this app.
+/** Creates the EasyScriptParser for this app.
 *
 * If any volatile Subjects are specified, then when a new configuration is set up
-* `ScriptParser.update()` will re-memorize those volatile Subjects.
-* This helps the resulting `ScriptParser.script()` be much smaller.
+* `EasyScriptParser.update()` will re-memorize those volatile Subjects.
+* This helps the resulting `EasyScriptParser.script()` be much smaller.
 * @param {!Array<!Subject>=} opt_volatile additional volatile Subjects
 */
-AbstractApp.prototype.makeScriptParser = function(opt_volatile) {
+AbstractApp.prototype.makeEasyScript = function(opt_volatile) {
   var subjects = this.getSubjects();
   var volatile = [ this.sim.getVarsList(), this.simView ];
   if (goog.isArray(opt_volatile)) {
     volatile = goog.array.concat(opt_volatile, volatile);
   }
-  this.scriptParser = CommonControls.makeScriptParser(subjects, volatile, this.simRun);
-  this.terminal.setParser(this.scriptParser);
+  this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
+  this.terminal.setParser(this.easyScript);
 };
 
 /** @inheritDoc */
@@ -341,11 +341,11 @@ AbstractApp.prototype.getSubjects = function() {
 * @return {undefined}
 */
 AbstractApp.prototype.addURLScriptButton = function() {
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.graph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.timeGraph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 
 /**

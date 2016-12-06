@@ -130,7 +130,7 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
       goog.bind(sim.restState, sim));
   this.addControl(bc);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var DoubleSpringApp = myphysicslab.sims.springs.DoubleSpringApp;

@@ -123,7 +123,7 @@ myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.graphSetup(this.mySim.getBody('block'));
 };

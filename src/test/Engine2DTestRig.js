@@ -305,7 +305,7 @@ Engine2DTestRig.startTests = function() {
       +(UtilityCore.ADVANCED ? 'advanced' : 'simple'));
   }
   Engine2DTestRig.myPrintln('goog.DEBUG = '+goog.DEBUG);
-  Engine2DTestRig.myPrintln('myPhysicsLab version = '+UtilityCore.version);
+  Engine2DTestRig.myPrintln('myPhysicsLab version = '+UtilityCore.VERSION);
   var nav = navigator;
   if (nav != null) {
     Engine2DTestRig.myPrintln('userAgent = '+nav.userAgent);

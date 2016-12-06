@@ -175,7 +175,7 @@ myphysicslab.sims.layout.CompareGraph = function(line1, line2, graphCanvas,
   }, 'match drawing mode on GraphLine');
 
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!lab.app.SimController} 
+  * @type {!lab.app.SimController}
   */
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});

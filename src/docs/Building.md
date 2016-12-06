@@ -989,7 +989,7 @@ faster: from roughly 3 seconds with simple-compile to 0.5 second with advanced-c
 The main disadvantage of advanced-compile is that we **cannot use JavaScript scripts**
 to customize a simulation at runtime. See
 [Customizing myPhysicsLab Simulations](Customizing.html) and
-[Advanced-compile is the Enemy of Terminal](myphysicslab.lab.util.Terminal.html#advanced-compileistheenemyofterminal).
+[Advanced-compile is the Enemy of JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compileistheenemyofjavascript).
 
 The myPhysicsLab `makefile` has a variable named `COMPILE_LEVEL` that determines which
 compilation level is used. `COMPILE_LEVEL` also determines the value of `BUILD_DIR` –
@@ -1125,7 +1125,7 @@ called `app`.
 Classes are grouped into *namespaces* by a naming convention. For example, the class
 PointMass is in the namespace `myphysicslab.lab.model`. These namespace names are
 actual JavaScript objects which you can examine directly, as in this
-[Terminal](Customizing.html#terminal:aninteractiveprogrammingenvironment) session:
+[Terminal](Customizing.html#terminal:forscriptexecution) session:
 
     myphysicslab
     // [object Object]

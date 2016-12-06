@@ -179,7 +179,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.setPath(this.path);
   this.graphSetup();
@@ -325,7 +325,7 @@ RigidBodyRollerApp.prototype.config = function() {
   va.addVariable(varPV);
   this.mySim.setElasticity(elasticity);
   this.mySim.saveInitialState();
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /** @inheritDoc */

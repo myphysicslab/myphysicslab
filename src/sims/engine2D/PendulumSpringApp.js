@@ -197,7 +197,7 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.displayList.add(this.dispGraph);
 
   this.panZoomParam.setValue(true);
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.graphSetup();
 };

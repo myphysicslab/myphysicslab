@@ -41,7 +41,7 @@ from `0` to `n-1` where `n` is the number of Variables.
 
 VarsList is a {@link myphysicslab.lab.util.Subject} and each Variable is a
 {@link myphysicslab.lab.util.Parameter Parameter} of the VarsList. This makes the set
-of Variables available for scripting with {@link myphysicslab.lab.util.ScriptParser}.
+of Variables available for scripting with {@link myphysicslab.lab.util.EasyScriptParser}.
 
 Unlike other Subject classes, VarsList does not broadcast each Variable whenever the
 Variable changes. And VarsList prohibits adding general Parameters in its

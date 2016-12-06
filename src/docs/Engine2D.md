@@ -842,7 +842,7 @@ There are two types of Rope:
 This section describes how to stop "jitter" -- continuous small shaking, bouncing
 movements -- of objects that should be at rest. You can see the problem in
 [ContactApp](myphysicslab.sims.engine2D.ContactApp.html) if you execute this
-script in [Terminal](Customizing.html#terminal:aninteractiveprogrammingenvironment):
+script in [Terminal](Customizing.html#terminal:forscriptexecution):
 
     sim.setExtraAccel(ExtraAccel.NONE)
 

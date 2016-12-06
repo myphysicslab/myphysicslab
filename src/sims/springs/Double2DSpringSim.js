@@ -213,7 +213,7 @@ myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   // perturb slightly to get some initial motion
   var vars = this.getVarsList().getValues();
-  vars[0] += 0.5; 
+  vars[0] += 0.5;
   vars[1] -= 0.5;
   this.getVarsList().setValues(vars);
   this.saveInitialState();
@@ -426,7 +426,7 @@ Double2DSpringSim.prototype.evaluate = function(vars, change, timeStep) {
     // V2x:  x accel of bob2:  has one spring acting, plus damping
     change[6] = (f22.getX() - b * vars[6]) / m2;
     // V2y:  y accel of bob2:  gravity, damping, and one spring
-    change[7] = -this.gravity_ + (f22.getY() - b * vars[7]) / m2;    
+    change[7] = -this.gravity_ + (f22.getY() - b * vars[7]) / m2;
   }
   return null;
 };

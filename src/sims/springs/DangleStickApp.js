@@ -110,7 +110,7 @@ myphysicslab.sims.springs.DangleStickApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var DangleStickApp = myphysicslab.sims.springs.DangleStickApp;

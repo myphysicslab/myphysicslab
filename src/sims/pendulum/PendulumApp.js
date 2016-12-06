@@ -106,7 +106,7 @@ sims.pendulum.PendulumApp = function(elem_ids) {
   this.addStandardControls();
 
   this.graph.line.setDrawingMode(DrawingMode.DOTS);
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var PendulumApp = sims.pendulum.PendulumApp;

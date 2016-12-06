@@ -118,7 +118,7 @@ sims.pendulum.CartPendulumApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var CartPendulumApp = sims.pendulum.CartPendulumApp;

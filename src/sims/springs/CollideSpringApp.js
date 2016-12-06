@@ -154,7 +154,7 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var CollideSpringApp = myphysicslab.sims.springs.CollideSpringApp;
@@ -232,7 +232,7 @@ CollideSpringApp.prototype.setStartGap = function(value) {
     this.startGap = value;
     this.mySim.config(this.numBlocks, this.startPosition, this.startGap);
     this.broadcastParameter(CollideSpringSim.en.START_GAP);
-    this.scriptParser.update();
+    this.easyScript.update();
   }
 };
 
@@ -252,7 +252,7 @@ CollideSpringApp.prototype.setNumBlocks = function(value) {
     this.numBlocks = value;
     this.mySim.config(this.numBlocks, this.startPosition, this.startGap);
     this.broadcastParameter(CollideSpringSim.en.NUM_BLOCKS);
-    this.scriptParser.update();
+    this.easyScript.update();
   }
 };
 
@@ -271,7 +271,7 @@ CollideSpringApp.prototype.setStartPosition = function(value) {
     this.startPosition = value;
     this.mySim.config(this.numBlocks, this.startPosition, this.startGap);
     this.broadcastParameter(CollideSpringSim.en.START_POSITION);
-    this.scriptParser.update();
+    this.easyScript.update();
   }
 };
 

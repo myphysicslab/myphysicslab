@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.util.test.Terminal_test');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('goog.testing.jsunit');
 
 var testTerminal1 = function() {
@@ -62,7 +62,7 @@ goog.exportProperty(window, 'testTerminal1', testTerminal1);
 var testTerminal2 = function() {
   var UtilityCore = myphysicslab.lab.util.UtilityCore;
   var Terminal = myphysicslab.lab.util.Terminal;
-  var ScriptParser = myphysicslab.lab.util.ScriptParser;
+  var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
   if (UtilityCore.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
@@ -73,10 +73,10 @@ var testTerminal2 = function() {
   window.terminal = new Terminal(input_elem, output_elem);
   var t = window.terminal;
   Terminal.stdRegex(t);
-  // having a ScriptParser changes how Terminal.eval() works.
-  var scriptParser = new ScriptParser([]);
-  scriptParser.saveStart();
-  t.setParser(scriptParser);
+  // having a EasyScriptParser changes how Terminal.eval() works.
+  var easyScript = new EasyScriptParser([]);
+  easyScript.saveStart();
+  t.setParser(easyScript);
 
   assertEquals(4, t.eval('2+2', /*output=*/true));
   assertEquals(4, t.eval('result', /*output=*/true));

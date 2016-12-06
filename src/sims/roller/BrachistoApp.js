@@ -147,7 +147,7 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
   this.timeGraph.line1.setYVariable(0);
   this.timeGraph.line2.setYVariable(1);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var BrachistoApp = myphysicslab.sims.roller.BrachistoApp;

@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Subject');
 
 /** Provides a list of {@link myphysicslab.lab.util.Subject Subjects} contained
 in this object, including this object if it is a Subject itself.
-Used when creating a {@link myphysicslab.lab.util.ScriptParser}.
+Used when creating a {@link myphysicslab.lab.util.EasyScriptParser}.
 
 * @interface
 * @extends {myphysicslab.lab.util.Printable}

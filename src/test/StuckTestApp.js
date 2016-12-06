@@ -84,7 +84,7 @@ myphysicslab.test.StuckTestApp = function(elem_ids) {
   var ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   this.addControl(new ChoiceControl(ps));
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.graphSetup();
 };

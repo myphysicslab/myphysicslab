@@ -111,7 +111,7 @@ myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
   this.graph.line.setYVariable(2);
   this.timeGraph.line1.setYVariable(0);
   this.timeGraph.line2.setYVariable(2);
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var CollideBlocksApp = myphysicslab.sims.springs.CollideBlocksApp;

@@ -111,7 +111,7 @@ UtilityCore.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
 * @type {string}
 * @const
 */
-UtilityCore.version = '3.0.0';
+UtilityCore.VERSION = '1.0.0';
 
 /** Converts an array of numbers to string, with commas between each number.
 * @param {!(Array<number>|Float64Array)} r  the array to print

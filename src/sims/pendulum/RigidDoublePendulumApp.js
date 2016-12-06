@@ -110,7 +110,7 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var RigidDoublePendulumApp = sims.pendulum.RigidDoublePendulumApp;

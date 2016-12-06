@@ -110,7 +110,7 @@ myphysicslab.sims.springs.Spring2DApp = function(elem_ids) {
       goog.bind(sim.restState, sim));
   this.addControl(bc);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var Spring2DApp = myphysicslab.sims.springs.Spring2DApp;

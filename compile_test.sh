@@ -125,7 +125,7 @@ java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.util.test.ParameterNumber_test \
 --entry_point=goog:myphysicslab.lab.util.test.ParameterString_test \
 --entry_point=goog:myphysicslab.lab.util.test.RandomLCG_test \
---entry_point=goog:myphysicslab.lab.util.test.ScriptParser_test \
+--entry_point=goog:myphysicslab.lab.util.test.EasyScriptParser_test \
 --entry_point=goog:myphysicslab.lab.util.test.Terminal_test \
 --entry_point=goog:myphysicslab.lab.util.test.TimerClock_test \
 --entry_point=goog:myphysicslab.lab.util.test.UtilityCore_test \

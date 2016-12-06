@@ -67,7 +67,7 @@ sims.engine2D.FastBallApp = function(elem_ids) {
   Walls.make(this.mySim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/0.01);
   this.addPlaybackControls();
   this.addStandardControls();
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.graphSetup();
 };

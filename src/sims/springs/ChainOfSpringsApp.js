@@ -162,7 +162,7 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
   this.timeGraph.line1.setYVariable(1);
   this.timeGraph.line2.setYVariable(2);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var ChainOfSpringsApp = sims.springs.ChainOfSpringsApp;
@@ -233,7 +233,7 @@ ChainOfSpringsApp.prototype.setNumLinks = function(value) {
     this.numAtoms = value;
     this.mySim.makeChain(this.numAtoms, this.attachRight);
     this.broadcastParameter(ChainOfSpringsSim.en.NUM_LINKS);
-    this.scriptParser.update();
+    this.easyScript.update();
   }
 };
 
@@ -252,7 +252,7 @@ ChainOfSpringsApp.prototype.setAttachRight = function(value) {
     this.attachRight = value;
     this.mySim.makeChain(this.numAtoms, this.attachRight);
     this.broadcastParameter(ChainOfSpringsSim.en.ATTACH_RIGHT);
-    this.scriptParser.update();
+    this.easyScript.update();
   }
 };
 

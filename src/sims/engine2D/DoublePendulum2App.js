@@ -204,7 +204,7 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
   this.addControl(new NumericControl(pn));
   this.addStandardControls();
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.graphSetup();
 };

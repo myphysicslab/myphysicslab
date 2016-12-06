@@ -32,7 +32,7 @@ goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');

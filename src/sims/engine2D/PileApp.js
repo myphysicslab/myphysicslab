@@ -207,7 +207,7 @@ sims.engine2D.PileApp = function(elem_ids) {
   c = new ButtonControl(PileConfig.i18n.ADD_BLOCK, goog.bind(this.addBlock, this));
   this.addControl(c);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.config();
   this.graphSetup();
@@ -302,7 +302,7 @@ PileApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(0);
   this.clock.setRealTime(0);
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

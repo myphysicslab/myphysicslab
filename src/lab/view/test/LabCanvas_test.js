@@ -357,7 +357,7 @@ var testLabCanvas1 = function() {
 
   // cannot set focus to an unknown view
   assertThrows(function() {
-    labCanvas.setFocusView(new SimView('unknown', simRect2)); 
+    labCanvas.setFocusView(new SimView('unknown', simRect2));
   });
 
   // change focus to simView2

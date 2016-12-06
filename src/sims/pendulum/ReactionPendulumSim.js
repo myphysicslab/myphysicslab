@@ -325,14 +325,14 @@ ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   // = nx*(vx' -w' ry - w^2 rx) +ny*(vy' + w' rx - w^2 ry)
   b = nx*(change[1] -change[5]*ry - w*w*rx) + ny*(change[3] + change[5]*rx - w*w*ry);
   B[0] = b;
-  
+
   // same formulas, but now for contact 1
   nx = n1x;
   ny = n1y;
   //b = 2*w*(-ny*(vx - w*ry) + nx*(vy + w*rx));
   b = nx*(change[1] -change[5]*ry - w*w*rx) + ny*(change[3] + change[5]*rx - w*w*ry);
   B[1] = b;
-  
+
   // notation:  here nj = {nx, ny, 0}  and ni = {nix, nyx, 0}
   // I = m (width^2 + height^2)/ 12
   // eqn (9)  a = ni . (nj/ m + (r x nj) x r /I)
@@ -374,7 +374,7 @@ ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   change[1] += f[1]*nx/m;
   change[3] += f[1]*ny/m;
   change[5] += (rx*f[1]*ny - ry*f[1]*nx)/I;
-  this.showForce(Fx, 0); 
+  this.showForce(Fx, 0);
   this.showForce(0, Fy);
   //this.showForce(Fx, Fy);
   return null;

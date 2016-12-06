@@ -162,7 +162,7 @@ sims.pendulum.MoveableDoublePendulumApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var MoveableDoublePendulumApp = sims.pendulum.MoveableDoublePendulumApp;

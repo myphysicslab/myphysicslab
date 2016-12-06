@@ -45,7 +45,7 @@ goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -90,7 +90,7 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
@@ -254,13 +254,13 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
     this.timeGraph.autoScale2
   ];
   // volatile Subjects have their initial settings re-memorized when
-  // scriptParser.update() is called.  scriptParser.update() is called when a new
-  // configuration is set up. This helps make the resulting scriptParser.script()
+  // easyScript.update() is called.  easyScript.update() is called when a new
+  // configuration is set up. This helps make the resulting easyScript.script()
   // be a much smaller script.
   var volatile = [ this.sim.getVarsList(), this.simView ];
-  this.scriptParser = CommonControls.makeScriptParser(subjects, volatile, this.simRun);
-  this.terminal.setParser(this.scriptParser);
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
+  this.terminal.setParser(this.easyScript);
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var SingleSpring2App = myphysicslab.sims.springs.SingleSpring2App;
 goog.inherits(SingleSpring2App, AbstractSubject);
@@ -283,7 +283,7 @@ if (!UtilityCore.ADVANCED) {
         +', clock: '+this.clock.toStringShort()
         +', energyGraph: '+this.energyGraph.toStringShort()
         +', displayClock: '+this.displayClock.toStringShort()
-        +', scriptParser: '+this.scriptParser.toStringShort()
+        +', easyScript: '+this.easyScript.toStringShort()
         +', graph: '+this.graph
         +', timeGraph: '+this.timeGraph
         +', layout: '+this.layout
@@ -306,7 +306,7 @@ SingleSpring2App.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
-      +'|simView|statusView|timeGraph|scriptParser|terminal|displayList',
+      +'|simView|statusView|timeGraph|easyScript|terminal|displayList',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

@@ -149,7 +149,7 @@ myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   this.timeGraph.line1.setYVariable(0);
   this.timeGraph.line2.setYVariable(1);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var RollerFlightApp = myphysicslab.sims.roller.RollerFlightApp;

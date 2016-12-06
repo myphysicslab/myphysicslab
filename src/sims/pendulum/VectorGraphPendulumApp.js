@@ -125,7 +125,7 @@ sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var VectorGraphPendulumApp = sims.pendulum.VectorGraphPendulumApp;

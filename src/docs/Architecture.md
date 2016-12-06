@@ -577,7 +577,8 @@ _Key Points:_
 
 + When the web page loads, a script creates the application.
 
-+ Same name is used for JavaScript and start-up HTML files.
++ Usually the same file name is used for the start-up HTML file and the JavaScript file
+    that contains the application code.
 
 + `elem_ids` object communicates location of HTML elements to application
 
@@ -587,7 +588,7 @@ _Key Points:_
 
 When the web page loads, a script creates the application and starts a
 [Timer](myphysicslab.lab.util.Timer.html) running that drives the simulation. This
-section describes the start-up process.
+section describes that start-up process.
 
 In myPhysicsLab the convention is to **use the same name** for the JavaScript
 application file and the start-up HTML file. For example, `DoublePendulumApp.html` and
@@ -638,7 +639,7 @@ for further customization and scripting.
 
 The third script tag runs the application's `setup` method, which can do various
 operations such as parse a URL Query Script, or load a script from HTML5 local storage.
-See [Terminal: An Interactive Programming Environment](Customizing.html#terminal:aninteractiveprogrammingenvironment).
+See [Terminal for Script Execution](Customizing.html#terminal:forscriptexecution).
 
 The last script tag is what **starts the callback running** which drives the animation.
 See [Event-Driven Programming][].
@@ -672,7 +673,7 @@ Note that a [global variable](Building.html#globalvariableusage) `app` is create
 the script. This **global variable holds the application object** and ensures that the
 application and its objects are **not garbage collected**. It also makes it possible to
 access the various objects from a script, as is discussed further in the section
-[Terminal: An Interactive Programming Environment](Customizing.html#terminal:aninteractiveprogrammingenvironment)
+[Terminal for Script Execution](Customizing.html#terminal:forscriptexecution)
 
 It is possible to have **two independent versions** of an application running on a
 single page. This is demonstrated in

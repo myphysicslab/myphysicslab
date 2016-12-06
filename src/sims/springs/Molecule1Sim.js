@@ -592,7 +592,7 @@ Molecule1Sim.prototype.evaluate = function(vars, change, timeStep) {
         && Math.abs(vars[6])<r*this.timeStep_/(2*m2)) {
       // right wall contact if (rightward force, near right wall, and low velocity)
       r = 0;
-    } 
+    }
     change[6] = r;
 
     // V2y'
@@ -605,7 +605,7 @@ Molecule1Sim.prototype.evaluate = function(vars, change, timeStep) {
         && Math.abs(vars[7])<r*this.timeStep_/(2*m2)) {
       // ceiling contact if (upward force, near ceiling, and low velocity)
       r = 0;
-    } 
+    }
     change[7] = r;
   }
   return null;

@@ -36,7 +36,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -91,7 +91,7 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var ShapeType = lab.model.ShapeType;
 var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
@@ -322,9 +322,9 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
     this.statusView
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects());
-  this.scriptParser = CommonControls.makeScriptParser(subjects, [], this.simRun);
-  this.terminal.setParser(this.scriptParser);
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
+  this.terminal.setParser(this.easyScript);
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var StringApp = myphysicslab.sims.pde.StringApp;
 goog.inherits(StringApp, myphysicslab.lab.util.AbstractSubject);
@@ -383,7 +383,7 @@ StringApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|block|blockMass|clock|displayClock|energyGraph'
       +'|path|displayPath|displayList'
-      +'|layout|sim|simCtrl|simList|simRun|simView|statusView|terminal|scriptParser',
+      +'|layout|sim|simCtrl|simList|simRun|simView|statusView|terminal|easyScript',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

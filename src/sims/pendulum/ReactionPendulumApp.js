@@ -44,7 +44,7 @@ goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -97,7 +97,7 @@ var PendulumSim = sims.pendulum.PendulumSim;
 var PointMass = lab.model.PointMass;
 var Polygon = lab.engine2D.Polygon;
 var ReactionPendulumSim = sims.pendulum.ReactionPendulumSim;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
@@ -245,7 +245,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   * @type {number}
   */
   this.separation = 0.5;
-  /** 
+  /**
   * @type {number}
   */
   this.startAngle = 5*Math.PI/7;
@@ -508,13 +508,13 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
-  this.scriptParser = CommonControls.makeScriptParser(subjects, [], this.simRun);
-  this.terminal.setParser(this.scriptParser);
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
+  this.terminal.setParser(this.easyScript);
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.graph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.timeGraph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var ReactionPendulumApp = myphysicslab.sims.pendulum.ReactionPendulumApp;
 goog.inherits(ReactionPendulumApp, myphysicslab.lab.util.AbstractSubject);
@@ -686,7 +686,7 @@ ReactionPendulumApp.prototype.defineNames = function(myName) {
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance2|advance1|axes|clock|displayList'
-      +'|displayClock|energyGraph|graph|layout|scriptParser|sim2|sim1'
+      +'|displayClock|energyGraph|graph|layout|easyScript|sim2|sim1'
       +'|simCtrl|simList2|simList1|simRun|simView|statusView|terminal|timeGraph',
       myName);
   this.terminal.addRegex('simCanvas',

@@ -178,7 +178,7 @@ myphysicslab.sims.layout.StandardGraph1 = function(varsList, graphCanvas, div_co
   this.addControl(new ChoiceControl(ps));
 
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!myphysicslab.lab.app.SimController} 
+  * @type {!myphysicslab.lab.app.SimController}
   */
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});

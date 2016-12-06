@@ -45,7 +45,7 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.UtilityCore');
@@ -111,7 +111,7 @@ var PileConfig = sims.engine2D.PileConfig;
 var RigidBodyEventHandler = lab.app.RigidBodyEventHandler;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
@@ -202,7 +202,7 @@ Because GravityLaw and DampingLaw get recreated for each test we search for them
 building each test and connect the respective gravity and damping controls to them.
 
 Another consequence is that we don't provide GravityLaw or DampingLaw to the
-ScriptParser, so these aren't as easily scriptable as in other apps. However, there are
+EasyScriptParser, so these aren't as easily scriptable as in other apps. However, there are
 short names defined for them, so it is still relatively easy to add JavaScript to a URL
 script like this:
 
@@ -443,10 +443,10 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
       .setNameColor('gray').setNameFont('12pt sans-serif')
       .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
-  /** @type {!ScriptParser} */
-  this.scriptParser = this.makeScriptParser();
-  this.terminal.setParser(this.scriptParser);
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  /** @type {!EasyScriptParser} */
+  this.easyScript = this.makeEasyScript();
+  this.terminal.setParser(this.easyScript);
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var TestViewerApp = myphysicslab.test.TestViewerApp;
 goog.inherits(TestViewerApp, AbstractSubject);
@@ -479,7 +479,7 @@ TestViewerApp.prototype.defineNames = function(myName) {
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
-  this.terminal.addRegex('gravityLaw|dampingLaw|scriptParser|elasticity',
+  this.terminal.addRegex('gravityLaw|dampingLaw|easyScript|elasticity',
        myName);
 };
 
@@ -504,21 +504,21 @@ TestViewerApp.prototype.getSubjects = function() {
   return goog.array.concat(subjects, this.graph.getSubjects());
 };
 
-/** Creates the ScriptParser for this app.
+/** Creates the EasyScriptParser for this app.
 *
 * If any volatile Subjects are specified, then when a new configuration is set up
-* `ScriptParser.update()` will re-memorize those volatile Subjects.
-* This helps the resulting `ScriptParser.script()` be much smaller.
+* `EasyScriptParser.update()` will re-memorize those volatile Subjects.
+* This helps the resulting `EasyScriptParser.script()` be much smaller.
 * @param {!Array<!Subject>=} opt_volatile additional volatile Subjects
-* @return {!ScriptParser}
+* @return {!EasyScriptParser}
 */
-TestViewerApp.prototype.makeScriptParser = function(opt_volatile) {
+TestViewerApp.prototype.makeEasyScript = function(opt_volatile) {
   var subjects = this.getSubjects();
   var volatile = [ this.sim.getVarsList(), this.simView, this.elasticity ];
   if (goog.isArray(opt_volatile)) {
     volatile = goog.array.concat(opt_volatile, volatile);
   }
-  return CommonControls.makeScriptParser(subjects, volatile, this.simRun);
+  return CommonControls.makeEasyScript(subjects, volatile, this.simRun);
 };
 
 /** Returns index of current group within group menu
@@ -688,7 +688,7 @@ TestViewerApp.prototype.startTest_ = function(testIndex) {
   // save initial state of vars, so that 'reset' can be done to return to initial state.
   this.sim.saveInitialState();
   this.setSimRect_();
-  this.scriptParser.update();
+  this.easyScript.update();
   this.clock.setTime(this.sim.getTime());
   this.clock.setRealTime(this.sim.getTime());
   if (this.startOnLoad_) {

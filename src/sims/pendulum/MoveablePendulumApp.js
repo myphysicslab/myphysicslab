@@ -143,7 +143,7 @@ sims.pendulum.MoveablePendulumApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var MoveablePendulumApp = sims.pendulum.MoveablePendulumApp;

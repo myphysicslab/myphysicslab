@@ -354,8 +354,8 @@ CartPendulumSim.prototype.mouseDrag = function(simObject, location, offset, mous
     vars[3] = 0;
   } else if (simObject == this.pendulum_) {
     var x1 = vars[0]; // center of cart
-    var y1 = 0; 
-    var x2 = p.getX();  //  center of pendulum 
+    var y1 = 0;
+    var x2 = p.getX();  //  center of pendulum
     var y2 = p.getY();
     var th = Math.atan2(x2-x1, -(y2-y1));
     vars[1] = th;
@@ -399,7 +399,7 @@ CartPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
     //w' = ( -m w^2 L sin(h) cos(h) + k x cos(h) - (M + m) g sin(h) + d v cos(h)
     //       -(m + M) b w / (m L) )
     //       / (L (M + m sin^2(h)))
-    numer = -m*vars[3]*vars[3]*L*sh*csh + k*vars[0]*csh - (M+m)*this.gravity_*sh 
+    numer = -m*vars[3]*vars[3]*L*sh*csh + k*vars[0]*csh - (M+m)*this.gravity_*sh
         + this.dampingCart_*vars[2]*csh;
     numer += -(m+M)*this.dampingPendulum_*vars[3]/(m*L);
     change[3] = numer/(L*(M + m*sh*sh));

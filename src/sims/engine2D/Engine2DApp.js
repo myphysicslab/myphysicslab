@@ -44,7 +44,7 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
@@ -87,7 +87,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = lab.engine2D.Polygon;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
@@ -225,8 +225,8 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   this.timeGraph = new TimeGraph1(sim.getVarsList(), this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
-  /** @type {!ScriptParser} */
-  this.scriptParser;
+  /** @type {!EasyScriptParser} */
+  this.easyScript;
 };
 var Engine2DApp = myphysicslab.sims.engine2D.Engine2DApp;
 goog.inherits(Engine2DApp, AbstractSubject);
@@ -252,7 +252,7 @@ if (!UtilityCore.ADVANCED) {
         +', graph: '+this.graph
         +', timeGraph: '+this.timeGraph
         +', layout: '+this.layout
-        +', scriptParser: '+this.scriptParser.toStringShort()
+        +', easyScript: '+this.easyScript.toStringShort()
         +', terminal: '+this.terminal
         + Engine2DApp.superClass_.toString.call(this);
   };
@@ -269,7 +269,7 @@ Engine2DApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
   +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView|timeGraph'
-  +'|displayList|scriptParser|terminal|statusList|elasticity|varsList|rbo',
+  +'|displayList|easyScript|terminal|statusList|elasticity|varsList|rbo',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
@@ -311,21 +311,21 @@ Engine2DApp.prototype.getSubjects = function() {
       this.graph.getSubjects(), this.timeGraph.getSubjects());
 };
 
-/** Creates the ScriptParser for this app.
+/** Creates the EasyScriptParser for this app.
 *
 * If any volatile Subjects are specified, then when a new configuration is set up
-* `ScriptParser.update()` will re-memorize those volatile Subjects.
-* This helps the resulting `ScriptParser.script()` be much smaller.
+* `EasyScriptParser.update()` will re-memorize those volatile Subjects.
+* This helps the resulting `EasyScriptParser.script()` be much smaller.
 * @param {!Array<!Subject>=} opt_volatile additional volatile Subjects
 */
-Engine2DApp.prototype.makeScriptParser = function(opt_volatile) {
+Engine2DApp.prototype.makeEasyScript = function(opt_volatile) {
   var subjects = this.getSubjects();
   var volatile = [ this.sim.getVarsList(), this.simView ];
   if (goog.isArray(opt_volatile)) {
     volatile = goog.array.concat(opt_volatile, volatile);
   }
-  this.scriptParser = CommonControls.makeScriptParser(subjects, volatile, this.simRun);
-  this.terminal.setParser(this.scriptParser);
+  this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
+  this.terminal.setParser(this.easyScript);
 };
 
 /**
@@ -367,11 +367,11 @@ Engine2DApp.prototype.addPlaybackControls = function() {
 * @return {undefined}
 */
 Engine2DApp.prototype.addURLScriptButton = function() {
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.graph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.timeGraph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 
 /** Adds the standard set of engine2D controls.

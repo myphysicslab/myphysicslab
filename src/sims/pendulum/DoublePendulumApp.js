@@ -121,7 +121,7 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var DoublePendulumApp = sims.pendulum.DoublePendulumApp;

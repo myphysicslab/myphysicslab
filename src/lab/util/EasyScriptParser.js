@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ScriptParser');
+goog.provide('myphysicslab.lab.util.EasyScriptParser');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
@@ -27,37 +27,50 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Subject = myphysicslab.lab.util.Subject;
 var Parameter = myphysicslab.lab.util.Parameter;
 
-/** Generates and executes a simple script which gets or sets values of
+/** Parses simple "EasyScript" scripts which get or set values of
 {@link myphysicslab.lab.util.Parameter Parameter}s for a specified set of
-{@link myphysicslab.lab.util.Subject Subject}s
+{@link myphysicslab.lab.util.Subject Subject}s. Also executes some single word commands
+such as `help`.
+
+The {@link #script} method creates a script which replicates all the current Parameter
+settings of all the specified Subjects.
+
+The scripts can be executed by entering them in the
+{@link myphysicslab.lab.util.Terminal} command line interface, which passes them to
+EasyScriptParser. They can also be executed with Terminal functions such as `eval` and
+`parseURL`.
+
+An application will set up EasyScriptParser to know about its dozen or so important
+Subjects. EasyScriptParser interrogates all the Subjects to find what settable
+Parameters they contain and their current values.
+
+See [Subject-Observer Pesign Pattern](Architecture.html#subjectobserverparameter) for
+background information about Parameters and Subjects.
 
 
-ScriptParser Syntax
+EasyScript Syntax
 -------------------
 
 The 'getter' syntax is
 
     [SubjectName.]ParameterName[;]
 
-where square brackets indicate optional elements. This returns the current value of
-that Parameter. This is useful for inspecting values in
-{@link myphysicslab.lab.util.Terminal Terminal}. Also, that value is then available in
-the `result` variable in Terminal for use in later scripts.
-
 The 'setter' syntax is
 
     [SubjectName.]ParameterName=value[;]
 
-where square brackets indicate optional elements.
+where square brackets indicate optional elements. Multiple scripts can be on one line
+separated by a semicolon.
 
-With both setter and getter syntax the value of the Parameter is available via {@link
-#getResult} after the script is parsed. Multiple scripts are separated by a semicolon.
+With both setter and getter syntax the value of the Parameter is available via
+{@link #getResult} after the script is parsed or in the `result` variable of
+{@link myphysicslab.lab.util.Terminal Terminal}.
 
 + `SubjectName` is the language-independent name returned by
 {@link myphysicslab.lab.util.Subject#getName}. If `SubjectName` is not provided, then
 the the list of Subjects is examined in order
 and *the first Parameter with the given name is selected*. The order is based on how
-the Subjects are passed in to the ScriptParser constructor.
+the Subjects are passed in to the EasyScriptParser constructor.
 
 + `ParameterName` is the language-independent name returned by
 {@link myphysicslab.lab.util.SubjectEvent#getName}. (Note that Parameter extends
@@ -67,7 +80,7 @@ SubjectEvent).
 {@link myphysicslab.lab.util.Parameter#setFromString}. The string can be optionally
 surrounded with quotes like a JavaScript string in which case the quotes are removed
 and backslash escaped characters (quote, newline, tab, etc.) are replaced.
-If not surrounded with quotes then the string ends at the semicolon.
+If not surrounded with quotes then the string ends at the semicolon or end of line.
 
 The English language version of Parameter or Subject names can also be given, they are
 converted to the language-independent form using
@@ -75,8 +88,8 @@ converted to the language-independent form using
 trimmed from names and (unquoted) values.
 
 
-Script Embedded in URL
-----------------------
+EasyScript Embedded in URL
+--------------------------
 
 To share a customized simulation with someone else, the {@link #scriptURL} method gives
 the URL of the current page along with a script that sets Parameters to their current
@@ -89,7 +102,7 @@ or 'query URL'. Here is an example:
 A user can then send this custom URL to someone else, and when that other user enters
 the URL into a browser, the scripts embedded in the URL will be executed if
 {@link myphysicslab.lab.util.Terminal#parseURL} is called at startup that app,
-assuming that ScriptParser has been installed via
+assuming that EasyScriptParser has been installed via
 {@link myphysicslab.lab.util.Terminal#setParser}.
 
 The method {@link #script} returns just the script without the URL. This can be useful
@@ -142,6 +155,15 @@ for the Parameter to be a different object, but as long as it has the same name 
 belongs to the same Subject we can find the Parameter and set or get it's value.
 
 
+Single Word Commands
+--------------------
+
+A small set of single word commands are recognized by EasyScriptParser, for example
+`help`.  The `help` command lists the available single word commands.
+Use {@link #addCommand} to add a single word command.
+
+
+
 * @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from;
     note that the order here is significant; the Parameters are processed according
     to the order of the Subjects in this list.
@@ -153,8 +175,8 @@ belongs to the same Subject we can find the Parameter and set or get it's value.
 * @struct
 * @implements {myphysicslab.lab.util.Parser}
 */
-myphysicslab.lab.util.ScriptParser = function(subjects, volatile) {
-  ScriptParser.checkUniqueNames(subjects);
+myphysicslab.lab.util.EasyScriptParser = function(subjects, volatile) {
+  EasyScriptParser.checkUniqueNames(subjects);
   /** The set of Subjects to examine.
   * @type {!Array<!Subject>}
   * @private
@@ -239,11 +261,11 @@ myphysicslab.lab.util.ScriptParser = function(subjects, volatile) {
       }, this), 'prints this help text');
   this.update();
 };
-var ScriptParser = myphysicslab.lab.util.ScriptParser;
+var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
-  ScriptParser.prototype.toString = function() {
+  EasyScriptParser.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', subjects_: ['
         + goog.array.map(this.subjects_, function(s) { return s.toStringShort(); })
@@ -251,13 +273,13 @@ if (!UtilityCore.ADVANCED) {
   };
 
   /** @inheritDoc */
-  ScriptParser.prototype.toStringShort = function() {
-    return 'ScriptParser{subjects_.length: '+this.subjects_.length+'}';
+  EasyScriptParser.prototype.toStringShort = function() {
+    return 'EasyScriptParser{subjects_.length: '+this.subjects_.length+'}';
   };
 };
 
 /** @inheritDoc */
-ScriptParser.prototype.addCommand = function(commandName, commandFnc, helpText) {
+EasyScriptParser.prototype.addCommand = function(commandName, commandFnc, helpText) {
   this.commandNames_.push(commandName);
   this.commandFns_.push(commandFnc);
   this.commandHelp_.push(helpText);
@@ -267,7 +289,7 @@ ScriptParser.prototype.addCommand = function(commandName, commandFnc, helpText) 
 * @param {!Array<!Subject>} subjects
 * @private
 */
-ScriptParser.checkUniqueNames = function(subjects) {
+EasyScriptParser.checkUniqueNames = function(subjects) {
   /** @type !Array<string> */
   var names = [];
   goog.array.forEach(subjects, function(subj) {
@@ -288,7 +310,7 @@ by a dot.
 *    no Parameter found
 * @private
 */
-ScriptParser.prototype.getParameter = function(fullName) {
+EasyScriptParser.prototype.getParameter = function(fullName) {
   var n = fullName.split('.');
   var subjectName, paramName;
   if (n.length == 1) {
@@ -312,8 +334,10 @@ ScriptParser.prototype.getParameter = function(fullName) {
 /**
 * @return {string}
 */
-ScriptParser.prototype.help = function() {
-  var s = 'Use the "values" command to see what can be set and the syntax.\n\n';
+EasyScriptParser.prototype.help = function() {
+  var s = 'myPhysicsLab version '+ UtilityCore.VERSION + ', '
+  s += (UtilityCore.ADVANCED ? 'advanced' : 'simple') + '-compiled.\n';
+  s += 'Use the "values" command to see what can be set and the syntax.\n\n';
   s += 'command-K            clear Terminal window\n'
   s += 'arrow up/down        retrieve previous or next command\n'
   if (!UtilityCore.ADVANCED) {
@@ -334,17 +358,17 @@ ScriptParser.prototype.help = function() {
   return s;
 };
 
-/** Returns the set of Parameter names that can be set by this ScriptParser; each
+/** Returns the set of Parameter names that can be set by this EasyScriptParser; each
 Parameter name is preceded by the name of its Subject and a dot.
 * @return {!Array<string>} the set of Parameter names that can be
-*    set by this ScriptParser
+*    set by this EasyScriptParser
 */
-ScriptParser.prototype.names = function() {
+EasyScriptParser.prototype.names = function() {
   return goog.array.clone(this.allSubjParamNames_);
 };
 
 /** Returns a script which sets Parameters to their current values.
-See {@link myphysicslab.lab.util.ScriptParser} for the syntax of the script.
+See {@link myphysicslab.lab.util.EasyScriptParser} for the syntax of the script.
 
 Uses {@link myphysicslab.lab.util.Parameter#isComputed} to exclude Parameters
 that are being automatically computed, unless `includeComputed` is `true`.
@@ -360,7 +384,7 @@ that are being automatically computed, unless `includeComputed` is `true`.
 * @return {string} a script which sets Parameters to their current values
 * @private
 */
-ScriptParser.prototype.namesAndValues = function(volatile, includeComputed, fullName) {
+EasyScriptParser.prototype.namesAndValues = function(volatile, includeComputed, fullName) {
   volatile = volatile == true;
   var allParams = goog.array.map(this.allSubjects_,
       function(s, idx) { return s.getParameter(this.allParamNames_[idx]); }, this);
@@ -396,7 +420,7 @@ ScriptParser.prototype.namesAndValues = function(volatile, includeComputed, full
 };
 
 /** @inheritDoc */
-ScriptParser.prototype.parse = function(script) {
+EasyScriptParser.prototype.parse = function(script) {
   // remove trailing semicolon
   if (script.slice(-1) == ';') {
     script = script.slice(0, script.length-1);
@@ -421,7 +445,7 @@ ScriptParser.prototype.parse = function(script) {
   }
   if (a.length == 2) {
     try {
-      var value = ScriptParser.unquote(a[1].trim());
+      var value = EasyScriptParser.unquote(a[1].trim());
       param.setFromString(value);
     } catch(ex) {
       ex.message += '\nwhile setting value "'+value+'" on parameter '+fullName;
@@ -432,7 +456,7 @@ ScriptParser.prototype.parse = function(script) {
 };
 
 /** @inheritDoc */
-ScriptParser.prototype.saveStart = function() {
+EasyScriptParser.prototype.saveStart = function() {
   this.initialNonVolatile_ = this.namesAndValues(false).split(';');
   this.initialVolatile_ = this.namesAndValues(true).split(';');
 };
@@ -457,7 +481,7 @@ ScriptParser.prototype.saveStart = function() {
 *
 * @return {string}
 */
-ScriptParser.prototype.script = function() {
+EasyScriptParser.prototype.script = function() {
   var ar = this.namesAndValues(false).split(';');
   ar = goog.array.concat(ar, this.namesAndValues(true).split(';'));
   var initSettings = goog.array.concat(this.initialNonVolatile_, this.initialVolatile_);
@@ -491,7 +515,7 @@ ScriptParser.prototype.script = function() {
 *
 * @return {string}
 */
-ScriptParser.prototype.scriptURL = function() {
+EasyScriptParser.prototype.scriptURL = function() {
   // get the current URL, but remove any URL query (= text after the '?' in URL)
   var u = window.location.href.replace(/\.html\?.*$/, '.html');
   // Add commands as a URL query, after '?'.
@@ -502,7 +526,7 @@ ScriptParser.prototype.scriptURL = function() {
 * @param {string} text
 * @return {string}
 */
-ScriptParser.unquote = function(text) {
+EasyScriptParser.unquote = function(text) {
   if (text.length < 2) {
     return text;
   }
@@ -552,7 +576,7 @@ ScriptParser.unquote = function(text) {
 * set of Parameters has changed.
 * @return {undefined}
 */
-ScriptParser.prototype.update =  function() {
+EasyScriptParser.prototype.update =  function() {
   var params = goog.array.reduce(this.subjects_,
       function(/** !Array<!Parameter>*/result, /** !Subject*/subj) {
         // filter out params with name 'DELETED'
@@ -580,12 +604,12 @@ ScriptParser.prototype.update =  function() {
   this.initialVolatile_ = this.namesAndValues(true).split(';');
 };
 
-/** Returns the set of Parameter names that can be set by this ScriptParser, and their
+/** Returns the set of Parameter names that can be set by this EasyScriptParser, and their
 * current values. Each Parameter name is preceded by the name of its Subject and a dot.
 * @return {string} the set of Parameter names that can be
-*    set by this ScriptParser and their current values
+*    set by this EasyScriptParser and their current values
 */
-ScriptParser.prototype.values = function() {
+EasyScriptParser.prototype.values = function() {
   return this.namesAndValues(false, true, true) + this.namesAndValues(true, true, true);
 };
 
@@ -596,12 +620,12 @@ ScriptParser.prototype.values = function() {
   WARN_URL_2048: string
   }}
 */
-ScriptParser.i18n_strings;
+EasyScriptParser.i18n_strings;
 
 /**
-@type {ScriptParser.i18n_strings}
+@type {EasyScriptParser.i18n_strings}
 */
-ScriptParser.en = {
+EasyScriptParser.en = {
   URL_SCRIPT: 'share',
   PROMPT_URL: 'Press command-C to copy this URL to the clipboard, it will replicate this simulation with current parameters.',
   WARN_URL_2048: 'WARNING: URL is longer than 2048 characters.'
@@ -609,19 +633,19 @@ ScriptParser.en = {
 
 /**
 @private
-@type {ScriptParser.i18n_strings}
+@type {EasyScriptParser.i18n_strings}
 */
-ScriptParser.de_strings = {
+EasyScriptParser.de_strings = {
   URL_SCRIPT: 'mitteilen',
   PROMPT_URL: 'Dr\u00fccken Sie command-C um diesen URL in die Zwischenablage zu kopieren, dies beinhaltet die eingegebenen Parameter.',
   WARN_URL_2048: 'Achtung: URL is l\u00e4nger als 2048 Zeichen.'
 };
 
 /** Set of internationalized strings.
-@type {ScriptParser.i18n_strings}
+@type {EasyScriptParser.i18n_strings}
 */
-ScriptParser.i18n = goog.LOCALE === 'de' ?
-    ScriptParser.de_strings :
-    ScriptParser.en;
+EasyScriptParser.i18n = goog.LOCALE === 'de' ?
+    EasyScriptParser.de_strings :
+    EasyScriptParser.en;
 
 });  // goog.scope

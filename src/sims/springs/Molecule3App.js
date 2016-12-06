@@ -129,7 +129,7 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var Molecule3App = myphysicslab.sims.springs.Molecule3App;

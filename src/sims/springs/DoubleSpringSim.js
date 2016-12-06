@@ -282,9 +282,9 @@ We have 2 equations in 2 unknowns, solve the first for `u2`
 Plug that into the second equation and solve for `u1`:
 
     0 = -k2 (u2 - u1 - R2) + k3 (Wall2 - u2 - R3)
-    0 = -k2 ((k1/k2)(u1 - Wall1 - R1) + u1 + R2 - u1 - R2) 
+    0 = -k2 ((k1/k2)(u1 - Wall1 - R1) + u1 + R2 - u1 - R2)
         + k3 (Wall2 - ((k1/k2)(u1 - Wall1 - R1) + u1 + R2) - R3)
-    0 = -k1 (u1 - Wall1 - R1) 
+    0 = -k1 (u1 - Wall1 - R1)
         + k3 (Wall2 - (k1/k2)(u1 - Wall1 - R1) - u1 - R2 - R3)
     0 = -k1 u1 + k1 Wall1 + k1 R1
         + k3 Wall2 - (k3 k1/k2)(u1 - Wall1 - R1) - k3 u1 - k3 R2 - k3 R3
@@ -301,11 +301,11 @@ DoubleSpringSim.prototype.restState = function() {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   var vars = this.getVarsList().getValues();
-  var k1 = this.spring1_.getStiffness();  
-  var k2 = this.spring2_.getStiffness();  
+  var k1 = this.spring1_.getStiffness();
+  var k2 = this.spring2_.getStiffness();
   var k3 = this.spring3_.getStiffness();
-  var R1 = this.spring1_.getRestLength();  
-  var R2 = this.spring2_.getRestLength();  
+  var R1 = this.spring1_.getRestLength();
+  var R2 = this.spring2_.getRestLength();
   var R3 = this.spring3_.getRestLength();
   var w1 = this.wall1_.getBoundsWorld().getRight();
   var w2 = this.wall2_.getBoundsWorld().getLeft();
@@ -438,7 +438,7 @@ DoubleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
     // u2' = v2
     change[1] = vars[3];
     // v2' = F2/m2 = (-k2 L2 + k3 L3 - b v2) / m2
-    change[3] = (-this.spring2_.getStiffness()*this.spring2_.getStretch() 
+    change[3] = (-this.spring2_.getStiffness()*this.spring2_.getStretch()
         + this.spring3_.getStiffness()*this.spring3_.getStretch()
         - this.damping_*vars[3]
         ) / this.block2_.getMass();

@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -49,7 +49,7 @@ var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
 var ChoiceControlBase = lab.controls.ChoiceControlBase;
 var ParameterBoolean = lab.util.ParameterBoolean;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
@@ -320,7 +320,7 @@ CommonControls.makePlaybackControls = function(simrun, opt_overlay) {
   return gc;
 };
 
-/** Creates a ScriptParser with additional commands 'reset' and 'step' for
+/** Creates a EasyScriptParser with additional commands 'reset' and 'step' for
 controlling the SimRunner
 * @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from;
 *    note that the order here is significant; the Parameters are processed according
@@ -329,19 +329,19 @@ controlling the SimRunner
 *    change depending on another configuration parameter. Generally this is the
 *    VarsList of a simulation. These must also be included in `subjects`.
 * @param {!SimRunner} simRun the SimRunner to use for 'reset' and 'step' commands
-* @return {!ScriptParser}
+* @return {!EasyScriptParser}
 */
-CommonControls.makeScriptParser = function(subjects, volatile, simRun) {
-  var scriptParser = new ScriptParser(subjects, volatile);
-  scriptParser.addCommand('reset', function() {
+CommonControls.makeEasyScript = function(subjects, volatile, simRun) {
+  var easyScript = new EasyScriptParser(subjects, volatile);
+  easyScript.addCommand('reset', function() {
       simRun.reset();
       return String(simRun.getClock().getTime());
     }, 'sets simulation to initial conditions');
-  scriptParser.addCommand('step', function() {
+  easyScript.addCommand('step', function() {
       simRun.step();
       return String(simRun.getClock().getTime());
     }, 'advance simulation by a small time increment');
-  return scriptParser;
+  return easyScript;
 };
 
 /** Makes a SHOW_CLOCK ParameterBoolean for a DisplayClock.
@@ -445,19 +445,19 @@ CommonControls.makeShowPanZoomParam = function(panZoomDiv, subject) {
 /** Creates a 'share' button that allows the user to copy the URL for the current
 page including the script that will set all of the available Parameters.
 Presents the user with a prompt showing a text box with the URL + script.
-* @param {!ScriptParser} scriptParser
+* @param {!EasyScriptParser} easyScript
 * @param {!myphysicslab.lab.app.SimRunner} simRun
 * @return {!ButtonControl}
 */
-CommonControls.makeURLScriptButton = function(scriptParser, simRun) {
-  if (!goog.isDef(scriptParser)) {
+CommonControls.makeURLScriptButton = function(easyScript, simRun) {
+  if (!goog.isDef(easyScript)) {
     throw new Error();
   }
   var copyURL = function() {
-      var u = scriptParser.scriptURL();
-      var p = ScriptParser.i18n.PROMPT_URL;
+      var u = easyScript.scriptURL();
+      var p = EasyScriptParser.i18n.PROMPT_URL;
       if (u.length > 2048) {
-        p = p + '  ' + ScriptParser.i18n.WARN_URL_2048;
+        p = p + '  ' + EasyScriptParser.i18n.WARN_URL_2048;
       }
       // Pause the timer while the synchronous prompt is up;
       // otherwise the timer races ahead but nothing is happening on screen.
@@ -470,7 +470,7 @@ CommonControls.makeURLScriptButton = function(scriptParser, simRun) {
         simRun.startFiring();
       }
     };
-  return new ButtonControl(ScriptParser.i18n.URL_SCRIPT, copyURL);
+  return new ButtonControl(EasyScriptParser.i18n.URL_SCRIPT, copyURL);
 };
 
 /** Set of internationalized strings.

@@ -106,7 +106,7 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var Molecule1App = myphysicslab.sims.springs.Molecule1App;

@@ -138,7 +138,7 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   this.addControl(new NumericControl(pn));
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.config();
   // initial conditions with the mechanism moving at a medium velocity.
@@ -230,7 +230,7 @@ DoNothingApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(0);
   this.clock.setRealTime(0);
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**  Makes the Do Nothing Grinder and adds it to the given simulation.

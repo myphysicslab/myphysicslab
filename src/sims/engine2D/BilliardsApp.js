@@ -123,7 +123,7 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   this.addControl(new ChoiceControl(ps));
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.config();
   this.graphSetup();
@@ -190,7 +190,7 @@ BilliardsApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(this.mySim.getTime());
   this.clock.setRealTime(this.mySim.getTime());
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

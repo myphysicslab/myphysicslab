@@ -111,7 +111,7 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.configure();
   this.graphSetup();
@@ -198,7 +198,7 @@ CartPendulum2App.prototype.configure = function() {
   cart.setPosition(new Vector(1,  0),  Math.PI/2);
 
   // Make joints to keep the cart on the track.
-  // These joints are only pushing vertically, one joint is forward, 
+  // These joints are only pushing vertically, one joint is forward,
   // the other aft on the body.
   var pivot1_body = new Vector(pivotX, pivot1Y);
   var fixed1_world = cart.bodyToWorld(pivot1_body);
@@ -243,7 +243,7 @@ CartPendulum2App.prototype.configure = function() {
   // to equate these two:
   // r / (m r^2) = R / (Icm + m R^2)
   // invert and simplify:
-  // m r = (Icm + m R^2) / R 
+  // m r = (Icm + m R^2) / R
   // r = (Icm / m R) + R
   R = 0.35;
   r = (Icm/(pendulum.getMass() * R)) + R;
@@ -257,7 +257,7 @@ CartPendulum2App.prototype.configure = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(this.mySim.getTime());
   this.clock.setRealTime(this.mySim.getTime());
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

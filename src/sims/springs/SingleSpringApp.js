@@ -104,7 +104,7 @@ myphysicslab.sims.springs.SingleSpringApp = function(elem_ids, opt_name) {
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
 };
 var SingleSpringApp = myphysicslab.sims.springs.SingleSpringApp;

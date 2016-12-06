@@ -107,7 +107,7 @@ sims.engine2D.MutualAttractApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.config();
   this.graphSetup();
@@ -218,7 +218,7 @@ MutualAttractApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(this.mySim.getTime());
   this.clock.setRealTime(this.mySim.getTime());
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

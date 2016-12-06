@@ -43,7 +43,7 @@ goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.ScriptParser');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayArc');
@@ -94,7 +94,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PendulumSim = sims.pendulum.PendulumSim;
 var PointMass = lab.model.PointMass;
-var ScriptParser = lab.util.ScriptParser;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
@@ -373,13 +373,13 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
-  this.scriptParser = CommonControls.makeScriptParser(subjects, [], this.simRun);
-  this.terminal.setParser(this.scriptParser);
-  this.addControl(CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+  this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
+  this.terminal.setParser(this.easyScript);
+  this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.graph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.timeGraph.addControl(
-    CommonControls.makeURLScriptButton(this.scriptParser, this.simRun));
+    CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var ComparePendulumApp = myphysicslab.sims.pendulum.ComparePendulumApp;
 goog.inherits(ComparePendulumApp, AbstractSubject);
@@ -413,7 +413,7 @@ ComparePendulumApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance1|advance2|axes|clock|displayClock|displayList'
       +'|energyGraph|graph|layout|sim1|sim2|simCtrl|simList|simList2'
-      +'|simRect|simRun|simView|statusView|timeGraph|scriptParser|terminal',
+      +'|simRect|simRun|simView|statusView|timeGraph|easyScript|terminal',
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');

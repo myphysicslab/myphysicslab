@@ -63,7 +63,7 @@ Equations of Motion
 The derivation of the equations of motion is shown at
 <http://www.myphysicslab.com/dangle_stick.html>.
 See also the Mathematica notebook [DangleStick.nb](DangleStick.pdf).
-  
+
     theta'' = (-4 m1(m1+m2)r' theta'
         + 2 m1 m2 L phi'^2 sin(phi-theta)
         - 2g m1(m1+m2)sin(theta)
@@ -177,7 +177,7 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
   this.isDragging_ = false;
   this.getSimList().add(this.fixedPoint_, this.bob1_, this.bob2_, this.stick_,
       this.spring_);
-  
+
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
   va.setValue(0, Math.PI*30/180);
   va.setValue(1, 0);

@@ -27,90 +27,42 @@ goog.scope(function() {
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Parser = myphysicslab.lab.util.Parser;
 
-/** A command line user interface which executes a user-input JavaScript
-code, with separate text fields for input and output.
+/** Executes scripts and provides a command line user interface with separate text
+fields for input and output. Executes EasyScript or JavaScript. The JavaScript is a
+safe subset to prevent malicious scripts and work in strict mode. Allows use of "short
+names" to replace full name space pathnames of classes.
 
 After the command is executed the result is converted to text and displayed in the
-output text field (unless the result is `undefined` or the command ends with a
-semi-colon). The results are wrapped with Javascript comment symbols: for multi-line
-results we use slash-star comment style; for single-line results we use slash-slash
-comment style. This allows commands to be copied directly from Terminal and pasted in
-again later to re-execute the commands.
+output text field. The output is not displayed if the result is `undefined` or the
+command ends with a semi-colon.
+
+The output is wrapped with Javascript comment symbols. For multi-line results we use
+slash-star comment style; for single-line results we use slash-slash comment style.
 
 See also [Customizing myPhysicsLab Software](Customizing.html).
+
 
 Getting Help
 ------------
 Type `help` in the Terminal input text area and press return to see the help message.
-Several commands are mentioned that will help you get started using Terminal.
+Several useful Terminal commands are shown. The help message also specifies whether the
+code was *simple-compiled* or *advance-compiled*.
 
-
-Safe Subset of JavaScript
--------------------------
-<a name="safesubsetofjavascript"></a>
-
-Commands are executed via the JavaScript `eval` function under
-[strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
-
-Only a safe subset of JavaScript is allowed to be executed. See the book
-JavaScript: The Definitive Guide by Flanagan, section 11.1.2 'Subsets for Security'.
-
-For example, we prohibit access to most global variables including the `window` object
-which defines global variables. We prohibit usage of the JavaScript `eval` function and
-access to certain methods and properties of Terminal.
-
-Square-brackets are only allowed when they contain a list of numbers. This is to
-prevent accessing prohibited properties by manipulating strings, for example:
-
-    terminal['white'+'List_']
-
-Arrays of objects other than numbers can be made using `new Array()`.
-Array access can be done using the functions
-{@link myphysicslab.lab.util.UtilityCore#get} and
-{@link myphysicslab.lab.util.UtilityCore#set}.
-
-
-Short Names for Easy Scripting
-------------------------------
-<a name="shortnamesforeasyscripting"></a>
-
-To allow for easier scripting, we define a variety of regular expressions which
-convert short names to their proper long expanded form. For example you can type `new
-DoubleRect` instead of `new myphysicslab.lab.util.DoubleRect`. Or `sim.addBody(block1)`
-instead of `spring1App2.sim.addBody(spring1App2.block1)`.
-
-These short-names are implemented by defining a set of regular expression replacements
-which are applied to the Terminal input string. So when you type `PointMass`
-anywhere in the Terminal input, it is automatically expanded to
-`myphysicslab.lab.model.PointMass` before it is executed.
-
-The methods {@link #addRegex} and {@link #expand} are key to this easy scripting
-feature. Regular expressions are registered with Terminal via `addRegex`. Then whenever
-a command is evaluated it is first expanded to the long form via `expand`.
-
-`Terminal.expand` can be used outside of Terminal to expand other user scripts; for
-example it is used by an ExpressionVariable inside of
-{@link myphysicslab.sims.springs.SingleSpringApp}.
-
-{@link #stdRegex Terminal.stdRegex} defines several regular expressions for expanding
-myPhysicsLab class names (like `DoubleRect`) and for expanding a few function shortcuts
-like `methodsOf`, `propertiesOf` and `prettyPrint`. An application can add more
-shortcuts via {@link #addRegex}.
-
-To see the post-expansion names in the Terminal output, use {@link #setVerbose}.
+Perhaps the most useful command is `vars` which shows the list of variables that are
+available.
 
 
 Two Types of Scripts
 --------------------
 <a name="twotypesofscripts"></a>
 
-Terminal will execute two types of scripts:
+Terminal can execute two types of scripts:
 
 1. JavaScript: a safe subset of JavaScript, where you can use short-names that are
-   run thru {@link #expand}.
+    run thru {@link #expand}.
 
-2. {@link myphysicslab.lab.util.ScriptParser} Parameter-setting scripts. The
-   ScriptParser must be installed with {@link #setParser}.
+2. EasyScript: a very simple scripting language for setting Parameter values.
+    See {@link myphysicslab.lab.util.EasyScriptParser} for syntax details.
 
 These two types of script can be intermixed in a single command as long as they are
 separated with a semicolon. For example, here are both types of scripts in
@@ -118,20 +70,105 @@ one command:
 
     DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;bob.fillStyle='red'
 
-The first three commands are Parameter setting scripts separated by semicolons; the last
-is a JavaScript command. Semicolons can be used to separate JavaScript commands.
-The two types of scripts can be mixed in any order as long as they are separated
-by semicolons.
+The first three commands are EasyScript commands that set Parameter values; the last is
+a JavaScript command.
 
-See {@link myphysicslab.lab.util.ScriptParser} for syntax of the simple Parameter
-setting scripts.
+In most applications the EasyScriptParser is available in the variable `easyScript` and
+you can use it to execute EasyScript within JavaScript. Examples:
 
-In most apps the variable `scriptParser` is defined and you can directly call the
-ScriptParser to get or set Parameter values. Examples:
+    easyScript.parse('angle')+0.1
 
-    scriptParser.parse('angle')+0.1
+    easyScript.parse('angle='+Math.PI/2);
 
-    scriptParser.parse('angle='+Math.PI/2);
+
+
+Safe Subset of JavaScript
+-------------------------
+<a name="safesubsetofjavascript"></a>
+
+To prevent malicious scripts from being executed, only a safe subset of JavaScript is
+allowed. See the book *JavaScript: The Definitive Guide* by Flanagan, section 11.1.2
+'Subsets for Security'. JavaScript commands are executed via the JavaScript `eval`
+function under
+[strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
+
+We prohibit access to most global variables including the `window` object which defines
+global variables. We prohibit usage of the JavaScript `eval` function and access to
+certain methods and properties of Terminal.
+
+Square-brackets are only allowed when they contain a list of numbers. This is to
+prevent accessing prohibited properties by manipulating strings, for example the
+following is not allowed:
+
+    terminal['white'+'List_']
+
+Arrays of objects other than numbers can be made using `new Array()`.
+Array access can be done using the built-in functions
+{@link myphysicslab.lab.util.UtilityCore#get UtilityCore.get} and
+{@link myphysicslab.lab.util.UtilityCore#set UtilityCore.set}.
+
+
+<a name="shortnames"></a>
+Short Names
+-----------
+To allow for shorter scripts, we define a variety of regular expressions which
+convert short names to their proper long expanded form.
+
+Most class names will have their equivalent short-name defined. For example you can type
+
+    new DoubleRect(0,0,1,1)
+
+instead of
+
+    new myphysicslab.lab.util.DoubleRect(0,0,1,1)
+
+Applications will typically make their key objects available as short-names. So instead
+of `app.sim` you can just type `sim`.
+
+These short-names are implemented by defining a set of regular expression replacements
+which are applied to the Terminal input string before it is executed.
+
+The methods {@link #addRegex} and {@link #expand} are how short-names are defined and
+used. Regular expressions are registered with Terminal using `addRegex`. Then whenever
+a command is evaluated it is first expanded to the long form using `expand`.
+
+{@link #stdRegex Terminal.stdRegex} defines a standard set of regular expressions for
+expanding myPhysicsLab class names (like `DoubleRect`) and for expanding a few function
+shortcuts like `methodsOf`, `propertiesOf` and `prettyPrint`. An application can add
+more shortcuts via {@link #addRegex}.
+
+To see the post-expansion names in the Terminal output, use {@link #setVerbose}.
+
+
+The Result Variable
+-------------------
+The result of the last Terminal command is stored in a variable named `result`. Here is
+an example Terminal session:
+
+    2+2
+    // 4
+    result*2
+    // 8
+    result*2
+    // 16
+
+Note that {@link #eval} has an argument called `output` which if set to `false`
+prevents `result` from being updated.
+
+
+Semi-colons End A Comment
+-------------------------
+Scripts are processed by splitting them into smaller scripts delimited by a semi-colon.
+Only semi-colons at the 'top level' of the script have this effect. Semi-colons within
+brackets or inside of a quoted string are ignored for command splitting.
+
+An unusual result of this policy is that **a semi-colon will end a comment**.  Here
+we enter what looks like a single comment, but it is interpreted as two separate
+scripts:
+
+    // this is a comment; 2+2
+    // 4
+
 
 
 URL Query Script
@@ -150,10 +187,7 @@ or 'query URL'. Here is an example:
     DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines
 
 The URL Query Script is executed at startup by calling {@link #parseURL} or
-{@link #parseURLorRecall}.
-
-The ScriptParser must first be installed with {@link #setParser} if ScriptParser
-scripts are used.
+{@link #parseURLorRecall}.  Most myPhysicsLab applications do this.
 
 Because of [percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding)
 we must substitute in the URL:
@@ -180,29 +214,29 @@ Script Storage
 --------------
 <a name="scriptstorage"></a>
 
-The contents of the Terminal output window shows all the commands that occurred; these
-commands changed the state of the simulation app, and together they form a script that
-can recreate the current simulation state.
-
 To allow storage in **HTML5 Local Storage** of commands and later re-use, there are
 methods {@link #remember}, {@link #recall}, and {@link #forget}. This allows users to
-customize a simulation by remembering commands that appear in the Terminal output
-window. Comments are removed when saving the Terminal output.
+customize a simulation by remembering a specific script.
 
-A user can edit the contents of the Terminal output window to change what is
-remembered. Comments that appear in the output window are not saved.
-It is the contents of the Terminal output window which are saved by
-`Terminal.remember`, not the session history.
+Most applications call {@parseURLorRecall} when starting, therefore whenever the page
+loads, the remembered script will be executed (unless there is a URL script which would
+take priority).
 
-The {@link #remember} command saves a separate script for the current page and browser.
+If no script is explicitly supplied to `remember()`, then the current contents of the
+Terminal output window are saved. A user can edit the contents of the Terminal output
+window to change what is remembered. Comments are removed when saving the Terminal
+output.
+
+The {@link #remember} command saves a script specific for the current page and browser.
 If you load the page under a different browser, or for a different locale (which is a
 different page), there will be a different stored script.
 
 
 The z Object
 --------------
-Strict mode prevents adding global variables. To allow making variables that persist
-between commands, Terminal provides an object named `z` where properties can be added:
+Strict mode prevents adding global variables when using the JavaScript `eval` command.
+To allow making variables that persist between commands, Terminal provides an object
+named `z` where properties can be added:
 
     z.a = 1
     // 1
@@ -211,8 +245,7 @@ between commands, Terminal provides an object named `z` where properties can be 
 
 This `z` object is a property of Terminal; `z` is initially an object with no
 properties. We define a 'short name' regular expression so that referring to `z` is
-replaced by `terminal.z` when the command is executed (see Short Names for Easy
-Scripting above).
+replaced by `terminal.z` when the command is executed.
 
 
 Declaring a Variable
@@ -221,7 +254,7 @@ To hide the usage of the `z` object, Terminal interprets the `var` keyword in a
 special way.
 
 When Terminal sees the `var` keyword at the start of a command, it changes the script
-to use the `z` object. For example the command
+to use the `z` object and defines a short-name. For example the command
 
     var foo = 3;
 
@@ -230,22 +263,6 @@ will become
     z.foo = 3;
 
 and thereafter every reference to `foo` will be changed to `z.foo` in later commands.
-
-
-The Result Variable
--------------------
-The result of the last Terminal command is stored in a variable named `result`. Here is
-an example Terminal session:
-
-    2+2
-    // 4
-    result*2
-    // 8
-    result*2
-    // 16
-
-Note that {@link #eval} has an argument called `output` which if set to `false`
-prevents the result from being updated.
 
 
 The terminal Variable
@@ -259,46 +276,32 @@ In most apps this is accomplished by using {@link #addRegex} like this:
     terminal.addRegex('terminal', myName);
 
 where `myName` is the global name of the app, which is usually just 'app'. The purpose
-of the regex is to replace in a script the word `terminal` with `app.terminal` which
+of the regex is to replace the word `terminal` with `app.terminal` which
 is a valid JavaScript reference.
 
-For unit tests of Terminal, we temporarily define a global variable named `terminal`.
+(In unit tests of Terminal, we temporarily define a global variable named `terminal`.)
 
 
-Semi-colons end a Comment
--------------------------
-Scripts are processed by splitting them into smaller scripts delimited by a semi-colon,
-but only semi-colons at the 'top level', meaning they are not enclosed in brackets
-and not part of a quoted string.
+Advanced-compile is the Enemy of JavaScript
+-------------------------------------------
+<a name="advanced-compileistheenemyofjavascript"></a>
 
-One unexpected result of this is that when a semi-colon will end a comment.  Here
-we enter what looks like a single comment, but it is interpreted as two separate
-scripts:
-
-    // foo; 2+2
-    // 4
-
-
-Advanced-compile is the Enemy of Terminal
------------------------------------------
-<a name="advanced-compileistheenemyofterminal"></a>
-
-When using [Advanced Compile](Building.html#advancedvs.simplecompile) only ScriptParser
-scripts can be executed in Terminal, not JavaScript code.
+When using [Advanced Compile](Building.html#advancedvs.simplecompile) only EasyScript
+can be executed in Terminal, not JavaScript code.
 
 Advanced compilation causes all class and method names to be minified to one or two
 character names, so scripts based on non-minified names will not work. Also, unused
 code is eliminated, so desired features might be missing.
 
-However, names that are **exported** can be used in HTML scripts
-under advanced-compile. For example, we export the `eval` method in
-{@link myphysicslab.sims.layout.AbstractApp} so that ScriptParser scripts can be
-executed even under advanced-compile.
+However, names that are **exported** can be used in HTML scripts under
+advanced-compile. For example, we export the `eval` method in
+{@link myphysicslab.sims.layout.AbstractApp} so that EasyScript can be executed via
+`app.eval()` even under advanced-compile.
 See [Exporting Symbols](Building.html#exportingsymbols).
 
-JavaScript code is disabled under advanced compile due to security considerations.
+JavaScript code is disabled under advanced-compile due to security considerations.
 The 'safe subset' strategy used here depends on detecting names in the script such as
-`window`, `eval`, `myEval`, `whiteList_`, etc. Because advanced compile renames many of
+`window`, `eval`, `myEval`, `whiteList_`, etc. Because advanced-compile renames many of
 these, we are no longer able to detect their usage. For example, an attacker could
 figure out what the `myEval` function was renamed to, and enter a script that would
 call that function; this would not be detected by the 'safe subset' checking which is
@@ -624,7 +627,7 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
       {
         if (this.parser_ != null) {
           // Let Parser evaluate the script before expanding with regex's.
-          // For example: 'sim.gravity' is recognized by ScriptParser but
+          // For example: 'sim.gravity' is recognized by EasyScriptParser but
           // 'app.sim.gravity' is not.
           //
           // Script Safe Subset:
@@ -748,8 +751,6 @@ Terminal.prototype.focus = function() {
 * @return {undefined}
 */
 Terminal.prototype.forget = function() {
-  if (UtilityCore.ADVANCED)
-    return;
   var localStore = window.localStorage;
   if (goog.isDefAndNotNull(localStore)) {
     localStore.removeItem(this.pageKey());
@@ -865,7 +866,7 @@ URL with a query script:
     http://www.myphysicslab.com/pendulum/PendulumApp_de.html?LENGTH=2;GRAVITY=3.2;
     ANGLE=1.8;DRIVE_AMPLITUDE=0
 
-See {@link myphysicslab.lab.util.ScriptParser} for details about the syntax used
+See {@link myphysicslab.lab.util.EasyScriptParser} for details about the syntax used
 in the script.
 
 Before executing the query script, this causes the Parser (if installed) to save the
@@ -918,8 +919,6 @@ the script unless requested to not execute.
 * @return {undefined}
 */
 Terminal.prototype.recall = function(opt_execute) {
-  if (UtilityCore.ADVANCED)
-    return;
   var execute = goog.isBoolean(opt_execute) ? opt_execute : true;
   this.recalling = true;
   var localStore = window.localStorage;
@@ -932,26 +931,26 @@ Terminal.prototype.recall = function(opt_execute) {
       } else {
         goog.array.forEach(s.split('\n'), function(t) { this.println(t); },this);
       }
-    this.println('//end of stored commands');
+      this.println('//end of stored commands');
     }
   }
   this.recalling = false;
 };
 
-/** Remember the current Terminal output as a script to execute when this page is
+/** Remember the given script to execute when this page is
 loaded in future. Note that each browser has a separate local storage, so this
 will only be remembered for the current browser and page.
+If no script is provided then the current Terminal output is used.
+* @param {string=} opt_command the script to remember
 * @return {undefined}
 */
-Terminal.prototype.remember = function() {
-  if (UtilityCore.ADVANCED)
-    return;
-  var t = this.commands().join('\n');
+Terminal.prototype.remember = function(opt_command) {
+  var command = goog.isDef(opt_command) ? opt_command : this.commands().join('\n');
   var k = this.pageKey();
   // store the script under the current file name
   var localStore = window.localStorage;
   if (goog.isDefAndNotNull(localStore)) {
-    localStore.setItem(k, t);
+    localStore.setItem(this.pageKey(), command);
   }
 };
 
@@ -1002,7 +1001,7 @@ Terminal.prototype.setAfterEval = function(afterEvalFn) {
   this.afterEvalFn_ = afterEvalFn;
 };
 
-/** Install the object used to parse scripts in {@link #eval}.
+/** Installs the Parser used to parse scripts during {@link #eval}.
 * @param {!Parser} parser the Parser to install.
 */
 Terminal.prototype.setParser = function(parser) {
@@ -1094,7 +1093,7 @@ Terminal.stdRegex = function(terminal) {
   // (The alternative is create a new RegExp from a set of concatenated strings).
   terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask|DoubleRect'
       +'|GenericEvent|GenericObserver|GenericMemo|ParameterBoolean|ParameterNumber'
-      +'|ParameterString|RandomLCG|ScriptParser|Terminal|Timer|UtilityCore|Vector',
+      +'|ParameterString|RandomLCG|EasyScriptParser|Terminal|Timer|UtilityCore|Vector',
       'myphysicslab.lab.util', /*addToVars=*/false);
 
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',

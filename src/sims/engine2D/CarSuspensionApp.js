@@ -135,7 +135,7 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.configure();
   this.graphSetup();
@@ -282,7 +282,7 @@ CarSuspensionApp.prototype.configure = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(this.mySim.getTime());
   this.clock.setRealTime(this.mySim.getTime());
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

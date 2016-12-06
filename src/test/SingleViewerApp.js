@@ -76,7 +76,7 @@ myphysicslab.test.SingleViewerApp = function(elem_ids) {
   ps = this.mySim.getParameterString(RigidBodySim.en.EXTRA_ACCEL);
   this.addControl(new ChoiceControl(ps));
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.graphSetup();
 };

@@ -494,7 +494,7 @@ Molecule3Sim.getNSG = function(num_springs, sg) {
 Molecule3Sim.prototype.initialConfig = function()  {
   var vars = this.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7   8   9  10  11
-  //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y 
+  //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
   var r = 1.0; // radius
   var random = new RandomLCG();

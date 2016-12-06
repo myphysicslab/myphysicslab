@@ -240,7 +240,7 @@ PathJoint.prototype.updateCollision = function(c) {
     var d = this.ppt_.distanceToNormalLine(impact_world);
     if (d > 1E-4) {
       // Probably off end of path, so set normal derivative to zero.
-      // This makes it so that the path effectively extends in a straight 
+      // This makes it so that the path effectively extends in a straight
       // line past the ends.
       this.ppt_.normalXdp = 0;
       this.ppt_.normalYdp = 0;

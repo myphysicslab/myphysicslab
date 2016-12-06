@@ -208,7 +208,7 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.config();
   this.graphSetup();
@@ -571,7 +571,7 @@ MultipleCollisionApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(this.mySim.getTime());
   this.clock.setRealTime(this.mySim.getTime());
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

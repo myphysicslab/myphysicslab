@@ -120,7 +120,7 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.config();
   this.graphSetup();
@@ -270,7 +270,7 @@ PolygonTestApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(0);
   this.clock.setRealTime(0);
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

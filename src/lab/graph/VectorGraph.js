@@ -41,11 +41,13 @@ var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var ODESim = lab.model.ODESim;
 
-/** Draws vectors showing the direction field of the differential equation.
-In a graph of y vs. x, shows the value of the derivative dy/dx at various points on a grid, as a short line with that slope.
+/** Draws vectors showing the direction field of the differential equation. In a graph
+of Y vs. X, shows the value of the derivative dy/dx at various points on a grid, as a
+short line with that slope.
 
-This is generally only useful for differential equations of 2 variables.  
-Otherwise, the phase space is 3D, 4D, etc. and cannot be adequately represented by these direction field vectors.
+This is generally only useful for differential equations of 2 variables. Otherwise, the
+phase space is 3D, 4D, etc. and cannot be adequately represented by these direction
+field vectors.
 
 The screen rectangle that the VectorGraph should occupy within the
 {@link myphysicslab.lab.view.SimView SimView} must be set with {@link #setScreenRect}

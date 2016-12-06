@@ -359,9 +359,9 @@ Spring2DSim.prototype.evaluate = function(vars, change, timeStep) {
     var m = this.bob_.getMass();
     change[0] = vars[2]; // Ux' = Vx
     change[1] = vars[3]; // Uy' = Vy
-    //Vx' = Fx / m = (- k L sin(th) - b Vx ) / m 
+    //Vx' = Fx / m = (- k L sin(th) - b Vx ) / m
     change[2] = (f.getVector().getX() - this.damping_ * vars[2]) / m;
-    //Vy' = Fy / m = - g + (k L cos(th) - b Vy ) / m 
+    //Vy' = Fy / m = - g + (k L cos(th) - b Vy ) / m
     change[3] = -this.gravity_ + (f.getVector().getY() - this.damping_*vars[3])/m;
   }
   return null;

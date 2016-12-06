@@ -124,7 +124,7 @@ label, div.slider {
   margin-left: 0.3em; margin-bottom: 0.3em;
 }
 div.control_container input, div.control_container select {
-  margin-left: 0.7em; margin-right: 0.3em; 
+  margin-left: 0.7em; margin-right: 0.3em;
 }
 /* align slider controls, fixes Firefox layout */
 div.control_container input[type='range'] {

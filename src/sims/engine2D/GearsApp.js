@@ -130,7 +130,7 @@ sims.engine2D.GearsApp = function(elem_ids) {
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
   this.addControl(new NumericControl(pn));
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addStandardControls();
   this.addURLScriptButton();
 
@@ -231,7 +231,7 @@ GearsApp.prototype.config = function() {
   this.mySim.saveInitialState();
   this.clock.setTime(0);
   this.clock.setRealTime(0);
-  this.scriptParser.update();
+  this.easyScript.update();
 };
 
 /**

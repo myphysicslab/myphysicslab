@@ -154,7 +154,7 @@ myphysicslab.sims.roller.RollerSpringApp = function(elem_ids) {
   this.timeGraph.line1.setYVariable(0);
   this.timeGraph.line2.setYVariable(1);
 
-  this.makeScriptParser();
+  this.makeEasyScript();
   this.addURLScriptButton();
   this.pathSelect.addObserver(this);
 };
@@ -195,7 +195,7 @@ RollerSpringApp.prototype.getSubjects = function() {
 /** @inheritDoc */
 RollerSpringApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.pathSelect) {
-    this.scriptParser.update();
+    this.easyScript.update();
     this.sim.modifyObjects();
   }
 };
