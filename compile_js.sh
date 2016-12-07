@@ -171,6 +171,7 @@ fi
 # To see compiler version:
 #  java -jar ../javascript/closure-compiler/build/compiler.jar --version
 #
+# --new_type_inf \
 # The option --new_type_inf does "new type inference" (NTI) which treats @interface
 # more strictly, but it also gives LOTS of errors on closure-library.
 # Without --new_type_inf, interfaces are loosely checked, and any possible

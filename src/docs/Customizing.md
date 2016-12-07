@@ -135,8 +135,7 @@ Here are some ways to use EasyScript:
 + Click the **Share Button** which displays a
     [URL query script](myphysicslab.lab.util.Terminal.html#urlqueryscript)
     that replicates the current simulation state. You can then copy the
-    URL to the clipboard and paste it in an email. Many applications include
-    the "share" button among their user interface controls.
+    URL to the clipboard and paste it in an email.
 
 + In Terminal you can enter EasyScript at the command line, see the example above.
 

@@ -273,7 +273,14 @@ NewtonsCradleApp.options;
 * @param {!NewtonsCradleApp.options} options
 */
 NewtonsCradleApp.make = function(sim, options) {
-  var x = 0 - options.numBods * options.radius;
+  // each pendulum is 2*radius wide.
+  // We have a gap between pendulums of distTol/2 + gapDistance
+  // total width of all pendulums:
+  var n = options.numBods;
+  var r = options.radius;
+  var between = sim.getDistanceTol()/2  + options.gapDistance;
+  var tw = n * 2 * r + (n - 1) * between;
+  var x = -tw/2 + r;
   for (var i=0; i<options.numBods; i++) {
     var body = Shapes.makePendulum(0.05, options.stickLength,
         options.radius, NewtonsCradleApp.en.PENDULUM+(i+1),
@@ -287,7 +294,7 @@ NewtonsCradleApp.make = function(sim, options) {
     body.setZeroEnergyLevel();
     // first align with angle = 0, to get zero energy level
     sim.alignConnectors();
-    x += body.getWidth() + sim.getDistanceTol()/2 + options.gapDistance;
+    x += body.getWidth() + between;
   }
   // move a body to start position
   sim.getBody('pendulum1').setAngle(options.startAngle); //-Math.PI/4;
