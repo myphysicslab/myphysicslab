@@ -390,23 +390,19 @@ NumericControlBase.prototype.setSignifDigits = function(signifDigits) {
 @param {number} value  the new value
 */
 NumericControlBase.prototype.setValue = function(value) {
-  if (isNaN(value)) {
-    throw new Error('not a number '+value);
-  }
   if (value != this.value_) {
     if (goog.DEBUG && 0 == 1) {
       console.log('NumericControlBase.setValue value='+value+' vs '+this.value_);
     }
     try {
-      // set this.value_ first to prevent the update() coming here twice
+      if (isNaN(value)) {
+        throw new Error('not a number '+value);
+      }
+      // set this.value_ first to prevent the observe() coming here twice
       this.value_ = value;
-      // parameter_.setValue() broadcasts which causes update() to be called here
+      // parameter_.setValue() broadcasts which causes observe() to be called here
       this.setter_(value);
     } catch(ex) {
-      // How to test this: in a running app, change the Parameter for this control
-      // to have a higher lowerLimit than this control's lowerLimit. Example:
-      //     app.gravity.getParameter('GRAVITY').lowerLimit_=2
-      // Do that in the browser's console, then set text input to be less than 2.
       alert(ex);
       this.value_ = this.getter_();
     }
@@ -427,7 +423,12 @@ NumericControlBase.prototype.validate = function(event) {
   // of rounding.
   if (nowValue != this.lastValue_) {
     var value = parseFloat(nowValue);
-    this.setValue(value);
+    if (isNaN(value)) {
+      alert('not a number: '+nowValue);
+      this.formatTextField();
+    } else {
+      this.setValue(value);
+    }
   }
 };
 

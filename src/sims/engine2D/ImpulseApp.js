@@ -102,7 +102,8 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.NUM_BODIES,
       ImpulseApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0));
+      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.THRUST,

@@ -96,7 +96,8 @@ sims.engine2D.MutualAttractApp = function(elem_ids) {
   }
   this.addParameter(pn = new ParameterNumber(this, MutualAttractApp.en.NUMBER_BODIES,
       MutualAttractApp.i18n.NUMBER_BODIES,
-      this.getNumBods, this.setNumBods, choices, values));
+      this.getNumBods, this.setNumBods, choices, values)
+      .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new ChoiceControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(Gravity2Law.en.GRAVITY);

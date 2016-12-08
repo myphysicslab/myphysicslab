@@ -100,7 +100,8 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.NUM_BODIES,
       NewtonsCradleApp.i18n.NUM_BODIES,
-      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0));
+      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

@@ -104,7 +104,8 @@ sims.engine2D.ContactApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.NUM_BODIES,
       ContactApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0));
+      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.THRUST,

@@ -111,7 +111,8 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
       RigidBodyApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0));
+      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.THRUST,

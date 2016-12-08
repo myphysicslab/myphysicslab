@@ -121,7 +121,8 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, CollideSpringSim.en.NUM_BLOCKS,
       CollideSpringSim.i18n.NUM_BLOCKS,
-      this.getNumBlocks, this.setNumBlocks).setDecimalPlaces(0));
+      this.getNumBlocks, this.setNumBlocks).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(3));
   this.addControl(new SliderControl(pn, 1, 3, /*multiply=*/false));
 
   this.addParameter(pn = new ParameterNumber(this, CollideSpringSim.en.START_POSITION,

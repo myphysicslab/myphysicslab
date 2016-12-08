@@ -126,20 +126,28 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   * @private
   */
   this.parameter_ = parameter;
-  var subject = this.parameter_.getSubject();
-  subject.addObserver(this);
   /**
   * @type {number}
   * @private
   */
   this.min_ = min;
+  var lowerLimit = parameter.getLowerLimit();
+  if (lowerLimit > min) {
+    throw new Error('lower limit on slider ='+NF(min)
+        +' is less than parameter lower limit ='+NF(lowerLimit));
+  }
   /**
   * @type {number}
   * @private
   */
   this.max_ = max;
   if (min >= max) {
-    throw new Error();
+    throw new Error('min >= max');
+  }
+  var upperLimit = parameter.getUpperLimit();
+  if (upperLimit < max) {
+    throw new Error('upper limit on slider ='+NF(max)
+        +' is greater than parameter upper limit ='+NF(upperLimit));
   }
   /**
   * @type {number}
@@ -147,7 +155,7 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   */
   this.increments_ = increments || 100;
   if (increments < 2) {
-    throw new Error();
+    throw new Error('increments < 2');
   }
   /**
   * @type {boolean}
@@ -163,24 +171,6 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   * @private
   */
   this.delta_ = SliderControl.rangeToDelta(min, max, this.increments_, this.multiply_);
-  /**  the lower limit on the value.
-  * @type {number}
-  * @private
-  */
-  this.lowerLimit_ = parameter.getLowerLimit();
-  if (this.lowerLimit_ > this.min_) {
-    throw new Error('lower limit on slider ='+NF(this.min_)
-        +' is less than parameter lower limit ='+NF(this.lowerLimit_));
-  }
-  /** the upper limit on the value.
-  * @type {number}
-  * @private
-  */
-  this.upperLimit_ = parameter.getUpperLimit();
-  if (this.upperLimit_ < this.max_) {
-    throw new Error('upper limit on slider ='+NF(this.max_)
-        +' is greater than parameter upper limit ='+NF(this.upperLimit_));
-  }
   /** The number of significant digits to display.
   * @type {number}
   * @private
@@ -285,21 +275,13 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   */
   this.clickKey_ = goog.events.listen(this.textField_, goog.events.EventType.CLICK,
       /*callback=*/goog.bind(this.doClick, this), /*capture=*/true);
-  /**
-  * @type {boolean}
-  * @const
-  * @private
-  */
-  this.DEBUG_ = false;
   /**  True when first click in field after gaining focus.
   * @type {boolean}
   * @private
   */
   this.firstClick_ = false;
   this.formatTextField();
-  if (this.DEBUG_) {
-    console.log(this.toString());
-  }
+  this.parameter_.getSubject().addObserver(this);
 };
 var SliderControl = myphysicslab.lab.controls.SliderControl;
 
@@ -316,8 +298,6 @@ if (!UtilityCore.ADVANCED) {
         +', increments_: '+this.increments_
         +', delta_: '+NF(this.delta_)
         +', multiply_: '+this.multiply_
-        +', lowerLimit_: '+NF(this.lowerLimit_)
-        +', upperLimit_: '+NF(this.upperLimit_)
         +', sigDigits_: '+this.sigDigits_
         +', decimalPlaces_: '+this.decimalPlaces_
         +', columns_: '+this.columns_
@@ -377,7 +357,6 @@ SliderControl.prototype.disconnect = function() {
 * @private
 */
 SliderControl.prototype.doClick = function(evt) {
-  //console.log('doClick '+UtilityCore.propertiesOf(evt, true));
   if (this.firstClick_) {
     // first click after gaining focus should select entire field
     this.textField_.select();
@@ -390,7 +369,6 @@ SliderControl.prototype.doClick = function(evt) {
 * @private
 */
 SliderControl.prototype.doClick2 = function(evt) {
-  //console.log('doClick2 '+UtilityCore.propertiesOf(evt, true));
   this.slider_.focus();
 };
 
@@ -402,17 +380,13 @@ SliderControl.prototype.doClick2 = function(evt) {
 SliderControl.prototype.formatTextField = function() {
   var dec = this.decimalPlacesNeeded(this.paramValue_, this.sigDigits_);
   var col = this.columnsNeeded(this.paramValue_, this.sigDigits_);
-  if (this.DEBUG_) {
-    console.log('columnsNeeded '+col+' dec='+dec+' x='
-        +UtilityCore.NFE(this.paramValue_)+' '+this.parameter_.getName());
-  }
+  // console.log('columnsNeeded '+col+' dec='+dec+' x='
+  //      +UtilityCore.NFE(this.paramValue_)+' '+this.parameter_.getName());
   this.textboxValue_ = this.paramValue_.toFixed(dec);
   this.textField_.value = this.textboxValue_;
   if (col != this.columns_) {
     this.columns_ = col;
     this.textField_.size =this.columns_;
-    // force the layout to happen again, otherwise the text field doesn't expand
-    //this.jComponent_.revalidate();
   }
 };
 
@@ -530,29 +504,17 @@ ParameterNumber to this value.
 @protected
 */
 SliderControl.prototype.setValue = function(value) {
-  if (isNaN(value))
-    throw new Error();
   if (value != this.paramValue_) {
-    if (this.DEBUG_) {
-      console.log('SliderControl.setValue value='+value+' vs '+this.paramValue_);
-      console.log(this.toString());
-    }
-    if (value < this.lowerLimit_) {
-      value = this.lowerLimit_;
-    } else if (value > this.upperLimit_) {
-      value = this.upperLimit_;
+    //console.log('SliderControl.setValue value='+value+' vs '+this.paramValue_);
+    if (isNaN(value)) {
+      throw new Error('not a number: '+value);
     }
     try {
-      // set this.paramValue_ first to prevent the update() coming here twice
+      // set this.paramValue_ first to prevent the observe() coming here twice
       this.paramValue_ = value;
-      // parameter_.setValue() broadcasts which causes update() to be called here
+      // parameter_.setValue() broadcasts which causes observe() to be called here
       this.parameter_.setValue(value);
     } catch(ex) {
-      // How to test this: in a running app, change the Parameter for this control
-      // to have a higher lowerLimit than this control's lowerLimit. Example:
-      //     app.gravity.getParameter('GRAVITY').lowerLimit_=2
-      // Do that in the browser's console.
-      // Adjust the slider or modify the text input to be less than 2.
       alert(ex);
       this.paramValue_ = this.parameter_.getValue();
     }
@@ -573,9 +535,6 @@ SliderControl.prototype.setValue = function(value) {
 SliderControl.prototype.sliderChange = function(event) {
   var newValue = this.incrementToValue(Number(this.slider_.value));
   if (UtilityCore.veryDifferent(newValue, this.sliderValue_)) {
-    if (this.DEBUG_) {
-      console.log('sliderChange '+this.slider_.value);
-    }
     this.setValue(newValue);
   }
 };
@@ -593,13 +552,10 @@ SliderControl.prototype.validateText = function(event) {
   // of rounding.
   if (newValue != this.textboxValue_) {
     var value = parseFloat(newValue);
-    if (isNaN(value) || value < this.lowerLimit_ || value > this.upperLimit_) {
-      // new value is bad;  reject it and set back to last value shown in textbox
+    if (isNaN(value)) {
+      alert('not a number: '+newValue);
       this.formatTextField();
     } else {
-      if (this.DEBUG_) {
-        console.log('validateText '+this.textField_.value);
-      }
       this.setValue(value);
     }
   }

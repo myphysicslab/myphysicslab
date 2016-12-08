@@ -333,11 +333,11 @@ ParameterNumber.prototype.setUpperLimit = function(upperLimit) {
 */
 ParameterNumber.prototype.setValue = function(value) {
   if (!goog.isNumber(value)) {
-    throw new Error('non-numeric value: '+value);
+    throw new Error('not a number. '+value);
   }
   if (value < this.lowerLimit_ || value > this.upperLimit_) {
-    throw new Error('out of range '+value+' is not between lowerLimit='+this.lowerLimit_
-        +' upperLimit='+this.upperLimit_);
+    throw new Error('out of range. '+value+' is not between '+this.lowerLimit_
+        +' and '+this.upperLimit_);
   }
   if (this.values_.length > 0) {
     if (!goog.array.contains(this.values_, value)) {

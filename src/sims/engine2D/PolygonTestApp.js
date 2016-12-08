@@ -103,7 +103,8 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.NUM_BODIES,
       PolygonTestApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0));
+      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(8));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.THRUST,

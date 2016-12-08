@@ -99,7 +99,8 @@ sims.engine2D.CurvedTestApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, CurvedTestApp.en.NUM_BODIES,
       CurvedTestApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0));
+      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, CurvedTestApp.en.THRUST,
