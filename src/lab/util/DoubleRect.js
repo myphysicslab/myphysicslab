@@ -48,26 +48,32 @@ see [Immutables by Mark Davis](http://macchiato.com/columns/Durable2.html)
 @struct
 */
 myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top_) {
+  if (true) {
+    UtilityCore.testNumber(left);
+    UtilityCore.testNumber(right);
+    UtilityCore.testNumber(bottom);
+    UtilityCore.testNumber(top_);
+  }
   /**
   * @type {number}
   * @private
   */
-  this.left_ = UtilityCore.testNumber(left);
+  this.left_ = left;
   /**
   * @type {number}
   * @private
   */
-  this.right_ = UtilityCore.testNumber(right);
+  this.right_ = right;
   /**
   * @type {number}
   * @private
   */
-  this.bottom_ = UtilityCore.testNumber(bottom);
+  this.bottom_ = bottom;
   /**
   * @type {number}
   * @private
   */
-  this.top_ = UtilityCore.testNumber(top_);
+  this.top_ = top_;
   if (left > right) {
     throw new Error('DoubleRect: left > right '+left+' > '+right);
   }
