@@ -409,29 +409,32 @@ LabCanvas.prototype.paint = function() {
     var context = /** @type {!CanvasRenderingContext2D} */
         (this.canvas_.getContext('2d'));
     context.save();
-    if (this.background_ != '') {
-      // Notes Nov 22, 2016:
-      // Setting a fillStyle color with transparency doesn't work here.
-      // For example rgb(0,0,0,0.05). Only setting globalAlpha works.
-      // Does fillRect() always ignore the alpha value of the color?
-      // That does not seem to be according to spec.
-      // Note also that globalAlpha has no effect on fill() because in that
-      // case the fillStyle's alpha is always used, and if not specified then
-      // it seems to assume alpha = 1.
-      context.globalAlpha = this.alpha_;
-      context.fillStyle = this.background_;
-      context.fillRect(0, 0, this.canvas_.width, this.canvas_.height);
-      context.globalAlpha = 1;
-    } else {
-      // clearRect sets all pixels in the rectangle to transparent black,
-      // erasing any previously drawn content.
-      // clearRect is supposed to be faster than fillRect.
-      context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
+    try {
+      if (this.background_ != '') {
+        // Notes Nov 22, 2016:
+        // Setting a fillStyle color with transparency doesn't work here.
+        // For example rgb(0,0,0,0.05). Only setting globalAlpha works.
+        // Does fillRect() always ignore the alpha value of the color?
+        // That does not seem to be according to spec.
+        // Note also that globalAlpha has no effect on fill() because in that
+        // case the fillStyle's alpha is always used, and if not specified then
+        // it seems to assume alpha = 1.
+        context.globalAlpha = this.alpha_;
+        context.fillStyle = this.background_;
+        context.fillRect(0, 0, this.canvas_.width, this.canvas_.height);
+        context.globalAlpha = 1;
+      } else {
+        // clearRect sets all pixels in the rectangle to transparent black,
+        // erasing any previously drawn content.
+        // clearRect is supposed to be faster than fillRect.
+        context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
+      }
+      goog.array.forEach(this.labViews_, function(view) {
+          view.paint(context);
+        });
+    } finally {
+      context.restore();
     }
-    goog.array.forEach(this.labViews_, function(view) {
-        view.paint(context);
-      });
-    context.restore();
   }
 };
 
