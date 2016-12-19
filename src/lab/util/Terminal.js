@@ -621,6 +621,10 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
       }
       execute_script:
       {
+        // print before evaluating & expanding so that it is clear what caused an error
+        if (output) {
+          this.println(prefix + script);
+        }
         if (this.parser_ != null) {
           // Let Parser evaluate the script before expanding with regex's.
           // For example: 'sim.gravity' is recognized by EasyScriptParser but
@@ -635,21 +639,14 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
           if (parseResult !== undefined) {
             // the parser was successful
             this.result = parseResult;
-            if (output) {
-              this.println(prefix + script);
-            }
             break execute_script;
           }
         }
-        // print before evaluating & expanding so that it is clear what caused an error
-        if (output && !this.verbose_) {
-          this.println(prefix + script);
-        }
-        script = this.expand(script);
+        var expScript = this.expand(script); // expanded script
         if (output && this.verbose_) {
-          this.println(prefix + script);
+          this.println(prefix + prefix + expScript);
         }
-        this.result = this.myEval(script);
+        this.result = this.myEval(expScript);
       }
     }
     // don't show results when command ends with semi-colon, or undefined result
