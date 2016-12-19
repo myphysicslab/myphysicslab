@@ -513,7 +513,7 @@ DangleStickSim.en = {
   SPRING_LENGTH: 'spring length',
   SPRING_LENGTH_VELOCITY: 'spring length velocity',
   STICK_ANGLE: 'stick angle',
-  STICK_ANGULAR_VELOCITY: 'stick angulary velocity',
+  STICK_ANGULAR_VELOCITY: 'stick angular velocity',
   GRAVITY: 'gravity',
   MASS1: 'mass-1',
   MASS2: 'mass-2',
