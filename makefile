@@ -495,10 +495,7 @@ src/macros_tab.html \
 src/macros_vert.html
 
 $(BUILD_DIR)/sims/*/*.js : $(sims_req)
-$(BUILD_DIR)/test/Engine2DTests*.js : $(test_req)
-$(BUILD_DIR)/test/PerformanceTests*.js : $(test_req)
-$(BUILD_DIR)/test/SingleTest*.js : $(test_req)
-$(BUILD_DIR)/test/UnitTest*.js : $(test_req)
+$(BUILD_DIR)/test/*.js : $(test_req)
 
 # To avoid seeing lots of debug messages during tests: turn off GOOG_DEBUG
 $(BUILD_DIR)/test/PerformanceTests*.js \
