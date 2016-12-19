@@ -361,6 +361,7 @@ Clock.prototype.isStepping = function() {
 @return {undefined}
 */
 Clock.prototype.pause = function() {
+  this.clearStepMode();
   if (this.isRunning_) {
     this.saveTime_secs_ = this.getTime();
     this.saveRealTime_secs_ = this.getRealTime();
@@ -385,6 +386,7 @@ should run at or after the current clock time. Broadcasts a {@link #CLOCK_RESUME
 @return {undefined}
 */
 Clock.prototype.resume = function() {
+  this.clearStepMode();
   if (!this.isRunning_) {
     this.isRunning_ = true;
     this.setTimePrivate(this.saveTime_secs_);
