@@ -209,8 +209,8 @@ RandomLCG.prototype.nextInt_ = function() {
   RandomLCG.checkSeed(this.seed_);
   if (RandomLCG.DEBUG_RANDOM_DEEP) {
     var err = new Error();
-    console.log('RandomLCG.nextInt_ '+this.seed_);
-    console.log(err.stack);
+    //console.log('RandomLCG.nextInt_ '+this.seed_);
+    //console.log(err.stack);
   }
   return this.seed_;
 };

@@ -111,7 +111,7 @@ UtilityCore.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
 * @type {string}
 * @const
 */
-UtilityCore.VERSION = '1.0.0';
+UtilityCore.VERSION = '1.0.1';
 
 /** Converts an array of numbers to string, with commas between each number.
 * @param {!(Array<number>|Float64Array)} r  the array to print
@@ -922,18 +922,6 @@ UtilityCore.take = function(text, n) {
   }
 };
 
-/** Throws an error if the argument is not a number.
-* @param {number} value the number to test
-* @return {number} the value that passed the test
-* @throws {Error} if the argument is not a finite number
-*/
-UtilityCore.testNumber = function(value) {
-  if (typeof value != 'number' || isNaN(value)) {
-    throw new Error('not a number '+value);
-  }
-  return value;
-};
-
 /** Throws an error if the argument is not a finite number.
 * @param {number} value the number to test
 * @return {number} the value that passed the test
@@ -942,6 +930,18 @@ UtilityCore.testNumber = function(value) {
 UtilityCore.testFinite = function(value) {
   if (typeof value != 'number' || !isFinite(value)) {
     throw new Error('not a finite number '+value);
+  }
+  return value;
+};
+
+/** Throws an error if the argument is not a number.
+* @param {number} value the number to test
+* @return {number} the value that passed the test
+* @throws {Error} if the argument is not a finite number
+*/
+UtilityCore.testNumber = function(value) {
+  if (typeof value != 'number' || isNaN(value)) {
+    throw new Error('not a number '+value);
   }
   return value;
 };

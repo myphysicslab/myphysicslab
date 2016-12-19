@@ -649,8 +649,8 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
     } else if (error < -1) {
       // negative error code (other than -1) means general failure
       if (goog.DEBUG && (this.WARNINGS || this.debugCF)) {
-        var e = new Error();
-        console.log(e.stack);
+        //var e = new Error();
+        //console.log(e.stack);
         this.print('compute_forces general error '+error);
       }
       return error;
@@ -1928,7 +1928,9 @@ ComputeForces.copyArray = function(n, r, dest) {
 * @private
 */
 ComputeForces.prototype.print = function(s) {
-  console.log(this.name_+' '+NF7(this.time)+' '+s);
+  if (goog.DEBUG) {
+    console.log(this.name_+' '+NF7(this.time)+' '+s);
+  }
 }
 
 }); // goog.scope

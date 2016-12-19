@@ -192,14 +192,6 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   this.addParameter(new ParameterBoolean(this, SimRunner.en.RUNNING,
       SimRunner.i18n.RUNNING,
       this.getRunning, this.setRunning));
-  goog.asserts.setErrorHandler(
-    goog.bind(
-      function(a){
-        console.log(a + ' stack= '+a.stack);
-        this.clock_.pause();
-        throw a;
-      },this)
-  );
 };
 var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);
@@ -371,9 +363,6 @@ SimRunner.prototype.callback = function() {
     this.paintAll();
   } catch(ex) {
     this.handleException(ex);
-    // unclear why, but restart timer here helps after getting the exception
-    // in DangleStickApp.
-    this.timer_.fireAfter();
   }
 };
 
@@ -429,11 +418,8 @@ SimRunner.prototype.getTimeStep = function() {
 * @protected
 */
 SimRunner.prototype.handleException = function(error) {
-  if (goog.DEBUG) {
-    console.log('SimRunner.handleException '+error);
-    window.console.trace();
-  }
   this.pause();
+  this.timer_.stopFiring();
   goog.array.forEach(this.errorObservers_, function(e) { e.notifyError(error); });
   var s = goog.isDefAndNotNull(error) ? ' '+error : '';
   alert(SimRunner.i18n.STUCK + s);
@@ -522,6 +508,7 @@ SimRunner.prototype.reset = function() {
   this.clock_.setRealTime(t);
   this.clock_.pause();
   this.paintAll();
+  this.timer_.fireAfter(); // in case the timer was stopped.
   this.broadcast(new GenericEvent(this, SimRunner.RESET));
 };
 
@@ -530,6 +517,7 @@ SimRunner.prototype.reset = function() {
 */
 SimRunner.prototype.resume = function() {
   this.clock_.resume();
+  this.timer_.fireAfter(); // in case the timer was stopped.
 };
 
 /** Sets amount of time between callbacks which display frames of the Simulation, in
@@ -578,6 +566,7 @@ SimRunner.prototype.step = function() {
   // advance clock to be exactly one timeStep past current sim time
   var dt = this.advanceList_[0].getTime() + this.timeStep_ - this.clock_.getTime();
   this.clock_.step(dt);
+  this.timer_.fireAfter(); // in case the timer was stopped.
 };
 
 /** Stops the Timer from executing the `callback()` callback.
