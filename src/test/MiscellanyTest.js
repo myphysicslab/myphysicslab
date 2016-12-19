@@ -161,11 +161,11 @@ MiscellanyTest.newtons_cradle = function() {
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.newtons_cradle_setup(sim, advance);
   var vars = Engine2DTestRig.makeVars(3*5);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.9999981, 0.0000097, -0.9999986, 0, 0.0000005, 0.0000032);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -1.7908386, 0.0000097, -1, 0, 0.0000007, 0.0000032);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -0.5816791, 0.0000097, -1, 0, 0.0000007, 0.0000032);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, 0.6274809, 0.0000097, -1, 0, 0.0000008, 0.0000032);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, 2.1055487, -7.3437656, -0.9879234, -0.6609339, 0.0897575, -2.4578158);
+  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.4099971, 0.0000096, -0.9999987, 0, 0.0000002, 0.0000032);
+  Engine2DTestRig.setBodyVars(sim, vars, 1, -1.2008376, 0.0000096, -1, 0, 0.000001, 0.0000032);
+  Engine2DTestRig.setBodyVars(sim, vars, 2, 0.0083218, 0.0000096, -1, 0, 0.000001, 0.0000032);
+  Engine2DTestRig.setBodyVars(sim, vars, 3, 1.2174815, 0.0000096, -1, 0, 0.0000011, 0.0000032);
+  Engine2DTestRig.setBodyVars(sim, vars, 4, 2.6955475, -7.3437744, -0.9879222, -0.6609408, 0.0897584, -2.4578176);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.5,
        /*expectedVars=*/vars, /*tolerance=*/0.0001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0002,
