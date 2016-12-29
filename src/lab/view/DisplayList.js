@@ -148,8 +148,8 @@ DisplayList.prototype.contains = function(dispObj) {
 the end of the list) will appear to be on top of those drawn earlier (at start of the
 list).
 @param {!CanvasRenderingContext2D} context the canvas's context to draw this object into
-@param {!CoordMap} map the mapping to use for translating between
-simulation and screen coordinates
+@param {!CoordMap} map the mapping to use for translating between simulation and screen
+    coordinates
 */
 DisplayList.prototype.draw = function(context, map) {
   this.sort();

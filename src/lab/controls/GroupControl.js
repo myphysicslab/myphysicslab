@@ -32,7 +32,7 @@ but {@link #getElement} returns the `BR` element.
 
 * @param {string} name  name of the group
 * @param {!Element} topElement the div element that contains all the controls
-* @param {!Array<LabControl>} controls the set of controls contained in this
+* @param {!Array<!LabControl>} controls the set of controls contained in this
 *     GroupControl
 * @constructor
 * @final
@@ -51,7 +51,7 @@ myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {
   */
   this.topElement_ = topElement;
   /**
-  * @type {!Array<LabControl>}
+  * @type {!Array<!LabControl>}
   * @private
   */
   this.controls_ = controls;

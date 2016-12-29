@@ -796,7 +796,12 @@ TabLayout.prototype.setLayoutFromTab = function(layout) {
 TabLayout.prototype.setSelectedTab = function(layout) {
   if (this.getSelectedTab() != layout) {
     goog.array.forEach(this.tab_list.childNodes,
-      function(/** !Element */elem) {
+      function(/** !Node */node) {
+        if (node.nodeType != Node.ELEMENT_NODE) {
+          // it's not an Element
+          return;
+        }
+        var elem = /** @type {!Element} */(node);
         if (elem.tagName != 'LI') {
           // ignore text elements between the LI elements (usually whitespace)
           return;
