@@ -45,10 +45,11 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** Automatically creates a DisplayPath when a NumericalPath is added to a SimList.
 Observes the SimList of a Simulation, adding or removing DisplayPath to represent the
-NumericalPath in SimView with a `zIndex` of -10 so that it appears underneath other objects.
+NumericalPath in SimView with a `zIndex` of -10 so that it appears underneath other
+objects.
 
-Note that the DisplayPath shows only a single NumericalPath, and is destroyed
-when that NumericalPath is removed from the SimList.
+Note that the DisplayPath shows only a single NumericalPath, and is destroyed when that
+NumericalPath is removed from the SimList.
 
 
 ### Setting Style of DisplayPath
@@ -56,28 +57,26 @@ when that NumericalPath is removed from the SimList.
 To control the style (color, line thickness, etc) used for a particular DisplayPath
 there are two approaches:
 
+#### 1. Modify the DisplayPath style directly
 
-#### 1. Set the Default Style
-
-Set the default style **before adding** the NumericalPath to the SimList.
-PathObserver creates the DisplayPath at the moment when the NumericalPath is added to
-the SimList. Here is an example:
-
-You can set the {@link myphysicslab.lab.view.DrawingStyle}
-for the next path that is added to the DisplayPath by
-changing the public property {@link myphysicslab.lab.view.DisplayPath#style}.
-
-    DisplayPath.style = DrawingStyle.lineStyle('red', 2);
-    simList.add(path1);
-
-
-#### 2. Modify the style directly
-
-Modify the DisplayPath's style directly after it has been created. Here
-is an example:
+Modify the DisplayPath's style directly, for example:
 
     var dispPath1 = simView.getDisplayList().find(path1);
     dispPath1.setStyle(0, DrawingStyle.lineStyle('red', 2));
+
+#### 2. Modify the prototype
+
+PathObserver has a **prototype** DisplayPath. When a display property of a DisplayPath
+is `undefined`, then the property is fetched from the prototype DisplayPath. If it is
+also `undefined` on the prototype then a default value is used.
+
+Keep in mind that **all** objects with a given prototype will be affected by any
+changes made to the prototype.
+
+Here is an example where we set the prototype to have a thin blue line.
+
+    var pathObs = new PathObserver(simList, simView, null);
+    pathObs.protoDisplayPath.setStyle(0, DrawingStyle.lineStyle('blue', 1));
 
 
 ### Resize the SimView to match NumericalPath
@@ -134,7 +133,7 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
   * @private
   */
   this.memObjs_ = [];
-  /**
+  /** The prototype DisplayPath.
   * @type {!DisplayPath|undefined}
   */
   this.protoDisplayPath = new DisplayPath();
@@ -150,6 +149,8 @@ if (!UtilityCore.ADVANCED) {
       +', simView_: '+this.simView_.toStringShort()
       +', expansionFactor: '+NF(this.expansionFactor_)
       +', displayList_: '+this.displayList_.toStringShort()
+      +', protoDisplayPath: '+(this.protoDisplayPath ?
+           this.protoDisplayPath.toStringShort() : 'undefined')
       +'}';
   };
 
