@@ -79,7 +79,7 @@ myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
   sim.addObserver(this);
   this.addParameter(new ParameterNumber(this, ElasticitySetter.en.ELASTICITY,
       ElasticitySetter.i18n.ELASTICITY,
-      this.getElasticity, this.setElasticity).setSignifDigits(3));
+      this.getElasticity, this.setElasticity).setSignifDigits(3).setUpperLimit(1));
 };
 var ElasticitySetter = myphysicslab.sims.engine2D.ElasticitySetter;
 goog.inherits(ElasticitySetter, AbstractSubject);

@@ -325,7 +325,7 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
       this.getStickiness, this.setStickiness).setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.ELASTICITY,
       RollerFlightSim.i18n.ELASTICITY,
-      this.getElasticity, this.setElasticity).setSignifDigits(3));
+      this.getElasticity, this.setElasticity).setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.DAMPING,
       RollerFlightSim.i18n.DAMPING,
       this.getDamping, this.setDamping));

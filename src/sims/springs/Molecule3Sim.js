@@ -334,7 +334,7 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
       this.getDamping, this.setDamping));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.ELASTICITY,
       Molecule3Sim.i18n.ELASTICITY,
-      this.getElasticity, this.setElasticity));
+      this.getElasticity, this.setElasticity).setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.MASS,
       Molecule3Sim.i18n.MASS,
       this.getMass, this.setMass));
