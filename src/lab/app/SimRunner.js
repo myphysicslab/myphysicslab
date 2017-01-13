@@ -16,6 +16,9 @@ goog.provide('myphysicslab.lab.app.SimRunner');
 
 goog.require('goog.asserts');
 goog.require('goog.events');
+goog.require('goog.events.BrowserEvent');
+goog.require('goog.events.EventType');
+goog.require('goog.events.KeyEvent');
 goog.require('myphysicslab.lab.model.AdvanceStrategy');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
@@ -54,7 +57,6 @@ the current Simulation state.
 
 Parameters Created
 ------------------
-
 + ParameterNumber named `SimRunner.en.TIME_STEP`
   see {@link #setTimeStep}
 
@@ -63,6 +65,9 @@ Parameters Created
 
 + ParameterBoolean named `SimRunner.en.RUNNING`
   see {@link #setRunning}
+
++ ParameterBoolean named `SimRunner.en.NON_STOP`
+  see {@link #setNonStop}
 
 
 Events Broadcast
@@ -74,7 +79,6 @@ All the Parameters are broadcast when their values change.  In addition:
 
 How Simulation Advances with Clock
 ----------------------------------
-
 SimRunner advances the Simulation state, keeping it in sync with the Clock time, and
 therefore we see the Simulation advancing in real time.  Here are the details:
 
@@ -116,6 +120,19 @@ callback fires. See {@link #setDisplayPeriod}.
 differential equation is calculated; that is determined separately by the **time step**
 used when calling `AdvanceStrategy.advance()`. See {@link #setTimeStep}.
 
+
+Stop Simulation When Window is Not Active
+-----------------------------------------
+SimRunner listens for blur and focus events to stop and start the Timer. Those events
+occur when the browser window changes from being the front most active window to some
+other window or browser tab being active. This means the simulation will only run when
+the browser window is the frontmost active window. This helps reduce CPU usage when the
+user is not viewing the simulation.
+
+There is a "non-stop" Parameter which allows the simulation to run even when the window
+is not active. This is useful if you want to view two simulations running in separate
+browser windows. See {@link #setNonStop}.
+
 * @param {!myphysicslab.lab.model.AdvanceStrategy} advance  the AdvanceStrategy which
 *     runs advances the Simulation
 * @param {string=} opt_name name of this SimRunner.
@@ -143,6 +160,12 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   * @private
   */
   this.displayPeriod_ = 0.025;
+  /** Whether the Timer stops firing when the window is not active (when a blur
+  * event occurs).
+  * @type {boolean}
+  * @private
+  */
+  this.nonStop_ = false;
   /**
   * @type {!myphysicslab.lab.util.Timer}
   * @private
@@ -192,6 +215,21 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   this.addParameter(new ParameterBoolean(this, SimRunner.en.RUNNING,
       SimRunner.i18n.RUNNING,
       this.getRunning, this.setRunning));
+  this.addParameter(new ParameterBoolean(this, SimRunner.en.NON_STOP,
+      SimRunner.i18n.NON_STOP,
+      this.getNonStop, this.setNonStop));
+  /**  key used for removing the listener
+  * @type {goog.events.Key}
+  * @private
+  */
+  this.blurKey_ = goog.events.listen(window, goog.events.EventType.BLUR,
+      /*callback=*/goog.bind(this.stopFiring, this),  /*capture=*/false);
+  /**  key used for removing the listener
+  * @type {goog.events.Key}
+  * @private
+  */
+  this.focusKey_ = goog.events.listen(window, goog.events.EventType.FOCUS,
+      /*callback=*/goog.bind(this.startFiring, this),  /*capture=*/false);
 };
 var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);
@@ -206,6 +244,7 @@ if (!UtilityCore.ADVANCED) {
         +', timer_: '+this.timer_
         +', timeStep_: '+NF(this.timeStep_)
         +', displayPeriod_: '+NF(this.displayPeriod_)
+        +', nonStop_: '+this.nonStop_
         +', canvasList_: ['
         + goog.array.map(this.canvasList_, function(a) { return a.toStringShort(); })
         +'], memorizables_: ['
@@ -366,6 +405,15 @@ SimRunner.prototype.callback = function() {
   }
 };
 
+/** Remove connections to other objects to facilitate garbage collection.
+* @return {undefined}
+*/
+SimRunner.prototype.destroy = function() {
+  this.stopFiring();
+  goog.events.unlistenByKey(this.blurKey_);
+  goog.events.unlistenByKey(this.focusKey_);
+};
+
 /** Returns the list of LabCanvas's that need to be repainted after each advance of the
 Simulation.
 * @return {!Array<!myphysicslab.lab.view.LabCanvas>} the list of LabCanvas that need
@@ -394,6 +442,17 @@ SimRunner.prototype.getDisplayPeriod = function() {
 /** @inheritDoc */
 SimRunner.prototype.getMemos = function() {
   return goog.array.clone(this.memorizables_);
+};
+
+/** Returns `true` if the Timer keeps firing even when the window is not active (not
+frontmost window). The default is for the Timer to be stoppable, which prevents the
+simulation from wasting CPU cycles when the user does not have the simulation window
+active.
+@return {boolean} `true` means the Timer keeps firing even when the browser window is
+    inactive
+*/
+SimRunner.prototype.getNonStop = function() {
+  return this.nonStop_;
 };
 
 /** Returns true if the Clock is running.
@@ -508,7 +567,7 @@ SimRunner.prototype.reset = function() {
   this.clock_.setRealTime(t);
   this.clock_.pause();
   this.paintAll();
-  this.timer_.fireAfter(); // in case the timer was stopped.
+  this.timer_.startFiring(); // in case the timer was stopped.
   this.broadcast(new GenericEvent(this, SimRunner.RESET));
 };
 
@@ -517,7 +576,7 @@ SimRunner.prototype.reset = function() {
 */
 SimRunner.prototype.resume = function() {
   this.clock_.resume();
-  this.timer_.fireAfter(); // in case the timer was stopped.
+  this.timer_.startFiring(); // in case the timer was stopped.
 };
 
 /** Sets amount of time between callbacks which display frames of the Simulation, in
@@ -528,6 +587,18 @@ SimRunner.prototype.setDisplayPeriod = function(displayPeriod) {
   this.displayPeriod_ = displayPeriod;
   this.timer_.setPeriod(displayPeriod);
   this.broadcastParameter(SimRunner.en.DISPLAY_PERIOD);
+};
+
+/** Sets whether the Timer keeps firing when the window is not active (not the
+frontmost window). The default is for the Timer to be stoppable, which prevents the
+simulation from wasting CPU cycles when the user does not have the simulation window
+active.
+@param {boolean} value `true` means the Timer keeps firing even when the browser
+    window is not active
+*/
+SimRunner.prototype.setNonStop = function(value) {
+  this.nonStop_ = value;
+  this.broadcastParameter(SimRunner.en.NON_STOP);
 };
 
 /** Sets whether the Clock is running or paused.
@@ -551,11 +622,11 @@ SimRunner.prototype.setTimeStep = function(timeStep) {
   this.broadcastParameter(SimRunner.en.TIME_STEP);
 };
 
-/** Starts the Timer executing the `callback()` callback.
+/** Starts the Timer executing the callback.
 @return {undefined}
 */
 SimRunner.prototype.startFiring = function() {
-  this.timer_.fireAfter();
+  this.timer_.startFiring();
 };
 
 /** Steps the Clock and Simulation forward by a single timestep.
@@ -566,14 +637,17 @@ SimRunner.prototype.step = function() {
   // advance clock to be exactly one timeStep past current sim time
   var dt = this.advanceList_[0].getTime() + this.timeStep_ - this.clock_.getTime();
   this.clock_.step(dt);
-  this.timer_.fireAfter(); // in case the timer was stopped.
+  this.timer_.startFiring(); // in case the timer was stopped.
 };
 
-/** Stops the Timer from executing the `callback()` callback.
+/** Stops the Timer from executing the callback, but only if the non-stop flag is
+* `false`, see {@link #setNonStop}.
 @return {undefined}
 */
 SimRunner.prototype.stopFiring = function() {
-  this.timer_.stopFiring();
+  if (!this.nonStop_) {
+    this.timer_.stopFiring();
+  }
 };
 
 /** Name of GenericEvent that is broadcast when {@link #reset} method occurs.
@@ -590,6 +664,7 @@ SimRunner.RESET = 'RESET';
   RUNNING: string,
   PAUSE: string,
   RESUME: string,
+  NON_STOP: string,
   STEP: string,
   STUCK: string
   }}
@@ -606,6 +681,7 @@ SimRunner.en = {
   RUNNING: 'running',
   PAUSE: 'pause',
   RESUME: 'resume',
+  NON_STOP: 'non-stop',
   STEP: 'step',
   STUCK: 'Simulation is stuck; click reset and play to continue.'
 };
@@ -621,6 +697,7 @@ SimRunner.de_strings = {
   RUNNING: 'laufend',
   PAUSE: 'pausieren',
   RESUME: 'weiter',
+  NON_STOP: 'durchgehend',
   STEP: 'kleine Schritte',
   STUCK: 'Simulation hat sich aufgeh\u00e4ngt; dr\u00fccken Sie Neustart und Weiter um fort zu fahren.'
 };

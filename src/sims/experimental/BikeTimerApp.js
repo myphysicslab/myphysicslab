@@ -167,7 +167,7 @@ BikeTimerApp.makeApp = function(sound_url) {
     });
   };
 
-  timer.fireAfter();
+  timer.startFiring();
   clock.pause();
 };
 

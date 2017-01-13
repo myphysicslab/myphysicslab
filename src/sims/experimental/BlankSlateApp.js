@@ -158,10 +158,10 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   this.timer = new Timer();
   var callback = goog.bind(function () {
       this.simCanvas.paint();
-      this.timer.fire();
+      this.timer.fireAfter();
   }, this);
   this.timer.setCallBack(callback);
-  this.timer.fire();
+  this.timer.startFiring();
 };
 var BlankSlateApp = myphysicslab.sims.experimental.BlankSlateApp;
 goog.inherits(BlankSlateApp, AbstractSubject);

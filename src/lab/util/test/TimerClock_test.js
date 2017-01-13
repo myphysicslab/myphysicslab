@@ -137,7 +137,7 @@ myphysicslab.lab.util.test.TimerClock_test.MockObserver1.prototype.toStringShort
 stage    system     clock    real    expect  period  events  fired  running?  firing?
 1   initial state
         0             0      0        NaN      50      0      0      n        n
-2   fireAfter()
+2   startFiring()
         0             0      0       0.050     50      1      0      n        y
     resume()
         0             0      0       0.050     50      2      0      y        y
@@ -158,13 +158,13 @@ stage    system     clock    real    expect  period  events  fired  running?  fi
 10  tick(50)
         0.200        0.100   0.100   NaN       50      4      3      n        n
 11  resume()
-    fireAfter()
+    startFiring()
         0.200        0.100   0.100   0.250     50      6      3      y        y
 12  stopFiring()
         0.200        0.100   0.100   NaN       50      8      3      n        n
 13  tick(50)
         0.250        0.100   0.100   NaN       50      8      3      n        n
-14  fireAfter()
+14  startFiring()
         0.250        0.100   0.100   0.300     50      9      3      n        y
 15  resume()
         0.250        0.100   0.100   0.300     50     10      3      y        y
@@ -224,7 +224,7 @@ var testTimerClock1 = function() {
     assertEquals(0, myMockClass.timesFired);
 
     // 2. start callback firing and resume the Clock, but don't advance time
-    myTimer.fireAfter(); // schedules callback at 50
+    myTimer.startFiring(); // calls Timer.fireAfter() which schedules callback at 50
     assertFalse(myClock.isRunning());
     assertTrue(myTimer.isFiring());
     assertRoughlyEquals(0.050, myTimer.getExpectedTime(), tol);
@@ -340,7 +340,7 @@ var testTimerClock1 = function() {
 
     // 11. resume when not firing and paused.  -->  firing & not-paused mode.
     myClock.resume();
-    myTimer.fireAfter();
+    myTimer.startFiring();
     assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
@@ -389,7 +389,7 @@ var testTimerClock1 = function() {
     assertFalse(myTimer.isFiring());
 
     // 14. start when not firing and paused  -->  firing & paused mode.
-    myTimer.fireAfter();  // schedules callback at sys:0.300
+    myTimer.startFiring();  // schedules callback at sys:0.300
     assertEquals(250, goog.now());
     assertRoughlyEquals(0.250, UtilityCore.getSystemTime(), tol);
     assertEquals(2, mockObsvr1.numPauseEvents);
@@ -531,7 +531,7 @@ goog.exportProperty(window, 'testTimerClock1', testTimerClock1);
 stage     system     clock    real    expect  period  events  fired  rate
 1   initial state
         0             0      0        NaN      50      0      0      1
-2   fireAfter()
+2   startFiring()
     resume()
         0             0      0       0.050     50      2      0      1
 3   tick(50)
@@ -600,7 +600,7 @@ var testTimerClock2 = function() {
     assertEquals(0, myMockClass.timesFired);
 
     // 2. start
-    myTimer.fireAfter();
+    myTimer.startFiring();
     assertFalse(myClock.isRunning());
     assertTrue(myTimer.isFiring());
     myClock.resume();
@@ -835,7 +835,7 @@ myphysicslab.lab.util.test.TimerClock_test.MockClass3.prototype.myCallBack3 = fu
 stage   system     clock   delay   expect
 1   initial
            0         0       0      NaN
-2   fireAfter(0.050)
+2   startFiring(0.050)
     resume()
            0         0       0      0.050
 3   tick(50)
@@ -914,7 +914,7 @@ var testTimerClock3 = function() {
     assertEquals(0, myMockClass.timesFired);
 
     // 2. start firing callback
-    myTimer.fireAfter(0.050);
+    myTimer.startFiring();
     assertFalse(myClock.isRunning());
     assertTrue(myTimer.isFiring());
     myClock.resume();
@@ -1106,7 +1106,7 @@ myphysicslab.lab.util.test.TimerClock_test.MockClass4.prototype.myCallBack4 = fu
 stage   system     clock   delay   expect
 1   initial
            0         0       0      NaN
-2   fireAfter()
+2   startFiring()
     resume()
            0         0       0      0.050
 3   tick(50)
@@ -1187,7 +1187,7 @@ var testTimerClock4 = function() {
     assertEquals(0, myMockClass.timesFired);
 
     // 2. start firing callback
-    myTimer.fireAfter();
+    myTimer.startFiring();
     assertFalse(myClock.isRunning());
     assertTrue(myTimer.isFiring());
     myClock.resume();
@@ -1338,7 +1338,6 @@ var testTimerClock4 = function() {
     assertRoughlyEquals(0.695, myClock.getTime(), tol);
     // expect = now + period - late = 0.695 + 0.050 - 0.010
     assertRoughlyEquals(0.735, myTimer.getExpectedTime(), tol);
-
   } finally {
     mockClock.uninstall();
   }

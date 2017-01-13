@@ -37,7 +37,7 @@ execute again in future by calling {@link #fire}, {@link #fireAfter} or
 {@link #finishAt}.
 
 Once the callback has been specified via {@link #setCallBack}, the chain of callbacks is
-started by calling `fire()`, `fireAfter()` or `finishAt()`.
+started by calling {@link #startFiring}.
 
 Here is some example code showing how to use a Timer, from
 {@link myphysicslab.sims.experimental.BlankSlateApp BlankSlateApp}
@@ -51,11 +51,11 @@ Here is some example code showing how to use a Timer, from
     var callback = function () {
         r.setAngle(Math.sin(clock.getTime()));
         simCanvas.paint();
-        timer.fire();
+        timer.fireAfter();
     };
     timer.setCallBack(callback);
     clock.resume();
-    timer.fire();
+    timer.startFiring();
 
 You can try that code out by pasting it into the Terminal on the
 [BlankSlateApp example page](http://www.myphysicslab.com/develop/sims/experimental/BlankSlateApp_en.html).
@@ -63,7 +63,7 @@ You can try that code out by pasting it into the Terminal on the
 
 ## Timing of Callbacks
 
-The method {@link #fireAfter} schedules the callback to run after a given short delay.
+The method {@link #fireAfter} schedules the callback to run after a short delay.
 The method {@link #finishAt} schedules the callback to finish at
 a specified time. Both these methods take into account how late the current callback is
 and how long it took to execute in deciding when to schedule the callback to fire.
@@ -110,6 +110,11 @@ myphysicslab.lab.util.Timer = function() {
   * @private
   */
   this.expected_sys_ = NaN;
+  /** Whether the Timer should be executing the callBacks.
+  * @type {boolean}
+  * @private
+  */
+  this.firing_ = false;
   /**
   * @type {boolean}
   * @private
@@ -139,6 +144,7 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   Timer.prototype.toString = function() {
     return 'Timer{period_: '+this.period_
+        +', firing_: '+this.firing_
         +', timeoutID_: '+this.timeoutID_
         +'}';
   };
@@ -156,7 +162,8 @@ Timer.prototype.callBackStarted = function() {
 /** Schedules the callback to fire slightly before the specified time, so that the
 callback finishes executing at that time. Uses information about when the current
 callback was expected to execute, to determine the starting time. Does nothing if the
-callback is `null`. Uses JavaScript's `setTimeout()` function to do the scheduling.
+callback is `null` or Timer is not firing. Uses JavaScript's `setTimeout()` function to
+do the scheduling.
 
 The finish time is in given in *system time*, see
 {@link myphysicslab.lab.util.UtilityCore#getSystemTime} for how system time is defined.
@@ -164,7 +171,7 @@ The finish time is in given in *system time*, see
 @param {number} finishTimeSys the time when the next callback should finish execution, in system time seconds
 */
 Timer.prototype.finishAt = function(finishTimeSys) {
-  if (goog.isNull(this.callBack_)) {
+  if (!this.firing_ || goog.isNull(this.callBack_)) {
     return;
   }
   // The next callback should finish at finishTimeSys.
@@ -219,14 +226,8 @@ Timer.prototype.finishAt = function(finishTimeSys) {
   this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
 };
 
-/** Schedules the callback to fire after the default period given by {@link #getPeriod}.
-@return undefined
-*/
-Timer.prototype.fire = function() {
-  this.fireAfter();
-};
-
-/** Schedules the callback to fire after the specified amount of time.
+/** Schedules the callback to fire after the specified amount of time or the default
+period if no time is specified.
 Uses information about when the current callback was expected to
 execute, to determine the starting time. Does nothing if the callback is `null`. Uses
 JavaScript's `setTimeout()` function to do the scheduling.
@@ -235,9 +236,6 @@ JavaScript's `setTimeout()` function to do the scheduling.
     in seconds; default is the period given by {@link #getPeriod}
 */
 Timer.prototype.fireAfter = function(opt_delay) {
-  if (goog.isNull(this.callBack_)) {
-    return;
-  }
   var delay = goog.isNumber(opt_delay) ? opt_delay : this.period_;
   this.finishAt(UtilityCore.getSystemTime() + delay);
 };
@@ -263,7 +261,7 @@ Timer.prototype.getPeriod = function() {
 @return {boolean}
 */
 Timer.prototype.isFiring = function() {
-  return goog.isNumber(this.timeoutID_);
+  return this.firing_;
 };
 
 /** Sets the callback function to be executed periodically, and stops any current
@@ -288,14 +286,24 @@ Timer.prototype.setPeriod = function(period) {
   this.period_ = period;
 };
 
+/** Starts the execution of the chain of callbacks.
+@return {undefined}
+*/
+Timer.prototype.startFiring = function() {
+  this.firing_ = true;
+  this.fireAfter();
+};
+
 /** Stops the execution of the chain of callbacks, by canceling the next scheduled
 callback.
 @return {undefined}
 */
 Timer.prototype.stopFiring = function() {
+  this.firing_ = false;
   if (goog.isDef(this.timeoutID_)) {
-    if (goog.DEBUG && this.timerDebug_)
+    if (goog.DEBUG && this.timerDebug_) {
       console.log('Timer.stop:clearTimeout '+this.toString());
+    }
     clearTimeout(this.timeoutID_);
     this.timeoutID_ = undefined;
   }

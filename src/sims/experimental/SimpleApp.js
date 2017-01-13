@@ -115,7 +115,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
     timer.fireAfter();
   });
 
-  timer.fireAfter();
+  timer.startFiring();
   clock.resume();
 
 };

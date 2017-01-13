@@ -42,23 +42,23 @@ var timer = new Timer();
 var callback = function () {
     r.setAngle(Math.sin(clock.getTime()));
     simCanvas.paint();
-    timer.fire();
+    timer.fireAfter();
 };
 timer.setCallBack(callback);
 clock.resume();
-timer.fire();
+timer.startFiring();
 </pre>
 
 <p>A script can be provided in the query portion of the URL (after the question mark)
   for this page. For example, the following URL contains the above script.
 </p>
 <p>
-<a href="#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var%20r=PointMass.makeSquare(4);var%20dr=new%20DisplayShape(r).setStrokeStyle('red').setThickness(4);displayList.add(dr);r.setPosition(new%20Vector(0,0));var%20clock=new%20Clock();var%20timer=new%20Timer();var%20callback=function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fire();};timer.setCallBack(callback);clock.resume();timer.fire();">
+<a href="#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var%20r=PointMass.makeSquare(4);var%20dr=new%20DisplayShape(r).setStrokeStyle('red').setThickness(4);displayList.add(dr);r.setPosition(new%20Vector(0,0));var%20clock=new%20Clock();var%20timer=new%20Timer();var%20callback=function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.startFiring();};timer.setCallBack(callback);clock.resume();timer.startFiring();">
 #MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp_en.html?var r=PointMass.makeSquare(4);<br>
 var dr=new DisplayShape(r);displayList.add(dr);dr.strokeStyle='red';r.setPosition(new Vector(0,0));<br>
 var clock=new Clock();var timer=new Timer();<br>
-timer.setCallBack(function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fire();});<br>
-clock.resume();timer.fire();</a>
+timer.setCallBack(function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();timer.fireAfter();});<br>
+clock.resume();timer.startFiring();</a>
 </p>
 
 <p><em>Does not work under advanced-compile.</em></p>
