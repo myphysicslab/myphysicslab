@@ -145,6 +145,11 @@ browser windows. See {@link #setNonStop}.
 */
 myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   AbstractSubject.call(this, opt_name || 'SIM_RUNNER');
+  /** name of the application that created this SimRunner, for debugging.
+  * @type {string}
+  * @private
+  */
+  this.appName_ = '';
   /** The AdvanceStrategys to run.
   * @type {!Array<!AdvanceStrategy>}
   * @private
@@ -160,6 +165,17 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   * @private
   */
   this.displayPeriod_ = 0.025;
+  /**
+  * @type {boolean}
+  * @private
+  * @const
+  */
+  this.debug_ = false;
+  /** time when last debug message was printed to console.
+  * @type {number}
+  * @private
+  */
+  this.lastDebug_ = UtilityCore.NEGATIVE_INFINITY;
   /** Whether the Timer stops firing when the window is not active (when a blur
   * event occurs).
   * @type {boolean}
@@ -215,21 +231,12 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   this.addParameter(new ParameterBoolean(this, SimRunner.en.RUNNING,
       SimRunner.i18n.RUNNING,
       this.getRunning, this.setRunning));
+  this.addParameter(new ParameterBoolean(this, SimRunner.en.FIRING,
+      SimRunner.i18n.FIRING,
+      this.getFiring, this.setFiring));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.NON_STOP,
       SimRunner.i18n.NON_STOP,
       this.getNonStop, this.setNonStop));
-  /**  key used for removing the listener
-  * @type {goog.events.Key}
-  * @private
-  */
-  this.blurKey_ = goog.events.listen(window, goog.events.EventType.BLUR,
-      /*callback=*/goog.bind(this.stopFiring, this),  /*capture=*/false);
-  /**  key used for removing the listener
-  * @type {goog.events.Key}
-  * @private
-  */
-  this.focusKey_ = goog.events.listen(window, goog.events.EventType.FOCUS,
-      /*callback=*/goog.bind(this.startFiring, this),  /*capture=*/false);
 };
 var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);
@@ -333,7 +340,11 @@ the {@link myphysicslab.lab.util.Timer chain of callbacks}.
 */
 SimRunner.prototype.callback = function() {
   try {
-    this.timer_.callBackStarted();
+    var nowSysTime = this.timer_.callBackStarted();
+    if (this.debug_ && nowSysTime > this.lastDebug_ + 1) {
+      this.lastDebug_ = nowSysTime;
+      console.log(this.appName_+' time='+NF(UtilityCore.chopTime(nowSysTime)));
+    }
     if (!this.clock_.isRunning() && !this.clock_.isStepping()) {
       this.timer_.fireAfter(this.displayPeriod_);
     } else {
@@ -410,8 +421,6 @@ SimRunner.prototype.callback = function() {
 */
 SimRunner.prototype.destroy = function() {
   this.stopFiring();
-  goog.events.unlistenByKey(this.blurKey_);
-  goog.events.unlistenByKey(this.focusKey_);
 };
 
 /** Returns the list of LabCanvas's that need to be repainted after each advance of the
@@ -437,6 +446,13 @@ in seconds.
 */
 SimRunner.prototype.getDisplayPeriod = function() {
   return this.displayPeriod_;
+};
+
+/** Whether the Timer is executing {@link #callback}.
+@return {boolean}
+*/
+SimRunner.prototype.getFiring = function() {
+  return this.timer_.isFiring();
 };
 
 /** @inheritDoc */
@@ -482,13 +498,6 @@ SimRunner.prototype.handleException = function(error) {
   goog.array.forEach(this.errorObservers_, function(e) { e.notifyError(error); });
   var s = goog.isDefAndNotNull(error) ? ' '+error : '';
   alert(SimRunner.i18n.STUCK + s);
-};
-
-/** Whether the Timer is executing the `callback()` callback.
-@return {boolean}
-*/
-SimRunner.prototype.isFiring = function() {
-  return this.timer_.isFiring();
 };
 
 /** @inheritDoc */
@@ -579,6 +588,13 @@ SimRunner.prototype.resume = function() {
   this.timer_.startFiring(); // in case the timer was stopped.
 };
 
+/** Set name of the application that created this SimRunner, for debugging.
+@param {string} name the name of the application that created this SimRunner
+*/
+SimRunner.prototype.setAppName = function(name) {
+  this.appName_ = name;
+};
+
 /** Sets amount of time between callbacks which display frames of the Simulation, in
 seconds.  This determines the frame rate of the simulation display.
 @param {number} displayPeriod amount of time between callbacks, in seconds
@@ -587,6 +603,19 @@ SimRunner.prototype.setDisplayPeriod = function(displayPeriod) {
   this.displayPeriod_ = displayPeriod;
   this.timer_.setPeriod(displayPeriod);
   this.broadcastParameter(SimRunner.en.DISPLAY_PERIOD);
+};
+
+/** Sets whether the Timer is executing {@link #callback}. However, if
+non-stop mode is on, then this will not stop the Timer, see {@link #setNonStop}.
+@param {boolean} value `true` causes the Timer to start firing
+*/
+SimRunner.prototype.setFiring = function(value) {
+  if (value) {
+    this.startFiring();
+  } else {
+    this.stopFiring();
+  }
+  this.broadcastParameter(SimRunner.en.FIRING);
 };
 
 /** Sets whether the Timer keeps firing when the window is not active (not the
@@ -622,7 +651,7 @@ SimRunner.prototype.setTimeStep = function(timeStep) {
   this.broadcastParameter(SimRunner.en.TIME_STEP);
 };
 
-/** Starts the Timer executing the callback.
+/** Starts the Timer executing {@link #callback}.
 @return {undefined}
 */
 SimRunner.prototype.startFiring = function() {
@@ -640,7 +669,7 @@ SimRunner.prototype.step = function() {
   this.timer_.startFiring(); // in case the timer was stopped.
 };
 
-/** Stops the Timer from executing the callback, but only if the non-stop flag is
+/** Stops the Timer from executing {@link #callback}, but only if the non-stop flag is
 * `false`, see {@link #setNonStop}.
 @return {undefined}
 */
@@ -662,6 +691,7 @@ SimRunner.RESET = 'RESET';
   DISPLAY_PERIOD: string,
   RESTART: string,
   RUNNING: string,
+  FIRING: string,
   PAUSE: string,
   RESUME: string,
   NON_STOP: string,
@@ -679,6 +709,7 @@ SimRunner.en = {
   DISPLAY_PERIOD: 'display period',
   RESTART: 'restart',
   RUNNING: 'running',
+  FIRING: 'firing',
   PAUSE: 'pause',
   RESUME: 'resume',
   NON_STOP: 'non-stop',
@@ -695,6 +726,7 @@ SimRunner.de_strings = {
   DISPLAY_PERIOD: 'Bilddauer',
   RESTART: 'Neustart',
   RUNNING: 'laufend',
+  FIRING: 'tätigend',
   PAUSE: 'pausieren',
   RESUME: 'weiter',
   NON_STOP: 'durchgehend',

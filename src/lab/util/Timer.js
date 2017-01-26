@@ -153,10 +153,12 @@ if (!UtilityCore.ADVANCED) {
 /**  Call this at the start of the callback function so the Timer knows
 when the callback happened.  This information (when the callback started) is used
 for debugging only.
-* @return {undefined}
+* @return {number} the current time as given by the system clock, in seconds
 */
 Timer.prototype.callBackStarted = function() {
-  this.actual_sys_ = UtilityCore.getSystemTime();
+  var nowTime = UtilityCore.getSystemTime();
+  this.actual_sys_ = nowTime;
+  return nowTime;
 };
 
 /** Schedules the callback to fire slightly before the specified time, so that the

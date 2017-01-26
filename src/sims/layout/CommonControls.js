@@ -461,7 +461,7 @@ CommonControls.makeURLScriptButton = function(easyScript, simRun) {
       }
       // Pause the timer while the synchronous prompt is up;
       // otherwise the timer races ahead but nothing is happening on screen.
-      var firing = simRun.isFiring();
+      var firing = simRun.getFiring();
       if (firing) {
         simRun.stopFiring();
       }

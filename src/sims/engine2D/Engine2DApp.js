@@ -264,6 +264,7 @@ if (!UtilityCore.ADVANCED) {
 * @export
 */
 Engine2DApp.prototype.defineNames = function(myName) {
+  this.simRun.setAppName(myName);
   if (UtilityCore.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
