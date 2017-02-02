@@ -123,14 +123,30 @@ PathSelector.prototype.setPathName = function(value) {
     for (var i=0, len=this.paths_.length; i<len; i++) {
       var path = this.paths_[i];
       if (path.nameEquals(value)) {
-        this.pathName_ = path.getName();
         this.hasPath_.setPath(new NumericalPath(path));
+        this.pathName_ = path.getName();
         this.broadcastParameter(PathSelector.en.PATH);
         return;
       }
     }
     throw new Error('unknown path '+value);
   };
+};
+
+/** Recalculates the current path, in case the equation of the path
+has changed, or the start and finish parameter values have changed.
+* @return {undefined}
+*/
+PathSelector.prototype.update = function() {
+  for (var i=0, len=this.paths_.length; i<len; i++) {
+    var path = this.paths_[i];
+    if (path.nameEquals(this.pathName_)) {
+      this.hasPath_.setPath(new NumericalPath(path));
+      this.broadcastParameter(PathSelector.en.PATH);
+      return;
+    }
+  }
+  throw new Error('unknown path '+this.pathName_);
 };
 
 /** Set of internationalized strings.

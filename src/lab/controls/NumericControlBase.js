@@ -32,8 +32,7 @@ Has optional upper and lower limits on the allowed value. Has control over the n
 decimal places shown, see {@link #setDecimalPlaces} **and maybe significant digits also?**
 
 Because this is an Observer, you can connect it to a Subject; when the Subject
-broadcasts events, this checkbox will ensure that it reflects the current target boolean
-value.
+broadcasts events, this will update the value it displays.
 
 This is the base class for {@link myphysicslab.lab.controls.NumericControl} which
 which connects to a {@link myphysicslab.lab.util.ParameterNumber}.

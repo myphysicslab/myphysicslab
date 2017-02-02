@@ -16,14 +16,15 @@ goog.provide('myphysicslab.sims.roller.RollerSingleApp');
 
 goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
+goog.require('myphysicslab.lab.controls.TextControl');
 goog.require('myphysicslab.lab.model.ParametricPath');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -32,6 +33,7 @@ goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
 goog.require('myphysicslab.sims.roller.CardioidPath');
 goog.require('myphysicslab.sims.roller.CirclePath');
+goog.require('myphysicslab.sims.roller.CustomPath');
 goog.require('myphysicslab.sims.roller.FlatPath');
 goog.require('myphysicslab.sims.roller.HumpPath');
 goog.require('myphysicslab.sims.roller.LemniscatePath');
@@ -47,18 +49,19 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
 var AbstractApp = sims.layout.AbstractApp;
 var CardioidPath = sims.roller.CardioidPath;
+var ChoiceControl = lab.controls.ChoiceControl;
 var CirclePath = sims.roller.CirclePath;
 var CommonControls = sims.layout.CommonControls;
+var CustomPath = sims.roller.CustomPath;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var FlatPath = sims.roller.FlatPath;
 var HumpPath = sims.roller.HumpPath;
 var LemniscatePath = sims.roller.LemniscatePath;
 var LoopTheLoopPath = sims.roller.LoopTheLoopPath;
+var NumericControl = lab.controls.NumericControl;
 var Observer = lab.util.Observer;
 var OvalPath = sims.roller.OvalPath;
 var ParameterBoolean = lab.util.ParameterBoolean;
@@ -71,6 +74,7 @@ var RollerSingleSim = sims.roller.RollerSingleSim;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.layout.TabLayout;
+var TextControl = lab.controls.TextControl;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -100,6 +104,7 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
       .setFillStyle('blue');
   this.displayList.add(this.ball1);
+  this.customPath_ = new CustomPath();
   /** @type {!Array<!lab.model.ParametricPath>} **/
   this.paths = [
       new HumpPath(),
@@ -109,7 +114,8 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
       new LemniscatePath(2.0),
       new CardioidPath(3.0),
       new SpiralPath(),
-      new FlatPath()
+      new FlatPath(),
+      this.customPath_
   ];
   /** @type {!PathSelector} */
   this.pathSelect = new PathSelector(sim, this.paths);
@@ -129,6 +135,25 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   pn = sim.getParameterNumber(RollerSingleSim.en.DAMPING);
   this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RollerSingleSim.en.MASS);
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(ps = new ParameterString(this, RollerSingleApp.en.EQUATION_X,
+      RollerSingleApp.i18n.EQUATION_X,
+      this.getXEquation, this.setXEquation).setSuggestedLength(30));
+  this.addControl(new TextControl(ps));
+  this.addParameter(ps = new ParameterString(this, RollerSingleApp.en.EQUATION_Y,
+      RollerSingleApp.i18n.EQUATION_Y,
+      this.getYEquation, this.setYEquation).setSuggestedLength(30));
+  this.addControl(new TextControl(ps));
+  this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.START_T_VALUE,
+      RollerSingleApp.i18n.START_T_VALUE,
+      this.getStartTValue, this.setStartTValue)
+      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+  this.addControl(new NumericControl(pn));
+  this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.FINISH_T_VALUE,
+      RollerSingleApp.i18n.FINISH_T_VALUE,
+      this.getFinishTValue, this.setFinishTValue)
+      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
@@ -168,10 +193,102 @@ RollerSingleApp.prototype.defineNames = function(myName) {
       myName);
 };
 
+/** The ending value for `t` in the parameteric equation defining the path.
+* @return {number} ending value for `t`
+*/
+RollerSingleApp.prototype.getFinishTValue = function() {
+  return this.customPath_.getFinishTValue();
+};
+
+/** The starting value for `t` in the parameteric equation defining the path.
+* @return {number} starting value for `t`
+*/
+RollerSingleApp.prototype.getStartTValue = function() {
+  return this.customPath_.getStartTValue();
+};
+
+/** The ending value for `t` in the parameteric equation defining the path.
+* @param {number} value ending value for `t`
+*/
+RollerSingleApp.prototype.setFinishTValue = function(value) {
+  this.customPath_.setFinishTValue(value);
+  this.pathSelect.setPathName(this.customPath_.getName());
+  this.pathSelect.update();
+  this.broadcastParameter(RollerSingleApp.en.FINISH_T_VALUE);
+};
+
+/** The starting value for `t` in the parameteric equation defining the path.
+* @param {number} value starting value for `t`
+*/
+RollerSingleApp.prototype.setStartTValue = function(value) {
+  this.customPath_.setStartTValue(value);
+  this.pathSelect.setPathName(this.customPath_.getName());
+  this.pathSelect.update();
+  this.broadcastParameter(RollerSingleApp.en.START_T_VALUE);
+};
+
 /** @inheritDoc */
 RollerSingleApp.prototype.getSubjects = function() {
   var subjects = RollerSingleApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.pathSelect, subjects);
+};
+
+/** Returns the parameteric X equation defining the path.
+* @return {string} the parameteric X equation defining the path
+*/
+RollerSingleApp.prototype.getXEquation = function() {
+  return this.customPath_.getXEquation();
+};
+
+/** Returns the parameteric Y equation defining the path.
+* @return {string} the parameteric Y equation defining the path
+*/
+RollerSingleApp.prototype.getYEquation = function() {
+  return this.customPath_.getYEquation();
+};
+
+/** Sets the parametric X equation defining the path. A JavaScript expression where
+the parameter is `t`.
+* @param {string} value the parameteric X equation defining the path
+*/
+RollerSingleApp.prototype.setXEquation = function(value) {
+  // test this by entering equation like: 'window'
+  this.terminal.vetBrackets(value);
+  this.terminal.vetCommand(value);
+  var oldValue = this.getXEquation();
+  try {
+    // test this by entering equations like: '3/0' or 'Math.log(-t)'.
+    this.customPath_.setXEquation(value);
+    this.pathSelect.setPathName(this.customPath_.getName());
+    this.pathSelect.update();
+    this.broadcastParameter(RollerSingleApp.en.EQUATION_X);
+  } catch(ex) {
+    // restore the old X-equation
+    this.customPath_.setXEquation(oldValue);
+    this.pathSelect.update();
+    throw ex;
+  }
+};
+
+/** Sets the parametric Y equation defining the path. A JavaScript expression where
+the parameter is `t`.
+* @param {string} value the parameteric Y equation defining the path
+*/
+RollerSingleApp.prototype.setYEquation = function(value) {
+  this.terminal.vetBrackets(value);
+  this.terminal.vetCommand(value);
+  var oldValue = this.getYEquation();
+  try {
+    this.customPath_.setYEquation(value);
+    this.pathSelect.setPathName(this.customPath_.getName());
+    this.pathSelect.update();
+    this.broadcastParameter(RollerSingleApp.en.EQUATION_Y);
+  } catch(ex) {
+    // restore the old Y-equation
+    this.customPath_.setYEquation(oldValue);
+    this.pathSelect.update();
+    throw ex;
+  }
 };
 
 /** @inheritDoc */
@@ -189,5 +306,43 @@ RollerSingleApp.prototype.setSimRect = function(simRect) {
   this.simRect = simRect;
   this.simView.setSimRect(simRect);
 };
+
+/** Set of internationalized strings.
+@typedef {{
+  EQUATION_X: string,
+  EQUATION_Y: string,
+  START_T_VALUE: string,
+  FINISH_T_VALUE: string
+  }}
+*/
+RollerSingleApp.i18n_strings;
+
+/**
+@type {RollerSingleApp.i18n_strings}
+*/
+RollerSingleApp.en = {
+  EQUATION_X: 'X-equation',
+  EQUATION_Y: 'Y-equation',
+  START_T_VALUE: 'start-t',
+  FINISH_T_VALUE: 'finish-t'
+};
+
+/**
+@private
+@type {RollerSingleApp.i18n_strings}
+*/
+RollerSingleApp.de_strings = {
+  EQUATION_X: 'X-Gleichung',
+  EQUATION_Y: 'Y-Gleichung',
+  START_T_VALUE: 'anfangs-t',
+  FINISH_T_VALUE: 'ende-t'
+};
+
+
+/** Set of internationalized strings.
+@type {RollerSingleApp.i18n_strings}
+*/
+RollerSingleApp.i18n = goog.LOCALE === 'de' ? RollerSingleApp.de_strings :
+    RollerSingleApp.en;
 
 }); // goog.scope

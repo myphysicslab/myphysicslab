@@ -941,7 +941,7 @@ UtilityCore.testFinite = function(value) {
 */
 UtilityCore.testNumber = function(value) {
   if (typeof value != 'number' || isNaN(value)) {
-    throw new Error('not a number '+value);
+    throw new Error('not a number '+value+' (testNumber)');
   }
   return value;
 };

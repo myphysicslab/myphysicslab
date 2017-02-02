@@ -99,13 +99,13 @@ AbstractPath.prototype.getName = function(opt_localized) {
 };
 
 /** @inheritDoc */
-AbstractPath.prototype.getStartTValue = function() {
-  return this.startTValue_;
+AbstractPath.prototype.getFinishTValue = function() {
+  return this.finishTValue_;
 };
 
 /** @inheritDoc */
-AbstractPath.prototype.getFinishTValue = function() {
-  return this.finishTValue_;
+AbstractPath.prototype.getStartTValue = function() {
+  return this.startTValue_;
 };
 
 /** @inheritDoc */
@@ -116,6 +116,27 @@ AbstractPath.prototype.isClosedLoop = function() {
 /** @inheritDoc */
 AbstractPath.prototype.nameEquals = function(name) {
   return this.name_ == UtilityCore.toName(name);
+};
+
+/** Sets whether the path is a closed loop, ending at the same point it starts.
+* @param {boolean} value whether the path is a closed loop
+*/
+AbstractPath.prototype.setClosedLoop = function(value) {
+  this.closedLoop_ = value;
+};
+
+/** Sets the ending value for `t` in the parameteric equation defining the path.
+* @param {number} value ending value for `t`
+*/
+AbstractPath.prototype.setFinishTValue = function(value) {
+  this.finishTValue_ = value;
+};
+
+/** Sets the starting value for `t` in the parameteric equation defining the path.
+* @param {number} value starting value for `t`
+*/
+AbstractPath.prototype.setStartTValue = function(value) {
+  this.startTValue_ = value;
 };
 
 }); // goog.scope

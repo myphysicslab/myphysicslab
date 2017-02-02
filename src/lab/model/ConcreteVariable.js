@@ -173,7 +173,7 @@ ConcreteVariable.prototype.setComputed = function(value) {
 ConcreteVariable.prototype.setFromString = function(value) {
   var v = Number(value);
   if (isNaN(v)) {
-    throw new Error('not a number: '+value);
+    throw new Error('not a number: '+value+' (ConcreteVariable)');
   }
   this.setValue(v);
 };

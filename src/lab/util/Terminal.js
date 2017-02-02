@@ -1135,7 +1135,6 @@ Prohibit square brackets, except allow square brackets with numbers inside
 so that simple array indexing is allowed, and creating arrays of numbers is allowed.
 Note: a script can use UtilityCore.get() or set() for more complex expressions.
 * @param {string} command
-* @private
 */
 Terminal.prototype.vetBrackets = function(command) {
   //Allow numbers, spaces, and commas inside square brackets to make arrays of numbers.
@@ -1156,7 +1155,6 @@ The goal is to allow the command to be executed if it contains a 'safe subset'
 of JavaScript. See JavaScript: The Definitive Guide by Flanagan, section 11.1.2
 'Subsets for Security'.
 * @param {string} command
-* @private
 */
 Terminal.prototype.vetCommand = function(command) {
   // prohibit all window properties (which are globally accessible names),
