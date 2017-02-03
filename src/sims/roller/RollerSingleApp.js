@@ -104,6 +104,8 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
       .setFillStyle('blue');
   this.displayList.add(this.ball1);
+  // allow the 't' variable to appear in expressions for X and Y equations
+  this.terminal.addWhiteList('t');
   this.customPath_ = new CustomPath();
   /** @type {!Array<!lab.model.ParametricPath>} **/
   this.paths = [
