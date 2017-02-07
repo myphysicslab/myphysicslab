@@ -90,11 +90,11 @@ Most of the NumericalPath functions *start with* the `p` value to specify the po
 the other values are interpolated accordingly.
 
 Some functions *result in finding* a `p` value from a location in space. For example,
-when the user clicks the mouse somewhere we need to find the nearest point on the curve.
+when the user clicks the mouse somewhere we need to find the nearest point on the path.
 See {@link #findNearestLocal} and {@link #findNearestGlobal}.
 
 
-## Slope of Curve
+## Slope of Path
 
 The slope is found from the relation `dy/dx = (dy/dp) / (dx/dp)`. Because we
 store these derivatives of `x` and `y` with respect to `p` in the
@@ -105,9 +105,9 @@ The method {@link #map_p_to_slope} figures out the slope in this way, and stores
 in the `slope` property of the PathPoint.
 
 
-## Direction of Curve
+## Direction of Path
 
-Sometimes it is important to know the direction of the curve: i.e. as
+Sometimes it is important to know the direction of the path: i.e. as
 `p` increases, does `x` increase or decrease? This is determined
 from the table data as needed. For vertical sections, the question becomes whether as
 `p` increases, does `y` increase or decrease.
@@ -236,6 +236,18 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
   * @private
   */
   this.x_monotonic = NumericalPath.isMonotonic(this.xvals);
+  /** start point is used for linear extension, see map_p_to_slope
+  * @type {!PathPoint}
+  * @private
+  */
+  this.startPoint_ = new PathPoint(this.getStartPValue());
+  /** end point is used for linear extension, see map_p_to_slope
+  * @type {!PathPoint}
+  * @private
+  */
+  this.endPoint_ = new PathPoint(this.getFinishPValue());
+  this.map_p_to_slope(this.startPoint_);
+  this.map_p_to_slope(this.endPoint_);
 };
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 goog.inherits(NumericalPath, myphysicslab.lab.model.AbstractSimObject);
@@ -340,6 +352,7 @@ NumericalPath.binarySearch = function(arr, x) {
 /** Calculates the three point numerical derivative with respect to path distance,
 `p`. This numerical derivative can handle having the `p` values
 being unevenly spaced.
+
 The three points used to calculate the derivative are:
 
    (pvals[k], yy[k])
@@ -444,7 +457,7 @@ NumericalPath.prototype.findNearestGlobal = function(point) {
   return ppt;
 };
 
-/** Finds the closest point on the interpolated curve to the `target` position, starting
+/** Finds the closest point on the interpolated path to the `target` position, starting
 from a given index into the table. This is a *local* search around the current position
 in the path, NOT a *global* search over the entire path for the very closest point. See
 {@link #findNearestGlobal}. The algorithm used here moves from the starting point in the
@@ -454,7 +467,7 @@ across to other parts of the path when a path crosses itself.
 
 Preserves the `p`-value (distance along the path) in the PathPoint for closed
 loop paths when crossing the “stitch” point where the loop reconnects. Therefore the
-p-value can be any value, not just from 0 to length of curve. This is done to simplify
+p-value can be any value, not just from 0 to length of path. This is done to simplify
 the detection of collisions by for example PhysicsPathAction. Note that this feature
 will fail if the point is moving very rapidly around the path.
 
@@ -746,6 +759,29 @@ NumericalPath.isMonotonic = function(arr) {
   return true;
 };
 
+/** Returns a `p` value that is in the range of the path. For a path that is not a
+closed loop, this returns start or end of the path when the `p` value is outside of the
+path range. For closed loops this returns path distance `p` modulo the total path
+length, see {@link #mod_p}.
+
+@param {number} p distance along the path
+@return {number} the equivalent path distance `p` position, limited to be within the
+    path.
+*/
+NumericalPath.prototype.limit_p = function(p) {
+  if (this.closedLoop) {
+    return this.mod_p(p);
+  } else {
+    // limit p to start or end of path
+    if (p < this.pvals[0]) {
+      p = this.pvals[0];
+    } else if (p > this.pvals[this.tableLength_-1]) {
+      p = this.pvals[this.tableLength_-1];
+    }
+    return p;
+  }
+};
+
 /** Finds the table index corresponding to the given path distance `p` value, by doing a
 linear search. In theory, this is faster than binarySearch when the index is close to
 the `p` value.
@@ -809,7 +845,7 @@ NumericalPath.prototype.make_table = function(path) {
   {
     var delta = (tHigh-tLow)/(this.tableLength_-1);
     var t = tLow;
-    var p = 0;  // path distance is always zero at start
+    var p = 0;  // path distance always starts at zero
     this.pvals[0] = 0;
     var x1, x2, y1, y2;  // bounds rectangle
     x1 = x2 = this.xvals[0] = path.x_func(t);
@@ -967,7 +1003,7 @@ NumericalPath.prototype.map_x_to_y = function(x) {
   return NumericalPath.interp4(this.xvals, this.yvals, x, k-1, this.closedLoop);
 };
 
-/** Uses the `x` value of the PathPoint to find a point on the curve, then
+/** Uses the `x` value of the PathPoint to find a point on the path, then
 interpolates to find corresponding `y` and `p` values.
 @param {!myphysicslab.lab.model.PathPoint} ppt the PathPoint used for input and output;
     `ppt.x` is the input `x` value searched for; `ppt.y` and `ppt.p` are set
@@ -982,24 +1018,22 @@ NumericalPath.prototype.map_x_to_y_p = function(ppt) {
   ppt.p = NumericalPath.interp4(this.xvals, this.pvals, ppt.x, k-1, this.closedLoop);
 };
 
-/** Returns path distance `p` modulo total path length for closed loops. For example,
-consider a circle of radius 1; its total path length is `2*pi` and the path starts with
-`p` at zero. Then `mod_p(2*pi + 1)` returns 1, but `mod_p(pi)` returns `pi`.
+/** Returns path distance `p` modulo total path length for closed loops. For paths that
+are not closed, this has no effect: it returns the given `p` value even when it is
+outside of the range of the path.
+
+For example, consider a circle of radius 1; its total path length is `2*pi` and the
+path starts with `p` at zero. Then `mod_p(2*pi + 1)` returns 1, but `mod_p(pi)`
+returns `pi`.
 
 @param {number} p distance along the path
 @return {number} the equivalent path distance `p` position, modulo total path length for
-    closed curves
+    closed paths
 */
 NumericalPath.prototype.mod_p = function(p) {
   if (this.closedLoop) {
     if (p < 0 || p > this.plen)  {
       p = p - this.plen*Math.floor(p/this.plen);
-    }
-  } else {
-    if (p < this.pvals[0]) {
-      p = this.pvals[0];
-    } else if (p > this.pvals[this.tableLength_-1]) {
-      p = this.pvals[this.tableLength_-1];
     }
   }
   return p;
@@ -1036,18 +1070,25 @@ NumericalPath.prototype.modk = function(k) {
 of normal, etc. The desired path location is specified in `PathPoint.p`. Optionally
 calculates the radius of curvature if `PathPoint.radius_flag` is set.
 
-If `PathPoint.idx` corresponds to `PathPoint.p`, then avoids searching for index of `p`
-in the table. Interpolates values in the table to do the calculations.
+For a non-closed loop path: when the `p` value is before the start of the path, or
+after the end of the path, we use a linear extension of the path to find the point.
 
-@todo   should probably use the new dxdp and dydp fields to calc radius
+Interpolates values in the table to find corresponding values of location, slope, etc.
+
+TO DO: Use the new dxdp and dydp fields to calc radius.
+Find radius of curvature for the four points on circle
+where tangent is horizontal or vertical.  Currently we get
+radius is infinite there which is wrong.
 
 @param {!myphysicslab.lab.model.PathPoint} ppt the PathPoint used for
     input and output; `PathPoint.p` is the input path position. Optionally calculates
-    the radius of curvature only if `PathPoint.radius_flag` is set.
+    the radius of curvature if `PathPoint.radius_flag` is set.
 */
 NumericalPath.prototype.map_p_to_slope = function(ppt) {
   var saveP = ppt.p;
   var nowP = this.mod_p(ppt.p);
+  // If `PathPoint.idx` corresponds to `PathPoint.p`, then can avoid searching
+  // for index of `p` in the table.
   var k = ppt.idx;
   if (k < 0 || k > this.tableLength_-2 || this.pvals[k] > nowP ||
       this.pvals[k+1] <= nowP) {
@@ -1070,11 +1111,36 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
     goog.asserts.assert( this.pvals[k] <= nowP && nowP < this.pvals[k+1] );
     //      k+' '+this.pvals[k]+' '+nowP+' '+this.pvals[k+1];
   }
+  if (!this.closedLoop) {
+    // Allow p-value outside of the path. When the p-value is before the start of the
+    // path, or after the end of the path, we use a linear extension of the path.
+    // This allows a ball in RollerSingleSim to move beyond the endpoints of the path.
+    var m;
+    if (nowP < this.getStartPValue()) {
+      // nowP is before the starting point of path. Use straight-line extension.
+      ppt.copyFrom(this.startPoint_);
+      ppt.p = nowP;
+      ppt.idx = k;
+      m = ppt.slope;
+      ppt.x = this.startPoint_.x + (nowP - this.getStartPValue())/Math.sqrt(1 + m*m);
+      ppt.y = this.startPoint_.y + m * (ppt.x - this.startPoint_.x);
+      return;
+    } else if (nowP > this.getFinishPValue()) {
+      // nowP is after the ending point of path. Use straight-line extension.
+      ppt.copyFrom(this.endPoint_);
+      ppt.p = nowP;
+      ppt.idx = k;
+      m = ppt.slope;
+      ppt.x = this.endPoint_.x + (nowP - this.getFinishPValue())/Math.sqrt(1 + m*m);
+      ppt.y = this.endPoint_.y + m * (ppt.x - this.endPoint_.x);
+      return;
+    }
+  }
   ppt.x = NumericalPath.interp4(this.pvals, this.xvals, nowP, k-1, this.closedLoop);
   ppt.y = NumericalPath.interp4(this.pvals, this.yvals, nowP, k-1, this.closedLoop);
   ppt.dydp = NumericalPath.interp4(this.pvals, this.dyvals, nowP, k-1, this.closedLoop);
   ppt.dxdp = NumericalPath.interp4(this.pvals, this.dxvals, nowP, k-1, this.closedLoop);
-  if (Math.abs(this.xvals[k+1] - this.xvals[k]) < 1E-16)  {
+  if (Math.abs(ppt.dxdp) < 1E-12) {
     // vertical line is special case
     ppt.dxdp = 0;
     // WARNING: not sure about this calculation of ppt.direction; might depend on the
@@ -1096,35 +1162,9 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
       ppt.normalX = 1;
       ppt.normalY = 0;
     }
-    ppt.normalXdp = 0;
-    ppt.normalYdp = 0;
     goog.asserts.assert(!isNaN(ppt.slope));
-  } else if (Math.abs(this.yvals[k+1] - this.yvals[k]) < 1E-16) {
-    // horizontal line
-    ppt.dydp = 0;
-    if (ppt.dxdp > 0) {
-      // going right with increasing p
-      ppt.direction = 1;
-      ppt.slope = 0;
-      ppt.slopeX = 1;
-      ppt.slopeY = 0;
-      ppt.radius = UtilityCore.POSITIVE_INFINITY;
-      ppt.normalX = 0;
-      ppt.normalY = 1;
-    } else {
-      // going left with increasing p
-      ppt.direction = -1;
-      ppt.slope = 0;
-      ppt.slopeX = -1;
-      ppt.slopeY = 0;
-      ppt.radius = UtilityCore.NEGATIVE_INFINITY; // ? why negative infinity?
-      ppt.normalX = 0;
-      ppt.normalY = -1;
-    }
-    ppt.normalXdp = 0;
-    ppt.normalYdp = 0;
   } else {
-    // figure out direction of curve:  left to right = +1, right to left = -1
+    // figure out direction of path:  left to right = +1, right to left = -1
     ppt.direction = ppt.dxdp > 0 ? 1 : -1;
     ppt.slope = ppt.dydp/ppt.dxdp;
     goog.asserts.assert(!isNaN(ppt.slope));
@@ -1138,23 +1178,29 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
       ppt.slopeY = -ppt.slopeY;
     }
     goog.asserts.assert(!isNaN(ppt.slope));
-    // Find normal vector (normalX, normalY)
-    // the normal vector should not suddenly flip from positive to negative,
-    // therefore it has a different policy for when to flip it around.
-    var ns = -1/ppt.slope;  // slope of normal
-    var ns2 = Math.sqrt(1 + ns*ns);
-    ppt.normalX = 1.0 / ns2;
-    ppt.normalY = ns / ns2;
-    if (ppt.direction * ppt.slope > 0) {
-      ppt.normalX = -ppt.normalX;
-      ppt.normalY = -ppt.normalY;
+    if (Math.abs(ppt.slope) > 1E-12) {
+      // Find normal vector (normalX, normalY)
+      // the normal vector should not suddenly flip from positive to negative,
+      // therefore it has a different policy for when to flip it around.
+      var ns = -1/ppt.slope;  // slope of normal
+      var ns2 = Math.sqrt(1 + ns*ns);
+      ppt.normalX = 1.0 / ns2;
+      ppt.normalY = ns / ns2;
+      if (ppt.direction * ppt.slope > 0) {
+        ppt.normalX = -ppt.normalX;
+        ppt.normalY = -ppt.normalY;
+      }
+    } else {
+      // horizontal line.
+      ppt.normalX = 0;
+      ppt.normalY = ppt.direction > 0 ? 1 : -1;
     }
-    // Find derivative of normal w.r.t. p (normalXdp, normalYdp)
-    ppt.normalXdp = NumericalPath.interp4(this.pvals, this.nxpVals, nowP, k-1,
-        this.closedLoop);
-    ppt.normalYdp = NumericalPath.interp4(this.pvals, this.nypVals, nowP, k-1,
-        this.closedLoop);
   }
+  // Find derivative of normal w.r.t. p (normalXdp, normalYdp)
+  ppt.normalXdp = NumericalPath.interp4(this.pvals, this.nxpVals, nowP, k-1,
+      this.closedLoop);
+  ppt.normalYdp = NumericalPath.interp4(this.pvals, this.nypVals, nowP, k-1,
+      this.closedLoop);
   // @todo  We should probably use the new dxdp and dydp fields here instead.
   if (ppt.radius_flag)  {
     // assume straight-line (infinite radius) at end-points of path
@@ -1185,6 +1231,11 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
       var b2 = dy/dx;
       var p2 = this.pvals[k+2];
       ppt.radius = (p2-p1)/(Math.atan(b2)-Math.atan(b1));
+      // cludge for straight lines, vertical lines, etc.
+      if (isNaN(ppt.radius) || !isFinite(ppt.slope)) {
+        ppt.radius = ppt.slope > 0 ? UtilityCore.POSITIVE_INFINITY :
+            UtilityCore.NEGATIVE_INFINITY;
+      }
     }
   }
   goog.asserts.assert(ppt.p == saveP);  // ensure that p value is not changed

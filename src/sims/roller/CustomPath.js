@@ -28,8 +28,8 @@ value.
 
 NOTE: This class creates a global variable named `t`.
 
-* @param {number=} start starting `t` value
-* @param {number=} finish ending `t` value
+* @param {number=} start_t starting `t` value
+* @param {number=} finish_t ending `t` value
 * @param {string=} name
 * @param {string=} localName
 * @constructor
@@ -37,14 +37,14 @@ NOTE: This class creates a global variable named `t`.
 * @struct
 * @extends {myphysicslab.sims.roller.AbstractPath}
 */
-myphysicslab.sims.roller.CustomPath = function(start, finish, name, localName) {
-  if (!goog.isNumber(start))
-    start = -3;
-  if (!goog.isNumber(finish))
-    finish = 3;
+myphysicslab.sims.roller.CustomPath = function(start_t, finish_t, name, localName) {
+  if (!goog.isNumber(start_t))
+    start_t = -3;
+  if (!goog.isNumber(finish_t))
+    finish_t = 3;
   name = name || CustomPath.en.NAME;
   localName = localName || CustomPath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start, finish, /*closedLoop=*/false);
+  AbstractPath.call(this, name, localName, start_t, finish_t, /*closedLoop=*/false);
   /**
   * @type {string}
   * @private

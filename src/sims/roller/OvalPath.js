@@ -26,6 +26,14 @@ var NF = myphysicslab.lab.util.UtilityCore.NF;
 /** A path like an oval racetrack with vertical sections. The straight
 sections are vertical, so it is a good test for handling infinite slope situations.
 
+The parameter, `t` starts at pi/2, corresponding to the topmost point of the oval.
+
+    t = pi/2 to pi is upper left quarter circle from top going counter clockwise
+    t = pi to 2+pi is straight down section
+    t = 2+pi to 2+2*pi is the bottom half circle (ccw)
+    t = 2 + 2*pi to 4 + 2*pi is straight up section
+    t = 4+2*pi to 4+ (5/2)*pi is upper right quarter circle
+
 * @param {number=} straight
 * @param {string=} name
 * @param {string=} localName

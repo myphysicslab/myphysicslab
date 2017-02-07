@@ -34,6 +34,13 @@ var testUtilityCore = function() {
   assertFalse(UtilityCore.veryDifferent(2E-10, 2.9E-10, 1E-10));
   assertTrue( UtilityCore.veryDifferent(1.123456789E5, 1.123456790E5, 1E-10, 1E6));
   assertFalse(UtilityCore.veryDifferent(1.123456789E5, 1.1234567899E5, 1E-10, 1E6));
+  // two small numbers that are different
+  var small1 = 1.2345678969481254e-8;
+  var small2 = 1.234567893829028e-8;
+  assertFalse(UtilityCore.veryDifferent(small1, small2));
+  assertFalse(UtilityCore.veryDifferent(small1, small2, 1e-8, 1e-8));
+  assertTrue(UtilityCore.veryDifferent(small1, small2, 1e-10, 1e-8));
+  assertTrue(UtilityCore.veryDifferent(small1, small2, undefined, 1e-8));
 
   assertEquals('1.12000', UtilityCore.NF5(1.12));
   assertEquals('1.001', UtilityCore.nf5(1.001));

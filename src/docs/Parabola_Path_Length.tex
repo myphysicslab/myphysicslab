@@ -1,0 +1,109 @@
+\documentclass[final]{article}
+%\usepackage[final]{graphics}
+% final means "include the picture".  draft means "put a space with filename"
+\usepackage[final]{graphicx}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[normalem]{ulem}
+% layout package provides the \layout command that shows page layout settings
+\usepackage{layout}
+% hyperref[1] provides ability to create hyperlinks
+\usepackage{hyperref}
+% framed provides an easy way to box a paragraph within a document
+\usepackage{framed}
+%\usepackage{showkeys}  %shows labels in margins see Gratzer p. 249
+% these settings are mostly to make the margins smaller
+\abovecaptionskip=0pt
+\oddsidemargin=0pt
+\textwidth=450pt
+\textheight=650pt
+\topmargin=-0.5in
+\setlength{\marginparwidth}{0pt}
+%  A tilde ?~? character generates a non-breaking space
+
+\setlength{\parindent}{0cm} % no indent for paragraphs
+\setlength{\parskip}{1.5ex} % more space between paragraphs.
+\title{Path Length of a Parabola}
+\author{Erik Neumann\\
+erikn@myphysicslab.com}
+\date{February 3, 2017}
+\begin{document}
+
+\maketitle
+
+We seek an expression for the path length of a parabola $y = x^{2}$ starting from $x = -1$.
+
+The length of a plane curve is given by
+
+\begin{equation}
+  L_{a}^{b} = \int_{a}^{b} \sqrt{ 1 + \left( \frac{dy}{dx} \right)^{2} } dx
+\end{equation}
+
+For the parabola, we have:
+
+\begin{equation}
+  \frac{dy}{dx} = 2x
+\end{equation}
+
+and so we can write the path length starting at $x = -1$ as a function $p(x)$:
+
+\begin{equation}
+  p(x) = \int_{-1}^{x} \sqrt{ 1 + (2t)^{2} } dt
+\end{equation}
+
+Make a substitution $u = 2t$ and $du = 2 dt$.  The limits of integration also change accordingly.
+
+\begin{equation}
+  p(x) = \int_{-2}^{2x} \sqrt{ 1 + u^{2} } \frac{du}{2}
+\end{equation}
+
+\begin{equation}
+  p(x) = \frac{1}{2} \int_{-2}^{2x} \sqrt{ 1 + u^{2} } du
+\end{equation}
+
+This is a standard integral for which we can find the solution for in a table of integrals.
+
+\begin{equation}
+  p(x) = \left. \frac{1}{2} \left( \frac{u}{2} \sqrt{ 1 + u^{2} } +\frac{1}{2} sinh^{-1} u \right) \right]_{u=-2}^{u=2x}
+\end{equation}
+
+\begin{equation}
+  p(x) = \left. \frac{1}{4} \left( u \sqrt{ 1 + u^{2} } + sinh^{-1} u \right) \right]_{u=-2}^{u=2x}
+\end{equation}
+
+We can write this out as
+
+\begin{equation}
+  p(x) = \frac{1}{4} \left( ( 2x \sqrt{ 1 + 4x^{2} } + sinh^{-1} (2x) ) - (-2 \sqrt{1 + (-2)^{2} } + sinh^{-1}(-2)) \right)
+\end{equation}
+
+\begin{equation}
+  p(x) = \frac{1}{4} \left(  2x \sqrt{ 1 + 4x^{2} } + sinh^{-1} (2x)  +2 \sqrt{5} - sinh^{-1}(-2) \right)
+\end{equation}
+
+for $x >= -1$.
+
+Note that $p(-1) = 0$ as required for the path length.
+
+For reference, here is a formula for finding hyperbolic inverse sine using logarithms, which is valid for any real $u$:
+
+\begin{equation}
+  sinh^{-1}(u) = ln(u + \sqrt{1 + u^{2} })
+\end{equation}
+
+To find radius of curvature: it is inverse of $\kappa$ given by:
+
+\begin{equation}
+  \kappa = \frac{|\frac{d^2 y}{dx^2}|} {(1 + (\frac{dy}{dx})^2)^{\frac{3}{2}}}
+\end{equation}
+
+For the parabola:
+
+\begin{equation}
+  \kappa = \frac{2} {(1 + (2x)^2)^{\frac{3}{2}}}
+\end{equation}
+
+
+
+\end{document}

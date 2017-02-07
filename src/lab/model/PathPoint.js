@@ -135,6 +135,28 @@ if (!UtilityCore.ADVANCED) {
   };
 };
 
+/** Copies all fields of the given PathPoint.
+* @param {!PathPoint} ppt
+*/
+PathPoint.prototype.copyFrom = function(ppt) {
+  this.x = ppt.x;
+  this.y = ppt.y;
+  this.p = ppt.p;
+  this.slope = ppt.slope;
+  this.radius = ppt.radius;
+  this.radius_flag = ppt.radius_flag;
+  this.direction = ppt.direction;
+  this.idx = ppt.idx;
+  this.normalX = ppt.normalX;
+  this.normalY = ppt.normalY;
+  this.normalXdp = ppt.normalXdp;
+  this.normalYdp = ppt.normalYdp;
+  this.slopeX = ppt.slopeX;
+  this.slopeY = ppt.slopeY;
+  this.dxdp = ppt.dxdp;
+  this.dydp = ppt.dxdp;
+};
+
 /** Returns the distance from the given `point` to the normal line thru this
 PathPoint. The normal line passes thru this PathPoint's {@link #getPosition location} along the vector given by {@link #getNormal}.
 

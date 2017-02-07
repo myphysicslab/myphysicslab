@@ -1004,8 +1004,9 @@ See [StackOverflow: How dangerous is it to compare floating point values?](http:
 @param {number} arg1  the first number to compare
 @param {number} arg2  the second number to compare
 @param {number=} epsilon the small value used with `magnitude` to calculate
-    the tolerance for deciding when the numbers are different
-@param {number=} magnitude the approximate magnitude of the numbers being compared
+    the tolerance for deciding when the numbers are different, default is 1E-14.
+@param {number=} magnitude the approximate magnitude of the numbers being compared,
+    default is 1.0.
 @return {boolean} true if the doubles are different to 14 significant decimal digits
 @throws {Error} if `magnitude` or `epsilon` is negative or zero
 */

@@ -18,6 +18,9 @@ goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.model.NumericalPath');
 goog.require('myphysicslab.lab.model.PathPoint');
 goog.require('myphysicslab.sims.roller.CirclePath');
+goog.require('myphysicslab.sims.roller.CustomPath');
+goog.require('myphysicslab.sims.roller.FlatPath');
+goog.require('myphysicslab.sims.roller.OvalPath');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
@@ -29,41 +32,55 @@ t from -3*pi/2 to pi/2  (from top of circle, going counterclockwise)
 x = r*cos(t)
 y = r*sin(t)
 p = r*(t + 3*pi/2)  // path length from 0 to 2*pi*r
+dp/dt = r
 t = p/r - 3*pi/2  // theta starts at -3*pi/2
-dt/dp = 1/3
-slope = dy/dx = (dy/dt) / (dx/dt) = (3*cos(t)) /(-3*sin(t)) = - 1/tan(t)
+dt/dp = 1/r
+slope = dy/dx = (dy/dt) / (dx/dt) = (r*cos(t)) /(-r*sin(t)) = - 1/tan(t)
 circumference = 2*pi*r = 6*pi = 18.84955592153876
+
+dx/dp = dx/dt dt/dp = -r sin(t) (1/r) = -sin(t)
+dy/dp = dy/dt dt/dp = r cos(t) (1/r) = cost(t)
+
 normal = (-cos(t), -sin(t))      // inward facing normal
-d normal/dp = (sin(t), -cos(t)) dt/dp = (sin(t), -cos(t))/3
+d normal/dp = (sin(t), -cos(t)) dt/dp = (sin(t), -cos(t))/r
 
 */
-var testNumericalPath = function() {
+var testNumericalPath1 = function() {
   var tol = 1E-6;
-  var tol2 = 1E-5;
+  var tol2 = 1E-4;
   var UtilityCore = myphysicslab.lab.util.UtilityCore;
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var CirclePath = myphysicslab.sims.roller.CirclePath;
   var Vector = myphysicslab.lab.util.Vector;
-  var path = new NumericalPath(new CirclePath(3.0));
+  var r = 3;
+  var path = new NumericalPath(new CirclePath(r));
   assertFalse(path.isMassObject());
   var startP = path.getStartPValue();
   assertEquals(0, startP);
   var finishP = path.getFinishPValue();
   assertRoughlyEquals(6*Math.PI, finishP, 1E-6);
-  var n = 100;
-  var pp = new PathPoint();
+  var n = 1000;
+  var pp = new PathPoint(0, /*calculateRadius=*/true);
   var delta = (finishP - startP)/n;
   for (var i=0; i<=n; i++) {
     pp.p = startP + delta*i;
-    var theta = pp.p/3.0 - 3*Math.PI/2;
+    var theta = pp.p/r - 3*Math.PI/2;
     path.map_p_to_slope(pp);
-    assertRoughlyEquals(3*Math.cos(theta), pp.x, tol);
-    assertRoughlyEquals(3*Math.sin(theta), pp.y, tol);
+    assertRoughlyEquals(r*Math.cos(theta), pp.x, tol);
+    assertRoughlyEquals(r*Math.sin(theta), pp.y, tol);
+    assertRoughlyEquals(-Math.sin(theta), pp.dxdp, tol);
+    assertRoughlyEquals(Math.cos(theta), pp.dydp, tol);
     assertRoughlyEquals(-Math.cos(theta), pp.normalX, tol);
     assertRoughlyEquals(-Math.sin(theta), pp.normalY, tol);
-    assertRoughlyEquals(Math.sin(theta)/3, pp.normalXdp, tol);
-    assertRoughlyEquals(-Math.cos(theta)/3, pp.normalYdp, tol);
+    assertRoughlyEquals(Math.sin(theta)/r, pp.normalXdp, tol);
+    assertRoughlyEquals(-Math.cos(theta)/r, pp.normalYdp, tol);
+    if (isFinite(pp.radius)) {
+      // to do: find radius of curvature for the four points on circle
+      // where tangent is horizontal or vertical.  Currently we get
+      // radius is infinite there which is wrong.
+      assertRoughlyEquals(r, pp.radius, tol);
+    }
     var k = -1/Math.tan(theta);
     // nearly vertical (huge) slope is too inaccurate to test
     if (Math.abs(k) < 1E6) {
@@ -77,21 +94,21 @@ var testNumericalPath = function() {
 
   // Find the 'east-most' point on the circle.
   // The p-value starts at zero on top of circle; goes counterclockwise.
-  // The p-value should be (3/4)*(2*pi*radius) = 9*pi/2
+  // The p-value should be (3/4)*(2*pi*r) = (3/2)*pi*r
   pp.idx = 0;
   var clickPoint = new Vector(3.1, 0);
   path.findNearestLocal(clickPoint, pp);
   tol = 1e-6;
-  assertRoughlyEquals(9*Math.PI/2, pp.p, tol);
+  assertRoughlyEquals((3/2)*Math.PI*r, pp.p, tol);
   path.map_p_to_slope(pp);
-  assertRoughlyEquals(3.0, pp.x, tol);
+  assertRoughlyEquals(r, pp.x, tol);
   assertRoughlyEquals(0, pp.y, tol);
   // Similar results with the global version, but much less accurate, bigger tolerance.
   pp = path.findNearestGlobal(clickPoint);
   tol = 0.01;
-  assertRoughlyEquals(9*Math.PI/2, pp.p, tol);
+  assertRoughlyEquals((3/2)*Math.PI*r, pp.p, tol);
   path.map_p_to_slope(pp);
-  assertRoughlyEquals(3.0, pp.x, tol);
+  assertRoughlyEquals(r, pp.x, tol);
   assertRoughlyEquals(0, pp.y, tol);
 
   // Because x values are not monotonically increasing or decreasing,
@@ -101,4 +118,231 @@ var testNumericalPath = function() {
   pp.x = 1;
   assertThrows(function() { path.map_x_to_y_p(pp); });
 };
-goog.exportProperty(window, 'testNumericalPath', testNumericalPath);
+goog.exportProperty(window, 'testNumericalPath1', testNumericalPath1);
+
+/** Test a parabola shaped path. Tests the straight line extension beyond the parabola
+path end points See the paper [Parabola Path Length](Parabola_Path_Length.pdf) for how
+the theoretical path length is calculated.
+
+Theoretical values to test against:
+
+    t = parameter for generating the table
+    t from -1 to 1
+    x(t) = t
+    y(t) = t*t
+    p(x) = (1/4) (2x sqrt(1 + 4 x^2) + invsinh(2x) + 2 sqrt(5) - invsinh(-2))
+    where invsinh is inverse hyperbolic sine which is given by
+    invsinh(u) = ln(u + sqrt(1 + u^2))
+    d invsinh(u)/dx = 1/sqrt(1 + u^2) du/dx
+
+    dp/dx = (1/4) (2 sqrt(1 + 4 x^2) + 2x (1/2)(1/sqrt(1 + 4 x^2))8x
+            + 2 (1/sqrt(1 + 4 x^2)))
+          = (1/4) (2 sqrt(1 + 4 x^2) +(8x^2 + 2) (1/sqrt(1 + 4 x^2)))
+          = (1/2) ( sqrt(1 + 4 x^2) +(4x^2 + 1) (1/sqrt(1 + 4 x^2)))
+          = (1/2) ( sqrt(1 + 4 x^2) +sqrt(1 + 4 x^2))
+          = sqrt(1 + 4 x^2)
+    dx/dp = 1/sqrt(1 + 4 x^2)
+
+    slope = dy/dx = 2x
+
+There are two choices for normal, going in opposite directions, we seem to be
+getting the normal that is "outward" facing here.
+
+    Find the normal N=(a,b) at x,y.  Let k = slope = 2x
+    Length of normal is 1, so a^2 + b^2 = 1.
+    Slope of normal = b/a = -1/k (perpendicular to slope).
+    Solve the last 2 equations:
+    b = -a/k
+    a^2 + (-a/k)^2 = 1
+    a^2 (1 + (1/k)^2) = 1
+    a = 1 / sqrt(1 + (1/k)^2) = k / sqrt(k^2 + 1)
+    b = -1 / sqrt(k^2 + 1)
+    But reverse the signs:
+    a = -k / sqrt(k^2 + 1)
+    b = 1 / sqrt(k^2 + 1)
+
+    normal = (Nx, Ny) = (-k / sqrt(k^2 + 1), 1 / sqrt(k^2 + 1))
+           = (-2x/ sqrt(4 x^2 + 1), 1 /sqrt(4 x^2 + 1))
+    d normal/dp = d normal/dx  dx/dp
+    d Nx /dx = d(u/v) dx where
+        u = -2x,
+        v = sqrt(4 x^2 + 1),
+        du/dx = -2,
+        dv/dx = (1/2)(1/sqrt(4 x^2 + 1)) 8x = 4x/sqrt(4 x^2 + 1)
+        use formula for derivative of quotient:
+        d (u/v) dx = [v du/dx - u dv/dx]/v^2
+        which becomes:
+    d Nx /dx = [sqrt(4 x^2 + 1) (-2) - (-2x) 4x/sqrt(4 x^2 + 1)]/ (4 x^2 + 1)
+             = -2/sqrt(4 x^2 + 1) + 8 x^2/(4 x^2 + 1)^{3/2}
+        multiply by (dx/dp):
+    d Nx /dx (dx/dp) = [-2/sqrt(4 x^2 + 1) + 8 x^2/(4 x^2 + 1)^{3/2}] (1/sqrt(1 + 4 x^2))
+    d Nx /dx (dx/dp) = [-2/(4 x^2 + 1) + 8 x^2/(4 x^2 + 1)^{2}]
+    d Nx /dx (dx/dp) = [-2 + 8 x^2/(4 x^2 + 1)] (1/(4 x^2 + 1))
+
+    d Ny /dx = d(u^{-1/2})/dx, where
+        u = (4 x^2 + 1)
+        use formula for derivative of power:
+        d u^n/dx = n u^{n-1} du/dx
+    d Ny /dx = (-1/2) (4 x^2 + 1)^{-3/2} 8x = -4x /(4 x^2 + 1)^{3/2}
+        multiply by (dx/dp):
+    d Ny /dx (dx/dp) = -4x/(4 x^2 + 1)^2
+
+*/
+var testNumericalPath2 = function() {
+  var tol = 1E-6;
+  var tol2 = 1E-4;
+  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var NumericalPath = myphysicslab.lab.model.NumericalPath;
+  var PathPoint = myphysicslab.lab.model.PathPoint;
+  var CustomPath = myphysicslab.sims.roller.CustomPath;
+  var Vector = myphysicslab.lab.util.Vector;
+  /** @type {function(number):number} */
+  var invsinh = function(x) { return Math.log(x + Math.sqrt(x*x + 1)); };
+  var parabola = new CustomPath(/*start_t=*/-1, /*finish_t=*/1);
+  parabola.setXEquation('t');
+  parabola.setYEquation('t*t');
+  var path = new NumericalPath(parabola);
+  assertFalse(path.isMassObject());
+  var startP = path.getStartPValue();
+  assertEquals(0, startP);
+  // p(x) = (1/4) (2x sqrt(1 + 4 x^2) + invsinh(2x) + 2 sqrt(5) - invsinh(-2))
+  // at the finish point, x = 1.
+  // p(1) = (1/4) (2 sqrt(5) + invsinh(2) + 2 sqrt(5) - invsinh(-2))
+  // p(1) = (1/4) (4 sqrt(5) + invsinh(2) - invsinh(-2))
+  // p(1) = sqrt(5) + (1/4) (invsinh(2) - invsinh(-2))
+  var fp = Math.sqrt(5) + (invsinh(2) - invsinh(-2))/4;
+  var finishP = path.getFinishPValue();
+  assertRoughlyEquals(fp, finishP, tol);
+  var n = 1000;
+  var pp = new PathPoint(0, /*calculateRadius=*/true);
+  var delta = (finishP - startP)/n;
+  for (var i=0; i<=n; i++) {
+    pp.p = startP + delta*i;
+    path.map_p_to_slope(pp);
+    // take the x-value in pp, use our formula to find what p should be
+    var x2 = pp.x * pp.x;
+    // p(x) = (1/4) (2x sqrt(1 + 4 x^2) + invsinh(2x) + 2 sqrt(5) - invsinh(-2))
+    var myp = 2*Math.sqrt(5) + invsinh(2*pp.x) - invsinh(-2);
+    var sqrt4x2 = Math.sqrt(1 + 4 * x2);
+    myp += 2 * pp.x * sqrt4x2;
+    myp = myp/4;
+    assertRoughlyEquals(myp, pp.p, tol);
+    assertRoughlyEquals(x2, pp.y, tol);
+    // normal = (2x/ sqrt(4 x^2 + 1), -1 /sqrt(4 x^2 + 1))
+    assertRoughlyEquals(-2*pp.x/sqrt4x2, pp.normalX, tol);
+    assertRoughlyEquals(1/sqrt4x2, pp.normalY, tol);
+    // dx/dp = 1/(dp/dx) = 1/sqrt(1 + 4 x^2)
+    assertRoughlyEquals(1/sqrt4x2 , pp.dxdp, tol);
+    // dy/dp = dy/dx dx/dp = 2x (1/sqrt(1 + 4 x^2))
+    assertRoughlyEquals(2*pp.x/sqrt4x2 , pp.dydp, tol);
+    // d Nx /dx (dx/dp) = [-2 + 8 x^2/(4 x^2 + 1)] (1/(4 x^2 + 1))
+    var d1 = 4 * x2 + 1;
+    var exp = (-2 + 8 * x2 / d1) / d1;
+    assertRoughlyEquals((-2 + 8 * x2 / d1) / d1, pp.normalXdp, tol2);
+    // d Ny /dx (dx/dp) = -4x/(4 x^2 + 1)^2
+    assertRoughlyEquals(-4 * pp.x/(d1 * d1), pp.normalYdp, tol2);
+    assertRoughlyEquals(2 * pp.x, pp.slope, tol);
+    if (i > 0 && i < n) {
+      // can't figure out radius at end-points
+      assertRoughlyEquals(Math.pow(1 + 4*pp.x*pp.x, 3/2)/2, pp.radius, 0.002);
+    }
+  };
+  // test a point before the starting point of path.
+  var p = path.getStartPValue() - Math.sqrt(5);
+  pp = new PathPoint(p);
+  path.map_p_to_slope(pp);
+  assertRoughlyEquals(p, pp.p, tol);
+  assertRoughlyEquals(-2, pp.x, tol);
+  assertRoughlyEquals(3, pp.y, tol);
+  assertRoughlyEquals(-2, pp.slope, tol);
+  // test a point after the ending point of path.
+  p = path.getFinishPValue() + Math.sqrt(5);
+  pp = new PathPoint(p);
+  path.map_p_to_slope(pp);
+  assertRoughlyEquals(p, pp.p, tol);
+  assertRoughlyEquals(2, pp.x, tol);
+  assertRoughlyEquals(3, pp.y, tol);
+  assertRoughlyEquals(2, pp.slope, tol);
+};
+goog.exportProperty(window, 'testNumericalPath2', testNumericalPath2);
+
+/** Test an OvalPath, to check that vertical segments have correct info.
+*/
+var testNumericalPath3 = function() {
+  var tol = 1E-6;
+  var tol2 = 1E-5;
+  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var NumericalPath = myphysicslab.lab.model.NumericalPath;
+  var PathPoint = myphysicslab.lab.model.PathPoint;
+  var OvalPath = myphysicslab.sims.roller.OvalPath;
+  var Vector = myphysicslab.lab.util.Vector;
+  var path = new NumericalPath(new OvalPath());
+  var pp = new PathPoint(0, /*calculateRadius=*/true);
+  // t = pi to 2+pi is straight down section
+  // p = t - pi/2
+  // p = pi/2 to 2 + pi/2 is straight down section
+  pp.p = 1 + Math.PI/2;
+  path.map_p_to_slope(pp);
+  assertRoughlyEquals(-1, pp.x, tol);
+  assertRoughlyEquals(1, pp.y, tol);
+  assertRoughlyEquals(0, pp.dxdp, tol);
+  assertRoughlyEquals(-1, pp.dydp, tol);
+  assertRoughlyEquals(1, pp.normalX, tol);
+  assertRoughlyEquals(0, pp.normalY, tol);
+  assertRoughlyEquals(0, pp.normalXdp, tol);
+  assertRoughlyEquals(0, pp.normalYdp, tol);
+  assertEquals(Number.NEGATIVE_INFINITY, pp.slope);
+  assertEquals(Number.NEGATIVE_INFINITY, pp.radius);
+  assertEquals(0, pp.slopeX);
+  assertEquals(-1, pp.slopeY);
+  // t = 2 + 2*pi to 4 + 2*pi is straight up section
+  // p = t - pi/2
+  // p = 2 + (3/2)pi to 4 + (3/2)pi is straight up section
+  pp.p = 3 + 3*Math.PI/2;
+  path.map_p_to_slope(pp);
+  assertRoughlyEquals(1, pp.x, tol);
+  assertRoughlyEquals(1, pp.y, tol);
+  assertRoughlyEquals(0, pp.dxdp, tol);
+  assertRoughlyEquals(1, pp.dydp, tol);
+  assertRoughlyEquals(-1, pp.normalX, tol);
+  assertRoughlyEquals(0, pp.normalY, tol);
+  assertRoughlyEquals(0, pp.normalXdp, tol);
+  assertRoughlyEquals(0, pp.normalYdp, tol);
+  assertEquals(Number.POSITIVE_INFINITY, pp.slope);
+  assertEquals(Number.POSITIVE_INFINITY, pp.radius);
+  assertEquals(0, pp.slopeX);
+  assertEquals(1, pp.slopeY);
+};
+goog.exportProperty(window, 'testNumericalPath3', testNumericalPath3);
+
+/** Test an FlatlPath, to check that horizontal segments have correct info.
+*/
+var testNumericalPath4 = function() {
+  var tol = 1E-6;
+  var tol2 = 1E-5;
+  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var NumericalPath = myphysicslab.lab.model.NumericalPath;
+  var PathPoint = myphysicslab.lab.model.PathPoint;
+  var FlatPath = myphysicslab.sims.roller.FlatPath;
+  var Vector = myphysicslab.lab.util.Vector;
+  var path = new NumericalPath(new FlatPath());
+  var pp = new PathPoint(0, /*calculateRadius=*/true);
+  // t = goes from -5 to 5
+  // p = t + 5
+  // p = goes from 0 to 10
+  pp.p = 5;
+  path.map_p_to_slope(pp);
+  assertRoughlyEquals(0, pp.x, tol);
+  assertRoughlyEquals(0, pp.y, tol);
+  assertRoughlyEquals(1, pp.dxdp, tol);
+  assertRoughlyEquals(0, pp.dydp, tol);
+  assertEquals(0, pp.slope);
+  assertEquals(1, pp.slopeX);
+  assertEquals(0, pp.slopeY);
+  assertEquals(Number.POSITIVE_INFINITY, pp.radius);
+  assertRoughlyEquals(0, pp.normalX, tol);
+  assertRoughlyEquals(1, pp.normalY, tol);
+  assertRoughlyEquals(0, pp.normalXdp, tol);
+  assertRoughlyEquals(0, pp.normalYdp, tol);
+};
+goog.exportProperty(window, 'testNumericalPath4', testNumericalPath4);
