@@ -98,6 +98,9 @@ fi
 #
 # compilation_levels: WHITESPACE_ONLY, SIMPLE, ADVANCED
 #
+# This option turns on NTI (new type inference):
+#--jscomp_warning=newCheckTypes \
+#
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
 #set -x
 java -jar "$CLOSURE_COMPILER" \
@@ -161,7 +164,6 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=invalidCasts \
 --jscomp_warning=misplacedTypeAnnotation \
 --jscomp_warning=missingReturn \
---jscomp_warning=newCheckTypes \
 --jscomp_warning=strictModuleDepCheck \
 --jscomp_warning=suspiciousCode \
 --jscomp_warning=typeInvalidation \

@@ -171,7 +171,12 @@ fi
 # To see compiler version:
 #  java -jar ../javascript/closure-compiler/build/compiler.jar --version
 #
+# As of Feb 2017, the way to specify NTI usage is changing. newCheckTypes now
+# implies new_type_inf.
 # --new_type_inf \
+# --jscomp_error=newCheckTypes \
+# --jscomp_off=newCheckTypesExtraChecks \
+#
 # The option --new_type_inf does "new type inference" (NTI) which treats @interface
 # more strictly, but it also gives LOTS of errors on closure-library.
 # Without --new_type_inf, interfaces are loosely checked, and any possible
@@ -215,7 +220,6 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_error=missingProvide \
 --jscomp_error=missingRequire \
 --jscomp_error=missingReturn \
---jscomp_error=newCheckTypes \
 --jscomp_error=strictModuleDepCheck \
 --jscomp_error=suspiciousCode \
 --jscomp_error=typeInvalidation \
