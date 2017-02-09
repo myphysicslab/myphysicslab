@@ -74,7 +74,7 @@ if (!UtilityCore.ADVANCED) {
 */
 AbstractSimObject.ID = 1;
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractSimObject.prototype.getBoundsWorld = function() {};
 
 /** Returns name of class of this object.

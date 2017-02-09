@@ -83,7 +83,7 @@ if (!UtilityCore.ADVANCED) {
   };
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractODESim.prototype.evaluate = function(vars, change, timeStep) {};
 
 /** @inheritDoc */
@@ -96,7 +96,7 @@ AbstractODESim.prototype.getVarsList = function() {
   return this.varsList_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractODESim.prototype.modifyObjects = function() {};
 
 /** @inheritDoc */

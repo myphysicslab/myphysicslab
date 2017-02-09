@@ -81,10 +81,10 @@ if (!UtilityCore.ADVANCED) {
   };
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractPath.prototype.x_func = function(t) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractPath.prototype.y_func = function(t) {};
 
 /** Returns name of class of this object.

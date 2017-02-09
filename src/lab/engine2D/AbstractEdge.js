@@ -113,22 +113,22 @@ if (!UtilityCore.ADVANCED) {
   };
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.addPath = function(context) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.chordError = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.distanceToEdge = function(edge) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.distanceToLine = function(p_body) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.distanceToPoint = function(p_body) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.findVertexContact = function(v, p_body, distTol) {};
 
 /** @inheritDoc */
@@ -136,10 +136,10 @@ AbstractEdge.prototype.getBody = function() {
   return this.body_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getBottomBody = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getCenterOfCurvature = function(p_body) {};
 
 /** @inheritDoc */
@@ -177,7 +177,7 @@ AbstractEdge.prototype.getCentroidWorld = function() {
 */
 AbstractEdge.prototype.getClassName = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getCurvature = function(p_body) {};
 
 /** @inheritDoc */
@@ -196,19 +196,19 @@ AbstractEdge.prototype.getIndex = function() {
   return this.index_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getLeftBody = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getNormalBody = function(p_body) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getPointOnEdge = function(p_body) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getRightBody = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.getTopBody = function() {};
 
 /** @inheritDoc */
@@ -221,13 +221,13 @@ AbstractEdge.prototype.getVertex2 = function() {
   return this.v2_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.highlight = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.improveAccuracyEdge = function(rbc, edge) {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.intersection = function(p1_body, p2_body) {};
 
 /** @inheritDoc */
@@ -239,10 +239,10 @@ AbstractEdge.prototype.intersectionPossible = function(edge, swellage) {
   return dist < dist2;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.isStraight = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.maxDistanceTo = function(p_body) {};
 
 /** @inheritDoc */
@@ -261,7 +261,7 @@ AbstractEdge.prototype.setVertex2 = function(vertex) {
   this.v2_ = vertex;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractEdge.prototype.testCollisionEdge = function(collisions, edge, time) {};
 
 }); // goog.scope

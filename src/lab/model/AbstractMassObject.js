@@ -163,7 +163,7 @@ AbstractMassObject.prototype.bodyToWorldTransform = function() {
   return at.translate(-this.cm_body_.getX(), -this.cm_body_.getY());
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.createCanvasPath = function(context) {};
 
 /** @inheritDoc */
@@ -176,7 +176,7 @@ AbstractMassObject.prototype.getAngularVelocity = function() {
   return this.angular_velocity_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getBottomBody = function() {};
 
 /** @inheritDoc */
@@ -207,10 +207,10 @@ AbstractMassObject.prototype.getCenterOfMassBody = function() {
   return this.cm_body_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getCentroidBody = function() {};
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getCentroidRadius = function() {};
 
 /** @inheritDoc */
@@ -233,7 +233,7 @@ AbstractMassObject.prototype.getKineticEnergy = function() {
   return this.translationalEnergy() + this.rotationalEnergy();
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getLeftBody = function() {};
 
 /** @inheritDoc */
@@ -252,7 +252,7 @@ AbstractMassObject.prototype.getMass = function() {
   return this.mass_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getMinHeight = function() {};
 
 /** @inheritDoc */
@@ -260,7 +260,7 @@ AbstractMassObject.prototype.getPosition = function() {
   return this.loc_world_;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getRightBody = function() {};
 
 /** @inheritDoc */
@@ -274,7 +274,7 @@ AbstractMassObject.prototype.getRightWorld = function() {
   return max;
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getTopBody = function() {};
 
 /** @inheritDoc */
@@ -304,7 +304,7 @@ AbstractMassObject.prototype.getVelocity = function(p_body) {
   }
 };
 
-/** @inheritDoc @abstract */
+/** @abstract */
 AbstractMassObject.prototype.getVerticesBody = function() {};
 
 /** @inheritDoc */
