@@ -202,14 +202,14 @@ PendulumClockApp.prototype.config = function() {
     PendulumClockConfig.makeClock(this.mySim, this.pendulumLength,
         /*center=*/Vector.ORIGIN);
   }
-  var escapeWheel = this.displayList.find(PendulumClockConfig.en.ESCAPE_WHEEL);
+  var escapeWheel = this.displayList.findShape(PendulumClockConfig.en.ESCAPE_WHEEL);
   escapeWheel.setFillStyle('#D3D3D3');
   if (this.withGears) {
     escapeWheel.setStrokeStyle('black');
-    var gear2 = this.displayList.find(PendulumClockConfig.en.GEAR+2);
+    var gear2 = this.displayList.findShape(PendulumClockConfig.en.GEAR+2);
     gear2.setFillStyle('#B0C4DE').setZIndex(2);
   }
-  var anchor = this.displayList.find(PendulumClockConfig.en.ANCHOR);
+  var anchor = this.displayList.findShape(PendulumClockConfig.en.ANCHOR);
   anchor.setFillStyle('#B0C4DE').setZIndex(3);
   this.setTurningForce(this.turningForce);
   if (this.extraBody) {
@@ -219,7 +219,7 @@ PendulumClockApp.prototype.config = function() {
     block.setMass(0.3);
     block.setPosition(new Vector(0, 6), Math.PI/2);
     this.mySim.addBody(block);
-    this.displayList.find(block).setStrokeStyle('cyan');
+    this.displayList.findShape(block).setStrokeStyle('cyan');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

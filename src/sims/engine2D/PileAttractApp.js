@@ -210,7 +210,7 @@ PileAttractApp.prototype.config = function() {
 
   // set random colors for blocks
   goog.array.forEach(blocks, function(b) {
-        this.displayList.find(b).setFillStyle(PileConfig.getRandomColor());
+        this.displayList.findShape(b).setFillStyle(PileConfig.getRandomColor());
       }, this);
 
   this.mySim.setElasticity(elasticity);

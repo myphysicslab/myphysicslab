@@ -226,7 +226,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
       CurvedTestApp.i18n.BLOCK+1);
     b.setPosition(new Vector(-2.0,  -2),  0);
     sim.addBody(b);
-    if (displayList != null) { displayList.find(b).setFillStyle('cyan'); };
+    if (displayList != null) { displayList.findShape(b).setFillStyle('cyan'); };
   }
   if (numBods >= 2) {
     b = Shapes.makeBall(0.8, CurvedTestApp.en.BALL+2,
@@ -235,7 +235,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
         b.getBottomBody() + 0.2*b.getHeight());
     b.setPosition(new Vector(-1.7,  1),  0);
     sim.addBody(b);
-    if (displayList != null) { displayList.find(b).setFillStyle('orange'); };
+    if (displayList != null) { displayList.findShape(b).setFillStyle('orange'); };
   }
   if (numBods >= 3) {
     b = Shapes.makeBall(1, CurvedTestApp.en.BALL+2,
@@ -246,7 +246,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
     y += 1 - 0.3;
     b.setPosition(new Vector(x, 0.1+y+ sim.getDistanceTol() / 2.0), Math.PI);
     sim.addBody(b);
-    if (displayList != null) { displayList.find(b).setFillStyle('#9f3'); };
+    if (displayList != null) { displayList.findShape(b).setFillStyle('#9f3'); };
   }
   if (numBods >= 4) {
     b = Shapes.makeBlock(0.8, 2, CurvedTestApp.en.BLOCK+4,
@@ -254,7 +254,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
     b.setMass(2);
     b.setPosition(new Vector(5, 0), 0.2);
     sim.addBody(b);
-    if (displayList != null) { displayList.find(b).setFillStyle('#f6c'); };
+    if (displayList != null) { displayList.findShape(b).setFillStyle('#f6c'); };
   }
   if (numBods >= 5) {
     b = Shapes.makeBall(0.4, CurvedTestApp.en.BALL+5,
@@ -262,7 +262,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
     b.setMass(1.5);
     b.setPosition(new Vector(5.9, 2));
     sim.addBody(b);
-    if (displayList != null) { displayList.find(b).setFillStyle('#39f'); };
+    if (displayList != null) { displayList.findShape(b).setFillStyle('#39f'); };
   }
   if (numBods >= 6) {
     b = Shapes.makeBall(1.0, CurvedTestApp.en.BALL+6,
@@ -270,7 +270,7 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
     b.setMass(1.0);
     b.setPosition(new Vector(-2.5,  4));
     sim.addBody(b);
-    if (displayList != null) { displayList.find(b).setFillStyle('#c99'); };
+    if (displayList != null) { displayList.findShape(b).setFillStyle('#c99'); };
   }
   var zel = Walls.make2(sim, simRect);
   gravity.setZeroEnergyLevel(zel);

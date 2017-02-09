@@ -60,7 +60,7 @@ sims.engine2D.FastBallApp = function(elem_ids) {
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);
   this.mySim.addBody(p);
-  this.displayList.find(p).setFillStyle('green');
+  this.displayList.findShape(p).setFillStyle('green');
   this.mySim.setElasticity(0.9);
   // super-thin walls
   this.rbo.protoFixedPolygon.setFillStyle('black');

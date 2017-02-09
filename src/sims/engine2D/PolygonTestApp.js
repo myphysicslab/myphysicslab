@@ -191,7 +191,7 @@ PolygonTestApp.prototype.config = function() {
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
-    this.displayList.find(p).setFillStyle('cyan').setDrawCenterOfMass(true);
+    this.displayList.findShape(p).setFillStyle('cyan').setDrawCenterOfMass(true);
   }
   if (this.numBods >= 2) {
     // small triangular pie wedge with one circular edge
@@ -208,7 +208,7 @@ PolygonTestApp.prototype.config = function() {
     p.setPosition(new Vector(2,  -2),  Math.PI);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('orange').setDrawCenterOfMass(true);
+    this.displayList.findShape(p).setFillStyle('orange').setDrawCenterOfMass(true);
   }
   if (this.numBods >= 3) {
     p = Shapes.makeHexagon(1.0, PolygonTestApp.en.HEXAGON, PolygonTestApp.i18n.HEXAGON);
@@ -216,7 +216,7 @@ PolygonTestApp.prototype.config = function() {
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
     // light green
-    this.displayList.find(p).setFillStyle('#9f3');
+    this.displayList.findShape(p).setFillStyle('#9f3');
   }
   if (this.numBods >= 4) {
     p = new Polygon(PolygonTestApp.en.L_SHAPE, PolygonTestApp.i18n.L_SHAPE);
@@ -233,14 +233,14 @@ PolygonTestApp.prototype.config = function() {
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
     // hot pink
-    this.displayList.find(p).setFillStyle('#f6c').setDrawCenterOfMass(true);
+    this.displayList.findShape(p).setFillStyle('#f6c').setDrawCenterOfMass(true);
   }
   if (this.numBods >= 5) {
     p = Shapes.makeBall(1.0, PolygonTestApp.en.BALL, PolygonTestApp.i18n.BALL);
     p.setPosition(new Vector(-1, -2.5));
     //p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#39f');
+    this.displayList.findShape(p).setFillStyle('#39f');
   }
   if (this.numBods >= 6) {
     p = Shapes.makeBlock(1.2, 2.8, PolygonTestApp.en.BLOCK, PolygonTestApp.i18n.BLOCK);
@@ -249,7 +249,7 @@ PolygonTestApp.prototype.config = function() {
     this.thrust1 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
-    this.displayList.find(p).setFillStyle('#c99');
+    this.displayList.findShape(p).setFillStyle('#c99');
   }
   if (this.numBods >= 7) {
     p = Shapes.makeFrame(1.8, 1.2, 0.25, PolygonTestApp.en.HOLLOW_BOX,
@@ -257,14 +257,14 @@ PolygonTestApp.prototype.config = function() {
     //p.setPosition(new Vector(-1, -2.5));
     p.setPosition(new Vector(-2, 2.5));
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#990');
+    this.displayList.findShape(p).setFillStyle('#990');
   }
   if (this.numBods >= 8) {
     p = Shapes.makeBall(0.15, PolygonTestApp.en.BALL_IN_BOX,
         PolygonTestApp.i18n.BALL_IN_BOX);
     p.setPosition(new Vector(-2, 2.5));
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#9cc');
+    this.displayList.findShape(p).setFillStyle('#9cc');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

@@ -190,7 +190,7 @@ ContactApp.prototype.config = function() {
     p.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
     p.setMass(this.mass1);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('cyan')
+    this.displayList.findShape(p).setFillStyle('cyan')
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
@@ -200,7 +200,7 @@ ContactApp.prototype.config = function() {
     p.setPosition(new Vector(-1.8,  0),  0);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('orange')
+    this.displayList.findShape(p).setFillStyle('orange')
     this.thrust1 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
@@ -212,20 +212,20 @@ ContactApp.prototype.config = function() {
     p.setPosition(new Vector(2,  -0.113),  0);
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#9f3'); // light green
+    this.displayList.findShape(p).setFillStyle('#9f3'); // light green
   }
   if (this.numBods >= 4) {
     p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+4, ContactApp.i18n.BLOCK+4);
     p.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#f6c'); // hot pink
+    this.displayList.findShape(p).setFillStyle('#f6c'); // hot pink
   }
   if (this.numBods >= 5) {
     p = Shapes.makeBlock(1, 3, ContactApp.en.BLOCK+5, ContactApp.i18n.BLOCK+5);
     p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#39f');
+    this.displayList.findShape(p).setFillStyle('#39f');
   }
   if (this.numBods >= 6) {
     p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
@@ -233,7 +233,7 @@ ContactApp.prototype.config = function() {
         ContactApp.en.BLOCK+6, ContactApp.i18n.BLOCK+6);
     p.setPosition(new Vector(0,  0),  0);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#c99');
+    this.displayList.findShape(p).setFillStyle('#c99');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

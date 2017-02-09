@@ -196,14 +196,14 @@ GearsApp.prototype.config = function() {
   this.gearLeft.setPosition(new Vector(0,  0),  0);
   this.gearLeft.setMass(1);
   this.mySim.addBody(this.gearLeft);
-  this.displayList.find(this.gearLeft).setFillStyle('lightGray');
+  this.displayList.findShape(this.gearLeft).setFillStyle('lightGray');
   if (this.twoGears) {
     this.gearRight = GearsConfig.makeGear(2.7, [], GearsConfig.en.RIGHT_GEAR,
         GearsConfig.i18n.RIGHT_GEAR);
     var tooth = 2*Math.PI/36;
     this.gearRight.setPosition(new Vector((2 * 2.7) +0.008+0.35, 0), -tooth/5);
     this.mySim.addBody(this.gearRight);
-    this.displayList.find(this.gearRight).setFillStyle('lightGray');
+    this.displayList.findShape(this.gearRight).setFillStyle('lightGray');
   } else {
     this.gearRight = null;
   }

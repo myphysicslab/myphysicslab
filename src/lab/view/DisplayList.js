@@ -23,6 +23,8 @@ goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
+goog.require('myphysicslab.lab.view.DisplayShape');
+goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.util.MemoList');
 goog.require('myphysicslab.lab.util.Memorizable');
 
@@ -31,6 +33,8 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
+var DisplayShape = myphysicslab.lab.view.DisplayShape;
+var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
@@ -194,6 +198,36 @@ DisplayList.prototype.find = function(search) {
   } else {
     return null;
   }
+};
+
+/** Returns the DisplayShape that shows the given SimObject.
+@param {!SimObject|string|number} search  the SimObject to search for, or name of
+    SimObject, or index number of DisplayObject.
+    Name should be English or language-independent version of name.
+@return {?DisplayShape} the DisplayShape on this list that shows
+    the given SimObject, or null if not found
+*/
+DisplayList.prototype.findShape = function(search) {
+  var ds = this.find(search);
+  if (ds instanceof DisplayShape) {
+    return /**!DisplayShape*/(ds);
+  }
+  return null;
+};
+
+/** Returns the DisplaySpring that shows the given SimObject.
+@param {!SimObject|string|number} search  the SimObject to search for, or name of
+    SimObject, or index number of DisplayObject.
+    Name should be English or language-independent version of name.
+@return {?DisplaySpring} the DisplaySpring on this list that shows
+    the given SimObject, or null if not found
+*/
+DisplayList.prototype.findSpring = function(search) {
+  var ds = this.find(search);
+  if (ds instanceof DisplaySpring) {
+    return /**!DisplaySpring*/(ds);
+  }
+  return null;
 };
 
 /** Returns the DisplayObject at the specified position in this DisplayList

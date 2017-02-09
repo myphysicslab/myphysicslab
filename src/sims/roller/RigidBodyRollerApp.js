@@ -260,7 +260,7 @@ RigidBodyRollerApp.prototype.config = function() {
   this.block.setPosition(new Vector(-4,  4),  Math.PI/4);
   this.block.setVelocity(new Vector(0,  0),  0);
   this.mySim.addBody(this.block);
-  this.displayList.find(this.block).setFillStyle('rgba(51,204,255,0.5)')
+  this.displayList.findShape(this.block).setFillStyle('rgba(51,204,255,0.5)')
       .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
   var attach = this.block.getDragPoints()[1];

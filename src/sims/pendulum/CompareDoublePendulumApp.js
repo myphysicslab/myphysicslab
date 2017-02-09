@@ -229,9 +229,9 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0, pivot);
   var bod = this.parts2.bodies[0];
   this.sim2.addBody(bod);
-  this.displayList.find(bod).setFillStyle('#f99');
+  this.displayList.findShape(bod).setFillStyle('#f99');
   this.sim2.addBody(bod =this.parts2.bodies[1]);
-  this.displayList.find(bod).setFillStyle('#f66');
+  this.displayList.findShape(bod).setFillStyle('#f66');
   this.sim2.addConnectors(this.parts2.joints);
   this.sim2.alignConnectors();
   this.sim2.saveInitialState();

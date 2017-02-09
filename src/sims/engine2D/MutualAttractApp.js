@@ -175,40 +175,40 @@ MutualAttractApp.prototype.config = function() {
       body.setPosition(new Vector(-4,  0.5),  0);
       body.setVelocity(new Vector(-0.5,  1.0*v));
       this.mySim.addBody(body);
-      this.displayList.find(body).setFillStyle('green');
+      this.displayList.findShape(body).setFillStyle('green');
       break;
     case 1:
       body = this.makeBody();
       body.setPosition(new Vector(-2.5,  1),  0);
       body.setVelocity(new Vector(1.5*v,  -0.5*v));
       this.mySim.addBody(body);
-      this.displayList.find(body).setFillStyle('blue');
+      this.displayList.findShape(body).setFillStyle('blue');
       break;
     case 2:
       body = this.makeBody();
       body.setPosition(new Vector(-0.5,  -3),  0);
       body.setVelocity(new Vector(-1.5*v,  0));
       this.mySim.addBody(body);
-      this.displayList.find(body).setFillStyle('lightGray');
+      this.displayList.findShape(body).setFillStyle('lightGray');
       break;
     case 3:
       body = this.makeBody();
       body.setPosition(new Vector(1,  1),  0);
       body.setVelocity(new Vector(0.5*v,  -0.5*v));
       this.mySim.addBody(body);
-      this.displayList.find(body).setFillStyle('cyan');
+      this.displayList.findShape(body).setFillStyle('cyan');
       break;
     case 4:
       body = this.makeBody();
       body.setPosition(new Vector(3,  -1),  0);
       this.mySim.addBody(body);
-      this.displayList.find(body).setFillStyle('magenta');
+      this.displayList.findShape(body).setFillStyle('magenta');
       break;
     case 5:
       body = this.makeBody();
       body.setPosition(new Vector(5,  2),  0);
       this.mySim.addBody(body);
-      this.displayList.find(body).setFillStyle('orange');
+      this.displayList.findShape(body).setFillStyle('orange');
       break;
     default:
       throw new Error('too many bodies');

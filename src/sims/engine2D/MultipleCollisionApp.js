@@ -281,7 +281,7 @@ MultipleCollisionApp.prototype.makePuck = function() {
 MultipleCollisionApp.prototype.addBody = function(body) {
   var c = MultipleCollisionApp.massToColor(body.getMass());
   this.mySim.addBody(body);
-  this.displayList.find(body).setFillStyle(c).setDrawCenterOfMass(true);
+  this.displayList.findShape(body).setFillStyle(c).setDrawCenterOfMass(true);
 };
 
 /** Returns dark color for heavier mass, light color for light mass.
@@ -499,7 +499,7 @@ MultipleCollisionApp.prototype.config = function() {
       body2.setPosition(new Vector(-2,  0));
       body2.setMass(0.5);
       this.mySim.addBody(body2);
-      this.displayList.find(body2).setFillStyle('rgb(240,240,240)')
+      this.displayList.findShape(body2).setFillStyle('rgb(240,240,240)')
 
       Joint.attachRigidBody(this.mySim,
         body2, /*attach_body1=*/new Vector(0.75, 0),

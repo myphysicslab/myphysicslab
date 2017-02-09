@@ -187,17 +187,19 @@ DoNothingApp.prototype.config = function() {
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   DoNothingApp.setup(this.mySim, this.tightFit);
-  this.displayList.find(DoNothingApp.en.HANDLE).setFillStyle('rgba(51,204,255,0.5)')
-      .setZIndex(2);
-  this.displayList.find(DoNothingApp.en.SHUTTLE+1).setFillStyle('rgb(200,200,200)');
-  this.displayList.find(DoNothingApp.en.SHUTTLE+2).setFillStyle('rgb(200,200,200)');
+  this.displayList.findShape(DoNothingApp.en.HANDLE)
+      .setFillStyle('rgba(51,204,255,0.5)').setZIndex(2);
+  this.displayList.findShape(DoNothingApp.en.SHUTTLE+1)
+      .setFillStyle('rgb(200,200,200)');
+  this.displayList.findShape(DoNothingApp.en.SHUTTLE+2)
+      .setFillStyle('rgb(200,200,200)');
   if (this.extraBlock) {
     // add an optional extra free block
     var block = Shapes.makeBlock(1, 3, DoNothingApp.en.EXTRA_BLOCK,
         DoNothingApp.i18n.EXTRA_BLOCK);
     block.setPosition(new Vector(-5.5,  -4));
     this.mySim.addBody(block);
-    this.displayList.find(block).setFillStyle('blue');
+    this.displayList.findShape(block).setFillStyle('blue');
     // the free block does not collide with fixed blocks
     goog.array.forEach(this.mySim.getBodies(), function(bod, index, array) {
         if (bod.getName().match(/^FIXED.*/) != null) {

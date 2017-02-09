@@ -91,7 +91,7 @@ Modify the DisplayObject's style directly after it has been created.  Here
 is an example:
 
     simList.add(polygon1); // RigidBodyObserver creates a DisplayShape here
-    var dispPoly1 = displayList.find(polygon1);
+    var dispPoly1 = displayList.findShape(polygon1);
     dispPoly1.setFillStyle('red');
 
 

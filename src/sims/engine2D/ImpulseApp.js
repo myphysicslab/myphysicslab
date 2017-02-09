@@ -194,7 +194,7 @@ ImpulseApp.prototype.config = function() {
     p.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
     p.setMass(this.mass1);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('cyan')
+    this.displayList.findShape(p).setFillStyle('cyan')
     this.thrust2 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
@@ -204,7 +204,7 @@ ImpulseApp.prototype.config = function() {
     p.setPosition(new Vector(-2.2,  0),  0);
     p.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('orange')
+    this.displayList.findShape(p).setFillStyle('orange')
     this.thrust1 = SixThrusters.make(this.thrust, p);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
@@ -214,26 +214,26 @@ ImpulseApp.prototype.config = function() {
     p.setPosition(new Vector(2.867,  -0.113),  0);
     p.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#9f3'); // light green
+    this.displayList.findShape(p).setFillStyle('#9f3'); // light green
   }
   if (this.numBods >= 4) {
     p = ImpulseApp.makeBlock(4);
     p.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#f6c'); // hot pink
+    this.displayList.findShape(p).setFillStyle('#f6c'); // hot pink
   }
   if (this.numBods >= 5) {
     p = ImpulseApp.makeBlock(5);
     p.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#39f');
+    this.displayList.findShape(p).setFillStyle('#39f');
   }
   if (this.numBods >= 6) {
     p = ImpulseApp.makeBlock(6);
     p.setPosition(new Vector(0.08,  0.127),  0.888);
     this.mySim.addBody(p);
-    this.displayList.find(p).setFillStyle('#c99');
+    this.displayList.findShape(p).setFillStyle('#c99');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

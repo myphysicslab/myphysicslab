@@ -33,7 +33,7 @@ p.setPosition(new Vector(-5, 0));
 p.setVelocity(new Vector(200, 153));
 p.setElasticity(0.9);
 sim.addBody(p);
-displayList.find(p).setFillStyle('green');
+displayList.findShape(p).setFillStyle('green');
 sim.saveInitialState();
 app.addStandardControls();
 </pre>
@@ -45,12 +45,12 @@ for this page. For example, the following URL contains the above script.
 </p>
 
 <p>
-<a href="#MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;SHOW_CLOCK=true;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,'fast_ball');p.setMass(0.1);p.setPosition(new%20Vector(-5,0));p.setVelocity(new%20Vector(200,153));p.setElasticity(0.9);sim.addBody(p);displayList.find(p).setFillStyle('green');sim.saveInitialState();app.addStandardControls()">
+<a href="#MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;SHOW_CLOCK=true;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,'fast_ball');p.setMass(0.1);p.setPosition(new%20Vector(-5,0));p.setVelocity(new%20Vector(200,153));p.setElasticity(0.9);sim.addBody(p);displayList.findShape(p).setFillStyle('green');sim.saveInitialState();app.addStandardControls()">
 <code>
 #MYPHYSICSLAB_URL/develop/build/sims/engine2D/BlankApp_en.html?ELASTICITY=0.9;<br>
 SHOW_CLOCK=true;Walls.make(sim,12,12,0.01);var%20p=Shapes.makeBall(0.2,'fast_ball');<br>
 p.setMass(0.1);p.setPosition(new Vector(-5,0));p.setVelocity(new Vector(200,153));<br>
-p.setElasticity(0.9);sim.addBody(p);displayList.find(p).setFillStyle('green');<br>
+p.setElasticity(0.9);sim.addBody(p);displayList.findShape(p).setFillStyle('green');<br>
 sim.saveInitialState();app.addStandardControls();
 </code>
 </a>

@@ -293,7 +293,7 @@ PileApp.prototype.config = function() {
 
   // set random colors for blocks
   goog.array.forEach(blocks, function(b) {
-        this.displayList.find(b).setFillStyle(PileConfig.getRandomColor());
+        this.displayList.findShape(b).setFillStyle(PileConfig.getRandomColor());
       }, this);
 
   this.mySim.setElasticity(elasticity);
@@ -313,7 +313,7 @@ PileApp.prototype.addBlock = function() {
       Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/0.7);
   b.setPosition(new Vector(0,  10));
   this.mySim.addBody(b);
-  this.displayList.find(b).setFillStyle(PileConfig.getRandomColor());
+  this.displayList.findShape(b).setFillStyle(PileConfig.getRandomColor());
   this.mySim.saveInitialState();
 };
 

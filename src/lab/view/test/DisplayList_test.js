@@ -58,7 +58,9 @@ var testDisplayList = function() {
   assertTrue(goog.array.contains(displayList.toArray(), s1));
   assertTrue(goog.array.contains(displayList.toArray(), s2));
   assertEquals(s1, displayList.find(p1));
+  assertEquals(s1, displayList.findShape(p1));
   assertEquals(s2, displayList.find(p2));
+  assertEquals(s2, displayList.findShape(p2));
   assertArrayEquals([s1, s2], displayList.toArray());
   s3.setZIndex(-1);
   displayList.add(s3);

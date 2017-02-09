@@ -226,7 +226,7 @@ RigidBodyApp.prototype.config = function() {
         Scrim.getScrim(), new Vector(-2, -2),
         p1, new Vector(0.15, 0.7),
         this.restLength, this.stiffness));
-    this.displayList.find(p1).setFillStyle('cyan');
+    this.displayList.findShape(p1).setFillStyle('cyan');
 
     if (this.numBods < 2) {
       break make_blocks;
@@ -246,7 +246,7 @@ RigidBodyApp.prototype.config = function() {
         p2, new Vector(0.15, -0.7),
         p1, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
-    this.displayList.find(p2).setFillStyle('orange');
+    this.displayList.findShape(p2).setFillStyle('orange');
 
     if (this.numBods < 3) {
       break make_blocks;
@@ -259,7 +259,7 @@ RigidBodyApp.prototype.config = function() {
         p3, new Vector(0.15, 0.7),
         p2, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
-    this.displayList.find(p3).setFillStyle('#9f3'); // light green
+    this.displayList.findShape(p3).setFillStyle('#9f3'); // light green
 
     if (this.numBods < 4) {
       break make_blocks;
@@ -272,7 +272,7 @@ RigidBodyApp.prototype.config = function() {
         p4, new Vector(0.15, 0.7),
         p3, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
-    this.displayList.find(p4).setFillStyle('#f6c'); // hot pink
+    this.displayList.findShape(p4).setFillStyle('#f6c'); // hot pink
 
     if (this.numBods < 5) {
       break make_blocks;
@@ -284,7 +284,7 @@ RigidBodyApp.prototype.config = function() {
         p5, new Vector(0.15, 0.7),
         p4, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
-    this.displayList.find(p5).setFillStyle('#39f');
+    this.displayList.findShape(p5).setFillStyle('#39f');
 
     if (this.numBods >= 6) {
       break make_blocks;
@@ -296,7 +296,7 @@ RigidBodyApp.prototype.config = function() {
         p6, new Vector(0.15, 0.7),
         p5, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
-    this.displayList.find(p6).setFillStyle('#c99');
+    this.displayList.findShape(p6).setFillStyle('#c99');
   }
   this.mySim.getVarsList().setTime(0);
   this.mySim.saveInitialState();

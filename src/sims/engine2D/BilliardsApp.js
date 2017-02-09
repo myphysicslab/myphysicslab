@@ -30,6 +30,7 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayList');
+goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.layout.CommonControls');
 goog.require('myphysicslab.sims.layout.TabLayout');
@@ -46,6 +47,7 @@ var CommonControls = sims.layout.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
 var DisplayList = lab.view.DisplayList;
+var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var NumericControl = lab.controls.NumericControl;
@@ -208,17 +210,17 @@ BilliardsApp.make = function(sim, displayList, formation, offset, speed) {
       var body = BilliardsApp.makeBall(4, r);
       body.setPosition(new Vector(2*x1,  0),  0);
       sim.addBody(body);
-      displayList.find(body).setFillStyle('aqua');
+      displayList.findShape(body).setFillStyle('aqua');
 
       body = BilliardsApp.makeBall(5, r);
       body.setPosition(new Vector(2*x1, 2*r+sim.getDistanceTol()/4 + offset/2), 0);
       sim.addBody(body);
-      displayList.find(body).setFillStyle('fuchsia');
+      displayList.findShape(body).setFillStyle('fuchsia');
 
       body = BilliardsApp.makeBall(6, r);
       body.setPosition(new Vector(2*x1, -2*r-sim.getDistanceTol()/4 - offset/2), 0);
       sim.addBody(body);
-      displayList.find(body).setFillStyle('orange');
+      displayList.findShape(body).setFillStyle('orange');
 
       // INTENTIONAL FALL THRU to next case
     case Formation.ONE_HITS_THREE:
@@ -226,22 +228,22 @@ BilliardsApp.make = function(sim, displayList, formation, offset, speed) {
       body0.setPosition(new Vector(-BilliardsApp.WALL_DISTANCE+1,  0),  0);
       body0.setVelocity(new Vector(speed,  0),  0);
       sim.addBody(body0);
-      displayList.find(body0).setStrokeStyle('black').setFillStyle('white');
+      displayList.findShape(body0).setStrokeStyle('black').setFillStyle('white');
 
       var body1 = BilliardsApp.makeBall(1, r);
       body1.setPosition(new Vector(0,  0),  0);
       sim.addBody(body1);
-      displayList.find(body1).setFillStyle('red');
+      displayList.findShape(body1).setFillStyle('red');
 
       var body2 = BilliardsApp.makeBall(2, r);
       body2.setPosition(new Vector(x1, r + sim.getDistanceTol()/4 + offset/2), 0);
       sim.addBody(body2);
-      displayList.find(body2).setFillStyle('green');
+      displayList.findShape(body2).setFillStyle('green');
 
       var body3 = BilliardsApp.makeBall(3, r);
       body3.setPosition(new Vector(x1, -r - sim.getDistanceTol()/4 - offset/2), 0);
       sim.addBody(body3);
-      displayList.find(body3).setFillStyle('blue');
+      displayList.findShape(body3).setFillStyle('blue');
       break;
     default:
       throw new Error();

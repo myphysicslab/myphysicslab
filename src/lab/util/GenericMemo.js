@@ -43,7 +43,7 @@ Example 2
 This sets the color of a spring depending on how much it is stretched.
 
     var spring = simList.get('spring1');
-    var dispSpring = displayList.find(spring);
+    var dispSpring = displayList.findSpring(spring);
     var memo = new GenericMemo(function() {
       var stretch = Math.max(Math.min(spring.getStretch(), 1), -1);
       if (stretch < 0) {

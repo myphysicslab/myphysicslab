@@ -172,7 +172,7 @@ CartPendulum2App.prototype.configure = function() {
   var bodyY = 0.5*cart.getHeight();
   //cart.setDragPoints([Vector.ORIGIN]);
   this.mySim.addBody(cart);
-  this.displayList.find(cart).setFillStyle('rgb(200,200,200)');
+  this.displayList.findShape(cart).setFillStyle('rgb(200,200,200)');
 
   // the pendulum
   var pendulum = Shapes.makePendulum(/*stickwidth=*/0.03,
@@ -183,7 +183,7 @@ CartPendulum2App.prototype.configure = function() {
   //var otherBodyX = .5* pendulum.getWidth();
   //var otherBodyY = .85* pendulum.getHeight();
   this.mySim.addBody(pendulum);
-  this.displayList.find(pendulum).setFillStyle('#B0C4DE').setDrawCenterOfMass(true);
+  this.displayList.findShape(pendulum).setFillStyle('#B0C4DE').setDrawCenterOfMass(true);
   //this.mySim.addBody(this.mySim.getScrim());
 
   this.spring = new Spring('spring1',
@@ -193,7 +193,7 @@ CartPendulum2App.prototype.configure = function() {
   this.spring.setDamping(this.springDamping);
   this.mySim.addForceLaw(this.spring);
   this.mySim.getSimList().add(this.spring);
-  this.displayList.find(this.spring).setWidth(0.3);
+  this.displayList.findSpring(this.spring).setWidth(0.3);
 
   cart.setPosition(new Vector(1,  0),  Math.PI/2);
 

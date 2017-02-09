@@ -110,7 +110,7 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   var bodyX = 0.5*pendulum.getWidth();
   var bodyY = 0.15*pendulum.getHeight();
   this.mySim.addBody(pendulum);
-  this.displayList.find(pendulum).setFillStyle('#B0C4DE');
+  this.displayList.findShape(pendulum).setFillStyle('#B0C4DE');
   // joints to attach upper pendulum to a fixed point.
   Joint.attachRigidBody(this.mySim,
       Scrim.getScrim(), /*attach_body=*/new Vector(wallPivotX, wallPivotY),
@@ -122,7 +122,7 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   block.setPosition(new Vector(-1.2,  -2.5),  0.2);
   this.mySim.addBody(block);
    //transparent orange
-  this.displayList.find(block).setFillStyle('rgba(255, 165, 0, 0.5)');
+  this.displayList.findShape(block).setFillStyle('rgba(255, 165, 0, 0.5)');
 
   this.rbo.protoSpring.setWidth(0.3);
   var addSpring = goog.bind(function(s) {

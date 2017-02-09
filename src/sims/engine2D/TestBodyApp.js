@@ -91,7 +91,7 @@ myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
   this.block = Shapes.makeBlock2(1, 3, TestBodyApp.en.BLOCK, TestBodyApp.i18n.BLOCK);
   this.block.setPosition(new Vector(0,  -5.49500),  -7.85398);
   this.mySim.addBody(this.block);
-  this.displayList.find(this.block).setFillStyle('#ccf').setNameColor('gray')
+  this.displayList.findShape(this.block).setFillStyle('#ccf').setNameColor('gray')
       .setNameFont('12pt sans-serif').setNameRotate(Math.PI/2);
 
   if (1 == 1) {

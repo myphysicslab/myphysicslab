@@ -204,7 +204,8 @@ MarsMoonApp.prototype.config = function() {
   this.moon.setVelocity(new Vector(0,  moon_v),  this.moonSpin);
   this.moon.setElasticity(elasticity);
   this.mySim.addBody(this.moon);
-  this.displayList.find(this.moon).setFillStyle('#E0E0E0').setDrawCenterOfMass(true);
+  this.displayList.findShape(this.moon).setFillStyle('#E0E0E0')
+      .setDrawCenterOfMass(true);
 
   this.asteroid = Shapes.makeBall(0.2, MarsMoonApp.en.ASTERIOD,
       MarsMoonApp.i18n.ASTERIOD);
@@ -213,7 +214,7 @@ MarsMoonApp.prototype.config = function() {
   this.asteroid.setVelocity(new Vector(0,  this.velocity),  0);
   this.asteroid.setElasticity(elasticity);
   this.mySim.addBody(this.asteroid);
-  this.displayList.find(this.asteroid).setFillStyle('Blue')
+  this.displayList.findShape(this.asteroid).setFillStyle('Blue')
 
   this.mySim.getVarsList().setTime(0);
   this.mySim.saveInitialState();

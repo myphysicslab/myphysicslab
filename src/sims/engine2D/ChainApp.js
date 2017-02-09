@@ -251,7 +251,7 @@ ChainApp.prototype.config = function() {
         ChainConfig.i18n.EXTRA_BODY);
     block.setPosition(new Vector(-4,  -4));
     this.mySim.addBody(block);
-    this.displayList.find(block).setFillStyle('blue');
+    this.displayList.findShape(block).setFillStyle('blue');
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);
