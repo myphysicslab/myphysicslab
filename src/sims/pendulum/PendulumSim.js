@@ -23,6 +23,7 @@ goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.GenericEvent');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -38,6 +39,7 @@ var EventHandler = myphysicslab.lab.app.EventHandler;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
+var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -210,6 +212,11 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
   * @private
   */
   this.amplitude_ = 1.15;
+  /** Whether to limit the pendulum angle to +/- Pi
+  * @type {boolean}
+  * @private
+  */
+  this.limitAngle_ = true;
   /** potential energy offset
   * @type {number}
   * @private
@@ -263,6 +270,9 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
   this.addParameter(new ParameterNumber(this, PendulumSim.en.GRAVITY,
       PendulumSim.i18n.GRAVITY,
       this.getGravity, this.setGravity));
+  this.addParameter(new ParameterBoolean(this, PendulumSim.en.LIMIT_ANGLE,
+      PendulumSim.i18n.LIMIT_ANGLE,
+      this.getLimitAngle, this.setLimitAngle));
 };
 
 var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;
@@ -277,6 +287,7 @@ if (!UtilityCore.ADVANCED) {
         +', damping_: '+NF(this.damping_)
         +', frequency_: '+NF(this.frequency_)
         +', amplitude_: '+NF(this.amplitude_)
+        +', limitAngle_: '+this.limitAngle_
         +', pivot_: '+this.pivot_
         +', rod_: '+this.rod_
         +', bob_: '+this.bob_
@@ -319,13 +330,15 @@ PendulumSim.prototype.setPotentialEnergy = function(value) {
 PendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
-  // limit the pendulum angle to +/- Pi
-  var angle = UtilityCore.limitAngle(vars[0]);
-  if (angle != vars[0]) {
-    // This also increases sequence number when angle crosses over
-    // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
-    this.getVarsList().setValue(0, angle, /*continuous=*/false);
-    vars[0] = angle;
+  if (this.limitAngle_) {
+    // limit the pendulum angle to +/- Pi
+    var angle = UtilityCore.limitAngle(vars[0]);
+    if (angle != vars[0]) {
+      // This also increases sequence number when angle crosses over
+      // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
+      this.getVarsList().setValue(0, angle, /*continuous=*/false);
+      vars[0] = angle;
+    }
   }
   this.moveObjects(vars);
   //  0       1       2    3        4   5   6
@@ -544,6 +557,21 @@ PendulumSim.prototype.setLength = function(value) {
   this.broadcastParameter(PendulumSim.en.LENGTH);
 };
 
+/** Return whether we limit the pendulum angle to +/- Pi
+@return {boolean} whether we limit the pendulum angle to +/- Pi
+*/
+PendulumSim.prototype.getLimitAngle = function() {
+  return this.limitAngle_;
+};
+
+/** Set whether we limit the pendulum angle to +/- Pi
+@param {boolean} value whether we limit the pendulum angle to +/- Pi
+*/
+PendulumSim.prototype.setLimitAngle = function(value) {
+  this.limitAngle_ = value;
+  this.broadcastParameter(PendulumSim.en.LIMIT_ANGLE);
+};
+
 /** Return damping factor
 @return {number} damping factor
 */
@@ -585,6 +613,7 @@ PendulumSim.prototype.setPivot = function(value) {
   DRIVE_FREQUENCY: string,
   GRAVITY: string,
   LENGTH: string,
+  LIMIT_ANGLE: string,
   MASS: string,
   TIME: string
   }}
@@ -603,6 +632,7 @@ PendulumSim.en = {
   DRIVE_FREQUENCY: 'drive frequency',
   GRAVITY: 'gravity',
   LENGTH: 'length',
+  LIMIT_ANGLE: 'limit angle',
   MASS: 'mass',
   TIME: 'time'
 };
@@ -620,6 +650,7 @@ PendulumSim.de_strings = {
   DRIVE_FREQUENCY: 'Antriebsfrequenz',
   GRAVITY: 'Gravitation',
   LENGTH: 'L\u00e4nge',
+  LIMIT_ANGLE: 'Winkel begrenzen',
   MASS: 'Masse',
   TIME: 'Zeit'
 };

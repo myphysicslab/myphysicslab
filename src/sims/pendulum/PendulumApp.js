@@ -15,6 +15,7 @@
 goog.provide('myphysicslab.sims.pendulum.PendulumApp');
 
 goog.require('myphysicslab.lab.controls.SliderControl');
+goog.require('myphysicslab.lab.controls.CheckBoxControl');
 goog.require('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
@@ -38,6 +39,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.layout.AbstractApp;
 var Arc = lab.model.Arc;
+var CheckBoxControl = lab.controls.CheckBoxControl;
 var CommonControls = sims.layout.CommonControls;
 var DisplayArc = lab.view.DisplayArc;
 var DisplayGraph = lab.graph.DisplayGraph;
@@ -102,6 +104,10 @@ sims.pendulum.PendulumApp = function(elem_ids) {
 
   pn = sim.getParameterNumber(PendulumSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
+
+  /** @type {!lab.util.ParameterBoolean} */
+  var pb = sim.getParameterBoolean(PendulumSim.en.LIMIT_ANGLE);
+  this.addControl(new CheckBoxControl(pb));
 
   this.addStandardControls();
 
