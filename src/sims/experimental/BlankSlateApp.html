@@ -29,7 +29,12 @@ enter key is typed in the text input field.
 </form>
 
 <p>BlankSlateApp has a LabCanvas and Terminal, and lets you experiment building
-things with scripts.  Here is a sample script to try:
+things with scripts.  Below is a sample script to try.
+</p>
+
+<p>NOTE: This will only work on
+<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
+of this app; advanced-compiled versions cannot execute JavaScript.
 </p>
 
 <pre>
@@ -61,7 +66,6 @@ timer.setCallBack(function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.pai
 clock.resume();timer.startFiring();</a>
 </p>
 
-<p><em>Does not work under advanced-compile.</em></p>
 
 #LOAD_APP
 <script>

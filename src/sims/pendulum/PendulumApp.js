@@ -111,7 +111,8 @@ sims.pendulum.PendulumApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.graph.line.setDrawingMode(DrawingMode.DOTS);
+  //change default DrawingMode
+  //this.graph.line.setDrawingMode(DrawingMode.DOTS);
   this.makeEasyScript();
   this.addURLScriptButton();
 };

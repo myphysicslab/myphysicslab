@@ -125,10 +125,10 @@ The second part of the identifier, `SHOW_ENERGY`, is the **name of the Parameter
 That Parameter controls whether the energy bar graph is shown. The "show energy"
 checkbox also modifies this Parameter.
 
-The **Subject name is optional**. If it is not provided, then the first Parameter found
-in the list with matching name will be set to the given value. This is why we can say
-simply `ANGLE=-2.5` instead of `SIM_VARS.ANGLE=-2.5`. Some Parameter names are not
-unique, such as `WIDTH`, so be careful to use the Subject name in that case.
+The **Subject name is optional when the Parameter name is unique** among all the
+Subjects. This is why we can say simply `ANGLE=-2.5` instead of `SIM_VARS.ANGLE=-2.5`.
+Some Parameter names are not unique, such as `WIDTH`, so the Subject name must be
+specified in that case.
 
 Here are some ways to use EasyScript:
 
@@ -279,8 +279,7 @@ EasyScript via the application's `eval` method. Here is an example from the file
 [PendulumApp](http://www.myphysicslab.sims.pendulum.PendulumApp.html)
 
     <script>
-    app.eval('DRIVE_AMPLITUDE=0;DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;'
-        +'ANGLE_VELOCITY=0;DRAW_MODE=lines;');
+    app.eval('DRIVE_AMPLITUDE=0; DAMPING=0.1; GRAVITY=9.8; ANGLE=2.5; ANGLE_VELOCITY=0;');
     </script>
 
 If you are **customizing with JavaScript**, then you

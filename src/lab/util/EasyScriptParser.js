@@ -67,10 +67,9 @@ With both setter and getter syntax the value of the Parameter is available via
 {@link myphysicslab.lab.util.Terminal Terminal}.
 
 + `SubjectName` is the language-independent name returned by
-{@link myphysicslab.lab.util.Subject#getName}. If `SubjectName` is not provided, then
-the the list of Subjects is examined in order
-and *the first Parameter with the given name is selected*. The order is based on how
-the Subjects are passed in to the EasyScriptParser constructor.
+{@link myphysicslab.lab.util.Subject#getName}. It is optional when `ParameterName` is
+unique among all Subjects. It is required when multiple Subjects have the same
+Parameter name.
 
 + `ParameterName` is the language-independent name returned by
 {@link myphysicslab.lab.util.SubjectEvent#getName}. (Note that Parameter extends
@@ -97,7 +96,7 @@ values. The script follows a question mark in the URL, so it is called a 'query 
 or 'query URL'. Here is an example:
 
     http://www.myphysicslab.com/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
-    DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines
+    DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;
 
 A user can then send this custom URL to someone else, and when that other user enters
 the URL into a browser, the scripts embedded in the URL will be executed if
@@ -302,12 +301,14 @@ EasyScriptParser.checkUniqueNames = function(subjects) {
 };
 
 /** Returns the Parameter corresponding to the given name, which can consist of either
-just the name of a Parameter or be both Subject name and Parameter name separated
-by a dot.
+just the name of a Parameter (if unique among all Subjects) or be both Subject name and
+Parameter name separated by a dot.
 * @param {string} fullName name of Parameter, optionally preceded by name of Subject
 *    and a dot
 * @return {?Parameter} the Parameter corresponding to the given name, or `null` if
 *    no Parameter found
+* @throws {Error} when only Parameter name is given, but multiple Subjects have that
+*    Parameter.
 * @private
 */
 EasyScriptParser.prototype.getParameter = function(fullName) {
@@ -324,6 +325,11 @@ EasyScriptParser.prototype.getParameter = function(fullName) {
   }
   var idx;
   if (subjectName == '') {
+    var count = goog.array.count(this.allParamNames_,
+        function(p) { return p == paramName; });
+    if (count > 1) {
+      throw new Error('multiple Subjects have Parameter '+paramName);
+    }
     idx = goog.array.indexOf(this.allParamNames_, paramName);
   } else {
     idx = goog.array.indexOf(this.allSubjParamNames_, fullName);

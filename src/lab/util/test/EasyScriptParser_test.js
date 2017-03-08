@@ -116,23 +116,25 @@ var testEasyScript1 = function() {
   assertEquals(99, t.eval('total_energy'));
   assertEquals('POSITION=-3.1456;', easyScript.script());
 
-  // The two SimView subjects have Parameters with same name. SimView1 precedes
-  // SimView2, so its Parameters are found when no Subject specified
-  assertEquals(10, t.eval('width'));
+  // The two SimView subjects have Parameters with same name.
+  // Non-unique parameter names must have the Subject specified.
+  assertThrows(function () { t.eval('width'); });
+  assertThrows(function () { t.eval('height'); });
+  assertThrows(function () { t.eval('SCALE_X_Y_TOGETHER'); });
   assertEquals(10, t.eval('view1.width'));
   assertEquals(10, t.eval('view1.width;'));
   assertEquals(10, t.eval('VIEW1.width'));
   assertEquals(1, t.eval('view2.width'));
   assertEquals(1, t.eval('VIEW2.WIDTH;'));
-  assertEquals(10, t.eval('height'));
-  assertEquals(true, t.eval('SCALE_X_Y_TOGETHER'));
-  assertEquals(5, t.eval('width=5'));
-  assertEquals(5, t.eval('height'));
+  assertEquals(10, t.eval('view1.height'));
+  assertEquals(true, t.eval('view1.SCALE_X_Y_TOGETHER'));
+  assertEquals(5, t.eval('view1.width=5'));
+  assertEquals(5, t.eval('view1.height'));
   assertEquals('POSITION=-3.1456;VIEW1.WIDTH=5;VIEW1.HEIGHT=5;', easyScript.script());
-  assertEquals(false, t.eval('SCALE_X_Y_TOGETHER=false'));
+  assertEquals(false, t.eval('view1.SCALE_X_Y_TOGETHER=false'));
   assertEquals(20, t.eval('view1.height=20;'));
-  assertEquals(5, t.eval('width'));
-  assertEquals(false, t.eval('SCALE_X_Y_TOGETHER'));
+  assertEquals(5, t.eval('view1.width'));
+  assertEquals(false, t.eval('view1.SCALE_X_Y_TOGETHER'));
   assertEquals(true, t.eval('view2.SCALE_X_Y_TOGETHER'));
   assertEquals(2, t.eval('view2.width=2'));
   assertEquals(2, t.eval('view2.height'));
@@ -171,8 +173,8 @@ var testEasyScript1 = function() {
   assertFalse(t.eval('z.va.getVariable(0).getName()=="POSITION;"'));
 
   // Set a Parameter using quoted string
-  assertEquals('FULL', t.eval('vertical_align="FULL"'));
-  assertEquals('MIDDLE', t.eval('horizontal_align=\'MIDDLE\''));
+  assertEquals('FULL', t.eval('view1.vertical_align="FULL"'));
+  assertEquals('MIDDLE', t.eval('view1.horizontal_align=\'MIDDLE\''));
 
   // Subjects with duplicate names should cause an exception.
   assertThrows(function() { new EasyScriptParser([va, simView1, simView2, va]) });

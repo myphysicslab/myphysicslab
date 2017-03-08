@@ -182,7 +182,7 @@ The script follows a question mark in the URL, so it is called a 'query script'
 or 'query URL'. Here is an example:
 
     http://www.myphysicslab.com/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
-    DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;DRAW_MODE=lines
+    DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;
 
 The URL Query Script is executed at startup by calling {@link #parseURL} or
 {@link #parseURLorRecall}.  Most myPhysicsLab applications do this.
@@ -819,6 +819,7 @@ Terminal.prototype.myEval = function(script) {
   if (!UtilityCore.ADVANCED) {
     return eval('"use strict"; '+script);
   } else {
+    this.println('JavaScript is disabled due to advanced compilation; try a simple-compiled version');
     return undefined;
   }
 };

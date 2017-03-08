@@ -784,7 +784,7 @@ TestViewerApp.prototype.setSimRect_ = function() {
 */
 TestViewerApp.prototype.setup = function() {
   if (UtilityCore.ADVANCED) {
-    alert('TestViewerApp does not work with advanced-compile');
+    this.terminal.println('TestViewerApp does not work with advanced-compile');
     return;
   }
   this.setGroup(/*groupIndex=*/0);
@@ -822,6 +822,19 @@ TestViewerApp.prototype.prependControl = function(control) {
   // the damping control is wrapped in a LABEL, so need to get its parentNode
   this.layout.sim_controls.insertBefore(element, e.parentNode);
   return control;
+};
+
+/**
+* @param {string} script
+* @return {*}
+* @export
+*/
+TestViewerApp.prototype.eval = function(script) {
+  try {
+    return this.terminal.eval(script);
+  } catch(ex) {
+    alert(ex);
+  }
 };
 
 /** Start the application running.
