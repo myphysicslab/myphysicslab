@@ -141,13 +141,16 @@ all method and class names are minified, and unused code is eliminated -- so eve
 you could get at a minified class, much of it would not be there to use.
 
 
-### Parameters Created
+Parameters Created
+------------------
 
 + ParameterNumber named `SIM_WIDTH`, see {@link #setSimWidth}
 
 + ParameterNumber named `GRAPH_WIDTH`, see {@link #setGraphWidth}
 
 + ParameterNumber named `TIME_GRAPH_WIDTH`, see {@link #setTimeGraphWidth}
+
++ ParameterString named `LAYOUT`, see {@link #setLayout}
 
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML

@@ -110,6 +110,7 @@ Parameters Created
 
 + ParameterNumber named `ASPECT_RATIO`, see {@link #setAspectRatio}
 
+
 Events Broadcast
 ----------------
 SimView broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Observers:

@@ -65,8 +65,27 @@ var Walls = lab.engine2D.Walls;
 
 /** Simulation of a chain of rigid bodies.
 
-This sim has a {@link #config} method which looks at a set of options
+This app has a {@link #config} method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
+
+Parameters Created
+------------------
++ ParameterNumber named `NUM_LINKS`, see {@link #setNumLinks}.
+
++ ParameterBoolean named `WALLS`, see {@link #setWalls}
+
++ ParameterBoolean named `EXTRA_BODY`, see {@link #setExtraBody}
+
++ ParameterBoolean named `FIXED_LEFT`, see {@link #setFixedLeft}
+
++ ParameterBoolean named `FIXED_RIGHT`, see {@link #setFixedRight}
+
++ ParameterNumber named `FIXED_LEFT_X`, see {@link #setFixedLeftX}.
+
++ ParameterNumber named `BLOCK_LENGTH`, see {@link #setBlockLength}.
+
++ ParameterNumber named `BLOCK_WIDTH`, see {@link #setBlockWidth}.
+
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user

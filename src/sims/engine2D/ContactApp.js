@@ -60,8 +60,17 @@ var Walls = lab.engine2D.Walls;
 
 /**  ContactApp demonstrates ContactSim with a set of simple rectangular objects.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
+
+Parameters Created
+------------------
++ ParameterNumber named `NUM_BODIES`, see {@link #setNumBodies}.
+
++ ParameterNumber named `THRUST`, see {@link #setThrust}
+
++ ParameterNumber named `MASS1`, see {@link #setMass1}
+
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -104,7 +113,7 @@ sims.engine2D.ContactApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.NUM_BODIES,
       ContactApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
@@ -265,14 +274,14 @@ ContactApp.prototype.setMass1 = function(value) {
 /**
 * @return {number}
 */
-ContactApp.prototype.getNumBods = function() {
+ContactApp.prototype.getNumBodies = function() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-ContactApp.prototype.setNumBods = function(value) {
+ContactApp.prototype.setNumBodies = function(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(ContactApp.en.NUM_BODIES);

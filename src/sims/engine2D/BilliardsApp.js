@@ -62,8 +62,18 @@ var Walls = lab.engine2D.Walls;
 /** Simulation of a table top billiards game with several balls bouncing against each
 other and against the sides of the table.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
+
+Parameters Created
+------------------
+
++ ParameterNumber named `FORMATION`, see {@link #setFormation}.
+
++ ParameterNumber named `OFFSET`, see {@link #setOffset}
+
++ ParameterNumber named `SPEED`, see {@link #setSpeed}
+
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user

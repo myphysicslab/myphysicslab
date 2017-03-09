@@ -63,7 +63,7 @@ var Vector = lab.util.Vector;
 /**  RigidBodyApp demonstrates using RigidBodySim (instead of the usual ContactSim) with
 a set of simple rectangular objects.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
@@ -111,7 +111,7 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
       RigidBodyApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
@@ -327,14 +327,14 @@ RigidBodyApp.prototype.setMass1 = function(value) {
 /**
 * @return {number}
 */
-RigidBodyApp.prototype.getNumBods = function() {
+RigidBodyApp.prototype.getNumBodies = function() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-RigidBodyApp.prototype.setNumBods = function(value) {
+RigidBodyApp.prototype.setNumBodies = function(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(RigidBodyApp.en.NUM_BODIES);

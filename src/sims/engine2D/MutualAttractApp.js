@@ -54,7 +54,7 @@ var Vector = lab.util.Vector;
 
 /** Simulation showing several objects experiencing mutual attraction from gravity.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
@@ -96,7 +96,7 @@ sims.engine2D.MutualAttractApp = function(elem_ids) {
   }
   this.addParameter(pn = new ParameterNumber(this, MutualAttractApp.en.NUMBER_BODIES,
       MutualAttractApp.i18n.NUMBER_BODIES,
-      this.getNumBods, this.setNumBods, choices, values)
+      this.getNumBodies, this.setNumBodies, choices, values)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new ChoiceControl(pn));
 
@@ -225,14 +225,14 @@ MutualAttractApp.prototype.config = function() {
 /**
 * @return {number}
 */
-MutualAttractApp.prototype.getNumBods = function() {
+MutualAttractApp.prototype.getNumBodies = function() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-MutualAttractApp.prototype.setNumBods = function(value) {
+MutualAttractApp.prototype.setNumBodies = function(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(MutualAttractApp.en.NUMBER_BODIES);

@@ -72,7 +72,7 @@ the shuttles by pulling on the handle.
 This is a strong test of the physics engine in ComputeForces. The contacts are very
 redundant, especially when a shuttle straddles the middle point.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 @todo  Make a control for magnitude of handle force.

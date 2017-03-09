@@ -103,24 +103,22 @@ multiple simultaneous impulses during collision handling.
 
 ### Parameters Created
 
-+ ParameterString named `COLLISION_HANDLING`
-  see {@link #setCollisionHandling}
++ ParameterString named `COLLISION_HANDLING`, see {@link #setCollisionHandling}
 
-+ ParameterNumber named `COLLISION_ACCURACY`
-  see {@link #setCollisionAccuracy}
++ ParameterNumber named `COLLISION_ACCURACY`, see {@link #setCollisionAccuracy}
 
-+ ParameterNumber named `DISTANCE_TOL` see {@link #setDistanceTol}
++ ParameterNumber named `DISTANCE_TOL`, see {@link #setDistanceTol}
 
-+ ParameterNumber named `VELOCITY_TOL` see {@link #setVelocityTol}
++ ParameterNumber named `VELOCITY_TOL`, see {@link #setVelocityTol}
 
-+ ParameterNumber named `RANDOM_SEED` see {@link #setRandomSeed}
++ ParameterNumber named `RANDOM_SEED`, see {@link #setRandomSeed}
 
 See also the super class for additional Parameters.
 
 
 ### Events Broadcast
 
-+ GenericEvent name `ELASTICITY_SET`, see {@link #setElasticity}.
++ GenericEvent named `ELASTICITY_SET`, see {@link #setElasticity}.
 
 
 

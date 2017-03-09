@@ -59,8 +59,15 @@ var Walls = lab.engine2D.Walls;
 /**  CurvedTestApp shows some ball and rectangle objects bouncing
 among some fixed ball and rectangle objects.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
+
+Parameters Created
+------------------
++ ParameterNumber named `NUM_BODIES`, see {@link #setNumBodies}.
+
++ ParameterNumber named `THRUST`, see {@link #setThrust}
+
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -99,7 +106,7 @@ sims.engine2D.CurvedTestApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, CurvedTestApp.en.NUM_BODIES,
       CurvedTestApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
@@ -279,14 +286,14 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
 /**
 * @return {number}
 */
-CurvedTestApp.prototype.getNumBods = function() {
+CurvedTestApp.prototype.getNumBodies = function() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-CurvedTestApp.prototype.setNumBods = function(value) {
+CurvedTestApp.prototype.setNumBodies = function(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(CurvedTestApp.en.NUM_BODIES);

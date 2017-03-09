@@ -65,7 +65,7 @@ var Walls = lab.engine2D.Walls;
 /** PolygonTestApp shows some unusual shapes such as hexagon, L-shape, hollow box with
 a ball inside, and blocks with both curved and straight edges.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
@@ -103,7 +103,7 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.NUM_BODIES,
       PolygonTestApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
       .setLowerLimit(1).setUpperLimit(8));
   this.addControl(new NumericControl(pn));
 
@@ -277,14 +277,14 @@ PolygonTestApp.prototype.config = function() {
 /**
 * @return {number}
 */
-PolygonTestApp.prototype.getNumBods = function() {
+PolygonTestApp.prototype.getNumBodies = function() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-PolygonTestApp.prototype.setNumBods = function(value) {
+PolygonTestApp.prototype.setNumBodies = function(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(PolygonTestApp.en.NUM_BODIES);

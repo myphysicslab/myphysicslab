@@ -66,7 +66,7 @@ var Walls = lab.engine2D.Walls;
 /** Simulation of two interlocking gears. One of the gears has a constant turning
 force applied.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML

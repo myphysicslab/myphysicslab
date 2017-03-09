@@ -78,6 +78,13 @@ the request of the {@link myphysicslab.lab.model.AdvanceStrategy} to advance the
 of the simulation.
 
 
+### Parameters Created
+
++ ParameterString named `EXTRA_ACCEL`, see {@link #setExtraAccel}
+
+See also the super class for additional Parameters.
+
+
 ### Background and References
 
 See explanations at:
@@ -112,12 +119,6 @@ papers](http://www-2.cs.cmu.edu/~baraff/papers/index.html).
 See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik Neumann for
 modifications to contact forces when curved edges are involved.
 
-### Parameters Created
-
-+ ParameterString named `EXTRA_ACCEL`
-  see {@link #setExtraAccel}
-
-See also the super class for additional Parameters.
 
 ### Find External Forces
 

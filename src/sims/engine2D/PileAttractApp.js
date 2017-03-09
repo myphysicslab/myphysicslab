@@ -72,7 +72,7 @@ var WayPoint = lab.model.CollisionAdvance.WayPoint;
 /** Creates a pile of randomly shaped blocks that clump together under mutual
 gravitation.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML

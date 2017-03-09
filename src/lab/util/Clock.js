@@ -106,20 +106,25 @@ for this step mode by calling {@link #isStepping}. Step mode being `true` means 
   indicate that it has advanced the simulation.
 
 
-## Parameters and Events
+Parameters Created
+------------------
+
++ ParameterNumber named `TIME_RATE`, see {@link #setTimeRate}
+
+
+Events Broadcast
+----------------
 
 As a {@link myphysicslab.lab.util.Subject Subject}, Clock broadcasts to its Observers
-these SubjectEvents and Parameters:
+these GenericEvents:
 
-+ ParameterNumber named `Clock.en.TIME_RATE` see {@link #setTimeRate}
++ GenericEvent named `CLOCK_PAUSE`
 
-+ SubjectEvent {@link #CLOCK_PAUSE}
++ GenericEvent named `CLOCK_RESUME`
 
-+ SubjectEvent {@link #CLOCK_RESUME}
++ GenericEvent named `CLOCK_STEP`
 
-+ SubjectEvent {@link #CLOCK_STEP}
-
-+ SubjectEvent {@link #CLOCK_SET_TIME}
++ GenericEvent named `CLOCK_SET_TIME`
 
 
 @todo Do error handling or adapt in case where callBackStarted() is not
@@ -217,25 +222,25 @@ Clock.prototype.getClassName = function() {
   return 'Clock';
 };
 
-/**  Name of the SubjectEvent fired when the Clock is paused, see {@link #pause}.
+/**  Name of the GenericEvent fired when the Clock is paused, see {@link #pause}.
 * @type {string}
 * @const
 */
 Clock.CLOCK_PAUSE = 'CLOCK_PAUSE';
 
-/** Name of the SubjectEvent fired when the Clock is resumed, see {@link #resume}.
+/** Name of the GenericEvent fired when the Clock is resumed, see {@link #resume}.
 * @type {string}
 * @const
 */
 Clock.CLOCK_RESUME = 'CLOCK_RESUME';
 
-/** Name of the SubjectEvent fired when the Clock time is set, see {@link #setTime}.
+/** Name of the GenericEvent fired when the Clock time is set, see {@link #setTime}.
 * @type {string}
 * @const
 */
 Clock.CLOCK_SET_TIME ='CLOCK_SET_TIME';
 
-/** Name of the SubjectEvent fired when the Clock is stepped, see {@link #step}.
+/** Name of the GenericEvent fired when the Clock is stepped, see {@link #step}.
 * @type {string}
 * @const
 */

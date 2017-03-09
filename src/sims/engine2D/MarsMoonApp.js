@@ -51,7 +51,7 @@ var UtilityCore = lab.util.UtilityCore;
 
 /** Simulation of an asteroid orbiting a moon.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML

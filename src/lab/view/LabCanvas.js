@@ -106,14 +106,20 @@ rectangle over the old frame, which gradually makes the old image disappear afte
 several iterations of painting.
 
 
-### Parameters Created
+Parameters Created
+------------------
 
 + ParameterNumber named `WIDTH`, see {@link #setWidth}
 
 + ParameterNumber named `HEIGHT`, see {@link #setHeight}
 
++ ParameterNumber named `ALPHA`, see {@link #setAlpha}
 
-### Events Broadcast
++ ParameterString named `BACKGROUND`, see {@link #setBackground}
+
+
+Events Broadcast
+----------------
 
 LabCanvas broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Observers:
 

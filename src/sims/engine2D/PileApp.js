@@ -101,7 +101,7 @@ need to reduce the timeStep to 0.01 to stop endless collisions.
 @todo  remove the 'endless loop' checkbox, and instead just have the 'loop time'
 numeric control.  To make the UI simpler by having one less UI item.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML

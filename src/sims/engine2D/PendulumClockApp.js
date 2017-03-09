@@ -65,7 +65,7 @@ var Vector = lab.util.Vector;
 regulates that turning of an escapement wheel. The escapement wheel has a constant
 torque force that causes it to turn continuously.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML

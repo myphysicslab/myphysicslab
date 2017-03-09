@@ -123,6 +123,7 @@ HTML where the constructor is called. The name of that global variable holding t
 application is passed to {@link #defineNames} method so that short-names in scripts can
 be properly expanded.
 
+
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.

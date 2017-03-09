@@ -344,12 +344,13 @@ CommonControls.makeEasyScript = function(subjects, volatile, simRun) {
   return easyScript;
 };
 
-/** Makes a SHOW_CLOCK ParameterBoolean for a DisplayClock.
-The ParameterBoolean causes the DisplayClock to be added to the
-targetView.
+/** Makes a ParameterBoolean named `SHOW_CLOCK` for a DisplayClock. The
+ParameterBoolean causes the DisplayClock to be added to the targetView.
+
 Makes a GenericObserver which observes the targetView and broadcasts
 the ParameterBoolean whenever the DisplayClock is added or removed from the
 targetView.
+
 * @param {!myphysicslab.lab.view.DisplayClock} displayClock
 * @param {!myphysicslab.lab.view.SimView} targetView where to show the EnergyBarGraph
 * @param {!myphysicslab.lab.util.AbstractSubject} subject where to add the
@@ -378,12 +379,14 @@ CommonControls.makeShowClockParam = function(displayClock, targetView, subject) 
   return pb;
 };
 
-/** Makes a SHOW_ENERGY ParameterBoolean for an EnergyBarGraph.
-The ParameterBoolean causes the EnergyBarGraph to be added to the
-targetView. Sets size of EnergyBarGraph based on the targetView size.
-Makes a GenericObserver which observes the targetView and broadcasts
-the ParameterBoolean whenever the EnergyBarGraph is added or removed from the
-targetView.
+/** Makes a ParameterBoolean named `SHOW_ENERGY` for an EnergyBarGraph. The
+ParameterBoolean causes the EnergyBarGraph to be added to the targetView.
+
+Sets size of EnergyBarGraph based on the targetView size.
+
+Makes a GenericObserver which observes the targetView and broadcasts the
+ParameterBoolean whenever the EnergyBarGraph is added or removed from the targetView.
+
 * @param {!myphysicslab.lab.graph.EnergyBarGraph} energyGraph
 * @param {!myphysicslab.lab.view.SimView} targetView where to show the EnergyBarGraph
 * @param {!myphysicslab.lab.util.AbstractSubject} subject where to add the
@@ -420,7 +423,8 @@ CommonControls.makeShowEnergyParam = function(energyGraph, targetView, subject,
   return pb;
 };
 
-/** Makes a PAN_ZOOM ParameterBoolean which shows or hides the pan-zoom controls.
+/** Makes a ParameterBoolean named `PAN_ZOOM` which shows or hides the pan-zoom
+controls.
 * @param {!Element} panZoomDiv the div containing the pan-zoom controls
 * @param {!myphysicslab.lab.util.AbstractSubject} subject where to add the
 *    ParameterBoolean

@@ -108,7 +108,8 @@ HistoryList contains transformed points something like this:
 Note that the transform functions do not affect how the graph axes are shown.
 
 
-### Parameters Created
+Parameters Created
+------------------
 
 + ParameterNumber named `X_VARIABLE`, see {@link #setXVariable}.
   Has an extra `NONE` choice, which causes the GraphLine to have an empty HistoryList.
@@ -121,6 +122,7 @@ Note that the transform functions do not affect how the graph axes are shown.
 + ParameterString named `DRAWING_MODE`, see {@link #setDrawingMode}.
 
 + ParameterString named `GRAPH_COLOR`, see {@link #setColor}.
+
 
 Events Broadcast
 ----------------

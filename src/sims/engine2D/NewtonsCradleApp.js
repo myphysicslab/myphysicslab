@@ -56,7 +56,7 @@ var Vector = lab.util.Vector;
 lift one at the end and let it strike the others;  only the pendulum on the far side
 flies away and the pendulum that you let fall becomes motionless when it strikes.
 
-This sim has a config() method which looks at a set of options
+This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML

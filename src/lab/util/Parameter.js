@@ -44,6 +44,7 @@ example, a NumericControl can be set up to display and modify the ParameterNumbe
 a Subject without knowing anything about the Subject other than that it implements
 the Subject interface.
 
+
 Getter and Setter Methods
 -------------------------
 A Parameter operates by calling *getter* and *setter* methods on its Subject. These
@@ -69,6 +70,7 @@ creating a ParameterNumber. This is from the SingleSpringSim constructor:
 
     this.addParameter(new ParameterNumber(this, SingleSpringSim.en.MASS,
         SingleSpringSim.i18n.MASS, this.getMass, this.setMass));
+
 
 Choices and Values
 ------------------

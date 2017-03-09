@@ -61,7 +61,7 @@ var Walls = lab.engine2D.Walls;
 /**  ImpulseApp demonstrates using ImpulseSim (instead of the usual ContactSim) with
 a set of simple rectangular objects.
 
-This sim has a config() function which looks at a set of options
+This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
@@ -102,7 +102,7 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.NUM_BODIES,
       ImpulseApp.i18n.NUM_BODIES,
-      this.getNumBods, this.setNumBods).setDecimalPlaces(0)
+      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
@@ -246,14 +246,14 @@ ImpulseApp.prototype.config = function() {
 /**
 * @return {number}
 */
-ImpulseApp.prototype.getNumBods = function() {
+ImpulseApp.prototype.getNumBodies = function() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-ImpulseApp.prototype.setNumBods = function(value) {
+ImpulseApp.prototype.setNumBodies = function(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(ImpulseApp.en.NUM_BODIES);

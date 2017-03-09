@@ -63,8 +63,18 @@ var Walls = lab.engine2D.Walls;
 /** Simulation of a car suspension modelled in two different ways: each wheel has either
 two springs, or a rigid rod and a spring.
 
-This sim has a `configure` function which looks at a set of options
+This app has a {@link #configure} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
+
+Parameters Created
+------------------
+
++ ParameterNumber named `FORMATION`, see {@link #setFormation}.
+
++ ParameterNumber named `SPRING_DAMPING`, see {@link #setSpringDamping}
+
++ ParameterNumber named `STIFFNESS`, see {@link #setStiffness}
+
 
 * @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user

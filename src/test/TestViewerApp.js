@@ -155,6 +155,14 @@ ImpulseSim.setCollisionHandling, CollisionAdvance.setJointSmallImpacts,
 ContactSim.setExtraAccel, ContactSim.setExtraAccelTimeStep, the DiffEqSolver,
 the timeStep, etc.
 
+## Parameters Created
+
++ ParameterNumber named `GROUP`, see {@link #setGroup}.
+
++ ParameterNumber named `TEST`, see {@link #setTest}
+
++ ParameterBoolean named `START_ON_LOAD`, see {@link #setStartOnLoad}
+
 
 ## How TestViewerApp Works
 

@@ -95,6 +95,11 @@ variable.
 See explanations at [2D Physics Engine Overview](Engine2D.html).
 
 
+### Parameters Created
+
++ ParameterBoolean named `SHOW_FORCES`, see {@link #setShowForces}
+
+
 ### RigidBodys
 
 RigidBodySim maintains a list of {@link myphysicslab.lab.engine2D.RigidBody}s which are
@@ -150,11 +155,6 @@ variables allocated for a RigidBody are guaranteed to be contiguous.
 {@link myphysicslab.lab.model.ExpressionVariable ExpressionVariables} or
 {@link myphysicslab.lab.model.FunctionVariable FunctionVariables} can be added to a VarsList.
 Their position in the VarsList remains constant after they are allocated.
-
-### Parameters Created
-
-+ ParameterBoolean named `SHOW_FORCES` see {@link #setShowForces}
-
 
 @todo the momentum stuff was pretty klugey and ugly; I'm commenting it out Dec 2009;
 the text info might be useful, but it needs to be made prettier. The 'momentum arrows'
