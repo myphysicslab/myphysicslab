@@ -29,9 +29,9 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.layout.AbstractApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.AbstractApp');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.pendulum.MoveableDoublePendulumSim');
 
 goog.scope(function() {
@@ -40,8 +40,8 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var SliderControl = lab.controls.SliderControl;
-var AbstractApp = sims.layout.AbstractApp;
-var CommonControls = sims.layout.CommonControls;
+var AbstractApp = sims.common.AbstractApp;
+var CommonControls = sims.common.CommonControls;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
@@ -55,7 +55,7 @@ var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var Spring = myphysicslab.lab.model.Spring;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 

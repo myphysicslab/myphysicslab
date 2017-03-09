@@ -86,7 +86,7 @@ Pan-Zoom Controls
 -----------------
 The methods such as {@link #panUp}, {@link #panLeft}, {@link #zoomIn}, {@link #zoomOut}
 are used to make a 'pan-zoom control' in
-{@link myphysicslab.sims.layout.CommonControls#makePanZoomControls}. The amount of
+{@link myphysicslab.sims.common.CommonControls#makePanZoomControls}. The amount of
 pan-zoom that is done by each invocation of those methods can be changed via the
 properties {@link #panX}, {@link #panY}, {@link #zoom}.
 

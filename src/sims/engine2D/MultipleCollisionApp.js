@@ -34,8 +34,8 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 
 goog.scope(function() {
 
@@ -47,7 +47,7 @@ var CheckBoxControl = lab.controls.CheckBoxControl;
 var NumericControl = lab.controls.NumericControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CollisionHandling = lab.engine2D.CollisionHandling;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
@@ -88,7 +88,7 @@ to do:  another to add:  1x3 block on ground, lying horizontally, pick up one co
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
-* @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {string=} opt_name name of this as a Subject

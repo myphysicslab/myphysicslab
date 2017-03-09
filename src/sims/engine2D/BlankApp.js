@@ -67,7 +67,7 @@ goog.require('myphysicslab.lab.view.ScreenRect');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
+goog.require('myphysicslab.sims.common.CommonControls');
 
 goog.scope(function() {
 
@@ -81,7 +81,7 @@ var CircularEdge = lab.engine2D.CircularEdge;
 var Clock = lab.util.Clock;
 var ClockTask = lab.util.ClockTask;
 var CollisionAdvance = lab.model.CollisionAdvance;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
 var ConstantForceLaw = lab.model.ConstantForceLaw;
 var ContactSim = lab.engine2D.ContactSim;
@@ -133,7 +133,7 @@ var Walls = lab.engine2D.Walls;
 ForceLaws. The RigidBody objects and ForceLaws should be created via scripting such as
 a URL-script; see {@link myphysicslab.lab.util.Terminal}.
 
-* @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor

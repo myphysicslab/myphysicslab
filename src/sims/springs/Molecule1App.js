@@ -22,9 +22,9 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.layout.AbstractApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.AbstractApp');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.springs.Molecule1Sim');
 
 goog.scope(function() {
@@ -32,9 +32,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.layout.AbstractApp;
+var AbstractApp = sims.common.AbstractApp;
 var CollisionAdvance = lab.model.CollisionAdvance;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
@@ -42,7 +42,7 @@ var Molecule1Sim = sims.springs.Molecule1Sim;
 var PointMass = lab.model.PointMass;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
 /**  Molecule1App displays the simulation

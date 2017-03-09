@@ -54,10 +54,10 @@ goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
 goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.StandardGraph1');
-goog.require('myphysicslab.sims.layout.TabLayout');
-goog.require('myphysicslab.sims.layout.TimeGraph1');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.StandardGraph1');
+goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.common.TimeGraph1');
 
 goog.scope(function() {
 
@@ -71,7 +71,7 @@ var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CollisionHandling = lab.engine2D.CollisionHandling;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
 var DisplayClock = lab.view.DisplayClock;
 var DoubleRect = lab.util.DoubleRect;
@@ -91,11 +91,11 @@ var EasyScriptParser = lab.util.EasyScriptParser;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
-var StandardGraph1 = sims.layout.StandardGraph1;
+var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
-var TabLayout = sims.layout.TabLayout;
-var TimeGraph1 = sims.layout.TimeGraph1;
+var TabLayout = sims.common.TabLayout;
+var TimeGraph1 = sims.common.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
 var VarsList = lab.model.VarsList;

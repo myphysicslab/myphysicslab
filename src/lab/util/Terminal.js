@@ -293,7 +293,7 @@ code is eliminated, so desired features might be missing.
 
 However, names that are **exported** can be used in HTML scripts under
 advanced-compile. For example, we export the `eval` method in
-{@link myphysicslab.sims.layout.AbstractApp} so that EasyScript can be executed via
+{@link myphysicslab.sims.common.AbstractApp} so that EasyScript can be executed via
 `app.eval()` even under advanced-compile.
 See [Exporting Symbols](Building.html#exportingsymbols).
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.VerticalLayout');
+goog.provide('myphysicslab.sims.common.VerticalLayout');
 
 goog.require('goog.events');
 goog.require('myphysicslab.lab.controls.LabControl');
@@ -59,7 +59,7 @@ stretched to large sizes on large screens.
 * @final
 * @struct
 */
-myphysicslab.sims.layout.VerticalLayout = function(elem_ids) {
+myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   UtilityCore.setImagesDir(elem_ids['images_dir']);
   /** whether to put dashed borders around elements
   * @type {boolean}
@@ -189,7 +189,7 @@ myphysicslab.sims.layout.VerticalLayout = function(elem_ids) {
   }
 
 };
-var VerticalLayout = myphysicslab.sims.layout.VerticalLayout;
+var VerticalLayout = myphysicslab.sims.common.VerticalLayout;
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */

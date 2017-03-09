@@ -47,7 +47,7 @@ drawing the horizontal axis near the top, center, or bottom of the screen. See
 To keep the DisplayAxes in sync with a {@link myphysicslab.lab.view.LabView}, when
 doing for example pan/zoom of the LabView, you can arrange for {@link #setSimRect} to
 be called by an Observer. See for example
-{@link myphysicslab.sims.layout.CommonControls#makeAxes} which makes a
+{@link myphysicslab.sims.common.CommonControls#makeAxes} which makes a
 {@link myphysicslab.lab.util.GenericObserver} that keeps the DisplayAxes in sync with
 the LabView.
 

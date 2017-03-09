@@ -53,10 +53,10 @@ goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.CompareGraph');
-goog.require('myphysicslab.sims.layout.CompareTimeGraph');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.CompareGraph');
+goog.require('myphysicslab.sims.common.CompareTimeGraph');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.pendulum.PendulumSim');
 
 goog.scope(function() {
@@ -71,9 +71,9 @@ var SliderControl = lab.controls.SliderControl;
 var Arc = myphysicslab.lab.model.Arc;
 var AutoScale = lab.graph.AutoScale;
 var Clock = lab.util.Clock;
-var CommonControls = sims.layout.CommonControls;
-var CompareGraph = sims.layout.CompareGraph;
-var CompareTimeGraph = sims.layout.CompareTimeGraph;
+var CommonControls = sims.common.CommonControls;
+var CompareGraph = sims.common.CompareGraph;
+var CompareTimeGraph = sims.common.CompareTimeGraph;
 var AbstractSubject = lab.util.AbstractSubject;
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
 var DisplayClock = lab.view.DisplayClock;
@@ -102,7 +102,7 @@ var SimRunner = lab.app.SimRunner;
 var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
 var DisplayAxes = lab.graph.DisplayAxes;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -305,7 +305,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
     }
   }, 'keep line2\'s X and Y variable in sync with line1');
 
-  /** @type {!sims.layout.CompareGraph} */
+  /** @type {!sims.common.CompareGraph} */
   this.graph = new CompareGraph(line1, line2,
       this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
@@ -326,7 +326,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
       time_py2.setValue(timeParamY.getValue());
     }
   }, 'keep timeLine2\'s Y variable in sync with timeLine1');
-  /** @type {!sims.layout.CompareTimeGraph} */
+  /** @type {!sims.common.CompareTimeGraph} */
   this.timeGraph = new CompareTimeGraph(timeLine1, timeLine2,
       this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);

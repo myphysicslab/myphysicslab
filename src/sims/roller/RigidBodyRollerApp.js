@@ -43,8 +43,8 @@ goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingStyle');
 goog.require('myphysicslab.lab.util.GenericMemo');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.roller.CardioidPath');
 goog.require('myphysicslab.sims.roller.CirclePath');
 goog.require('myphysicslab.sims.roller.FlatPath');
@@ -67,7 +67,7 @@ var NumericControl = lab.controls.NumericControl;
 var CardioidPath = sims.roller.CardioidPath;
 var CirclePath = sims.roller.CirclePath;
 var CollisionAdvance = lab.model.CollisionAdvance;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DampingLaw = lab.model.DampingLaw;
 var DisplayPath = lab.view.DisplayPath;
@@ -109,7 +109,7 @@ on the Hump path.
 + Adds variables for distance and velocity as measured along the path, these are called
 'path position' and 'path velocity' in English.
 
-* @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor

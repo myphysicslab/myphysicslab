@@ -58,10 +58,10 @@ goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.CompareGraph');
-goog.require('myphysicslab.sims.layout.CompareTimeGraph');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.CompareGraph');
+goog.require('myphysicslab.sims.common.CompareTimeGraph');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
 
 goog.scope(function() {
@@ -78,9 +78,9 @@ var AutoScale = lab.graph.AutoScale;
 var Clock = lab.util.Clock;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CollisionHandling = lab.engine2D.CollisionHandling;
-var CommonControls = sims.layout.CommonControls;
-var CompareGraph = sims.layout.CompareGraph;
-var CompareTimeGraph = sims.layout.CompareTimeGraph;
+var CommonControls = sims.common.CommonControls;
+var CompareGraph = sims.common.CompareGraph;
+var CompareTimeGraph = sims.common.CompareTimeGraph;
 var ContactSim = lab.engine2D.ContactSim;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayConnector = lab.view.DisplayConnector;
@@ -112,7 +112,7 @@ var SimRunner = lab.app.SimRunner;
 var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
 var DisplayAxes = lab.graph.DisplayAxes;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 

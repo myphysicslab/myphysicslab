@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.TimeGraph2');
+goog.provide('myphysicslab.sims.common.TimeGraph2');
 
 goog.require('myphysicslab.lab.app.SimController');
 goog.require('myphysicslab.lab.app.SimRunner');
@@ -38,7 +38,7 @@ goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.layout.CommonControls');
+goog.require('myphysicslab.sims.common.CommonControls');
 
 goog.scope(function() {
 
@@ -48,7 +48,7 @@ var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var CommonControls = myphysicslab.sims.layout.CommonControls;
+var CommonControls = myphysicslab.sims.common.CommonControls;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
@@ -92,7 +92,7 @@ One of the axes are placed on the right, and the other is on the left.
 * @implements {SubjectList}
 * @struct
 */
-myphysicslab.sims.layout.TimeGraph2 = function(varsList, graphCanvas, div_controls,
+myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_controls,
     div_graph, simRun) {
   /** @type {!myphysicslab.lab.view.LabCanvas} */
   this.canvas = graphCanvas;
@@ -220,7 +220,7 @@ myphysicslab.sims.layout.TimeGraph2 = function(varsList, graphCanvas, div_contro
       this.line2.setXVariable(this.line1.getXVariable());
     }, this), 'ensures line2 has same X variable as line1');
 };
-var TimeGraph2 = myphysicslab.sims.layout.TimeGraph2;
+var TimeGraph2 = myphysicslab.sims.common.TimeGraph2;
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */

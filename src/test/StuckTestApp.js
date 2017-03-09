@@ -25,8 +25,8 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.test.CircleStraightTest');
 
 goog.scope(function() {
@@ -37,7 +37,7 @@ var sims = myphysicslab.sims;
 var CircleStraightTest = myphysicslab.test.CircleStraightTest;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var ImpulseSim = lab.engine2D.ImpulseSim;
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 var DoubleRect = lab.util.DoubleRect;
@@ -46,7 +46,7 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
 /** StuckTestApp runs a simulation that is guaranteed to become 'stuck', at which point

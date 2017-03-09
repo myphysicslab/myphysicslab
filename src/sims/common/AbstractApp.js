@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.AbstractApp');
+goog.provide('myphysicslab.sims.common.AbstractApp');
 
 goog.require('goog.array');
 goog.require('myphysicslab.lab.app.EventHandler');
@@ -51,10 +51,10 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.StandardGraph1');
-goog.require('myphysicslab.sims.layout.TabLayout');
-goog.require('myphysicslab.sims.layout.TimeGraph1');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.StandardGraph1');
+goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.common.TimeGraph1');
 
 goog.scope(function() {
 
@@ -66,7 +66,7 @@ var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var AbstractSubject = lab.util.AbstractSubject;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
 var DisplayClock = lab.view.DisplayClock;
@@ -90,11 +90,11 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var DisplayAxes = lab.graph.DisplayAxes;
-var StandardGraph1 = sims.layout.StandardGraph1;
+var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
-var TabLayout = sims.layout.TabLayout;
-var TimeGraph1 = sims.layout.TimeGraph1;
+var TabLayout = sims.common.TabLayout;
+var TimeGraph1 = sims.common.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
 var VarsList = lab.model.VarsList;
@@ -134,7 +134,7 @@ can be properly expanded.
 * @implements {SubjectList}
 * @struct
 */
-sims.layout.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler,
+sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler,
      energySystem, opt_name) {
   AbstractSubject.call(this, opt_name || 'APP');
   /** @type {!DoubleRect} */
@@ -222,7 +222,7 @@ sims.layout.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!EasyScriptParser} */
   this.easyScript;
 };
-var AbstractApp = sims.layout.AbstractApp;
+var AbstractApp = sims.common.AbstractApp;
 goog.inherits(AbstractApp, AbstractSubject);
 
 if (!UtilityCore.ADVANCED) {

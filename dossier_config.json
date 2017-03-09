@@ -16,11 +16,11 @@
         "closure-library/closure/goog/html",
         "closure-library/closure/goog/testing",
         "src/lab/engine2D/test",
-        "src/lab/graph/test",
         "src/lab/model/test",
         "src/lab/util/test",
         "src/lab/view/test",
         "src/sims/pendulum/test",
+        "src/sims/roller/test",
         "src/sims/springs/test"
     ]
 }

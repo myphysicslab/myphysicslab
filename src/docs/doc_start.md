@@ -114,11 +114,11 @@ interfaces listed for ease of browsing.
     + [myphysicslab.sims.experimental.BlankSlateApp](myphysicslab.sims.experimental.BlankSlateApp.html)
     + [myphysicslab.sims.experimental.GraphCalcApp](myphysicslab.sims.experimental.GraphCalcApp.html)
 
-+ `myphysicslab.sims.layout` utility classes used by myphysicslab applications
-    + [myphysicslab.sims.layout.AbstractApp](myphysicslab.sims.layout.AbstractApp.html)
-    + [myphysicslab.sims.layout.CommonControls](myphysicslab.sims.layout.CommonControls.html)
-    + [myphysicslab.sims.layout.StandardGraph1](myphysicslab.sims.layout.StandardGraph1.html)
-    + [myphysicslab.sims.layout.TabLayout](myphysicslab.sims.layout.TabLayout.html)
++ `myphysicslab.sims.common` utility classes used by myphysicslab applications
+    + [myphysicslab.sims.common.AbstractApp](myphysicslab.sims.common.AbstractApp.html)
+    + [myphysicslab.sims.common.CommonControls](myphysicslab.sims.common.CommonControls.html)
+    + [myphysicslab.sims.common.StandardGraph1](myphysicslab.sims.common.StandardGraph1.html)
+    + [myphysicslab.sims.common.TabLayout](myphysicslab.sims.common.TabLayout.html)
 
 + `myphysicslab.sims.pde` applications displaying simulations using
      partial differential equations

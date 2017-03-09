@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.CommonControls');
+goog.provide('myphysicslab.sims.common.CommonControls');
 
 goog.require('myphysicslab.lab.app.SimRunner');
 goog.require('myphysicslab.lab.controls.ButtonControl');
@@ -65,10 +65,10 @@ convenient place to keep several common functions for constructing an applicatio
 * @struct
 * @private
 */
-myphysicslab.sims.layout.CommonControls = function() {
+myphysicslab.sims.common.CommonControls = function() {
   throw new Error();
 };
-var CommonControls = myphysicslab.sims.layout.CommonControls;
+var CommonControls = myphysicslab.sims.common.CommonControls;
 
 /** Makes a DisplayAxes which shows the simRect of a SimView, adding it to the SimView;
 and makes a GenericObserver which resizes the axes whenever the SimView's simRect

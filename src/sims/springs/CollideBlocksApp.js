@@ -23,9 +23,9 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.layout.AbstractApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.AbstractApp');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.springs.CollideBlocksSim');
 
 goog.scope(function() {
@@ -34,16 +34,16 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var NumericControl = lab.controls.NumericControl;
-var AbstractApp = sims.layout.AbstractApp;
+var AbstractApp = sims.common.AbstractApp;
 var CollideBlocksSim = sims.springs.CollideBlocksSim;
 var CollisionAdvance = lab.model.CollisionAdvance;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 

@@ -39,8 +39,8 @@ goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.VerticalLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.VerticalLayout');
 goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');
 goog.require('myphysicslab.sims.springs.CollideBlocksSim');
 goog.require('myphysicslab.sims.springs.CollideSpringSim');
@@ -58,7 +58,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var UtilityCore = lab.util.UtilityCore;
-var VerticalLayout = sims.layout.VerticalLayout;
+var VerticalLayout = sims.common.VerticalLayout;
 
 /** Shows a simulation from the `springs` namespace by executing commands in Terminal.
 This makes it easy to create and modify an app without needing Closure Compiler,
@@ -104,7 +104,7 @@ TerminalSpringApp.prototype.defineNames = function(myName) {
       +'|Molecule3Sim|SingleSpringSim|Spring2DSim',
       'myphysicslab.sims.springs', /*addToVars=*/false);
   t.addRegex('CommonControls',
-      'myphysicslab.sims.layout', /*addToVars=*/false);
+      'myphysicslab.sims.common', /*addToVars=*/false);
 };
 
 /**

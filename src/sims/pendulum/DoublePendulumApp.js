@@ -23,9 +23,9 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.layout.AbstractApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.AbstractApp');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.pendulum.DoublePendulumSim');
 
 goog.scope(function() {
@@ -34,8 +34,8 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var SliderControl = lab.controls.SliderControl;
-var AbstractApp = sims.layout.AbstractApp;
-var CommonControls = sims.layout.CommonControls;
+var AbstractApp = sims.common.AbstractApp;
+var CommonControls = sims.common.CommonControls;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DoublePendulumSim = sims.pendulum.DoublePendulumSim;
@@ -43,7 +43,7 @@ var DoubleRect = lab.util.DoubleRect;
 var ConcreteLine = lab.model.ConcreteLine;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var Vector = lab.util.Vector;
 var UtilityCore = lab.util.UtilityCore;
 

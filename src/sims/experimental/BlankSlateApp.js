@@ -42,7 +42,7 @@ goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.ScreenRect');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.layout.CommonControls');
+goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 goog.scope(function() {
@@ -52,7 +52,7 @@ var sims = myphysicslab.sims;
 
 var AbstractSubject = lab.util.AbstractSubject;
 var CheckBoxControl = lab.controls.CheckBoxControl;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayLine = lab.view.DisplayLine;

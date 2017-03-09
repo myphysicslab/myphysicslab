@@ -34,9 +34,9 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.sims.layout.AbstractApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.AbstractApp');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');
 
 goog.scope(function() {
@@ -48,10 +48,10 @@ var SliderControl = lab.controls.SliderControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var NumericControl = lab.controls.NumericControl;
-var AbstractApp = sims.layout.AbstractApp;
+var AbstractApp = sims.common.AbstractApp;
 var ButtonControl = lab.controls.ButtonControl;
 var ChainOfSpringsSim = sims.springs.ChainOfSpringsSim;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
@@ -67,7 +67,7 @@ var ShapeType = lab.model.ShapeType;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var Spring = lab.model.Spring;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
 /**  ChainOfSpringsApp displays the simulation

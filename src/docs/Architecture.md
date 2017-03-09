@@ -270,7 +270,7 @@ example, making the `simRect` smaller has the effect of zooming in. Changing the
 
 A [ModifySimRect](myphysicslab.lab.view.ModifySimRect.html) is designed to easily do
 pan and zoom effects on a SimView. See
-[makePanZoomControls](myphysicslab.sims.layout.CommonControls.html#makePanZoomControls)
+[makePanZoomControls](myphysicslab.sims.common.CommonControls.html#makePanZoomControls)
 which makes user interface controls that affect a ModifySimRect.
 
 It is common to have two overlapping SimViews in a single LabCanvas: one SimView for
@@ -284,10 +284,10 @@ display.
 The layout of the canvas and controls on the web page is handled
 using **standard HTML and CSS**
 techniques. The application is in control of the layout, but it typically will use
-classes such as [TabLayout](myphysicslab.sims.layout.TabLayout.html),
-[CommonControls](myphysicslab.sims.layout.CommonControls.html),
+classes such as [TabLayout](myphysicslab.sims.common.TabLayout.html),
+[CommonControls](myphysicslab.sims.common.CommonControls.html),
 [Engine2DApp](myphysicslab.sims.engine2D.Engine2DApp.html) and
-[AbstractApp](myphysicslab.sims.layout.AbstractApp.html); these aggregate common boiler
+[AbstractApp](myphysicslab.sims.common.AbstractApp.html); these aggregate common boiler
 plate code for creating controls and views.
 
 The LabCanvas is **periodically repainted** by the callback function, which is
@@ -344,8 +344,8 @@ that the user can easily modify these.
 
 The application creates the graph and the various controls to modify the graph. There
 are convenience classes such as
-[StandardGraph1](myphysicslab.sims.layout.StandardGraph1.html) and
-[TimeGraph1](myphysicslab.sims.layout.TimeGraph1.html) which create the various
+[StandardGraph1](myphysicslab.sims.common.StandardGraph1.html) and
+[TimeGraph1](myphysicslab.sims.common.TimeGraph1.html) which create the various
 graph objects and connect them together. The application will typically use classes such
 as TabLayout and CommonControls which aggregate common boiler plate code for creating
 canvases, HTML divs, and controls.
@@ -547,7 +547,7 @@ Here are some of them:
     base class that provides everything needed to implement the
     [Subject](myphysicslab.lab.util.Subject.html) interface.
 
-+ [AbstractApp](myphysicslab.sims.layout.AbstractApp.html) is an abstract base class
++ [AbstractApp](myphysicslab.sims.common.AbstractApp.html) is an abstract base class
     that creates the standard set of views, graphs and controls which are common to
     many applications that run an ODESim.
 
@@ -555,12 +555,12 @@ Here are some of them:
     that creates the standard set of views, graphs and controls which are common to
     many applications that run a RigidBodySim, ImpulseSim, or ContactSim.
 
-+ [CommonControls](myphysicslab.sims.layout.CommonControls.html) provides
++ [CommonControls](myphysicslab.sims.common.CommonControls.html) provides
     various functions for constructing user interface elements; for example the
     "play, pause, rewind" controls are created with
-    [makePlaybackControls](myphysicslab.sims.layout.CommonControls.html#CommonControls.makePlaybackControls).
+    [makePlaybackControls](myphysicslab.sims.common.CommonControls.html#CommonControls.makePlaybackControls).
 
-+ [TabLayout](myphysicslab.sims.layout.TabLayout.html) implements specific ways to
++ [TabLayout](myphysicslab.sims.common.TabLayout.html) implements specific ways to
     present the application on the web page; in this case with a tab-based layout
     to show the simulation view, graphs, and controls.
 

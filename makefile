@@ -404,12 +404,12 @@ src/sims/pde/StringShape.js
 $(BUILD_DIR)/sims/pendulum/CartPendulumApp*.js : src/sims/pendulum/CartPendulumSim.js
 
 $(BUILD_DIR)/sims/pendulum/CompareDoublePendulumApp*.js : src/sims/pendulum/RigidDoublePendulumSim.js \
-src/sims/layout/CompareGraph.js \
-src/sims/layout/CompareTimeGraph.js
+src/sims/common/CompareGraph.js \
+src/sims/common/CompareTimeGraph.js
 
 $(BUILD_DIR)/sims/pendulum/ComparePendulumApp*.js : src/sims/pendulum/PendulumSim.js \
-src/sims/layout/CompareGraph.js \
-src/sims/layout/CompareTimeGraph.js
+src/sims/common/CompareGraph.js \
+src/sims/common/CompareTimeGraph.js
 
 $(BUILD_DIR)/sims/pendulum/DoublePendulumApp*.js : src/sims/pendulum/DoublePendulumSim.js
 
@@ -421,8 +421,8 @@ $(BUILD_DIR)/sims/pendulum/PendulumApp_*.js : src/sims/pendulum/PendulumSim.js
 
 $(BUILD_DIR)/sims/pendulum/ReactionPendulumApp*.js : src/sims/pendulum/PendulumSim.js \
 src/sims/pendulum/ReactionPendulumSim.js \
-src/sims/layout/CompareGraph.js \
-src/sims/layout/CompareTimeGraph.js
+src/sims/common/CompareGraph.js \
+src/sims/common/CompareTimeGraph.js
 
 $(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp*.js : src/sims/pendulum/RigidDoublePendulumSim.js
 
@@ -448,7 +448,7 @@ $(BUILD_DIR)/sims/springs/Molecule3App*.js : src/sims/springs/Molecule3Sim.js
 $(BUILD_DIR)/sims/springs/SingleSpringApp_*.js : src/sims/springs/SingleSpringSim.js
 
 $(BUILD_DIR)/sims/springs/SingleSpring2App_*.js : src/sims/springs/SingleSpringSim.js \
-src/sims/layout/TimeGraph2.js
+src/sims/common/TimeGraph2.js
 
 $(BUILD_DIR)/sims/springs/Spring2DApp*.js : src/sims/springs/Spring2DSim.js
 
@@ -464,12 +464,12 @@ src/sims/engine2D/RigidBodyObserver.js
 # almost all sim apps have these prerequisites
 # (TO DO: have separate prerequisites for engine2D apps vs others)
 sims_req := $(lab_js) \
-src/sims/layout/AbstractApp.js \
-src/sims/layout/VerticalLayout.js \
-src/sims/layout/TabLayout.js \
-src/sims/layout/CommonControls.js \
-src/sims/layout/StandardGraph1.js \
-src/sims/layout/TimeGraph1.js
+src/sims/common/AbstractApp.js \
+src/sims/common/VerticalLayout.js \
+src/sims/common/TabLayout.js \
+src/sims/common/CommonControls.js \
+src/sims/common/StandardGraph1.js \
+src/sims/common/TimeGraph1.js
 
 # tests require only a few .js files from src/sims/engine2D
 test_req := src/test/*.js $(lab_js) \

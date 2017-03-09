@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.StandardGraph1');
+goog.provide('myphysicslab.sims.common.CompareGraph');
 
 goog.require('myphysicslab.lab.app.SimController');
 goog.require('myphysicslab.lab.app.SimRunner');
@@ -23,9 +23,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphColor');
 goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
@@ -37,12 +35,13 @@ goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.layout.CommonControls');
+goog.require('myphysicslab.sims.common.CommonControls');
 
 goog.scope(function() {
 
@@ -53,18 +52,18 @@ var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var AbstractSubject = lab.util.AbstractSubject;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
+var DrawingMode = myphysicslab.lab.view.DrawingMode;
 var GenericEvent = lab.util.GenericEvent;
 var GenericObserver = lab.util.GenericObserver;
-var GraphColor = lab.graph.GraphColor;
 var GraphLine = lab.graph.GraphLine;
 var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
-var LabView = lab.view.LabView;
+var LabView = myphysicslab.lab.view.LabView;
 var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
@@ -76,76 +75,69 @@ var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
-var VarsList = lab.model.VarsList;
 var VerticalAlign = lab.view.VerticalAlign;
 
-/** Creates a graph with a single GraphLine. Creates a single SimView and DisplayGraph
-to show the GraphLine. Adds the SimView to `graphCanvas`. Creates an AutoScale that
-modifies the SimView to contain the GraphLine.
-Creates several controls to modify the graph.
+/** Creates a graph showing two GraphLines corresponding to two Simulations, where the
+two GraphLines are showing the same variables. There is a single SimView and
+DisplayGraph. Creates an AutoScale that ensures both GraphLines are visible. Creates
+controls to modify the graph. The menu choices are only connected to the first
+GraphLine. The second GraphLine should be externally synchronized to show the same
+variables as the first GraphLine.
 
-* @param {!myphysicslab.lab.model.VarsList} varsList the VarsList to collect
-*   data from
-* @param {!myphysicslab.lab.view.LabCanvas} graphCanvas the LabCanvas where the graph
-*   should appear
+* @param {!GraphLine} line1 the first GraphLine to show
+* @param {!GraphLine} line2 the second GraphLine to show
+* @param {!LabCanvas} graphCanvas the LabCanvas where the graph should appear
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
-* @param {!myphysicslab.lab.app.SimRunner} simRun the SimRunner controlling the
-*   overall app
-* @param {string=} displayStyle the CSS display style to use when adding controls
+* @param {!SimRunner} simRun the SimRunner controlling the overall app
 * @constructor
 * @final
 * @extends {myphysicslab.lab.util.AbstractSubject}
 * @implements {SubjectList}
 * @struct
 */
-myphysicslab.sims.layout.StandardGraph1 = function(varsList, graphCanvas, div_controls,
-    div_graph, simRun, displayStyle) {
+myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
+    div_controls, div_graph, simRun) {
   AbstractSubject.call(this, 'GRAPH_LAYOUT');
-
-  /** @type {string} */
-  this.displayStyle = displayStyle || 'block';
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  this.line1 = line1;
+  this.line2 = line2;
+  /** @type {!lab.view.LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
 
-  /** @type {!myphysicslab.lab.view.SimView} */
-  this.view = new SimView('X_Y_GRAPH_VIEW', new DoubleRect(0, 0, 1, 1));
+  /** @type {!lab.view.SimView} */
+  this.view = new SimView('graph', new DoubleRect(0, 0, 1, 1));
   this.view.setHorizAlign(HorizAlign.FULL);
   this.view.setVerticalAlign(VerticalAlign.FULL);
+  this.view.addMemo(line1);
+  this.view.addMemo(line2);
   graphCanvas.addView(this.view);
-  this.displayList = this.view.getDisplayList();
 
-  /** @type {!myphysicslab.lab.graph.GraphLine} */
-  this.line = new GraphLine('X_Y_GRAPH_LINE', varsList);
-  this.line.setXVariable(0);
-  this.line.setYVariable(1);
-  this.line.setColor('lime');
-  this.view.addMemo(this.line);
-
-  /** @type {!myphysicslab.lab.graph.DisplayAxes} */
+  /** @type {!lab.graph.DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
   var updateAxes = goog.bind(function(evt) {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
-      this.axes.setHorizName(this.line.getXVarName());
+      this.axes.setHorizName(this.line1.getXVarName());
     }
     if (evt.nameEquals(GraphLine.en.Y_VARIABLE)) {
-      this.axes.setVerticalName(this.line.getYVarName());
+      this.axes.setVerticalName(this.line1.getYVarName());
     }
   }, this);
-  new GenericObserver(this.line, updateAxes, 'update axes names');
-  updateAxes(new GenericEvent(this.line, GraphLine.i18n.X_VARIABLE));
+  new GenericObserver(line1, updateAxes, 'update axes names');
+  updateAxes(new GenericEvent(line1, GraphLine.i18n.X_VARIABLE));
 
-  /** @type {!myphysicslab.lab.graph.AutoScale} */
-  this.autoScale = new AutoScale('X_Y_AUTO_SCALE', this.line, this.view);
+  /** @type {!lab.graph.AutoScale} */
+  this.autoScale = new AutoScale('COMPARE_GRAPH_AUTO_SCALE', line1, this.view);
+  this.autoScale.addGraphLine(line2);
   this.autoScale.extraMargin = 0.05;
 
-  /** @type {!myphysicslab.lab.graph.DisplayGraph} */
-  this.displayGraph = new DisplayGraph(this.line);
+  /** @type {!lab.graph.DisplayGraph} */
+  this.displayGraph = new DisplayGraph(line1);
+  this.displayGraph.addGraphLine(line2);
   this.displayGraph.setScreenRect(this.view.getScreenRect());
   // Use off-screen buffer because usually the autoScale doesn't change the area.
   this.displayGraph.setUseBuffer(true);
-  this.displayList.prepend(this.displayGraph);
+  this.view.getDisplayList().prepend(this.displayGraph);
   // inform displayGraph when the screen rect changes.
   new GenericObserver(this.view, goog.bind(function(evt) {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
@@ -157,28 +149,33 @@ myphysicslab.sims.layout.StandardGraph1 = function(varsList, graphCanvas, div_co
   this.controls_ = [];
   /** @type {!Element} */
   this.div_controls = div_controls;
-
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
   /** @type {!ParameterNumber} */
-  var pn = this.line.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  var pn = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'Y:'));
-  pn = this.line.getParameterNumber(GraphLine.en.X_VARIABLE);
+  pn = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'X:'));
-  this.addControl(new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
-      goog.bind(this.line.reset, this.line)));
+
+  var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
+      goog.bind(function() {
+        line1.reset();
+        line2.reset();
+        this.autoScale.reset();
+      }, this));
+  this.addControl(bc);
 
   /** @type {!ParameterString} */
-  var ps = this.line.getParameterString(GraphLine.en.GRAPH_COLOR);
-  this.addControl(new ChoiceControl(ps, /*label=*/undefined, GraphColor.getChoices(),
-      GraphColor.getValues()));
-  pn = this.line.getParameterNumber(GraphLine.en.LINE_WIDTH);
-  this.addControl(new NumericControl(pn));
-  ps = this.line.getParameterString(GraphLine.en.DRAWING_MODE);
+  var ps = line1.getParameterString(GraphLine.en.DRAWING_MODE);
   this.addControl(new ChoiceControl(ps));
 
+  // use same drawing mode on line2
+  new GenericObserver(line1, function(evt) {
+    line2.setDrawingMode(line1.getDrawingMode());
+  }, 'match drawing mode on GraphLine');
+
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!myphysicslab.lab.app.SimController}
+  * @type {!lab.app.SimController}
   */
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
@@ -192,41 +189,42 @@ myphysicslab.sims.layout.StandardGraph1 = function(varsList, graphCanvas, div_co
   var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
-var StandardGraph1 = myphysicslab.sims.layout.StandardGraph1;
-goog.inherits(StandardGraph1, AbstractSubject);
+var CompareGraph = myphysicslab.sims.common.CompareGraph;
+goog.inherits(CompareGraph, AbstractSubject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
-  StandardGraph1.prototype.toString = function() {
+  CompareGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
+        +', line1: '+this.line1.toStringShort()
+        +', line2: '+this.line2.toStringShort()
         +', canvas: '+this.canvas.toStringShort()
         +', view: '+this.view.toStringShort()
-        +', line: '+this.line.toStringShort()
         +', axes: '+this.axes.toStringShort()
         +', autoScale: '+this.autoScale.toStringShort()
         +', displayGraph: '+this.displayGraph.toStringShort()
         +', graphCtrl: '+this.graphCtrl.toStringShort()
-        + StandardGraph1.superClass_.toString.call(this);
+        + CompareGraph.superClass_.toString.call(this);
   };
 };
 
 /** @inheritDoc */
-StandardGraph1.prototype.getClassName = function() {
-  return 'StandardGraph1';
+CompareGraph.prototype.getClassName = function() {
+  return 'CompareGraph';
 };
 
 /** @inheritDoc */
-StandardGraph1.prototype.getSubjects = function() {
-  return [ this, this.line, this.view, this.autoScale ];
+CompareGraph.prototype.getSubjects = function() {
+  return [ this, this.line1, this.line2, this.view, this.autoScale ];
 };
 
 /** Add the control to the set of simulation controls.
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-StandardGraph1.prototype.addControl = function(control) {
+CompareGraph.prototype.addControl = function(control) {
   var element = control.getElement();
-  element.style.display = this.displayStyle;
+  element.style.display = 'block';
   this.div_controls.appendChild(element);
   this.controls_.push(control);
   return control;

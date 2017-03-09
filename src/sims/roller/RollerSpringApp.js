@@ -28,9 +28,9 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.layout.AbstractApp');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.AbstractApp');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.roller.CardioidPath');
 goog.require('myphysicslab.sims.roller.CirclePath');
 goog.require('myphysicslab.sims.roller.FlatPath');
@@ -50,10 +50,10 @@ var sims = myphysicslab.sims;
 
 var ChoiceControl = lab.controls.ChoiceControl;
 var NumericControl = lab.controls.NumericControl;
-var AbstractApp = sims.layout.AbstractApp;
+var AbstractApp = sims.common.AbstractApp;
 var CardioidPath = sims.roller.CardioidPath;
 var CirclePath = sims.roller.CirclePath;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
@@ -73,7 +73,7 @@ var RollerSingleSim = sims.roller.RollerSingleSim;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var Spring = lab.model.Spring;
-var TabLayout = sims.layout.TabLayout;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
 /** Creates the {@link myphysicslab.sims.roller.RollerSingleSim} simulation with a

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.TimeGraph1');
+goog.provide('myphysicslab.sims.common.TimeGraph1');
 
 goog.require('myphysicslab.lab.app.SimController');
 goog.require('myphysicslab.lab.app.SimRunner');
@@ -39,7 +39,7 @@ goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.layout.CommonControls');
+goog.require('myphysicslab.sims.common.CommonControls');
 
 goog.scope(function() {
 
@@ -50,7 +50,7 @@ var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var CommonControls = myphysicslab.sims.layout.CommonControls;
+var CommonControls = myphysicslab.sims.common.CommonControls;
 var AbstractSubject = lab.util.AbstractSubject;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
@@ -88,7 +88,7 @@ visible. Creates several controls to modify the graph.
 * @implements {SubjectList}
 * @struct
 */
-myphysicslab.sims.layout.TimeGraph1 = function(varsList, graphCanvas, div_controls,
+myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_controls,
     div_graph, simRun) {
   AbstractSubject.call(this, 'TIME_GRAPH_LAYOUT');
   /** @type {!myphysicslab.lab.view.LabCanvas} */
@@ -199,7 +199,7 @@ myphysicslab.sims.layout.TimeGraph1 = function(varsList, graphCanvas, div_contro
   var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
-var TimeGraph1 = myphysicslab.sims.layout.TimeGraph1;
+var TimeGraph1 = myphysicslab.sims.common.TimeGraph1;
 goog.inherits(TimeGraph1, AbstractSubject);
 
 if (!UtilityCore.ADVANCED) {

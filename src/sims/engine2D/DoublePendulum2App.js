@@ -37,8 +37,8 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
-goog.require('myphysicslab.sims.layout.CommonControls');
-goog.require('myphysicslab.sims.layout.TabLayout');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 
 goog.scope(function() {
 
@@ -50,7 +50,7 @@ var ChoiceControl = lab.controls.ChoiceControl;
 var NumericControl = lab.controls.NumericControl;
 var AffineTransform = lab.util.AffineTransform;
 var CollisionAdvance = lab.model.CollisionAdvance;
-var CommonControls = sims.layout.CommonControls;
+var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
@@ -73,7 +73,7 @@ connected like a double pendulum, and a third free moving block.
 DoublePendulum2App also demonstrates having an image inside a DisplayShape. It uses an
 AffineTransform to rotate, scale, and position the image within the DisplayShape.
 
-* @param {!sims.layout.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor

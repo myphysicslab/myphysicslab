@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.layout.TabLayout');
+goog.provide('myphysicslab.sims.common.TabLayout');
 
 goog.require('goog.array');
 goog.require('goog.dom');
@@ -164,7 +164,7 @@ Parameters Created
 * @implements {myphysicslab.lab.util.SubjectList}
 * @extends {myphysicslab.lab.util.AbstractSubject}
 */
-myphysicslab.sims.layout.TabLayout = function(elem_ids, canvasWidth, canvasHeight) {
+myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeight) {
   AbstractSubject.call(this, 'TAB_LAYOUT');
   canvasWidth = canvasWidth || 800;
   canvasHeight = canvasHeight || 800;
@@ -362,7 +362,7 @@ myphysicslab.sims.layout.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 
   this.redoLayout();
   // using 'self' fixes several NTI compiler errors
-  var self = /** @type {myphysicslab.sims.layout.TabLayout}*/(this);
+  var self = /** @type {myphysicslab.sims.common.TabLayout}*/(this);
   this.addParameter(new ParameterNumber(this, TabLayout.en.SIM_WIDTH,
       TabLayout.i18n.SIM_WIDTH, self.getSimWidth, self.setSimWidth));
   this.addParameter(new ParameterNumber(this, TabLayout.en.GRAPH_WIDTH,
@@ -373,7 +373,7 @@ myphysicslab.sims.layout.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
       TabLayout.i18n.LAYOUT, self.getLayout, self.setLayout,
       TabLayout.getValues(), TabLayout.getValues()));
 };
-var TabLayout = myphysicslab.sims.layout.TabLayout;
+var TabLayout = myphysicslab.sims.common.TabLayout;
 goog.inherits(TabLayout, AbstractSubject);
 
 if (!UtilityCore.ADVANCED) {
