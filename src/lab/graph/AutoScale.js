@@ -18,17 +18,18 @@ goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.model.VarsList');
+goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.Observer');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
+goog.require('myphysicslab.lab.util.ParameterNumber');
+goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.view.LabView');
+goog.require('myphysicslab.lab.view.SimView');
 
 goog.scope(function() {
 
@@ -39,50 +40,66 @@ var GraphLine = myphysicslab.lab.graph.GraphLine;
 var LabView = myphysicslab.lab.view.LabView;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var ParameterString = myphysicslab.lab.util.ParameterString;
+var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+var ParameterString = myphysicslab.lab.util.ParameterString;
 var SimView = myphysicslab.lab.view.SimView;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Watches the {@link myphysicslab.lab.model.VarsList VarsList} of one or
 more {@link myphysicslab.lab.graph.GraphLine GraphLines} to calculate the range
-rectangle that encloses the points on the graphs, and sets accordingly the simRect of a
-{@link myphysicslab.lab.view.SimView SimView}. The range rectangle is the smallest
+rectangle that encloses the points on the graphs, and sets accordingly the `simRect` of
+a {@link myphysicslab.lab.view.SimView SimView}. The range rectangle is the smallest
 rectangle that contains all the points, but possibly expanded by the
 {@link #extraMargin} factor.
 
-### Enabled and Active
 
-To entirely disable an AutoScale, see {@link #setEnabled}.  Assuming the AutoScale is enabled, it will react to events in the SimView and GraphLines as follows:
+Temporarily Deactivate
+----------------------
+When the user pans or zooms the graph, we need to **temporarily turn off the auto-scale
+behavior**. When the user clicks the "reset" button in the middle of the pan-zoom
+control, this means "turn auto-scale back on".
 
-+ AutoScale becomes **inactive** when the SimView's simRect is changed by an entity
+To accomodate these behaviors, AutoScale observes the SimView and GraphLines and will
+react to their events as follows (assuming the AutoScale is enabled):
+
++ AutoScale becomes **inactive** when the SimView's `simRect` is changed by an entity
 other than this AutoScale. This happens when AutoScale observes a SimView event called
-`LabView.SIM_RECT_CHANGED`.
+`SIM_RECT_CHANGED`.
 
 + AutoScale becomes **active** when one of its GraphLines broadcasts a `RESET` event.
 This happens when a graph is cleared, or when the X or Y variable is changed.
 
-You can also call {@link #setActive} directly to make an enabled AutoScale active or
-inactive.
+You can also directly call {@link #setActive} to make the AutoScale active or inactive
+(but it must also be enabled to actually do anything).
 
-### Time Graph
+To entirely disable an AutoScale, use {@link #setEnabled}.
 
+
+Time Graph
+----------
 For a *time graph* where one variable is time, the range rectangle in the time dimension
 has a fixed size specified by {@link #setTimeWindow}. The default time window is 10
 seconds.
 
-### Events Broadcast
 
-GenericEvent named {@link #AUTO_SCALE} is broadcast when the range rectangle changes.
+Parameters Created
+----------------
++ ParameterBoolean named `ACTIVE`, see {@link #setActive}
 
-### Parameters Created
++ ParameterString named `AXIS`, see {@link #setAxis}.
 
-+ ParameterNumber named `AutoScale.en.TIME_WINDOW`
-  see {@link #setTimeWindow}.
++ ParameterBoolean named `ENABLED`, see {@link #setEnabled}
 
-+ ParameterNumber named `AutoScale.en.AXIS`
-  see {@link #setAxis}.
++ ParameterNumber named `TIME_WINDOW`, see {@link #setTimeWindow}.
+
+
+Events Broadcast
+----------------
++ GenericEvent named `AUTO_SCALE` is broadcast when the range rectangle changes. The new
+range rectangle is the value of the event.
+
 
 * @param {string} name name of this AutoScale.
 * @param {!myphysicslab.lab.graph.GraphLine} graphLine the GraphLine to observe
@@ -199,6 +216,12 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
   this.addParameter(new ParameterString(this, AutoScale.en.AXIS,
       AutoScale.i18n.AXIS,
       this.getAxis, this.setAxis, choices, choices));
+  this.addParameter(new ParameterBoolean(this, AutoScale.en.ACTIVE,
+      AutoScale.i18n.ACTIVE,
+      this.getActive, this.setActive));
+  this.addParameter(new ParameterBoolean(this, AutoScale.en.ENABLED,
+      AutoScale.i18n.ENABLED,
+      this.getEnabled, this.setEnabled));
   this.setComputed(this.isActive_);
 };
 var AutoScale = myphysicslab.lab.graph.AutoScale;
@@ -226,12 +249,6 @@ AutoScale.prototype.getClassName = function() {
   return 'AutoScale';
 };
 
-/** Name of event broadcast when the active state changes, value is whether active.
-* @type {string}
-* @const
-*/
-AutoScale.ACTIVE = 'ACTIVE';
-
 /** Name of event broadcast when a new enclosing simulation rectangle has been
 * calculated.
 * @type {string}
@@ -244,12 +261,6 @@ AutoScale.AUTO_SCALE = 'AUTO_SCALE';
 * @const
 */
 AutoScale.BOTH_AXES = 'BOTH_AXES';
-
-/** Name of event broadcast when the enabled state changes, value is whether enabled.
-* @type {string}
-* @const
-*/
-AutoScale.ENABLED = 'ENABLED';
 
 /** Specifies horizontal axis option for {@link #setAxis}.
 * @type {string}
@@ -297,8 +308,8 @@ AutoScale.prototype.getActive = function() {
   return this.isActive_;
 };
 
-/** Returns which axis should be auto scaled: one of {@link #VERTICAL},
-{@link #HORIZONTAL}, or {@link #BOTH_AXES}.
+/** Returns which axis should be auto scaled: one of `VERTICAL`, `HORIZONTAL`, or
+`BOTH_AXES`.
 @return {string} which axis should be auto scaled
 */
 AutoScale.prototype.getAxis = function() {
@@ -375,7 +386,7 @@ AutoScale.prototype.observe =  function(event) {
 };
 
 /** When the range rectangle changes, this will broadcast a GenericEvent named
-`AutoScale.AUTO_SCALE`.
+`AUTO_SCALE`.
 @private
 */
 AutoScale.prototype.rangeCheck_ = function() {
@@ -458,20 +469,19 @@ AutoScale.prototype.setActive = function(value) {
         this.simView_.addMemo(this);
         this.setComputed(true);
         this.isActive_ = true;
-        this.broadcast(new GenericEvent(this, AutoScale.ACTIVE, this.isActive_));
+        this.broadcastParameter(AutoScale.en.ACTIVE);
       }
     } else {
       this.simView_.removeMemo(this);
       this.setComputed(false);
       this.isActive_ = false;
-      this.broadcast(new GenericEvent(this, AutoScale.ACTIVE, this.isActive_));
+      this.broadcastParameter(AutoScale.en.ACTIVE);
     }
   }
   goog.asserts.assert(this.enabled_ || !this.isActive_);
 };
 
-/** Set which axis to auto scale: one of {@link #VERTICAL}, {@link #HORIZONTAL}, or
-{@link #BOTH_AXES}.
+/** Set which axis to auto scale: one of `VERTICAL`, `HORIZONTAL`, or `BOTH_AXES`.
 @param {string} value which axis should be auto scaled
 */
 AutoScale.prototype.setAxis = function(value) {
@@ -506,7 +516,7 @@ AutoScale.prototype.setEnabled = function(value) {
   if (this.enabled_ != value) {
     this.enabled_ = value;
     this.setActive(value);
-    this.broadcast(new GenericEvent(this, AutoScale.ENABLED, this.enabled_));
+    this.broadcastParameter(AutoScale.en.ENABLED);
   }
   goog.asserts.assert(this.enabled_ || !this.isActive_);
 };
@@ -611,7 +621,9 @@ AutoScale.prototype.updateRange_ = function(line, nowX, nowY) {
 /** Set of internationalized strings.
 @typedef {{
   AXIS: string,
-  TIME_WINDOW: string
+  TIME_WINDOW: string,
+  ACTIVE: string,
+  ENABLED: string
   }}
 */
 AutoScale.i18n_strings;
@@ -621,7 +633,9 @@ AutoScale.i18n_strings;
 */
 AutoScale.en = {
   AXIS: 'axis',
-  TIME_WINDOW: 'time window'
+  TIME_WINDOW: 'time window',
+  ACTIVE: 'active',
+  ENABLED: 'enabled'
 };
 
 /**
@@ -630,7 +644,9 @@ AutoScale.en = {
 */
 AutoScale.de_strings = {
   AXIS: 'Achse',
-  TIME_WINDOW: 'Zeitfenster'
+  TIME_WINDOW: 'Zeitfenster',
+  ACTIVE: 'aktiviert',
+  ENABLED: 'ermöglichte'
 };
 
 /** Set of internationalized strings.

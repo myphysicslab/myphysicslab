@@ -153,7 +153,7 @@ Their position in the VarsList remains constant after they are allocated.
 
 ### Parameters Created
 
-+ ParameterBoolean named `RigidBodySim.en.SHOW_FORCES` see {@link #setShowForces}
++ ParameterBoolean named `SHOW_FORCES` see {@link #setShowForces}
 
 
 @todo the momentum stuff was pretty klugey and ugly; I'm commenting it out Dec 2009;

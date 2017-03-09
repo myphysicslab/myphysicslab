@@ -57,24 +57,22 @@ the current Simulation state.
 
 Parameters Created
 ------------------
-+ ParameterNumber named `SimRunner.en.TIME_STEP`
-  see {@link #setTimeStep}
++ ParameterNumber named `TIME_STEP`, see {@link #setTimeStep}
 
-+ ParameterNumber named `SimRunner.en.DISPLAY_PERIOD`
-  see {@link #setDisplayPeriod}
++ ParameterNumber named `DISPLAY_PERIOD`, see {@link #setDisplayPeriod}
 
-+ ParameterBoolean named `SimRunner.en.RUNNING`
-  see {@link #setRunning}
++ ParameterBoolean named `RUNNING`, see {@link #setRunning}
 
-+ ParameterBoolean named `SimRunner.en.NON_STOP`
-  see {@link #setNonStop}
++ ParameterBoolean named `FIRING`, see {@link #setFiring}
+
++ ParameterBoolean named `NON_STOP`, see {@link #setNonStop}
 
 
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
 
-+ GenericEvent named {@link SimRunner.RESET}
++ GenericEvent named `RESET`, see {@link #reset}.
 
 
 How Simulation Advances with Clock

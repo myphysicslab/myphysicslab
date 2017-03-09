@@ -103,24 +103,24 @@ multiple simultaneous impulses during collision handling.
 
 ### Parameters Created
 
-+ ParameterString named `RigidBodySim.en.COLLISION_HANDLING`
++ ParameterString named `COLLISION_HANDLING`
   see {@link #setCollisionHandling}
 
-+ ParameterNumber named `RigidBodySim.en.COLLISION_ACCURACY`
++ ParameterNumber named `COLLISION_ACCURACY`
   see {@link #setCollisionAccuracy}
 
-+ ParameterNumber named `RigidBodySim.en.DISTANCE_TOL` see {@link #setDistanceTol}
++ ParameterNumber named `DISTANCE_TOL` see {@link #setDistanceTol}
 
-+ ParameterBoolean named `RigidBodySim.en.SHOW_FORCES` see {@link #setShowForces}
++ ParameterNumber named `VELOCITY_TOL` see {@link #setVelocityTol}
 
-+ ParameterNumber named `RigidBodySim.en.VELOCITY_TOL` see {@link #setVelocityTol}
++ ParameterNumber named `RANDOM_SEED` see {@link #setRandomSeed}
 
-+ ParameterNumber named `RigidBodySim.en.RANDOM_SEED` see {@link #setRandomSeed}
+See also the super class for additional Parameters.
 
 
 ### Events Broadcast
 
-+ GenericEvent name {@link #ELASTICITY_SET}, see {@link #setElasticity}.
++ GenericEvent name `ELASTICITY_SET`, see {@link #setElasticity}.
 
 
 

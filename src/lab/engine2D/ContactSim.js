@@ -114,22 +114,10 @@ modifications to contact forces when curved edges are involved.
 
 ### Parameters Created
 
-+ ParameterString named `RigidBodySim.en.COLLISION_HANDLING`
-  see {@link #setCollisionHandling}
-
-+ ParameterString named `RigidBodySim.en.EXTRA_ACCEL`
++ ParameterString named `EXTRA_ACCEL`
   see {@link #setExtraAccel}
 
-+ ParameterBoolean named `RigidBodySim.en.SHOW_FORCES` see {@link #setShowForces}
-
-+ ParameterNumber named `RigidBodySim.en.DISTANCE_TOL`
-  see {@link #setDistanceTol}
-
-+ ParameterNumber named `RigidBodySim.en.VELOCITY_TOL` see {@link #setVelocityTol}
-
-+ ParameterNumber named `RigidBodySim.en.COLLISION_ACCURACY`
-  see {@link #setCollisionAccuracy}
-
+See also the super class for additional Parameters.
 
 ### Find External Forces
 

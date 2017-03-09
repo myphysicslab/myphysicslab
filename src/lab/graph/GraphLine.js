@@ -110,11 +110,24 @@ Note that the transform functions do not affect how the graph axes are shown.
 
 ### Parameters Created
 
-+ ParameterNumber named `GraphLine.en.X_VARIABLE`, see {@link #setXVariable}.
++ ParameterNumber named `X_VARIABLE`, see {@link #setXVariable}.
   Has an extra `NONE` choice, which causes the GraphLine to have an empty HistoryList.
 
-+ ParameterNumber named `GraphLine.en.Y_VARIABLE`, see {@link #setYVariable}.
++ ParameterNumber named `Y_VARIABLE`, see {@link #setYVariable}.
   Has an extra `NONE` choice, which causes the GraphLine to have an empty HistoryList.
+
++ ParameterNumber named `LINE_WIDTH`, see {@link #setLineWidth}.
+
++ ParameterString named `DRAWING_MODE`, see {@link #setDrawingMode}.
+
++ ParameterString named `GRAPH_COLOR`, see {@link #setColor}.
+
+Events Broadcast
+----------------
+All the Parameters are broadcast when their values change.  In addition:
+
++ GenericEvent named `RESET`, see {@link #reset}.
+
 
 
 * @param {string} name
