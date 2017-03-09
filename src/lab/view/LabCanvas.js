@@ -108,27 +108,25 @@ several iterations of painting.
 
 ### Parameters Created
 
-+ ParameterNumber named `LabCanvas.en.WIDTH`
-  see {@link #setWidth}
++ ParameterNumber named `WIDTH`, see {@link #setWidth}
 
-+ ParameterNumber named `LabCanvas.en.HEIGHT`
-  see {@link #setHeight}
++ ParameterNumber named `HEIGHT`, see {@link #setHeight}
 
 
 ### Events Broadcast
 
 LabCanvas broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Observers:
 
-+ {@link #VIEW_ADDED} the value of the GenericEvent is the LabView being added
++ GenericEvent named `VIEW_ADDED`; the value is the LabView being added
 
-+ {@link #VIEW_REMOVED} the value of the GenericEvent is the LabView being removed
++ GenericEvent named `VIEW_REMOVED`; the value is the LabView being removed
 
-+ {@link #FOCUS_VIEW_CHANGED} the value of the GenericEvent is the LabView which is
-the focus, or `null` if there is no focus view
++ GenericEvent named `FOCUS_VIEW_CHANGED`; the value is the LabView which is
+    the focus, or `null` if there is no focus view
 
-+ {@link #VIEW_LIST_MODIFIED}
++ GenericEvent named `VIEW_LIST_MODIFIED`
 
-+ {@link #SIZE_CHANGED}
++ GenericEvent named `SIZE_CHANGED`
 
 
 * @param {!HTMLCanvasElement} canvas the HTML canvas to manage

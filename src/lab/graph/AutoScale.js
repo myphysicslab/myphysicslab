@@ -85,7 +85,7 @@ seconds.
 
 
 Parameters Created
-----------------
+------------------
 + ParameterBoolean named `ACTIVE`, see {@link #setActive}
 
 + ParameterString named `AXIS`, see {@link #setAxis}.

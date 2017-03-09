@@ -67,11 +67,10 @@ rotational damping by adjusting only the damping constant.
 Parameters Created
 ------------------
 
-+ ParameterNumber named `DampingLaw.en.DAMPING`
-  see {@link #setDamping}
++ ParameterNumber named `DAMPING`, see {@link #setDamping}
 
-+ ParameterNumber named `DampingLaw.en.ROTATE_RATIO`
-  see {@link #setRotateRatio}
++ ParameterNumber named `ROTATE_RATIO`, see {@link #setRotateRatio}
+
 
 @param {number} damping translational damping factor
 @param {number=} rotateRatio the ratio used to calculate rotational damping, as

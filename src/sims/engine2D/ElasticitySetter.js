@@ -54,7 +54,7 @@ elasticity of RigidBodys are done thru this class or via
 
 ### Parameters Created
 
-+ ParameterNumber named `ElasticitySetter.en.ELASTICITY` see {@link #setElasticity}
++ ParameterNumber named `ELASTICITY`, see {@link #setElasticity}
 
 @param {!RigidBodySim} sim
 @extends {AbstractSubject}

@@ -86,46 +86,38 @@ Pan-Zoom Controls
 -----------------
 The methods such as {@link #panUp}, {@link #panLeft}, {@link #zoomIn}, {@link #zoomOut}
 are used to make a 'pan-zoom control' in
-{@link myphysicslab.sims.layout.CommonControls#makePanZoomControls}. The amount of pan-zoom
-that is done by each invocation of those methods can be changed via the properties
-{@link #panX}, {@link #panY}, {@link #zoom}.
+{@link myphysicslab.sims.layout.CommonControls#makePanZoomControls}. The amount of
+pan-zoom that is done by each invocation of those methods can be changed via the
+properties {@link #panX}, {@link #panY}, {@link #zoom}.
 
+
+Parameters Created
+------------------
+
++ ParameterBoolean named `SCALE_TOGETHER`, see {@link #setScaleTogether}.
+
++ ParameterNumber named `WIDTH`, see {@link #setWidth}
+
++ ParameterNumber named `HEIGHT`, see {@link #setHeight}
+
++ ParameterNumber named `CENTER_X`, see {@link #setCenterX}
+
++ ParameterNumber named `CENTER_Y`, see {@link #setCenterY}
+
++ ParameterString named `VERTICAL_ALIGN`, see {@link #setVerticalAlign}
+
++ ParameterString named `HORIZONTAL_ALIGN`, see {@link #setHorizAlign}
+
++ ParameterNumber named `ASPECT_RATIO`, see {@link #setAspectRatio}
 
 Events Broadcast
 ----------------
 SimView broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Observers:
 
-+ {@link myphysicslab.lab.view.LabView#SIM_RECT_CHANGED} when the simulation rectangle
-    changes.
++ GenericEvent named `SIM_RECT_CHANGED` when the simulation rectangle changes.
 
-+ {@link myphysicslab.lab.view.LabView#COORD_MAP_CHANGED} when the CoordMap changes.
++ GenericEvent named `COORD_MAP_CHANGED` when the CoordMap changes.
 
-
-Parameters Created
-------------------
-+ ParameterBoolean named `SimView.en.SCALE_TOGETHER`,
-  see {@link #setScaleTogether}.
-
-+ ParameterNumber named `SimView.en.WIDTH`
-  see {@link #setWidth}
-
-+ ParameterNumber named `SimView.en.HEIGHT`
-  see {@link #setHeight}
-
-+ ParameterNumber named `SimView.en.CENTER_X`
-  see {@link #setCenterX}
-
-+ ParameterNumber named `SimView.en.CENTER_Y`
-  see {@link #setCenterY}
-
-+ ParameterString named `SimView.en.VERTICAL_ALIGN`
-  see {@link #setVerticalAlign}
-
-+ ParameterString named `SimView.en.HORIZONTAL_ALIGN`
-  see {@link #setHorizAlign}
-
-+ ParameterNumber named `SimView.en.ASPECT_RATIO`
-  see {@link #setAspectRatio}
 
 
 * @param {string} name name of this SimView.

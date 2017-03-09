@@ -60,8 +60,7 @@ mass to the set of objects.
 Parameters Created
 ------------------
 
-+ ParameterNumber named `Gravity2Law.en.GRAVITY`
-  see {@link #setGravity}
++ ParameterNumber named `GRAVITY`, see {@link #setGravity}
 
 * @param {number} gravity strength of gravity force
 * @param {!SimList=} opt_simList optional SimList to observe

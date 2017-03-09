@@ -48,10 +48,10 @@ The EnergySystem is only needed for the experimental
 {@link myphysicslab.lab.model.AdaptiveStepSolver}. If EnergySystem is not provided then
 all DiffEqSolver options are still available except for AdaptiveStepSolver.
 
-### Parameters Created
+Parameters Created
+------------------
 
-+ ParameterString named `DiffEqSolverSubject.en.DIFF_EQ_SOLVER`
-  see {@link #setDiffEqSolver}
++ ParameterString named `DIFF_EQ_SOLVER`, see {@link #setDiffEqSolver}
 
 * @param {!myphysicslab.lab.model.ODESim} sim the simulation of interest
 * @param {?myphysicslab.lab.model.EnergySystem} energySystem the EnergySystem (usually

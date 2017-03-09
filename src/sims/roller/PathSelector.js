@@ -43,8 +43,7 @@ to the constructor.
 
 ### Parameters Created
 
-+ ParameterString named `PathSelector.en.PATH`
-  see {@link #setPathName}.
++ ParameterString named `PATH`, see {@link #setPathName}.
 
 * @param {!myphysicslab.sims.roller.HasPath} hasPath
 * @param {!Array<!ParametricPath>} paths  the set of paths to offer

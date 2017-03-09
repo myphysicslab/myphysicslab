@@ -62,11 +62,9 @@ default zero energy level for an object with
 Parameters Created
 ------------------
 
-+ ParameterNumber named `GravityLaw.en.GRAVITY`
-  see {@link #setGravity}
++ ParameterNumber named `GRAVITY`, see {@link #setGravity}
 
-+ ParameterNumber named `GravityLaw.en.ZERO_ENERGY`
-  see {@link #setZeroEnergyLevel}
++ ParameterNumber named `ZERO_ENERGY`, see {@link #setZeroEnergyLevel}
 
 @param {number} gravity magnitude of gravity
 @param {!SimList=} opt_simList optional SimList to observe for

@@ -143,14 +143,11 @@ you could get at a minified class, much of it would not be there to use.
 
 ### Parameters Created
 
-+ ParameterNumber named `TabLayout.en.SIM_WIDTH`
-  see {@link #setSimWidth}
++ ParameterNumber named `SIM_WIDTH`, see {@link #setSimWidth}
 
-+ ParameterNumber named `TabLayout.en.GRAPH_WIDTH`
-  see {@link #setGraphWidth}
++ ParameterNumber named `GRAPH_WIDTH`, see {@link #setGraphWidth}
 
-+ ParameterNumber named `TabLayout.en.TIME_GRAPH_WIDTH`
-  see {@link #setTimeGraphWidth}
++ ParameterNumber named `TIME_GRAPH_WIDTH`, see {@link #setTimeGraphWidth}
 
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
