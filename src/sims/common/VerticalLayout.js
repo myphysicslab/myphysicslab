@@ -127,10 +127,10 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   /* 'show graph' checkbox. */
   var show_graph_cb = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_graph'));
-  this.showGraph = /** @type {function(boolean)}*/(function(visible) {
+  this.showGraph = goog.bind(function(visible) {
     this.div_graph.style.display = visible ? 'block' : 'none';
     show_graph_cb.checked = visible;
-  });
+  }, this);
   goog.events.listen(show_graph_cb, goog.events.EventType.CLICK,
       goog.bind(function(e) { this.showGraph(show_graph_cb.checked); }, this)
   );

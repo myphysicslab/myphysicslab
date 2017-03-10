@@ -147,6 +147,9 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   if (goog.isObject(img)) {
     b1.setImageDraw(function(/** !CanvasRenderingContext2D*/context) {
       var pt = context.createPattern(img, 'repeat');
+      if (pt == null) {
+        throw new Error('createPattern');
+      }
       context.fillStyle = pt;
       context.fill();
     });

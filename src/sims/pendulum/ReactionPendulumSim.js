@@ -14,14 +14,15 @@
 
 goog.provide('myphysicslab.sims.pendulum.ReactionPendulumSim');
 
+goog.require('goog.vec.Float64Array');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.model.AbstractODESim');
 goog.require('myphysicslab.lab.model.Arc');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.VarsList');
@@ -35,19 +36,19 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var VarsList = myphysicslab.lab.model.VarsList;
-var Vector = myphysicslab.lab.util.Vector;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var VarsList = myphysicslab.lab.model.VarsList;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** Single pendulum done with reaction forces instead of the analytic equations of
 motion as in {@link myphysicslab.sims.pendulum.PendulumSim}. This is similar to how the
@@ -307,7 +308,7 @@ ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   var w = vars[5];
   // A matrix:  Aij = effect of fj on acceleration at contact i
   // last column of Aij is where -B goes
-  var A = [ [0, 0, 0], [0, 0, 0] ];
+  var A = [ new Float64Array(3), new Float64Array(3) ];
   var B = [ 0, 0 ];
   var f = [ 0, 0 ];
   var nx, ny, nix, niy, b;

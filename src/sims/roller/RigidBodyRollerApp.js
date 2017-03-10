@@ -155,6 +155,9 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.pathSelect = new PathSelector(this, this.paths);
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this), /*expansionFactor=*/1.5);
+  /** @type {!lab.engine2D.RigidBody} */
+  this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
+      RigidBodyRollerApp.i18n.BLOCK);
 
   /** Because one of the scenarios removes the pathJoint, this Observer
   * will add back the PathJoint when a RESET event occurs.
@@ -254,9 +257,6 @@ RigidBodyRollerApp.prototype.config = function() {
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   this.simList.add(this.path);
-  /** @type {!lab.engine2D.RigidBody} */
-  this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
-      RigidBodyRollerApp.i18n.BLOCK);
   this.block.setPosition(new Vector(-4,  4),  Math.PI/4);
   this.block.setVelocity(new Vector(0,  0),  0);
   this.mySim.addBody(this.block);
