@@ -171,16 +171,23 @@ fi
 # To see compiler version:
 #  java -jar ../javascript/closure-compiler/build/compiler.jar --version
 #
+# The option --new_type_inf does "new type inference" (NTI) which treats @interface
+# more strictly, but it also gives LOTS of errors on closure-library.
+# Without --new_type_inf, interfaces are loosely checked, and any possible
+# property is OK when used on an interface.  See issue #826 and notes/test20150216.
+#
 # As of Feb 2017, the way to specify NTI usage is changing. newCheckTypes now
 # implies new_type_inf.
 # --new_type_inf \
 # --jscomp_error=newCheckTypes \
 # --jscomp_off=newCheckTypesExtraChecks \
 #
-# The option --new_type_inf does "new type inference" (NTI) which treats @interface
-# more strictly, but it also gives LOTS of errors on closure-library.
-# Without --new_type_inf, interfaces are loosely checked, and any possible
-# property is OK when used on an interface.  See issue #826 and notes/test20150216.
+# As of Mar 2017, I am trying to use NTI for warnings only, and turning off
+# warnings for closure library:
+#--new_type_inf \
+#--jscomp_warning=newCheckTypes \
+#--jscomp_off=newCheckTypesExtraChecks \
+#--hide_warnings_for=`readlink closure-library` \
 #
 # We use `readlink` to convert a symbolic link to a regular file reference.
 # See this discussion:
@@ -228,6 +235,10 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_error=unknownDefines \
 --jscomp_error=uselessCode \
 --jscomp_error=visibility \
+--new_type_inf \
+--jscomp_warning=newCheckTypes \
+--jscomp_off=newCheckTypesExtraChecks \
+--hide_warnings_for=`readlink closure-library` \
 --emit_use_strict \
 --language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \

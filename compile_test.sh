@@ -101,6 +101,14 @@ fi
 # This option turns on NTI (new type inference):
 #--jscomp_warning=newCheckTypes \
 #
+# As of Mar 2017, I am trying to use NTI for warnings only, and turning off
+# warnings for closure library:
+#--new_type_inf \
+#--jscomp_warning=newCheckTypes \
+#--jscomp_off=newCheckTypesExtraChecks \
+#--hide_warnings_for=`readlink closure-library` \
+#
+#
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
 #set -x
 java -jar "$CLOSURE_COMPILER" \
@@ -172,6 +180,10 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=unknownDefines \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
+--new_type_inf \
+--jscomp_warning=newCheckTypes \
+--jscomp_off=newCheckTypesExtraChecks \
+--hide_warnings_for=`readlink closure-library` \
 --emit_use_strict \
 --language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
