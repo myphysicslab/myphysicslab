@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
@@ -48,7 +48,7 @@ var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
-var Joint = myphysicslab.lab.engine2D.Joint;
+var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
@@ -186,20 +186,20 @@ JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
   // optional:  add the 'second' joint in two different places
   switch (testConfig) {
     case JointTestConfig.PENDULUM_2_JOINTS:
-      Joint.addSingleFixedJoint(sim, p1, attach1, normalType, normal1);
+      JointUtil.addSingleFixedJoint(sim, p1, attach1, normalType, normal1);
       break;
 
     case JointTestConfig.PENDULUM_3_JOINTS_OFFSET:
-      Joint.addSingleFixedJoint(sim, p1, attach3, normalType, normal0);
+      JointUtil.addSingleFixedJoint(sim, p1, attach3, normalType, normal0);
       // INTENTIONAL FALLTHROUGH
     case JointTestConfig.PENDULUM_2_JOINTS_OFFSET:
-      Joint.addSingleFixedJoint(sim, p1, attach2, normalType, normal1);
+      JointUtil.addSingleFixedJoint(sim, p1, attach2, normalType, normal1);
       break;
     default:
   }
   // always add the 'first' joint
   {
-    Joint.addSingleFixedJoint(sim, p1, attach1, normalType, normal0);
+    JointUtil.addSingleFixedJoint(sim, p1, attach1, normalType, normal0);
     var pt1 = PointMass.makeCircle(0.2, 'ATTACH1')
         .setMass(UtilityCore.POSITIVE_INFINITY);
     pt1.setPosition(p1.bodyToWorld(attach1));
@@ -260,25 +260,25 @@ JointTest.makeConnectedBlocks = function(sim, testConfig, normalType) {
   switch (testConfig) {
     // use case statement fall-thru here to get 1,2, 3 or 4 joints
     case JointTestConfig.TWO_BLOCKS_4_JOINTS:
-      Joint.addSingleJoint(sim, p1, attach7, p2, attach8, normalType, normal8);
+      JointUtil.addSingleJoint(sim, p1, attach7, p2, attach8, normalType, normal8);
       // INTENTIONAL FALLTHROUGH
     case JointTestConfig.TWO_BLOCKS_3_JOINTS:
-      Joint.addSingleJoint(sim, p1, attach5, p2, attach6, normalType, normal6);
+      JointUtil.addSingleJoint(sim, p1, attach5, p2, attach6, normalType, normal6);
       // INTENTIONAL FALLTHROUGH
     case JointTestConfig.TWO_BLOCKS_2_JOINTS:
-      Joint.addSingleJoint(sim, p1, attach3, p2, attach4, normalType, normal4);
+      JointUtil.addSingleJoint(sim, p1, attach3, p2, attach4, normalType, normal4);
       // INTENTIONAL FALLTHROUGH
     case JointTestConfig.TWO_BLOCKS_1_JOINT:
-      Joint.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal2);
+      JointUtil.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal2);
       break;
 
     case JointTestConfig.TWO_BLOCKS_2_DBL_JOINT:
-      Joint.addSingleJoint(sim, p1, attach3, p2, attach4, normalType, normal0);
-      Joint.addSingleJoint(sim, p1, attach3, p2, attach4, normalType, normal1);
+      JointUtil.addSingleJoint(sim, p1, attach3, p2, attach4, normalType, normal0);
+      JointUtil.addSingleJoint(sim, p1, attach3, p2, attach4, normalType, normal1);
       // INTENTIONAL FALLTHROUGH
     case JointTestConfig.TWO_BLOCKS_1_DBL_JOINT:
-      Joint.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal0);
-      Joint.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal1);
+      JointUtil.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal0);
+      JointUtil.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal1);
       break;
 
     default: throw new Error();

@@ -14,7 +14,7 @@
 
 goog.provide('myphysicslab.sims.engine2D.PileConfig');
 
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -33,7 +33,7 @@ var lab = myphysicslab.lab;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DoubleRect = lab.util.DoubleRect;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var NF5 = lab.util.UtilityCore.NF5;
 var Polygon = lab.engine2D.Polygon;
 var Random = lab.util.Random;
@@ -269,11 +269,11 @@ PileConfig.makeConnectedBlocks = function(sim, x, y, angle) {
   p2.setMass(0.6);
   p2.setPosition(new Vector(x,  y),  angle);
   sim.addBody(p2);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     p1,  /* attach point on p1, body coords=*/new Vector(0, -0.4),
     p2, /* attach point on p2, body coords=*/new Vector(-0.4, 0),
     /*normalType=*/CoordType.BODY);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     p1, /* attach point on p1, body coords=*/new Vector(0.4, 0),
     p2, /* attach point on p2, body coords=*/new Vector(0, 0.4),
     /*normalType=*/CoordType.BODY);

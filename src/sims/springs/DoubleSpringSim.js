@@ -331,7 +331,9 @@ DoubleSpringSim.prototype.getEnergyInfo = function() {
 * @private
 */
 DoubleSpringSim.prototype.getEnergyInfo_ = function(vars) {
+  /** @type {number} */
   var ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
+  /** @type {number} */
   var pe = this.potentialOffset_;
   goog.array.forEach(this.springs_, function(spr) {
     pe += spr.getPotentialEnergy();

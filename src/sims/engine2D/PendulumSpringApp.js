@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
@@ -58,7 +58,7 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GraphLine = lab.graph.GraphLine;
 var GravityLaw = lab.model.GravityLaw;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
@@ -112,7 +112,7 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.mySim.addBody(pendulum);
   this.displayList.findShape(pendulum).setFillStyle('#B0C4DE');
   // joints to attach upper pendulum to a fixed point.
-  Joint.attachRigidBody(this.mySim,
+  JointUtil.attachRigidBody(this.mySim,
       Scrim.getScrim(), /*attach_body=*/new Vector(wallPivotX, wallPivotY),
       pendulum, /*attach_body=*/new Vector(bodyX, bodyY),
       /*normalType=*/CoordType.WORLD);

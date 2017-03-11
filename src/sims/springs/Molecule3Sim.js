@@ -538,7 +538,9 @@ Molecule3Sim.prototype.getEnergyInfo = function() {
 Molecule3Sim.prototype.getEnergyInfo_ = function(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // position and velocity corresponding to the vars[] array.
+  /** @type {number} */
   var ke = 0;
+  /** @type {number} */
   var pe = 0;
   goog.array.forEach(this.springs_, function(spr) {
     pe += spr.getPotentialEnergy();

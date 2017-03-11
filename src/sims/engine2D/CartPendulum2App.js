@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
@@ -48,6 +49,7 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
 var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
@@ -226,7 +228,7 @@ CartPendulum2App.prototype.configure = function() {
   this.mySim.addConnector(j2);
 
   // make a double joint to attach the pendulum to the cart
-  Joint.attachRigidBody(this.mySim,
+  JointUtil.attachRigidBody(this.mySim,
     cart,  /*attach1_body=*/new Vector(cart.getWidth()/2, cart.getHeight()/2),
     pendulum, /*attach2_body=*/new Vector(0, 1),
     /*normalType=*/CoordType.BODY

@@ -15,7 +15,7 @@
 goog.provide('myphysicslab.sims.engine2D.ChainConfig');
 
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -29,7 +29,7 @@ var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var Joint = myphysicslab.lab.engine2D.Joint;
+var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -88,19 +88,19 @@ ChainConfig.makeChain = function(sim, options) {
   /* Create Joints to attach bodies together */
   for (i=0; i<options.numLinks; i++) {
     if (i == 0 && options.fixedLeft) {
-      Joint.attachFixedPoint(sim,
+      JointUtil.attachFixedPoint(sim,
         links[i], /*attach_body=*/new Vector(joint1X, joint1Y),
         /*normalType=*/CoordType.BODY);
     }
     if (i > 0) {
-      Joint.attachRigidBody(sim,
+      JointUtil.attachRigidBody(sim,
         links[i-1], /*attach_body1=*/new Vector(joint2X, joint2Y),
         links[i], /*attach_body2=*/new Vector(joint1X, joint1Y),
         /*normalType=*/CoordType.BODY
         );
     }
     if (options.fixedRight && i == options.numLinks - 1) {
-      Joint.attachFixedPoint(sim,
+      JointUtil.attachFixedPoint(sim,
         links[i], /*attach_body=*/new Vector(joint2X, joint2Y),
         /*normalType=*/CoordType.BODY);
     }

@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
@@ -56,7 +56,7 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GearsConfig = sims.engine2D.GearsConfig;
 var GravityLaw = lab.model.GravityLaw;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var UtilityCore = lab.util.UtilityCore;
@@ -209,11 +209,11 @@ GearsApp.prototype.config = function() {
   }
   if (this.pinnedGears) {
     // gears pinned with joints to background
-    Joint.attachFixedPoint(this.mySim, this.gearLeft, Vector.ORIGIN,
+    JointUtil.attachFixedPoint(this.mySim, this.gearLeft, Vector.ORIGIN,
         CoordType.WORLD);
     this.gearLeft.setZeroEnergyLevel();
     if (this.gearRight != null) {
-      Joint.attachFixedPoint(this.mySim, this.gearRight, Vector.ORIGIN,
+      JointUtil.attachFixedPoint(this.mySim, this.gearRight, Vector.ORIGIN,
           CoordType.WORLD);
       this.gearRight.setZeroEnergyLevel();
     }

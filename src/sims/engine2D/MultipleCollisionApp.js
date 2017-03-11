@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -53,7 +53,7 @@ var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var NF = lab.util.UtilityCore.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -501,7 +501,7 @@ MultipleCollisionApp.prototype.config = function() {
       this.mySim.addBody(body2);
       this.displayList.findShape(body2).setFillStyle('rgb(240,240,240)')
 
-      Joint.attachRigidBody(this.mySim,
+      JointUtil.attachRigidBody(this.mySim,
         body2, /*attach_body1=*/new Vector(0.75, 0),
         body3, /*attach_body2=*/new Vector(-0.75, 0),
         /*normalType=*/CoordType.BODY

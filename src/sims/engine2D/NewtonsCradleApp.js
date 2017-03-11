@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
@@ -44,7 +44,7 @@ var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
@@ -288,7 +288,7 @@ NewtonsCradleApp.make = function(sim, options) {
         NewtonsCradleApp.i18n.PENDULUM+(i+1));
     body.setAngle(0);
     sim.addBody(body);
-    Joint.attachRigidBody(sim,
+    JointUtil.attachRigidBody(sim,
         Scrim.getScrim(), /* fixed point in world coords=*/new Vector(x, 2),
         body, /* attach point in body coords=*/new Vector(0, options.stickLength),
         /*normalType=*/CoordType.WORLD);

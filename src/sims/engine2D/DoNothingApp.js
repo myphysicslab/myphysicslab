@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
@@ -55,7 +55,7 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var ExtraAccel = lab.engine2D.ExtraAccel;
 var GenericObserver = lab.util.GenericObserver;
-var Joint = myphysicslab.lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
@@ -285,12 +285,12 @@ DoNothingApp.setup = function(sim, tightFit) {
   var a = Math.atan(-p1.getY()/p2.getX());
   //console.log('a '+NF5(a));
   handle.setAngle(-Math.PI/2 + a);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     s1,  /*attach point on s1, body coords=*/new Vector(0, 0),
     handle,  /*attach point on handle, body coords=*/new Vector(0, 2.8),
     /*normalType=*/CoordType.BODY
     );
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     s2, /*attach point on s2, body coords=*/new Vector(0, 0),
     handle, /*attach point on handle, body coords*/new Vector(0, 2.8 - handleLength),
     /*normalType=*/CoordType.BODY

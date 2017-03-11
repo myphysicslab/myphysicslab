@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.EdgeRange');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
 goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.PathEndPoint');
 goog.require('myphysicslab.lab.engine2D.PathJoint');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -68,7 +68,7 @@ var ExtraAccel = lab.engine2D.ExtraAccel;
 var Force = lab.model.Force;
 var GravityLaw = lab.model.GravityLaw;
 var HumpPath = sims.roller.HumpPath;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
 var NF1S = UtilityCore.NF1S;
 var NF2 = UtilityCore.NF2;
@@ -436,12 +436,12 @@ MiscellanyTest.three_body_spin_setup = function(sim, advance, damping) {
   block1.addNonCollide([block3]);
   block3.addNonCollide([block1]); // just to test removeNonCollide
   block3.removeNonCollide([block1]); // just to test removeNonCollide
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     block2, /*attach point on block2=*/new Vector(0, 2.7),
     block1, /*attach point on block1=*/new Vector(0, -1.3),
     /*normalType=*/CoordType.BODY
     );
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     block2, /*attach point on block2=*/new Vector(0, -2.7),
     block3, /*attach point on block3=*/new Vector(0, -1.3),
     /*normalType=*/CoordType.BODY

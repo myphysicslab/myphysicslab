@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
@@ -52,7 +52,7 @@ var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
-var Joint = lab.engine2D.Joint;
+var JointUtil = lab.engine2D.JointUtil;
 var ParameterNumber = lab.util.ParameterNumber;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
@@ -255,7 +255,7 @@ CarSuspensionApp.prototype.configure = function() {
       p1.setAngle(0);
       this.mySim.addBody(p1);
       this.displayList.findShape(p1).proto = this.protoWheel;
-      Joint.attachRigidBody(this.mySim,
+      JointUtil.attachRigidBody(this.mySim,
           car, /*attach1_body=*/new Vector(-0.9, -1.0),
           p1, /*attach2_body*/new Vector(0, this.springLength),
           /*normalType=*/CoordType.WORLD
@@ -269,7 +269,7 @@ CarSuspensionApp.prototype.configure = function() {
       p2.setAngle(0);
       this.mySim.addBody(p2);
       this.displayList.findShape(p2).proto = this.protoWheel;
-      Joint.attachRigidBody(this.mySim,
+      JointUtil.attachRigidBody(this.mySim,
           car, /*attach1_body=*/new Vector(0.9, -1.0),
           p2, /*attach2_body=*/new Vector(0, this.springLength),
           /*normalType=*/CoordType.WORLD

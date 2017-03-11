@@ -16,7 +16,7 @@ goog.provide('myphysicslab.sims.engine2D.PendulumClockConfig');
 
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.EdgeRange');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -31,7 +31,7 @@ var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CoordType = myphysicslab.lab.model.CoordType;
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
-var Joint = myphysicslab.lab.engine2D.Joint;
+var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
@@ -166,7 +166,7 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
   escapeWheel.setPosition(center,  0);
   escapeWheel.setMass(1);
   sim.addBody(escapeWheel);
-  Joint.attachFixedPoint(sim, escapeWheel, Vector.ORIGIN, CoordType.WORLD);
+  JointUtil.attachFixedPoint(sim, escapeWheel, Vector.ORIGIN, CoordType.WORLD);
 
   // anchor is the rocking pendulum which regulates movement of escape wheel
   var scale = 0.03;
@@ -182,7 +182,7 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
   // move anchor to zero energy position, and record zero energy level
   var p = center.add(new Vector(0, 4.6));
   anchor.alignTo(anchorJoint, /*p_world=*/p, /*angle=*/0);
-  Joint.attachFixedPoint(sim, anchor, anchorJoint, CoordType.BODY);
+  JointUtil.attachFixedPoint(sim, anchor, anchorJoint, CoordType.BODY);
   anchor.setZeroEnergyLevel();
 
   // move anchor to starting position
@@ -214,7 +214,7 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   // move anchor to zero energy position, and record zero energy level
   var p = center.add(new Vector(0, 4.6));
   anchor.alignTo(anchorJoint, /*p_world=*/p, /*angle=*/0.0);
-  Joint.attachFixedPoint(sim, anchor, anchorJoint, CoordType.BODY);
+  JointUtil.attachFixedPoint(sim, anchor, anchorJoint, CoordType.BODY);
   anchor.setZeroEnergyLevel();
   // move anchor to starting position
   anchor.alignTo(anchorJoint, /*p_world=*/p, /*angle=*/0.13);
@@ -235,7 +235,7 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   gear2.addNonCollide([anchor]);
   anchor.addNonCollide([gear2]);
   sim.addBody(gear2);
-  Joint.attachFixedPoint(sim, gear2, new Vector(0, 0), CoordType.WORLD);
+  JointUtil.attachFixedPoint(sim, gear2, new Vector(0, 0), CoordType.WORLD);
   gear2.setZeroEnergyLevel();
 
   // (add the escape wheel here to have it be in slot 2 for test)
@@ -250,7 +250,7 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   escapeWheel.setPosition(center,  0);
   escapeWheel.setMass(1);
   sim.addBody(escapeWheel);
-  Joint.attachFixedPoint(sim, escapeWheel, /*attach_body=*/Vector.ORIGIN,
+  JointUtil.attachFixedPoint(sim, escapeWheel, /*attach_body=*/Vector.ORIGIN,
       /*normalType=*/CoordType.WORLD);
   escapeWheel.setZeroEnergyLevel();
   // escape wheel does not interact with the pendulum, only with the anchor

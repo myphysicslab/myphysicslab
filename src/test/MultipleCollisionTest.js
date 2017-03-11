@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Joint');
+goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -45,7 +45,7 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
-var Joint = myphysicslab.lab.engine2D.Joint;
+var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
@@ -695,7 +695,7 @@ MultipleCollisionTest.joint_collision_setup = function(sim, advance) {
   j2.setPosition(new Vector(4,  -5 + 0.5 + 0.005),  Math.PI/2);
   sim.addBody(j1);
   sim.addBody(j2);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
       j2, /*attach_body=*/new Vector(0, -1.0),
       /*normalType=*/CoordType.BODY
@@ -748,7 +748,7 @@ MultipleCollisionTest.joint_collision_2_setup = function(sim, advance) {
   j2.setVelocity(new Vector(3,  0),  0);
   sim.addBody(j1);
   sim.addBody(j2);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
       j2, /*attach_body=*/new Vector(0, -1.0),
       /*normalType=*/CoordType.BODY
@@ -791,7 +791,7 @@ MultipleCollisionTest.joint_collision_3_setup = function(sim, advance) {
   var j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   sim.addBody(j2);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
       j2, /*attach_body=*/new Vector(0, -1.0),
       /*normalType=*/CoordType.BODY
@@ -840,7 +840,7 @@ MultipleCollisionTest.joint_collision_4_setup = function(sim, advance) {
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   j2.setVelocity(new Vector(0,  0),  -5);
   sim.addBody(j2);
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
       j1, /*attach_body=*/new Vector(0, 1.0),
       j2, /*attach_body=*/new Vector(0, -1.0),
       /*normalType=*/CoordType.BODY
@@ -898,7 +898,7 @@ MultipleCollisionTest.joint_collision_5_setup = function(sim, advance) {
   body3.setPosition(new Vector(-0.5,  0));
   sim.addBody(body3);
 
-  Joint.attachRigidBody(sim,
+  JointUtil.attachRigidBody(sim,
     body2, /*attach_body1=*/new Vector(0.75, 0),
     body3, /*attach_body2=*/new Vector(-0.75, 0),
     /*normalType=*/CoordType.BODY

@@ -21,7 +21,6 @@ goog.require('myphysicslab.lab.engine2D.ComputeForces');
 goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
 goog.require('myphysicslab.lab.engine2D.ImpulseSim');
-goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
@@ -64,7 +63,6 @@ var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
-var Joint = myphysicslab.lab.engine2D.Joint;
 
 /** Physics engine for rigid bodies with contact forces to allow resting contact. The
 contact forces prevent the bodies from interpenetrating when they are in resting
@@ -453,7 +451,6 @@ ContactSim.prototype.getExtraAccelTimeStep = function() {
 /** @inheritDoc */
 ContactSim.prototype.cleanSlate = function() {
   ContactSim.superClass_.cleanSlate.call(this);
-  Joint.nextJointNum = 0;
   this.connectors_ = [];
   this.computeForces_ = new ComputeForces('C',  this.simRNG_);
 };
