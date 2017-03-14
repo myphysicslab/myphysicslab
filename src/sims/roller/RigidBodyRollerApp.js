@@ -155,7 +155,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.pathSelect = new PathSelector(this, this.paths);
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this), /*expansionFactor=*/1.5);
-  /** @type {!lab.engine2D.RigidBody} */
+  /** @type {!lab.engine2D.Polygon} */
   this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
       RigidBodyRollerApp.i18n.BLOCK);
 
