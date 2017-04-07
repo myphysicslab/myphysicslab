@@ -203,7 +203,6 @@ fi
 # Using set -x shows the commands being executed, but the problem is that
 # the set +x always returns zero which means "success".
 set -x
-java -jar "$CLOSURE_COMPILER" --version
 java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:$namespace \
 --compilation_level=$comp_level \

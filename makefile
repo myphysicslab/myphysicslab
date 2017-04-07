@@ -608,6 +608,12 @@ docs: $(doc_md) $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) dossier_config.json 
 	@mkdir -v -p $(dir $@)
 	java -jar $(DOSSIER) -c dossier_config.json
 
+# Following are Dossier commands using configuration flags instead of config.json
+# These were used to figure out Dossier issue #96 "Dossier not generating docs when
+# excludes are specified".
+#	java -jar $(DOSSIER) --source "src/lab/util/*.js" --output docs2 --closure_library_dir `readlink closure-library`closure/goog
+#	java -jar $(DOSSIER) --source "src/lab/util/*.js" --output docs2 --closure_library_dir `readlink closure-library`closure/goog --exclude "src/lab/util/test"
+
 apps-en: $(BUILD_DIR)/index-en.html $(addsuffix -en.html,$(bld_apps))
 
 apps-de: $(BUILD_DIR)/index-de.html $(addsuffix -de.html,$(bld_apps))
@@ -660,7 +666,6 @@ settings:
 	@echo "BUILD_DIR = $(BUILD_DIR)"
 	@echo "LOCALE = $(LOCALE)"
 	@echo "GOOG_DEBUG = $(GOOG_DEBUG)"
-	java -jar $(CLOSURE_COMPILER) --version
 
 compiler:
 	java -jar $(CLOSURE_COMPILER) --version
