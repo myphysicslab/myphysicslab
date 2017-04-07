@@ -1,26 +1,14 @@
 {
     "output": "docs",
     "sources": [
-        "src/lab/",
-        "src/sims/",
-        "src/test/"
+        "src/lab",
+        "src/sims",
+        "src/test"
     ],
     "closureLibraryDir": "closure-library/closure/goog",
     "readme": "src/docs/doc_start.md",
-    "useMarkdown": "true",
     "typeFilters": [
-        ".*\.i18n",
+        ".*\\.i18n",
         "myphysicslab.lab.util.Terminal.regexPair"
-    ],
-    "excludes": [
-        "closure-library/closure/goog/html",
-        "closure-library/closure/goog/testing",
-        "src/lab/engine2D/test",
-        "src/lab/model/test",
-        "src/lab/util/test",
-        "src/lab/view/test",
-        "src/sims/pendulum/test",
-        "src/sims/roller/test",
-        "src/sims/springs/test"
     ]
 }
