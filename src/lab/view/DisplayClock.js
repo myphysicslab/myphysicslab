@@ -61,12 +61,14 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
   this.realTimeFn_ = realTimeFn;
   /** Period of clock in seconds, the time it takes for the seconds hand to wrap around
   * @type {number}
+  * @private
   */
-  this.period = goog.isNumber(period) ? period : 2.0;
+  this.period_ = goog.isNumber(period) ? period : 2.0;
   /** Radius of clock in simulation coords
   * @type {number}
+  * @private
   */
-  this.radius = goog.isNumber(radius) ? radius : 1.0;
+  this.radius_ = goog.isNumber(radius) ? radius : 1.0;
   /**
   * @type {!myphysicslab.lab.util.Vector}
   * @private
@@ -79,41 +81,50 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
   this.dragable_ = true;
   /** Font to use for drawing the time, for example '10pt sans-serif'.
   * @type {string}
+  * @private
   */
-  this.font = '14pt sans-serif';
+  this.font_ = '14pt sans-serif';
   /** Color to use for drawing the time, a CSS3 color value.
   * @type {string}
+  * @private
   */
-  this.textColor = 'blue';
+  this.textColor_ = 'blue';
   /**  Color to draw the second-hand showing simulation time.
   * @type {string}
+  * @private
   */
-  this.handColor = 'blue';
+  this.handColor_ = 'blue';
   /**  Color to draw the second-hand showing real time.
   * @type {string}
+  * @private
   */
-  this.realColor = 'red';
+  this.realColor_ = 'red';
   /** Thickness of clock hands, in screen coords (1 means one pixel).
   * @type {number}
+  * @private
   */
-  this.handWidth = 1;
+  this.handWidth_ = 1;
   /** Thickness of outline, in screen coords (1 means one pixel).
   * @type {number}
+  * @private
   */
-  this.outlineWidth = 1;
+  this.outlineWidth_ = 1;
   /** Color to use for drawing the outline of the clock, a CSS3 color value.
   * @type {string}
+  * @private
   */
-  this.outlineColor = 'black';
+  this.outlineColor_ = 'black';
   /** Color to fill circle with; default is transparent white so that it is visible
   * over a black background.
   * @type {string}
+  * @private
   */
-  this.fillStyle = 'rgba(255, 255, 255, 0.75)';
+  this.fillStyle_ = 'rgba(255, 255, 255, 0.75)';
   /**
   * @type {number}
+  * @private
   */
-  this.zIndex = 0;
+  this.zIndex_ = 0;
 };
 var DisplayClock = myphysicslab.lab.view.DisplayClock;
 
@@ -121,10 +132,10 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   DisplayClock.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', radius: '+NF(this.radius)
-        +', period: '+NF(this.period)
+        +', radius: '+NF(this.radius_)
+        +', period: '+NF(this.period_)
         +', location_: '+this.location_
-        +', zIndex: '+this.zIndex
+        +', zIndex: '+this.zIndex_
         +'}';
   };
 
@@ -136,31 +147,31 @@ if (!UtilityCore.ADVANCED) {
 
 /** @inheritDoc */
 DisplayClock.prototype.contains = function(point) {
-  return point.distanceTo(this.location_) <= this.radius;
+  return point.distanceTo(this.location_) <= this.radius_;
 };
 
 /** @inheritDoc */
 DisplayClock.prototype.draw = function(context, map) {
   var center = map.simToScreen(this.location_);
-  var r = map.simToScreenScaleX(this.radius);
+  var r = map.simToScreenScaleX(this.radius_);
   // fill circle with transparent white, so that it is visible with black background
   context.save();
   context.beginPath();
   context.arc(center.getX(), center.getY(), r, 0, 2*Math.PI, false);
   context.closePath();
-  context.lineWidth = this.outlineWidth;
-  context.strokeStyle = this.outlineColor;
+  context.lineWidth = this.outlineWidth_;
+  context.strokeStyle = this.outlineColor_;
   context.stroke();
-  context.fillStyle = this.fillStyle;
+  context.fillStyle = this.fillStyle_;
   context.fill();
   var time = this.simTimeFn_();
   var realTime = this.realTimeFn_();
-  this.drawHand(context, map, this.handColor, time, center);
+  this.drawHand(context, map, this.handColor_, time, center);
   // show the real-time hand
-  this.drawHand(context, map, this.realColor, realTime, center);
+  this.drawHand(context, map, this.realColor_, realTime, center);
   var tx = time.toFixed(3);
-  context.fillStyle = this.textColor;
-  context.font = this.font;
+  context.fillStyle = this.textColor_;
+  context.font = this.font_;
   context.textAlign = 'center';
   context.fillText(tx, center.getX(), center.getY());
   context.restore();
@@ -175,11 +186,11 @@ DisplayClock.prototype.draw = function(context, map) {
 * @private
 */
 DisplayClock.prototype.drawHand = function(context, map, color, time, center) {
-  time = time - this.period * Math.floor(time/this.period);
-  var fraction = time / this.period;
-  var endx = map.simToScreenScaleX(this.radius * Math.sin(2*Math.PI * fraction));
-  var endy = map.simToScreenScaleY(this.radius * Math.cos(2*Math.PI * fraction));
-  context.lineWidth = this.handWidth;
+  time = time - this.period_ * Math.floor(time/this.period_);
+  var fraction = time / this.period_;
+  var endx = map.simToScreenScaleX(this.radius_ * Math.sin(2*Math.PI * fraction));
+  var endy = map.simToScreenScaleY(this.radius_ * Math.cos(2*Math.PI * fraction));
+  context.lineWidth = this.handWidth_;
   context.strokeStyle = color;
   context.beginPath();
   context.moveTo(center.getX(), center.getY());
@@ -192,9 +203,52 @@ DisplayClock.prototype.isDragable = function() {
   return this.dragable_;
 };
 
+/** Returns color to fill circle with; default is transparent white so that it is
+* visible over a black background.
+* @return {string} a CSS3 color value
+*/
+DisplayClock.prototype.getFillStyle = function() {
+  return this.fillStyle_;
+};
+
+/** Font used when drawing the text, a CSS font specification.
+* @return {string} a CSS font specification
+*/
+DisplayClock.prototype.getFont = function() {
+  return this.font_;
+};
+
+/** Returns color to draw the second-hand showing simulation time.
+* @return {string} a CSS3 color value
+*/
+DisplayClock.prototype.getHandColor = function() {
+  return this.handColor_;
+};
+
+/** Returns thickness of clock hands, in screen coords (1 means one pixel).
+* @return {number}
+*/
+DisplayClock.prototype.getHandWidth = function() {
+  return this.handWidth_;
+};
+
 /** @inheritDoc */
 DisplayClock.prototype.getMassObjects = function() {
   return [];
+};
+
+/** Returns color to draw the second-hand showing real time.
+* @return {string} a CSS3 color value
+*/
+DisplayClock.prototype.getOutlineColor = function() {
+  return this.outlineColor_;
+};
+
+/** Returns thickness of outline, in screen coords (1 means one pixel).
+* @return {number}
+*/
+DisplayClock.prototype.getOutlineWidth = function() {
+  return this.outlineWidth_;
 };
 
 /** @inheritDoc */
@@ -202,14 +256,28 @@ DisplayClock.prototype.getPosition = function() {
   return this.location_;
 };
 
+/** Returns color to draw the second-hand showing real time.
+* @return {string} a CSS3 color value
+*/
+DisplayClock.prototype.getRealColor = function() {
+  return this.realColor_;
+};
+
 /** @inheritDoc */
 DisplayClock.prototype.getSimObjects = function() {
   return [];
 };
 
+/** Returns color for drawing the time.
+* @return {string} a CSS3 color value
+*/
+DisplayClock.prototype.getTextColor = function() {
+  return this.textColor_;
+};
+
 /** @inheritDoc */
 DisplayClock.prototype.getZIndex = function() {
-  return this.zIndex;
+  return this.zIndex_;
 };
 
 /** @inheritDoc */
@@ -217,14 +285,87 @@ DisplayClock.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
 
+/** Sets color to fill circle with; default is transparent white so that it is
+* visible over a black background.
+* @param {string} value a CSS3 color value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setFillStyle = function(value) {
+  this.fillStyle_ = value;
+  return this;
+};
+
+/** Font used when drawing the text, a CSS font specification.
+* @param {string} value a CSS font specification
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setFont = function(value) {
+  this.font_ = value;
+  return this;
+};
+
+/** Sets color to draw the second-hand showing simulation time.
+* @param {string} value a CSS3 color value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setHandColor = function(value) {
+  this.handColor_ = value;
+  return this;
+};
+
+/** Sets thickness of clock hands, in screen coords (1 means one pixel).
+* @param {number} value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setHandWidth = function(value) {
+  this.handWidth_ = value;
+  return this;
+};
+
+/** Sets color to use for drawing the outline of the clock.
+* @param {string} value a CSS3 color value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setOutlineColor = function(value) {
+  this.outlineColor_ = value;
+  return this;
+};
+
+/** Sets thickness of outline, in screen coords (1 means one pixel).
+* @param {number} value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setOutlineWidth = function(value) {
+  this.outlineWidth_ = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayClock.prototype.setPosition = function(position) {
   this.location_ = position;
 };
 
+/** Sets color to draw the second-hand showing real time.
+* @param {string} value a CSS3 color value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setRealColor = function(value) {
+  this.realColor_ = value;
+  return this;
+};
+
+/** Returns color for drawing the time.
+* @param {string} value a CSS3 color value
+* @return {!DisplayClock} this object for chaining setters
+*/
+DisplayClock.prototype.setTextColor = function(value) {
+  this.textColor_ = value;
+  return this;
+};
+
 /** @inheritDoc */
 DisplayClock.prototype.setZIndex = function(zIndex) {
-  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
+  this.zIndex_ = goog.isDef(zIndex) ? zIndex : 0;
 };
 
 /** Set of internationalized strings.

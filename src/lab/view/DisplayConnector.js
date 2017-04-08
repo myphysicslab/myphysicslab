@@ -52,20 +52,24 @@ myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
   this.connector_ = goog.isDefAndNotNull(connector) ? connector : null;
   /** Color to draw the joint, a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.color;
+  this.color_;
   /** Radius of circle to draw, in screen coordinates.
   * @type {number|undefined}
+  * @private
   */
-  this.radius;
+  this.radius_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /**
   * @type {?DisplayConnector}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayConnector = myphysicslab.lab.view.DisplayConnector;
 
@@ -76,7 +80,7 @@ if (!UtilityCore.ADVANCED) {
         +', radius: '+NF5(this.getRadius())
         +', color: "'+this.getColor()+'"'
         +', zIndex: '+this.getZIndex()
-        +', proto: '+(this.proto != null ? this.proto.toStringShort() : 'null')
+        +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
         +'}';
   };
 
@@ -103,7 +107,7 @@ DisplayConnector.prototype.draw = function(context, map) {
   var p = map.simToScreen(this.getPosition());
   context.translate(p.getX(), p.getY());
   context.beginPath();
-  //var r = map.screenToSimScaleX(this.radius);
+  //var r = map.screenToSimScaleX(this.radius_);
   context.arc(0, 0, this.getRadius(), 0, 2*Math.PI, false);
   context.closePath();
   context.fill();
@@ -119,10 +123,10 @@ DisplayConnector.prototype.isDragable = function() {
 * @return {string}
 */
 DisplayConnector.prototype.getColor = function() {
-  if (this.color !== undefined) {
-    return this.color;
-  } else if (this.proto != null) {
-    return this.proto.getColor();
+  if (this.color_ !== undefined) {
+    return this.color_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColor();
   } else {
     return 'blue';
   }
@@ -142,10 +146,10 @@ DisplayConnector.prototype.getPosition = function() {
 * @return {number}
 */
 DisplayConnector.prototype.getRadius = function() {
-  if (this.radius !== undefined) {
-    return this.radius;
-  } else if (this.proto != null) {
-    return this.proto.getRadius();
+  if (this.radius_ !== undefined) {
+    return this.radius_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getRadius();
   } else {
     return 2;
   }
@@ -158,10 +162,10 @@ DisplayConnector.prototype.getSimObjects = function() {
 
 /** @inheritDoc */
 DisplayConnector.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 10;
   }
@@ -172,7 +176,7 @@ DisplayConnector.prototype.getZIndex = function() {
 * @return {!DisplayConnector} this object for chaining setters
 */
 DisplayConnector.prototype.setColor = function(color) {
-  this.color = color;
+  this.color_ = color;
   return this;
 };
 
@@ -191,13 +195,13 @@ DisplayConnector.prototype.setPosition = function(position) {
 * @return {!DisplayConnector} this object for chaining setters
 */
 DisplayConnector.prototype.setRadius = function(value) {
-  this.radius = value;
+  this.radius_ = value;
   return this;
 };
 
 /** @inheritDoc */
 DisplayConnector.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope

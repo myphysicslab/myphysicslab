@@ -56,25 +56,30 @@ myphysicslab.lab.view.DisplayRope = function(rope, proto) {
   this.rope_ = goog.isDefAndNotNull(rope) ? rope : null;
   /** Color when rope is tight; a CSS3 color value
   * @type {string|undefined}
+  * @private
   */
-  this.colorTight;
+  this.colorTight_;
   /** Color when rope is slack; a CSS3 color value
   * @type {string|undefined}
+  * @private
   */
-  this.colorSlack;
+  this.colorSlack_;
   /** Thickness of lines when drawing the rope, in screen coordinates, so a
   * value of 1 means a 1 pixel thick line.
   * @type {number|undefined}
+  * @private
   */
-  this.thickness;
+  this.thickness_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /**
   * @type {?DisplayRope}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayRope = myphysicslab.lab.view.DisplayRope;
 
@@ -198,10 +203,10 @@ DisplayRope.drawRope = function(context, at) {
 * @return {string}
 */
 DisplayRope.prototype.getColorSlack = function() {
-  if (this.colorSlack !== undefined) {
-    return this.colorSlack;
-  } else if (this.proto != null) {
-    return this.proto.getColorSlack();
+  if (this.colorSlack_ !== undefined) {
+    return this.colorSlack_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColorSlack();
   } else {
     return 'green';
   }
@@ -211,10 +216,10 @@ DisplayRope.prototype.getColorSlack = function() {
 * @return {string}
 */
 DisplayRope.prototype.getColorTight = function() {
-  if (this.colorTight !== undefined) {
-    return this.colorTight;
-  } else if (this.proto != null) {
-    return this.proto.getColorTight();
+  if (this.colorTight_ !== undefined) {
+    return this.colorTight_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColorTight();
   } else {
     return 'red';
   }
@@ -242,10 +247,10 @@ DisplayRope.prototype.getSimObjects = function() {
 * @return {number}
 */
 DisplayRope.prototype.getThickness = function() {
-  if (this.thickness !== undefined) {
-    return this.thickness;
-  } else if (this.proto != null) {
-    return this.proto.getThickness();
+  if (this.thickness_ !== undefined) {
+    return this.thickness_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getThickness();
   } else {
     return 3;
   }
@@ -253,10 +258,10 @@ DisplayRope.prototype.getThickness = function() {
 
 /** @inheritDoc */
 DisplayRope.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -272,7 +277,7 @@ DisplayRope.prototype.isDragable = function() {
 * @return {!DisplayRope} this object for chaining setters
 */
 DisplayRope.prototype.setColorSlack = function(value) {
-  this.colorSlack = value;
+  this.colorSlack_ = value;
   return this;
 };
 
@@ -281,7 +286,7 @@ DisplayRope.prototype.setColorSlack = function(value) {
 * @return {!DisplayRope} this object for chaining setters
 */
 DisplayRope.prototype.setColorTight = function(value) {
-  this.colorTight = value;
+  this.colorTight_ = value;
   return this;
 };
 
@@ -301,13 +306,13 @@ DisplayRope.prototype.setPosition = function(position) {
 * @return {!DisplayRope} this object for chaining setters
 */
 DisplayRope.prototype.setThickness = function(value) {
-  this.thickness = value;
+  this.thickness_ = value;
   return this;
 };
 
 /** @inheritDoc */
 DisplayRope.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope

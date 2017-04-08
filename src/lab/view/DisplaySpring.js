@@ -58,35 +58,42 @@ myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
   /** How wide back-and-forth the jagged lines go when drawing the Spring,
   * in simulation coordinates.
   * @type {number|undefined}
+  * @private
   */
-  this.width;
+  this.width_;
   /** Color drawn when Spring is compressed to less than its rest length,
   * a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.colorCompressed;
+  this.colorCompressed_;
   /**  Color drawn when Spring is stretched to more than its rest length,
   * a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.colorExpanded;
+  this.colorExpanded_;
   /** Thickness of lines when drawing the Spring, in screen coordinates, so a
   * value of 1 means a 1 pixel thick line.
   * @type {number|undefined}
+  * @private
   */
-  this.thickness;
+  this.thickness_;
   /** Whether the Spring is drawn {@link #JAGGED} or {@link #STRAIGHT}.
   * @type {number|undefined}
+  * @private
   */
-  this.drawMode;
+  this.drawMode_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /**
   * @type {?DisplaySpring}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 
@@ -214,10 +221,10 @@ DisplaySpring.drawSpring = function(context, at) {
 * @return {string}
 */
 DisplaySpring.prototype.getColorCompressed = function() {
-  if (this.colorCompressed !== undefined) {
-    return this.colorCompressed;
-  } else if (this.proto != null) {
-    return this.proto.getColorCompressed();
+  if (this.colorCompressed_ !== undefined) {
+    return this.colorCompressed_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColorCompressed();
   } else {
     return 'red';
   }
@@ -228,10 +235,10 @@ DisplaySpring.prototype.getColorCompressed = function() {
 * @return {string}
 */
 DisplaySpring.prototype.getColorExpanded = function() {
-  if (this.colorExpanded !== undefined) {
-    return this.colorExpanded;
-  } else if (this.proto != null) {
-    return this.proto.getColorExpanded();
+  if (this.colorExpanded_ !== undefined) {
+    return this.colorExpanded_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColorExpanded();
   } else {
     return 'green';
   }
@@ -241,10 +248,10 @@ DisplaySpring.prototype.getColorExpanded = function() {
 * @return {number}
 */
 DisplaySpring.prototype.getDrawMode = function() {
-  if (this.drawMode !== undefined) {
-    return this.drawMode;
-  } else if (this.proto != null) {
-    return this.proto.getDrawMode();
+  if (this.drawMode_ !== undefined) {
+    return this.drawMode_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getDrawMode();
   } else {
     return DisplaySpring.JAGGED;
   }
@@ -272,10 +279,10 @@ DisplaySpring.prototype.getSimObjects = function() {
 * @return {number}
 */
 DisplaySpring.prototype.getThickness = function() {
-  if (this.thickness !== undefined) {
-    return this.thickness;
-  } else if (this.proto != null) {
-    return this.proto.getThickness();
+  if (this.thickness_ !== undefined) {
+    return this.thickness_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getThickness();
   } else {
     return 4.0;
   }
@@ -286,10 +293,10 @@ DisplaySpring.prototype.getThickness = function() {
 * @return {number}
 */
 DisplaySpring.prototype.getWidth = function() {
-  if (this.width !== undefined) {
-    return this.width;
-  } else if (this.proto != null) {
-    return this.proto.getWidth();
+  if (this.width_ !== undefined) {
+    return this.width_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getWidth();
   } else {
     return 0.5;
   }
@@ -297,10 +304,10 @@ DisplaySpring.prototype.getWidth = function() {
 
 /** @inheritDoc */
 DisplaySpring.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -317,7 +324,7 @@ DisplaySpring.prototype.isDragable = function() {
 * @return {!DisplaySpring} this object for chaining setters
 */
 DisplaySpring.prototype.setColorCompressed = function(colorCompressed) {
-  this.colorCompressed = colorCompressed;
+  this.colorCompressed_ = colorCompressed;
   return this;
 };
 
@@ -327,7 +334,7 @@ DisplaySpring.prototype.setColorCompressed = function(colorCompressed) {
 * @return {!DisplaySpring} this object for chaining setters
 */
 DisplaySpring.prototype.setColorExpanded = function(colorExpanded) {
-  this.colorExpanded = colorExpanded;
+  this.colorExpanded_ = colorExpanded;
   return this;
 };
 
@@ -341,7 +348,7 @@ DisplaySpring.prototype.setDragable = function(dragable) {
 * @return {!DisplaySpring} this object for chaining setters
 */
 DisplaySpring.prototype.setDrawMode = function(drawMode) {
-  this.drawMode = drawMode;
+  this.drawMode_ = drawMode;
   return this;
 };
 
@@ -356,7 +363,7 @@ DisplaySpring.prototype.setPosition = function(position) {
 * @return {!DisplaySpring} this object for chaining setters
 */
 DisplaySpring.prototype.setThickness = function(thickness) {
-  this.thickness = thickness;
+  this.thickness_ = thickness;
   return this;
 };
 
@@ -366,13 +373,13 @@ DisplaySpring.prototype.setThickness = function(thickness) {
 * @return {!DisplaySpring} this object for chaining setters
 */
 DisplaySpring.prototype.setWidth = function(width) {
-  this.width = width;
+  this.width_ = width;
   return this;
 };
 
 /** @inheritDoc */
 DisplaySpring.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope

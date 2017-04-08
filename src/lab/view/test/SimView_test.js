@@ -213,8 +213,7 @@ var testSimView1 = function() {
   var point1 = PointMass.makeSquare(1);
   var v1 = new Vector(2.5, 0);
   point1.setPosition(v1);
-  var shape1 = new DisplayShape(point1);
-  shape1.fillStyle = 'orange';
+  var shape1 = new DisplayShape(point1).setFillStyle('orange');
   var fixedPt = PointMass.makeSquare(1).setMass(UtilityCore.POSITIVE_INFINITY);
   fixedPt.setPosition(new Vector(-1,  0));
   var spring1 = new Spring('spring1',

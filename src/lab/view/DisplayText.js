@@ -53,26 +53,31 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
   this.location_ = opt_position || Vector.ORIGIN;
   /** The color used when drawing the text, a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.fillStyle;
+  this.fillStyle_;
   /** The font used when drawing the text, a CSS3 font specification.
   * @type {string|undefined}
+  * @private
   */
-  this.font;
+  this.font_;
   /** The horizontal alignment of text; legal values are 'left', 'center', 'right',
   * 'start' and 'end'.
   * @type {string|undefined}
+  * @private
   */
-  this.textAlign;
+  this.textAlign_;
   /** The vertical alignment of text; legal values are 'top', 'middle', 'bottom',
   * 'alphabetic', 'hanging', and 'ideographic'.
   * @type {string|undefined}
+  * @private
   */
-  this.textBaseline;
+  this.textBaseline_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex = 0;
+  this.zIndex_ = 0;
   /**
   * @type {boolean}
   * @private
@@ -80,8 +85,9 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
   this.dragable_ = false;
   /**
   * @type {?DisplayText}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayText = myphysicslab.lab.view.DisplayText;
 
@@ -130,23 +136,23 @@ DisplayText.prototype.draw = function(context, map) {
 * @return {string}
 */
 DisplayText.prototype.getFillStyle = function() {
-  if (this.fillStyle !== undefined) {
-    return this.fillStyle;
-  } else if (this.proto != null) {
-    return this.proto.getFillStyle();
+  if (this.fillStyle_ !== undefined) {
+    return this.fillStyle_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getFillStyle();
   } else {
     return 'black';
   }
 };
 
-/** Font used when drawing the text, a CSS3 color value.
-* @return {string}
+/** Font used when drawing the text.
+* @return {string} a CSS font specification
 */
 DisplayText.prototype.getFont = function() {
-  if (this.font !== undefined) {
-    return this.font;
-  } else if (this.proto != null) {
-    return this.proto.getFont();
+  if (this.font_ !== undefined) {
+    return this.font_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getFont();
   } else {
     return '12pt sans-serif';
   }
@@ -172,10 +178,10 @@ DisplayText.prototype.getSimObjects = function() {
 * @return {string}
 */
 DisplayText.prototype.getTextAlign = function() {
-  if (this.textAlign !== undefined) {
-    return this.textAlign;
-  } else if (this.proto != null) {
-    return this.proto.getTextAlign();
+  if (this.textAlign_ !== undefined) {
+    return this.textAlign_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getTextAlign();
   } else {
     return 'left';
   }
@@ -186,10 +192,10 @@ DisplayText.prototype.getTextAlign = function() {
 * @return {string}
 */
 DisplayText.prototype.getTextBaseline = function() {
-  if (this.textBaseline !== undefined) {
-    return this.textBaseline;
-  } else if (this.proto != null) {
-    return this.proto.getTextBaseline();
+  if (this.textBaseline_ !== undefined) {
+    return this.textBaseline_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getTextBaseline();
   } else {
     return 'alphabetic';
   }
@@ -204,10 +210,10 @@ DisplayText.prototype.getText = function() {
 
 /** @inheritDoc */
 DisplayText.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -228,16 +234,16 @@ DisplayText.prototype.setDragable = function(dragable) {
 * @return {!DisplayText} this object for chaining setters
 */
 DisplayText.prototype.setFillStyle = function(value) {
-  this.fillStyle = value;
+  this.fillStyle_ = value;
   return this;
 };
 
-/** Font used when drawing the text, a CSS3 color value.
-* @param {string|undefined} value
+/** Sets the font used when drawing the text.
+* @param {string|undefined} value a CSS font specification, or undefined
 * @return {!DisplayText} this object for chaining setters
 */
 DisplayText.prototype.setFont = function(value) {
-  this.font = value;
+  this.font_ = value;
   return this;
 };
 
@@ -259,7 +265,7 @@ DisplayText.prototype.setText = function(text) {
 * @return {!DisplayText} this object for chaining setters
 */
 DisplayText.prototype.setTextAlign = function(value) {
-  this.textAlign = value;
+  this.textAlign_ = value;
   return this;
 };
 
@@ -269,13 +275,13 @@ DisplayText.prototype.setTextAlign = function(value) {
 * @return {!DisplayText} this object for chaining setters
 */
 DisplayText.prototype.setTextBaseline = function(value) {
-  this.textBaseline = value;
+  this.textBaseline_ = value;
   return this;
 };
 
 /** @inheritDoc */
 DisplayText.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope

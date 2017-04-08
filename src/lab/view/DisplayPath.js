@@ -108,16 +108,19 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
   this.lastMap_ = null;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /** Default style for drawing a path, used as default in {@link #addPath}.
   * @type {!DrawingStyle|undefined}
+  * @private
   */
-  this.defaultStyle;
+  this.defaultStyle_;
   /**
   * @type {?DisplayPath}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 
@@ -126,9 +129,9 @@ if (!UtilityCore.ADVANCED) {
   DisplayPath.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
-        +', zIndex: '+this.zIndex
+        +', zIndex: '+this.zIndex_
         +', useBuffer_: '+this.useBuffer_
-        +', defaultStyle: '+this.defaultStyle
+        +', defaultStyle: '+this.defaultStyle_
         +', paths_: ['
         + goog.array.map(this.paths_, function(p, idx) {
             return idx+': '+p.toString();
@@ -305,10 +308,10 @@ DisplayPath.prototype.flush = function() {
 * @return {!DrawingStyle} the default DrawingStyle to use when adding a Path
 */
 DisplayPath.prototype.getDefaultStyle = function() {
-  if (this.defaultStyle !== undefined) {
-    return this.defaultStyle;
-  } else if (this.proto != null) {
-    return this.proto.getDefaultStyle();
+  if (this.defaultStyle_ !== undefined) {
+    return this.defaultStyle_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getDefaultStyle();
   } else {
     return DrawingStyle.lineStyle('gray', /*lineWidth=*/4);
   }
@@ -379,8 +382,8 @@ DisplayPath.prototype.getStyle = function(idx) {
 DisplayPath.prototype.getUseBuffer = function() {
   if (this.useBuffer_ !== undefined) {
     return this.useBuffer_;
-  } else if (this.proto != null) {
-    return this.proto.getUseBuffer();
+  } else if (this.proto_ != null) {
+    return this.proto_.getUseBuffer();
   } else {
     return true;
   }
@@ -388,10 +391,10 @@ DisplayPath.prototype.getUseBuffer = function() {
 
 /** @inheritDoc */
 DisplayPath.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -424,7 +427,7 @@ DisplayPath.prototype.removePath = function(path) {
 * @return {!DisplayPath} this object for chaining setters
 */
 DisplayPath.prototype.setDefaultStyle = function(value) {
-  this.defaultStyle = value;
+  this.defaultStyle_ = value;
   return this;
 };
 
@@ -473,7 +476,7 @@ DisplayPath.prototype.setUseBuffer = function(value) {
 
 /** @inheritDoc */
 DisplayPath.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope

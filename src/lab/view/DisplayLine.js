@@ -53,27 +53,32 @@ myphysicslab.lab.view.DisplayLine = function(line, proto) {
   this.line_ = goog.isDefAndNotNull(line) ? line : new ConcreteLine('proto');
   /** Color used when drawing the line, a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.color;
+  this.color_;
   /** Thickness to use when drawing the line, in screen coordinates, so a unit
   * is a screen pixel.
   * @type {number|undefined}
+  * @private
   */
-  this.thickness;
+  this.thickness_;
   /** Line dash array used when drawing the line.  Corresponds to lengths of dashes
   * and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
   * length 3 with spaces of length 5. Empty array indicates solid line.
   * @type {!Array<number>|undefined}
+  * @private
   */
-  this.lineDash;
+  this.lineDash_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /**
   * @type {?DisplayLine}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayLine = myphysicslab.lab.view.DisplayLine;
 
@@ -85,7 +90,7 @@ if (!UtilityCore.ADVANCED) {
         +', color: "'+this.getColor()+'"'
         +', lineDash: ['+this.getLineDash()+']'
         +', zIndex: '+this.getZIndex()
-        +', proto: '+(this.proto != null ? this.proto.toStringShort() : 'null')
+        +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
         +'}';
   };
 
@@ -128,10 +133,10 @@ DisplayLine.prototype.draw = function(context, map) {
 * @return {string}
 */
 DisplayLine.prototype.getColor = function() {
-  if (this.color !== undefined) {
-    return this.color;
-  } else if (this.proto != null) {
-    return this.proto.getColor();
+  if (this.color_ !== undefined) {
+    return this.color_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColor();
   } else {
     return 'gray';
   }
@@ -143,10 +148,10 @@ DisplayLine.prototype.getColor = function() {
 * @return {!Array<number>}
 */
 DisplayLine.prototype.getLineDash = function() {
-  if (this.lineDash !== undefined) {
-    return this.lineDash;
-  } else if (this.proto != null) {
-    return this.proto.getLineDash();
+  if (this.lineDash_ !== undefined) {
+    return this.lineDash_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getLineDash();
   } else {
     return [ ];
   }
@@ -174,10 +179,10 @@ DisplayLine.prototype.getSimObjects = function() {
 * @return {number}
 */
 DisplayLine.prototype.getThickness = function() {
-  if (this.thickness !== undefined) {
-    return this.thickness;
-  } else if (this.proto != null) {
-    return this.proto.getThickness();
+  if (this.thickness_ !== undefined) {
+    return this.thickness_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getThickness();
   } else {
     return 4.0;
   }
@@ -185,10 +190,10 @@ DisplayLine.prototype.getThickness = function() {
 
 /** @inheritDoc */
 DisplayLine.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -204,7 +209,7 @@ DisplayLine.prototype.isDragable = function() {
 * @return {!DisplayLine} this object for chaining setters
 */
 DisplayLine.prototype.setColor = function(color) {
-  this.color = color;
+  this.color_ = color;
   return this;
 };
 
@@ -220,7 +225,7 @@ DisplayLine.prototype.setDragable = function(dragable) {
 * @return {!DisplayLine} this object for chaining setters
 */
 DisplayLine.prototype.setLineDash = function(lineDash) {
-  this.lineDash = lineDash;
+  this.lineDash_ = lineDash;
   return this;
 };
 
@@ -235,13 +240,13 @@ DisplayLine.prototype.setPosition = function(position) {
 * @return {!DisplayLine} this object for chaining setters
 */
 DisplayLine.prototype.setThickness = function(thickness) {
-  this.thickness = thickness;
+  this.thickness_ = thickness;
   return this;
 };
 
 /** @inheritDoc */
 DisplayLine.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope

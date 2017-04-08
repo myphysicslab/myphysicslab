@@ -130,13 +130,13 @@ var testDisplayShape = function() {
   var point1 = PointMass.makeRectangle(2, 1.6);
   point1.setPosition(new Vector(2, -2));
   var shape1 = new DisplayShape(point1);
-  shape1.fillStyle = 'orange';
+  shape1.setFillStyle('orange');
   // check starting conditions
   assertEquals(point1, shape1.getSimObjects()[0]);
   assertTrue(shape1.contains(new Vector(2, -2)));
   assertFalse(shape1.contains(Vector.ORIGIN));
   assertTrue(shape1.getPosition().nearEqual(new Vector(2, -2), tol));
-  assertEquals('orange', shape1.fillStyle);
+  assertEquals('orange', shape1.getFillStyle());
   assertTrue(shape1.isDragable());
 
   // set expected rectangle to be drawn
@@ -148,8 +148,8 @@ var testDisplayShape = function() {
   // change some things, move to different position and color
   shape1.setDragable(false);
   assertFalse(shape1.isDragable());
-  shape1.fillStyle = 'blue';
-  assertEquals('blue', shape1.fillStyle);
+  shape1.setFillStyle('blue');
+  assertEquals('blue', shape1.getFillStyle());
   point1.setPosition(new Vector(1, 1));
   assertTrue(shape1.getPosition().nearEqual(new Vector(1, 1), tol));
 

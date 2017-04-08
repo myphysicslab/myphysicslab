@@ -48,31 +48,37 @@ myphysicslab.lab.view.DisplayArc = function(arc, proto) {
   this.arc_ = goog.isDefAndNotNull(arc) ? arc : null;
   /** Color used when drawing the line, a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.color;
+  this.color_;
   /** Thickness to use when drawing the line, in screen coordinates, so a unit
   * is a screen pixel.
   * @type {number|undefined}
+  * @private
   */
-  this.thickness;
+  this.thickness_;
   /** Line dash array used when drawing the line.  Corresponds to lengths of dashes
   * and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
   * length 3 with spaces of length 5. Empty array indicates solid line.
   * @type {!Array<number>|undefined}
+  * @private
   */
-  this.lineDash;
+  this.lineDash_;
   /** Length of arrowhead
   * @type {number|undefined}
+  * @private
   */
-  this.arrowHeadLength;
+  this.arrowHeadLength_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /**
   * @type {?DisplayArc}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
 
@@ -170,10 +176,10 @@ DisplayArc.prototype.draw = function(context, map) {
 * @return {number}
 */
 DisplayArc.prototype.getArrowHeadLength = function() {
-  if (this.arrowHeadLength !== undefined) {
-    return this.arrowHeadLength;
-  } else if (this.proto != null) {
-    return this.proto.getArrowHeadLength();
+  if (this.arrowHeadLength_ !== undefined) {
+    return this.arrowHeadLength_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getArrowHeadLength();
   } else {
     return 0.2;
   }
@@ -183,10 +189,10 @@ DisplayArc.prototype.getArrowHeadLength = function() {
 * @return {string}
 */
 DisplayArc.prototype.getColor = function() {
-  if (this.color !== undefined) {
-    return this.color;
-  } else if (this.proto != null) {
-    return this.proto.getColor();
+  if (this.color_ !== undefined) {
+    return this.color_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getColor();
   } else {
     return 'gray';
   }
@@ -198,10 +204,10 @@ DisplayArc.prototype.getColor = function() {
 * @return {!Array<number>}
 */
 DisplayArc.prototype.getLineDash = function() {
-  if (this.lineDash !== undefined) {
-    return this.lineDash;
-  } else if (this.proto != null) {
-    return this.proto.getLineDash();
+  if (this.lineDash_ !== undefined) {
+    return this.lineDash_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getLineDash();
   } else {
     return [3, 5];
   }
@@ -228,10 +234,10 @@ DisplayArc.prototype.getSimObjects = function() {
 * @return {number}
 */
 DisplayArc.prototype.getThickness = function() {
-  if (this.thickness !== undefined) {
-    return this.thickness;
-  } else if (this.proto != null) {
-    return this.proto.getThickness();
+  if (this.thickness_ !== undefined) {
+    return this.thickness_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getThickness();
   } else {
     return 4.0;
   }
@@ -239,10 +245,10 @@ DisplayArc.prototype.getThickness = function() {
 
 /** @inheritDoc */
 DisplayArc.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -258,7 +264,7 @@ DisplayArc.prototype.isDragable = function() {
 * @return {!DisplayArc} this object for chaining setters
 */
 DisplayArc.prototype.setArrowHeadLength = function(value) {
-  this.arrowHeadLength = value;
+  this.arrowHeadLength_ = value;
   return this;
 };
 
@@ -267,7 +273,7 @@ DisplayArc.prototype.setArrowHeadLength = function(value) {
 * @return {!DisplayArc} this object for chaining setters
 */
 DisplayArc.prototype.setColor = function(value) {
-  this.color = value;
+  this.color_ = value;
   return this;
 };
 
@@ -283,7 +289,7 @@ DisplayArc.prototype.setDragable = function(dragable) {
 * @return {!DisplayArc} this object for chaining setters
 */
 DisplayArc.prototype.setLineDash = function(value) {
-  this.lineDash = value;
+  this.lineDash_ = value;
   return this;
 };
 
@@ -298,13 +304,13 @@ DisplayArc.prototype.setPosition = function(position) {
 * @return {!DisplayArc} this object for chaining setters
 */
 DisplayArc.prototype.setThickness = function(value) {
-  this.thickness = value;
+  this.thickness_ = value;
   return this;
 };
 
 /** @inheritDoc */
 DisplayArc.prototype.setZIndex = function(value) {
-  this.zIndex = value;
+  this.zIndex_ = value;
 };
 
 });  // goog.scope

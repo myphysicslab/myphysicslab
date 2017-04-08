@@ -199,8 +199,9 @@ myphysicslab.lab.view.DisplayShape = function(massObject, proto) {
       massObject : new PointMass('proto');
   /**
   * @type {?DisplayShape}
+  * @private
   */
-  this.proto = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
   /** Whether the MassObject is dragable.
   * @type {boolean}
   * @private
@@ -211,80 +212,94 @@ myphysicslab.lab.view.DisplayShape = function(massObject, proto) {
   * It can be a CSS3 color value (possibly including transparency) or a ColorGradient.
   * Set this to the empty string to not fill the massObject.
   * @type {string|!CanvasGradient|undefined}
+  * @private
   */
-  this.fillStyle;
+  this.fillStyle_;
   /** The color to use for drawing the border, or the empty string to not draw the
   * border. It should be a CSS3 color value (possibly including transparency).
   * The thickness of the border is set by {@link #thickness}.
   * @type {string|undefined}
+  * @private
   */
-  this.strokeStyle;
+  this.strokeStyle_;
   /** Thickness of border drawn, see {@link #strokeStyle}, in screen coordinates.
   * A value of 1 corresponds to a single pixel thickness.
   * @type {number|undefined}
+  * @private
   */
-  this.thickness;
+  this.thickness_;
   /** Line dash array used when drawing the border. Corresponds to lengths of dashes
   * and spaces, in screen coordinates. For example, `[3, 5]` alternates dashes of
   * length 3 with spaces of length 5. Empty array indicates solid line.
   * @type {!Array<number>|undefined}
+  * @private
   */
-  this.borderDash;
+  this.borderDash_;
   /** Whether to draw the 'drag points' on the object; these are the places that
   * a spring can be attached to for dragging the object.
   * @type {boolean|undefined}
+  * @private
   */
-  this.drawDragPoints;
+  this.drawDragPoints_;
   /** Whether to draw the location of the center of mass; it is drawn as two small
   * crossed lines.
   * @type {boolean|undefined}
+  * @private
   */
-  this.drawCenterOfMass;
+  this.drawCenterOfMass_;
   /** Font for drawing name of the object, or the empty string to not draw the name.
   * It should be a CSS3 font value such as '16pt sans-serif'.
   * @type {string|undefined}
+  * @private
   */
-  this.nameFont;
+  this.nameFont_;
   /** Color for drawing name of the object; a CSS3 color value.
   * @type {string|undefined}
+  * @private
   */
-  this.nameColor;
+  this.nameColor_;
   /** Angle of rotation for drawing name, in radians.  Rotation is relative to the
   * position in body coordinates.
   * @type {number|undefined}
+  * @private
   */
-  this.nameRotate;
+  this.nameRotate_;
   /** Image to draw, after the massObject is filled and border is drawn. The
   * AffineTransform {@link #imageAT} is applied first, and the image is clipped if
   * {@link #imageClip} is set. This disables the name being drawn.
   * @type {?HTMLImageElement|undefined}
+  * @private
   */
-  this.image;
+  this.image_;
   /** AffineTransform to use when drawing image.  The image is drawn in coordinates
   * that are oriented like body coordinates, but are like screen coordinates in that
   * the origin is at top left of the DisplayShape bounding box, Y increases downwards,
   * and units are equal to a screen pixel.
   * The `imageAT` AffineTransform is applied to further modify the coordinate system
-  * before the image is drawn using the command `context.drawImage(this.image, 0, 0)`.
+  * before the image is drawn using the command `context.drawImage(this.image_, 0, 0)`.
   * @type {!AffineTransform|undefined}
+  * @private
   */
-  this.imageAT;
+  this.imageAT_;
   /** Whether to clip the image with the shape of the MassObject.
   * @type {boolean|undefined}
+  * @private
   */
-  this.imageClip;
+  this.imageClip_;
   /** Function to draw an image, it is called after the massObject is filled, the border
   * is drawn and the {@link #image} is drawn.
   * The AffineTransform {@link #imageAT} is applied first,
   * and the image is clipped if {@link #imageClip} is set.
   * The current path is the outline of the massObject.
   * @type {?function(!CanvasRenderingContext2D):undefined|undefined}
+  * @private
   */
-  this.imageDraw;
+  this.imageDraw_;
   /**
   * @type {number|undefined}
+  * @private
   */
-  this.zIndex;
+  this.zIndex_;
   /** Remember the last color drawn, to keep isDarkColor_ in sync with fillStyle.
   * @type {*}
   * @private
@@ -312,7 +327,7 @@ if (!UtilityCore.ADVANCED) {
         +', nameColor: "'+this.getNameColor()+'"'
         +', nameRotate: '+NF(this.getNameRotate())
         +', zIndex: '+this.getZIndex()
-        +', proto: '+(this.proto != null ? this.proto.toStringShort() : 'null')
+        +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
         +'}';
   };
 
@@ -485,10 +500,10 @@ DisplayShape.prototype.draw = function(context, map) {
 * @return {!Array<number>}
 */
 DisplayShape.prototype.getBorderDash = function() {
-  if (this.borderDash !== undefined) {
-    return this.borderDash;
-  } else if (this.proto != null) {
-    return this.proto.getBorderDash();
+  if (this.borderDash_ !== undefined) {
+    return this.borderDash_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getBorderDash();
   } else {
     return [ ];
   }
@@ -499,10 +514,10 @@ DisplayShape.prototype.getBorderDash = function() {
 * @return {boolean}
 */
 DisplayShape.prototype.getDrawCenterOfMass = function() {
-  if (this.drawCenterOfMass !== undefined) {
-    return this.drawCenterOfMass;
-  } else if (this.proto != null) {
-    return this.proto.getDrawCenterOfMass();
+  if (this.drawCenterOfMass_ !== undefined) {
+    return this.drawCenterOfMass_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getDrawCenterOfMass();
   } else {
     return false;
   }
@@ -513,10 +528,10 @@ DisplayShape.prototype.getDrawCenterOfMass = function() {
 * @return {boolean}
 */
 DisplayShape.prototype.getDrawDragPoints = function() {
-  if (this.drawDragPoints !== undefined) {
-    return this.drawDragPoints;
-  } else if (this.proto != null) {
-    return this.proto.getDrawDragPoints();
+  if (this.drawDragPoints_ !== undefined) {
+    return this.drawDragPoints_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getDrawDragPoints();
   } else {
     return false;
   }
@@ -528,10 +543,10 @@ DisplayShape.prototype.getDrawDragPoints = function() {
 * @return {string|!CanvasGradient}
 */
 DisplayShape.prototype.getFillStyle = function() {
-  if (this.fillStyle !== undefined) {
-    return this.fillStyle;
-  } else if (this.proto != null) {
-    return this.proto.getFillStyle();
+  if (this.fillStyle_ !== undefined) {
+    return this.fillStyle_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getFillStyle();
   } else {
     return 'lightGray';
   }
@@ -543,10 +558,10 @@ DisplayShape.prototype.getFillStyle = function() {
 * @return {?HTMLImageElement}
 */
 DisplayShape.prototype.getImage = function() {
-  if (this.image !== undefined) {
-    return this.image;
-  } else if (this.proto != null) {
-    return this.proto.getImage();
+  if (this.image_ !== undefined) {
+    return this.image_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getImage();
   } else {
     return null;
   }
@@ -557,14 +572,14 @@ DisplayShape.prototype.getImage = function() {
 * the origin is at top left of the DisplayShape bounding box, Y increases downwards,
 * and units are equal to a screen pixel.
 * The `imageAT` AffineTransform is applied to further modify the coordinate system
-* before the image is drawn using the command `context.drawImage(this.image, 0, 0)`.
+* before the image is drawn using the command `context.drawImage(this.image_, 0, 0)`.
 * @return {!myphysicslab.lab.util.AffineTransform}
 */
 DisplayShape.prototype.getImageAT = function() {
-  if (this.imageAT !== undefined) {
-    return this.imageAT;
-  } else if (this.proto != null) {
-    return this.proto.getImageAT();
+  if (this.imageAT_ !== undefined) {
+    return this.imageAT_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getImageAT();
   } else {
     return AffineTransform.IDENTITY;
   }
@@ -574,10 +589,10 @@ DisplayShape.prototype.getImageAT = function() {
 * @return {boolean}
 */
 DisplayShape.prototype.getImageClip = function() {
-  if (this.imageClip !== undefined) {
-    return this.imageClip;
-  } else if (this.proto != null) {
-    return this.proto.getImageClip();
+  if (this.imageClip_ !== undefined) {
+    return this.imageClip_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getImageClip();
   } else {
     return false;
   }
@@ -591,10 +606,10 @@ DisplayShape.prototype.getImageClip = function() {
 * @return {?function(!CanvasRenderingContext2D):undefined}
 */
 DisplayShape.prototype.getImageDraw = function() {
-  if (this.imageDraw !== undefined) {
-    return this.imageDraw;
-  } else if (this.proto != null) {
-    return this.proto.getImageDraw();
+  if (this.imageDraw_ !== undefined) {
+    return this.imageDraw_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getImageDraw();
   } else {
     return null;
   }
@@ -609,10 +624,10 @@ DisplayShape.prototype.getMassObjects = function() {
 * @return {string}
 */
 DisplayShape.prototype.getNameColor = function() {
-  if (this.nameColor !== undefined) {
-    return this.nameColor;
-  } else if (this.proto != null) {
-    return this.proto.getNameColor();
+  if (this.nameColor_ !== undefined) {
+    return this.nameColor_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getNameColor();
   } else {
     return 'black';
   }
@@ -623,10 +638,10 @@ DisplayShape.prototype.getNameColor = function() {
 * @return {string}
 */
 DisplayShape.prototype.getNameFont = function() {
-  if (this.nameFont !== undefined) {
-    return this.nameFont;
-  } else if (this.proto != null) {
-    return this.proto.getNameFont();
+  if (this.nameFont_ !== undefined) {
+    return this.nameFont_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getNameFont();
   } else {
     return '';
   }
@@ -637,10 +652,10 @@ DisplayShape.prototype.getNameFont = function() {
 * @return {number}
 */
 DisplayShape.prototype.getNameRotate = function() {
-  if (this.nameRotate !== undefined) {
-    return this.nameRotate;
-  } else if (this.proto != null) {
-    return this.proto.getNameRotate();
+  if (this.nameRotate_ !== undefined) {
+    return this.nameRotate_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getNameRotate();
   } else {
     return 0;
   }
@@ -662,10 +677,10 @@ DisplayShape.prototype.getSimObjects = function() {
 * @return {string}
 */
 DisplayShape.prototype.getStrokeStyle = function() {
-  if (this.strokeStyle !== undefined) {
-    return this.strokeStyle;
-  } else if (this.proto != null) {
-    return this.proto.getStrokeStyle();
+  if (this.strokeStyle_ !== undefined) {
+    return this.strokeStyle_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getStrokeStyle();
   } else {
     return '';
   }
@@ -676,10 +691,10 @@ DisplayShape.prototype.getStrokeStyle = function() {
 * @return {number}
 */
 DisplayShape.prototype.getThickness = function() {
-  if (this.thickness !== undefined) {
-    return this.thickness;
-  } else if (this.proto != null) {
-    return this.proto.getThickness();
+  if (this.thickness_ !== undefined) {
+    return this.thickness_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getThickness();
   } else {
     return 1;
   }
@@ -687,10 +702,10 @@ DisplayShape.prototype.getThickness = function() {
 
 /** @inheritDoc */
 DisplayShape.prototype.getZIndex = function() {
-  if (this.zIndex !== undefined) {
-    return this.zIndex;
-  } else if (this.proto != null) {
-    return this.proto.getZIndex();
+  if (this.zIndex_ !== undefined) {
+    return this.zIndex_;
+  } else if (this.proto_ != null) {
+    return this.proto_.getZIndex();
   } else {
     return 0;
   }
@@ -708,7 +723,7 @@ DisplayShape.prototype.isDragable = function() {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setBorderDash = function(value) {
-  this.borderDash = value;
+  this.borderDash_ = value;
   return this;
 };
 
@@ -723,7 +738,7 @@ DisplayShape.prototype.setDragable = function(dragable) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setDrawCenterOfMass = function(value) {
-  this.drawCenterOfMass = value;
+  this.drawCenterOfMass_ = value;
   return this;
 };
 
@@ -733,7 +748,7 @@ DisplayShape.prototype.setDrawCenterOfMass = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setDrawDragPoints = function(value) {
-  this.drawDragPoints = value;
+  this.drawDragPoints_ = value;
   return this;
 };
 
@@ -744,7 +759,7 @@ DisplayShape.prototype.setDrawDragPoints = function(value) {
 * @return {!DisplayShape}
 */
 DisplayShape.prototype.setFillStyle = function(value) {
-  this.fillStyle = value;
+  this.fillStyle_ = value;
   return this;
 };
 
@@ -755,7 +770,7 @@ DisplayShape.prototype.setFillStyle = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setImage = function(value) {
-  this.image = value;
+  this.image_ = value;
   return this;
 };
 
@@ -764,12 +779,12 @@ DisplayShape.prototype.setImage = function(value) {
 * the origin is at top left of the DisplayShape bounding box, Y increases downwards,
 * and units are equal to a screen pixel.
 * The `imageAT` AffineTransform is applied to further modify the coordinate system
-* before the image is drawn using the command `context.drawImage(this.image, 0, 0)`.
+* before the image is drawn using the command `context.drawImage(this.image_, 0, 0)`.
 * @param {!myphysicslab.lab.util.AffineTransform} value
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setImageAT = function(value) {
-  this.imageAT = value;
+  this.imageAT_ = value;
   return this;
 };
 
@@ -778,7 +793,7 @@ DisplayShape.prototype.setImageAT = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setImageClip = function(value) {
-  this.imageClip = value;
+  this.imageClip_ = value;
   return this;
 };
 
@@ -791,7 +806,7 @@ DisplayShape.prototype.setImageClip = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setImageDraw = function(value) {
-  this.imageDraw = value;
+  this.imageDraw_ = value;
   return this;
 };
 
@@ -800,7 +815,7 @@ DisplayShape.prototype.setImageDraw = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setNameColor = function(value) {
-  this.nameColor = value;
+  this.nameColor_ = value;
   return this;
 };
 
@@ -810,7 +825,7 @@ DisplayShape.prototype.setNameColor = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setNameFont = function(value) {
-  this.nameFont = value;
+  this.nameFont_ = value;
   return this;
 };
 
@@ -820,7 +835,7 @@ DisplayShape.prototype.setNameFont = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setNameRotate = function(value) {
-  this.nameRotate = value;
+  this.nameRotate_ = value;
   return this;
 };
 
@@ -836,7 +851,7 @@ DisplayShape.prototype.setPosition = function(position) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setStrokeStyle = function(value) {
-  this.strokeStyle = value;
+  this.strokeStyle_ = value;
   return this;
 };
 
@@ -846,13 +861,13 @@ DisplayShape.prototype.setStrokeStyle = function(value) {
 * @return {!DisplayShape} this object for chaining setters
 */
 DisplayShape.prototype.setThickness = function(value) {
-  this.thickness = value;
+  this.thickness_ = value;
   return this;
 };
 
 /** @inheritDoc */
 DisplayShape.prototype.setZIndex = function(zIndex) {
-  this.zIndex = zIndex;
+  this.zIndex_ = zIndex;
 };
 
 });  // goog.scope
