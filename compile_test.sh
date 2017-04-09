@@ -108,6 +108,9 @@ fi
 #--jscomp_off=newCheckTypesExtraChecks \
 #--hide_warnings_for=`readlink closure-library` \
 #
+# As of Apr 2017, I've removed the above NTI settings because there are some
+# errors that NTI is missing.  See closure compiler issues 2415, 2416.
+#
 #
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
 #set -x
@@ -180,10 +183,6 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=unknownDefines \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
---new_type_inf \
---jscomp_warning=newCheckTypes \
---jscomp_off=newCheckTypesExtraChecks \
---hide_warnings_for=`readlink closure-library` \
 --emit_use_strict \
 --language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \

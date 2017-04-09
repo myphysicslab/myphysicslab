@@ -189,6 +189,9 @@ fi
 #--jscomp_off=newCheckTypesExtraChecks \
 #--hide_warnings_for=`readlink closure-library` \
 #
+# As of Apr 2017, I've removed the above NTI settings because there are some
+# errors that NTI is missing.  See closure compiler issues 2415, 2416.
+#
 # We use `readlink` to convert a symbolic link to a regular file reference.
 # See this discussion:
 # https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script/
@@ -234,10 +237,6 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_error=unknownDefines \
 --jscomp_error=uselessCode \
 --jscomp_error=visibility \
---new_type_inf \
---jscomp_warning=newCheckTypes \
---jscomp_off=newCheckTypesExtraChecks \
---hide_warnings_for=`readlink closure-library` \
 --emit_use_strict \
 --language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
