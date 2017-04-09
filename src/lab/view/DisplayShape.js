@@ -666,6 +666,14 @@ DisplayShape.prototype.getPosition = function() {
   return this.massObject_.getPosition();
 };
 
+/** Set the prototype DisplayShape for this object. Display parameters are inherited
+* from the prototype unless the parameter is explicitly set for this object.
+* @return {?DisplayShape}
+*/
+DisplayShape.prototype.getPrototype = function() {
+  return this.proto_;
+};
+
 /** @inheritDoc */
 DisplayShape.prototype.getSimObjects = function() {
   return [ this.massObject_ ];
@@ -842,6 +850,16 @@ DisplayShape.prototype.setNameRotate = function(value) {
 /** @inheritDoc */
 DisplayShape.prototype.setPosition = function(position) {
   this.massObject_.setPosition(position);
+};
+
+/** Set the prototype DisplayShape for this object. Display parameters are inherited
+* from the prototype unless the parameter is explicitly set for this object.
+* @param {?DisplayShape} value
+* @return {!DisplayShape} this object for chaining setters
+*/
+DisplayShape.prototype.setPrototype = function(value) {
+  this.proto_ = value;
+  return this;
 };
 
 /** The color to use for drawing the border, or the empty string to not draw the

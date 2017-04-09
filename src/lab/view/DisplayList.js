@@ -204,30 +204,32 @@ DisplayList.prototype.find = function(search) {
 @param {!SimObject|string|number} search  the SimObject to search for, or name of
     SimObject, or index number of DisplayObject.
     Name should be English or language-independent version of name.
-@return {?DisplayShape} the DisplayShape on this list that shows
-    the given SimObject, or null if not found
+@return {!DisplayShape} the DisplayShape on this list that shows
+    the given SimObject
+@throws {Error} if DisplayShape is not found
 */
 DisplayList.prototype.findShape = function(search) {
   var ds = this.find(search);
   if (ds instanceof DisplayShape) {
     return /**!DisplayShape*/(ds);
   }
-  return null;
+  throw new Error('DisplayShape not found: '+search);
 };
 
 /** Returns the DisplaySpring that shows the given SimObject.
 @param {!SimObject|string|number} search  the SimObject to search for, or name of
     SimObject, or index number of DisplayObject.
     Name should be English or language-independent version of name.
-@return {?DisplaySpring} the DisplaySpring on this list that shows
-    the given SimObject, or null if not found
+@return {!DisplaySpring} the DisplaySpring on this list that shows
+    the given SimObject
+@throws {Error} if DisplaySpring is not found
 */
 DisplayList.prototype.findSpring = function(search) {
   var ds = this.find(search);
   if (ds instanceof DisplaySpring) {
     return /**!DisplaySpring*/(ds);
   }
-  return null;
+  throw new Error('DisplaySpring not found: '+search);
 };
 
 /** Returns the DisplayObject at the specified position in this DisplayList

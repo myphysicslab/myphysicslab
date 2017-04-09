@@ -269,6 +269,14 @@ DisplaySpring.prototype.getPosition = function() {
       this.spring_.getStartPoint().add(this.spring_.getEndPoint()).multiply(0.5);
 };
 
+/** Set the prototype DisplaySpring for this object. Display parameters are inherited
+* from the prototype unless the parameter is explicitly set for this object.
+* @return {?DisplaySpring}
+*/
+DisplaySpring.prototype.getPrototype = function() {
+  return this.proto_;
+};
+
 /** @inheritDoc */
 DisplaySpring.prototype.getSimObjects = function() {
   return this.spring_ == null ? [ ] : [ this.spring_ ];
@@ -355,6 +363,16 @@ DisplaySpring.prototype.setDrawMode = function(drawMode) {
 /** @inheritDoc */
 DisplaySpring.prototype.setPosition = function(position) {
   //throw new Error('unsupported operation');
+};
+
+/** Set the prototype DisplaySpring for this object. Display parameters are inherited
+* from the prototype unless the parameter is explicitly set for this object.
+* @param {?DisplaySpring} value
+* @return {!DisplaySpring} this object for chaining setters
+*/
+DisplaySpring.prototype.setPrototype = function(value) {
+  this.proto_ = value;
+  return this;
 };
 
 /** Thickness of lines when drawing the Spring, in screen coordinates, so a

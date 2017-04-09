@@ -225,13 +225,13 @@ CarSuspensionApp.prototype.configure = function() {
       wheel1.setMass(this.wheelMass);
       wheel1.setPosition(new Vector(-1.0,  -3.0),  0);
       this.mySim.addBody(wheel1);
-      this.displayList.findShape(wheel1).proto = this.protoWheel;
+      this.displayList.findShape(wheel1).setPrototype(this.protoWheel);
       var wheel2 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+2,
           CarSuspensionApp.i18n.WHEEL+2);
       wheel2.setMass(this.wheelMass);
       wheel2.setPosition(new Vector(2.0,  -3.0),  0);
       this.mySim.addBody(wheel2);
-      this.displayList.findShape(wheel2).proto = this.protoWheel;
+      this.displayList.findShape(wheel2).setPrototype(this.protoWheel);
       this.addSpring(new Spring('spring1',
           car, new Vector(-2.1, -1.0),
           wheel1, Vector.ORIGIN,
@@ -254,7 +254,7 @@ CarSuspensionApp.prototype.configure = function() {
           CarSuspensionApp.en.WHEEL+1, CarSuspensionApp.i18n.WHEEL+1);
       p1.setAngle(0);
       this.mySim.addBody(p1);
-      this.displayList.findShape(p1).proto = this.protoWheel;
+      this.displayList.findShape(p1).setPrototype(this.protoWheel);
       JointUtil.attachRigidBody(this.mySim,
           car, /*attach1_body=*/new Vector(-0.9, -1.0),
           p1, /*attach2_body*/new Vector(0, this.springLength),
@@ -268,7 +268,7 @@ CarSuspensionApp.prototype.configure = function() {
           CarSuspensionApp.en.WHEEL+2, CarSuspensionApp.i18n.WHEEL+2);
       p2.setAngle(0);
       this.mySim.addBody(p2);
-      this.displayList.findShape(p2).proto = this.protoWheel;
+      this.displayList.findShape(p2).setPrototype(this.protoWheel);
       JointUtil.attachRigidBody(this.mySim,
           car, /*attach1_body=*/new Vector(0.9, -1.0),
           p2, /*attach2_body=*/new Vector(0, this.springLength),
