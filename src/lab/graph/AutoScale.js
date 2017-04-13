@@ -156,7 +156,7 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
   */
   this.axis_ = AutoScale.BOTH_AXES;
   /** Index of last point seen within GraphPoints list of each GraphLine
-  * @type {Array<number>}
+  * @type {!Array<number>}
   * @private
   */
   this.lastIndex_ = goog.array.repeat(-1, this.graphLines_.length);

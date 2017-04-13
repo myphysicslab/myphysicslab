@@ -168,7 +168,7 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   */
   this.labViews_ = [];
   /**
-  * @type {Array<!myphysicslab.lab.util.Memorizable>}
+  * @type {!Array<!myphysicslab.lab.util.Memorizable>}
   * @private
   */
   this.memorizables_ = [];

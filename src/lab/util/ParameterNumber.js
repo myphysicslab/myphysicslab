@@ -258,10 +258,10 @@ ParameterNumber.prototype.setChoices = function(choices, values) {
 @private
 */
 ParameterNumber.prototype.setChoices_ = function(choices, values) {
-  this.choices_ = choices;
   if (values.length !== choices.length) {
     throw new Error('choices and values not same length');
   }
+  this.choices_ = choices;
   this.values_ = values;
 };
 
@@ -283,7 +283,7 @@ ParameterNumber.prototype.setDecimalPlaces = function(decimals) {
 ParameterNumber.prototype.setFromString = function(value) {
   var v = Number(value);
   if (isNaN(v)) {
-    throw new Error('not a number: '+value+' (ParameterNumber)');
+    throw new Error('not a number: '+value);
   }
   this.setValue(v);
 };
@@ -297,7 +297,8 @@ ParameterNumber.prototype.setFromString = function(value) {
 */
 ParameterNumber.prototype.setLowerLimit = function(lowerLimit) {
   if (lowerLimit > this.getValue() || lowerLimit > this.upperLimit_)
-    throw new Error('out of range');
+    throw new Error('out of range: '+lowerLimit+' value='+this.getValue()
+        +' upper='+this.upperLimit_);
   this.lowerLimit_ = lowerLimit;
   return this;
 };
@@ -323,7 +324,8 @@ ParameterNumber.prototype.setSignifDigits = function(signifDigits) {
 */
 ParameterNumber.prototype.setUpperLimit = function(upperLimit) {
   if (upperLimit < this.getValue() || upperLimit < this.lowerLimit_)
-    throw new Error('out of range');
+    throw new Error('out of range: '+upperLimit+' value='+this.getValue()
+        +' lower='+this.lowerLimit_);
   this.upperLimit_ = upperLimit;
   return this;
 };
@@ -333,7 +335,7 @@ ParameterNumber.prototype.setUpperLimit = function(upperLimit) {
 */
 ParameterNumber.prototype.setValue = function(value) {
   if (!goog.isNumber(value)) {
-    throw new Error('not a number. '+value);
+    throw new Error('not a number: '+value);
   }
   if (value < this.lowerLimit_ || value > this.upperLimit_) {
     throw new Error('out of range. '+value+' is not between '+this.lowerLimit_

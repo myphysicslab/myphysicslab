@@ -37,6 +37,7 @@ goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
@@ -114,6 +115,7 @@ myphysicslab.sims.common.StandardGraph1 = function(varsList, graphCanvas, div_co
   this.view.setHorizAlign(HorizAlign.FULL);
   this.view.setVerticalAlign(VerticalAlign.FULL);
   graphCanvas.addView(this.view);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.view.getDisplayList();
 
   /** @type {!myphysicslab.lab.graph.GraphLine} */

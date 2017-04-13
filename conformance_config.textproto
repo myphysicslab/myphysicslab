@@ -1,0 +1,9 @@
+# This file contains JS conformance configurations for various possible problems
+# with JavaScript.
+# See https://github.com/google/closure-compiler/wiki/JS-Conformance-Framework
+
+requirement: {
+  type: CUSTOM
+  error_message: 'Possible dereference of null value.'
+  java_class: 'com.google.javascript.jscomp.ConformanceRules$BanNullDeref'
+}

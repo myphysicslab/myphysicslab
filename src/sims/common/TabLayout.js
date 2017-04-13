@@ -161,8 +161,8 @@ Parameters Created
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.util.SubjectList}
 * @extends {myphysicslab.lab.util.AbstractSubject}
+* @implements {myphysicslab.lab.util.SubjectList}
 */
 myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeight) {
   AbstractSubject.call(this, 'TAB_LAYOUT');
@@ -237,10 +237,11 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 
   var term_output = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'term_output'));
-  var term_input = /**@type {!HTMLInputElement}*/
+   /**@type {!HTMLInputElement}*/
+  this.term_input = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'term_input'));
   /** @type {!myphysicslab.lab.util.Terminal} */
-  this.terminal = new Terminal(term_input, term_output);
+  this.terminal = new Terminal(this.term_input, term_output);
   Terminal.stdRegex(this.terminal);
 
   /** @type {!Element} */
@@ -324,22 +325,19 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   // 'show terminal' checkbox.
   var label_term = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'label_terminal'));
+  /**
+  * @type {!HTMLInputElement}
+  * @private
+  */
+  this.show_term_cb;
   if (!this.terminalEnabled_) {
     label_term.style.display = 'none';
   } else {
     label_term.style.display = 'inline';
-    var show_term_cb = /**@type {!HTMLInputElement}*/
+    this.show_term_cb = /**@type {!HTMLInputElement}*/
         (TabLayout.getElementById(elem_ids, 'show_terminal'));
-    this.showTerminal = /** @type {function(boolean)}*/(goog.bind(function(visible) {
-      this.div_term.style.display = visible ? 'block' : 'none';
-      show_term_cb.checked = visible;
-      if (visible && !this.terminal.recalling) {
-        // move the focus to Terminal, for ease of typing
-        term_input.focus();
-      }
-    }, this));
-    goog.events.listen(show_term_cb, goog.events.EventType.CLICK,
-      goog.bind(function(e) {this.showTerminal(show_term_cb.checked);}, this));
+    goog.events.listen(this.show_term_cb, goog.events.EventType.CLICK,
+      goog.bind(function(e) {this.showTerminal(this.show_term_cb.checked);}, this));
   }
 
   /** @type {!Element} */
@@ -362,7 +360,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 
   this.redoLayout();
   // using 'self' fixes several NTI compiler errors
-  var self = /** @type {myphysicslab.sims.common.TabLayout}*/(this);
+  var self = /** @type {!myphysicslab.sims.common.TabLayout}*/(this);
   this.addParameter(new ParameterNumber(this, TabLayout.en.SIM_WIDTH,
       TabLayout.i18n.SIM_WIDTH, self.getSimWidth, self.setSimWidth));
   this.addParameter(new ParameterNumber(this, TabLayout.en.GRAPH_WIDTH,
@@ -559,7 +557,7 @@ TabLayout.prototype.getSelectedTab = function() {
       if (n.nodeType != Node.ELEMENT_NODE) {
         return false;
       }
-      var elem = /** @type {Element} */(n);
+      var elem = /** @type {!Element} */(n);
       if (elem.tagName != 'LI') {
         return false;
       }
@@ -568,7 +566,7 @@ TabLayout.prototype.getSelectedTab = function() {
   if (tab == null) {
     return '';
   }
-  tab = /** @type {Element} */(tab);
+  tab = /** @type {!Element} */(tab);
   // return className minus ' selected'
   return tab.className.replace(/[ ]*selected/, '');
 };
@@ -883,6 +881,18 @@ TabLayout.prototype.showSim = function(visible) {
       break;
     default:
       throw new Error('showSim: no such layout "'+this.layout_+'"');
+  }
+};
+
+/** Change layout to hide or show terminal text editor.
+@param {boolean} visible whether terminal should be visible
+*/
+TabLayout.prototype.showTerminal = function(visible) {
+  this.div_term.style.display = visible ? 'block' : 'none';
+  this.show_term_cb.checked = visible;
+  if (visible && !this.terminal.recalling) {
+    // move the focus to Terminal, for ease of typing
+    this.term_input.focus();
   }
 };
 

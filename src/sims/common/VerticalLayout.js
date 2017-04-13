@@ -66,20 +66,6 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   * @const
   */
   this.debug_layout = false;
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
-  this.simCanvas;
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
-  this.graphCanvas;
-  /** @type {!Element} */
-  this.sim_controls;
-  /** @type {!Element} */
-  this.graph_controls;
-  /** @type {function(boolean)} */
-  this.showGraph;
-  /** @type {function(boolean)} */
-  this.showControls;
-  /** @type {function(boolean)} */
-  this.showTerminal;
   /** @type {!Array<!LabControl>} */
   this.controls_ = [];
   var term_output = /**@type {!HTMLInputElement}*/
@@ -103,6 +89,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   canvas.tabIndex = 0;
   canvas.width = 800;
   canvas.height = 480;
+  /** @type {!LabCanvas} */
   this.simCanvas = new LabCanvas(canvas, 'simCanvas');
   this.div_sim.appendChild(this.simCanvas.getCanvas());
 
@@ -112,6 +99,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   var canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   canvas2.style.float = 'left';
   canvas2.style.margin = '0px 15px 15px 0px';
+  /** @type {!myphysicslab.lab.view.LabCanvas} */
   this.graphCanvas = new LabCanvas(canvas2, 'graphCanvas');
   this.graphCanvas.setSize(480, 480);
   // graphCanvas is initially hidden
@@ -120,6 +108,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
     this.div_graph.style.border = 'dashed 1px blue';
   }
   /* <div> for graph controls */
+  /** @type {!Element} */
   this.graph_controls = /**@type {!Element}*/
       (VerticalLayout.getElementById(elem_ids, 'graph_controls'));
   this.div_graph.insertBefore(this.graphCanvas.getCanvas(), this.graph_controls);
@@ -127,6 +116,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   /* 'show graph' checkbox. */
   var show_graph_cb = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_graph'));
+  /** @type {function(boolean)} */
   this.showGraph = goog.bind(function(visible) {
     this.div_graph.style.display = visible ? 'block' : 'none';
     show_graph_cb.checked = visible;
@@ -136,6 +126,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   );
 
   /* <form> for sim controls */
+  /** @type {!Element} */
   this.sim_controls = /** @type {!Element} */
       (VerticalLayout.getElementById(elem_ids, 'sim_controls'));
   if (this.debug_layout) {
@@ -146,6 +137,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   var show_controls_cb = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_controls'));
   this.sim_controls.style.display = 'none';
+  /** @type {function(boolean)} */
   this.showControls = /** @type {function(boolean)}*/(goog.bind(function(visible) {
     this.sim_controls.style.display = visible ? 'block' : 'none';
     show_controls_cb.checked = visible;
@@ -162,6 +154,8 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   }
   var label_term = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'label_terminal'));
+  /** @type {function(boolean)} */
+  this.showTerminal;
   if (UtilityCore.ADVANCED) {
     // Under advanced-optimized compile mode, Terminal cannot be used.
     // Therefore, hide the terminal checkbox.

@@ -1091,6 +1091,9 @@ open path.
 *     or `null` when there is no last Edge or no open path.
 */
 Polygon.prototype.lastOpenEdge = function() {
+  if (this.startVertex_ == null) {
+    throw new Error();
+  }
   var edge = this.startVertex_.safeGetEdge2();
   if (edge == null)
     return null;

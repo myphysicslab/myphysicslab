@@ -111,9 +111,12 @@ fi
 # As of Apr 2017, I've removed the above NTI settings because there are some
 # errors that NTI is missing.  See closure compiler issues 2415, 2416.
 #
+# Apr 2017: remove option --language_in=ECMASCRIPT5_STRICT \ because of
+# https://github.com/google/closure-library/issues/820
+# "error in jsunit when using ES5 strict mode"
 #
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
-#set -x
+set -x
 java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.engine2D.test.CircularEdge_test \
 --entry_point=goog:myphysicslab.lab.engine2D.test.EdgeSet_test \
@@ -184,9 +187,10 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
 --emit_use_strict \
---language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
+--hide_warnings_for=`readlink closure-library` \
+--conformance_configs=`pwd`/conformance_config.textproto \
 --dependency_mode=STRICT \
 --warning_level=VERBOSE \
 > $target
-#set +x
+set +x

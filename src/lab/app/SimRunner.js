@@ -206,12 +206,12 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   */
   this.canvasList_ = [];
   /**
-  * @type {Array<!myphysicslab.lab.util.Memorizable>}
+  * @type {!Array<!myphysicslab.lab.util.Memorizable>}
   * @private
   */
   this.memorizables_ = [];
   /**
-  * @type {Array<!myphysicslab.lab.util.ErrorObserver>}
+  * @type {!Array<!myphysicslab.lab.util.ErrorObserver>}
   * @private
   */
   this.errorObservers_ = [];

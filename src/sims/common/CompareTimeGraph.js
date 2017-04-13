@@ -65,6 +65,7 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
+var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
@@ -178,9 +179,9 @@ myphysicslab.sims.common.CompareTimeGraph = function(line1, line2, graphCanvas,
   }, 'match drawing mode on GraphLine');
 
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!lab.app.SimController}
+  * @type {!SimController}
   */
-  this.graphCtrl = new myphysicslab.lab.app.SimController(graphCanvas, /*eventHandler=*/null,
+  this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
 
   // Turn off scale-together so that zoom controls only work on vertical axis.

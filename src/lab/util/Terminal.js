@@ -197,6 +197,15 @@ See this
 [character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
 to learn which other characters must be percent-encoded.
 
+Here is an example of a URL query script using JavaScript in a simple-compiled
+application:
+
+    http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?
+    simRun.pause();simRun.reset();sim.setGravity(5.0);statusView.getDisplayList()
+    .add(energyGraph);statusView.getDisplayList().add(displayClock);
+    var%20va=sim.getVarsList();va.setValue(0,0.15545);va.setValue(1,-0.33548);
+    va.setValue(2,-2.30681);va.setValue(3,2.68179);sim.saveInitialState();
+    simRun.resume();
 
 
 Session History

@@ -222,7 +222,7 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   */
   this.ratio_ = this.height_/this.width_;
   /**
-  * @type {Array<!myphysicslab.lab.util.Memorizable>}
+  * @type {!Array<!myphysicslab.lab.util.Memorizable>}
   * @private
   */
   this.memorizables_ = [];

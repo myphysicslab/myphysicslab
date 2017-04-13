@@ -151,6 +151,7 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -170,6 +171,7 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   this.advance = advance;
   /** @type {!lab.view.SimView} */
   this.simView = new SimView('SIM_VIEW', this.simRect);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
   /** @type {!lab.view.SimView} */
@@ -191,6 +193,7 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   /** @type {!RigidBodyObserver} */
   this.rbo = new RigidBodyObserver(this.simList, this.displayList);
 
+  /** @type {!ElasticitySetter} */
   this.elasticity = new ElasticitySetter(sim);
 
   /** @type {!EnergyBarGraph} */

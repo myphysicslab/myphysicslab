@@ -17,7 +17,6 @@ goog.provide('myphysicslab.sims.engine2D.ElasticitySetter');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.GenericEvent');
@@ -32,7 +31,6 @@ var lab = myphysicslab.lab;
 
 var AbstractSubject = lab.util.AbstractSubject;
 var GenericEvent = lab.util.GenericEvent;
-var ImpulseSim = lab.engine2D.ImpulseSim;
 var Observer = lab.util.Observer;
 var ParameterNumber = lab.util.ParameterNumber;
 var RigidBody = lab.engine2D.RigidBody;
@@ -50,7 +48,7 @@ of RigidBodys and wants to find the user's desired value for elasticity.
 
 WARNING: The elasticity reported here is only accurate if all modifications to
 elasticity of RigidBodys are done thru this class or via
-{@link myphysicslab.lab.engine2D.ImpulseSim#setElasticity}.
+{@link myphysicslab.lab.engine2D.RigidBodySim#setElasticity}.
 
 ### Parameters Created
 
@@ -143,7 +141,7 @@ ElasticitySetter.prototype.setElasticity = function(value) {
 
 /** @inheritDoc */
 ElasticitySetter.prototype.observe =  function(event) {
-  if (event.getSubject() == this.sim_ && event.nameEquals(ImpulseSim.ELASTICITY_SET)) {
+  if (event.getSubject() == this.sim_ && event.nameEquals(RigidBodySim.ELASTICITY_SET)) {
     var nowValue = this.getElasticity_();
     if (this.lastValue_ != nowValue) {
       // only broadcast when last value we publicly have reported is wrong

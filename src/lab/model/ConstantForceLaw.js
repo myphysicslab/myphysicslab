@@ -58,7 +58,7 @@ if (!UtilityCore.ADVANCED) {
 
 /** @inheritDoc */
 ConstantForceLaw.prototype.getBodies = function() {
-  return [this.force_.getBody()];
+  return this.force_ != null ? [this.force_.getBody()] : [];
 };
 
 /** @inheritDoc */

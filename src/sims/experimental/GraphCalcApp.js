@@ -207,7 +207,7 @@ GraphCalcApp.getElementById = function(elem_ids, elementId) {
 * @return {undefined}
 */
 GraphCalcApp.prototype.plot = function(expr, range1, range2, numPts) {
-    numPts = numPts | 200;
+    numPts = numPts || 200;
     var r = this.simView.getSimRect();
     if (!goog.isDef(range1)) {
       range1 = r.getLeft();

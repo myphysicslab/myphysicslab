@@ -18,6 +18,7 @@ goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.PathJoint');
+goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.model.Collision');
@@ -42,6 +43,7 @@ var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
+var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -355,7 +357,7 @@ Engine2DTestRig.myPrintln = function(s, opt_error, opt_warning) {
       s = '<span class="warning">'+s+'</span>';
     }
     Engine2DTestRig.output.innerHTML += s + '<br>';
-    var docElement = document.documentElement;
+    var docElement = /** @type {!HTMLElement}*/(document.documentElement);
     var documentHeight = docElement.offsetHeight;
     var viewportHeight = window.innerHeight;
     window.scrollTo(0, documentHeight - viewportHeight);
@@ -719,8 +721,7 @@ Engine2DTestRig.checkContactDistances = function(sim, tolerance) {
   var len = contacts.length;
   if (len > 0) {
     for (var i=0; i<len; i++) {
-      /** @type {!myphysicslab.lab.model.Collision} */
-      var c = contacts[i];
+      var c = /** @type {!RigidBodyCollision} */(contacts[i]);
       var d = Math.abs(c.distanceToHalfGap());
       var isClose = d < tolerance;
       if (!isClose) {

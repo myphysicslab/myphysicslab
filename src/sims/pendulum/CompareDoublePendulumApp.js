@@ -26,42 +26,44 @@ goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConcreteLine');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.PointMass');
+goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayConnector');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.CompareGraph');
 goog.require('myphysicslab.sims.common.CompareTimeGraph');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
 
 goog.scope(function() {
@@ -69,49 +71,50 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
+var AutoScale = lab.graph.AutoScale;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var AbstractSubject = lab.util.AbstractSubject;
-var NumericControl = lab.controls.NumericControl;
-var SliderControl = lab.controls.SliderControl;
-var AutoScale = lab.graph.AutoScale;
 var Clock = lab.util.Clock;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CommonControls = sims.common.CommonControls;
 var CompareGraph = sims.common.CompareGraph;
 var CompareTimeGraph = sims.common.CompareTimeGraph;
+var ConcreteLine = lab.model.ConcreteLine;
 var ContactSim = lab.engine2D.ContactSim;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayConnector = lab.view.DisplayConnector;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var ExtraAccel = lab.engine2D.ExtraAccel;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
 var GravityLaw = lab.model.GravityLaw;
 var Joint = lab.engine2D.Joint;
-var ConcreteLine = lab.model.ConcreteLine;
 var LabControl = lab.controls.LabControl;
+var NumericControl = lab.controls.NumericControl;
 var Parameter = lab.util.Parameter;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
-var RigidDoublePendulumSim = sims.pendulum.RigidDoublePendulumSim;
 var RigidBodySim = lab.engine2D.RigidBodySim;
+var RigidDoublePendulumSim = sims.pendulum.RigidDoublePendulumSim;
 var Scrim = lab.engine2D.Scrim;
-var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
+var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
-var DisplayAxes = lab.graph.DisplayAxes;
+var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
@@ -167,6 +170,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -181,7 +185,9 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
     this.sim1.modifyObjects();
   }, this), 'modifyObjects after parameter or variable change');
 
+  /** @type {!ContactSim} */
   this.sim2 = new ContactSim('SIM_2');
+  /** @type {!CollisionAdvance} */
   this.advance2 = new CollisionAdvance(this.sim2);
   this.terminal.setAfterEval(goog.bind(function() {
       this.sim1.modifyObjects();
@@ -200,6 +206,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.simRect = new DoubleRect(-2, -2, 2, 2);
   /** @type {!lab.view.SimView} */
   this.simView = new SimView('simView', this.simRect);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
   /** @type {!lab.view.SimView} */
@@ -217,14 +224,16 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.rbeh = new myphysicslab.lab.app.RigidBodyEventHandler(this.sim2, this.clock);
   /** @type {!lab.app.SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.rbeh);
-
+  /** @type {!SimList} */
   this.simList2 = this.sim2.getSimList();
+  /** @type {!RigidBodyObserver} */
   this.rbo = new RigidBodyObserver(this.simList2, this.simView.getDisplayList());
   this.rbo.protoDragSpring.setWidth(0.2);
   this.rbo.protoPolygon = new DisplayShape().setDrawCenterOfMass(true)
       .setDrawDragPoints(true);
   // move the parts horizontally so that we can see them side-by-side with other sim
   var pivot = new Vector(this.separation, 0);
+  /** @type {!RigidDoublePendulumSim.Parts} */
   this.parts2 = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0, pivot)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0, pivot);
   var bod = this.parts2.bodies[0];
@@ -274,17 +283,21 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
     }
   }, this), 'set separation after reset');
 
+  /** @type {!DisplayShape} */
   this.protoRigidBody = new DisplayShape().setDrawCenterOfMass(true);
   this.bob0 = new DisplayShape(this.parts.bodies[0], this.protoRigidBody)
       .setFillStyle('#3cf');
   this.bob0.setDragable(false);
   this.displayList.add(this.bob0);
+  /** @type {!DisplayShape} */
   this.bob1 = new DisplayShape(this.parts.bodies[1], this.protoRigidBody)
       .setFillStyle('#39c');
   this.bob1.setDragable(false);
   this.displayList.add(this.bob1);
+  /** @type {!DisplayConnector} */
   this.joint0 = new DisplayConnector(this.parts.joints[0]);
   this.displayList.add(this.joint0);
+  /** @type {!DisplayConnector} */
   this.joint1 = new DisplayConnector(this.parts.joints[1]);
   this.displayList.add(this.joint1);
   this.sim1.saveInitialState();
@@ -433,6 +446,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
     }
   }, 'keep line2\'s X and Y variable in sync with line1');
 
+  /** @type {!CompareGraph} */
   this.graph = new CompareGraph(line1, line2,
       this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
@@ -480,6 +494,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
+  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
@@ -594,7 +609,11 @@ CompareDoublePendulumApp.prototype.setSeparation_ = function() {
     // Because Joint is immutable we have to replace with a different Joint.
     // (Alternative: connect to an infinite mass 'anchor' body instead of Scrim, and
     // then move the anchor body).
-    goog.array.forEach(this.sim2.getConnectors(), function(joint) {
+    goog.array.forEach(this.sim2.getConnectors(), function(connector) {
+      if (!(connector instanceof Joint)) {
+        return;
+      }
+      var joint = /** @type {!Joint} */(connector);
       if (joint.getBody1() == Scrim.getScrim()) {
         this.sim2.removeConnector(joint);
         // same joint info, except different attachment point

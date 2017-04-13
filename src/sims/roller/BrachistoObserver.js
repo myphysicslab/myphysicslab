@@ -105,7 +105,7 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
   // add display objects for all bodies currently in the simList
   this.addBodies(simList.toArray());
   /**
-  * @type {?myphysicslab.lab.view.DisplayText}
+  * @type {!myphysicslab.lab.view.DisplayText}
   * @private
   */
   this.message_ = new DisplayText(BrachistoObserver.i18n.QUESTION);

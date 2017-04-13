@@ -50,6 +50,7 @@ goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.view.SimView');
@@ -133,6 +134,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
       Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -147,12 +149,14 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.advance  = new SimpleAdvance(this.sim);
   this.simView = new SimView('SIM_VIEW', this.simRect);
   simCanvas.addView(this.simView);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   this.statusView = new SimView('STATUS_VIEW', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
   this.axes = CommonControls.makeAxes(this.simView);
   this.simRun = new SimRunner(this.advance);
   this.simRun.addCanvas(simCanvas);
+  /** @type {!myphysicslab.lab.util.Clock} */
   this.clock = this.simRun.getClock();
 
   this.energyGraph = new EnergyBarGraph(this.sim);

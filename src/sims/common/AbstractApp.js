@@ -146,6 +146,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -167,6 +168,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!SimView} */
   this.simView = new SimView('SIM_VIEW', this.simRect);
   simCanvas.addView(this.simView);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   /** @type {!SimView} */
   this.statusView = new SimView('STATUS_VIEW', new DoubleRect(-10, -10, 10, 10));

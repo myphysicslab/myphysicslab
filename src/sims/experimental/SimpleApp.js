@@ -67,6 +67,9 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
 
   UtilityCore.setErrorHandler();
   var canvas_div = window.document.getElementById('canvas_div');
+  if (!canvas_div) {
+    throw new Error();
+  }
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   var simCanvas = new LabCanvas(canvas, 'canvas1');
   simCanvas.setSize(500, 300);

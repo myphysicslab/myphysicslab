@@ -436,12 +436,6 @@ EasyScriptParser.prototype.parse = function(script) {
       return this.commandFns_[i]();
     }
   }
-  /*if (script.toLowerCase() == 'values') {
-    return UtilityCore.prettyPrint(this.values());
-  }
-  if (script.toLowerCase() == 'names') {
-    return UtilityCore.prettyPrint(this.names().join(';'));
-  }*/
   var a = script.split('=');
   // fullName can be 'SUBJECT_NAME.PARAM_NAME' or just 'PARAM_NAME'
   var fullName = UtilityCore.toName(a[0].trim());

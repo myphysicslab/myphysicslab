@@ -548,7 +548,7 @@ SimController.prototype.touchStart = function(evt) {
     var bevt = /** @type {!TouchEvent} */(evt.getBrowserEvent());
     if (bevt != null) {
       var touches = bevt.touches;
-      if (touches.length == 1) {
+      if (touches && touches.length == 1) {
         // single touch in our canvas is treated as mouseDown.
         this.doMouseDown(evt, touches[0].clientX, touches[0].clientY);
       } else {
@@ -567,7 +567,7 @@ SimController.prototype.touchStart = function(evt) {
 SimController.prototype.touchMove = function(evt) {
   var e = /** @type {!TouchEvent} */(evt.getBrowserEvent());
   var touches = goog.isDefAndNotNull(e) ? e.touches : [];
-  if (this.mouseDrag_ && touches.length == 1) {
+  if (this.mouseDrag_ && touches && touches.length == 1) {
     // single touch in our canvas is treated as mouseMove.
     this.doMouseMove(evt, touches[0].clientX, touches[0].clientY);
   } else {

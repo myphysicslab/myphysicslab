@@ -82,7 +82,7 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
   */
   this.graphLines_ = goog.isDef(opt_graphLine) ? [opt_graphLine] : [];
   /** Index of last point drawn within GraphPoints list of each GraphLine
-  * @type {Array<number>}
+  * @type {!Array<number>}
   * @private
   */
   this.memDraw_ = goog.array.repeat(-1, this.graphLines_.length);

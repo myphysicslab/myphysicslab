@@ -782,7 +782,6 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         // the edge/edge contact will deal with this contact.
         if (UtilityCollision.DISABLE_MIDPOINT_VERTEX_CONTACT && !vertex2.isEndPoint())
           return;  // continue to next edge
-        /** @type {?RigidBodyCollision} */
         var c = e1.findVertexContact(vertex2, v_body, distTol);
         if (goog.DEBUG && debugPenetration) {
           console.log('findVertexContact '+c);
@@ -824,6 +823,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
     }); // forEach in body1.getEdges_()
     // We have found the edge on body1 that the corner of body2 passed thru.
     if (edge1 != null && e1_body != null) {
+      // the type-casting is only needed when NOT using NTI compiler option.
       UtilityCollision.makeCollision(collisions,
           /** @type {!Edge}*/(edge1), vertex2,
           /** @type {!Vector}*/(e1_body), v_body, time);

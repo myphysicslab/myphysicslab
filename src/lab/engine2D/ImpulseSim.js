@@ -116,10 +116,6 @@ multiple simultaneous impulses during collision handling.
 See also the super class for additional Parameters.
 
 
-### Events Broadcast
-
-+ GenericEvent named `ELASTICITY_SET`, see {@link #setElasticity}.
-
 
 
 ### Collision Handling Options
@@ -349,12 +345,6 @@ ImpulseSim.prototype.getClassName = function() {
 */
 ImpulseSim.COLLISIONS_DISABLED = false;
 
-/** Name of event broadcast from {@link #setElasticity}.
-* @type {string}
-* @const
-*/
-ImpulseSim.ELASTICITY_SET = 'ELASTICITY_SET';
-
 /** Show the impulse applied at each collision.
 * @type {boolean}
 * @const
@@ -432,25 +422,6 @@ ImpulseSim.prototype.setCollisionHandling = function(value) {
     this.collisionHandling_ = a;
     this.broadcastParameter(RigidBodySim.en.COLLISION_HANDLING);
   }
-};
-
-/** Sets the elasticity of all RigidBodys to this value.
-Elasticity is used when calculating collisions; a value of 1.0 means perfectly
-elastic where the kinetic energy after collision is the same as before (extremely
-bouncy), while a value of 0 means no elasticity (no bounce).
-
-Broadcasts a {@link #ELASTICITY_SET} event.
-* @param {number} value elasticity to set on all RigidBodys, a number from 0 to 1.
-* @throws {Error} if there are no RigidBodys
-*/
-ImpulseSim.prototype.setElasticity = function(value) {
-  if (this.bods_.length == 0) {
-    throw new Error('setElasticity: no bodies');
-  }
-  goog.array.forEach(this.bods_, function(body) {
-    body.setElasticity(value);
-  });
-  this.broadcast(new GenericEvent(this, ImpulseSim.ELASTICITY_SET, value));
 };
 
 /** Returns the collision distance accuracy, a fraction between zero and one; when the

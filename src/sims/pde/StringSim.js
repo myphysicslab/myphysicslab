@@ -402,6 +402,8 @@ StringSim.prototype.advance = function() {
       wNew = this.w1_;
       this.wIdx_ = 1;
       break;
+    default:
+      throw new Error();
   }
   var N = this.numPoints_-1;
   wNew[0] = 0;
@@ -445,6 +447,8 @@ StringSim.prototype.getEnergyInfo = function() {
       wNew = this.w3_;
       w = this.w2_;
       break;
+    default:
+      throw new Error();
   }
   var ke = 0;
   var pe = 0;

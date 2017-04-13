@@ -233,8 +233,6 @@ Joint.prototype.addCollision = function(collisions, time, accuracy) {
     UtilEngine.debugEngine2D.myPrint('joint collision '+c);
     // show the normal vector at the joint
     UtilEngine.debugEngine2D.debugLine('normal', c.impact1, c.impact1.add(c.normal));
-  }
-  if (0 == 1 && goog.DEBUG && UtilEngine.debugEngine2D != null) {
     UtilEngine.debugEngine2D.myPrint('joint dist='+NFE(c.distance)
       +' normalVelocity='+NFE(c.normalVelocity)+' '+c);
     if (Math.abs(c.distance) > 1E-12)

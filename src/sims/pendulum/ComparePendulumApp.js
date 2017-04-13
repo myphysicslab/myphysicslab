@@ -49,6 +49,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayArc');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayLine');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.graph.EnergyBarGraph');
@@ -144,6 +145,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -186,6 +188,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   this.simRect = new DoubleRect(-2, -2.2, 2, 1.5);
   /** @type {!lab.view.SimView} */
   this.simView = new SimView('simView', this.simRect);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
   /** @type {!lab.view.SimView} */

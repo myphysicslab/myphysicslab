@@ -149,68 +149,68 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
   simList.addObserver(this);
   /** List of DisplayObjects added to the DisplayList. This ensures that we only remove
   * objects that we have created.
-  * @type {Array<!RigidBodyObserver.memPair>}
+  * @type {!Array<!RigidBodyObserver.memPair>}
   * @private
   */
   this.memPairs_ = [];
   /** Prototype DisplayLine for showing forces other than contact and thrust forces.
-  * @type {!DisplayLine|undefined}
+  * @type {!DisplayLine}
   */
   this.protoForce = new DisplayLine().setThickness(1).setColor('blue');
   this.protoForce.setZIndex(10);
   /** Prototype DisplayLine for showing contact forces.
-  * @type {!DisplayLine|undefined}
+  * @type {!DisplayLine}
   */
   this.protoContactForce = new DisplayLine().setThickness(1).setColor('red');
   // .setLineDash([3,5]);
   this.protoContactForce.setZIndex(10);
   /** Prototype DisplayLine for showing thrust forces.
-  * @type {!DisplayLine|undefined}
+  * @type {!DisplayLine}
   */
   this.protoThrustForce = new DisplayLine().setThickness(2).setColor('magenta');
   /** Prototype DisplayLine for showing ConcreteLines.
-  * @type {!DisplayLine|undefined}
+  * @type {!DisplayLine}
   */
   this.protoConcreteLine = new DisplayLine().setThickness(8);
   /** Prototype DisplaySpring for showing Springs.
-  * @type {!DisplaySpring|undefined}
+  * @type {!DisplaySpring}
   */
   this.protoSpring = new DisplaySpring().setThickness(3).setWidth(0.75);
   /** Prototype DisplaySpring for the spring that appears when user clicks mouse
   * near a RigidBody. See RigidBodyEventHandler.
-  * @type {!DisplaySpring|undefined}
+  * @type {!DisplaySpring}
   */
   this.protoDragSpring = new DisplaySpring().setThickness(2).setWidth(0.5);
   /** Prototype DisplayRope for showing Ropes.
-  * @type {!DisplayRope|undefined}
+  * @type {!DisplayRope}
   */
   this.protoRope = new DisplayRope();
   /** Prototype DisplayShape for showing Polygon.
-  * @type {!DisplayShape|undefined}
+  * @type {!DisplayShape}
   */
   this.protoPolygon = new DisplayShape();
   /** Prototype DisplayShape for showing collisions.
-  * @type {!DisplayShape|undefined}
+  * @type {!DisplayShape}
   */
   this.protoCollision = new DisplayShape().setFillStyle('').setStrokeStyle('red');
   this.protoCollision.setZIndex(10);
   /** Prototype DisplayShape for showing PointMass objects.
-  * @type {!DisplayShape|undefined}
+  * @type {!DisplayShape}
   */
   this.protoPointMass = new DisplayShape();
   /** Prototype DisplayShape for showing fixed, infinite mass Polygons.
-  * @type {!DisplayShape|undefined}
+  * @type {!DisplayShape}
   */
   this.protoFixedPolygon = new DisplayShape()
       .setFillStyle('').setFillStyle('lightGray');
   this.protoFixedPolygon.setZIndex(-1);
   /** Prototype DisplayConnector for showing joints.
-  * @type {!DisplayConnector|undefined}
+  * @type {!DisplayConnector}
   */
   this.protoJoint = new DisplayConnector().setRadius(2).setColor('blue');
   this.protoJoint.setZIndex(10);
   /** Prototype DisplayConnector for showing PathEndPoint.
-  * @type {!DisplayConnector|undefined}
+  * @type {!DisplayConnector}
   */
   this.protoPathEndPoint = new DisplayConnector().setRadius(3).setColor('gray');
   this.protoPathEndPoint.setZIndex(10);

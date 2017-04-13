@@ -50,6 +50,7 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayLine');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.SimView');
@@ -259,12 +260,14 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
   this.layout.simCanvas.setBackground('black');
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
   /** @type {!lab.util.DoubleRect} */
   this.simRect = new DoubleRect(-2, -2, 2, 2.7);
   /** @type {!lab.view.SimView} */
   this.simView = new SimView('simView', this.simRect);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
   /** @type {!lab.view.SimView} */

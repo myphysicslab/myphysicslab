@@ -79,7 +79,8 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   this.mySim.setShowForces(false);
   // JointSmallImpacts==true seems to help with energy stability and joint tightness,
   // but then we get lots of small collisions, which is kind of distracting.
-  this.advance.setJointSmallImpacts(false);
+  var collisionAdvance = /** @type {!CollisionAdvance} */(this.advance);
+  collisionAdvance.setJointSmallImpacts(false);
   //this.advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   /** @type {!lab.model.DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);

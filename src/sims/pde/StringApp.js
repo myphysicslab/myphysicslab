@@ -38,9 +38,11 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayPath');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplayText');
@@ -140,6 +142,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var sim_controls = this.layout.sim_controls;
   var simCanvas = this.layout.simCanvas;
@@ -166,6 +169,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   this.simRect = new DoubleRect(-1, -0.25, 14, 0.25);
   /** @type {!SimView} */
   this.simView = new SimView('simView', this.simRect);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   this.simView.setHorizAlign(HorizAlign.FULL);
   this.simView.setVerticalAlign(VerticalAlign.FULL);

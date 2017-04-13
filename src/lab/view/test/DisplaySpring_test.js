@@ -49,9 +49,9 @@ var testDisplaySpring = function() {
     */
     this.startPoint = null;
     /**  last point drawn to
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {!myphysicslab.lab.util.Vector}
     */
-    this.lastPoint = null;
+    this.lastPoint = Vector.ORIGIN;
   };
   /** @inheritDoc */
   MockContext.prototype.strokeStyle = '';

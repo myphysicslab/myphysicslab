@@ -223,7 +223,7 @@ var testUtilCircularList2 = function() {
       j = cList.store(new Vector(i*0.1, i*10));
     }
   });
-  var err = /** @type {Error} */(e);
+  var err = /** @type {!Error} */(e);
   assertEquals(CircularList.MAX_INDEX_ERROR, err.message);
   assertTrue(j >= UtilityCore.MAX_INTEGER - 2);
   // show that we can still do reset after this error

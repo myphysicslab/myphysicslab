@@ -129,7 +129,7 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
   this.simList_.addObserver(this);
   /** List of DisplayPaths and GenericObservers we made. When DisplayPath is removed
   * from SimView we disconnect things, which helps garbage collection.
-  * @type {Array<!PathObserver.memObjects>}
+  * @type {!Array<!PathObserver.memObjects>}
   * @private
   */
   this.memObjs_ = [];

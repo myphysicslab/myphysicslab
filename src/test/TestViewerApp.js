@@ -48,9 +48,11 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
@@ -285,6 +287,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   var sim_controls = this.layout.sim_controls;
   // keep reference to terminal to make for shorter 'expanded' names
+  /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
   var graphCanvas = this.layout.graphCanvas;
@@ -313,6 +316,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.simRect = new DoubleRect(-6, -6, 6, 6);
   /** @type {!myphysicslab.lab.view.SimView} */
   this.simView = new SimView('simView', this.simRect);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
   /** @type {!myphysicslab.lab.view.SimView} */
@@ -325,6 +329,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.simRun.setTimeStep(0.025);
   this.simRun.addCanvas(simCanvas);
   this.simRun.getParameterNumber(SimRunner.en.TIME_STEP).setSignifDigits(7);
+  /** @type {!myphysicslab.lab.util.Clock} */
   this.clock = this.simRun.getClock();
   this.clock.getParameterNumber(Clock.en.TIME_RATE).setSignifDigits(5);
   /** @type {!myphysicslab.lab.app.RigidBodyEventHandler} */
@@ -333,7 +338,8 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.simCtrl = new SimController(simCanvas, this.rbeh);
   /** @type {!RigidBodyObserver} */
   this.rbo = new RigidBodyObserver(this.simList, this.simView.getDisplayList());
-  this.pathObserve = new PathObserver(this.simList, this.simView,
+  /** @type {!PathObserver} */
+  this.pathObserver = new PathObserver(this.simList, this.simView,
       /*simRectSetter=*/null);
   //this.advance.setDebugPaint(goog.bind(this.simRun.paintAll, this.simRun));
 
@@ -393,6 +399,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
 
   // The damping and gravity controls appear here in the list of controls.
 
+  /** @type {!ElasticitySetter} */
   this.elasticity = new ElasticitySetter(this.sim);
   pn = this.elasticity.getParameterNumber(ElasticitySetter.en.ELASTICITY);
   this.addControl(new NumericControl(pn));

@@ -87,7 +87,7 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
   */
   this.styles_ = [];
   /** sequence numbers indicate when a path has changed.
-  * @type {Array<number>}
+  * @type {!Array<number>}
   * @private
   */
   this.sequence_ = [];
@@ -225,8 +225,15 @@ DisplayPath.prototype.draw = function(context, map) {
     // redraw because image reallocated
     this.redraw_ = true;
   }
-  var ctx = useBuffer ? /** @type {!CanvasRenderingContext2D}*/(
-          this.offScreen_.getContext('2d')) : context;
+  /** @type {!CanvasRenderingContext2D}*/
+  var ctx = context;
+  if (useBuffer && this.offScreen_) {
+    var offCtx =
+        /** @type {!CanvasRenderingContext2D}*/(this.offScreen_.getContext('2d'));
+    if (offCtx) {
+      ctx = offCtx;
+    }
+  }
   if (this.redraw_ || !useBuffer) {
     if (useBuffer) {
       // Clear image with transparent alpha by drawing a rectangle
@@ -238,7 +245,7 @@ DisplayPath.prototype.draw = function(context, map) {
       }, this);
     this.redraw_ = false;
   }
-  if (useBuffer) {
+  if (useBuffer && this.offScreen_) {
     context.drawImage(this.offScreen_, 0, 0, w, h);
   }
   context.restore();

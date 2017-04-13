@@ -99,6 +99,10 @@ See explanations at [2D Physics Engine Overview](Engine2D.html).
 
 + ParameterBoolean named `SHOW_FORCES`, see {@link #setShowForces}
 
+### Events Broadcast
+
++ GenericEvent named `ELASTICITY_SET`, see {@link #setElasticity}.
+
 
 ### RigidBodys
 
@@ -329,6 +333,12 @@ RigidBodySim.W_ = 4;
 * @const
 */
 RigidBodySim.VW_ = 5;
+/** Name of event broadcast from {@link #setElasticity}.
+* @type {string}
+* @const
+*/
+RigidBodySim.ELASTICITY_SET = 'ELASTICITY_SET';
+
 
 /** @inheritDoc */
 RigidBodySim.prototype.getSimList = function() {
@@ -382,7 +392,7 @@ RigidBodySim.prototype.setSimRect = function(rect) {
 RigidBodySim.prototype.formatVars = function() {
   var v = this.varsList_.getValues();
   var s = goog.array.reduce(this.bods_,
-    function(/** string*/str, /** RigidBody*/ b) {
+    function(/** string*/str, /** !RigidBody*/ b) {
       return str + (str != '' ? '\n' : '') +
         UtilEngine.formatArray(v, b.getVarsIndex(), 6);
     }, '');
@@ -795,6 +805,27 @@ RigidBodySim.prototype.myPrint = function(message, colors) {
     console.log.apply(console, args);
   }
 };
+
+/** Sets the elasticity of all RigidBodys to this value.
+See {@link myphysicslab.lab.engine2D.RigidBody#setElasticity}.
+Elasticity is used when calculating collisions; a value of 1.0 means perfectly
+elastic where the kinetic energy after collision is the same as before (extremely
+bouncy), while a value of 0 means no elasticity (no bounce).
+
+Broadcasts a {@link #ELASTICITY_SET} event.
+* @param {number} value elasticity to set on all RigidBodys, a number from 0 to 1.
+* @throws {Error} if there are no RigidBodys
+*/
+RigidBodySim.prototype.setElasticity = function(value) {
+  if (this.bods_.length == 0) {
+    throw new Error('setElasticity: no bodies');
+  }
+  goog.array.forEach(this.bods_, function(body) {
+    body.setElasticity(value);
+  });
+  this.broadcast(new GenericEvent(this, RigidBodySim.ELASTICITY_SET, value));
+};
+
 
 /** Set of internationalized strings.
 @typedef {{

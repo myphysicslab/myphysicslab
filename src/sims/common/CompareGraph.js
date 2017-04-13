@@ -99,7 +99,9 @@ variables as the first GraphLine.
 myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
     div_controls, div_graph, simRun) {
   AbstractSubject.call(this, 'GRAPH_LAYOUT');
+  /** @type {!GraphLine} */
   this.line1 = line1;
+  /** @type {!GraphLine} */
   this.line2 = line2;
   /** @type {!lab.view.LabCanvas} */
   this.canvas = graphCanvas;

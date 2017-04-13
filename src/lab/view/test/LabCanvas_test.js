@@ -190,9 +190,9 @@ var testLabCanvas1 = function() {
     */
     this.startPoint = null;
     /**  last point drawn to
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {!myphysicslab.lab.util.Vector}
     */
-    this.lastPoint = null;
+    this.lastPoint = Vector.ORIGIN;
     /**
     * @type {!myphysicslab.lab.util.AffineTransform}
     */
@@ -327,7 +327,10 @@ var testLabCanvas1 = function() {
   assertTrue(spring1.getStartPoint().nearEqual(new Vector(-1, 0), 1e-8));
   assertTrue(map.simToScreen(spring1.getStartPoint()).nearEqual(new Vector(120, 150),
       1e-8));
-  var mockContext = labCanvas.getCanvas().getContext('2d');
+  var mockContext = /** @type {!MockContext}*/(labCanvas.getCanvas().getContext('2d'));
+  if (!mockContext) {
+    throw new Error();
+  }
   mockContext.expectRect1 = map.simToScreen(new Vector(2, -0.5));
   mockContext.expectRect2 = map.simToScreen(new Vector(3, 0.5));
   mockContext.startPoint = map.simToScreen(new Vector(-1, 0));

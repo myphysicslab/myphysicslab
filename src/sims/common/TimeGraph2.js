@@ -33,6 +33,7 @@ goog.require('myphysicslab.lab.util.Printable');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
@@ -102,6 +103,7 @@ myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_contro
   this.view1.setHorizAlign(lab.view.HorizAlign.FULL);
   this.view1.setVerticalAlign(lab.view.VerticalAlign.FULL);
   graphCanvas.addView(this.view1);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList1 = this.view1.getDisplayList();
   /** @type {!lab.graph.DisplayAxes} */
   this.axes1 = CommonControls.makeAxes(this.view1);

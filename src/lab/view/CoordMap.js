@@ -17,6 +17,7 @@ goog.provide('myphysicslab.lab.view.CoordMap');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.HorizAlign');
@@ -27,6 +28,7 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
+var GenericVector = myphysicslab.lab.util.GenericVector;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
@@ -433,15 +435,16 @@ CoordMap.prototype.getScaleY = function() {
 };
 
 /** Translates a point in screen coordinates to simulation coordinates.
-@param {number|!Vector} scr_x horizontal position in screen coordinates, or Vector
-    in screen coordinates
+@param {number|!GenericVector} scr_x horizontal position in screen coordinates,
+    or GenericVector in screen coordinates
 @param {number=} scr_y vertical position in screen coordinates
 @return {!myphysicslab.lab.util.Vector} the equivalent position in simulation coordinates
 */
 CoordMap.prototype.screenToSim = function(scr_x, scr_y) {
-  if (scr_x instanceof Vector) {
-    scr_y = scr_x.getY();
-    scr_x = scr_x.getX();
+  if (!goog.isNumber(scr_x)) {
+    var v = /** @type {!GenericVector} */(scr_x);
+    scr_x = v.getX();
+    scr_y = v.getY();
   } else {
     if (!goog.isNumber(scr_y))
       throw new Error();
@@ -497,7 +500,8 @@ CoordMap.prototype.screenToSimY = function(scr_y) {
 };
 
 /** Translates a point from simulation coordinates to screen coordinates.
-@param {!myphysicslab.lab.util.Vector} p_sim the point in simulation coordinates to translate
+@param {!myphysicslab.lab.util.GenericVector} p_sim the point in simulation coordinates
+    to translate
 @return {!myphysicslab.lab.util.Vector} the point translated to screen coordinates
 */
 CoordMap.prototype.simToScreen = function(p_sim) {

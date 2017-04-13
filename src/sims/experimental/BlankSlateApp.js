@@ -34,6 +34,7 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayLine');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.view.DisplayText');
@@ -128,6 +129,7 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   */
   this.simView = new SimView('simView', this.simRect);
   this.simCanvas.addView(this.simView);
+  /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
   /**
   * @type {!myphysicslab.lab.graph.DisplayAxes}

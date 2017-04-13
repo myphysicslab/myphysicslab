@@ -335,7 +335,9 @@ MoveableDoublePendulumSim.prototype.setAnchorYVelocity = function() {
   var value = Math.abs(this.frequency_) < 1E-10 ? 0 :
       -this.amplitude_/this.frequency_;
   // calculate anchor_y velocity at time = this.initialState_[4]
-  this.initialState_[8] = value * Math.cos(this.frequency_ * this.initialState_[4]);
+  if (this.initialState_) {
+    this.initialState_[8] = value * Math.cos(this.frequency_ * this.initialState_[4]);
+  }
   // set value for current time
   var va = this.getVarsList();
   va.setValue(8, value * Math.cos(this.frequency_ * this.getTime()));
