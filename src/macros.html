@@ -197,9 +197,11 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #define #advanced_DEBUG_STATUS
 #define #debug_DEBUG_STATUS – UNCOMPILED
 
+#comment (in debug mode there is no compiled menu, but this prevents error)
 #define #COMPILED_MENU_IDX ##COMPILE_LEVEL#_COMPILED_MENU_IDX
 #define #simple_COMPILED_MENU_IDX 0
 #define #advanced_COMPILED_MENU_IDX 1
+#define #debug_COMPILED_MENU_IDX 0
 
 #define #LANG_MENU_IDX ##LOCALE#_LANG_MENU_IDX
 #define #en_LANG_MENU_IDX 0
