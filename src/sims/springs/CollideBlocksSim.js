@@ -33,6 +33,7 @@ goog.require('myphysicslab.sims.springs.BlockCollision');
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 var Collision = myphysicslab.lab.model.Collision;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
@@ -40,7 +41,6 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 var Spring = myphysicslab.lab.model.Spring;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
@@ -454,7 +454,7 @@ CollideBlocksSim.prototype.handleCollisions = function(collisions, opt_totals) {
   var vars = va.getValues();
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
-  goog.array.forEach(collisions, function(c) {
+  goog.array.forEach(collisions, function(/** !BlockCollision */c) {
     if (c.leftBlock_ == this.wallLeft_ && c.rightBlock_ == this.block1_) {
       // mass1 collided with left wall, so just reverse the velocity
       c.impulse = Math.abs(vars[1] * this.block1_.getMass());

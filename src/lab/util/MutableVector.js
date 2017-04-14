@@ -37,8 +37,20 @@ var Vector = myphysicslab.lab.util.Vector;
 * @implements {GenericVector}
 */
 myphysicslab.lab.util.MutableVector = function(x, y, opt_z) {
+  /**
+  * @type {number}
+  * @private
+  */
   this.x_ = x;
+  /**
+  * @type {number}
+  * @private
+  */
   this.y_ = y;
+  /**
+  * @type {number}
+  * @private
+  */
   this.z_ = goog.isNumber(opt_z) ? opt_z : 0;
 };
 var MutableVector = myphysicslab.lab.util.MutableVector;

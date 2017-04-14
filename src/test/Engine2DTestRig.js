@@ -313,11 +313,12 @@ Engine2DTestRig.startTests = function() {
     Engine2DTestRig.myPrintln('userAgent = '+nav.userAgent);
     Engine2DTestRig.myPrintln('platform = '+nav.platform);
   }
-  if (window.MSSTream) {
+  if (window['MSSTream']) {
     // http://stackoverflow.com/questions/9038625/detect-if-device-is-ios
     // "Microsoft injected the word iPhone in IE11's userAgent in order to try
     // and fool Gmail somehow."
-    Engine2DTestRig.myPrintln('MSStream detected');
+    Engine2DTestRig.myPrintln('MSStream detected: probably on Internet Explorer'
+        +' for Windows Phone');
   }
 };
 

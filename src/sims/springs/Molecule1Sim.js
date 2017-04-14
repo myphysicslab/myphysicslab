@@ -509,7 +509,7 @@ Molecule1Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
   var va = this.getVarsList();
   var vars = va.getValues();
-  goog.array.forEach(collisions, function(c) {
+  goog.array.forEach(collisions, function(/** !MoleculeCollision */c) {
     var idx = 4*goog.array.indexOf(this.atoms_, c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:

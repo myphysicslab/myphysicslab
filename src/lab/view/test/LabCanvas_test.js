@@ -327,6 +327,7 @@ var testLabCanvas1 = function() {
   assertTrue(spring1.getStartPoint().nearEqual(new Vector(-1, 0), 1e-8));
   assertTrue(map.simToScreen(spring1.getStartPoint()).nearEqual(new Vector(120, 150),
       1e-8));
+  /** @type {!MockContext}*/
   var mockContext = /** @type {!MockContext}*/(labCanvas.getCanvas().getContext('2d'));
   if (!mockContext) {
     throw new Error();

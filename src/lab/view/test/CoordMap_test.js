@@ -42,6 +42,7 @@ var testCoordMap = function() {
   var simRect2;
 
   // WIDE =========  HorizAlign.LEFT, VerticalAlign.FULL ============
+  /** @type {!myphysicslab.lab.view.CoordMap} */
   var map = CoordMap.make(screenRect1, simRect1, HorizAlign.LEFT,
       VerticalAlign.FULL);
   var at = map.getAffineTransform();

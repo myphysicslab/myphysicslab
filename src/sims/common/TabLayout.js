@@ -197,7 +197,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   */
   this.debug_layout = false;
 
-  /** @type {!Element} */
+  /** @type {!HTMLElement} */
   this.tab_list = TabLayout.getElementById(elem_ids, 'tab_list');
   /** name of current layout
   @type {string}
@@ -246,13 +246,13 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   this.terminal = new Terminal(this.term_input, term_output);
   Terminal.stdRegex(this.terminal);
 
-  /** @type {!Element} */
+  /** @type {!HTMLElement} */
   this.div_contain = TabLayout.getElementById(elem_ids, 'container');
   //if (this.debug_layout) {
   //  this.div_contain.style.border = 'dashed 1px red';
   //}
 
-  /** @type {!Element} */
+  /** @type {!HTMLElement} */
   this.div_sim = TabLayout.getElementById(elem_ids, 'sim_applet');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_sim.style.position = 'relative';
@@ -284,7 +284,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
       this.showSim(this.show_sim_cb.checked);
     }, this));
 
-  /** @type {!Element} */
+  /** @type {!HTMLElement} */
   this.div_graph = TabLayout.getElementById(elem_ids, 'div_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_graph.style.position = 'relative';
@@ -296,7 +296,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   this.div_graph.appendChild(canvas2);
 
   /** div for graph controls
-  * @type {!Element}
+  * @type {!HTMLElement}
   */
   this.graph_controls = TabLayout.getElementById(elem_ids, 'graph_controls');
   //if (this.debug_layout) {
@@ -306,7 +306,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   /** @type {!Array<!myphysicslab.lab.controls.LabControl>} */
   this.controls_ = [];
   /** div for sim controls
-  * @type {!Element}
+  * @type {!HTMLElement}
   */
   this.sim_controls = TabLayout.getElementById(elem_ids, 'sim_controls');
   // marginLeft gives gap when controls are along side canvas.
@@ -316,7 +316,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   //}
 
   /** div element for Terminal
-  * @type {!Element}
+  * @type {!HTMLElement}
   */
   this.div_term = TabLayout.getElementById(elem_ids, 'div_terminal');
   this.div_term.style.display = 'none';
@@ -342,7 +342,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
       goog.bind(function(e) {this.showTerminal(this.show_term_cb.checked);}, this));
   }
 
-  /** @type {!Element} */
+  /** @type {!HTMLElement} */
   this.div_time_graph = TabLayout.getElementById(elem_ids, 'div_time_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_time_graph.style.position = 'relative';
@@ -353,7 +353,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   this.div_time_graph.appendChild(canvas3);
 
   /** div for time graph controls
-  * @type {!Element}
+  * @type {!HTMLElement}
   */
   this.time_graph_controls = TabLayout.getElementById(elem_ids, 'time_graph_controls');
   //if (this.debug_layout) {
@@ -457,7 +457,7 @@ TabLayout.elementIds;
 * is not found.
 * @param {!TabLayout.elementIds} elem_ids  set of elementId names to look for
 * @param {string} elementId specifies which elementId to get from elem_ids
-* @return {!Element} the element from the current HTML Document
+* @return {!HTMLElement} the element from the current HTML Document
 */
 TabLayout.getElementById = function(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
@@ -467,7 +467,7 @@ TabLayout.getElementById = function(elem_ids, elementId) {
   if (!goog.isString(e_id)) {
     throw new Error('unknown elementId: '+elementId);
   }
-  var e = document.getElementById(e_id);
+  var e = /** @type {!HTMLElement} */(document.getElementById(e_id));
   if (!goog.isObject(e)) {
     throw new Error('not found: element with id='+e_id);
   }
@@ -490,9 +490,9 @@ TabLayout.prototype.addControl = function(control) {
 inline-block` on the controls div, so that it naturally flows to right of the canvas if
 there is enough room, otherwise it flows below the canvas. This method attempts to set
 the controls to have 2 columns when the controls are below the canvas.
-* @param {!Element} canvas  the div containing the canvas element
-* @param {!Element} controls  the div containing the controls
-* @param {!Element=} canvas2
+* @param {!HTMLElement} canvas  the div containing the canvas element
+* @param {!HTMLElement} controls  the div containing the controls
+* @param {!HTMLElement=} canvas2
 * @private
 */
 TabLayout.prototype.alignCanvasControls = function(canvas, controls, canvas2) {
@@ -701,7 +701,7 @@ TabLayout.prototype.redoLayout = function() {
 /** Sets the size of the SimCanvas and a graph. This limits the SimCanvas so that it
 fits in the window.
 * @param {number} max_width size of SimCanvas, as fraction of screen width, from 0 to 1
-* @param {!Element} graph_div
+* @param {!HTMLElement} graph_div
 * @private
 */
 TabLayout.prototype.setDisplaySize = function(max_width, graph_div) {

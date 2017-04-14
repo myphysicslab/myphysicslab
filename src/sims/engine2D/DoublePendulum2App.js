@@ -136,9 +136,11 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
 
   // draw a gradient for block2, and demo some fancy name options
   var cg = this.layout.simCanvas.getContext().createLinearGradient(-1, -1, 1, 1);
-  cg.addColorStop(0, '#87CEFA'); // light blue
-  cg.addColorStop(1, 'white');
-  b2.setFillStyle(cg);
+  if (cg) {
+    cg.addColorStop(0, '#87CEFA'); // light blue
+    cg.addColorStop(1, 'white');
+    b2.setFillStyle(cg);
+  }
   b2.setNameColor('gray');
   b2.setNameFont('12pt sans-serif');
   b2.setNameRotate(Math.PI/2);

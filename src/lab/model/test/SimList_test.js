@@ -65,7 +65,7 @@ var testSimList = function() {
       if (obj instanceof Spring) {
         this.numSprings++;
       } else if (obj instanceof PointMass) {
-        var pm = /** @type {!PointMass} */(obj);
+        var pm = /** @type {!myphysicslab.lab.model.PointMass} */(obj);
         if (pm.getShape() == ShapeType.OVAL) {
           this.numPoints++;
         } else if (pm.getShape() == ShapeType.RECTANGLE) {
@@ -78,7 +78,7 @@ var testSimList = function() {
       if (obj instanceof Spring) {
         this.numSprings--;
       } else if (obj instanceof PointMass) {
-        var pm = /** @type {!PointMass} */(obj);
+        pm = /** @type {!myphysicslab.lab.model.PointMass} */(obj);
         if (pm.getShape() == ShapeType.OVAL) {
           this.numPoints--;
         } else if (pm.getShape() == ShapeType.RECTANGLE) {

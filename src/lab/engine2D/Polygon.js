@@ -241,12 +241,12 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   AbstractMassObject.call(this, name, localName);
 
   /** list of Vertexes in this Polygon
-  * @type {!Array<!myphysicslab.lab.engine2D.Vertex>}
+  * @type {!Array<!Vertex>}
   * @private
   */
   this.vertices_ = new Array();
   /** list of Edges in this Polygon
-  * @type {!Array<!myphysicslab.lab.engine2D.Edge>}
+  * @type {!Array<!Edge>}
   * @private
   */
   this.edges_ = new Array();
@@ -256,17 +256,17 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   */
   this.finished_ = false;
   /** start Vertex of current path; only used during construction
-  * @type {?myphysicslab.lab.engine2D.Vertex}
+  * @type {?Vertex}
   * @private
   */
   this.startVertex_ = null;
   /** list of starting Vertex for each sub-path
-  * @type {!Array<!myphysicslab.lab.engine2D.Vertex>}
+  * @type {!Array<!Vertex>}
   * @private
   */
   this.paths_ = new Array();
   /** A set of Edges on some other Polygon that this Polygon never collides with.
-  * @type {?myphysicslab.lab.engine2D.EdgeSet}
+  * @type {?EdgeSet}
   * @private
   */
   this.nonCollideSet_ = null;
@@ -276,18 +276,18 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   */
   this.elasticity_ = 1.0;
   /** list of objects this body does not collide with
-  * @type {!Array<!myphysicslab.lab.engine2D.RigidBody>}
+  * @type {!Array<!RigidBody>}
   * @private
   */
   this.nonCollideBodies_ = new Array();
   /** Geometric center of this Polygon, in body coords
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @private
   */
   this.centroid_body_ = null;
   /** centroid of each Edge, in world coords.  This is a cache to avoid costs of
   doing bodyToWorld method on the centroid.  Entries can be null.
-  * @type {!Array<?myphysicslab.lab.util.Vector>}
+  * @type {!Array<?Vector>}
   * @private
   */
   this.centroids_world_ = [];
@@ -301,13 +301,13 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   Note that the other Edges of this object will have zero centroid radius and therefore
   will be inactive for collisions;  and this allows objects to penetrate into this
   body thru those inactive Edges.
-  * @type {?myphysicslab.lab.engine2D.Edge}
+  * @type {?Edge}
   * @private
   */
   this.specialEdge_ = null;
   /** the special normal Edge (if any) in world coords. This is a cache to
   avoid costs of doing rotateBodyToWorld and getNormalBody method.
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @private
   */
   this.specialNormalWorld_ = null;
@@ -337,7 +337,7 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   */
   this.varsIndex_ = -1;
   /** copy of this body in its last known position prior to the present
-  * @type {?myphysicslab.lab.engine2D.Polygon}
+  * @type {?Polygon}
   * @private
   */
   this.body_old_ = null;
@@ -418,14 +418,14 @@ Vertex and ending at the given point, with the given center for the circular arc
 moving clockwise or counter-clockwise from the start Vertex. See
 {@link #lastOpenVertex} and {@link #startPath}.
 
-@param {!myphysicslab.lab.util.Vector} p_body the endpoint of the new Edge, in body
+@param {!Vector} p_body the endpoint of the new Edge, in body
     coordinates
-@param {!myphysicslab.lab.util.Vector} center_body the center point in body coordinates
+@param {!Vector} center_body the center point in body coordinates
 @param {boolean} clockwise true moves clockwise, false moves counter-clockwise
 @param {boolean} outsideIsOut `true` means that any point outside the circle is outside
     of this body; `false` means the opposite, that any point inside the circle is
     outside this body.
-@return {!myphysicslab.lab.engine2D.CircularEdge} the Edge that is created
+@return {!CircularEdge} the Edge that is created
 @throws {Error} if Polygon does not have an open path to add Edges to
 @throws {Error} if `p_body` and last point are not equidistant from `center_body`
     within `CircularEdge.TINY_POSITIVE` tolerance
@@ -454,7 +454,7 @@ two given points: either above or below the line. The `aboveRight` parameter spe
 which choice to make. For a vertical connecting line, the choice is right or left of the
 line.
 
-@param {!myphysicslab.lab.util.Vector} p_body the endpoint of the new Edge, in body
+@param {!Vector} p_body the endpoint of the new Edge, in body
   coordinates
 @param {number} radius the radius of the CircularEdge
 @param {boolean} aboveRight if `true`, then the center of CircularEdge is located
@@ -464,7 +464,7 @@ line.
 @param {boolean} outsideIsOut `true` means that any point outside the circle is outside
     of this body; `false` means the opposite, that any point inside the circle is
     outside this body.
-@return {!myphysicslab.lab.engine2D.CircularEdge} the Edge that is created
+@return {!CircularEdge} the Edge that is created
 @throws {Error} if Polygon does not have an open path to add Edges to
 */
 Polygon.prototype.addCircularEdge2 = function(p_body, radius, aboveRight, clockwise, outsideIsOut) {
@@ -478,7 +478,7 @@ Polygon.prototype.addCircularEdge2 = function(p_body, radius, aboveRight, clockw
 /** Adds the Edge to current open path. The start Vertex of the Edge must
 * match the end Vertex of last Edge in open path as given by {@link #lastOpenVertex}.
 * See {@link #startPath}.
-* @param {!myphysicslab.lab.engine2D.Edge} edge the Edge to add to current open path
+* @param {!Edge} edge the Edge to add to current open path
 * @throws {Error} if there is no open path, or the start Vertex of the Edge does not
 *     match the end Vertex of last Edge in open path.
 */
@@ -513,12 +513,12 @@ Polygon.prototype.addNonCollide = function(bodies) {
 Vertex and ending at the given point. See {@link #lastOpenVertex} and
 {@link #startPath}.
 
-@param {!myphysicslab.lab.util.Vector} p_body the end point of the new Edge, in body
+@param {!Vector} p_body the end point of the new Edge, in body
     coordinates
 @param {boolean} outsideIsUp true means that any point above this Edge is
     on the outside of this body (for vertical lines a point to the right is outside);
     false means the opposite, that any point below (or left) is outside this body.
-@return {!myphysicslab.lab.engine2D.StraightEdge} the Edge that is created
+@return {!StraightEdge} the Edge that is created
 @throws {Error} if Polygon does not have an open path to add Edges to
 */
 Polygon.prototype.addStraightEdge = function(p_body, outsideIsUp) {
@@ -562,9 +562,9 @@ Polygon.prototype.calculateSize = function() {
 
 /** Checks if this Polygon has a collision or contact with another Polygon, if so adds
 a new RigidBodyCollision to the list of collisions.
-@param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions  the list of
+@param {!Array<!RigidBodyCollision>} collisions  the list of
     collisions to add to
-@param {!myphysicslab.lab.engine2D.Polygon} body the rigid body to check for
+@param {!Polygon} body the rigid body to check for
     collisions with
 @param {number} time current simulation time
 */
@@ -672,8 +672,8 @@ On exit the situation is:
     edgeB        v1      edgeA
 
 and Vertex v2 is deleted.
-* @param {!myphysicslab.lab.engine2D.Vertex} v1
-* @param {!myphysicslab.lab.engine2D.Vertex} v2
+* @param {!Vertex} v1
+* @param {!Vertex} v2
 * @private
 */
 Polygon.prototype.closePath_ = function(v1, v2) {
@@ -695,7 +695,7 @@ Polygon.prototype.closePath_ = function(v1, v2) {
 Note that the clone is not fully functional, it is intended only for use during
 collision checking.
 @private
-@param {!myphysicslab.lab.engine2D.Polygon} b the Polygon to copy information to
+@param {!Polygon} b the Polygon to copy information to
 */
 Polygon.prototype.copyTo = function(b) {
   // copy only the info needed for collision checking?
@@ -768,7 +768,7 @@ Polygon.prototype.eraseOldCopy = function() {
 
 /** Finds the geometric center or 'centroid' of this Polygon, which is the point that
 minimizes the distance to all Vertexes.
-@return {!myphysicslab.lab.util.Vector} the geometric center of this Polygon, in body
+@return {!Vector} the geometric center of this Polygon, in body
     coordinates.
 */
 Polygon.prototype.findCentroid = function() {
@@ -869,7 +869,7 @@ Polygon because it corresponds to the current position of the Polygon.
 See {@link myphysicslab.lab.engine2D.Edge#getCentroidWorld}.
 @package
 @param {number} index  the index number of the Edge among this body's list of edges
-@return {?myphysicslab.lab.util.Vector} centroid of specified Edge, in world coords;
+@return {?Vector} centroid of specified Edge, in world coords;
     or null if not in cache.
 */
 Polygon.prototype.getEdgeCentroidWorld = function(index) {
@@ -877,7 +877,7 @@ Polygon.prototype.getEdgeCentroidWorld = function(index) {
 };
 
 /** Returns the actual list of edges of this body, for engine2D package use only.
-@return {!Array<!myphysicslab.lab.engine2D.Edge>} the list of edges of this body.
+@return {!Array<!Edge>} the list of edges of this body.
 @package
 */
 Polygon.prototype.getEdges_ = function() {
@@ -885,7 +885,7 @@ Polygon.prototype.getEdges_ = function() {
 };
 
 /** Returns clone of the list of edges of this body.
-@return {!Array<!myphysicslab.lab.engine2D.Edge>} clone of the list of edges of this
+@return {!Array<!Edge>} clone of the list of edges of this
     body.
 */
 Polygon.prototype.getEdges = function() {
@@ -1002,7 +1002,7 @@ avoid computational costs.
 See [Special Edge for Proximity Testing](#specialedgeforproximitytesting).
 See {@link #setSpecialEdge}.
 @package
-@return {?myphysicslab.lab.util.Vector} normal vector for special edge, in world
+@return {?Vector} normal vector for special edge, in world
 coordinates, or null when there is no special edge
 */
 Polygon.prototype.getSpecialNormalWorld = function() {
@@ -1022,7 +1022,7 @@ Polygon.prototype.getSpecialNormalWorld = function() {
 
 /** Returns starting Vertex for current open path, or `null` if there is no open path.
 * See {@link #startPath}.
-* @return {?myphysicslab.lab.engine2D.Vertex} starting Vertex for the current open path,
+* @return {?Vertex} starting Vertex for the current open path,
 *    or `null` if there is no open path.
 */
 Polygon.prototype.getStartVertex = function() {
@@ -1073,7 +1073,7 @@ Polygon.prototype.getVelocityTol = function() {
 };
 
 /** Returns the list of Vertexes of this body, for engine2D package use only.
-@return {!Array<!myphysicslab.lab.engine2D.Vertex>}the list of Vertexes of this body.
+@return {!Array<!Vertex>}the list of Vertexes of this body.
 @package
 */
 Polygon.prototype.getVertexes_ = function() {
@@ -1087,7 +1087,7 @@ Polygon.prototype.getVerticesBody = function() {
 
 /** Returns last Edge in current open path or `null` when there is no last Edge or no
 open path.
-* @return {?myphysicslab.lab.engine2D.Edge} last Edge in current open path
+* @return {?Edge} last Edge in current open path
 *     or `null` when there is no last Edge or no open path.
 */
 Polygon.prototype.lastOpenEdge = function() {
@@ -1115,7 +1115,7 @@ Polygon.prototype.lastOpenEdge = function() {
 in the linked list of Edges that makes up the open path. If there is no Edge in the path
 then this is the starting Vertex, see {@link #startPath} and {@link #getStartVertex}.
 
-* @return {!myphysicslab.lab.engine2D.Vertex} last Vertex in current open path
+* @return {!Vertex} last Vertex in current open path
 * @throws {Error} if there is no open path
 */
 Polygon.prototype.lastOpenVertex = function() {
@@ -1132,7 +1132,7 @@ Polygon.prototype.lastOpenVertex = function() {
 
 /** Returns the square of the maximum distance from the given point in body coords to
 any Vertex of this Polygon.
-* @param {!myphysicslab.lab.util.Vector} p_body  the point in body coords
+* @param {!Vector} p_body  the point in body coords
 * @return {number} the square of the maximum distance from the given point in
 *    body coords to any Vertex of this Polygon
 * @private
@@ -1160,7 +1160,7 @@ Polygon.prototype.maxRadiusSquared = function(p_body) {
 
 /** Whether this Polygon can collide with an Edge or Vertex of another Polygon.
 Returns `true` when passing `null` for the Edge.
-@param {?myphysicslab.lab.engine2D.Edge} edge an Edge of another body, or `null`
+@param {?Edge} edge an Edge of another body, or `null`
 @return {boolean} true if this body cannot collide with the given Edge or if `edge` is
     null.
 */
@@ -1181,9 +1181,10 @@ if (goog.DEBUG) {
   */
   Polygon.prototype.printAll = function() {
     console.log(this.toString());
+    /** @type {!Vertex} */
     var vLast = this.vertices_[this.vertices_.length - 1];
     goog.array.forEach(this.vertices_,
-      function(/** !myphysicslab.lab.engine2D.Vertex */v, k) {
+      function(/** !Vertex */v, k) {
         var d = v.locBody().distanceTo(vLast.locBody());
         console.log('('+(k)+') '+v+' dist to prev vertex = '+NF(d));
         vLast = v;
@@ -1199,14 +1200,14 @@ if (goog.DEBUG) {
 
 WARNING:  For debugging only.  Does not work for complex (non-convex) shapes.
 @package
-@param {!myphysicslab.lab.util.Vector} p_body the point in body coords
+@param {!Vector} p_body the point in body coords
 @return {boolean} true if the given body coords point is probably inside this polygon
 */
 Polygon.prototype.probablyPointInside = function(p_body) {
   // look for an Edge with positive distance to the point,
   // which means the point is outside the body.
   var edge = goog.array.find(this.edges_,
-    function(/** !myphysicslab.lab.engine2D.Edge */e, index, array) {
+    function(/** !Edge */e, index, array) {
       return e.distanceToLine(p_body) > 0;
     }
   );
@@ -1252,9 +1253,9 @@ Polygon.prototype.setAccuracy = function(accuracy) {
 /** Sets the center of the circle to use for proximity testing and also calculates the
 radius of the circle. A circle centered at this centroid with radius
 `getCentroidRadius()` should encompass this Polygon.
-@param {!myphysicslab.lab.util.Vector} centroid_body the center of the circle to use for
+@param {!Vector} centroid_body the center of the circle to use for
 proximity testing in world coords, in body coordinates
-@return {!myphysicslab.lab.engine2D.Polygon} this Polygon, for chaining setters
+@return {!Polygon} this Polygon, for chaining setters
 @throws {Error} when `setCentroid` is called while the Polygon is 'open' in process of
     adding edges, before the Polygon is closed with `finish()` method
 */
@@ -1293,7 +1294,7 @@ costs of repeatedly calling `bodyToWorld()` on the centroid. The cache is stored
 Polygon because it corresponds to the current position of the Polygon.
 See {@link myphysicslab.lab.engine2D.Edge#getCentroidWorld}.
 @param {number} index  the index number of the Edge among this body's list of Edges
-@param {!myphysicslab.lab.util.Vector} v the centroid vector
+@param {!Vector} v the centroid vector
 @package
 */
 Polygon.prototype.setEdgeCentroidWorld = function(index, v) {
@@ -1322,7 +1323,7 @@ other Polygons; replaces any existing non-collide EdgeSet. No collisions or cont
 are generated between this Polygon and the Edges in the given EdgeSet.
 Use this when some parts of a Polygon **DO** interact.  If **NO** parts interact then
 see {@link myphysicslab.lab.engine2D.RigidBody#addNonCollide}.
-@param {!myphysicslab.lab.engine2D.EdgeSet} nonCollideSet  the set of other body edges
+@param {!EdgeSet} nonCollideSet  the set of other body edges
     to not collide with
 */
 Polygon.prototype.setNonCollideEdge = function(nonCollideSet) {
@@ -1396,7 +1397,7 @@ Polygon.prototype.setVelocityTol = function(value) {
 };
 
 /** Start creating a path in this Polygon at the given Vertex or Edge.
-* @param {!myphysicslab.lab.engine2D.Vertex|!myphysicslab.lab.engine2D.Edge}
+* @param {!Vertex|!Edge}
 *    vertexOrEdge the Vertex or Edge to start the path at
 */
 Polygon.prototype.startPath = function(vertexOrEdge) {

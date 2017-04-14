@@ -57,14 +57,14 @@ var testUtilCircularList1 = function() {
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
   var CircularList = myphysicslab.lab.util.CircularList;
   var UtilityCore = myphysicslab.lab.util.UtilityCore;
-  /** @type {!HistoryList<!Vector>}*/
+  /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
   var cList = new CircularList(10);
   var i, j;
   assertEquals(0, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(-1, cList.getEndIndex());
   assertNull(cList.getEndValue());
-  /** @type {!HistoryIterator<!Vector>}*/
+  /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/
   var cIter = cList.getIterator();
   // no data yet, should throw exception
   assertFalse(cIter.hasNext());
@@ -79,7 +79,10 @@ var testUtilCircularList1 = function() {
   assertEquals(1, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(0, cList.getEndIndex());
-  assertTrue(cList.getEndValue().equals(new Vector(0, 1)));
+  var endValue;
+  assertNotNull(endValue = cList.getEndValue());
+  if (endValue)
+    assertTrue(endValue.equals(new Vector(0, 1)));
 
   // test iterator when there is a single data point
   cIter = cList.getIterator();
@@ -96,7 +99,9 @@ var testUtilCircularList1 = function() {
   assertEquals(2, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(1, cList.getEndIndex());
-  assertTrue(cList.getEndValue().equals(new Vector(0.1, 1.1)));
+  assertNotNull(endValue = cList.getEndValue());
+  if (endValue)
+    assertTrue(endValue.equals(new Vector(0.1, 1.1)));
 
   // test iterator when there are only two data points
   cIter = cList.getIterator();
@@ -122,10 +127,12 @@ var testUtilCircularList1 = function() {
   assertEquals(i, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(9, cList.getEndIndex());
-  assertTrue(cList.getEndValue().equals(new Vector(0.9, 10.9)));
+  assertNotNull(endValue = cList.getEndValue());
+  if (endValue)
+    assertTrue(endValue.equals(new Vector(0.9, 10.9)));
 
   // iterate over the filled list and check values, indices 0 to 9
-  cIter = /** @type {!HistoryIterator<!Vector>}*/(cList.getIterator());
+  cIter = /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/(cList.getIterator());
   i = -1;
   while (cIter.hasNext()) {
     i++;
@@ -148,7 +155,7 @@ var testUtilCircularList1 = function() {
   assertEquals(10, cList.getEndIndex());
 
   // iterate over the list and check values, indices 1 to 10
-  cIter = /** @type {!HistoryIterator<!Vector>}*/(cList.getIterator());
+  cIter = /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/(cList.getIterator());
   i = 0;
   while (cIter.hasNext()) {
     i++;
@@ -169,7 +176,7 @@ var testUtilCircularList1 = function() {
   assertEquals(19, cList.getEndIndex());
 
   // iterate over the list and check values, indices 10 to 19
-  cIter = /** @type {!HistoryIterator<!Vector>}*/(cList.getIterator());
+  cIter = /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/(cList.getIterator());
   i = 9;
   while (cIter.hasNext()) {
     i++;
@@ -213,10 +220,10 @@ var testUtilCircularList2 = function() {
 
   // Test that CircularList will throw the MAX_INT_ERROR when the index number
   // exceeds the maximum representable integer.
-  /** @type {!HistoryList<!Vector>}*/
+  /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
   var cList = new CircularList(1000);
   // Causes the index to start near the maximum integer.
-  /** @type {!CircularList<!Vector>}*/(cList).causeMaxIntError();
+  /** @type {!myphysicslab.lab.util.CircularList<!myphysicslab.lab.util.Vector>}*/(cList).causeMaxIntError();
   var i, j;
   var e = assertThrows(function() {
     for (i=0; i<3000; i++) {
@@ -241,7 +248,7 @@ var testUtilCircularList2 = function() {
   assertEquals(2999, cList.getEndIndex());
 
   // test starting in middle of the list
-  /** @type {!HistoryIterator<!Vector>}*/
+  /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/
   var cIter = cList.getIterator(2500);
   i = 2499;
   while (cIter.hasNext()) {
@@ -263,8 +270,8 @@ var testUtilCircularList3 = function() {
   var UtilityCore = myphysicslab.lab.util.UtilityCore;
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
-  /** @type {!HistoryList<!Vector>}*/
-  var cList = new CircularList(100);
+  /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
+  var cList = new myphysicslab.lab.util.CircularList(100);
   var i, j, vec;
   for (i=0; i<90; i++) {
     j = cList.store(new Vector(i*0.1, i*10));
@@ -274,6 +281,7 @@ var testUtilCircularList3 = function() {
   assertEquals(89, j);
   assertEquals(0, cList.getStartIndex());
   assertEquals(89, cList.getEndIndex());
+  /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/
   var cIter = cList.getIterator(cList.getEndIndex());
   i = 90;
   while (cIter.hasPrevious()) {

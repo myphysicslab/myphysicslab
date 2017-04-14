@@ -14,55 +14,57 @@
 
 goog.provide('myphysicslab.test.JointTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
+goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
+goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
 goog.require('myphysicslab.test.TestShapes');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.view.DisplayLine');
 
 goog.scope(function() {
 
-var DampingLaw = myphysicslab.lab.model.DampingLaw;
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var CoordType = myphysicslab.lab.model.CoordType;
+var DampingLaw = myphysicslab.lab.model.DampingLaw;
+var DisplayLine = myphysicslab.lab.view.DisplayLine;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
+var Joint = myphysicslab.lab.engine2D.Joint;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
+var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
-var Scrim = myphysicslab.lab.engine2D.Scrim;
-var DisplayLine = myphysicslab.lab.view.DisplayLine;
 
 /** Tests various configurations of Joints.
 
@@ -393,9 +395,8 @@ JointTest.pendulum_2_joints_offset_setup = function(sim, advance) {
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(5.0, sim.getSimList()));
   // show the line that joint1 travels on
-  var joint = goog.array.find(sim.getSimList().toArray(), function(obj, index, array) {
-    return obj.getName() == 'JOINT1';
-  });
+  var joint =  /** @type {?Joint} */(goog.array.find(sim.getSimList().toArray(),
+      function(obj, index, array) { return obj.getName() == 'JOINT1';}));
   var line;
   if (joint != null) {
     line = new ConcreteLine('joint1_line', joint.getPosition1().add(new Vector(-4, 0)),
@@ -404,9 +405,8 @@ JointTest.pendulum_2_joints_offset_setup = function(sim, advance) {
     sim.getSimList().add(line);
   }
   // show the line that joint0 travels on
-  joint = goog.array.find(sim.getSimList().toArray(), function(obj, index, array) {
-    return obj.getName() == 'JOINT0';
-  });
+  joint = /** @type {?Joint} */(goog.array.find(sim.getSimList().toArray(),
+      function(obj, index, array) { return obj.getName() == 'JOINT0'; }));
   if (joint != null) {
     line = new ConcreteLine('joint0_line', joint.getPosition1().add(new Vector(0, -4)),
         joint.getPosition1().add(new Vector(0, 4)));
