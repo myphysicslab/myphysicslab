@@ -79,7 +79,8 @@ var testParameterBoolean1 = function() {
   // now make parameters
   var paramFoo = new ParameterBoolean(mockSubj1, MockSubject1.FOONESS,
       MockSubject1.FOONESS,
-      mockSubj1.getFooness, mockSubj1.setFooness);
+      goog.bind(mockSubj1.getFooness, mockSubj1),
+      goog.bind(mockSubj1.setFooness, mockSubj1));
   mockSubj1.addParameter(paramFoo);
   assertEquals('FOONESS', paramFoo.getName());
   assertTrue(paramFoo.nameEquals('fooness'));
@@ -102,7 +103,8 @@ var testParameterBoolean1 = function() {
   // make a parameter with choices
   var paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
-      mockSubj1.getFooBarness, mockSubj1.setFooBarness,
+      goog.bind(mockSubj1.getFooBarness, mockSubj1),
+      goog.bind(mockSubj1.setFooBarness, mockSubj1),
       ['on', 'off'], [true, false]);
   mockSubj1.addParameter(paramFooBar);
   assertEquals(MockSubject1.FOOBARNESS, paramFooBar.getName());

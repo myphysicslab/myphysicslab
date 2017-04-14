@@ -227,37 +227,38 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   */
   this.memorizables_ = [];
   this.addParameter(new ParameterNumber(this, SimView.en.WIDTH, SimView.i18n.WIDTH,
-      this.getWidth, this.setWidth));
+      goog.bind(this.getWidth, this), goog.bind(this.setWidth, this)));
   this.addParameter(new ParameterNumber(this, SimView.en.HEIGHT, SimView.i18n.HEIGHT,
-      this.getHeight, this.setHeight));
+      goog.bind(this.getHeight, this), goog.bind(this.setHeight, this)));
   this.addParameter(new ParameterNumber(this, SimView.en.CENTER_X,
       SimView.i18n.CENTER_X,
-      this.getCenterX, this.setCenterX).setLowerLimit(Number.NEGATIVE_INFINITY));
+      goog.bind(this.getCenterX, this), goog.bind(this.setCenterX, this))
+      .setLowerLimit(Number.NEGATIVE_INFINITY));
   this.addParameter(new ParameterNumber(this, SimView.en.CENTER_Y,
       SimView.i18n.CENTER_Y,
-      this.getCenterY, this.setCenterY).setLowerLimit(Number.NEGATIVE_INFINITY));
+      goog.bind(this.getCenterY, this), goog.bind(this.setCenterY, this))
+      .setLowerLimit(Number.NEGATIVE_INFINITY));
   this.addParameter(new ParameterBoolean(this, SimView.en.SCALE_TOGETHER,
       SimView.i18n.SCALE_TOGETHER,
-      this.getScaleTogether, this.setScaleTogether));
+      goog.bind(this.getScaleTogether, this), goog.bind(this.setScaleTogether, this)));
   // Need a special 'setter' because `setVerticalAlign` takes an argument of
   // the enum type `VerticalAlign`, not of type `string`.
   this.addParameter(new ParameterString(this, SimView.en.VERTICAL_ALIGN,
       SimView.i18n.VERTICAL_ALIGN,
-      this.getVerticalAlign,
-      (/** function(this:myphysicslab.lab.view.SimView, string) */
-      (function(s) { this.setVerticalAlign(VerticalAlign.stringToEnum(s)); })),
+      goog.bind(this.getVerticalAlign, this),
+      goog.bind(function(s) { this.setVerticalAlign(VerticalAlign.stringToEnum(s)); },
+      this),
       VerticalAlign.getChoices(), VerticalAlign.getValues()));
   // Need a special 'setter' because `setHorizAlign` takes an argument of
   // the enum type `HorizAlign`, not of type `string`.
   this.addParameter(new ParameterString(this, SimView.en.HORIZONTAL_ALIGN,
       SimView.i18n.HORIZONTAL_ALIGN,
-      this.getHorizAlign,
-      (/** function(this:myphysicslab.lab.view.SimView, string) */
-      (function(s) { this.setHorizAlign(HorizAlign.stringToEnum(s)); })),
+      goog.bind(this.getHorizAlign, this),
+      goog.bind(function(s) { this.setHorizAlign(HorizAlign.stringToEnum(s)); }, this),
       HorizAlign.getChoices(), HorizAlign.getValues()));
   this.addParameter(new ParameterNumber(this, SimView.en.ASPECT_RATIO,
       SimView.i18n.ASPECT_RATIO,
-      this.getAspectRatio, this.setAspectRatio));
+      goog.bind(this.getAspectRatio, this), goog.bind(this.setAspectRatio, this)));
 };
 var SimView = myphysicslab.lab.view.SimView;
 goog.inherits(SimView, AbstractSubject);

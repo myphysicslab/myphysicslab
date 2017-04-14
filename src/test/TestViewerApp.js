@@ -374,7 +374,8 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.prependControl(br);
 
   this.addParameter(pn = new ParameterNumber(this, TestViewerApp.en.GROUP,
-      TestViewerApp.i18n.GROUP, this.getGroup, this.setGroup,
+      TestViewerApp.i18n.GROUP,
+      goog.bind(this.getGroup, this), goog.bind(this.setGroup, this),
       this.groupNames_, goog.array.range(this.groupNames_.length)));
   // The menu showing the available groups of tests.
   this.prependControl(new ChoiceControl(pn, /*label=*/''));
@@ -384,14 +385,16 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   * @private
   */
   this.testParam_ = new ParameterNumber(this, TestViewerApp.en.TEST,
-      TestViewerApp.i18n.TEST, this.getTest, this.setTest,
+      TestViewerApp.i18n.TEST,
+      goog.bind(this.getTest, this), goog.bind(this.setTest, this),
       this.testNames_, goog.array.range(this.testNames_.length));
   this.addParameter(this.testParam_);
   // The menu showing the available test functions for the current group.
   this.prependControl(new ChoiceControl(this.testParam_, /*label=*/''));
 
   this.addParameter(pb = new ParameterBoolean(this, TestViewerApp.en.START_ON_LOAD,
-      TestViewerApp.i18n.START_ON_LOAD, this.getStartOnLoad, this.setStartOnLoad));
+      TestViewerApp.i18n.START_ON_LOAD,
+      goog.bind(this.getStartOnLoad, this), goog.bind(this.setStartOnLoad, this)));
   this.prependControl(new CheckBoxControl(pb));
 
   br = new GroupControl('BR', document.createElement('BR'), []);

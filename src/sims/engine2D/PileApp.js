@@ -158,38 +158,41 @@ sims.engine2D.PileApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.NUM_BLOCKS,
       PileConfig.i18n.NUM_BLOCKS,
-      this.getNumBlocks, this.setNumBlocks).setDecimalPlaces(0));
+      goog.bind(this.getNumBlocks, this), goog.bind(this.setNumBlocks, this))
+      .setDecimalPlaces(0));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.TWO_PILES,
       PileConfig.i18n.TWO_PILES,
-      this.getTwoPiles, this.setTwoPiles));
+      goog.bind(this.getTwoPiles, this), goog.bind(this.setTwoPiles, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.CONNECTED_BLOCKS,
       PileConfig.i18n.CONNECTED_BLOCKS,
-      this.getConnectedBlocks, this.setConnectedBlocks));
+      goog.bind(this.getConnectedBlocks, this),
+      goog.bind(this.setConnectedBlocks, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.SQUARE_BLOCKS,
       PileConfig.i18n.SQUARE_BLOCKS,
-      this.getSquareBlocks, this.setSquareBlocks));
+      goog.bind(this.getSquareBlocks, this), goog.bind(this.setSquareBlocks, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.ENDLESS_LOOP,
       PileConfig.i18n.ENDLESS_LOOP,
-      this.getEndlessLoop, this.setEndlessLoop));
+      goog.bind(this.getEndlessLoop, this), goog.bind(this.setEndlessLoop, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.LOOP_TIME,
       PileConfig.i18n.LOOP_TIME,
-      this.getLoopTime, this.setLoopTime).setDecimalPlaces(1));
+      goog.bind(this.getLoopTime, this), goog.bind(this.setLoopTime, this))
+      .setDecimalPlaces(1));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.RANDOM_SEED,
       PileConfig.i18n.RANDOM_SEED,
-      this.getRandomSeed, this.setRandomSeed).setDecimalPlaces(0)
-      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
+      .setDecimalPlaces(0).setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));

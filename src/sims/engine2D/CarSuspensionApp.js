@@ -119,7 +119,7 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, CarSuspensionApp.en.FORMATION,
       CarSuspensionApp.i18n.FORMATION,
-      this.getFormation, this.setFormation,
+      goog.bind(this.getFormation, this), goog.bind(this.setFormation, this),
       [ CarSuspensionApp.i18n.ROD_SPRING,
         CarSuspensionApp.i18n.TWO_SPRINGS ],
       [ CarSuspensionApp.Formation.ROD_SPRING,
@@ -128,12 +128,12 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, CarSuspensionApp.en.SPRING_DAMPING,
       CarSuspensionApp.i18n.SPRING_DAMPING,
-     this.getSpringDamping, this.setSpringDamping));
+     goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, CarSuspensionApp.en.STIFFNESS,
       CarSuspensionApp.i18n.STIFFNESS,
-     this.getStiffness, this.setStiffness));
+     goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

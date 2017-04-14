@@ -103,18 +103,18 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.NUM_BODIES,
       ImpulseApp.i18n.NUM_BODIES,
-      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
-      .setLowerLimit(1).setUpperLimit(6));
+      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.THRUST,
       ImpulseApp.i18n.THRUST,
-      this.getThrust, this.setThrust));
+      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.MASS1,
       ImpulseApp.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

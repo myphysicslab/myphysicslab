@@ -220,28 +220,32 @@ myphysicslab.sims.pendulum.MoveablePendulumSim = function(opt_name) {
   this.modifyObjects();
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.LENGTH,
       MoveablePendulumSim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.DAMPING,
       MoveablePendulumSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.MASS,
       MoveablePendulumSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.GRAVITY,
       MoveablePendulumSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.DRIVE_AMPLITUDE,
       MoveablePendulumSim.i18n.DRIVE_AMPLITUDE,
-      this.getDriveAmplitude, this.setDriveAmplitude));
+      goog.bind(this.getDriveAmplitude, this),
+      goog.bind(this.setDriveAmplitude, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.DRIVE_FREQUENCY,
       MoveablePendulumSim.i18n.DRIVE_FREQUENCY,
-      this.getDriveFrequency, this.setDriveFrequency));
+      goog.bind(this.getDriveFrequency, this),
+      goog.bind(this.setDriveFrequency, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.ANCHOR_DAMPING,
       MoveablePendulumSim.i18n.ANCHOR_DAMPING,
-      this.getAnchorDamping, this.setAnchorDamping));
+      goog.bind(this.getAnchorDamping, this),
+      goog.bind(this.setAnchorDamping, this)));
   this.addParameter(new ParameterNumber(this, MoveablePendulumSim.en.SPRING_STIFFNESS,
       MoveablePendulumSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 
 var MoveablePendulumSim = myphysicslab.sims.pendulum.MoveablePendulumSim;

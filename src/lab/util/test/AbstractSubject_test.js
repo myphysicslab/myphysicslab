@@ -105,18 +105,24 @@ var testAbstractSubject1 = function() {
   // make parameters
   var paramFoo = new ParameterNumber(mockSubj1,
       MockSubject1.FOONESS,
-      MockSubject1.FOONESS, mockSubj1.getFooness, mockSubj1.setFooness);
+      MockSubject1.FOONESS,
+      goog.bind(mockSubj1.getFooness, mockSubj1),
+      goog.bind(mockSubj1.setFooness, mockSubj1));
   mockSubj1.addParameter(paramFoo);
   assertEquals(0, paramFoo.getValue());
 
   var paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
-      MockSubject1.FOOBARNESS, mockSubj1.getFooBarness, mockSubj1.setFooBarness);
+      MockSubject1.FOOBARNESS,
+      goog.bind(mockSubj1.getFooBarness, mockSubj1),
+      goog.bind(mockSubj1.setFooBarness, mockSubj1));
   mockSubj1.addParameter(paramFooBar);
   assertFalse(paramFooBar.getValue());
 
   var paramQux = new ParameterString(mockSubj1,
       MockSubject1.QUX,
-      MockSubject1.QUX, mockSubj1.getQux, mockSubj1.setQux);
+      MockSubject1.QUX,
+      goog.bind(mockSubj1.getQux, mockSubj1),
+      goog.bind(mockSubj1.setQux, mockSubj1));
   mockSubj1.addParameter(paramQux);
   assertEquals('corge', paramQux.getValue());
 

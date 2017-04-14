@@ -113,18 +113,18 @@ sims.engine2D.ContactApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.NUM_BODIES,
       ContactApp.i18n.NUM_BODIES,
-      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
-      .setLowerLimit(1).setUpperLimit(6));
+      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.THRUST,
       ContactApp.i18n.THRUST,
-      this.getThrust, this.setThrust));
+      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.MASS1,
       ContactApp.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

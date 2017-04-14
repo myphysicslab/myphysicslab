@@ -295,25 +295,28 @@ myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
   this.modifyObjects();
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.GRAVITY,
       Molecule1Sim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.MASS1,
       Molecule1Sim.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.MASS2,
       Molecule1Sim.i18n.MASS2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.DAMPING,
       Molecule1Sim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.ELASTICITY,
       Molecule1Sim.i18n.ELASTICITY,
-      this.getElasticity, this.setElasticity).setSignifDigits(3).setUpperLimit(1));
+      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.SPRING_LENGTH,
       Molecule1Sim.i18n.SPRING_LENGTH,
-      this.getSpringRestLength, this.setSpringRestLength));
+      goog.bind(this.getSpringRestLength, this),
+      goog.bind(this.setSpringRestLength, this)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.SPRING_STIFFNESS,
       Molecule1Sim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 
 var Molecule1Sim = myphysicslab.sims.springs.Molecule1Sim;

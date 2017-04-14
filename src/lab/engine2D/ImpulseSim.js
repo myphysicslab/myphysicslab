@@ -297,23 +297,29 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
   // the enum type `CollisionHandling`, not of type `string`.
   this.addParameter(new ParameterString(this, RigidBodySim.en.COLLISION_HANDLING,
       RigidBodySim.i18n.COLLISION_HANDLING,
-      this.getCollisionHandling,
-      (/** function(this:myphysicslab.lab.engine2D.ImpulseSim, string) */
-      (function(s) { this.setCollisionHandling(CollisionHandling.stringToEnum(s)); })),
+      goog.bind(this.getCollisionHandling, this),
+      goog.bind(function(s) {
+          this.setCollisionHandling(CollisionHandling.stringToEnum(s));
+      }, this),
       CollisionHandling.getChoices(), CollisionHandling.getValues()));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.DISTANCE_TOL,
       RigidBodySim.i18n.DISTANCE_TOL,
-      this.getDistanceTol, this.setDistanceTol).setSignifDigits(5));
+      goog.bind(this.getDistanceTol, this), goog.bind(this.setDistanceTol, this))
+      .setSignifDigits(5));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.VELOCITY_TOL,
       RigidBodySim.i18n.VELOCITY_TOL,
-      this.getVelocityTol, this.setVelocityTol).setSignifDigits(3));
+      goog.bind(this.getVelocityTol, this), goog.bind(this.setVelocityTol, this))
+      .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.COLLISION_ACCURACY,
       RigidBodySim.i18n.COLLISION_ACCURACY,
-      this.getCollisionAccuracy, this.setCollisionAccuracy).setSignifDigits(3)
+      goog.bind(this.getCollisionAccuracy, this),
+      goog.bind(this.setCollisionAccuracy, this))
+      .setSignifDigits(3)
       .setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.RANDOM_SEED,
       RigidBodySim.i18n.RANDOM_SEED,
-      this.getRandomSeed, this.setRandomSeed).setDecimalPlaces(0)
+      goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
+      .setDecimalPlaces(0)
       .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
 };
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;

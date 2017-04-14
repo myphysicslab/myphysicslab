@@ -101,8 +101,8 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.NUM_BODIES,
       NewtonsCradleApp.i18n.NUM_BODIES,
-      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
-      .setLowerLimit(1).setUpperLimit(6));
+      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -114,18 +114,18 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.LENGTH,
       NewtonsCradleApp.i18n.LENGTH,
-      this.getStickLength, this.setStickLength));
+      goog.bind(this.getStickLength, this), goog.bind(this.setStickLength, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(
       pn = new ParameterNumber(this, NewtonsCradleApp.en.GAP_DISTANCE,
       NewtonsCradleApp.i18n.GAP_DISTANCE,
-      this.getGapDistance, this.setGapDistance));
+      goog.bind(this.getGapDistance, this), goog.bind(this.setGapDistance, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.RADIUS,
       NewtonsCradleApp.i18n.RADIUS,
-      this.getRadius, this.setRadius));
+      goog.bind(this.getRadius, this), goog.bind(this.setRadius, this)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

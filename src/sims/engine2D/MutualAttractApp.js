@@ -96,7 +96,7 @@ sims.engine2D.MutualAttractApp = function(elem_ids) {
   }
   this.addParameter(pn = new ParameterNumber(this, MutualAttractApp.en.NUMBER_BODIES,
       MutualAttractApp.i18n.NUMBER_BODIES,
-      this.getNumBodies, this.setNumBodies, choices, values)
+      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this), choices, values)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new ChoiceControl(pn));
 

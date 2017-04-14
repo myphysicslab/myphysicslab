@@ -154,13 +154,13 @@ myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
 
   this.addParameter(new ParameterNumber(this, BrachistoSim.en.DAMPING,
       BrachistoSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, BrachistoSim.en.GRAVITY,
       BrachistoSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, BrachistoSim.en.MASS,
       BrachistoSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
 };
 var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
 goog.inherits(BrachistoSim, AbstractODESim);

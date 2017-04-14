@@ -219,22 +219,22 @@ myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.GRAVITY,
       Double2DSpringSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.DAMPING,
       Double2DSpringSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.LENGTH,
       Double2DSpringSim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.MASS1,
       Double2DSpringSim.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.MASS2,
       Double2DSpringSim.i18n.MASS2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.STIFFNESS,
       Double2DSpringSim.i18n.STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
 };
 
 var Double2DSpringSim = myphysicslab.sims.springs.Double2DSpringSim;

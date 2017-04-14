@@ -76,7 +76,7 @@ myphysicslab.sims.roller.PathSelector = function(hasPath, paths) {
       return p.getName(/*localized=*/true);
   });
   var ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
-      this.getPathName, this.setPathName, localNames, names);
+      goog.bind(this.getPathName, this), goog.bind(this.setPathName, this), localNames, names);
   // the input function allows passing in lowercase path names.
   //ps.setInputFunction(UtilityCore.toName);
   this.addParameter(ps);

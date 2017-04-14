@@ -346,19 +346,19 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumSim.en.START_ANGLE,
       ReactionPendulumSim.i18n.START_ANGLE,
-      this.getStartAngle, this.setStartAngle));
+      goog.bind(this.getStartAngle, this), goog.bind(this.setStartAngle, this)));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumSim.en.LENGTH,
       ReactionPendulumSim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumSim.en.RADIUS,
       ReactionPendulumSim.i18n.RADIUS,
-      this.getRadius, this.setRadius));
+      goog.bind(this.getRadius, this), goog.bind(this.setRadius, this)));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumApp.en.SEPARATION,
       ReactionPendulumApp.i18n.SEPARATION,
-      this.getSeparation, this.setSeparation));
+      goog.bind(this.getSeparation, this), goog.bind(this.setSeparation, this)));
   this.addControl(new SliderControl(pn, 0, 2, /*multiply=*/false));
   pn = this.sim1.getParameterNumber(PendulumSim.en.MASS);
   this.addControl(new SliderControl(pn, 0.001, 10, /*multiply=*/true));

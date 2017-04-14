@@ -96,7 +96,8 @@ myphysicslab.lab.model.Gravity2Law = function(gravity, opt_simList) {
   };
   this.addParameter(new ParameterNumber(this, Gravity2Law.en.GRAVITY,
       Gravity2Law.i18n.GRAVITY,
-      this.getGravity, this.setGravity).setSignifDigits(4));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this))
+      .setSignifDigits(4));
 };
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 goog.inherits(Gravity2Law, AbstractSubject);

@@ -263,7 +263,7 @@ myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
   UtilEngine.debugEngine2D = this;
   this.addParameter(new ParameterBoolean(this, RigidBodySim.en.SHOW_FORCES,
       RigidBodySim.i18n.SHOW_FORCES,
-      this.getShowForces, this.setShowForces));
+      goog.bind(this.getShowForces, this), goog.bind(this.setShowForces, this)));
 };
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 goog.inherits(RigidBodySim, AbstractSubject);

@@ -189,22 +189,24 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.GRAVITY,
       DangleStickSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.MASS1,
       DangleStickSim.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.MASS2,
       DangleStickSim.i18n.MASS2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.SPRING_REST_LENGTH,
       DangleStickSim.i18n.SPRING_REST_LENGTH,
-      this.getSpringRestLength, this.setSpringRestLength));
+      goog.bind(this.getSpringRestLength, this),
+      goog.bind(this.setSpringRestLength, this)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.SPRING_STIFFNESS,
       DangleStickSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.STICK_LENGTH,
       DangleStickSim.i18n.STICK_LENGTH,
-      this.getStickLength, this.setStickLength));
+      goog.bind(this.getStickLength, this), goog.bind(this.setStickLength, this)));
 };
 
 var DangleStickSim = myphysicslab.sims.springs.DangleStickSim;

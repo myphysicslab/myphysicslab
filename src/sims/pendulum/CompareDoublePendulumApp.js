@@ -317,7 +317,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
 
   pn = new ParameterNumber(this, CompareDoublePendulumApp.en.SEPARATION,
       CompareDoublePendulumApp.i18n.SEPARATION,
-      this.getSeparation, this.setSeparation);
+      goog.bind(this.getSeparation, this), goog.bind(this.setSeparation, this));
   this.addParameter(pn);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
 

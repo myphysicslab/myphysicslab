@@ -103,13 +103,13 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.NUM_BODIES,
       PolygonTestApp.i18n.NUM_BODIES,
-      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
-      .setLowerLimit(1).setUpperLimit(8));
+      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(8));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.THRUST,
       PolygonTestApp.i18n.THRUST,
-      this.getThrust, this.setThrust));
+      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

@@ -112,17 +112,17 @@ sims.engine2D.MarsMoonApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.MOON_MASS,
       MarsMoonApp.i18n.MOON_MASS,
-      this.getMoonMass, this.setMoonMass));
+      goog.bind(this.getMoonMass, this), goog.bind(this.setMoonMass, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.ASTERIOD_MASS,
       MarsMoonApp.i18n.ASTERIOD_MASS,
-      this.getAsteroidMass, this.setAsteroidMass));
+      goog.bind(this.getAsteroidMass, this), goog.bind(this.setAsteroidMass, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.VELOCITY,
       MarsMoonApp.i18n.VELOCITY,
-      this.getVelocity, this.setVelocity));
+      goog.bind(this.getVelocity, this), goog.bind(this.setVelocity, this)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

@@ -105,10 +105,12 @@ myphysicslab.lab.model.GravityLaw = function(gravity, opt_simList) {
   };
   this.addParameter(new ParameterNumber(this, GravityLaw.en.GRAVITY,
       GravityLaw.i18n.GRAVITY,
-      this.getGravity, this.setGravity).setSignifDigits(4));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this))
+      .setSignifDigits(4));
   this.addParameter(new ParameterNumber(this, GravityLaw.en.ZERO_ENERGY,
       GravityLaw.i18n.ZERO_ENERGY,
-      this.getZeroEnergyLevel, this.setZeroEnergyLevel));
+      goog.bind(this.getZeroEnergyLevel, this),
+      goog.bind(this.setZeroEnergyLevel, this)));
 };
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 goog.inherits(GravityLaw, AbstractSubject);

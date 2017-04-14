@@ -110,17 +110,17 @@ sims.engine2D.GearsApp = function(elem_ids) {
   var pn;
   this.addParameter(pb = new ParameterBoolean(this, GearsConfig.en.PINNED_GEARS,
       GearsConfig.i18n.PINNED_GEARS,
-      this.getPinnedGears, this.setPinnedGears));
+      goog.bind(this.getPinnedGears, this), goog.bind(this.setPinnedGears, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, GearsConfig.en.TWO_GEARS,
       GearsConfig.i18n.TWO_GEARS,
-      this.getTwoGears, this.setTwoGears));
+      goog.bind(this.getTwoGears, this), goog.bind(this.setTwoGears, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, GearsConfig.en.TURNING_FORCE,
       GearsConfig.i18n.TURNING_FORCE,
-      this.getTurningForce, this.setTurningForce));
+      goog.bind(this.getTurningForce, this), goog.bind(this.setTurningForce, this)));
   pn.setLowerLimit(UtilityCore.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 

@@ -200,19 +200,21 @@ myphysicslab.sims.springs.Spring2DSim = function(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.GRAVITY,
       Spring2DSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.MASS,
       Spring2DSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.DAMPING,
       Spring2DSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.SPRING_LENGTH,
       Spring2DSim.i18n.SPRING_LENGTH,
-      this.getSpringRestLength, this.setSpringRestLength));
+      goog.bind(this.getSpringRestLength, this),
+      goog.bind(this.setSpringRestLength, this)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.SPRING_STIFFNESS,
       Spring2DSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 
 var Spring2DSim = myphysicslab.sims.springs.Spring2DSim;

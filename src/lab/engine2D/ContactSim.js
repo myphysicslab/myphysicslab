@@ -366,9 +366,8 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
   // the enum type `ExtraAccel`, not of type `string`.
   this.addParameter(new ParameterString(this, RigidBodySim.en.EXTRA_ACCEL,
       RigidBodySim.i18n.EXTRA_ACCEL,
-      this.getExtraAccel,
-      (/** function(this:myphysicslab.lab.engine2D.ContactSim, string) */
-      (function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); })),
+      goog.bind(this.getExtraAccel, this),
+      goog.bind(function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); }, this),
       ExtraAccel.getChoices(), ExtraAccel.getValues()));
 };
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;

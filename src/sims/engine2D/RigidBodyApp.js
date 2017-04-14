@@ -111,18 +111,18 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
       RigidBodyApp.i18n.NUM_BODIES,
-      this.getNumBodies, this.setNumBodies).setDecimalPlaces(0)
-      .setLowerLimit(1).setUpperLimit(6));
+      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.THRUST,
       RigidBodyApp.i18n.THRUST,
-      this.getThrust, this.setThrust));
+      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.MASS1,
       RigidBodyApp.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -135,13 +135,13 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.addParameter(
       pn = new ParameterNumber(this, RigidBodyApp.en.SPRING_STIFFNESS,
       RigidBodyApp.i18n.SPRING_STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(
       pn = new ParameterNumber(this, RigidBodyApp.en.SPRING_LENGTH,
       RigidBodyApp.i18n.SPRING_LENGTH,
-      this.getRestLength, this.setRestLength));
+      goog.bind(this.getRestLength, this), goog.bind(this.setRestLength, this)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

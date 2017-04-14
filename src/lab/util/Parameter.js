@@ -49,8 +49,8 @@ Getter and Setter Methods
 -------------------------
 A Parameter operates by calling *getter* and *setter* methods on its Subject. These
 methods are specified to the Parameter's constructor, and used in the Parameter's
-{@link #getValue} and {@link #setValue} methods. We assume that the Subject's *setter* method
-will perform notification of changes via
+{@link #getValue} and {@link #setValue} methods. We assume that the Subject's *setter*
+method will perform notification of changes via
 {@link myphysicslab.lab.util.Subject#broadcastParameter Subject.broadcastParameter}.
 
 Here are examples of *getter* and *setter* methods showing how the Parameter is
@@ -69,7 +69,9 @@ Here is an example showing how the *getter* and *setter* methods are specified w
 creating a ParameterNumber. This is from the SingleSpringSim constructor:
 
     this.addParameter(new ParameterNumber(this, SingleSpringSim.en.MASS,
-        SingleSpringSim.i18n.MASS, this.getMass, this.setMass));
+        SingleSpringSim.i18n.MASS,
+        goog.bind(this.getMass, this),
+        goog.bind(this.setMass, this)));
 
 
 Choices and Values

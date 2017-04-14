@@ -103,7 +103,7 @@ myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
   this.addParameter(
     new ParameterString(this, DiffEqSolverSubject.en.DIFF_EQ_SOLVER,
         DiffEqSolverSubject.i18n.DIFF_EQ_SOLVER,
-        this.getDiffEqSolver, this.setDiffEqSolver,
+        goog.bind(this.getDiffEqSolver, this), goog.bind(this.setDiffEqSolver, this),
         choices, values));
 };
 var DiffEqSolverSubject = myphysicslab.lab.model.DiffEqSolverSubject;

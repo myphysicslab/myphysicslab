@@ -196,13 +196,17 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   */
   this.debug_ = false;
   this.addParameter(new ParameterNumber(this, LabCanvas.en.WIDTH,
-      LabCanvas.i18n.WIDTH, this.getWidth, this.setWidth));
+      LabCanvas.i18n.WIDTH, goog.bind(this.getWidth, this),
+      goog.bind(this.setWidth, this)));
   this.addParameter(new ParameterNumber(this, LabCanvas.en.HEIGHT,
-      LabCanvas.i18n.HEIGHT, this.getHeight, this.setHeight));
+      LabCanvas.i18n.HEIGHT, goog.bind(this.getHeight, this),
+      goog.bind(this.setHeight, this)));
   this.addParameter(new ParameterNumber(this, LabCanvas.en.ALPHA,
-      LabCanvas.i18n.ALPHA, this.getAlpha, this.setAlpha));
+      LabCanvas.i18n.ALPHA, goog.bind(this.getAlpha, this),
+      goog.bind(this.setAlpha, this)));
   this.addParameter(new ParameterString(this, LabCanvas.en.BACKGROUND,
-      LabCanvas.i18n.BACKGROUND, this.getBackground, this.setBackground));
+      LabCanvas.i18n.BACKGROUND, goog.bind(this.getBackground, this),
+      goog.bind(this.setBackground, this)));
 };
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 goog.inherits(LabCanvas, AbstractSubject);

@@ -137,7 +137,8 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
   this.clock.addTask(this.task);
   this.addParameter(pn = new ParameterNumber(this, BrachistoApp.en.REPEAT_TIME,
       BrachistoApp.i18n.REPEAT_TIME,
-      this.getRepeatTime, this.setRepeatTime).setSignifDigits(0));
+      goog.bind(this.getRepeatTime, this), goog.bind(this.setRepeatTime, this))
+      .setSignifDigits(0));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

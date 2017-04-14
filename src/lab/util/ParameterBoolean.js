@@ -34,10 +34,10 @@ Subject}. See {@link myphysicslab.lab.util.Parameter} for more documentation.
     English name can be passed in here.
     See {@link myphysicslab.lab.util.UtilityCore#toName}.
 @param {string} localName the localized name of this Parameter
-@param {function(this: myphysicslab.lab.util.Subject): boolean} getter A method of
-    `subject` with no arguments that returns the value of this Parameter
-@param {function(this: myphysicslab.lab.util.Subject, boolean)} setter A method of
-    `subject` with one argument that sets the value of this Parameter
+@param {function(): boolean} getter A function with no arguments that returns
+    the value of this Parameter
+@param {function(boolean)} setter A function with one argument that sets
+    the value of this Parameter
 @param {!Array<string>=} opt_choices the translated localized strings corresponding to
     the values (optional)
 @param {!Array<boolean>=} opt_values the booleans corresponding to the choices that the
@@ -65,12 +65,12 @@ myphysicslab.lab.util.ParameterBoolean = function(subject, name, localName, gett
   */
   this.localName_ = localName;
   /**
-  @type {function(this:myphysicslab.lab.util.Subject): boolean}
+  @type {function(): boolean}
   @private
   */
   this.getter_ = getter;
   /**
-  @type {function(this:myphysicslab.lab.util.Subject, boolean)}
+  @type {function( boolean)}
   @private
   */
   this.setter_ = setter;
@@ -141,7 +141,7 @@ ParameterBoolean.prototype.getSubject = function() {
 @return {boolean} the value of this ParameterBoolean
 */
 ParameterBoolean.prototype.getValue = function() {
-  return this.getter_.call(this.subject_);
+  return this.getter_();
 };
 
 /** @inheritDoc */
@@ -200,7 +200,7 @@ ParameterBoolean.prototype.setValue = function(value) {
   if (!goog.isBoolean(value))
     throw new Error('non-boolean value: '+value);
   if (value !== this.getValue()) {
-    this.setter_.call(this.subject_, value);
+    this.setter_(value);
   }
 };
 

@@ -225,13 +225,15 @@ myphysicslab.sims.pendulum.RigidDoublePendulumSim = function(parts, opt_name,
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, RigidDoublePendulumSim.en.GRAVITY,
       RigidDoublePendulumSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, RigidDoublePendulumSim.en.ANGLE_1,
       RigidDoublePendulumSim.i18n.ANGLE_1,
-      this.getAngle1, this.setAngle1).setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
+      goog.bind(this.getAngle1, this), goog.bind(this.setAngle1, this))
+      .setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
   this.addParameter(new ParameterNumber(this, RigidDoublePendulumSim.en.ANGLE_2,
       RigidDoublePendulumSim.i18n.ANGLE_2,
-      this.getAngle2, this.setAngle2).setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
+      goog.bind(this.getAngle2, this), goog.bind(this.setAngle2, this))
+      .setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
   this.getSimList().add(this.pendulum1_, this.pendulum2_, this.pivot1_, this.pivot2_);
 };
 

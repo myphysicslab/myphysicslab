@@ -202,25 +202,28 @@ myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.GRAVITY,
       CartPendulumSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.CART_MASS,
       CartPendulumSim.i18n.CART_MASS,
-      this.getCartMass, this.setCartMass));
+      goog.bind(this.getCartMass, this), goog.bind(this.setCartMass, this)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.PENDULUM_MASS,
       CartPendulumSim.i18n.PENDULUM_MASS,
-      this.getPendulumMass, this.setPendulumMass));
+      goog.bind(this.getPendulumMass, this), goog.bind(this.setPendulumMass, this)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.CART_DAMPING,
       CartPendulumSim.i18n.CART_DAMPING,
-      this.getCartDamping, this.setCartDamping));
+      goog.bind(this.getCartDamping, this), goog.bind(this.setCartDamping, this)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.PENDULUM_DAMPING,
       CartPendulumSim.i18n.PENDULUM_DAMPING,
-      this.getPendulumDamping, this.setPendulumDamping));
+      goog.bind(this.getPendulumDamping, this),
+       goog.bind(this.setPendulumDamping, this)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.PENDULUM_LENGTH,
       CartPendulumSim.i18n.PENDULUM_LENGTH,
-      this.getPendulumLength, this.setPendulumLength));
+      goog.bind(this.getPendulumLength, this),
+      goog.bind(this.setPendulumLength, this)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.SPRING_STIFFNESS,
       CartPendulumSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 
 var CartPendulumSim = myphysicslab.sims.pendulum.CartPendulumSim;

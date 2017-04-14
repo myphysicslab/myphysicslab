@@ -129,22 +129,22 @@ myphysicslab.sims.springs.ChainOfSpringsSim = function(opt_name) {
   this.springs_ = [];
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.GRAVITY,
       ChainOfSpringsSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.MASS,
       ChainOfSpringsSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.STIFFNESS,
       ChainOfSpringsSim.i18n.STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.DAMPING,
       ChainOfSpringsSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.SPRING_DAMPING,
       ChainOfSpringsSim.i18n.SPRING_DAMPING,
-      this.getSpringDamping, this.setSpringDamping));
+      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.LENGTH,
       ChainOfSpringsSim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
 };
 
 var ChainOfSpringsSim = myphysicslab.sims.springs.ChainOfSpringsSim;

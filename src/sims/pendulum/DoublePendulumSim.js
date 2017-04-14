@@ -200,19 +200,19 @@ myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.ROD_1_LENGTH,
       DoublePendulumSim.i18n.ROD_1_LENGTH,
-      this.getRod1Length, this.setRod1Length));
+      goog.bind(this.getRod1Length, this), goog.bind(this.setRod1Length, this)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.ROD_2_LENGTH,
       DoublePendulumSim.i18n.ROD_2_LENGTH,
-      this.getRod2Length, this.setRod2Length));
+      goog.bind(this.getRod2Length, this), goog.bind(this.setRod2Length, this)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.MASS_1,
       DoublePendulumSim.i18n.MASS_1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.MASS_2,
       DoublePendulumSim.i18n.MASS_2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.GRAVITY,
       DoublePendulumSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
 };
 var DoublePendulumSim = myphysicslab.sims.pendulum.DoublePendulumSim;
 goog.inherits(DoublePendulumSim, AbstractODESim);

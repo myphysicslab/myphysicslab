@@ -230,7 +230,8 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
 
   pn = new ParameterNumber(this, ComparePendulumApp.en.ANGLE_DELTA,
       ComparePendulumApp.i18n.ANGLE_DELTA,
-      this.getAngleDelta, this.setAngleDelta).setDecimalPlaces(7);
+      goog.bind(this.getAngleDelta, this), goog.bind(this.setAngleDelta, this))
+      .setDecimalPlaces(7);
   this.addParameter(pn);
   this.addControl(new NumericControl(pn));
 

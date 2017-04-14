@@ -222,10 +222,10 @@ myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, LagrangeRollerSim.en.GRAVITY,
       LagrangeRollerSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, LagrangeRollerSim.en.MASS,
       LagrangeRollerSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
 };
 var LagrangeRollerSim = myphysicslab.sims.roller.LagrangeRollerSim;
 goog.inherits(LagrangeRollerSim, AbstractODESim);

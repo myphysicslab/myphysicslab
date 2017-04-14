@@ -328,31 +328,33 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
   this.modifyObjects();
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.GRAVITY,
       Molecule3Sim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.DAMPING,
       Molecule3Sim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.ELASTICITY,
       Molecule3Sim.i18n.ELASTICITY,
-      this.getElasticity, this.setElasticity).setSignifDigits(3).setUpperLimit(1));
+      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.MASS,
       Molecule3Sim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.MASS_SPECIAL,
       Molecule3Sim.i18n.MASS_SPECIAL,
-      this.getMassSpecial, this.setMassSpecial));
+      goog.bind(this.getMassSpecial, this), goog.bind(this.setMassSpecial, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.LENGTH,
       Molecule3Sim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.LENGTH_SPECIAL,
       Molecule3Sim.i18n.LENGTH_SPECIAL,
-      this.getLengthSpecial, this.setLengthSpecial));
+      goog.bind(this.getLengthSpecial, this), goog.bind(this.setLengthSpecial, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.STIFFNESS,
       Molecule3Sim.i18n.STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.STIFFNESS_SPECIAL,
       Molecule3Sim.i18n.STIFFNESS_SPECIAL,
-      this.getStiffnessSpecial, this.setStiffnessSpecial));
+      goog.bind(this.getStiffnessSpecial, this),
+      goog.bind(this.setStiffnessSpecial, this)));
 };
 
 var Molecule3Sim = myphysicslab.sims.springs.Molecule3Sim;

@@ -171,30 +171,31 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   var ps;
   this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.FORMATION,
       MultipleCollisionApp.i18n.FORMATION,
-      this.getFormation, this.setFormation, choices, this.formations));
+      goog.bind(this.getFormation, this),
+      goog.bind(this.setFormation, this), choices, this.formations));
   this.addControl(new ChoiceControl(ps));
 
   this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.SHAPE,
       MultipleCollisionApp.i18n.SHAPE,
-      this.getShape, this.setShape,
+      goog.bind(this.getShape, this), goog.bind(this.setShape, this),
       [ MultipleCollisionApp.i18n.SQUARE, MultipleCollisionApp.i18n.CIRCLE ],
       [ MultipleCollisionApp.Shape.SQUARE, MultipleCollisionApp.Shape.CIRCLE ]));
   this.addControl(new ChoiceControl(ps));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.OFFSET,
       MultipleCollisionApp.i18n.OFFSET,
-      this.getOffset, this.setOffset));
+      goog.bind(this.getOffset, this), goog.bind(this.setOffset, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.ANGLE,
       MultipleCollisionApp.i18n.ANGLE,
-      this.getAngle, this.setAngle));
+      goog.bind(this.getAngle, this), goog.bind(this.setAngle, this)));
   pn.setLowerLimit(UtilityCore.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.SPEED,
       MultipleCollisionApp.i18n.SPEED,
-      this.getSpeed, this.setSpeed));
+      goog.bind(this.getSpeed, this), goog.bind(this.setSpeed, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);

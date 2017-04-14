@@ -186,19 +186,21 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
 
   this.addParameter(new ParameterNumber(this, SingleSpringSim.en.DAMPING,
       SingleSpringSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, SingleSpringSim.en.SPRING_LENGTH,
       SingleSpringSim.i18n.SPRING_LENGTH,
-      this.getSpringRestLength, this.setSpringRestLength));
+      goog.bind(this.getSpringRestLength, this),
+      goog.bind(this.setSpringRestLength, this)));
   this.addParameter(new ParameterNumber(this, SingleSpringSim.en.MASS,
       SingleSpringSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, SingleSpringSim.en.SPRING_STIFFNESS,
       SingleSpringSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
   this.addParameter(new ParameterNumber(this, SingleSpringSim.en.FIXED_POINT,
       SingleSpringSim.i18n.FIXED_POINT,
-      this.getFixedPoint, this.setFixedPoint)
+      goog.bind(this.getFixedPoint, this), goog.bind(this.setFixedPoint, this))
       .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
 };
 

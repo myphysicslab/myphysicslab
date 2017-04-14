@@ -254,25 +254,27 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, PendulumSim.en.LENGTH,
       PendulumSim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.DAMPING,
       PendulumSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.MASS,
       PendulumSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.DRIVE_AMPLITUDE,
       PendulumSim.i18n.DRIVE_AMPLITUDE,
-      this.getDriveAmplitude, this.setDriveAmplitude));
+      goog.bind(this.getDriveAmplitude, this),
+      goog.bind(this.setDriveAmplitude, this)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.DRIVE_FREQUENCY,
       PendulumSim.i18n.DRIVE_FREQUENCY,
-      this.getDriveFrequency, this.setDriveFrequency));
+      goog.bind(this.getDriveFrequency, this),
+      goog.bind(this.setDriveFrequency, this)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.GRAVITY,
       PendulumSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterBoolean(this, PendulumSim.en.LIMIT_ANGLE,
       PendulumSim.i18n.LIMIT_ANGLE,
-      this.getLimitAngle, this.setLimitAngle));
+      goog.bind(this.getLimitAngle, this), goog.bind(this.setLimitAngle, this)));
 };
 
 var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;

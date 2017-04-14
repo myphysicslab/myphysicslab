@@ -37,15 +37,12 @@ from {@link myphysicslab.lab.engine2D.ContactSim}:
 
     new ParameterString(this, RigidBodySim.en.EXTRA_ACCEL,
       RigidBodySim.i18n.EXTRA_ACCEL,
-      this.getExtraAccel,
-      (/** function(this:myphysicslab.lab.engine2D.ContactSim, string) * /}
-      (function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); })),
+      goog.bind(this.getExtraAccel, this),
+      goog.bind(function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); }, this),
       ExtraAccel.getChoices(), ExtraAccel.getValues());
 
 This defines a special setter function because `setExtraAccel` takes an argument
-of the enum type `ExtraAccel`, not of type `string`. (The code example uses a
-closure compiler 'type cast': the type is in a comment followed by the object in
-parenthesis.)
+of the enum type `ExtraAccel`, not of type `string`.
 
 See [Enums](Building.html#enums) for more information.
 
@@ -55,10 +52,10 @@ See [Enums](Building.html#enums) for more information.
     English name can be passed in here.
     See {@link myphysicslab.lab.util.UtilityCore#toName}.
 @param {string} localName the localized name of this Parameter
-@param {function(this: myphysicslab.lab.util.Subject): string} getter A method of
-    `subject` with no arguments that returns the value of this Parameter
-@param {function(this: myphysicslab.lab.util.Subject, string)} setter A method of
-    `subject` with one argument that sets the value of this Parameter
+@param {function(): string} getter A function with no arguments that returns
+    the value of this Parameter
+@param {function(string)} setter A function with one argument that sets
+    the value of this Parameter
 @param {!Array<string>=} opt_choices the translated localized strings corresponding to
     the values (optional)
 @param {!Array<string>=} opt_values the language-independent strings that the parameter
@@ -86,12 +83,12 @@ myphysicslab.lab.util.ParameterString = function(subject, name, localName, gette
   */
   this.localName_ = localName;
   /**
-  @type {function(this:myphysicslab.lab.util.Subject): string}
+  @type {function(): string}
   @private
   */
   this.getter_ = getter;
   /**
-  @type {function(this:myphysicslab.lab.util.Subject, string)}
+  @type {function(string)}
   @private
   */
   this.setter_ = setter;
@@ -194,7 +191,7 @@ ParameterString.prototype.getSuggestedLength = function() {
 @return {string} the value of this ParameterString
 */
 ParameterString.prototype.getValue = function() {
-  return this.getter_.call(this.subject_);
+  return this.getter_();
 };
 
 /** @inheritDoc */
@@ -300,7 +297,7 @@ ParameterString.prototype.setValue = function(value) {
     }
   }
   if (value !== this.getValue()) {
-    this.setter_.call(this.subject_, value);
+    this.setter_(value);
   }
 };
 

@@ -211,17 +211,18 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
   this.minSize = 1E-14;
   this.addParameter(new ParameterNumber(this, AutoScale.en.TIME_WINDOW,
       AutoScale.i18n.TIME_WINDOW,
-      this.getTimeWindow, this.setTimeWindow).setSignifDigits(3));
+      goog.bind(this.getTimeWindow, this), goog.bind(this.setTimeWindow, this))
+      .setSignifDigits(3));
   var choices = [AutoScale.VERTICAL, AutoScale.HORIZONTAL, AutoScale.BOTH_AXES];
   this.addParameter(new ParameterString(this, AutoScale.en.AXIS,
       AutoScale.i18n.AXIS,
-      this.getAxis, this.setAxis, choices, choices));
+      goog.bind(this.getAxis, this), goog.bind(this.setAxis, this), choices, choices));
   this.addParameter(new ParameterBoolean(this, AutoScale.en.ACTIVE,
       AutoScale.i18n.ACTIVE,
-      this.getActive, this.setActive));
+      goog.bind(this.getActive, this), goog.bind(this.setActive, this)));
   this.addParameter(new ParameterBoolean(this, AutoScale.en.ENABLED,
       AutoScale.i18n.ENABLED,
-      this.getEnabled, this.setEnabled));
+      goog.bind(this.getEnabled, this), goog.bind(this.setEnabled, this)));
   this.setComputed(this.isActive_);
 };
 var AutoScale = myphysicslab.lab.graph.AutoScale;

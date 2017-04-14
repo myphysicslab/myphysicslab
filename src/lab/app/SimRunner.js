@@ -222,19 +222,21 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   this.debugTiming_ = false;
   this.addParameter(new ParameterNumber(this, SimRunner.en.TIME_STEP,
       SimRunner.i18n.TIME_STEP,
-      this.getTimeStep, this.setTimeStep).setSignifDigits(3));
+      goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this))
+      .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, SimRunner.en.DISPLAY_PERIOD,
       SimRunner.i18n.DISPLAY_PERIOD,
-      this.getDisplayPeriod, this.setDisplayPeriod).setSignifDigits(3));
+      goog.bind(this.getDisplayPeriod, this), goog.bind(this.setDisplayPeriod, this))
+      .setSignifDigits(3));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.RUNNING,
       SimRunner.i18n.RUNNING,
-      this.getRunning, this.setRunning));
+      goog.bind(this.getRunning, this), goog.bind(this.setRunning, this)));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.FIRING,
       SimRunner.i18n.FIRING,
-      this.getFiring, this.setFiring));
+      goog.bind(this.getFiring, this), goog.bind(this.setFiring, this)));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.NON_STOP,
       SimRunner.i18n.NON_STOP,
-      this.getNonStop, this.setNonStop));
+      goog.bind(this.getNonStop, this), goog.bind(this.setNonStop, this)));
 };
 var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);

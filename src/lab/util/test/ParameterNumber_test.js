@@ -102,16 +102,17 @@ var testParameterNumber1 = function() {
   MockSubject1.prototype.broadcast = function(event) {};
   /** @inheritDoc */
   MockSubject1.prototype.toStringShort = function() { return 'MockSubject1'; };
-  var mockSubj = new MockSubject1();
-  assertEquals(0, mockSubj.getFooness());
-  assertEquals(0, mockSubj.getFooBarness());
+  var mockSubj1 = new MockSubject1();
+  assertEquals(0, mockSubj1.getFooness());
+  assertEquals(0, mockSubj1.getFooBarness());
   // now make parameters
-  var paramFoo = new ParameterNumber(mockSubj, MockSubject1.FOONESS,
+  var paramFoo = new ParameterNumber(mockSubj1, MockSubject1.FOONESS,
       MockSubject1.FOONESS,
-      mockSubj.getFooness, mockSubj.setFooness);
+      goog.bind(mockSubj1.getFooness, mockSubj1),
+      goog.bind(mockSubj1.setFooness, mockSubj1));
   assertEquals('FOONESS', paramFoo.getName());
   assertTrue(paramFoo.nameEquals('fooness'));
-  assertEquals(mockSubj, paramFoo.getSubject());
+  assertEquals(mockSubj1, paramFoo.getSubject());
   assertTrue(paramFoo instanceof ParameterNumber);
   assertEquals(0, paramFoo.getValue());
   assertEquals('0', paramFoo.getAsString());
@@ -147,12 +148,13 @@ var testParameterNumber1 = function() {
   // compare to the next representable number that is more negative
   assertRoughlyEquals(-1.00000000000000013969727991388E200, paramFoo.getValue(), 1E185);
   // test making a param from a name with an underbar in it, here 'foo_barness'
-  var paramFooBar = new ParameterNumber(mockSubj, MockSubject1.FOOBARNESS,
+  var paramFooBar = new ParameterNumber(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
-      mockSubj.getFooBarness, mockSubj.setFooBarness);
+      goog.bind(mockSubj1.getFooBarness, mockSubj1),
+      goog.bind(mockSubj1.setFooBarness, mockSubj1));
   assertEquals(UtilityCore.toName(MockSubject1.FOOBARNESS), paramFooBar.getName());
   assertTrue(paramFooBar.nameEquals(MockSubject1.FOOBARNESS));
-  assertEquals(mockSubj, paramFooBar.getSubject());
+  assertEquals(mockSubj1, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterNumber);
   assertEquals(0, paramFooBar.getValue());
   assertEquals(undefined, paramFooBar.setValue(10));
@@ -226,7 +228,8 @@ var testParameterNumber2 = function() {
   // now make parameters
   var paramFoo = new ParameterNumber(mockSubj2, MockSubject2.FOONESS,
       MockSubject2.FOONESS,
-      mockSubj2.getFooness, mockSubj2.setFooness);
+      goog.bind(mockSubj2.getFooness, mockSubj2),
+      goog.bind(mockSubj2.setFooness, mockSubj2));
   mockSubj2.addParameter(paramFoo);
   assertEquals('FOONESS', paramFoo.getName());
   assertEquals(mockSubj2, paramFoo.getSubject());
@@ -246,7 +249,8 @@ var testParameterNumber2 = function() {
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
-      mockSubj2.getFooBarness, mockSubj2.setFooBarness);
+      goog.bind(mockSubj2.getFooBarness, mockSubj2),
+      goog.bind(mockSubj2.setFooBarness, mockSubj2));
   mockSubj2.addParameter(paramFooBar);
   assertEquals(UtilityCore.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());
   assertEquals(mockSubj2, paramFooBar.getSubject());
@@ -316,7 +320,8 @@ var testParameterNumber3 = function() {
   // now make parameters
   var paramFoo = new ParameterNumber(mockSubj3, MockSubject3.FOONESS,
       MockSubject3.FOONESS,
-      mockSubj3.getFooness, mockSubj3.setFooness);
+      goog.bind(mockSubj3.getFooness, mockSubj3),
+      goog.bind(mockSubj3.setFooness, mockSubj3));
   assertEquals('FOONESS', paramFoo.getName());
   assertEquals(mockSubj3, paramFoo.getSubject());
   assertTrue(paramFoo instanceof ParameterNumber);
@@ -332,7 +337,8 @@ var testParameterNumber3 = function() {
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj3, MockSubject3.FOOBARNESS,
       MockSubject3.FOOBARNESS,
-      mockSubj3.getFooBarness, mockSubj3.setFooBarness);
+      goog.bind(mockSubj3.getFooBarness, mockSubj3),
+      goog.bind(mockSubj3.setFooBarness, mockSubj3));
   assertEquals(MockSubject3.FOOBARNESS, paramFooBar.getName());
   assertEquals(mockSubj3, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterNumber);
@@ -422,7 +428,8 @@ var testParameterNumber4 = function() {
   var sqrt2 = Math.sqrt(2); //1.4142135623730951;
   var paramFooness = new ParameterNumber(mockSubj2, MockSubject2.FOONESS,
       MockSubject2.FOONESS,
-    mockSubj2.getFooness, mockSubj2.setFooness,
+      goog.bind(mockSubj2.getFooness, mockSubj2),
+      goog.bind(mockSubj2.setFooness, mockSubj2),
     ['pi', 'e', 'sqrt(2)'], [pi, e, sqrt2]);
   mockSubj2.addParameter(paramFooness);
   assertEquals(MockSubject2.FOONESS, paramFooness.getName());
@@ -457,7 +464,8 @@ var testParameterNumber4 = function() {
   // make a parameter with choices and integer values
   var paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
-      mockSubj2.getFooBarness, mockSubj2.setFooBarness,
+      goog.bind(mockSubj2.getFooBarness, mockSubj2),
+      goog.bind(mockSubj2.setFooBarness, mockSubj2),
       ['none', 'some', 'lots'], [0, 5, 1000]);
   mockSubj2.addParameter(paramFooBar);
   assertEquals(MockSubject2.FOOBARNESS, paramFooBar.getName());
@@ -491,7 +499,8 @@ var testParameterNumber4 = function() {
   var bazChoices = ['red', 'green', 'blue', 'black'];
   var paramBaz = new ParameterNumber(mockSubj2, MockSubject2.BAZ,
       MockSubject2.BAZ,
-      mockSubj2.getBaz, mockSubj2.setBaz,
+      goog.bind(mockSubj2.getBaz, mockSubj2),
+      goog.bind(mockSubj2.setBaz, mockSubj2),
       bazChoices, goog.array.range(bazChoices.length)
       );
   mockSubj2.addParameter(paramBaz);
@@ -533,7 +542,8 @@ var testParameterNumber4 = function() {
   assertThrows( function() {
       new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
-      mockSubj2.getFooBarness, mockSubj2.setFooBarness,
+      goog.bind(mockSubj2.getFooBarness, mockSubj2),
+      goog.bind(mockSubj2.setFooBarness, mockSubj2),
       ['none', 'some', 'lots', 'too many'], [0, 5, 1000]);
   });
 };

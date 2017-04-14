@@ -170,7 +170,8 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   */
   this.yVarParam_ = new ParameterNumber(this, GraphLine.en.Y_VARIABLE,
       GraphLine.i18n.Y_VARIABLE,
-      this.getYVariable, this.setYVariable).setLowerLimit(-1);
+      goog.bind(this.getYVariable, this), goog.bind(this.setYVariable, this))
+      .setLowerLimit(-1);
   this.addParameter(this.yVarParam_);
   /** Parameter that represents which variable is shown on X-axis, and the available
   * choices of variables.
@@ -179,7 +180,8 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   */
   this.xVarParam_ = new ParameterNumber(this, GraphLine.en.X_VARIABLE,
       GraphLine.i18n.X_VARIABLE,
-      this.getXVariable, this.setXVariable).setLowerLimit(-1);
+      goog.bind(this.getXVariable, this), goog.bind(this.setXVariable, this))
+      .setLowerLimit(-1);
   this.addParameter(this.xVarParam_);
   this.buildMenu();
   /** Holds the most recent data points drawn, to enable redrawing when needed.
@@ -228,18 +230,18 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   this.yTransform = function(x, y) { return y; };
   this.addParameter(new ParameterNumber(this, GraphLine.en.LINE_WIDTH,
       GraphLine.i18n.LINE_WIDTH,
-      this.getLineWidth, this.setLineWidth));
+      goog.bind(this.getLineWidth, this), goog.bind(this.setLineWidth, this)));
   // Need a special 'setter' because `setDrawingMode` takes an argument of
   // the enum type `DrawingMode`, not of type `number`.
   this.addParameter(new ParameterString(this, GraphLine.en.DRAWING_MODE,
       GraphLine.i18n.DRAWING_MODE,
-      this.getDrawingMode,
-      (/** function(this:myphysicslab.lab.graph.GraphLine, number) */
-      (function(s) { this.setDrawingMode(DrawingMode.stringToEnum(s)); })),
+      goog.bind(this.getDrawingMode, this),
+      goog.bind(function(s) { this.setDrawingMode(DrawingMode.stringToEnum(s)); },
+          this),
       DrawingMode.getChoices(), DrawingMode.getValues()));
   this.addParameter(new ParameterString(this, GraphLine.en.GRAPH_COLOR,
       GraphLine.i18n.GRAPH_COLOR,
-      this.getColor, this.setColor));
+      goog.bind(this.getColor, this), goog.bind(this.setColor, this)));
 };
 
 var GraphLine = myphysicslab.lab.graph.GraphLine;

@@ -172,13 +172,13 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.addParameter(
       pn = new ParameterNumber(this, PendulumSpringApp.en.SPRING_STIFFNESS,
       PendulumSpringApp.i18n.SPRING_STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(
       pn = new ParameterNumber(this, PendulumSpringApp.en.SPRING_LENGTH,
       PendulumSpringApp.i18n.SPRING_LENGTH,
-      this.getRestLength, this.setRestLength));
+      goog.bind(this.getRestLength, this), goog.bind(this.setRestLength, this)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

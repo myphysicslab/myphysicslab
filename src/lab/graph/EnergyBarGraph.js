@@ -508,7 +508,7 @@ EnergyBarGraph.prototype.drawLegend = function(context, s, c, filled, x, y) {
     context.strokeRect(x, y, BOX, BOX);
   }
   x += BOX + 3;
-  var textWidth = context.measureText(s).width;
+  var textWidth = UtilityCore.measureText(context, s);
   context.fillStyle = '#000'; // black
   context.fillText(s, x, y+this.fontAscent_);
   x += textWidth+5;
@@ -539,7 +539,7 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
       context.lineTo(x, top_+EnergyBarGraph.HEIGHT+2);
       context.stroke();
       var s = EnergyBarGraph.numberFormat1(scale);
-      var textWidth = context.measureText(s).width;
+      var textWidth = UtilityCore.measureText(context, s);
       context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
       scale += this.graphDelta_;
       if (++loopCtr > 100) {
@@ -564,7 +564,7 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
         context.lineTo(x, top_+EnergyBarGraph.HEIGHT+2);
         context.stroke();
         var s = EnergyBarGraph.numberFormat1(scale);
-        var textWidth = context.measureText(s).width;
+        var textWidth = UtilityCore.measureText(context, s);
         context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
         scale -= this.graphDelta_;
         if (this.debug_ && goog.DEBUG) {
@@ -589,7 +589,7 @@ EnergyBarGraph.prototype.drawTotalEnergy = function(context, x, y) {
     this.formatTotalEnergy(this.totalEnergyDisplay_, this.lastEnergyDisplay_);
   context.fillStyle = '#000'; // black
   context.fillText(s, x, y+this.fontAscent_);
-  return x + context.measureText(s).width + 5;
+  return x + UtilityCore.measureText(context, s) + 5;
 };
 
 /** Convert number to a string, using a format based on how large the value is,

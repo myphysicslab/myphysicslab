@@ -121,13 +121,13 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, CollideSpringSim.en.NUM_BLOCKS,
       CollideSpringSim.i18n.NUM_BLOCKS,
-      this.getNumBlocks, this.setNumBlocks).setDecimalPlaces(0)
-      .setLowerLimit(1).setUpperLimit(3));
+      goog.bind(this.getNumBlocks, this), goog.bind(this.setNumBlocks, this))
+      .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(3));
   this.addControl(new SliderControl(pn, 1, 3, /*multiply=*/false));
 
   this.addParameter(pn = new ParameterNumber(this, CollideSpringSim.en.START_POSITION,
       CollideSpringSim.i18n.START_POSITION,
-      this.getStartPosition, this.setStartPosition,
+      goog.bind(this.getStartPosition, this), goog.bind(this.setStartPosition, this),
       /*choices=*/[CollideSpringSim.i18n.START_IN_MIDDLE,
       CollideSpringSim.i18n.START_ON_WALL],
       /*values=*/[CollideSpringSim.START_MIDDLE, CollideSpringSim.START_ON_WALL]));
@@ -135,7 +135,7 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, CollideSpringSim.en.START_GAP,
       CollideSpringSim.i18n.START_GAP,
-      this.getStartGap, this.setStartGap));
+      goog.bind(this.getStartGap, this), goog.bind(this.setStartGap, this)));
   this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(CollideSpringSim.en.DAMPING);

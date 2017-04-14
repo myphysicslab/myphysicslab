@@ -136,43 +136,44 @@ sims.engine2D.ChainApp = function(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.NUM_LINKS,
       ChainConfig.i18n.NUM_LINKS,
-      this.getNumLinks, this.setNumLinks).setDecimalPlaces(0));
+      goog.bind(this.getNumLinks, this), goog.bind(this.setNumLinks, this))
+      .setDecimalPlaces(0));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.WALLS,
       ChainConfig.i18n.WALLS,
-      this.getWalls, this.setWalls));
+      goog.bind(this.getWalls, this), goog.bind(this.setWalls, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.EXTRA_BODY,
       ChainConfig.i18n.EXTRA_BODY,
-      this.getExtraBody, this.setExtraBody));
+      goog.bind(this.getExtraBody, this), goog.bind(this.setExtraBody, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.FIXED_LEFT,
       ChainConfig.i18n.FIXED_LEFT,
-      this.getFixedLeft, this.setFixedLeft));
+      goog.bind(this.getFixedLeft, this), goog.bind(this.setFixedLeft, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.FIXED_RIGHT,
       ChainConfig.i18n.FIXED_RIGHT,
-      this.getFixedRight, this.setFixedRight));
+      goog.bind(this.getFixedRight, this), goog.bind(this.setFixedRight, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.FIXED_LEFT_X,
       ChainConfig.i18n.FIXED_LEFT_X,
-      this.getFixedLeftX, this.setFixedLeftX)
+      goog.bind(this.getFixedLeftX, this), goog.bind(this.setFixedLeftX, this))
       .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.BLOCK_LENGTH,
       ChainConfig.i18n.BLOCK_LENGTH,
-      this.getBlockLength, this.setBlockLength));
+      goog.bind(this.getBlockLength, this), goog.bind(this.setBlockLength, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.BLOCK_WIDTH,
       ChainConfig.i18n.BLOCK_WIDTH,
-      this.getBlockWidth, this.setBlockWidth));
+      goog.bind(this.getBlockWidth, this), goog.bind(this.setBlockWidth, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

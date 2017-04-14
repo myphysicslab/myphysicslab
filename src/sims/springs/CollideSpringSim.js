@@ -185,19 +185,19 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
 
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.MASS,
       CollideSpringSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_STIFFNESS,
       CollideSpringSim.i18n.SPRING_STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.DAMPING,
       CollideSpringSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_DAMPING,
       CollideSpringSim.i18n.SPRING_DAMPING,
-      this.getSpringDamping, this.setSpringDamping));
+      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_LENGTH,
       CollideSpringSim.i18n.SPRING_LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
 };
 
 var CollideSpringSim = myphysicslab.sims.springs.CollideSpringSim;

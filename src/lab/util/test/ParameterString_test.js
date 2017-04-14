@@ -81,7 +81,8 @@ var testParameterString1 = function() {
   // make parameters
   var paramFoo = new ParameterString(mockSubj2, MockSubject2.FOONESS,
       MockSubject2.FOONESS,
-      mockSubj2.getFooness, mockSubj2.setFooness);
+      goog.bind(mockSubj2.getFooness, mockSubj2),
+      goog.bind(mockSubj2.setFooness, mockSubj2));
   mockSubj2.addParameter(paramFoo);
   assertEquals(UtilityCore.toName(MockSubject2.FOONESS), paramFoo.getName());
   assertTrue(paramFoo.nameEquals(MockSubject2.FOONESS));
@@ -112,7 +113,8 @@ var testParameterString1 = function() {
   // make a parameter with choices
   var paramFooBar = new ParameterString(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
-    mockSubj2.getFooBarness, mockSubj2.setFooBarness,
+      goog.bind(mockSubj2.getFooBarness, mockSubj2),
+      goog.bind(mockSubj2.setFooBarness, mockSubj2),
     ['keine', 'manche', 'viele'], ['none', 'some', 'many']);
   mockSubj2.addParameter(paramFooBar);
   assertEquals(UtilityCore.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());

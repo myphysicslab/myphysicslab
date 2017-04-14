@@ -111,7 +111,7 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   var ps;
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.FORMATION,
       BilliardsApp.i18n.FORMATION,
-      this.getFormation, this.setFormation,
+      goog.bind(this.getFormation, this), goog.bind(this.setFormation, this),
       [ BilliardsApp.i18n.ONE_HITS_THREE, BilliardsApp.i18n.ONE_HITS_SIX ],
       [ BilliardsApp.Formation.ONE_HITS_THREE,
         BilliardsApp.Formation.ONE_HITS_SIX ]));
@@ -119,12 +119,12 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.OFFSET,
       BilliardsApp.i18n.OFFSET,
-      this.getOffset, this.setOffset));
+      goog.bind(this.getOffset, this), goog.bind(this.setOffset, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.SPEED,
       BilliardsApp.i18n.SPEED,
-      this.getSpeed, this.setSpeed));
+      goog.bind(this.getSpeed, this), goog.bind(this.setSpeed, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);

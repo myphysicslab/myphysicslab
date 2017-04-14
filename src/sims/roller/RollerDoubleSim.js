@@ -160,26 +160,27 @@ myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
   this.dragObj_ = null;
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.DAMPING,
       RollerDoubleSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.GRAVITY,
       RollerDoubleSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.MASS_1,
       RollerDoubleSim.i18n.MASS_1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.MASS_2,
       RollerDoubleSim.i18n.MASS_2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.SPRING_DAMPING,
       RollerDoubleSim.i18n.SPRING_DAMPING,
-      this.getSpringDamping, this.setSpringDamping));
+      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.SPRING_LENGTH,
       RollerDoubleSim.i18n.SPRING_LENGTH,
-      this.getSpringLength, this.setSpringLength));
+      goog.bind(this.getSpringLength, this), goog.bind(this.setSpringLength, this)));
   this.addParameter(new ParameterNumber(this,
       RollerDoubleSim.en.SPRING_STIFFNESS,
       RollerDoubleSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 var RollerDoubleSim = myphysicslab.sims.roller.RollerDoubleSim;
 goog.inherits(RollerDoubleSim, AbstractODESim);

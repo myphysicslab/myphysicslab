@@ -190,7 +190,9 @@ myphysicslab.lab.util.Clock = function(opt_name) {
   */
   this.clockDebug_ = false;
   this.addParameter(new ParameterNumber(this, Clock.en.TIME_RATE,
-      Clock.i18n.TIME_RATE, this.getTimeRate, this.setTimeRate));
+      Clock.i18n.TIME_RATE,
+      goog.bind(this.getTimeRate, this),
+      goog.bind(this.setTimeRate, this)));
 };
 var Clock = myphysicslab.lab.util.Clock;
 goog.inherits(Clock, AbstractSubject);

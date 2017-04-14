@@ -223,25 +223,27 @@ myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
       this.block1_, this.block2_);
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.MASS_1,
       CollideBlocksSim.i18n.MASS_1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.MASS_2,
       CollideBlocksSim.i18n.MASS_2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.LENGTH_1,
       CollideBlocksSim.i18n.LENGTH_1,
-      this.getSpring1Length, this.setSpring1Length));
+      goog.bind(this.getSpring1Length, this), goog.bind(this.setSpring1Length, this)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.STIFFNESS_1,
       CollideBlocksSim.i18n.STIFFNESS_1,
-      this.getSpring1Stiffness, this.setSpring1Stiffness));
+      goog.bind(this.getSpring1Stiffness, this),
+      goog.bind(this.setSpring1Stiffness, this)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.LENGTH_2,
       CollideBlocksSim.i18n.LENGTH_2,
-      this.getSpring2Length, this.setSpring2Length));
+      goog.bind(this.getSpring2Length, this), goog.bind(this.setSpring2Length, this)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.STIFFNESS_2,
       CollideBlocksSim.i18n.STIFFNESS_2,
-      this.getSpring2Stiffness, this.setSpring2Stiffness));
+      goog.bind(this.getSpring2Stiffness, this),
+      goog.bind(this.setSpring2Stiffness, this)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.DAMPING,
       CollideBlocksSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
 };
 var CollideBlocksSim = myphysicslab.sims.springs.CollideBlocksSim;
 goog.inherits(CollideBlocksSim, AbstractODESim);

@@ -41,15 +41,13 @@ to be a ParameterString).
 
     new ParameterNumber(this, GraphLine.en.DRAWING_MODE,
       GraphLine.i18n.DRAWING_MODE,
-      this.getDrawingMode,
-      (/** function(this:myphysicslab.lab.graph.GraphLine, number) * /
-      (function(n) { this.setDrawingMode(DrawingMode.numberToEnum(n)); })),
+      goog.bind(this.getDrawingMode, this),
+      goog.bind(function(s) { this.setDrawingMode(DrawingMode.stringToEnum(s)); },
+          this),
       DrawingMode.getChoices(), DrawingMode.getValues());
 
 This defines a special 'setter' function because `setDrawingMode` takes an argument
-of the enum type `DrawingMode`, not of type `number`. (The code example uses a
-closure compiler 'type cast': the type is in a comment followed by the object in
-parenthesis.)
+of the enum type `DrawingMode`, not of type `number`.
 
 See [Enums](Building.html#enums) for more information.
 
@@ -60,10 +58,10 @@ See [Enums](Building.html#enums) for more information.
     English name can be passed in here.
     See {@link myphysicslab.lab.util.UtilityCore#toName}.
 @param {string} localName the localized name of this Parameter
-@param {function(this: myphysicslab.lab.util.Subject): number} getter A method of
-    `subject` with no arguments that returns the value of this Parameter
-@param {function(this: myphysicslab.lab.util.Subject, number)} setter A method of
-    `subject` with one argument that sets the value of this Parameter
+@param {function(): number} getter A function with no arguments that returns
+    the value of this Parameter
+@param {function(number)} setter A function with one argument that sets
+    the value of this Parameter
 @param {!Array<string>=} opt_choices the translated localized strings corresponding to
     the values (optional)
 @param {!Array<number>=} opt_values the numbers corresponding to the choices that the
@@ -91,12 +89,12 @@ myphysicslab.lab.util.ParameterNumber = function(subject, name, localName, gette
   */
   this.localName_ = localName;
   /** A method of Subject with no arguments that returns the value of this Parameter
-  @type {function(this:myphysicslab.lab.util.Subject): number}
+  @type {function(): number}
   @private
   */
   this.getter_ = getter;
   /** A method of Subject with one argument that sets the value of this Parameter
-  @type {function(this:myphysicslab.lab.util.Subject, number)}
+  @type {function(number)}
   @private
   */
   this.setter_ = setter;
@@ -223,7 +221,7 @@ ParameterNumber.prototype.getUpperLimit = function() {
 @return {number} the value of this ParameterNumber
 */
 ParameterNumber.prototype.getValue = function() {
-  return this.getter_.call(this.subject_);
+  return this.getter_();
 };
 
 /** @inheritDoc */
@@ -348,7 +346,7 @@ ParameterNumber.prototype.setValue = function(value) {
     }
   }
   if (value !== this.getValue()) {
-    this.setter_.call(this.subject_, value);
+    this.setter_(value);
   }
 };
 

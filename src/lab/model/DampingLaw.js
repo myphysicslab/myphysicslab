@@ -113,10 +113,12 @@ myphysicslab.lab.model.DampingLaw = function(damping, rotateRatio, opt_simList) 
   };
   this.addParameter(new ParameterNumber(this, DampingLaw.en.DAMPING,
       DampingLaw.i18n.DAMPING,
-      this.getDamping, this.setDamping).setSignifDigits(3));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this))
+      .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, DampingLaw.en.ROTATE_RATIO,
       DampingLaw.i18n.ROTATE_RATIO,
-      this.getRotateRatio, this.setRotateRatio).setSignifDigits(3));
+      goog.bind(this.getRotateRatio, this), goog.bind(this.setRotateRatio, this))
+      .setSignifDigits(3));
 };
 var DampingLaw = myphysicslab.lab.model.DampingLaw;
 goog.inherits(DampingLaw, AbstractSubject);

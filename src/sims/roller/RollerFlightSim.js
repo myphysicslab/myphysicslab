@@ -322,25 +322,28 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
 
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.STICKINESS,
       RollerFlightSim.i18n.STICKINESS,
-      this.getStickiness, this.setStickiness).setSignifDigits(3));
+      goog.bind(this.getStickiness, this), goog.bind(this.setStickiness, this))
+      .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.ELASTICITY,
       RollerFlightSim.i18n.ELASTICITY,
-      this.getElasticity, this.setElasticity).setSignifDigits(3).setUpperLimit(1));
+      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.DAMPING,
       RollerFlightSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.GRAVITY,
       RollerFlightSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.MASS,
       RollerFlightSim.i18n.MASS,
-      this.getMass, this.setMass));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.SPRING_LENGTH,
       RollerFlightSim.i18n.SPRING_LENGTH,
-      this.getSpringLength, this.setSpringLength));
+      goog.bind(this.getSpringLength, this), goog.bind(this.setSpringLength, this)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.SPRING_STIFFNESS,
       RollerFlightSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 var RollerFlightSim = myphysicslab.sims.roller.RollerFlightSim;
 goog.inherits(RollerFlightSim, AbstractODESim);

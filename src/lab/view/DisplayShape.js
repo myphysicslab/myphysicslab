@@ -487,7 +487,7 @@ DisplayShape.prototype.draw = function(context, map) {
     context.textAlign = 'center';
     var tx = this.massObject_.getName(/*localized=*/true);
     // find height of text from width of 'M', because is a roughly square letter.
-    var ht = context.measureText('M').width;
+    var ht = UtilityCore.measureText(context, 'M');
     context.fillText(tx, 0, ht/2);
   }
   context.restore();

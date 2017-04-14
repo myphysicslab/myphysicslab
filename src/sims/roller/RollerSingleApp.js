@@ -141,20 +141,22 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
 
   this.addParameter(ps = new ParameterString(this, RollerSingleApp.en.EQUATION_X,
       RollerSingleApp.i18n.EQUATION_X,
-      this.getXEquation, this.setXEquation).setSuggestedLength(30));
+      goog.bind(this.getXEquation, this), goog.bind(this.setXEquation, this))
+      .setSuggestedLength(30));
   this.addControl(new TextControl(ps));
   this.addParameter(ps = new ParameterString(this, RollerSingleApp.en.EQUATION_Y,
       RollerSingleApp.i18n.EQUATION_Y,
-      this.getYEquation, this.setYEquation).setSuggestedLength(30));
+      goog.bind(this.getYEquation, this), goog.bind(this.setYEquation, this))
+      .setSuggestedLength(30));
   this.addControl(new TextControl(ps));
   this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.START_T_VALUE,
       RollerSingleApp.i18n.START_T_VALUE,
-      this.getStartTValue, this.setStartTValue)
+      goog.bind(this.getStartTValue, this), goog.bind(this.setStartTValue, this))
       .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.FINISH_T_VALUE,
       RollerSingleApp.i18n.FINISH_T_VALUE,
-      this.getFinishTValue, this.setFinishTValue)
+      goog.bind(this.getFinishTValue, this), goog.bind(this.setFinishTValue, this))
       .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 

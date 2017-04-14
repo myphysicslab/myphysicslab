@@ -242,38 +242,42 @@ myphysicslab.sims.pendulum.MoveableDoublePendulumSim = function(opt_name) {
   this.modifyObjects();
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.LENGTH_1,
       MoveableDoublePendulumSim.i18n.LENGTH_1,
-      this.getLength1, this.setLength1));
+      goog.bind(this.getLength1, this), goog.bind(this.setLength1, this)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.LENGTH_2,
       MoveableDoublePendulumSim.i18n.LENGTH_2,
-      this.getLength2, this.setLength2));
+      goog.bind(this.getLength2, this), goog.bind(this.setLength2, this)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.DAMPING,
       MoveableDoublePendulumSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.MASS_1,
       MoveableDoublePendulumSim.i18n.MASS_1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.MASS_2,
       MoveableDoublePendulumSim.i18n.MASS_2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.GRAVITY,
       MoveableDoublePendulumSim.i18n.GRAVITY,
-      this.getGravity, this.setGravity));
+      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.DRIVE_AMPLITUDE,
       MoveableDoublePendulumSim.i18n.DRIVE_AMPLITUDE,
-      this.getDriveAmplitude, this.setDriveAmplitude));
+      goog.bind(this.getDriveAmplitude, this),
+      goog.bind(this.setDriveAmplitude, this)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.DRIVE_FREQUENCY,
       MoveableDoublePendulumSim.i18n.DRIVE_FREQUENCY,
-      this.getDriveFrequency, this.setDriveFrequency));
+      goog.bind(this.getDriveFrequency, this),
+      goog.bind(this.setDriveFrequency, this)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.ANCHOR_DAMPING,
       MoveableDoublePendulumSim.i18n.ANCHOR_DAMPING,
-      this.getAnchorDamping, this.setAnchorDamping));
+      goog.bind(this.getAnchorDamping, this),
+      goog.bind(this.setAnchorDamping, this)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.SPRING_STIFFNESS,
       MoveableDoublePendulumSim.i18n.SPRING_STIFFNESS,
-      this.getSpringStiffness, this.setSpringStiffness));
+      goog.bind(this.getSpringStiffness, this),
+      goog.bind(this.setSpringStiffness, this)));
 };
 
 var MoveableDoublePendulumSim = myphysicslab.sims.pendulum.MoveableDoublePendulumSim;

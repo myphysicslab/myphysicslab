@@ -216,22 +216,22 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
       this.spring1_, this.spring2_, this.spring3_);
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.DAMPING,
       DoubleSpringSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.LENGTH,
       DoubleSpringSim.i18n.LENGTH,
-      this.getLength, this.setLength));
+      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.MASS1,
       DoubleSpringSim.i18n.MASS1,
-      this.getMass1, this.setMass1));
+      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.MASS2,
       DoubleSpringSim.i18n.MASS2,
-      this.getMass2, this.setMass2));
+      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.STIFFNESS,
       DoubleSpringSim.i18n.STIFFNESS,
-      this.getStiffness, this.setStiffness));
+      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addParameter(new ParameterBoolean(this, DoubleSpringSim.en.THIRD_SPRING,
       DoubleSpringSim.i18n.THIRD_SPRING,
-      this.getThirdSpring, this.setThirdSpring));
+      goog.bind(this.getThirdSpring, this), goog.bind(this.setThirdSpring, this)));
 };
 
 var DoubleSpringSim = myphysicslab.sims.springs.DoubleSpringSim;

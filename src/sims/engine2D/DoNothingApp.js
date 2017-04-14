@@ -116,22 +116,22 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   var pn;
   this.addParameter(pb = new ParameterBoolean(this, DoNothingApp.en.TIGHT_FIT,
       DoNothingApp.i18n.TIGHT_FIT,
-      this.getTightFit, this.setTightFit));
+      goog.bind(this.getTightFit, this), goog.bind(this.setTightFit, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb= new ParameterBoolean(this, DoNothingApp.en.EXTRA_BLOCK,
       DoNothingApp.i18n.EXTRA_BLOCK,
-      this.getExtraBlock, this.setExtraBlock));
+      goog.bind(this.getExtraBlock, this), goog.bind(this.setExtraBlock, this)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn=new ParameterNumber(this, DoNothingApp.en.HANDLE_FORCE,
       DoNothingApp.i18n.HANDLE_FORCE,
-      this.getHandleForce, this.setHandleForce));
+      goog.bind(this.getHandleForce, this), goog.bind(this.setHandleForce, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn= new ParameterNumber(this, DoNothingApp.en.ROTATE_RATE,
       DoNothingApp.i18n.ROTATE_RATE,
-      this.getRotateRate, this.setRotateRate));
+      goog.bind(this.getRotateRate, this), goog.bind(this.setRotateRate, this)));
   this.addControl(new NumericControl(pn));
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);

@@ -189,7 +189,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   */
   this.timeGraphWidth_ = 1;
   UtilityCore.setImagesDir(elem_ids['images_dir']);
-  /** whether to put dashed borders around elements for debugging layout
+  /** Whether to put dashed borders around elements for debugging layout.
+  * The "if" statements using debug_layout cause error when compiling with NTI.
+  * See https://github.com/google/closure-compiler/issues/2426
   * @type {boolean}
   * @const
   */
@@ -246,9 +248,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 
   /** @type {!Element} */
   this.div_contain = TabLayout.getElementById(elem_ids, 'container');
-  if (this.debug_layout) {
-    this.div_contain.style.border = 'dashed 1px red';
-  }
+  //if (this.debug_layout) {
+  //  this.div_contain.style.border = 'dashed 1px red';
+  //}
 
   /** @type {!Element} */
   this.div_sim = TabLayout.getElementById(elem_ids, 'sim_applet');
@@ -297,9 +299,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   * @type {!Element}
   */
   this.graph_controls = TabLayout.getElementById(elem_ids, 'graph_controls');
-  if (this.debug_layout) {
-    this.graph_controls.style.border = 'dashed 1px green';
-  }
+  //if (this.debug_layout) {
+  //  this.graph_controls.style.border = 'dashed 1px green';
+  //}
 
   /** @type {!Array<!myphysicslab.lab.controls.LabControl>} */
   this.controls_ = [];
@@ -309,18 +311,18 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   this.sim_controls = TabLayout.getElementById(elem_ids, 'sim_controls');
   // marginLeft gives gap when controls are along side canvas.
   this.sim_controls.style.marginLeft = '10px';
-  if (this.debug_layout) {
-    this.sim_controls.style.border = 'dashed 1px green';
-  }
+  //if (this.debug_layout) {
+  //  this.sim_controls.style.border = 'dashed 1px green';
+  //}
 
   /** div element for Terminal
   * @type {!Element}
   */
   this.div_term = TabLayout.getElementById(elem_ids, 'div_terminal');
   this.div_term.style.display = 'none';
-  if (this.debug_layout) {
-    this.div_term.style.border = 'dashed 1px green';
-  }
+  //if (this.debug_layout) {
+  //  this.div_term.style.border = 'dashed 1px green';
+  //}
 
   // 'show terminal' checkbox.
   var label_term = /**@type {!HTMLInputElement}*/
@@ -354,21 +356,23 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   * @type {!Element}
   */
   this.time_graph_controls = TabLayout.getElementById(elem_ids, 'time_graph_controls');
-  if (this.debug_layout) {
-    this.time_graph_controls.style.border = 'dashed 1px green';
-  }
+  //if (this.debug_layout) {
+  //  this.time_graph_controls.style.border = 'dashed 1px green';
+  //}
 
   this.redoLayout();
-  // using 'self' fixes several NTI compiler errors
-  var self = /** @type {!myphysicslab.sims.common.TabLayout}*/(this);
   this.addParameter(new ParameterNumber(this, TabLayout.en.SIM_WIDTH,
-      TabLayout.i18n.SIM_WIDTH, self.getSimWidth, self.setSimWidth));
+      TabLayout.i18n.SIM_WIDTH, goog.bind(this.getSimWidth, this),
+      goog.bind(this.setSimWidth, this)));
   this.addParameter(new ParameterNumber(this, TabLayout.en.GRAPH_WIDTH,
-      TabLayout.i18n.GRAPH_WIDTH, self.getGraphWidth, self.setGraphWidth));
+      TabLayout.i18n.GRAPH_WIDTH, goog.bind(this.getGraphWidth, this),
+      goog.bind(this.setGraphWidth, this)));
   this.addParameter(new ParameterNumber(this, TabLayout.en.TIME_GRAPH_WIDTH,
-      TabLayout.i18n.TIME_GRAPH_WIDTH, self.getTimeGraphWidth, self.setTimeGraphWidth));
+      TabLayout.i18n.TIME_GRAPH_WIDTH, goog.bind(this.getTimeGraphWidth, this),
+      goog.bind(this.setTimeGraphWidth, this)));
   this.addParameter(new ParameterString(this, TabLayout.en.LAYOUT,
-      TabLayout.i18n.LAYOUT, self.getLayout, self.setLayout,
+      TabLayout.i18n.LAYOUT, goog.bind(this.getLayout, this),
+      goog.bind(this.setLayout, this),
       TabLayout.getValues(), TabLayout.getValues()));
 };
 var TabLayout = myphysicslab.sims.common.TabLayout;

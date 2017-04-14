@@ -268,7 +268,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   }
   var ps = new ParameterString(this, StringSim.en.SHAPE,
       StringSim.i18n.SHAPE,
-      this.getShape, this.setShape, snl, sn);
+      goog.bind(this.getShape, this), goog.bind(this.setShape, this), snl, sn);
   this.addParameter(ps);
   this.addControl(new ChoiceControl(ps));
 

@@ -244,19 +244,19 @@ myphysicslab.sims.pde.StringSim = function(shape, opt_simList) {
   this.potentialOffset_ = 0;
   this.addParameter(new ParameterNumber(this, StringSim.en.DAMPING,
       StringSim.i18n.DAMPING,
-      this.getDamping, this.setDamping));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
   this.addParameter(new ParameterNumber(this, StringSim.en.DENSITY,
       StringSim.i18n.DENSITY,
-      this.getDensity, this.setDensity));
+      goog.bind(this.getDensity, this), goog.bind(this.setDensity, this)));
   this.addParameter(new ParameterNumber(this, StringSim.en.TENSION,
       StringSim.i18n.TENSION,
-      this.getTension, this.setTension));
+      goog.bind(this.getTension, this), goog.bind(this.setTension, this)));
   this.addParameter(new ParameterNumber(this, StringSim.en.NUM_POINTS,
       StringSim.i18n.NUM_POINTS,
-      this.getNumPoints, this.setNumPoints));
+      goog.bind(this.getNumPoints, this), goog.bind(this.setNumPoints, this)));
   this.addParameter(new ParameterNumber(this, StringSim.en.TIME_STEP,
       StringSim.i18n.TIME_STEP,
-      this.getTimeStep, this.setTimeStep));
+      goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this)));
   this.initializeFromShape();
 };
 var StringSim = myphysicslab.sims.pde.StringSim;

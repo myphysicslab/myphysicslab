@@ -111,12 +111,12 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, CartPendulum2App.en.SPRING_DAMPING,
       CartPendulum2App.i18n.SPRING_DAMPING,
-     this.getSpringDamping, this.setSpringDamping));
+     goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, CartPendulum2App.en.STIFFNESS,
       CartPendulum2App.i18n.STIFFNESS,
-     this.getStiffness, this.setStiffness));
+     goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

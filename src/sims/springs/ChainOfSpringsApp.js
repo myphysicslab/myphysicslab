@@ -121,12 +121,13 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
 
   this.addParameter(pn = new ParameterNumber(this, ChainOfSpringsSim.en.NUM_LINKS,
       ChainOfSpringsSim.i18n.NUM_LINKS,
-      this.getNumLinks, this.setNumLinks).setDecimalPlaces(0));
+      goog.bind(this.getNumLinks, this), goog.bind(this.setNumLinks, this))
+      .setDecimalPlaces(0));
   this.addControl(new SliderControl(pn, 0, 30, /*multiply=*/false));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainOfSpringsSim.en.ATTACH_RIGHT,
       ChainOfSpringsSim.i18n.ATTACH_RIGHT,
-      this.getAttachRight, this.setAttachRight));
+      goog.bind(this.getAttachRight, this), goog.bind(this.setAttachRight, this)));
   this.addControl(new CheckBoxControl(pb));
 
   pn = sim.getParameterNumber(ChainOfSpringsSim.en.GRAVITY);
