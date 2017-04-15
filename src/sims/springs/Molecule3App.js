@@ -71,11 +71,14 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
 
+  /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('green').setThickness(3);
+  /** @type {!DisplaySpring} */
   this.protoSpecialSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#c00')
       .setColorExpanded('red').setThickness(3);
 
+  /** @type {!DisplayShape} */
   this.walls = new DisplayShape(this.simList.getPointMass('walls'))
       .setFillStyle('').setStrokeStyle('gray');
   this.displayList.add(this.walls);

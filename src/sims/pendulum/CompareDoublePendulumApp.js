@@ -179,6 +179,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0);
   /** @type {!RigidDoublePendulumSim} */
   this.sim1 = new RigidDoublePendulumSim(this.parts, 'SIM_1');
+  /** @type {!SimpleAdvance} */
   this.advance1 = new SimpleAdvance(this.sim1);
   // Ensure that changes to parameters or variables cause display to update
   new GenericObserver(this.sim1, goog.bind(function(evt) {
@@ -285,6 +286,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
 
   /** @type {!DisplayShape} */
   this.protoRigidBody = new DisplayShape().setDrawCenterOfMass(true);
+  /** @type {!DisplayShape} */
   this.bob0 = new DisplayShape(this.parts.bodies[0], this.protoRigidBody)
       .setFillStyle('#3cf');
   this.bob0.setDragable(false);
@@ -476,6 +478,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
       }
     }
   }, 'keep timeLine2\'s Y variable in sync with timeLine1');
+  /** @type {!CompareTimeGraph} */
   this.timeGraph = new CompareTimeGraph(timeLine1, timeLine2,
       this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);

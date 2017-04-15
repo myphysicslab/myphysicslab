@@ -69,6 +69,7 @@ lack of contact forces.
 */
 myphysicslab.test.StuckTestApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  /** @type {!ImpulseSim} */
   this.mySim = new ImpulseSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

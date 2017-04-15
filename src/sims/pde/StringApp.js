@@ -29,6 +29,7 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.GenericMemo');
 goog.require('myphysicslab.lab.util.GenericObserver');
@@ -36,7 +37,6 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
@@ -82,6 +82,7 @@ var DisplayShape = lab.view.DisplayShape;
 var DisplayText = lab.view.DisplayText;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingStyle = lab.view.DrawingStyle;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var GenericEvent = lab.util.GenericEvent;
 var GenericMemo = lab.util.GenericMemo;
@@ -93,7 +94,6 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
-var EasyScriptParser = lab.util.EasyScriptParser;
 var ShapeType = lab.model.ShapeType;
 var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
@@ -195,6 +195,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
 
   // Because the SimView is so distorted (aspect ratio is like 1:30), we set
   // up a DisplayText in StatusView that tracks position of the block.
+  /** @type {!DisplayText} */
   this.blockText = new DisplayText('drag').setFillStyle('rgba(255,255,255,0.7)')
       .setTextAlign('center');
   this.statusView.getDisplayList().add(this.blockText);
@@ -209,7 +210,9 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   // up a PointMass and DisplayShape to follow the block. This allows us to
   // stroke the shape with a uniform size of line.
   // (This is mainly a demo and test of this capability).
+  /** @type {!PointMass} */
   this.shadow = PointMass.makeSquare(1, 'shadow');
+  /** @type {!DisplayShape} */
   this.showShadow = new DisplayShape(this.shadow).setFillStyle('')
       .setStrokeStyle('gray');
   this.statusView.getDisplayList().add(this.showShadow);
@@ -229,7 +232,9 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   }, this), 'shadow outline follows blockMass'));
 
   // Show the stability condition as text
+  /** @type {number} */
   this.stability = -1;
+  /** @type {!DisplayText} */
   this.stabilityText = new DisplayText();
   this.stabilityText.setPosition(new Vector(-5, -7));
   this.statusView.getDisplayList().add(this.stabilityText);
@@ -326,6 +331,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
     this.statusView
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects());
+  /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

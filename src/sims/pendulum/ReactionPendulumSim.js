@@ -15,6 +15,7 @@
 goog.provide('myphysicslab.sims.pendulum.ReactionPendulumSim');
 
 goog.require('goog.vec.Float64Array');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -43,6 +44,7 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
+var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;

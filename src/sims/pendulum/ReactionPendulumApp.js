@@ -25,26 +25,26 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -66,28 +66,29 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var CheckBoxControl = lab.controls.CheckBoxControl;
-var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
-var SliderControl = lab.controls.SliderControl;
 var Arc = myphysicslab.lab.model.Arc;
 var AutoScale = lab.graph.AutoScale;
+var CheckBoxControl = lab.controls.CheckBoxControl;
+var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CommonControls = sims.common.CommonControls;
 var CompareGraph = sims.common.CompareGraph;
 var CompareTimeGraph = sims.common.CompareTimeGraph;
+var ConcreteLine = lab.model.ConcreteLine;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var EventHandler = lab.app.EventHandler;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
-var ConcreteLine = lab.model.ConcreteLine;
 var LabControl = lab.controls.LabControl;
+var NumericControl = lab.controls.NumericControl;
 var Parameter = lab.util.Parameter;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
@@ -96,14 +97,13 @@ var PendulumSim = sims.pendulum.PendulumSim;
 var PointMass = lab.model.PointMass;
 var Polygon = lab.engine2D.Polygon;
 var ReactionPendulumSim = sims.pendulum.ReactionPendulumSim;
-var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
-var DisplayAxes = lab.graph.DisplayAxes;
+var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
@@ -325,7 +325,9 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/null);
   /** @type {!lab.graph.DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
+  /** @type {!SimpleAdvance} */
   this.advance1 = new SimpleAdvance(this.sim1);
+  /** @type {!SimpleAdvance} */
   this.advance2  = new SimpleAdvance(this.sim2);
   /** @type {!lab.app.SimRunner} */
   this.simRun = new SimRunner(this.advance1);
@@ -509,6 +511,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
+  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

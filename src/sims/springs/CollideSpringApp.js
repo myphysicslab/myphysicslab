@@ -79,6 +79,7 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
   UtilityCore.setErrorHandler();
   var simRect = new DoubleRect(-6.4, -2, 6.4, 2);
   var sim = new CollideSpringSim();
+  /** @type {!CollideSpringSim} */
   this.mySim = sim;
   var advance = new SimpleAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
@@ -101,8 +102,11 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
   */
   this.startGap = 0.1;
 
+  /** @type {!DisplayShape} */
   this.protoBlock = new DisplayShape().setFillStyle('blue');
+  /** @type {!DisplayShape} */
   this.protoWall = new DisplayShape().setFillStyle('lightGray');
+  /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('#6f6');
 

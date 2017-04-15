@@ -67,15 +67,19 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
   this.layout.simCanvas.setBackground('white');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
+  /** @type {!DisplayShape} */
   this.walls = new DisplayShape(this.simList.getPointMass('walls'))
       .setFillStyle('').setStrokeStyle('gray');
   this.displayList.add(this.walls);
+  /** @type {!DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring'))
       .setWidth(0.3).setThickness(3);
   this.displayList.add(this.spring);
+  /** @type {!DisplayShape} */
   this.atom1 = new DisplayShape(this.simList.getPointMass('atom1'))
       .setFillStyle('blue');
   this.displayList.add(this.atom1);
+  /** @type {!DisplayShape} */
   this.atom2 = new DisplayShape(this.simList.getPointMass('atom2'))
       .setFillStyle('red');
   this.displayList.add(this.atom2);

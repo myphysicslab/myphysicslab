@@ -191,6 +191,9 @@ fi
 #
 # As of Apr 2017, no longer using the option --jscomp_off=newCheckTypesExtraChecks.
 #
+# Use this to turn conformance violations from warning to error:
+#--jscomp_error=conformanceViolations \
+#
 # We use `readlink` to convert a symbolic link to a regular file reference.
 # See this discussion:
 # https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script/
@@ -236,7 +239,6 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_error=unknownDefines \
 --jscomp_error=uselessCode \
 --jscomp_error=visibility \
---jscomp_error=conformanceViolations \
 --hide_warnings_for=`readlink closure-library` \
 --conformance_configs=`pwd`/conformance_config.textproto \
 --emit_use_strict \

@@ -88,6 +88,7 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
     this.marker1 = PointMass.makeCircle(0.2, 'marker1');
     // put the object outside of the visible area, to avoid confusion
     this.marker1.setPosition(new Vector(-3, 1));
+    /** @type {!lab.view.DisplayShape} */
     this.marker1Shape = new DisplayShape(this.marker1).setFillStyle('')
         .setStrokeStyle('red');
     this.marker1Shape.setDragable(true);

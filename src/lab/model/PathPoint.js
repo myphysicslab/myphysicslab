@@ -79,6 +79,7 @@ myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
   */
   this.normalX = 0;
   /** perpendicular normal unit vector at the point, Y component
+  * @type {number}
   */
   this.normalY = 0;
   /** `(normalXdp, normalYdp)` is derivative of normal vector with respect to arc length

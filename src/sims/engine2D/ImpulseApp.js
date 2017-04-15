@@ -76,6 +76,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 sims.engine2D.ImpulseApp = function(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 4);
+  /** @type {!ImpulseSim} */
   this.mySim = new ImpulseSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

@@ -126,6 +126,7 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
   ];
   /** @type {!PathSelector} */
   this.pathSelect = new PathSelector(sim, this.paths);
+  /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this));
   this.pathSelect.setPathName(HumpPath.en.NAME);

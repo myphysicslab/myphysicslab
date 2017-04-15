@@ -83,6 +83,7 @@ Parameters Created
 */
 sims.engine2D.ContactApp = function(elem_ids) {
   var simRect = new DoubleRect(-4.5, -3.6, 3.1, 4);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   // Try different ExtraAccel values here. Can also do this in Terminal.
   //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);

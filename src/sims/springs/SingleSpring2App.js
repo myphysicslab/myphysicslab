@@ -25,9 +25,9 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.controls.ToggleControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
 goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
 goog.require('myphysicslab.lab.model.EnergySystem');
@@ -37,15 +37,15 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -65,19 +65,21 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CommonControls = sims.common.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var EnergySystem = lab.model.EnergySystem;
 var EventHandler = lab.app.EventHandler;
@@ -91,7 +93,6 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
-var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
@@ -100,7 +101,6 @@ var SimView = lab.view.SimView;
 var SingleSpringSim = sims.springs.SingleSpringSim;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
-var DisplayAxes = lab.graph.DisplayAxes;
 var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var TabLayout = sims.common.TabLayout;
@@ -127,45 +127,59 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   UtilityCore.setErrorHandler();
   AbstractSubject.call(this, opt_name || 'APP');
 
+  /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-3, -2, 3, 2);
   // set canvasWidth to 800, and canvasHeight proportional as in simRect.
   var canvasWidth = 800;
   var canvasHeight =
       Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
+  /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!myphysicslab.lab.util.Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
+  /** @type {!SingleSpringSim} */
   this.sim = new SingleSpringSim();
   this.terminal.setAfterEval(goog.bind(this.sim.modifyObjects, this.sim));
   // Ensure that changes to parameters or variables cause display to update
   new GenericObserver(this.sim, goog.bind(function(evt) {
     this.sim.modifyObjects();
   }, this), 'modifyObjects after parameter or variable change');
+  /** @type {!SimList} */
   this.simList = this.sim.getSimList();
+  /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.sim);
+  /** @type {!SimpleAdvance} */
   this.advance  = new SimpleAdvance(this.sim);
+  /** @type {!SimView} */
   this.simView = new SimView('SIM_VIEW', this.simRect);
   simCanvas.addView(this.simView);
   /** @type {!myphysicslab.lab.view.DisplayList} */
   this.displayList = this.simView.getDisplayList();
+  /** @type {!SimView} */
   this.statusView = new SimView('STATUS_VIEW', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
+  /** @type {!myphysicslab.lab.graph.DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
+  /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance);
   this.simRun.addCanvas(simCanvas);
   /** @type {!myphysicslab.lab.util.Clock} */
   this.clock = this.simRun.getClock();
 
+  /** @type {!EnergyBarGraph} */
   this.energyGraph = new EnergyBarGraph(this.sim);
+  /** @type {!myphysicslab.lab.util.ParameterBoolean} */
   this.showEnergyParam = CommonControls.makeShowEnergyParam(this.energyGraph,
       this.statusView, this);
 
+  /** @type {!DisplayClock} */
   this.displayClock = new DisplayClock(goog.bind(this.sim.getTime, this.sim),
       goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
+  /** @type {!myphysicslab.lab.util.ParameterBoolean} */
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
@@ -178,18 +192,23 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
 
+  /** @type {!DiffEqSolverSubject} */
   this.diffEqSolver = new DiffEqSolverSubject(this.sim, this.sim, this.advance);
 
+  /** @type {!StandardGraph1} */
   this.graph = new StandardGraph1(this.sim.getVarsList(), this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
   this.graph.line.setDrawingMode(DrawingMode.LINES);
 
+  /** @type {!TimeGraph2} */
   this.timeGraph = new TimeGraph2(this.sim.getVarsList(), this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
+  /** @type {!DisplayShape} */
   this.block = new DisplayShape(this.simList.getPointMass('block'))
       .setFillStyle('blue');
   this.displayList.add(this.block);
+  /** @type {!DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring'))
       .setWidth(0.4).setThickness(6);
   this.displayList.add(this.spring);
@@ -262,6 +281,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   // configuration is set up. This helps make the resulting easyScript.script()
   // be a much smaller script.
   var volatile = [ this.sim.getVarsList(), this.simView ];
+  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

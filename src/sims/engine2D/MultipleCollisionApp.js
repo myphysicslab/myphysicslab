@@ -106,6 +106,7 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   var w = this.space_half_width;
   var h = this.space_half_height;
   var simRect = new DoubleRect(-w, -h, w, h);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, opt_name);

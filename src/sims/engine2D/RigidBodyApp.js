@@ -77,6 +77,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 sims.engine2D.RigidBodyApp = function(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 4);
+  /** @type {!RigidBodySim} */
   this.mySim = new RigidBodySim();
   var advance = new SimpleAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
@@ -206,7 +207,7 @@ RigidBodyApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var addSpring = goog.bind(function(s) {
+  var addSpring = goog.bind(function(/** @type {!Spring} */s) {
     this.springs_.push(s);
     this.mySim.addForceLaw(s);
     this.simList.add(s);

@@ -157,6 +157,9 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
 
   // make a callback which continuously redraws the canvas.
   // So that if anything changes (like pan-zoom) we see the effect.
+  /** @type {!Timer}
+  * @private
+  */
   this.timer = new Timer();
   var callback = goog.bind(function () {
       this.simCanvas.paint();

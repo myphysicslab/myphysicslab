@@ -79,22 +79,32 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
 
+  /** @type {!DisplayShape} */
   this.protoWall = new DisplayShape().setFillStyle('lightGray');
+  /** @type {!DisplayShape} */
   this.protoBlock = new DisplayShape().setFillStyle('blue');
+  /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('#6f6');
 
+  /** @type {!DisplayShape} */
   this.wall1 = new DisplayShape(this.simList.getPointMass('wall1'), this.protoWall);
+  /** @type {!DisplayShape} */
   this.wall2 = new DisplayShape(this.simList.getPointMass('wall2'), this.protoWall);
   this.displayList.add(this.wall1);
   this.displayList.add(this.wall2);
+  /** @type {!DisplaySpring} */
   this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'), this.protoSpring);
+  /** @type {!DisplaySpring} */
   this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'), this.protoSpring);
+  /** @type {!DisplaySpring} */
   this.spring3 = new DisplaySpring(this.simList.getSpring('spring3'), this.protoSpring);
   this.displayList.add(this.spring1);
   this.displayList.add(this.spring2);
   this.displayList.add(this.spring3);
+  /** @type {!DisplayShape} */
   this.block1 = new DisplayShape(this.simList.getPointMass('block1'), this.protoBlock);
+  /** @type {!DisplayShape} */
   this.block2 = new DisplayShape(this.simList.getPointMass('block2'), this.protoBlock);
   this.displayList.add(this.block1);
   this.displayList.add(this.block2);

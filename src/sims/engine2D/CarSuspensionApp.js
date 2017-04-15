@@ -87,10 +87,12 @@ Parameters Created
 */
 myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
   var simRect = new DoubleRect(-7, -5, 7, 5);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.rbo.protoSpring.setWidth(0.3);
+  /** @type {!DisplayShape} */
   this.protoWheel = new DisplayShape().setFillStyle('#CCF');
   this.mySim.setShowForces(false);
   /** @type {!lab.model.DampingLaw} */

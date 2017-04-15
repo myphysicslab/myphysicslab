@@ -84,15 +84,19 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
       this.clock.setTime(sim.getTime());
     }
   }, this), 'sync clock time on reset');
-
+  /** @type {!DisplayShape} */
   this.protoBob = new DisplayShape().setFillStyle('').setStrokeStyle('blue')
       .setDrawCenterOfMass(true).setThickness(3);
+  /** @type {!DisplayShape} */
   this.bob0 = new DisplayShape(this.parts.bodies[0], this.protoBob);
   this.displayList.add(this.bob0);
+  /** @type {!DisplayShape} */
   this.bob1 = new DisplayShape(this.parts.bodies[1], this.protoBob);
   this.displayList.add(this.bob1);
+  /** @type {!DisplayConnector} */
   this.joint0 = new DisplayConnector(this.parts.joints[0]);
   this.displayList.add(this.joint0);
+  /** @type {!DisplayConnector} */
   this.joint1 = new DisplayConnector(this.parts.joints[1]);
   this.displayList.add(this.joint1);
 

@@ -68,22 +68,31 @@ myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
 
   //this.advance.setDebugLevel(DebugLevel.OPTIMAL);
 
+  /** @type {!DisplayShape} */
   this.protoBlock = new DisplayShape().setFillStyle('blue');
+  /** @type {!DisplayShape} */
   this.protoWall = new DisplayShape().setFillStyle('lightGray');
+  /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring();
 
+  /** @type {!DisplayShape} */
   this.block1 = new DisplayShape(this.simList.getPointMass('block1'), this.protoBlock);
   this.displayList.add(this.block1);
+  /** @type {!DisplayShape} */
   this.block2 = new DisplayShape(this.simList.getPointMass('block2'), this.protoBlock);
   this.displayList.add(this.block2);
+  /** @type {!DisplayShape} */
   this.wallLeft = new DisplayShape(this.simList.getPointMass('wallLeft'),
       this.protoWall);
   this.displayList.add(this.wallLeft);
+  /** @type {!DisplayShape} */
   this.wallRight = new DisplayShape(this.simList.getPointMass('wallRight'),
       this.protoWall);
   this.displayList.add(this.wallRight);
+  /** @type {!DisplaySpring} */
   this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'), this.protoSpring);
   this.displayList.add(this.spring1);
+  /** @type {!DisplaySpring} */
   this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'), this.protoSpring);
   this.displayList.add(this.spring2);
 

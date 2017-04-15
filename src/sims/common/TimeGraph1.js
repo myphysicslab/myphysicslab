@@ -135,6 +135,7 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
   this.line2.setColor('red');
   this.displayGraph.addGraphLine(this.line2);
 
+  /** @type {!GraphLine} */
   this.line3 = new GraphLine('TIME_GRAPH_LINE_3', varsList);
   this.autoScale.addGraphLine(this.line3);
   this.view.addMemo(this.line3);

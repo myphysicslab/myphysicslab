@@ -52,6 +52,7 @@ var Walls = lab.engine2D.Walls;
 */
 sims.engine2D.FastBallApp = function(elem_ids) {
   var simRect = new DoubleRect(-6.5, -6.5, 6.5, 6.5);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

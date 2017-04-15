@@ -65,6 +65,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 sims.engine2D.MarsMoonApp = function(elem_ids) {
   var simRect = new DoubleRect(-10, -10, 10, 10);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

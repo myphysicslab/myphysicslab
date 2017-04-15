@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
@@ -60,6 +61,7 @@ var GravityLaw = lab.model.GravityLaw;
 var JointUtil = lab.engine2D.JointUtil;
 var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
+var Polygon = lab.engine2D.Polygon;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
@@ -84,27 +86,33 @@ AffineTransform to rotate, scale, and position the image within the DisplayShape
 */
 sims.engine2D.DoublePendulum2App = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(false);
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
   this.mySim.addForceLaw(this.dampingLaw);
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(8, this.simList);
   this.mySim.addForceLaw(this.gravityLaw);
 
+  /** @type {!Polygon} */
   this.block1 = Shapes.makeBlock(1, 3, DoublePendulum2App.en.BLOCK+1,
       DoublePendulum2App.i18n.BLOCK+1);
   this.block1.setPosition(new Vector(-1,  -1),  Math.PI/4);
+  /** @type {!Polygon} */
   this.block2 = Shapes.makeBlock(1, 3, DoublePendulum2App.en.BLOCK+2,
       DoublePendulum2App.i18n.BLOCK+2);
   this.block2.setPosition(new Vector(0,  0),  0);
+  /** @type {!Polygon} */
   this.block3 = Shapes.makeBlock(1, 3, DoublePendulum2App.en.BLOCK+3,
       DoublePendulum2App.i18n.BLOCK+3);
   this.block3.setPosition(new Vector(-4,  -4),  Math.PI/2);
-
+  /** @type {!DisplayShape} */
   this.protoBlock = new DisplayShape().setStrokeStyle('lightGray')
       .setFillStyle('').setThickness(3);
   var b1 = new DisplayShape(this.block1, this.protoBlock);

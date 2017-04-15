@@ -72,6 +72,7 @@ myphysicslab.sims.springs.DangleStickApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/null);
 
+  /** @type {!DisplayShape} */
   this.protoMass = new DisplayShape().setFillStyle('blue');
 
   /** @type {!lab.view.DisplayLine} */

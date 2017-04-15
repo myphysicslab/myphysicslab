@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
 goog.require('myphysicslab.lab.model.GravityLaw');
@@ -79,29 +80,31 @@ debugging.
 */
 myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
   var simRect = new DoubleRect(-10, -6, 10, 6);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.mySim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
   this.mySim.addForceLaw(this.dampingLaw);
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(0, this.simList);
   this.mySim.addForceLaw(this.gravityLaw);
-
+  /** @type {!myphysicslab.lab.engine2D.Polygon} */
   this.block = Shapes.makeBlock2(1, 3, TestBodyApp.en.BLOCK, TestBodyApp.i18n.BLOCK);
   this.block.setPosition(new Vector(0,  -5.49500),  -7.85398);
   this.mySim.addBody(this.block);
   this.displayList.findShape(this.block).setFillStyle('#ccf').setNameColor('gray')
       .setNameFont('12pt sans-serif').setNameRotate(Math.PI/2);
 
-  if (1 == 1) {
-    this.spring = new Spring('spring',
-        this.block, new Vector(0.5, 2.7),
-        Scrim.getScrim(), new Vector(-1, -2),
-        /*restLength=*/0, /*stiffness=*/3.0);
-    this.mySim.addForceLaw(this.spring);
-    this.simList.add(this.spring);
-  }
+  /** @type {!Spring} */
+  this.spring = new Spring('spring',
+      this.block, new Vector(0.5, 2.7),
+      Scrim.getScrim(), new Vector(-1, -2),
+      /*restLength=*/0, /*stiffness=*/3.0);
+  this.mySim.addForceLaw(this.spring);
+  this.simList.add(this.spring);
 
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
@@ -133,12 +136,12 @@ goog.inherits(TestBodyApp, Engine2DApp);
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   TestBodyApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + TestBodyApp.superClass_.toString.call(this);
+      return this.toStringShort().slice(0, -1)
+          +', dampingLaw: '+this.dampingLaw.toStringShort()
+          +', gravityLaw: '+this.gravityLaw.toStringShort()
+          + TestBodyApp.superClass_.toString.call(this);
   };
-};
+}
 
 /** @inheritDoc */
 TestBodyApp.prototype.getClassName = function() {

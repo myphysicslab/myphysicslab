@@ -88,6 +88,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 sims.engine2D.DoNothingApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   this.mySim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   var advance = new CollisionAdvance(this.mySim);

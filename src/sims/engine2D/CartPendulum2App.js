@@ -83,6 +83,7 @@ Parameters Created
 */
 myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
   var simRect = new DoubleRect(-3, -2, 3, 2);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

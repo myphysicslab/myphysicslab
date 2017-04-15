@@ -75,12 +75,15 @@ myphysicslab.sims.springs.Spring2DApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
+  /** @type {!DisplayShape} */
   this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
       .setFillStyle('').setStrokeStyle('red').setThickness(4);
   this.displayList.add(this.anchor);
+  /** @type {!DisplayShape} */
   this.bob = new DisplayShape(this.simList.getPointMass('bob'))
       .setFillStyle('blue');
   this.displayList.add(this.bob);
+  /** @type {!DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring'))
       .setWidth(0.3);
   this.displayList.add(this.spring);

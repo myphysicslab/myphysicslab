@@ -121,6 +121,7 @@ on the Hump path.
 */
 myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
@@ -153,6 +154,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.pathJoint;
   /** @type {!PathSelector} */
   this.pathSelect = new PathSelector(this, this.paths);
+  /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this), /*expansionFactor=*/1.5);
   /** @type {!lab.engine2D.Polygon} */

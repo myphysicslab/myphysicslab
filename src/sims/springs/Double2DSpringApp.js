@@ -72,19 +72,26 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
 
+  /** @type {!DisplayShape} */
   this.protoBob = new DisplayShape().setFillStyle('blue');
+  /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('#6f6');
 
+  /** @type {!DisplayShape} */
   this.topMass = new DisplayShape(this.simList.getPointMass('top'))
       .setFillStyle('red');
   this.displayList.add(this.topMass);
+  /** @type {!DisplaySpring} */
   this.spring1 = new DisplaySpring(this.simList.getSpring('spring1'), this.protoSpring);
   this.displayList.add(this.spring1);
+  /** @type {!DisplaySpring} */
   this.spring2 = new DisplaySpring(this.simList.getSpring('spring2'), this.protoSpring);
   this.displayList.add(this.spring2);
+  /** @type {!DisplayShape} */
   this.bob1 = new DisplayShape(this.simList.getPointMass('bob1'), this.protoBob);
   this.displayList.add(this.bob1);
+  /** @type {!DisplayShape} */
   this.bob2 = new DisplayShape(this.simList.getPointMass('bob2'), this.protoBob);
   this.displayList.add(this.bob2);
 

@@ -454,7 +454,8 @@ CollideBlocksSim.prototype.handleCollisions = function(collisions, opt_totals) {
   var vars = va.getValues();
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
-  goog.array.forEach(collisions, function(/** !BlockCollision */c) {
+  goog.array.forEach(collisions, function(collision) {
+    var c = /** @type {!BlockCollision} */(collision);
     if (c.leftBlock_ == this.wallLeft_ && c.rightBlock_ == this.block1_) {
       // mass1 collided with left wall, so just reverse the velocity
       c.impulse = Math.abs(vars[1] * this.block1_.getMass());

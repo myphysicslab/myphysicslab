@@ -186,7 +186,6 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=unknownDefines \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
---jscomp_error=conformanceViolations \
 --emit_use_strict \
 --language_out=ECMASCRIPT5_STRICT \
 --hide_warnings_for=`readlink closure-library` \

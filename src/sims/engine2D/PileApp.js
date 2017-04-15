@@ -115,6 +115,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 sims.engine2D.PileApp = function(elem_ids) {
   var simRect = new DoubleRect(-3, -0.2, 3, 5.2);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, 'PILE_APP');

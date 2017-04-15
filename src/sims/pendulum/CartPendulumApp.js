@@ -75,18 +75,22 @@ sims.pendulum.CartPendulumApp = function(elem_ids) {
   this.sim.getVarsList().setValue(0, 1.0);
   sim.initWork();
 
+  /** @type {!ConcreteLine} */
   this.track = new ConcreteLine('track', new Vector(-3, -0.15), new Vector(3, -0.15));
   this.displayList.add(new DisplayLine(this.track).setColor('lightGray')
       .setThickness(1));
-
+  /** @type {!DisplayShape} */
   this.cart = new DisplayShape(this.simList.getPointMass('cart'))
       .setStrokeStyle('').setFillStyle('lightGray');
   this.displayList.add(this.cart);
+  /** @type {!DisplayShape} */
   this.bob = new DisplayShape(this.simList.getPointMass('bob'))
       .setStrokeStyle('').setFillStyle('blue');
   this.displayList.add(this.bob);
+  /** @type {!DisplayLine} */
   this.rod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(this.rod);
+  /** @type {!DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring')).setWidth(0.3);
   this.displayList.add(this.spring);
   sim.modifyObjects();

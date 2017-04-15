@@ -92,15 +92,17 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
   /** @type {boolean} */
   this.attachRight = goog.isDef(attachRight) ? attachRight : true;
   var simRect = new DoubleRect(-6.4, -6, 6.4, 6);
-  var sim = new ChainOfSpringsSim();
-  this.mySim = sim;
-  sim.makeChain(this.numAtoms, this.attachRight);
-  var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
-      /*energySystem=*/sim);
-
+  /** @type {!ChainOfSpringsSim} */
+  this.mySim = new ChainOfSpringsSim();
+  this.mySim.makeChain(this.numAtoms, this.attachRight);
+  var advance = new SimpleAdvance(this.mySim);
+  AbstractApp.call(this, elem_ids, simRect, this.mySim, advance,
+      /*eventHandler=*/this.mySim, /*energySystem=*/this.mySim);
+  /** @type {!DisplayShape} */
   this.protoMass = new DisplayShape().setFillStyle('blue');
+  /** @type {!DisplayShape} */
   this.protoAnchor = new DisplayShape().setFillStyle('gray');
+  /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('#6f6');
   this.protoSpring.setZIndex(-1);
@@ -130,29 +132,29 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
       goog.bind(this.getAttachRight, this), goog.bind(this.setAttachRight, this)));
   this.addControl(new CheckBoxControl(pb));
 
-  pn = sim.getParameterNumber(ChainOfSpringsSim.en.GRAVITY);
+  pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 40, /*multiply=*/false));
 
-  pn = sim.getParameterNumber(ChainOfSpringsSim.en.DAMPING);
+  pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.DAMPING);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
 
-  pn = sim.getParameterNumber(ChainOfSpringsSim.en.SPRING_DAMPING);
+  pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.SPRING_DAMPING);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
 
-  pn = sim.getParameterNumber(ChainOfSpringsSim.en.MASS);
+  pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.MASS);
   this.addControl(new SliderControl(pn, 0.2, 50.2, /*multiply=*/true));
 
-  pn = sim.getParameterNumber(ChainOfSpringsSim.en.LENGTH);
+  pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.LENGTH);
   this.addControl(new SliderControl(pn, 0, 10, /*multiply=*/false));
 
-  pn = sim.getParameterNumber(ChainOfSpringsSim.en.STIFFNESS);
+  pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.STIFFNESS);
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
 
   this.addStandardControls();
 
   /** @type {!lab.controls.ButtonControl} */
   var bc = new ButtonControl(ChainOfSpringsSim.i18n.STRAIGHT_LINE,
-      goog.bind(sim.straightLine, sim));
+      goog.bind(this.mySim.straightLine, this.mySim));
   this.addControl(bc);
 
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...

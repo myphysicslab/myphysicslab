@@ -24,9 +24,10 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.graph.DisplayAxes');
+goog.require('myphysicslab.lab.graph.DisplayGraph');
+goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
 goog.require('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.ConcreteLine');
@@ -34,16 +35,16 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayArc');
@@ -52,7 +53,6 @@ goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.CompareGraph');
@@ -65,44 +65,44 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var CheckBoxControl = lab.controls.CheckBoxControl;
-var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
-var SliderControl = lab.controls.SliderControl;
+var AbstractSubject = lab.util.AbstractSubject;
 var Arc = myphysicslab.lab.model.Arc;
 var AutoScale = lab.graph.AutoScale;
+var CheckBoxControl = lab.controls.CheckBoxControl;
+var ChoiceControl = lab.controls.ChoiceControl;
 var Clock = lab.util.Clock;
 var CommonControls = sims.common.CommonControls;
 var CompareGraph = sims.common.CompareGraph;
 var CompareTimeGraph = sims.common.CompareTimeGraph;
-var AbstractSubject = lab.util.AbstractSubject;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var EventHandler = lab.app.EventHandler;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
-var ConcreteLine = lab.model.ConcreteLine;
 var LabControl = lab.controls.LabControl;
+var NumericControl = lab.controls.NumericControl;
 var Parameter = lab.util.Parameter;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PendulumSim = sims.pendulum.PendulumSim;
 var PointMass = lab.model.PointMass;
-var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
-var DisplayAxes = lab.graph.DisplayAxes;
+var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
@@ -182,7 +182,9 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   this.simList2 = this.sim2.getSimList();
   /** @type {!lab.app.SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.sim1);
+  /** @type {!SimpleAdvance} */
   this.advance1  = new SimpleAdvance(this.sim1);
+  /** @type {!SimpleAdvance} */
   this.advance2 = new SimpleAdvance(this.sim2);
   /** @type {!lab.util.DoubleRect} */
   this.simRect = new DoubleRect(-2, -2.2, 2, 1.5);
@@ -203,14 +205,15 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   /** @type {!lab.util.Clock} */
   this.clock = this.simRun.getClock();
 
-  /** @type {!lab.view.DisplayLine} */
   var displayRod2 = new DisplayLine(this.simList2.getConcreteLine('rod'));
   this.displayList.add(displayRod2);
+  /** @type {!lab.model.PointMass} */
   this.bob2 = this.simList2.getPointMass('bob');
   var displayBob2 = new DisplayShape(this.bob2).setFillStyle('red');
   this.displayList.add(displayBob2);
   displayBob2.setDragable(false);
 
+  /** @type {!lab.model.PointMass} */
   this.bob1 = this.simList.getPointMass('bob');
   var displayBob = new DisplayShape(this.bob1).setFillStyle('blue');
   this.displayList.add(displayBob);
@@ -377,6 +380,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
+  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

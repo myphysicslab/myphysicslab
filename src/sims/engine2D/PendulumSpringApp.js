@@ -86,6 +86,7 @@ the view to show the graph as it is drawn.
 */
 sims.engine2D.PendulumSpringApp = function(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 4);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
@@ -125,7 +126,7 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.displayList.findShape(block).setFillStyle('rgba(255, 165, 0, 0.5)');
 
   this.rbo.protoSpring.setWidth(0.3);
-  var addSpring = goog.bind(function(s) {
+  var addSpring = goog.bind(function(/** @type {!Spring} */s) {
     this.springs_.push(s);
     this.mySim.addForceLaw(s);
     this.simList.add(s);

@@ -106,6 +106,7 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.displayList.add(this.ball1);
   // allow the 't' variable to appear in expressions for X and Y equations
   this.terminal.addWhiteList('t');
+  /** @type {!CustomPath} */
   this.customPath_ = new CustomPath();
   /** @type {!Array<!lab.model.ParametricPath>} **/
   this.paths = [
@@ -121,6 +122,7 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   ];
   /** @type {!PathSelector} */
   this.pathSelect = new PathSelector(sim, this.paths);
+  /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this));
   this.pathSelect.setPathName(HumpPath.en.NAME);

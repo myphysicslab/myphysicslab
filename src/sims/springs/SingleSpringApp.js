@@ -70,9 +70,11 @@ myphysicslab.sims.springs.SingleSpringApp = function(elem_ids, opt_name) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
+  /** @type {!DisplayShape} */
   this.block = new DisplayShape(this.simList.getPointMass('block'))
       .setFillStyle('blue');
   this.displayList.add(this.block);
+  /** @type {!DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring'))
       .setWidth(0.4).setThickness(6);
   this.displayList.add(this.spring);

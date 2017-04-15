@@ -98,6 +98,7 @@ Parameters Created
 */
 sims.engine2D.ChainApp = function(elem_ids) {
   var simRect = new DoubleRect(-12, -12, 12, 12);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
@@ -195,7 +196,7 @@ sims.engine2D.ChainApp = function(elem_ids) {
     this.graph.autoScale.setEnabled(false);
     // Note that you can still use the pan-zoom controls on the graph, but
     // they are overridden whenever you pan-zoom the simView.
-    this.matcher = new GenericObserver(this.simView,
+    var matcher = new GenericObserver(this.simView,
       goog.bind(function(evt) {
         if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
           this.graph.view.setSimRect(this.simView.getSimRect());

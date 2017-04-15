@@ -75,11 +75,13 @@ sims.pendulum.PendulumApp = function(elem_ids) {
   var advance = new SimpleAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
-
+  /** @type {!DisplayLine} */
   this.rod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(this.rod);
+  /** @type {!DisplayArc} */
   this.drive = new DisplayArc(this.simList.getArc('drive'));
   this.displayList.add(this.drive);
+  /** @type {!DisplayShape} */
   this.bob = new DisplayShape(this.simList.getPointMass('bob')).setFillStyle('blue');
   this.displayList.add(this.bob);
   sim.modifyObjects();

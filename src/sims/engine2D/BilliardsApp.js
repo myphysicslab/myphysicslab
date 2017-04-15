@@ -86,6 +86,7 @@ Parameters Created
 */
 myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

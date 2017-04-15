@@ -70,6 +70,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   var simRect = new DoubleRect(-5, -3, 5, 5);
+  /** @type {!ContactSim} */
   this.mySim = new ContactSim();
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);

@@ -39,9 +39,13 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 * @implements {myphysicslab.lab.util.GenericVector}
 */
 myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
+  /** @type {number} */
   this.x = x;
+  /** @type {number} */
   this.y = y;
+  /** @type {number} */
   this.seqX = seqX;
+  /** @type {number} */
   this.seqY = seqY;
 };
 var GraphPoint = myphysicslab.lab.graph.GraphPoint;
