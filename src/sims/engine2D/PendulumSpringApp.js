@@ -126,20 +126,15 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.displayList.findShape(block).setFillStyle('rgba(255, 165, 0, 0.5)');
 
   this.rbo.protoSpring.setWidth(0.3);
-  var addSpring = goog.bind(function(/** @type {!Spring} */s) {
-    this.springs_.push(s);
-    this.mySim.addForceLaw(s);
-    this.simList.add(s);
-  }, this);
-  addSpring(new Spring('spring1',
+  this.addSpring(new Spring('spring1',
       pendulum, new Vector(0.15, 0.7),
       block, new Vector(0.15, 0.7),
       /*restLength=*/0.75, /*stiffness=*/1.0));
-  addSpring(new Spring('spring2',
+  this.addSpring(new Spring('spring2',
       block, new Vector(0.15, 0.7),
       Scrim.getScrim(), new Vector(-2, 2),
       /*restLength=*/0.75, /*stiffness=*/1.0));
-  addSpring(new Spring('spring3',
+  this.addSpring(new Spring('spring3',
       block, new Vector(0.15, 0.3),
       Scrim.getScrim(), new Vector(-2, -2),
       /*restLength=*/0.75, /*stiffness=*/1.0));
@@ -215,6 +210,16 @@ if (!UtilityCore.ADVANCED) {
         +', autoScale: '+this.autoScale.toStringShort()
         + PendulumSpringApp.superClass_.toString.call(this);
   };
+};
+
+/**
+* @param {!Spring} s
+* @private
+*/
+PendulumSpringApp.prototype.addSpring = function(s) {
+  this.springs_.push(s);
+  this.mySim.addForceLaw(s);
+  this.simList.add(s);
 };
 
 /** @inheritDoc */

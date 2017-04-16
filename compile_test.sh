@@ -188,6 +188,8 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=visibility \
 --emit_use_strict \
 --language_out=ECMASCRIPT5_STRICT \
+--new_type_inf \
+--jscomp_warning=newCheckTypes \
 --hide_warnings_for=`readlink closure-library` \
 --conformance_configs=`pwd`/test_conformance_config.textproto \
 --dependency_mode=STRICT \

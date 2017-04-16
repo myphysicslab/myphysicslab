@@ -356,8 +356,9 @@ myphysicslab.lab.engine2D.ComputeForces = function(name, pRNG, tolerance) {
   * @private
   */
   this.nextContactPolicy = ComputeForces.NEXT_CONTACT_HYBRID;
-  if (goog.DEBUG && this.debugCF)
-    this.print('nextContactPolicy=' + this.nextContactPolicy);
+  //if (goog.DEBUG && this.debugCF)
+  //  this.print('nextContactPolicy=' + this.nextContactPolicy);
+  //var /** null */n = this;
   /** SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
   * for Acc to be singular
   * @type {number}

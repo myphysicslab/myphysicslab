@@ -239,6 +239,8 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_error=unknownDefines \
 --jscomp_error=uselessCode \
 --jscomp_error=visibility \
+--new_type_inf \
+--jscomp_warning=newCheckTypes \
 --hide_warnings_for=`readlink closure-library` \
 --conformance_configs=`pwd`/conformance_config.textproto \
 --emit_use_strict \

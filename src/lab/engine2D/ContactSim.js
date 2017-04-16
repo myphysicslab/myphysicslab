@@ -473,7 +473,7 @@ ContactSim.prototype.removeBody = function(body) {
   ContactSim.superClass_.removeBody.call(this, body);
   // remove any Connectors attached to the removed body
   goog.array.forEachRight(this.connectors_,
-    function(/** !myphysicslab.lab.engine2D.Connector */connect, index, array) {
+    function(connect, index, array) {
       if (connect.getBody1() == body || connect.getBody2() == body) {
         this.removeConnector(connect);
       }

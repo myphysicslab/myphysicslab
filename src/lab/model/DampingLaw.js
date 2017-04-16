@@ -180,7 +180,7 @@ DampingLaw.prototype.calculateForces = function() {
     return forces;
   }
   goog.array.forEach(this.bods_,
-    function(/** !MassObject */bod) {
+    function(bod) {
       if (!isFinite(bod.getMass())) // skip infinite mass objects
         return;
       // translational damping: location is center of mass;

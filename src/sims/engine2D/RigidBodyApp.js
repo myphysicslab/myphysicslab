@@ -165,6 +165,16 @@ if (!UtilityCore.ADVANCED) {
   };
 };
 
+/**
+* @param {!Spring} s
+* @private
+*/
+RigidBodyApp.prototype.addSpring = function(s) {
+  this.springs_.push(s);
+  this.mySim.addForceLaw(s);
+  this.simList.add(s);
+};
+
 /** @inheritDoc */
 RigidBodyApp.prototype.getClassName = function() {
   return 'RigidBodyApp';
@@ -207,11 +217,6 @@ RigidBodyApp.prototype.config = function() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var addSpring = goog.bind(function(/** @type {!Spring} */s) {
-    this.springs_.push(s);
-    this.mySim.addForceLaw(s);
-    this.simList.add(s);
-  }, this);
 
   make_blocks:
   if (this.numBods >= 1) {
@@ -223,7 +228,7 @@ RigidBodyApp.prototype.config = function() {
     this.thrust2 = SixThrusters.make(this.thrust, p1);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
-    addSpring(new Spring('spring 1',
+    this.addSpring(new Spring('spring 1',
         Scrim.getScrim(), new Vector(-2, -2),
         p1, new Vector(0.15, 0.7),
         this.restLength, this.stiffness));
@@ -239,11 +244,11 @@ RigidBodyApp.prototype.config = function() {
     this.thrust1 = SixThrusters.make(this.thrust, p2);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
-    addSpring(new Spring('spring 2',
+    this.addSpring(new Spring('spring 2',
         Scrim.getScrim(), new Vector(2, 2),
         p2, new Vector(0.15, 0.7),
         this.restLength, this.stiffness));
-    addSpring(new Spring('spring 3',
+    this.addSpring(new Spring('spring 3',
         p2, new Vector(0.15, -0.7),
         p1, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
@@ -256,7 +261,7 @@ RigidBodyApp.prototype.config = function() {
     p3.setPosition(new Vector(2.867,  -0.113),  0);
     p3.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p3);
-    addSpring(new Spring('spring 4',
+    this.addSpring(new Spring('spring 4',
         p3, new Vector(0.15, 0.7),
         p2, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
@@ -269,7 +274,7 @@ RigidBodyApp.prototype.config = function() {
     p4.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p4.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p4);
-    addSpring(new Spring('spring 5',
+    this.addSpring(new Spring('spring 5',
         p4, new Vector(0.15, 0.7),
         p3, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
@@ -281,7 +286,7 @@ RigidBodyApp.prototype.config = function() {
     var p5 = RigidBodyApp.makeBlock(5);
     p5.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p5);
-    addSpring(new Spring('spring 6',
+    this.addSpring(new Spring('spring 6',
         p5, new Vector(0.15, 0.7),
         p4, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
@@ -293,7 +298,7 @@ RigidBodyApp.prototype.config = function() {
     var p6 = RigidBodyApp.makeBlock(6);
     p6.setPosition(new Vector(0.08,  0.127),  0.888);
     this.mySim.addBody(p6);
-    addSpring(new Spring('spring 7',
+    this.addSpring(new Spring('spring 7',
         p6, new Vector(0.15, 0.7),
         p5, new Vector(0.15, -0.7),
         this.restLength, this.stiffness));
