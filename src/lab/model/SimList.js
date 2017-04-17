@@ -271,7 +271,7 @@ See {@link myphysicslab.lab.model.SimObject#similar} for how similarity is deter
 SimList.prototype.getSimilar = function(simObj, tolerance) {
   var tol = (tolerance === undefined) ? this.tolerance_ : tolerance;
   return goog.array.find(this.elements_,
-    function(/** @type !SimObject*/obj, index, array) {
+    function(obj, index, array) {
       return obj.similar(simObj, tol);
     });
 };

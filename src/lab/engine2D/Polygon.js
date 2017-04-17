@@ -606,8 +606,7 @@ Polygon.prototype.checkConsistent = function() {
     throw new Error('Polygon construction is not finished.');
   }
   // v0 = starting Vertex of the current path being examined
-  goog.array.forEach(this.paths_, function(/** !Vertex */v0) {
-    /** @type {!Vertex} */
+  goog.array.forEach(this.paths_, function(v0) {
     var v = v0; // v = current Vertex being examined
     do {
       // find the next Edge
@@ -722,7 +721,7 @@ Polygon.prototype.copyTo = function(b) {
 Polygon.prototype.createCanvasPath = function(context) {
   context.beginPath();
   // v0 = starting Vertex of the current path being examined
-  goog.array.forEach(this.paths_, function(/** !Vertex */v0) {
+  goog.array.forEach(this.paths_, function(v0) {
     context.moveTo(v0.locBodyX(), v0.locBodyY());
     /** @type {!Vertex} */
     var v = v0; // v = current Vertex being examined
@@ -1184,7 +1183,7 @@ if (goog.DEBUG) {
     /** @type {!Vertex} */
     var vLast = this.vertices_[this.vertices_.length - 1];
     goog.array.forEach(this.vertices_,
-      function(/** !Vertex */v, k) {
+      function(v, k) {
         var d = v.locBody().distanceTo(vLast.locBody());
         console.log('('+(k)+') '+v+' dist to prev vertex = '+NF(d));
         vLast = v;
@@ -1207,7 +1206,7 @@ Polygon.prototype.probablyPointInside = function(p_body) {
   // look for an Edge with positive distance to the point,
   // which means the point is outside the body.
   var edge = goog.array.find(this.edges_,
-    function(/** !Edge */e, index, array) {
+    function(e, index, array) {
       return e.distanceToLine(p_body) > 0;
     }
   );

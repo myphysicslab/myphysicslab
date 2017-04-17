@@ -709,7 +709,7 @@ Terminal.prototype.expand = function(command) {
       c = c.slice(e.length); // remove the non-quoted string from start of c
       // process the non-quoted string with desired regexs
       e = goog.array.reduce(this.regexs_,
-        function(/** string */cmd, /**Terminal.regexPair*/rp) {
+        function(cmd, rp) {
           return cmd.replace(rp.regex, rp.replace);
         }, e);
       // add to result
@@ -806,7 +806,7 @@ Terminal.prototype.hasRegex = function(q) {
   var regex = q.regex.toString();
   var replace = q.replace;
   return goog.array.some(this.regexs_,
-    function(/** @type !Terminal.regexPair*/r) {
+    function(r) {
     return r.replace == replace && r.regex.toString() == regex;
   });
 };

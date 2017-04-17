@@ -578,7 +578,7 @@ EasyScriptParser.unquote = function(text) {
 */
 EasyScriptParser.prototype.update =  function() {
   var params = goog.array.reduce(this.subjects_,
-      function(/** !Array<!Parameter>*/result, /** !Subject*/subj) {
+      function(/** !Array<!Parameter>*/result, subj) {
         // filter out params with name 'DELETED'
         var s_params = goog.array.filter(subj.getParameters(),
             function(p) { return p.getName() != 'DELETED'; });

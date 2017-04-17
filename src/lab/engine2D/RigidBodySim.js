@@ -52,6 +52,7 @@ var ConcreteLine = lab.model.ConcreteLine;
 var AbstractSubject = lab.util.AbstractSubject;
 var DampingLaw = lab.model.DampingLaw;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
+var DoubleRect = lab.util.DoubleRect;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var Force = lab.model.Force;
@@ -167,15 +168,15 @@ didn't seem to add much insight.
 * @param {string=} opt_name name of this Subject
 * @constructor
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.engine2D.DebugEngine2D}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractSubject}
+* @implements {DebugEngine2D}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.model.ODESim}
 */
 myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
   AbstractSubject.call(this, opt_name || 'SIM');
   /** The Polygons in this simulation.
-  * @type {!Array<!myphysicslab.lab.engine2D.Polygon>}
+  * @type {!Array<!Polygon>}
   * @protected
   */
   this.bods_ = [];
@@ -185,18 +186,18 @@ myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
   */
   this.showForces_ = false;
   /** The ForceLaws in this simulation.
-  * @type {!Array<!myphysicslab.lab.model.ForceLaw>}
+  * @type {!Array<!ForceLaw>}
   * @protected
   */
   this.forceLaws_ = [];
   /** Suggested size for the SimView.  This is mainly for tests to communicate
   * with TestViewerApp.
-  * @type {?myphysicslab.lab.util.DoubleRect}
+  * @type {?DoubleRect}
   * @protected
   */
   this.simRect_ = null;
   /** The SimList holds SimObjects so they can be made visible.
-  * @type {!myphysicslab.lab.model.SimList}
+  * @type {!SimList}
   * @protected
   */
   this.simList_ = new SimList();
@@ -214,7 +215,7 @@ myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
   ];
   /** The variables that determine the state of the simulation; there are six
   * variables for each RigidBody, plus some others for time, energy, etc.
-  * @type {!myphysicslab.lab.model.VarsList}
+  * @type {!VarsList}
   * @protected
   */
   this.varsList_ = new VarsList(var_names, i18n_names,
@@ -372,7 +373,7 @@ RigidBodySim.prototype.setShowForces = function(value) {
 
 /** Returns the suggested size for the SimView. This is mainly for tests to communicate
 * with {@link myphysicslab.test.TestViewerApp}.
-* @return {?myphysicslab.lab.util.DoubleRect} suggested size for the SimView
+* @return {?DoubleRect} suggested size for the SimView
 */
 RigidBodySim.prototype.getSimRect = function() {
   return this.simRect_;
@@ -380,7 +381,7 @@ RigidBodySim.prototype.getSimRect = function() {
 
 /** Sets the suggested size for the SimView. This is mainly for tests to communicate
 * with {@link myphysicslab.test.TestViewerApp}.
-* @param {?myphysicslab.lab.util.DoubleRect} rect the suggested size for the SimView
+* @param {?DoubleRect} rect the suggested size for the SimView
 */
 RigidBodySim.prototype.setSimRect = function(rect) {
   this.simRect_ = rect;
@@ -392,7 +393,7 @@ RigidBodySim.prototype.setSimRect = function(rect) {
 RigidBodySim.prototype.formatVars = function() {
   var v = this.varsList_.getValues();
   var s = goog.array.reduce(this.bods_,
-    function(/** string*/str, /** !RigidBody*/ b) {
+    function(str, b) {
       return str + (str != '' ? '\n' : '') +
         UtilEngine.formatArray(v, b.getVarsIndex(), 6);
     }, '');
@@ -516,7 +517,7 @@ RigidBodySim.prototype.removeBody = function(body) {
 };
 
 /** Whether the RigidBody is contained in this simulation.
-* @param {!myphysicslab.lab.engine2D.RigidBody} body the RigidBody of interest
+* @param {!RigidBody} body the RigidBody of interest
 * @return {boolean} `true` if the given RigidBody is contained in this simulation
 */
 RigidBodySim.prototype.containsBody = function(body) {
@@ -524,7 +525,7 @@ RigidBodySim.prototype.containsBody = function(body) {
 };
 
 /** Returns the list of Polygons in this simulation.
-@return {!Array<!myphysicslab.lab.engine2D.Polygon>} list of Polygons in this
+@return {!Array<!Polygon>} list of Polygons in this
     RigidBodySim.
 */
 RigidBodySim.prototype.getBodies = function() {
@@ -535,17 +536,17 @@ RigidBodySim.prototype.getBodies = function() {
 * of Polygons.
 * @param {number|string} numOrName index in list of Polygons or name of the Polygon
 *    (either the English or language-independent version of the name)
-* @return {!myphysicslab.lab.engine2D.Polygon} the Polygon with the given name or at
+* @return {!Polygon} the Polygon with the given name or at
 *    the given position in the list of Polygons
 * @throws exception if requesting a non-existing body.
 */
 RigidBodySim.prototype.getBody = function(numOrName) {
-  /** @type {myphysicslab.lab.engine2D.Polygon} */
+  /** @type {Polygon} */
   var bod = null;
   if (goog.isString(numOrName)) {
     var bodName = UtilityCore.toName(numOrName);
     bod = goog.array.find(this.bods_,
-      function(/** !myphysicslab.lab.engine2D.Polygon */body, index, array) {
+      function(body, index, array) {
         return body.getName() == bodName;
       });
   } else {
@@ -561,7 +562,7 @@ RigidBodySim.prototype.getBody = function(numOrName) {
 
 /** Sets the simulation variables to match the Polygon state (by copying the Polygon's
 * position and velocity to the simulation's VarsList).
-* @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon to use for updating
+* @param {!Polygon} body the Polygon to use for updating
 *     the simulation variables
 */
 RigidBodySim.prototype.initializeFromBody = function(body) {
@@ -594,7 +595,7 @@ RigidBodySim.prototype.modifyObjects = function() {
 
 /** Adds the ForceLaw to the list of ForceLaws operating in this simulation, if it is
 not already on the list.
-@param {!myphysicslab.lab.model.ForceLaw} forceLaw the ForceLaw to add
+@param {!ForceLaw} forceLaw the ForceLaw to add
 */
 RigidBodySim.prototype.addForceLaw = function(forceLaw) {
   // It is a rather common problem to add DampingLaw or GravityLaw twice.
@@ -621,7 +622,7 @@ RigidBodySim.prototype.addForceLaw = function(forceLaw) {
 };
 
 /** Removes the ForceLaw from the list of ForceLaws operating in this simulation.
-* @param {!myphysicslab.lab.model.ForceLaw} forceLaw the ForceLaw to remove
+* @param {!ForceLaw} forceLaw the ForceLaw to remove
 * @return {boolean} whether the ForceLaw was removed
 */
 RigidBodySim.prototype.removeForceLaw = function(forceLaw) {
@@ -641,7 +642,7 @@ RigidBodySim.prototype.clearForceLaws = function() {
 };
 
 /** Returns the list of ForceLaws operating in this simulation.
-* @return {!Array<!myphysicslab.lab.model.ForceLaw>} list of ForceLaws operating in
+* @return {!Array<!ForceLaw>} list of ForceLaws operating in
 *     this simulation
 */
 RigidBodySim.prototype.getForceLaws = function() {
@@ -741,7 +742,7 @@ RigidBodySim.prototype.evaluate = function(vars, change, timeStep) {
 * which variable rates to modify.  Adds the Force to the SimList with an immediate
 * expiration time.
 * @param {!Array<number>} change vector of rigid body accelerations
-* @param {!myphysicslab.lab.model.Force} force the Force to be applied
+* @param {!Force} force the Force to be applied
 * @protected
 */
 RigidBodySim.prototype.applyForce = function(change, force) {
