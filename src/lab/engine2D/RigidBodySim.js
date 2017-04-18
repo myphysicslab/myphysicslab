@@ -87,13 +87,21 @@ no collisions or contact forces. RigidBodys will pass thru each other unless you
 {@link myphysicslab.lab.engine2D.ImpulseSim} sub-class.
 
 The AdvanceStrategy tells the DiffEqSolver to advance the simulation. The DiffEqSolver
-advances the simulation by calling `RigidBodySim.evaluate()` to calculate rates of
+advances the simulation by calling {@link RigidBodySim#evaluate} to calculate rates of
 change in each of the simulation variables. The DiffEqSolver then uses an algorithm like
 Runge-Kutta to integrate forward over a small time step to reach the new simulation
 state. Within `evaluate()`, the forces operate by modifying the rate of change of each
 variable.
 
-See explanations at [2D Physics Engine Overview](Engine2D.html).
+More information:
+
++ [2D Physics Engine Overview](Engine2D.html)
+
++ The math and physics underlying
+    [RigidBodySim](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body-en.html),
+    [ImpulseSim](http://www.myphysicslab.com/engine2D/collision/collision-en.html) and
+    [ContactSim](http://www.myphysicslab.com/engine2D/contact/contact-en.html) are
+    described on the myPhysicsLab website.
 
 
 ### Parameters Created
@@ -107,22 +115,22 @@ See explanations at [2D Physics Engine Overview](Engine2D.html).
 
 ### RigidBodys
 
-RigidBodySim maintains a list of {@link myphysicslab.lab.engine2D.RigidBody}s which are
+RigidBodySim maintains a list of {@link RigidBody}s which are
 currently part of the simulation. RigidBodys can be added or removed while the
 simulation is running. Each RigidBody is added to the SimList (or
 removed when the RigidBody is removed).
 
 ### ForceLaws
 
-RigidBodySim maintains a list of {@link myphysicslab.lab.model.ForceLaw}s which are each
+RigidBodySim maintains a list of {@link ForceLaw}s which are each
 given an opportunity to apply their force to RigidBodys during `evaluate()`. Some
-ForceLaws such as {@link myphysicslab.lab.model.GravityLaw} and
-{@link myphysicslab.lab.model.DampingLaw} are set up so that they observe the SimList and
+ForceLaws such as {@link GravityLaw} and
+{@link DampingLaw} are set up so that they observe the SimList and
 can therefore apply their force to every RigidBody.
 
 ### Variables
 
-Variables are stored in a {@link myphysicslab.lab.model.VarsList}. Each RigidBody gets
+Variables are stored in a {@link VarsList}. Each RigidBody gets
 a set of six contiguous variables that describe its current position, angle, and
 velocity. The variables are laid out as follows:
 
@@ -132,10 +140,11 @@ velocity. The variables are laid out as follows:
 4. `y'`  vertical velocity of center of mass.  AKA `vy`
 5. `w` angle of rotation from body coordinates in radians with positive rotation
 being counter-clockwise. Called `w`, because `w` looks like the greek letter &omega;
-(omega) which is sometimes used for angles in math.
+(omega) which is often used for angles in math.
 6. `w'`  angular velocity.  AKA `vw`.
 
-The starting index of a RigidBody's variables is given by `RigidBody.getVarsIndex()`. To
+The starting index of a RigidBody's variables is given by
+{@link RigidBody#getVarsIndex}. To
 find a particular variable, add the appropriate offset: `RigidBodySim.X_,
 RigidBodySim.VX_, RigidBodySim.Y_, RigidBodySim.VY_, RigidBodySim.W_, RigidBodySim.VW_`.
 For example, to find the angular velocity of a RigidBody:
@@ -152,18 +161,15 @@ Variables at the beginning of the VariablesList:
 
 The set of RigidBodys can change over time via {@link #addBody} and {@link #removeBody}.
 Therefore the set of variables can change accordingly. Removing a RigidBody results in
-its 6 variables each being marked with the reserved name 'deleted' and those slots in
+its 6 variables each being marked with the reserved name `deleted` and those slots in
 the VarsList are then available for later reuse. Adding a RigidBody either extends the
 length of the VarsList or reuses some previously deleted slots of variables. But the 6
 variables allocated for a RigidBody are guaranteed to be contiguous.
 
 {@link myphysicslab.lab.model.ExpressionVariable ExpressionVariables} or
-{@link myphysicslab.lab.model.FunctionVariable FunctionVariables} can be added to a VarsList.
-Their position in the VarsList remains constant after they are allocated.
+{@link myphysicslab.lab.model.FunctionVariable FunctionVariables} can be added to a
+VarsList. Their position in the VarsList remains constant after they are allocated.
 
-@todo the momentum stuff was pretty klugey and ugly; I'm commenting it out Dec 2009;
-the text info might be useful, but it needs to be made prettier. The 'momentum arrows'
-didn't seem to add much insight.
 
 * @param {string=} opt_name name of this Subject
 * @constructor
@@ -514,14 +520,6 @@ RigidBodySim.prototype.removeBody = function(body) {
   this.getSimList().remove(body);
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
-};
-
-/** Whether the RigidBody is contained in this simulation.
-* @param {!RigidBody} body the RigidBody of interest
-* @return {boolean} `true` if the given RigidBody is contained in this simulation
-*/
-RigidBodySim.prototype.containsBody = function(body) {
-  return goog.array.contains(this.bods_, body);
 };
 
 /** Returns the list of Polygons in this simulation.

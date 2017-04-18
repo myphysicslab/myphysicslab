@@ -62,6 +62,7 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var Polygon = lab.engine2D.Polygon;
+var Random = lab.util.Random;
 var RigidBody = lab.engine2D.RigidBody;
 var RigidBodyCollision = lab.engine2D.RigidBodyCollision;
 var RigidBodySim = lab.engine2D.RigidBodySim;
@@ -79,7 +80,7 @@ asks ImpulseSim to perform are:
 + {@link #findCollisions} Returns the current set of collisions and also contacts.
 Checks each corner and edge of each body to see if it is penetrating into another body
 (or nearby for a contact). Creates a
-{@link myphysicslab.lab.engine2D.RigidBodyCollision} corresponding to each collision (or
+{@link RigidBodyCollision} corresponding to each collision (or
 contact) found and returns them in an array.
 
 + {@link #handleCollisions} For each collision, calculates and applies the appropriate
@@ -90,14 +91,15 @@ More information:
 + [2D Physics Engine Overview](Engine2D.html)
 
 + The math and physics underlying
-    [RigidBodySim, ImpulseSim](http://www.myphysicslab.com/collision.html) and
-    [ContactSim](http://www.myphysicslab.com/contact.html) are described on the
-    myPhysicsLab website.
+    [RigidBodySim](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body-en.html),
+    [ImpulseSim](http://www.myphysicslab.com/engine2D/collision/collision-en.html) and
+    [ContactSim](http://www.myphysicslab.com/engine2D/contact/contact-en.html) are
+    described on the myPhysicsLab website.
 
 + {@link myphysicslab.lab.engine2D.ContactSim} has more about how resting contacts are
 found.
 
-+ {@link myphysicslab.lab.engine2D.ComputeForces} is the algorithm used when finding
++ {@link ComputeForces} is the algorithm used when finding
 multiple simultaneous impulses during collision handling.
 
 
@@ -122,13 +124,14 @@ See also the super class for additional Parameters.
 
 There are several different collision handling options available. See the section on
 [Multiple Simultaneous Collisions](Engine2D.html#multiplesimultaneouscollisions) and
-{@link myphysicslab.lab.engine2D.CollisionHandling}.
+{@link CollisionHandling}.
 
 
 ### Contacts During Collision Handling
 
 Resting contacts, joints, and imminent collisions are involved in the collision handling
-mechanism, as part of a multiple simultaneous collision. The `handleCollisions` method
+mechanism, as part of a multiple simultaneous collision.
+The {@link #handleCollisions} method
 can calculate the impulse needed at each point, which can be a big performance win.
 
 Consider for example a situation where there are 2 or more bodies in resting contact,
@@ -167,7 +170,7 @@ therefore
 
     0 = A j + (1+e) v_i
 
-this corresponds to the equation in {@link myphysicslab.lab.engine2D.ComputeForces}
+this corresponds to the equation in {@link ComputeForces}
 
     0 = A f + b
 
@@ -216,7 +219,7 @@ This only works when A is a scalar value not a matrix. Otherwise you would
 left-multiply by the inverse of the A matrix.
 
 
-@todo use {@link myphysicslab.lab.engine2D.UtilityCollision#subsetCollisions1}
+@todo use {@link UtilityCollision#subsetCollisions1}
 to arrange collisions into
 separate groups, so that contacts are handled with zero elasticity more often.
 Currently, when contacts are handled simultaneously with a high-velocity collision, we
@@ -245,7 +248,7 @@ to check if body B collides with body A.
 * @constructor
 * @struct
 * @implements {myphysicslab.lab.model.CollisionSim}
-* @extends {myphysicslab.lab.engine2D.RigidBodySim}
+* @extends {RigidBodySim}
 */
 myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
   RigidBodySim.call(this, opt_name);
@@ -255,18 +258,18 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
   */
   this.showCollisionDot_ = true;
   /**
-  * @type {!myphysicslab.lab.engine2D.CollisionHandling}
+  * @type {!CollisionHandling}
   * @private
   */
   this.collisionHandling_ = CollisionHandling.SERIAL_GROUPED_LASTPASS;
   /**  The pseudo random number generator, used in collision handling and
   * computing forces.
-  * @type {!myphysicslab.lab.util.Random}
+  * @type {!Random}
   * @protected
   */
   this.simRNG_ = new myphysicslab.lab.util.RandomLCG(0);
   /** 'I' for ImpulseSim
-  * @type {!myphysicslab.lab.engine2D.ComputeForces}
+  * @type {!ComputeForces}
   * @private
   */
   this.computeImpacts_ = new ComputeForces('I', this.simRNG_);
@@ -390,7 +393,7 @@ ImpulseSim.prototype.setDebugPaint = function(fn) {
 simulation. The RNG is used during collision handling and contact force calculation. To
 get reproducible results, set this seed at the start of a simulation, and the RNG will
 then always give the same sequence of random numbers.
-See {@link myphysicslab.lab.util.Random}.
+See {@link Random}.
 * @return {number} the seed of the pseudo random number generator
 */
 ImpulseSim.prototype.getRandomSeed = function() {
@@ -401,7 +404,7 @@ ImpulseSim.prototype.getRandomSeed = function() {
 simulation. The RNG is used during collision handling and contact force calculation. To
 get reproducible results, set this seed at the start of a simulation, and the RNG will
 then always give the same sequence of random numbers.
-See {@link myphysicslab.lab.util.Random}.
+See {@link Random}.
 * @param {number} value the seed of the pseudo random number generator
 */
 ImpulseSim.prototype.setRandomSeed = function(value) {
@@ -410,16 +413,16 @@ ImpulseSim.prototype.setRandomSeed = function(value) {
 };
 
 /** Returns the collision handling method being used.
-* @return {!myphysicslab.lab.engine2D.CollisionHandling} the collision handling method
-*     being used, from {@link myphysicslab.lab.engine2D.CollisionHandling}.
+* @return {!CollisionHandling} the collision handling method
+*     being used, from {@link CollisionHandling}.
 */
 ImpulseSim.prototype.getCollisionHandling = function() {
   return this.collisionHandling_;
 };
 
 /** Sets the collision handling method to use,
-* @param {!myphysicslab.lab.engine2D.CollisionHandling} value the collision handling
-*    method to use, from {@link myphysicslab.lab.engine2D.CollisionHandling}.
+* @param {!CollisionHandling} value the collision handling
+*    method to use, from {@link CollisionHandling}.
 */
 ImpulseSim.prototype.setCollisionHandling = function(value) {
   var a = CollisionHandling.stringToEnum(value);
@@ -723,9 +726,9 @@ here. Here is how the vector cross product is calculated:
     (rj x n) x ri = [0, 0, rjx ny - rjy nx] x ri
               = [-riy(rjx ny - rjy nx), rix(rjx ny - rjy nx), 0]
 
-* @param {!myphysicslab.lab.engine2D.RigidBodyCollision} ci
-* @param {!myphysicslab.lab.engine2D.RigidBodyCollision} cj
-* @param {!myphysicslab.lab.engine2D.RigidBody} body
+* @param {!RigidBodyCollision} ci
+* @param {!RigidBodyCollision} cj
+* @param {!RigidBody} body
 * @return {number} the change in relative normal velocity at collision ci resulting
 *      from a unit impulse on the given body at collision cj.
 * @private
@@ -777,7 +780,7 @@ triangle and then copying to lower triangle.
 @todo  this is the same as ContactSim.calculate_a_matrix, so we need to
 use just one of these (duplicate code currently).  March 2012.
 
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions list of
+* @param {!Array<!RigidBodyCollision>} collisions list of
 *    RigidBodyCollisions
 * @return {!Array<!Float64Array>} matrix that tells how much impulse
 *    at collision point `i` affects relative normal velocity at collision point `j`
@@ -853,9 +856,9 @@ ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
 /** Handles a set of collisions using the 'simultaneous' collision handling method.
 * Finds impulses so that every collision has a change in velocity given by the
 * initial velocity and the elasticity.
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions list of
+* @param {!Array<!RigidBodyCollision>} collisions list of
 *        RigidBodyCollisions
-* @param {!myphysicslab.lab.model.CollisionTotals=} opt_totals CollisionTotals object
+* @param {!CollisionTotals=} opt_totals CollisionTotals object
 *    to update with number of collisions handled (optional)
 * @return {boolean} whether any change was made to the collisions
 * @private
@@ -1016,11 +1019,11 @@ call compute_forces.
 @todo make the exception thrown more informational:  is it because accuracy
 in the solution is poor, or some other reason.
 
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions  the set of
+* @param {!Array<!RigidBodyCollision>} collisions  the set of
 *    collisions to handle
 * @param {boolean} hybrid  true means use a hybrid collision handling method that uses
 *    the 'simultaneous' method in some cases
-* @param {!myphysicslab.lab.model.CollisionTotals=} opt_totals CollisionTotals object
+* @param {!CollisionTotals=} opt_totals CollisionTotals object
 *    to update with number of collisions handled (optional)
 * @param {boolean=} grouped treat joints connected to focus collision
 *    simultaneously with the focus collision and with zero elasticity at the joint.
@@ -1446,7 +1449,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
 
 /** Applies the given impulse to the objects involved in the given collision, at
 * the impact point of the collision.
-* @param {!myphysicslab.lab.engine2D.RigidBodyCollision} cd collision where the impulse
+* @param {!RigidBodyCollision} cd collision where the impulse
 *     should be applied
 * @param {number} j magnitude of impulse to apply
 * @private

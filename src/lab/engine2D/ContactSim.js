@@ -46,23 +46,23 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Force = myphysicslab.lab.model.Force;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
+var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
+var Scrim = myphysicslab.lab.engine2D.Scrim;
 var SimList = myphysicslab.lab.model.SimList;
 var Simulation = myphysicslab.lab.model.Simulation;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Scrim = myphysicslab.lab.engine2D.Scrim;
 
 /** Physics engine for rigid bodies with contact forces to allow resting contact. The
 contact forces prevent the bodies from interpenetrating when they are in resting
@@ -90,9 +90,10 @@ See explanations at:
 + [2D Physics Engine Overview](Engine2D.html)
 
 + The math and physics underlying
-    [RigidBodySim, ImpulseSim](http://www.myphysicslab.com/collision.html) and
-    [ContactSim](http://www.myphysicslab.com/contact.html) are described on the
-    myPhysicsLab website.
+    [RigidBodySim](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body-en.html),
+    [ImpulseSim](http://www.myphysicslab.com/engine2D/collision/collision-en.html) and
+    [ContactSim](http://www.myphysicslab.com/engine2D/contact/contact-en.html) are
+    described on the myPhysicsLab website.
 
 + [ContactSim Math](ContactSim_Math.html)  has more details about the math.
 
@@ -132,7 +133,7 @@ forces to prevent that.
 Next in `evaluate()` we call `findCollisions()` to find all the contact points, and
 possibly collisions as well. If we find any actual (penetrating) collisions, then
 `evaluate()` returns the set of collisions found, which should then be handled before
-trying to step forward again, see {@link myphysicslab.lab.engine2D.ImpulseSim}.
+trying to step forward again, see {@link ImpulseSim}.
 
 The criteria for finding a contact is:
 
@@ -274,7 +275,7 @@ The contact forces are calculated so that there is zero acceleration at contact 
 One way to deal with this is to request a small amount of additional acceleration which will eliminate that velocity over a few time steps.  If the objects are moving towards each other (a small negative velocity) we request a little more acceleration which leads to a little more force being applied there.  If the objects are moving apart (a small positive velocity) we request a little less acceleration.
 
 The extra acceleration is added to the `b` vector in the private method
-`calculate_b_vector`. See {@link myphysicslab.lab.engine2D.ExtraAccel} enum for
+`calculate_b_vector`. See {@link ExtraAccel} enum for
 explanations of the various options. See {@link #setExtraAccel} for how to specify the
 desired ExtraAccel option.
 
@@ -302,12 +303,12 @@ method, instead we used the collisions found outside the `evaluate()` method dur
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.engine2D.ImpulseSim}
+* @extends {ImpulseSim}
 */
 myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
   ImpulseSim.call(this, opt_name);
   /**
-  * @type {!Array<!myphysicslab.lab.engine2D.Connector>}
+  * @type {!Array<!Connector>}
   * @private
   */
   this.connectors_ = [];
@@ -327,7 +328,7 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
   */
   this.numContacts_ = 0;
   /** 'C' for ContactSim
-  * @type {!myphysicslab.lab.engine2D.ComputeForces}
+  * @type {!ComputeForces}
   * @private
   */
   this.computeForces_ = new ComputeForces('C',  this.simRNG_);
@@ -353,7 +354,7 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
   * contact to zero.
   * NOTE June 26 2014: previously the default was ExtraAccel.VELOCITY
   * Sept 5 2016: previous default was ExtraAccel.VELOCITY_AND_DISTANCE
-  * @type {!myphysicslab.lab.engine2D.ExtraAccel}
+  * @type {!ExtraAccel}
   * @private
   */
   this.extra_accel_ = ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS;
@@ -410,8 +411,8 @@ ContactSim.SHOW_NUM_CONTACTS = false;
 
 /** Returns the method to use for calculating extra acceleration added to
 * eliminate small amount of remaining velocity at a contact.
-* @return {!myphysicslab.lab.engine2D.ExtraAccel} the method to use for calculating
-*     extra acceleration, from {@link myphysicslab.lab.engine2D.ExtraAccel}
+* @return {!ExtraAccel} the method to use for calculating
+*     extra acceleration, from {@link ExtraAccel}
 */
 ContactSim.prototype.getExtraAccel = function() {
   return this.extra_accel_;
@@ -419,8 +420,8 @@ ContactSim.prototype.getExtraAccel = function() {
 
 /** Sets the method to use for calculating extra acceleration added to
 * eliminate small amount of remaining velocity at a contact.
-* @param {!myphysicslab.lab.engine2D.ExtraAccel} value the method to use for
-*     calculating extra acceleration, from {@link myphysicslab.lab.engine2D.ExtraAccel}
+* @param {!ExtraAccel} value the method to use for
+*     calculating extra acceleration, from {@link ExtraAccel}
 */
 ContactSim.prototype.setExtraAccel = function(value) {
   var a = ExtraAccel.stringToEnum(value);
@@ -481,12 +482,12 @@ ContactSim.prototype.removeBody = function(body) {
 };
 
 /** Adds a Connector to the list of active Connectors and to the
-{@link com.myphysicslab.lab.model.SimList}.
+{@link com.SimList}.
 The RigidBodys of the Connector must already have been added to this ContactSim,
 unless it is a Scrim.  Note that the order of the list of Connectors is significant,
 see {@link #alignConnectors}.
-@param {!myphysicslab.lab.engine2D.Connector} connector the Connector to add
-@param {?myphysicslab.lab.engine2D.Connector=} follow add new Connector into list after
+@param {!Connector} connector the Connector to add
+@param {?Connector=} follow add new Connector into list after
     this Connector; if null then add at front of list; if undefined, add at end of list
 @throws {Error} if RigidBodys of the Connector have not been added to this
     ContactSim
@@ -497,11 +498,11 @@ ContactSim.prototype.addConnector = function(connector, follow) {
     return;
   }
   var b = connector.getBody1();
-  if (!(this.containsBody(b) || b instanceof Scrim)) {
+  if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
     throw new Error('body not found '+b);
   }
   b = connector.getBody2();
-  if (!(this.containsBody(b) || b instanceof Scrim)) {
+  if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
     throw new Error('body not found '+b);
   }
   if (goog.isNull(follow)) {
@@ -520,7 +521,7 @@ ContactSim.prototype.addConnector = function(connector, follow) {
 
 /** Adds the set of Connectors.  Note that the ordering of the Connectors is
 important because the Connectors are aligned in list order.
-* @param {!Array<!myphysicslab.lab.engine2D.Connector>} connectors set of Connectors
+* @param {!Array<!Connector>} connectors set of Connectors
 * to add
 */
 ContactSim.prototype.addConnectors = function(connectors) {
@@ -530,8 +531,8 @@ ContactSim.prototype.addConnectors = function(connectors) {
 };
 
 /** Removes the Connector from the list of active Connectors. If the Connector is
-also a SimObject, then removes it from the {@link com.myphysicslab.lab.model.SimList}.
-@param {!myphysicslab.lab.engine2D.Connector} connector the Connector to remove
+also a SimObject, then removes it from the {@link com.SimList}.
+@param {!Connector} connector the Connector to remove
 */
 ContactSim.prototype.removeConnector = function(connector) {
   goog.array.remove(this.connectors_, connector);
@@ -539,7 +540,7 @@ ContactSim.prototype.removeConnector = function(connector) {
 };
 
 /**  Returns the list of active Connectors.
-@return {!Array<!myphysicslab.lab.engine2D.Connector>} the list of active Connectors
+@return {!Array<!Connector>} the list of active Connectors
 */
 ContactSim.prototype.getConnectors = function() {
   return goog.array.clone(this.connectors_);
@@ -633,7 +634,7 @@ ContactSim.prototype.evaluate = function(vars, change, timeStep) {
 /**
 * @param {!Array<number>} vars the current array of state variables (input)
 * @param {!Array<number>} change  array of change rates for each variable (output)
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} subset
+* @param {!Array<!RigidBodyCollision>} subset
 * @private
 */
 ContactSim.prototype.calcContactForces = function(vars, change, subset) {
@@ -688,7 +689,7 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
 };
 
 /** Removes imminent collisions from the given set of contacts/collisions.
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} contactsFound  the set of contacts/collisions
+* @param {!Array<!RigidBodyCollision>} contactsFound  the set of contacts/collisions
     to modify
 * @private
 */
@@ -758,7 +759,7 @@ is nicer in how it uses the 'influence' subroutine. However, that version doesn'
 use the U vector, so need to figure out whether they should both use U vector or
 not.
 
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} contacts
+* @param {!Array<!RigidBodyCollision>} contacts
 * @return {!Array<!Float64Array>}
 * @private
 */
@@ -893,7 +894,7 @@ collisions.  As long as we do the 'tiny collisions for joints', we ensure that
 velocity at joints is zero, and therefore don't need to do the "extra acceleration
 to eliminate velocity" kluge for joints.
 
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} contacts
+* @param {!Array<!RigidBodyCollision>} contacts
 * @param {!Array<number>} change
 * @param {!Array<number>} vars
 * @return {!Array<number>}
@@ -1087,14 +1088,14 @@ calculating the velocity of the gap distance -- which went into the `b`-vector, 
 therefore determined the amount of force. The `U` vector is also used for calculating
 the `A` matrix. We could use the `U` vector here, but it would give the same result
 because `U = R + n F`, see the section
-{@link myphysicslab.lab.engine2D.RigidBodyCollision#equivalenceofusingroruvector
+{@link RigidBodyCollision#equivalenceofusingroruvector
 Equivalence of Using R or U Vector For Normal Velocity} in RigidBodyCollision.
 
 We entirely skip making (and therefore displaying) the forces for a fixed (infinite
 mass) body. The reason is that those forces won't affect the simulation because the
 fixed body cannot move. We could let those forces thru if desired.
 
-* @param {!myphysicslab.lab.engine2D.RigidBodyCollision} c  the contact point where the
+* @param {!RigidBodyCollision} c  the contact point where the
 *    force is to be applied
 * @param {number} f  the magnitude of the normal force
 * @param {!Array<number>} change  vector of rigid body accelerations
@@ -1188,7 +1189,7 @@ if (goog.DEBUG) {
   };
 
   /**
-  * @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} subset
+  * @param {!Array<!RigidBodyCollision>} subset
   * @param {!Array<number>} b
   * @param {!Array<number>} vars
   * @private
@@ -1206,7 +1207,7 @@ if (goog.DEBUG) {
   };
 
   /**
-  * @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} subset
+  * @param {!Array<!RigidBodyCollision>} subset
   * @param {!Array<!Float64Array>} A
   * @param {!Array<number>} f
   * @param {!Array<number>} b
@@ -1250,7 +1251,7 @@ if (goog.DEBUG) {
   };
 
   /**
-  * @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} contacts
+  * @param {!Array<!RigidBodyCollision>} contacts
   * @private
   */
   ContactSim.prototype.printContactDistances = function(contacts) {

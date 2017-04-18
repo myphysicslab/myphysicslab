@@ -76,7 +76,7 @@ var testRigidBodySim1 = function() {
   assertEquals(VarsList.DELETED, va.getVariable(7).getName(/*localized=*/true));
   assertEquals(VarsList.DELETED, va.getVariable(8).getName(/*localized=*/true));
   assertEquals(VarsList.DELETED, va.getVariable(9).getName(/*localized=*/true));
-  assertFalse(sim.containsBody(p1));
+  assertFalse(goog.array.contains(sim.getBodies(), p1));
   assertEquals(1, sim.getBodies().length);
   assertEquals(p2, sim.getBody(0));
   assertEquals(p2, sim.getBody('block2'));

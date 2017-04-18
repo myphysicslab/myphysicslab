@@ -40,7 +40,7 @@ testing and then collision testing always happens even when objects are far apar
 DebugEngine2D.PROXIMITY_TEST = true;
 
 /** Creates a PointMass which is displayed as a circle, and adds it to the
-SimList.
+SimList, for debugging only.
 The expiration time on temporary SimObjects is set to 'now', so that they are
 removed right away during the next call to advance().
 * @param {string} name name of the SimObject that is created
