@@ -348,19 +348,18 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   * @package
   */
   this.r1 = Vector.ORIGIN;
-  /** vector from normalBody CM to point of impact2, in world coords, or null
+  /** vector from normalBody CM to point of impact2, in world coords
   * @type {!myphysicslab.lab.util.Vector}
   * @package
   */
   this.r2 = Vector.ORIGIN;
-  /** vector from body CM to edge's circle center, in world coords, or null.
+  /** vector from body CM to edge's circle center, in world coords
   * U, U2 are not used for collisions, only for contact force
   * @type {!myphysicslab.lab.util.Vector}
   * @package
   */
   this.u1 = Vector.ORIGIN;
-  /** vector from normal body CM to normal edge's circle center, in world coords,
-  * or null
+  /** vector from normal body CM to normal edge's circle center, in world coords
   * @type {!myphysicslab.lab.util.Vector}
   * @package
   */

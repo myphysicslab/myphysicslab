@@ -28,6 +28,7 @@ goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.model.CollisionSim');
 goog.require('myphysicslab.lab.model.CollisionTotals');
+goog.require('myphysicslab.lab.model.Impulse');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -48,6 +49,7 @@ var CollisionTotals = lab.model.CollisionTotals;
 var ComputeForces = lab.engine2D.ComputeForces;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 var GenericEvent = lab.util.GenericEvent;
+var Impulse = lab.model.Impulse;
 var NF = UtilityCore.NF;
 var NF5 = UtilityCore.NF5;
 var nf5 = UtilityCore.nf5;
@@ -256,7 +258,7 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
   * @type {boolean}
   * @private
   */
-  this.showCollisionDot_ = true;
+  this.showCollisions_ = true;
   /**
   * @type {!CollisionHandling}
   * @private
@@ -335,7 +337,7 @@ if (!UtilityCore.ADVANCED) {
         + ', distanceTol_: '+NF(this.distanceTol_)
         + ', velocityTol_: '+NF(this.velocityTol_)
         + ', collisionAccuracy_: '+NF(this.collisionAccuracy_)
-        + ', showCollisionDot_: '+this.showCollisionDot_
+        + ', showCollisions_: '+this.showCollisions_
         + ', simRNG_: '+this.simRNG_
         + ImpulseSim.superClass_.toString_.call(this);
   };
@@ -510,14 +512,14 @@ ImpulseSim.prototype.setShowForces = function(value) {
   // this is a hack: The goal is to be able to show collisions but not show forces.
   // But because historically these (show collisions and show forces) were set together
   // we need to have setShowForces cause collisions to also be shown.
-  this.showCollisionDot_ = value;
+  this.showCollisions_ = value;
 };
 
 /** Whether to to show collisions visually.
 * @return {boolean} whether to show collisions visually.
 */
 ImpulseSim.prototype.getShowCollisions = function() {
-  return this.showCollisionDot_;
+  return this.showCollisions_;
 };
 
 /** Sets whether to show collisions visually. Note that {@link #setShowForces}
@@ -525,7 +527,7 @@ ImpulseSim.prototype.getShowCollisions = function() {
 * @param {boolean} value whether to show collisions visually.
 */
 ImpulseSim.prototype.setShowCollisions = function(value) {
-  this.showCollisionDot_ = value;
+  this.showCollisions_ = value;
 };
 
 /** @inheritDoc */
@@ -911,7 +913,7 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
     if (j[i] > ImpulseSim.TINY_IMPULSE) {
       impulse = true;
     }
-    this.applyImpulse(c, j[i]);
+    this.applyCollisionImpulse(c, j[i]);
   }
   if (nonJoint && impulse) {
     // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
@@ -1166,7 +1168,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       impulse = true;
     }
     // apply calculated impulse, changing simulation state
-    this.applyImpulse(c, j2[i]);
+    this.applyCollisionImpulse(c, j2[i]);
     if (goog.DEBUG && debugHCS) {
       console.log('impulse j2['+i+'] = '+NFE(j2[i]));
     }
@@ -1454,7 +1456,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
 * @param {number} j magnitude of impulse to apply
 * @private
 */
-ImpulseSim.prototype.applyImpulse = function(cd, j) {
+ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
   if (!cd.joint && j < 0) {
     if (j < -ImpulseSim.TINY_IMPULSE) {
       throw new Error(goog.DEBUG ? ('negative impulse is impossible '+j+' '+cd) : '');
@@ -1467,53 +1469,11 @@ ImpulseSim.prototype.applyImpulse = function(cd, j) {
   if (j == 0) {
     return;
   }
-  // Regard small impulse as still being a continuous change to the variable.
-  // This is a kludge, needed because of the do_small_impacts step in CollisionAdvance
-  // (it does collision handling on joints at every time step).
-  var continuous = Math.abs(j) < ImpulseSim.SMALL_IMPULSE;
-  var I, offset, idx;
-  var m = cd.primaryBody.getMass();
-  var va = this.getVarsList();
-  if (isFinite(m)) {
-    I = cd.primaryBody.momentAboutCM();
-    offset = cd.primaryBody.getVarsIndex();
-    if (offset > -1) {
-      idx = RigidBodySim.VX_+offset;
-      va.setValue(idx, va.getValue(idx) + cd.normal.getX()*j/m, continuous);
-      idx = RigidBodySim.VY_+offset;
-      va.setValue(idx, va.getValue(idx) + cd.normal.getY()*j/m, continuous);
-      idx = RigidBodySim.VW_+offset;
-      // w2 = w1 + j(r x n)/I = new angular velocity
-      va.setValue(idx, va.getValue(idx) +
-          j*(cd.r1.getX() * cd.normal.getY() - cd.r1.getY() * cd.normal.getX())/I,
-          continuous);
-    }
-  }
-  m = cd.normalBody.getMass();
-  if (isFinite(m)) {
-    I = cd.normalBody.momentAboutCM();
-    offset = cd.normalBody.getVarsIndex();
-    if (offset > -1) {
-      idx = RigidBodySim.VX_+offset;
-      va.setValue(idx, va.getValue(idx) - cd.normal.getX()*j/m, continuous);
-      idx = RigidBodySim.VY_+offset;
-      va.setValue(idx, va.getValue(idx) - cd.normal.getY()*j/m, continuous);
-      idx = RigidBodySim.VW_+offset;
-      // w2 = w1 + j(r x n)/I = new angular velocity
-      va.setValue(idx, va.getValue(idx) -
-          j*(cd.r2.getX() * cd.normal.getY() - cd.r2.getY() * cd.normal.getX())/I,
-          continuous);
-    }
-  }
-  if (this.showCollisionDot_) {
-    // @todo  add the collision to the SimList, in same way that we add
-    // the Force to SimList. This would allow the Builder to set policy about
-    // how to show collisions.
-    //
-    // make the area of the dot be proportional to magnitude of collision
-    var w = Math.sqrt(Math.abs(5*j)/Math.PI);
-    this.debugCircle('COLLISION', /*center=*/cd.impact1, /*radius=*/w);
-  }
+  // Avoid showing second impulse in a pair of opposing impulses;
+  // the name indicates if first or second force of pair.
+  this.applyImpulse(new Impulse('IMPULSE1', cd.primaryBody, j, cd.impact1, cd.normal, cd.r1));
+  var i2 = cd.impact2 != null ? cd.impact2 : cd.impact1;
+  this.applyImpulse(new Impulse('IMPULSE2', cd.normalBody, -j, i2, cd.normal, cd.r2));
   if (0 == 1 && goog.DEBUG) {
     // this is for looking at small impulses
     this.myPrint('impulse='+NFE(j)+' dist='+NFE(cd.distance)
@@ -1522,6 +1482,42 @@ ImpulseSim.prototype.applyImpulse = function(cd, j) {
   if (ImpulseSim.DEBUG_IMPULSE && goog.DEBUG) {
     if (j > 1e-16)
       this.myPrint('impulse='+NF9(j)+' '+cd);
+  }
+};
+
+/** Applies the impulse by modifying the simulation variables.
+* @param {!Impulse} impulse
+* @private
+*/
+ImpulseSim.prototype.applyImpulse = function(impulse) {
+  var b = impulse.getBody();
+  var body = /** @type {!RigidBody} */(b);
+  var m = body.getMass();
+  if (isFinite(m)) {
+    var j = impulse.getMagnitude();
+    // Regard small impulse as still being a continuous change to the variable.
+    // This is a kludge, needed because of the do_small_impacts step in
+    // CollisionAdvance (it does collision handling on joints at every time step).
+    var continuous = Math.abs(j) < ImpulseSim.SMALL_IMPULSE;
+    var va = this.getVarsList();
+    var I = body.momentAboutCM();
+    var offset = body.getVarsIndex();
+    var normal = impulse.getVector();
+    var r1 = impulse.getOffset();
+    if (offset > -1) {
+      var idx = RigidBodySim.VX_+offset;
+      va.setValue(idx, va.getValue(idx) + normal.getX()*j/m, continuous);
+      idx = RigidBodySim.VY_+offset;
+      va.setValue(idx, va.getValue(idx) + normal.getY()*j/m, continuous);
+      idx = RigidBodySim.VW_+offset;
+      // w2 = w1 + j(r x n)/I = new angular velocity
+      va.setValue(idx, va.getValue(idx) +
+          j*(r1.getX() * normal.getY() - r1.getY() * normal.getX())/I, continuous);
+    }
+  }
+  if (this.showCollisions_) {
+    impulse.setExpireTime(this.getTime()+0.1);
+    this.getSimList().add(impulse);
   }
 };
 

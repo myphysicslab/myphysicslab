@@ -73,7 +73,7 @@ SingleTest.runTests = function() {
   //CircleStraightTest.test();
   //CircleStraightTest.wedged_ball();
   //DoNothingTest.do_nothing_error();
-  //JointTest.pendulum_1_joint_1();
+  JointTest.pendulum_1_joint_1();
   //JointTest.pendulum_1_joint_2();
   //JointTest.test();
   //MiscellanyTest.chain();
@@ -113,7 +113,7 @@ SingleTest.runTests = function() {
   //StraightStraightTest.ngon_block();
   //StraightStraightTest.oblique_corner_collision();
   //StraightStraightTest.one_block();
-  StraightStraightTest.six_blocks_4();
+  //StraightStraightTest.six_blocks_4();
   //StraightStraightTest.six_blocks_performance(100);
   //StraightStraightTest.six_blocks_performance(t);
   //StraightStraightTest.six_blocks_settle();

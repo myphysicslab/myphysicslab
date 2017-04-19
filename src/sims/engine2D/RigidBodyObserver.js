@@ -20,8 +20,9 @@ goog.require('myphysicslab.lab.engine2D.PathEndPoint');
 goog.require('myphysicslab.lab.engine2D.PathJoint');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.Rope');
-goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ConcreteLine');
+goog.require('myphysicslab.lab.model.Force');
+goog.require('myphysicslab.lab.model.Impulse');
 goog.require('myphysicslab.lab.model.NumericalPath');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
@@ -36,33 +37,34 @@ goog.require('myphysicslab.lab.view.DisplayConnector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplayRope');
+goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayConnector = lab.view.DisplayConnector;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayList = lab.view.DisplayList;
 var DisplayObject = lab.view.DisplayObject;
-var DisplayShape = lab.view.DisplayShape;
 var DisplayRope = lab.view.DisplayRope;
+var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var Force = lab.model.Force;
 var GenericEvent = lab.util.GenericEvent;
+var Impulse = lab.model.Impulse;
 var Joint = lab.engine2D.Joint;
-var ConcreteLine = lab.model.ConcreteLine;
 var NumericalPath = lab.model.NumericalPath;
 var Observer = lab.util.Observer;
 var PathEndPoint = lab.engine2D.PathEndPoint;
 var PathJoint = lab.engine2D.PathJoint;
 var PointMass = lab.model.PointMass;
 var Polygon = lab.engine2D.Polygon;
-var Rope = lab.engine2D.Rope;
 var RigidBodyEventHandler = lab.app.RigidBodyEventHandler;
+var Rope = lab.engine2D.Rope;
 var SimList = lab.model.SimList;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
@@ -284,6 +286,22 @@ RigidBodyObserver.prototype.addBody = function(obj) {
     } else {
       this.add_(new DisplayShape(p, this.protoFixedPolygon), obj);
     }
+  } else if (obj instanceof Impulse) {
+    var impulse = /** @type {!Impulse} */(obj);
+    if (impulse.getName().match(/^IMPULSE2/) != null) {
+      // Avoid showing second impulse in a pair of opposing impulses;
+      // the name indicates this is second force of pair.
+      return;
+    }
+    if (impulse.getName().match(/^IMPULSE1/) != null) {
+      // Show impulse as a circle with area proportional to magnitude
+      var radius = Math.sqrt(Math.abs(5 * impulse.getMagnitude())/Math.PI);
+      // minimum diameter is 0.02
+      var width = Math.max(0.02, Math.abs(2*radius));
+      var m = PointMass.makeCircle(width, impulse.getName()).setMass(0);
+      m.setPosition(impulse.getStartPoint());
+      this.add_(new DisplayShape(m, this.protoCollision), obj);
+    }
   } else if (obj instanceof Force) {
     var f = /** @type {!myphysicslab.lab.model.Force} */(obj);
     if (f.getName().match(/^CONTACT_FORCE2/) != null) {
@@ -308,11 +326,7 @@ RigidBodyObserver.prototype.addBody = function(obj) {
     this.add_(new DisplayConnector(p, this.protoJoint), obj);
   } else if (obj instanceof PointMass) {
     p = /** @type {!myphysicslab.lab.model.PointMass} */(obj);
-    if (p.getName() == 'COLLISION') {
-      this.add_(new DisplayShape(p, this.protoCollision), obj);
-    } else {
-      this.add_(new DisplayShape(p, this.protoPointMass), obj);
-    }
+    this.add_(new DisplayShape(p, this.protoPointMass), obj);
   } else if (obj instanceof Spring) {
     p = /** @type {!myphysicslab.lab.model.Spring} */(obj);
     if (p.nameEquals(RigidBodyEventHandler.en.DRAG)) {
