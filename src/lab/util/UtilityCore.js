@@ -381,23 +381,6 @@ UtilityCore.limitAngle = function(angle) {
   }
 };
 
-/** This function handles the error checking involved in calling measureText.
-This function should disappear when the type signature for measureText is fixed
-to be non-nullable.
-@param {!CanvasRenderingContext2D} context
-* @param {string} s the string to measure
-* @return {number} width of the text
-* @throws {Error}
-*/
-UtilityCore.measureText = function(context, s) {
-  var tm = context.measureText(s);
-  if (tm) {
-    return tm.width;
-  } else {
-    throw new Error();
-  }
-};
-
 /** Returns list of names of methods (functions) defined on the given object.
 * @param {!Object} obj object to examine
 * @return {!Array<string>} list of names of functions defined on the given object

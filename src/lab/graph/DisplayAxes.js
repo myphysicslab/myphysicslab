@@ -233,7 +233,7 @@ DisplayAxes.prototype.drawHorizTicks = function(y0, context, map, r) {
     if (next_x_sim > x_sim) {
       // draw a number
       var s = x_sim.toFixed(this.numDecimal_);
-      var textWidth = UtilityCore.measureText(context, s);
+      var textWidth = context.measureText(s).width;
       //console.log('drawHorizTicks s='+s+' tx-width='+textWidth
       //  +' x='+(x_screen - textWidth/2)
       //  +' y='+(y2 + this.fontAscent));
@@ -248,7 +248,7 @@ DisplayAxes.prototype.drawHorizTicks = function(y0, context, map, r) {
     x_sim = next_x_sim;
   }
   // draw name of the horizontal axis
-  var w = UtilityCore.measureText(context, this.horizName_);
+  var w = context.measureText(this.horizName_).width;
   //console.log('drawHorizName '+hname
   //  +' x='+(map.simToScreenX(sim_x2) - w - 5)
   //  +' y='+(y0 - 8));
@@ -280,7 +280,7 @@ DisplayAxes.prototype.drawVertTicks = function(x0, context, map, r) {
     if (next_y_sim > y_sim) {
       // draw a number
       var s = y_sim.toFixed(this.numDecimal_);
-      var textWidth = UtilityCore.measureText(context, s);
+      var textWidth = context.measureText(s).width;
       if (this.vertAxisAlignment_ === HorizAlign.RIGHT) {
         context.fillText(s, x2-(textWidth+10), y_screen+(this.fontAscent/2));
       } else {// LEFT is default
@@ -295,7 +295,7 @@ DisplayAxes.prototype.drawVertTicks = function(x0, context, map, r) {
     y_sim = next_y_sim;  // next tick mark
   }
   // draw name of the vertical axis
-  var w = UtilityCore.measureText(context, this.verticalName_);
+  var w = context.measureText(this.verticalName_).width;
   if (this.vertAxisAlignment_ === HorizAlign.RIGHT) {
     context.fillText(this.verticalName_, x0 - (w+6), map.simToScreenY(sim_y2) + 13);
   } else { // LEFT is default

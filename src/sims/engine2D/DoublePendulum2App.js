@@ -156,11 +156,7 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   // draw pattern of repeating trucks for block1
   if (goog.isObject(img)) {
     b1.setImageDraw(function(/** !CanvasRenderingContext2D*/context) {
-      var pt = context.createPattern(img, 'repeat');
-      if (pt == null) {
-        throw new Error('createPattern');
-      }
-      context.fillStyle = pt;
+      context.fillStyle = context.createPattern(img, 'repeat');
       context.fill();
     });
     b1.setNameFont('');

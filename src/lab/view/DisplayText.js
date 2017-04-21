@@ -125,7 +125,7 @@ DisplayText.prototype.draw = function(context, map) {
   var x1 = map.simToScreenX(this.location_.getX());
   var y1 = map.simToScreenY(this.location_.getY());
   /*if (this.centered_) {
-    var textWidth = UtilityCore.measureText(context, this.text_);
+    var textWidth = context.measureText(this.text_).width;
     x1 = x1 - textWidth/2;
   }*/
   context.fillText(this.text_, x1, y1);
