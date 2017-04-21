@@ -101,7 +101,7 @@ myphysicslab.lab.controls.CheckBoxControlBase = function(label, getter, setter, 
   * @private
   */
   this.changeKey_ = goog.events.listen(this.checkBox_, goog.events.EventType.CHANGE,
-      /*callback=*/goog.bind(this.handleClick, this), /*capture=*/true);
+      /*callback=*/this.handleClick, /*capture=*/true, this);
 };
 
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;

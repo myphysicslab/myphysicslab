@@ -65,19 +65,19 @@ myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_ima
   * @private
   */
   this.mouseDownKey_ = goog.events.listen(this.button_, goog.events.EventType.MOUSEDOWN,
-      /*callback=*/goog.bind(this.handleClick, this), /*capture=*/true);
+      /*callback=*/this.handleClick, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.mouseUpKey_ = goog.events.listen(this.button_, goog.events.EventType.MOUSEUP,
-      /*callback=*/goog.bind(this.handleMouseUp, this), /*capture=*/true);
+      /*callback=*/this.handleMouseUp, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.dragLeaveKey_ = goog.events.listen(this.button_, goog.events.EventType.DRAGLEAVE,
-      /*callback=*/goog.bind(this.handleMouseUp, this), /*capture=*/false);
+      /*callback=*/this.handleMouseUp, /*capture=*/false, this);
   /** the ID used to cancel the callback
   * @type {number|undefined}
   * @private

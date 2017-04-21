@@ -140,7 +140,7 @@ BikeTimerApp.makeApp = function(sound_url) {
     field_period.value = period.toFixed(1);
     goog.events.listen(field_period, goog.events.EventType.CHANGE,
       /*callback=*/function(event) {
-        console.log('period change '+field_period.value);
+        //console.log('period change '+field_period.value);
         var value = parseFloat(field_period.value);
         if (isNaN(value)) {
           field_period.value = period.toFixed(1);
@@ -157,7 +157,7 @@ BikeTimerApp.makeApp = function(sound_url) {
     field_start.value = startTime.toFixed(1);
     goog.events.listen(field_start, goog.events.EventType.CHANGE,
       /*callback=*/function(event) {
-        console.log('startTime change '+field_start.value);
+        //console.log('startTime change '+field_start.value);
         var value = parseFloat(field_start.value);
         if (isNaN(value)) {
           field_start.value = startTime.toFixed(1);

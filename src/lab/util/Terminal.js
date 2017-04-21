@@ -345,14 +345,14 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   */
   this.keyDownKey_ = goog.events.listen(this.term_input_,
         goog.events.EventType.KEYDOWN,
-        /*callback=*/goog.bind(this.handleKey, this),  /*capture=*/false);
+        /*callback=*/this.handleKey,  /*capture=*/false, this);
   /** key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.changeKey_ = goog.events.listen(this.term_input_,
-      goog.events.EventType.CHANGE, /*callback=*/goog.bind(this.inputCallback, this),
-      /*capture=*/true);
+      goog.events.EventType.CHANGE, /*callback=*/this.inputCallback,
+      /*capture=*/true, this);
   /**  session history of commands entered.
   * @type {!Array<string>}
   * @private

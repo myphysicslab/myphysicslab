@@ -244,37 +244,37 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   * @private
   */
   this.sliderKey_ = goog.events.listen(this.slider_, goog.events.EventType.INPUT,
-      /*callback=*/goog.bind(this.sliderChange, this), /*capture=*/true);
+      /*callback=*/this.sliderChange, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.sliderKey2_ = goog.events.listen(this.slider_, goog.events.EventType.CHANGE,
-      /*callback=*/goog.bind(this.sliderChange, this), /*capture=*/true);
+      /*callback=*/this.sliderChange, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.clickKey2_ = goog.events.listen(this.slider_, goog.events.EventType.CLICK,
-      /*callback=*/goog.bind(this.doClick2, this), /*capture=*/true);
+      /*callback=*/this.doClick2, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.changeKey_ = goog.events.listen(this.textField_, goog.events.EventType.CHANGE,
-      /*callback=*/goog.bind(this.validateText, this), /*capture=*/true);
+      /*callback=*/this.validateText, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.focusKey_ = goog.events.listen(this.textField_, goog.events.EventType.FOCUS,
-      /*callback=*/goog.bind(this.gainFocus, this), /*capture=*/false);
+      /*callback=*/this.gainFocus, /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.clickKey_ = goog.events.listen(this.textField_, goog.events.EventType.CLICK,
-      /*callback=*/goog.bind(this.doClick, this), /*capture=*/true);
+      /*callback=*/this.doClick, /*capture=*/true, this);
   /**  True when first click in field after gaining focus.
   * @type {boolean}
   * @private

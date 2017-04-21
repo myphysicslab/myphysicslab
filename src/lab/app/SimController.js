@@ -246,50 +246,50 @@ myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifi
   * @private
   */
   this.mouseDownKey_ = goog.events.listen(labCanvas.getCanvas(),
-      goog.events.EventType.MOUSEDOWN, /*callback=*/goog.bind(this.mouseDown, this),
-      /*capture=*/false);
+      goog.events.EventType.MOUSEDOWN, /*callback=*/this.mouseDown,
+      /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.mouseMoveKey_ = goog.events.listen(document, goog.events.EventType.MOUSEMOVE,
-      /*callback=*/goog.bind(this.mouseMove, this),  /*capture=*/false);
+      /*callback=*/this.mouseMove,  /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.mouseUpKey_ = goog.events.listen(document, goog.events.EventType.MOUSEUP,
-      /*callback=*/goog.bind(this.mouseUp, this),  /*capture=*/false);
+      /*callback=*/this.mouseUp,  /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.keyDownKey_ = goog.events.listen(document, goog.events.EventType.KEYDOWN,
-      /*callback=*/goog.bind(this.keyPressed, this),  /*capture=*/false);
+      /*callback=*/this.keyPressed,  /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.keyUpKey_ = goog.events.listen(document, goog.events.EventType.KEYUP,
-      /*callback=*/goog.bind(this.keyReleased, this),  /*capture=*/false);
+      /*callback=*/this.keyReleased,  /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.touchStartKey_ = goog.events.listen(document, goog.events.EventType.TOUCHSTART,
-      /*callback=*/goog.bind(this.touchStart, this),  /*capture=*/false);
+      /*callback=*/this.touchStart,  /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.touchMoveKey_ = goog.events.listen(document, goog.events.EventType.TOUCHMOVE,
-      /*callback=*/goog.bind(this.touchMove, this),  /*capture=*/false);
+      /*callback=*/this.touchMove,  /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.touchEndKey_ = goog.events.listen(document, goog.events.EventType.TOUCHEND,
-      /*callback=*/goog.bind(this.touchEnd, this),  /*capture=*/false);
+      /*callback=*/this.touchEnd,  /*capture=*/false, this);
 };
 var SimController = myphysicslab.lab.app.SimController;
 

@@ -85,7 +85,7 @@ myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff)
   * @private
   */
   this.clickKey_ = goog.events.listen(this.button_, goog.events.EventType.CLICK,
-      /*callback=*/goog.bind(this.handleClick, this), /*capture=*/true);
+      /*callback=*/this.handleClick, /*capture=*/true, this);
   this.parameter_.getSubject().addObserver(this);
 };
 var ToggleControl = myphysicslab.lab.controls.ToggleControl;

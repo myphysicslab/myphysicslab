@@ -113,19 +113,19 @@ myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, text
   * @private
   */
   this.changeKey_ = goog.events.listen(this.textField_, goog.events.EventType.CHANGE,
-      /*callback=*/goog.bind(this.validate, this), /*capture=*/true);
+      /*callback=*/this.validate, /*capture=*/true, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.focusKey_ = goog.events.listen(this.textField_, goog.events.EventType.FOCUS,
-      /*callback=*/goog.bind(this.gainFocus, this), /*capture=*/false);
+      /*callback=*/this.gainFocus, /*capture=*/false, this);
   /**  key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
   this.clickKey_ = goog.events.listen(this.textField_, goog.events.EventType.CLICK,
-      /*callback=*/goog.bind(this.doClick, this), /*capture=*/false);
+      /*callback=*/this.doClick, /*capture=*/false, this);
   /**  True when first click in field after gaining focus.
   * @type {boolean}
   * @private

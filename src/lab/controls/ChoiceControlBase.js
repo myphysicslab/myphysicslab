@@ -156,7 +156,7 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
   * @private
   */
   this.changeKey_ = goog.events.listen(this.selectMenu_, goog.events.EventType.CHANGE,
-      /*callback=*/goog.bind(this.itemStateChanged, this), /*capture=*/true);
+      /*callback=*/this.itemStateChanged, /*capture=*/true, this);
 };
 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
