@@ -190,8 +190,6 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   this.timeGraphWidth_ = 1;
   UtilityCore.setImagesDir(elem_ids['images_dir']);
   /** Whether to put dashed borders around elements for debugging layout.
-  * The "if" statements using debug_layout cause error when compiling with NTI.
-  * See https://github.com/google/closure-compiler/issues/2426
   * @type {boolean}
   * @const
   */
@@ -248,9 +246,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 
   /** @type {!HTMLElement} */
   this.div_contain = TabLayout.getElementById(elem_ids, 'container');
-  //if (this.debug_layout) {
-  //  this.div_contain.style.border = 'dashed 1px red';
-  //}
+  if (this.debug_layout) {
+    this.div_contain.style.border = 'dashed 1px red';
+  }
 
   /** @type {!HTMLElement} */
   this.div_sim = TabLayout.getElementById(elem_ids, 'sim_applet');
@@ -299,9 +297,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   * @type {!HTMLElement}
   */
   this.graph_controls = TabLayout.getElementById(elem_ids, 'graph_controls');
-  //if (this.debug_layout) {
-  //  this.graph_controls.style.border = 'dashed 1px green';
-  //}
+  if (this.debug_layout) {
+    this.graph_controls.style.border = 'dashed 1px green';
+  }
 
   /** @type {!Array<!myphysicslab.lab.controls.LabControl>} */
   this.controls_ = [];
@@ -311,18 +309,18 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   this.sim_controls = TabLayout.getElementById(elem_ids, 'sim_controls');
   // marginLeft gives gap when controls are along side canvas.
   this.sim_controls.style.marginLeft = '10px';
-  //if (this.debug_layout) {
-  //  this.sim_controls.style.border = 'dashed 1px green';
-  //}
+  if (this.debug_layout) {
+    this.sim_controls.style.border = 'dashed 1px green';
+  }
 
   /** div element for Terminal
   * @type {!HTMLElement}
   */
   this.div_term = TabLayout.getElementById(elem_ids, 'div_terminal');
   this.div_term.style.display = 'none';
-  //if (this.debug_layout) {
-  //  this.div_term.style.border = 'dashed 1px green';
-  //}
+  if (this.debug_layout) {
+    this.div_term.style.border = 'dashed 1px green';
+  }
 
   // 'show terminal' checkbox.
   var label_term = /**@type {!HTMLInputElement}*/
@@ -356,9 +354,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   * @type {!HTMLElement}
   */
   this.time_graph_controls = TabLayout.getElementById(elem_ids, 'time_graph_controls');
-  //if (this.debug_layout) {
-  //  this.time_graph_controls.style.border = 'dashed 1px green';
-  //}
+  if (this.debug_layout) {
+    this.time_graph_controls.style.border = 'dashed 1px green';
+  }
 
   this.redoLayout();
   this.addParameter(new ParameterNumber(this, TabLayout.en.SIM_WIDTH,

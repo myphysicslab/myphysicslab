@@ -62,8 +62,6 @@ stretched to large sizes on large screens.
 myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   UtilityCore.setImagesDir(elem_ids['images_dir']);
   /** whether to put dashed borders around elements
-  * The "if" statements using debug_layout cause error when compiling with NTI.
-  * See https://github.com/google/closure-compiler/issues/2426
   * @type {boolean}
   * @const
   */
@@ -106,9 +104,9 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   this.graphCanvas.setSize(480, 480);
   // graphCanvas is initially hidden
   this.div_graph.style.display = 'none';
-  //if (this.debug_layout) {
-  //  this.div_graph.style.border = 'dashed 1px blue';
-  //}
+  if (this.debug_layout) {
+    this.div_graph.style.border = 'dashed 1px blue';
+  }
   /* <div> for graph controls */
   /** @type {!Element} */
   this.graph_controls = /**@type {!Element}*/
@@ -131,9 +129,9 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   /** @type {!Element} */
   this.sim_controls = /** @type {!Element} */
       (VerticalLayout.getElementById(elem_ids, 'sim_controls'));
-  //if (this.debug_layout) {
-  //  this.sim_controls.style.border = 'dashed 1px red';
-  //}
+  if (this.debug_layout) {
+    this.sim_controls.style.border = 'dashed 1px red';
+  }
 
   /* 'show controls' checkbox. */
   var show_controls_cb = /**@type {!HTMLInputElement}*/
@@ -151,9 +149,9 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   var form_term = /**@type {!HTMLFormElement}*/
       (VerticalLayout.getElementById(elem_ids, 'form_terminal'));
   form_term.style.display = 'none';
-  //if (this.debug_layout) {
-  //  form_term.style.border = 'dashed 1px green';
-  //}
+  if (this.debug_layout) {
+    form_term.style.border = 'dashed 1px green';
+  }
   var label_term = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'label_terminal'));
   /** @type {function(boolean)} */
@@ -180,9 +178,9 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
 
   var show_hide_form = /**@type {!HTMLFormElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_hide_form'));
-  //if (this.debug_layout) {
-  //  show_hide_form.style.border = 'dashed 1px green';
-  //}
+  if (this.debug_layout) {
+    show_hide_form.style.border = 'dashed 1px green';
+  }
 
 };
 var VerticalLayout = myphysicslab.sims.common.VerticalLayout;
