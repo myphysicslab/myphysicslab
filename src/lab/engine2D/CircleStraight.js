@@ -103,8 +103,6 @@ CircleStraight.improveAccuracy = function(rbc, circle, straight) {
   rbc.distance = straight.distanceToLine(pb2);
   rbc.impact1 = pw;
   rbc.normal = nw;
-  rbc.r1 = rbc.impact1.subtract(circleBody.getPosition());
-  rbc.r2 = rbc.impact1.subtract(straightBody.getPosition());
   rbc.u1 = cw.subtract(circleBody.getPosition());
   if (0 == 1 && goog.DEBUG) {
     console.log('CircleStraight.improveAccuracy '
@@ -265,8 +263,6 @@ CircleStraight.addCollision = function(contact, collisions, straight, circle, di
   }
   rbc.distance = dist;
   rbc.impact1 = pw;
-  rbc.r1 = rbc.impact1.subtract(circle.getBody().getPosition());
-  rbc.r2 = rbc.impact1.subtract(straight.getBody().getPosition());
   rbc.u1 = cw.subtract(circle.getBody().getPosition());
   rbc.creator = goog.DEBUG ? 'CircleStraight' : '';
   rbc.normal = straight.getBody().rotateBodyToWorld(straight.getNormalBody(pb));

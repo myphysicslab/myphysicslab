@@ -742,24 +742,29 @@ ImpulseSim.prototype.influence = function(ci, cj, body) {
     return 0;
   // The body must be involved in collision ci to have any effect.
   // Find the R vector, from cm of body to impact point ci.
+  var r1, r2;
   var rix, riy;
   if (ci.primaryBody==body) {
-    rix = ci.r1.getX();
-    riy = ci.r1.getY();
+    r1 = ci.getR1();
+    rix = r1.getX();
+    riy = r1.getY();
   } else if (ci.normalBody==body) {
-    rix = ci.r2.getX();
-    riy = ci.r2.getY();
+    r2 = ci.getR2();
+    rix = r2.getX();
+    riy = r2.getY();
   } else {
     return 0;
   }
   var rjx, rjy, factor;
   if (cj.primaryBody==body) {
-    rjx = cj.r1.getX();
-    rjy = cj.r1.getY();
+    r1 = cj.getR1();
+    rjx = r1.getX();
+    rjy = r1.getY();
     factor = 1;
   } else if (cj.normalBody==body) {
-    rjx = cj.r2.getX();
-    rjy = cj.r2.getY();
+    r2 = cj.getR2();
+    rjx = r2.getX();
+    rjy = r2.getY();
     factor = -1;
   } else {
     return 0;
@@ -1471,9 +1476,9 @@ ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
   }
   // Avoid showing second impulse in a pair of opposing impulses;
   // the name indicates if first or second force of pair.
-  this.applyImpulse(new Impulse('IMPULSE1', cd.primaryBody, j, cd.impact1, cd.normal, cd.r1));
+  this.applyImpulse(new Impulse('IMPULSE1', cd.primaryBody, j, cd.impact1, cd.normal, cd.getR1()));
   var i2 = cd.impact2 != null ? cd.impact2 : cd.impact1;
-  this.applyImpulse(new Impulse('IMPULSE2', cd.normalBody, -j, i2, cd.normal, cd.r2));
+  this.applyImpulse(new Impulse('IMPULSE2', cd.normalBody, -j, i2, cd.normal, cd.getR2()));
   if (0 == 1 && goog.DEBUG) {
     // this is for looking at small impulses
     this.myPrint('impulse='+NFE(j)+' dist='+NFE(cd.distance)

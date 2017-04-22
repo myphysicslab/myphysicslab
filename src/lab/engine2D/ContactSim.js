@@ -775,10 +775,12 @@ ContactSim.calculate_a_matrix = function(contacts) {
     I1 = ci.primaryBody.momentAboutCM();
     m2 = ci.normalBody.getMass();
     I2 = ci.normalBody.momentAboutCM();
-    var Rx = ci.ballObject ? ci.u1.getX() : ci.r1.getX();
-    var Ry = ci.ballObject ? ci.u1.getY() : ci.r1.getY();
-    var R2x = ci.ballNormal ? ci.u2.getX() : ci.r2.getX();
-    var R2y = ci.ballNormal ? ci.u2.getY() : ci.r2.getY();
+    var r1 = ci.getR1();
+    var r2 = ci.getR2();
+    var Rx = ci.ballObject ? ci.u1.getX() : r1.getX();
+    var Ry = ci.ballObject ? ci.u1.getY() : r1.getY();
+    var R2x = ci.ballNormal ? ci.u2.getX() : r2.getX();
+    var R2y = ci.ballNormal ? ci.u2.getY() : r2.getY();
     // (D-1) di'' = ai1 f1 + ai2 f2 + ... + ain fn + bi = sum(aij fj) + bi
     for (var j=0; j<nc; j++) {
       a[i][j] = 0;
@@ -789,11 +791,13 @@ ContactSim.calculate_a_matrix = function(contacts) {
       // for the 'primary' object in collision, while R2 is for the normal object.
       /** @type {!RigidBodyCollision} */
       var cj = contacts[j];
+      r1 = cj.getR1();
+      r2 = cj.getR2();
       // NEW APRIL 23 2009:  use U vector here
-      var Rxj = cj.ballObject ? cj.u1.getX() : cj.r1.getX();
-      var Ryj = cj.ballObject ? cj.u1.getY() : cj.r1.getY();
-      var R2xj = cj.ballNormal ? cj.u2.getX() : cj.r2.getX();
-      var R2yj = cj.ballNormal ? cj.u2.getY() : cj.r2.getY();
+      var Rxj = cj.ballObject ? cj.u1.getX() : r1.getX();
+      var Ryj = cj.ballObject ? cj.u1.getY() : r1.getY();
+      var R2xj = cj.ballNormal ? cj.u2.getX() : r2.getX();
+      var R2yj = cj.ballNormal ? cj.u2.getY() : r2.getY();
       if (isFinite(m1) && ci.primaryBody == cj.primaryBody) {
         // body 1 is primary object in j-th contact
         // fj affects p1 in eqn (D-2), so use m1, I1
@@ -967,13 +971,15 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
        = (Vx - w Ry, Vy + w Rx, 0)
       (16)  2 N'.(p1' - p2') = 2 w2(-Ny, Nx, 0).(p1' - p2')
     */
-    var Rx = c.ballObject ? c.u1.getX() : c.r1.getX();
-    var Ry = c.ballObject ? c.u1.getY() : c.r1.getY();
+    var r1 = c.getR1();
+    var r2 = c.getR2();
+    var Rx = c.ballObject ? c.u1.getX() : r1.getX();
+    var Ry = c.ballObject ? c.u1.getY() : r1.getY();
     var R2x = UtilityCore.NaN;
     var R2y = UtilityCore.NaN;
     if (!fixedNBody) {
-      R2x = c.ballNormal ? c.u2.getX() : c.r2.getX();
-      R2y = c.ballNormal ? c.u2.getY() : c.r2.getY();
+      R2x = c.ballNormal ? c.u2.getX() : r2.getX();
+      R2y = c.ballNormal ? c.u2.getY() : r2.getY();
     }
     if (!c.normalFixed) {
       // np = n' = the derivative of the normal n.

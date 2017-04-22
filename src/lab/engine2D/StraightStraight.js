@@ -90,8 +90,6 @@ StraightStraight.improveAccuracy = function(rbc, edge1, edge2) {
   if (pt != null) {
     // If the lines are still intersecting, then use the current point of intersection.
     rbc.impact1 = pt;
-    rbc.r1 = pt.subtract(edge1.getBody().getPosition());
-    rbc.r2 = pt.subtract(edge2.getBody().getPosition());
     rbc.normal = edge2.getBody().rotateBodyToWorld(edge2.getNormalBody(pt));
   } else {
     // If lines are not intersecting, then use endpoint that is closest to other line.
@@ -131,8 +129,6 @@ StraightStraight.improveAccuracy = function(rbc, edge1, edge2) {
     if (pt != null && e != null) {
       rbc.distance = dist;
       rbc.impact1 = pt;
-      rbc.r1 = pt.subtract(edge1.getBody().getPosition());
-      rbc.r2 = pt.subtract(edge2.getBody().getPosition());
       rbc.normal = e.getBody().rotateBodyToWorld(e.getNormalBody(pt));
     } else {
       throw new Error('StraightStraight.improveAccuracy failed');
@@ -173,8 +169,6 @@ StraightStraight.addCollision = function(collisions, edge1, edge2, pt, time) {
   rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
   rbc.distance = -0.1; // distance is meaningless for edge/edge collision
   rbc.impact1 = pt;
-  rbc.r1 = pt.subtract(edge1.getBody().getPosition());
-  rbc.r2 = pt.subtract(edge2.getBody().getPosition());
   rbc.creator = goog.DEBUG ? 'StraightStraight' : '';
   rbc.normal = edge2.getBody().rotateBodyToWorld(edge2.getNormalBody(pt));
   rbc.normalVelocity = rbc.calcNormalVelocity();

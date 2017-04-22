@@ -239,9 +239,8 @@ UtilityCollision.addContact = function(collisions, c, body, normalBody, edge,
   goog.asserts.assert(c.normalBody == normalBody);
   // actually we are now maybe treating vertex/vertex collisions as curved
   //c.ballObject = false;  // because a corner is never considered to be a curved edge
-  c.r1 = c.impact1.subtract(body.getPosition());
   if (c.ballObject) {
-    c.u1 = c.r1; // only needed for vertex/vertex
+    c.u1 = c.getR1(); // only needed for vertex/vertex
   }
   c.normalVelocity = c.calcNormalVelocity();
   c.setDetectedTime(time);
@@ -419,8 +418,6 @@ UtilityCollision.makeCollision = function(collisions, edge, vertex, e_body, p_bo
   c.normal = n_world;
   c.radius2 = edge.getCurvature(e_body);
   c.ballNormal = isFinite(c.radius2);
-  c.r1 = c.impact1.subtract(primaryBody.getPosition());
-  c.r2 = c.impact1.subtract(normalBody.getPosition());
   if (c.ballNormal) {
     // U2 = vector from CM to normal body's circle center (in world coords)
     var center2 = edge.getCenterOfCurvature(e_body);

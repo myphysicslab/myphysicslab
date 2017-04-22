@@ -272,7 +272,6 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
     rbc.normal = nw;
     rbc.ballNormal = false;
     rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
-    rbc.r2 = rbc.impact1.subtract(this.body_.getPosition());
     rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContactVert' : '';
     return rbc;
   }
@@ -299,7 +298,6 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
     rbc.normal = nw;
     rbc.ballNormal = false;
     rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
-    rbc.r2 = rbc.impact1.subtract(this.body_.getPosition());
     rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContactHoriz' : '';
     return rbc;
   }
@@ -338,7 +336,6 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   rbc.normal = nw;
   rbc.ballNormal = false;
   rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
-  rbc.r2 = rbc.impact1.subtract(this.body_.getPosition());
   rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContact' : '';
   return rbc;
 };
@@ -497,13 +494,13 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
   // nw = normal in world coords
   var nw = this.body_.rotateBodyToWorld(nb);
   rbc.normal = nw;
-  rbc.r2 = rbc.impact1.subtract(this.body_.getPosition());
+  goog.asserts.assert(this.body_ == rbc.normalBody);
   // problem with this is that the radius is small and can change quickly
   rbc.ballObject = false;
   rbc.radius1 = UtilityCore.NaN;
   rbc.ballNormal = true;
   rbc.radius2 = dist;
-  rbc.u2 = rbc.r2;
+  rbc.u2 = rbc.getR2();
   rbc.creator = goog.DEBUG ? "StraightEdge.makeVertexVertex" : "";
   rbc.normalVelocity = rbc.calcNormalVelocity();
   // Only low velocity contacts are valid. At high speeds, CornerCornerCollisions

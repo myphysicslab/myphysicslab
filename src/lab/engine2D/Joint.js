@@ -347,8 +347,6 @@ Joint.prototype.updateCollision = function(c) {
   var offset = c.impact1.subtract(c.impact2);
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'Joint';
-  c.r1 = c.impact1.subtract(this.body1_.getPosition());
-  c.r2 = c.impact2.subtract(this.body2_.getPosition());
   c.normalVelocity = c.calcNormalVelocity();
 };
 

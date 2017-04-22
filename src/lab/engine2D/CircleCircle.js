@@ -125,8 +125,6 @@ CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
   }
   // normal in world coords
   rbc.normal = normalBody.rotateBodyToWorld(ne);
-  rbc.r1 = rbc.impact1.subtract(otherBody.getPosition());
-  rbc.r2 = rbc.impact1.subtract(normalBody.getPosition());
   // radius should not change;
   //rbc.radius1 = other.getRadius();
   //rbc.radius2 = normalCircle.getRadius();
@@ -279,8 +277,6 @@ CircleCircle.addCollision = function(contact, collisions, self, other, distance,
   }
   // normal in world coords
   rbc.normal = self.getBody().rotateBodyToWorld(ne);
-  rbc.r1 = rbc.impact1.subtract(other.getBody().getPosition());
-  rbc.r2 = rbc.impact1.subtract(self.getBody().getPosition());
   rbc.radius1 = (other.outsideIsOut() ? 1 : -1)*other.getRadius();
   rbc.radius2 = (self.outsideIsOut() ? 1 : -1)*self.getRadius();
   // Add half of the gap distance to each radius, for better accuracy in contact

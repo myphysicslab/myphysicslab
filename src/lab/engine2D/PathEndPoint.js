@@ -250,8 +250,6 @@ PathEndPoint.prototype.updateCollision = function(c) {
   this.path_.map_p_to_slope(this.ppt_);
   c.distance = this.upperLimit_ ? this.limit_ - this.ppt_.p :
       this.ppt_.p - this.limit_;
-  c.r1 = c.impact1.subtract(this.body_.getPosition());
-  c.r2 = Vector.ORIGIN;
   c.normal = this.ppt_.getSlope().multiply(this.upperLimit_ ? -1 : 1);
   c.ballNormal = false;
   c.impact2 = this.ppt_.getPosition();

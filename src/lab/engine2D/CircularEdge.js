@@ -614,7 +614,6 @@ CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   rbc.impact1 = rw;
   //rbc.impact2 = rw;  // point on circle edge
   rbc.ballNormal = true;
-  rbc.r2 = rbc.impact1.subtract(this.body_.getPosition());
   // cw = center in world coords
   var cw = this.body_.bodyToWorld(this.center_body_);
   rbc.u2 = cw.subtract(this.body_.getPosition());

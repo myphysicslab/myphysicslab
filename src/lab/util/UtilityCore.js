@@ -233,6 +233,18 @@ UtilityCore.createImage = function(url, width, opt_height) {
   return img;
 };
 
+/** Check that two numbers are equal within given tolerance, throw error if not.
+@param {number} arg1  the first number to compare
+@param {number} arg2  the second number to compare
+@param {number=} tolerance
+*/
+UtilityCore.checkEqual = function(arg1, arg2, tolerance) {
+  var tol = goog.isNumber(tolerance) ? tolerance : 0;
+  if (Math.abs(arg1 - arg2) > tol) {
+    throw new Error('unequal '+arg1+', '+arg2);
+  }
+};
+
 /** Returns text with specified number of characters removed from start or end of
 * string.
 * @param {string} text

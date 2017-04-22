@@ -340,19 +340,6 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   * @package
   */
   this.normal_dt = null;
-  // NOTE (Dec 2006):  R and R2  seem to actually be vector from point of impact to CM,
-  // not from CM to point of impact!
-  // ALSO U and U2 are backwards as well!!!
-  /** vector from CM, center of mass of primary body to point of impact, in world coords
-  * @type {!myphysicslab.lab.util.Vector}
-  * @package
-  */
-  this.r1 = Vector.ORIGIN;
-  /** vector from normalBody CM to point of impact2, in world coords
-  * @type {!myphysicslab.lab.util.Vector}
-  * @package
-  */
-  this.r2 = Vector.ORIGIN;
   /** vector from body CM to edge's circle center, in world coords
   * U, U2 are not used for collisions, only for contact force
   * @type {!myphysicslab.lab.util.Vector}
@@ -484,18 +471,6 @@ RigidBodyCollision.prototype.checkConsistent = function() {
   goog.asserts.assert(isFinite(this.impact1.getX()));
   goog.asserts.assert(isFinite(this.impact1.getY()));
   goog.asserts.assert(Math.abs(this.normal.length() - 1) < 1e-12);
-  goog.asserts.assert(Math.abs(this.r1.getX() -
-      (this.impact1.getX() - this.primaryBody.getPosition().getX())) < 1e-10);
-  goog.asserts.assert(Math.abs(this.r1.getY() -
-      (this.impact1.getY() - this.primaryBody.getPosition().getY())) < 1e-10);
-  if (isFinite(this.normalBody.getMass())) {
-    var p2X = (this.impact2 == null) ? this.impact1.getX() : this.impact2.getX();
-    var p2Y = (this.impact2 == null) ? this.impact1.getY() : this.impact2.getY();
-    goog.asserts.assert(Math.abs(this.r2.getX() -
-        (p2X - this.normalBody.getPosition().getX())) < 1e-10);
-    goog.asserts.assert(Math.abs(this.r2.getY()
-        - (p2Y - this.normalBody.getPosition().getY())) < 1e-10);
-  }
   if (this.ballNormal) {
     // for curved normal, need either radius of curvature or time deriv of normal
     goog.asserts.assert(!isNaN(this.radius2) || (this.normal_dt != null));
@@ -506,7 +481,7 @@ RigidBodyCollision.prototype.checkConsistent = function() {
   //  goog.asserts.assert(this.theConnector != null
   //      || !isFinite(this.normalBody.getMass()));
   //}
-}
+};
 
 /** @inheritDoc */
 RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
@@ -633,6 +608,25 @@ RigidBodyCollision.prototype.getNormalBody = function() {
   return this.normalBody;
 };
 
+/** Returns vector from center of mass of primary body to point of impact,
+* in world coords
+* @return {!Vector} vector from center of mass of primary body to point of impact,
+* in world coords
+*/
+RigidBodyCollision.prototype.getR1 = function() {
+  return this.impact1.subtract(this.primaryBody.getPosition());
+};
+
+/** Returns vector from center of mass of normal body to point of impact,
+* in world coords.  Uses the second impact point if appropriate.
+* @return {!Vector} vector from center of mass of normal body to point of impact,
+* in world coords
+*/
+RigidBodyCollision.prototype.getR2 = function() {
+  var impact = this.impact2 ? this.impact2 : this.impact1;
+  return impact.subtract(this.normalBody.getPosition());
+};
+
 /** Returns the primary body involved in the collision. The primary body does not
 * define the normal.  The classic situation is that a vertex on the primary body is
 * colliding into an edge on the normal body, but there are many variations on this.
@@ -669,8 +663,9 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
   var vbx = 0;
   var vby = 0;
   if (isFinite(this.primaryBody.getMass())) {
-    var rax = this.ballObject ? this.u1.getX() : this.r1.getX();
-    var ray = this.ballObject ? this.u1.getY() : this.r1.getY();
+    var r1 = this.getR1();
+    var rax = this.ballObject ? this.u1.getX() : r1.getX();
+    var ray = this.ballObject ? this.u1.getY() : r1.getY();
     goog.asserts.assert(isFinite(rax) && isFinite(ray), 'not a number: rax, ray');
     var va = this.primaryBody.getVelocity();
     var wa = this.primaryBody.getAngularVelocity();
@@ -678,8 +673,9 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
     vay = va.getY() + wa*rax;
   }
   if (isFinite(this.normalBody.getMass())) {
-    var rbx = this.ballNormal ? this.u2.getX() : this.r2.getX();
-    var rby = this.ballNormal ? this.u2.getY() : this.r2.getY();
+    var r2 = this.getR2();
+    var rbx = this.ballNormal ? this.u2.getX() : r2.getX();
+    var rby = this.ballNormal ? this.u2.getY() : r2.getY();
     goog.asserts.assert(isFinite(rbx) && isFinite(rby), 'not a number: rbx, rby');
     var vb = this.normalBody.getVelocity();
     var wb = this.normalBody.getAngularVelocity();
@@ -820,9 +816,6 @@ would be important to do).
 @package
 */
 RigidBodyCollision.prototype.updateCollision = function(time) {
-  this.r1 = this.impact1.subtract(this.primaryBody.getPosition());
-  var i2 = (this.impact2 == null) ? this.impact1 : this.impact2;
-  this.r2 = i2.subtract(this.normalBody.getPosition());
   if (!isFinite(this.distance))
     throw new Error('distance is NaN '+this);
   this.normalVelocity = this.calcNormalVelocity();

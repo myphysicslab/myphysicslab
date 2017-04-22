@@ -270,8 +270,6 @@ PathJoint.prototype.updateCollision = function(c) {
   var offset = c.impact1.subtract(c.impact2);
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'PathJoint';
-  c.r1 = c.impact1.subtract(this.body_.getPosition());
-  c.r2 = Vector.ORIGIN;
   c.u2 = Vector.ORIGIN;
   c.normalVelocity = c.calcNormalVelocity();
 };
