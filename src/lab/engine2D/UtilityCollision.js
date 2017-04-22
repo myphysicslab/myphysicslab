@@ -221,32 +221,6 @@ UtilityCollision.addCollision = function(collisions, c2) {
   return shouldAdd;
 };
 
-/**
-@param {!Array<!RigidBodyCollision>} collisions  the list of
-    collisions to add to
-@param {!RigidBodyCollision} c
-@param {!myphysicslab.lab.engine2D.Polygon} body
-@param {!myphysicslab.lab.engine2D.Polygon} normalBody
-@param {!Edge} edge
-@param {!Vertex} vertex
-@param {number} time current simulation time
-@private
-*/
-UtilityCollision.addContact = function(collisions, c, body, normalBody, edge,
-     vertex, time) {
-  goog.asserts.assert(c != null);
-  goog.asserts.assert(c.primaryBody == body);
-  goog.asserts.assert(c.normalBody == normalBody);
-  // actually we are now maybe treating vertex/vertex collisions as curved
-  //c.ballObject = false;  // because a corner is never considered to be a curved edge
-  if (c.ballObject) {
-    c.u1 = c.getR1(); // only needed for vertex/vertex
-  }
-  c.normalVelocity = c.calcNormalVelocity();
-  c.setDetectedTime(time);
-  UtilityCollision.addCollision(collisions, c);
-};
-
 /** Checks for collision of each vertex of body2 with edges of body1.
 @param {!Array<!RigidBodyCollision>} collisions  the list of
     collisions to add to
@@ -784,7 +758,12 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
           console.log('findVertexContact '+c);
         }
         if (c != null) {
-          UtilityCollision.addContact(collisions, c, body2, body1, e1, vertex2, time);
+          goog.asserts.assert(c != null);
+          goog.asserts.assert(c.primaryBody == body2);
+          goog.asserts.assert(c.normalBody == body1);
+          c.normalVelocity = c.calcNormalVelocity();
+          c.setDetectedTime(time);
+          UtilityCollision.addCollision(collisions, c);
         }
         return;  // continue to next edge
       }
