@@ -342,15 +342,15 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   this.normal_dt = null;
   /** vector from body CM to edge's circle center, in world coords
   * U, U2 are not used for collisions, only for contact force
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {?myphysicslab.lab.util.Vector}
   * @package
   */
-  this.u1 = Vector.ORIGIN;
+  this.u1 = null;
   /** vector from normal body CM to normal edge's circle center, in world coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {?myphysicslab.lab.util.Vector}
   * @package
   */
-  this.u2 = Vector.ORIGIN;
+  this.u2 = null;
   /** radius of curvature at impact1, for primary body; negative means concave
   * @type {number}
   * @package
@@ -663,9 +663,9 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
   var vbx = 0;
   var vby = 0;
   if (isFinite(this.primaryBody.getMass())) {
-    var r1 = this.getR1();
-    var rax = this.ballObject ? this.u1.getX() : r1.getX();
-    var ray = this.ballObject ? this.u1.getY() : r1.getY();
+    var r1 = this.getU1();
+    var rax = r1.getX();
+    var ray = r1.getY();
     goog.asserts.assert(isFinite(rax) && isFinite(ray), 'not a number: rax, ray');
     var va = this.primaryBody.getVelocity();
     var wa = this.primaryBody.getAngularVelocity();
@@ -673,9 +673,9 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
     vay = va.getY() + wa*rax;
   }
   if (isFinite(this.normalBody.getMass())) {
-    var r2 = this.getR2();
-    var rbx = this.ballNormal ? this.u2.getX() : r2.getX();
-    var rby = this.ballNormal ? this.u2.getY() : r2.getY();
+    var r2 = this.getU2();
+    var rbx = r2.getX();
+    var rby = r2.getY();
     goog.asserts.assert(isFinite(rbx) && isFinite(rby), 'not a number: rbx, rby');
     var vb = this.normalBody.getVelocity();
     var wb = this.normalBody.getAngularVelocity();
@@ -683,6 +683,39 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
     vby = vb.getY() + wb*rbx;
   }
   return new Vector(vax - vbx, vay - vby);
+};
+
+/** Returns vector from center of mass of primary body to either point of impact
+* or to center of circular edge in world coords.
+* @return {!Vector} vector from center of mass of primary body to either point
+* of impact or to center of circular edge in world coords
+*/
+RigidBodyCollision.prototype.getU1 = function() {
+  if (this.ballObject) {
+    if (!this.u1) {
+      throw new Error();
+    }
+    return this.u1;
+  } else {
+    return this.getR1();
+  }
+};
+
+/** Returns vector from center of mass of normal body to either point of impact
+* or to center of circular edge in world coords. Uses the second impact point if
+* appropriate.
+* @return {!Vector} vector from center of mass of normal body to either point
+* of impact or to center of circular edge, in world coords
+*/
+RigidBodyCollision.prototype.getU2 = function() {
+  if (this.ballNormal) {
+    if (!this.u2) {
+      throw new Error();
+    }
+    return this.u2;
+  } else {
+    return this.getR2();
+  }
 };
 
 /** @inheritDoc */
