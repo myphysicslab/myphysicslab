@@ -401,7 +401,6 @@ UtilityCollision.makeCollision = function(collisions, edge, vertex, e_body, p_bo
     }
   }
   c.creator = goog.DEBUG ? 'testCollisionVertex' : '';
-  c.normalVelocity = c.calcNormalVelocity();
   if (1 == 0 && goog.DEBUG)
     console.log('UtilityCollision.testCollisionVertex '+c);
   c.setDetectedTime(time);
@@ -761,7 +760,6 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
           goog.asserts.assert(c != null);
           goog.asserts.assert(c.primaryBody == body2);
           goog.asserts.assert(c.normalBody == body1);
-          c.normalVelocity = c.calcNormalVelocity();
           c.setDetectedTime(time);
           UtilityCollision.addCollision(collisions, c);
         }

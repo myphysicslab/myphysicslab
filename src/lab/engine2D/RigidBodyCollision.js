@@ -190,7 +190,7 @@ for modifications to contact forces when curved edges are involved.
 <a name="equivalenceofusingroruvector"></a>
 
 Here we show that you get the same result whether using the R or U vector in
-{@link #calcNormalVelocity}.
+{@link #getNormalVelocity}.
 
 Suppose you have a circular body striking a horizontal infinite mass floor; let the
 circle have an offset center of mass, so that U and R are different.
@@ -362,11 +362,11 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   */
   this.radius2 = UtilityCore.NaN;
   /** relative normal velocity at impact point; negative=colliding,
-  * positive = separating
+  * positive = separating. Cached value: it is invalid when NaN.
   * @type {number}
-  * @package
+  * @private
   */
-  this.normalVelocity = UtilityCore.NaN;
+  this.normalVelocity_ = UtilityCore.NaN;
   /** normal velocity when collision was detected, pre-backup.
   * @type {number}
   * @private
@@ -409,7 +409,7 @@ if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
   RigidBodyCollision.prototype.toString = function() {
     return this.getClassName() + '{distance: '+NF5E(this.distance)
-        +', normalVelocity: '+NF5E(this.normalVelocity)
+        +', normalVelocity_: '+NF5E(this.normalVelocity_)
         +', body: "'+this.primaryBody.getName()+'"'
         +', normalBody: "'+this.normalBody.getName()+'"'
         +', impact1: '+this.impact1
@@ -440,18 +440,6 @@ RigidBodyCollision.prototype.bilateral = function() {
   return this.joint;
 };
 
-/** Calculates the relative normal velocity based on current velocity of the
-bodies. Negative velocity means the objects moving towards each other,
-positive velocity means they are moving apart.
-
-* @return {number} relative normal velocity between the two bodies
-*    at the point of contact.
-* @package
-*/
-RigidBodyCollision.prototype.calcNormalVelocity = function() {
-  return this.normal.dotProduct(this.getRelativeVelocity());
-};
-
 /** Checks that the fields of this collision are consistent
 and obey policy.
 * @return {undefined}
@@ -463,7 +451,7 @@ RigidBodyCollision.prototype.checkConsistent = function() {
   goog.asserts.assert(isFinite(this.detectedDistance_));
   goog.asserts.assert(isFinite(this.detectedVelocity_));
   goog.asserts.assert(isFinite(this.distance));
-  goog.asserts.assert(isFinite(this.normalVelocity));
+  goog.asserts.assert(isFinite(this.getNormalVelocity()));
   goog.asserts.assert(this.primaryBody != null);
   goog.asserts.assert(this.normalBody != null);
   goog.asserts.assert(isFinite(this.normal.getX()));
@@ -506,7 +494,7 @@ RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
 
 /** @inheritDoc */
 RigidBodyCollision.prototype.contact = function() {
-  return this.joint || Math.abs(this.normalVelocity) < this.velocityTol_ &&
+  return this.joint || Math.abs(this.getNormalVelocity()) < this.velocityTol_ &&
     this.distance > 0 && this.distance < this.distanceTol_;
 };
 
@@ -608,6 +596,21 @@ RigidBodyCollision.prototype.getNormalBody = function() {
   return this.normalBody;
 };
 
+/** Returns the relative normal velocity based on current velocity of the
+bodies. Negative velocity means the objects moving towards each other,
+positive velocity means they are moving apart.
+
+* @return {number} relative normal velocity between the two bodies
+*    at the point of contact.
+*/
+RigidBodyCollision.prototype.getNormalVelocity = function() {
+  if (isNaN(this.normalVelocity_)) {
+    this.normalVelocity_ = this.normal.dotProduct(this.getRelativeVelocity());
+    goog.asserts.assert(!isNaN(this.normalVelocity_));
+  }
+  return this.normalVelocity_;
+};
+
 /** Returns vector from center of mass of primary body to point of impact,
 * in world coords
 * @return {!Vector} vector from center of mass of primary body to point of impact,
@@ -697,6 +700,7 @@ RigidBodyCollision.prototype.getU1 = function() {
     }
     return this.u1;
   } else {
+    goog.asserts.assert(this.u1 == null);
     return this.getR1();
   }
 };
@@ -714,13 +718,14 @@ RigidBodyCollision.prototype.getU2 = function() {
     }
     return this.u2;
   } else {
+    goog.asserts.assert(this.u2 == null);
     return this.getR2();
   }
 };
 
 /** @inheritDoc */
 RigidBodyCollision.prototype.getVelocity = function() {
-  return this.normalVelocity;
+  return this.getNormalVelocity();
 };
 
 /** Whether this collision involves the given RigidBody
@@ -768,7 +773,7 @@ RigidBodyCollision.prototype.isColliding = function() {
     return true; // any penetrating contact is colliding
   }
   // fast collision that is smaller than targetGap beyond desired accuracy
-  if (this.normalVelocity < -this.velocityTol_
+  if (this.getNormalVelocity() < -this.velocityTol_
       && this.distance < this.targetGap_ - this.accuracy_) {
     return true;
   }
@@ -798,14 +803,15 @@ RigidBodyCollision.prototype.setDetectedTime = function(time) {
   }
   this.detectedTime_ = time;
   this.detectedDistance_ = this.distance;
-  this.detectedVelocity_ = this.normalVelocity;
+  var nv = this.getNormalVelocity();
+  this.detectedVelocity_ = nv;
   this.estimate_ = UtilityCore.NaN;
   if (!this.joint) {
     goog.asserts.assert(isFinite(this.distance));
-    goog.asserts.assert(isFinite(this.normalVelocity));
+    goog.asserts.assert(isFinite(nv));
     // if the collision velocity is significant (i.e. not a tiny number or positive)
-    if (this.normalVelocity < -0.001) {
-      this.estimate_ = time + (this.targetGap_ - this.distance) / this.normalVelocity;
+    if (nv < -0.001) {
+      this.estimate_ = time + (this.targetGap_ - this.distance) / nv;
     }
     if (0 == 1 && goog.DEBUG)
       console.log(NF5(time)+' setDetectedTime '+this.toString());
@@ -851,20 +857,20 @@ would be important to do).
 RigidBodyCollision.prototype.updateCollision = function(time) {
   if (!isFinite(this.distance))
     throw new Error('distance is NaN '+this);
-  this.normalVelocity = this.calcNormalVelocity();
+  this.normalVelocity_ = UtilityCore.NaN; // invalidate cached value
   // experiment: May 11 2015
   // collisions with low velocity and close distance should be marked as a contact.
   // (These are typically first detected as penetrating collisions).
   //if (!this.contact() && this.distance > 0
   //    && this.distance < this.primaryBody.getDistanceTol()
-  //    && Math.abs(this.normalVelocity) < this.primaryBody.getVelocityTol()) {
+  //    && Math.abs(this.getNormalVelocity()) < this.primaryBody.getVelocityTol()) {
   //  this.isContact = true;
   //console.log('update->contact '+this);
   //}
   this.checkConsistent();
   this.updateTime_ = time;
   // only calculate the estimated collision time when needed (save time)
-  if ((this.needsHandling() || !this.contact()) && this.normalVelocity < 0) {
+  if ((this.needsHandling() || !this.contact()) && this.getNormalVelocity() < 0) {
     // always use the fancy combined collision time estimate
     this.updateEstimatedTime(time, true);
   } else {
@@ -901,7 +907,7 @@ RigidBodyCollision.prototype.updateEstimatedTime = function(time, doUpdate) {
   var t1 = time;
   var t2 = this.detectedTime_;
   var d1 = this.distance;
-  var v1 = this.normalVelocity;
+  var v1 = this.getNormalVelocity();
   var v2 = this.detectedVelocity_;
   var h = t2 - t1;
   if (h <= 1E-12) {

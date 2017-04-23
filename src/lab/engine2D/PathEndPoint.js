@@ -253,7 +253,6 @@ PathEndPoint.prototype.updateCollision = function(c) {
   c.normal = this.ppt_.getSlope().multiply(this.upperLimit_ ? -1 : 1);
   c.ballNormal = false;
   c.impact2 = this.ppt_.getPosition();
-  c.normalVelocity = c.calcNormalVelocity();
   c.creator = goog.DEBUG ? 'PathEndPoint' : '';
 };
 

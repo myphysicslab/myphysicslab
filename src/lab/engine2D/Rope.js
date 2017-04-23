@@ -316,7 +316,6 @@ Rope.prototype.updateCollision = function(c) {
     c.radius2 = -c.impact1.subtract(c.impact2).length();
   }
   c.u2 = c.getR2();
-  c.normalVelocity = c.calcNormalVelocity();
 };
 
 }); // goog.scope

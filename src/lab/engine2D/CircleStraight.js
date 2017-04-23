@@ -266,7 +266,6 @@ CircleStraight.addCollision = function(contact, collisions, straight, circle, di
   rbc.u1 = cw.subtract(circle.getBody().getPosition());
   rbc.creator = goog.DEBUG ? 'CircleStraight' : '';
   rbc.normal = straight.getBody().rotateBodyToWorld(straight.getNormalBody(pb));
-  rbc.normalVelocity = rbc.calcNormalVelocity();
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);
 };

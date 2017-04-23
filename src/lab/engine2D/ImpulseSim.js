@@ -879,7 +879,7 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
   var nonJoint = false; // whether there is a non-joint
   for (var k=0; k<n; k++) {
     var ck = collisions[k];
-    b[k] = ck.normalVelocity;
+    b[k] = ck.getNormalVelocity();
     if (0 == 1 && goog.DEBUG)
       this.myPrint('handle collision['+k+']='+NF5(b[k])+' '+ck);
     // Normal collisions have elasticity;
@@ -1087,7 +1087,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       // elastic joints
       e[i] = ck.getElasticity();
     }
-    b[i] = ck.normalVelocity;
+    b[i] = ck.getNormalVelocity();
     nv[i] = b[i];
     nonJoint = nonJoint || !ck.joint;
   }
@@ -1159,7 +1159,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       if (j2[i] > ImpulseSim.TINY_IMPULSE || c.joint) {
         console.log('before impulse '
           +' j['+i+']='+NF9(j2[i])
-          +' v='+NF9(c.calcNormalVelocity())
+          +' v='+NF9(c.getNormalVelocity())
           +' n='+n);
       }
     }
@@ -1191,7 +1191,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       if (j2[i]  > ImpulseSim.TINY_IMPULSE || c.joint) {
         console.log('after impulse '
             +' j['+i+']='+NF9(j2[i])
-            +' v='+NF9(c.calcNormalVelocity())
+            +' v='+NF9(c.getNormalVelocity())
             +' n='+n
             +' '+c);
       }
@@ -1482,7 +1482,7 @@ ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
   if (0 == 1 && goog.DEBUG) {
     // this is for looking at small impulses
     this.myPrint('impulse='+NFE(j)+' dist='+NFE(cd.distance)
-        +' velocity='+NFE(cd.normalVelocity));
+        +' velocity='+NFE(cd.getNormalVelocity()));
   }
   if (ImpulseSim.DEBUG_IMPULSE && goog.DEBUG) {
     if (j > 1e-16)

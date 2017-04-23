@@ -502,7 +502,6 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
   rbc.radius2 = dist;
   rbc.u2 = rbc.getR2();
   rbc.creator = goog.DEBUG ? "StraightEdge.makeVertexVertex" : "";
-  rbc.normalVelocity = rbc.calcNormalVelocity();
   // Only low velocity contacts are valid. At high speeds, CornerCornerCollisions
   // are likely not valid.
   return rbc.contact() ? rbc : null;

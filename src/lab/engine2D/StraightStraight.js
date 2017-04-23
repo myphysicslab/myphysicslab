@@ -171,7 +171,6 @@ StraightStraight.addCollision = function(collisions, edge1, edge2, pt, time) {
   rbc.impact1 = pt;
   rbc.creator = goog.DEBUG ? 'StraightStraight' : '';
   rbc.normal = edge2.getBody().rotateBodyToWorld(edge2.getNormalBody(pt));
-  rbc.normalVelocity = rbc.calcNormalVelocity();
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);
   console.log('StraightStraight.addCollision '+rbc);

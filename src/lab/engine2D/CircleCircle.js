@@ -288,7 +288,6 @@ CircleCircle.addCollision = function(contact, collisions, self, other, distance,
   }
   rbc.u1 = cow.subtract(other.getBody().getPosition());
   rbc.u2 = csw.subtract(self.getBody().getPosition());
-  rbc.normalVelocity = rbc.calcNormalVelocity();
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);
 };

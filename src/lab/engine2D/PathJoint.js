@@ -140,7 +140,7 @@ PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
     // show the normal vector at the joint
     UtilEngine.debugEngine2D.debugLine('normal', c.impact1, c.impact1.add(c.normal));
     UtilEngine.debugEngine2D.myPrint('joint dist='+NFE(c.distance)
-      +' normalVelocity='+NFE(c.normalVelocity)+' '+c);
+      +' normalVelocity='+NFE(c.getNormalVelocity())+' '+c);
     if (Math.abs(c.distance) > 1E-12)
       UtilEngine.debugEngine2D.myPrint('joint '+this.getName()
         +' is loose dist='+NFE(c.distance)+' '+c);
@@ -271,7 +271,6 @@ PathJoint.prototype.updateCollision = function(c) {
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'PathJoint';
   c.u2 = Vector.ORIGIN;
-  c.normalVelocity = c.calcNormalVelocity();
 };
 
 }); // goog.scope

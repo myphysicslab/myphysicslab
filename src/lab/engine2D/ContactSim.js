@@ -933,7 +933,7 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
         // intentional fall-thru
       case ExtraAccel.VELOCITY_JOINTS:
         // velocity only
-        extrab = c.normalVelocity/this.extraAccelTimeStep_;
+        extrab = c.getNormalVelocity()/this.extraAccelTimeStep_;
         break;
       case ExtraAccel.VELOCITY_AND_DISTANCE:
         if (c.joint) {
@@ -942,7 +942,7 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
         // intentional fall-thru
       case ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS:
         // average of distance and velocity
-        var v0 = c.normalVelocity;
+        var v0 = c.getNormalVelocity();
         var h = this.extraAccelTimeStep_;
         var x0 = c.distanceToHalfGap();
         extrab = (2*v0*h + x0)/(h*h);
@@ -953,7 +953,7 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
     b[i] += extrab;
     if (0 == 1 && goog.DEBUG && Math.abs(extrab) > 1E-10) {
       this.myPrint('EXTRAB '+ NFE(extrab)
-          +' normVel='+NF7(c.normalVelocity)
+          +' normVel='+NF7(c.getNormalVelocity())
           +' dist='+NF5(c.distance)
           +' body='+c.primaryBody.getName()
           +' normalBody='+c.normalBody.getName()
