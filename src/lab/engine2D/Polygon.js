@@ -170,14 +170,13 @@ Only the special edge is tested for collisions, so care should be taken to avoid
 being able to collide into any of the non-special edge walls.
 
 
-### Old Copy Is Used For Collision Detection
+### Old Coords Is Used For Collision Detection
 
-A Polygon keeps a copy of its previous state before the last time step of the
+A Polygon keeps a copy of its local coordinate system before the last time step of the
 differential equation solver. The copy is used for collision detection, to determine how
 a collision may have happened; for example whether a Vertex crossed over an Edge during
-the last time step. The copy is not a fully functional Polygon, it is only useful for
-the purposes of looking at the previous location and orientation of the body. See
-{@link #saveOldCopy}, {@link #getOldCopy}, and {@link #eraseOldCopy}.
+the last time step. See {@link #saveOldCoords}, {@link #getOldCoords}, and
+{@link #eraseOldCoords}.
 
 
 
@@ -733,7 +732,7 @@ Polygon.prototype.doesNotCollide = function(body) {
 };
 
 /** @inheritDoc */
-Polygon.prototype.eraseOldCopy = function() {
+Polygon.prototype.eraseOldCoords = function() {
   this.body_old_ = null;
 };
 
@@ -935,7 +934,7 @@ Polygon.prototype.getMinHeight2 = function() {
 };
 
 /** @inheritDoc */
-Polygon.prototype.getOldCopy = function() {
+Polygon.prototype.getOldCoords = function() {
   return this.body_old_;
 };
 
@@ -1173,7 +1172,7 @@ Polygon.prototype.removeNonCollide = function(bodies) {
 };
 
 /** @inheritDoc */
-Polygon.prototype.saveOldCopy = function() {
+Polygon.prototype.saveOldCoords = function() {
   if (this.body_old_ == null) {
     this.body_old_ = this.body_old_save_;
   }

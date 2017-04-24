@@ -607,8 +607,8 @@ are separated by that distance.
 Vertex/Edge collision detection is done by
 [`UtilityCollision.checkVertexes`](myphysicslab.lab.engine2D.UtilityCollision.html#UtilityCollision.checkVertexes).
 See also the method
-[`Polygon.getOldCopy`](myphysicslab.lab.engine2D.Polygon.html#getOldCopy)
-which gives the state of a Polygon at the last time step; `getOldCopy` is used to
+[`Polygon.getOldCoords`](myphysicslab.lab.engine2D.Polygon.html#getOldCoords)
+which gives the state of a Polygon at the last time step; `getOldCoords` is used to
 determine the old position of a Vertex.
 
 

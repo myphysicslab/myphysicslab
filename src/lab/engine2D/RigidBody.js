@@ -80,11 +80,11 @@ RigidBody.prototype.addNonCollide;
 */
 RigidBody.prototype.doesNotCollide;
 
-/** Erases any recently saved local coordinate system. See {@link #saveOldCopy},
-{@link #getOldCopy}.
+/** Erases any recently saved local coordinate system. See {@link #saveOldCoords},
+{@link #getOldCoords}.
 * @return {undefined}
 */
-RigidBody.prototype.eraseOldCopy;
+RigidBody.prototype.eraseOldCoords;
 
 /** Returns the collision distance accuracy, a fraction between zero and one; when the
 collision distance is within `accuracy * targetGap` of the target gap distance, then
@@ -110,10 +110,11 @@ uses the lesser elasticity value of the two bodies involved.
 */
 RigidBody.prototype.getElasticity;
 
-/** Returns the recently saved local coordinate system. See {@link #saveOldCopy}.
-* @return {?myphysicslab.lab.engine2D.LocalCoords} the recently saved LocalCoords.
+/** Returns the recently saved local coordinate system. See {@link #saveOldCoords}.
+* @return {?myphysicslab.lab.engine2D.LocalCoords} the recently saved local coordinate
+*     system.
 */
-RigidBody.prototype.getOldCopy;
+RigidBody.prototype.getOldCoords;
 
 /** Returns the index into the {@link myphysicslab.lab.model.VarsList VarsList} for
 this RigidBody. The VarsList contains 6 values for each RigidBody,
@@ -154,16 +155,16 @@ RigidBody.prototype.getVelocityTol;
 RigidBody.prototype.removeNonCollide;
 
 /** Makes an internal copy of the geometry of this RigidBody, which is used
-for future collision checking.  This copy becomes a record of the last location
+for future collision checking.  This copy is a record of the last location
 of this object, so that collision checking can determine how the object moved
 over the last time step.  For example, a small object moving at high velocity
 can pass through a narrow object in a single time step;  there is then no
 interpenetration of the two objects, but if you use the previous position of
 the small fast object you can see that it has passed through the narrow object.
-See {@link #getOldCopy}, {@link #eraseOldCopy}.
+See {@link #getOldCoords}, {@link #eraseOldCoords}.
 @return {undefined}
 */
-RigidBody.prototype.saveOldCopy;
+RigidBody.prototype.saveOldCoords;
 
 /** Sets the collision distance accuracy, a fraction between zero and one; when the
 collision distance is within `accuracy * targetGap` of the target gap distance, then

@@ -247,8 +247,8 @@ UtilityCollision.checkVertexes = function(collisions, body1, body2, time) {
     var nowVertex = body1.worldToBody(body2.bodyToWorld(v2.locBody()));
     var oldVertex = nowVertex;
     var travelDistSqr = 0;
-    var bodyOld1 = body1.getOldCopy();
-    var bodyOld2 = body2.getOldCopy();
+    var bodyOld1 = body1.getOldCoords();
+    var bodyOld2 = body2.getOldCoords();
     // either both should be null or both should be non-null
     if (bodyOld1 != null && bodyOld2 != null) {
       // get old position of Vertex v2 in old-body1 coords
@@ -626,7 +626,7 @@ yet again when making the collision record).
     coords of body1
 @param {!Vector} v_body_old the position of vertex2 at the last
     time step in body coords of body1,
-    see {@link myphysicslab.lab.engine2D.Polygon#saveOldCopy}
+    see {@link myphysicslab.lab.engine2D.Polygon#saveOldCoords}
 @param {number} travelDist  the distance between v_body and v_body_old
 @param {number} time current simulation time
 @private

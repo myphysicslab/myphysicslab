@@ -413,7 +413,7 @@ RigidBodySim.prototype.reset = function() {
     this.varsList_.setValues(this.initialState_);
   }
   goog.array.forEach(this.bods_, function(b) {
-    b.eraseOldCopy();
+    b.eraseOldCoords();
   });
   this.getSimList().removeTemporary(UtilityCore.POSITIVE_INFINITY);
   this.modifyObjects();
@@ -463,7 +463,7 @@ RigidBodySim.prototype.cleanSlate = function() {
 RigidBodySim.prototype.saveState = function() {
   this.recentState_ = this.varsList_.getValues();
   goog.array.forEach(this.bods_, function(b) {
-    b.saveOldCopy();
+    b.saveOldCoords();
   });
 };
 
@@ -473,7 +473,7 @@ RigidBodySim.prototype.restoreState = function() {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
   }
   goog.array.forEach(this.bods_, function(b) {
-    b.eraseOldCopy();
+    b.eraseOldCoords();
   });
 };
 
@@ -503,7 +503,7 @@ RigidBodySim.prototype.addBody = function(body) {
   }
   this.initializeFromBody(body);
   goog.array.forEach(this.bods_, function(b) {
-    b.eraseOldCopy();
+    b.eraseOldCoords();
   });
 };
 
@@ -564,7 +564,7 @@ RigidBodySim.prototype.getBody = function(numOrName) {
 *     the simulation variables
 */
 RigidBodySim.prototype.initializeFromBody = function(body) {
-  body.eraseOldCopy();
+  body.eraseOldCoords();
   var idx = body.getVarsIndex();
   if (idx > -1) {
     var va = this.varsList_;

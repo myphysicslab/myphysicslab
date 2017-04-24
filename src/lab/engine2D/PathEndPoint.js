@@ -162,7 +162,7 @@ PathEndPoint.prototype.addCollision = function(collisions, time, accuracy) {
   if (c.distance < 0) {
     // We only report a collision when distance went from positive to negative.
     // Find the old body distance, was it positive?
-    var body_old = this.body_.getOldCopy();
+    var body_old = this.body_.getOldCoords();
     if (body_old == null) {
       return;
     }

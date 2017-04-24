@@ -111,7 +111,7 @@ Scrim.prototype.doesNotCollide = function(body) {
 };
 
 /** @inheritDoc */
-Scrim.prototype.eraseOldCopy = function() {
+Scrim.prototype.eraseOldCoords = function() {
 };
 
 /** @inheritDoc */
@@ -226,7 +226,7 @@ Scrim.prototype.getMinHeight = function() {
 };
 
 /** @inheritDoc */
-Scrim.prototype.getOldCopy = function() {
+Scrim.prototype.getOldCoords = function() {
   return null;
 };
 
@@ -327,7 +327,7 @@ Scrim.prototype.rotationalEnergy = function() {
 };
 
 /** @inheritDoc */
-Scrim.prototype.saveOldCopy = function() {
+Scrim.prototype.saveOldCoords = function() {
 };
 
 /** @inheritDoc */

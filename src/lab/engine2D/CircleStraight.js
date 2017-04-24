@@ -173,20 +173,20 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
   {
     var circleBody = circle.getBody();
     var straightBody = straight.getBody();
-    var circleOldCopy = circleBody.getOldCopy();
-    var straightOldCopy = straightBody.getOldCopy();
+    var circleOldCoords = circleBody.getOldCoords();
+    var straightOldCoords = straightBody.getOldCoords();
     // either both should be null or both should be non-null
-    if (circleOldCopy == null || straightOldCopy == null) {
-      if (straightOldCopy != null || circleOldCopy != null) {
+    if (circleOldCoords == null || straightOldCoords == null) {
+      if (straightOldCoords != null || circleOldCoords != null) {
         throw new Error('problem with old copy in CircleStraight');
       }
       return;
     }
     // find the equivalent point on the old body
     // cw0 = previous (old) ball's center in world coords;
-    var cw0 = circleOldCopy.bodyToWorld(circle.getCenterBody());
+    var cw0 = circleOldCoords.bodyToWorld(circle.getCenterBody());
     // cb0 = previous (old) ball's center in old straight body coords
-    var cb0 = straightOldCopy.worldToBody(cw0);
+    var cb0 = straightOldCoords.worldToBody(cw0);
     // BUG?  not totally sure about this:
     // use current normal to offset pb0, should use old normal?
     // Probably OK, because the Edge does NOT change in body coords, only the
@@ -200,17 +200,17 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
     // This next section checks the endpoints of the arc.
     // (?? seems like an excessive amount of work)
     // pw0 = previous (old) impact point in world coords
-    var pw0 = straightOldCopy.bodyToWorld(pb0);
+    var pw0 = straightOldCoords.bodyToWorld(pb0);
     // pcb0 = previous (old) impact point in circle body old coords
-    var pcb0 = circleOldCopy.worldToBody(pw0);
+    var pcb0 = circleOldCoords.worldToBody(pw0);
     // if pb0 is not within the arc (on body_old), change pb0 to be the
     // nearest corner of body_old circle.
     // ???  OR JUST REJECT THIS COLLISION IF PCB0 IS NOT IN ARC OF CIRCLE?
     pcb0 = circle.nearestPointByAngle(pcb0);
     // NOTE:  we could avoid the following conversions if nearestPointByAngle returned
     // a boolean indicating whether it had changed the point.
-    pw0 = circleOldCopy.bodyToWorld(pcb0);
-    pb0 = straightOldCopy.worldToBody(pw0);
+    pw0 = circleOldCoords.bodyToWorld(pcb0);
+    pb0 = straightOldCoords.worldToBody(pw0);
   }
   // distance should have been positive in the old position, relative to straight edge
   // if distance was negative, then it started out on wrong side of straight edge,
