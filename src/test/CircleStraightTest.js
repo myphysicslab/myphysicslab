@@ -371,6 +371,7 @@ CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
     // therefore we must move the body each time.
     p2.setPosition(new Vector(0,  0),  angle);  // move to start position
     p2.saveOldCopy(); // store the previous body position
+    p.saveOldCopy();
     // move to current location, at given distance from origin and angle
     p2.setPosition(new Vector(dist*Math.sin(angle), -dist*Math.cos(angle)), angle);
     var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);

@@ -227,7 +227,7 @@ Scrim.prototype.getMinHeight = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getOldCopy = function() {
-  return this;
+  return null;
 };
 
 /** @inheritDoc */

@@ -80,7 +80,7 @@ RigidBody.prototype.addNonCollide;
 */
 RigidBody.prototype.doesNotCollide;
 
-/** Erases the internal copy of this RigidBody. See {@link #saveOldCopy},
+/** Erases any recently saved local coordinate system. See {@link #saveOldCopy},
 {@link #getOldCopy}.
 * @return {undefined}
 */
@@ -110,15 +110,8 @@ uses the lesser elasticity value of the two bodies involved.
 */
 RigidBody.prototype.getElasticity;
 
-/** Returns the most recent internal copy of this RigidBody.
-
-Warning: The copy is **not** a fully functional RigidBody; it is used for collision
-checking to see the position of bodies just before a collision occurred. See
-{@link #saveOldCopy} and {@link #eraseOldCopy}. The RigidBody returned should only be used to
-call position information methods such as {@link #bodyToWorld} and {@link #worldToBody}.
-
-@return {!myphysicslab.lab.engine2D.RigidBody} the most recent copy of
-    this RigidBody, which is not fully functional
+/** Returns the recently saved local coordinate system. See {@link #saveOldCopy}.
+* @return {?myphysicslab.lab.engine2D.LocalCoords} the recently saved LocalCoords.
 */
 RigidBody.prototype.getOldCopy;
 

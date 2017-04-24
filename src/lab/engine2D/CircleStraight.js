@@ -175,7 +175,11 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
     var straightBody = straight.getBody();
     var circleOldCopy = circleBody.getOldCopy();
     var straightOldCopy = straightBody.getOldCopy();
-    if (circleBody == circleOldCopy && straightBody == straightOldCopy) {
+    // either both should be null or both should be non-null
+    if (circleOldCopy == null || straightOldCopy == null) {
+      if (straightOldCopy != null || circleOldCopy != null) {
+        throw new Error('problem with old copy in CircleStraight');
+      }
       return;
     }
     // find the equivalent point on the old body

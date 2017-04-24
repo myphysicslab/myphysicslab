@@ -162,7 +162,11 @@ PathEndPoint.prototype.addCollision = function(collisions, time, accuracy) {
   if (c.distance < 0) {
     // We only report a collision when distance went from positive to negative.
     // Find the old body distance, was it positive?
-    var point_old = this.body_.getOldCopy().bodyToWorld(this.attach_body_);
+    var body_old = this.body_.getOldCopy();
+    if (body_old == null) {
+      return;
+    }
+    var point_old = body_old.bodyToWorld(this.attach_body_);
     this.path_.findNearestLocal(point_old, this.ppt_old_);
     this.path_.map_p_to_slope(this.ppt_old_);
     var distance_old = this.upperLimit_ ? this.limit_ - this.ppt_old_.p :

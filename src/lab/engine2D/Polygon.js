@@ -28,6 +28,7 @@ goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.model.AbstractMassObject');
+goog.require('myphysicslab.lab.engine2D.LocalCoords');
 goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -47,6 +48,7 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Edge = myphysicslab.lab.engine2D.Edge;
 var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
 var GenericVector = myphysicslab.lab.util.GenericVector;
+var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 var MutableVector = myphysicslab.lab.util.MutableVector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
@@ -328,11 +330,16 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   * @private
   */
   this.varsIndex_ = -1;
-  /** copy of this body in its last known position prior to the present
-  * @type {?Polygon}
+  /** coordinate system of this body in its last known position prior to the present
+  * @type {?LocalCoords}
   * @private
   */
   this.body_old_ = null;
+  /** Keep LocalCoords to avoid allocating a new one, for better performance.
+  * @type {!LocalCoords}
+  * @private
+  */
+  this.body_old_save_ = new LocalCoords();
   /** distance tolerance, for determining if RigidBody is in contact with another
   * RigidBody
   * @type {number}
@@ -682,33 +689,6 @@ Polygon.prototype.closePath_ = function(v1, v2) {
   goog.array.remove(this.vertices_, v2);
 };
 
-/** Makes a clone by copying information from this Polygon to another.
-Note that the clone is not fully functional, it is intended only for use during
-collision checking.
-@private
-@param {!Polygon} b the Polygon to copy information to
-*/
-Polygon.prototype.copyTo = function(b) {
-  // copy only the info needed for collision checking?
-  // this makes an improper object!
-  b.loc_world_ = this.loc_world_;
-  b.angle_ = this.angle_;
-  b.sinAngle_ = this.sinAngle_;
-  b.cosAngle_ = this.cosAngle_;
-  b.velocity_ = this.velocity_;
-  b.angular_velocity_ = this.angular_velocity_;
-  //b.width = this.width;
-  //b.height = this.height;
-  b.cm_body_ = this.cm_body_;
-  b.mass_ = this.mass_;
-  // assume that Vertexes and edges don't change;
-  //console.log('POLYGON COPYTO '+body);
-  b.left_body_ = this.left_body_;
-  b.right_body_ = this.right_body_;
-  b.top_body_ = this.top_body_;
-  b.bottom_body_ = this.bottom_body_;
-};
-
 /** @inheritDoc */
 Polygon.prototype.createCanvasPath = function(context) {
   context.beginPath();
@@ -956,13 +936,7 @@ Polygon.prototype.getMinHeight2 = function() {
 
 /** @inheritDoc */
 Polygon.prototype.getOldCopy = function() {
-  // if there is no old body, then there has been no change in the state
-  // therefore, return 'this', the current body.
-  if (this.body_old_ == null) {
-    return this;
-  } else {
-    return this.body_old_;
-  }
+  return this.body_old_;
 };
 
 /** @inheritDoc */
@@ -1200,13 +1174,10 @@ Polygon.prototype.removeNonCollide = function(bodies) {
 
 /** @inheritDoc */
 Polygon.prototype.saveOldCopy = function() {
-  // reuse existing copy when possible to avoid allocation
-  var p = this.body_old_;
-  if (p == null) {
-    p = new Polygon('body_old');
+  if (this.body_old_ == null) {
+    this.body_old_ = this.body_old_save_;
   }
-  this.copyTo(p);
-  this.body_old_ = p;
+  this.body_old_.set(this.cm_body_, this.loc_world_, this.sinAngle_, this.cosAngle_);
 };
 
 /** @inheritDoc */

@@ -249,12 +249,15 @@ UtilityCollision.checkVertexes = function(collisions, body1, body2, time) {
     var travelDistSqr = 0;
     var bodyOld1 = body1.getOldCopy();
     var bodyOld2 = body2.getOldCopy();
-    if (body1 != bodyOld1 || body2 != bodyOld2) {
+    // either both should be null or both should be non-null
+    if (bodyOld1 != null && bodyOld2 != null) {
       // get old position of Vertex v2 in old-body1 coords
       oldVertex = bodyOld1.worldToBody(bodyOld2.bodyToWorld(v2.locBody()));
       // We try to avoid computationally expensive sqrt function by working
       // with square of distance.
       travelDistSqr = nowVertex.distanceSquaredTo(oldVertex);
+    } else if (bodyOld1 != null || bodyOld2 != null) {
+      throw new Error('problem with old copy in checkVertexes');
     }
     // In many/most cases the travel distance is small,
     // so we can avoid computationally expensive sqrt()
