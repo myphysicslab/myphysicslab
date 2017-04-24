@@ -72,6 +72,12 @@ myphysicslab.lab.engine2D.AbstractEdge = function(body, vertex1, vertex2) {
   * @protected
   */
   this.centroid_body_ = this.v1_.locBody().add(this.v2_.locBody()).multiply(0.5);
+  /** The centroid of this edge in world coords. For performance reasons this is
+  * cached. See {@link #forgetPosition}.
+  * @type {?Vector}
+  * @private
+  */
+  this.centroid_world_ = null;
   /** the maximum distance from centroid to any point on this edge
   * @type {number}
   * @protected
@@ -132,6 +138,11 @@ AbstractEdge.prototype.distanceToPoint = function(p_body) {};
 AbstractEdge.prototype.findVertexContact = function(v, p_body, distTol) {};
 
 /** @inheritDoc */
+AbstractEdge.prototype.forgetPosition = function() {
+  this.centroid_world_ = null;
+};
+
+/** @inheritDoc */
 AbstractEdge.prototype.getBody = function() {
   return this.body_;
 };
@@ -162,13 +173,10 @@ AbstractEdge.prototype.getCentroidRadius = function() {
 
 /** @inheritDoc */
 AbstractEdge.prototype.getCentroidWorld = function() {
-  var v = this.body_.getEdgeCentroidWorld(this.getIndex());
-  if (v == null) {
-    v = this.body_.bodyToWorld(this.centroid_body_);
-    // store the centroid in world coords in an array on the body
-    this.body_.setEdgeCentroidWorld(this.getIndex(), v);
+  if (this.centroid_world_ == null) {
+    this.centroid_world_ = this.body_.bodyToWorld(this.centroid_body_);
   }
-  return v;
+  return this.centroid_world_;
 };
 
 /** Returns name of class of this object.

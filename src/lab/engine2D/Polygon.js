@@ -135,9 +135,7 @@ smallest circle that encloses the object. The center of this circle is the
 radius".
 
 There is a similar centroid and centroid radius for each Edge, which gives the smallest
-circle that encloses that Edge. We use a cache to keep the world coordinates of the
-centroid of each Edge, to avoid the cost of repeatedly calling the `bodyToWorld` method.
-See {@link #getEdgeCentroidWorld}.
+circle that encloses that Edge.
 
 Some of the proximity tests can be found in
 {@link myphysicslab.lab.engine2D.UtilityCollision#checkVertexes}. Of note is that we expand the
@@ -285,12 +283,6 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   * @private
   */
   this.centroid_body_ = null;
-  /** centroid of each Edge, in world coords.  This is a cache to avoid costs of
-  doing bodyToWorld method on the centroid.  Entries can be null.
-  * @type {!Array<?Vector>}
-  * @private
-  */
-  this.centroids_world_ = [];
   /** cached centroid radius = max distance between center of mass and any point on body
   * @type {number}
   * @private
@@ -824,7 +816,6 @@ Polygon.prototype.finish = function() {
   var w = this.getWidth();
   var h = this.getHeight();
   this.setMomentAboutCM((w*w + h*h)/12);
-  this.centroids_world_ = new Array(this.edges_.length);
   this.specialNormalWorld_ = null;
   // force the centroid to be calculated
   var centroid_body = this.getCentroidBody();
@@ -860,19 +851,6 @@ Polygon.prototype.getCentroidRadius = function() {
 /** @inheritDoc */
 Polygon.prototype.getDistanceTol = function() {
   return this.distanceTol_;
-};
-
-/** Returns centroid of an Edge, in world coords.  This implements a cache to avoid
-costs of repeatedly calling `bodyToWorld()` on the centroid. The cache is stored on
-Polygon because it corresponds to the current position of the Polygon.
-See {@link myphysicslab.lab.engine2D.Edge#getCentroidWorld}.
-@package
-@param {number} index  the index number of the Edge among this body's list of edges
-@return {?Vector} centroid of specified Edge, in world coords;
-    or null if not in cache.
-*/
-Polygon.prototype.getEdgeCentroidWorld = function(index) {
-  return this.centroids_world_[index];
 };
 
 /** Returns the actual list of edges of this body, for engine2D package use only.
@@ -1226,16 +1204,6 @@ Polygon.prototype.saveOldCopy = function() {
   var p = this.body_old_;
   if (p == null) {
     p = new Polygon('body_old');
-    // give the copy our same set of Vertexes & edges;
-    // they are never modified to global coords, so OK to share.
-    p.vertices_ = this.vertices_;
-    p.edges_ = this.edges_;
-    // clone the centroids. This preserves the cache of centroids for the
-    // old body, which correspond to the old body position.
-    p.centroids_world_ = new Array(this.centroids_world_.length);
-    for (var i=0, len=this.centroids_world_.length; i<len; i++)
-      p.centroids_world_[i] = this.centroids_world_[i];
-    p.specialNormalWorld_ = this.specialNormalWorld_;
   }
   this.copyTo(p);
   this.body_old_ = p;
@@ -1288,18 +1256,6 @@ Polygon.prototype.setDistanceTol = function(value) {
   this.distanceTol_ = value;
 };
 
-/** Set centroid of an Edge, in world coords.  This implements a cache to avoid
-costs of repeatedly calling `bodyToWorld()` on the centroid. The cache is stored on
-Polygon because it corresponds to the current position of the Polygon.
-See {@link myphysicslab.lab.engine2D.Edge#getCentroidWorld}.
-@param {number} index  the index number of the Edge among this body's list of Edges
-@param {!Vector} v the centroid vector
-@package
-*/
-Polygon.prototype.setEdgeCentroidWorld = function(index, v) {
-  this.centroids_world_[index] = v;
-};
-
 /** @inheritDoc */
 Polygon.prototype.setElasticity = function(value) {
   this.elasticity_ = value;
@@ -1340,8 +1296,8 @@ Polygon.prototype.setPosition = function(loc_world, angle) {
     this.specialNormalWorld_ = null;
   }
   // invalidate the cache of centroids in world coordinates
-  for (var i=0, len=this.centroids_world_.length; i<len; i++) {
-    this.centroids_world_[i] = null;
+  for (var i=0, len=this.edges_.length; i<len; i++) {
+    this.edges_[i].forgetPosition();
   }
 };
 

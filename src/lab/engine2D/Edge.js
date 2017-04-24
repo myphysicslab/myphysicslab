@@ -134,6 +134,11 @@ Additionally, if this Edge is curved, the following are also set:
 */
 Edge.prototype.findVertexContact;
 
+/** Clears any cached position information.
+@return {undefined}
+*/
+Edge.prototype.forgetPosition;
+
 /** Returns the Polygon that this Edge belongs to.
 @return {!myphysicslab.lab.engine2D.Polygon} the Polygon that this Edge belongs
 to
@@ -172,10 +177,6 @@ Edge.prototype.getCentroidRadius;
 /** Returns the center of the circle to use for proximity testing, in world coordinates.
 A circle centered at this point with radius `getCentroidRadius()` should encompass
 this Edge. See {@link #getCentroidRadius} and {@link #getCentroidBody}.
-
-This method uses a cache to reduce the computational costs, see
-{@link myphysicslab.lab.engine2D.Polygon#setEdgeCentroidWorld}.
-
 @return {!myphysicslab.lab.util.Vector} the center of the circle to use for proximity
     testing, in world coordinates
 */
