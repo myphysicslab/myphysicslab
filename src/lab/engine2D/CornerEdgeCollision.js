@@ -66,6 +66,12 @@ myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
   * @private
   */
   this.primaryEdge = v_edge;
+  /** vector from normal body CM to normal edge's circle center, in world coords.
+  * Cached value to speed up performance.
+  * @type {?myphysicslab.lab.util.Vector}
+  * @private
+  */
+  this.u2_ = null;
   /** other edge next to vertex; null for decorated vertex
   * @type {?myphysicslab.lab.engine2D.Edge}
   * @private
@@ -116,6 +122,31 @@ CornerEdgeCollision.prototype.checkConsistent = function() {
   goog.asserts.assert( this.ballObject == false );
   // normal edge is of two types:  curved or straight
   goog.asserts.assert( this.normalEdge.isStraight() == !this.ballNormal );
+};
+
+/** @inheritDoc */
+CornerEdgeCollision.prototype.getU2 = function() {
+  if (this.u2_ != null) {
+    if (this.u2 == null || !this.u2_.equals(this.u2)) {
+      throw new Error('not equivalent');
+    }
+    return this.u2_; // cached value to speed up performance
+  }
+  if (this.ballNormal) {
+    var impact = this.impact2 ? this.impact2 : this.impact1;
+    var impact_body = this.normalBody.worldToBody(impact);
+    var center2_body = this.normalEdge.getCenterOfCurvature(impact_body);
+    if (center2_body != null) {
+      // U2 = vector from CM to normal body's circle center (in world coords)
+      var center2_world = this.normalBody.bodyToWorld(center2_body);
+      this.u2_ = center2_world.subtract(this.normalBody.getPosition());
+      if (this.u2 == null || !this.u2_.equals(this.u2)) {
+        throw new Error('not equivalent');
+      }
+      return this.u2_; // cached value to speed up performance
+    }
+  }
+  return this.getR2();
 };
 
 /** @inheritDoc */
@@ -174,6 +205,7 @@ CornerEdgeCollision.prototype.similarTo = function(c) {
 
 /** @inheritDoc */
 CornerEdgeCollision.prototype.updateCollision = function(time) {
+  this.u2_ = null; // invalidate cached value
   // vertex/edge collision
   var pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
   var pnb = this.normalBody.worldToBody(pbw);

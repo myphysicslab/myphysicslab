@@ -57,6 +57,18 @@ myphysicslab.lab.engine2D.EdgeEdgeCollision = function(primaryEdge, normalEdge) 
   * @private
   */
   this.normalEdge = normalEdge;
+  /** vector from primary body CM to primary edge's circle center, in world coords.
+  * Cached value to speed up performance.
+  * @type {?myphysicslab.lab.util.Vector}
+  * @private
+  */
+  this.u1_ = null;
+  /** vector from normal body CM to normal edge's circle center, in world coords.
+  * Cached value to speed up performance.
+  * @type {?myphysicslab.lab.util.Vector}
+  * @private
+  */
+  this.u2_ = null;
 };
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
 goog.inherits(EdgeEdgeCollision, RigidBodyCollision);
@@ -84,6 +96,52 @@ EdgeEdgeCollision.prototype.checkConsistent = function() {
   goog.asserts.assert( this.primaryEdge.isStraight() == !this.ballObject );
   goog.asserts.assert( this.normalEdge != null );
   goog.asserts.assert( this.normalEdge.isStraight() == !this.ballNormal );
+};
+
+/** @inheritDoc */
+EdgeEdgeCollision.prototype.getU1 = function() {
+  if (this.u1_ != null) {
+    if (this.u1 == null || !this.u1_.equals(this.u1)) {
+      throw new Error('not equivalent');
+    }
+    return this.u1_; // cached value to speed up performance
+  }
+  if (this.ballObject) {
+    var primaryCircle =
+        /** @type {!myphysicslab.lab.engine2D.CircularEdge} */(this.primaryEdge);
+    goog.asserts.assert(this.primaryBody == primaryCircle.getBody());
+    var cw = this.primaryBody.bodyToWorld(primaryCircle.getCenterBody());
+    this.u1_ = cw.subtract(this.primaryBody.getPosition());
+    if (this.u1 == null || !this.u1_.equals(this.u1)) {
+      throw new Error('not equivalent');
+    }
+    return this.u1_; // cached value to speed up performance
+  }
+  return this.getR1();
+};
+
+/** @inheritDoc */
+EdgeEdgeCollision.prototype.getU2 = function() {
+  if (this.u2_ != null) {
+    if (this.u2 == null || !this.u2_.equals(this.u2)) {
+      throw new Error('not equivalent');
+    }
+    return this.u2_; // cached value to speed up performance
+  }
+  if (this.ballNormal) {
+    // maybe I should have a CircleCircleCollision and StraightCircleCollision etc.
+    // Otherwise I have to do some ugly type casting here
+    var normalCircle =
+        /** @type {!myphysicslab.lab.engine2D.CircularEdge} */(this.normalEdge);
+    goog.asserts.assert(this.normalBody == normalCircle.getBody());
+    var cnw = this.normalBody.bodyToWorld(normalCircle.getCenterBody());
+    this.u2_ = cnw.subtract(this.normalBody.getPosition());
+    if (this.u2 == null || !this.u2_.equals(this.u2)) {
+      throw new Error('not equivalent');
+    }
+    return this.u2_; // cached value to speed up performance
+  }
+  return this.getR2();
 };
 
 /** @inheritDoc */
@@ -128,6 +186,8 @@ EdgeEdgeCollision.prototype.similarTo = function(c) {
 
 /** @inheritDoc */
 EdgeEdgeCollision.prototype.updateCollision = function(time) {
+  this.u1_ = null; // invalidate cached value
+  this.u2_ = null; // invalidate cached value
   this.primaryEdge.improveAccuracyEdge(this, this.normalEdge);
   EdgeEdgeCollision.superClass_.updateCollision.call(this, time);
 };

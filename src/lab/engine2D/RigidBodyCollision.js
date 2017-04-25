@@ -847,10 +847,6 @@ were not updated to the current pre-collision information.
 Assumes that the bodies have been updated for their current location,
 by for example {@link myphysicslab.lab.engine2D.RigidBodySim#modifyObjects}.
 
-Note:  does not update edge/edge collisions when one
-of the edges is an OvalEdge.  (This could be done someday, but
-it is not easy and there are no situations I can think of where it
-would be important to do).
 @param {number} time  the current simulation time
 @package
 */
