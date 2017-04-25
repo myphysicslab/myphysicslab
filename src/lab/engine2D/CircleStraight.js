@@ -103,7 +103,6 @@ CircleStraight.improveAccuracy = function(rbc, circle, straight) {
   rbc.distance = straight.distanceToLine(pb2);
   rbc.impact1 = pw;
   rbc.normal = nw;
-  rbc.u1 = cw.subtract(circleBody.getPosition());
   if (0 == 1 && goog.DEBUG) {
     console.log('CircleStraight.improveAccuracy '
       +NF7(oldX)+' '
@@ -164,7 +163,7 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
     pb = straight.projectionOntoLine(cb);
     pw = straight.getBody().bodyToWorld(pb);
     CircleStraight.addCollision(/*contact=*/true, collisions, straight, circle,
-        dist, pw, pb, cw, time);
+        dist, pw, pb, time);
     return;
   }
 
@@ -236,7 +235,7 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
     UtilEngine.debugEngine2D.debugCircle('dot', t, 0.08);
   }
   CircleStraight.addCollision(/*contact=*/false, collisions, straight, circle, dist,
-       pw, pb, cw, time);
+       pw, pb, time);
 };
 
 /**
@@ -247,12 +246,11 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
 * @param {number} dist
 * @param {!myphysicslab.lab.util.Vector} pw
 * @param {!myphysicslab.lab.util.Vector} pb
-* @param {!myphysicslab.lab.util.Vector} cw
 * @param {number} time current simulation time
 * @private
 */
 CircleStraight.addCollision = function(contact, collisions, straight, circle, dist,
-     pw, pb, cw, time) {
+     pw, pb, time) {
   var rbc = new EdgeEdgeCollision(circle, straight);
   goog.asserts.assert( circle.outsideIsOut() );
   rbc.ballNormal = false;
@@ -267,7 +265,6 @@ CircleStraight.addCollision = function(contact, collisions, straight, circle, di
   }
   rbc.distance = dist;
   rbc.impact1 = pw;
-  rbc.u1 = cw.subtract(circle.getBody().getPosition());
   rbc.creator = goog.DEBUG ? 'CircleStraight' : '';
   rbc.normal = straight.getBody().rotateBodyToWorld(straight.getNormalBody(pb));
   rbc.setDetectedTime(time);

@@ -500,7 +500,6 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
   rbc.radius1 = UtilityCore.NaN;
   rbc.ballNormal = true;
   rbc.radius2 = dist;
-  rbc.u2 = rbc.getR2();
   rbc.creator = goog.DEBUG ? "StraightEdge.makeVertexVertex" : "";
   // Only low velocity contacts are valid. At high speeds, CornerCornerCollisions
   // are likely not valid.

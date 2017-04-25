@@ -101,9 +101,6 @@ EdgeEdgeCollision.prototype.checkConsistent = function() {
 /** @inheritDoc */
 EdgeEdgeCollision.prototype.getU1 = function() {
   if (this.u1_ != null) {
-    if (this.u1 == null || !this.u1_.equals(this.u1)) {
-      throw new Error('not equivalent');
-    }
     return this.u1_; // cached value to speed up performance
   }
   if (this.ballObject) {
@@ -112,9 +109,6 @@ EdgeEdgeCollision.prototype.getU1 = function() {
     goog.asserts.assert(this.primaryBody == primaryCircle.getBody());
     var cw = this.primaryBody.bodyToWorld(primaryCircle.getCenterBody());
     this.u1_ = cw.subtract(this.primaryBody.getPosition());
-    if (this.u1 == null || !this.u1_.equals(this.u1)) {
-      throw new Error('not equivalent');
-    }
     return this.u1_; // cached value to speed up performance
   }
   return this.getR1();
@@ -123,9 +117,6 @@ EdgeEdgeCollision.prototype.getU1 = function() {
 /** @inheritDoc */
 EdgeEdgeCollision.prototype.getU2 = function() {
   if (this.u2_ != null) {
-    if (this.u2 == null || !this.u2_.equals(this.u2)) {
-      throw new Error('not equivalent');
-    }
     return this.u2_; // cached value to speed up performance
   }
   if (this.ballNormal) {
@@ -136,9 +127,6 @@ EdgeEdgeCollision.prototype.getU2 = function() {
     goog.asserts.assert(this.normalBody == normalCircle.getBody());
     var cnw = this.normalBody.bodyToWorld(normalCircle.getCenterBody());
     this.u2_ = cnw.subtract(this.normalBody.getPosition());
-    if (this.u2 == null || !this.u2_.equals(this.u2)) {
-      throw new Error('not equivalent');
-    }
     return this.u2_; // cached value to speed up performance
   }
   return this.getR2();

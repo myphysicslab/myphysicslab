@@ -340,17 +340,6 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   * @package
   */
   this.normal_dt = null;
-  /** vector from body CM to edge's circle center, in world coords
-  * U, U2 are not used for collisions, only for contact force
-  * @type {?myphysicslab.lab.util.Vector}
-  * @package
-  */
-  this.u1 = null;
-  /** vector from normal body CM to normal edge's circle center, in world coords
-  * @type {?myphysicslab.lab.util.Vector}
-  * @package
-  */
-  this.u2 = null;
   /** radius of curvature at impact1, for primary body; negative means concave
   * @type {number}
   * @package
@@ -694,15 +683,7 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
 * of impact or to center of circular edge in world coords
 */
 RigidBodyCollision.prototype.getU1 = function() {
-  if (this.ballObject) {
-    if (!this.u1) {
-      throw new Error();
-    }
-    return this.u1;
-  } else {
-    goog.asserts.assert(this.u1 == null);
-    return this.getR1();
-  }
+  return this.getR1();
 };
 
 /** Returns vector from center of mass of normal body to either point of impact
@@ -712,15 +693,7 @@ RigidBodyCollision.prototype.getU1 = function() {
 * of impact or to center of circular edge, in world coords
 */
 RigidBodyCollision.prototype.getU2 = function() {
-  if (this.ballNormal) {
-    if (!this.u2) {
-      throw new Error();
-    }
-    return this.u2;
-  } else {
-    goog.asserts.assert(this.u2 == null);
-    return this.getR2();
-  }
+  return this.getR2();
 };
 
 /** @inheritDoc */

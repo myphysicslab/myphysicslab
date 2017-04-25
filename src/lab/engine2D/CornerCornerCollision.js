@@ -117,8 +117,6 @@ CornerCornerCollision.prototype.updateCollision = function(time) {
   }
   this.normal = this.normalBody.rotateBodyToWorld(nv);
   CornerCornerCollision.superClass_.updateCollision.call(this, time);
-  // Update U2 vector for vertex/vertex collision.
-  this.u2 = this.getR2();
 };
 
 }); // goog.scope

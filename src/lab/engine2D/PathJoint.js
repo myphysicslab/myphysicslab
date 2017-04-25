@@ -270,7 +270,6 @@ PathJoint.prototype.updateCollision = function(c) {
   var offset = c.impact1.subtract(c.impact2);
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'PathJoint';
-  c.u2 = Vector.ORIGIN;
 };
 
 }); // goog.scope

@@ -127,9 +127,6 @@ CornerEdgeCollision.prototype.checkConsistent = function() {
 /** @inheritDoc */
 CornerEdgeCollision.prototype.getU2 = function() {
   if (this.u2_ != null) {
-    if (this.u2 == null || !this.u2_.equals(this.u2)) {
-      throw new Error('not equivalent');
-    }
     return this.u2_; // cached value to speed up performance
   }
   if (this.ballNormal) {
@@ -140,9 +137,6 @@ CornerEdgeCollision.prototype.getU2 = function() {
       // U2 = vector from CM to normal body's circle center (in world coords)
       var center2_world = this.normalBody.bodyToWorld(center2_body);
       this.u2_ = center2_world.subtract(this.normalBody.getPosition());
-      if (this.u2 == null || !this.u2_.equals(this.u2)) {
-        throw new Error('not equivalent');
-      }
       return this.u2_; // cached value to speed up performance
     }
   }
@@ -219,14 +213,6 @@ CornerEdgeCollision.prototype.updateCollision = function(time) {
   this.impact1 = this.normalBody.bodyToWorld(pn[0]);
   this.normal = this.normalBody.rotateBodyToWorld(pn[1]);
   this.distance = this.normalEdge.distanceToLine(pnb);
-  if (this.ballNormal) {
-    var center2 = this.normalEdge.getCenterOfCurvature(pn[0]);
-    if (center2 != null) {
-      // U2 = vector from CM to normal body's circle center (in world coords)
-      center2 = this.normalBody.bodyToWorld(center2);
-      this.u2 = center2.subtract(this.normalBody.getPosition());
-    }
-  }
   CornerEdgeCollision.superClass_.updateCollision.call(this, time);
 };
 

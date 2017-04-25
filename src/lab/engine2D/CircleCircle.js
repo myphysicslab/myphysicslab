@@ -128,8 +128,6 @@ CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
   // radius should not change;
   //rbc.radius1 = other.getRadius();
   //rbc.radius2 = normalCircle.getRadius();
-  rbc.u1 = cow.subtract(otherBody.getPosition());
-  rbc.u2 = cnw.subtract(normalBody.getPosition());
   if (0 == 1 && goog.DEBUG) {
     console.log('CircleCircle.improveAccuracy '
       +NF7(oldX)+' '
@@ -192,7 +190,7 @@ CircleCircle.testCollision = function(collisions, self, other, time) {
       return;
     if (distance > 0) {
       CircleCircle.addCollision(/*contact=*/true, collisions, self, other,
-        distance, len, coe, cow, csw, time);
+        distance, len, coe, time);
       return;
     }
     var maxDepth = other.depthOfArc() > self.depthOfArc() ?
@@ -204,7 +202,7 @@ CircleCircle.testCollision = function(collisions, self, other, time) {
     if (distance < -maxDepth)
       return;
     CircleCircle.addCollision(/*contact=*/false, collisions, self, other,
-      distance, len, coe, cow, csw, time);
+      distance, len, coe, time);
   } else {  // one edge is concave, other edge is convex
     goog.asserts.assert( self.outsideIsOut() != other.outsideIsOut() );
     var convex = self.outsideIsOut() ? self : other;
@@ -237,14 +235,14 @@ CircleCircle.testCollision = function(collisions, self, other, time) {
       return;
     if (distance > 0) {
       CircleCircle.addCollision(/*contact=*/true, collisions, concave, convex,
-        distance, len, cne, cnw, cuw, time);
+        distance, len, cne, time);
       return;
     }
     // if penetration is greater than convex object's max depth, then no collision.
     if (distance < -convex.depthOfArc())
       return;
     CircleCircle.addCollision(/*contact=*/false, collisions, concave, convex,
-      distance, len, cne, cnw, cuw, time);
+      distance, len, cne, time);
   }
 };
 
@@ -256,12 +254,10 @@ CircleCircle.testCollision = function(collisions, self, other, time) {
 * @param {number} distance
 * @param {number} len
 * @param {!myphysicslab.lab.util.Vector} coe
-* @param {!myphysicslab.lab.util.Vector} cow
-* @param {!myphysicslab.lab.util.Vector} csw
 * @param {number} time current simulation time
 * @private
 */
-CircleCircle.addCollision = function(contact, collisions, self, other, distance, len, coe, cow, csw, time) {
+CircleCircle.addCollision = function(contact, collisions, self, other, distance, len, coe, time) {
   var rbc = new EdgeEdgeCollision(other, self);
   rbc.distance = distance;
   rbc.ballNormal = true;
@@ -286,8 +282,6 @@ CircleCircle.addCollision = function(contact, collisions, self, other, distance,
     rbc.radius1 += distance/2;
     rbc.radius2 += distance/2;
   }
-  rbc.u1 = cow.subtract(other.getBody().getPosition());
-  rbc.u2 = csw.subtract(self.getBody().getPosition());
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);
 };

@@ -395,14 +395,6 @@ UtilityCollision.makeCollision = function(collisions, edge, vertex, e_body, p_bo
   c.normal = n_world;
   c.radius2 = edge.getCurvature(e_body);
   c.ballNormal = isFinite(c.radius2);
-  if (c.ballNormal) {
-    // U2 = vector from CM to normal body's circle center (in world coords)
-    var center2 = edge.getCenterOfCurvature(e_body);
-    if (center2 != null) {
-      center2 = normalBody.bodyToWorld(center2);
-      c.u2 = center2.subtract(normalBody.getPosition());
-    }
-  }
   c.creator = goog.DEBUG ? 'testCollisionVertex' : '';
   if (1 == 0 && goog.DEBUG)
     console.log('UtilityCollision.testCollisionVertex '+c);
