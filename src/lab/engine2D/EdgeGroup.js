@@ -15,19 +15,19 @@
 goog.provide('myphysicslab.lab.engine2D.EdgeGroup');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.EdgeRange');
 goog.require('myphysicslab.lab.engine2D.EdgeSet');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Specifies a set of Edges in multiple Polygons.
-Edges are specified by {@link myphysicslab.lab.engine2D.EdgeRange}s.
+/** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s in multiple Polygons.
+Edges are specified by {@link EdgeRange}s.
 
-* @param {!myphysicslab.lab.engine2D.EdgeRange=} opt_edgeRange  the EdgeRange to
+* @param {!EdgeRange=} opt_edgeRange  the EdgeRange to
     start with (optional)
 * @constructor
 * @final
@@ -36,7 +36,7 @@ Edges are specified by {@link myphysicslab.lab.engine2D.EdgeRange}s.
 */
 myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
   /**
-  * @type {!Array<!myphysicslab.lab.engine2D.EdgeRange>}
+  * @type {!Array<!EdgeRange>}
   * @private
   */
   this.ranges_ = [];
@@ -54,7 +54,7 @@ if (!UtilityCore.ADVANCED) {
 };
 
 /** Add the EdgeRange to this EdgeGroup.
-* @param {!myphysicslab.lab.engine2D.EdgeRange} edgeRange  the EdgeRange to add
+* @param {!EdgeRange} edgeRange  the EdgeRange to add
 */
 EdgeGroup.prototype.add = function(edgeRange) {
   if (!goog.array.contains(this.ranges_, edgeRange)) {
@@ -73,7 +73,7 @@ EdgeGroup.prototype.contains = function(edge) {
 };
 
 /** Remove the EdgeRange from this EdgeGroup.
-* @param {!myphysicslab.lab.engine2D.EdgeRange} edgeRange  the EdgeRange to remove
+* @param {!EdgeRange} edgeRange  the EdgeRange to remove
 */
 EdgeGroup.prototype.remove = function(edgeRange) {
   goog.array.remove(this.ranges_, edgeRange);

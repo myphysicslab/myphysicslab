@@ -295,7 +295,7 @@ of Acc bad?
 
 * @param {string} name for debugging, this distinguishes whether this is used for
 *     contact forces or collision impulses
-* @param {!myphysicslab.lab.util.Random} pRNG  pseudo random number generator, used to
+* @param {!Random} pRNG  pseudo random number generator, used to
 *    randomly decide order in which to calculate forces
 * @param {number=} tolerance used to decide when numbers are equal or zero;
 *    default is 1E-10
@@ -460,7 +460,7 @@ myphysicslab.lab.engine2D.ComputeForces = function(name, pRNG, tolerance) {
   */
   this.specialCase = false;
   /**
-  * @type {!myphysicslab.lab.util.Random}
+  * @type {!Random}
   * @private
   */
   this.pRNG = pRNG;

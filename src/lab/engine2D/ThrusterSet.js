@@ -19,18 +19,18 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var Vector = myphysicslab.lab.util.Vector;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
+var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** Contains a set of thrust forces operating on a particular RigidBody; each thruster
 generates a Force at a specified location on the RigidBody with a specified direction.
@@ -38,7 +38,7 @@ Thrusters can be turned on or off independently. Use {@link #setMagnitude} to se
 overall magnitude which multiplies all of the thrust forces.
 
 Thrusters are set to a default location and direction of the zero vector, see
-{@link myphysicslab.lab.util.Vector#ORIGIN}. Use {@link #setThruster} to set the actual
+{@link Vector#ORIGIN}. Use {@link #setThruster} to set the actual
 location and direction.
 
 See {@link myphysicslab.lab.app.RigidBodyEventHandler} for an example of how to control
@@ -47,17 +47,16 @@ thrusters from key events.
 @todo be able to scale or rotate each Force independently?
 
 * @param {number} numThrusters number of thrusters to create
-* @param {!myphysicslab.lab.engine2D.RigidBody} body the RigidBody which thrust is
-*     applied to
+* @param {!RigidBody} body the RigidBody which thrust is applied to
 * @param {number} magnitude the overall multiplier applied to each thrust Force.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.ForceLaw}
+* @implements {ForceLaw}
 */
 myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) {
   /** The rigidBody which thrust is applied to.
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @private
   */
   this.rigidBody_ = body;
@@ -67,12 +66,12 @@ myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) 
   */
   this.magnitude_ = magnitude;
   /** Location on body where thrust force is applied, in body coords.
-  * @type {!Array<!myphysicslab.lab.util.Vector>}
+  * @type {!Array<!Vector>}
   * @private
   */
   this.locations_body_ = goog.array.repeat(Vector.ORIGIN, numThrusters);
   /** Direction and magnitude of thrust force, in body coords.
-  * @type {!Array<!myphysicslab.lab.util.Vector>}
+  * @type {!Array<!Vector>}
   * @private
   */
   this.directions_body_ = goog.array.repeat(Vector.ORIGIN, numThrusters);
@@ -146,13 +145,12 @@ ThrusterSet.prototype.getBodies = function() {
   return [ this.rigidBody_ ];
 };
 
-/** Returns direction and magnitude of thrust force, in body coords,
-for the given thruster.
-Returns default value `Vector.ORIGIN` if location not yet defined for that thruster.
+/** Returns direction and magnitude of thrust force, in body coords, for the given
+thruster. Returns default value `Vector.ORIGIN` if location not yet defined for that
+thruster.
 @param {number} index the index number of the desired thruster within the
     array of thrusters
-@return {!myphysicslab.lab.util.Vector} direction and magnitude of thrust force,
-    in body coords
+@return {!Vector} direction and magnitude of thrust force, in body coords
 */
 ThrusterSet.prototype.getDirectionBody  = function(index) {
   if (index < 0 || index >= this.directions_body_.length)
@@ -164,8 +162,7 @@ ThrusterSet.prototype.getDirectionBody  = function(index) {
 Returns default value `Vector.ORIGIN` if location not yet defined for that thruster.
 @param {number}index the index number of the desired thruster within the
     array of thrusters
-@return {!myphysicslab.lab.util.Vector} location on body where thrust force is applied,
-  in body coords
+@return {!Vector} location on body where thrust force is applied, in body coords
 */
 ThrusterSet.prototype.getLocationBody  = function(index) {
   if (index < 0 || index >= this.locations_body_.length)
@@ -188,7 +185,7 @@ ThrusterSet.prototype.getPotentialEnergy  = function() {
 /** Sets whether the given thruster is firing.
 * @param {number} index the index number of the thruster within the array of thrusters
 * @param {boolean} active  whether the thruster should be firing.
-* @return {!myphysicslab.lab.engine2D.ThrusterSet} this object for chaining setters
+* @return {!ThrusterSet} this object for chaining setters
 */
 ThrusterSet.prototype.setActive  = function(index, active) {
   this.active_[index] = active;
@@ -197,7 +194,7 @@ ThrusterSet.prototype.setActive  = function(index, active) {
 
 /** Sets an overall multiplier applied to each thrust Force.
 @param {number} magnitude  the overall multiplier to apply to each thrust Force.
-@return {!myphysicslab.lab.engine2D.ThrusterSet} this object for chaining setters
+@return {!ThrusterSet} this object for chaining setters
 */
 ThrusterSet.prototype.setMagnitude  = function(magnitude) {
   this.magnitude_ = magnitude;
@@ -206,9 +203,9 @@ ThrusterSet.prototype.setMagnitude  = function(magnitude) {
 
 /** Sets a thruster's location and direction.
 * @param {number} index  the index number of the thruster within the array of thrusters
-* @param {!myphysicslab.lab.util.Vector} location_body the location to apply the thrust
+* @param {!Vector} location_body the location to apply the thrust
   force on the RigidBody, in body coordinates
-* @param {!myphysicslab.lab.util.Vector} direction_body the direction and magnitude of
+* @param {!Vector} direction_body the direction and magnitude of
   the thrust force, in body coordinates
 */
 ThrusterSet.prototype.setThruster  = function(index, location_body, direction_body) {

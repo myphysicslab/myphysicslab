@@ -19,6 +19,8 @@ goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
+var Vector = myphysicslab.lab.util.Vector;
+
 /** A Vertex is a point on an Edge in a Polygon, in body coordinates of the Polygon. A
 Vertex can be at the end-point of the Edge, or at a mid-point of the Edge. An end-point
 Vertex is connected to two Edges which are called the 'previous' and 'next' Edges. A
@@ -112,8 +114,7 @@ a 'decorated mid-point' Vertex.
 Vertex.prototype.isEndPoint;
 
 /** Returns the location of this Vertex in body coords of its Polygon.
-@return {!myphysicslab.lab.util.Vector} location of this Vertex in body coords of its
-    Polygon
+@return {!Vector} location of this Vertex in body coords of its Polygon
 */
 Vertex.prototype.locBody;
 
@@ -142,7 +143,7 @@ Vertex.prototype.setEdge1;
 
 /** Sets the 'next' Edge that this Vertex is connected to.
 @param {!myphysicslab.lab.engine2D.Edge} edge the 'next' Edge that this Vertex is
-connected to
+    connected to
 @throws {Error} if this Vertex was already connected to a next Edge
 */
 Vertex.prototype.setEdge2;

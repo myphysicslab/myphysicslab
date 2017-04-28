@@ -25,10 +25,6 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -37,12 +33,12 @@ var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** A RigidBodyCollision between a corner Vertex and an Edge.
 
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex the Vertex on the primary body
-* @param {!myphysicslab.lab.engine2D.Edge} normalEdge the Edge on the normal body, which defines the normal vector for the collision.
+* @param {!Vertex} vertex the Vertex on the primary body
+* @param {!Edge} normalEdge the Edge on the normal body, which defines the normal vector for the collision.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.engine2D.RigidBodyCollision}
+* @extends {RigidBodyCollision}
 */
 myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
   var v_edge = vertex.getEdge1();
@@ -52,28 +48,28 @@ myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
   RigidBodyCollision.call(this, v_edge.getBody(), normalEdge.getBody(),
       /*joint=*/false);
   /** vertex of primary body, between primaryEdge and primaryEdge2
-  * @type {!myphysicslab.lab.engine2D.Vertex}
+  * @type {!Vertex}
   * @private
   */
   this.vertex = vertex;
   /** edge of normal body
-  * @type {!myphysicslab.lab.engine2D.Edge}
+  * @type {!Edge}
   * @private
   */
   this.normalEdge = normalEdge;
   /** edge next to vertex
-  * @type {!myphysicslab.lab.engine2D.Edge}
+  * @type {!Edge}
   * @private
   */
   this.primaryEdge = v_edge;
   /** vector from normal body CM to normal edge's circle center, in world coords.
   * Cached value to speed up performance.
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @private
   */
   this.u2_ = null;
   /** other edge next to vertex; null for decorated vertex
-  * @type {?myphysicslab.lab.engine2D.Edge}
+  * @type {?Edge}
   * @private
   */
   this.primaryEdge2 = vertex.isEndPoint() ? vertex.getEdge2() : null;

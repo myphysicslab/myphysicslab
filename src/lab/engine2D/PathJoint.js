@@ -19,19 +19,20 @@ goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
+goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.NumericalPath');
+goog.require('myphysicslab.lab.model.PathPoint');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.engine2D.Scrim');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;
@@ -41,19 +42,17 @@ var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
+var NumericalPath = myphysicslab.lab.model.NumericalPath;
+var PathPoint = myphysicslab.lab.model.PathPoint;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
+var Scrim = myphysicslab.lab.engine2D.Scrim;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
-var NumericalPath = myphysicslab.lab.model.NumericalPath;
-var PathPoint = myphysicslab.lab.model.PathPoint;
-var Scrim = myphysicslab.lab.engine2D.Scrim;
 
-/** Represents a bilateral contact point between a
-{@link myphysicslab.lab.engine2D.RigidBody RigidBody} and a
-{@link myphysicslab.lab.model.NumericalPath NumericalPath}.
+/** Represents a bilateral contact point between a {@link RigidBody} and a
+{@link NumericalPath}.
 Bilateral means that force can be applied to push or pull in the
 direction of the normal for the contact (in contrast to a contact force which can only
 push and never pull). The normal vector is determined by the NumericalPath. The normal
@@ -71,36 +70,35 @@ attachment points are free to move.
 Note that some slippage of a PathJoint can occur over time, especially
 when there is very fast rotation.
 
-@param {!myphysicslab.lab.model.NumericalPath} path the path to connect
-@param {!myphysicslab.lab.engine2D.RigidBody} body the RigidBody to connect
-@param {!myphysicslab.lab.util.Vector} attach_body the attachment point on the
+@param {!NumericalPath} path the path to connect
+@param {!RigidBody} body the RigidBody to connect
+@param {!Vector} attach_body the attachment point on the
     RigidBody in body coordinates
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
-* @implements {myphysicslab.lab.engine2D.Connector}
-* @implements {myphysicslab.lab.model.SimObject}
+* @extends {AbstractSimObject}
+* @implements {Connector}
 */
 myphysicslab.lab.engine2D.PathJoint = function(path, body, attach_body) {
   AbstractSimObject.call(this, 'PathJoint'+(PathJoint.nextJointNum++));
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @private
   */
   this.body_ = body;
   /** path that joint is attached to
-  * @type {!myphysicslab.lab.model.NumericalPath}
+  * @type {!NumericalPath}
   * @private
   */
   this.path_ = path;
   /** attachment point in body coords of this.body_
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.attach_body_ = attach_body;
   /** last position along the path
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.ppt_ = new PathPoint();
@@ -161,8 +159,7 @@ PathJoint.prototype.align = function() {
 };
 
 /** Returns the attachment point on the RigidBody in body coordinates.
-@return {!myphysicslab.lab.util.Vector} the attachment point on the RigidBody in body
-    coordinates
+@return {!Vector} the attachment point on the RigidBody in body coordinates
 */
 PathJoint.prototype.getAttach1 = function() {
   return this.attach_body_;

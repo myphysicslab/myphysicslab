@@ -14,32 +14,23 @@
 
 goog.provide('myphysicslab.lab.engine2D.CircleStraight');
 
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.AbstractEdge');
 goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
-var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
-var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** Provides static functions for handling interactions between
 {@link myphysicslab.lab.engine2D.CircularEdge CircularEdge} and
@@ -62,7 +53,7 @@ var CircleStraight = myphysicslab.lab.engine2D.CircleStraight;
 
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
 positions and velocities of the RigidBodys.
-* @param {!myphysicslab.lab.engine2D.EdgeEdgeCollision} rbc
+* @param {!EdgeEdgeCollision} rbc
 * @param {!myphysicslab.lab.engine2D.CircularEdge} circle
 * @param {!myphysicslab.lab.engine2D.StraightEdge} straight
 */
@@ -115,7 +106,7 @@ CircleStraight.improveAccuracy = function(rbc, circle, straight) {
 
 /** Tests the positions and velocities of the two Edges, and if a collision or contact
 * is detected, adds an EdgeEdgeCollision to the given array.
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions any new
+* @param {!Array<!RigidBodyCollision>} collisions any new
 *    collision will be added to this array
 * @param {!myphysicslab.lab.engine2D.StraightEdge} straight
 * @param {!myphysicslab.lab.engine2D.CircularEdge} circle
@@ -240,12 +231,12 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
 
 /**
 * @param {boolean} contact whether to make a contact (true) or collision (false)
-* @param {!Array<!myphysicslab.lab.engine2D.RigidBodyCollision>} collisions
+* @param {!Array<!RigidBodyCollision>} collisions
 * @param {!myphysicslab.lab.engine2D.StraightEdge} straight
 * @param {!myphysicslab.lab.engine2D.CircularEdge} circle
 * @param {number} dist
-* @param {!myphysicslab.lab.util.Vector} pw
-* @param {!myphysicslab.lab.util.Vector} pb
+* @param {!Vector} pw
+* @param {!Vector} pb
 * @param {number} time current simulation time
 * @private
 */

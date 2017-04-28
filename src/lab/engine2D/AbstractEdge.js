@@ -15,17 +15,19 @@
 goog.provide('myphysicslab.lab.engine2D.AbstractEdge');
 
 goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
+goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var Edge = myphysicslab.lab.engine2D.Edge;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
+var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** Abstract base class for {@link myphysicslab.lab.engine2D.Edge}.
 
@@ -46,9 +48,9 @@ var Vector = myphysicslab.lab.util.Vector;
         be a good thing in terms of object-oriented design principles.
 
 * @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon this Edge belongs to
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex1 the previous vertex, in body
+* @param {!Vertex} vertex1 the previous vertex, in body
   coords; matches the next (second) vertex of the previous edge
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex2 the next vertex, in body coords
+* @param {!Vertex} vertex2 the next vertex, in body coords
 * @constructor
 * @abstract
 * @struct
@@ -57,12 +59,12 @@ var Vector = myphysicslab.lab.util.Vector;
 myphysicslab.lab.engine2D.AbstractEdge = function(body, vertex1, vertex2) {
   /** the previous vertex, in body coords; matches the next (second) vertex of the
   previous edge
-  * @type {!myphysicslab.lab.engine2D.Vertex}
+  * @type {!Vertex}
   * @protected
   */
   this.v1_ = vertex1;
   /** the next vertex, in body coords
-  * @type {!myphysicslab.lab.engine2D.Vertex}
+  * @type {!Vertex}
   * @protected
   */
   this.v2_ = vertex2;

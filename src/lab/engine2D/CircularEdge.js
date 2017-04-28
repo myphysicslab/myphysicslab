@@ -14,36 +14,27 @@
 
 goog.provide('myphysicslab.lab.engine2D.CircularEdge');
 
-goog.require('myphysicslab.lab.engine2D.CircleStraight');
-goog.require('myphysicslab.lab.engine2D.CircleCircle');
-goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.AbstractEdge');
-goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+goog.require('myphysicslab.lab.engine2D.CircleCircle');
+goog.require('myphysicslab.lab.engine2D.CircleStraight');
+goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
 goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
 var CircleCircle = myphysicslab.lab.engine2D.CircleCircle;
 var CircleStraight = myphysicslab.lab.engine2D.CircleStraight;
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
-var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
-var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
@@ -73,7 +64,7 @@ Vertexes is kept and there is a single Vertex and single Edge forming the circle
 
 ### Mid-Point Vertexes
 
-See {@link myphysicslab.lab.engine2D.Vertex} for information about why mid-point
+See {@link Vertex} for information about why mid-point
 Vertexes are created on a CircularEdge and how they are used for collision checking.
 
 
@@ -136,11 +127,11 @@ coordinates.
 
 * @param {!myphysicslab.lab.engine2D.Polygon} body Edge will be added to this
   Polygon
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex1 Edge starts at this Vertex, given
+* @param {!Vertex} vertex1 Edge starts at this Vertex, given
   in body coordinates
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex2 Edge finishes at this Vertex,
+* @param {!Vertex} vertex2 Edge finishes at this Vertex,
   given in body coordinates
-* @param {!myphysicslab.lab.util.Vector} center_body center of the circular arc, in body
+* @param {!Vector} center_body center of the circular arc, in body
   coordinates
 * @param {boolean} clockwise direction of the arc
 * @param {boolean} outsideIsOut `true` means the region outside of the circle is
@@ -150,8 +141,7 @@ coordinates.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.engine2D.AbstractEdge}
-* @implements {myphysicslab.lab.engine2D.Edge}
+* @extends {AbstractEdge}
 * @throws {Error} if the Vertexes are not equidistant from the center within
   {@link #TINY_POSITIVE} tolerance
 * @throws {Error} if `vertex1` is already connected to a 'next' Edge
@@ -161,7 +151,7 @@ myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center
     clockwise, outsideIsOut, opt_spacing) {
   AbstractEdge.call(this, body, vertex1, vertex2);
   /** position of the center, in body coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.center_body_ = center_body;
@@ -244,7 +234,7 @@ myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center
   */
   this.decoratedAngle_ = delta;
   /**
-  * @type {!Array<!myphysicslab.lab.engine2D.Vertex>}
+  * @type {!Array<!Vertex>}
   * @private
   */
   this.decoratedVertexes_ = [];
@@ -327,9 +317,9 @@ left of the line.
 
 * @param {!myphysicslab.lab.engine2D.Polygon} body edge will be added to this
   RigidBody
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex1 edge starts at this Vertex, given
+* @param {!Vertex} vertex1 edge starts at this Vertex, given
   in body coordinates
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex2 edge finishes at this Vertex,
+* @param {!Vertex} vertex2 edge finishes at this Vertex,
   given in body coordinates
 * @param {number} radius the radius of the circular arc
 * @param {boolean} aboveRight if true, then the center of CircularEdge is located
@@ -338,7 +328,7 @@ left of the line.
 * @param {boolean} clockwise direction of the arc
 * @param {boolean} outsideIsOut true means the outside of the circle is considered the
   outside of the RigidBody.
-* @return {!myphysicslab.lab.engine2D.CircularEdge} the CircularEdge that is created
+* @return {!CircularEdge} the CircularEdge that is created
 * @throws {Error} if absolute value of `radius` is too small; must be greater than half
   the distance between the two Vertexes
 * @throws {Error} if `vertex1` is already connected to a 'next' Edge
@@ -419,7 +409,7 @@ CircularEdge.prototype.addPath = function(context) {
 /** Returns the location on this CircularEdge corresponding to the given angle, in body
 coordinates.
 * @param {number} angle  in edge coords
-* @return {!myphysicslab.lab.util.Vector} location on this CircularEdge in body coords
+* @return {!Vector} location on this CircularEdge in body coords
 */
 CircularEdge.prototype.angleToBody = function(angle) {
   return this.edgeToBody(
@@ -427,8 +417,8 @@ CircularEdge.prototype.angleToBody = function(angle) {
 };
 
 /** Converts from body coordinates to edge coordinates.
-* @param {!myphysicslab.lab.util.Vector} p_body a point in body coordinates
-* @return {!myphysicslab.lab.util.Vector} the same point in edge coordinates
+* @param {!Vector} p_body a point in body coordinates
+* @return {!Vector} the same point in edge coordinates
 */
 CircularEdge.prototype.bodyToEdge = function(p_body) {
   return p_body.subtract(this.center_body_);
@@ -500,16 +490,16 @@ CircularEdge.prototype.distanceToPoint = function(p_body) {
 };
 
 /** Converts from edge coordinates to body coordinates.
-* @param {!myphysicslab.lab.util.Vector} p_edge a point in edge coordinates
-* @return {!myphysicslab.lab.util.Vector} the same point in body coordinates
+* @param {!Vector} p_edge a point in edge coordinates
+* @return {!Vector} the same point in body coordinates
 */
 CircularEdge.prototype.edgeToBody = function(p_edge) {
   return p_edge.add(this.center_body_);
 };
 
 /** Converts from edge coordinates to world coordinates.
-* @param {!myphysicslab.lab.util.Vector} p_edge a point in edge coordinates
-* @return {!myphysicslab.lab.util.Vector} the same point in world coordinates
+* @param {!Vector} p_edge a point in edge coordinates
+* @return {!Vector} the same point in world coordinates
 */
 CircularEdge.prototype.edgeToWorld = function(p_edge) {
   return this.body_.bodyToWorld(p_edge.add(this.center_body_));
@@ -633,7 +623,7 @@ CircularEdge.prototype.getBottomBody = function() {
 
 /** Returns the location of the center of the circular arc of this CircularEdge, in
 body coordinates.
-@return {!myphysicslab.lab.util.Vector} center of this circular arc, in body
+@return {!Vector} center of this circular arc, in body
   coordinates
 */
 CircularEdge.prototype.getCenterBody = function() {
@@ -851,7 +841,7 @@ CircularEdge.prototype.isStraight = function() {
 };
 
 /**
-@param {!myphysicslab.lab.util.Vector} p_edge the point of interest, in edge
+@param {!Vector} p_edge the point of interest, in edge
 coordinates.
 @param {number} angleLow
 @param {number} angleHigh
@@ -870,7 +860,7 @@ CircularEdge.isWithinArc = function(p_edge, angleLow, angleHigh) {
 
 /** Returns true if the angle of the given point is within this arc. Looks at the angle
 from the origin to the point, compares this angle to the angle range of this arc.
-@param {!myphysicslab.lab.util.Vector} p_edge the point of interest, in edge
+@param {!Vector} p_edge the point of interest, in edge
     coordinates.
 @return {boolean} true if the given point is within this arc.
 */
@@ -883,7 +873,7 @@ CircularEdge.prototype.isWithinArc = function(p_edge) {
 
 /** Returns true if the angle of the given point is within this arc. Looks at the angle
 from the origin to the point, compares this angle to the angle range of this arc.
-@param {!myphysicslab.lab.util.Vector} p_world the point of interest, in world
+@param {!Vector} p_world the point of interest, in world
     coordinates.
 @return {boolean} true if the given point is within this arc.
 */
@@ -904,7 +894,7 @@ Examples of reflected arcs:
 + If the arc goes from 0 to pi/4, then the reflected arc goes from pi to 5 pi/4.
 + If the arc goes from 0 to 3 pi/2, then the reflected arc goes from pi to 5 pi/2.
 
-@param {!myphysicslab.lab.util.Vector} p_edge the point of interest, in edge
+@param {!Vector} p_edge the point of interest, in edge
     coordinates.
 @return {boolean} true if the given point is within the reflected arc.
 */
@@ -923,7 +913,7 @@ CircularEdge.prototype.isWithinReflectedArc = function(p_edge) {
 through the center. Same as {@link #isWithinReflectedArc} but accepts a point in world
 coordinates.
 
-@param {!myphysicslab.lab.util.Vector} p_world the point of interest, in world
+@param {!Vector} p_world the point of interest, in world
     coordinates.
 @return {boolean} true if the given point is within the reflected arc.
 */
@@ -942,9 +932,9 @@ CircularEdge.prototype.maxDistanceTo = function(p_body) {
 
 + If the angle to p_body is within the arc, return p_body unchanged.
 + If the angle to p_body is outside of the arc, return the nearest endpoint of the arc.
-@param {!myphysicslab.lab.util.Vector} p_body  the point of interest, in body
+@param {!Vector} p_body  the point of interest, in body
     coordinates
-@return {!myphysicslab.lab.util.Vector} the nearest point (by angle) on this arc to the
+@return {!Vector} the nearest point (by angle) on this arc to the
     given point, in body coordinates
 */
 CircularEdge.prototype.nearestPointByAngle = function(p_body) {

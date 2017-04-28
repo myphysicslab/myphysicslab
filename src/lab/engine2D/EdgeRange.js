@@ -87,8 +87,8 @@ Assumption: Edges in set are contiguous in the Polygon's list of Edges.
 @todo check that Edges in set are contiguous in the Polygon's list of Edges
 
 * @param {!myphysicslab.lab.engine2D.Edge} edge  the Edge to start with
-* @return {!myphysicslab.lab.engine2D.EdgeRange} an EdgeRange representing all Edges
-*     connected to the starting Edge
+* @return {!EdgeRange} an EdgeRange representing all Edges connected to
+*     the starting Edge
 */
 EdgeRange.fromEdge = function(edge) {
   var beginIdx = edge.getIndex();
@@ -109,8 +109,7 @@ EdgeRange.fromEdge = function(edge) {
 
 /** Creates an EdgeRange containing all Edges of the given Polygon.
 * @param {!myphysicslab.lab.engine2D.Polygon} body  the Polygon of interest
-* @return {!myphysicslab.lab.engine2D.EdgeRange} an EdgeRange representing all Edges
-*     contained in the Polygon
+* @return {!EdgeRange} an EdgeRange representing all Edges contained in the Polygon
 */
 EdgeRange.fromPolygon = function(body) {
   return new EdgeRange(body, 0, body.getEdges().length-1);

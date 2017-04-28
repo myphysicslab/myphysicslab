@@ -16,7 +16,6 @@ goog.provide('myphysicslab.lab.engine2D.ContactSim');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('goog.vec.Float64Array');
 goog.require('myphysicslab.lab.engine2D.ComputeForces');
 goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
@@ -71,7 +70,8 @@ that are in continuous contact and exerting force on each other.
 
 The overall idea is to calculate the exact amount of force needed to *just barely*
 prevent the objects from penetrating. These contact forces are calculated in the
-{@link #evaluate} method, which is called by the {@link myphysicslab.lab.model.DiffEqSolver} at
+{@link #evaluate} method, which is called by the
+{@link myphysicslab.lab.model.DiffEqSolver} at
 the request of the {@link myphysicslab.lab.model.AdvanceStrategy} to advance the state
 of the simulation.
 

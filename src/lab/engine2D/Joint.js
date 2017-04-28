@@ -60,7 +60,7 @@ Joints are ***immutable***: they cannot be changed after they are constructed.
 
 When two RigidBodys are connected by a Joint,
 the two bodies are set to ***not collide*** with each other
-via {@link myphysicslab.lab.engine2D.RigidBody#addNonCollide}.
+via {@link RigidBody#addNonCollide}.
 
 The ***order of the bodies*** in the Joint is important because {@link #align} moves
 the *second body* to align with first body (unless the second body is immoveable because
@@ -83,8 +83,7 @@ Over time ***slippage*** of a Joint can occur, especially when there is fast rot
 the bodies. The ***tightness*** of a Joint is measured by how close to zero is the
 distance between the two attachment points. See {@link #getNormalDistance}.
 
-To attach to a ***fixed position in space*** use
-the {@link myphysicslab.lab.engine2D.Scrim} object.
+To attach to a ***fixed position in space*** use the {@link Scrim} object.
 Or attach to an immoveable (infinite mass) Polygon.
 
 The two attachment points can be widely separated in 'single joints',
@@ -97,7 +96,7 @@ push against each other.
 
 ### Specifying a Joint's Normal Vector
 
-When specifying a normal, we also specify the {@link myphysicslab.lab.model.CoordType},
+When specifying a normal, we also specify the {@link CoordType},
 which is either world coordinates or body coordinates. There are two cases:
 
 + `CoordType.WORLD` the normal is in world coordinates and is fixed.
@@ -150,7 +149,7 @@ RigidBodyCollision follows this policy.
     body
 @param {!CoordType} normalType  whether the normal is in body
     (for `rigidBody2`) or world coordinates,
-    from {@link myphysicslab.lab.model.CoordType}
+    from {@link CoordType}
 @param {!Vector} normal this Joint's normal vector in body
     (for `rigidBody2`) or world coordinates
 * @constructor

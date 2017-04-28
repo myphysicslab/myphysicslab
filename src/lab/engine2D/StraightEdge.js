@@ -17,7 +17,6 @@ goog.provide('myphysicslab.lab.engine2D.StraightEdge');
 goog.require('myphysicslab.lab.engine2D.AbstractEdge');
 goog.require('myphysicslab.lab.engine2D.CornerCornerCollision');
 goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -76,16 +75,15 @@ the Edge is outside of the body.
     x = -k/sqrt(1 + k^2)
 
 * @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon this Edge is a part of
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex1 the previous Vertex, in body coords
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex2 the next Vertex, in body coords
+* @param {!Vertex} vertex1 the previous Vertex, in body coords
+* @param {!Vertex} vertex2 the next Vertex, in body coords
 * @param {boolean} outsideIsUp `true` means the region above the Edge is outside of the
   Polygon (when viewed in body coordinates); for vertical Edge `true` means region right
   of Edge is outside.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.engine2D.AbstractEdge}
-* @implements {myphysicslab.lab.engine2D.Edge}
+* @extends {AbstractEdge}
 * @throws {Error} if `vertex1` is already connected to a 'next' Edge
 * @throws {Error} if `vertex2` is already connected to a 'previous' Edge
 */
@@ -117,10 +115,10 @@ StraightEdge.prototype.addPath = function(context) {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.Vertex} v the Vertex of interest
-* @param {!myphysicslab.lab.util.Vector} p_body the body coordinate position of the Vertex
+* @param {!Vertex} v the Vertex of interest
+* @param {!Vector} p_body the body coordinate position of the Vertex
 * @param {number} distTol the distance tolerance
-* @return {?myphysicslab.lab.engine2D.RigidBodyCollision}
+* @return {?RigidBodyCollision}
 * @private
 */
 StraightEdge.prototype.checkVertexVertex = function(v, p_body, distTol) {
@@ -470,11 +468,11 @@ StraightEdge.prototype.isStraight = function() {
 };
 
 /** Makes a Vertex/Vertex contact.
-* @param {!myphysicslab.lab.engine2D.Vertex} myV
-* @param {!myphysicslab.lab.engine2D.Vertex} otherV
-* @param {!myphysicslab.lab.util.Vector} p_body
+* @param {!Vertex} myV
+* @param {!Vertex} otherV
+* @param {!Vector} p_body
 * @param {number} dist
-* @return {?myphysicslab.lab.engine2D.RigidBodyCollision}
+* @return {?RigidBodyCollision}
 * @private
 */
 StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
@@ -524,9 +522,8 @@ This is the point on this line where a perpendicular would cross the given point
     qx = (-vy + py + px/k + k vx) / (1/k + k)
     qy = vy + k (qx - vx)
 
-* @param {!myphysicslab.lab.util.Vector} p_body the point on this Edge, in body
-*    coordinates
-* @return {!myphysicslab.lab.util.Vector} the projection of the given point onto the
+* @param {!Vector} p_body the point on this Edge, in body coordinates
+* @return {!Vector} the projection of the given point onto the
 *    extended line of this Edge
 */
 StraightEdge.prototype.projectionOntoLine = function(p_body) {

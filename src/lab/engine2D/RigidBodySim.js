@@ -48,8 +48,8 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var ConcreteLine = lab.model.ConcreteLine;
 var AbstractSubject = lab.util.AbstractSubject;
+var ConcreteLine = lab.model.ConcreteLine;
 var DampingLaw = lab.model.DampingLaw;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 var DoubleRect = lab.util.DoubleRect;
@@ -180,6 +180,7 @@ VarsList. Their position in the VarsList remains constant after they are allocat
 * @implements {myphysicslab.lab.model.ODESim}
 */
 myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
+  goog.asserts.assert(1 == 0);
   AbstractSubject.call(this, opt_name || 'SIM');
   /** The Polygons in this simulation.
   * @type {!Array<!Polygon>}
@@ -806,12 +807,10 @@ RigidBodySim.prototype.myPrint = function(message, colors) {
 };
 
 /** Sets the elasticity of all RigidBodys to this value.
-See {@link myphysicslab.lab.engine2D.RigidBody#setElasticity}.
 Elasticity is used when calculating collisions; a value of 1.0 means perfectly
 elastic where the kinetic energy after collision is the same as before (extremely
 bouncy), while a value of 0 means no elasticity (no bounce).
-
-Broadcasts a {@link #ELASTICITY_SET} event.
+Broadcasts a {@link #ELASTICITY_SET} event. See {@link RigidBody#setElasticity}.
 * @param {number} value elasticity to set on all RigidBodys, a number from 0 to 1.
 * @throws {Error} if there are no RigidBodys
 */

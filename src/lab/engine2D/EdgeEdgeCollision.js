@@ -24,10 +24,6 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -35,37 +31,36 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** A RigidBodyCollision between two Edges.
 
-* @param {!myphysicslab.lab.engine2D.Edge} primaryEdge the first Edge of the
-  collision
-* @param {!myphysicslab.lab.engine2D.Edge} normalEdge the second Edge of the
-  collision, which determines the normal vector
+* @param {!Edge} primaryEdge the first Edge of the collision
+* @param {!Edge} normalEdge the second Edge of the collision, which determines the
+*     normal vector
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.engine2D.RigidBodyCollision}
+* @extends {RigidBodyCollision}
 */
 myphysicslab.lab.engine2D.EdgeEdgeCollision = function(primaryEdge, normalEdge) {
   RigidBodyCollision.call(this, primaryEdge.getBody(), normalEdge.getBody(),
       /*joint=*/false);
   /** edge of primary object
-  * @type {!myphysicslab.lab.engine2D.Edge}
+  * @type {!Edge}
   * @private
   */
   this.primaryEdge = primaryEdge;
   /** edge of normal body
-  * @type {!myphysicslab.lab.engine2D.Edge}
+  * @type {!Edge}
   * @private
   */
   this.normalEdge = normalEdge;
   /** vector from primary body CM to primary edge's circle center, in world coords.
   * Cached value to speed up performance.
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @private
   */
   this.u1_ = null;
   /** vector from normal body CM to normal edge's circle center, in world coords.
   * Cached value to speed up performance.
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @private
   */
   this.u2_ = null;

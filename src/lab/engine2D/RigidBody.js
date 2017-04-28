@@ -14,26 +14,10 @@
 
 goog.provide('myphysicslab.lab.engine2D.RigidBody');
 
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var AffineTransform = myphysicslab.lab.util.AffineTransform;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Vector = myphysicslab.lab.util.Vector;
 
 /** A 2D rigid body with a specified geometry that can experience collisions and contact
 forces. A RigidBody handles the geometry calculations for intersections and
@@ -68,14 +52,13 @@ var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 /** Adds to set of RigidBodys that do not collide with this body.
 No collisions or contacts are generated between this body and the given bodies.
 See {@link #doesNotCollide}.
-@param {!Array<!myphysicslab.lab.engine2D.RigidBody>} bodies array of RigidBodys that
-    should not be collided with
+@param {!Array<!RigidBody>} bodies array of RigidBodys that should not be collided with
 */
 RigidBody.prototype.addNonCollide;
 
 /** Returns true if this body does not collide with the given body. See
 {@link #addNonCollide}.
-@param {!myphysicslab.lab.engine2D.RigidBody} body the RigidBody of interest
+@param {!RigidBody} body the RigidBody of interest
 @return {boolean} true if this body does not collide with the given body
 */
 RigidBody.prototype.doesNotCollide;
@@ -149,7 +132,7 @@ involved in the collision.
 RigidBody.prototype.getVelocityTol;
 
 /** Removes from set of RigidBodys that do not collide with this body.
-@param {!Array<!myphysicslab.lab.engine2D.RigidBody>} bodies array of RigidBodys that
+@param {!Array<!RigidBody>} bodies array of RigidBodys that
     should be collided with
 */
 RigidBody.prototype.removeNonCollide;

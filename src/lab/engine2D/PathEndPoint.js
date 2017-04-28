@@ -19,19 +19,19 @@ goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
+goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.NumericalPath');
+goog.require('myphysicslab.lab.model.PathPoint');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.engine2D.Scrim');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;
@@ -41,15 +41,13 @@ var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Vector = myphysicslab.lab.util.Vector;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
+var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** Generates a collision when the attachment point on a RigidBody moves past a certain
 point on a path so that the RigidBody cannot move past that point. The RigidBody would
@@ -61,17 +59,17 @@ and so can move along the path.
 Note that the current position of the body determines where on the path we detect
 the body is, and this is stored in a PathPoint. We do a global search over the
 entire path here for the closest point on the path to the attachment point, see
-{@link myphysicslab.lab.model.NumericalPath#findNearestGlobal},
+{@link NumericalPath#findNearestGlobal},
 whereas later on we do a local search starting at the current PathPoint position,
-see {@link myphysicslab.lab.model.NumericalPath#findNearestLocal}.
+see {@link NumericalPath#findNearestLocal}.
 
 NOTE: Does not deal with case where the body crosses the 'stitch' point in a closed
 loop path.
 
 @param {string} name the name of this SimObject
-@param {!myphysicslab.lab.model.NumericalPath} path the path to connect
-@param {!myphysicslab.lab.engine2D.RigidBody} body the RigidBody to connect
-@param {!myphysicslab.lab.util.Vector} attach_body the attachment point on the
+@param {!NumericalPath} path the path to connect
+@param {!RigidBody} body the RigidBody to connect
+@param {!Vector} attach_body the attachment point on the
     RigidBody in body coordinates
 @param {number} limit the limiting value of the path position, `p`, when the body moves
     beyond this then a collision is created.
@@ -80,25 +78,24 @@ loop path.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
-* @implements {myphysicslab.lab.engine2D.Connector}
-* @implements {myphysicslab.lab.model.SimObject}
+* @extends {AbstractSimObject}
+* @implements {Connector}
 */
 myphysicslab.lab.engine2D.PathEndPoint = function(name, path, body, attach_body, limit,
       upperLimit) {
   AbstractSimObject.call(this, name);
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @private
   */
   this.body_ = body;
   /** path that joint is attached to
-  * @type {!myphysicslab.lab.model.NumericalPath}
+  * @type {!NumericalPath}
   * @private
   */
   this.path_ = path;
   /** attachment point in body coords of this.body_
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.attach_body_ = attach_body;
@@ -123,12 +120,12 @@ myphysicslab.lab.engine2D.PathEndPoint = function(name, path, body, attach_body,
   // later we will use findNearestLocal which is a local not global minimum.
   var point = this.body_.bodyToWorld(this.attach_body_);
   /** current position along the path
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.ppt_ =this.path_.findNearestGlobal(point);
   /** last position along the path
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.ppt_old_ = new PathPoint(this.ppt_.p);
@@ -193,8 +190,7 @@ PathEndPoint.prototype.align = function() {
 };
 
 /** Returns the attachment point on the RigidBody in body coordinates.
-@return {!myphysicslab.lab.util.Vector} the attachment point on the RigidBody in body
-    coordinates
+@return {!Vector} the attachment point on the RigidBody in body coordinates
 */
 PathEndPoint.prototype.getAttach1 = function() {
   return this.attach_body_;

@@ -16,17 +16,17 @@ goog.provide('myphysicslab.lab.engine2D.Shapes');
 
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.CircularEdge');
+goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.StraightEdge');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 goog.scope(function() {
 
-var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
+var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
@@ -423,7 +423,7 @@ Shapes.makeRoundCornerBlock = function(width, height, radius, opt_name, opt_loca
 proximity testing to be done for this Polygon. The other edges of this
 Polygon are given zero centroid radius, so that they are effectively never used for
 collision testing.
-See {@link myphysicslab.lab.engine2D.Polygon#getSpecialNormalWorld}.
+See {@link Polygon#getSpecialNormalWorld}.
 
 @param {number} width width of the wall, horizontal dimension in body orientation
 @param {number} height height of the wall, vertical dimension in body orientation

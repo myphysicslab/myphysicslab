@@ -47,7 +47,7 @@ only Polygons are on that list.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.engine2D.RigidBody}
+* @implements {RigidBody}
 * @private
 */
 myphysicslab.lab.engine2D.Scrim = function() {};
@@ -55,13 +55,13 @@ myphysicslab.lab.engine2D.Scrim = function() {};
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 
 /**
-* @type {!myphysicslab.lab.engine2D.Scrim}
+* @type {!Scrim}
 * @private
 */
 Scrim.singleton = new Scrim();
 
 /** Returns the singleton instance of Scrim.
-* @return {!myphysicslab.lab.engine2D.Scrim} the singleton instance of Scrim
+* @return {!Scrim} the singleton instance of Scrim
 */
 Scrim.getScrim = function() {
   return Scrim.singleton;

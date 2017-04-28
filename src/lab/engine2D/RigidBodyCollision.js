@@ -16,7 +16,6 @@ goog.provide('myphysicslab.lab.engine2D.RigidBodyCollision');
 
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.model.Collision');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
@@ -34,7 +33,6 @@ var NFSCI = UtilityCore.NFSCI;
 var Vector = myphysicslab.lab.util.Vector;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Collision = myphysicslab.lab.model.Collision;
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 
 /** RigidBodyCollision holds data related to a collision or resting contact between two
 RigidBodys.  The data includes:
@@ -226,26 +224,25 @@ the two bodies). Wait, also things like ballObject, ballNormal.
 they are only stored in the RBC for convenience to avoid re-calculating. (would it be
 better to do that calculating in one place?)
 
-* @param {!myphysicslab.lab.engine2D.RigidBody} body the 'primary' body which typically
-    has a Vertex or Edge involved in the collision
-* @param {!myphysicslab.lab.engine2D.RigidBody} normalBody the 'normal' body which
-    typically has an Edge involved in the collision that defines the normal vector
-    for the collision
+* @param {!RigidBody} body the 'primary' body which typically has a Vertex or Edge
+    involved in the collision
+* @param {!RigidBody} normalBody the 'normal' body which typically has an Edge
+    involved in the collision that defines the normal vector for the collision
 * @param {boolean} joint whether this is a bilateral constraint which can both
     push and pull.
 * @constructor
 * @abstract
 * @struct
-* @implements {myphysicslab.lab.model.Collision}
+* @implements {Collision}
 */
 myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint) {
   /** 'primary' object whose corner or edge is colliding
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @package
   */
   this.primaryBody = body;
   /**  object corresponding to the normal (its edge defines the normal vector)
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @package
   */
   this.normalBody = normalBody;
@@ -310,13 +307,13 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   */
   this.ballNormal = false;
   /** point of impact, in global coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @package
   */
   this.impact1 = Vector.ORIGIN;
   /** second impact point needed for Rope because the impact points are far apart.
   * OPTIONAL point of impact on normalBody, in global coords
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @package
   */
   this.impact2 = null;
@@ -331,12 +328,12 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   */
   this.detectedDistance_ = UtilityCore.NaN;
   /** normal pointing outward from normalObj, in world coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @package
   */
   this.normal = Vector.NORTH;
   /** derivative of normal vector with respect to time
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @package
   */
   this.normal_dt = null;
@@ -537,8 +534,7 @@ RigidBodyCollision.prototype.getEstimatedTime = function() {
 };
 
 /** Returns point of impact on the primary body, in global coords.
-* @return {!myphysicslab.lab.util.Vector} point of impact on the primary body,
-*     in global coords
+* @return {!Vector} point of impact on the primary body, in global coords
 * @package
 */
 RigidBodyCollision.prototype.getImpact1 = function() {
@@ -548,8 +544,7 @@ RigidBodyCollision.prototype.getImpact1 = function() {
 /** Returns point of impact on normal body, in global coords. For example, this is
 needed for Rope because the impact points are far apart. Often null when only
 {@link #getImpact1} is needed.
-* @return {?myphysicslab.lab.util.Vector} point of impact on normal body, in global
-*     coords, or null
+* @return {?Vector} point of impact on normal body, in global coords, or null
 * @package
 */
 RigidBodyCollision.prototype.getImpact2 = function() {
@@ -577,8 +572,7 @@ RigidBodyCollision.prototype.getLateralVelocity = function() {
 /** Returns the normal body involved in the collision, which defines the normal vector.
 * The classic situation is that a vertex on the primary body is colliding into an edge
 * on the normal body, but there are many variations on this.
-* @return {!myphysicslab.lab.engine2D.RigidBody} the normal body involved in the
-*     collision
+* @return {!RigidBody} the normal body involved in the collision
 * @package
 */
 RigidBodyCollision.prototype.getNormalBody = function() {
@@ -622,8 +616,7 @@ RigidBodyCollision.prototype.getR2 = function() {
 /** Returns the primary body involved in the collision. The primary body does not
 * define the normal.  The classic situation is that a vertex on the primary body is
 * colliding into an edge on the normal body, but there are many variations on this.
-* @return {!myphysicslab.lab.engine2D.RigidBody} the primary body involved in the
-*     collision
+* @return {!RigidBody} the primary body involved in the collision
 * @package
 */
 RigidBodyCollision.prototype.getPrimaryBody = function() {
@@ -646,7 +639,7 @@ not the motion of the individual point but instead the entire curved edge. Consi
 for a ball with center of mass at center of the circle, rotation doesn't change the
 distance at all.
 
-* @return {!myphysicslab.lab.util.Vector} the velocity vector of this collision
+* @return {!Vector} the velocity vector of this collision
 * @package
 */
 RigidBodyCollision.prototype.getRelativeVelocity = function() {
@@ -702,7 +695,7 @@ RigidBodyCollision.prototype.getVelocity = function() {
 };
 
 /** Whether this collision involves the given RigidBody
-* @param {!myphysicslab.lab.engine2D.RigidBody} body the RigidBody of interest
+* @param {!RigidBody} body the RigidBody of interest
 * @return {boolean} whether collision involves the given RigidBody
 * @package
 */
@@ -796,9 +789,11 @@ RigidBodyCollision.prototype.setNeedsHandling = function(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
 
-/** Returns whether this collision is similar to the given collision.
-* @param {!myphysicslab.lab.engine2D.RigidBodyCollision} c the other collision
-* @return {boolean} true if the two collisions are similar
+/** Returns whether this collision could be the same as another collision. Often there
+are several collisions found at a single location by the various collision detection
+mechanisms, and this is used when deciding which collision of those to keep.
+* @param {!RigidBodyCollision} c the other collision
+* @return {boolean} true if the two collisions are possibly the same collision
 * @abstract
 */
 RigidBodyCollision.prototype.similarTo = function(c) {};

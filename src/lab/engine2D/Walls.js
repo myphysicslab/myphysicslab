@@ -36,9 +36,8 @@ var Shapes = myphysicslab.lab.engine2D.Shapes;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Factory for making a set of four walls arranged in rectangle to form an
-enclosed space.
-See {@link myphysicslab.lab.engine2D.Shapes#makeWall}.
+/** Factory for making a set of four walls arranged in rectangle to form an enclosed
+space. See {@link Shapes#makeWall}.
 
 @constructor
 @final
@@ -55,8 +54,7 @@ height and centered at the given location. Each wall is given infinite mass. The
 are named according to the constants {@link #WALL_BOTTOM}, {@link #WALL_TOP},
 {@link #WALL_LEFT}, {@link #WALL_RIGHT}.
 
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim the RigidBodySim to which the walls
-    are added
+@param {!RigidBodySim} sim the RigidBodySim to which the walls are added
 @param {number} width the horizontal distance between the walls
 @param {number} height the vertical distance between the walls
 @param {number=} opt_thickness  the thickness of each wall
@@ -69,10 +67,10 @@ Walls.make = function(sim, width, height, opt_thickness, opt_center) {
   var thickness = opt_thickness || 1;
   var i, j;
   var zel = 0;
-  /** @type {!Array<!myphysicslab.lab.engine2D.RigidBody>} */
+  /** @type {!Array<!RigidBody>} */
   var walls = [];
   for (i=0; i<4; i++) {
-    /** @type {?myphysicslab.lab.engine2D.RigidBody} */
+    /** @type {?RigidBody} */
     var bodyi = null;
     switch (i) {
       case 0:
@@ -117,9 +115,8 @@ Walls.make = function(sim, width, height, opt_thickness, opt_center) {
 
 /** Makes four walls of given thickness, with interior rectangle equal to the given
 rectangle.
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim the RigidBodySim to which the walls
-    are added
-@param {!myphysicslab.lab.util.DoubleRect} rect the interior rectangle of the walls
+@param {!RigidBodySim} sim the RigidBodySim to which the walls are added
+@param {!DoubleRect} rect the interior rectangle of the walls
 @param {number=} opt_thickness  the thickness of each wall
 @return {number} suggested zero potential energy level -- the top of the bottom wall.
 */

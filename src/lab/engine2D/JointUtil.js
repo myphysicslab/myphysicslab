@@ -43,17 +43,14 @@ myphysicslab.lab.engine2D.JointUtil = function() {
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 
 /** Creates a single Joint to attach a RigidBody to a fixed point on the singleton
-{@link myphysicslab.lab.engine2D.Scrim}, at the current world position of the attachment
-point. See {@link myphysicslab.lab.engine2D.Scrim.getScrim}.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim the ContactSim to which the Joint is
-    added
+{@link Scrim}, at the current world position of the attachment point.
+See {@link Scrim#getScrim}.
+@param {!ContactSim} sim the ContactSim to which the Joint is added
 @param {!RigidBody} body the RigidBody to add joints to
-@param {!Vector} attach_body the point to place the Joint in body
-    coordinates
+@param {!Vector} attach_body the point to place the Joint in body coordinates
 @param {!CoordType} normalType whether the normal should be in
-    body or world coords, from {@link myphysicslab.lab.model.CoordType}.
-@param {!Vector} normal the normal Vector that determines the
-    direction of the Joint
+    body or world coords, from {@link CoordType}.
+@param {!Vector} normal the normal Vector that determines the direction of the Joint
 @return {!Joint} the Joint that is created
 */
 JointUtil.addSingleFixedJoint = function(sim, body, attach_body, normalType, normal) {
@@ -65,18 +62,14 @@ JointUtil.addSingleFixedJoint = function(sim, body, attach_body, normalType, nor
 
 /** Creates a single Joint to attach two RigidBodys. The second body is moved to align
 with the first body, see {@link #align}.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim the ContactSim to which the Joint is
-    added
+@param {!ContactSim} sim the ContactSim to which the Joint is added
 @param {!RigidBody} body1 the first RigidBody
-@param {!Vector} attach1_body the attachment point on `body1`, in
-    body coordinates
+@param {!Vector} attach1_body the attachment point on `body1`, in body coordinates
 @param {!RigidBody} body2 the second RigidBody
-@param {!Vector} attach2_body the attachment point on body2 in
-    body coordinates
+@param {!Vector} attach2_body the attachment point on body2 in body coordinates
 @param {!CoordType} normalType whether the normal is in body or
-    world coords, from {@link myphysicslab.lab.model.CoordType}.
-@param {!Vector} normal the normal Vector that determines the
-    direction of the Joint
+    world coords, from {@link CoordType}.
+@param {!Vector} normal the normal Vector that determines the direction of the Joint
 @return {!Joint} the Joint that is created
 */
 JointUtil.addSingleJoint = function(sim, body1, attach1_body, body2, attach2_body,
@@ -90,17 +83,15 @@ JointUtil.addSingleJoint = function(sim, body1, attach1_body, body2, attach2_bod
   return j1;
 };
 
-/** Creates two Joints with perpendicular normals to attach a RigidBody
-to a fixed point on the singleton {@link myphysicslab.lab.engine2D.Scrim},
-at the current world position of the attachment point.
-See {@link myphysicslab.lab.engine2D.Scrim.getScrim}.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim the ContactSim to which the Joint is
-    added
+/** Creates two Joints with perpendicular normals to attach a RigidBody to a fixed
+point on the singleton {@link Scrim}, at the current world position of the attachment
+point. See {@link Scrim#getScrim}.
+@param {!ContactSim} sim the ContactSim to which the Joint is added
 @param {!RigidBody} body the RigidBody to add joints to
 @param {!Vector} attach_body the point on the RigidBody to place
     the joints, in body coordinates
 @param {!CoordType} normalType whether the normal should be in
-    body or world coords, from {@link myphysicslab.lab.model.CoordType}.
+    body or world coords, from {@link CoordType}.
 */
 JointUtil.attachFixedPoint = function(sim, body, attach_body, normalType) {
   JointUtil.attachRigidBody(sim,
@@ -110,19 +101,17 @@ JointUtil.attachFixedPoint = function(sim, body, attach_body, normalType) {
 };
 
 /** Creates two Joints with perpendicular normals to attach two RigidBodys. The second
-body is moved to align with the first body, see
-{@link #align}. The normal vectors are `(0, 1)` and `(1, 0)`, in
-either body coordinates or world coordinates as specified by the CoordType.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim the ContactSim to which the Joint is
+body is moved to align with the first body, see {@link #align}. The normal vectors are
+`(0, 1)` and `(1, 0)`, in either body coordinates or world coordinates as specified by
+the CoordType.
+@param {!ContactSim} sim the ContactSim to which the Joint is
     added
 @param {!RigidBody} body1 the first RigidBody
-@param {!Vector} attach1_body the attachment point on `body1`, in
-    body coordinates
+@param {!Vector} attach1_body the attachment point on `body1`, in body coordinates
 @param {!RigidBody} body2 the second RigidBody
-@param {!Vector} attach2_body the attachment point on `body2`, in
-    body coordinates
+@param {!Vector} attach2_body the attachment point on `body2`, in body coordinates
 @param {!CoordType} normalType whether the normal should be in
-    body or world coords, from {@link myphysicslab.lab.model.CoordType}.
+    body or world coords, from {@link CoordType}.
 */
 JointUtil.attachRigidBody = function(sim, body1, attach1_body, body2, attach2_body,
     normalType) {

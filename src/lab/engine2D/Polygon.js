@@ -21,6 +21,7 @@ goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
 goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.EdgeSet');
+goog.require('myphysicslab.lab.engine2D.LocalCoords');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.StraightEdge');
@@ -28,7 +29,6 @@ goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.model.AbstractMassObject');
-goog.require('myphysicslab.lab.engine2D.LocalCoords');
 goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -49,6 +49,7 @@ var Edge = myphysicslab.lab.engine2D.Edge;
 var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
+var MassObject = myphysicslab.lab.model.MassObject;
 var MutableVector = myphysicslab.lab.util.MutableVector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
@@ -68,8 +69,7 @@ See [2D Physics Engine Overview](Engine2D.html) about the rigid body physics eng
 
 For explanation of **body vs. world coordinates** see
 [Body Coordinates](Engine2D.html#bodycoordinates),
-{@link myphysicslab.lab.model.MassObject}
-and {@link myphysicslab.lab.model.CoordType}.
+{@link MassObject} and {@link myphysicslab.lab.model.CoordType}.
 
 Methods that return a location often have
 names ending with either 'body' or 'world' to indicate the coordinate system. Similarly, parameters of methods often end with 'body' or 'world'.
@@ -97,12 +97,11 @@ A path is used when drawing the Polygon. For collision handling, the collection 
 Edges and Vertexes are what matters, how they are linked into a path is irrelevant.
 
 The Edges in a Polygon are stored in an array, and Edges can be referred to by their
-index in this array, see {@link #getEdges} and
-{@link myphysicslab.lab.engine2D.Edge#getIndex}.
+index in this array, see {@link #getEdges} and {@link Edge#getIndex}.
 
 The list of Vertexes may include automatically generated 'mid-point Vertexes' for curved
 Edges. These Vertexes are added to give better collision detection for curved Edges. See
-{@link myphysicslab.lab.engine2D.Vertex} about end-point vs. mid-point Vertexes.
+{@link Vertex} about end-point vs. mid-point Vertexes.
 
 
 ### Creating a Polygon
@@ -140,7 +139,7 @@ There is a similar centroid and centroid radius for each Edge, which gives the s
 circle that encloses that Edge.
 
 Some of the proximity tests can be found in
-{@link myphysicslab.lab.engine2D.UtilityCollision#checkVertexes}. Of note is that we expand the
+{@link UtilityCollision#checkVertexes}. Of note is that we expand the
 centroid radius by the distance that the Vertex has travelled during the current time
 step. And that we use the *distance squared* in these tests, to avoid the computational
 cost of the square root function.
@@ -184,7 +183,7 @@ the last time step. See {@link #saveOldCoords}, {@link #getOldCoords}, and
 ### Minimum Height
 
 The minimum height of a Polygon is used for potential energy calculations, see
-{@link myphysicslab.lab.engine2D.Polygon#getMinHeight}.
+{@link #getMinHeight}.
 
 The minimum height can be explicitly set for each Polygon, see {@link #setMinHeight}.
 If it is not set, the method  {@link #getMinHeight} will try
@@ -1247,7 +1246,7 @@ Polygon.prototype.setMass = function(mass) {
 other Polygons; replaces any existing non-collide EdgeSet. No collisions or contacts
 are generated between this Polygon and the Edges in the given EdgeSet.
 Use this when some parts of a Polygon **DO** interact.  If **NO** parts interact then
-see {@link myphysicslab.lab.engine2D.RigidBody#addNonCollide}.
+see {@link RigidBody#addNonCollide}.
 @param {!EdgeSet} nonCollideSet  the set of other body edges
     to not collide with
 */

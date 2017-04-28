@@ -19,9 +19,7 @@ goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
@@ -32,7 +30,6 @@ goog.scope(function() {
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
-var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
@@ -41,7 +38,6 @@ var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -71,21 +67,21 @@ contact distance tolerance). Moves the second body to align with the first body,
 maintaining the angle between them if possible.
 
 
-* @param {!myphysicslab.lab.engine2D.RigidBody} body1  the first body; can be an
+* @param {!RigidBody} body1  the first body; can be an
   immoveable object like Scrim or an infinite mass Polygon
-* @param {!myphysicslab.lab.util.Vector} attach1_body attachment point in body coords
+* @param {!Vector} attach1_body attachment point in body coords
   for body1
-* @param {!myphysicslab.lab.engine2D.RigidBody} body2 the second body; must be moveable
+* @param {!RigidBody} body2 the second body; must be moveable
   with finite mass
-* @param {!myphysicslab.lab.util.Vector} attach2 attachment point in body coords for
+* @param {!Vector} attach2 attachment point in body coords for
   body2
 * @param {number} length  the maximum length of the rope (or fixed length of rod)
 * @param {number} ropeType  1 means rope, 2 means rod.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
-* @implements {myphysicslab.lab.engine2D.Connector}
+* @extends {AbstractSimObject}
+* @implements {Connector}
 * @implements {myphysicslab.lab.model.Line}
 */
 myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, length,
@@ -95,22 +91,22 @@ myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, l
     throw new Error('body2 must have finite mass');
   }
   /**
-  @type {!myphysicslab.lab.engine2D.RigidBody}
+  @type {!RigidBody}
   @private
   */
   this.body1_ = body1;
   /**
-  @type {!myphysicslab.lab.util.Vector}
+  @type {!Vector}
   @private
   */
   this.attach1_body_ = attach1_body;
   /** second body
-  @type {!myphysicslab.lab.engine2D.RigidBody}
+  @type {!RigidBody}
   @private
   */
   this.body2_ = body2;
   /**
-  @type {!myphysicslab.lab.util.Vector}
+  @type {!Vector}
   @private
   */
   this.attach2_body_ = attach2;
@@ -138,7 +134,7 @@ myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, l
   this.veloTol_ = Math.max(this.body1_.getVelocityTol(), this.body2_.getVelocityTol());
 };
 var Rope = myphysicslab.lab.engine2D.Rope;
-goog.inherits(Rope, myphysicslab.lab.model.AbstractSimObject);
+goog.inherits(Rope, AbstractSimObject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */

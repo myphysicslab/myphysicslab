@@ -29,8 +29,8 @@ var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MutableVector = myphysicslab.lab.util.MutableVector;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
+var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF7E = myphysicslab.lab.util.UtilityCore.NF7E;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var Random = myphysicslab.lab.util.Random;
@@ -62,7 +62,7 @@ var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 
 /** Contains the most recently created RigidBodySim, ***for debugging only***. Provides
 a shortcut to make lines and circles from anywhere in the engine2D code.
-* @type {?myphysicslab.lab.engine2D.DebugEngine2D}
+* @type {?DebugEngine2D}
 */
 UtilEngine.debugEngine2D = null;
 
@@ -147,7 +147,7 @@ UtilEngine.checkArrayNaN = function(x) {
 };
 
 /**
-* @param {!Array<!myphysicslab.lab.util.MutableVector>} p
+* @param {!Array<!MutableVector>} p
 * @return {number}
 * @private
 */
@@ -182,9 +182,9 @@ The line of the normal through p2 is y - p2y = (-1/k)(x - p2x)
 Solve these two equations to get the intersection point q
 qx = (-p1y + p2y + k p1x + p2x/k ) / (1/k + k)
 qy = p1y + k (qx - p1x)
-* @param {!myphysicslab.lab.util.Vector} p1 the point the normal passes thru
-* @param {!myphysicslab.lab.util.Vector} n the normal at point `p1`
-* @param {!myphysicslab.lab.util.Vector} p2 the point of interest
+* @param {!Vector} p1 the point the normal passes thru
+* @param {!Vector} n the normal at point `p1`
+* @param {!Vector} p2 the point of interest
 * @return {number} distance from the point `p2` to the line formed by erecting a normal
 *    at point `p1`
 */
@@ -255,7 +255,7 @@ now successful completion only depends on the
 distance between points becoming small.
 
 
-@param {!Array<!myphysicslab.lab.util.MutableVector>} p  the starting 3 points for the search
+@param {!Array<!MutableVector>} p  the starting 3 points for the search
 @param {function(!GenericVector): number} f  the objective function to minimize,
         a function of two values contained in the GenericVector.
 @param {number} tolerance  the search ends when the simplex edges are smaller than
@@ -264,7 +264,7 @@ distance between points becoming small.
         the number of iterations taken in info[0],
         and whether the algorithm was successful in info[1]
         where 1 means failure, 0 means success.
-@return {!myphysicslab.lab.util.Vector} the two values where the minimum was found
+@return {!Vector} the two values where the minimum was found
 */
 UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
   var i;
@@ -465,11 +465,11 @@ floating point errors, we can miss finding an intersection in that case. Adding 
 tolerance extends the edge slightly and lets us find an intersection.
 See {@link myphysicslab.test.StraightStraightTest#acute_corners_setup}.
 
-@param {!myphysicslab.lab.util.Vector} p1  point 1, start of first line
-@param {!myphysicslab.lab.util.Vector} p2  point 2, end of first line
-@param {!myphysicslab.lab.util.Vector} p3  point 3, start of second line
-@param {!myphysicslab.lab.util.Vector} p4  point 4, end of second line
-@return {?myphysicslab.lab.util.Vector} the intersection point, or `null` if the line
+@param {!Vector} p1  point 1, start of first line
+@param {!Vector} p2  point 2, end of first line
+@param {!Vector} p3  point 3, start of second line
+@param {!Vector} p4  point 4, end of second line
+@return {?Vector} the intersection point, or `null` if the line
     segments do not intersect
 */
 UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
@@ -589,7 +589,7 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
 };
 
 /**
-* @param {!Array<!myphysicslab.lab.util.MutableVector>} p
+* @param {!Array<!MutableVector>} p
 * @return {number}
 * @private
 */
@@ -1277,7 +1277,7 @@ UtilEngine.newMatrixFromArray2 = function(n, a) {
 
 /**
 * @param {!Array<number>} v
-* @param {!Array<!myphysicslab.lab.util.MutableVector>} p
+* @param {!Array<!MutableVector>} p
 * @param {number} i
 * @param {number} j
 * @private

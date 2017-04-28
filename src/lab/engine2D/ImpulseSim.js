@@ -604,9 +604,6 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
         // use lengthCheap because this is a rough test that happens a lot.
         speeding = bod1.getVelocity().lengthCheap()
                   + bod2.getVelocity().lengthCheap() > speed_limit;
-        //this.myPrint('velocity '+NF5(bod1.getVelocity().length()
-        //  + bod2.getVelocity().length())+' <  speed limit = '+
-        //  NF5(speed_limit)+' step='+NF5(stepSize));
       } else {
         // this section turns off the proximity check, and issues a periodic warning
         if (this.getTime() - this.warningTime_ > 5) {
@@ -977,7 +974,7 @@ so that both its corners hit simultaneously -- with hybrid option the block boun
 straight up without spinning, because both collisions are treated simultaneously.
 Hybrid works more correctly than simultaneous in cases like the 'one hits two'
 scenario, or in Newton's Cradle.
-See {@link com.myphysicslab.test.engine2D.MultipleCollisionTest} for other
+See {@link myphysicslab.test.MultipleCollisionTest} for other
 examples.
 
 Contacts are treated with elasticity zero when there are *only contacts* in the set of

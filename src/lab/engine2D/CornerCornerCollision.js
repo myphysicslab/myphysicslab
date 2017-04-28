@@ -18,23 +18,21 @@ goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** A RigidBodyCollision between two corners.
 
-* @param {!myphysicslab.lab.engine2D.Vertex} vertex
-* @param {!myphysicslab.lab.engine2D.Vertex} normalVertex
+* @param {!Vertex} vertex
+* @param {!Vertex} normalVertex
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.engine2D.RigidBodyCollision}
+* @extends {RigidBodyCollision}
 */
 myphysicslab.lab.engine2D.CornerCornerCollision = function(vertex, normalVertex) {
   var v_edge = vertex.getEdge1();
@@ -45,20 +43,16 @@ myphysicslab.lab.engine2D.CornerCornerCollision = function(vertex, normalVertex)
   }
   RigidBodyCollision.call(this, v_edge.getBody(), nv_edge.getBody(), /*joint=*/false);
   /** the vertex of the primary object
-  * @type {!myphysicslab.lab.engine2D.Vertex}
+  * @type {!Vertex}
   * @private
   */
   this.vertex = vertex;
   /** vertex on normal body for a vertex/vertex collision
-  * @type {!myphysicslab.lab.engine2D.Vertex}
+  * @type {!Vertex}
   * @private
   */
   this.normalVertex = normalVertex;
 };
-/**
-* @alias myphysicslab.lab.engine2D.CornerCornerCollision
-* @ignore
-*/
 var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
 goog.inherits(CornerCornerCollision, RigidBodyCollision);
 

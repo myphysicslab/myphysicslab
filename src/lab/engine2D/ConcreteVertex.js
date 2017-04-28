@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var Edge = myphysicslab.lab.engine2D.Edge;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -29,11 +30,11 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** Concrete implementation of Vertex interface.
 *
-* @param {!myphysicslab.lab.util.Vector} v_body location of this Vertex in body coords
+* @param {!Vector} v_body location of this Vertex in body coords
 *    of the Polygon it belongs to
 * @param {boolean=} opt_endPoint whether this is the endpoint of an edge, default is
 *    `true`
-* @param {?myphysicslab.lab.engine2D.Edge=} opt_edge previous edge (optional)
+* @param {?Edge=} opt_edge previous edge (optional)
 * @constructor
 * @final
 * @struct
@@ -41,7 +42,7 @@ var Vector = myphysicslab.lab.util.Vector;
 */
 myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_edge) {
   /** location in body coordinates of the RigidBody that this Vertex belongs to
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.loc_body_ = v_body;
@@ -51,12 +52,12 @@ myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_ed
   */
   this.endPoint_ = goog.isDef(opt_endPoint) ? opt_endPoint : true;
   /** the previous edge in list of edges
-  * @type {?myphysicslab.lab.engine2D.Edge}
+  * @type {?Edge}
   * @private
   */
   this.edge_ = goog.isDef(opt_edge) ? opt_edge : null;
   /** the next edge in list of edges -- null for mid-point Vertexes
-  * @type {?myphysicslab.lab.engine2D.Edge}
+  * @type {?Edge}
   * @private
   */
   this.edge2_ = null;

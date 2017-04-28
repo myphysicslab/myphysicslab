@@ -14,8 +14,8 @@
 
 goog.provide('myphysicslab.lab.engine2D.EdgeSet');
 
-/** Specifies a set of Edges of a Polygon.
-
+/** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s of a
+{@link myphysicslab.lab.engine2D.Polygon}.
 * @interface
 */
 myphysicslab.lab.engine2D.EdgeSet = function() {};

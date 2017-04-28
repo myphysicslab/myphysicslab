@@ -600,25 +600,20 @@ UtilityCollision.subsetCollisions2 = function(superset, startC, hybrid, v,
 };
 
 /** Tests for collision or contact of a Polygon with a Vertex.  If a collision
-or contact is found, adds a new
-{@link myphysicslab.lab.engine2D.RigidBodyCollision RigidBodyCollision}
-to the list of collisions.
+or contact is found, adds a new {@link RigidBodyCollision} to the list of collisions.
 
 @todo  there may be opportunities to save computing time by calculating
 distance squared instead of distance, and selecting the proper distance
 from among those that got calculated (instead of recalculating the distance
 yet again when making the collision record).
 
-@param {!Array<!RigidBodyCollision>} collisions  the list of
-    collisions (and contacts) to add to
-@param {!myphysicslab.lab.engine2D.Polygon} body1 the first Polygon whose edges we are
+@param {!Array<!RigidBodyCollision>} collisions  the list of collisions to add to
+@param {!myphysicslab.lab.engine2D.Polygon} body1 the Polygon whose edges we are
     checking for collisions
 @param {!Vertex} vertex2 the Vertex of body2
-@param {!Vector} v_body  the current position of vertex2 in body
-    coords of body1
-@param {!Vector} v_body_old the position of vertex2 at the last
-    time step in body coords of body1,
-    see {@link myphysicslab.lab.engine2D.Polygon#saveOldCoords}
+@param {!Vector} v_body  the current position of vertex2 in body coords of body1
+@param {!Vector} v_body_old the position of vertex2 at the last time step in body
+    coords of body1, see {@link myphysicslab.lab.engine2D.Polygon#saveOldCoords}
 @param {number} travelDist  the distance between v_body and v_body_old
 @param {number} time current simulation time
 @private
