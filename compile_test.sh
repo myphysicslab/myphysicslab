@@ -98,22 +98,10 @@ fi
 #
 # compilation_levels: WHITESPACE_ONLY, SIMPLE, ADVANCED
 #
-# This option turns on NTI (new type inference):
-#--jscomp_warning=newCheckTypes \
-#
-# As of Mar 2017, I am trying to use NTI for warnings only, and turning off
-# warnings for closure library:
+# These options turn on NTI (new type inference):
 #--new_type_inf \
 #--jscomp_warning=newCheckTypes \
-#--jscomp_off=newCheckTypesExtraChecks \
-#--hide_warnings_for=`readlink closure-library` \
 #
-# As of Apr 2017, I've removed the above NTI settings because there are some
-# errors that NTI is missing.  See closure compiler issues 2415, 2416.
-#
-# Apr 2017: remove option --language_in=ECMASCRIPT5_STRICT \ because of
-# https://github.com/google/closure-library/issues/820
-# "error in jsunit when using ES5 strict mode"
 #
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
 set -x
@@ -187,6 +175,7 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
 --emit_use_strict \
+--language_in=ECMASCRIPT5_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
 --new_type_inf \
 --jscomp_warning=newCheckTypes \

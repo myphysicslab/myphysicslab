@@ -176,20 +176,9 @@ fi
 # Without --new_type_inf, interfaces are loosely checked, and any possible
 # property is OK when used on an interface.  See issue #826 and notes/test20150216.
 #
-# As of Feb 2017, the way to specify NTI usage is changing. newCheckTypes now
-# implies new_type_inf.
-# --new_type_inf \
-# --jscomp_error=newCheckTypes \
-# --jscomp_off=newCheckTypesExtraChecks \
-#
-# As of Mar 2017, I am trying to use NTI for warnings only, and turning off
-# warnings for closure library:
+# These options turn on NTI (new type inference):
 #--new_type_inf \
 #--jscomp_warning=newCheckTypes \
-#--jscomp_off=newCheckTypesExtraChecks \
-#--hide_warnings_for=`readlink closure-library` \
-#
-# As of Apr 2017, no longer using the option --jscomp_off=newCheckTypesExtraChecks.
 #
 # Use this to turn conformance violations from warning to error:
 #--jscomp_error=conformanceViolations \
