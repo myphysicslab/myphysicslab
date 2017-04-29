@@ -36,7 +36,7 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.util.GenericVector}
+* @implements {GenericVector}
 */
 myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
   /** @type {number} */

@@ -21,40 +21,42 @@ goog.require('myphysicslab.lab.view.LabView');
 
 goog.scope(function() {
 
+var CoordMap = myphysicslab.lab.view.CoordMap;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
+var LabView = myphysicslab.lab.view.LabView;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** Pans (translates) a LabView to follow mouse movements.
 See 'LabView Panning' in {@link myphysicslab.lab.app.SimController}.
 
-@param {!myphysicslab.lab.view.LabView} view the LabView to pan
-@param {!myphysicslab.lab.util.Vector} start_screen initial mouse position in
-    LabCanvas screen coordinates
+@param {!LabView} view the LabView to pan
+@param {!Vector} start_screen initial mouse position in LabCanvas screen coordinates
 @constructor
 @final
 @struct
 */
 myphysicslab.lab.app.ViewPanner = function(view, start_screen) {
   /** the LabView being panned
-  * @type {!myphysicslab.lab.view.LabView}
+  * @type {!LabView}
   * @private
   */
   this.view_ = view;
   /**  LabView's initial CoordMap at mouse down event, for LabView panning.
   * We keep the initial coordmap because later we will do LabView.setSimRect
   * which will change the LabView's coordmap.
-  * @type {!myphysicslab.lab.view.CoordMap}
+  * @type {!CoordMap}
   * @private
   */
   this.panMap_ = view.getCoordMap();
   var sr = view.getSimRect();
   /** center of simRect in panMap screen coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.center_screen_ = this.panMap_.simToScreen(sr.getCenter());
   /** initial mouse down location in LabCanvas screen coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.start_screen_ = start_screen;
@@ -63,8 +65,7 @@ var ViewPanner = myphysicslab.lab.app.ViewPanner;
 
 /** Modifies the LabView so it is translated by the distance and direction the mouse
 has moved since the initial mouse down.
-@param {!myphysicslab.lab.util.Vector} loc_screen current mouse position in screen
-    coordinates
+@param {!Vector} loc_screen current mouse position in screen coordinates
 */
 ViewPanner.prototype.mouseDrag = function(loc_screen) {
   // Use panMap_ because it doesn't change as we move the LabView's simRect.

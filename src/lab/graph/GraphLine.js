@@ -19,26 +19,27 @@ goog.require('goog.asserts');
 goog.require('myphysicslab.lab.graph.GraphPoint');
 goog.require('myphysicslab.lab.graph.GraphStyle');
 goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.CircularList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.CircularList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.HistoryList');
+goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.util.Memorizable');
 
 goog.scope(function() {
 
-var CircularList = myphysicslab.lab.util.CircularList;
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+var CircularList = myphysicslab.lab.util.CircularList;
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 var HistoryList = myphysicslab.lab.util.HistoryList;
+var Memorizable = myphysicslab.lab.util.Memorizable;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
@@ -46,16 +47,14 @@ var ParameterString = myphysicslab.lab.util.ParameterString;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
 
-/** Collects data from a {@link myphysicslab.lab.model.VarsList VarsList},
-storing it as a {@link myphysicslab.lab.util.HistoryList HistoryList} composed of
-{@link myphysicslab.lab.graph.GraphPoint GraphPoints}. The variables that this
-GraphLine is tracking are selected via the methods {@link #setXVariable} and
-{@link #setYVariable}.
+/** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed
+of {@link GraphPoint}s. The variables that this GraphLine is tracking are selected via
+the methods {@link #setXVariable} and {@link #setYVariable}.
 
 It is during the {@link #memorize} method that the new data is stored into the
 HistoryList. For the `memorize` method to be called automatically, the GraphLine can be
 registered with it's LabView by calling
-[addMemo](myphysicslab.lab.util.MemoList.html#addMemo) on the LabView, for example:
+{@link myphysicslab.lab.util.MemoList.html#addMemo} on the LabView, for example:
 
     simView.addMemo(graphLine);
 
@@ -133,20 +132,19 @@ All the Parameters are broadcast when their values change.  In addition:
 
 
 * @param {string} name
-* @param {!myphysicslab.lab.model.VarsList} varsList the VarsList to collect
-*   data from
+* @param {!VarsList} varsList the VarsList to collect data from
 * @param {number=} opt_capacity number of GraphPoints to store
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.util.Memorizable}
+* @extends {AbstractSubject}
+* @implements {Memorizable}
 * @implements {myphysicslab.lab.util.Observer}
 */
 myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   AbstractSubject.call(this, name);
   /** The VarsList whose data this graph is displaying
-  * @type {!myphysicslab.lab.model.VarsList}
+  * @type {!VarsList}
   * @private
   */
   this.varsList_ = varsList;
@@ -165,7 +163,7 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   this.yVar_ = -1;
   /** Parameter that represents which variable is shown on Y-axis, and the available
   * choices of variables.
-  * @type {!myphysicslab.lab.util.ParameterNumber}
+  * @type {!ParameterNumber}
   * @private
   */
   this.yVarParam_ = new ParameterNumber(this, GraphLine.en.Y_VARIABLE,
@@ -175,7 +173,7 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   this.addParameter(this.yVarParam_);
   /** Parameter that represents which variable is shown on X-axis, and the available
   * choices of variables.
-  * @type {!myphysicslab.lab.util.ParameterNumber}
+  * @type {!ParameterNumber}
   * @private
   */
   this.xVarParam_ = new ParameterNumber(this, GraphLine.en.X_VARIABLE,
@@ -185,7 +183,7 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   this.addParameter(this.xVarParam_);
   this.buildMenu();
   /** Holds the most recent data points drawn, to enable redrawing when needed.
-  * @type {!myphysicslab.lab.util.CircularList<!GraphPoint>}
+  * @type {!CircularList<!GraphPoint>}
   * @private
   */
   this.dataPoints_  = new CircularList(opt_capacity || 100000);
@@ -195,7 +193,7 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   */
   this.drawColor_ = 'lime';
   /** whether to draw the graph with lines or dots
-  * @type {!myphysicslab.lab.view.DrawingMode}
+  * @type {!DrawingMode}
   * @private
   */
   this.drawMode_ = DrawingMode.LINES;
@@ -214,7 +212,7 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   * There can be multiple GraphStyle entries for the same index, the latest one
   * in the list takes precedence.  We ensure there is always at least one GraphStyle
   * in the list.
-  * @type {!Array<!myphysicslab.lab.graph.GraphStyle>}
+  * @type {!Array<!GraphStyle>}
   * @private
   */
   this.styles_ = [];
@@ -337,16 +335,15 @@ GraphLine.prototype.getColor = function() {
   return this.drawColor_;
 };
 
-/** Returns the drawing mode of the graph: dots or lines.
-See {@link myphysicslab.lab.view.DrawingMode}.
-@return {!myphysicslab.lab.view.DrawingMode} the DrawingMode to draw this graph with
+/** Returns the drawing mode of the graph: dots or lines. See {@link DrawingMode}.
+@return {!DrawingMode} the DrawingMode to draw this graph with
 */
 GraphLine.prototype.getDrawingMode = function() {
   return this.drawMode_;
 };
 
 /** Returns the HistoryList of GraphPoints.
-* @return {!myphysicslab.lab.util.HistoryList<!GraphPoint>}
+* @return {!HistoryList<!GraphPoint>}
 */
 GraphLine.prototype.getGraphPoints = function() {
   return this.dataPoints_;
@@ -354,7 +351,7 @@ GraphLine.prototype.getGraphPoints = function() {
 
 /** Returns the GraphStyle corresponding to the position in the list of GraphPoints.
 @param {number} index  the index number in list of GraphPoints
-@return {!myphysicslab.lab.graph.GraphStyle} the GraphStyle for that position
+@return {!GraphStyle} the GraphStyle for that position
 */
 GraphLine.prototype.getGraphStyle = function(index) {
   var styles = this.styles_;
@@ -392,8 +389,7 @@ GraphLine.prototype.getLineWidth = function() {
 };
 
 /** Returns the VarsList that this GraphLine is collecting from
-@return {!myphysicslab.lab.model.VarsList} the VarsList that this
-    is collecting from.
+@return {!VarsList} the VarsList that this is collecting from.
 */
 GraphLine.prototype.getVarsList = function() {
   return this.varsList_;
@@ -494,8 +490,7 @@ GraphLine.prototype.setColor = function(color) {
 
 /** Sets whether to draw the graph with dots or lines. Applies only to portions of graph
 memorized after this time.
-@param {!myphysicslab.lab.view.DrawingMode} value the DrawingMode (dots or lines) to
-    draw this graph with.
+@param {!DrawingMode} value the DrawingMode (dots or lines) to draw this graph with.
 @throws {Error} if the value does not represent a valid DrawingMode
 */
 GraphLine.prototype.setDrawingMode = function(value) {

@@ -36,7 +36,7 @@ but {@link #getElement} returns the `BR` element.
 *     GroupControl
 * @constructor
 * @final
-* @implements {myphysicslab.lab.controls.LabControl}
+* @implements {LabControl}
 * @struct
 */
 myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {

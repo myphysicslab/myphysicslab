@@ -43,7 +43,7 @@ scripting.
 */
 myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff) {
   /**
-  * @type {!myphysicslab.lab.util.ParameterBoolean}
+  * @type {!ParameterBoolean}
   * @private
   */
   this.parameter_ = parameter;

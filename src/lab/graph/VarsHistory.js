@@ -30,8 +30,8 @@ var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
 
-/** Collects data from a {@link myphysicslab.lab.model.VarsList VarsList},
-storing it in a {@link myphysicslab.lab.util.HistoryList HistoryList}. Each entry in
+/** Collects data from a {@link VarsList},
+storing it in a {@link HistoryList}. Each entry in
 the HistoryList is an array of numbers (a 'data sample') which represents the value of
 the variables at a point in time.
 
@@ -71,7 +71,7 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
   */
   this.variablesList_ = variablesList;
   /**
-  * @type {!myphysicslab.lab.util.CircularList<!Array<number>>}
+  * @type {!CircularList<!Array<number>>}
   * @private
   */
   this.dataPoints_  = new CircularList(opt_capacity || 100000);
@@ -81,7 +81,7 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
   */
   this.varIndex_ = goog.array.range(this.variablesList_.numVariables());
   /** number formatting function
-  * @type {function(number) : string}
+  * @type {function(number): string}
   */
   this.numberFormat = UtilityCore.NF5E;
   /** separator between numbers
@@ -107,7 +107,7 @@ if (!UtilityCore.ADVANCED) {
 };
 
 /** Returns the HistoryList of data points.
-* @return {!myphysicslab.lab.util.HistoryList<!Array<number>>}
+* @return {!HistoryList<!Array<number>>}
 */
 VarsHistory.prototype.getDataPoints = function() {
   return this.dataPoints_;

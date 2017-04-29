@@ -16,6 +16,7 @@ goog.provide('myphysicslab.lab.graph.VectorGraph');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
+goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
@@ -23,8 +24,8 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
+goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.model.ODESim');
 
 goog.scope(function() {
 
@@ -33,13 +34,14 @@ var sims = myphysicslab.sims;
 
 var CoordMap = lab.view.CoordMap;
 var GenericEvent = lab.util.GenericEvent;
+var LabView = lab.view.LabView;
 var NF = lab.util.UtilityCore.NF;
 var NF5 = lab.util.UtilityCore.NF5;
+var ODESim = lab.model.ODESim;
 var ScreenRect = lab.view.ScreenRect;
 var Subject = lab.util.Subject;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
-var ODESim = lab.model.ODESim;
 
 /** Draws vectors showing the direction field of the differential equation. In a graph
 of Y vs. X, shows the value of the derivative dy/dx at various points on a grid, as a
@@ -50,7 +52,7 @@ phase space is 3D, 4D, etc. and cannot be adequately represented by these direct
 field vectors.
 
 The screen rectangle that the VectorGraph should occupy within the
-{@link myphysicslab.lab.view.SimView SimView} must be set with {@link #setScreenRect}
+{@link LabView} must be set with {@link #setScreenRect}
 before drawing can be done.
 
 Redraws when a parameter changes in the subject, because a parameter change modifies the
@@ -93,12 +95,12 @@ myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
   */
   this.offScreen_ = null;
   /** to detect when redraw needed;  when the coordmap changes, we need to redraw.
-  * @type {?lab.view.CoordMap}
+  * @type {?CoordMap}
   * @private
   */
   this.lastMap_ = null;
   /**
-  * @type {!lab.view.ScreenRect}
+  * @type {!ScreenRect}
   * @private
   */
   this.screenRect_ = ScreenRect.EMPTY_RECT;
@@ -206,8 +208,7 @@ VectorGraph.prototype.draw = function(context, map) {
 
 /** Draws the entire graph into the given Graphics context.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!lab.view.CoordMap} coordMap the CoordMap specifying sim to
-*    screen conversion
+* @param {!CoordMap} coordMap the CoordMap specifying sim to screen conversion
 * @private
 */
 VectorGraph.prototype.fullDraw = function(context, coordMap) {
@@ -275,8 +276,8 @@ VectorGraph.prototype.getPosition = function() {
 };
 
 /** Returns the screen rectangle that this VectorGraph is occupying within the
-* {@link myphysicslab.lab.view.SimView SimView}, in screen coordinates.
-* @return {!lab.view.ScreenRect} the screen rectangle of this VectorGraph in
+* {@link LabView}, in screen coordinates.
+* @return {!ScreenRect} the screen rectangle of this VectorGraph in
 *    screen coordinates
 */
 VectorGraph.prototype.getScreenRect = function() {
@@ -316,8 +317,8 @@ VectorGraph.prototype.setPosition = function(position) {
 };
 
 /** Sets the screen rectangle that this VectorGraph should occupy within the
-* {@link myphysicslab.lab.view.SimView SimView}, in screen coordinates.
-* @param {!lab.view.ScreenRect} screenRect the screen coordinates of the
+* {@link LabView}, in screen coordinates.
+* @param {!ScreenRect} screenRect the screen coordinates of the
     area this VectorGraph should occupy.
 */
 VectorGraph.prototype.setScreenRect = function(screenRect) {

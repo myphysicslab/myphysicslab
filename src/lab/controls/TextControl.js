@@ -25,9 +25,9 @@ var ParameterString = myphysicslab.lab.util.ParameterString;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** A user interface control for displaying and editing the value of a
-{@link myphysicslab.lab.util.ParameterString}.
+{@link ParameterString}.
 
-TextControl is an extension of {@link myphysicslab.lab.controls.TextControlBase}.
+TextControl is an extension of {@link TextControlBase}.
 TextControlBase is the function-based version which doesn't take a ParameterString
 but instead has getter and setter functions.
 
@@ -37,7 +37,7 @@ but instead has getter and setter functions.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.controls.TextControlBase}
+* @extends {TextControlBase}
 */
 myphysicslab.lab.controls.TextControl = function(parameter, textField) {
   TextControlBase.call(this, parameter.getName(/*localized=*/true),
@@ -45,7 +45,7 @@ myphysicslab.lab.controls.TextControl = function(parameter, textField) {
       goog.bind(parameter.setValue, parameter),
       textField);
   /**
-  * @type {!myphysicslab.lab.util.ParameterString}
+  * @type {!ParameterString}
   * @private
   */
   this.parameter_ = parameter;

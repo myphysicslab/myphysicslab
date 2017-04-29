@@ -26,7 +26,7 @@ var Parameter = myphysicslab.lab.util.Parameter;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** A pop-up menu which synchronizes its state with a
-{@link myphysicslab.lab.util.Parameter} of a {@link myphysicslab.lab.util.Subject}.
+{@link Parameter} of a {@link myphysicslab.lab.util.Subject}.
 
 When the value of the ChoiceControl is changed, the Parameter's value is changed
 accordingly and therefore the Subject broadcasts the Parameter's value to all its
@@ -37,8 +37,8 @@ Choices and Values
 ------------------
 If the values and choices are not specified as arguments to the constructor, then the
 values and choices of the Parameter are used, see
-{@link myphysicslab.lab.util.Parameter#getChoices} and
-{@link myphysicslab.lab.util.Parameter#getValues}.
+{@link Parameter#getChoices} and
+{@link Parameter#getValues}.
 
 This means we can override the choices/values of the Parameter by passing in whatever
 set of choices/values are desired to the ChoiceControl constructor.
@@ -52,7 +52,7 @@ ParameterString that represents a string enum. See
 represents a numeric enum.
 
 
-@param {!myphysicslab.lab.util.Parameter} parameter the parameter to modify
+@param {!Parameter} parameter the parameter to modify
 @param {?string=} opt_label the text label to show besides this choice, or `null` or
     empty string for no label.  If `undefined`, then the Parameter's name is used.
 @param {!Array<string>=} opt_choices an array of localized strings giving the names
@@ -62,12 +62,12 @@ represents a numeric enum.
 @constructor
 @final
 @struct
-@extends {myphysicslab.lab.controls.ChoiceControlBase}
+@extends {ChoiceControlBase}
 */
 myphysicslab.lab.controls.ChoiceControl = function(parameter, opt_label, opt_choices,
     opt_values) {
   /**
-  * @type {!myphysicslab.lab.util.Parameter}
+  * @type {!Parameter}
   * @private
   */
   this.parameter_ = parameter;

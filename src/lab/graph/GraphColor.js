@@ -71,7 +71,7 @@ GraphColor.getChoices = function() {
 };
 
 /** The set of GraphColor enum values.
-* @return {!Array<!myphysicslab.lab.graph.GraphColor>} the GraphColor enum values.
+* @return {!Array<!GraphColor>} the GraphColor enum values.
 */
 GraphColor.getValues = function() {
   return [
@@ -96,8 +96,7 @@ GraphColor.getValues = function() {
 
 /** Converts a string to an enum
 * @param {string} value the string to convert
-* @return {!myphysicslab.lab.graph.GraphColor} the enum corresponding to
-*    the value, from {@link #getValues}
+* @return {!GraphColor} the enum corresponding to the value, from {@link #getValues}
 * @throws {Error} if the value does not represent a valid enum
 */
 GraphColor.stringToEnum = function(value) {

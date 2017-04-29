@@ -16,30 +16,31 @@ goog.provide('myphysicslab.lab.app.RigidBodyEventHandler');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.events.KeyCodes');
+goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.SimObject');
+goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var Clock = myphysicslab.lab.util.Clock;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var KeyCodes = goog.events.KeyCodes;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var PointMass = myphysicslab.lab.model.PointMass;
-var Spring = myphysicslab.lab.model.Spring;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimObject = myphysicslab.lab.model.SimObject;
+var Spring = myphysicslab.lab.model.Spring;
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
@@ -59,7 +60,7 @@ alt, meta, or control key will rotate the RigidBody when moving the mouse.
 Thrusters
 ---------
 One or two RigidBodys can be specified to have keyboard activated thruster controls with
-{@link #setThrusters}. You can specify a {@link myphysicslab.lab.engine2D.ThrusterSet}
+{@link #setThrusters}. You can specify a {@link ThrusterSet}
 of thrust forces for each RigidBody. The keyboard commands to fire thrusters are:
 
 + Right hand controls: keys J, K, L, I and arrow keys.
@@ -72,33 +73,31 @@ key with those changes the pair of thrusters to give a rotation effect.
 @todo extract the stuff about thrusters into a subclass or decorating class, so that
 the mouse drag stuff could be reused separately.
 
-* @param {!myphysicslab.lab.engine2D.RigidBodySim} sim the simulation to handle events
-    for
-* @param {!myphysicslab.lab.util.Clock} clock the clock that determines whether the
-    simulation is running
+* @param {!RigidBodySim} sim the simulation to handle events for
+* @param {!Clock} clock the clock that determines whether the simulation is running
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.app.EventHandler }
+* @implements {EventHandler }
 */
 myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBodySim}
+  * @type {!RigidBodySim}
   * @private
   */
   this.sim_ = sim;
   /**
-  * @type {!myphysicslab.lab.util.Clock}
+  * @type {!Clock}
   * @private
   */
   this.clock_ = clock;
   /**
-  * @type {?myphysicslab.lab.engine2D.ThrusterSet}
+  * @type {?ThrusterSet}
   * @private
   */
   this.thrustRight_ = null;
   /**
-  * @type {?myphysicslab.lab.engine2D.ThrusterSet}
+  * @type {?ThrusterSet}
   * @private
   */
   this.thrustLeft_ = null;
@@ -108,12 +107,12 @@ myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
   */
   this.dragStiffness_ = 3.0;
   /**
-  * @type {?myphysicslab.lab.model.Spring }
+  * @type {?Spring }
   * @private
   */
   this.dragSpring_ = null;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.mousePoint_ = PointMass.makeCircle(1, 'mouse position')
@@ -185,7 +184,7 @@ if (!UtilityCore.ADVANCED) {
 /** Set the given ThrusterSet to be activated by keyboard thrust controls.
 Right hand controls: keys J, K, L, I and arrow keys.
 Left hand controls: keys S, D, F, E.
-@param {?myphysicslab.lab.engine2D.ThrusterSet} thrusters the ThrusterSet to be
+@param {?ThrusterSet} thrusters the ThrusterSet to be
     activated by keyboard commands, or null to turn off this set of thruster controls
 @param {string} side 'right' sets right hand controls, 'left' sets left hand controls
 */

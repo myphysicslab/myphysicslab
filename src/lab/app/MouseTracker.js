@@ -26,6 +26,12 @@ goog.require('myphysicslab.lab.view.LabView');
 goog.scope(function() {
 
 var BrowserEvent = goog.events.BrowserEvent;
+var Coordmap = myphysicslab.lab.view.CoordMap;
+var DisplayObject = myphysicslab.lab.view.DisplayObject;
+var EventHandler = myphysicslab.lab.app.EventHandler;
+var LabCanvas = myphysicslab.lab.view.LabCanvas;
+var LabView = myphysicslab.lab.view.LabView;
+var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -37,7 +43,7 @@ Events are sent to the EventHandler when:
 + `dragDispObj` has a SimObject which is recognized by the EventHandler; events are
 translated to simulation coordinates for the LabView that the DisplayObject is in. An
 EventHandler indicates that it recognizes a SimObject by returning `true` from
-{@link myphysicslab.lab.app.EventHandler#startDrag}.
+{@link EventHandler#startDrag}.
 
 + `dragDispObj` is `null`; events are translated to simulation coordinates for the given
 LabView of the LabCanvas.
@@ -74,23 +80,23 @@ MouseTracker should however be able to move such DisplayObjects if they exist.
 @todo  Make a unit test; especially for findNearestDragable.  Note that it is
     possible to make synthetic events for testing in Javascript.
 
-@param {?myphysicslab.lab.view.DisplayObject} dragDispObj the dragable DisplayObject
+@param {?DisplayObject} dragDispObj the dragable DisplayObject
     to move according to mouse movements; `null` indicates that events will just be
     translated to simulation coordinates
 
-@param {!myphysicslab.lab.view.LabView} view the LabView that the DisplayObject is in;
+@param {!LabView} view the LabView that the DisplayObject is in;
     or the LabView to use for translating to simulation coordinates when there is no
     DisplayObject
 
-@param {!myphysicslab.lab.util.Vector} loc_sim location of initial mouse event in
+@param {!Vector} loc_sim location of initial mouse event in
     simulation coordinates of `view`
 
-@param {?myphysicslab.lab.util.Vector} drag_body location of 'drag point' on the
+@param {?Vector} drag_body location of 'drag point' on the
     SimObject in body coordinates of the SimObject; this is where for example a spring
     will be attached on the SimObject when dragging; will be `null` when no SimObject
     was found
 
-@param {?myphysicslab.lab.app.EventHandler} eventHandler the EventHandler to send
+@param {?EventHandler} eventHandler the EventHandler to send
     events to; will be `null` when a DisplayObject should be dragged directly
 
 @constructor
@@ -103,17 +109,17 @@ myphysicslab.lab.app.MouseTracker = function(dragDispObj, view, loc_sim, drag_bo
     throw new Error();
   }
   /** the DisplayObject currently being dragged.
-  * @type {?myphysicslab.lab.view.DisplayObject}
+  * @type {?DisplayObject}
   * @private
   */
   this.dragDispObj_ = dragDispObj;
   /** the LabView to search for dragable objects
-  * @type {!myphysicslab.lab.view.LabView}
+  * @type {!LabView}
   * @private
   */
   this.view_ = view;
   /**
-  * @type {?myphysicslab.lab.app.EventHandler}
+  * @type {?EventHandler}
   * @private
   */
   this.eventHandler_ = eventHandler;
@@ -124,7 +130,7 @@ myphysicslab.lab.app.MouseTracker = function(dragDispObj, view, loc_sim, drag_bo
   this.ehDrag_ = false;
   /** The SimObject being dragged (the SimObject being displayed by dragDispObj_)
   * if no SimObject found, send the x, y coords of the click anyway, with simObj=null
-  * @type {?myphysicslab.lab.model.SimObject}
+  * @type {?SimObject}
   * @private
   */
   this.dragSimObj_ = null;
@@ -135,19 +141,19 @@ myphysicslab.lab.app.MouseTracker = function(dragDispObj, view, loc_sim, drag_bo
     }
   }
   /** location of mouse event in LabView's simulation coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.loc_sim_ = loc_sim;
   /** location of drag point in body coordinates of the SimObject; ignored when there
   * is no SimObject
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   * @private
   */
   this.drag_body_ = drag_body;
   /** the offset between the dragable DisplayObject's initial position and
   * the initial mouse click, in simulation coordinates.
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.dragOffset_ = Vector.ORIGIN;
@@ -170,7 +176,7 @@ MouseTracker.prototype.startDrag = function(evt) {
 };
 
 /** Called when a mouse move event occurs.
-@param {!myphysicslab.lab.util.Vector} loc_screen location of the event in screen
+@param {!Vector} loc_screen location of the event in screen
     coordinates
 @param {!BrowserEvent} evt the mouse move event that occurred
 */
@@ -209,32 +215,30 @@ accept it as the target if mouse is inside; or ignore it entirely if mouse is ou
 We search from front to back in visual order, so that objects that are visually 'on top'
 are checked first.
 
-@param {!myphysicslab.lab.view.LabCanvas} labCanvas the LabCanvas to process events
-    for
-@param {!myphysicslab.lab.util.Vector} start_screen mouse down location in LabCanvas
-    screen coords
-@param {?myphysicslab.lab.app.EventHandler} eventHandler the EventHandler to send
+@param {!LabCanvas} labCanvas the LabCanvas to process events for
+@param {!Vector} start_screen mouse down location in LabCanvas screen coords
+@param {?EventHandler} eventHandler the EventHandler to send
     mouse events to, or `null`
-@return {?myphysicslab.lab.app.MouseTracker} the MouseTracker to use for processing
+@return {?MouseTracker} the MouseTracker to use for processing
     mouse events, or `null` if MouseTracking is not possible
 */
 MouseTracker.findNearestDragable = function(labCanvas, start_screen, eventHandler) {
   /** the DisplayObject currently being dragged.
-  * @type {?myphysicslab.lab.view.DisplayObject}
+  * @type {?DisplayObject}
   */
   var dragDispObj = null;
   /** the LabView to search for dragable objects
-  * @type {!myphysicslab.lab.view.LabView}
+  * @type {!LabView}
   */
   var view;
   /** location of mouse event in LabView's simulation coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   */
   var start_sim;
   /** drag point on SimObject in body coords of the SimObject;  this is where
   * we will attach (for example) a spring to the SimObject to drag it.
   * Note that some SimObject's have multiple drag points.
-  * @type {?myphysicslab.lab.util.Vector}
+  * @type {?Vector}
   */
   var dragPt = null;
   var distance = UtilityCore.POSITIVE_INFINITY;

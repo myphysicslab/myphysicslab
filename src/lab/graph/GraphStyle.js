@@ -35,8 +35,8 @@ might be possible to use the HTML `CanvasRenderingContext2D.lineDashOffset` prop
 deal with this.
 
 * @param {number} index specifies where in the HistoryList this style should be applied
-* @param {!myphysicslab.lab.view.DrawingMode} drawMode whether to draw dots or lines,
-*     a value from {@link myphysicslab.lab.view.DrawingMode}
+* @param {!DrawingMode} drawMode whether to draw dots or lines,
+*     a value from {@link DrawingMode}
 * @param {string} color a CSS color specification
 * @param {number} lineWidth  thickness to use when drawing the graph line, in screen
 *     coordinates, so a unit is a screen pixel.
@@ -50,8 +50,8 @@ myphysicslab.lab.graph.GraphStyle = function(index, drawMode, color, lineWidth) 
   */
   this.index_ = index;
   /** Whether to draw dots or lines, a value from
-  * {@link myphysicslab.lab.view.DrawingMode}
-  * @type {!myphysicslab.lab.view.DrawingMode}
+  * {@link DrawingMode}
+  * @type {!DrawingMode}
   */
   this.drawMode = drawMode;
   /** a CSS color specification

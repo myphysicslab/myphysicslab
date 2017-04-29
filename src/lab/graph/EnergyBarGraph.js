@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
+goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.ScreenRect');
 
 goog.scope(function() {
@@ -30,6 +31,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var LabView = lab.view.LabView;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
@@ -38,13 +40,13 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a bar graph of the various forms of energy (potential, kinetic, etc.) in an
-{@link myphysicslab.lab.model.EnergySystem}. The visible area must be set via
+{@link EnergySystem}. The visible area must be set via
 {@link #setVisibleArea} in order for EnergyBarGraph to draw.
 
 
 ### Display Formats
 
-If the {@link myphysicslab.lab.model.EnergyInfo} of the EnergySystem only has data for
+If the {@link EnergyInfo} of the EnergySystem only has data for
 the potential and translational energy, then the names shown are 'potential' and
 'kinetic' (in English, the names are translated for the current locale). Here is the
 display for a typical situation:
@@ -94,7 +96,7 @@ See {@link #graphFont}, {@link #potentialColor}, {@link #translationColor}, and
 
 The EnergyBarGraph will only draw after the visible area has been set via
 {@link #setVisibleArea}. Usually this is set to be the entire visible area of the
-{@link myphysicslab.lab.view.LabView} containing the EnergyBarGraph.
+{@link LabView} containing the EnergyBarGraph.
 
 The width of the EnergyBarGraph is always the full width of the visible area.
 
@@ -114,11 +116,11 @@ in an assertion failing.
 @todo larger fonts (size 14) have formatting problems where the text is overlapping
 the color key and other pieces of text. (Nov 2012)
 
-* @param {!myphysicslab.lab.model.EnergySystem} system the EnergySystem to display
+* @param {!EnergySystem} system the EnergySystem to display
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   /** The font to use for numbers on the bar chart energy graph, a CSS3 font
@@ -127,12 +129,12 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   */
   this.graphFont = '10pt sans-serif';
   /**
-  * @type {!myphysicslab.lab.model.EnergySystem}
+  * @type {!EnergySystem}
   * @private
   */
   this.system_ = system;
   /** the bounding rectangle, in simulation coords
-  * @type {!myphysicslab.lab.util.DoubleRect}
+  * @type {!DoubleRect}
   * @private
   */
   this.rect_ = DoubleRect.EMPTY_RECT;
@@ -282,7 +284,7 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   */
   this.dragable_ = true;
   /**
-  * @type {!myphysicslab.lab.util.DoubleRect}
+  * @type {!DoubleRect}
   * @private
   */
   this.visibleRect_ = DoubleRect.EMPTY_RECT;
@@ -542,7 +544,7 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
       var textWidth = context.measureText(s).width;
       context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
       scale += this.graphDelta_;
-      if (++loopCtr > 100) {
+      if (this.debug_ && goog.DEBUG && ++loopCtr > 100) {
         console.log('loop 1 x='+x+' s='+s+' scale='+NFE(scale)
           +' total='+NFE(total)+' graphDelta='+NFE(this.graphDelta_)  );
       }
@@ -638,7 +640,7 @@ EnergyBarGraph.prototype.getPosition = function() {
 
 /** Returns the area within which this EnergyBarGraph is drawn, in simulation
 coordinates.
-@return {!myphysicslab.lab.util.DoubleRect} the area within which this
+@return {!DoubleRect} the area within which this
     EnergyBarGraph is drawn, in simulation coordinates.
 */
 EnergyBarGraph.prototype.getVisibleArea = function() {
@@ -884,7 +886,7 @@ EnergyBarGraph.prototype.setPosition = function(position) {
 };
 
 /** Sets the area within which this EnergyBarGraph is drawn, in simulation coordinates.
-@param {!myphysicslab.lab.util.DoubleRect} visibleArea the area within which this
+@param {!DoubleRect} visibleArea the area within which this
     EnergyBarGraph is drawn, in simulation coordinates.
 */
 EnergyBarGraph.prototype.setVisibleArea = function(visibleArea) {
@@ -963,6 +965,5 @@ EnergyBarGraph.de_strings = {
 */
 EnergyBarGraph.i18n = goog.LOCALE === 'de' ? EnergyBarGraph.de_strings :
     EnergyBarGraph.en;
-
 
 });  // goog.scope

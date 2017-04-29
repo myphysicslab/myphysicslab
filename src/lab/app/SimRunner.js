@@ -20,8 +20,8 @@ goog.require('goog.events.BrowserEvent');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyEvent');
 goog.require('myphysicslab.lab.model.AdvanceStrategy');
-goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.ErrorObserver');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MemoList');
@@ -35,12 +35,13 @@ goog.require('myphysicslab.lab.view.LabCanvas');
 
 goog.scope(function() {
 
+var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
 var Clock = myphysicslab.lab.util.Clock;
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
+var Memorizable = myphysicslab.lab.util.Memorizable;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
@@ -48,12 +49,10 @@ var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Timer = myphysicslab.lab.util.Timer;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Uses an {@link myphysicslab.lab.model.AdvanceStrategy AdvanceStrategy} to
-advance the {@link myphysicslab.lab.model.Simulation Simulation} state;
-the process is driven by a {@link myphysicslab.lab.util.Timer Timer} and a
-{@link myphysicslab.lab.util.Clock Clock} to synchronize the Simulation with real time;
-updates the {@link myphysicslab.lab.view.LabCanvas LabCanvas} to show
-the current Simulation state.
+/** Uses an {@link AdvanceStrategy} to advance the
+{@link myphysicslab.lab.model.Simulation Simulation} state; the process is driven by a
+{@link Timer} and a {@link Clock} to synchronize the Simulation with real time; updates
+the {@link LabCanvas} to show the current Simulation state.
 
 Parameters Created
 ------------------
@@ -84,7 +83,7 @@ therefore we see the Simulation advancing in real time.  Here are the details:
 
 + The `callback()` method **reschedules itself** to run again by
 calling `Timer.finishAt()` or `Timer.fireAfter()` thus continuing the
-{@link myphysicslab.lab.util.Timer chain of callbacks}.
+{@link Timer chain of callbacks}.
 The callback reschedules itself regardless of whether the Clock is paused,
 stepping, or running (though it calculates the delay differently in those cases).
 
@@ -94,7 +93,7 @@ calling `AdvanceStrategy.advance()`. This keeps the
 Simulation in sync with the Clock and therefore (hopefully) with real time.
 
 + **Stepping** forward by a single time step employs the special
-{@link myphysicslab.lab.util.Clock step mode} of Clock. When `callback()`
+{@link Clock step mode} of Clock. When `callback()`
 sees the Clock is in step mode, it advances the Simulation by a single time step
 and then clears the Clock's step mode so that the Clock will thereafter be in the
 regular 'paused' state.
@@ -131,7 +130,7 @@ There is a "non-stop" Parameter which allows the simulation to run even when the
 is not active. This is useful if you want to view two simulations running in separate
 browser windows. See {@link #setNonStop}.
 
-* @param {!myphysicslab.lab.model.AdvanceStrategy} advance  the AdvanceStrategy which
+* @param {!AdvanceStrategy} advance  the AdvanceStrategy which
 *     runs advances the Simulation
 * @param {string=} opt_name name of this SimRunner.
 * @constructor
@@ -139,7 +138,7 @@ browser windows. See {@link #setNonStop}.
 * @struct
 * @implements {myphysicslab.lab.util.Observer}
 * @implements {myphysicslab.lab.util.MemoList}
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   AbstractSubject.call(this, opt_name || 'SIM_RUNNER');
@@ -181,7 +180,7 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   */
   this.nonStop_ = false;
   /**
-  * @type {!myphysicslab.lab.util.Timer}
+  * @type {!Timer}
   * @private
   */
   this.timer_ = new Timer();
@@ -191,7 +190,7 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   // When opt_name is specified, prefix it to the clock name.
   var clockName = (opt_name ? opt_name + '_' : '')+'CLOCK';
   /**
-  * @type {!myphysicslab.lab.util.Clock}
+  * @type {!Clock}
   * @private
   */
   this.clock_ = new Clock(clockName);
@@ -201,17 +200,17 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   this.clock_.setRealTime(t);
   this.clock_.addObserver(this);
   /**
-  * @type {!Array<!myphysicslab.lab.view.LabCanvas>}
+  * @type {!Array<!LabCanvas>}
   * @private
   */
   this.canvasList_ = [];
   /**
-  * @type {!Array<!myphysicslab.lab.util.Memorizable>}
+  * @type {!Array<!Memorizable>}
   * @private
   */
   this.memorizables_ = [];
   /**
-  * @type {!Array<!myphysicslab.lab.util.ErrorObserver>}
+  * @type {!Array<!ErrorObserver>}
   * @private
   */
   this.errorObservers_ = [];
@@ -268,7 +267,7 @@ SimRunner.prototype.getClassName = function() {
 
 /** Adds the LabCanvas to the list of LabCanvas's that need to be
 repainted and memorized after each advance of the Simulation.
-@param {!myphysicslab.lab.view.LabCanvas} canvas the LabCanvas to add to the list of
+@param {!LabCanvas} canvas the LabCanvas to add to the list of
     LabCanvas's to update
 */
 SimRunner.prototype.addCanvas = function(canvas) {
@@ -280,7 +279,7 @@ SimRunner.prototype.addCanvas = function(canvas) {
 
 /** Adds an object to the list of ErrorObserver objects to be notified when an
 error occurs.
-@param {!myphysicslab.lab.util.ErrorObserver} errorObserver object to add to the list of
+@param {!ErrorObserver} errorObserver object to add to the list of
     ErrorObserver objects
 */
 SimRunner.prototype.addErrorObserver = function(errorObserver) {
@@ -297,7 +296,7 @@ SimRunner.prototype.addMemo = function(memorizable) {
 };
 
 /** Adds an AdvanceStrategy to the set being advanced.
-* @param {!myphysicslab.lab.model.AdvanceStrategy} advance  the AdvanceStrategy to add
+* @param {!AdvanceStrategy} advance  the AdvanceStrategy to add
 */
 SimRunner.prototype.addStrategy = function(advance) {
   this.advanceList_.push(advance);
@@ -333,9 +332,8 @@ SimRunner.prototype.advanceSims = function(strategy, targetTime) {
 
 /** Advances the Simulation AdvanceStrategy(s) to match the current Clock time and
 repaints the LabCanvas's. Calls `memorize` on the list of Memorizables after each time
-step. This is the callback function that is being run by the
-{@link myphysicslab.lab.util.Timer Timer}. Reschedules itself to run again, to continue
-the {@link myphysicslab.lab.util.Timer chain of callbacks}.
+step. This is the callback function that is being run by the {@link Timer}. Reschedules
+itself to run again, to continue the chain of callbacks.
 * @return {undefined}
 */
 SimRunner.prototype.callback = function() {
@@ -425,16 +423,14 @@ SimRunner.prototype.destroy = function() {
 
 /** Returns the list of LabCanvas's that need to be repainted after each advance of the
 Simulation.
-* @return {!Array<!myphysicslab.lab.view.LabCanvas>} the list of LabCanvas that need
-*   to be repainted
+* @return {!Array<!LabCanvas>} the list of LabCanvas that need to be repainted
 */
 SimRunner.prototype.getCanvasList = function() {
   return goog.array.clone(this.canvasList_);
 };
 
 /** Returns the Clock which the Simulation is synchronized to.
-* @return {!myphysicslab.lab.util.Clock} the Clock which the Simulation is synchronized
-*    to.
+* @return {!Clock} the Clock which the Simulation is synchronized to.
 */
 SimRunner.prototype.getClock = function() {
   return this.clock_;
@@ -538,7 +534,7 @@ SimRunner.prototype.pause = function() {
 
 /** Remove the LabCanvas from the list of LabCanvas's that need to be
 repainted and memorized after each advance of the Simulation.
-@param {!myphysicslab.lab.view.LabCanvas} canvas the LabCanvas to remove from the list
+@param {!LabCanvas} canvas the LabCanvas to remove from the list
     of LabCanvas's to update
 */
 SimRunner.prototype.removeCanvas = function(canvas) {
@@ -548,7 +544,7 @@ SimRunner.prototype.removeCanvas = function(canvas) {
 
 /** Removes an object from the list of ErrorObserver objects to be notified when an
 error occurs.
-@param {!myphysicslab.lab.util.ErrorObserver} errorObserver object to remove from
+@param {!ErrorObserver} errorObserver object to remove from
     the list of ErrorObserver objects
 */
 SimRunner.prototype.removeErrorObserver = function(errorObserver) {
@@ -561,9 +557,8 @@ SimRunner.prototype.removeMemo = function(memorizable) {
 };
 
 /** Sets the Simulation to its initial conditions by calling
-{@link myphysicslab.lab.model.AdvanceStrategy#reset},
-sets the Clock to match the simulation time (usually zero),
-and pauses the Clock. Broadcasts a {@link SimRunner.RESET} event.
+{@link AdvanceStrategy#reset}, sets the Clock to match the simulation time (usually
+zero), and pauses the Clock. Broadcasts a {@link SimRunner.RESET} event.
 * @return {undefined}
 */
 SimRunner.prototype.reset = function() {

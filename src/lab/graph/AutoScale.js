@@ -17,6 +17,7 @@ goog.provide('myphysicslab.lab.graph.AutoScale');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.graph.GraphLine');
+goog.require('myphysicslab.lab.graph.GraphPoint');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -26,7 +27,6 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
@@ -47,12 +47,10 @@ var SimView = myphysicslab.lab.view.SimView;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
 
-/** Watches the {@link myphysicslab.lab.model.VarsList VarsList} of one or
-more {@link myphysicslab.lab.graph.GraphLine GraphLines} to calculate the range
-rectangle that encloses the points on the graphs, and sets accordingly the `simRect` of
-a {@link myphysicslab.lab.view.SimView SimView}. The range rectangle is the smallest
-rectangle that contains all the points, but possibly expanded by the
-{@link #extraMargin} factor.
+/** Watches the {@link VarsList} of one or more {@link GraphLine} to calculate the
+range rectangle that encloses the points on the graphs, and sets accordingly the
+`simRect` of a {@link SimView}. The range rectangle is the smallest rectangle that
+contains all the points, but possibly expanded by the {@link #extraMargin} factor.
 
 
 Temporarily Deactivate
@@ -102,16 +100,15 @@ range rectangle is the value of the event.
 
 
 * @param {string} name name of this AutoScale.
-* @param {!myphysicslab.lab.graph.GraphLine} graphLine the GraphLine to observe
+* @param {!GraphLine} graphLine the GraphLine to observe
 *     in order to calculate the range rectangle of its points
-* @param {!myphysicslab.lab.view.SimView} simView the SimView whose simRect will be
+* @param {!SimView} simView the SimView whose simRect will be
 *     modified to the range rectangle
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {myphysicslab.lab.util.Memorizable}
-* @implements {myphysicslab.lab.util.Subject}
 * @implements {myphysicslab.lab.util.Observer}
 */
 myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
@@ -120,7 +117,7 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
     throw new Error('not a GraphLine '+graphLine);
   }
   /** The GraphLines to auto-scale.
-  * @type {!Array<!myphysicslab.lab.graph.GraphLine>}
+  * @type {!Array<!GraphLine>}
   * @private
   */
   this.graphLines_ = [];
@@ -129,7 +126,7 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
     graphLine.addObserver(this);
   }
   /**
-  * @type {!myphysicslab.lab.view.SimView}
+  * @type {!SimView}
   * @private
   */
   this.simView_ = simView;
@@ -277,7 +274,7 @@ AutoScale.VERTICAL = 'VERTICAL';
 
 /** Add a GraphLine which will be observed to calculate the range rectangle of points
 on the line.
-@param {!myphysicslab.lab.graph.GraphLine} graphLine the GraphLine to add
+@param {!GraphLine} graphLine the GraphLine to add
 */
 AutoScale.prototype.addGraphLine = function(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
@@ -327,7 +324,7 @@ AutoScale.prototype.getEnabled = function() {
 /** Returns the range rectangle that encloses points on the GraphLines, including any
 extra margin. Note that this rectangle might not correspond to the SimView's simulation
 rectangle, see {@link #setAxis}.
-* @return {!myphysicslab.lab.util.DoubleRect} the range rectangle that encloses points
+* @return {!DoubleRect} the range rectangle that encloses points
 *    on the GraphLines
 */
 AutoScale.prototype.getRangeRect = function() {
@@ -428,7 +425,7 @@ AutoScale.prototype.rangeCheck_ = function() {
 
 /** Remove a GraphLine, it will no longer be observed for calculating the range
 rectangle of points on the line.
-@param {!myphysicslab.lab.graph.GraphLine} graphLine the GraphLine to remove
+@param {!GraphLine} graphLine the GraphLine to remove
 */
 AutoScale.prototype.removeGraphLine = function(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
@@ -540,7 +537,7 @@ AutoScale.prototype.setTimeWindow = function(value) {
 /** Updates the graph range to include the given point. For time variable, limit the
 range to the timeWindow. For non-time variable, expand the range an extra amount when
 the range is exceeded; this helps avoid too many visually distracting updates.
-* @param {!myphysicslab.lab.graph.GraphLine} line
+* @param {!GraphLine} line
 * @param {number} nowX
 * @param {number} nowY
 * @private

@@ -25,9 +25,9 @@ var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** A user interface control for displaying and editing the numeric value of a
-{@link myphysicslab.lab.util.ParameterNumber}.
+{@link ParameterNumber}.
 
-NumericControl is an extension of {@link myphysicslab.lab.controls.NumericControlBase}.
+NumericControl is an extension of {@link NumericControlBase}.
 NumericControlBase is the function-based version which doesn't take a ParameterNumber
 but instead has getter and setter functions.
 
@@ -37,7 +37,7 @@ but instead has getter and setter functions.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.controls.NumericControlBase}
+* @extends {NumericControlBase}
 */
 myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
   NumericControlBase.call(this, parameter.getName(/*localized=*/true),
@@ -45,7 +45,7 @@ myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
       goog.bind(parameter.setValue, parameter),
       textField);
   /**
-  * @type {!myphysicslab.lab.util.ParameterNumber}
+  * @type {!ParameterNumber}
   * @private
   */
   this.parameter_ = parameter;

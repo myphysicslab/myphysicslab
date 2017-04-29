@@ -105,7 +105,7 @@ control. The 'for' control of the LABEL seems to be the first control unless it 
 explicitly specified. The solution is to not use LABEL for grouping the slider elements,
 but use a DIV instead.
 
-* @param {!myphysicslab.lab.util.ParameterNumber} parameter the ParameterNumber to
+* @param {!ParameterNumber} parameter the ParameterNumber to
       display and control
 * @param {number} min  the minimum value that the parameter can take on
 * @param {number} max  the maximum value that the parameter can take on
@@ -122,7 +122,7 @@ but use a DIV instead.
 myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply,
       increments) {
   /**
-  * @type {!myphysicslab.lab.util.ParameterNumber}
+  * @type {!ParameterNumber}
   * @private
   */
   this.parameter_ = parameter;
@@ -483,7 +483,7 @@ the number of decimal places depends on the desired number of significant digits
 the ParameterNumber.
 @param {number} decimalPlaces the fixed number of fractional decimal places to show when
     formatting the number, or -1 to have variable number of fractional decimal places.
-@return {!myphysicslab.lab.controls.SliderControl} this SliderControl for chaining
+@return {!SliderControl} this SliderControl for chaining
     setters
 */
 SliderControl.prototype.setDecimalPlaces = function(decimalPlaces) {

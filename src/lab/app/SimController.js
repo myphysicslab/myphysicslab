@@ -24,28 +24,31 @@ goog.require('myphysicslab.lab.app.ViewPanner');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ErrorObserver');
+goog.require('myphysicslab.lab.util.Printable');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
 goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.util.Printable');
+goog.require('myphysicslab.lab.view.LabView');
 
 goog.scope(function() {
 
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
-var MouseTracker = myphysicslab.lab.app.MouseTracker;
-var ViewPanner = myphysicslab.lab.app.ViewPanner;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
+var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
+var LabView = myphysicslab.lab.view.LabView;
+var MouseTracker = myphysicslab.lab.app.MouseTracker;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
+var ViewPanner = myphysicslab.lab.app.ViewPanner;
 
 /** Handles mouse and keyboard events occurring in a LabCanvas; either forwards events
-to an {@link myphysicslab.lab.app.EventHandler EventHandler}, or does LabView panning
+to an {@link EventHandler}, or does LabView panning
 (moving the content of the LabView with the mouse).
 
 
@@ -61,10 +64,8 @@ Mouse Events
 ------------
 If LabView panning is in effect (see below), then mouse events are sent to the
 ViewPanner that was created. Otherwise, SimController calls
-{@link myphysicslab.lab.app.MouseTracker#findNearestDragable
-MouseTracker.findNearestDragable()}
-which returns a {@link myphysicslab.lab.app.MouseTracker MouseTracker} instance that
-processes the mouse events before (possibly) sending them to the EventHandler.
+{@link MouseTracker#findNearestDragable} which returns a {@link MouseTracker} instance
+that processes the mouse events before (possibly) sending them to the EventHandler.
 
 The MouseTracker forwards the mouse events to the EventHandler along with information
 such as: the mouse position in simulation coordinates of the LabView; the nearest
@@ -113,8 +114,8 @@ LabView Panning
 When specified modifier keys are pressed (such as control key) then mouse drag events
 will directly pan the focus LabView instead of sending events to the EventHandler. This
 modifies the simulation rectangle of the LabView by calling
-{@link myphysicslab.lab.view.LabView#setSimRect}. An instance of
-{@link myphysicslab.lab.app.ViewPanner} is created to handle the LabView panning.
+{@link LabView#setSimRect}. An instance of
+{@link ViewPanner} is created to handle the LabView panning.
 
 If LabView panning is enabled, it only occurs when the specified combination of modifier
 keys are down during the mouse event, given in the `panModifier` parameter. Here is an
@@ -166,11 +167,11 @@ function".
 @todo  Make a unit test; especially for findNearestDragable.  Note that it is
     possible to make synthetic events for testing in Javascript.
 
-* @param {!myphysicslab.lab.view.LabCanvas} labCanvas the LabCanvas to process events
+* @param {!LabCanvas} labCanvas the LabCanvas to process events
     for.
-* @param {?myphysicslab.lab.app.EventHandler=} eventHandler  the EventHandler
+* @param {?EventHandler=} eventHandler  the EventHandler
     to forward events to; or `null` or `undefined` to just do LabView panning.
-* @param {?myphysicslab.lab.app.SimController.modifierKey=} panModifier  which modifier
+* @param {?SimController.modifierKey=} panModifier  which modifier
     keys are needed for LabView panning; if `null`, then LabView panning will not be
     done; if `undefined` then default is to do LabView panning when alt key is pressed.
 * @constructor
@@ -181,12 +182,12 @@ function".
 */
 myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifier) {
   /** the LabCanvas to gather events from
-  * @type {!myphysicslab.lab.view.LabCanvas}
+  * @type {!LabCanvas}
   * @private
   */
   this.labCanvas_ = labCanvas;
   /**
-  * @type {?myphysicslab.lab.app.EventHandler}
+  * @type {?EventHandler}
   * @private
   */
   this.eventHandler_ = eventHandler || null;
@@ -225,12 +226,12 @@ myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifi
   */
   this.mouseDrag_ = false;
   /** the object that handles dragging a DisplayObject.
-  * @type {?myphysicslab.lab.app.MouseTracker}
+  * @type {?MouseTracker}
   * @private
   */
   this.mouseTracker_ = null;
   /** the object that handles panning a LabView
-  * @type {?myphysicslab.lab.app.ViewPanner}
+  * @type {?ViewPanner}
   * @private
   */
   this.myViewPanner_ = null;
@@ -412,7 +413,7 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 
 @param {number} mouseX X-coordinate relative to the client area (canvas)
 @param {number} mouseY Y-coordinate relative to the client area (canvas)
-@return {!myphysicslab.lab.util.Vector} the event location in the LabCanvas's screen coordinates
+@return {!Vector} the event location in the LabCanvas's screen coordinates
 @private
 */
 SimController.prototype.eventToScreen = function(mouseX, mouseY) {
@@ -504,7 +505,7 @@ SimController.prototype.finishDrag = function() {
 };
 
 /** Called when a key has been pressed, forwards the event by calling
-{@link myphysicslab.lab.app.EventHandler#handleKeyEvent}.
+{@link EventHandler#handleKeyEvent}.
 Only forward key events when selected
 target on web page is the LabCanvas, or no selected target (document.body is target in
 that case).
@@ -522,7 +523,7 @@ SimController.prototype.keyPressed = function(evt) {
 };
 
 /** Called when a key has been released, forwards the event by calling
-{@link myphysicslab.lab.app.EventHandler#handleKeyEvent}. Only forward key events when selected
+{@link EventHandler#handleKeyEvent}. Only forward key events when selected
 target on web page is the LabCanvas, or no selected target (document.body is target in
 that case).
 * @param {!goog.events.KeyEvent} evt the key up event that occurred

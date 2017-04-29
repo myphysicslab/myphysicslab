@@ -25,6 +25,7 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
+goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.ScreenRect');
 
 goog.scope(function() {
@@ -39,19 +40,18 @@ var GraphLine = lab.graph.GraphLine;
 var GraphPoint = lab.graph.GraphPoint;
 var GraphStyle = lab.graph.GraphStyle;
 var HistoryList = lab.util.HistoryList;
+var LabView = lab.view.LabView;
 var NF = lab.util.UtilityCore.NF;
 var NF5 = lab.util.UtilityCore.NF5;
 var ScreenRect = lab.view.ScreenRect;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** Displays one or more {@link myphysicslab.lab.graph.GraphLine GraphLines}. The
-GraphLines are drawn in the simulation coordinates of the containing
-{@link myphysicslab.lab.view.LabView LabView}.
+/** Displays one or more {@link GraphLine}. The GraphLines are drawn in the simulation
+coordinates of the containing {@link LabView}.
 
-The screen rectangle that the DisplayGraph should occupy within the
-{@link myphysicslab.lab.view.SimView SimView} must be set with {@link #setScreenRect}
-before drawing can be done.
+The screen rectangle that the DisplayGraph should occupy within the LabView must be set
+with {@link #setScreenRect} before drawing can be done.
 
 Additional GraphLines can be shown in the DisplayGraph, see {@link #addGraphLine}.
 
@@ -77,7 +77,7 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
     throw new Error('not a GraphLine '+opt_graphLine);
   }
   /** The GraphLines to draw.
-  * @type {!Array<!lab.graph.GraphLine>}
+  * @type {!Array<!GraphLine>}
   * @private
   */
   this.graphLines_ = goog.isDef(opt_graphLine) ? [opt_graphLine] : [];
@@ -92,12 +92,12 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
   */
   this.offScreen_ = null;
   /** to detect when redraw needed;  when the coordmap changes, we need to redraw.
-  * @type {?lab.view.CoordMap}
+  * @type {?CoordMap}
   * @private
   */
   this.lastMap_ = null;
   /**
-  * @type {!lab.view.ScreenRect}
+  * @type {!ScreenRect}
   * @private
   */
   this.screenRect_ = ScreenRect.EMPTY_RECT;
@@ -136,7 +136,7 @@ if (!UtilityCore.ADVANCED) {
 };
 
 /** Add a GraphLine to be displayed.
-@param {!lab.graph.GraphLine} graphLine the GraphLine to be display
+@param {!GraphLine} graphLine the GraphLine to be display
 */
 DisplayGraph.prototype.addGraphLine = function(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
@@ -230,7 +230,7 @@ DisplayGraph.prototype.draw = function(context, map) {
 Draws a small 5 pixel wide rectangle with the color set by {@link #setHotSpotColor}.
 If the hot spot color is the empty string, then the hot spot is not drawn.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!lab.view.CoordMap} coordMap the CoordMap specifying
+* @param {!CoordMap} coordMap the CoordMap specifying
 *     sim to screen conversion
 * @param {!GraphLine} graphLine
 * @private
@@ -251,7 +251,7 @@ DisplayGraph.prototype.drawHotSpot = function(context, coordMap, graphLine) {
 /** Draws the points starting from the specified point to the most recent point;
  returns the index of last point drawn.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!lab.view.CoordMap} coordMap the CoordMap specifying sim to
+* @param {!CoordMap} coordMap the CoordMap specifying sim to
 *     screen conversion
 * @param {number} from the index of the the point to start from, within the datapoints
 * @param {!GraphLine} graphLine
@@ -263,7 +263,7 @@ DisplayGraph.prototype.drawPoints = function(context, coordMap, from, graphLine)
   var iter = graphLine.getGraphPoints().getIterator(from);
   if (!iter.hasNext())
     return from;
-  /** @type {!lab.graph.GraphPoint} */
+  /** @type {!GraphPoint} */
   var next = iter.nextValue();  // move to first point
   // Draw first point.
   // Find the GraphStyle corresponding to this point.
@@ -276,7 +276,7 @@ DisplayGraph.prototype.drawPoints = function(context, coordMap, from, graphLine)
     context.fillRect(x, y, w, w);
   }
   while (iter.hasNext()) {
-    /** @type {!lab.graph.GraphPoint} */
+    /** @type {!GraphPoint} */
     var last = next;
     next = iter.nextValue();
     // if same point then don't draw again
@@ -319,7 +319,7 @@ DisplayGraph.prototype.drawPoints = function(context, coordMap, from, graphLine)
 
 /** Draws the entire graph into the given Graphics context.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!lab.view.CoordMap} coordMap the CoordMap specifying sim to
+* @param {!CoordMap} coordMap the CoordMap specifying sim to
 *    screen conversion
 * @private
 */
@@ -341,8 +341,8 @@ DisplayGraph.prototype.getPosition = function() {
 };
 
 /** Returns the screen rectangle that this DisplayGraph is occupying within the
-* {@link myphysicslab.lab.view.SimView SimView}, in screen coordinates.
-* @return {!lab.view.ScreenRect} the screen rectangle of this DisplayGraph in
+* {@link LabView}, in screen coordinates.
+* @return {!ScreenRect} the screen rectangle of this DisplayGraph in
 *    screen coordinates
 */
 DisplayGraph.prototype.getScreenRect = function() {
@@ -369,7 +369,7 @@ DisplayGraph.prototype.getZIndex = function() {
 /** Draws only the recent points into the given Graphics context.
 Keeps track of what was the last point drawn.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!lab.view.CoordMap} coordMap the CoordMap specifying sim to
+* @param {!CoordMap} coordMap the CoordMap specifying sim to
 *    screen conversion
 * @private
 */
@@ -391,7 +391,7 @@ DisplayGraph.prototype.isDragable = function() {
 };
 
 /** Remove a GraphLine from set of those to display.
-@param {!lab.graph.GraphLine} graphLine the GraphLine to not display
+@param {!GraphLine} graphLine the GraphLine to not display
 */
 DisplayGraph.prototype.removeGraphLine = function(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
@@ -423,8 +423,8 @@ DisplayGraph.prototype.setPosition = function(position) {
 };
 
 /** Sets the screen rectangle that this DisplayGraph should occupy within the
-* {@link myphysicslab.lab.view.SimView SimView}, in screen coordinates.
-* @param {!lab.view.ScreenRect} screenRect the screen coordinates of the
+* {@link LabView}, in screen coordinates.
+* @param {!ScreenRect} screenRect the screen coordinates of the
     area this DisplayGraph should occupy.
 */
 DisplayGraph.prototype.setScreenRect = function(screenRect) {

@@ -37,7 +37,7 @@ doesn't take a ParameterBoolean but instead has getter and setter functions.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.controls.CheckBoxControlBase}
+* @extends {CheckBoxControlBase}
 */
 myphysicslab.lab.controls.CheckBoxControl = function(parameter, checkBox) {
   CheckBoxControlBase.call(this, parameter.getName(/*localized=*/true),
@@ -45,7 +45,7 @@ myphysicslab.lab.controls.CheckBoxControl = function(parameter, checkBox) {
       goog.bind(parameter.setValue, parameter),
       checkBox);
   /**
-  * @type {!myphysicslab.lab.util.ParameterBoolean}
+  * @type {!ParameterBoolean}
   * @private
   */
   this.parameter_ = parameter;

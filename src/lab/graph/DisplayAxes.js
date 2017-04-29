@@ -53,18 +53,18 @@ the LabView.
 
 @todo  add option to set the number of tick marks (instead of automatic)?
 
-* @param {myphysicslab.lab.util.DoubleRect=} opt_simRect the area to draw axes for in
+* @param {DoubleRect=} opt_simRect the area to draw axes for in
   simulation coordinates.
 * @param {string=} opt_font the Font to draw numbers and names of axes with
 * @param {string=} opt_color the Color to draw the axes with
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) {
   /** bounds rectangle of area to draw
-  * @type {!myphysicslab.lab.util.DoubleRect}
+  * @type {!DoubleRect}
   * @private
   */
   this.simRect_ = opt_simRect || DoubleRect.EMPTY_RECT;
@@ -92,12 +92,12 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
   */
   this.fontAscent = 12;
   /** location of the horizontal axis, default value is BOTTOM
-  * @type {!myphysicslab.lab.view.VerticalAlign}
+  * @type {!VerticalAlign}
   * @private
   */
   this.horizAxisAlignment_ = VerticalAlign.BOTTOM;
   /** location of the vertical axis, default value is LEFT
-  * @type {!myphysicslab.lab.view.HorizAlign}
+  * @type {!HorizAlign}
   * @private
   */
   this.vertAxisAlignment_ = HorizAlign.LEFT;
@@ -211,9 +211,9 @@ DisplayAxes.prototype.draw = function(context, map) {
 /** Draws the tick marks for the horizontal axis.
 @param {number} y0 the vertical placement of the horizontal axis, in screen coords
 @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-@param {!myphysicslab.lab.view.CoordMap} map the mapping to use for translating
+@param {!CoordMap} map the mapping to use for translating
     between simulation and screen coordinates
-@param {!myphysicslab.lab.util.DoubleRect} r the view area in simulation coords
+@param {!DoubleRect} r the view area in simulation coords
 @private
 */
 DisplayAxes.prototype.drawHorizTicks = function(y0, context, map, r) {
@@ -258,9 +258,9 @@ DisplayAxes.prototype.drawHorizTicks = function(y0, context, map, r) {
 /** Draws the tick marks for the vertical axis.
 @param {number} x0 the horizontal placement of the vertical axis, in screen coords
 @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-@param {!myphysicslab.lab.view.CoordMap} map the mapping to use for translating
+@param {!CoordMap} map the mapping to use for translating
     between simulation and screen coordinates
-@param {!myphysicslab.lab.util.DoubleRect} r the view area in simulation coords
+@param {!DoubleRect} r the view area in simulation coords
 @private
 */
 DisplayAxes.prototype.drawVertTicks = function(x0, context, map, r) {
@@ -385,7 +385,7 @@ DisplayAxes.prototype.getSimObjects = function() {
 
 /** Returns the bounding rectangle for this DisplayAxes in simulation coordinates,
 which determines the numbering scale shown.
-@return {!myphysicslab.lab.util.DoubleRect} the bounding rectangle for this
+@return {!DoubleRect} the bounding rectangle for this
     DisplayAxes in simulation coordinates.
 */
 DisplayAxes.prototype.getSimRect = function() {
@@ -401,8 +401,7 @@ DisplayAxes.prototype.getVerticalName = function() {
 
 /** Returns the X-axis alignment: whether it should appear at bottom, top or middle of
 the simulation rectangle.
-@return {!myphysicslab.lab.view.VerticalAlign} X-axis alignment option
-    from {@link myphysicslab.lab.view.VerticalAlign}
+@return {!VerticalAlign} X-axis alignment option from {@link VerticalAlign}
 */
 DisplayAxes.prototype.getXAxisAlignment = function() {
   return this.horizAxisAlignment_;
@@ -410,8 +409,7 @@ DisplayAxes.prototype.getXAxisAlignment = function() {
 
 /** Returns the Y-axis alignment : whether it should appear at left, right or middle of
 the simulation rectangle.
-@return {!myphysicslab.lab.view.HorizAlign} Y-axis alignment option
-    from {@link myphysicslab.lab.view.HorizAlign}
+@return {!HorizAlign} Y-axis alignment option from {@link HorizAlign}
 */
 DisplayAxes.prototype.getYAxisAlignment = function() {
   return this.vertAxisAlignment_;
@@ -469,7 +467,7 @@ DisplayAxes.prototype.setPosition = function(position) {
 
 /** Sets the bounding rectangle for this DisplayAxes in simulation coordinates; this
 determines the numbering scale shown.
-@param {!myphysicslab.lab.util.DoubleRect} simRect the bounding rectangle for this
+@param {!DoubleRect} simRect the bounding rectangle for this
     DisplayAxes in simulation coordinates.
 */
 DisplayAxes.prototype.setSimRect = function(simRect) {
@@ -487,9 +485,8 @@ DisplayAxes.prototype.setVerticalName = function(name) {
 
 /** Sets the X-axis alignment: whether it should appear at bottom, top or middle of the
 simulation rectangle.
-@param {!myphysicslab.lab.view.VerticalAlign} alignment X-axis alignment option
-    from {@link myphysicslab.lab.view.VerticalAlign}
-@return {!myphysicslab.lab.graph.DisplayAxes} this object for chaining setters
+@param {!VerticalAlign} alignment X-axis alignment option from {@link VerticalAlign}
+@return {!DisplayAxes} this object for chaining setters
 */
 DisplayAxes.prototype.setXAxisAlignment = function(alignment) {
   this.horizAxisAlignment_ = alignment;
@@ -499,9 +496,8 @@ DisplayAxes.prototype.setXAxisAlignment = function(alignment) {
 
 /** Sets the Y-axis alignment: whether it should appear at left, right or middle of the
 simulation rectangle.
-@param {!myphysicslab.lab.view.HorizAlign} alignment Y-axis alignment option
-    from {@link myphysicslab.lab.view.HorizAlign}
-@return {!myphysicslab.lab.graph.DisplayAxes} this object for chaining setters
+@param {!HorizAlign} alignment Y-axis alignment option from {@link HorizAlign}
+@return {!DisplayAxes} this object for chaining setters
 */
 DisplayAxes.prototype.setYAxisAlignment = function(alignment) {
   this.vertAxisAlignment_ = alignment;

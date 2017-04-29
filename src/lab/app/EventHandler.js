@@ -21,8 +21,11 @@ goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
+var SimObject = myphysicslab.lab.model.SimObject;
+var Vector = myphysicslab.lab.util.Vector;
+
 /** Handles mouse dragging and keyboard events. Turns key events or mouse actions on a
-{@link myphysicslab.lab.model.SimObject SimObject} into changes in state variables of a
+{@link SimObject} into changes in state variables of a
 {@link myphysicslab.lab.model.Simulation Simulation}.
 
 {@link myphysicslab.lab.app.SimController SimController} is the intermediary that gets
@@ -49,14 +52,14 @@ along with mouse position in simulation coordinates. If no dragable SimObject wa
 found, `null` is passed for the first argument. If the EventHandler does not recognize
 the SimObject then it should return `false`.
 
-@param {?myphysicslab.lab.model.SimObject} simObject the SimObject that is nearest to
+@param {?SimObject} simObject the SimObject that is nearest to
     the mouse drag coordinates, or `null` if no SimObject was found
-@param {!myphysicslab.lab.util.Vector} location the location of the mouse in
+@param {!Vector} location the location of the mouse in
     simulation coordinates of the LabView where `simObject` was found, or the focus
     LabView if `simObject` is `null`
-@param {!myphysicslab.lab.util.Vector} offset distance from the initial object position
+@param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag
-@param {?myphysicslab.lab.util.Vector} dragBody location of 'drag point' on the
+@param {?Vector} dragBody location of 'drag point' on the
     SimObject in body coordinates of the SimObject; this is where for example a spring
     will be attached on the SimObject when dragging; or `null` when no SimObject
     was found
@@ -76,12 +79,12 @@ to the mouse position at the start of the drag.
 Therefore, setting the SimObject position to `(x - offsetX, y - offsetY)`
 will move the SimObject smoothly along with the mouse movement.
 
-@param {?myphysicslab.lab.model.SimObject} simObject the SimObject being dragged, or
+@param {?SimObject} simObject the SimObject being dragged, or
     `null` if no SimObject was found
-@param {!myphysicslab.lab.util.Vector} location the location of the mouse in
+@param {!Vector} location the location of the mouse in
     simulation coordinates of the LabView where `simObject` was found, or the focus
     LabView if `simObject` is `null`
-@param {!myphysicslab.lab.util.Vector} offset distance from the initial object position
+@param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag.
 @param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
 */
@@ -90,12 +93,12 @@ EventHandler.prototype.mouseDrag;
 /** Called at the end of a mouse drag operation, performs whatever action is
 appropriate.  Only called if {@link #startDrag} returned `true`.
 
-@param {?myphysicslab.lab.model.SimObject} simObject the SimObject being dragged, or
+@param {?SimObject} simObject the SimObject being dragged, or
     `null` if no SimObject was found
-@param {!myphysicslab.lab.util.Vector} location the location of the mouse in
+@param {!Vector} location the location of the mouse in
     simulation coordinates of the LabView where `simObject` was found, or the focus
     LabView if `simObject` is `null`
-@param {!myphysicslab.lab.util.Vector} offset distance from the initial object position
+@param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag.
 */
 EventHandler.prototype.finishDrag;
