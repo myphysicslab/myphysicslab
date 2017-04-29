@@ -16,11 +16,13 @@ goog.provide('myphysicslab.lab.util.test.AffineTransform_test');
 
 goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.AffineTransform');
 
 
 var testAffineTransform = function() {
   var Vector = myphysicslab.lab.util.Vector;
+  var MutableVector = myphysicslab.lab.util.MutableVector;
   var AffineTransform = myphysicslab.lab.util.AffineTransform;
 
   var tol = 1E-13;
@@ -38,12 +40,12 @@ var testAffineTransform = function() {
   assertTrue(at.transform(Vector.NORTH).nearEqual(new Vector(2, 4), tol));
 
   // translate with Vector
-  at = AffineTransform.IDENTITY.translate(new Vector(2, 3));
+  at = AffineTransform.IDENTITY.translate(new MutableVector(2, 3));
   assertTrue(at.transform(0, 0).nearEqual(new Vector(2, 3), tol));
   assertTrue(at.transform(Vector.ORIGIN).nearEqual(new Vector(2, 3), tol));
   assertTrue(at.transform(1, 0).nearEqual(new Vector(3, 3), tol));
   assertTrue(at.transform(Vector.EAST).nearEqual(new Vector(3, 3), tol));
-  assertTrue(at.transform(0, 1).nearEqual(new Vector(2, 4), tol));
+  assertTrue(at.transform(new MutableVector(0, 1)).nearEqual(new Vector(2, 4), tol));
   assertTrue(at.transform(Vector.NORTH).nearEqual(new Vector(2, 4), tol));
 
   // scale
@@ -74,5 +76,11 @@ var testAffineTransform = function() {
   assertTrue(at3.transform(Vector.EAST).nearEqual(
       xlt.transform(rot.transform(Vector.EAST)), tol));
   assertTrue(at3.transform(Vector.EAST).nearEqual(new Vector(2, 4), tol));
+
+  // these methods require 2 numbers or a GenericVector
+  assertThrows(function() { at.transform(0); });
+  assertThrows(function() { at.transform('foo'); });
+  assertThrows(function() { at.translate(0); });
+  assertThrows(function() { at.translate('foo'); });
 };
 goog.exportProperty(window, 'testAffineTransform', testAffineTransform);

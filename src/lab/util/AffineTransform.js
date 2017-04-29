@@ -14,11 +14,13 @@
 
 goog.provide('myphysicslab.lab.util.AffineTransform');
 
+goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var GenericVector = myphysicslab.lab.util.GenericVector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
@@ -113,7 +115,7 @@ if (!UtilityCore.ADVANCED) {
 };
 
 /** The identity AffineTransform, which leaves a point unchanged when it is applied.
-@type {!myphysicslab.lab.util.AffineTransform}
+@type {!AffineTransform}
 @const
 */
 AffineTransform.IDENTITY = new AffineTransform(1, 0, 0, 1, 0, 0);
@@ -153,9 +155,9 @@ Result is:
     [ (m12*a11 + m22*a12)  (m12*a21 + m22*a22)  (m12*ax + m22*ay + dy) ]
     [          0                    0                   1              ]
 
-* @param {!myphysicslab.lab.util.AffineTransform} at the AffineTransform matrix to
+* @param {!AffineTransform} at the AffineTransform matrix to
 *   right-multiply this AffineTransform matrix by
-* @return {!myphysicslab.lab.util.AffineTransform} the product of this AffineTransform
+* @return {!AffineTransform} the product of this AffineTransform
 *   matrix right-multiplied by the `at` AffineTransform matrix
 */
 AffineTransform.prototype.concatenate = function(at) {
@@ -204,7 +206,7 @@ Result is:
     [              0                          0               1  ]
 
 * @param {number} angle angle in radians to; positive angle rotates clockwise.
-* @return {!myphysicslab.lab.util.AffineTransform} a new AffineTransform equal to
+* @return {!AffineTransform} a new AffineTransform equal to
 *     this AffineTransform rotated by the given angle
 */
 AffineTransform.prototype.rotate = function(angle) {
@@ -235,7 +237,7 @@ Result is:
 
 * @param {number} x factor to scale by in horizontal direction
 * @param {number} y factor to scale by in vertical direction
-* @return {!myphysicslab.lab.util.AffineTransform} a new AffineTransform equal to
+* @return {!AffineTransform} a new AffineTransform equal to
 *     this AffineTransform scaled by the given x and y factors
 */
 AffineTransform.prototype.scale = function(x, y) {
@@ -268,20 +270,25 @@ Result is:
     [ m12 x + m22 y + dy ]
     [          1         ]
 
-* @param {!Vector|number} x the x coordinate or Vector containing both x and y
+* @param {!GenericVector|number} x the x coordinate or Vector containing both x and y
 * @param {number=} y the y coordinate
-* @return {!myphysicslab.lab.util.Vector} the transformation
-* of the given point.
+* @return {!Vector} the transformation of the given point.
 */
 AffineTransform.prototype.transform = function(x, y) {
-  if (x instanceof Vector) {
-    y = x.getY();
-    x = x.getX();
-  } else if (!goog.isNumber(x) || !goog.isNumber(y)) {
+  var x1, y1;
+  if (goog.isNumber(x)) {
+    x1 = x;
+    y1 = y;
+  } else {
+    var v = /** @type {!GenericVector} */(x);
+    y1 = v.getY();
+    x1 = v.getX();
+  }
+  if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
     throw new Error();
   }
-  var x2 = this.m11_ * x + this.m21_ * y + this.dx_;
-  var y2 = this.m12_ * x + this.m22_ * y + this.dy_;
+  var x2 = this.m11_ * x1 + this.m21_ * y1 + this.dx_;
+  var y2 = this.m12_ * x1 + this.m22_ * y1 + this.dy_;
   return new Vector(x2, y2);
 };
 
@@ -300,20 +307,26 @@ Result is:
     [ m12  m22  (m12*x + m22*y + dy) ]
     [ 0    0            1            ]
 
-* @param {!Vector|number} x the x coordinate or vector
+* @param {!GenericVector|number} x the x coordinate or vector
 * @param {number=} y the y coordinate
-* @return {!myphysicslab.lab.util.AffineTransform} a new AffineTransform equal to
+* @return {!AffineTransform} a new AffineTransform equal to
 *     this AffineTransform  translated by the given amount
 */
 AffineTransform.prototype.translate = function(x, y) {
-  if (x instanceof Vector) {
-    y = x.getY();
-    x = x.getX();
-  } else if (!goog.isNumber(x) || !goog.isNumber(y)) {
+  var x1, y1;
+  if (goog.isNumber(x)) {
+    x1 = x;
+    y1 = y;
+  } else {
+    var v = /** @type {!GenericVector} */(x);
+    y1 = v.getY();
+    x1 = v.getX();
+  }
+  if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
     throw new Error();
   }
-  var dx = this.dx_ + this.m11_*x + this.m21_*y;
-  var dy = this.dy_ + this.m12_*x + this.m22_*y;
+  var dx = this.dx_ + this.m11_*x1 + this.m21_*y1;
+  var dy = this.dy_ + this.m12_*x1 + this.m22_*y1;
   return new AffineTransform(this.m11_, this.m12_, this.m21_, this.m22_, dx, dy);
 };
 
