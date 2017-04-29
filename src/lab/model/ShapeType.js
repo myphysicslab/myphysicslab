@@ -14,8 +14,7 @@
 
 goog.provide('myphysicslab.lab.model.ShapeType');
 
-/** Enum that specifies the shape of an object.
-
+/** Enum that specifies the shape of a {@link myphysicslab.lab.model.PointMass}.
 * @readonly
 * @enum {number}
 */

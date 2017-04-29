@@ -38,23 +38,23 @@ var VarsList = myphysicslab.lab.model.VarsList;
 /** Abstract base class for {@link myphysicslab.lab.model.ODESim}.
 
 * @param {string=} opt_name name of this ODESim as a Subject
-* @param {!myphysicslab.lab.model.SimList=} opt_simList SimList to use (optional)
-* @param {!myphysicslab.lab.model.VarsList=} opt_varsList VarsList to use (optional)
+* @param {!SimList=} opt_simList SimList to use (optional)
+* @param {!VarsList=} opt_varsList VarsList to use (optional)
 * @constructor
 * @abstract
 * @struct
 * @implements {myphysicslab.lab.model.ODESim}
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.model.AbstractODESim = function(opt_name, opt_simList, opt_varsList) {
   AbstractSubject.call(this, opt_name || 'SIM');
   /**
-  * @type {!myphysicslab.lab.model.SimList}
+  * @type {!SimList}
   * @private
   */
   this.simList_ = opt_simList || new SimList();
   /**
-  * @type {!myphysicslab.lab.model.VarsList}
+  * @type {!VarsList}
   * @private
   */
   this.varsList_ = opt_varsList ||
@@ -133,8 +133,7 @@ AbstractODESim.prototype.getSimList = function() {
 };
 
 /** Sets the VarsList for this simulation.
-@param {!myphysicslab.lab.model.VarsList} varsList the VarsList to use in this
-    simulation
+@param {!VarsList} varsList the VarsList to use in this simulation
 @protected
 */
 AbstractODESim.prototype.setVarsList = function(varsList) {

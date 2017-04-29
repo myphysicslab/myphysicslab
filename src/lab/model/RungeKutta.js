@@ -20,25 +20,27 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var ODESim = myphysicslab.lab.model.ODESim;
+var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Runge-Kutta method for solving ordinary differential equations
-expressed as a {@link myphysicslab.lab.model.ODESim}; operates by using the
+expressed as a {@link ODESim}; operates by using the
 differential equations to advance the variables by a small time step.
 
 This is the most numerically accurate DiffEqSolver provided in myPhysicsLab. See
 [Runge-Kutta Algorithm](http://www.myphysicslab.com/runge_kutta.html) for an
 explanation of the algorithm.
 
-* @param {!myphysicslab.lab.model.ODESim} ode the set of differential equations to solve
+* @param {!ODESim} ode the set of differential equations to solve
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.DiffEqSolver}
+* @implements {DiffEqSolver}
 */
 myphysicslab.lab.model.RungeKutta = function(ode) {
   /**  the set of differential equations to solve.
-  * @type {!myphysicslab.lab.model.ODESim}
+  * @type {!ODESim}
   * @private
   */
   this.ode_ = ode;

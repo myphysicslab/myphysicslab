@@ -15,10 +15,12 @@
 goog.provide('myphysicslab.lab.model.ParametricPath');
 
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Defines a 2D path with a parametric function `f(t) = (x(t), y(t))`.  For example, a circle of radius 3 with center at the origin is defined by
 
@@ -43,7 +45,7 @@ purposes or the localized name for display to user.
 
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
-see {@link myphysicslab.lab.util.UtilityCore#toName} and {@link #nameEquals}.
+see {@link UtilityCore#toName} and {@link #nameEquals}.
 
 @param {boolean=} opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.
@@ -62,8 +64,7 @@ ParametricPath.prototype.getStartTValue;
 ParametricPath.prototype.isClosedLoop;
 
 /** Whether this ParametricPath has the given name, adjusting for the transformation to
-a language-independent form of the name, as is done by
-{@link myphysicslab.lab.util.UtilityCore#toName}.
+a language-independent form of the name, as is done by {@link UtilityCore#toName}.
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this ParametricPath has the given name (adjusted to
     language-independent form)

@@ -14,12 +14,16 @@
 
 goog.provide('myphysicslab.lab.model.MassObject');
 
+goog.require('myphysicslab.lab.model.SimObject');
+goog.require('myphysicslab.lab.util.AffineTransform');
+goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.SimObject');
 
 goog.scope(function() {
 
+var AffineTransform = myphysicslab.lab.util.AffineTransform;
+var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -62,16 +66,15 @@ and {@link myphysicslab.lab.model.EnergyInfo}.
 * @extends {myphysicslab.lab.model.SimObject}
 */
 myphysicslab.lab.model.MassObject = function() {};
-
 var MassObject = myphysicslab.lab.model.MassObject;
 
 /** Moves this body so that a certain point on this body is aligned to the given world
 coordinates location; optionally sets the angle of this body by rotating around the
 center of mass `angle` radians counter-clockwise from the body coordinates
 orientation.
-@param {!myphysicslab.lab.util.GenericVector} p_body the point on this body to be
+@param {!GenericVector} p_body the point on this body to be
     aligned to the new `p_world` location, in body coordinates
-@param {!myphysicslab.lab.util.GenericVector} p_world the world coordinates location to
+@param {!GenericVector} p_world the world coordinates location to
     move the specified `p_body` point to
 @param {number=} opt_angle the angle in radians to rotate this body counter-clockwise
     from 'body coordinates' orientation;  if not specified then leave the angle as is.
@@ -87,8 +90,7 @@ position of this object.
 MassObject.prototype.bodyToWorld;
 
 /** Returns the AffineTransform from body to world coordinates.
-* @return {!myphysicslab.lab.util.AffineTransform} the AffineTransform from body
-    to world coordinates.
+* @return {!AffineTransform} the AffineTransform from body to world coordinates.
 */
 MassObject.prototype.bodyToWorldTransform;
 
@@ -132,8 +134,7 @@ nature of the geometric curve.
 MassObject.prototype.getBottomWorld;
 
 /** Returns rectangle that contains this body in body coordinates.
-@return {!myphysicslab.lab.util.DoubleRect} rectangle that contains this body in body
-    coordinates
+@return {!DoubleRect} rectangle that contains this body in body coordinates
 */
 MassObject.prototype.getBoundsBody;
 
@@ -427,7 +428,7 @@ coordinate.
 @param {?number=} height the vertical world coordinate where this body has zero
     potential energy; `null` means to use default level;
     `undefined` means use the body's current vertical location is used
-@return {!myphysicslab.lab.model.MassObject} this MassObject for chaining setters
+@return {!MassObject} this MassObject for chaining setters
 */
 MassObject.prototype.setZeroEnergyLevel;
 

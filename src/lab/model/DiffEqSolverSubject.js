@@ -15,14 +15,13 @@
 goog.provide('myphysicslab.lab.model.DiffEqSolverSubject');
 
 goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
-goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.DiffEqSolver');
 goog.require('myphysicslab.lab.model.EnergySystem');
 goog.require('myphysicslab.lab.model.EulersMethod');
 goog.require('myphysicslab.lab.model.ModifiedEuler');
+goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
@@ -32,20 +31,22 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
+var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EulersMethod = myphysicslab.lab.model.EulersMethod;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
+var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
+var ODESim = myphysicslab.lab.model.ODESim;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var EnergySystem = myphysicslab.lab.model.EnergySystem;
 
-/** Makes available several {@link myphysicslab.lab.model.DiffEqSolver}s for advancing
+/** Makes available several {@link DiffEqSolver}s for advancing
 an ODESim simulation. Creates a ParameterString for changing which DiffEqSolver to use.
 The ParameterString can be hooked up to a ChoiceControl to allow the user to change the
 DiffEqSolver. Or you can directly invoke the {@link #setDiffEqSolver} method.
 
 The EnergySystem is only needed for the experimental
-{@link myphysicslab.lab.model.AdaptiveStepSolver}. If EnergySystem is not provided then
+{@link AdaptiveStepSolver}. If EnergySystem is not provided then
 all DiffEqSolver options are still available except for AdaptiveStepSolver.
 
 Parameters Created
@@ -53,33 +54,32 @@ Parameters Created
 
 + ParameterString named `DIFF_EQ_SOLVER`, see {@link #setDiffEqSolver}
 
-* @param {!myphysicslab.lab.model.ODESim} sim the simulation of interest
-* @param {?myphysicslab.lab.model.EnergySystem} energySystem the EnergySystem (usually
-    same as `sim`), can be `null`
-* @param {!myphysicslab.lab.model.ODEAdvance} advanceStrategy the AdvanceStrategy
-    being used to advance the simulation in time
+* @param {!ODESim} sim the simulation of interest
+* @param {?EnergySystem} energySystem the EnergySystem (usually same as `sim`),
+    can be `null`
+* @param {!ODEAdvance} advanceStrategy the AdvanceStrategy being used to advance the
+    simulation in time
 * @param {string=} opt_name name of this DiffEqSolverSubject.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.util.Subject}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
      advanceStrategy, opt_name) {
   AbstractSubject.call(this, opt_name || 'DIFF_EQ_SUBJECT');
   /**
-  * @type {!myphysicslab.lab.model.ODESim}
+  * @type {!ODESim}
   * @private
   */
   this.sim_ = sim;
   /**
-  * @type {?myphysicslab.lab.model.EnergySystem}
+  * @type {?EnergySystem}
   * @private
   */
   this.energySystem_ = energySystem;
   /**
-  * @type {!myphysicslab.lab.model.ODEAdvance}
+  * @type {!ODEAdvance}
   * @private
   */
   this.advanceStrategy_ = advanceStrategy;

@@ -30,15 +30,15 @@ var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
+var MassObject = myphysicslab.lab.model.MassObject;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ShapeType = myphysicslab.lab.model.ShapeType;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** A simple point-like {@link myphysicslab.lab.model.MassObject MassObject}, it has
-mass, velocity, size and shape. Default mass is 1, default shape is circle with
-diameter of 1. Center of mass is at the center of the shape. In body coordinates the
-center of mass at the origin.
+/** A simple point-like {@link MassObject}, it has mass, velocity, size and shape.
+Default mass is 1, default shape is circle with diameter of 1. Center of mass is at the
+center of the shape. In body coordinates the center of mass at the origin.
 
 ### Drawing an Ellipse
 
@@ -70,7 +70,7 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
   AbstractMassObject.call(this, name, localName);
   this.mass_ = 1;
   /**
-  * @type {!myphysicslab.lab.model.ShapeType}
+  * @type {!ShapeType}
   * @protected
   */
   this.shape_ = ShapeType.OVAL;
@@ -247,8 +247,7 @@ PointMass.prototype.getRightBody = function() {
 };
 
 /** Returns the shape of this PointMass.
-@return {!myphysicslab.lab.model.ShapeType} the shape of this PointMass,
-    from {@link myphysicslab.lab.model.ShapeType}
+@return {!ShapeType} the shape of this PointMass, from {@link ShapeType}
 */
 PointMass.prototype.getShape = function() {
   return this.shape_;
@@ -288,8 +287,7 @@ PointMass.prototype.setMass = function(mass) {
 };
 
 /** Changes the shape of this PointMass.
-* @param {!myphysicslab.lab.model.ShapeType} shape the shape of this PointMass,
-*    from {@link myphysicslab.lab.model.ShapeType}
+* @param {!ShapeType} shape the shape of this PointMass, from {@link ShapeType}
 * @return {!PointMass} this object for chaining setters
 */
 PointMass.prototype.setShape = function(shape) {
@@ -312,7 +310,7 @@ PointMass.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof this.constructor)) {
     return false;
   }
-  var pm = /** @type {!myphysicslab.lab.model.PointMass} */ (obj);
+  var pm = /** @type {!PointMass} */ (obj);
   if (!pm.loc_world_.nearEqual(this.loc_world_, opt_tolerance))
     return false;
   if (UtilityCore.veryDifferent(pm.width_, this.width_, opt_tolerance)) {

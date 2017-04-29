@@ -35,11 +35,11 @@ var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
+var MassObject = myphysicslab.lab.model.MassObject;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-var MassObject = myphysicslab.lab.model.MassObject;
 var Observer = myphysicslab.lab.util.Observer;
+var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -68,9 +68,9 @@ Parameters Created
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.model.ForceLaw}
-* @implements {myphysicslab.lab.util.Observer}
+* @extends {AbstractSubject}
+* @implements {ForceLaw}
+* @implements {Observer}
 */
 myphysicslab.lab.model.Gravity2Law = function(gravity, opt_simList) {
   var id = Gravity2Law.NAME_ID++;
@@ -219,7 +219,7 @@ Gravity2Law.prototype.getGravity = function() {
 /** Returns potential energy from gravity of the collection of MassObjects. Finds
 potential energy for each pair of objects and adds all these. Zero potential energy for
 each pair of objects is when they are at the minimum possible distance, as given by
-their {@link myphysicslab.lab.model.MassObject#getMinHeight} methods. If both objects
+their {@link MassObject#getMinHeight} methods. If both objects
 have zero minimum radius, then this method will throw an exception.
 
 ### Background on the calculations:

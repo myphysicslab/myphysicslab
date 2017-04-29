@@ -20,7 +20,8 @@ goog.scope(function() {
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 
-/** Provides information about an {@link myphysicslab.lab.model.EnergySystem EnergySystem}, such as potential and
+/** Provides information about an
+{@link myphysicslab.lab.model.EnergySystem EnergySystem}, such as potential and
 kinetic energy. The potential and translational energy are always a valid number. The
 rotational energy, work done,and initial energy can be `NaN` when they are not defined.
 

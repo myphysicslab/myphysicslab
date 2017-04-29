@@ -14,15 +14,19 @@
 
 goog.provide('myphysicslab.lab.model.Simulation');
 
+goog.require('myphysicslab.lab.model.SimList');
+goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.Subject');
 
 goog.scope(function() {
 
+var SimList = myphysicslab.lab.model.SimList;
+var SimObject = myphysicslab.lab.model.SimObject;
+
 /**  The mathematical model of a simulation.
 
-To communicate its state to the outside world, a Simulation contains a
-{@link myphysicslab.lab.model.SimList SimList} to which are added
-{@link myphysicslab.lab.model.SimObject SimObjects} like PointMass, Spring, etc.
+To communicate its state to the outside world, a Simulation contains a {@link SimList}
+to which are added {@link SimObject}s like PointMass, Spring, etc.
 
 An {@link myphysicslab.lab.model.AdvanceStrategy AdvanceStrategy} moves the Simulation
 forward in time, by solving the mathematical model for the next small increment in time.
@@ -31,10 +35,11 @@ the new Simulation state.
 
 A Simulation usually keeps track of the current time, see {@link #getTime}.
 There are no explicit units for the time, so you can regard a time unit as seconds or
-years as desired. See [About Units Of
-Measurement](Architecture.html#aboutunitsofmeasurement). Changing the Simulation time by a
-large amount can affect synchronization with the Clock used to advance the Simulation;
-see {@link myphysicslab.lab.app.SimRunner} section *How Simulation Advances with Clock*.
+years as desired.
+See [About Units Of Measurement](Architecture.html#aboutunitsofmeasurement).
+Changing the Simulation time by a large amount can affect synchronization with the
+Clock used to advance the Simulation; see {@link myphysicslab.lab.app.SimRunner}
+section *How Simulation Advances with Clock*.
 
 A Simulation can store its initial state with {@link #saveInitialState} and return to
 that initial state with {@link #reset}. The current time is saved with the initial
@@ -58,9 +63,8 @@ Simulation.RESET = 'RESET';
 */
 Simulation.INITIAL_STATE_SAVED = 'INITIAL_STATE_SAVED';
 
-/** Returns the list of SimObjects that represent this Simulation.
-@return {!myphysicslab.lab.model.SimList} the list of SimObjects that represent this
-    simulation
+/** Returns the list of {@link SimObject}s that represent this Simulation.
+@return {!SimList} the list of SimObjects that represent this simulation
 */
 Simulation.prototype.getSimList;
 
@@ -76,8 +80,7 @@ Simulation.prototype.getTime;
 Simulation.prototype.modifyObjects;
 
 /** Sets the Simulation back to its initial conditions, see {@link #saveInitialState},
-and calls {@link #modifyObjects}.
-Broadcasts event named {@link #RESET}.
+and calls {@link #modifyObjects}. Broadcasts event named {@link #RESET}.
 @return {undefined}
 */
 Simulation.prototype.reset;

@@ -24,6 +24,7 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
@@ -31,8 +32,8 @@ var Vector = myphysicslab.lab.util.Vector;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
 
-/** A Force acts on a given {@link myphysicslab.lab.model.MassObject MassObject}
-at a defined location and with a defined direction and magnitude.
+/** A Force acts on a given {@link MassObject} at a defined location and with a defined
+direction and magnitude.
 
 The method {@link #getStartPoint} gives the location in world coordinates where the
 Force is applied. The method {@link #getVector} gives the direction and magnitude of
@@ -41,7 +42,7 @@ the Force in world coordinates.
 The location and direction can be passed to the constructor either in fixed world
 coordinates, or in relative body coordinates. When given in body coordinates, the
 location and/or direction are calculated relative to the body's current position. See
-{@link myphysicslab.lab.model.CoordType}.
+{@link CoordType}.
 
 In {@link myphysicslab.lab.engine2D.RigidBodySim} the torque affects the angular
 acceleration like this:
@@ -52,48 +53,48 @@ acceleration like this:
 @todo move contactDistance and distanceTol to a sub-class called ContactForce?
 
 @param {string} name  string indicating the type of force, e.g. 'gravity'
-@param {!myphysicslab.lab.model.MassObject} body the MassObject that the Force is
+@param {!MassObject} body the MassObject that the Force is
     applied to
-@param {!myphysicslab.lab.util.Vector} location the location on the body where the force
+@param {!Vector} location the location on the body where the force
     is applied, in either body or world coordinates
-@param {!myphysicslab.lab.model.CoordType} locationCoordType whether the location is in
-    body or world coords, from {@link myphysicslab.lab.model.CoordType}.
-@param {!myphysicslab.lab.util.Vector} direction a Vector giving the direction and
+@param {!CoordType} locationCoordType whether the location is in
+    body or world coords, from {@link CoordType}.
+@param {!Vector} direction a Vector giving the direction and
     magnitude of the Force, in either body or world coordinates
-@param {!myphysicslab.lab.model.CoordType} directionCoordType whether the direction is
-    in body or world coords, from {@link myphysicslab.lab.model.CoordType}.
+@param {!CoordType} directionCoordType whether the direction is
+    in body or world coords, from {@link CoordType}.
 @param {number=} opt_torque torque to change angular acceleration of body
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
+* @extends {AbstractSimObject}
 * @implements {myphysicslab.lab.model.Line}
 */
 myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
     direction, directionCoordType, opt_torque) {
-  myphysicslab.lab.model.AbstractSimObject.call(this, name);
+  AbstractSimObject.call(this, name);
   /** which body the force is applied to
-  * @type {!myphysicslab.lab.model.MassObject}
+  * @type {!MassObject}
   * @private
   */
   this.body_ = body;
   /**  where the force is applied, in body or world coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.location_ = location;
   /** direction & magnitude of force, in body or world coords
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.direction_ = direction;
   /** whether location is in body or world coords
-  * @type {!myphysicslab.lab.model.CoordType}
+  * @type {!CoordType}
   * @private
   */
   this.locationCoordType_ = locationCoordType;
   /** whether direction is in body or world coords
-  * @type {!myphysicslab.lab.model.CoordType}
+  * @type {!CoordType}
   * @private
   */
   this.directionCoordType_ = directionCoordType;
@@ -112,7 +113,7 @@ myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
   this.torque_ = opt_torque===undefined ? 0 : opt_torque;
 };
 var Force = myphysicslab.lab.model.Force;
-goog.inherits(Force, myphysicslab.lab.model.AbstractSimObject);
+goog.inherits(Force, AbstractSimObject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
@@ -134,7 +135,7 @@ Force.prototype.getClassName = function() {
 };
 
 /** The body to which this Force is applied.
-* @return {!myphysicslab.lab.model.MassObject} The MassObject to which this
+* @return {!MassObject} The MassObject to which this
     force is applied
 */
 Force.prototype.getBody = function() {

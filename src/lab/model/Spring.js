@@ -27,21 +27,20 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MassObject = myphysicslab.lab.model.MassObject;
-var Vector = myphysicslab.lab.util.Vector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Vector = myphysicslab.lab.util.Vector;
 
-/** Represents a spring attached between two
-{@link myphysicslab.lab.model.MassObject MassObjects}, generates
-{@link myphysicslab.lab.model.Force Forces} depending on how the Spring is stretched.
-
-Damping is proportional to the relative velocity of the two objects.
+/** Represents a spring attached between two {@link MassObject}s, generates a
+{@link Force} which depends on how the Spring is stretched. Damping is proportional to
+the relative velocity of the two objects.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
 {@link myphysicslab.lab.engine2D.Scrim Scrim}.
@@ -56,13 +55,13 @@ is at the first attachment point on `body1`, but the end point is rest-length aw
 start point in the direction of the second attachment point.
 
 * @param {string} name language-independent name of this object
-* @param {!myphysicslab.lab.model.MassObject} body1 body to attach to start point of the
+* @param {!MassObject} body1 body to attach to start point of the
 *    Spring
-* @param {!myphysicslab.lab.util.GenericVector} attach1_body attachment point in body
+* @param {!GenericVector} attach1_body attachment point in body
 *    coords of body1
-* @param {!myphysicslab.lab.model.MassObject} body2 body to attach to end point of the
+* @param {!MassObject} body2 body to attach to end point of the
 *    Spring
-* @param {!myphysicslab.lab.util.GenericVector} attach2_body attachment point in body
+* @param {!GenericVector} attach2_body attachment point in body
 *    coords of body2
 * @param {number} restLength length of spring when it has no force
 * @param {number=} stiffness amount of force per unit distance of stretch
@@ -72,30 +71,30 @@ start point in the direction of the second attachment point.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
-* @implements {myphysicslab.lab.model.ForceLaw}
+* @extends {AbstractSimObject}
+* @implements {ForceLaw}
 * @implements {myphysicslab.lab.model.Line}
 */
 myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
       body2, attach2_body, restLength, stiffness, compressOnly) {
-  myphysicslab.lab.model.AbstractSimObject.call(this, name);
+  AbstractSimObject.call(this, name);
   /** body to attach point1 to
-  * @type {!myphysicslab.lab.model.MassObject}
+  * @type {!MassObject}
   * @private
   */
   this.body1_ = body1;
   /** attachment point in body coords for body1
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.attach1_ = attach1_body.immutable();
   /** body to attach point2 to
-  * @type {!myphysicslab.lab.model.MassObject}
+  * @type {!MassObject}
   * @private
   */
   this.body2_ = body2;
   /** attachment point in body coords for body2
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.attach2_ = attach2_body.immutable();
@@ -122,7 +121,7 @@ myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
   this.compressOnly_ = compressOnly || false;
 };
 var Spring = myphysicslab.lab.model.Spring;
-goog.inherits(Spring, myphysicslab.lab.model.AbstractSimObject);
+goog.inherits(Spring, AbstractSimObject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
@@ -180,14 +179,14 @@ Spring.prototype.disconnect = function() {
 };
 
 /** Returns attachment point for body 1, in body coordinates of body 1.
-@return {!myphysicslab.lab.util.Vector} attachment point for body 1, in body coordinates of body 1.
+@return {!Vector} attachment point for body 1, in body coordinates of body 1.
 */
 Spring.prototype.getAttach1 = function() {
   return this.attach1_;
 };
 
 /** Returns attachment point for body 2, in body coordinates of body 2.
-@return {!myphysicslab.lab.util.Vector} attachment point for body 2, in body coordinates of body 2.
+@return {!Vector} attachment point for body 2, in body coordinates of body 2.
 */
 Spring.prototype.getAttach2 = function() {
   return this.attach2_;
@@ -199,16 +198,14 @@ Spring.prototype.getBodies = function() {
 };
 
 /** Returns the RigidBody that start point of the spring is attached to.
-@return {!myphysicslab.lab.model.MassObject} the RigidBody that start point of the
-spring is attached to.
+@return {!MassObject} the RigidBody that start point of the spring is attached to.
 */
 Spring.prototype.getBody1 = function() {
   return this.body1_;
 };
 
 /** Returns the RigidBody that end point of the spring is attached to.
-@return {!myphysicslab.lab.model.MassObject} the RigidBody that end point of the spring
-is attached to.
+@return {!MassObject} the RigidBody that end point of the spring is attached to.
 */
 Spring.prototype.getBody2 = function() {
   return this.body2_;
@@ -301,7 +298,7 @@ Spring.prototype.getVector = function() {
 /** Sets the value of damping for this spring. Damping is proportional to the relative
 velocity of the two points.
 @param {number} damping the value of damping for this spring
-@return {!myphysicslab.lab.model.Spring} this Spring to allow chaining of setters
+@return {!Spring} this Spring to allow chaining of setters
 */
 Spring.prototype.setDamping = function(damping) {
   this.damping_ = damping
@@ -318,7 +315,7 @@ Spring.prototype.setRestLength = function(value) {
 
 /** Sets stiffness of this spring
 @param {number} stiffness the stiffness of this spring
-@return {!myphysicslab.lab.model.Spring} this Spring to allow chaining of setters
+@return {!Spring} this Spring to allow chaining of setters
 */
 Spring.prototype.setStiffness = function(stiffness) {
   this.stiffness_ = stiffness;

@@ -33,8 +33,7 @@ var Subject = myphysicslab.lab.util.Subject;
 
 @param {!Subject} varsList the VarsList which contains this Variable
 @param {string} name the name of this Variable; this will be underscorized so the
-    English name can be passed in here.
-    See {@link myphysicslab.lab.util.UtilityCore#toName}.
+    English name can be passed in here. See {@link UtilityCore#toName}.
 @param {string} localName the localized name of this Variable
 @constructor
 @struct
@@ -42,7 +41,7 @@ var Subject = myphysicslab.lab.util.Subject;
 */
 myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
   /** the VarsList which contains this Variable
-  @type {!myphysicslab.lab.util.Subject}
+  @type {!Subject}
   @private
   */
   this.varsList_ = varsList;

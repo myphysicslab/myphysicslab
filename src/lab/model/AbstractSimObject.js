@@ -17,15 +17,13 @@ goog.provide('myphysicslab.lab.model.AbstractSimObject');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var Vector = myphysicslab.lab.util.Vector;
 
 /** Base class that provides common methods for SimObjects.
 
@@ -34,7 +32,7 @@ var Vector = myphysicslab.lab.util.Vector;
 * @constructor
 * @struct
 * @abstract
-* @implements {myphysicslab.lab.model.SimObject}
+* @implements {SimObject}
 */
 myphysicslab.lab.model.AbstractSimObject = function(opt_name, opt_localName) {
   var name = opt_name || 'SIM_OBJ'+AbstractSimObject.ID++;

@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.model.Path');
 goog.require('myphysicslab.lab.model.PathIterator');
 goog.require('myphysicslab.lab.model.SimObject');
 
-/** A path of points.
+/** A set of connected points that form a line.
 
 * @interface
 * @extends {myphysicslab.lab.model.SimObject}

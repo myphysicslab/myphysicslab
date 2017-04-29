@@ -18,11 +18,14 @@ goog.require('myphysicslab.lab.util.Printable');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** An object in a Simulation which can be displayed. The purpose of SimObjects is
 two-fold:
@@ -49,7 +52,7 @@ expiration time. See {@link #getExpireTime}.
 
 Although SimObject has the method {@link #getMass} defined on it, all SimObjects should
 return zero for their mass unless they implement the
-{@link myphysicslab.lab.model.MassObject MassObject} interface.
+{@link myphysicslab.lab.model.MassObject} interface.
 
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
@@ -58,8 +61,7 @@ myphysicslab.lab.model.SimObject = function() {};
 var SimObject = myphysicslab.lab.model.SimObject;
 
 /** Returns rectangle that contains this SimObject in world coordinates.
-@return {!myphysicslab.lab.util.DoubleRect} rectangle that contains this SimObject
-   in world coordinates
+@return {!DoubleRect} rectangle that contains this SimObject in world coordinates
 */
 SimObject.prototype.getBoundsWorld;
 
@@ -75,7 +77,7 @@ purposes or the localized name for display to user.
 
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
-see {@link myphysicslab.lab.util.UtilityCore#toName} and {@link #nameEquals}.
+see {@link UtilityCore#toName} and {@link #nameEquals}.
 
 The name should give an idea of the role of the SimObject in the simulation. This
 allows us to to treat an object in a special way depending on its name. For example, we
@@ -93,8 +95,7 @@ SimObject.prototype.getName;
 SimObject.prototype.isMassObject;
 
 /** Whether this SimObject has the given name, adjusting for the transformation to a
-language-independent form of the name, as is done by
-{@link myphysicslab.lab.util.UtilityCore#toName}.
+language-independent form of the name, as is done by {@link UtilityCore#toName}.
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this SimObject has the given name (adjusted to
     language-independent form)
@@ -105,7 +106,7 @@ SimObject.prototype.nameEquals;
 This is intended for temporary SimObjects that illustrate, for example, contact forces
 or collisions.
 @param {number} time the expiration time, in time frame of the simulation clock
-@return {!myphysicslab.lab.model.SimObject} this SimObject for chaining setters
+@return {!SimObject} this SimObject for chaining setters
 */
 SimObject.prototype.setExpireTime;
 
@@ -113,7 +114,7 @@ SimObject.prototype.setExpireTime;
 purposes. SimObjects are similar when they are the same type and nearly the same size
 and location. Mainly used when showing forces - to avoid adding too many objects
 to the display. See {@link myphysicslab.lab.model.SimList#getSimilar}.
-@param {!myphysicslab.lab.model.SimObject} obj the SimObject to compare to
+@param {!SimObject} obj the SimObject to compare to
 @param {number=} opt_tolerance the amount the object components can differ by
 @return {boolean} true if this SimObject is similar to `obj` for display purposes
 */

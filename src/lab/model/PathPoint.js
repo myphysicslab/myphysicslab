@@ -32,12 +32,12 @@ input and output of NumericalPath methods. Instance properties are public to avo
 having numerous getter and setter methods.
 
 * @param {number=} p distance along path, measured in arc length
-* @param {boolean=} calculateRadius whether to calculate radius of curvature, default is
-*    `false`
+* @param {boolean=} calculateRadius whether to calculate radius of curvature,
+*    default is `false`
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.util.GenericVector}
+* @implements {GenericVector}
 */
 myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
   /** horizontal location of the point
@@ -172,7 +172,7 @@ PathPoint. The normal line passes thru this PathPoint's {@link #getPosition loca
     B = nx
     C = ny x0 - nx y0
 
-* @param {!myphysicslab.lab.util.GenericVector} point the point of interest
+* @param {!GenericVector} point the point of interest
 * @return {number} distance from the given location to the line along the normal from
     this PathPoint
 */
@@ -193,14 +193,14 @@ PathPoint.prototype.distanceToNormalLine = function(point) {
 };
 
 /** Returns the perpendicular normal unit vector at this point.
-* @return {!myphysicslab.lab.util.Vector} perpendicular normal unit vector at the point
+* @return {!Vector} perpendicular normal unit vector at the point
 */
 PathPoint.prototype.getNormal = function() {
   return new Vector(this.normalX, this.normalY);
 };
 
 /** Returns location of this point in space.
-* @return {!myphysicslab.lab.util.Vector} location of the point in space
+* @return {!Vector} location of the point in space
 */
 PathPoint.prototype.getPosition = function() {
   return new Vector(this.x, this.y);
@@ -208,7 +208,7 @@ PathPoint.prototype.getPosition = function() {
 
 /** Returns a unit vector tangent to the curve at this point, in direction of increasing
 `p`.
-* @return {!myphysicslab.lab.util.Vector} a unit vector tangent to curve at this point,
+* @return {!Vector} a unit vector tangent to curve at this point,
 *    in direction of increasing `p`
 */
 PathPoint.prototype.getSlope = function() {

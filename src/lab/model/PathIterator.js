@@ -16,7 +16,7 @@ goog.provide('myphysicslab.lab.model.PathIterator');
 
 goog.require('myphysicslab.lab.util.MutableVector');
 
-/** An iterator over points in a {@link myphysicslab.lab.model.Path Path}.
+/** An iterator over points in a {@link myphysicslab.lab.model.Path}.
 @interface
 */
 myphysicslab.lab.model.PathIterator = function() {};

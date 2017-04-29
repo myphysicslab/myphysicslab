@@ -20,26 +20,29 @@ goog.require('myphysicslab.lab.model.ODESim');
 
 goog.scope(function() {
 
+var Collision = myphysicslab.lab.model.Collision;
+var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
+var ODESim = myphysicslab.lab.model.ODESim;
+
 /** An ODESim simulation that detects and handles collisions between objects.
 
 * @interface
-* @extends {myphysicslab.lab.model.ODESim}
+* @extends {ODESim}
 */
 myphysicslab.lab.model.CollisionSim = function() {};
 
 var CollisionSim = myphysicslab.lab.model.CollisionSim;
 
 /** Finds collisions based on the passed in state variables. Can rely on
-{@link myphysicslab.lab.model.ODESim#modifyObjects} having been called prior, with this
+{@link ODESim#modifyObjects} having been called prior, with this
 set of state variables. Uses the state saved by
-{@link myphysicslab.lab.model.ODESim#saveState} as the 'before' state for comparison.
+{@link ODESim#saveState} as the 'before' state for comparison.
 
 The list of collisions that are passed in can potentially have collisions from the
 near future that were found previously. The CollisionSim should avoid adding collisions
 that are duplicates of those already on the list.
 
-@param {!Array<!myphysicslab.lab.model.Collision>} collisions the list of collisions
-    to add to
+@param {!Array<!Collision>} collisions the list of collisions to add to
 @param {!Array<number>} vars  the current array of state variables
 @param {number} stepSize the size of the current time step, in seconds
 */
@@ -48,15 +51,14 @@ CollisionSim.prototype.findCollisions;
 /** Adjusts the simulation state based on the given Collisions.
 For example, this might reverse the velocities of objects colliding against a wall.
 The simulation state is contained in the `vars` array of state variables from
-{@link myphysicslab.lab.model.ODESim#getVarsList}.
+{@link ODESim#getVarsList}.
 
 Note that these Collisions will typically be from the very near future;
 {@link myphysicslab.lab.model.CollisionAdvance} backs up to just before the moment of collision
 before handling Collisions.
 
-@param {!Array<!myphysicslab.lab.model.Collision>} collisions the list of current
-    collisions
-@param {!myphysicslab.lab.model.CollisionTotals=} opt_totals CollisionTotals object
+@param {!Array<!Collision>} collisions the list of current collisions
+@param {!CollisionTotals=} opt_totals CollisionTotals object
     to update with number of collisions handled (optional)
 @return {boolean} true if was able to handle the collision, changing state of
     simulation.

@@ -24,8 +24,8 @@ goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.ParameterNumber');
+goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 
@@ -35,10 +35,10 @@ var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
+var MassObject = myphysicslab.lab.model.MassObject;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-var MassObject = myphysicslab.lab.model.MassObject;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -56,8 +56,7 @@ Zero Energy Level
 GravityLaw has a default zero potential energy level which is used for MassObjects that
 return null from {@link #getZeroEnergyLevel}. This allows adding objects to a simulation
 without needing to set the zero energy level on each object. You can override this
-default zero energy level for an object with
-{@link myphysicslab.lab.model.MassObject#setZeroEnergyLevel}.
+default zero energy level for an object with {@link MassObject#setZeroEnergyLevel}.
 
 Parameters Created
 ------------------
@@ -72,8 +71,8 @@ Parameters Created
 @constructor
 @final
 @struct
-@extends {myphysicslab.lab.util.AbstractSubject}
-@implements {myphysicslab.lab.model.ForceLaw}
+@extends {AbstractSubject}
+@implements {ForceLaw}
 @implements {myphysicslab.lab.util.Observer}
 */
 myphysicslab.lab.model.GravityLaw = function(gravity, opt_simList) {
@@ -229,8 +228,7 @@ GravityLaw.prototype.getPotentialEnergy = function() {
 };
 
 /** Returns the default vertical world coordinate where a body has zero potential
-energy. Can override for a particular body with
-{@link myphysicslab.lab.model.MassObject#setZeroEnergyLevel}.
+energy. Can override for a particular body with {@link MassObject#setZeroEnergyLevel}.
 @return {number} the default vertical world coordinate where a body has zero potential
     energy
 */
@@ -258,8 +256,7 @@ GravityLaw.prototype.setGravity = function(gravity) {
 };
 
 /** Sets the default vertical world coordinate where a body has zero potential energy.
-Can override for a particular body with
-{@link myphysicslab.lab.model.MassObject#setZeroEnergyLevel}.
+Can override for a particular body with {@link MassObject#setZeroEnergyLevel}.
 @param {number} value the default vertical world coordinate where a body has zero
     potential energy
 */

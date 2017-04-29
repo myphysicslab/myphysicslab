@@ -17,18 +17,19 @@ goog.provide('myphysicslab.lab.model.PointsIterator');
 
 goog.require('myphysicslab.lab.model.AbstractSimObject');
 goog.require('myphysicslab.lab.model.ParametricPath');
+goog.require('myphysicslab.lab.model.Path');
+goog.require('myphysicslab.lab.model.PathIterator');
 goog.require('myphysicslab.lab.model.PathPoint');
+goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Path');
-goog.require('myphysicslab.lab.model.PathIterator');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MutableVector = myphysicslab.lab.util.MutableVector;
@@ -40,15 +41,13 @@ var PathPoint = myphysicslab.lab.model.PathPoint;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** A numerical approximation of a
-{@link myphysicslab.lab.model.ParametricPath ParametricPath}
-providing various functions to find points based on distance along the path and also the
-slope, normal, and derivatives at those points. Stores a representation of the
-ParametricPath as a table of values; interpolation is used to find values between table
-entries.
+/** A numerical approximation of a {@link ParametricPath} providing various functions
+to find points based on distance along the path and also the slope, normal, and
+derivatives at those points. Stores a representation of the ParametricPath as a table
+of values; interpolation is used to find values between table entries.
 
-Many of the NumericalPath methods pass information via a
-{@link myphysicslab.lab.model.PathPoint} for both input and output.
+Many of the NumericalPath methods pass information via a {@link PathPoint} for both
+input and output.
 
 See the [Roller Roaster Simulation](http://www.myphysicslab.com/RollerSimple.html) for
 more about the math involved here.
@@ -58,9 +57,8 @@ more about the math involved here.
 
 Points on the path are usually specified by the *path distance* to that point from a
 designated *starting point* on the path. The starting point is specified by the
-parametric *t-value* given by
-{@link myphysicslab.lab.model.ParametricPath#getStartTValue ParametricPath.getStartTValue()}.
-At that point the path distance is zero.
+parametric *t-value* given by {@link ParametricPath#getStartTValue}. At that point the
+path distance is zero.
 
 Path distance is abbreviated here as `p`, so you see methods named like
 {@link #map_p_to_slope} which finds the slope at a point specified by the `p` value of the
@@ -72,9 +70,8 @@ point.
 The path is specified by the parametric function `f(t) = (x(t), y(t))` which is defined
 by the ParametricPath provided to the constructor. We build the table by varying the
 parameter `t` from `tLow` to `tHigh` which are given by the ParametricPath methods
-{@link myphysicslab.lab.model.ParametricPath#getStartTValue getStartTValue} and
-{@link myphysicslab.lab.model.ParametricPath#getFinishTValue getFinishTValue}. The table stores
-information about each sample point such as
+{@link ParametricPath#getStartTValue} and {@link ParametricPath#getFinishTValue}. The
+table stores information about each sample point such as
 
 + path distance `p`
 + position `x,y` in space
@@ -150,18 +147,17 @@ can’t do something as simple as pass radius to Circle constructor. Also, might
 adjust path later on (translate for example, or scale or rotate). So might want to
 have the makeTable thing be callable anytime.
 
-* @param {!myphysicslab.lab.model.ParametricPath} path the ParametricPath to represent
-*     with a numerical table
+* @param {!ParametricPath} path the ParametricPath to represent with a numerical table
 * @param {number=} opt_tableLength optional number of points to store in table; default
 *     is 9000.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
+* @extends {AbstractSimObject}
 * @implements {myphysicslab.lab.model.Path}
 */
 myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
-  myphysicslab.lab.model.AbstractSimObject.call(this, path.getName());
+  AbstractSimObject.call(this, path.getName());
   /** Number of points stored in table.
   * @type {number}
   * @const
@@ -224,7 +220,7 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
   */
   this.plen = 0;
   /** bounds of the path, in simulation coordinates
-  * @type {!myphysicslab.lab.util.DoubleRect}
+  * @type {!DoubleRect}
   * @private
   */
   this.bounds = DoubleRect.EMPTY_RECT;
@@ -250,7 +246,7 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
   this.map_p_to_slope(this.endPoint_);
 };
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
-goog.inherits(NumericalPath, myphysicslab.lab.model.AbstractSimObject);
+goog.inherits(NumericalPath, AbstractSimObject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
@@ -396,7 +392,7 @@ NumericalPath.prototype.deriv3 = function(yy, k, type) {
 };
 
 /** Returns the distance-squared between the given point and a point on the path.
-@param {!myphysicslab.lab.util.GenericVector} point the point of interest
+@param {!GenericVector} point the point of interest
 @param {number} i index of point on the path
 @return {number} distance-squared between the given point and a point on the path
 @private
@@ -410,7 +406,7 @@ NumericalPath.prototype.distanceSquared = function(point, i) {
 
 /** Returns the distance-squared between the given point and an interpolated point on
 the path.
-@param {!myphysicslab.lab.util.GenericVector} point the point of interest
+@param {!GenericVector} point the point of interest
 @param {number} p  path position
 @param {number} k  index to start search at
 @return {number} distance-squared between the given point and an interpolated point on
@@ -431,9 +427,9 @@ This is a *global* search for the closest point over the entire path. This **doe
 interpolate between table entries**, see {@link #findNearestLocal} for a more accurate
 mapping using interpolation.
 
-@param {!myphysicslab.lab.util.GenericVector} point  the `x,y` position to search for
-@return {!myphysicslab.lab.model.PathPoint} a PathPoint with
-    the `x, y, p`, and `idx` fields are set to the closest point in the table.
+@param {!GenericVector} point  the `x,y` position to search for
+@return {!PathPoint} a PathPoint with the `x, y, p`, and `idx` fields are set to the
+    closest point in the table.
 */
 NumericalPath.prototype.findNearestGlobal = function(point) {
   var ppt = new PathPoint();
@@ -487,10 +483,10 @@ Outline of the algorithm:
       }
     } while (d > tiny);
 
-@param {!myphysicslab.lab.util.GenericVector} target the point of interest
-@param {!myphysicslab.lab.model.PathPoint} ppt the PathPoint used for
-    input and output; the table index `ppt.idx` is used to start the search; the `p`
-    value and table index are stored in `ppt`.
+@param {!GenericVector} target the point of interest
+@param {!PathPoint} ppt the PathPoint used for input and output;
+    the table index `ppt.idx` is used to start the search;
+    the `p` value and table index are stored in `ppt`.
 */
 NumericalPath.prototype.findNearestLocal = function(target, ppt) {
   // NOTE: k_int and dk_int should be integers at all times!
@@ -832,7 +828,7 @@ NumericalPath.prototype.linearSearch = function(p, k) {
 
 /**  Makes the table of path data.
  @todo  for closed loop we can use the regular centered three-point formula!
-@param {!myphysicslab.lab.model.ParametricPath} path
+@param {!ParametricPath} path
 @private
 */
 NumericalPath.prototype.make_table = function(path) {
@@ -1005,7 +1001,7 @@ NumericalPath.prototype.map_x_to_y = function(x) {
 
 /** Uses the `x` value of the PathPoint to find a point on the path, then
 interpolates to find corresponding `y` and `p` values.
-@param {!myphysicslab.lab.model.PathPoint} ppt the PathPoint used for input and output;
+@param {!PathPoint} ppt the PathPoint used for input and output;
     `ppt.x` is the input `x` value searched for; `ppt.y` and `ppt.p` are set
     accordingly.
 @throws {Error} if `x` values are not monotonically increasing or decreasing
@@ -1080,8 +1076,8 @@ Find radius of curvature for the four points on circle
 where tangent is horizontal or vertical.  Currently we get
 radius is infinite there which is wrong.
 
-@param {!myphysicslab.lab.model.PathPoint} ppt the PathPoint used for
-    input and output; `PathPoint.p` is the input path position. Optionally calculates
+@param {!PathPoint} ppt the PathPoint used for input and output;
+    `PathPoint.p` is the input path position. Optionally calculates
     the radius of curvature if `PathPoint.radius_flag` is set.
 */
 NumericalPath.prototype.map_p_to_slope = function(ppt) {
@@ -1316,7 +1312,7 @@ Assumes that the `p` values (distance along path) are increasing in the table.
 @todo plot more points where the path is more curvy, ie. where second derivative is
 bigger
 
-* @param {!myphysicslab.lab.model.NumericalPath} path the NumericalPath to iterate over
+* @param {!NumericalPath} path the NumericalPath to iterate over
 * @param {number} numberOfPoints number of points to deliver during the iteration
 * @constructor
 * @final
@@ -1326,7 +1322,7 @@ bigger
 myphysicslab.lab.model.PointsIterator = function(path, numberOfPoints) {
   numberOfPoints = Math.min(numberOfPoints, path.getTableLength());
   /**
-  * @type {!myphysicslab.lab.model.NumericalPath}
+  * @type {!NumericalPath}
   * @private
   */
   this.path_ = path;

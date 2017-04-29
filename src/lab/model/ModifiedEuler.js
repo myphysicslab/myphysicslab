@@ -19,24 +19,27 @@ goog.require('myphysicslab.lab.model.DiffEqSolver');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
+
+var ODESim = myphysicslab.lab.model.ODESim;
+var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Modified Euler method for solving ordinary differential equations
-expressed as a {@link myphysicslab.lab.model.ODESim}; operates by using the
+expressed as a {@link ODESim}; operates by using the
 differential equations to advance the variables by a small time step.
 
 This is a numerically stable version of the numerically unstable
 {@link myphysicslab.lab.model.EulersMethod}.
 
-* @param {!myphysicslab.lab.model.ODESim} ode the set of differential equations to solve
+* @param {!ODESim} ode the set of differential equations to solve
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.DiffEqSolver}
+* @implements {DiffEqSolver}
 */
 myphysicslab.lab.model.ModifiedEuler = function(ode) {
   /**  the set of differential equations to solve.
-  * @type {!myphysicslab.lab.model.ODESim}
+  * @type {!ODESim}
   * @private
   */
   this.ode_ = ode;

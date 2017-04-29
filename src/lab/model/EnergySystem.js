@@ -14,12 +14,14 @@
 
 goog.provide('myphysicslab.lab.model.EnergySystem');
 
+goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
-/** An object that provides information about its energy state. See
-{@link myphysicslab.lab.model.EnergyInfo}.
+var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+
+/** An object that provides information about its energy state. See {@link EnergyInfo}.
 
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
@@ -28,7 +30,7 @@ myphysicslab.lab.model.EnergySystem = function() {};
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 
 /** Returns the current EnergyInfo for this system.
-* @return {!myphysicslab.lab.model.EnergyInfo} an EnergyInfo object representing
+* @return {!EnergyInfo} an EnergyInfo object representing
 *    the current energy of this system.
 */
 EnergySystem.prototype.getEnergyInfo;

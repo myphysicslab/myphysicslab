@@ -27,7 +27,6 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
-var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var Collision = myphysicslab.lab.model.Collision;
 var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
@@ -40,6 +39,7 @@ var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF7E = myphysicslab.lab.util.UtilityCore.NF7E;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
+var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
@@ -50,8 +50,7 @@ When a collision is encountered, {@link #advance} backs up to just before the ti
 collision, handles the collision, then continues to advance to the end of the time step.
 (This process can happen many times during a single call to `advance`). Uses a binary
 search algorithm to get to the time just before the collision.
-The {@link myphysicslab.lab.model.DiffEqSolver DiffEqSolver}
-is used to move the simulation forward in time.
+The {@link DiffEqSolver} is used to move the simulation forward in time.
 
 ## Debugging with WayPoints
 
@@ -60,30 +59,30 @@ the process, yet they come and go as we move backward and forward in time. Speci
 WayPoints lets you focus on only the relevant aspects of the process, greatly reducing
 the volume of debug messages to sort thru.
 
-A {@link myphysicslab.lab.model.CollisionAdvance.WayPoint WayPoint} is a step of
-the AdvanceStrategy process where debug info can be printed. See the methods
-{@link #addWayPoints}, {@link #setWayPoints}. The method {@link #setDebugLevel} selects a
-pre-defined group of WayPoints.
+A {@link CollisionAdvance.WayPoint WayPoint} is a step of the AdvanceStrategy process
+where debug info can be printed. See the methods {@link #addWayPoints},
+{@link #setWayPoints}. The method {@link #setDebugLevel} selects a pre-defined group of
+WayPoints.
 
 See [Observing The Collision Handling Process](Engine2D.html#observingthecollisionhandlingprocess)
 in 2D Physics Engine Overview, and {@link CollisionAdvance.DebugLevel}.
 
-* @param {!myphysicslab.lab.model.CollisionSim} sim the CollisionSim to advance in time
-* @param {!myphysicslab.lab.model.DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to
-*     use, default is RungeKutta
+* @param {!CollisionSim} sim the CollisionSim to advance in time
+* @param {!DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to use, default is
+*     RungeKutta
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.ODEAdvance}
+* @implements {ODEAdvance}
 */
 myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   /**
-  * @type {!myphysicslab.lab.model.CollisionSim}
+  * @type {!CollisionSim}
   * @private
   */
   this.sim_ = sim;
   /**
-  * @type {!myphysicslab.lab.model.DiffEqSolver}
+  * @type {!DiffEqSolver}
   * @private
   */
   this.odeSolver_ = opt_diffEqSolver || new RungeKutta(sim);
@@ -93,7 +92,7 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   */
   this.timeStep_ = 0.025;
   /** Set of waypoints at which to print debug messages
-  * @type {!Array<myphysicslab.lab.model.CollisionAdvance.WayPoint>}
+  * @type {!Array<CollisionAdvance.WayPoint>}
   * @private
   */
   this.wayPoints_ = [CollisionAdvance.WayPoint.STUCK];
@@ -108,7 +107,7 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   */
   this.printTime_ = UtilityCore.NEGATIVE_INFINITY;
   /** long term count of number of collisions, backups, ode steps taken, etc.
-  * @type {!myphysicslab.lab.model.CollisionTotals}
+  * @type {!CollisionTotals}
   * @private
   */
   this.collisionTotals_ = new CollisionTotals();
@@ -146,18 +145,18 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   */
   this.nextEstimate_ = UtilityCore.NaN;
   /** the current set of collisions; includes joints, contacts, imminent collisions
-  * @type {!Array<!myphysicslab.lab.model.Collision>}
+  * @type {!Array<!Collision>}
   * @private
   */
   this.collisions_ = new Array();
   /** statistics about the current set of collisions
-  * @type {!myphysicslab.lab.model.CollisionStats}
+  * @type {!CollisionStats}
   * @private
   */
   this.stats_ = new CollisionStats();
   /** set of collisions that were 'not close enough' to be handled.  These are kept to
   * find the estimated time of next collision after handling current collisions.
-  * @type {!Array<!myphysicslab.lab.model.Collision>}
+  * @type {!Array<!Collision>}
   * @private
   */
   this.removedCollisions_ = new Array();
@@ -270,9 +269,8 @@ CollisionAdvance.DebugLevel = {
   CUSTOM: 5
 };
 
-/** Enum that specifies debugging 'way points' for
-{@link myphysicslab.lab.model.CollisionAdvance}. A WayPoint is a step of the
-AdvanceStrategy process where debug info can be printed.
+/** Enum that specifies debugging 'way points' for {@link CollisionAdvance}. A WayPoint
+is a step of the AdvanceStrategy process where debug info can be printed.
 * @readonly
 * @enum {number}
 */
@@ -336,7 +334,7 @@ CollisionAdvance.WayPoint = {
 var WayPoint = CollisionAdvance.WayPoint;
 
 /** Adds a group of WayPoints to show debug messages to the existing set of WayPoints.
-* @param {!Array<!myphysicslab.lab.model.CollisionAdvance.WayPoint>} wayPoints  array
+* @param {!Array<!CollisionAdvance.WayPoint>} wayPoints  array
 * of WayPoints to add
 */
 CollisionAdvance.prototype.addWayPoints = function(wayPoints) {
@@ -494,7 +492,7 @@ CollisionAdvance.prototype.advance = function(timeStep, opt_memoList) {
 };
 
 /** Returns the velocities of the collisions.
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
+* @param {!Array<!Collision>} collisions
 * @return {!Array<number>} minimum velocities
 * @private
 */
@@ -801,7 +799,7 @@ CollisionAdvance.prototype.do_small_impacts = function() {
 };
 
 /** Returns the CollisionTotals object giving collision statistics.
-@return {!myphysicslab.lab.model.CollisionTotals} the CollisionTotals object giving
+@return {!CollisionTotals} the CollisionTotals object giving
     collision statistics.
 */
 CollisionAdvance.prototype.getCollisionTotals = function() {
@@ -831,7 +829,7 @@ CollisionAdvance.prototype.getTimeStep = function() {
 };
 
 /** Returns the group of WayPoints to show debug messages at.
-* @return {!Array<!myphysicslab.lab.model.CollisionAdvance.WayPoint>} the group of
+* @return {!Array<!CollisionAdvance.WayPoint>} the group of
 *     WayPoints to show debug messages at.
 */
 CollisionAdvance.prototype.getWayPoints = function() {
@@ -839,7 +837,7 @@ CollisionAdvance.prototype.getWayPoints = function() {
 };
 
 /** Returns the joint flags of collisions
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
+* @param {!Array<!Collision>} collisions
 * @return {!Array<boolean>} joint flags
 * @private
 */
@@ -850,7 +848,7 @@ CollisionAdvance.prototype.jointFlags = function(collisions) {
 };
 
 /** Returns the maximum impulse applied to any of the collisions.
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
+* @param {!Array<!Collision>} collisions
 * @return {number} maximum impulse applied
 * @private
 */
@@ -862,7 +860,7 @@ CollisionAdvance.prototype.maxImpulse = function(collisions) {
 };
 
 /** Returns the smallest (most negative) velocity of the collisions.
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
+* @param {!Array<!Collision>} collisions
 * @return {number} minimum velocity
 * @private
 */
@@ -890,7 +888,7 @@ CollisionAdvance.prototype.myPrint = function(message, colors) {
 };
 
 /** Print the debug message corresponding to the given WayPoint.
-@param {myphysicslab.lab.model.CollisionAdvance.WayPoint} wayPoint the way point to
+@param {CollisionAdvance.WayPoint} wayPoint the way point to
     print debug information for
 @private
 */
@@ -1207,8 +1205,8 @@ CollisionAdvance.prototype.reset = function() {
 };
 
 /** Sets how much debugging information to show,
-see {@link myphysicslab.lab.model.CollisionAdvance.DebugLevel}.
-@param {!myphysicslab.lab.model.CollisionAdvance.DebugLevel} debugLevel specifies the
+see {@link CollisionAdvance.DebugLevel}.
+@param {!CollisionAdvance.DebugLevel} debugLevel specifies the
     groups of debug messages to show
 */
 CollisionAdvance.prototype.setDebugLevel = function(debugLevel) {
@@ -1308,7 +1306,7 @@ simulation state while stepping thru with debugger.
 
 Using `setDebugPaint()` allows you to see the sub-steps involved in calculating the next
 simulation state, such as each collision happening over a time step, or the sub-steps
-calculated by a {@link myphysicslab.lab.model.DiffEqSolver}. Normally you only see the
+calculated by a {@link DiffEqSolver}. Normally you only see the
 result after the next state is calculated, because the frame is painted after the
 simulation has advanced by a certain time step. By setting the `paintAll` function and
 setting a debugger break point you will be able to see the situation whenever
@@ -1351,7 +1349,7 @@ CollisionAdvance.prototype.setTimeStep = function(timeStep) {
 };
 
 /** Specifies the group of WayPoints to show debug messages at.
-* @param {!Array<!myphysicslab.lab.model.CollisionAdvance.WayPoint>} wayPoints  array
+* @param {!Array<!CollisionAdvance.WayPoint>} wayPoints  array
 * of WayPoints to show debug messages for
 */
 CollisionAdvance.prototype.setWayPoints = function(wayPoints) {

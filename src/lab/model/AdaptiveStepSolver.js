@@ -21,11 +21,14 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
+var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
+var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var ODESim = myphysicslab.lab.model.ODESim;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Experimental differential equation solver which reduces step size as
 needed to ensure that energy stays constant over every time step. Uses Decorator design
@@ -54,31 +57,28 @@ classes, like `modifyObjects, saveState, restoreState`. Note that the
 current CollisionSim interface has several of these methods, so there is
 an argument to extend ODESim in this way.
 
-* @param {!myphysicslab.lab.model.ODESim} diffEq the ODESim that defines the
-    differential equation to solve
-* @param {!myphysicslab.lab.model.EnergySystem} energySystem gives information about
-    energy in the ODESim
-* @param {!myphysicslab.lab.model.DiffEqSolver} diffEqSolver the DiffEqSolver to use
-    with various step sizes.
+* @param {!ODESim} diffEq the ODESim that defines the differential equation to solve
+* @param {!EnergySystem} energySystem gives information about energy in the ODESim
+* @param {!DiffEqSolver} diffEqSolver the DiffEqSolver to use with various step sizes.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.DiffEqSolver}
+* @implements {DiffEqSolver}
 */
 myphysicslab.lab.model.AdaptiveStepSolver = function(diffEq, energySystem,
       diffEqSolver) {
   /**
-  * @type {!myphysicslab.lab.model.ODESim}
+  * @type {!ODESim}
   * @private
   */
   this.diffEq_ = diffEq;
   /**
-  * @type {!myphysicslab.lab.model.EnergySystem}
+  * @type {!EnergySystem}
   * @private
   */
   this.energySystem_ = energySystem;
   /**
-  * @type {!myphysicslab.lab.model.DiffEqSolver}
+  * @type {!DiffEqSolver}
   * @private
   */
   this.odeSolver_ = diffEqSolver;

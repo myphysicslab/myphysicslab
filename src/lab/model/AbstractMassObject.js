@@ -16,26 +16,24 @@ goog.provide('myphysicslab.lab.model.AbstractMassObject');
 
 goog.require('goog.array');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var MassObject = myphysicslab.lab.model.MassObject;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Abstract class which implements most of the
-{@link myphysicslab.lab.model.MassObject MassObject} methods.
+/** Abstract class which implements most of the {@link MassObject} methods.
 
 * @param {string=} opt_name name of this SimObject (optional)
 * @param {string=} opt_localName localized name of this SimObject (optional)
@@ -43,7 +41,7 @@ var Vector = myphysicslab.lab.util.Vector;
 * @abstract
 * @struct
 * @extends {AbstractSimObject}
-* @implements {myphysicslab.lab.model.MassObject}
+* @implements {MassObject}
 */
 myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
   AbstractSimObject.call(this, opt_name, opt_localName);
@@ -53,7 +51,7 @@ myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
   */
   this.mass_ = 1;
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @protected
   */
   this.loc_world_ = Vector.ORIGIN;
@@ -73,7 +71,7 @@ myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
   */
   this.cosAngle_ = 1.0;
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @protected
   */
   this.velocity_ = Vector.ORIGIN;
@@ -83,7 +81,7 @@ myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
   */
   this.angular_velocity_ = 0;
   /** center of mass in body coordinates
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @protected
   */
   this.cm_body_ = Vector.ORIGIN;
@@ -94,7 +92,7 @@ myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
   */
   this.zeroEnergyLevel_ = null;
   /**
-  * @type {!Array<!myphysicslab.lab.util.Vector>}
+  * @type {!Array<!Vector>}
   * @protected
   */
   this.dragPts_ = [Vector.ORIGIN];
@@ -436,6 +434,5 @@ AbstractMassObject.prototype.worldToBody = function(p_world) {
   var vy = this.cm_body_.getY() + (rx*sin + ry*cos);
   return new Vector(vx, vy);
 };
-
 
 }); // goog.scope

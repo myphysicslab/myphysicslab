@@ -180,7 +180,6 @@ VarsList. Their position in the VarsList remains constant after they are allocat
 * @implements {myphysicslab.lab.model.ODESim}
 */
 myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
-  goog.asserts.assert(1 == 0);
   AbstractSubject.call(this, opt_name || 'SIM');
   /** The Polygons in this simulation.
   * @type {!Array<!Polygon>}

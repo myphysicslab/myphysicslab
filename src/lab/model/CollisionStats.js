@@ -20,6 +20,7 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var Collision = myphysicslab.lab.model.Collision;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -110,7 +111,7 @@ CollisionStats.prototype.clear = function() {
 
 /** Collects the collision statistics about the given set of collisions.
 First calls {@link #clear} to start from zero.
-@param {!Array<!myphysicslab.lab.model.Collision>} collisions the set of collisions to
+@param {!Array<!Collision>} collisions the set of collisions to
     examine
 */
 CollisionStats.prototype.update =  function(collisions) {

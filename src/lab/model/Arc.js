@@ -21,6 +21,7 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Vector = myphysicslab.lab.util.Vector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
@@ -36,10 +37,10 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
+* @extends {AbstractSimObject}
 */
 myphysicslab.lab.model.Arc = function(name, startAngle, radius, center) {
-  myphysicslab.lab.model.AbstractSimObject.call(this, name);
+  AbstractSimObject.call(this, name);
   /** Starting position of arc, in radians where zero
   * corresponds to 3 o'clock, `pi/2` corresponds to 12 o'clock.
   * @type {number}
@@ -63,7 +64,7 @@ myphysicslab.lab.model.Arc = function(name, startAngle, radius, center) {
   this.center_ = center;
 };
 var Arc = myphysicslab.lab.model.Arc;
-goog.inherits(Arc, myphysicslab.lab.model.AbstractSimObject);
+goog.inherits(Arc, AbstractSimObject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
@@ -150,7 +151,7 @@ Arc.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof this.constructor)) {
     return false;
   }
-  var arc = /** @type {!myphysicslab.lab.model.Arc} */ (obj);
+  var arc = /** @type {!Arc} */ (obj);
   if (UtilityCore.veryDifferent(arc.startAngle_, this.startAngle_, opt_tolerance)) {
     return false;
   }

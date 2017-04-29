@@ -80,8 +80,8 @@ Parameters Created
 @constructor
 @final
 @struct
-@extends {myphysicslab.lab.util.AbstractSubject}
-@implements {myphysicslab.lab.model.ForceLaw}
+@extends {AbstractSubject}
+@implements {ForceLaw}
 @implements {myphysicslab.lab.util.Observer}
 */
 myphysicslab.lab.model.DampingLaw = function(damping, rotateRatio, opt_simList) {
@@ -229,8 +229,8 @@ DampingLaw.prototype.getPotentialEnergy = function() {
   return 0;
 };
 
-/** Returns the ratio used to calculate rotational damping, as fraction of translational
-damping.
+/** Returns the ratio used to calculate rotational damping, as fraction of
+translational damping.
 * @return {number} ratio used to calculate rotational damping
 */
 DampingLaw.prototype.getRotateRatio = function() {

@@ -14,8 +14,8 @@
 
 goog.provide('myphysicslab.lab.model.SimpleAdvance');
 
-goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.DiffEqSolver');
+goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.GenericEvent');
@@ -23,37 +23,35 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
+var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;
-var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Advances an {@link myphysicslab.lab.model.ODESim ODESim} in a single step without
-doing any collision handling.
+/** Advances an {@link ODESim} in a single step without doing any collision handling.
 
-The {@link #advance} method calls {@link myphysicslab.lab.model.DiffEqSolver#step} to
-advance the Simulation state, and then
-{@link myphysicslab.lab.model.Simulation#modifyObjects} to update the state of the
-{@link myphysicslab.lab.model.SimObjects SimObjects}.
+The {@link #advance} method calls {@link DiffEqSolver#step} to advance the Simulation
+state, and then {@link myphysicslab.lab.model.Simulation#modifyObjects} to update the
+state of the {@link myphysicslab.lab.model.SimObject}s.
 
-* @param {!myphysicslab.lab.model.ODESim} sim the Simulation to advance thru time
-* @param {!myphysicslab.lab.model.DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to
+* @param {!ODESim} sim the Simulation to advance thru time
+* @param {!DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to
 *     use for advancing the simulation; default is RungeKutta.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.ODEAdvance}
+* @implements {ODEAdvance}
 */
 myphysicslab.lab.model.SimpleAdvance = function(sim, opt_diffEqSolver) {
   /**
-  * @type {!myphysicslab.lab.model.ODESim}
+  * @type {!ODESim}
   * @private
   */
   this.sim_ = sim;
   /**
-  * @type {!myphysicslab.lab.model.DiffEqSolver}
+  * @type {!DiffEqSolver}
   * @private
   */
   this.odeSolver_ = opt_diffEqSolver || new RungeKutta(sim);

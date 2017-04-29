@@ -15,20 +15,21 @@
 goog.provide('myphysicslab.lab.model.FunctionVariable');
 
 goog.require('myphysicslab.lab.model.ConcreteVariable');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var VarsList = myphysicslab.lab.model.VarsList;
 
-/** A Variable whose value is defined by a JavaScript function.
+/** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
+function.
 
-@param {!myphysicslab.lab.model.VarsList} varsList the VarsList which contains
-    this Variable
+@param {!VarsList} varsList the VarsList which contains this Variable
 @param {string} name the name of this Variable; this will be underscorized so the
-    English name can be passed in here.
-    See {@link myphysicslab.lab.util.UtilityCore#toName}.
+    English name can be passed in here. See {@link UtilityCore#toName}.
 @param {string} localName the localized name of this Variable
 * @param {function():number} fnc function that returns a value
 * @constructor

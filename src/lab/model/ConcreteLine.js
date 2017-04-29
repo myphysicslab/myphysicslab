@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.model.Line');
 
 goog.scope(function() {
 
+var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Vector = myphysicslab.lab.util.Vector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
@@ -35,24 +36,24 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractSimObject}
+* @extends {AbstractSimObject}
 * @implements {myphysicslab.lab.model.Line}
 */
 myphysicslab.lab.model.ConcreteLine = function(name, startPt, endPt) {
-  myphysicslab.lab.model.AbstractSimObject.call(this, name);
+  AbstractSimObject.call(this, name);
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.startPt_ = goog.isObject(startPt) ? startPt : Vector.ORIGIN;
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.endPt_ = goog.isObject(endPt) ? endPt : Vector.ORIGIN;
 };
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
-goog.inherits(ConcreteLine, myphysicslab.lab.model.AbstractSimObject);
+goog.inherits(ConcreteLine, AbstractSimObject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */
@@ -90,14 +91,14 @@ ConcreteLine.prototype.getVector = function() {
 };
 
 /** Sets ending point of the line.
-@param {!myphysicslab.lab.util.Vector} loc the ending point in world coords.
+@param {!Vector} loc the ending point in world coords.
 */
 ConcreteLine.prototype.setEndPoint = function(loc) {
   this.endPt_ = loc;
 };
 
 /** Sets starting point of the line.
-@param {!myphysicslab.lab.util.Vector} loc the starting point in world coords.
+@param {!Vector} loc the starting point in world coords.
 */
 ConcreteLine.prototype.setStartPoint = function(loc) {
   this.startPt_ = loc;

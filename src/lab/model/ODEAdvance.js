@@ -31,14 +31,13 @@ myphysicslab.lab.model.ODEAdvance = function() {};
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 
 /** Returns the DiffEqSolver used to solve the differential equations
-@return {!myphysicslab.lab.model.DiffEqSolver} the DiffEqSolver used to solve the
-    differential equations
+@return {!DiffEqSolver} the DiffEqSolver used to solve the differential equations
 */
 ODEAdvance.prototype.getDiffEqSolver;
 
 /** Sets the DiffEqSolver used to solve the differential equations
-@param {!myphysicslab.lab.model.DiffEqSolver} diffEqSolver the DiffEqSolver used to
-    solve the differential equations of this simulation.
+@param {!DiffEqSolver} diffEqSolver the DiffEqSolver used to solve the differential
+    equations of this simulation.
 */
 ODEAdvance.prototype.setDiffEqSolver;
 

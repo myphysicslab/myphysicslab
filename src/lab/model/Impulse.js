@@ -14,13 +14,13 @@
 
 goog.provide('myphysicslab.lab.model.Impulse');
 
-goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
+goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
@@ -28,9 +28,9 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
-var Vector = myphysicslab.lab.util.Vector;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** An Impulse is a sudden change in momentum, it acts on a given {@link MassObject}
 at a defined location and with a defined direction and magnitude.

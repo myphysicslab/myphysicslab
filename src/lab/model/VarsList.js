@@ -20,6 +20,7 @@ goog.require('myphysicslab.lab.model.ConcreteVariable');
 goog.require('myphysicslab.lab.model.Variable');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.GenericEvent');
+goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
@@ -31,17 +32,18 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
+var Parameter = myphysicslab.lab.util.Parameter;
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 var Subject = myphysicslab.lab.util.Subject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Variable = myphysicslab.lab.model.Variable;
 
-/** A set of {@link myphysicslab.lab.model.Variable Variables}. Variables are numbered
-from `0` to `n-1` where `n` is the number of Variables.
+/** A set of {@link Variable}s which represent the current state of a simulation.
+Variables are numbered from `0` to `n-1` where `n` is the number of Variables.
 
-VarsList is a {@link myphysicslab.lab.util.Subject} and each Variable is a
-{@link myphysicslab.lab.util.Parameter Parameter} of the VarsList. This makes the set
-of Variables available for scripting with {@link myphysicslab.lab.util.EasyScriptParser}.
+VarsList is a {@link Subject} and each Variable is a {@link Parameter} of the VarsList.
+This makes the set of Variables available for scripting with
+{@link myphysicslab.lab.util.EasyScriptParser}.
 
 Unlike other Subject classes, VarsList does not broadcast each Variable whenever the
 Variable changes. And VarsList prohibits adding general Parameters in its
@@ -54,8 +56,7 @@ Observers whenever Variables are added or removed.
 ### Continuous vs. Discontinuous Changes
 
 A change to a variable is either continuous or discontinuous. This affects how a line
-graph of the variable is drawn:
-{@link myphysicslab.lab.graph.DisplayGraph DisplayGraph}
+graph of the variable is drawn: {@link myphysicslab.lab.graph.DisplayGraph}
 doesn't draw a line at a point of discontinuity. A discontinuity is
 indicated by incrementing the sequence number.
 
@@ -86,17 +87,17 @@ index of other existing variables.
 
 ### Events Broadcast
 
-+ GenericEvent name {@link myphysicslab.lab.model.VarsList.VARS_MODIFIED}
++ GenericEvent name {@link VarsList.VARS_MODIFIED}
 
 * @param {!Array<string>} varNames  array of language-independent variable names;
      these will be underscorized so the English names can be passed in here.
-     See {@link myphysicslab.lab.util.UtilityCore#toName}.
+     See {@link UtilityCore#toName}.
 * @param {!Array<string>} localNames  array of localized variable names
 * @param {string=} opt_name name of this VarsList
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @throws {Error} if varNames and localNames are different lengths, or contain
 *     anything other than strings, or have duplicate values
 */
@@ -178,7 +179,7 @@ VarsList.prototype.addParameter = function(parameter) {
 };
 
 /** Add a Variable to this VarsList.
-@param {!myphysicslab.lab.model.Variable} variable the Variable to add
+@param {!Variable} variable the Variable to add
 @return {number} the index number of the variable
 @throws {Error} if name if the Variable is 'DELETED'
 */
@@ -201,7 +202,7 @@ VarsList.prototype.addVariable = function(variable) {
 /** Add a continguous block of ConcreteVariables.
 @param {!Array<string>} names language-independent names of variables; these will be
      underscorized so the English name can be passed in here.
-     See {@link myphysicslab.lab.util.UtilityCore#toName}.
+     See {@link UtilityCore#toName}.
 @param {!Array<string>} localNames localized names of variables
 @return {number} index index of first Variable that was added
 @throws {Error} if any of the variable names is 'DELETED', or array of names is empty
@@ -387,7 +388,7 @@ VarsList.prototype.getVariable = function(id) {
 /** Increments the sequence number for the specified variable(s), which indicates a
 discontinuity has occurred in the value of this variable. This information is used in a
 graph to prevent drawing a line between points that have a discontinuity. See
-{@link myphysicslab.lab.model.Variable#getSequence}.
+{@link Variable#getSequence}.
 @param {...number} indexes  the indexes of the variables;
     if no index given then all variable's sequence numbers are incremented
 */
@@ -468,7 +469,7 @@ VarsList.prototype.saveHistory = function() {
 };
 
 /** Indicates the specified Variables are being automatically computed.
-See {@link myphysicslab.lab.util.Parameter#isComputed}.
+See {@link Parameter#isComputed}.
 @param {...number} indexes  the indexes of the variables
 */
 VarsList.prototype.setComputed = function(indexes) {

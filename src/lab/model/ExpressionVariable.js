@@ -15,6 +15,7 @@
 goog.provide('myphysicslab.lab.model.ExpressionVariable');
 
 goog.require('myphysicslab.lab.model.ConcreteVariable');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
@@ -23,9 +24,10 @@ goog.scope(function() {
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var Terminal = myphysicslab.lab.util.Terminal;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var VarsList = myphysicslab.lab.model.VarsList;
 
-/** A Variable whose value is defined by a JavaScript expression which is evaluated at
-runtime.
+/** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
+expression which is evaluated at runtime.
 
 An example of using ExpressionVariable is in
 {@link myphysicslab.sims.springs.SingleSpringApp}. This adds a variable whose value is
@@ -38,11 +40,9 @@ An example of using ExpressionVariable is in
 The variable can then be displayed in a graph.
 
 
-* @param {!myphysicslab.lab.model.VarsList} varsList the VarsList which contains
-*     this Variable
+* @param {!VarsList} varsList the VarsList which contains this Variable
 * @param {string} name the name of this Variable; this will be underscorized so the
-*     English name can be passed in here.
-*     See {@link myphysicslab.lab.util.UtilityCore#toName}.
+*     English name can be passed in here. See {@link UtilityCore#toName}.
 * @param {string} localName the localized name of this Variable
 * @param {!Terminal} terminal the Terminal object used for evaluating the script
 * @param {string} script the JavaScript expression to evaluate that will provide the

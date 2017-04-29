@@ -20,6 +20,8 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var Force = myphysicslab.lab.model.Force;
+var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** A ForceLaw that applies a single constant Force. The Force can be set to `null`, in
@@ -29,15 +31,15 @@ which case this ForceLaw does nothing.
 @todo  Be able to specify a RigidBody and location on the RigidBody,
            see for example RotatingTestForce
 
-* @param {?myphysicslab.lab.model.Force} force the constant Force to apply, or `null`
+* @param {?Force} force the constant Force to apply, or `null`
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.ForceLaw}
+* @implements {ForceLaw}
 */
 myphysicslab.lab.model.ConstantForceLaw = function(force) {
   /**
-  * @type {?myphysicslab.lab.model.Force}
+  * @type {?Force}
   * @private
   */
   this.force_ = force;
@@ -75,8 +77,7 @@ ConstantForceLaw.prototype.disconnect = function() {
 
 /** Returns the constant Force that this ForceLaw applies or `null` if there is no
 Force.
-@return {?myphysicslab.lab.model.Force} the constant Force that this ForceLaw applies
-    or `null`
+@return {?Force} the constant Force that this ForceLaw applies or `null`
 */
 ConstantForceLaw.prototype.getForce = function() {
   return this.force_;
@@ -88,8 +89,7 @@ ConstantForceLaw.prototype.getPotentialEnergy = function() {
 };
 
 /** Sets the constant Force that this ForceLaw applies
-@param {?myphysicslab.lab.model.Force} force the constant Force that this ForceLaw
-    should apply, or `null`
+@param {?Force} force the constant Force that this ForceLaw should apply, or `null`
 */
 ConstantForceLaw.prototype.setForce = function(force) {
   this.force_ = force;

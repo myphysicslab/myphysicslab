@@ -65,7 +65,7 @@ of the GenericEvent is the SimObject that was added or removed.
 Similar Objects Are Not Added
 -----------------------------
 We avoid adding a SimObject when it has finite
-{@link myphysicslab.lab.model.SimObject#getExpireTime expiration time} and is similar
+{@link SimObject#getExpireTime expiration time} and is similar
 to an existing SimObject as found using {@link #getSimilar}.
 There is a *tolerance setting* that determines when SimObjects are similar, see {@link
 #getTolerance}.
@@ -77,12 +77,12 @@ of this is when we show forces in ContactSim.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.model.SimList = function() {
   AbstractSubject.call(this, 'SIM_LIST');
   /** The SimObjectss that this SimList contains.
-  * @type {!Array<!myphysicslab.lab.model.SimObject>}
+  * @type {!Array<!SimObject>}
   * @private
   */
   this.elements_ = [];
@@ -140,14 +140,14 @@ SimList.OBJECT_REMOVED = 'OBJECT_REMOVED';
 
 /** Adds the SimObject to this SimList. Notifies Observers by broadcasting
 the {@link #OBJECT_ADDED} event. For SimObjects with finite
-{@link myphysicslab.lab.model.SimObject#getExpireTime expiration time}, we remove
+{@link SimObject#getExpireTime expiration time}, we remove
 any existing similar SimObject in this SimList, as found using
 {@link #getSimilar} with the default tolerance from {@link #getTolerance}.
-@param {...!myphysicslab.lab.model.SimObject} simObjs the SimObjects to add
+@param {...!SimObject} simObjs the SimObjects to add
 */
 SimList.prototype.add = function(simObjs) {
   for (var i=0; i<arguments.length; i++) {
-    /** @type {!myphysicslab.lab.model.SimObject} */
+    /** @type {!SimObject} */
     var element = arguments[i];
     if (!goog.isDefAndNotNull(element)) {
       throw new Error('cannot add invalid SimObject');
@@ -168,7 +168,7 @@ SimList.prototype.add = function(simObjs) {
 
 /** Adds the set of SimObjects to this SimList. Notifies Observers by broadcasting the
 {@link #OBJECT_ADDED} event for each SimObject added.
-@param {!Array<!myphysicslab.lab.model.SimObject>} objList the SimObjects to add
+@param {!Array<!SimObject>} objList the SimObjects to add
 */
 SimList.prototype.addAll = function(objList) {
   for (var i=0, len=objList.length; i<len; i++) {
@@ -185,7 +185,7 @@ SimList.prototype.clear = function() {
 };
 
 /** Returns true if the SimObject is in this SimList.
-@param {!myphysicslab.lab.model.SimObject} simObj the SimObject to look for
+@param {!SimObject} simObj the SimObject to look for
 @return {boolean} true if the SimObject is in this SimList.
 */
 SimList.prototype.contains = function(simObj) {
@@ -196,8 +196,8 @@ SimList.prototype.contains = function(simObj) {
 SimObject in this SimList with the given name.
 @param {number|string} arg  index number or name of SimObject. Name should be English
     or language-independent version of name.
-@return {!myphysicslab.lab.model.SimObject} the SimObject at the specified position in
-    this SimList, or with the given name
+@return {!SimObject} the SimObject at the specified position in this SimList,
+    or with the given name
 @throws {Error} if SimObject not found or index out of range
 */
 SimList.prototype.get = function(arg) {
@@ -220,7 +220,7 @@ SimList.prototype.get = function(arg) {
 
 /** Returns the Arc with the given name, if found in this SimList.
 @param {string} name name of Arc to find
-@return {!myphysicslab.lab.model.Arc} the Arc with the given name
+@return {!Arc} the Arc with the given name
 @throws {Error} if Arc not found
 */
 SimList.prototype.getArc = function(name) {
@@ -234,7 +234,7 @@ SimList.prototype.getArc = function(name) {
 
 /** Returns the ConcreteLine with the given name, if found in this SimList.
 @param {string} name name of ConcreteLine to find
-@return {!myphysicslab.lab.model.ConcreteLine} the ConcreteLine with the given name
+@return {!ConcreteLine} the ConcreteLine with the given name
 @throws {Error} if ConcreteLine not found
 */
 SimList.prototype.getConcreteLine = function(name) {
@@ -248,7 +248,7 @@ SimList.prototype.getConcreteLine = function(name) {
 
 /** Returns the PointMass with the given name, if found in this SimList.
 @param {string} name name of PointMass to find
-@return {!myphysicslab.lab.model.PointMass} the PointMass with the given name
+@return {!PointMass} the PointMass with the given name
 @throws {Error} if PointMass not found
 */
 SimList.prototype.getPointMass = function(name) {
@@ -261,12 +261,12 @@ SimList.prototype.getPointMass = function(name) {
 };
 
 /** Returns a similar SimObject already in this SimList, or `null` if there isn't one.
-See {@link myphysicslab.lab.model.SimObject#similar} for how similarity is determined.
-@param {!myphysicslab.lab.model.SimObject} simObj the SimObject to use for comparison
+See {@link SimObject#similar} for how similarity is determined.
+@param {!SimObject} simObj the SimObject to use for comparison
 @param {number=} tolerance the tolerance used when testing for similarity; default is
     given by {@link #getTolerance}
-@return {?myphysicslab.lab.model.SimObject} a similar looking SimObject on this
-    SimList, or `null` if there isn't one
+@return {?SimObject} a similar looking SimObject on this SimList,
+    or `null` if there isn't one
 */
 SimList.prototype.getSimilar = function(simObj, tolerance) {
   var tol = (tolerance === undefined) ? this.tolerance_ : tolerance;
@@ -278,7 +278,7 @@ SimList.prototype.getSimilar = function(simObj, tolerance) {
 
 /** Returns the Spring with the given name, if found in this SimList.
 @param {string} name name of Spring to find
-@return {!myphysicslab.lab.model.Spring} the Spring with the given name
+@return {!Spring} the Spring with the given name
 @throws {Error} if Spring not found
 */
 SimList.prototype.getSpring = function(name) {
@@ -291,8 +291,7 @@ SimList.prototype.getSpring = function(name) {
 };
 
 /** Returns the tolerance used for similarity testing when adding objects to this
-SimList. See {@link myphysicslab.lab.model.SimObject#similar} for how similarity is
-determined.
+SimList. See {@link SimObject#similar} for how similarity is determined.
 @return {number} the tolerance used for similarity testing when adding
 SimObjects
 */
@@ -302,7 +301,7 @@ SimList.prototype.getTolerance = function() {
 
 /** Returns the index of the first occurrence of the specified SimObject in
 this list, or -1 if this list does not contain the SimObject.
-@param {!myphysicslab.lab.model.SimObject} simObj the SimObject to look for
+@param {!SimObject} simObj the SimObject to look for
 @return {number} the index of the first occurrence of the specified SimObject in
     this list, or -1 if this list does not contain the SimObject
 */
@@ -319,7 +318,7 @@ SimList.prototype.length = function() {
 
 /** Removes the SimObject from this SimList. Notifies Observers by broadcasting the
 {@link #OBJECT_REMOVED} event.
-@param {!myphysicslab.lab.model.SimObject} simObj the SimObject to remove
+@param {!SimObject} simObj the SimObject to remove
 */
 SimList.prototype.remove = function(simObj) {
   if (goog.array.remove(this.elements_, simObj)) {
@@ -329,7 +328,7 @@ SimList.prototype.remove = function(simObj) {
 
 /** Removes the set of SimObjects from this SimList. Notifies Observers by broadcasting
 the {@link #OBJECT_REMOVED} event for each SimObject removed.
-@param {!Array<!myphysicslab.lab.model.SimObject>} objList the SimObjects to remove
+@param {!Array<!SimObject>} objList the SimObjects to remove
 */
 SimList.prototype.removeAll = function(objList) {
   for (var i=0, len=objList.length; i<len; i++) {
@@ -339,7 +338,7 @@ SimList.prototype.removeAll = function(objList) {
 
 /** Removes SimObjects from this SimList whose *expiration time* is less than the given
 time. Notifies Observers by broadcasting the {@link #OBJECT_REMOVED} event for each
-SimObject removed. See {@link myphysicslab.lab.model.SimObject#getExpireTime}
+SimObject removed. See {@link SimObject#getExpireTime}
 @param {number} time the current simulation time
 */
 SimList.prototype.removeTemporary = function(time) {
@@ -353,8 +352,7 @@ SimList.prototype.removeTemporary = function(time) {
 };
 
 /** Sets the tolerance used for similarity testing when adding objects to this
-SimList. See {@link myphysicslab.lab.model.SimObject#similar} for how similarity is
-determined.
+SimList. See {@link SimObject#similar} for how similarity is determined.
 @param {number} tolerance the tolerance used for similarity testing when adding
     SimObjects
 */
@@ -363,8 +361,7 @@ SimList.prototype.setTolerance = function(tolerance) {
 };
 
 /** Returns an array containing all the SimObjects on this SimList.
-@return {!Array<!myphysicslab.lab.model.SimObject>} an array containing all the
-    SimObjects on this SimList.
+@return {!Array<!SimObject>} an array containing all the SimObjects on this SimList.
 */
 SimList.prototype.toArray = function() {
   return goog.array.clone(this.elements_);

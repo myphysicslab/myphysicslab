@@ -15,6 +15,7 @@
 goog.provide('myphysicslab.lab.model.ODESim');
 
 goog.require('myphysicslab.lab.model.Simulation');
+goog.require('myphysicslab.lab.model.VarsList');
 
 /** A Simulation based on ordinary differential equations. Contains an array of
 variables given by {@link #getVarsList} which holds the simulation state and an
@@ -28,7 +29,7 @@ conditions are set by modifying the values stored in the VarsList.
 
 Time is stored in the VarsList. When the simulation state is advanced, the time is
 advanced by the DiffEqSolver like any other variable. The time variable always has a
-rate of change of exactly 1.0, which is specified in the {#evaluate} method.
+rate of change of exactly 1.0, which is specified in the `evaluate` method.
 
 * @interface
 * @extends {myphysicslab.lab.model.Simulation}
@@ -43,8 +44,8 @@ The `timeStep` is the time since the state variables were last fully calculated,
 can be and often is zero. The current time can be regarded as `getTime() + timeStep`.
 The input variables correspond to the Simulation state at that time. Note that
 `timeStep` is different from the time step used to advance the Simulation (as in
-{@link myphysicslab.lab.model.AdvanceStrategy#advance}). The `timeStep` is typically used when
-finding collisions, see for example
+{@link myphysicslab.lab.model.AdvanceStrategy#advance}). The `timeStep` is typically
+used when finding collisions, see for example
 {@link myphysicslab.lab.model.CollisionSim#findCollisions}.
 
 @param {!Array<number>} vars the current array of state variables (input),
@@ -70,8 +71,8 @@ myphysicslab.lab.model.ODESim.prototype.restoreState;
 
 /** Saves the current state of the Simulation, so that we can back up to this state
 later on. The state is defined mainly by the set of Simulation variables, see
-{@link #getVarsList}, but can include other data. This state is typically used for collision
-detection as the *before collision* state, see
+{@link #getVarsList}, but can include other data. This state is typically used for
+collision detection as the *before collision* state, see
 {@link myphysicslab.lab.model.CollisionSim#findCollisions}.
 @return {undefined}
 */

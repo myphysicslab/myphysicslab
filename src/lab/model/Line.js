@@ -20,28 +20,27 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var SimObject = myphysicslab.lab.model.SimObject;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a directed line segment from starting point to ending point.
-
 * @interface
-* @extends {myphysicslab.lab.model.SimObject}
+* @extends {SimObject}
 */
 myphysicslab.lab.model.Line = function() {};
-
 var Line = myphysicslab.lab.model.Line;
 
 /** Returns ending point of this line in world coords.
-@return {!myphysicslab.lab.util.Vector} ending point of this line in world coords.
+@return {!Vector} ending point of this line in world coords.
 */
 Line.prototype.getEndPoint;
 
 /** Returns starting point of this line in world coords
-@return {!myphysicslab.lab.util.Vector} starting point of this line in world coords.
+@return {!Vector} starting point of this line in world coords.
 */
 Line.prototype.getStartPoint;
 
 /** Returns the Vector from starting point to ending point.
-@return {!myphysicslab.lab.util.Vector} the Vector from starting point to ending point.
+@return {!Vector} the Vector from starting point to ending point.
 */
 Line.prototype.getVector;
 
