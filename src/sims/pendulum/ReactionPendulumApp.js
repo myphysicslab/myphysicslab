@@ -33,6 +33,7 @@ goog.require('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
+goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Simulation');
 goog.require('myphysicslab.lab.util.AbstractSubject');
@@ -46,6 +47,7 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -66,6 +68,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var Arc = myphysicslab.lab.model.Arc;
 var AutoScale = lab.graph.AutoScale;
 var CheckBoxControl = lab.controls.CheckBoxControl;
@@ -79,6 +82,7 @@ var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DisplayLine = lab.view.DisplayLine;
+var DisplayList = lab.view.DisplayList;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
@@ -99,22 +103,22 @@ var Polygon = lab.engine2D.Polygon;
 var ReactionPendulumSim = sims.pendulum.ReactionPendulumSim;
 var SimController = lab.app.SimController;
 var SimList = lab.model.SimList;
+var SimObject = lab.model.SimObject;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
+var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** ReactionPendulumApp displays the reaction forces pendulum simulation
-{@link myphysicslab.sims.pendulum.ReactionPendulumSim ReactionPendulumSim} and compares it to
-the classic pendulum simulation
-{@link myphysicslab.sims.pendulum.PendulumSim PendulumSim} which is shown alongside.
-The simultaneous simulations show that the two pendulums are equivalent in their motion.
-This also confirms that the calculation for equivalent arm length (see below) is
-correct.
+/** Displays the reaction forces pendulum simulation {@link ReactionPendulumSim} and
+compares it to the classic pendulum simulation {@link PendulumSim} which is shown
+alongside. The simultaneous simulations show that the two pendulums are equivalent in
+their motion. This also confirms that the calculation for equivalent arm length (see
+below) is correct.
 
 Something to notice is that the reaction force diverges more from the stick vector as
 the size of disk increases. This is because a smaller disk is closer to the ideal of a
@@ -233,13 +237,13 @@ can be properly expanded.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {myphysicslab.lab.util.Observer}
 * @export
 */
 myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   UtilityCore.setErrorHandler();
-  myphysicslab.lab.util.AbstractSubject.call(this, 'APP');
+  AbstractSubject.call(this, 'APP');
   /** distance between the pendulum anchor points
   * @type {number}
   */
@@ -260,17 +264,17 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
   this.layout.simCanvas.setBackground('black');
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
-  /** @type {!lab.util.DoubleRect} */
+  /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-2, -2, 2, 2.7);
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.simView = new SimView('simView', this.simRect);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.statusView = new SimView('status', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
 
@@ -288,7 +292,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   this.sim1.setPotentialEnergy(0);
   va1.setValue(0, this.startAngle);
   this.sim1.saveInitialState();
-  /** @type {!lab.model.SimList} */
+  /** @type {!SimList} */
   this.simList1 = this.sim1.getSimList();
   // Ensure that changes to parameters or variables cause display to update
   new GenericObserver(this.sim1, goog.bind(function(evt) {
@@ -303,7 +307,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
       .setColor('#39c').setThickness(3);
   this.displayList.add(displayRod1);
 
-  /** @type {!lab.model.SimList} */
+  /** @type {!SimList} */
   this.simList2 = new SimList();
   this.simList2.addObserver(this);
   /** @type {!ReactionPendulumSim} */
@@ -321,19 +325,19 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
     this.sim2.modifyObjects();
   }, this), 'modifyObjects after parameter or variable change');
 
-  /** @type {!lab.app.SimController} */
+  /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/null);
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
   /** @type {!SimpleAdvance} */
   this.advance1 = new SimpleAdvance(this.sim1);
   /** @type {!SimpleAdvance} */
   this.advance2  = new SimpleAdvance(this.sim2);
-  /** @type {!lab.app.SimRunner} */
+  /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance1);
   this.simRun.addStrategy(this.advance2);
   this.simRun.addCanvas(simCanvas);
-  /** @type {!lab.util.Clock} */
+  /** @type {!Clock} */
   this.clock = this.simRun.getClock();
 
   /** @type {!ParameterBoolean} */
@@ -377,7 +381,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
       this.statusView, this);
   this.addControl(new CheckBoxControl(this.showEnergyParam1));
 
-  /** @type {!lab.graph.EnergyBarGraph} */
+  /** @type {!EnergyBarGraph} */
   this.energyGraph2 = new EnergyBarGraph(this.sim2);
   this.energyGraph2.potentialColor = '#903';
   this.energyGraph2.translationColor = '#f33';
@@ -389,7 +393,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
       ReactionPendulumApp.i18n.SHOW_ENERGY_2);
   this.addControl(new CheckBoxControl(this.showEnergyParam2));
 
-  /** @type {!lab.view.DisplayClock} */
+  /** @type {!DisplayClock} */
   this.displayClock = new DisplayClock(goog.bind(this.sim1.getTime, this.sim1),
       goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
@@ -434,7 +438,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
     }
   };
 
-  /** @type {!lab.graph.GraphLine} */
+  /** @type {!GraphLine} */
   var line1 = new GraphLine('GRAPH_LINE_1', va1);
   line1.setXVariable(0);
   line1.setYVariable(1);
@@ -442,7 +446,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   line1.setDrawingMode(DrawingMode.LINES);
 
   var va2 = this.sim2.getVarsList();
-  /** @type {!lab.graph.GraphLine} */
+  /** @type {!GraphLine} */
   var line2 = new GraphLine('GRAPH_LINE_2', va2);
   line2.setXVariable(translate(0));
   line2.setYVariable(translate(1));
@@ -460,7 +464,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
     }
   }, 'keep line1\'s X and Y variable in sync with line2');
 
-  /** @type {!sims.common.CompareGraph} */
+  /** @type {!CompareGraph} */
   this.graph = new CompareGraph(line1, line2,
       this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
@@ -480,7 +484,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
       timeLine2.setYVariable(translate(timeParamY1.getValue()));
     }
   }, 'keep timeLine2\'s Y variable in sync with timeLine1');
-  /** @type {!sims.common.CompareTimeGraph} */
+  /** @type {!CompareTimeGraph} */
   this.timeGraph = new CompareTimeGraph(timeLine1, timeLine2,
       this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
@@ -511,7 +515,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
-  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
+  /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
@@ -552,14 +556,14 @@ ReactionPendulumApp.prototype.addControl = function(control) {
 /** @inheritDoc */
 ReactionPendulumApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList2) {
-    var obj = /** @type {!myphysicslab.lab.model.SimObject} */ (event.getValue());
+    var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (this.displayList.find(obj) != null) {
         // we already have a DisplayObject for this SimObject, don't add a new one.
         return;
       }
       if (obj instanceof Polygon) {
-        var p = /** @type {!myphysicslab.lab.engine2D.Polygon} */(obj);
+        var p = /** @type {!Polygon} */(obj);
         var d = new DisplayShape(p).setDrawCenterOfMass(true).setFillStyle('#f66');
         d.setZIndex(-1);
         this.displayList.add(d);

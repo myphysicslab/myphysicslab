@@ -17,8 +17,7 @@ goog.provide('myphysicslab.lab.view.VerticalAlign');
 goog.scope(function() {
 
 /** Vertical alignment enum, used to specify how to align a LabView's simulation
-rectangle within its screen rectangle.
-See {@link myphysicslab.lab.view.CoordMap#make},
+rectangle within its screen rectangle. See {@link myphysicslab.lab.view.CoordMap#make},
 {@link myphysicslab.lab.view.SimView#setVerticalAlign}.
 
 Also used for alignment of DisplayAxes,
@@ -53,8 +52,7 @@ VerticalAlign.getChoices = function() {
 };
 
 /** Returns array containing all possible enum values.
-* @return {!Array<!myphysicslab.lab.view.VerticalAlign>} array containing all
-*    possible enum values.
+* @return {!Array<!VerticalAlign>} array containing all possible enum values.
 */
 VerticalAlign.getValues = function() {
   return [VerticalAlign.TOP,
@@ -65,7 +63,7 @@ VerticalAlign.getValues = function() {
 
 /** Converts a string to an enum.
 * @param {string} value the string to convert
-* @return {!myphysicslab.lab.view.VerticalAlign} the enum corresponding to the value
+* @return {!VerticalAlign} the enum corresponding to the value
 * @throws {Error} if the value does not represent a valid enum
 */
 VerticalAlign.stringToEnum = function(value) {

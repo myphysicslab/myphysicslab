@@ -19,7 +19,6 @@ goog.require('myphysicslab.lab.util.Printable');
 goog.scope(function() {
 
 /** Interprets and executes a script.
-
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
 */

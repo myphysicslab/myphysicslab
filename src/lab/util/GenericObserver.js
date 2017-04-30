@@ -75,7 +75,7 @@ using different settings for {@link myphysicslab.lab.engine2D.ExtraAccel}.
 @param {function(!SubjectEvent)} observeFn  function to execute when a SubjectEvent is
     broadcast by Subject
 @param {string=} opt_purpose Describes what this Observer does, for debugging
-@implements {myphysicslab.lab.util.Observer}
+@implements {Observer}
 @constructor
 @final
 @struct
@@ -88,7 +88,7 @@ myphysicslab.lab.util.GenericObserver = function(subject, observeFn, opt_purpose
   */
   this.purpose_ = UtilityCore.ADVANCED ? '' : (opt_purpose || '');
   /**
-  * @type {!myphysicslab.lab.util.Subject}
+  * @type {!Subject}
   * @private
   * @const
   */

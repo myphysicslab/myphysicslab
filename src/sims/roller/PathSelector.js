@@ -26,16 +26,16 @@ goog.require('myphysicslab.sims.roller.HasPath');
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+var HasPath = myphysicslab.sims.roller.HasPath;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
-var HasPath = myphysicslab.sims.roller.HasPath;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Provides a HasPath (such as roller coaster simulation) with a choice of several
-paths. Defines a ParameterString that has the set of available ParametricPaths as
-choices.
+/** Provides a {@link HasPath} (such as roller coaster simulation) with a choice of
+several paths. Defines a ParameterString that has the set of available ParametricPaths
+as choices.
 
 {@link #getPathName} returns name of current path. {@link #setPathName} sets the current
 path to be the path with the given name from among the set of paths that are specified
@@ -45,7 +45,7 @@ to the constructor.
 
 + ParameterString named `PATH`, see {@link #setPathName}.
 
-* @param {!myphysicslab.sims.roller.HasPath} hasPath
+* @param {!HasPath} hasPath
 * @param {!Array<!ParametricPath>} paths  the set of paths to offer
 * @constructor
 * @final
@@ -55,12 +55,12 @@ to the constructor.
 myphysicslab.sims.roller.PathSelector = function(hasPath, paths) {
   AbstractSubject.call(this, 'PATH_SELECTOR');
   /**
-  * @type {!myphysicslab.sims.roller.HasPath}
+  * @type {!HasPath}
   * @private
   */
   this.hasPath_ = hasPath;
   /**
-  * @type {!Array<!myphysicslab.lab.model.ParametricPath>}
+  * @type {!Array<!ParametricPath>}
   * @private
   */
   this.paths_ = paths;

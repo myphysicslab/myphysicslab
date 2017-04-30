@@ -122,9 +122,9 @@ Elasticity parameter.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
+* @extends {AbstractODESim}
 * @implements {myphysicslab.lab.app.EventHandler}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.model.CollisionSim}
 */
 myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
@@ -160,31 +160,31 @@ myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
       this.getName()+'_SIM'));
   this.getVarsList().setComputed(5, 6, 7);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.wallLeft_ = PointMass.makeRectangle(0.4, 4, 'wallLeft')
       .setMass(UtilityCore.POSITIVE_INFINITY);
   this.wallLeft_.setPosition(new Vector(-0.2,  0));
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.wallRight_ = PointMass.makeRectangle(0.4, 4, 'wallRight')
       .setMass(UtilityCore.POSITIVE_INFINITY);
   this.wallRight_.setPosition(new Vector(7.2,  0));
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.block1_ = PointMass.makeSquare(0.6, 'block1').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.block2_ = PointMass.makeSquare(0.6, 'block2').setMass(1.5);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring1_ = new Spring('spring1', /*body1=*/this.wallLeft_,
@@ -192,7 +192,7 @@ myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
       /*body2=*/this.block1_, /*attach2_body=*/ Vector.ORIGIN,
       /*restlength=*/2.5, /*stiffness=*/6.0);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring2_ = new Spring('spring2', /*body1=*/this.wallRight_,
@@ -408,9 +408,9 @@ CollideBlocksSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent)
 };
 
 /**
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
-* @param {!myphysicslab.lab.model.PointMass} leftBlock
-* @param {!myphysicslab.lab.model.PointMass} rightBlock
+* @param {!Array<!Collision>} collisions
+* @param {!PointMass} leftBlock
+* @param {!PointMass} rightBlock
 * @param {number} time
 * @private
 */

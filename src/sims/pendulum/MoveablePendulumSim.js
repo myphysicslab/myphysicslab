@@ -16,9 +16,9 @@ goog.provide('myphysicslab.sims.pendulum.MoveablePendulumSim');
 
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.AbstractODESim');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
@@ -31,9 +31,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = lab.model.AbstractODESim;
+var ConcreteLine = lab.model.ConcreteLine;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
-var ConcreteLine = lab.model.ConcreteLine;
 var NF = lab.util.UtilityCore.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
@@ -91,8 +91,8 @@ gravitational field. The kinetic energy should include the motion added by the a
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.pendulum.MoveablePendulumSim = function(opt_name) {
@@ -183,28 +183,28 @@ myphysicslab.sims.pendulum.MoveablePendulumSim = function(opt_name) {
   */
   this.running_ = false;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.anchor_ = PointMass.makeSquare(0.3, 'anchor').setMass(1.0);
   this.anchor_.setPosition(Vector.ORIGIN);
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.rod_ = new ConcreteLine('rod');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob_ = PointMass.makeCircle(0.2, 'bob').setMass(1);
   /** Follows the mouse position while applying spring force to anchor
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.mouse_ = PointMass.makeCircle(0.2, 'mouse').setMass(1.0);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.dragSpring_ = new Spring('dragSpring',
@@ -384,7 +384,7 @@ MoveablePendulumSim.prototype.moveObjects = function(vars) {
 };
 
 /** Returns the spring used to drag the anchor mass with the mouse.
-* @return {!myphysicslab.lab.model.Spring} the Spring used to drag the anchor
+* @return {!Spring} the Spring used to drag the anchor
 */
 MoveablePendulumSim.prototype.getDragSpring = function() {
   return this.dragSpring_;

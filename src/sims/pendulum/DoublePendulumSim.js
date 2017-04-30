@@ -16,9 +16,9 @@ goog.provide('myphysicslab.sims.pendulum.DoublePendulumSim');
 
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.AbstractODESim');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
@@ -28,9 +28,9 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
@@ -114,8 +114,8 @@ The variables are stored in the VarsList as follows
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
@@ -160,22 +160,22 @@ myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
   */
   this.rod2Length_ = 1;
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.rod1_ = new ConcreteLine('rod1');
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.rod2_ = new ConcreteLine('rod2');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob1_ = PointMass.makeCircle(0.2, 'bob1').setMass(2.0);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob2_ = PointMass.makeCircle(0.2, 'bob2').setMass(2.0);

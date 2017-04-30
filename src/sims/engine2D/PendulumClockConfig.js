@@ -15,6 +15,8 @@
 goog.provide('myphysicslab.sims.engine2D.PendulumClockConfig');
 
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+goog.require('myphysicslab.lab.engine2D.ContactSim');
+goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.EdgeRange');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Polygon');
@@ -28,7 +30,9 @@ goog.require('myphysicslab.sims.engine2D.GearsConfig');
 goog.scope(function() {
 
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
+var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var CoordType = myphysicslab.lab.model.CoordType;
+var Edge = myphysicslab.lab.engine2D.Edge;
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
@@ -51,12 +55,12 @@ var PendulumClockConfig = myphysicslab.sims.engine2D.PendulumClockConfig;
 /**  Creates the anchor with pendulum that engages the escape wheel in a
 pendulum clock.
 @param {number} scale  determines the size of the anchor
-@param {!myphysicslab.lab.util.Vector} anchorJoint where the anchor joint is in body coords of anchor
+@param {!Vector} anchorJoint where the anchor joint is in body coords of anchor
 @param {number} rodLength  length of the pendulum rod
 @param {number} bobRadius  radius of the round pendulum bob at end of pendulum
-@param {!Array<myphysicslab.lab.engine2D.Edge>} startEdges adds to this array
-    the starting edge of the anchor and the pendulum
-@return {!myphysicslab.lab.engine2D.Polygon} the anchor Polygon
+@param {!Array<Edge>} startEdges adds to this array the starting edge of the anchor
+    and the pendulum
+@return {!Polygon} the anchor Polygon
 */
 PendulumClockConfig.makeAnchor = function(scale, anchorJoint, rodLength, bobRadius,
       startEdges) {
@@ -99,9 +103,9 @@ PendulumClockConfig.makeAnchor = function(scale, anchorJoint, rodLength, bobRadi
 /**
 * @param {number} scale
 * @param {boolean} withGear
-* @param {!Array<myphysicslab.lab.engine2D.Edge>} startEdges adds to this array
-*    the starting edge of the escape wheel and gear
-* @return {!myphysicslab.lab.engine2D.Polygon}
+* @param {!Array<Edge>} startEdges adds to this array the starting edge of the escape
+*    wheel and gear
+* @return {!Polygon}
 */
 PendulumClockConfig.makeEscapeWheel = function(scale, withGear, startEdges) {
   var p = new Polygon(PendulumClockConfig.en.ESCAPE_WHEEL,
@@ -154,9 +158,9 @@ PendulumClockConfig.makeEscapeWheel = function(scale, withGear, startEdges) {
 
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
+* @param {!ContactSim} sim
 * @param {number} pendulumLength
-* @param {!myphysicslab.lab.util.Vector} center location of escape wheel center, in world coords
+* @param {!Vector} center location of escape wheel center, in world coords
 */
 PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
   var escapeEdges = [];
@@ -195,10 +199,9 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
+* @param {!ContactSim} sim
 * @param {number} pendulumLength
-* @param {!myphysicslab.lab.util.Vector} center location of escape wheel center,
-*    in world coords
+* @param {!Vector} center location of escape wheel center, in world coords
 */
 PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   // anchor is the rocking pendulum which regulates movement of escape wheel

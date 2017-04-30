@@ -36,5 +36,7 @@ var testScreenRect = function() {
   var sr3 = new ScreenRect(10, 10, 1000, 500);
   assertFalse(sr3.equals(sr1));
   assertFalse(sr3.nearEqual(sr1));
+
+  assertThrows(function() { new ScreenRect(0, 0, -100, 100); });
 };
 goog.exportProperty(window, 'testScreenRect', testScreenRect);

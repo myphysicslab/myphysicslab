@@ -51,6 +51,7 @@ goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -87,6 +88,7 @@ var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayConnector = lab.view.DisplayConnector;
 var DisplayGraph = lab.graph.DisplayGraph;
+var DisplayList = lab.view.DisplayList;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
@@ -104,6 +106,7 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
+var RigidBodyEventHandler = lab.app.RigidBodyEventHandler;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var RigidDoublePendulumSim = sims.pendulum.RigidDoublePendulumSim;
@@ -116,20 +119,18 @@ var Simulation = lab.model.Simulation;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
+var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
 /** Compares two double pendulum simulations that are run simultaneously: the
-theoretically accurate
-{@link myphysicslab.sims.pendulum.RigidDoublePendulumSim RigidDoublePendulumSim}
-and the equivalent double pendulum using the engine2D physics engine's
-{@link myphysicslab.lab.engine2D.ContactSim ContactSim}. The purpose is to
-show that the two are closely equivalent.
+theoretically accurate {@link RigidDoublePendulumSim} and the equivalent double
+pendulum using the engine2D physics engine's {@link ContactSim}. The purpose is to show
+that the two are closely equivalent.
 
 The angles shown in graphs are modified for the ContactSim so that they are equivalent
 to the corresponding RigidDoublePendulumSim angles. The adjustment is given by
-{@link myphysicslab.sims.pendulum.RigidDoublePendulumSim#getGamma1} and
-{@link myphysicslab.sims.pendulum.RigidDoublePendulumSim#getGamma2}.
+{@link RigidDoublePendulumSim#getGamma1} and {@link RigidDoublePendulumSim#getGamma2}.
 
 Creates instance objects such as the simulation and display objects;
 defines regular expressions for easy Terminal scripting of these objects using short
@@ -170,7 +171,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   // keep reference to terminal to make for shorter 'expanded' names
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -203,27 +204,27 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.sim2.setCollisionHandling(CollisionHandling.SERIAL_GROUPED);
   this.sim2.setExtraAccel(ExtraAccel.NONE);
   this.advance2.setJointSmallImpacts(true);
-  /** @type {!lab.util.DoubleRect} */
+  /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-2, -2, 2, 2);
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.simView = new SimView('simView', this.simRect);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.statusView = new SimView('status', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
-  /** @type {!lab.app.SimRunner} */
+  /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance1);
   this.simRun.addStrategy(this.advance2);
   this.simRun.addCanvas(simCanvas);
-  /** @type {!lab.util.Clock} */
+  /** @type {!Clock} */
   this.clock = this.simRun.getClock();
-  /** @type {!lab.app.RigidBodyEventHandler} */
-  this.rbeh = new myphysicslab.lab.app.RigidBodyEventHandler(this.sim2, this.clock);
-  /** @type {!lab.app.SimController} */
+  /** @type {!RigidBodyEventHandler} */
+  this.rbeh = new RigidBodyEventHandler(this.sim2, this.clock);
+  /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.rbeh);
   /** @type {!SimList} */
   this.simList2 = this.sim2.getSimList();
@@ -245,7 +246,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.sim2.addConnectors(this.parts2.joints);
   this.sim2.alignConnectors();
   this.sim2.saveInitialState();
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(this.sim1.getGravity(), this.simList2);
   this.sim2.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.simList2);
@@ -352,7 +353,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
       this.statusView, this);
   this.addControl(new CheckBoxControl(this.showEnergyParam1));
 
-  /** @type {!lab.graph.EnergyBarGraph} */
+  /** @type {!EnergyBarGraph} */
   this.energyGraph2 = new EnergyBarGraph(this.sim2);
   this.energyGraph2.potentialColor = '#903';
   this.energyGraph2.translationColor = '#f33';
@@ -497,7 +498,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   ];
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
-  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
+  /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

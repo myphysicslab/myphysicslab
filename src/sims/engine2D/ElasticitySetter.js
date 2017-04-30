@@ -15,14 +15,10 @@
 goog.provide('myphysicslab.sims.engine2D.ElasticitySetter');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
@@ -30,13 +26,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractSubject = lab.util.AbstractSubject;
-var GenericEvent = lab.util.GenericEvent;
 var Observer = lab.util.Observer;
 var ParameterNumber = lab.util.ParameterNumber;
-var RigidBody = lab.engine2D.RigidBody;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var SimList = lab.model.SimList;
-var Subject = lab.util.Subject;
 var UtilityCore = lab.util.UtilityCore;
 
 /** Provides a ParameterNumber for setting the elasticity of all RigidBodys in an
@@ -48,7 +40,7 @@ of RigidBodys and wants to find the user's desired value for elasticity.
 
 WARNING: The elasticity reported here is only accurate if all modifications to
 elasticity of RigidBodys are done thru this class or via
-{@link myphysicslab.lab.engine2D.RigidBodySim#setElasticity}.
+{@link RigidBodySim#setElasticity}.
 
 ### Parameters Created
 
@@ -56,7 +48,6 @@ elasticity of RigidBodys are done thru this class or via
 
 @param {!RigidBodySim} sim
 @extends {AbstractSubject}
-@implements {Subject}
 @implements {Observer}
 @constructor
 @final
@@ -65,7 +56,7 @@ elasticity of RigidBodys are done thru this class or via
 myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
   AbstractSubject.call(this, 'ELASTICITY_SETTER');
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBodySim}
+  * @type {!RigidBodySim}
   * @private
   */
   this.sim_ = sim;
@@ -77,7 +68,8 @@ myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
   sim.addObserver(this);
   this.addParameter(new ParameterNumber(this, ElasticitySetter.en.ELASTICITY,
       ElasticitySetter.i18n.ELASTICITY,
-      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this)).setSignifDigits(3).setUpperLimit(1));
+      goog.bind(this.getElasticity, this),
+      goog.bind(this.setElasticity, this)).setSignifDigits(3).setUpperLimit(1));
 };
 var ElasticitySetter = myphysicslab.sims.engine2D.ElasticitySetter;
 goog.inherits(ElasticitySetter, AbstractSubject);

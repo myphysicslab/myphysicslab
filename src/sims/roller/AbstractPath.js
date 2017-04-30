@@ -37,7 +37,7 @@ with all its subclasses.
 * @struct
 * @package
 * @abstract
-* @implements {myphysicslab.lab.model.ParametricPath}
+* @implements {ParametricPath}
 */
 myphysicslab.sims.roller.AbstractPath = function(name, localName, startTValue,
     finishTValue, closedLoop) {

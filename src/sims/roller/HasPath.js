@@ -17,21 +17,28 @@ goog.provide('myphysicslab.sims.roller.HasPath');
 goog.require('myphysicslab.lab.model.NumericalPath');
 goog.require('myphysicslab.lab.util.Printable');
 
-/** An object which has a {@link myphysicslab.lab.model.NumericalPath} that can be set.
+goog.scope(function() {
+
+var NumericalPath = myphysicslab.lab.model.NumericalPath;
+
+/** An object which has a {@link NumericalPath} that can be set.
 
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
 */
 myphysicslab.sims.roller.HasPath = function() {};
+var HasPath = myphysicslab.sims.roller.HasPath;
 
 /** Returns the NumericalPath for this object.
-* @return {?myphysicslab.lab.model.NumericalPath} the NumericalPath used
+* @return {?NumericalPath} the NumericalPath used
 *       by this object, or null if no path is set
 */
-myphysicslab.sims.roller.HasPath.prototype.getPath;
+HasPath.prototype.getPath;
 
 /** Sets the NumericalPath for this object.
-* @param {!myphysicslab.lab.model.NumericalPath} path the NumericalPath to be used
+* @param {!NumericalPath} path the NumericalPath to be used
 *       by this object
 */
-myphysicslab.sims.roller.HasPath.prototype.setPath;
+HasPath.prototype.setPath;
+
+}); // goog.scope

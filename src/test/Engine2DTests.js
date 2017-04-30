@@ -43,7 +43,7 @@ var StraightStraightTest = myphysicslab.test.StraightStraightTest;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
-{@link myphysicslab.test.Engine2DTestRig}.
+{@link Engine2DTestRig}.
 
 `GOOG_DEBUG` flag: Check the makefile to see if it is setting `GOOG_DEBUG` to false
 for this test; usually `goog.DEBUG` should be false when this is compiled to avoid

@@ -14,30 +14,31 @@
 
 goog.provide('myphysicslab.lab.util.Clock');
 
-goog.require('goog.asserts');
 goog.require('goog.array');
+goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.ClockTask');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.ClockTask');
 goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+var ClockTask = myphysicslab.lab.util.ClockTask;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var NF3 = myphysicslab.lab.util.UtilityCore.NF3;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+var Subject = myphysicslab.lab.util.Subject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var ClockTask = myphysicslab.lab.util.ClockTask;
 
 /** A clock that advances along with real time and can execute tasks at appointed
 times. There are commands to pause, resume, and single-step the Clock, as well as set
 its time and speed relative to system time. Clock has a list of
-{@link myphysicslab.lab.util.ClockTask}s which it causes to be executed at the times
+{@link ClockTask}s which it causes to be executed at the times
 specified by the ClockTasks. Clock has a parallel *real time* clock for measuring
 performance.
 
@@ -56,12 +57,11 @@ with real time as though each unit of time is equal to one second of real time.
 There are several types of time considered here: system time, clock time, simulation
 time, and real time. All of these are measured in seconds, though simulation time might
 have a different meaning – see
-[About Units Of Measurement](Architecture.html#aboutunitsofmeasurement). Since simulation
-time follows clock time, you should think of clock time being in the same units as
-simulation time.
+[About Units Of Measurement](Architecture.html#aboutunitsofmeasurement). Since
+simulation time follows clock time, you should think of clock time being in the same
+units as simulation time.
 
-+ **System Time** is given by
-{@link myphysicslab.lab.util.UtilityCore#getSystemTime UtilityCore.getSystemTime()}.
++ **System Time** is given by {@link UtilityCore#getSystemTime}.
 System time is the basis of the other time measurements. For example, clock time and
 real time each have a 'system start time' by which they are measured. System time is
 always running.
@@ -72,7 +72,7 @@ time). Clock time can be modified directly by calling {@link #setTime Clock.setT
 Clock time can be paused or resumed.
 
 + **Simulation Time** is given by
-{@link myphysicslab.lab.model.Simulation#getTime Simulation.getTime()}. Simulation time
+{@link myphysicslab.lab.model.Simulation#getTime}. Simulation time
 is advanced by the client, usually to keep up with clock time. When performance problems
 occur, the clock time is retarded via {@link #setTime Clock.setTime()} to match the
 current simulation time.
@@ -90,7 +90,7 @@ of clock time by the amount of time lost to performance problems.
 
 ## ClockTask
 
-A {@link myphysicslab.lab.util.ClockTask ClockTask} contains a function which is to
+A {@link ClockTask} contains a function which is to
 be executed at a specific time. ClockTasks are scheduled as a side effect of Clock
 methods such as `setTime(), resume(), addTask()`. ClockTasks are cancelled as a side
 effect of Clock methods such as `pause(), removeTask()`.
@@ -115,8 +115,7 @@ Parameters Created
 Events Broadcast
 ----------------
 
-As a {@link myphysicslab.lab.util.Subject Subject}, Clock broadcasts to its Observers
-these GenericEvents:
+As a {@link Subject}, Clock broadcasts to its Observers these {@link GenericEvent}s:
 
 + GenericEvent named `CLOCK_PAUSE`
 
@@ -137,8 +136,7 @@ something other than zero.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.util.Subject}
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.util.Clock = function(opt_name) {
   AbstractSubject.call(this, opt_name || 'CLOCK');
@@ -179,7 +177,7 @@ myphysicslab.lab.util.Clock = function(opt_name) {
   */
   this.stepMode_ = false;
   /** array of ClockTasks to execute at their appointed times
-  * @type {!Array<!myphysicslab.lab.util.ClockTask>}
+  * @type {!Array<!ClockTask>}
   * @private
   */
   this.tasks_ = [];
@@ -259,8 +257,7 @@ Clock.prototype.clearStepMode = function() {
 /** Adds a ClockTask to the list of tasks which will be run, and schedules it to be run
 if its time is now or in the future. The time to run the task is specified in the
 ClockTask.
-@param {!myphysicslab.lab.util.ClockTask} task the ClockTask to add to list of tasks
-to be run
+@param {!ClockTask} task the ClockTask to add to list of tasks to be run
 */
 Clock.prototype.addTask = function(task) {
   if (!goog.array.contains(this.tasks_, task)) {
@@ -278,7 +275,7 @@ Clock.prototype.cancelAllTasks = function() {
 };
 
 /** Converts clock time to system time. System time is defined by
-{@link myphysicslab.lab.util.UtilityCore#getSystemTime UtilityCore.getSystemTime()}.
+{@link UtilityCore#getSystemTime}.
 @param {number} clockTime in seconds
 @return {number} system time equivalent of clockTime
 */
@@ -319,8 +316,7 @@ Clock.prototype.getRealTime = function() {
 };
 
 /** Returns array of ClockTasks that are scheduled to run.
-@return {!Array<!myphysicslab.lab.util.ClockTask>} array of ClockTasks that are
-    scheduled to run
+@return {!Array<!ClockTask>} array of ClockTasks that are scheduled to run
 */
 Clock.prototype.getTasks = function() {
   return goog.array.clone(this.tasks_);
@@ -381,7 +377,7 @@ Clock.prototype.pause = function() {
 };
 
 /** Removes the ClockTask from the list of tasks to be run, and cancels the task.
-@param {!myphysicslab.lab.util.ClockTask} task the ClockTask to remove
+@param {!ClockTask} task the ClockTask to remove
 */
 Clock.prototype.removeTask = function(task) {
   goog.array.remove(this.tasks_, task);
@@ -406,7 +402,7 @@ Clock.prototype.resume = function() {
 };
 
 /**
-@param {!myphysicslab.lab.util.ClockTask} task
+@param {!ClockTask} task
 @private
 */
 Clock.prototype.scheduleTask = function(task) {
@@ -506,7 +502,7 @@ Clock.prototype.step = function(timeStep) {
 };
 
 /** Converts system time to clock time. System time is defined by
-{@link myphysicslab.lab.util.UtilityCore#getSystemTime}.
+{@link UtilityCore#getSystemTime}.
 @param {number} systemTime in seconds
 @return {number} clock time equivalent of systemTime
 */

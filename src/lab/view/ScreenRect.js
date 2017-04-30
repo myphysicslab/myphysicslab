@@ -25,16 +25,16 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 vertical coordinates increase downwards.
 
 @param {number} left the horizontal coordinate of the top-left corner
-@param {number=} top_ the vertical coordinate of the top-left corner
-@param {number=} width the width of the rectangle
-@param {number=} height the height of the rectangle
+@param {number} top_ the vertical coordinate of the top-left corner
+@param {number} width the width of the rectangle
+@param {number} height the height of the rectangle
 @constructor
 @final
 @struct
 */
 myphysicslab.lab.view.ScreenRect = function(left, top_, width, height) {
-  if (!goog.isDef(left) || !goog.isDef(top_) || !goog.isDef(width)
-      || !goog.isDef(height)) {
+  if (!goog.isNumber(left) || !goog.isNumber(top_) || !goog.isNumber(width)
+      || !goog.isNumber(height)) {
     throw new Error();
   }
   if (width < 0 || height < 0) {
@@ -75,21 +75,21 @@ if (!UtilityCore.ADVANCED) {
 };
 
 /** An empty ScreenRect located at the origin.
-* @type {!myphysicslab.lab.view.ScreenRect}
+* @type {!ScreenRect}
 * @const
 */
 ScreenRect.EMPTY_RECT = new ScreenRect(0, 0, 0, 0);
 
 /** Returns a copy of the given ScreenRect.
-* @param {!myphysicslab.lab.view.ScreenRect} rect the ScreenRect to clone
-* @return {!myphysicslab.lab.view.ScreenRect} a copy of `rect`
+* @param {!ScreenRect} rect the ScreenRect to clone
+* @return {!ScreenRect} a copy of `rect`
 */
 ScreenRect.clone = function(rect) {
   return new ScreenRect(rect.left_, rect.top_, rect.width_, rect.height_);
 };
 
 /** Returns true if this ScreenRect is exactly equal to the other ScreenRect.
-* @param {!myphysicslab.lab.view.ScreenRect} otherRect the ScreenRect to compare to
+* @param {!ScreenRect} otherRect the ScreenRect to compare to
 * @return {boolean} true if this ScreenRect is exactly equal to the other ScreenRect
 */
 ScreenRect.prototype.equals = function(otherRect) {
@@ -202,9 +202,9 @@ ScreenRect.prototype.makeRect = function(context) {
 
 /** Returns true if this ScreenRect is nearly equal to another ScreenRect.
 The optional tolerance value corresponds to the `epsilon` in
-{@link myphysicslab.lab.util.UtilityCore#veryDifferent}, so the actual tolerance
+{@link UtilityCore#veryDifferent}, so the actual tolerance
 used depends on the magnitude of the numbers being compared.
-* @param {!myphysicslab.lab.view.ScreenRect} otherRect  the ScreenRect to compare to
+* @param {!ScreenRect} otherRect  the ScreenRect to compare to
 * @param {number=} opt_tolerance optional tolerance for comparison
 * @return {boolean} true if this ScreenRect is nearly equal to the other ScreenRect
 */

@@ -120,8 +120,8 @@ StraightStraightTest.testPerformance = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @param {number=} damping
 @private
 */
@@ -156,8 +156,8 @@ StraightStraightTest.six_blocks_perf = function() {
 
 /** Six blocks fall onto the ground and settle down (mostly) after 6 seconds.
 One of the blocks has less mass than the others.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_settle_setup = function(sim, advance) {
@@ -204,8 +204,8 @@ StraightStraightTest.six_blocks_settle = function() {
 
 /** Same as six_blocks_settle_setup, but using 'velocity and distance' extra accel calc
 policy.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_settle_2_setup = function(sim, advance) {
@@ -253,8 +253,8 @@ specifically the `UtilityCollision.subsetCollisions1()` method was invented
 so that only related groups of contacts were solved for together.
 This helps to avoid throwing away important contacts in the process of making
 the A matrix be non-singular.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_1_setup = function(sim, advance) {
@@ -338,8 +338,8 @@ StraightStraightTest.six_blocks_1 = function() {
 };
 
 /* Six blocks, causes a matrix solve exception.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_2_setup = function(sim, advance) {
@@ -424,8 +424,8 @@ StraightStraightTest.six_blocks_2 = function() {
 
 /* Six blocks, causes a matrix solve exception, where the null space tolerance
 needs to be increased.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_3_setup = function(sim, advance) {
@@ -509,8 +509,8 @@ StraightStraightTest.six_blocks_3 = function() {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @param {!Array<number>} v
 * @param {boolean=} wallsFirst
 * @private
@@ -549,8 +549,8 @@ StraightStraightTest.setup_six_blocks = function(sim, advance, v, wallsFirst) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_4_setup = function(sim, advance) {
@@ -626,8 +626,8 @@ StraightStraightTest.six_blocks_4 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_5_setup = function(sim, advance) {
@@ -690,8 +690,8 @@ StraightStraightTest.six_blocks_5 = function() {
 
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_6_setup = function(sim, advance) {
@@ -753,8 +753,8 @@ StraightStraightTest.six_blocks_6 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_7_setup = function(sim, advance) {
@@ -815,8 +815,8 @@ StraightStraightTest.six_blocks_7 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_8_setup = function(sim, advance) {
@@ -877,8 +877,8 @@ StraightStraightTest.six_blocks_8 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_9_setup = function(sim, advance) {
@@ -954,8 +954,8 @@ where there is an imminent collision while handling another collision, which res
 in the 'stuck count' going to 3. Just increasing the stuck count limit would fix the
 situation, but I instead developed the idea that an imminent collision is similar to a
 contact for purposes of handling multiple collisions.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_10_setup = function(sim, advance) {
@@ -1025,14 +1025,14 @@ It caused a failure in the matrix solver, which has been repaired.
 
 Note that the problem only occurs when we _do not_ divide up the contacts into
 independent subsets of contacts.  So to see this error we must set the flag
-{@link myphysicslab.lab.engine2D.ContactSim#SUBSET_COLLISIONS} to `false`.
+{@link ContactSim#SUBSET_COLLISIONS} to `false`.
 Also, this error only occurs when the walls are added last, after the moveable blocks.
 
 See also `myphysicslab.lab.engine2D.test.UtilEngine_test.testRedundantMatrix9()`
 which has a copy of the matrix that results from this test.
 
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_11_setup = function(sim, advance) {
@@ -1117,8 +1117,8 @@ and put back in the 'throw exception' in `Polygon.testCollisionVertex`.  Turns o
 that this test is no longer triggering that exception even with tolerance of `1E-10`
 in `UtilEngine.linesIntersect`.  So, this test is of questionable usefulness.
 
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.six_blocks_12_setup = function(sim, advance) {
@@ -1185,8 +1185,8 @@ StraightStraightTest.six_blocks_12 = function() {
 of the hexagon. The hexagon is rotated, so that the top edge is one of the side edges
 that has `outsideIsDown`. This is a rare test that exercises some code related to
 down-is-out for edges that are not horizontal or vertical in body position.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.hexagon_1_setup = function(sim, advance) {
@@ -1228,8 +1228,8 @@ StraightStraightTest.hexagon_1 = function() {
 };
 
 /** Two blocks start in contact and in motion, with mutual gravitation.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.block_block_contact_1_setup = function(sim, advance) {
@@ -1267,8 +1267,8 @@ StraightStraightTest.block_block_contact_1 = function() {
 
 /** A square and a rectangle bounce collide together under mutual gravitation,
 eventually settling into rotating/sliding contact.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.block_block_contact_2_setup = function(sim, advance) {
@@ -1337,8 +1337,8 @@ Note that this loses energy due to the policy of applying impact force at contac
 points that are colliding (normal velocity is small and negative) to get the contact
 point to have zero normal velocity. As the polygon rolls, each vertex of the polygon
 winds up in this situation as the vertex rolls to become the new contact point.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.ngon_block_setup = function(sim, advance) {
@@ -1372,8 +1372,8 @@ StraightStraightTest.ngon_block = function() {
 };
 
 /** Two diamond shaped blocks collide under mutual gravity and wind up in rocking contact.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.diamonds_setup = function(sim, advance) {
@@ -1420,8 +1420,8 @@ the bottom wall (distance = 0.0 exactly at the moment of collision) and this
 resulted in the algorithm becoming stuck.
 Note that all the factors are critical to make this test happen: setup, gravity,
 time step, etc.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.one_block1_setup = function(sim, advance) {
@@ -1453,8 +1453,8 @@ StraightStraightTest.one_block1 = function() {
 
 /** A single rectangle block in contact on the floor, but with a small distance
 gap and large velocity (-0.3 is large for a contact).
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.one_block2_setup = function(sim, advance) {
@@ -1490,8 +1490,8 @@ an unusual condition that should probably never happen, except from initial cond
 like this test. See `RigidBodyCollision.closeEnough` which has a special `allowTiny`
 parameter which handles cases where a collision has very small distance, but we
 cannot backup to a time when distance was around targetGap.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.fast_close_setup = function(sim, advance) {
@@ -1523,8 +1523,8 @@ StraightStraightTest.fast_close = function() {
 };
 
 /** Two square blocks collide exactly at their corners.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.corner_collision_setup = function(sim, advance) {
@@ -1556,8 +1556,8 @@ StraightStraightTest.corner_collision = function() {
 };
 
 /** Two rounded corner square blocks collide exactly at their corners.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.rounded_corner_collision_setup = function(sim, advance) {
@@ -1602,8 +1602,8 @@ This is a strange case because the impulse happens well outside of the object.
 
 Prediction: binary search turns on, and the RigidBodyCollision.closeEnough 'allowTiny'
 case happens, so the collision backs up to a very small contact distance.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.oblique_corner_collision_setup = function(sim, advance) {
@@ -1675,8 +1675,8 @@ needed, that we can assume that vertex-edge collisions are sufficient for findin
 collisions between StraightEdges, as long as this tolerance is large enough in
 `UtilEngine.linesIntersect`.
 
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 StraightStraightTest.acute_corners_setup = function(sim, advance) {

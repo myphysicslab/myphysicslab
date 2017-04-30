@@ -21,6 +21,7 @@ goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Simulation');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
+goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayConnector');
@@ -35,24 +36,24 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var SliderControl = lab.controls.SliderControl;
 var AbstractApp = sims.common.AbstractApp;
 var CommonControls = sims.common.CommonControls;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayConnector = lab.view.DisplayConnector;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
-var ConcreteLine = lab.model.ConcreteLine;
+var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var RigidDoublePendulumSim = sims.pendulum.RigidDoublePendulumSim;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var Simulation = lab.model.Simulation;
+var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** RigidDoublePendulumApp displays the simulation
-{@link myphysicslab.sims.pendulum.RigidDoublePendulumSim RigidDoublePendulumSim}.
+/** Displays the {@link RigidDoublePendulumSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -101,7 +102,7 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
   this.displayList.add(this.joint1);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(RigidDoublePendulumSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));

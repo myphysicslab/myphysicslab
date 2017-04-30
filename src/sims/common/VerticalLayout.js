@@ -72,7 +72,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
       (VerticalLayout.getElementById(elem_ids, 'term_output'));
   var term_input = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'term_input'));
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
 
@@ -99,7 +99,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   var canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   canvas2.style.float = 'left';
   canvas2.style.margin = '0px 15px 15px 0px';
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.graphCanvas = new LabCanvas(canvas2, 'graphCanvas');
   this.graphCanvas.setSize(480, 480);
   // graphCanvas is initially hidden

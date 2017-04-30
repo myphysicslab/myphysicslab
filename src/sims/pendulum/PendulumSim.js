@@ -17,9 +17,9 @@ goog.provide('myphysicslab.sims.pendulum.PendulumSim');
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.AbstractODESim');
 goog.require('myphysicslab.lab.model.Arc');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.GenericEvent');
@@ -33,11 +33,12 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var Arc = lab.model.Arc;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
@@ -153,8 +154,8 @@ The variables are stored in the VarsList as follows
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
@@ -223,20 +224,20 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.rod_ = new ConcreteLine('rod');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob_ = PointMass.makeCircle(0.2, 'bob').setMass(1.0);
   /** the PhysicsArc tracks the drive frequency and amplitude
-  * @type {!myphysicslab.lab.model.Arc}
+  * @type {!Arc}
   * @private
   */
-  this.drive_ = new myphysicslab.lab.model.Arc('drive',
+  this.drive_ = new Arc('drive',
               /*startAngle=*/-Math.PI/2,
               /*radius=*/0.5 * this.amplitude_,
               /*center=*/this.pivot_);

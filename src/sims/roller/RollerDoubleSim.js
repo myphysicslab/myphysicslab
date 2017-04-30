@@ -34,11 +34,13 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var HasPath = myphysicslab.sims.roller.HasPath;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
+var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
@@ -67,9 +69,9 @@ The simulation is not functional until a path has been provided with {@link #set
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.sims.roller.HasPath}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {HasPath}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
@@ -110,17 +112,17 @@ myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
   */
   this.gravity_ = 9.8;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.ball1_ = PointMass.makeCircle(0.3, 'ball1').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.ball2_ = PointMass.makeCircle(0.3, 'ball2').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',
@@ -129,7 +131,7 @@ myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
       /*restLength=*/2.0, /*stiffness=*/6.0);
   this.getSimList().add(this.ball1_, this.ball2_, this.spring_);
   /**
-  * @type {?myphysicslab.lab.model.NumericalPath }
+  * @type {?NumericalPath }
   * @private
   */
   this.path_ = null;
@@ -144,17 +146,17 @@ myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
   */
   this.potentialOffset_ = 0;
   /**  Temporary scratchpad, to avoid allocation.
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.pathPoint1_ = new PathPoint();
   /**  Temporary scratchpad, to avoid allocation.
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.pathPoint2_ = new PathPoint();
   /**
-  * @type {?myphysicslab.lab.model.SimObject}
+  * @type {?SimObject}
   * @private
   */
   this.dragObj_ = null;

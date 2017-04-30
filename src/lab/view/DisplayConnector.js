@@ -15,23 +15,20 @@
 goog.provide('myphysicslab.lab.view.DisplayConnector');
 
 goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Shows the location of a {@link myphysicslab.lab.engine2D.Connector} as a small
-colored circle.  The {@link #radius} is specified in screen coordinates, so the
-size of the circle stays the same regardless of the zoom level on the
-{@link myphysicslab.lab.view.SimView}.
+/** Shows the location of a {@link Connector} as a small colored circle.
+The {@link #radius} is specified in screen coordinates, so the size of the circle stays
+the same regardless of the zoom level on the {@link myphysicslab.lab.view.SimView}.
 
 The position is determined by the position of the Connector, so {@link #setPosition}
 has no effect, and the DisplayConnector is never dragable.

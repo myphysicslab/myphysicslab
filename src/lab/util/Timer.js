@@ -168,7 +168,7 @@ callback is `null` or Timer is not firing. Uses JavaScript's `setTimeout()` func
 do the scheduling.
 
 The finish time is in given in *system time*, see
-{@link myphysicslab.lab.util.UtilityCore#getSystemTime} for how system time is defined.
+{@link UtilityCore#getSystemTime} for how system time is defined.
 
 @param {number} finishTimeSys the time when the next callback should finish execution, in system time seconds
 */

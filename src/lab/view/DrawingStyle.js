@@ -25,8 +25,8 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 /** Specifies drawing style including: whether to draw dots or lines; color; thickness;
 line dash.
 
-* @param {!myphysicslab.lab.view.DrawingMode} drawMode whether to draw dots or lines,
-*     a value from {@link myphysicslab.lab.view.DrawingMode}
+* @param {!DrawingMode} drawMode whether to draw dots or lines,
+*     a value from {@link DrawingMode}
 * @param {string} color a CSS color specification
 * @param {number} lineWidth  thickness to use when drawing the graph line, in screen
 *     coordinates, so a unit is a screen pixel.
@@ -39,9 +39,8 @@ line dash.
 * @struct
 */
 myphysicslab.lab.view.DrawingStyle = function(drawMode, color, lineWidth, opt_lineDash) {
-  /** Whether to draw dots or lines, a value from
-  * {@link myphysicslab.lab.view.DrawingMode}
-  * @type {!myphysicslab.lab.view.DrawingMode}
+  /** Whether to draw dots or lines, a value from {@link DrawingMode}
+  * @type {!DrawingMode}
   */
   this.drawMode = drawMode;
   /** a CSS color specification
@@ -93,8 +92,8 @@ optional line dash.
 *     Corresponds to lengths of dash and spaces, in screen coordinates.
 *     For example, `[3, 5]` alternates dashes of length 3 with spaces of length 5.
 *     Empty array indicates solid line (which is the default).
-* @return {!DrawingStyle} a DrawingStyle for drawing a line with the given color, line width
-*     and optional line dash
+* @return {!DrawingStyle} a DrawingStyle for drawing a line with the given color,
+*     line width and optional line dash
 */
 DrawingStyle.lineStyle = function(color, lineWidth, opt_lineDash) {
   return new DrawingStyle(DrawingMode.LINES, color, lineWidth, opt_lineDash);

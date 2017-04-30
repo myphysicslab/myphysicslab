@@ -37,20 +37,20 @@ var sims = myphysicslab.sims;
 var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
+var HumpPath = sims.roller.HumpPath;
 var NF = lab.util.UtilityCore.NF;
 var NumericalPath = lab.model.NumericalPath;
 var ParameterNumber = lab.util.ParameterNumber;
 var PathPoint = lab.model.PathPoint;
 var PointMass = lab.model.PointMass;
+var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
 var UtilityCore = lab.util.UtilityCore;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
-var HumpPath = sims.roller.HumpPath;
 
 /** Rollercoaster simulation that uses Lagrangian method of finding equations of motion.
-The shape of the roller coaster path is defined by
-{@link myphysicslab.sims.roller.HumpPath}.
+The shape of the roller coaster path is defined by {@link HumpPath}.
 
 The Lagrangian method of finding the equations of motion is very different from the
 methods used in the other roller coaster simulations such as
@@ -83,7 +83,7 @@ Parameters are:
 Equation of Motion
 ---------------------------------
 
-The equation of the {@link myphysicslab.sims.roller.HumpPath} is
+The equation of the {@link HumpPath} is
 
     y = 3 - (7/6) x^2 + (1/6) x^4
 
@@ -146,8 +146,8 @@ Note that this should agree with:
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
@@ -187,13 +187,13 @@ myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
   */
   this.gravity_ = 2;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.ball1_ = PointMass.makeCircle(0.3, 'ball1').setMass(0.5);
   this.getSimList().add(this.ball1_);
   /**
-  * @type {!myphysicslab.lab.model.NumericalPath }
+  * @type {!NumericalPath }
   * @private
   */
   this.path_ = new NumericalPath(new HumpPath());
@@ -208,7 +208,7 @@ myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {?myphysicslab.lab.model.SimObject}
+  * @type {?SimObject}
   * @private
   */
   this.dragObj_ = null;
@@ -248,7 +248,7 @@ LagrangeRollerSim.prototype.getClassName = function() {
 };
 
 /** Returns the NumericalPath that the ball follows
-* @return {!myphysicslab.lab.model.NumericalPath}
+* @return {!NumericalPath}
 */
 LagrangeRollerSim.prototype.getPath = function() {
   return this.path_;
@@ -343,7 +343,7 @@ LagrangeRollerSim.prototype.mouseDrag = function(simObject, location, offset,
       mouseEvent) {
   var p = location.subtract(offset);
   if (simObject == this.ball1_)  {
-    /** @type {!myphysicslab.lab.model.PathPoint} */
+    /** @type {!PathPoint} */
     var pathPoint = this.path_.findNearestGlobal(p);
     // 0  1   2   3   4  5   6   7     8  9
     // x, x', s, s', ke, pe, te, time, y, y'

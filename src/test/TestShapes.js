@@ -47,7 +47,7 @@ myphysicslab.test.TestShapes = function() {
 var TestShapes = myphysicslab.test.TestShapes;
 
 /**
-* @return {!myphysicslab.lab.engine2D.Polygon}
+* @return {!Polygon}
 */
 TestShapes.makeBlockRoundEdge = function() {
   var p = new Polygon('block-round-edge');
@@ -65,7 +65,7 @@ TestShapes.makeBlockRoundEdge = function() {
 };
 
 /**
-* @return {!myphysicslab.lab.engine2D.Polygon}
+* @return {!Polygon}
 */
 TestShapes.makeConcaveCirclePoly = function() {
   var p = new Polygon('concave_circle');
@@ -87,7 +87,7 @@ TestShapes.makeConcaveCirclePoly = function() {
 /** Returns an n-sided Polygon with n equal sides.
 @param {number} n the number of sides
 @param {number} radius the distance from center to each vertex
-@return {!myphysicslab.lab.engine2D.Polygon} an n-sided Polygon with n equal sides.
+@return {!Polygon} an n-sided Polygon with n equal sides.
 */
 TestShapes.makeNGon = function(n, radius) {
   var p = new Polygon('polygon-'+n+'-sides');

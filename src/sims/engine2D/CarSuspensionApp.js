@@ -42,7 +42,6 @@ var sims = myphysicslab.sims;
 
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
@@ -53,9 +52,11 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
 var JointUtil = lab.engine2D.JointUtil;
+var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -76,7 +77,7 @@ Parameters Created
 + ParameterNumber named `STIFFNESS`, see {@link #setStiffness}
 
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -95,15 +96,15 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
   /** @type {!DisplayShape} */
   this.protoWheel = new DisplayShape().setFillStyle('#CCF');
   this.mySim.setShowForces(false);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(/*damping=*/0.1, /*rotateRatio=*/0.15,
       this.simList);
   this.elasticity.setElasticity(0.8);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(10, this.simList);
-  /** @type {!Array<!lab.model.Spring>} */
+  /** @type {!Array<!Spring>} */
   this.springs = [];
-  /** @type {sims.engine2D.CarSuspensionApp.Formation} */
+  /** @type {CarSuspensionApp.Formation} */
   this.formation = CarSuspensionApp.Formation.ROD_SPRING;
   /** @type {number} */
   this.wheelMass = 0.1;
@@ -117,7 +118,7 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
   this.springLength = Math.sqrt(0.6 * 0.6 + 1);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, CarSuspensionApp.en.FORMATION,
       CarSuspensionApp.i18n.FORMATION,

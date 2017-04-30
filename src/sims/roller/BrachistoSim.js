@@ -41,6 +41,7 @@ var ParametricPath = myphysicslab.lab.model.ParametricPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
 var ShapeType = myphysicslab.lab.model.ShapeType;
+var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -87,22 +88,20 @@ The variables are stored in the VarsList as follows
 
 @todo could make an array of PathPoint, to avoid creating them so often.
 
-* @param {!Array<!myphysicslab.lab.model.ParametricPath>} paths the set of paths
-*     to show
+* @param {!Array<!ParametricPath>} paths the set of paths to show
 * @param {string=} opt_name name of this as a Subject
-* @param {!myphysicslab.lab.model.SimList=} opt_simList optional SimList where
-*     SimObjects should be stored
+* @param {!SimList=} opt_simList optional SimList where SimObjects should be stored
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
+* @extends {AbstractODESim}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
   AbstractODESim.call(this, opt_name, opt_simList);
   var plen = paths.length;
   /** keep track of our SimObjects so that we can erase them
-  * @type {!Array<!myphysicslab.lab.model.SimObject>} simObjects
+  * @type {!Array<!SimObject>} simObjects
   * @private
   */
   this.simObjects_ = [];
@@ -127,12 +126,12 @@ myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
   */
   this.choice_ = -1;
   /**
-  * @type {!Array<!myphysicslab.lab.model.PointMass>}
+  * @type {!Array<!PointMass>}
   * @private
   */
   this.balls_ = new Array(plen);
   /**
-  * @type {!Array<!myphysicslab.lab.model.NumericalPath>}
+  * @type {!Array<!NumericalPath>}
   * @private
   */
   this.paths_ = new Array(plen);
@@ -183,7 +182,7 @@ BrachistoSim.prototype.getClassName = function() {
 };
 
 /**
-* @param {!Array<!myphysicslab.lab.model.ParametricPath>} paths
+* @param {!Array<!ParametricPath>} paths
 * @return {!Array<string>}
 * @param {boolean} localized
 * @private
@@ -198,7 +197,7 @@ BrachistoSim.makeVarNames = function(paths, localized) {
 
 /**
 * @param {number} i
-* @param {!Array<!myphysicslab.lab.model.ParametricPath>} paths
+* @param {!Array<!ParametricPath>} paths
 * @param {boolean} localized
 * @return {string}
 */
@@ -228,7 +227,7 @@ BrachistoSim.getVariableName = function(i, paths, localized) {
 };
 
 /** Returns the set of paths to choose from.
-@return {!Array<!myphysicslab.lab.model.NumericalPath>} the set of paths to choose from
+@return {!Array<!NumericalPath>} the set of paths to choose from
 */
 BrachistoSim.prototype.getPaths = function() {
   return goog.array.clone(this.paths_);

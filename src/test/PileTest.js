@@ -101,8 +101,8 @@ PileTest.testPerformance = function() {
 the blocks cannot move relative to each other, these fall with a few other blocks
 into V shaped walls; the connected blocks rotate very quickly after colliding with
 the wall.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 PileTest.connected_blocks_pile_setup = function(sim, advance) {
@@ -163,8 +163,8 @@ PileTest.connected_blocks_pile_test = function() {
 
 /** Stable resting configuration of blocks derived from a particular run of
 {@link #connected_blocks_pile_setup}.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 PileTest.stable_connected_blocks_pile_setup = function(sim, advance) {
@@ -267,8 +267,8 @@ PileTest.stable_connected_blocks_pile_test = function() {
 
 /** Close to stable resting configuration of blocks derived from a particular run of
 {@link #connected_blocks_pile_setup} (just moments before the pile settles down).
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 PileTest.near_stable_connected_blocks_pile_setup = function(sim, advance) {
@@ -401,8 +401,8 @@ PileTest.near_stable_connected_blocks_pile_test = function() {
 
 /** This configuration caused a 'checkNoneCollide' exception in versions prior to
 May 12, 2016. Originally found in PileApp after clicking the 'random' button once.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 PileTest.pile_config_1_setup = function(sim, advance) {
@@ -505,8 +505,8 @@ PileTest.pile_config_1_test = function() {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @export
 */
 PileTest.pile_10_random_blocks_setup = function(sim, advance) {
@@ -589,8 +589,8 @@ PileTest.pile_10_perf = function() {
 
 /** Makes a V-shaped set of walls for shapes to fall into, and sets various simulation
 parameters.
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @param {number} damping
 * @param {number} gravity
 * @private
@@ -612,8 +612,8 @@ PileTest.pile_make_v_pit = function(sim, advance, damping, gravity) {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @export
 */
 PileTest.pile_uniform_balls_setup = function(sim, advance) {
@@ -625,8 +625,8 @@ PileTest.pile_uniform_balls_setup = function(sim, advance) {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @export
 */
 PileTest.pile_uniform_blocks_setup = function(sim, advance) {
@@ -638,8 +638,8 @@ PileTest.pile_uniform_blocks_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 PileTest.pile_20_random_blocks_setup = function(sim, advance) {
@@ -727,8 +727,8 @@ PileTest.pile_20_perf = function() {
 /**  Setup for additive_pile_test.  The name ends with underscore to prevent
 this test from showing up in the TestViewer menu of available tests (because
 the additive_pile_test is added to over time).
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @private
 */
 PileTest.additive_pile_setup_ = function(sim, advance) {
@@ -786,8 +786,8 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
 };
 
 /**  Add a block and run the simulation till the given time.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance  the AdvanceStrategy for
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance  the AdvanceStrategy for
     advancing the simulation
 @param {number} runUntil the simulation time to run until
 @param {boolean} square  true means make a square block, false means make a round ball

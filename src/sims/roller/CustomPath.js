@@ -35,7 +35,7 @@ NOTE: This class creates a global variable named `t`.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.CustomPath = function(start_t, finish_t, name, localName) {
   if (!goog.isNumber(start_t))

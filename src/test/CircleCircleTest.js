@@ -14,7 +14,6 @@
 
 goog.provide('myphysicslab.test.CircleCircleTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
@@ -22,6 +21,8 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
+goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.RungeKutta');
@@ -31,14 +32,13 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
 goog.require('myphysicslab.test.TestShapes');
-goog.require('myphysicslab.lab.model.DampingLaw');
 
 goog.scope(function() {
 
-var DampingLaw = myphysicslab.lab.model.DampingLaw;
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
+var DampingLaw = myphysicslab.lab.model.DampingLaw;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
@@ -79,8 +79,8 @@ CircleCircleTest.test = function() {
 CircleCircleTest.groupName = 'CircleCircleTest.';
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @private
 */
 CircleCircleTest.commonSetup1 = function(sim, advance) {
@@ -99,8 +99,8 @@ CircleCircleTest.commonSetup1 = function(sim, advance) {
 
 /** Two balls start in contact and in motion, with mutual gravitation. Both balls have
 offset center of mass. Energy should be constant with a small enough time step.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleCircleTest.ball_ball_contact_setup = function(sim, advance) {
@@ -145,8 +145,8 @@ CircleCircleTest.ball_ball_contact = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleCircleTest.concave_circle_and_ball_setup = function(sim, advance) {

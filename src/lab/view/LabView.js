@@ -29,23 +29,22 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayList = myphysicslab.lab.view.DisplayList;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
+var MemoList = myphysicslab.lab.util.MemoList;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** A visual representation of a Simulation which can be displayed in a
-{@link myphysicslab.lab.view.LabCanvas LabCanvas}; has a
-{@link myphysicslab.lab.view.DisplayList DisplayList} which represents
-{@link myphysicslab.lab.model.SimObject SimObjects} of the Simulation;
-has a {@link myphysicslab.lab.view.CoordMap CoordMap} to relate simulation coordinates
-to LabCanvas screen coordinates and a boundary screen rectangle that specifies the
-location within the LabCanvas.
+{@link myphysicslab.lab.view.LabCanvas LabCanvas}; has a {@link DisplayList} which
+represents the {@link myphysicslab.lab.model.SimObject SimObjects} of the Simulation;
+has a {@link CoordMap} to relate simulation coordinates to LabCanvas screen coordinates
+and a boundary screen rectangle that specifies the location within the LabCanvas.
 
 @todo make a policy for whether we need to save/restore color, stroke, font, etc.
 when drawing into a LabView?
 
 * @interface
-* @extends {myphysicslab.lab.util.MemoList}
+* @extends {MemoList}
 */
 myphysicslab.lab.view.LabView = function() {};
 var LabView = myphysicslab.lab.view.LabView;
@@ -76,12 +75,12 @@ LabView.SIM_RECT_CHANGED = 'SIM_RECT_CHANGED';
 LabView.prototype.gainFocus;
 
 /** Returns the CoordMap used by this LabView.
-@return {!myphysicslab.lab.view.CoordMap} the CoordMap being used by this LabView
+@return {!CoordMap} the CoordMap being used by this LabView
 */
 LabView.prototype.getCoordMap;
 
 /**  Returns the DisplayList of this LabView.
-@return {!myphysicslab.lab.view.DisplayList} the DisplayList of this LabView
+@return {!DisplayList} the DisplayList of this LabView
 */
 LabView.prototype.getDisplayList;
 
@@ -92,14 +91,12 @@ LabView.prototype.getName;
 
 /** Returns the screen rectangle that this LabView is occupying within the
 LabCanvas, in screen coordinates.
-@return {!myphysicslab.lab.view.ScreenRect} the screen rectangle of this LabView in
-    screen coordinates
+@return {!ScreenRect} the screen rectangle of this LabView in screen coordinates
 */
 LabView.prototype.getScreenRect;
 
 /** Returns the bounding rectangle for this LabView in simulation coordinates.
-@return {!myphysicslab.lab.util.DoubleRect} the bounding rectangle for this LabView in
-    simulation coordinates.
+@return {!DoubleRect} the bounding rectangle for this LabView in simulation coordinates
 */
 LabView.prototype.getSimRect;
 
@@ -114,22 +111,22 @@ LabView.prototype.loseFocus;
 LabView.prototype.paint;
 
 /** Sets the CoordMap used by this LabView.
-@param {!myphysicslab.lab.view.CoordMap} map the CoordMap to use for this LabView
+@param {!CoordMap} map the CoordMap to use for this LabView
 */
 LabView.prototype.setCoordMap;
 
 /** Sets the area that this LabView will occupy within the LabCanvas,
 in screen coordinates.
-@param {!myphysicslab.lab.view.ScreenRect} screenRect the screen coordinates of the area
-    this LabView should occupy
+@param {!ScreenRect} screenRect the screen coordinates of the area this LabView should
+    occupy
 */
 LabView.prototype.setScreenRect;
 
 /** Sets the bounding rectangle for this LabView, ensures this rectangle
 is visible, and turns off auto-scaling. The result is to generate a new CoordMap for
 this SimView so that the simulation rectangle maps to the current screen rectangle.
-@param {!myphysicslab.lab.util.DoubleRect} simRect the bounding rectangle for this
-    LabView in simulation coordinates.
+@param {!DoubleRect} simRect the bounding rectangle for this LabView in simulation
+    coordinates.
 */
 LabView.prototype.setSimRect;
 

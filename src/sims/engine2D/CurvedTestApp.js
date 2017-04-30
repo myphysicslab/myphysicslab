@@ -51,7 +51,10 @@ var GravityLaw = lab.model.GravityLaw;
 var ParameterNumber = lab.util.ParameterNumber;
 var RigidBody = lab.engine2D.RigidBody;
 var Shapes = lab.engine2D.Shapes;
+var SixThrusters = sims.engine2D.SixThrusters;
 var Spring = lab.model.Spring;
+var TabLayout = sims.common.TabLayout;
+var ThrusterSet = lab.engine2D.ThrusterSet;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -69,7 +72,7 @@ Parameters Created
 + ParameterNumber named `THRUST`, see {@link #setThrust}
 
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -87,23 +90,23 @@ sims.engine2D.CurvedTestApp = function(elem_ids) {
   this.rbo.protoPolygon.setDrawCenterOfMass(true).setNameFont('10pt sans-serif');
   this.rbo.protoSpring.setWidth(0.3);
   this.mySim.setShowForces(true);
-  /** @type {!lab.model.DampingLaw} */
-  this.dampingLaw = new myphysicslab.lab.model.DampingLaw(0, 0.15, this.simList);
-  /** @type {!lab.model.GravityLaw} */
-  this.gravityLaw = new myphysicslab.lab.model.GravityLaw(3.0, this.simList);
+  /** @type {!DampingLaw} */
+  this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
+  /** @type {!GravityLaw} */
+  this.gravityLaw = new GravityLaw(3.0, this.simList);
   this.elasticity.setElasticity(0.8);
 
   /** @type {number} */
   this.numBods = 6;
   /** @type {number} */
   this.thrust = 1.5;
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrust1;
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrust2;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, CurvedTestApp.en.NUM_BODIES,
       CurvedTestApp.i18n.NUM_BODIES,
@@ -175,13 +178,13 @@ CurvedTestApp.prototype.config = function() {
   var b;
   if (this.numBods >= 1) {
     b = this.mySim.getBody('block1');
-    this.thrust2 = sims.engine2D.SixThrusters.make(this.thrust, b);
+    this.thrust2 = SixThrusters.make(this.thrust, b);
     this.rbeh.setThrusters(this.thrust2, 'left');
     this.mySim.addForceLaw(this.thrust2);
   }
   if (this.numBods >= 2) {
     b = this.mySim.getBody('ball2');
-    this.thrust1 = sims.engine2D.SixThrusters.make(this.thrust, b);
+    this.thrust1 = SixThrusters.make(this.thrust, b);
     this.rbeh.setThrusters(this.thrust1, 'right');
     this.mySim.addForceLaw(this.thrust1);
   }

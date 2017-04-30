@@ -59,6 +59,7 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var Shapes = lab.engine2D.Shapes;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -87,7 +88,7 @@ Parameters Created
 + ParameterNumber named `BLOCK_WIDTH`, see {@link #setBlockWidth}.
 
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -110,9 +111,9 @@ sims.engine2D.ChainApp = function(elem_ids) {
   // Important to stop joints from drifting apart, otherwise energy is not stable.
   // alternative: could use CollisionAdvance.setJointSmallImpacts(true)
   this.mySim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(4, this.simList);
   this.elasticity.setElasticity(0.8);
   /** @type {!ChainConfig.options} */

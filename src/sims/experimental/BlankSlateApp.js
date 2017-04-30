@@ -57,6 +57,7 @@ var CommonControls = sims.common.CommonControls;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayLine = lab.view.DisplayLine;
+var DisplayList = lab.view.DisplayList;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DisplayText = lab.view.DisplayText;
@@ -98,7 +99,7 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   div_sim.style.position = 'relative';
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
-  * @type {!myphysicslab.lab.view.LabCanvas}
+  * @type {!LabCanvas}
   * @private
   */
   this.simCanvas = new LabCanvas(canvas, 'canvas1');
@@ -114,31 +115,31 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   var term_input = /** @type {!HTMLInputElement} */
       (BlankSlateApp.getElementById(elem_ids, 'term_input'));
   /**
-  * @type {!myphysicslab.lab.util.Terminal}
+  * @type {!Terminal}
   * @private
   */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
   this.terminal.setAfterEval(goog.bind(this.simCanvas.paint, this.simCanvas));
 
-  /** @type {!lab.util.DoubleRect} */
+  /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-6, -6, 6, 6);
   /**
-  * @type {!myphysicslab.lab.view.SimView}
+  * @type {!SimView}
   * @private
   */
   this.simView = new SimView('simView', this.simRect);
   this.simCanvas.addView(this.simView);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   /**
-  * @type {!myphysicslab.lab.graph.DisplayAxes}
+  * @type {!DisplayAxes}
   * @private
   */
   this.axes = CommonControls.makeAxes(this.simView);
   this.simCanvas.paint();
   /**
-  * @type {!myphysicslab.lab.app.SimController}
+  * @type {!SimController}
   * @private
   */
   this.simCtrl = new SimController(this.simCanvas, /*eventHandler=*/null,

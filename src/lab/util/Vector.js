@@ -279,10 +279,9 @@ Vector.prototype.multiply = function(factor) {
   }
 };
 
-/** Returns `true` if this Vector is nearly equal to another Vector.
-The optional tolerance value corresponds to the `epsilon` in
-{@link myphysicslab.lab.util.UtilityCore#veryDifferent}, so the actual tolerance
-used depends on the magnitude of the numbers being compared.
+/** Returns `true` if this Vector is nearly equal to another Vector. The optional
+tolerance value corresponds to the `epsilon` in {@link UtilityCore#veryDifferent}, so
+the actual tolerance used depends on the magnitude of the numbers being compared.
 @param {!GenericVector} vector the vector to compare to
 @param {number=} opt_tolerance optional tolerance for equality test
 @return {boolean} true if the vectors are similar

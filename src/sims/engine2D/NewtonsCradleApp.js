@@ -16,20 +16,20 @@ goog.provide('myphysicslab.sims.engine2D.NewtonsCradleApp');
 
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 
 goog.scope(function() {
 
@@ -49,6 +49,7 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -59,7 +60,7 @@ flies away and the pendulum that you let fall becomes motionless when it strikes
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -83,9 +84,9 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   var collisionAdvance = /** @type {!CollisionAdvance} */(this.advance);
   collisionAdvance.setJointSmallImpacts(false);
   //this.advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(32, this.simList);
 
   /** @type {!NewtonsCradleApp.options} */
@@ -98,7 +99,7 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
     };
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.NUM_BODIES,
       NewtonsCradleApp.i18n.NUM_BODIES,

@@ -22,6 +22,8 @@ goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var HistoryList = myphysicslab.lab.util.HistoryList;
+var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** A circular list of values, where the next value added overwrites the oldest
@@ -101,7 +103,7 @@ Then we wrap around and start writing to the beginning again.
 
 * @param {number=} capacity  the capacity of the list; default is 3000
 * @template T
-* @implements myphysicslab.lab.util.HistoryList<T>
+* @implements HistoryList<T>
 * @constructor
 * @final
 * @struct
@@ -268,7 +270,7 @@ CircularList.prototype.store = function(value) {
   return this.pointerToIndex(this.lastPtr_);
 };
 
-/** Provides access to items in a {@link myphysicslab.lab.util.CircularList}.
+/** Provides access to items in a {@link CircularList}.
 Call {@link #nextValue} to get to the first item.
 
 Also, to do incremental drawing, we need to know about our place in the circular
@@ -278,14 +280,14 @@ iteration.
 Note about private variables:  with Google Closure Compiler, a variable marked
 private can be accessed from any code in the file where it is defined.
 
-@param {!myphysicslab.lab.util.CircularList<T>} cList the CircularList to iterate over
+@param {!CircularList<T>} cList the CircularList to iterate over
 @param {number=} startIndex  the index to start the iteration at; undefined or -1 will
     start at oldest entry
 @constructor
 @final
 @struct
 @template T
-@implements {myphysicslab.lab.util.HistoryIterator<T>}
+@implements {HistoryIterator<T>}
 @private
 */
 myphysicslab.lab.util.CircularListIterator = function(cList, startIndex) {
@@ -295,7 +297,7 @@ myphysicslab.lab.util.CircularListIterator = function(cList, startIndex) {
   */
   this.first_ = cList.size_ > 0;
   /**
-  * @type {!myphysicslab.lab.util.CircularList}
+  * @type {!CircularList}
   * @private
   */
   this.cList_ = cList;

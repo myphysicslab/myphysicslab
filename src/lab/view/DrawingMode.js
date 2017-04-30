@@ -33,7 +33,7 @@ var DrawingMode = myphysicslab.lab.view.DrawingMode;
 
 /** Converts a localized choice string to an enum.
 * @param {string} value the localized choice string to convert
-* @return {!myphysicslab.lab.view.DrawingMode} the enum corresponding to the choice
+* @return {!DrawingMode} the enum corresponding to the choice
 * @throws {Error} if the value does not represent a valid enum
 */
 DrawingMode.choiceToEnum = function(value) {
@@ -47,7 +47,7 @@ DrawingMode.choiceToEnum = function(value) {
 };
 
 /** Converts an enum to a localized choice string.
-* @param {!myphysicslab.lab.view.DrawingMode} value enum value to convert
+* @param {!DrawingMode} value enum value to convert
 * @return {string} the localized choice string corresponding to the enum
 * @throws {Error} if the value does not represent a valid enum
 */
@@ -72,7 +72,7 @@ DrawingMode.getChoices = function() {
 };
 
 /** Returns the set of valid enums.
-* @return {!Array<!myphysicslab.lab.view.DrawingMode>} the set of valid enums.
+* @return {!Array<!DrawingMode>} the set of valid enums.
 */
 DrawingMode.getValues = function() {
   return [DrawingMode.DOTS,
@@ -81,7 +81,7 @@ DrawingMode.getValues = function() {
 
 /** Converts a number to an enum.
 * @param {string} value the number to convert
-* @return {!myphysicslab.lab.view.DrawingMode} the enum corresponding to the value
+* @return {!DrawingMode} the enum corresponding to the value
 * @throws {Error} if the value does not represent a valid enum
 */
 DrawingMode.stringToEnum = function(value) {

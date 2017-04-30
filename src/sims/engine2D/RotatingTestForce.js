@@ -33,29 +33,30 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A ForceLaw that creates a Force whose direction rotates continuously.
-* @param {!myphysicslab.lab.engine2D.RigidBodySim} sim
-* @param {!myphysicslab.lab.engine2D.RigidBody} body
-* @param {!myphysicslab.lab.util.Vector} location_body
+* @param {!RigidBodySim} sim
+* @param {!RigidBody} body
+* @param {!Vector} location_body
 * @param {number} magnitude
 * @param {number} rotation_rate
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.ForceLaw}
+* @implements {ForceLaw}
 */
-myphysicslab.sims.engine2D.RotatingTestForce = function(sim, body, location_body, magnitude, rotation_rate) {
+myphysicslab.sims.engine2D.RotatingTestForce = function(sim, body, location_body,
+    magnitude, rotation_rate) {
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBodySim}
+  * @type {!RigidBodySim}
   * @private
   */
   this.sim_ = sim;
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @private
   */
   this.body_ = body;
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.location_body_ = location_body;

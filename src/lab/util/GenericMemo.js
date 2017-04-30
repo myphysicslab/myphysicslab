@@ -22,8 +22,7 @@ goog.scope(function() {
 var Memorizable = myphysicslab.lab.util.Memorizable;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** A generic {@link myphysicslab.lab.util.Memorizable Memorizable} object that
-calls a JavaScript function.
+/** A generic {@link Memorizable} object that calls a JavaScript function.
 
 Example 1
 ---------

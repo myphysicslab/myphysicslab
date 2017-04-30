@@ -39,11 +39,11 @@ var sims = myphysicslab.sims;
 var AbstractApp = sims.common.AbstractApp;
 var ButtonControl = myphysicslab.lab.controls.ButtonControl;
 var CommonControls = sims.common.CommonControls;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
-var ConcreteLine = lab.model.ConcreteLine;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
@@ -53,8 +53,7 @@ var Spring2DSim = sims.springs.Spring2DSim;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  Spring2DApp displays the simulation
-{@link myphysicslab.sims.springs.Spring2DSim Spring2DSim}.
+/** Displays the {@link Spring2DSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user

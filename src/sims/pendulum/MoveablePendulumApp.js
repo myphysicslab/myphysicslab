@@ -14,8 +14,8 @@
 
 goog.provide('myphysicslab.sims.pendulum.MoveablePendulumApp');
 
-goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.app.SimRunner');
+goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
@@ -24,13 +24,12 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
+goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.pendulum.MoveablePendulumSim');
 
@@ -39,28 +38,26 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var SliderControl = lab.controls.SliderControl;
 var AbstractApp = sims.common.AbstractApp;
-var CommonControls = sims.common.CommonControls;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
 var MoveablePendulumSim = sims.pendulum.MoveablePendulumSim;
-var ConcreteLine = lab.model.ConcreteLine;
 var ParameterBoolean = lab.util.ParameterBoolean;
+var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimList = lab.model.SimList;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
+var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
-var Vector = lab.util.Vector;
 
-/**  MoveablePendulumApp displays the
-{@link myphysicslab.sims.pendulum.MoveablePendulumSim MoveablePendulumSim} simulation.
+/** Displays the {@link MoveablePendulumSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -81,14 +78,14 @@ sims.pendulum.MoveablePendulumApp = function(elem_ids) {
 
   this.simRun.setTimeStep(0.01);
 
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
       .setFillStyle('').setStrokeStyle('red').setThickness(4);
   this.displayList.add(this.anchor);
-  /** @type {!lab.view.DisplayLine} */
+  /** @type {!DisplayLine} */
   this.rod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(this.rod);
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.bob = new DisplayShape(this.simList.getPointMass('bob'))
       .setFillStyle('blue');
   this.displayList.add(this.bob);
@@ -120,7 +117,7 @@ sims.pendulum.MoveablePendulumApp = function(elem_ids) {
   }, this), 'save initial conditions when starting to run at time 0');
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
 
   pn = sim.getParameterNumber(MoveablePendulumSim.en.LENGTH);

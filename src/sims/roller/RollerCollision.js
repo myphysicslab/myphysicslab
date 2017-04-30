@@ -33,27 +33,27 @@ var PointMass = myphysicslab.lab.model.PointMass;
 
 /** Collision used by RollerFlightSim.
 
-* @param {!myphysicslab.lab.model.PointMass} ball
-* @param {!myphysicslab.lab.model.NumericalPath} path
+* @param {!PointMass} ball
+* @param {!NumericalPath} path
 * @param {number} time
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.Collision}
+* @implements {Collision}
 */
 myphysicslab.sims.roller.RollerCollision = function(ball, path, time) {
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.ball_ = ball;
   /**
-  * @type {!myphysicslab.lab.model.NumericalPath}
+  * @type {!NumericalPath}
   * @private
   */
   this.path_ = path;
   /**
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.pathPoint_ = new PathPoint();
@@ -108,7 +108,7 @@ if (!UtilityCore.ADVANCED) {
 };
 
 /**
-* @return {!myphysicslab.lab.model.PathPoint}
+* @return {!PathPoint}
 */
 RollerCollision.prototype.getPathPoint = function() {
   return this.pathPoint_;

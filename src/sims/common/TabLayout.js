@@ -35,13 +35,12 @@ var lab = myphysicslab.lab;
 var AbstractSubject = lab.util.AbstractSubject;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
+var NF = lab.util.UtilityCore.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
-
-var NF = UtilityCore.NF;
 
 /** TabLayout is a tab-based layout for showing a simulation, graph, controls.
 TabLayout implements specific ways to present the application on the web page, in this
@@ -161,8 +160,8 @@ Parameters Created
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.util.SubjectList}
+* @extends {AbstractSubject}
+* @implements {SubjectList}
 */
 myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeight) {
   AbstractSubject.call(this, 'TAB_LAYOUT');
@@ -240,7 +239,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
    /**@type {!HTMLInputElement}*/
   this.term_input = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'term_input'));
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = new Terminal(this.term_input, term_output);
   Terminal.stdRegex(this.terminal);
 
@@ -261,7 +260,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   * (such as <div>, <span>, and ) to receive keyboard focus.
   */
   canvas.tabIndex = 0;
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.simCanvas = new LabCanvas(canvas, 'SIM_CANVAS');
   this.simCanvas.setSize(canvasWidth, canvasHeight);
   this.div_sim.appendChild(this.simCanvas.getCanvas());
@@ -287,7 +286,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_graph.style.position = 'relative';
   var canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.graphCanvas = new LabCanvas(canvas2, 'GRAPH_CANVAS');
   canvasWidth = Math.max(canvasWidth, canvasHeight);
   this.graphCanvas.setSize(canvasWidth, canvasWidth);
@@ -301,7 +300,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
     this.graph_controls.style.border = 'dashed 1px green';
   }
 
-  /** @type {!Array<!myphysicslab.lab.controls.LabControl>} */
+  /** @type {!Array<!LabControl>} */
   this.controls_ = [];
   /** div for sim controls
   * @type {!HTMLElement}
@@ -345,7 +344,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_time_graph.style.position = 'relative';
   var canvas3 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.timeGraphCanvas = new LabCanvas(canvas3, 'TIME_GRAPH_CANVAS');
   this.timeGraphCanvas.setSize(canvasWidth, canvasWidth);
   this.div_time_graph.appendChild(canvas3);

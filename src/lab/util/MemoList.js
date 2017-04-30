@@ -18,11 +18,12 @@ goog.require('myphysicslab.lab.util.Memorizable');
 
 goog.scope(function() {
 
-/** A Memorizable object that keeps a list of other
-{@link myphysicslab.lab.util.Memorizable Memorizable} objects and tells them to
-`memorize` which memorizes simulation data or performs some other function that needs
-to happen regularly. The `memorize` method is meant to be called after each simulation
-time step, as is done in {@link myphysicslab.lab.model.AdvanceStrategy#advance}.
+var Memorizable = myphysicslab.lab.util.Memorizable;
+
+/** A {@link Memorizable} object that keeps a list of other Memorizable objects and
+frequently tells them to `memorize` simulation data. The `memorize` method is meant to
+be called after each simulation time step, as is done in
+{@link myphysicslab.lab.model.AdvanceStrategy#advance}.
 
 This is an example of
 [Composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern): it is a
@@ -51,19 +52,17 @@ var MemoList = myphysicslab.lab.util.MemoList;
 
 /** Adds an object to the list of Memorizable objects. These object's `memorize`
 methods will be called from this object's `memorize` method.
-@param {!myphysicslab.lab.util.Memorizable} memorizable object to add to the list of
-    Memorizable objects
+@param {!Memorizable} memorizable object to add to the list of Memorizable objects
 */
 MemoList.prototype.addMemo;
 
 /** Returns the list of Memorizable objects.
-@return {!Array<!myphysicslab.lab.util.Memorizable>} the list of Memorizable objects
+@return {!Array<!Memorizable>} the list of Memorizable objects
 */
 MemoList.prototype.getMemos;
 
 /** Removes an object from the list of Memorizable objects.
-@param {!myphysicslab.lab.util.Memorizable} memorizable the object to remove from the
-    list of Memorizable objects
+@param {!Memorizable} memorizable object to remove from the list of Memorizable objects
 */
 MemoList.prototype.removeMemo;
 

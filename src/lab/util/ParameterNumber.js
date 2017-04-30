@@ -26,11 +26,12 @@ var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var Parameter = myphysicslab.lab.util.Parameter;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
+var Subject = myphysicslab.lab.util.Subject;
 
-/** Provides access to a numeric value of a {@link myphysicslab.lab.util.Subject
-Subject}. Has options for setting number of significant digits to show, and upper/lower
-limit on value. Default is 3 significant digits, lower limit of zero, and upper limit is
-infinity. See {@link myphysicslab.lab.util.Parameter} for more documentation.
+/** Provides access to a numeric value of a {@link Subject}. Has options for setting
+number of significant digits to show, and upper/lower limit on value. Default is 3
+significant digits, lower limit of zero, and upper limit is infinity.
+See {@link Parameter} for more information.
 
 How to Represent an Enum
 ------------------------
@@ -48,15 +49,12 @@ to be a ParameterString).
 
 This defines a special 'setter' function because `setDrawingMode` takes an argument
 of the enum type `DrawingMode`, not of type `number`.
-
 See [Enums](Building.html#enums) for more information.
 
 
-@param {!myphysicslab.lab.util.Subject} subject the Subject whose value this
-    ParameterNumber represents
+@param {!Subject} subject the Subject whose value this ParameterNumber represents
 @param {string} name the name of this Parameter; this will be underscorized so the
-    English name can be passed in here.
-    See {@link myphysicslab.lab.util.UtilityCore#toName}.
+    English name can be passed in here. See {@link UtilityCore#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): number} getter A function with no arguments that returns
     the value of this Parameter
@@ -69,12 +67,12 @@ See [Enums](Building.html#enums) for more information.
 @constructor
 @final
 @struct
-@implements {myphysicslab.lab.util.Parameter}
+@implements {Parameter}
 */
 myphysicslab.lab.util.ParameterNumber = function(subject, name, localName, getter,
     setter, opt_choices, opt_values) {
   /** the Subject which provides notification of changes in this Parameter
-  @type {!myphysicslab.lab.util.Subject}
+  @type {!Subject}
   @private
   */
   this.subject_ = subject;
@@ -270,7 +268,7 @@ ParameterNumber.prototype.setComputed = function(value) {
 
 /** Sets suggested number of decimal places to show.
 @param {number} decimals suggested number of decimal places to show, or -1 if variable
-@return {!myphysicslab.lab.util.ParameterNumber} this Parameter for chaining setters
+@return {!ParameterNumber} this Parameter for chaining setters
 */
 ParameterNumber.prototype.setDecimalPlaces = function(decimals) {
   this.decimalPlaces_ = decimals;
@@ -289,7 +287,7 @@ ParameterNumber.prototype.setFromString = function(value) {
 /** Sets the lower limit; the Parameter value is not allowed to be less than this,
 {@link #setValue} will throw an Error in that case.
 @param {number} lowerLimit the lower limit of the Parameter value
-@return {!myphysicslab.lab.util.ParameterNumber} this Parameter for chaining setters
+@return {!ParameterNumber} this Parameter for chaining setters
 @throws {Error} if the value is currently less than the lower limit, or the lower limit
     is not a number
 */
@@ -305,7 +303,7 @@ ParameterNumber.prototype.setLowerLimit = function(lowerLimit) {
 decimal places that are displayed. Examples: if significant digits is 3, then we would
 show numbers as: 12345, 1234, 123, 12.3, 1.23, 0.123, 0.0123, 0.00123.
 @param {number} signifDigits suggested number of significant digits to show
-@return {!myphysicslab.lab.util.ParameterNumber} this Parameter for chaining setters
+@return {!ParameterNumber} this Parameter for chaining setters
 */
 ParameterNumber.prototype.setSignifDigits = function(signifDigits) {
   this.signifDigits_ = signifDigits;
@@ -316,7 +314,7 @@ ParameterNumber.prototype.setSignifDigits = function(signifDigits) {
 {@link #setValue} will throw an Error in that case.
 
 @param {number} upperLimit the upper limit of the Parameter value
-@return {!myphysicslab.lab.util.ParameterNumber} this Parameter for chaining setters
+@return {!ParameterNumber} this Parameter for chaining setters
 @throws {Error} if the value is currently greater than the upper limit, or the upper
     limit is not a number
 */

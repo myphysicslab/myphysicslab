@@ -16,26 +16,26 @@ goog.provide('myphysicslab.sims.engine2D.MarsMoonApp');
 
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.DampingLaw');
+goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
+goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
@@ -43,18 +43,21 @@ var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Gravity2Law = lab.model.Gravity2Law;
+var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
+var ParameterString = lab.util.ParameterString;
 var Polygon = lab.engine2D.Polygon;
 var Shapes = lab.engine2D.Shapes;
-var Vector = lab.util.Vector;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
+var Vector = lab.util.Vector;
 
 /** Simulation of an asteroid orbiting a moon.
 
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -100,9 +103,9 @@ sims.engine2D.MarsMoonApp = function(elem_ids) {
   this.gravityLaw = new Gravity2Law(10.0, this.simList);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
-  /** @type {!lab.util.ParameterString} */
+  /** @type {!ParameterString} */
   var ps;
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
   this.addControl(new NumericControl(pn));

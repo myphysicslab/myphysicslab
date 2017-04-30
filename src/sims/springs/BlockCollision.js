@@ -26,8 +26,8 @@ var PointMass = myphysicslab.lab.model.PointMass;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** Horizontal collision between two PointMass's.
-* @param {!myphysicslab.lab.model.PointMass} leftBlock
-* @param {!myphysicslab.lab.model.PointMass} rightBlock
+* @param {!PointMass} leftBlock
+* @param {!PointMass} rightBlock
 * @param {number} time
 * @constructor
 * @final
@@ -36,11 +36,11 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 */
 myphysicslab.sims.springs.BlockCollision = function(leftBlock, rightBlock, time) {
   /** object 1 of collision
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   */
   this.leftBlock_ = leftBlock;
   /** object 2 of collision
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   */
   this.rightBlock_ = rightBlock;
   /**

@@ -49,11 +49,14 @@ var ChoiceControl = lab.controls.ChoiceControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
+var ConstantForceLaw = lab.model.ConstantForceLaw;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var ExtraAccel = lab.engine2D.ExtraAccel;
+var Force = lab.model.Force;
+var ForceLaw = lab.model.ForceLaw;
 var GenericObserver = lab.util.GenericObserver;
 var JointUtil = lab.engine2D.JointUtil;
 var NumericControl = lab.controls.NumericControl;
@@ -62,6 +65,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RotatingTestForce = sims.engine2D.RotatingTestForce;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -77,7 +81,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 
 @todo  Make a control for magnitude of handle force.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -96,7 +100,7 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   this.rbo.protoFixedPolygon.setFillStyle('rgb(240,240,240)');
   this.mySim.setShowForces(false);
   this.elasticity.setElasticity(0.8);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0.1, 0.15, this.simList);
 
   /**  Whether there is slack in the fit of shuttles in the grooves.
@@ -111,9 +115,9 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   this.extraBlock = false;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   var pb;
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pb = new ParameterBoolean(this, DoNothingApp.en.TIGHT_FIT,
       DoNothingApp.i18n.TIGHT_FIT,
@@ -212,7 +216,7 @@ DoNothingApp.prototype.config = function() {
   if (this.handleForce > 0) {
     // add a force to the handle
     var handle = this.mySim.getBody('handle');
-    /** @type {!lab.model.ForceLaw} */
+    /** @type {!ForceLaw} */
     var f_law;
     if (this.rotateRate > 0) {
       // rotating handle force; good for long term test
@@ -221,10 +225,10 @@ DoNothingApp.prototype.config = function() {
           /*magnitude=*/this.handleForce, /*rotation_rate=*/this.rotateRate);
     } else {
       // force is constant direction relative to handle; results in high speeds
-      var f = new myphysicslab.lab.model.Force('turning', handle,
+      var f = new Force('turning', handle,
           /*location=*/new Vector(0, -3), CoordType.BODY,
           /*direction=*/new Vector(this.handleForce, 0), CoordType.BODY);
-      f_law = new myphysicslab.lab.model.ConstantForceLaw(f);
+      f_law = new ConstantForceLaw(f);
     }
     this.mySim.addForceLaw(f_law);
   }
@@ -241,7 +245,7 @@ There are four fixed 'groove' blocks which form the channels that the shuttles
 move in.  There are two shuttles, one in the horizontal groove, one in the
 vertical groove.  A handle connects between the two shuttles with joints.
 The handle does not interact with the fixed groove blocks.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim  the simulation to add to
+@param {!ContactSim} sim  the simulation to add to
 @param {boolean} tightFit  true means that the fixed grooves are spaced so that the
   shuttles are in constant contact at all four corners;  false gives a little
   wiggle room for the shuttles.

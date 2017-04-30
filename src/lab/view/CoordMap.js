@@ -127,7 +127,7 @@ myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
   at = at.scale(this.pixel_per_unit_x_, -this.pixel_per_unit_y_);
   at = at.translate(-this.sim_left_, -this.sim_bottom_);
   /**
-  * @type {!myphysicslab.lab.util.AffineTransform }
+  * @type {!AffineTransform }
   * @private
   */
   this.transform_ = at;
@@ -275,20 +275,18 @@ The simulation rectangle, screen rectangle, alignment options, and aspect ratio 
 only used to initially determine the coordinate transformation; they are not stored by
 the CoordMap.
 
-@param {!myphysicslab.lab.view.ScreenRect} screenRect  the screen space rectangle to
-    fit the sim rect into
-@param {!myphysicslab.lab.util.DoubleRect} simRect  the simulation space rectangle to
-    be fit into the screenRect
-@param {!myphysicslab.lab.view.HorizAlign=} horizAlign  horizontal alignment option
-    from {@link myphysicslab.lab.view.HorizAlign}; default is `HorizAlign.MIDDLE`
-@param {!myphysicslab.lab.view.VerticalAlign=} verticalAlign  vertical alignment option
-    from {@link myphysicslab.lab.view.VerticalAlign}; default is`VerticalAlign.MIDDLE`
+@param {!ScreenRect} screenRect  the screen space rectangle to fit the sim rect into
+@param {!DoubleRect} simRect  the simulation space rectangle to be fit into the
+    screenRect
+@param {!HorizAlign=} horizAlign  horizontal alignment option from {@link HorizAlign};
+    default is `HorizAlign.MIDDLE`
+@param {!VerticalAlign=} verticalAlign  vertical alignment option from
+    {@link VerticalAlign}; default is`VerticalAlign.MIDDLE`
 @param {number=} aspectRatio  the ratio of 'pixels per simulation unit along y axis'
     divided by 'pixels per simulation unit along x axis';  default is 1.0
-@return {!myphysicslab.lab.view.CoordMap} the CoordMap corresponding to the given
-    options
-@throws {Error} if simRect is empty (has zero area), or invalid
-    alignment options are given.
+@return {!CoordMap} the CoordMap corresponding to the given options
+@throws {Error} if simRect is empty (has zero area), or invalid alignment options
+    are given.
 */
 CoordMap.make = function(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
   horizAlign = HorizAlign.stringToEnum(horizAlign || HorizAlign.MIDDLE);
@@ -409,8 +407,7 @@ CoordMap.isDuckType = function(obj) {
 
 /** Returns an AffineTransform that maps simulation coordinates to screen coordinates
 using the mapping defined by this CoordMap.
-@return {!myphysicslab.lab.util.AffineTransform} the AffineTransform equivalent of
-    this CoordMap
+@return {!AffineTransform} the AffineTransform equivalent of this CoordMap
 */
 CoordMap.prototype.getAffineTransform = function() {
   return this.transform_;
@@ -435,26 +432,30 @@ CoordMap.prototype.getScaleY = function() {
 };
 
 /** Translates a point in screen coordinates to simulation coordinates.
-@param {number|!GenericVector} scr_x horizontal position in screen coordinates,
+@param {!GenericVector|number} scr_x horizontal position in screen coordinates,
     or GenericVector in screen coordinates
 @param {number=} scr_y vertical position in screen coordinates
-@return {!myphysicslab.lab.util.Vector} the equivalent position in simulation coordinates
+@return {!Vector} the equivalent position in simulation coordinates
 */
 CoordMap.prototype.screenToSim = function(scr_x, scr_y) {
-  if (!goog.isNumber(scr_x)) {
-    var v = /** @type {!GenericVector} */(scr_x);
-    scr_x = v.getX();
-    scr_y = v.getY();
+  var sx, sy;
+  if (goog.isNumber(scr_x)) {
+    sx = scr_x;
+    sy = scr_y;
   } else {
-    if (!goog.isNumber(scr_y))
-      throw new Error();
+    var v = /** @type {!GenericVector} */(scr_x);
+    sy = v.getY();
+    sx = v.getX();
   }
-  return new Vector(this.screenToSimX(scr_x), this.screenToSimY(scr_y));
+  if (!goog.isNumber(sx) || !goog.isNumber(sy)) {
+    throw new Error();
+  }
+  return new Vector(this.screenToSimX(sx), this.screenToSimY(sy));
 };
 
 /** Translates the given screen coordinates rectangle into simulation coordinates.
-@param {!myphysicslab.lab.view.ScreenRect} rect the rectangle in screen coordinates
-@return {!myphysicslab.lab.util.DoubleRect} the equivalent rectangle in simulation coordinates
+@param {!ScreenRect} rect the rectangle in screen coordinates
+@return {!DoubleRect} the equivalent rectangle in simulation coordinates
 */
 CoordMap.prototype.screenToSimRect = function(rect) {
   return new DoubleRect(
@@ -500,17 +501,16 @@ CoordMap.prototype.screenToSimY = function(scr_y) {
 };
 
 /** Translates a point from simulation coordinates to screen coordinates.
-@param {!myphysicslab.lab.util.GenericVector} p_sim the point in simulation coordinates
-    to translate
-@return {!myphysicslab.lab.util.Vector} the point translated to screen coordinates
+@param {!GenericVector} p_sim the point in simulation coordinates to translate
+@return {!Vector} the point translated to screen coordinates
 */
 CoordMap.prototype.simToScreen = function(p_sim) {
   return new Vector(this.simToScreenX(p_sim.getX()), this.simToScreenY(p_sim.getY()));
 };
 
 /** Translates the given simulation coordinates rectangle into screen coordinates.
-@param {!myphysicslab.lab.util.DoubleRect} r the rectangle in simulation coordinates
-@return {!myphysicslab.lab.view.ScreenRect} the equivalent rectangle in screen coordinates
+@param {!DoubleRect} r the rectangle in simulation coordinates
+@return {!ScreenRect} the equivalent rectangle in screen coordinates
 */
 CoordMap.prototype.simToScreenRect = function(r) {
   return new ScreenRect(

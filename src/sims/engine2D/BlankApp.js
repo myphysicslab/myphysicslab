@@ -17,10 +17,7 @@ goog.provide('myphysicslab.sims.engine2D.BlankApp');
 goog.require('myphysicslab.lab.engine2D.CircularEdge');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.Scrim');
@@ -36,13 +33,16 @@ goog.require('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.ExpressionVariable');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
+goog.require('myphysicslab.lab.model.Gravity2Law');
+goog.require('myphysicslab.lab.model.GravityLaw');
+goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.model.ModifiedEuler');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
@@ -54,6 +54,7 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.RandomLCG');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -66,8 +67,9 @@ goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.ScreenRect');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 
 goog.scope(function() {
 
@@ -106,6 +108,7 @@ var GravityLaw = lab.model.GravityLaw;
 var HorizAlign = lab.view.HorizAlign;
 var Joint = lab.engine2D.Joint;
 var LabCanvas = lab.view.LabCanvas;
+var Line = lab.model.Line;
 var ModifiedEuler = lab.model.ModifiedEuler;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
@@ -117,12 +120,13 @@ var RungeKutta = lab.model.RungeKutta;
 var ScreenRect = lab.view.ScreenRect;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
-var Line = lab.model.Line;
 var SimList = lab.model.SimList;
 var SimObject = lab.model.SimObject;
 var SimView = lab.view.SimView;
 var Spring = lab.model.Spring;
 var StraightEdge = lab.engine2D.StraightEdge;
+var TabLayout = sims.common.TabLayout;
+var Terminal = lab.util.Terminal;
 var ThrusterSet = lab.engine2D.ThrusterSet;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
@@ -131,9 +135,9 @@ var Walls = lab.engine2D.Walls;
 
 /** Intended for scripting, this provides a ContactSim with no RigidBody objects or
 ForceLaws. The RigidBody objects and ForceLaws should be created via scripting such as
-a URL-script; see {@link myphysicslab.lab.util.Terminal}.
+a URL-script; see {@link Terminal}.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor

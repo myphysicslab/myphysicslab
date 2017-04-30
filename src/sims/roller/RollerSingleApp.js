@@ -67,6 +67,7 @@ var OvalPath = sims.roller.OvalPath;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
+var ParametricPath = lab.model.ParametricPath;
 var PathObserver = sims.roller.PathObserver;
 var PathSelector = sims.roller.PathSelector;
 var PointMass = lab.model.PointMass;
@@ -100,7 +101,7 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('white');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
       .setFillStyle('blue');
   this.displayList.add(this.ball1);
@@ -108,7 +109,7 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.terminal.addWhiteList('t');
   /** @type {!CustomPath} */
   this.customPath_ = new CustomPath();
-  /** @type {!Array<!lab.model.ParametricPath>} **/
+  /** @type {!Array<!ParametricPath>} **/
   this.paths = [
       new HumpPath(),
       new LoopTheLoopPath(),
@@ -128,9 +129,9 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.pathSelect.setPathName(HumpPath.en.NAME);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
-  /** @type {!lab.util.ParameterString} */
+  /** @type {!ParameterString} */
   var ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));

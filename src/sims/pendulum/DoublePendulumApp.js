@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
@@ -33,22 +34,22 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var SliderControl = lab.controls.SliderControl;
 var AbstractApp = sims.common.AbstractApp;
 var CommonControls = sims.common.CommonControls;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DoublePendulumSim = sims.pendulum.DoublePendulumSim;
 var DoubleRect = lab.util.DoubleRect;
-var ConcreteLine = lab.model.ConcreteLine;
+var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
+var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var Vector = lab.util.Vector;
 var UtilityCore = lab.util.UtilityCore;
+var Vector = lab.util.Vector;
 
-/** DoublePendulumApp displays the simulation
-{@link myphysicslab.sims.pendulum.DoublePendulumSim DoublePendulumSim}.
+/** Displays the {@link DoublePendulumSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -67,16 +68,16 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
-  /** @type {!lab.view.DisplayLine} */
+  /** @type {!DisplayLine} */
   this.rod1 = new DisplayLine(this.simList.getConcreteLine('rod1'));
   this.displayList.add(this.rod1);
-  /** @type {!lab.view.DisplayLine} */
+  /** @type {!DisplayLine} */
   this.rod2 = new DisplayLine(this.simList.getConcreteLine('rod2'));
   this.displayList.add(this.rod2);
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.bob1 = new DisplayShape(this.simList.getPointMass('bob1')).setFillStyle('blue');
   this.displayList.add(this.bob1);
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.bob2 = new DisplayShape(this.simList.getPointMass('bob2')).setFillStyle('blue');
   this.displayList.add(this.bob2);
 
@@ -84,11 +85,11 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
   // This is a test for MouseTracker, the case where a dragable DisplayObject
   // has a SimObject that is not recognized by the Simulation's EventHandler.
   if (1 == 1) {
-    /** @type {!lab.model.PointMass} */
+    /** @type {!PointMass} */
     this.marker1 = PointMass.makeCircle(0.2, 'marker1');
     // put the object outside of the visible area, to avoid confusion
     this.marker1.setPosition(new Vector(-3, 1));
-    /** @type {!lab.view.DisplayShape} */
+    /** @type {!DisplayShape} */
     this.marker1Shape = new DisplayShape(this.marker1).setFillStyle('')
         .setStrokeStyle('red');
     this.marker1Shape.setDragable(true);
@@ -103,7 +104,7 @@ sims.pendulum.DoublePendulumApp = function(elem_ids) {
     this.graph.line.yTransform = function(x,y) { return y*Math.sin(x); };
   }
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(DoublePendulumSim.en.ROD_1_LENGTH);
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));

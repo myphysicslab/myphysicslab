@@ -32,26 +32,25 @@ var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Displays a {@link myphysicslab.lab.model.Spring}. Can show either a jagged or
-straight line, see {@link #drawMode}. Can have a different color when compressed or
-expanded, see {@link #colorCompressed} and {@link #colorExpanded}.
-The width determines how wide back-and-forth the jagged lines go, see {@link #width}.
+/** Displays a {@link Spring}. Can show either a jagged or straight line,
+see {@link #drawMode}. Can have a different color when compressed or expanded,
+see {@link #colorCompressed} and {@link #colorExpanded}. The width determines
+how wide back-and-forth the jagged lines go, see {@link #width}.
 
 The position is reported as the midpoint of the Spring by {@link #getPosition}.
 The position is determined by the position of the Spring, so {@link #setPosition}
 has no effect, and the DisplaySpring is never dragable.
 
-* @param {?myphysicslab.lab.model.Spring=} spring the Spring to display
-* @param {?DisplaySpring=} proto the prototype DisplaySpring to inherit properties
-*     from
+* @param {?Spring=} spring the Spring to display
+* @param {?DisplaySpring=} proto the prototype DisplaySpring to inherit properties from
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
   /**
-  * @type {?myphysicslab.lab.model.Spring}
+  * @type {?Spring}
   * @private
   */
   this.spring_ = goog.isDefAndNotNull(spring) ? spring : null;
@@ -196,7 +195,7 @@ current position, and also the sim-to-screen transform.
 The path is drawn into a size of 6.0 long by 0.5 wide, so that when it is
 scaled up or down, it doesn't get too distorted.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!myphysicslab.lab.util.AffineTransform} at transform to apply to each point
+* @param {!AffineTransform} at transform to apply to each point
 * @private
 */
 DisplaySpring.drawSpring = function(context, at) {

@@ -42,10 +42,10 @@ var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
+var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
@@ -77,8 +77,8 @@ SpeedTest.test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @param {number=} damping
 @private
 */
@@ -98,8 +98,8 @@ SpeedTest.commonSetup1 = function(sim, advance, damping) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 SpeedTest.ball_vs_wall_setup = function(sim, advance) {
@@ -149,8 +149,8 @@ SpeedTest.ball_vs_wall_1 = function() {
 };
 
 /** Small high speed ball collides into very thin walls and fixed circle.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 SpeedTest.ball_vs_circle_setup = function(sim, advance) {
@@ -203,8 +203,8 @@ To check that this test is working:  in `Polygon.checkVertexes` set
 `travelDist = 0` (the distance travelled by the vertex), and in `ImpulseSim` set
 `PROXIMITY_TEST = false`.  Note that if trying this interactively, be sure to use the
 same large time step used here
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 SpeedTest.small_small_setup = function(sim, advance) {

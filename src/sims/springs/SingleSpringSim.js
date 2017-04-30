@@ -107,8 +107,8 @@ version.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
@@ -139,12 +139,12 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
       this.getName()+'_VARS'));
   this.getVarsList().setComputed(2,4,5,6,7);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.block_ = PointMass.makeRectangle(0.4, 0.8, 'block').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.fixedPoint_ = PointMass.makeSquare(0.5, 'fixed_point')
@@ -152,7 +152,7 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
   var restLength = 2.5;
   this.fixedPoint_.setPosition(new Vector(-restLength,  0));
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',

@@ -29,8 +29,8 @@ var MassObject = myphysicslab.lab.model.MassObject;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** An object that can be displayed in a {@link myphysicslab.lab.view.SimView}, often it
-is the visible representation of a {@link myphysicslab.lab.model.SimObject}.
+/** An object that can be displayed in a {@link myphysicslab.lab.view.LabView}, often it
+is the visible representation of a {@link SimObject}.
 
 Each DisplayObject has a default policy about when the SimObject it represents is
 dragable; this can be overridden via the {@link #setDragable} method.
@@ -49,15 +49,15 @@ myphysicslab.lab.view.DisplayObject = function() {};
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 
 /** Whether the DisplayObject contains the given world coordinates point.
-@param {!myphysicslab.lab.util.Vector} p_world  the point in world coordinates
+@param {!Vector} p_world  the point in world coordinates
 @return {boolean} `true` if this DisplayObject contains the given point
 */
 DisplayObject.prototype.contains;
 
 /** Draws this DisplayObject using the given CoordMap.
 @param {!CanvasRenderingContext2D} context the canvas's context to draw this object into
-@param {!myphysicslab.lab.view.CoordMap} map the mapping to use for translating between
-simulation and screen coordinates
+@param {!CoordMap} map the mapping to use for translating between simulation
+    and screen coordinates
 */
 DisplayObject.prototype.draw;
 
@@ -68,22 +68,19 @@ DisplayObject.prototype.isDragable;
 
 /** Returns the set of MassObjects that this DisplayObject represents.
 Returns an empty list if this DisplayObject doesn't represent a MassObject.
-@return {!Array<!myphysicslab.lab.model.MassObject>} the set of MassObjects that this
-    DisplayObject represents
+@return {!Array<!MassObject>} the set of MassObjects that this DisplayObject represents
 */
 DisplayObject.prototype.getMassObjects;
 
 /** Returns this DisplayObject's position in space. This is mainly used when dragging
 the DisplayObject.
-@return {!myphysicslab.lab.util.Vector} this DisplayObject's position, in simulation
-    coordinates.
+@return {!Vector} this DisplayObject's position, in simulation coordinates.
 */
 DisplayObject.prototype.getPosition;
 
 /** Returns the set of SimObjects that this DisplayObject represents.
 Returns an empty list if this DisplayObject doesn't represent a SimObject.
-@return {!Array<!myphysicslab.lab.model.SimObject>} the set of SimObjects that this
-    DisplayObject represents
+@return {!Array<!SimObject>} the set of SimObjects that this DisplayObject represents
 */
 DisplayObject.prototype.getSimObjects;
 
@@ -112,8 +109,7 @@ will have an effect. Generally the policies are:
 + If the SimObject can be moved independently and {@link #isDragable} is true, then the
   position of the SimObject is modified.  Example: DisplayShape.
 
-@param {!myphysicslab.lab.util.Vector} position this DisplayObject's position, in
-simulation coordinates.
+@param {!Vector} position this DisplayObject's position, in simulation coordinates.
 */
 DisplayObject.prototype.setPosition;
 

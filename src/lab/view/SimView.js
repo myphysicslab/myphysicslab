@@ -45,6 +45,8 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var LabView = myphysicslab.lab.view.LabView;
+var MemoList = myphysicslab.lab.util.MemoList;
+var Memorizable = myphysicslab.lab.util.Memorizable;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
@@ -56,9 +58,9 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 
-/** Defines a rectangular region where a {@link myphysicslab.lab.view.DisplayList}
-draws a set of {@link myphysicslab.lab.view.DisplayObject}s. A DisplayObject typically
-represents a {@link myphysicslab.lab.model.SimObject}, but not always.
+/** Defines a rectangular region where a {@link DisplayList}
+draws a set of {@link DisplayObject}s. A DisplayObject typically
+represents a {@link SimObject}, but not always.
 
 A SimView is shown inside a {@link myphysicslab.lab.view.LabCanvas}, possibly overlaid
 with other SimViews.
@@ -68,14 +70,14 @@ Boundary Rectangles
 -------------------
 A SimView keeps track of two boundary rectangles: the simulation and screen rectangles.
 
-+ The **screen rectangle** gives the size and location of this LabView within the
++ The **screen rectangle** gives the size and location of this SimView within the
 containing LabCanvas. See {@link #getScreenRect}. The screen rectangle is initially
 set to a default size of 800 by 600.
 
 + The **simulation rectangle** specifies what area of the simulation to display in this
-LabView. See {@link #getSimRect}.
+SimView. See {@link #getSimRect}.
 
-A {@link myphysicslab.lab.view.CoordMap} maps the simulation rectangle onto the screen
+A {@link CoordMap} maps the simulation rectangle onto the screen
 rectangle, in accordance with various alignment options; see {@link #setHorizAlign},
 {@link #setVerticalAlign}, {@link #setAspectRatio}. The CoordMap is available via
 {@link #getCoordMap}. The CoordMap is passed to each DisplayObject during the
@@ -113,7 +115,7 @@ Parameters Created
 
 Events Broadcast
 ----------------
-SimView broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Observers:
+SimView broadcasts these {@link GenericEvent}s to its Observers:
 
 + GenericEvent named `SIM_RECT_CHANGED` when the simulation rectangle changes.
 
@@ -122,15 +124,15 @@ SimView broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Obse
 
 
 * @param {string} name name of this SimView.
-* @param {!myphysicslab.lab.util.DoubleRect} simRect specifies what area of the
-  simulation to display
+* @param {!DoubleRect} simRect specifies what area of the simulation to display, in
+*    simulation coordinates
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.LabView}
-* @implements {myphysicslab.lab.util.Memorizable}
-* @implements {myphysicslab.lab.util.MemoList}
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @implements {LabView}
+* @implements {Memorizable}
+* @implements {MemoList}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.view.SimView = function(name, simRect) {
   AbstractSubject.call(this, name);
@@ -150,23 +152,23 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   */
   this.zoom = 1.1;
   /** The boundary rectangle in simulation coordinates.
-  * @type {!myphysicslab.lab.util.DoubleRect}
+  * @type {!DoubleRect}
   * @private
   */
   this.simRect_ = simRect;
   /** The rectangle in screen coordinates where this SimView exists inside the
   * LabCanvas.
-  * @type {!myphysicslab.lab.view.ScreenRect}
+  * @type {!ScreenRect}
   * @private
   */
   this.screenRect_ = new ScreenRect(0, 0, 800, 600);
   /**
-  * @type {!myphysicslab.lab.view.HorizAlign}
+  * @type {!HorizAlign}
   * @private
   */
   this.horizAlign_ = HorizAlign.MIDDLE;
   /**
-  * @type {!myphysicslab.lab.view.VerticalAlign}
+  * @type {!VerticalAlign}
   * @private
   */
   this.verticalAlign_ = VerticalAlign.MIDDLE;
@@ -176,7 +178,7 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   */
   this.aspectRatio_ = 1.0;
   /** This list of DisplayObjects that this SimView displays
-  * @type {!myphysicslab.lab.view.DisplayList}
+  * @type {!DisplayList}
   * @private
   */
   this.displayList_ = new DisplayList();
@@ -190,8 +192,8 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   * @type {number}
   */
   this.opaqueness = 1.0;
-  /** The CoordMap that defines the simulation coordinates for this LabView.
-  * @type {!myphysicslab.lab.view.CoordMap}
+  /** The CoordMap that defines the simulation coordinates for this SimView.
+  * @type {!CoordMap}
   * @private
   */
   this.coordMap_= CoordMap.make(this.screenRect_, this.simRect_, this.horizAlign_,
@@ -222,7 +224,7 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   */
   this.ratio_ = this.height_/this.width_;
   /**
-  * @type {!Array<!myphysicslab.lab.util.Memorizable>}
+  * @type {!Array<!Memorizable>}
   * @private
   */
   this.memorizables_ = [];
@@ -304,9 +306,9 @@ SimView.prototype.gainFocus = function() {
 };
 
 /** Returns the ratio of 'pixels per simulation unit along y axis' divided
-by 'pixels per simulation unit along x axis' used when displaying this LabView.
-See {@link myphysicslab.lab.view.CoordMap}.
-@return {number} the aspect ratio used when displaying this LabView
+by 'pixels per simulation unit along x axis' used when displaying this SimView.
+See {@link CoordMap}.
+@return {number} the aspect ratio used when displaying this SimView
 */
 SimView.prototype.getAspectRatio = function() {
   return this.aspectRatio_;
@@ -345,10 +347,9 @@ SimView.prototype.getHeight = function() {
 
 /** Returns the horizontal alignment to use when aligning the SimView's
 simulation rectangle within its screen rectangle.
-See {@link myphysicslab.lab.view.CoordMap}.
-@return {!myphysicslab.lab.view.HorizAlign} the horizontal alignment to use for aligning
-    the simulation rectangle within the screen rectangle,
-    from {@link myphysicslab.lab.view.HorizAlign}
+See {@link CoordMap}.
+@return {!HorizAlign} the horizontal alignment to use for aligning the simulation
+    rectangle within the screen rectangle
 */
 SimView.prototype.getHorizAlign = function() {
   return this.horizAlign_;
@@ -378,11 +379,9 @@ SimView.prototype.getSimRect = function() {
 };
 
 /** Returns the vertical alignment to use when aligning the SimView's
-simulation rectangle within its screen rectangle.
-See {@link myphysicslab.lab.view.CoordMap}.
-@return {!myphysicslab.lab.view.VerticalAlign} the vertical alignment to use for
-    aligning the simulation rectangle within the screen rectangle,
-    from {@link myphysicslab.lab.view.VerticalAlign}
+simulation rectangle within its screen rectangle. See {@link CoordMap}.
+@return {!VerticalAlign} the vertical alignment to use for aligning the simulation
+    rectangle within the screen rectangle
 */
 SimView.prototype.getVerticalAlign = function() {
   return this.verticalAlign_;
@@ -457,7 +456,6 @@ SimView.prototype.panRight = function() {
 /** Moves the center of the simulation rectangle (the 'camera') up by fraction
 {@link #panY}, which causes the image to move down.
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
-
 * @return {undefined}
 */
 SimView.prototype.panUp = function() {
@@ -484,9 +482,9 @@ SimView.prototype.removeMemo = function(memorizable) {
 };
 
 /** Sets the ratio of 'pixels per simulation unit along y axis' divided
-by 'pixels per simulation unit along x axis' used when displaying this LabView.
-See {@link myphysicslab.lab.view.CoordMap}.
-@param {number} aspectRatio the aspect ratio used when displaying this LabView
+by 'pixels per simulation unit along x axis' used when displaying this SimView.
+See {@link CoordMap}.
+@param {number} aspectRatio the aspect ratio used when displaying this SimView
 */
 SimView.prototype.setAspectRatio = function(aspectRatio) {
   if (UtilityCore.veryDifferent(this.aspectRatio_, aspectRatio)) {
@@ -541,11 +539,9 @@ SimView.prototype.setHeight = function(value) {
 };
 
 /** Sets the horizontal alignment to use when aligning the SimView's
-simulation rectangle within its screen rectangle.
-See {@link myphysicslab.lab.view.CoordMap}.
-@param {!myphysicslab.lab.view.HorizAlign} alignHoriz the horizontal alignment to use
-    for aligning the simulation rectangle within the screen rectangle,
-    from {@link myphysicslab.lab.view.HorizAlign}
+simulation rectangle within its screen rectangle. See {@link CoordMap}.
+@param {!HorizAlign} alignHoriz the horizontal alignment to use
+    for aligning the simulation rectangle within the screen rectangle
 */
 SimView.prototype.setHorizAlign = function(alignHoriz) {
   this.horizAlign_ = HorizAlign.stringToEnum(alignHoriz);
@@ -597,11 +593,9 @@ SimView.prototype.setSimRect = function(simRect) {
 };
 
 /** Sets the vertical alignment to use when aligning the SimView's
-simulation rectangle within its screen rectangle.
-See {@link myphysicslab.lab.view.CoordMap}.
-@param {!myphysicslab.lab.view.VerticalAlign} alignVert the vertical alignment to use
-    for aligning the simulation rectangle within the screen rectangle,
-    from {@link myphysicslab.lab.view.VerticalAlign}
+simulation rectangle within its screen rectangle. See {@link CoordMap}.
+@param {!VerticalAlign} alignVert the vertical alignment to use
+    for aligning the simulation rectangle within the screen rectangle
 */
 SimView.prototype.setVerticalAlign = function(alignVert) {
   this.verticalAlign_ = VerticalAlign.stringToEnum(alignVert);

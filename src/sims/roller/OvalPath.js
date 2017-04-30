@@ -40,7 +40,7 @@ The parameter, `t` starts at pi/2, corresponding to the topmost point of the ova
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.OvalPath = function(straight, name, localName) {
   if (!goog.isNumber(straight))

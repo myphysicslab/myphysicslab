@@ -15,12 +15,10 @@
 goog.provide('myphysicslab.sims.engine2D.PendulumSpringApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.CheckBoxControl');
+goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -30,14 +28,17 @@ goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 
 goog.scope(function() {
 
@@ -45,9 +46,8 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AutoScale = lab.graph.AutoScale;
-var ChoiceControl = lab.controls.ChoiceControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
-var NumericControl = lab.controls.NumericControl;
+var ChoiceControl = lab.controls.ChoiceControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
@@ -59,6 +59,8 @@ var Engine2DApp = sims.engine2D.Engine2DApp;
 var GraphLine = lab.graph.GraphLine;
 var GravityLaw = lab.model.GravityLaw;
 var JointUtil = lab.engine2D.JointUtil;
+var NumericControl = lab.controls.NumericControl;
+var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
@@ -154,9 +156,9 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.mySim.saveInitialState();
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   var pb;
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));

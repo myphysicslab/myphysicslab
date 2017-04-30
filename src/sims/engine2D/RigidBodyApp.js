@@ -16,32 +16,31 @@ goog.provide('myphysicslab.sims.engine2D.RigidBodyApp');
 
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
+goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.ThrusterSet');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+goog.require('myphysicslab.sims.engine2D.SixThrusters');
 
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var CommonControls = sims.common.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
 var CoordType = lab.model.CoordType;
@@ -49,14 +48,17 @@ var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
-var RigidBodySim = lab.engine2D.RigidBodySim;
+var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = lab.engine2D.Polygon;
+var RigidBodySim = lab.engine2D.RigidBodySim;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SixThrusters = sims.engine2D.SixThrusters;
 var Spring = lab.model.Spring;
+var TabLayout = sims.common.TabLayout;
+var ThrusterSet = lab.engine2D.ThrusterSet;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -66,7 +68,7 @@ a set of simple rectangular objects.
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -86,9 +88,9 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.rbo.protoSpring.setThickness(4).setWidth(.4);
   this.elasticity.setElasticity(1.0);
   this.mySim.setShowForces(false);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.1, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(0, this.simList);
   /** @type {number} */
   this.numBods = 5;
@@ -96,11 +98,11 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.mass1 = 1;
   /** @type {number} */
   this.thrust = 1.5;
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrust1;
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrust2;
-  /** @type {!Array<!lab.model.Spring>} */
+  /** @type {!Array<!Spring>} */
   this.springs_ = [];
   /** @type {number} */
   this.restLength = 0.75;
@@ -108,7 +110,7 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.stiffness = 1;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
       RigidBodyApp.i18n.NUM_BODIES,

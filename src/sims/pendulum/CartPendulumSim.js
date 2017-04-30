@@ -16,9 +16,9 @@ goog.provide('myphysicslab.sims.pendulum.CartPendulumSim');
 
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.AbstractODESim');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
@@ -31,9 +31,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
@@ -98,8 +98,8 @@ The variables are stored in the VarsList as follows
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
@@ -167,29 +167,29 @@ myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.fixedPoint_ = PointMass.makeSquare(0.5, 'fixed point');
   this.fixedPoint_.setMass(UtilityCore.POSITIVE_INFINITY);
   this.fixedPoint_.setPosition(new Vector(3, 0));
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.rod_ = new ConcreteLine('rod');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.cart_ = PointMass.makeRectangle(1, 0.3, 'cart');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.pendulum_ = PointMass.makeCircle(0.3, 'bob');
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',

@@ -35,9 +35,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var MutableVector = myphysicslab.lab.util.MutableVector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
@@ -95,8 +95,8 @@ during most of the time when the springs aren't engaging.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
@@ -154,14 +154,14 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.wall1_ = PointMass.makeRectangle(0.4, 4, 'wall1')
       .setMass(UtilityCore.POSITIVE_INFINITY);
   this.wall1_.setPosition(new Vector(-6.2,  0));
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.wall2_ = PointMass.makeRectangle(0.4, 4, 'wall2')

@@ -77,6 +77,7 @@ var Clock = lab.util.Clock;
 var CommonControls = sims.common.CommonControls;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
+var DisplayList = lab.view.DisplayList;
 var DisplayPath = lab.view.DisplayPath;
 var DisplayShape = lab.view.DisplayShape;
 var DisplayText = lab.view.DisplayText;
@@ -99,16 +100,17 @@ var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
+var StringAdvance = sims.pde.StringAdvance;
 var StringPath = sims.pde.StringPath;
 var StringShape = sims.pde.StringShape;
 var StringSim = sims.pde.StringSim;
 var TabLayout = sims.common.TabLayout;
+var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var VerticalAlign = lab.view.VerticalAlign;
 
-/**  StringApp displays the simulation
-{@link myphysicslab.sims.pde.StringSim StringSim}.
+/** Displays the {@link StringSim} simulation.
 
 Creates instance objects such as the simulation and display objects;
 defines regular expressions for easy Terminal scripting of these objects using short
@@ -132,8 +134,7 @@ can be properly expanded.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.util.Subject}
+* @extends {AbstractSubject}
 * @export
 */
 myphysicslab.sims.pde.StringApp = function(elem_ids) {
@@ -142,7 +143,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
   // keep reference to terminal to make for shorter 'expanded' names
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
   var sim_controls = this.layout.sim_controls;
   var simCanvas = this.layout.simCanvas;
@@ -150,12 +151,12 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   var length = 13.5;
   /** @type {!Array<!StringShape>} */
   this.shapes = [
-      new myphysicslab.sims.pde.FlatShape(length),
-      new myphysicslab.sims.pde.TrianglePulseShape(length),
-      new myphysicslab.sims.pde.SquarePulseShape(length),
-      new myphysicslab.sims.pde.SinePulseShape(length),
-      new myphysicslab.sims.pde.HalfSinePulseShape(length),
-      new myphysicslab.sims.pde.MultiSineShape(length)
+      new sims.pde.FlatShape(length),
+      new sims.pde.TrianglePulseShape(length),
+      new sims.pde.SquarePulseShape(length),
+      new sims.pde.SinePulseShape(length),
+      new sims.pde.HalfSinePulseShape(length),
+      new sims.pde.MultiSineShape(length)
     ];
   /** @type {!StringSim} */
   this.sim = new StringSim(this.shapes[1]);
@@ -163,13 +164,13 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   this.simList = this.sim.getSimList();
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.sim);
-  /** @type {!myphysicslab.sims.pde.StringAdvance} */
-  this.advance  = new myphysicslab.sims.pde.StringAdvance(this.sim);
+  /** @type {!StringAdvance} */
+  this.advance  = new StringAdvance(this.sim);
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-1, -0.25, 14, 0.25);
   /** @type {!SimView} */
   this.simView = new SimView('simView', this.simRect);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   this.simView.setHorizAlign(HorizAlign.FULL);
   this.simView.setVerticalAlign(VerticalAlign.FULL);
@@ -179,7 +180,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   simCanvas.addView(this.statusView);
   /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
-  /** @type {!lab.app.SimRunner} */
+  /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance);
   this.simRun.addCanvas(simCanvas);
   /** @type {!Clock} */
@@ -337,7 +338,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var StringApp = myphysicslab.sims.pde.StringApp;
-goog.inherits(StringApp, myphysicslab.lab.util.AbstractSubject);
+goog.inherits(StringApp, AbstractSubject);
 
 if (!UtilityCore.ADVANCED) {
   /** @inheritDoc */

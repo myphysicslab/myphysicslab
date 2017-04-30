@@ -20,10 +20,10 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.AbstractODESim');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.VarsList');
@@ -37,11 +37,11 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var CoordType = myphysicslab.lab.model.CoordType;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var Joint = myphysicslab.lab.engine2D.Joint;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
@@ -81,8 +81,8 @@ which will also fix the energy calculation.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 */
 myphysicslab.sims.pendulum.RigidDoublePendulumSim = function(parts, opt_name,
     opt_simList) {

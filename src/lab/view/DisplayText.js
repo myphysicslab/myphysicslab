@@ -33,12 +33,11 @@ var Vector = myphysicslab.lab.util.Vector;
 @param {string=} opt_text the text to display (default is empty string)
 @param {!Vector=} opt_position the position in simulation coords to display the text
     (default is origin)
-* @param {?DisplayText=} proto the prototype DisplayText to inherit properties
-*     from
+* @param {?DisplayText=} proto the prototype DisplayText to inherit properties from
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
   /**
@@ -47,7 +46,7 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
   */
   this.text_ = opt_text || '';
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.location_ = opt_position || Vector.ORIGIN;

@@ -25,9 +25,10 @@ goog.scope(function() {
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var Parameter = myphysicslab.lab.util.Parameter;
+var Subject = myphysicslab.lab.util.Subject;
 
-/** Provides access to a string value of a {@link myphysicslab.lab.util.Subject
-Subject}. See {@link myphysicslab.lab.util.Parameter} for more documentation.
+/** Provides access to a string value of a {@link Subject}. See {@link Parameter} for
+more information.
 
 How to Represent an Enum
 ------------------------
@@ -43,14 +44,11 @@ from {@link myphysicslab.lab.engine2D.ContactSim}:
 
 This defines a special setter function because `setExtraAccel` takes an argument
 of the enum type `ExtraAccel`, not of type `string`.
-
 See [Enums](Building.html#enums) for more information.
 
-@param {!myphysicslab.lab.util.Subject} subject the Subject whose value this
-    ParameterString represents
+@param {!Subject} subject the Subject whose value this ParameterString represents
 @param {string} name the name of this Parameter; this will be underscorized so the
-    English name can be passed in here.
-    See {@link myphysicslab.lab.util.UtilityCore#toName}.
+    English name can be passed in here. See {@link UtilityCore#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): string} getter A function with no arguments that returns
     the value of this Parameter
@@ -63,12 +61,12 @@ See [Enums](Building.html#enums) for more information.
 @constructor
 @final
 @struct
-@implements {myphysicslab.lab.util.Parameter}
+@implements {Parameter}
 */
 myphysicslab.lab.util.ParameterString = function(subject, name, localName, getter,
     setter, opt_choices, opt_values) {
   /**
-  @type {!myphysicslab.lab.util.Subject}
+  @type {!Subject}
   @private
   */
   this.subject_ = subject;
@@ -247,7 +245,7 @@ ParameterString.prototype.setFromString = function(value) {
 For example, a function to transform strings to uppercase.
 @param {?function(string):string} inputFunction function to be used to transform
     input passed to {@link #setValue}
-@return {!myphysicslab.lab.util.ParameterString} this Parameter for chaining setters
+@return {!ParameterString} this Parameter for chaining setters
 */
 ParameterString.prototype.setInputFunction = function(inputFunction) {
   this.inputFunction_ = inputFunction;
@@ -256,7 +254,7 @@ ParameterString.prototype.setInputFunction = function(inputFunction) {
 
 /** Sets the maximum length of the string.
 @param {number} len the maximum length of the string
-@return {!myphysicslab.lab.util.ParameterString} this Parameter for chaining setters
+@return {!ParameterString} this Parameter for chaining setters
 @throws {Error} if the max length is less than length of current value of this
     parameter.
 */
@@ -270,7 +268,7 @@ ParameterString.prototype.setMaxLength = function(len) {
 /** Sets the suggested length of string when making a control. This affects for example
 the size of a control that displays and alters this parameter.
 @param {number} len suggested length of string to show
-@return {!myphysicslab.lab.util.ParameterString} this Parameter for chaining setters
+@return {!ParameterString} this Parameter for chaining setters
 */
 ParameterString.prototype.setSuggestedLength = function(len) {
   this.suggestedLength_ = len;

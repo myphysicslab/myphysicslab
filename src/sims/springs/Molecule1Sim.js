@@ -37,13 +37,13 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var Collision = myphysicslab.lab.model.Collision;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 var Spring = myphysicslab.lab.model.Spring;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
@@ -173,9 +173,9 @@ contact being broken.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
+* @extends {AbstractODESim}
 * @implements {myphysicslab.lab.model.CollisionSim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
@@ -249,18 +249,18 @@ myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.walls_ = PointMass.makeSquare(12, 'walls')
       .setMass(UtilityCore.POSITIVE_INFINITY);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.atom1_ = PointMass.makeCircle(0.5, 'atom1').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.atom2_ = PointMass.makeCircle(0.5, 'atom2').setMass(0.5);
@@ -278,7 +278,7 @@ myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
   */
   this.debugPaint_ = null;
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',
@@ -470,8 +470,8 @@ Molecule1Sim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
 /**
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
-* @param {!myphysicslab.lab.model.PointMass} atom
+* @param {!Array<!Collision>} collisions
+* @param {!PointMass} atom
 * @param {string} side which side of the wall colliding with
 * @param {number} time
 * @private

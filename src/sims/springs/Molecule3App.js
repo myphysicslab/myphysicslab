@@ -47,8 +47,7 @@ var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  Molecule3App displays the simulation
-{@link myphysicslab.sims.springs.Molecule3Sim Molecule3Sim}.
+/** Displays the {@link Molecule3Sim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -90,7 +89,7 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
       this.displayList.add(new DisplaySpring(s, proto));
     }
   }, this);
-  /** @type {!Array<!lab.view.DisplayShape>} */
+  /** @type {!Array<!DisplayShape>} */
   this.atoms = [];
   var cm = ['red', 'blue', 'magenta', 'orange', 'gray', 'green'];
   for (var i=0; i<this.numAtoms; i++) {

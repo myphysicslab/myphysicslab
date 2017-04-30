@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.util.AbstractSubject');
@@ -48,12 +49,13 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = sims.common.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
@@ -92,7 +94,7 @@ variables as the first GraphLine.
 * @param {!SimRunner} simRun the SimRunner controlling the overall app
 * @constructor
 * @final
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {SubjectList}
 * @struct
 */
@@ -103,11 +105,11 @@ myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
   this.line1 = line1;
   /** @type {!GraphLine} */
   this.line2 = line2;
-  /** @type {!lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
 
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.view = new SimView('graph', new DoubleRect(0, 0, 1, 1));
   this.view.setHorizAlign(HorizAlign.FULL);
   this.view.setVerticalAlign(VerticalAlign.FULL);
@@ -115,7 +117,7 @@ myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
   this.view.addMemo(line2);
   graphCanvas.addView(this.view);
 
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
   var updateAxes = goog.bind(function(evt) {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
@@ -128,12 +130,12 @@ myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
   new GenericObserver(line1, updateAxes, 'update axes names');
   updateAxes(new GenericEvent(line1, GraphLine.i18n.X_VARIABLE));
 
-  /** @type {!lab.graph.AutoScale} */
+  /** @type {!AutoScale} */
   this.autoScale = new AutoScale('COMPARE_GRAPH_AUTO_SCALE', line1, this.view);
   this.autoScale.addGraphLine(line2);
   this.autoScale.extraMargin = 0.05;
 
-  /** @type {!lab.graph.DisplayGraph} */
+  /** @type {!DisplayGraph} */
   this.displayGraph = new DisplayGraph(line1);
   this.displayGraph.addGraphLine(line2);
   this.displayGraph.setScreenRect(this.view.getScreenRect());
@@ -177,7 +179,7 @@ myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
   }, 'match drawing mode on GraphLine');
 
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!lab.app.SimController}
+  * @type {!SimController}
   */
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});

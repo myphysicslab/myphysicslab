@@ -24,15 +24,14 @@ goog.scope(function() {
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var Parameter = myphysicslab.lab.util.Parameter;
+var Subject = myphysicslab.lab.util.Subject;
 
-/** Provides access to a boolean value of a {@link myphysicslab.lab.util.Subject
-Subject}. See {@link myphysicslab.lab.util.Parameter} for more documentation.
+/** Provides access to a boolean value of a {@link Subject}. See {@link Parameter} for
+more information.
 
-@param {!myphysicslab.lab.util.Subject} subject the Subject whose value this
-    ParameterBoolean represents
+@param {!Subject} subject the Subject whose value this ParameterBoolean represents
 @param {string} name the name of this Parameter; this will be underscorized so the
-    English name can be passed in here.
-    See {@link myphysicslab.lab.util.UtilityCore#toName}.
+    English name can be passed in here. See {@link UtilityCore#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): boolean} getter A function with no arguments that returns
     the value of this Parameter
@@ -45,12 +44,12 @@ Subject}. See {@link myphysicslab.lab.util.Parameter} for more documentation.
 @constructor
 @final
 @struct
-@implements {myphysicslab.lab.util.Parameter}
+@implements {Parameter}
 */
 myphysicslab.lab.util.ParameterBoolean = function(subject, name, localName, getter,
     setter, opt_choices, opt_values) {
   /**
-  @type {!myphysicslab.lab.util.Subject}
+  @type {!Subject}
   @private
   */
   this.subject_ = subject;
@@ -166,7 +165,7 @@ ParameterBoolean.prototype.nameEquals = function(name) {
 */
 ParameterBoolean.prototype.setChoices = function(choices, values) {
   this.setChoices_(choices, values);
-  var evt = new GenericEvent(this.subject_,Parameter.CHOICES_MODIFIED, this);
+  var evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
   this.subject_.broadcast(evt);
 };
 

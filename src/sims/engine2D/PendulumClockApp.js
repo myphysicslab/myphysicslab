@@ -14,50 +14,56 @@
 
 goog.provide('myphysicslab.sims.engine2D.PendulumClockApp');
 
-goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.CheckBoxControl');
+goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
+goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.sims.common.CommonControls');
+goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
 goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
 
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var ChoiceControl = lab.controls.ChoiceControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
-var NumericControl = lab.controls.NumericControl;
+var ChoiceControl = lab.controls.ChoiceControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
+var ConstantForceLaw = lab.model.ConstantForceLaw;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
+var Force = lab.model.Force;
+var ForceLaw = lab.model.ForceLaw;
 var GravityLaw = lab.model.GravityLaw;
+var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
+var ParameterString = lab.util.ParameterString;
 var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
 var Shapes = lab.engine2D.Shapes;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -68,7 +74,7 @@ torque force that causes it to turn continuously.
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -84,9 +90,9 @@ sims.engine2D.PendulumClockApp = function(elem_ids) {
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.mySim.setShowForces(true);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0.05, 0.15, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(10, this.simList);
   this.elasticity.setElasticity(0.3);
 
@@ -98,15 +104,15 @@ sims.engine2D.PendulumClockApp = function(elem_ids) {
   this.extraBody = false;
   /** @type {boolean} */
   this.withGears = false;
-  /** @type {?lab.model.ForceLaw } */
+  /** @type {?ForceLaw } */
   this.turnForceLaw = null;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   var pb;
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
-  /** @type {!lab.util.ParameterString} */
+  /** @type {!ParameterString} */
   var ps;
   this.addParameter(pb = new ParameterBoolean(this, PendulumClockConfig.en.WITH_GEARS,
       PendulumClockConfig.i18n.WITH_GEARS,
@@ -295,10 +301,10 @@ PendulumClockApp.prototype.setTurningForce = function(value) {
   }
   var body = this.mySim.getBody(PendulumClockConfig.en.ESCAPE_WHEEL);
   if (body) {
-    var f = new myphysicslab.lab.model.Force('turning', body,
+    var f = new Force('turning', body,
         /*location=*/body.getDragPoints()[0], CoordType.BODY,
         /*direction=*/new Vector(value, 0), CoordType.BODY);
-    this.turnForceLaw = new myphysicslab.lab.model.ConstantForceLaw(f);
+    this.turnForceLaw = new ConstantForceLaw(f);
     this.mySim.addForceLaw(this.turnForceLaw);
   }
   this.broadcastParameter(PendulumClockConfig.en.TURNING_FORCE);

@@ -103,8 +103,8 @@ JointTest.test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @private
 */
 JointTest.commonSetup1 = function(sim, advance) {
@@ -140,9 +140,9 @@ JointTest.JointTestConfig = {
 var JointTestConfig = JointTest.JointTestConfig;
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
+@param {!ContactSim} sim
 @param {!JointTestConfig} testConfig
-@param {!myphysicslab.lab.model.CoordType} normalType
+@param {!CoordType} normalType
 @private
 */
 JointTest.buildJointTest = function(sim, testConfig, normalType) {
@@ -168,9 +168,9 @@ JointTest.buildJointTest = function(sim, testConfig, normalType) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
+@param {!ContactSim} sim
 @param {!JointTestConfig} testConfig
-@param {!myphysicslab.lab.model.CoordType} normalType
+@param {!CoordType} normalType
 @private
 */
 JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
@@ -224,9 +224,9 @@ JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
+@param {!ContactSim} sim
 @param {!JointTestConfig} testConfig
-@param {!myphysicslab.lab.model.CoordType} normalType
+@param {!CoordType} normalType
 @private
 */
 JointTest.makeConnectedBlocks = function(sim, testConfig, normalType) {
@@ -292,8 +292,8 @@ JointTest.makeConnectedBlocks = function(sim, testConfig, normalType) {
 
 /** Setup the pendulum with 1 joint scenario;  the pendulum travels on a horizontal
 track, rocking back and forth because it starts at an angle.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.pendulum_1_joint_setup = function(sim, advance) {
@@ -352,8 +352,8 @@ JointTest.pendulum_1_joint_2 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.pendulum_2_joints_setup = function(sim, advance) {
@@ -383,8 +383,8 @@ JointTest.pendulum_2_joints_1 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.pendulum_2_joints_offset_setup = function(sim, advance) {
@@ -435,8 +435,8 @@ JointTest.pendulum_2_joints_offset_1 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.pendulum_3_joints_offset_setup = function(sim, advance) {
@@ -449,8 +449,8 @@ JointTest.pendulum_3_joints_offset_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.two_blocks_1_joint_setup = function(sim, advance) {
@@ -459,8 +459,8 @@ JointTest.two_blocks_1_joint_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.two_blocks_2_joints_setup = function(sim, advance) {
@@ -469,8 +469,8 @@ JointTest.two_blocks_2_joints_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.two_blocks_3_joints_setup = function(sim, advance) {
@@ -479,8 +479,8 @@ JointTest.two_blocks_3_joints_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.two_blocks_4_joints_setup = function(sim, advance) {
@@ -495,8 +495,8 @@ JointTest.two_blocks_4_joints_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.two_blocks_1_dbl_joint_setup = function(sim, advance) {
@@ -505,8 +505,8 @@ JointTest.two_blocks_1_dbl_joint_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 JointTest.two_blocks_2_dbl_joint_setup = function(sim, advance) {

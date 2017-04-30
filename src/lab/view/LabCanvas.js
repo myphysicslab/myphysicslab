@@ -16,9 +16,7 @@ goog.provide('myphysicslab.lab.view.LabCanvas');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MemoList');
 goog.require('myphysicslab.lab.util.Memorizable');
@@ -26,7 +24,6 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
-goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
 goog.require('myphysicslab.lab.view.LabView');
@@ -37,20 +34,19 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabView = myphysicslab.lab.view.LabView;
+var MemoList = myphysicslab.lab.util.MemoList;
+var Memorizable = myphysicslab.lab.util.Memorizable;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Vector = myphysicslab.lab.util.Vector;
 
-/** Manages an HTML canvas and contains a list of {@link myphysicslab.lab.view.LabView}s
-which are drawn into the canvas. The LabViews are drawn overlapping so that the *last
-LabView appears on top* of the others.
+/** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into
+the canvas. The LabViews are drawn overlapping so that the *last LabView appears on
+top* of the others.
 
 ### Canvas Size and Shape
 
@@ -60,10 +56,10 @@ shape. The size can be changed via {@link #setWidth}, {@link #setHeight}, or
 same screen rectangle as the canvas.
 
 Each LabView has a simulation rectangle which is placed over its screen rectangle via a
-{@link myphysicslab.lab.view.CoordMap}. The simulation rectangle specifies the
-simulation coordinates, and the CoordMap translates simulation coordinates to screen
-coordinates. Pan and zoom can be accomplished by changing the simulation rectangle of a
-LabView (which changes its CoordMap accordingly).
+{@link CoordMap}. The simulation rectangle specifies the simulation coordinates, and
+the CoordMap translates simulation coordinates to screen coordinates. Pan and zoom can
+be accomplished by changing the simulation rectangle of a LabView (which changes its
+CoordMap accordingly).
 
 
 ### Focus View
@@ -121,7 +117,7 @@ Parameters Created
 Events Broadcast
 ----------------
 
-LabCanvas broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Observers:
+LabCanvas broadcasts these {@link GenericEvent}s to its Observers:
 
 + GenericEvent named `VIEW_ADDED`; the value is the LabView being added
 
@@ -140,8 +136,8 @@ LabCanvas broadcasts these {@link myphysicslab.lab.util.GenericEvent}s to its Ob
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
-* @implements {myphysicslab.lab.util.MemoList}
+* @extends {AbstractSubject}
+* @implements {MemoList}
 */
 myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   AbstractSubject.call(this, name);
@@ -163,17 +159,17 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   canvas.contentEditable = false;
   /**
   /**
-  * @type {!Array<!myphysicslab.lab.view.LabView>}
+  * @type {!Array<!LabView>}
   * @private
   */
   this.labViews_ = [];
   /**
-  * @type {!Array<!myphysicslab.lab.util.Memorizable>}
+  * @type {!Array<!Memorizable>}
   * @private
   */
   this.memorizables_ = [];
   /** The view which is the main focus and is drawn normally.
-  * @type {?myphysicslab.lab.view.LabView}
+  * @type {?LabView}
   * @private
   */
   this.focusView_ = null;
@@ -276,7 +272,7 @@ LabCanvas.prototype.addMemo = function(memorizable) {
 LabCanvas. Makes the LabView the focus view if there isn't currently a focus view.
 Notifies any Observers by broadcasting GenericEvents named {@link #VIEW_ADDED} and
 {@link #VIEW_LIST_MODIFIED} and possibly also {@link #FOCUS_VIEW_CHANGED}.
-@param {!myphysicslab.lab.view.LabView} view the LabView to add
+@param {!LabView} view the LabView to add
 */
 LabCanvas.prototype.addView = function(view) {
   goog.asserts.assertObject(view);
@@ -340,8 +336,7 @@ LabCanvas.prototype.getContext = function() {
 };
 
 /** Returns the focus LabView which is the main focus of the LabCanvas.
-* @return {?myphysicslab.lab.view.LabView} the focus LabView, or `null` when there is
-*   no focus LabView
+* @return {?LabView} the focus LabView, or `null` when there is no focus LabView
 */
 LabCanvas.prototype.getFocusView = function() {
   return this.focusView_;
@@ -362,15 +357,14 @@ LabCanvas.prototype.getMemos = function() {
 /** Returns the ScreenRect corresponding to the area of the HTML canvas.
 The top-left coordinate is always (0,0).  This does not represent the location
 of the canvas within the document or window.
-@return {!myphysicslab.lab.view.ScreenRect} the ScreenRect corresponding to the area of
-    the HTML canvas.
+@return {!ScreenRect} the ScreenRect corresponding to the area of the HTML canvas.
 */
 LabCanvas.prototype.getScreenRect = function() {
   return new ScreenRect(0, 0, this.canvas_.width, this.canvas_.height);
 };
 
 /**  Returns list of the LabViews in this LabCanvas.
-@return {!Array<!myphysicslab.lab.view.LabView>} list of LabViews in this LabCanvas
+@return {!Array<!LabView>} list of LabViews in this LabCanvas
 */
 LabCanvas.prototype.getViews = function() {
   return goog.array.clone(this.labViews_);
@@ -455,7 +449,7 @@ LabCanvas.prototype.removeMemo = function(memorizable) {
 LabCanvas. Sets the focus view to be the first view in remaining list of LabViews.
 Notifies any Observers by broadcasting GenericEvents named {@link #VIEW_LIST_MODIFIED}
 and {@link #VIEW_REMOVED} and possibly also {@link #FOCUS_VIEW_CHANGED}.
-* @param {!myphysicslab.lab.view.LabView} view the LabView to remove
+* @param {!LabView} view the LabView to remove
 */
 LabCanvas.prototype.removeView = function(view) {
   goog.asserts.assertObject(view);
@@ -501,7 +495,7 @@ LabCanvas.prototype.setBackground = function(value) {
 /** Sets the focus LabView which is the main focus of the LabCanvas. Notifies any
 observers that the focus has changed by broadcasting the GenericEvent named
 {@link #FOCUS_VIEW_CHANGED}.
-@param {?myphysicslab.lab.view.LabView} view the view that should be the focus; can be
+@param {?LabView} view the view that should be the focus; can be
     `null` when no LabView has the focus.
 @throws {Error} if `view` is not contained by this LabCanvas
 */
@@ -548,8 +542,7 @@ LabCanvas.prototype.setScreenRect = function(sr) {
 };
 
 /** Sets the size of the HTML canvas. All LabViews are set to have the
-same screen rectangle as this LabCanvas by calling
-{@link myphysicslab.lab.view.LabView#setScreenRect}.
+same screen rectangle as this LabCanvas by calling {@link LabView#setScreenRect}.
 Notifies any Observers by broadcasting a GenericEvent named {@link #SIZE_CHANGED}.
 @param {number} width  the width of the canvas, in screen coords (pixels)
 @param {number} height  the height of the canvas, in screen coords (pixels)

@@ -22,8 +22,10 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -50,10 +52,13 @@ var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = myphysicslab.sims.common.CommonControls;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
+var DisplayList = lab.view.DisplayList;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
+var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 var LabView = myphysicslab.lab.view.LabView;
@@ -62,9 +67,12 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var Printable = lab.util.Printable;
+var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SubjectList = lab.util.SubjectList;
 var UtilityCore = lab.util.UtilityCore;
+var VarsList = lab.model.VarsList;
+var VerticalAlign = lab.view.VerticalAlign;
 
 /** Creates two independent graphs which have a common horizontal time axis, but the
 graphs can have very different vertical scales. Each graph consists of a SimView,
@@ -79,13 +87,13 @@ it gets too confusing with the independent graphs).
 Each graph has its own DisplayAxes, which are shown in the same color as the GraphLine.
 One of the axes are placed on the right, and the other is on the left.
 
-* @param {!lab.model.VarsList} varsList the VarsList to collect
+* @param {!VarsList} varsList the VarsList to collect
 *   data from
-* @param {!lab.view.LabCanvas} graphCanvas the LabCanvas where the graph
+* @param {!LabCanvas} graphCanvas the LabCanvas where the graph
 *   should appear
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
-* @param {!lab.app.SimRunner} simRun the SimRunner controlling the
+* @param {!SimRunner} simRun the SimRunner controlling the
 *   overall app
 * @constructor
 * @final
@@ -95,17 +103,17 @@ One of the axes are placed on the right, and the other is on the left.
 */
 myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_controls,
     div_graph, simRun) {
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.view1 = new SimView('TIME_GRAPH_1', new DoubleRect(0, 0, 1, 1));
-  this.view1.setHorizAlign(lab.view.HorizAlign.FULL);
-  this.view1.setVerticalAlign(lab.view.VerticalAlign.FULL);
+  this.view1.setHorizAlign(HorizAlign.FULL);
+  this.view1.setVerticalAlign(VerticalAlign.FULL);
   graphCanvas.addView(this.view1);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList1 = this.view1.getDisplayList();
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes1 = CommonControls.makeAxes(this.view1);
   this.axes1.setColor('lime');
   /** @type {!GraphLine} */
@@ -141,16 +149,16 @@ myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_contro
   this.line1.setXVariable(timeIdx);
   this.line1.setYVariable(0);
 
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.view2 = new SimView('TIME_GRAPH_2', new DoubleRect(0, 0, 1, 1));
-  this.view2.setHorizAlign(lab.view.HorizAlign.FULL);
-  this.view2.setVerticalAlign(lab.view.VerticalAlign.FULL);
+  this.view2.setHorizAlign(HorizAlign.FULL);
+  this.view2.setVerticalAlign(VerticalAlign.FULL);
   graphCanvas.addView(this.view2);
   this.displayList2 = this.view2.getDisplayList();
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes2 = CommonControls.makeAxes(this.view2);
   this.axes2.setColor('red');
-  this.axes2.setYAxisAlignment(lab.view.HorizAlign.RIGHT);
+  this.axes2.setYAxisAlignment(HorizAlign.RIGHT);
   /** @type {!GraphLine} */
   this.line2 = new GraphLine('TIME_LINE_2', varsList);
   new GenericObserver(this.line2, goog.bind(function(evt) {
@@ -205,13 +213,13 @@ myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_contro
     );
   this.addControl(bc);
   /** GenericObserver ensures autoScale2 has same time window as autoScale1
-  * @type {!lab.util.GenericObserver}
+  * @type {!GenericObserver}
   */
   this.auto1Obs = new GenericObserver(this.autoScale1, goog.bind(function(e) {
       this.autoScale2.setTimeWindow(this.autoScale1.getTimeWindow());
     }, this), 'ensures autoScale2 has same time window as autoScale1');
   /** GenericObserver ensures line2 has same X variable as line1.
-  * @type {!lab.util.GenericObserver}
+  * @type {!GenericObserver}
   */
   this.line1Obs = new GenericObserver(this.line1, goog.bind(function(e) {
       // Don't use off-screen buffer with time variable because the auto-scale causes

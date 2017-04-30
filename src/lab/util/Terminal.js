@@ -99,10 +99,9 @@ following is not allowed:
 
     terminal['white'+'List_']
 
-Arrays of objects other than numbers can be made using `new Array()`.
-Array access can be done using the built-in functions
-{@link myphysicslab.lab.util.UtilityCore#get UtilityCore.get} and
-{@link myphysicslab.lab.util.UtilityCore#set UtilityCore.set}.
+Arrays of objects other than numbers can be made using `new Array()`. Array access can
+be done using the built-in functions {@link UtilityCore#get} and
+{@link UtilityCore#set}.
 
 
 <a name="shortnames"></a>
@@ -372,7 +371,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   /** Set of regular expressions to apply to each command to replace short names
   * with full expanded name. For example, `DoubleRect` is the short name that
   * expands to `myphysicslab.lab.util.DoubleRect`.
-  * @type {!Array<!myphysicslab.lab.util.Terminal.regexPair>}
+  * @type {!Array<!Terminal.regexPair>}
   * @private
   */
   this.regexs_ = [];
@@ -798,7 +797,7 @@ Terminal.prototype.handleKey = function(evt) {
 };
 
 /** Returns true if the given regexPair is already on the list of regex's to execute.
-* @param {!myphysicslab.lab.util.Terminal.regexPair} q the regexPair of interest
+* @param {!Terminal.regexPair} q the regexPair of interest
 * @return {boolean} true if q is already on the list of regex's to execute.
 * @private
 */
@@ -864,7 +863,7 @@ See {@link myphysicslab.lab.util.EasyScriptParser} for details about the syntax 
 in the script.
 
 Before executing the query script, this causes the Parser (if installed) to save the
-current settings via {@link myphysicslab.lab.util.Parser#saveStart}.
+current settings via {@link Parser#saveStart}.
 * @return {boolean} returns true if there was a URL query script
 */
 Terminal.prototype.parseURL = function() {
@@ -1070,8 +1069,7 @@ Terminal.prototype.splitAtSemicolon = function(text) {
 regular expressions replace "short names" with the full expression that is valid
 JavaScript for referring to the object. This defines short names for many classes and
 also utility functions like `prettyPrint`, `methodsOf`, `println` and `propertiesOf`.
-* @param {!myphysicslab.lab.util.Terminal} terminal the Terminal instance to which
-*      the regexp's will be added
+* @param {!Terminal} terminal the Terminal instance to which the regexp's will be added
 */
 Terminal.stdRegex = function(terminal) {
   // These regexp's look for words that are NOT preceded by a dot.

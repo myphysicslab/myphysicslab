@@ -28,7 +28,6 @@ var Vector = myphysicslab.lab.util.Vector;
 point precision. This is an immutable class: once an instance is created it cannot be
 changed.
 
-
 Note that for DoubleRect we regard the vertical coordinate as **increasing upwards**, so
 the top coordinate is greater than the bottom coordinate. This is in contrast to HTML5
 canvas where vertical coordinates increase downwards.
@@ -323,8 +322,8 @@ DoubleRect.prototype.maybeVisible = function(p1, p2) {
 
 /** Returns `true` if this DoubleRect is nearly equal to another DoubleRect.
 The optional tolerance value corresponds to the `epsilon` in
-{@link myphysicslab.lab.util.UtilityCore#veryDifferent}, so the actual tolerance
-used depends on the magnitude of the numbers being compared.
+{@link UtilityCore#veryDifferent}, so the actual tolerance used depends on the
+magnitude of the numbers being compared.
 * @param {!DoubleRect} rect  the DoubleRect to compare with
 * @param {number=} opt_tolerance optional tolerance for equality test
 * @return {boolean} true` if this DoubleRect is nearly equal to another DoubleRect
@@ -366,7 +365,7 @@ DoubleRect.prototype.scale = function(factorX, factorY) {
 };
 
 /** Returns a copy of this rectangle translated by the given amount.
-@param {!(number|GenericVector)} x horizontal amount to translate by,
+@param {!GenericVector|number} x horizontal amount to translate by,
     or Vector to translate by
 @param {number=} y vertical amount to translate by; required when `x` is a number.
 @return {!DoubleRect} a copy of this rectangle translated by the
@@ -374,15 +373,20 @@ DoubleRect.prototype.scale = function(factorX, factorY) {
 @throws {Error} when `x` is a number and `y` is not defined
 */
 DoubleRect.prototype.translate = function(x, y) {
-  if (!goog.isNumber(x)) {
+  var x1, y1;
+  if (goog.isNumber(x)) {
+    x1 = x;
+    y1 = y;
+  } else {
     var v = /** @type {!GenericVector} */(x);
-    x = v.getX();
-    y = v.getY();
-  } else if (!goog.isNumber(y)) {
+    y1 = v.getY();
+    x1 = v.getX();
+  }
+  if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
     throw new Error();
   }
-  return new DoubleRect(this.left_ + x, this.bottom_ + y,
-      this.right_ + x, this.top_ + y);
+  return new DoubleRect(this.left_ + x1, this.bottom_ + y1,
+      this.right_ + x1, this.top_ + y1);
 };
 
 /**  Returns a rectangle that is the union of this and another rectangle.

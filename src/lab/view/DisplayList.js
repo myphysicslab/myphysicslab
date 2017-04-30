@@ -40,22 +40,19 @@ var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Displays a set of {@link myphysicslab.lab.view.DisplayObject DisplayObjects},
-which show the state of the simulation. A DisplayObject typically represents a
-SimObject, but not always.
+/** A set of {@link DisplayObject}s, which show the state of the simulation. A
+DisplayObject typically represents a {@link SimObject}, but not always.
 
 zIndex
 ------
 DisplayObjects with a lower `zIndex` appear underneath those with higher `zIndex`.
-The DisplayList is sorted by `zIndex`.
-See {@link myphysicslab.lab.view.DisplayObject#getZIndex}.
+The DisplayList is sorted by `zIndex`. See {@link DisplayObject#getZIndex}.
 
 * @param {string=} opt_name name of this DisplayList.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.util.Subject}
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 */
 myphysicslab.lab.view.DisplayList = function(opt_name) {
   AbstractSubject.call(this, opt_name || 'DISPLAY_LIST_'+(DisplayList.NAME_ID++));

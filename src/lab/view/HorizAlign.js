@@ -52,7 +52,7 @@ HorizAlign.getChoices = function() {
 };
 
 /** Returns array containing all possible enum values.
-* @return {!Array<!myphysicslab.lab.view.HorizAlign>} array containing all
+* @return {!Array<!HorizAlign>} array containing all
 *    possible enum values.
 */
 HorizAlign.getValues = function() {
@@ -64,7 +64,7 @@ HorizAlign.getValues = function() {
 
 /** Converts a string to an enum.
 * @param {string} value the string to convert
-* @return {!myphysicslab.lab.view.HorizAlign} the enum corresponding to the value
+* @return {!HorizAlign} the enum corresponding to the value
 * @throws {Error} if the value does not represent a valid enum
 */
 HorizAlign.stringToEnum = function(value) {

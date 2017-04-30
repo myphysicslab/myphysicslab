@@ -62,8 +62,7 @@ var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  CollideSpringApp displays the simulation
-{@link myphysicslab.sims.springs.CollideSpringSim CollideSpringSim}.
+/** Displays the simulation {@link CollideSpringSim}.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -72,7 +71,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @final
 * @struct
 * @extends {AbstractApp}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 * @export
 */
 myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {

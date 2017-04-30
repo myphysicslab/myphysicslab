@@ -38,12 +38,13 @@ var sims = myphysicslab.sims;
 var AbstractApp = sims.common.AbstractApp;
 var ButtonControl = myphysicslab.lab.controls.ButtonControl;
 var CommonControls = sims.common.CommonControls;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var Double2DSpringSim = sims.springs.Double2DSpringSim;
 var DoubleRect = lab.util.DoubleRect;
-var ConcreteLine = lab.model.ConcreteLine;
+var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
@@ -51,8 +52,7 @@ var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  Double2DSpringApp displays the simulation
-{@link myphysicslab.sims.springs.Double2DSpringSim Double2DSpringSim}.
+/** Displays the {@link Double2DSpringSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -96,7 +96,7 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
   this.displayList.add(this.bob2);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(Double2DSpringSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 50, /*multiply=*/false));
@@ -118,7 +118,7 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  /** @type {!myphysicslab.lab.controls.ButtonControl} */
+  /** @type {!ButtonControl} */
   var bc = new ButtonControl(Double2DSpringSim.i18n.REST_STATE,
       goog.bind(sim.restState, sim));
   this.addControl(bc);

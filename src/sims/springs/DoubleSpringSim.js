@@ -94,8 +94,8 @@ Equations of Motion:
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
@@ -130,24 +130,24 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
       this.getName()+'_VARS'));
   this.getVarsList().setComputed(4, 5, 6, 7, 8);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.block1_ = PointMass.makeSquare(1, 'block1');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.block2_ = PointMass.makeSquare(1, 'block2');
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.wall1_ = PointMass.makeRectangle(0.4, 4, 'wall1')
       .setMass(UtilityCore.POSITIVE_INFINITY);
   this.wall1_.setPosition(new Vector(-0.2,  0));
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.wall2_ = PointMass.makeRectangle(0.4, 4, 'wall2')
@@ -165,7 +165,7 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
   */
   this.thirdSpring_ = thirdSpring;
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring1_ = new Spring('spring1',
@@ -173,7 +173,7 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
       this.block1_, Vector.ORIGIN,
       /*restLength=*/length, /*stiffness=*/this.stiffness_);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring2_ = new Spring('spring2',
@@ -181,7 +181,7 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
       this.block2_, Vector.ORIGIN,
       /*restLength=*/length, /*stiffness=*/this.stiffness_);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring3_ = new Spring('spring3',

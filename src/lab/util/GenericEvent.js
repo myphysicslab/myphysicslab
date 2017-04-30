@@ -14,23 +14,26 @@
 
 goog.provide('myphysicslab.lab.util.GenericEvent');
 
+goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectEvent');
 goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
+var Subject = myphysicslab.lab.util.Subject;
+var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
 /** A simple implementation of a SubjectEvent, represents an event that
 has occurred in a Subject.
 
-@param {!myphysicslab.lab.util.Subject} subject the Subject where the event occurred
+@param {!Subject} subject the Subject where the event occurred
 @param {string} name the name of this event
 @param {*=} value an optional value associated with this event
 @constructor
 @final
 @struct
-@implements {myphysicslab.lab.util.SubjectEvent}
+@implements {SubjectEvent}
 */
 myphysicslab.lab.util.GenericEvent = function(subject, name, value) {
   /**
@@ -39,7 +42,7 @@ myphysicslab.lab.util.GenericEvent = function(subject, name, value) {
   */
   this.name_ = UtilityCore.validName(UtilityCore.toName(name));
   /**
-  @type {!myphysicslab.lab.util.Subject}
+  @type {!Subject}
   @private
   */
   this.subject_ = subject;

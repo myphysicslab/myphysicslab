@@ -57,9 +57,9 @@ var ChainConfig = myphysicslab.sims.engine2D.ChainConfig;
 ChainConfig.options;
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
+* @param {!ContactSim} sim
 * @param {!ChainConfig.options} options
-* @return {!myphysicslab.lab.util.DoubleRect} rectangle that contains all chain links, in sim coords
+* @return {!DoubleRect} rectangle that contains all chain links, in sim coords
 */
 ChainConfig.makeChain = function(sim, options) {
   var joint1X, joint1Y;  /* where 'lower' joint attaches, in body coords*/

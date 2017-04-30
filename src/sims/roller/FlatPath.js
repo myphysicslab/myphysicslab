@@ -31,7 +31,7 @@ var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.FlatPath = function(start, finish, name, localName) {
   if (!goog.isNumber(start))

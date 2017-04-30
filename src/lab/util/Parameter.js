@@ -18,7 +18,9 @@ goog.require('myphysicslab.lab.util.SubjectEvent');
 
 goog.scope(function() {
 
-/** Provides access to a value of a {@link myphysicslab.lab.util.Subject Subject} and
+var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
+
+/** Provides access to a value of a {@link myphysicslab.lab.util.Subject} and
 meta-data such as name, a set of possible values, or whether it is editable. Part of
 the [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern) which
 ensures that change notification operates correctly even when any of several objects
@@ -91,7 +93,7 @@ the name {@link #CHOICES_MODIFIED}. Then any control that is displaying the
 available choices can update its display.
 
 @interface
-@extends {myphysicslab.lab.util.SubjectEvent}
+@extends {SubjectEvent}
 */
 myphysicslab.lab.util.Parameter = function() {};
 var Parameter = myphysicslab.lab.util.Parameter;

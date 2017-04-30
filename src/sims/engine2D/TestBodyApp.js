@@ -19,24 +19,24 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.GravityLaw');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.DampingLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 
 goog.scope(function() {
 
@@ -57,6 +57,7 @@ var GravityLaw = lab.model.GravityLaw;
 var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
+var Polygon = lab.engine2D.Polygon;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
@@ -91,7 +92,7 @@ myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
   /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(0, this.simList);
   this.mySim.addForceLaw(this.gravityLaw);
-  /** @type {!myphysicslab.lab.engine2D.Polygon} */
+  /** @type {!Polygon} */
   this.block = Shapes.makeBlock2(1, 3, TestBodyApp.en.BLOCK, TestBodyApp.i18n.BLOCK);
   this.block.setPosition(new Vector(0,  -5.49500),  -7.85398);
   this.mySim.addBody(this.block);

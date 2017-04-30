@@ -14,15 +14,16 @@
 
 goog.provide('myphysicslab.test.CircleStraightTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
+goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.RungeKutta');
@@ -32,26 +33,25 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
 goog.require('myphysicslab.test.TestShapes');
-goog.require('myphysicslab.lab.model.DampingLaw');
 
 goog.scope(function() {
 
-var DampingLaw = myphysicslab.lab.model.DampingLaw;
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
+var DampingLaw = myphysicslab.lab.model.DampingLaw;
 var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
+var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
-var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
@@ -96,8 +96,8 @@ CircleStraightTest.test = function() {
 CircleStraightTest.groupName = 'CircleStraightTest.';
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @param {number=} damping
 @private
 */
@@ -117,8 +117,8 @@ CircleStraightTest.commonSetup1 = function(sim, advance, damping) {
 };
 
 /**  Ball collides with corner of a block.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.ball_block_collide_setup = function(sim, advance) {
@@ -170,8 +170,8 @@ the small steps, the contact forces are calculated more frequently and so we cor
 maintain the tiny distance of 0.0006 to the next step. Turning on binary search thus
 lets us get past this point, though it doesn't fix the tiny distance.
 
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.ball_block_attract_setup = function(sim, advance) {
@@ -208,8 +208,8 @@ CircleStraightTest.ball_block_attract = function() {
 
 /** Ball and block start in contact and in motion, with mutual gravitation. Ball has
 offset center of mass. Energy should be constant with a small enough time step.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.ball_block_contact_setup = function(sim, advance) {
@@ -256,8 +256,8 @@ CircleStraightTest.ball_block_contact = function() {
 
 /** A block collides into another block that has a circular arc edge, then
 they settle into rocking contact under mutual gravitation.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.circle_arc_block_setup = function(sim, advance) {
@@ -296,8 +296,8 @@ CircleStraightTest.circle_arc_block = function() {
 };
 
 /** Concave circular edge collides with a block, settles into rocking contact.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.concave_ball_block_collide_setup = function(sim, advance) {
@@ -346,8 +346,8 @@ the loop we move the block from the origin, a distance of 1.5 to the current est
 location for the block. If no collision results, then we continue to increase the
 distance which moves the block lower. If a collision results, we reduce the distance by
 the depth of the collision plus the desired ending gap, and try again.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
@@ -382,7 +382,7 @@ CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
       error = UtilityCore.POSITIVE_INFINITY;
       // find most negative or least positive depth among all collisions
       for (var i=0, len=collisions.length; i<len; i++) {
-        /** @type {!myphysicslab.lab.engine2D.RigidBodyCollision} */
+        /** @type {!RigidBodyCollision} */
         var c = collisions[i];
         var depth = c.distanceToHalfGap() - 0.001;
         if (depth < error) {
@@ -450,8 +450,8 @@ occur.
 <pre>
   body1.setVelocity(new Vector(-3,  0),  6);
 </pre>
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @private
 */
 CircleStraightTest.rotating_block_vs_ball_init = function(sim, advance) {
@@ -468,8 +468,8 @@ CircleStraightTest.rotating_block_vs_ball_init = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.rotating_block_vs_ball_1_setup = function(sim, advance) {
@@ -494,8 +494,8 @@ CircleStraightTest.rotating_block_vs_ball_1 = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.rotating_block_vs_ball_0_setup = function(sim, advance) {
@@ -523,8 +523,8 @@ CircleStraightTest.rotating_block_vs_ball_0 = function() {
 are successively smaller. Using ContactSim this results in a steady contact; but using
 ImpulseSim the number of bounces goes to infinity, the time between bounces goes to
 zero and the simulation gets stuck.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.ball_falls_on_floor_setup = function(sim, advance) {
@@ -561,8 +561,8 @@ CircleStraightTest.ball_falls_on_floor_stuck = function() {
 
 /** A ball falls into the gap between a wall and a fixed block; the space is slightly
 smaller than the radius of the ball.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.wedged_ball_setup = function(sim, advance) {
@@ -605,8 +605,8 @@ CircleStraightTest.wedged_ball = function() {
 };
 
 /** Several balls with varying elasticity bounce on floor.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 CircleStraightTest.elastic_balls_setup = function(sim, advance) {

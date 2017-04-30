@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.util.AbstractSubject');
@@ -47,17 +48,19 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = myphysicslab.sims.common.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
+var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 var LabView = myphysicslab.lab.view.LabView;
@@ -71,6 +74,7 @@ var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var UtilityCore = lab.util.UtilityCore;
+var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** Creates a time graph showing two GraphLines corresponding to two Simulations, where
 the two GraphLines are showing the same Y variable, and the X variable is time.
@@ -106,13 +110,13 @@ myphysicslab.sims.common.CompareTimeGraph = function(line1, line2, graphCanvas,
 
   /** @type {!SimView} */
   this.view = new SimView('TIME_GRAPH_SIM_VIEW', new DoubleRect(0, 0, 1, 1));
-  this.view.setHorizAlign(lab.view.HorizAlign.FULL);
-  this.view.setVerticalAlign(lab.view.VerticalAlign.FULL);
+  this.view.setHorizAlign(HorizAlign.FULL);
+  this.view.setVerticalAlign(VerticalAlign.FULL);
   this.view.addMemo(line1);
   this.view.addMemo(line2);
   graphCanvas.addView(this.view);
 
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
   new GenericObserver(line1, goog.bind(function(evt) {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {

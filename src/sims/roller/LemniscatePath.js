@@ -56,7 +56,7 @@ To get into Cartesian coords, we use
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.LemniscatePath = function(size, start, finish,
       closedLoop, name, localName) {

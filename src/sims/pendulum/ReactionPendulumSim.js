@@ -47,6 +47,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
+var SimList = myphysicslab.lab.model.SimList;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
@@ -79,12 +80,12 @@ to also correspond to the angle of the disk rigid body (perhaps adding a constan
 * @param {number} startAngle starting angle for the pendulum; in radians; zero is
 *     straight down; counter-clockwise is positive
 * @param {string=} opt_name name of this as a Subject
-* @param {!myphysicslab.lab.model.SimList=} opt_simList SimList to use (optional)
+* @param {!SimList=} opt_simList SimList to use (optional)
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 */
 myphysicslab.sims.pendulum.ReactionPendulumSim = function(length, radius, startAngle,
       opt_name, opt_simList) {
@@ -149,13 +150,13 @@ myphysicslab.sims.pendulum.ReactionPendulumSim = function(length, radius, startA
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.rod_ = new ConcreteLine('rod');
   this.getSimList().add(this.rod_);
   /**
-  * @type {!myphysicslab.lab.engine2D.RigidBody}
+  * @type {!RigidBody}
   * @private
   */
   this.bob_;

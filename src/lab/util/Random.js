@@ -17,7 +17,6 @@ goog.provide('myphysicslab.lab.util.Random');
 goog.scope(function() {
 
 /** Pseudo-random number generator.
-
 * @interface
 */
 myphysicslab.lab.util.Random = function() {};

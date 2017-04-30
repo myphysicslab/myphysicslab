@@ -44,7 +44,7 @@ var BrachistoPaths = myphysicslab.sims.roller.BrachistoPaths;
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 BrachistoPaths.LinearPath = function() {
   AbstractPath.call(this, BrachistoPaths.en.LINEAR_PATH,
@@ -75,7 +75,7 @@ LinearPath.prototype.y_func = function(t) {
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 BrachistoPaths.BrachistochronePath = function() {
   AbstractPath.call(this, BrachistoPaths.en.BRACH_PATH,
@@ -115,7 +115,7 @@ BrachistochronePath.prototype.y_func = function(t) {
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 BrachistoPaths.ParabolaUpPath = function() {
   AbstractPath.call(this, BrachistoPaths.en.PARABOLA_UP,
@@ -148,7 +148,7 @@ regular brachistochrone and stays below it.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 BrachistoPaths.Brachistochrone2Path = function() {
   AbstractPath.call(this, BrachistoPaths.en.BRACH_SQUARED,
@@ -189,7 +189,7 @@ Brachistochrone2Path.prototype.y_func = function(t) {
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 BrachistoPaths.ParabolaDownPath = function() {
   AbstractPath.call(this, BrachistoPaths.en.PARABOLA_DOWN,
@@ -219,7 +219,7 @@ ParabolaDownPath.prototype.y_func = function(t) {
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 BrachistoPaths.CircleArcPath = function() {
   AbstractPath.call(this, BrachistoPaths.en.CIRCLE_ARC,

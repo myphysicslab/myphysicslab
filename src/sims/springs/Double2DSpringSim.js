@@ -16,9 +16,9 @@ goog.provide('myphysicslab.sims.springs.Double2DSpringSim');
 
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.AbstractODESim');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
@@ -31,9 +31,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
@@ -106,8 +106,8 @@ the parameter names.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
@@ -170,23 +170,23 @@ myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
   */
   this.potentialOffset_ = 0;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.topMass_ = PointMass.makeSquare(0.5, 'top');
   this.topMass_.setPosition(new Vector(0, 2));
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob1_ = PointMass.makeCircle(0.5, 'bob1').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob2_ = PointMass.makeCircle(0.5, 'bob2').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring1_ = new Spring('spring1',
@@ -194,7 +194,7 @@ myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
       this.bob1_, Vector.ORIGIN,
       /*restLength=*/1.0, /*stiffness=*/6.0);
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring2_ = new Spring('spring2',

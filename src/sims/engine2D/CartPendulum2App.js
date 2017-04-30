@@ -39,7 +39,6 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
@@ -50,10 +49,12 @@ var Engine2DApp = sims.engine2D.Engine2DApp;
 var GravityLaw = lab.model.GravityLaw;
 var Joint = lab.engine2D.Joint;
 var JointUtil = lab.engine2D.JointUtil;
+var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -72,7 +73,7 @@ Parameters Created
 + ParameterNumber named `STIFFNESS`, see {@link #setStiffness}
 
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -88,9 +89,9 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
   var advance = new CollisionAdvance(this.mySim);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.mySim.setShowForces(false);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(/*damping=*/0, /*rotateRatio=*/0.15, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(9.8, this.simList);
   this.elasticity.setElasticity(0.8);
   /** @type {number} */
@@ -101,7 +102,7 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
   this.spring = null;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));

@@ -17,10 +17,12 @@ goog.provide('myphysicslab.sims.engine2D.SixThrusters');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
+var MassObject = myphysicslab.lab.model.MassObject;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 var Vector = myphysicslab.lab.util.Vector;
@@ -54,8 +56,7 @@ points, `t` or `t2`. The side thrusters have less thrust than the forward
 and aft thrusters and they fire in pairs (0 and 5, or 1 and 4) to rotate the body; or in
 pairs (0 and 4, 1 and 5) to move the body sideways.
 
-In the diagram, `t` is the primary thrust point, see
-{@link myphysicslab.lab.model.SimObject#setDragPoints}.
+In the diagram, `t` is the primary thrust point, see {@link MassObject#setDragPoints}.
 There is second thrust point at `t2`, the mirror image of `t` through the geometric
 center of the body.
 
@@ -84,8 +85,8 @@ SixThrusters.thrustAngle[5] = 0; // lower right
 /** Creates a ThrusterSet with six thrusters that apply force at two points on a
 Polygon.
 * @param {number} magnitude
-* @param {!myphysicslab.lab.engine2D.Polygon} body
-* @return {!myphysicslab.lab.engine2D.ThrusterSet}
+* @param {!Polygon} body
+* @return {!ThrusterSet}
 */
 SixThrusters.make = function(magnitude, body) {
   var ts = new ThrusterSet(6, body, magnitude);
@@ -98,8 +99,8 @@ SixThrusters.make = function(magnitude, body) {
 
 /**
 * @param {number} index
-* @param {!myphysicslab.lab.engine2D.Polygon} body
-* @return {!myphysicslab.lab.util.Vector}
+* @param {!Polygon} body
+* @return {!Vector}
 * @private
 */
 SixThrusters.getLocationBody = function(index, body) {
@@ -115,8 +116,8 @@ SixThrusters.getLocationBody = function(index, body) {
 
 /**
 * @param {number} index
-* @param {!myphysicslab.lab.engine2D.Polygon} body
-* @return {!myphysicslab.lab.util.Vector}
+* @param {!Polygon} body
+* @return {!Vector}
 * @private
 */
 SixThrusters.getDirectionBody = function(index, body) {

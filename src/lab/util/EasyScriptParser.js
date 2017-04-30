@@ -17,28 +17,30 @@ goog.provide('myphysicslab.lab.util.EasyScriptParser');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Parser');
+goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.SubjectEvent');
+goog.require('myphysicslab.lab.util.Terminal');
+goog.require('myphysicslab.lab.util.UtilityCore');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Subject = myphysicslab.lab.util.Subject;
 var Parameter = myphysicslab.lab.util.Parameter;
+var Subject = myphysicslab.lab.util.Subject;
+var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
+var Terminal = myphysicslab.lab.util.Terminal;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Parses simple "EasyScript" scripts which get or set values of
-{@link myphysicslab.lab.util.Parameter Parameter}s for a specified set of
-{@link myphysicslab.lab.util.Subject Subject}s. Also executes some single word commands
-such as `help`.
+/** Parses simple "EasyScript" scripts which get or set values of {@link Parameter}s
+for a specified set of {@link Subject}s. Also executes some single word commands such
+as `help`.
 
 The {@link #script} method creates a script which replicates all the current Parameter
 settings of all the specified Subjects.
 
-The scripts can be executed by entering them in the
-{@link myphysicslab.lab.util.Terminal} command line interface, which passes them to
-EasyScriptParser. They can also be executed with Terminal functions such as `eval` and
-`parseURL`.
+The scripts can be executed by entering them in the {@link Terminal} command line
+interface, which passes them to EasyScriptParser. They can also be executed with
+Terminal functions such as `eval` and `parseURL`.
 
 An application will set up EasyScriptParser to know about its dozen or so important
 Subjects. EasyScriptParser interrogates all the Subjects to find what settable
@@ -64,27 +66,24 @@ separated by a semicolon.
 
 With both setter and getter syntax the value of the Parameter is available via
 {@link #getResult} after the script is parsed or in the `result` variable of
-{@link myphysicslab.lab.util.Terminal Terminal}.
+{@link Terminal}.
 
 + `SubjectName` is the language-independent name returned by
-{@link myphysicslab.lab.util.Subject#getName}. It is optional when `ParameterName` is
-unique among all Subjects. It is required when multiple Subjects have the same
-Parameter name.
+{@link Subject#getName}. It is optional when `ParameterName` is unique among all
+Subjects. It is required when multiple Subjects have the same Parameter name.
 
 + `ParameterName` is the language-independent name returned by
-{@link myphysicslab.lab.util.SubjectEvent#getName}. (Note that Parameter extends
-SubjectEvent).
+{@link SubjectEvent#getName}. (Note that Parameter extends SubjectEvent).
 
-+ `value` is a string that is given as input to
-{@link myphysicslab.lab.util.Parameter#setFromString}. The string can be optionally
-surrounded with quotes like a JavaScript string in which case the quotes are removed
-and backslash escaped characters (quote, newline, tab, etc.) are replaced.
-If not surrounded with quotes then the string ends at the semicolon or end of line.
++ `value` is a string that is given as input to {@link Parameter#setFromString}. The
+string can be optionally surrounded with quotes like a JavaScript string in which case
+the quotes are removed and backslash escaped characters (quote, newline, tab, etc.) are
+replaced. If not surrounded with quotes then the string ends at the semicolon or end of
+line.
 
 The English language version of Parameter or Subject names can also be given, they are
-converted to the language-independent form using
-{@link myphysicslab.lab.util.UtilityCore#toName}. Leading and trailing spaces are
-trimmed from names and (unquoted) values.
+converted to the language-independent form using {@link UtilityCore#toName}. Leading
+and trailing spaces are trimmed from names and (unquoted) values.
 
 
 EasyScript Embedded in URL
@@ -100,13 +99,12 @@ or 'query URL'. Here is an example:
 
 A user can then send this custom URL to someone else, and when that other user enters
 the URL into a browser, the scripts embedded in the URL will be executed if
-{@link myphysicslab.lab.util.Terminal#parseURL} is called at startup that app,
-assuming that EasyScriptParser has been installed via
-{@link myphysicslab.lab.util.Terminal#setParser}.
+{@link Terminal#parseURL} is called at startup that app, assuming that EasyScriptParser
+has been installed via {@link Terminal#setParser}.
 
 The method {@link #script} returns just the script without the URL. This can be useful
-when creating a script to save with the {@link myphysicslab.lab.util.Terminal#remember}
-command, or to put in an HTML file, or paste into Terminal
+when creating a script to save with the {@link Terminal#remember} command, or to put in
+an HTML file, or paste into Terminal
 
 
 Volatile Subjects
@@ -374,9 +372,9 @@ EasyScriptParser.prototype.names = function() {
 };
 
 /** Returns a script which sets Parameters to their current values.
-See {@link myphysicslab.lab.util.EasyScriptParser} for the syntax of the script.
+See {@link EasyScriptParser} for the syntax of the script.
 
-Uses {@link myphysicslab.lab.util.Parameter#isComputed} to exclude Parameters
+Uses {@link Parameter#isComputed} to exclude Parameters
 that are being automatically computed, unless `includeComputed` is `true`.
 
 * @param {boolean} volatile `true` means return only Parameters belonging to the
@@ -462,20 +460,20 @@ EasyScriptParser.prototype.saveStart = function() {
 };
 
 /** Returns a script to set Parameters to the current value. The script
-* can be executed via {@link myphysicslab.lab.util.Terminal#eval}.
+* can be executed via {@link Terminal#eval}.
 *
 * To keep the length of the script as short as possible (and not set irrelevant
 * Parameters):
 *
 * 1. This ignores Parameters that are automatically computed, see
-*    {@link myphysicslab.lab.util.Parameter#isComputed}.
+*    {@link Parameter#isComputed}.
 *
 * 2. This ignores Parameters whose value is unchanged since {@link #saveStart}
 *    was called.
 *
 * 3. When a Parameter name is unique, we don't include the Subject name.
 *
-* This avoids, for example, setting the Parameters for the size of graph SimView
+* This avoids, for example, setting the Parameters for the size of a graph's SimView
 * when the SimView is under control of an AutoScale. This is important because
 * setting any of those Parameters will turn off the AutoScale.
 *
@@ -494,25 +492,10 @@ EasyScriptParser.prototype.script = function() {
 
 /** Returns a URL for the current page along with query script to set Parameters to
 * their current values. The *query* part of the URL is the part following the
-* question mark.
-* When pasted into a browser, the {@link myphysicslab.lab.util.Terminal#parseURL}
+* question mark. When pasted into a browser, the {@link Terminal#parseURL}
 * method can be used to extract the script from the URL query and execute it.
 *
-* To keep the length of the script as short as possible (and not set irrelevant
-* Parameters):
-*
-* 1. This ignores Parameters that are automatically computed, see
-*    {@link myphysicslab.lab.util.Parameter#isComputed}.
-*
-* 2. This ignores Parameters whose value is unchanged since {@link #saveStart}
-*    was called.
-*
-* 3. When a Parameter name is unique, we don't include the Subject name.
-*
-* This avoids, for example, setting the Parameters for the size of graph SimView
-* when the SimView is under control of an AutoScale. This is important because
-* setting any of those Parameters will turn off the AutoScale.
-*
+* See {@link #script} for details about how the script is created.
 * @return {string}
 */
 EasyScriptParser.prototype.scriptURL = function() {

@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -33,7 +34,6 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var AbstractApp = sims.common.AbstractApp;
 var CollideBlocksSim = sims.springs.CollideBlocksSim;
 var CollisionAdvance = lab.model.CollisionAdvance;
@@ -41,6 +41,8 @@ var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
+var NumericControl = lab.controls.NumericControl;
+var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
@@ -97,7 +99,7 @@ myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
   this.displayList.add(this.spring2);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(CollideBlocksSim.en.MASS_1);
   this.addControl(new NumericControl(pn));

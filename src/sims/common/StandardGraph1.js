@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphColor');
 goog.require('myphysicslab.lab.graph.GraphLine');
@@ -50,13 +51,15 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = sims.common.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
+var DisplayList = lab.view.DisplayList;
 var DoubleRect = lab.util.DoubleRect;
 var GenericEvent = lab.util.GenericEvent;
 var GenericObserver = lab.util.GenericObserver;
@@ -85,18 +88,15 @@ to show the GraphLine. Adds the SimView to `graphCanvas`. Creates an AutoScale t
 modifies the SimView to contain the GraphLine.
 Creates several controls to modify the graph.
 
-* @param {!myphysicslab.lab.model.VarsList} varsList the VarsList to collect
-*   data from
-* @param {!myphysicslab.lab.view.LabCanvas} graphCanvas the LabCanvas where the graph
-*   should appear
+* @param {!VarsList} varsList the VarsList to collect data from
+* @param {!LabCanvas} graphCanvas the LabCanvas where the graph should appear
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
-* @param {!myphysicslab.lab.app.SimRunner} simRun the SimRunner controlling the
-*   overall app
+* @param {!SimRunner} simRun the SimRunner controlling the overall app
 * @param {string=} displayStyle the CSS display style to use when adding controls
 * @constructor
 * @final
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {SubjectList}
 * @struct
 */
@@ -106,26 +106,26 @@ myphysicslab.sims.common.StandardGraph1 = function(varsList, graphCanvas, div_co
 
   /** @type {string} */
   this.displayStyle = displayStyle || 'block';
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
 
-  /** @type {!myphysicslab.lab.view.SimView} */
+  /** @type {!SimView} */
   this.view = new SimView('X_Y_GRAPH_VIEW', new DoubleRect(0, 0, 1, 1));
   this.view.setHorizAlign(HorizAlign.FULL);
   this.view.setVerticalAlign(VerticalAlign.FULL);
   graphCanvas.addView(this.view);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.view.getDisplayList();
 
-  /** @type {!myphysicslab.lab.graph.GraphLine} */
+  /** @type {!GraphLine} */
   this.line = new GraphLine('X_Y_GRAPH_LINE', varsList);
   this.line.setXVariable(0);
   this.line.setYVariable(1);
   this.line.setColor('lime');
   this.view.addMemo(this.line);
 
-  /** @type {!myphysicslab.lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
   var updateAxes = goog.bind(function(evt) {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
@@ -138,11 +138,11 @@ myphysicslab.sims.common.StandardGraph1 = function(varsList, graphCanvas, div_co
   new GenericObserver(this.line, updateAxes, 'update axes names');
   updateAxes(new GenericEvent(this.line, GraphLine.i18n.X_VARIABLE));
 
-  /** @type {!myphysicslab.lab.graph.AutoScale} */
+  /** @type {!AutoScale} */
   this.autoScale = new AutoScale('X_Y_AUTO_SCALE', this.line, this.view);
   this.autoScale.extraMargin = 0.05;
 
-  /** @type {!myphysicslab.lab.graph.DisplayGraph} */
+  /** @type {!DisplayGraph} */
   this.displayGraph = new DisplayGraph(this.line);
   this.displayGraph.setScreenRect(this.view.getScreenRect());
   // Use off-screen buffer because usually the autoScale doesn't change the area.
@@ -180,7 +180,7 @@ myphysicslab.sims.common.StandardGraph1 = function(varsList, graphCanvas, div_co
   this.addControl(new ChoiceControl(ps));
 
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!myphysicslab.lab.app.SimController}
+  * @type {!SimController}
   */
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});

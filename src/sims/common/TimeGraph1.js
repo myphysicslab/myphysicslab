@@ -22,8 +22,10 @@ goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.graph.AutoScale');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
@@ -46,16 +48,18 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var AbstractSubject = lab.util.AbstractSubject;
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = myphysicslab.sims.common.CommonControls;
-var AbstractSubject = lab.util.AbstractSubject;
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
+var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 var LabView = lab.view.LabView;
@@ -64,42 +68,42 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var SimController = lab.app.SimController;
+var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var UtilityCore = lab.util.UtilityCore;
+var VarsList = lab.model.VarsList;
+var VerticalAlign = lab.view.VerticalAlign;
 
 /** Creates a single graph showing several independent GraphLines, and with a horizontal
 time axis. Because there is a single SimView and DisplayGraph, all the GraphLines are
 plotted in the same graph coordinates. The horizontal variable can be changed to
 something other than time. Creates an AutoScale that ensures all of the GraphLines are
 visible. Creates several controls to modify the graph.
-* @param {!lab.model.VarsList} varsList the VarsList to collect
-*   data from
-* @param {!lab.view.LabCanvas} graphCanvas the LabCanvas where the graph
-*   should appear
+* @param {!VarsList} varsList the VarsList to collect data from
+* @param {!LabCanvas} graphCanvas the LabCanvas where the graph should appear
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
-* @param {!lab.app.SimRunner} simRun the SimRunner controlling the
-*   overall app
+* @param {!SimRunner} simRun the SimRunner controlling the overall app
 * @constructor
 * @final
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {SubjectList}
 * @struct
 */
 myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_controls,
     div_graph, simRun) {
   AbstractSubject.call(this, 'TIME_GRAPH_LAYOUT');
-  /** @type {!myphysicslab.lab.view.LabCanvas} */
+  /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
-  /** @type {!lab.view.SimView} */
+  /** @type {!SimView} */
   this.view = new SimView('TIME_GRAPH_VIEW', new DoubleRect(0, 0, 1, 1));
-  this.view.setHorizAlign(lab.view.HorizAlign.FULL);
-  this.view.setVerticalAlign(lab.view.VerticalAlign.FULL);
+  this.view.setHorizAlign(HorizAlign.FULL);
+  this.view.setVerticalAlign(VerticalAlign.FULL);
   graphCanvas.addView(this.view);
-  /** @type {!lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
   /** @type {!GraphLine} */
   this.line1 = new GraphLine('TIME_GRAPH_LINE_1', varsList);
@@ -151,7 +155,7 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
 
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
-  /** @type {!myphysicslab.lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LIME));
   pn = this.line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
@@ -172,7 +176,7 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
   this.addControl(bc);
 
   /** GenericObserver ensures line2, line3 have same X variable as line1.
-  * @type {!lab.util.GenericObserver}
+  * @type {!GenericObserver}
   */
   this.line1Obs = new GenericObserver(this.line1, goog.bind(function(e) {
       // Don't use off-screen buffer with time variable because the auto-scale causes
@@ -182,7 +186,7 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
       this.line3.setXVariable(this.line1.getXVariable());
     }, this), 'ensure line2, line3 have same X variable as line1');
   /** SimController which pans the graph with no modifier keys pressed.
-  * @type {!lab.app.SimController}
+  * @type {!SimController}
   */
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});

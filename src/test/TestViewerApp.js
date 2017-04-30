@@ -37,15 +37,16 @@ goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
 goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.model.GravityLaw');
+goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
@@ -55,12 +56,12 @@ goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
-goog.require('myphysicslab.sims.engine2D.PileConfig');
-goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.StandardGraph1');
 goog.require('myphysicslab.sims.common.VerticalLayout');
+goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
+goog.require('myphysicslab.sims.engine2D.PileConfig');
+goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
 goog.require('myphysicslab.sims.roller.PathObserver');
 goog.require('myphysicslab.test.CircleCircleTest');
 goog.require('myphysicslab.test.CircleStraightTest');
@@ -93,8 +94,10 @@ var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
+var DisplayList = lab.view.DisplayList;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
+var EasyScriptParser = lab.util.EasyScriptParser;
 var ElasticitySetter = sims.engine2D.ElasticitySetter;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var ExtraAccel = lab.engine2D.ExtraAccel;
@@ -108,18 +111,19 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PathObserver = sims.roller.PathObserver;
-var Polygon = lab.engine2D.Polygon;
 var PileConfig = sims.engine2D.PileConfig;
+var Polygon = lab.engine2D.Polygon;
 var RigidBodyEventHandler = lab.app.RigidBodyEventHandler;
 var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var EasyScriptParser = lab.util.EasyScriptParser;
 var SimController = lab.app.SimController;
+var SimObject = lab.model.SimObject;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
+var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
@@ -231,7 +235,7 @@ see {@link #prependControl}.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {SubjectList}
 * @export
 */
@@ -287,12 +291,12 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   var sim_controls = this.layout.sim_controls;
   // keep reference to terminal to make for shorter 'expanded' names
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
   var graphCanvas = this.layout.graphCanvas;
   var div_sim = this.layout.div_sim;
-  /** @type {!myphysicslab.lab.engine2D.ContactSim} */
+  /** @type {!ContactSim} */
   this.sim = new ContactSim();
   this.terminal.setAfterEval(goog.bind(this.sim.modifyObjects, this.sim));
   // Ensure that changes to parameters or variables cause display to update
@@ -307,34 +311,34 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   /** @type {!VarsList} */
   this.varsList = this.sim.getVarsList();
   this.varsList.setHistory(true);
-  /** @type {!myphysicslab.lab.model.CollisionAdvance} */
+  /** @type {!CollisionAdvance} */
   this.advance = new CollisionAdvance(this.sim);
   this.advance.setJointSmallImpacts(true);
   this.advance.setDebugLevel(DebugLevel.OPTIMAL);
   //this.advance.addWayPoints([WayPoint.NEXT_STEP_ESTIMATE, WayPoint.NEXT_STEP_BINARY]);
-  /** @type {!myphysicslab.lab.util.DoubleRect} */
+  /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-6, -6, 6, 6);
-  /** @type {!myphysicslab.lab.view.SimView} */
+  /** @type {!SimView} */
   this.simView = new SimView('simView', this.simRect);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   simCanvas.addView(this.simView);
-  /** @type {!myphysicslab.lab.view.SimView} */
+  /** @type {!SimView} */
   this.statusView = new SimView('status', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
-  /** @type {!myphysicslab.lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
-  /** @type {!myphysicslab.lab.app.SimRunner} */
+  /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance);
   this.simRun.setTimeStep(0.025);
   this.simRun.addCanvas(simCanvas);
   this.simRun.getParameterNumber(SimRunner.en.TIME_STEP).setSignifDigits(7);
-  /** @type {!myphysicslab.lab.util.Clock} */
+  /** @type {!Clock} */
   this.clock = this.simRun.getClock();
   this.clock.getParameterNumber(Clock.en.TIME_RATE).setSignifDigits(5);
-  /** @type {!myphysicslab.lab.app.RigidBodyEventHandler} */
+  /** @type {!RigidBodyEventHandler} */
   this.rbeh = new RigidBodyEventHandler(this.sim, this.clock);
-  /** @type {!myphysicslab.lab.app.SimController} */
+  /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, this.rbeh);
   /** @type {!RigidBodyObserver} */
   this.rbo = new RigidBodyObserver(this.simList, this.simView.getDisplayList());

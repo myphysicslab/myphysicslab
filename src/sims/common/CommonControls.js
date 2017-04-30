@@ -73,8 +73,8 @@ var CommonControls = myphysicslab.sims.common.CommonControls;
 /** Makes a DisplayAxes which shows the simRect of a SimView, adding it to the SimView;
 and makes a GenericObserver which resizes the axes whenever the SimView's simRect
 changes (for example because of pan-zoom controls).
-* @param {!myphysicslab.lab.view.SimView} simView the SimView to add axes to
-* @return {!myphysicslab.lab.graph.DisplayAxes} the axes that were created
+* @param {!SimView} simView the SimView to add axes to
+* @return {!DisplayAxes} the axes that were created
 */
 CommonControls.makeAxes = function(simView) {
   /** @type {!DisplayAxes} */
@@ -103,10 +103,10 @@ CommonControls.LONG_TRAILS = 0.05;
 
 /** Makes pop-up menu of choices for background color plus options for "trails" which
 turns on the global alpha transparency feature in LabCanvas. See
-{@link myphysicslab.lab.view.LabCanvas#setAlpha} and
-{@link myphysicslab.lab.view.LabCanvas#setBackground}.
-* @param {!myphysicslab.lab.view.LabCanvas} labCanvas
-* @return {!myphysicslab.lab.controls.ChoiceControlBase}
+{@link LabCanvas#setAlpha} and
+{@link LabCanvas#setBackground}.
+* @param {!LabCanvas} labCanvas
+* @return {!ChoiceControlBase}
 */
 CommonControls.makeBackgroundMenu = function(labCanvas) {
   var choices = [
@@ -173,7 +173,7 @@ CommonControls.makeBackgroundMenu = function(labCanvas) {
 
 /** Makes controls for pan and zoom of a SimView. Use gray icons so that they are
 * visible with black background or white background.
-* @param {!myphysicslab.lab.view.SimView} simView the SimView under control
+* @param {!SimView} simView the SimView under control
 * @param {boolean} overlay whether the controls should appear over the parent element
 * @param {function()} resetFunc function to execute when click on center button, it
 *        should reset the SimView to the original default location and scale
@@ -208,7 +208,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   if (debug) up_div.style.border = 'dashed red thin';
   up_div.style.width = (sz*3.2)+'px';
   var img = UtilityCore.createImage(imagesPath+'up_gray.png', sz);
-  /** @type {!myphysicslab.lab.controls.ButtonControl} */
+  /** @type {!ButtonControl} */
   var bc = new ButtonControl('up', goog.bind(simView.panUp, simView), img);
   bc.repeatDelay = 100;
   up_div.appendChild(bc.getElement());
@@ -281,7 +281,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
 
 /** Make rewind, pause/play, and step controls for SimRunner. Uses icons from the
 `images` directory with names `rewind.png`, `forward.png`, `pause.png`, `next.png`.
-* @param {!myphysicslab.lab.app.SimRunner} simrun
+* @param {!SimRunner} simrun
 * @param {boolean=} opt_overlay whether the controls should appear over the parent_div,
 *       default is false.
 * @return {!GroupControl}
@@ -304,7 +304,7 @@ CommonControls.makePlaybackControls = function(simrun, opt_overlay) {
   }
   var sz = 30;
   var img = UtilityCore.createImage(imagesPath+'rewind.png', sz);
-  /** @type {!myphysicslab.lab.controls.ButtonControl} */
+  /** @type {!ButtonControl} */
   var bc1 = new ButtonControl(SimRunner.i18n.RESTART, goog.bind(simrun.reset, simrun),
       img);
   timer_div.appendChild(bc1.getElement());
@@ -351,10 +351,9 @@ Makes a GenericObserver which observes the targetView and broadcasts
 the ParameterBoolean whenever the DisplayClock is added or removed from the
 targetView.
 
-* @param {!myphysicslab.lab.view.DisplayClock} displayClock
-* @param {!myphysicslab.lab.view.SimView} targetView where to show the EnergyBarGraph
-* @param {!myphysicslab.lab.util.AbstractSubject} subject where to add the
-*     ParameterBoolean
+* @param {!DisplayClock} displayClock
+* @param {!SimView} targetView where to show the EnergyBarGraph
+* @param {!AbstractSubject} subject where to add the ParameterBoolean
 * @return {!ParameterBoolean}
 */
 CommonControls.makeShowClockParam = function(displayClock, targetView, subject) {
@@ -387,10 +386,9 @@ Sets size of EnergyBarGraph based on the targetView size.
 Makes a GenericObserver which observes the targetView and broadcasts the
 ParameterBoolean whenever the EnergyBarGraph is added or removed from the targetView.
 
-* @param {!myphysicslab.lab.graph.EnergyBarGraph} energyGraph
-* @param {!myphysicslab.lab.view.SimView} targetView where to show the EnergyBarGraph
-* @param {!myphysicslab.lab.util.AbstractSubject} subject where to add the
-*     ParameterBoolean
+* @param {!EnergyBarGraph} energyGraph
+* @param {!SimView} targetView where to show the EnergyBarGraph
+* @param {!AbstractSubject} subject where to add the ParameterBoolean
 * @param {string=} opt_name name of parameter (optional)
 * @param {string=} opt_i18n_name localized name of parameter (optional)
 * @return {!ParameterBoolean}
@@ -426,8 +424,7 @@ CommonControls.makeShowEnergyParam = function(energyGraph, targetView, subject,
 /** Makes a ParameterBoolean named `PAN_ZOOM` which shows or hides the pan-zoom
 controls.
 * @param {!Element} panZoomDiv the div containing the pan-zoom controls
-* @param {!myphysicslab.lab.util.AbstractSubject} subject where to add the
-*    ParameterBoolean
+* @param {!AbstractSubject} subject where to add the ParameterBoolean
 * @return {!ParameterBoolean} the PAN_ZOOM ParmeterBoolean that is created
 */
 CommonControls.makeShowPanZoomParam = function(panZoomDiv, subject) {
@@ -450,7 +447,7 @@ CommonControls.makeShowPanZoomParam = function(panZoomDiv, subject) {
 page including the script that will set all of the available Parameters.
 Presents the user with a prompt showing a text box with the URL + script.
 * @param {!EasyScriptParser} easyScript
-* @param {!myphysicslab.lab.app.SimRunner} simRun
+* @param {!SimRunner} simRun
 * @return {!ButtonControl}
 */
 CommonControls.makeURLScriptButton = function(easyScript, simRun) {

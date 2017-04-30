@@ -33,8 +33,7 @@ var Vector = myphysicslab.lab.util.Vector;
 /** Displays a {@link myphysicslab.lab.model.Arc}.
 
 * @param {?Arc=} arc the Arc to display
-* @param {?DisplayArc=} proto the prototype DisplayArc to inherit
-*    properties from
+* @param {?DisplayArc=} proto the prototype DisplayArc to inherit properties from
 * @constructor
 * @final
 * @struct

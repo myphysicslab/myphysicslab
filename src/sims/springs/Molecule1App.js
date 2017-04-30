@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
@@ -39,14 +40,14 @@ var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var Molecule1Sim = sims.springs.Molecule1Sim;
+var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  Molecule1App displays the simulation
-{@link myphysicslab.sims.springs.Molecule1Sim Molecule1Sim}.
+/** Displays the {@link Molecule1Sim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -85,7 +86,7 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
   this.displayList.add(this.atom2);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(Molecule1Sim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));

@@ -32,17 +32,16 @@ var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Displays a {@link myphysicslab.lab.engine2D.Rope} by showing a straight line when
-the Rope is tight, or a jagged line when the Rope has slack. Can have a different color
-when tight or slack, see {@link #setColorTight} and {@link #setColorSlack}.
+/** Displays a {@link Rope} by showing a straight line when the Rope is tight, or a
+jagged line when the Rope has slack. Can have a different color when tight or slack,
+see {@link #setColorTight} and {@link #setColorSlack}.
 
 The position is reported as the midpoint of the Rope by {@link #getPosition}.
 The position is determined by the position of the Rope, so {@link #setPosition}
 has no effect, and the DisplayRope is never dragable.
 
 * @param {?Rope=} rope the Rope to display
-* @param {?DisplayRope=} proto the prototype DisplayRope to inherit properties
-*     from
+* @param {?DisplayRope=} proto the prototype DisplayRope to inherit properties from
 * @constructor
 * @final
 * @struct
@@ -162,13 +161,12 @@ DisplayRope.prototype.draw = function(context, map) {
   context.restore();
 };
 
-/** Draws the rope using the given AffineTransform, which specifies the
-combination of translating, stretching, rotating the rope to its
-current position, and also the sim-to-screen transform.
-The path is drawn into a size of 6.0 long by 0.5 wide, so that when it is
-scaled up or down, it doesn't get too distorted.
+/** Draws the rope using the given AffineTransform, which specifies the combination of
+translating, stretching, rotating the rope to its current position, and also the
+sim-to-screen transform. The path is drawn into a size of 6.0 long by 0.5 wide, so that
+when it is scaled up or down, it doesn't get too distorted.
 * @param {!CanvasRenderingContext2D} context the canvas's context to draw into
-* @param {!myphysicslab.lab.util.AffineTransform} at  the transform to apply to each point
+* @param {!AffineTransform} at  the transform to apply to each point
 * @private
 */
 DisplayRope.drawRope = function(context, at) {

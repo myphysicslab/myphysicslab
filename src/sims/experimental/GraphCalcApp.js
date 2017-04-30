@@ -15,10 +15,10 @@
 goog.provide('myphysicslab.sims.experimental.GraphCalcApp');
 
 goog.require('myphysicslab.lab.app.SimController');
+goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.graph.DisplayGraph');
 goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.graph.GraphPoint');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -36,6 +36,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
@@ -47,7 +48,6 @@ var NF5 = lab.util.UtilityCore.NF5;
 var ScreenRect = lab.view.ScreenRect;
 var SimController = lab.app.SimController;
 var SimView = lab.view.SimView;
-var DisplayAxes = lab.graph.DisplayAxes;
 var Terminal = lab.util.Terminal;
 var UtilityCore = lab.util.UtilityCore;
 var VarsList = lab.model.VarsList;
@@ -94,7 +94,7 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
   var div = GraphCalcApp.getElementById(elem_ids, 'graph_div');
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
-  * @type {!myphysicslab.lab.view.LabCanvas}
+  * @type {!LabCanvas}
   * @private
   */
   this.simCanvas = new LabCanvas(canvas, 'canvas1');
@@ -106,30 +106,30 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
   var term_input = /** @type {!HTMLInputElement} */
       (GraphCalcApp.getElementById(elem_ids, 'term_input'));
   /**
-  * @type {!myphysicslab.lab.util.Terminal}
+  * @type {!Terminal}
   * @private
   */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
   /**
-  * @type {!myphysicslab.lab.model.VarsList}
+  * @type {!VarsList}
   * @private
   */
   this.vars = new VarsList(['x', 'y'], ['x', 'y']);
   /**
-  * @type {!myphysicslab.lab.util.DoubleRect}
+  * @type {!DoubleRect}
   * @private
   */
   this.simRect = new DoubleRect(-10, -10, 10, 10);
   /**
-  * @type {!myphysicslab.lab.view.SimView}
+  * @type {!SimView}
   * @private
   */
   this.simView = new SimView('graphView', this.simRect);
   this.simCanvas.addView(this.simView);
   var screenrect = this.simView.getScreenRect();
   /**
-  * @type {!myphysicslab.lab.graph.GraphLine}
+  * @type {!GraphLine}
   * @private
   */
   this.graphLine = new GraphLine('GRAPH_LINE', this.vars);
@@ -137,14 +137,14 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
   this.graphLine.setYVariable(1);
   this.graphLine.setHotSpotColor(''); // don't draw hot spot
   /**
-  * @type {!myphysicslab.lab.graph.DisplayGraph}
+  * @type {!DisplayGraph}
   * @private
   */
   this.graph = new DisplayGraph(this.graphLine);
   this.graph.setScreenRect(screenrect);
   this.simView.getDisplayList().add(this.graph);
   /**
-  * @type {!myphysicslab.lab.graph.DisplayAxes}
+  * @type {!DisplayAxes}
   * @private
   */
   this.axes = new DisplayAxes(this.simView.getCoordMap().screenToSimRect(screenrect));
@@ -160,7 +160,7 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
       }
     }, this), 'adjust when screen rect changes');
   /**
-  * @type {!myphysicslab.lab.app.SimController}
+  * @type {!SimController}
   * @private
   */
   this.simCtrl = new SimController(this.simCanvas, /*eventHandler=*/null,

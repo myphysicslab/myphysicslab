@@ -65,6 +65,8 @@ var Polygon = lab.engine2D.Polygon;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
+var TabLayout = sims.common.TabLayout;
+var ThrusterSet = lab.engine2D.ThrusterSet;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -75,7 +77,7 @@ connected like a double pendulum, and a third free moving block.
 DoublePendulum2App also demonstrates having an image inside a DisplayShape. It uses an
 AffineTransform to rotate, scale, and position the image within the DisplayShape.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -156,8 +158,11 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   // draw pattern of repeating trucks for block1
   if (goog.isObject(img)) {
     b1.setImageDraw(function(/** !CanvasRenderingContext2D*/context) {
-      context.fillStyle = context.createPattern(img, 'repeat');
-      context.fill();
+      var pat = context.createPattern(img, 'repeat');
+      if (pat != null) {
+        context.fillStyle = pat;
+        context.fill();
+      }
     });
     b1.setNameFont('');
   }
@@ -196,9 +201,9 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   this.mySim.saveInitialState();
 
   /* thrust forces are operated by pressing keys like up/down/left/right arrows */
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrustForce1 = SixThrusters.make(1.0, this.block3);
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrustForce2 = SixThrusters.make(1.0, this.block1);
   this.rbeh.setThrusters(this.thrustForce1, 'right');
   this.rbeh.setThrusters(this.thrustForce2, 'left');

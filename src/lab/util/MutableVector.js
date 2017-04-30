@@ -25,8 +25,7 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Mutable vector which can be altered after creation.
-
+/** Mutable vector defines a point in 2D or 3D and can be altered after creation.
 
 * @param {number} x the X value of the Vector
 * @param {number} y the Y value of the Vector

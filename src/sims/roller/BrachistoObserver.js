@@ -59,38 +59,38 @@ show the 'click a path' message or the 'you chose' message.
 
 Note that this will add DisplayObject for every object currently on the simList.
 
-@param {!myphysicslab.sims.roller.BrachistoSim} sim
-@param {!myphysicslab.lab.model.SimList} simList
-@param {!myphysicslab.lab.view.SimView} simView
-@param {!myphysicslab.lab.view.SimView} statusView
-@implements {myphysicslab.lab.util.Observer}
+@param {!BrachistoSim} sim
+@param {!SimList} simList
+@param {!SimView} simView
+@param {!SimView} statusView
+@implements {Observer}
 @constructor
 @final
 @struct
 */
 myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, statusView) {
   /**
-  * @type {!myphysicslab.sims.roller.BrachistoSim}
+  * @type {!BrachistoSim}
   * @private
   */
   this.sim_ = sim;
   /**
-  * @type {!myphysicslab.lab.view.SimView}
+  * @type {!SimView}
   * @private
   */
   this.simView_ = simView;
   /**
-  * @type {!myphysicslab.lab.view.DisplayList}
+  * @type {!DisplayList}
   * @private
   */
   this.displayList_ = simView.getDisplayList();
   /**
-  * @type {!myphysicslab.lab.view.SimView}
+  * @type {!SimView}
   * @private
   */
   this.statusView_ = statusView;
   /**
-  * @type {!myphysicslab.lab.view.DisplayPath}
+  * @type {!DisplayPath}
   * @private
   */
   this.displayPath_ = new DisplayPath();
@@ -98,14 +98,14 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
   this.displayPath_.setZIndex(-10);
   this.displayList_.add(this.displayPath_);
   /**
-  @type {!myphysicslab.lab.model.SimList}
+  @type {!SimList}
   @private
   */
   this.simList_ = simList;
   // add display objects for all bodies currently in the simList
   this.addBodies(simList.toArray());
   /**
-  * @type {!myphysicslab.lab.view.DisplayText}
+  * @type {!DisplayText}
   * @private
   */
   this.message_ = new DisplayText(BrachistoObserver.i18n.QUESTION);
@@ -180,7 +180,7 @@ BrachistoObserver.prototype.addBody = function(obj) {
 };
 
 /** Calculate position to display the text message.
-* @return {!myphysicslab.lab.util.Vector}
+* @return {!Vector}
 * @private
 */
 BrachistoObserver.prototype.getTextPosition = function() {

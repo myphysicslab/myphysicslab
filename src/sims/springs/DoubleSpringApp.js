@@ -43,12 +43,12 @@ var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = sims.common.CommonControls;
+var ConcreteLine = lab.model.ConcreteLine;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var DoubleSpringSim = sims.springs.DoubleSpringSim;
-var ConcreteLine = lab.model.ConcreteLine;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
@@ -58,8 +58,7 @@ var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  DoubleSpringApp displays the simulation
-{@link myphysicslab.sims.springs.DoubleSpringSim DoubleSpringSim}.
+/** Displays the {@link DoubleSpringSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -135,7 +134,7 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  /** @type {!myphysicslab.lab.controls.ButtonControl} */
+  /** @type {!ButtonControl} */
   var bc = new ButtonControl(DoubleSpringSim.i18n.REST_STATE,
       goog.bind(sim.restState, sim));
   this.addControl(bc);

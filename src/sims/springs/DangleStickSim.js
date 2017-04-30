@@ -33,10 +33,10 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
+var Spring = myphysicslab.lab.model.Spring;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
-var Spring = myphysicslab.lab.model.Spring;
 
 /** Simulation of a stick dangling from a spring attached to a fixed point.  The stick is modeled as a massless rod with a point mass at each end.
 
@@ -106,7 +106,7 @@ To Do
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
+* @extends {AbstractODESim}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
@@ -137,18 +137,18 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
   */
   this.gravity_ = 9.8;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.fixedPoint_ = PointMass.makeCircle(0.5, 'fixed_point')
       .setMass(UtilityCore.POSITIVE_INFINITY);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob1_ = PointMass.makeCircle(0.25, 'bob1').setMass(1.0);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.bob2_ = PointMass.makeCircle(0.25, 'bob2').setMass(1.0);
@@ -158,12 +158,12 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
   */
   this.stickLength_ = 1;
   /**
-  * @type {!myphysicslab.lab.model.ConcreteLine}
+  * @type {!ConcreteLine}
   * @private
   */
   this.stick_ = new ConcreteLine('stick');
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',

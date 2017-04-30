@@ -16,15 +16,15 @@ goog.provide('myphysicslab.lab.util.Observer');
 
 goog.require('myphysicslab.lab.util.Printable');
 
-/** Observes a {@link myphysicslab.lab.util.Subject Subject}; is notified when something
+/** Observes a {@link myphysicslab.lab.util.Subject}; is notified when something
 changes in the Subject. The change can be in the value of a
-{@link myphysicslab.lab.util.Parameter Parameter}, or the occurrence of some event such
-as a {@link myphysicslab.lab.util.GenericEvent GenericEvent}. The Observer is connected
+{@link myphysicslab.lab.util.Parameter}, or the occurrence of some event such
+as a {@link myphysicslab.lab.util.GenericEvent}. The Observer is connected
 to the Subject via the
-{@link myphysicslab.lab.util.Subject#addObserver Subject.addObserver} method, which is
+{@link myphysicslab.lab.util.Subject#addObserver} method, which is
 typically called by the Observer's constructor or the entity that creates the
 Observer. When a change occurs, the
-{@link myphysicslab.lab.util.Subject#broadcast Subject.broadcast} method is called which
+{@link myphysicslab.lab.util.Subject#broadcast} method is called which
 results in the Observer's `observe` method being called.
 
 Implements the [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern).

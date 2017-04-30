@@ -49,10 +49,9 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
 var AbstractApp = sims.common.AbstractApp;
 var CardioidPath = sims.roller.CardioidPath;
+var ChoiceControl = lab.controls.ChoiceControl;
 var CirclePath = sims.roller.CirclePath;
 var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
@@ -62,11 +61,13 @@ var FlatPath = sims.roller.FlatPath;
 var HumpPath = sims.roller.HumpPath;
 var LemniscatePath = sims.roller.LemniscatePath;
 var LoopTheLoopPath = sims.roller.LoopTheLoopPath;
+var NumericControl = lab.controls.NumericControl;
 var Observer = lab.util.Observer;
 var OvalPath = sims.roller.OvalPath;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
+var ParametricPath = lab.model.ParametricPath;
 var PathObserver = sims.roller.PathObserver;
 var PathSelector = sims.roller.PathSelector;
 var PointMass = lab.model.PointMass;
@@ -113,7 +114,7 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
       .setWidth(0.2).setColorCompressed('red')
       .setColorExpanded('#6f6'); /* brighter green */
   this.displayList.add(this.spring);
-  /** @type {!Array<!lab.model.ParametricPath>} **/
+  /** @type {!Array<!ParametricPath>} **/
   this.paths = [
       new HumpPath(),
       new LoopTheLoopPath(),
@@ -132,9 +133,9 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
   this.pathSelect.setPathName(HumpPath.en.NAME);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
-  /** @type {!lab.util.ParameterString} */
+  /** @type {!ParameterString} */
   var ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));

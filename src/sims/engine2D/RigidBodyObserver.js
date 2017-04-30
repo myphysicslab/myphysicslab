@@ -15,6 +15,7 @@
 goog.provide('myphysicslab.sims.engine2D.RigidBodyObserver');
 
 goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
+goog.require('myphysicslab.lab.engine2D.Connector');
 goog.require('myphysicslab.lab.engine2D.Joint');
 goog.require('myphysicslab.lab.engine2D.PathEndPoint');
 goog.require('myphysicslab.lab.engine2D.PathJoint');
@@ -46,6 +47,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var ConcreteLine = lab.model.ConcreteLine;
+var Connector = lab.engine2D.Connector;
 var DisplayConnector = lab.view.DisplayConnector;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayList = lab.view.DisplayList;
@@ -72,13 +74,10 @@ var Subject = lab.util.Subject;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** Automatically creates a {@link myphysicslab.lab.view.DisplayObject DisplayObject}
-for most types of
-{@link myphysicslab.lab.model.SimObject SimObject} when they are added to a
-{@link myphysicslab.lab.model.SimList SimList}. Observes the SimList of a
-{@link myphysicslab.lab.model.Simulation Simulation},
-adding or removing DisplayObjects to/from a
-{@link myphysicslab.lab.view.DisplayList DisplayList} to represent the Simulation.
+/** Automatically creates a {@link DisplayObject} for most types of {@link SimObject}
+when they are added to a {@link SimList}. Observes the SimList of a
+{@link myphysicslab.lab.model.Simulation Simulation}, adding or removing DisplayObjects
+to/from a {@link DisplayList} to represent the Simulation.
 
 The constructor processes all the objects currently on the SimList.
 
@@ -116,8 +115,8 @@ RigidBodyObserver.
 
 ### Displaying Contact Forces
 
-Instances of {@link myphysicslab.lab.model.Force} are displayed with
-{@link myphysicslab.lab.view.DisplayLine} objects.
+Instances of {@link Force} are displayed with
+{@link DisplayLine} objects.
 
 The policy used here is to **only show the first contact Force** when there is a pair
 of opposing contact Forces. Forces named 'contact_force1' are shown. Forces named
@@ -127,23 +126,22 @@ See {@link myphysicslab.lab.util.GenericObserver} for example code that sets the
 of the DisplayLine based on contact gap distance.
 
 
-@param {!myphysicslab.lab.model.SimList} simList SimList to observe, and will process
-    all the objects currently on the SimList
-@param {!myphysicslab.lab.view.DisplayList} displayList the DisplayList to add
-    DisplayObjects to
-@implements {myphysicslab.lab.util.Observer}
+@param {!SimList} simList SimList to observe; processes all objects currently on the
+    SimList
+@param {!DisplayList} displayList the DisplayList to add DisplayObjects to
+@implements {Observer}
 @constructor
 @final
 @struct
 */
 myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
   /**
-  * @type {!myphysicslab.lab.view.DisplayList}
+  * @type {!DisplayList}
   * @private
   */
   this.displayList_ = displayList;
   /**
-  @type {!myphysicslab.lab.model.SimList}
+  @type {!SimList}
   @private
   */
   this.simList_ = simList;
@@ -241,7 +239,7 @@ if (!UtilityCore.ADVANCED) {
 RigidBodyObserver.memPair;
 
 /** Whether to add the next object 'over' or 'under' other DisplayObjects with
-the same `zIndex`. See {@link myphysicslab.lab.view.DisplayObject#getZIndex}.
+the same `zIndex`. See {@link DisplayObject#getZIndex}.
 @type {string} 'over' means the next object will appear above other DisplayObjects
     with the same `zIndex`; 'under' means it will appear below.
 */
@@ -263,7 +261,7 @@ RigidBodyObserver.prototype.add_ = function(dispObj, simObj) {
 };
 
 /** Creates DisplayObjects for the SimObjects, and add to DisplayList.
-* @param {!Array<!myphysicslab.lab.model.SimObject>} bodies
+* @param {!Array<!SimObject>} bodies
 * @private
 */
 RigidBodyObserver.prototype.addBodies = function(bodies) {
@@ -271,7 +269,7 @@ RigidBodyObserver.prototype.addBodies = function(bodies) {
 };
 
 /** Creates DisplayObject for the SimObject, and adds DisplayObject to DisplayList.
-* @param {!myphysicslab.lab.model.SimObject} obj
+* @param {!SimObject} obj
 * @private
 */
 RigidBodyObserver.prototype.addBody = function(obj) {
@@ -280,7 +278,7 @@ RigidBodyObserver.prototype.addBody = function(obj) {
     return;
   }
   if (obj instanceof Polygon) {
-    var p = /** @type {!myphysicslab.lab.engine2D.Polygon} */(obj);
+    var p = /** @type {!Polygon} */(obj);
     if (isFinite(p.getMass())) {
       this.add_(new DisplayShape(p, this.protoPolygon), obj);
     } else {
@@ -303,7 +301,7 @@ RigidBodyObserver.prototype.addBody = function(obj) {
       this.add_(new DisplayShape(m, this.protoCollision), obj);
     }
   } else if (obj instanceof Force) {
-    var f = /** @type {!myphysicslab.lab.model.Force} */(obj);
+    var f = /** @type {!Force} */(obj);
     if (f.getName().match(/^CONTACT_FORCE2/) != null) {
       // Avoid showing second force in a pair of opposing forces;
       // the name indicates this is second force of pair.
@@ -319,26 +317,26 @@ RigidBodyObserver.prototype.addBody = function(obj) {
       this.add_(new DisplayLine(f, this.protoForce), obj);
     }
   } else if (obj instanceof PathEndPoint) {
-    p = /** @type {!myphysicslab.lab.engine2D.Connector} */(obj);
+    p = /** @type {!Connector} */(obj);
     this.add_(new DisplayConnector(p, this.protoPathEndPoint), obj);
   } else if (obj instanceof Joint || obj instanceof PathJoint) {
-    p = /** @type {!myphysicslab.lab.engine2D.Connector} */(obj);
+    p = /** @type {!Connector} */(obj);
     this.add_(new DisplayConnector(p, this.protoJoint), obj);
   } else if (obj instanceof PointMass) {
-    p = /** @type {!myphysicslab.lab.model.PointMass} */(obj);
+    p = /** @type {!PointMass} */(obj);
     this.add_(new DisplayShape(p, this.protoPointMass), obj);
   } else if (obj instanceof Spring) {
-    p = /** @type {!myphysicslab.lab.model.Spring} */(obj);
+    p = /** @type {!Spring} */(obj);
     if (p.nameEquals(RigidBodyEventHandler.en.DRAG)) {
       this.add_(new DisplaySpring(p, this.protoDragSpring), obj);
     } else {
       this.add_(new DisplaySpring(p, this.protoSpring), obj);
     }
   } else if (obj instanceof Rope) {
-    p = /** @type {!myphysicslab.lab.engine2D.Rope} */(obj);
+    p = /** @type {!Rope} */(obj);
     this.add_(new DisplayRope(p, this.protoRope), obj);
   } else if (obj instanceof ConcreteLine) {
-    p = /** @type {!myphysicslab.lab.model.ConcreteLine} */(obj);
+    p = /** @type {!ConcreteLine} */(obj);
     this.add_(new DisplayLine(p, this.protoConcreteLine), obj);
   } else {
     //console.log('RigidBodyObserver unknown object '+obj);
@@ -346,7 +344,7 @@ RigidBodyObserver.prototype.addBody = function(obj) {
 };
 
 /** Removes DisplayObject for the given SimObject from the DisplayList.
-* @param {!myphysicslab.lab.model.SimObject} obj
+* @param {!SimObject} obj
 * @private
 */
 RigidBodyObserver.prototype.removeBody = function(obj) {
@@ -362,7 +360,7 @@ RigidBodyObserver.prototype.removeBody = function(obj) {
 /** @inheritDoc */
 RigidBodyObserver.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList_) {
-    var obj = /** @type {!myphysicslab.lab.model.SimObject} */ (event.getValue());
+    var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {

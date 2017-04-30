@@ -26,28 +26,28 @@ goog.scope(function() {
 
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
+var Line = myphysicslab.lab.model.Line;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var SimObject = myphysicslab.lab.model.SimObject;
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Displays a {@link myphysicslab.lab.model.Line} as a colored line.
+/** Displays a {@link Line} as a colored line.
 
 The position is determined by the position of the Line, so {@link #setPosition}
 has no effect, and the DisplayLine is never dragable.
 The position is reported as the midpoint of the Line by {@link #getPosition}.
 
-* @param {?myphysicslab.lab.model.Line=} line the Line to display
-* @param {?DisplayLine=} proto the prototype DisplayLine to inherit properties
-*     from
+* @param {?Line=} line the Line to display
+* @param {?DisplayLine=} proto the prototype DisplayLine to inherit properties from
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.view.DisplayLine = function(line, proto) {
   /**
-  * @type {!myphysicslab.lab.model.Line}
+  * @type {!Line}
   * @private
   */
   this.line_ = goog.isDefAndNotNull(line) ? line : new ConcreteLine('proto');

@@ -40,7 +40,6 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
@@ -50,10 +49,14 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var ExtraAccel = lab.engine2D.ExtraAccel;
 var GravityLaw = lab.model.GravityLaw;
+var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = lab.engine2D.Polygon;
+var RigidBody = lab.engine2D.RigidBody;
 var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
+var TabLayout = sims.common.TabLayout;
+var ThrusterSet = lab.engine2D.ThrusterSet;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -72,7 +75,7 @@ Parameters Created
 + ParameterNumber named `MASS1`, see {@link #setMass1}
 
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -92,9 +95,9 @@ sims.engine2D.ContactApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(true);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.1, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(3, this.simList);
   this.elasticity.setElasticity(0.8);
   /** @type {number} */
@@ -103,14 +106,14 @@ sims.engine2D.ContactApp = function(elem_ids) {
   this.mass1 = 1;
   /** @type {number} */
   this.thrust = 1.5;
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrust1;
-  /** @type {!lab.engine2D.ThrusterSet} */
+  /** @type {!ThrusterSet} */
   this.thrust2;
 
   this.addPlaybackControls();
 
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.NUM_BODIES,
       ContactApp.i18n.NUM_BODIES,
@@ -189,7 +192,7 @@ ContactApp.prototype.config = function() {
   this.gravityLaw.connect(this.mySim.getSimList());
   var zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
-  /** @type {!lab.engine2D.RigidBody} */
+  /** @type {!RigidBody} */
   var p;
   this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   if (this.numBods >= 1) {

@@ -23,12 +23,14 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayPath');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
 
 goog.scope(function() {
 
+var DisplayList = myphysicslab.lab.view.DisplayList;
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericObserver = myphysicslab.lab.util.GenericObserver;
@@ -87,14 +89,14 @@ NumericalPath, specify the `simRectSetter` argument in the constructor. This wil
 occur whenever the NumericalPath changes.
 
 
-@param {!myphysicslab.lab.model.SimList} simList SimList to observe
-@param {!myphysicslab.lab.view.SimView} simView the SimView to add DisplayObjects to
+@param {!SimList} simList SimList to observe
+@param {!SimView} simView the SimView to add DisplayObjects to
 @param {?function(!DoubleRect)} simRectSetter function to use for resizing the
     simulation rectangle of the SimView; if `null` then resizing is not done
 @param {number=} opt_expand  factor to multiply the width and height by
      to expand the path bounds, which yields the rectangle used for resizing the
      SimView.  For example, 1.1 will make the bounds 10% larger.
-@implements {myphysicslab.lab.util.Observer}
+@implements {Observer}
 @constructor
 @final
 @struct
@@ -102,17 +104,17 @@ occur whenever the NumericalPath changes.
 myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter,
       opt_expand) {
   /**
-  * @type {!myphysicslab.lab.view.SimView}
+  * @type {!SimView}
   * @private
   */
   this.simView_ = simView;
   /**
-  * @type {!myphysicslab.lab.view.DisplayList}
+  * @type {!DisplayList}
   * @private
   */
   this.displayList_ = simView.getDisplayList();
   /**
-  @type {!myphysicslab.lab.model.SimList}
+  @type {!SimList}
   @private
   */
   this.simList_ = simList;

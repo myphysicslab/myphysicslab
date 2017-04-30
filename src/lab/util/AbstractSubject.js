@@ -15,6 +15,8 @@
 goog.provide('myphysicslab.lab.util.AbstractSubject');
 
 goog.require('goog.array');
+goog.require('myphysicslab.lab.util.Observer');
+goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
@@ -23,18 +25,20 @@ goog.require('myphysicslab.lab.util.Subject');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var Subject = myphysicslab.lab.util.Subject;
+var Observer = myphysicslab.lab.util.Observer;
+var Parameter = myphysicslab.lab.util.Parameter;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
+var Subject = myphysicslab.lab.util.Subject;
+var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Implementation of {@link myphysicslab.lab.util.Subject} interface.
+/** Implementation of {@link Subject} interface.
 
 @param {string=} name
 @constructor
 @struct
-@implements {myphysicslab.lab.util.Subject}
+@implements {Subject}
 @abstract
 */
 myphysicslab.lab.util.AbstractSubject = function(name) {
@@ -52,12 +56,12 @@ myphysicslab.lab.util.AbstractSubject = function(name) {
   */
   this.name_ = UtilityCore.validName(UtilityCore.toName(name));
   /** The list of Observers of this Subject.
-  * @type {!Array<!myphysicslab.lab.util.Observer>}
+  * @type {!Array<!Observer>}
   * @private
   */
   this.observers_ = [];
   /**
-  * @type {!Array<!myphysicslab.lab.util.Parameter>}
+  * @type {!Array<!Parameter>}
   * @private
   */
   this.paramList_ = [];
@@ -95,7 +99,7 @@ AbstractSubject.prototype.addObserver = function(observer) {
 
 /** Adds the Parameter to the list of this Subject's available Parameters.
 @throws {Error} if a Parameter with the same name already exists.
-@param {!myphysicslab.lab.util.Parameter} parameter the Parameter to add
+@param {!Parameter} parameter the Parameter to add
 */
 AbstractSubject.prototype.addParameter = function(parameter) {
   var name = parameter.getName();
@@ -152,7 +156,7 @@ AbstractSubject.prototype.getObservers = function() {
 
 /** Returns the Parameter with the given name, or null if not found
 * @param {string} name name of parameter to search for
-* @return {?myphysicslab.lab.util.Parameter} the Parameter with the given name, or
+* @return {?Parameter} the Parameter with the given name, or
     null if not found
 * @private
 */
@@ -210,7 +214,7 @@ AbstractSubject.prototype.removeObserver = function(observer) {
 };
 
 /** Removes the Parameter from the list of this Subject's available Parameters.
-@param {!myphysicslab.lab.util.Parameter} parameter the Parameter to remove
+@param {!Parameter} parameter the Parameter to remove
 */
 AbstractSubject.prototype.removeParameter = function(parameter) {
   goog.array.remove(this.paramList_, parameter);

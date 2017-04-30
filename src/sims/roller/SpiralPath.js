@@ -28,7 +28,7 @@ See the Mathematica file Rollercurves.nb for construction.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.SpiralPath = function() {
   /** center of upper arc

@@ -59,8 +59,8 @@ and <http://www.myphysicslab.com/RollerSpring.html>.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.sims.roller.HasPath}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
@@ -111,18 +111,18 @@ myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
   */
   this.gravity_ = 9.8;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.ball1_ = PointMass.makeCircle(0.3, 'ball1').setMass(0.5);
   this.getSimList().add(this.ball1_);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.anchor_ = PointMass.makeSquare(0.4, 'anchor');
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',
@@ -133,7 +133,7 @@ myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
     this.getSimList().add(this.anchor_, this.spring_);
   }
   /**
-  * @type {?myphysicslab.lab.model.NumericalPath }
+  * @type {?NumericalPath }
   * @private
   */
   this.path_ = null;
@@ -148,12 +148,12 @@ myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
   */
   this.potentialOffset_ = 0;
   /**  Temporary scratchpad, to avoid allocation.
-  * @type {!myphysicslab.lab.model.PathPoint}
+  * @type {!PathPoint}
   * @private
   */
   this.pathPoint_ = new PathPoint();
   /**
-  * @type {?myphysicslab.lab.model.SimObject}
+  * @type {?SimObject}
   * @private
   */
   this.dragObj_ = null;

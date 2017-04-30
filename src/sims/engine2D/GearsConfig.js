@@ -15,6 +15,7 @@
 goog.provide('myphysicslab.sims.engine2D.GearsConfig');
 
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
@@ -26,6 +27,7 @@ goog.scope(function() {
 
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CoordType = myphysicslab.lab.model.CoordType;
+var Edge = myphysicslab.lab.engine2D.Edge;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
@@ -48,11 +50,11 @@ var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 
 /**
 * @param {number} radius
-* @param {!Array<myphysicslab.lab.engine2D.Edge>} startEdges adds to this array
+* @param {!Array<Edge>} startEdges adds to this array
 *    the starting edge of the gear
 * @param {string=} opt_name name of the Polygon
 * @param {string=} opt_localName  localized name of the Polygon
-* @return {!myphysicslab.lab.engine2D.Polygon}
+* @return {!Polygon}
 */
 GearsConfig.makeGear = function(radius, startEdges, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
@@ -75,14 +77,13 @@ example in the above diagram, the percentages are roughly 25% each. The percenta
 for the out-edge and in-edge are supplied as parameters. The remainder is split evenly
 between the up-slope and down-slope.
 
-@param {!myphysicslab.lab.engine2D.Polygon} p the Polygon to add the gear to
+@param {!Polygon} p the Polygon to add the gear to
 @param {number} r1  the inside radius of the gear
 @param {number} depth  the depth (or length) of the teeth
 @param {number} numTeeth  number of teeth
 @param {number} outPercent  the percentage of tooth that is extended (the out-edge)
 @param {number} inPercent  the percentage of tooth that is not extended (the in-edge)
-@param {!Array<myphysicslab.lab.engine2D.Edge>} startEdges adds to this array
-    the starting edge of the gear
+@param {!Array<Edge>} startEdges adds to this array the starting edge of the gear
 */
 GearsConfig.addGear = function(p, r1, depth, numTeeth, outPercent, inPercent, startEdges) {
   // calculate the small angle fraction corresponding to each of the 4 tooth edges

@@ -22,9 +22,9 @@ goog.require('goog.array');
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
 goog.require('myphysicslab.lab.model.AdvanceStrategy');
+goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.Path');
 goog.require('myphysicslab.lab.model.PathIterator');
@@ -36,10 +36,10 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
+goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.sims.pde.StringShape');
 
 
@@ -49,18 +49,19 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractSimObject = lab.model.AbstractSimObject;
-var AdvanceStrategy = lab.model.AdvanceStrategy;
 var AbstractSubject = lab.util.AbstractSubject;
+var AdvanceStrategy = lab.model.AdvanceStrategy;
+var ConcreteLine = lab.model.ConcreteLine;
 var DoubleRect = lab.util.DoubleRect;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var GenericEvent = lab.util.GenericEvent;
-var ConcreteLine = lab.model.ConcreteLine;
 var MutableVector = lab.util.MutableVector;
 var NF = lab.util.UtilityCore.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimList = lab.model.SimList;
+var Simulation = lab.model.Simulation;
 var Spring = lab.model.Spring;
 var StringShape = sims.pde.StringShape;
 var UtilityCore = lab.util.UtilityCore;
@@ -107,7 +108,7 @@ accel at that point.
 * @struct
 * @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
-* @implements {myphysicslab.lab.model.Simulation}
+* @implements {Simulation}
 * @extends {AbstractSubject}
 * @param {!StringShape} shape starting wave shape
 * @param {!SimList=} opt_simList SimList to use (optional)
@@ -301,7 +302,7 @@ StringSim.prototype.reset = function() {
   this.initializeFromShape();
   this.simList_.removeTemporary(UtilityCore.POSITIVE_INFINITY);
   this.modifyObjects();
-  this.broadcast(new GenericEvent(this, myphysicslab.lab.model.Simulation.RESET));
+  this.broadcast(new GenericEvent(this, Simulation.RESET));
 };
 
 /** @inheritDoc */
@@ -631,7 +632,7 @@ StringSim.i18n = goog.LOCALE === 'de' ? StringSim.de_strings :
 // ============================================================
 
 
-/** This is an Adapter that forwards to {@link myphysicslab.sims.pde.StringSim}.
+/** This is an Adapter that forwards to {@link StringSim}.
 * @constructor
 * @final
 * @struct
@@ -699,7 +700,7 @@ StringAdvance.prototype.reset = function() {
 // ====== S T R I N G     P A T H  ==============
 // ============================================================
 
-/** This is an Adapter that forwards to {@link myphysicslab.sims.pde.StringSim}.
+/** This is an Adapter that forwards to {@link StringSim}.
 * @param {!StringSim} sim
 * @constructor
 * @final
@@ -754,7 +755,7 @@ StringPath.prototype.getSequence = function () {
 // ====== S T R I N G     I T E R A T O R  ==============
 // ============================================================
 
-/** This is an Adapter that forwards to {@link myphysicslab.sims.pde.StringSim}.
+/** This is an Adapter that forwards to {@link StringSim}.
 * @param {!StringSim} sim
 * @constructor
 * @final

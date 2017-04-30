@@ -92,8 +92,8 @@ RopeTest.test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @private
 */
 RopeTest.commonSetup1 = function(sim, advance) {
@@ -109,8 +109,8 @@ RopeTest.commonSetup1 = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @param {number} ropeType
 @private
 */
@@ -140,8 +140,8 @@ RopeTest.pendulum_rope_init = function(sim, advance, ropeType) {
 };
 
 /** Block hangs on a flexible rope which is attached to a fixed point.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.pendulum_rope_setup = function(sim, advance) {
@@ -183,8 +183,8 @@ RopeTest.pendulum_rope_test_2 = function() {
 };
 
 /** Block hangs on a stiff rod which is attached to a fixed point.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.pendulum_rod_setup = function(sim, advance) {
@@ -208,8 +208,8 @@ RopeTest.pendulum_rod_test = function() {
 };
 
 /** Block bounces onto flexible rope which is attached to a fixed point.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.pendulum_rope_bounce_setup = function(sim, advance) {
@@ -256,8 +256,8 @@ RopeTest.pendulum_rope_bounce_test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @param {number} ropeType
 @param {boolean} thrust
 */
@@ -294,8 +294,8 @@ RopeTest.double_rope_init = function(sim, advance, ropeType, thrust) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.double_rope_spin_setup = function(sim, advance) {
@@ -324,8 +324,8 @@ RopeTest.double_rope_spin_test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.double_rod_spin_setup = function(sim, advance) {
@@ -357,8 +357,8 @@ RopeTest.double_rod_spin_test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.double_rope_thrust_setup = function(sim, advance) {
@@ -386,8 +386,8 @@ RopeTest.double_rope_thrust_test = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 RopeTest.double_rod_thrust_setup = function(sim, advance) {

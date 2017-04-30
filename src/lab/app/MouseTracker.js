@@ -280,7 +280,7 @@ MouseTracker.findNearestDragable = function(labCanvas, start_screen, eventHandle
         var massObj = massObjs[0];
         var dpts = massObj.getDragPoints();
         for (var k=dpts.length-1; k>=0; k--) {
-          // Find drag point closest to the mouse, across all SimViews & SimObjects
+          // Find drag point closest to the mouse, across all LabViews & SimObjects
           var dpt = massObj.bodyToWorld(dpts[k]);
           var dist = start_screen.distanceTo(map.simToScreen(dpt));
           if (dist <= distance) {

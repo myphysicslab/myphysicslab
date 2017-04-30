@@ -23,6 +23,7 @@ goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.PathEndPoint');
 goog.require('myphysicslab.lab.engine2D.PathJoint');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
+goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
@@ -62,9 +63,8 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
 var CardioidPath = sims.roller.CardioidPath;
+var ChoiceControl = lab.controls.ChoiceControl;
 var CirclePath = sims.roller.CirclePath;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
@@ -80,22 +80,27 @@ var FunctionVariable = lab.model.FunctionVariable;
 var GenericMemo = lab.util.GenericMemo;
 var GenericObserver = lab.util.GenericObserver;
 var GravityLaw = lab.model.GravityLaw;
+var HasPath = sims.roller.HasPath;
 var HumpPath = sims.roller.HumpPath;
 var LemniscatePath = sims.roller.LemniscatePath;
 var LoopTheLoopPath = sims.roller.LoopTheLoopPath;
 var NumericalPath = lab.model.NumericalPath;
+var NumericControl = lab.controls.NumericControl;
 var OvalPath = sims.roller.OvalPath;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
+var ParametricPath = lab.model.ParametricPath;
 var PathEndPoint = lab.engine2D.PathEndPoint;
 var PathJoint = lab.engine2D.PathJoint;
 var PathObserver = sims.roller.PathObserver;
 var PathSelector = sims.roller.PathSelector;
+var Polygon = lab.engine2D.Polygon;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var Simulation = lab.model.Simulation;
 var SpiralPath = sims.roller.SpiralPath;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
@@ -109,14 +114,14 @@ on the Hump path.
 + Adds variables for distance and velocity as measured along the path, these are called
 'path position' and 'path velocity' in English.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
 * @final
 * @struct
 * @extends {Engine2DApp}
-* @implements {myphysicslab.sims.roller.HasPath}
+* @implements {HasPath}
 * @export
 */
 myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
@@ -137,7 +142,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.gravityLaw = new GravityLaw(3, this.simList);
   /** @type {?lab.util.Memorizable} */
   this.pathAction = null;
-  /** @type {!Array<!lab.model.ParametricPath>} **/
+  /** @type {!Array<!ParametricPath>} **/
   this.paths = [
       new HumpPath(),
       new LoopTheLoopPath(),
@@ -148,16 +153,16 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
       new SpiralPath(),
       new FlatPath()
   ];
-  /** @type {!lab.model.NumericalPath} */
+  /** @type {!NumericalPath} */
   this.path = new NumericalPath(this.paths[2]);
-  /** @type {!lab.engine2D.PathJoint} */
+  /** @type {!PathJoint} */
   this.pathJoint;
   /** @type {!PathSelector} */
   this.pathSelect = new PathSelector(this, this.paths);
   /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
       goog.bind(this.setSimRect, this), /*expansionFactor=*/1.5);
-  /** @type {!lab.engine2D.Polygon} */
+  /** @type {!Polygon} */
   this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
       RigidBodyRollerApp.i18n.BLOCK);
 
@@ -168,9 +173,9 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.resetObserver = null;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
-  /** @type {!lab.util.ParameterString} */
+  /** @type {!ParameterString} */
   var ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));

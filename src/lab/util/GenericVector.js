@@ -14,9 +14,8 @@
 
 goog.provide('myphysicslab.lab.util.GenericVector');
 
-/** Represents a point or vector in 3D space. This design allows mutable
-and immutable vectors to interoperate because both are GenericVector's, and each accepts
-only GenericVector for method arguments.
+/** Represents a point or vector in 3D space. Functions that take a vector parameter
+should accept GenericVector so that many different types of vector can be provided.
 
 * @interface
 * */

@@ -74,7 +74,7 @@ var Vector = lab.util.Vector;
 */
 myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   UtilityCore.setErrorHandler();
-  /** @type {!lab.model.NumericalPath} */
+  /** @type {!NumericalPath} */
   this.path = new NumericalPath(new HumpPath());
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new RollerFlightSim(this.path);
@@ -84,23 +84,23 @@ myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
 
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
       .setFillStyle('blue');
   this.displayList.add(this.ball1);
 
-  /** @type {!lab.view.DisplayShape} */
+  /** @type {!DisplayShape} */
   this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
       .setFillStyle('red');
   this.displayList.add(this.anchor);
 
-  /** @type {!lab.view.DisplaySpring} */
+  /** @type {!DisplaySpring} */
   this.spring = new DisplaySpring(this.simList.getSpring('spring'))
       .setWidth(0.2).setColorCompressed('red')
       .setColorExpanded('#6f6'); /* brighter green */
   this.displayList.add(this.spring);
 
-  /** @type {!lab.view.DisplayPath} */
+  /** @type {!DisplayPath} */
   this.displayPath = new DisplayPath();
   this.displayPath.setScreenRect(this.simView.getScreenRect());
   this.displayPath.addPath(this.path);
@@ -125,7 +125,7 @@ myphysicslab.sims.roller.RollerFlightApp = function(elem_ids) {
   }, this), 'resize displayPath when screen rect changes');
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(RollerFlightSim.en.ELASTICITY);
   this.addControl(new NumericControl(pn));

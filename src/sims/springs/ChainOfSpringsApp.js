@@ -15,14 +15,15 @@
 goog.provide('myphysicslab.sims.springs.ChainOfSpringsApp');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.ButtonControl');
+goog.require('myphysicslab.lab.controls.CheckBoxControl');
+goog.require('myphysicslab.lab.controls.ChoiceControl');
+goog.require('myphysicslab.lab.controls.NumericControl');
+goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.ShapeType');
 goog.require('myphysicslab.lab.model.SimList');
+goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -44,13 +45,11 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var SliderControl = lab.controls.SliderControl;
-var ChoiceControl = lab.controls.ChoiceControl;
-var CheckBoxControl = lab.controls.CheckBoxControl;
-var NumericControl = lab.controls.NumericControl;
 var AbstractApp = sims.common.AbstractApp;
 var ButtonControl = lab.controls.ButtonControl;
 var ChainOfSpringsSim = sims.springs.ChainOfSpringsSim;
+var CheckBoxControl = lab.controls.CheckBoxControl;
+var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = sims.common.CommonControls;
 var DisplayGraph = lab.graph.DisplayGraph;
 var DisplayShape = lab.view.DisplayShape;
@@ -59,19 +58,21 @@ var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
+var NumericControl = lab.controls.NumericControl;
 var Observer = lab.util.Observer;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var ShapeType = lab.model.ShapeType;
 var SimList = lab.model.SimList;
+var SimObject = lab.model.SimObject;
 var SimpleAdvance = lab.model.SimpleAdvance;
+var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/**  ChainOfSpringsApp displays the simulation
-{@link myphysicslab.sims.springs.ChainOfSpringsSim ChainOfSpringsSim}.
+/** Displays the simulation {@link ChainOfSpringsSim}.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -116,9 +117,9 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
   this.simList.addObserver(this);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   var pb;
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
 
   this.addParameter(pn = new ParameterNumber(this, ChainOfSpringsSim.en.NUM_LINKS,
@@ -152,7 +153,7 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
 
   this.addStandardControls();
 
-  /** @type {!lab.controls.ButtonControl} */
+  /** @type {!ButtonControl} */
   var bc = new ButtonControl(ChainOfSpringsSim.i18n.STRAIGHT_LINE,
       goog.bind(this.mySim.straightLine, this.mySim));
   this.addControl(bc);
@@ -187,7 +188,7 @@ ChainOfSpringsApp.prototype.getClassName = function() {
 };
 
 /**
-@param {!myphysicslab.lab.model.SimObject} obj
+@param {!SimObject} obj
 @private
 */
 ChainOfSpringsApp.prototype.addBody = function(obj) {
@@ -208,7 +209,7 @@ ChainOfSpringsApp.prototype.addBody = function(obj) {
 /** @inheritDoc */
 ChainOfSpringsApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList) {
-    var obj = /** @type {!myphysicslab.lab.model.SimObject} */ (event.getValue());
+    var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {

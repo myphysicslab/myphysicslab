@@ -49,10 +49,10 @@ var SimObject = lab.model.SimObject;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** Displays one or more {@link myphysicslab.lab.model.Path}s within a
-specified screen rectangle in the canvas. The screen rectangle is initially empty, so it
-must be set with {@link #setScreenRect}. Paths can be added or removed with
-methods {@link #addPath}, {@link #removePath}.
+/** Displays one or more {@link Path}s within a specified screen rectangle in the
+canvas. The screen rectangle is initially empty, so it must be set with {@link
+#setScreenRect}. Paths can be added or removed with methods {@link #addPath},
+{@link #removePath}.
 
 @todo make DRAW_POINTS settable.
 @todo Could allow setting background color.
@@ -63,7 +63,7 @@ methods {@link #addPath}, {@link #removePath}.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.view.DisplayPath = function(proto) {
   /**
@@ -77,12 +77,12 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
   */
   this.useBuffer_;
   /**
-  * @type {!Array<!lab.model.Path>}
+  * @type {!Array<!Path>}
   * @private
   */
   this.paths_ = [];
   /**
-  * @type {!Array<!lab.view.DrawingStyle>}
+  * @type {!Array<!DrawingStyle>}
   * @private
   */
   this.styles_ = [];
@@ -92,7 +92,7 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
   */
   this.sequence_ = [];
   /**
-  * @type {!lab.view.ScreenRect}
+  * @type {!ScreenRect}
   * @private
   */
   this.screenRect_ = ScreenRect.EMPTY_RECT;
@@ -102,7 +102,7 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
   */
   this.redraw_ = true;
   /** to detect when redraw needed;  when the coordmap changes, we need to redraw.
-  * @type {?lab.view.CoordMap}
+  * @type {?CoordMap}
   * @private
   */
   this.lastMap_ = null;
@@ -153,7 +153,7 @@ if (!UtilityCore.ADVANCED) {
 DisplayPath.DRAW_POINTS = 3000;
 
 /** Adds a Path to the set of paths to display.
-* @param {!lab.model.Path} path the Path to display
+* @param {!Path} path the Path to display
 * @param {!DrawingStyle=} opt_style the DrawingStyle to use for drawing this Path;
 *     uses the default style if not specified, see {@link #setStyle}.
 */
@@ -178,7 +178,7 @@ DisplayPath.prototype.contains = function(p_world) {
 };
 
 /** Whether the Path is in the set of paths to display.
-* @param {!lab.model.Path} path the Path of interest
+* @param {!Path} path the Path of interest
 * @return {boolean} `true` if `path` is in the set of paths to display
 */
 DisplayPath.prototype.containsPath = function(path) {
@@ -252,9 +252,9 @@ DisplayPath.prototype.draw = function(context, map) {
 };
 
 /**
-* @param {!lab.model.Path} path
+* @param {!Path} path
 * @param {!CanvasRenderingContext2D} context
-* @param {!lab.view.CoordMap} map
+* @param {!CoordMap} map
 * @param {!DrawingStyle} style the DrawingStyle to use for drawing the Path
 * @private
 */
@@ -332,7 +332,7 @@ DisplayPath.prototype.getMassObjects = function() {
 /** Returns the specified Path.
 * @param {number|string} arg  index number or name of Path. Name should be English
     or language-independent version of name.
-* @return {!lab.model.Path} path the Path of interest
+* @return {!Path} path the Path of interest
 */
 DisplayPath.prototype.getPath = function(arg) {
   if (goog.isNumber(arg)) {
@@ -360,8 +360,7 @@ DisplayPath.prototype.getPosition = function() {
 
 /** Returns the screen rectangle that this DisplayPath is occupying within the
 * LabCanvas, in screen coordinates.
-* @return {!lab.view.ScreenRect} the screen rectangle of this DisplayPath
-*     in screen coordinates
+* @return {!ScreenRect} the screen rectangle of this DisplayPath in screen coordinates
 */
 DisplayPath.prototype.getScreenRect = function() {
   return this.screenRect_;
@@ -413,7 +412,7 @@ DisplayPath.prototype.isDragable = function() {
 };
 
 /** Removes a Path from the set of paths to display.
-* @param {!lab.model.Path} path the Path to remove
+* @param {!Path} path the Path to remove
 */
 DisplayPath.prototype.removePath = function(path) {
   if (this.containsPath(path)) {
@@ -448,8 +447,8 @@ DisplayPath.prototype.setPosition = function(position) {
 
 /** Sets the screen rectangle that this DisplayPath should occupy within the
 * LabCanvas, in screen coordinates.
-* @param {!lab.view.ScreenRect} screenRect the screen coordinates of the
-    area this DisplayPath should occupy.
+* @param {!ScreenRect} screenRect the screen coordinates of the area this DisplayPath
+*    should occupy.
 */
 DisplayPath.prototype.setScreenRect = function(screenRect) {
   this.screenRect_ = screenRect;

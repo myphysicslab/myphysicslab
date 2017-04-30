@@ -28,8 +28,8 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 /** Collision between an atom and a wall in
 {@link myphysicslab.sims.springs.Molecule1Sim Molecule1Sim} simulation.
 
-* @param {!myphysicslab.lab.model.PointMass} atom
-* @param {!myphysicslab.lab.model.PointMass} wall
+* @param {!PointMass} atom
+* @param {!PointMass} wall
 * @param {string} side one of {@link #TOP_WALL}, {@link #BOTTOM_WALL},
 *    {@link #LEFT_WALL}, {@link #RIGHT_WALL}
 * @param {number} time
@@ -40,11 +40,11 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 */
 myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   */
   this.atom = atom;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   */
   this.wall = wall;
   /**

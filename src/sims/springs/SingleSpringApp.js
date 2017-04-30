@@ -45,12 +45,12 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
-var Spring = lab.model.Spring;
 var SingleSpringSim = sims.springs.SingleSpringSim;
+var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 
-/** SingleSpringApp displays the SingleSpringSim simulation.
+/** Displays the {@link SingleSpringSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user

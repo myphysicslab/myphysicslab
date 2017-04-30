@@ -46,7 +46,7 @@ or interchange x-y to rotate by 90 degrees.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.CardioidPath = function(radius, start, finish,
       closedLoop, name, localName) {

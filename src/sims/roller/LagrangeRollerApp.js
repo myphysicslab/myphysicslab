@@ -33,7 +33,6 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var AbstractApp = sims.common.AbstractApp;
 var CommonControls = sims.common.CommonControls;
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
@@ -41,13 +40,14 @@ var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingStyle = myphysicslab.lab.view.DrawingStyle;
 var LagrangeRollerSim = sims.roller.LagrangeRollerSim;
+var NumericControl = lab.controls.NumericControl;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** Shows the {@link myphysicslab.sims.roller.LagrandRoller LagrangeRollerSim} simulation.
+/** Shows the {@link LagrangeRollerSim} simulation.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user

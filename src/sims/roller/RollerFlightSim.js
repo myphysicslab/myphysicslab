@@ -179,13 +179,13 @@ From vector algebra:
   radius).
 
 
-* @param {!myphysicslab.lab.model.NumericalPath} thePath
+* @param {!NumericalPath} thePath
 * @param {string=} opt_name name of this as a Subject
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @extends {AbstractODESim}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.model.CollisionSim}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
@@ -249,17 +249,17 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
   */
   this.elasticity_ = 0.8;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.ball1_ = PointMass.makeCircle(0.3, 'ball1').setMass(0.5);
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.anchor_ = PointMass.makeSquare(0.4, 'anchor');
   /**
-  * @type {!myphysicslab.lab.model.Spring}
+  * @type {!Spring}
   * @private
   */
   this.spring_ = new Spring('spring',
@@ -267,7 +267,7 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
       this.anchor_, Vector.ORIGIN,
       /*restLength=*/1.0, /*stiffness=*/0);
   /**
-  * @type {!myphysicslab.lab.model.NumericalPath}
+  * @type {!NumericalPath}
   * @private
   */
   this.path_ = thePath;
@@ -306,7 +306,7 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
   */
   this.debugPaint_ = null;
   /**
-  * @type {?myphysicslab.lab.model.SimObject}
+  * @type {?SimObject}
   * @private
   */
   this.dragObj_ = null;
@@ -435,7 +435,7 @@ RollerFlightSim.prototype.updateVars = function() {
 
 /**
 * @param {!Array<number>} vars
-* @return {?myphysicslab.lab.model.PathPoint} PathPoint corresponding to position
+* @return {?PathPoint} PathPoint corresponding to position
 *   on track when in TRACK_MODE, or null if in FREE_MODE
 * @private
 */
@@ -463,7 +463,7 @@ RollerFlightSim.prototype.moveObjects = function(vars) {
 }
 
 /** Possibly switch mode from track to free-flying.
-* @param {!myphysicslab.lab.model.PathPoint} pathPoint1
+* @param {!PathPoint} pathPoint1
 * @private
 */
 RollerFlightSim.prototype.jumpOffTrack = function(pathPoint1) {

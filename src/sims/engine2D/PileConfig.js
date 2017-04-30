@@ -57,7 +57,7 @@ myphysicslab.sims.engine2D.PileConfig = function() {
 var PileConfig = myphysicslab.sims.engine2D.PileConfig;
 
 /**
-* @type {!myphysicslab.lab.util.Random}
+* @type {!Random}
 * @private
 */
 PileConfig.randomColor_ = new RandomLCG();

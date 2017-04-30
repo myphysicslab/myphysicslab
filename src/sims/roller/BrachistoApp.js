@@ -14,8 +14,8 @@
 
 goog.provide('myphysicslab.sims.roller.BrachistoApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.app.SimRunner');
+goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.model.ParametricPath');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.util.ClockTask');
@@ -37,7 +37,6 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var NumericControl = lab.controls.NumericControl;
 var AbstractApp = sims.common.AbstractApp;
 var BrachistoObserver = sims.roller.BrachistoObserver;
 var BrachistoPaths = sims.roller.BrachistoPaths;
@@ -46,19 +45,19 @@ var ClockTask = lab.util.ClockTask;
 var CommonControls = sims.common.CommonControls;
 var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
+var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
+var ParametricPath = lab.model.ParametricPath;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** Displays the {@link myphysicslab.sims.roller.BrachistoSim} simulation. The
-Brachistochrone simulation shows a ball sliding down each of the curves without
-friction, with gravity acting.
+/** Displays the {@link BrachistoSim} simulation which shows a ball sliding down various
+curved paths to see which path is fastest.
 
-The various curves shown are defined in the
-{@link myphysicslab.sims.roller.BrachistoPaths} class.
+The various curves shown are defined in the {@link BrachistoPaths} class.
 The Mathematica notebook [Brachistochrone Curves](Brachistochrone_Curves.pdf) shows how
 the curves were chosen. The goal is to find a variety of curves that start at
 the origin (0, 0) and pass thru the point (3, -2).
@@ -74,7 +73,7 @@ the origin (0, 0) and pass thru the point (3, -2).
 */
 myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
   UtilityCore.setErrorHandler();
-  /** @type {!Array<!lab.model.ParametricPath>} **/
+  /** @type {!Array<!ParametricPath>} **/
   this.paths = [
       new BrachistoPaths.BrachistochronePath(),
       new BrachistoPaths.LinearPath(),
@@ -96,7 +95,7 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
       this.statusView);
 
   /** This 'repeat' ClockTask will reset the sim every 6 seconds.
-  * @type {!lab.util.ClockTask}
+  * @type {!ClockTask}
   */
   this.task;
 
@@ -124,7 +123,7 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
   sim.setPathChoice(-1);
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
 
   pn = sim.getParameterNumber(BrachistoSim.en.GRAVITY);
@@ -178,7 +177,7 @@ BrachistoApp.prototype.getRepeatTime = function() {
 
 /**
 * @param {number} time
-* @return {!lab.util.ClockTask}
+* @return {!ClockTask}
 * @private
 */
 BrachistoApp.prototype.makeTask = function(time) {

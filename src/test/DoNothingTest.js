@@ -79,8 +79,8 @@ DoNothingTest.test = function() {
 DoNothingTest.groupName = 'DoNothingTest.';
 
 /** DoNothingApp with variable rotating force on handle.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 DoNothingTest.do_nothing_variable_setup = function(sim, advance) {
@@ -132,8 +132,8 @@ the handle and no damping, so the speed increases to high velocity,
 and eventually leads to the simulation failing to find accurate solution.
 @todo  Can we find accurate solution here at high speed by reducing
 the time step?
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 DoNothingTest.do_nothing_constant_setup = function(sim, advance) {
@@ -188,8 +188,8 @@ DoNothingTest.do_nothing_grinder_test1 = function() {
 
 /** Same as do_nothing_constant_setup, but with new joint policy and
  ExtraAccel.VELOCITY_AND_DISTANCE.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 DoNothingTest.do_nothing_constant_1b_setup = function(sim, advance) {

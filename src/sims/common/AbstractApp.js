@@ -46,9 +46,11 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
+goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.sims.common.CommonControls');
@@ -71,6 +73,7 @@ var CommonControls = sims.common.CommonControls;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
+var DisplayList = lab.view.DisplayList;
 var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
 var EasyScriptParser = lab.util.EasyScriptParser;
@@ -94,6 +97,7 @@ var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var TabLayout = sims.common.TabLayout;
+var Terminal = lab.util.Terminal;
 var TimeGraph1 = sims.common.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
@@ -101,7 +105,7 @@ var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
 /** Abstract base class that creates the standard set of views, graphs and controls
-which are common to applications that run an {@link myphysicslab.lab.model.ODESim}.
+which are common to applications that run an {@link ODESim}.
 
 Defines regular expressions for easy Terminal scripting using short names instead of
 fully qualified property names.
@@ -130,7 +134,7 @@ can be properly expanded.
 * @param {string=} opt_name name of this as a Subject
 * @constructor
 * @abstract
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @implements {SubjectList}
 * @struct
 */
@@ -146,7 +150,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -168,7 +172,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!SimView} */
   this.simView = new SimView('SIM_VIEW', this.simRect);
   simCanvas.addView(this.simView);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   /** @type {!SimView} */
   this.statusView = new SimView('STATUS_VIEW', new DoubleRect(-10, -10, 10, 10));

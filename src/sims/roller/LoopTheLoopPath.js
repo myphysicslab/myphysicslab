@@ -33,7 +33,7 @@ another parabola. For details see Mathematica file 'roller.nb'.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.LoopTheLoopPath = function(start, finish, name, localName) {
   if (!goog.isNumber(start)) {

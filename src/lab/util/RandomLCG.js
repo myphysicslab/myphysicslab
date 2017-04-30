@@ -21,8 +21,7 @@ goog.scope(function() {
 
 var UtilityCore = myphysicslab.lab.util.UtilityCore;
 
-/** Pseudo-random number generator using a Linear Congruential Generator
-(LCG).
+/** Pseudo-random number generator using a Linear Congruential Generator (LCG).
 
 This class is designed to give same numbers in both Java and Javascript, so that
 tests using this class will have the same results. In Java we use floating point double

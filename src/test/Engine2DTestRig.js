@@ -394,7 +394,7 @@ Engine2DTestRig.makeVars = function(n) {
 state variables for one RigidBody. This is used to define expected results of
 tests.  NOTE:  the simulation must already have the set of bodies added, so that this can
 find their index within the VarsList.
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim the RigidBodySim being tested (to find index of body's vars)
+@param {!RigidBodySim} sim the RigidBodySim being tested (to find index of body's vars)
 @param {!Array<number>} vars the array of state variables for a set of RigidBodys
 @param {number} i  index of the body whose state variables are to be set
 @param {number} x  horiz position of the body
@@ -421,7 +421,7 @@ is not done for that entry.
 The length of the expected array can be less than the simulation's array.
 If a difference is found, test failure is reported with a message specifying
 which variable was out of tolerance.
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim  the simulation to examine
+@param {!RigidBodySim} sim  the simulation to examine
 @param {!Array<number>} expected the expected values
 @param {number} tolerance the amount of difference allowed before signalling an error
 @return {boolean} true if expected results are found or expected results are null
@@ -479,8 +479,8 @@ Debugging: Set the static class `Engine2DTestRig.debug` variable before running
 this to see some debug output: prints state of the first object at each time step, and
 then the state of all objects at conclusion of the test.
 
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim the simulation being tested
-@param {!myphysicslab.lab.model.CollisionAdvance} advance  the AdvanceStrategy for
+@param {!RigidBodySim} sim the simulation being tested
+@param {!CollisionAdvance} advance  the AdvanceStrategy for
         advancing the simulation thru time
 @param {number} runUntil  run the simulation until this time is reached
 @param {?Array<number>=} expectedVars  the set of expected state variables, or null
@@ -669,7 +669,7 @@ Engine2DTestRig.reportTestResults = function(passed, testType, reason) {
 
 /** Run a test which expects a 'failure to advance' to occur, and fails if the
 simulation is able to advance thru the entire time.
-@param {!myphysicslab.lab.model.CollisionAdvance} advance  the AdvanceStrategy for
+@param {!CollisionAdvance} advance  the AdvanceStrategy for
     advancing the simulation
 @param {number} time  run the simulation until this time is reached, fail if no
     exception has occured by then.
@@ -690,7 +690,7 @@ Engine2DTestRig.runExceptionTest = function(advance, time) {
 };
 
 /** Tests that all Joints are near zero distance within the given tolerance.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim  the ContactSim to test
+@param {!ContactSim} sim  the ContactSim to test
 @param {number} tolerance the maximum allowed Joint normal distance
 */
 Engine2DTestRig.checkTightJoints = function(sim, tolerance) {
@@ -712,11 +712,11 @@ Engine2DTestRig.checkTightJoints = function(sim, tolerance) {
 };
 
 /** Tests that all contacts are close to half-gap distance, within the given tolerance.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim  the ContactSim to test
+@param {!ContactSim} sim  the ContactSim to test
 @param {number} tolerance the maximum allowed contact normal distance
 */
 Engine2DTestRig.checkContactDistances = function(sim, tolerance) {
-  /** @type {!Array<!myphysicslab.lab.model.Collision>} */
+  /** @type {!Array<!Collision>} */
   var contacts = [];
   sim.findCollisions(contacts, sim.getVarsList().getValues(), /*stepSize=*/0);
   var len = contacts.length;
@@ -739,7 +739,7 @@ Engine2DTestRig.checkContactDistances = function(sim, tolerance) {
 
 /** Print all variables in a format that is easy to copy/paste into test
 code.
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim
+@param {!RigidBodySim} sim
 @private
 */
 Engine2DTestRig.printVars = function(sim) {
@@ -762,7 +762,7 @@ Engine2DTestRig.printVars = function(sim) {
 };
 
 /** print variables for one particular RigidBody, plus total energy
-@param {!myphysicslab.lab.engine2D.RigidBodySim} sim
+@param {!RigidBodySim} sim
 @param {number} index which body to print
 @private
 */

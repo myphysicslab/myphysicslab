@@ -14,7 +14,13 @@
 
 goog.provide('myphysicslab.lab.engine2D.DebugEngine2D');
 
+goog.require('myphysicslab.lab.util.GenericVector');
+goog.require('myphysicslab.lab.util.Vector');
+
 goog.scope(function() {
+
+var GenericVector = myphysicslab.lab.util.GenericVector;
+var Vector = myphysicslab.lab.util.Vector;
 
 /** An interface that allows us to add a circle or line to the display from anywhere in
 the engine2D code. This interface solves some problems with circular dependencies. The
@@ -44,7 +50,7 @@ SimList, for debugging only.
 The expiration time on temporary SimObjects is set to 'now', so that they are
 removed right away during the next call to advance().
 * @param {string} name name of the SimObject that is created
-* @param {!myphysicslab.lab.util.GenericVector} center center of the circle
+* @param {!GenericVector} center center of the circle
 * @param {number} radius radius of the circle
 * @param {number=} expireTime the time when the DisplayObject will be removed;
 *    the default expireTime is 'now'.
@@ -55,8 +61,8 @@ DebugEngine2D.prototype.debugCircle;
 The expiration time on temporary SimObjects is set to 'now', so that they are
 removed right away during the next call to advance().
 * @param {string} name name of the SimObject that is created
-* @param {!myphysicslab.lab.util.Vector} pa starting point of the line
-* @param {!myphysicslab.lab.util.Vector} pb ending point of the line
+* @param {!Vector} pa starting point of the line
+* @param {!Vector} pb ending point of the line
 * @param {number=} expireTime the time when the DisplayObject will be removed;
 *    the default expireTime is 'now'.
 */

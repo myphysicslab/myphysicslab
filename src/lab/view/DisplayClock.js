@@ -45,7 +45,7 @@ with real time.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, radius,
       location) {
@@ -70,7 +70,7 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
   */
   this.radius_ = goog.isNumber(radius) ? radius : 1.0;
   /**
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @private
   */
   this.location_ = goog.isObject(location) ? location : Vector.ORIGIN;
@@ -179,10 +179,10 @@ DisplayClock.prototype.draw = function(context, map) {
 
 /**
 * @param {!CanvasRenderingContext2D} context
-* @param {!myphysicslab.lab.view.CoordMap} map
+* @param {!CoordMap} map
 * @param {string} color
 * @param {number} time
-* @param {!myphysicslab.lab.util.Vector} center
+* @param {!Vector} center
 * @private
 */
 DisplayClock.prototype.drawHand = function(context, map, color, time, center) {

@@ -18,25 +18,26 @@ goog.require('myphysicslab.lab.controls.CheckBoxControl');
 goog.require('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
+goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.ConstantForceLaw');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
+goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.GearsConfig');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
+goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+goog.require('myphysicslab.sims.engine2D.GearsConfig');
 
 goog.scope(function() {
 
@@ -45,20 +46,25 @@ var sims = myphysicslab.sims;
 
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var NumericControl = lab.controls.NumericControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
+var ConstantForceLaw = lab.model.ConstantForceLaw;
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DampingLaw = lab.model.DampingLaw;
 var DisplayShape = lab.view.DisplayShape;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
+var Force = lab.model.Force;
+var ForceLaw = lab.model.ForceLaw;
 var GearsConfig = sims.engine2D.GearsConfig;
 var GravityLaw = lab.model.GravityLaw;
 var JointUtil = lab.engine2D.JointUtil;
+var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
+var RigidBody = lab.engine2D.RigidBody;
+var TabLayout = sims.common.TabLayout;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
@@ -69,7 +75,7 @@ force applied.
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
-* @param {!sims.common.TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @constructor
@@ -86,9 +92,9 @@ sims.engine2D.GearsApp = function(elem_ids) {
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.elasticity.setElasticity(0.3);
   this.mySim.setShowForces(true);
-  /** @type {!lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
-  /** @type {!lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(0, this.simList);
 
   /** @type {boolean} */
@@ -97,17 +103,17 @@ sims.engine2D.GearsApp = function(elem_ids) {
   this.turningForce = 0.2;
   /** @type {boolean} */
   this.pinnedGears = true;
-  /** @type {!lab.engine2D.RigidBody} */
+  /** @type {!RigidBody} */
   this.gearLeft;
-  /** @type {?lab.engine2D.RigidBody} */
+  /** @type {?RigidBody} */
   this.gearRight;
-  /** @type {?lab.model.ForceLaw } */
+  /** @type {?ForceLaw } */
   this.turnForceLaw = null;
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   var pb;
-  /** @type {!lab.util.ParameterNumber} */
+  /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pb = new ParameterBoolean(this, GearsConfig.en.PINNED_GEARS,
       GearsConfig.i18n.PINNED_GEARS,
@@ -251,10 +257,10 @@ GearsApp.prototype.setTurningForce = function(value) {
     this.mySim.removeForceLaw(this.turnForceLaw);
   }
   if (this.gearLeft) {
-    var f = new myphysicslab.lab.model.Force('turning', this.gearLeft,
+    var f = new Force('turning', this.gearLeft,
         /*location=*/this.gearLeft.getDragPoints()[0], CoordType.BODY,
         /*direction=*/new Vector(value, 0), CoordType.BODY);
-    this.turnForceLaw = new myphysicslab.lab.model.ConstantForceLaw(f);
+    this.turnForceLaw = new ConstantForceLaw(f);
     this.mySim.addForceLaw(this.turnForceLaw);
   }
   this.broadcastParameter(GearsConfig.en.TURNING_FORCE);

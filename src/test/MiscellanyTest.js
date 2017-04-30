@@ -122,8 +122,8 @@ MiscellanyTest.testPerformance = function() {
 MiscellanyTest.groupName = 'MiscellanyTest.';
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.newtons_cradle_setup = function(sim, advance) {
@@ -174,8 +174,8 @@ MiscellanyTest.newtons_cradle = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.chain_setup = function(sim, advance) {
@@ -230,8 +230,8 @@ MiscellanyTest.chain = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.clock_with_gears_setup = function(sim, advance) {
@@ -289,8 +289,8 @@ MiscellanyTest.clock_gears_perf = function() {
 };
 
 /**
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 */
 MiscellanyTest.commonSetup1 = function(sim, advance) {
   sim.setDistanceTol(0.01);
@@ -307,8 +307,8 @@ MiscellanyTest.commonSetup1 = function(sim, advance) {
 another body; here a ball and an pendulum are bouncing on the floor under gravity; the
 ball collides with the pendulum bob, but not with the pendulum rod; however, the
 pendulum rod does collide with the floor.
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
-* @param {!myphysicslab.lab.model.CollisionAdvance} advance
+* @param {!ContactSim} sim
+* @param {!CollisionAdvance} advance
 * @export
 */
 MiscellanyTest.non_collide_edges_setup = function(sim, advance) {
@@ -353,7 +353,7 @@ MiscellanyTest.non_collide_edges = function() {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
+@param {!ContactSim} sim
 @private
 */
 MiscellanyTest.damping_init = function(sim) {
@@ -373,8 +373,8 @@ MiscellanyTest.damping_init = function(sim) {
 /** Two balls rotate at the same initial angular velocity, the larger ball has a
 bigger moment of rotation and therefore spins longer under the standard
 DampingLaw.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.damping_standard_setup = function(sim, advance) {
@@ -401,8 +401,8 @@ MiscellanyTest.damping_standard = function() {
 /** Three blocks are connected by joints to mimic the arrangement of
 {@link myphysicslab.test.RopeTest#double_rod_spin_setup}.
 This is intended to be a further test of Joints.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @param {number=} damping
 @export
 */
@@ -639,7 +639,7 @@ MiscellanyTest.three_body_spin_test4B = function() {
 'stuck', because ComputeForces is unable to find reasonable set of forces. The problem
 is the rectangle gets jammed between two fixed objects, and the distance between them
 is very tight.
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
+* @param {!ContactSim} sim
 * @return {undefined}
 */
 MiscellanyTest.setupCurvedError = function(sim) {
@@ -739,7 +739,7 @@ results in success the first time it is run, but clicking the 'rewind' button re
 in 'stuck' error. The difference is due to random number generator being different. The
 first time thru the rectangle doesn't quite get its corner around the vertex of the
 fixed block, so it never gets wedged.
-* @param {!myphysicslab.lab.engine2D.ContactSim} sim
+* @param {!ContactSim} sim
 * @return {undefined}
 */
 MiscellanyTest.setupCurvedError2 = function(sim) {
@@ -838,8 +838,8 @@ MiscellanyTest.setupCurvedError2 = function(sim) {
 
 TO DO: This error state should be fixed or prevented from happening.
 
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.curved_test_error_setup = function(sim, advance) {
@@ -851,9 +851,9 @@ MiscellanyTest.curved_test_error_setup = function(sim, advance) {
   var r = new DoubleRect(-4, -6, 8, 6);
   sim.setSimRect(r);
   advance.setTimeStep(0.025);
-  /** @type {!myphysicslab.lab.model.DampingLaw} */
+  /** @type {!DampingLaw} */
   var damping = new DampingLaw(0, 0.15);
-  /** @type {!myphysicslab.lab.model.GravityLaw} */
+  /** @type {!GravityLaw} */
   var gravity = new GravityLaw(3.0);
   CurvedTestApp.make(sim, gravity, damping, /*numBods=*/6, r, /*displayList=*/null);
   MiscellanyTest.setupCurvedError(sim);
@@ -875,8 +875,8 @@ MiscellanyTest.curved_test_error = function() {
 
 /** Setup a RigidBody connected to a 'roller coaster' hump shaped NumericalPath
 with a PathJoint.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.roller_hump_setup = function(sim, advance) {
@@ -917,8 +917,8 @@ MiscellanyTest.roller_hump_test = function() {
 
 /** Setup a RigidBody connected to a 'roller coaster' circle shaped NumericalPath
 with a PathJoint; also there is a PathEndPoint that limits travel of the RigidBody.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MiscellanyTest.roller_end_point_setup = function(sim, advance) {

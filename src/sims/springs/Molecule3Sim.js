@@ -39,10 +39,10 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var Collision = myphysicslab.lab.model.Collision;
+var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var MutableVector = myphysicslab.lab.util.MutableVector;
 var NF = myphysicslab.lab.util.UtilityCore.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
@@ -58,8 +58,8 @@ in 2D, and bouncing against the four walls. A small subset of the springs and ma
 designated as 'special' so that their parameters (mass, spring stiffness, spring rest
 length) can be set separately from the others.
 
-This uses the same physics as {@link myphysicslab.sims.springs.Molecule1Sim} but allows for
-more springs and masses.
+This uses the same physics as {@link myphysicslab.sims.springs.Molecule1Sim} but allows
+for more springs and masses.
 
 
 Variables and Parameters
@@ -204,9 +204,9 @@ contact being broken.
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.lab.model.AbstractODESim}
+* @extends {AbstractODESim}
 * @implements {myphysicslab.lab.model.CollisionSim}
-* @implements {myphysicslab.lab.model.EnergySystem}
+* @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
 myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
@@ -273,7 +273,7 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
   */
   this.debugPaint_ = null;
   /**
-  * @type {!myphysicslab.lab.model.PointMass}
+  * @type {!PointMass}
   * @private
   */
   this.walls_ = PointMass.makeSquare(12, 'walls')

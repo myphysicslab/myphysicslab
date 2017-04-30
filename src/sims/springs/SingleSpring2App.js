@@ -47,6 +47,7 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -75,6 +76,7 @@ var CommonControls = sims.common.CommonControls;
 var DiffEqSolverSubject = lab.model.DiffEqSolverSubject;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
+var DisplayList = lab.view.DisplayList;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
@@ -104,14 +106,17 @@ var Spring = lab.model.Spring;
 var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var TabLayout = sims.common.TabLayout;
+var Terminal = lab.util.Terminal;
 var TimeGraph2 = sims.common.TimeGraph2;
 var ToggleControl = lab.controls.ToggleControl;
 var UtilityCore = lab.util.UtilityCore;
 var Vector = lab.util.Vector;
 
-/** SingleSpring2App displays the SingleSpringSim simulation. The difference
-between this and SingleSpringApp is: this doesn't inherit from AbstractApp because
-this uses TimeGraph2 instead of TimeGraph1.
+/** SingleSpring2App displays the {@link SingleSpringSim} simulation.
+
+The difference between this and {@link myphysicslab.sims.springs.SingleSpringApp} is
+that this doesn't inherit from {@link myphysicslab.sims.common.AbstractApp} because
+this uses {@link TimeGraph2} instead of TimeGraph1.
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
@@ -119,7 +124,7 @@ this uses TimeGraph2 instead of TimeGraph1.
 * @param {string=} opt_name name of this as a Subject
 * @constructor
 * @final
-* @extends {myphysicslab.lab.util.AbstractSubject}
+* @extends {AbstractSubject}
 * @struct
 * @export
 */
@@ -136,7 +141,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
-  /** @type {!myphysicslab.lab.util.Terminal} */
+  /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
   var simCanvas = this.layout.simCanvas;
 
@@ -156,22 +161,22 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   /** @type {!SimView} */
   this.simView = new SimView('SIM_VIEW', this.simRect);
   simCanvas.addView(this.simView);
-  /** @type {!myphysicslab.lab.view.DisplayList} */
+  /** @type {!DisplayList} */
   this.displayList = this.simView.getDisplayList();
   /** @type {!SimView} */
   this.statusView = new SimView('STATUS_VIEW', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
-  /** @type {!myphysicslab.lab.graph.DisplayAxes} */
+  /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.simView);
   /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance);
   this.simRun.addCanvas(simCanvas);
-  /** @type {!myphysicslab.lab.util.Clock} */
+  /** @type {!Clock} */
   this.clock = this.simRun.getClock();
 
   /** @type {!EnergyBarGraph} */
   this.energyGraph = new EnergyBarGraph(this.sim);
-  /** @type {!myphysicslab.lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   this.showEnergyParam = CommonControls.makeShowEnergyParam(this.energyGraph,
       this.statusView, this);
 
@@ -179,7 +184,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.displayClock = new DisplayClock(goog.bind(this.sim.getTime, this.sim),
       goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
-  /** @type {!myphysicslab.lab.util.ParameterBoolean} */
+  /** @type {!ParameterBoolean} */
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
@@ -281,7 +286,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   // configuration is set up. This helps make the resulting easyScript.script()
   // be a much smaller script.
   var volatile = [ this.sim.getVarsList(), this.simView ];
-  /** @type {!myphysicslab.lab.util.EasyScriptParser} */
+  /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

@@ -34,7 +34,7 @@ var NF = myphysicslab.lab.util.UtilityCore.NF;
 * @constructor
 * @final
 * @struct
-* @extends {myphysicslab.sims.roller.AbstractPath}
+* @extends {AbstractPath}
 */
 myphysicslab.sims.roller.CirclePath = function(radius, start, finish,
       closedLoop, name, localName) {

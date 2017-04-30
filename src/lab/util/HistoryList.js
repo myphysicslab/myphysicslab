@@ -17,6 +17,8 @@ goog.require('myphysicslab.lab.util.HistoryIterator');
 
 goog.scope(function() {
 
+var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
+
 /** An ordered list of values that can be added to but not altered; older
 values might be forgotten. Each value has a unique unchanging index in the HistoryList,
 but the HistoryList can have limited capacity and old values might be dropped from the
@@ -46,12 +48,12 @@ HistoryList.prototype.getEndIndex;
 */
 HistoryList.prototype.getEndValue;
 
-/** Returns a {@link myphysicslab.lab.util.HistoryIterator} which begins at the
-given index in this HistoryList.
+/** Returns a {@link HistoryIterator} which begins at the given index in this
+HistoryList.
 @param {number=} index the index to start the iterator at;  if undefined or -1, then
     starts at beginning of this HistoryList
-@return {!myphysicslab.lab.util.HistoryIterator<T>} a HistoryIterator which begins
-    at the given index in this HistoryList.
+@return {!HistoryIterator<T>} a HistoryIterator which begins at the given index in this
+    HistoryList.
 */
 HistoryList.prototype.getIterator;
 

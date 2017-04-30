@@ -14,43 +14,43 @@
 
 goog.provide('myphysicslab.test.MultipleCollisionTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 goog.require('myphysicslab.lab.engine2D.ContactSim');
 goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
+goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.CoordType');
+goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.UtilityCore');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
 goog.require('myphysicslab.test.TestShapes');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.model.DampingLaw');
 
 goog.scope(function() {
 
-var DampingLaw = myphysicslab.lab.model.DampingLaw;
-var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var CoordType = myphysicslab.lab.model.CoordType;
+var DampingLaw = myphysicslab.lab.model.DampingLaw;
+var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
+var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
 var NFE = myphysicslab.lab.util.UtilityCore.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
@@ -58,8 +58,8 @@ var UtilityCore = myphysicslab.lab.util.UtilityCore;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
-/**  Unit tests of {@link myphysicslab.lab.engine2D.ImpulseSim}, for cases involving
-multiple simultaneous collisions.
+/**  Unit tests of {@link ImpulseSim}, for cases involving multiple simultaneous
+collisions.
 
 Note that these tests are sensitive to the settings for
 `VELOCITY_TOL` and `DISTANCE_TOL` in ImpulseSim.
@@ -144,8 +144,8 @@ MultipleCollisionTest.distanceTol_ = 0.01;
 MultipleCollisionTest.velocityTol_ = 0.5;
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @private
 */
 MultipleCollisionTest.commonSetup1 = function(sim, advance) {
@@ -165,8 +165,8 @@ MultipleCollisionTest.commonSetup1 = function(sim, advance) {
 
 /** 'one hits wall':  Square block collides into a wall, both corners simultaneously.
   The result depends on the collision handling mechanism.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_wall_setup = function(sim, advance) {
@@ -183,7 +183,7 @@ MultipleCollisionTest.one_hits_wall_setup = function(sim, advance) {
 };
 
 /** With sequential or hybrid collision handling, the block bounces straight off the wall.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test1_0 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test1_0 '+collisionType;
@@ -201,7 +201,7 @@ MultipleCollisionTest.test1_0 = function(collisionType) {
 };
 
 /** With serial collision handling, the block starts rotating.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test1_1 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test1_1 '+collisionType;
@@ -222,8 +222,8 @@ MultipleCollisionTest.test1_1 = function(collisionType) {
 in resting contact.
 The result depends on the type of collision handling being used.
 Because resting contact is involved, we need to use ContactSim instead of ImpulseSim.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim  the ImpulseSim to add the objects to
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim  the ImpulseSim to add the objects to
+@param {!CollisionAdvance} advance
 @param {number} offset  additional distance between the stationary objects
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
@@ -247,8 +247,8 @@ MultipleCollisionTest.test2_prep = function(sim, advance, offset, balls) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_two_ball_setup = function(sim, advance) {
@@ -256,8 +256,8 @@ MultipleCollisionTest.one_hits_two_ball_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_two_block_setup = function(sim, advance) {
@@ -266,7 +266,7 @@ MultipleCollisionTest.one_hits_two_block_setup = function(sim, advance) {
 
 /** With simultaneous collision handling, all the balls are moving after the collision
 (which is physically wrong, but it is how it should behave).
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 MultipleCollisionTest.test2_0 = function(collisionType, balls) {
@@ -286,7 +286,7 @@ MultipleCollisionTest.test2_0 = function(collisionType, balls) {
 };
 
 /** With serial or hybrid collision handling, the result is only the right-most ball is moving.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 MultipleCollisionTest.test2_1 = function(collisionType, balls) {
@@ -324,8 +324,8 @@ ImpulseSim here (don't need to use ContactSim).
 * Therefore body1.right = body2.left - 0.005 - 3.99 = -4.495
 * Therefore body1.center = -4.995 = -5 + distTol/2
 
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.two_hits_one_asymmetric_setup = function(sim, advance) {
@@ -351,7 +351,7 @@ MultipleCollisionTest.two_hits_one_asymmetric_setup = function(sim, advance) {
 OCT 2011:  for some unknown reason, the “two hits one asymmetric” multiple collision
 test now works identically for all collision solvers.
 MAY 2016: I've solved the above problem, see the setup function above.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test3_0 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test3_0 '+collisionType;
@@ -371,7 +371,7 @@ MultipleCollisionTest.test3_0 = function(collisionType) {
 
 /**With serial collision handling, the center ball remains motionless, and
 the two balls exchange velocity.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test3_1 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test3_1 '+collisionType;
@@ -393,8 +393,8 @@ MultipleCollisionTest.test3_1 = function(collisionType) {
 The result depends on the type of collision handling used.
 Because there are no static contacts, but only two dynamic collisions, we can use
 ImpulseSim here (don't need to use ContactSim).
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_two_separate_setup = function(sim, advance) {
@@ -414,7 +414,7 @@ MultipleCollisionTest.one_hits_two_separate_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test4_0 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test4_0 '+collisionType;
@@ -433,7 +433,7 @@ MultipleCollisionTest.test4_0 = function(collisionType) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test4_1 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test4_1 '+collisionType;
@@ -458,8 +458,8 @@ The exception is when using serial collision handling and square blocks instead 
 round balls (because then the two corner collisions on the blocks are handled
 serially instead of simultaneously).
 Because this test involves resting contacts, we must use ContactSim.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 MultipleCollisionTest.test5_prep = function(sim, advance, balls) {
@@ -486,8 +486,8 @@ MultipleCollisionTest.test5_prep = function(sim, advance, balls) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_two_on_wall_ball_setup = function(sim, advance) {
@@ -495,8 +495,8 @@ MultipleCollisionTest.one_hits_two_on_wall_ball_setup = function(sim, advance) {
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_two_on_wall_block_setup = function(sim, advance) {
@@ -504,7 +504,7 @@ MultipleCollisionTest.one_hits_two_on_wall_block_setup = function(sim, advance) 
 };
 
 /**
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 MultipleCollisionTest.test5_0 = function(collisionType, balls) {
@@ -530,8 +530,8 @@ block instead of a translating block that causes the collision.
 There are no static contacts so either ImpulseSim or ContactSim shows the
 same results.
 This corresponds to the 'center spin' version of the interactive SimultaneousCollision test.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.center_spin_setup = function(sim, advance) {
@@ -550,7 +550,7 @@ MultipleCollisionTest.center_spin_setup = function(sim, advance) {
 };
 
 /** Serial collision handling case:  non-symmetric result.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test6_0 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test6_0 '+collisionType;
@@ -570,7 +570,7 @@ MultipleCollisionTest.test6_0 = function(collisionType) {
 };
 
 /** Simultaneous collision handling case:  symmetric result.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test6_1 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test6_1 '+collisionType;
@@ -594,8 +594,8 @@ This is similar to the 'one hits two' scenario, except its a spinning
 block instead of a translating block that causes the collision.
 Because this test involves resting contacts, we must use ContactSim.
 This corresponds to the 'side spin' version of the interactive SimultaneousCollision test.
-@param {!myphysicslab.lab.engine2D.ImpulseSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ImpulseSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.side_spin_setup = function(sim, advance) {
@@ -620,7 +620,7 @@ MultipleCollisionTest.side_spin_setup = function(sim, advance) {
  was being detected that had a relatively high velocity of 0.28, and a contact force
  was acting there (and because work = force * distance, there was energy being added as
  the contact was separating).
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test7_0 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_0 '+collisionType;
@@ -640,7 +640,7 @@ MultipleCollisionTest.test7_0 = function(collisionType) {
 };
 
 /** Hybrid collision handling case.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test7_1 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_1 '+collisionType;
@@ -660,7 +660,7 @@ MultipleCollisionTest.test7_1 = function(collisionType) {
 };
 
 /** Serial collision handling case.
-@param {!myphysicslab.lab.engine2D.CollisionHandling} collisionType
+@param {!CollisionHandling} collisionType
 */
 MultipleCollisionTest.test7_2 = function(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_2 '+collisionType;
@@ -682,8 +682,8 @@ MultipleCollisionTest.test7_2 = function(collisionType) {
 /** Two blocks are connected by a joint and lie on the ground;  a third block collides
 into the connected blocks. This is a fairly simple test of joints and contacts during
 a collision.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.joint_collision_setup = function(sim, advance) {
@@ -735,8 +735,8 @@ MultipleCollisionTest.test8_0 = function() {
 };
 
 /** Show that get same results with elastic or inelastic joints.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.joint_collision_2_setup = function(sim, advance) {
@@ -779,8 +779,8 @@ MultipleCollisionTest.test8_1 = function() {
 };
 
 /** Show that get same results with elastic or inelastic joints.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.joint_collision_3_setup = function(sim, advance) {
@@ -826,8 +826,8 @@ MultipleCollisionTest.test8_2 = function() {
 /** The simplest case of a 'spinning joint': two bodies connected by a joint, they are
 rotating about the joint at different rates. This shows that we are unable to keep
 spinning joints tight with just contact force calculations.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.joint_collision_4_setup = function(sim, advance) {
@@ -873,8 +873,8 @@ MultipleCollisionTest.test8_3 = function() {
 /** Two rectangle blocks are connected by a joint; the blocks are at rest with
 a ball object in contact with them on their right;  from left a ball object strikes
 the jointed rectangle blocks.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.joint_collision_5_setup = function(sim, advance) {
@@ -930,8 +930,8 @@ MultipleCollisionTest.test8_5 = function() {
 velocity. This causes an infinite series of collisions, but certain settings for the
 collision handling can cope with this problem. See Physics Based Animation by Erleben,
 et. al. Chapter 6-2 'Multiple Points of Collision'.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.two_in_box_setup = function(sim, advance) {
@@ -975,8 +975,8 @@ MultipleCollisionTest.two_in_box = function() {
 This causes an infinite series of collisions, but certain settings for the
 collision handling can cope with this problem. See Physics Based Animation by Erleben,
 et. al. Chapter 6-2 'Multiple Points of Collision'.
-@param {!myphysicslab.lab.engine2D.ContactSim} sim
-@param {!myphysicslab.lab.model.CollisionAdvance} advance
+@param {!ContactSim} sim
+@param {!CollisionAdvance} advance
 @export
 */
 MultipleCollisionTest.one_hits_two_in_box_setup = function(sim, advance) {
