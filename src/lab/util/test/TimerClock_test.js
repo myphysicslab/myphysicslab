@@ -15,7 +15,7 @@
 goog.provide('myphysicslab.lab.util.test.TimerClock_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -46,10 +46,10 @@ myphysicslab.lab.util.test.TimerClock_test.MockClass = function(timer) {
 };
 
 myphysicslab.lab.util.test.TimerClock_test.MockClass.prototype.myCallBack = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   this.timesFired++;
-  var now = UtilityCore.getSystemTime();
-  assertRoughlyEquals(UtilityCore.getSystemTime(), this.timer.getExpectedTime(), 1E-6);
+  var now = Util.getSystemTime();
+  assertRoughlyEquals(Util.getSystemTime(), this.timer.getExpectedTime(), 1E-6);
   this.timer.fireAfter(this.timer.getPeriod());
 };
 
@@ -185,7 +185,7 @@ stage    system     clock    real    expect  period  events  fired  running?  fi
         0.430        0.255   0.280   0.470     40     15      7      n        y
 */
 var testTimerClock1 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Timer = myphysicslab.lab.util.Timer;
   var Clock = myphysicslab.lab.util.Clock;
   var tol = 1E-14;
@@ -209,7 +209,7 @@ var testTimerClock1 = function() {
 
     // Note that installing goog.testing.MockClock redefines goog.now()
     assertEquals(0, goog.now());
-    assertRoughlyEquals(0, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0, Util.getSystemTime(), tol);
 
     // 1. initial conditions
     assertEquals(0, myMockClass.timesFired);
@@ -246,7 +246,7 @@ var testTimerClock1 = function() {
     // 3. advance time to just before when callback should fire, should be no change
     mockClock.tick(49);
     assertEquals(49, goog.now());
-    assertRoughlyEquals(0.049, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.049, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(0, myMockClass.timesFired);  // no callback fired
     assertRoughlyEquals(0.049, myClock.getTime(), tol);
@@ -258,7 +258,7 @@ var testTimerClock1 = function() {
     mockClock.tick(1);
     assertRoughlyEquals(0.100, myTimer.getExpectedTime(), tol);
     assertEquals(50, goog.now());
-    assertRoughlyEquals(0.050, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.050, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(1, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
@@ -269,7 +269,7 @@ var testTimerClock1 = function() {
     // 5. advance time to just before when callback should fire, should be no change
     mockClock.tick(49);
     assertEquals(99, goog.now());
-    assertRoughlyEquals(0.099, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.099, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(1, myMockClass.timesFired);  // no callback fired
     assertRoughlyEquals(0.099, myClock.getTime(), tol);
@@ -281,7 +281,7 @@ var testTimerClock1 = function() {
     mockClock.tick(1);
     assertRoughlyEquals(0.150, myTimer.getExpectedTime(), tol);
     assertEquals(100, goog.now());
-    assertRoughlyEquals(0.100, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.100, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(2, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
@@ -306,7 +306,7 @@ var testTimerClock1 = function() {
     assertFalse(myClock.isRunning());
     assertTrue(myTimer.isFiring());
     assertEquals(150, goog.now());
-    assertRoughlyEquals(0.150, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.150, Util.getSystemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
     assertRoughlyEquals(0.200, myTimer.getExpectedTime(), tol);
@@ -329,7 +329,7 @@ var testTimerClock1 = function() {
     // 10. not firing & paused mode.  Time doesn't advance and callbacks don't fire.
     mockClock.tick(50);  // no callback scheduled
     assertEquals(200, goog.now());
-    assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.200, Util.getSystemTime(), tol);
     assertFalse(myClock.isRunning());
     assertFalse(myTimer.isFiring());
     assertEquals(2, mockObsvr1.numEvents);
@@ -341,7 +341,7 @@ var testTimerClock1 = function() {
     // 11. resume when not firing and paused.  -->  firing & not-paused mode.
     myClock.resume();
     myTimer.startFiring();
-    assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.200, Util.getSystemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
     assertRoughlyEquals(0.250, myTimer.getExpectedTime(), tol);
@@ -361,7 +361,7 @@ var testTimerClock1 = function() {
     assertEquals(2, mockObsvr1.numResumeEvents);
     assertEquals(3, mockObsvr1.numEvents);
     assertEquals(3, myMockClass.timesFired);  // no callback fired.
-    assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.200, Util.getSystemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
     assertNaN(myTimer.getExpectedTime());
@@ -372,7 +372,7 @@ var testTimerClock1 = function() {
     assertEquals(2, mockObsvr1.numResumeEvents);
     assertEquals(4, mockObsvr1.numEvents);
     assertEquals(3, myMockClass.timesFired);  // no callback fired.
-    assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.200, Util.getSystemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
     assertNaN(myTimer.getExpectedTime());
@@ -380,7 +380,7 @@ var testTimerClock1 = function() {
     // 13. not firing & paused mode.  Time doesn't advance and callbacks don't fire.
     mockClock.tick(50);  // no callback scheduled
     assertEquals(250, goog.now());
-    assertRoughlyEquals(0.250, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.250, Util.getSystemTime(), tol);
     assertEquals(3, myMockClass.timesFired);  // no callback fired
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
@@ -391,7 +391,7 @@ var testTimerClock1 = function() {
     // 14. start when not firing and paused  -->  firing & paused mode.
     myTimer.startFiring();  // schedules callback at sys:0.300
     assertEquals(250, goog.now());
-    assertRoughlyEquals(0.250, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.250, Util.getSystemTime(), tol);
     assertEquals(2, mockObsvr1.numPauseEvents);
     assertEquals(2, mockObsvr1.numResumeEvents);
     assertEquals(4, mockObsvr1.numEvents);
@@ -417,7 +417,7 @@ var testTimerClock1 = function() {
     // 16. firing & not-paused mode.  Time advances and callbacks fire.
     mockClock.tick(50);  // fires callback, reschedules for sys:0.350
     assertEquals(300, goog.now());
-    assertRoughlyEquals(0.300, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.300, Util.getSystemTime(), tol);
     assertEquals(4, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.150, myClock.getTime(), tol);
     assertRoughlyEquals(0.150, myClock.getRealTime(), tol);
@@ -433,7 +433,7 @@ var testTimerClock1 = function() {
     assertEquals(0, mockObsvr1.numDoubles);
     assertEquals(6, mockObsvr1.numEvents);
     assertEquals(4, myMockClass.timesFired);
-    assertRoughlyEquals(0.300, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.300, Util.getSystemTime(), tol);
     assertRoughlyEquals(0.125, myClock.getTime(), tol);
     assertRoughlyEquals(0.150, myClock.getRealTime(), tol);
     assertRoughlyEquals(0.350, myTimer.getExpectedTime(), tol);
@@ -444,7 +444,7 @@ var testTimerClock1 = function() {
     //assertNaN(myTimer.getExpectedTime());
     mockClock.tick(50);   // fires callback, reschedules for sys:390
     assertEquals(350, goog.now());
-    assertRoughlyEquals(0.350, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.350, Util.getSystemTime(), tol);
     assertEquals(6, mockObsvr1.numEvents);
     assertEquals(5, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.175, myClock.getTime(), tol);
@@ -464,7 +464,7 @@ var testTimerClock1 = function() {
     assertEquals(1, mockObsvr1.numSetTimeEvents);
     assertEquals(8, mockObsvr1.numEvents);  // pause and step events happened
     assertEquals(350, goog.now());  // no change
-    assertRoughlyEquals(0.350, UtilityCore.getSystemTime(), tol);  // no change
+    assertRoughlyEquals(0.350, Util.getSystemTime(), tol);  // no change
     assertEquals(5, myMockClass.timesFired);  // no callback fired
     assertRoughlyEquals(0.215, myClock.getTime(), tol);  // step() changeded this
     assertRoughlyEquals(0.240, myClock.getRealTime(), tol); // realtime is 0.025 ahead
@@ -478,7 +478,7 @@ var testTimerClock1 = function() {
     // 20. pause mode.  Advance system time, and callback happens, but time doesn't advance.
     mockClock.tick(40);  // fires callback, reschedules for sys:430, sim:255
     assertEquals(390, goog.now());
-    assertRoughlyEquals(0.390, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.390, Util.getSystemTime(), tol);
     assertEquals(8, mockObsvr1.numEvents);  // pause and step events happened
     assertEquals(6, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.215, myClock.getTime(), tol);
@@ -497,7 +497,7 @@ var testTimerClock1 = function() {
     assertEquals(1, mockObsvr1.numSetTimeEvents);
     assertEquals(9, mockObsvr1.numEvents);
     assertEquals(390, goog.now());
-    assertRoughlyEquals(0.390, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.390, Util.getSystemTime(), tol);
     assertEquals(6, myMockClass.timesFired);  // no callback fired
     assertRoughlyEquals(0.255, myClock.getTime(), tol);
     assertRoughlyEquals(0.280, myClock.getRealTime(), tol);
@@ -511,7 +511,7 @@ var testTimerClock1 = function() {
     // 22. advance the system clock, and the callback occurs
     mockClock.tick(40); // fires callback, reschedules for sys:470, sim:295
     assertEquals(430, goog.now());
-    assertRoughlyEquals(0.430, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.430, Util.getSystemTime(), tol);
     assertEquals(9, mockObsvr1.numEvents);
     assertEquals(7, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.255, myClock.getTime(), tol);
@@ -561,7 +561,7 @@ stage     system     clock    real    expect  period  events  fired  rate
 */
 // tests changing time rate
 var testTimerClock2 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Timer = myphysicslab.lab.util.Timer;
   var Clock = myphysicslab.lab.util.Clock;
   var tol = 1E-14;
@@ -585,7 +585,7 @@ var testTimerClock2 = function() {
 
     // Note how installing goog.testing.MockClock redefines goog.now()
     assertEquals(0, goog.now());
-    assertRoughlyEquals(0, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0, Util.getSystemTime(), tol);
 
     // 1. initial conditions
     assertEquals(0, myMockClass.timesFired);
@@ -619,7 +619,7 @@ var testTimerClock2 = function() {
     // 3. advance sysTime
     mockClock.tick(50);
     assertEquals(50, goog.now());
-    assertRoughlyEquals(0.050, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.050, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(1, myMockClass.timesFired);  // 1 callback fired
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
@@ -632,7 +632,7 @@ var testTimerClock2 = function() {
     myClock.setTimeRate(2);
     assertEquals(2, myClock.getTimeRate());
     assertEquals(50, goog.now());
-    assertRoughlyEquals(0.050, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.050, Util.getSystemTime(), tol);
     assertEquals(0, mockObsvr1.numPauseEvents);
     assertEquals(1, mockObsvr1.numResumeEvents);
     assertEquals(0, mockObsvr1.numStepEvents);
@@ -649,7 +649,7 @@ var testTimerClock2 = function() {
     // 5. advance sysTime
     mockClock.tick(50);
     assertEquals(100, goog.now());
-    assertRoughlyEquals(0.100, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.100, Util.getSystemTime(), tol);
     assertEquals(2, mockObsvr1.numEvents);
     assertEquals(2, myMockClass.timesFired);
     assertRoughlyEquals(0.150, myClock.getTime(), tol);
@@ -661,7 +661,7 @@ var testTimerClock2 = function() {
     // 6. advance sysTime
     mockClock.tick(50);
     assertEquals(150, goog.now());
-    assertRoughlyEquals(0.150, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.150, Util.getSystemTime(), tol);
     assertEquals(2, mockObsvr1.numEvents);
     assertEquals(3, myMockClass.timesFired);
     assertRoughlyEquals(0.250, myClock.getTime(), tol);
@@ -674,7 +674,7 @@ var testTimerClock2 = function() {
     myClock.setTimeRate(0.5);
     assertRoughlyEquals(0.5, myClock.getTimeRate(), tol);
     assertEquals(150, goog.now());
-    assertRoughlyEquals(0.150, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.150, Util.getSystemTime(), tol);
     assertEquals(0, mockObsvr1.numPauseEvents);
     assertEquals(1, mockObsvr1.numResumeEvents);
     assertEquals(0, mockObsvr1.numStepEvents);
@@ -691,7 +691,7 @@ var testTimerClock2 = function() {
     // 8. advance sysTime
     mockClock.tick(50);
     assertEquals(200, goog.now());
-    assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.200, Util.getSystemTime(), tol);
     assertEquals(3, mockObsvr1.numEvents);
     assertEquals(4, myMockClass.timesFired);
     assertRoughlyEquals(0.275, myClock.getTime(), tol);
@@ -716,7 +716,7 @@ var testTimerClock2 = function() {
     // 10. advance sysTime
     mockClock.tick(50);
     assertEquals(250, goog.now());
-    assertRoughlyEquals(0.250, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.250, Util.getSystemTime(), tol);
     assertEquals(4, mockObsvr1.numEvents);
     assertEquals(5, myMockClass.timesFired);
     assertRoughlyEquals(0.275, myClock.getTime(), tol);
@@ -728,7 +728,7 @@ var testTimerClock2 = function() {
     // 11. advance sysTime
     mockClock.tick(50);
     assertEquals(300, goog.now());
-    assertRoughlyEquals(0.300, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.300, Util.getSystemTime(), tol);
     assertEquals(4, mockObsvr1.numEvents);
     assertEquals(6, myMockClass.timesFired);
     assertRoughlyEquals(0.300, myClock.getTime(), tol);
@@ -752,7 +752,7 @@ var testTimerClock2 = function() {
     // 13. advance sysTime
     mockClock.tick(50);
     assertEquals(350, goog.now());
-    assertRoughlyEquals(0.350, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.350, Util.getSystemTime(), tol);
     assertEquals(7, myMockClass.timesFired);
     assertRoughlyEquals(0.350, myClock.getTime(), tol);
     assertRoughlyEquals(0.375, myClock.getRealTime(), tol);
@@ -763,7 +763,7 @@ var testTimerClock2 = function() {
     // 14. advance sysTime
     mockClock.tick(50);
     assertEquals(400, goog.now());
-    assertRoughlyEquals(0.400, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.400, Util.getSystemTime(), tol);
     assertEquals(5, mockObsvr1.numEvents);
     assertEquals(8, myMockClass.timesFired);
     assertRoughlyEquals(0.400, myClock.getTime(), tol);
@@ -816,8 +816,8 @@ myphysicslab.lab.util.test.TimerClock_test.MockClass3 = function(timer, clock,
 };
 
 myphysicslab.lab.util.test.TimerClock_test.MockClass3.prototype.myCallBack3 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
-  var now = UtilityCore.getSystemTime();
+  var Util = myphysicslab.lab.util.Util;
+  var now = Util.getSystemTime();
   var late = this.mockClock.getTimeoutDelay()/1000;
   var expect = this.timer.getExpectedTime();
   //console.log('myCallback now='+now+' expect+late='+(expect+late));
@@ -874,7 +874,7 @@ stage   system     clock   delay   expect
 */
 // tests the `Timer.finishAt` method, when callback is early or late.
 var testTimerClock3 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Timer = myphysicslab.lab.util.Timer;
   var Clock = myphysicslab.lab.util.Clock;
   var tol = 1E-14;
@@ -899,7 +899,7 @@ var testTimerClock3 = function() {
 
     // Note how installing goog.testing.MockClock redefines goog.now()
     assertEquals(0, goog.now());
-    assertRoughlyEquals(0, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0, Util.getSystemTime(), tol);
 
     // 1. initial conditions
     assertEquals(0, myMockClass.timesFired);
@@ -933,7 +933,7 @@ var testTimerClock3 = function() {
     // 3. advance sysTime.  Our callback fires for the first time.
     mockClock.tick(50);
     assertEquals(50, goog.now());
-    assertRoughlyEquals(0.050, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.050, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(1, myMockClass.timesFired);
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
@@ -945,7 +945,7 @@ var testTimerClock3 = function() {
     // 4. advance time
     mockClock.tick(50);
     assertEquals(100, goog.now());
-    assertRoughlyEquals(0.100, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.100, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(2, myMockClass.timesFired);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
@@ -956,7 +956,7 @@ var testTimerClock3 = function() {
     mockClock.setTimeoutDelay(10);
     mockClock.tick(60);
     assertEquals(160, goog.now());
-    assertRoughlyEquals(0.160, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.160, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(3, myMockClass.timesFired);
     assertRoughlyEquals(0.160, myClock.getTime(), tol);
@@ -967,7 +967,7 @@ var testTimerClock3 = function() {
     // 6. advance time, callback is on time
     mockClock.setTimeoutDelay(0);
     mockClock.tick(30);
-    assertRoughlyEquals(0.190, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.190, Util.getSystemTime(), tol);
     assertEquals(4, myMockClass.timesFired);
     assertRoughlyEquals(0.190, myClock.getTime(), tol);
     // callback was on time, we have a longer delay to get back to old schedule
@@ -976,7 +976,7 @@ var testTimerClock3 = function() {
     // 7. advance time
     mockClock.setTimeoutDelay(0);
     mockClock.tick(60);
-    assertRoughlyEquals(0.250, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.250, Util.getSystemTime(), tol);
     assertEquals(5, myMockClass.timesFired);
     assertRoughlyEquals(0.250, myClock.getTime(), tol);
     assertRoughlyEquals(0.300, myTimer.getExpectedTime(), tol);
@@ -984,7 +984,7 @@ var testTimerClock3 = function() {
     // 8. advance time, callback is early
     mockClock.setTimeoutDelay(-10);
     mockClock.tick(40);
-    assertRoughlyEquals(0.290, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.290, Util.getSystemTime(), tol);
     assertEquals(6, myMockClass.timesFired);
     assertRoughlyEquals(0.290, myClock.getTime(), tol);
     // finishAt doesn't care when callbacks are early... expects just on time
@@ -993,21 +993,21 @@ var testTimerClock3 = function() {
     // 9. advance time, callback is late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(70);
-    assertRoughlyEquals(0.360, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.360, Util.getSystemTime(), tol);
     assertEquals(7, myMockClass.timesFired);
     assertRoughlyEquals(0.360, myClock.getTime(), tol);
     assertRoughlyEquals(0.390, myTimer.getExpectedTime(), tol);
 
     // 10. advance time, callback stays late
     mockClock.tick(40);
-    assertRoughlyEquals(0.400, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.400, Util.getSystemTime(), tol);
     assertEquals(8, myMockClass.timesFired);
     assertRoughlyEquals(0.400, myClock.getTime(), tol);
     assertRoughlyEquals(0.440, myTimer.getExpectedTime(), tol);
 
     // 11. advance time, callback stays late
     mockClock.tick(50);
-    assertRoughlyEquals(0.450, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.450, Util.getSystemTime(), tol);
     assertEquals(9, myMockClass.timesFired);
     assertRoughlyEquals(0.450, myClock.getTime(), tol);
     assertRoughlyEquals(0.490, myTimer.getExpectedTime(), tol);
@@ -1015,7 +1015,7 @@ var testTimerClock3 = function() {
     // 12. advance time, callback slightly late
     mockClock.setTimeoutDelay(5);
     mockClock.tick(45);
-    assertRoughlyEquals(0.495, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.495, Util.getSystemTime(), tol);
     assertEquals(10, myMockClass.timesFired);
     assertRoughlyEquals(0.495, myClock.getTime(), tol);
     assertRoughlyEquals(0.545, myTimer.getExpectedTime(), tol);
@@ -1023,7 +1023,7 @@ var testTimerClock3 = function() {
     // 13. advance time, callback early
     mockClock.setTimeoutDelay(-5);
     mockClock.tick(45);
-    assertRoughlyEquals(0.540, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.540, Util.getSystemTime(), tol);
     assertEquals(11, myMockClass.timesFired);
     assertRoughlyEquals(0.540, myClock.getTime(), tol);
     assertRoughlyEquals(0.600, myTimer.getExpectedTime(), tol);
@@ -1031,7 +1031,7 @@ var testTimerClock3 = function() {
     // 14. advance time, callback late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(70);
-    assertRoughlyEquals(0.610, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.610, Util.getSystemTime(), tol);
     assertEquals(12, myMockClass.timesFired);
     assertRoughlyEquals(0.610, myClock.getTime(), tol);
     assertRoughlyEquals(0.640, myTimer.getExpectedTime(), tol);
@@ -1039,7 +1039,7 @@ var testTimerClock3 = function() {
     // 14. advance time, callback late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(40);
-    assertRoughlyEquals(0.650, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.650, Util.getSystemTime(), tol);
     assertEquals(13, myMockClass.timesFired);
     assertRoughlyEquals(0.650, myClock.getTime(), tol);
     assertRoughlyEquals(0.690, myTimer.getExpectedTime(), tol);
@@ -1088,8 +1088,8 @@ myphysicslab.lab.util.test.TimerClock_test.MockClass4 = function(timer, clock,
 };
 
 myphysicslab.lab.util.test.TimerClock_test.MockClass4.prototype.myCallBack4 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
-  var now = UtilityCore.getSystemTime();
+  var Util = myphysicslab.lab.util.Util;
+  var now = Util.getSystemTime();
   var late = this.mockClock.getTimeoutDelay()/1000;
   var expect = this.timer.getExpectedTime();
   assertRoughlyEquals(now, expect+late, 1E-12);
@@ -1147,7 +1147,7 @@ stage   system     clock   delay   expect
 */
 // tests the `Timer.fireAfter` method, when callback is early or late.
 var testTimerClock4 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Timer = myphysicslab.lab.util.Timer;
   var Clock = myphysicslab.lab.util.Clock;
   var tol = 1E-14;
@@ -1172,7 +1172,7 @@ var testTimerClock4 = function() {
 
     // Note how installing goog.testing.MockClock redefines goog.now()
     assertEquals(0, goog.now());
-    assertRoughlyEquals(0, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0, Util.getSystemTime(), tol);
 
     // 1. initial conditions
     assertEquals(0, myMockClass.timesFired);
@@ -1206,7 +1206,7 @@ var testTimerClock4 = function() {
     // 3. advance sysTime.  Our callback fires for the first time.
     mockClock.tick(50);
     assertEquals(50, goog.now());
-    assertRoughlyEquals(0.050, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.050, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(1, myMockClass.timesFired);
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
@@ -1219,7 +1219,7 @@ var testTimerClock4 = function() {
     // 4. advance time
     mockClock.tick(50);
     assertEquals(100, goog.now());
-    assertRoughlyEquals(0.100, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.100, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(2, myMockClass.timesFired);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
@@ -1231,7 +1231,7 @@ var testTimerClock4 = function() {
     mockClock.setTimeoutDelay(10);
     mockClock.tick(60);
     assertEquals(160, goog.now());
-    assertRoughlyEquals(0.160, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.160, Util.getSystemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertEquals(3, myMockClass.timesFired);
     assertRoughlyEquals(0.160, myClock.getTime(), tol);
@@ -1243,7 +1243,7 @@ var testTimerClock4 = function() {
     // 6. advance time, callback is on time
     mockClock.setTimeoutDelay(0);
     mockClock.tick(40);
-    assertRoughlyEquals(0.200, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.200, Util.getSystemTime(), tol);
     assertEquals(4, myMockClass.timesFired);
     assertRoughlyEquals(0.200, myClock.getTime(), tol);
     // next expected is expected + period -- (different to testTimerClock3)
@@ -1253,7 +1253,7 @@ var testTimerClock4 = function() {
     // 7. advance time
     mockClock.setTimeoutDelay(0);
     mockClock.tick(50);
-    assertRoughlyEquals(0.250, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.250, Util.getSystemTime(), tol);
     assertEquals(5, myMockClass.timesFired);
     assertRoughlyEquals(0.250, myClock.getTime(), tol);
     // expect = now + period - late = 0.240 + 0.050 - 0.000
@@ -1262,7 +1262,7 @@ var testTimerClock4 = function() {
     // 8. advance time, callback is early
     mockClock.setTimeoutDelay(-10);
     mockClock.tick(40);
-    assertRoughlyEquals(0.290, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.290, Util.getSystemTime(), tol);
     assertEquals(6, myMockClass.timesFired);
     assertRoughlyEquals(0.290, myClock.getTime(), tol);
     // don't care when callbacks are early... regards early as on time
@@ -1272,7 +1272,7 @@ var testTimerClock4 = function() {
     // 9. advance time, callback is late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(60);
-    assertRoughlyEquals(0.350, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.350, Util.getSystemTime(), tol);
     assertEquals(7, myMockClass.timesFired);
     assertRoughlyEquals(0.350, myClock.getTime(), tol);
     // expect = now + period - late = 0.350 + 0.050 - 0.010
@@ -1280,7 +1280,7 @@ var testTimerClock4 = function() {
 
     // 10. advance time, callback stays late
     mockClock.tick(50);
-    assertRoughlyEquals(0.400, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.400, Util.getSystemTime(), tol);
     assertEquals(8, myMockClass.timesFired);
     assertRoughlyEquals(0.400, myClock.getTime(), tol);
     // expect = now + period - late = 0.400 + 0.050 - 0.010
@@ -1288,7 +1288,7 @@ var testTimerClock4 = function() {
 
     // 11. advance time, callback stays late
     mockClock.tick(50);
-    assertRoughlyEquals(0.450, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.450, Util.getSystemTime(), tol);
     assertEquals(9, myMockClass.timesFired);
     assertRoughlyEquals(0.450, myClock.getTime(), tol);
     // expect = now + period - late = 0.450 + 0.050 - 0.010
@@ -1297,7 +1297,7 @@ var testTimerClock4 = function() {
     // 12. advance time, callback slightly late
     mockClock.setTimeoutDelay(5);
     mockClock.tick(45);
-    assertRoughlyEquals(0.495, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.495, Util.getSystemTime(), tol);
     assertEquals(10, myMockClass.timesFired);
     assertRoughlyEquals(0.495, myClock.getTime(), tol);
     // expect = now + period - late = 0.495 + 0.050 - 0.005
@@ -1306,7 +1306,7 @@ var testTimerClock4 = function() {
     // 13. advance time, callback early
     mockClock.setTimeoutDelay(-5);
     mockClock.tick(40);
-    assertRoughlyEquals(0.535, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.535, Util.getSystemTime(), tol);
     assertEquals(11, myMockClass.timesFired);
     assertRoughlyEquals(0.535, myClock.getTime(), tol);
     // expect = now + period - late = 0.535 + 0.050 - 0.000
@@ -1315,7 +1315,7 @@ var testTimerClock4 = function() {
     // 14. advance time, callback late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(60);
-    assertRoughlyEquals(0.595, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.595, Util.getSystemTime(), tol);
     assertEquals(12, myMockClass.timesFired);
     assertRoughlyEquals(0.595, myClock.getTime(), tol);
     // expect = now + period - late = 0.595 + 0.050 - 0.010
@@ -1324,7 +1324,7 @@ var testTimerClock4 = function() {
     // 15. advance time, callback late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(50);
-    assertRoughlyEquals(0.645, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.645, Util.getSystemTime(), tol);
     assertEquals(13, myMockClass.timesFired);
     assertRoughlyEquals(0.645, myClock.getTime(), tol);
     // expect = now + period - late = 0.645 + 0.050 - 0.010
@@ -1333,7 +1333,7 @@ var testTimerClock4 = function() {
     // 16. advance time, callback late
     mockClock.setTimeoutDelay(10);
     mockClock.tick(50);
-    assertRoughlyEquals(0.695, UtilityCore.getSystemTime(), tol);
+    assertRoughlyEquals(0.695, Util.getSystemTime(), tol);
     assertEquals(14, myMockClass.timesFired);
     assertRoughlyEquals(0.695, myClock.getTime(), tol);
     // expect = now + period - late = 0.695 + 0.050 - 0.010

@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
@@ -55,17 +55,17 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
   var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
   var LabCanvas = myphysicslab.lab.view.LabCanvas;
-  var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+  var NF5 = myphysicslab.lab.util.Util.NF5;
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
   var SimObject = myphysicslab.lab.model.SimObject;
   var SimView = myphysicslab.lab.view.SimView;
   var Timer = myphysicslab.lab.util.Timer;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Vector = myphysicslab.lab.util.Vector;
 
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var canvas_div = window.document.getElementById('canvas_div');
   if (!canvas_div) {
     throw new Error();
@@ -81,7 +81,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
 
   var point1 = PointMass.makeRectangle(1, 1.5, 'block');
 
-  var fixedPt = PointMass.makeSquare(1, 'fixed').setMass(UtilityCore.POSITIVE_INFINITY);
+  var fixedPt = PointMass.makeSquare(1, 'fixed').setMass(Util.POSITIVE_INFINITY);
   fixedPt.setPosition(new Vector(-4, 0));
   var spring1 = new Spring('spring',
       fixedPt, Vector.ORIGIN,
@@ -103,7 +103,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
     var delta = now - lastTime;
     var h = timer.getPeriod();
     //console.log('timer now='+NF5(now)+' last='+NF5(lastTime)
-    //    +' sys='+UtilityCore.getSystemTime());
+    //    +' sys='+Util.getSystemTime());
     // limit the amount of time to advance and retard the clock when long delays occur.
     if (delta > 1.5*h) {
       console.log('retard clock');

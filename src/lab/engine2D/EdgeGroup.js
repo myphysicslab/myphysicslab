@@ -17,12 +17,12 @@ goog.provide('myphysicslab.lab.engine2D.EdgeGroup');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.engine2D.EdgeRange');
 goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s in multiple Polygons.
 Edges are specified by {@link EdgeRange}s.
@@ -46,7 +46,7 @@ myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
 };
 var EdgeGroup = myphysicslab.lab.engine2D.EdgeGroup;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EdgeGroup.prototype.toString = function() {
     return 'EdgeGroup{ranges_.length: '+this.ranges_.length+'}';

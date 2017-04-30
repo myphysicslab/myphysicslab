@@ -134,7 +134,7 @@ fi
 #
 # see:  https://code.google.com/p/closure-compiler/wiki/Warnings
 #
-# The myphysicslab.lab.util.UtilityCore.ADVANCED flag should be set 'true' when
+# The myphysicslab.lab.util.Util.ADVANCED flag should be set 'true' when
 # ADVANCED_OPTIMIZATIONS is used.  (This disables the command line Terminal.)
 #
 # It is possible to use Terminal for interactive debugging under advanced compile by
@@ -202,7 +202,7 @@ java -jar "$CLOSURE_COMPILER" \
 --compilation_level=$comp_level \
 --define=goog.DEBUG=$debug \
 --define=goog.LOCALE="'$locale'" \
---define=myphysicslab.lab.util.UtilityCore.ADVANCED=$advanced \
+--define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=$rootDir \

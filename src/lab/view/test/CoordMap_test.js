@@ -16,7 +16,7 @@ goog.provide('myphysicslab.lab.view.test.CoordMap_test');
 
 goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.HorizAlign');
@@ -28,7 +28,7 @@ var testCoordMap = function() {
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
   var HorizAlign = myphysicslab.lab.view.HorizAlign;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Vector = myphysicslab.lab.util.Vector;
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 

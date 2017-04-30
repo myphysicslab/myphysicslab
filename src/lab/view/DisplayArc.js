@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.view.DisplayArc');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
@@ -25,9 +25,9 @@ goog.scope(function() {
 
 var Arc = myphysicslab.lab.model.Arc;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link myphysicslab.lab.model.Arc}.
@@ -81,7 +81,7 @@ myphysicslab.lab.view.DisplayArc = function(arc, proto) {
 };
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayArc.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

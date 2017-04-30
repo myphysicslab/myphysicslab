@@ -19,15 +19,15 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.CircularList');
 goog.require('myphysicslab.lab.util.HistoryList');
 goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var CircularList = myphysicslab.lab.util.CircularList;
 var HistoryList = myphysicslab.lab.util.HistoryList;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Collects data from a {@link VarsList},
@@ -83,7 +83,7 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
   /** number formatting function
   * @type {function(number): string}
   */
-  this.numberFormat = UtilityCore.NF5E;
+  this.numberFormat = Util.NF5E;
   /** separator between numbers
   * @type {string}
   */
@@ -91,12 +91,12 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
 };
 var VarsHistory = myphysicslab.lab.graph.VarsHistory;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   VarsHistory.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', samples: '+this.dataPoints_.getSize()
-        +', varIndex_: ['+UtilityCore.array2string(this.varIndex_, UtilityCore.NF0)
+        +', varIndex_: ['+Util.array2string(this.varIndex_, Util.NF0)
         +']}';
   };
 
@@ -142,7 +142,7 @@ VarsHistory.prototype.output = function() {
   var s = '';
   while (iter.hasNext()) {
     var data = iter.nextValue();
-    s += UtilityCore.array2string(data, this.numberFormat, this.separator) + '\n';
+    s += Util.array2string(data, this.numberFormat, this.separator) + '\n';
   }
   return s;
 };

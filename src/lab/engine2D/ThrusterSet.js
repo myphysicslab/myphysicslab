@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -27,9 +27,9 @@ goog.scope(function() {
 var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Contains a set of thrust forces operating on a particular RigidBody; each thruster
@@ -83,7 +83,7 @@ myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) 
 };
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ThrusterSet.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

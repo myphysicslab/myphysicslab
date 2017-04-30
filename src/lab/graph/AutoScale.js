@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
 
@@ -38,13 +38,13 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var GraphLine = myphysicslab.lab.graph.GraphLine;
 var LabView = myphysicslab.lab.view.LabView;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var SimView = myphysicslab.lab.view.SimView;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Watches the {@link VarsList} of one or more {@link GraphLine} to calculate the
@@ -225,7 +225,7 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
 var AutoScale = myphysicslab.lab.graph.AutoScale;
 goog.inherits(AutoScale, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AutoScale.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -524,7 +524,7 @@ AutoScale.prototype.setEnabled = function(value) {
 * @param {number} value length of time to include in the range rectangle
 */
 AutoScale.prototype.setTimeWindow = function(value) {
-  if (UtilityCore.veryDifferent(value, this.timeWindow_)) {
+  if (Util.veryDifferent(value, this.timeWindow_)) {
     this.timeWindow_ = value;
     this.reset();
     // this fixes following bug: click pan-zoom control which makes AutoScale inactive;

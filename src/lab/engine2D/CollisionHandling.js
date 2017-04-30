@@ -14,11 +14,11 @@
 
 goog.provide('myphysicslab.lab.engine2D.CollisionHandling');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Enum that specifies which collision handling algorithm to use during
 {@link myphysicslab.lab.engine2D.ImpulseSim#handleCollisions}.

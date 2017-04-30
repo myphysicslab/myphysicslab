@@ -18,21 +18,21 @@ goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.MutableVector');
 
 var testSpring = function() {
   var Vector = myphysicslab.lab.util.Vector;
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var tol = 1E-15;
   var p1 = PointMass.makeCircle(1, 'point1').setMass(2);
   p1.setPosition(new Vector(0,  1));
   var p2 = PointMass.makeCircle(1, 'point2').setMass(0.5);
   p2.setPosition(new Vector(2,  0));
   var v1 = new Vector(0, -2);
-  var fixedPt = PointMass.makeCircle(1, 'fixed').setMass(UtilityCore.POSITIVE_INFINITY);
+  var fixedPt = PointMass.makeCircle(1, 'fixed').setMass(Util.POSITIVE_INFINITY);
   fixedPt.setPosition(v1);
   // spring attached to fixed point at v1 and p2
   var s1 = new Spring('spring1',
@@ -101,14 +101,14 @@ var testSpringCompressOnly = function() {
   var Vector = myphysicslab.lab.util.Vector;
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var tol = 1E-15;
   var p1 = PointMass.makeCircle(1, 'point1').setMass(2);
   p1.setPosition(new Vector(1,  1));
   var p2 = PointMass.makeCircle(1, 'point2').setMass(0.5);
   p2.setPosition(new Vector(3,  0));
   var v1 = new Vector(0, 0);
-  var fixedPt = PointMass.makeCircle(1, 'fixed').setMass(UtilityCore.POSITIVE_INFINITY);
+  var fixedPt = PointMass.makeCircle(1, 'fixed').setMass(Util.POSITIVE_INFINITY);
   fixedPt.setPosition(v1);
   // spring attached to fixed point at v1 and p2
   var s1 = new Spring('spring1',

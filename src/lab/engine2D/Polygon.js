@@ -34,7 +34,7 @@ goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -51,13 +51,13 @@ var GenericVector = myphysicslab.lab.util.GenericVector;
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 var MassObject = myphysicslab.lab.model.MassObject;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -287,7 +287,7 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   * @type {number}
   * @private
   */
-  this.centroidRadius_ = UtilityCore.NaN;
+  this.centroidRadius_ = Util.NaN;
   /** An Edge that takes priority for collision handling, as in a wall object,
   when this is not null then special proximity testing is done.
   Note that the other Edges of this object will have zero centroid radius and therefore
@@ -307,22 +307,22 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   * @type {number}
   * @private
   */
-  this.left_body_ = UtilityCore.NaN;
+  this.left_body_ = Util.NaN;
   /** right side of bounds in body coordinates
   * @type {number}
   * @private
   */
-  this.right_body_ = UtilityCore.NaN;
+  this.right_body_ = Util.NaN;
   /** top of bounds in body coordinates
   * @type {number}
   * @private
   */
-  this.top_body_ = UtilityCore.NaN;
+  this.top_body_ = Util.NaN;
   /** bottom of bounds in body coordinates
   * @type {number}
   * @private
   */
-  this.bottom_body_ = UtilityCore.NaN;
+  this.bottom_body_ = Util.NaN;
   /** the index into the variables array for this Polygon, or -1 if not in vars array
   * @type {number}
   * @private
@@ -360,7 +360,7 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 goog.inherits(Polygon, AbstractMassObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Polygon.prototype.toString = function() {
     return Polygon.superClass_.toString.call(this).slice(0, -1)
@@ -531,10 +531,10 @@ Polygon.prototype.addStraightEdge = function(p_body, outsideIsUp) {
 * @private
 */
 Polygon.prototype.calculateSize = function() {
-  var xmin = UtilityCore.POSITIVE_INFINITY;
-  var xmax = UtilityCore.NEGATIVE_INFINITY;
-  var ymin = UtilityCore.POSITIVE_INFINITY;
-  var ymax = UtilityCore.NEGATIVE_INFINITY;
+  var xmin = Util.POSITIVE_INFINITY;
+  var xmax = Util.NEGATIVE_INFINITY;
+  var ymin = Util.POSITIVE_INFINITY;
+  var ymax = Util.NEGATIVE_INFINITY;
   goog.array.forEach(this.edges_, function(e) {
     if (e.getLeftBody() < xmin)
       xmin = e.getLeftBody();
@@ -863,7 +863,7 @@ Polygon.prototype.getMinHeight = function() {
   //when the center of mass is not on one of the axes of the circle/ellipse.
   //BUG WARNING:  Should be recalculated if the center of mass changes.
   if (isNaN(this.minHeight_)) {
-    var dist = UtilityCore.POSITIVE_INFINITY;
+    var dist = Util.POSITIVE_INFINITY;
     // find minimum distance to an Edge.
     goog.array.forEach(this.edges_,
       function(e) {
@@ -872,7 +872,7 @@ Polygon.prototype.getMinHeight = function() {
           console.log('d='+NF(d)+' cm='+this.cm_body_+' '+e);
         // Distance of infinity means the point is 'beyond' the Edge, ie.
         // not in the region perpendicular to the Edge.
-        if (d == UtilityCore.POSITIVE_INFINITY)
+        if (d == Util.POSITIVE_INFINITY)
           return;
         // if the distance to Edge is positive, then center of mass is 'outside'
         // in relation to this Edge.  This indicates the object has a more
@@ -891,7 +891,7 @@ Polygon.prototype.getMinHeight = function() {
       }, this);
     // If the above didn't work, then use the method
     // which looks at the body as a rectangle.
-    if (dist == UtilityCore.POSITIVE_INFINITY)
+    if (dist == Util.POSITIVE_INFINITY)
       dist = this.getMinHeight2();
     this.minHeight_ = dist;
   }
@@ -904,7 +904,7 @@ Polygon.prototype.getMinHeight = function() {
 */
 Polygon.prototype.getMinHeight2 = function() {
   if (isNaN(this.minHeight_)) {
-    var dist = UtilityCore.POSITIVE_INFINITY;
+    var dist = Util.POSITIVE_INFINITY;
     var d;
     for (var i = 0; i <= 3; i++) {
       switch (i) {
@@ -921,7 +921,7 @@ Polygon.prototype.getMinHeight2 = function() {
           d = this.cm_body_.getX() - this.getLeftBody();
           break;
         default:
-          d = UtilityCore.POSITIVE_INFINITY;
+          d = Util.POSITIVE_INFINITY;
           break;
       }
       if (d < dist)

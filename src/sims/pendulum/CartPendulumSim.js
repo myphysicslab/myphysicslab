@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -34,11 +34,11 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -171,7 +171,7 @@ myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
   * @private
   */
   this.fixedPoint_ = PointMass.makeSquare(0.5, 'fixed point');
-  this.fixedPoint_.setMass(UtilityCore.POSITIVE_INFINITY);
+  this.fixedPoint_.setMass(Util.POSITIVE_INFINITY);
   this.fixedPoint_.setPosition(new Vector(3, 0));
   /**
   * @type {!ConcreteLine}
@@ -229,7 +229,7 @@ myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
 var CartPendulumSim = myphysicslab.sims.pendulum.CartPendulumSim;
 goog.inherits(CartPendulumSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CartPendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -295,7 +295,7 @@ CartPendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // limit the pendulum angle to +/- Pi
-  var angle = UtilityCore.limitAngle(vars[1]);
+  var angle = Util.limitAngle(vars[1]);
   if (angle != vars[1]) {
     // Increase sequence number of angle variable when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -380,7 +380,7 @@ CartPendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) 
 
 /** @inheritDoc */
 CartPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   change[8] = 1; // time
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8

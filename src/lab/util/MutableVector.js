@@ -16,12 +16,12 @@ goog.provide('myphysicslab.lab.util.MutableVector');
 
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var Util = myphysicslab.lab.util.Util;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -54,7 +54,7 @@ myphysicslab.lab.util.MutableVector = function(x, y, opt_z) {
 };
 var MutableVector = myphysicslab.lab.util.MutableVector;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   MutableVector.prototype.toString = function() {
     return 'MutableVector{x: '+NF(this.x_)+', y: '+NF(this.y_)
         + (this.z_ != 0 ? ', z: '+NF(this.z_) : '')
@@ -206,13 +206,13 @@ MutableVector.prototype.multiply = function(factor) {
 @return {boolean} true if the vectors are similar
 */
 MutableVector.prototype.nearEqual = function(vector, opt_tolerance) {
-  if (UtilityCore.veryDifferent(this.x_, vector.getX(), opt_tolerance)) {
+  if (Util.veryDifferent(this.x_, vector.getX(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.y_, vector.getY(), opt_tolerance)) {
+  if (Util.veryDifferent(this.y_, vector.getY(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.z_, vector.getZ(), opt_tolerance)) {
+  if (Util.veryDifferent(this.z_, vector.getZ(), opt_tolerance)) {
     return false;
   }
   return true;

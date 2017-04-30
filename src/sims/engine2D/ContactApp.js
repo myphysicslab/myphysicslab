@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.SixThrusters');
@@ -57,7 +57,7 @@ var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -148,7 +148,7 @@ sims.engine2D.ContactApp = function(elem_ids) {
 var ContactApp = sims.engine2D.ContactApp;
 goog.inherits(ContactApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ContactApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

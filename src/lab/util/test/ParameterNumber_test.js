@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.util.test.ParameterNumber_test');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('goog.testing.jsunit');
@@ -25,7 +25,7 @@ goog.require('goog.testing.jsunit');
 
 var testParameterNumber1 = function() {
   var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   /**
   @constructor
   @implements {myphysicslab.lab.util.Subject}
@@ -129,7 +129,7 @@ var testParameterNumber1 = function() {
   assertEquals('3.141592653589793', String(paramFoo.getValue()));
   assertRoughlyEquals(Math.PI, paramFoo.getValue(), 1e-15);
   assertEquals(0, paramFoo.getLowerLimit());
-  assertEquals(UtilityCore.POSITIVE_INFINITY, paramFoo.getUpperLimit());
+  assertEquals(Util.POSITIVE_INFINITY, paramFoo.getUpperLimit());
   // can't set value less than lowerLimit
   assertThrows(function() { paramFoo.setValue(-1); });
   // can't set lowerLimit more than value
@@ -143,7 +143,7 @@ var testParameterNumber1 = function() {
   assertEquals(paramFoo, paramFoo.setUpperLimit(0));
   assertEquals(0, paramFoo.getUpperLimit());
   assertThrows(function() { paramFoo.setValue(1); });
-  assertEquals(paramFoo, paramFoo.setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+  assertEquals(paramFoo, paramFoo.setLowerLimit(Util.NEGATIVE_INFINITY));
   assertEquals(undefined, paramFoo.setValue(-1e200));
   // compare to the next representable number that is more negative
   assertRoughlyEquals(-1.00000000000000013969727991388E200, paramFoo.getValue(), 1E185);
@@ -152,7 +152,7 @@ var testParameterNumber1 = function() {
       MockSubject1.FOOBARNESS,
       goog.bind(mockSubj1.getFooBarness, mockSubj1),
       goog.bind(mockSubj1.setFooBarness, mockSubj1));
-  assertEquals(UtilityCore.toName(MockSubject1.FOOBARNESS), paramFooBar.getName());
+  assertEquals(Util.toName(MockSubject1.FOOBARNESS), paramFooBar.getName());
   assertTrue(paramFooBar.nameEquals(MockSubject1.FOOBARNESS));
   assertEquals(mockSubj1, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterNumber);
@@ -171,7 +171,7 @@ goog.exportProperty(window, 'testParameterNumber1', testParameterNumber1);
 
 var testParameterNumber2 = function() {
   var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   /**
   @constructor
   @extends {myphysicslab.lab.util.AbstractSubject}
@@ -245,14 +245,14 @@ var testParameterNumber2 = function() {
   assertEquals('3.141592653589793', String(paramFoo.getValue()));
   assertRoughlyEquals(Math.PI, paramFoo.getValue(), 1e-15);
   assertEquals(0, paramFoo.getLowerLimit());
-  assertEquals(UtilityCore.POSITIVE_INFINITY, paramFoo.getUpperLimit());
+  assertEquals(Util.POSITIVE_INFINITY, paramFoo.getUpperLimit());
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
       goog.bind(mockSubj2.getFooBarness, mockSubj2),
       goog.bind(mockSubj2.setFooBarness, mockSubj2));
   mockSubj2.addParameter(paramFooBar);
-  assertEquals(UtilityCore.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());
+  assertEquals(Util.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());
   assertEquals(mockSubj2, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterNumber);
   assertEquals(0, paramFooBar.getValue());
@@ -264,7 +264,7 @@ goog.exportProperty(window, 'testParameterNumber2', testParameterNumber2);
 
 var testParameterNumber3 = function() {
   var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   /**
   @constructor
   @extends {myphysicslab.lab.util.AbstractSubject}
@@ -333,7 +333,7 @@ var testParameterNumber3 = function() {
   assertEquals('3.141592653589793', String(paramFoo.getValue()));
   assertRoughlyEquals(Math.PI, paramFoo.getValue(), 1e-15);
   assertEquals(0, paramFoo.getLowerLimit());
-  assertEquals(UtilityCore.POSITIVE_INFINITY, paramFoo.getUpperLimit());
+  assertEquals(Util.POSITIVE_INFINITY, paramFoo.getUpperLimit());
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj3, MockSubject3.FOOBARNESS,
       MockSubject3.FOOBARNESS,
@@ -351,7 +351,7 @@ goog.exportProperty(window, 'testParameterNumber3', testParameterNumber3);
 // ParameterNumber with array of choices and values
 var testParameterNumber4 = function() {
   var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   /**
   @constructor
   @extends {myphysicslab.lab.util.AbstractSubject}

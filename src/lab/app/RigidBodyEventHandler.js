@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -33,8 +33,8 @@ goog.scope(function() {
 var Clock = myphysicslab.lab.util.Clock;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var KeyCodes = goog.events.KeyCodes;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
@@ -42,7 +42,7 @@ var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** User interface controller for RigidBodySim, provides mouse dragging of nearest
@@ -116,7 +116,7 @@ myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
   * @private
   */
   this.mousePoint_ = PointMass.makeCircle(1, 'mouse position')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   /**
   * @type {number}
   * @private
@@ -164,7 +164,7 @@ myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
 
 var RigidBodyEventHandler = myphysicslab.lab.app.RigidBodyEventHandler;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidBodyEventHandler.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -283,7 +283,7 @@ RigidBodyEventHandler.prototype.resetDrag = function() {
 /** @inheritDoc */
 RigidBodyEventHandler.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
   //console.log('RBEH.handleKeyEvent keyCode:'+keyCode+'  pressed: '+pressed
-  //  +' event:'+UtilityCore.propertiesOf(keyEvent, true));
+  //  +' event:'+Util.propertiesOf(keyEvent, true));
   var thrustRight = this.thrustRight_;
   var thrustLeft = this.thrustLeft_;
   if (keyEvent.ctrlKey || keyEvent.metaKey || keyEvent.altKey)

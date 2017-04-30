@@ -18,7 +18,7 @@ goog.require('goog.asserts');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
@@ -26,10 +26,10 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var Spring = myphysicslab.lab.model.Spring;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link Spring}. Can show either a jagged or straight line,
@@ -96,7 +96,7 @@ myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
 };
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplaySpring.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

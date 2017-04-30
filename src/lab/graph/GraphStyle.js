@@ -15,12 +15,12 @@
 goog.provide('myphysicslab.lab.graph.GraphStyle');
 
 goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Specifies graph style such as color, line thickness, line pattern.
 
@@ -66,7 +66,7 @@ myphysicslab.lab.graph.GraphStyle = function(index, drawMode, color, lineWidth) 
 };
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GraphStyle.prototype.toString = function() {
     return 'GraphStyle{index_: '+this.index_

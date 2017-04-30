@@ -14,12 +14,12 @@
 
 goog.provide('myphysicslab.sims.roller.HumpPath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** A 'W' shaped path with a central hump.  Formed from a quartic

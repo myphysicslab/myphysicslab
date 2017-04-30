@@ -33,7 +33,7 @@ goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.NumericalPath');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.ChainConfig');
@@ -48,7 +48,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 var AdaptiveStepSolver = lab.model.AdaptiveStepSolver;
 var ChainConfig = sims.engine2D.ChainConfig;
@@ -70,11 +70,11 @@ var GravityLaw = lab.model.GravityLaw;
 var HumpPath = sims.roller.HumpPath;
 var JointUtil = lab.engine2D.JointUtil;
 var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
-var NF1S = UtilityCore.NF1S;
-var NF2 = UtilityCore.NF2;
-var NF5 = UtilityCore.NF5;
-var NF7 = UtilityCore.NF7;
-var NFE = UtilityCore.NFE;
+var NF1S = Util.NF1S;
+var NF2 = Util.NF2;
+var NF5 = Util.NF5;
+var NF7 = Util.NF7;
+var NFE = Util.NFE;
 var NumericalPath = lab.model.NumericalPath;
 var PathEndPoint = lab.engine2D.PathEndPoint;
 var PathJoint = lab.engine2D.PathJoint;
@@ -278,10 +278,10 @@ MiscellanyTest.clock_with_gears = function() {
 MiscellanyTest.clock_gears_perf = function() {
   var testName = 'clock_gears_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   MiscellanyTest.clock_with_gears();
   Engine2DTestRig.testName = MiscellanyTest.groupName+testName;
-  var endTime = UtilityCore.getSystemTime();
+  var endTime = Util.getSystemTime();
   var duration = endTime - startTime;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);
@@ -325,7 +325,7 @@ MiscellanyTest.non_collide_edges_setup = function(sim, advance) {
   goog.asserts.assert(p2.nonCollideEdge(p1.getEdges()[0]));
   sim.addBody(p2);
   var p3 = Shapes.makeBlock(10, 0.5, 'floor');
-  p3.setMass(UtilityCore.POSITIVE_INFINITY);
+  p3.setMass(Util.POSITIVE_INFINITY);
   p3.setPosition(new Vector(0,  -6),  0);
   var floor = p3.getTopWorld();
   p1.setZeroEnergyLevel(floor + 0.6);

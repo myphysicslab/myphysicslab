@@ -17,12 +17,12 @@ goog.provide('myphysicslab.lab.engine2D.CornerCornerCollision');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** A RigidBodyCollision between two corners.
@@ -56,7 +56,7 @@ myphysicslab.lab.engine2D.CornerCornerCollision = function(vertex, normalVertex)
 var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
 goog.inherits(CornerCornerCollision, RigidBodyCollision);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CornerCornerCollision.prototype.toString = function() {
     return CornerCornerCollision.superClass_.toString.call(this).slice(0, -1)

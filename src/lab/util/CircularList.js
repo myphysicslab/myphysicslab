@@ -18,13 +18,13 @@ goog.provide('myphysicslab.lab.util.CircularListIterator');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.HistoryList');
 goog.require('myphysicslab.lab.util.HistoryIterator');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var HistoryList = myphysicslab.lab.util.HistoryList;
 var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A circular list of values, where the next value added overwrites the oldest
 value. The list is filled in until full, then it overwrites earlier entries in the list.
@@ -151,7 +151,7 @@ myphysicslab.lab.util.CircularList = function(capacity) {
 };
 var CircularList = myphysicslab.lab.util.CircularList;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CircularList.prototype.toString = function() {
     return 'CircularList{capacity_: '+this.capacity_
@@ -175,7 +175,7 @@ CircularList.MAX_INDEX_ERROR = 'exceeded max int';
 */
 CircularList.prototype.causeMaxIntError = function() {
   this.size_ = this.capacity_;
-  this.cycles_ = Math.floor(UtilityCore.MAX_INTEGER/this.capacity_) - 1;
+  this.cycles_ = Math.floor(Util.MAX_INTEGER/this.capacity_) - 1;
 };
 
 /** @inheritDoc */
@@ -244,7 +244,7 @@ CircularList.prototype.pointerToIndex = function(pointer) {
     return pointer;
   var idx = pointer +
       (this.cycles_ - (pointer < this.nextPtr_ ? 0 : 1)) * this.capacity_;
-  if (idx >= UtilityCore.MAX_INTEGER)
+  if (idx >= Util.MAX_INTEGER)
     throw new Error(CircularList.MAX_INDEX_ERROR);
   return idx;
 };

@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.DampingLaw');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
@@ -58,7 +58,7 @@ var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -138,7 +138,7 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
 var ImpulseApp = sims.engine2D.ImpulseApp;
 goog.inherits(ImpulseApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ImpulseApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.springs.MoleculeCollision');
 
@@ -41,11 +41,11 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -253,7 +253,7 @@ myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
   * @private
   */
   this.walls_ = PointMass.makeSquare(12, 'walls')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   /**
   * @type {!PointMass}
   * @private
@@ -322,7 +322,7 @@ myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
 var Molecule1Sim = myphysicslab.sims.springs.Molecule1Sim;
 goog.inherits(Molecule1Sim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Molecule1Sim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -535,7 +535,7 @@ Molecule1Sim.prototype.handleCollisions = function(collisions, opt_totals) {
 
 /** @inheritDoc */
 Molecule1Sim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE

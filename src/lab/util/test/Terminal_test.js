@@ -15,15 +15,15 @@
 goog.provide('myphysicslab.lab.util.test.Terminal_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('goog.testing.jsunit');
 
 var testTerminal1 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Terminal = myphysicslab.lab.util.Terminal;
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
   }
@@ -49,7 +49,7 @@ var testTerminal1 = function() {
   t.eval('z.a');
   assertEquals('> z.a\n1\n', output_elem.value);
   // Test that semi-colons inside strings or braces don't break up the command
-  assertTrue(t.eval('UtilityCore.toName("foo;")=="FOO;"'));
+  assertTrue(t.eval('Util.toName("foo;")=="FOO;"'));
   assertEquals(6, t.eval('{1;2;3+3}'));
   assertEquals(3, t.eval('{1;{2;3}}'));
   assertEquals('foo;bar', t.eval('"baz";"foo;"+"bar"'));
@@ -60,10 +60,10 @@ var testTerminal1 = function() {
 goog.exportProperty(window, 'testTerminal1', testTerminal1);
 
 var testTerminal2 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Terminal = myphysicslab.lab.util.Terminal;
   var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
   }
@@ -138,9 +138,9 @@ var testTerminal2 = function() {
 goog.exportProperty(window, 'testTerminal2', testTerminal2);
 
 var testTerminal3 = function() {
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Terminal = myphysicslab.lab.util.Terminal;
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
   }

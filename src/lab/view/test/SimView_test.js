@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
@@ -112,7 +112,7 @@ var testSimView1 = function() {
   var SimObject = myphysicslab.lab.model.SimObject;
   var SimView = myphysicslab.lab.view.SimView;
   var Spring = myphysicslab.lab.model.Spring;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Vector = myphysicslab.lab.util.Vector;
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -216,7 +216,7 @@ var testSimView1 = function() {
   var v1 = new myphysicslab.lab.util.Vector(2.5, 0);
   point1.setPosition(v1);
   var shape1 = new DisplayShape(point1).setFillStyle('orange');
-  var fixedPt = PointMass.makeSquare(1).setMass(UtilityCore.POSITIVE_INFINITY);
+  var fixedPt = PointMass.makeSquare(1).setMass(Util.POSITIVE_INFINITY);
   fixedPt.setPosition(new myphysicslab.lab.util.Vector(-1,  0));
   var spring1 = new Spring('spring1',
       fixedPt, myphysicslab.lab.util.Vector.ORIGIN,

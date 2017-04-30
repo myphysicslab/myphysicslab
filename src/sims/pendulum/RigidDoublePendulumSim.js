@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -42,7 +42,7 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var Joint = myphysicslab.lab.engine2D.Joint;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
@@ -50,7 +50,7 @@ var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -240,7 +240,7 @@ myphysicslab.sims.pendulum.RigidDoublePendulumSim = function(parts, opt_name,
 var RigidDoublePendulumSim = myphysicslab.sims.pendulum.RigidDoublePendulumSim;
 goog.inherits(RigidDoublePendulumSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidDoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -447,7 +447,7 @@ RigidDoublePendulumSim.prototype.moveObjects = function(vars) {
 
 /** @inheritDoc */
 RigidDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[7] = 1; // time
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time

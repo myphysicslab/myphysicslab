@@ -19,14 +19,14 @@ goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Creates a 'slider plus textbox' control that displays and modifies the given
 ParameterNumber. Consists of a label plus a slider and textbox which show the value of
@@ -285,7 +285,7 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
 };
 var SliderControl = myphysicslab.lab.controls.SliderControl;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SliderControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -381,7 +381,7 @@ SliderControl.prototype.formatTextField = function() {
   var dec = this.decimalPlacesNeeded(this.paramValue_, this.sigDigits_);
   var col = this.columnsNeeded(this.paramValue_, this.sigDigits_);
   // console.log('columnsNeeded '+col+' dec='+dec+' x='
-  //      +UtilityCore.NFE(this.paramValue_)+' '+this.parameter_.getName());
+  //      +Util.NFE(this.paramValue_)+' '+this.parameter_.getName());
   this.textboxValue_ = this.paramValue_.toFixed(dec);
   this.textField_.value = this.textboxValue_;
   if (col != this.columns_) {
@@ -534,7 +534,7 @@ SliderControl.prototype.setValue = function(value) {
 */
 SliderControl.prototype.sliderChange = function(event) {
   var newValue = this.incrementToValue(Number(this.slider_.value));
-  if (UtilityCore.veryDifferent(newValue, this.sliderValue_)) {
+  if (Util.veryDifferent(newValue, this.sliderValue_)) {
     this.setValue(newValue);
   }
 };

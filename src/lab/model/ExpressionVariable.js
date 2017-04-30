@@ -17,13 +17,13 @@ goog.provide('myphysicslab.lab.model.ExpressionVariable');
 goog.require('myphysicslab.lab.model.ConcreteVariable');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var Terminal = myphysicslab.lab.util.Terminal;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
@@ -42,7 +42,7 @@ The variable can then be displayed in a graph.
 
 * @param {!VarsList} varsList the VarsList which contains this Variable
 * @param {string} name the name of this Variable; this will be underscorized so the
-*     English name can be passed in here. See {@link UtilityCore#toName}.
+*     English name can be passed in here. See {@link Util#toName}.
 * @param {string} localName the localized name of this Variable
 * @param {!Terminal} terminal the Terminal object used for evaluating the script
 * @param {string} script the JavaScript expression to evaluate that will provide the
@@ -70,7 +70,7 @@ myphysicslab.lab.model.ExpressionVariable = function(varsList, name, localName,
 var ExpressionVariable = myphysicslab.lab.model.ExpressionVariable;
 goog.inherits(ExpressionVariable, ConcreteVariable);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ExpressionVariable.prototype.toString = function() {
     return ExpressionVariable.superClass_.toString.call(this).slice(0, -1)

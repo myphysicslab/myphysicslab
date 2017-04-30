@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.controls.TextControl');
 
 goog.require('myphysicslab.lab.controls.TextControlBase');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var TextControlBase = myphysicslab.lab.controls.TextControlBase;
 var ParameterString = myphysicslab.lab.util.ParameterString;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A user interface control for displaying and editing the value of a
 {@link ParameterString}.
@@ -56,7 +56,7 @@ myphysicslab.lab.controls.TextControl = function(parameter, textField) {
 var TextControl = myphysicslab.lab.controls.TextControl;
 goog.inherits(TextControl, TextControlBase);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   TextControl.prototype.toString = function() {
     return TextControl.superClass_.toString.call(this).slice(0, -1)

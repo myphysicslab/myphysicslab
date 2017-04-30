@@ -39,7 +39,7 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayList');
@@ -90,7 +90,7 @@ var GenericMemo = lab.util.GenericMemo;
 var GenericObserver = lab.util.GenericObserver;
 var HorizAlign = lab.view.HorizAlign;
 var LabControl = lab.controls.LabControl;
-var NF5 = lab.util.UtilityCore.NF5;
+var NF5 = lab.util.Util.NF5;
 var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterString = lab.util.ParameterString;
@@ -106,7 +106,7 @@ var StringShape = sims.pde.StringShape;
 var StringSim = sims.pde.StringSim;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -138,7 +138,7 @@ can be properly expanded.
 * @export
 */
 myphysicslab.sims.pde.StringApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, 'APP');
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
@@ -340,7 +340,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
 var StringApp = myphysicslab.sims.pde.StringApp;
 goog.inherits(StringApp, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -389,7 +389,7 @@ StringApp.prototype.setShape = function(value) {
 * @export
 */
 StringApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|block|blockMass|clock|displayClock|energyGraph'

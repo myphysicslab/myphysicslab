@@ -15,16 +15,16 @@
 goog.provide('myphysicslab.lab.model.PathPoint');
 
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a point along a {@link myphysicslab.lab.model.NumericalPath}, used for
@@ -55,11 +55,11 @@ myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
   /** slope may be infinite
   * @type {number}
   */
-  this.slope = UtilityCore.NaN;
+  this.slope = Util.NaN;
   /** radius of curvature of the path at this point
   * @type {number}
   */
-  this.radius = UtilityCore.NaN;
+  this.radius = Util.NaN;
   /** whether to calculate radius of curvature
   * @type {boolean}
   */
@@ -113,7 +113,7 @@ myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
 };
 var PathPoint = myphysicslab.lab.model.PathPoint;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   PathPoint.prototype.toString = function() {
     return 'PathPoint{'
         +'p='+NF(this.p)

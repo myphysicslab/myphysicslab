@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -33,12 +33,12 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A numerical approximation of a {@link ParametricPath} providing various functions
@@ -168,47 +168,47 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
   * @type {!Array<number>}
   * @private
   */
-  this.xvals = UtilityCore.newNumberArray(this.tableLength_);
+  this.xvals = Util.newNumberArray(this.tableLength_);
   /** y, vertical position
   * @type {!Array<number>}
   * @private
   */
-  this.yvals = UtilityCore.newNumberArray(this.tableLength_);
+  this.yvals = Util.newNumberArray(this.tableLength_);
   /** p, path distance
   * @type {!Array<number>}
   * @private
   */
-  this.pvals = UtilityCore.newNumberArray(this.tableLength_);
+  this.pvals = Util.newNumberArray(this.tableLength_);
   /** dx/dp
   * @type {!Array<number>}
   * @private
   */
-  this.dxvals = UtilityCore.newNumberArray(this.tableLength_);
+  this.dxvals = Util.newNumberArray(this.tableLength_);
   /** dy/dp
   * @type {!Array<number>}
   * @private
   */
-  this.dyvals = UtilityCore.newNumberArray(this.tableLength_);
+  this.dyvals = Util.newNumberArray(this.tableLength_);
   /** normal x at mid-point
   * @type {!Array<number>}
   * @private
   */
-  this.nxVals = UtilityCore.newNumberArray(this.tableLength_);
+  this.nxVals = Util.newNumberArray(this.tableLength_);
   /** normal y at mid-point
   * @type {!Array<number>}
   * @private
   */
-  this.nyVals = UtilityCore.newNumberArray(this.tableLength_);
+  this.nyVals = Util.newNumberArray(this.tableLength_);
   /** derivative of normal w.r.t. p at mid-point
   * @type {!Array<number>}
   * @private
   */
-  this.nxpVals = UtilityCore.newNumberArray(this.tableLength_);
+  this.nxpVals = Util.newNumberArray(this.tableLength_);
   /** derivative of normal w.r.t. p at mid-point
   * @type {!Array<number>}
   * @private
   */
-  this.nypVals = UtilityCore.newNumberArray(this.tableLength_);
+  this.nypVals = Util.newNumberArray(this.tableLength_);
   /**
   * @type {boolean}
   * @private
@@ -248,7 +248,7 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 goog.inherits(NumericalPath, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   NumericalPath.prototype.toString = function() {
     return NumericalPath.superClass_.toString.call(this).slice(0, -1)
@@ -436,7 +436,7 @@ NumericalPath.prototype.findNearestGlobal = function(point) {
   // just do a straight search; improve later if necessary.
   var x = point.getX();
   var y = point.getY();
-  var best_len = UtilityCore.POSITIVE_INFINITY;
+  var best_len = Util.POSITIVE_INFINITY;
   // for each point in the table, check the distance */
   for (var i=0;i<this.tableLength_;i++) {
     var xd = x - this.xvals[i];
@@ -1144,7 +1144,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
     if (ppt.dydp > 0) {
       // going up with increasing p
       ppt.direction = 1;
-      ppt.slope = ppt.radius = UtilityCore.POSITIVE_INFINITY;
+      ppt.slope = ppt.radius = Util.POSITIVE_INFINITY;
       ppt.slopeX = 0;
       ppt.slopeY = 1;
       ppt.normalX = -1;
@@ -1152,7 +1152,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
     } else {
       // going down with increasing p
       ppt.direction = -1;
-      ppt.slope = ppt.radius = UtilityCore.NEGATIVE_INFINITY;
+      ppt.slope = ppt.radius = Util.NEGATIVE_INFINITY;
       ppt.slopeX = 0;
       ppt.slopeY = -1;
       ppt.normalX = 1;
@@ -1202,7 +1202,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
     // assume straight-line (infinite radius) at end-points of path
     // ??? or calculate the radius at the end-points???
     if ((k < 2) || (k > this.tableLength_-4)) {
-      ppt.radius = UtilityCore.POSITIVE_INFINITY;
+      ppt.radius = Util.POSITIVE_INFINITY;
     } else  {
       //  The radius of curvature of the path is given by reciprocal
       //  of kappa = |d phi / d s|  where
@@ -1229,8 +1229,8 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
       ppt.radius = (p2-p1)/(Math.atan(b2)-Math.atan(b1));
       // cludge for straight lines, vertical lines, etc.
       if (isNaN(ppt.radius) || !isFinite(ppt.slope)) {
-        ppt.radius = ppt.slope > 0 ? UtilityCore.POSITIVE_INFINITY :
-            UtilityCore.NEGATIVE_INFINITY;
+        ppt.radius = ppt.slope > 0 ? Util.POSITIVE_INFINITY :
+            Util.NEGATIVE_INFINITY;
       }
     }
   }

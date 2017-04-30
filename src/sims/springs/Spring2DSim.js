@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -34,11 +34,11 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -220,7 +220,7 @@ myphysicslab.sims.springs.Spring2DSim = function(opt_name) {
 var Spring2DSim = myphysicslab.sims.springs.Spring2DSim;
 goog.inherits(Spring2DSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Spring2DSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -351,7 +351,7 @@ Spring2DSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 Spring2DSim.prototype.evaluate = function(vars, change, timeStep) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   change[7] = 1; // time
   if (!this.isDragging_) {

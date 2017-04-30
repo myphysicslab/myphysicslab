@@ -16,14 +16,14 @@ goog.provide('myphysicslab.sims.springs.BlockCollision');
 
 goog.require('myphysicslab.lab.model.Collision');
 goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var PointMass = myphysicslab.lab.model.PointMass;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Horizontal collision between two PointMass's.
 * @param {!PointMass} leftBlock
@@ -73,12 +73,12 @@ myphysicslab.sims.springs.BlockCollision = function(leftBlock, rightBlock, time)
   * @type {number}
   * @package
   */
-  this.impulse = UtilityCore.NaN;
+  this.impulse = Util.NaN;
   this.updateCollision(time);
 };
 var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   BlockCollision.prototype.toString = function() {
     return 'BlockCollision{'
@@ -125,7 +125,7 @@ BlockCollision.prototype.getDistance = function() {
 
 /** @inheritDoc */
 BlockCollision.prototype.getEstimatedTime = function() {
-  return UtilityCore.NaN; // don't bother
+  return Util.NaN; // don't bother
 };
 
 /** @inheritDoc */

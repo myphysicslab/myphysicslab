@@ -15,11 +15,11 @@
 goog.provide('myphysicslab.lab.util.SubjectEvent');
 
 goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Provides information about an event that has happened to a
 {@link myphysicslab.lab.util.Subject Subject}. A SubjectEvent has a name, a value,
@@ -38,7 +38,7 @@ purposes or the localized name for display to user.
 
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
-see {@link UtilityCore#toName} and {@link #nameEquals}.
+see {@link Util#toName} and {@link #nameEquals}.
 
 @param {boolean=} opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.
@@ -57,7 +57,7 @@ SubjectEvent.prototype.getSubject;
 SubjectEvent.prototype.getValue;
 
 /** Whether this SubjectEvent has the given name, adjusting for the transformation to a
-language-independent form of the name, as is done by {@link UtilityCore#toName}.
+language-independent form of the name, as is done by {@link Util#toName}.
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this SubjectEvent has the given name (adjusted to
     language-independent form)

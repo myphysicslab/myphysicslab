@@ -18,14 +18,14 @@ goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** A user interface control for displaying and editing the numeric value of an object.
 Has optional upper and lower limits on the allowed value. Has control over the number of
@@ -195,7 +195,7 @@ myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, t
 };
 var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   NumericControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -270,7 +270,7 @@ NumericControlBase.prototype.formatTextField = function() {
   var col = this.columnsNeeded(this.value_, this.signifDigits_);
   if (goog.DEBUG && 0 == 1) {
     console.log('columnsNeeded '+col+' dec='+dec+' x='
-        +UtilityCore.NFE(this.value_)+' '+this.label_);
+        +Util.NFE(this.value_)+' '+this.label_);
   }
   this.lastValue_ = this.value_.toFixed(dec);
   this.textField_.value = this.lastValue_;

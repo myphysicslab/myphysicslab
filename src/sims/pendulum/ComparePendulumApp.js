@@ -46,7 +46,7 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayArc');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -107,7 +107,7 @@ var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Runs two chaotic pendulum simulations simultaneously with the same settings except
@@ -141,7 +141,7 @@ can be properly expanded.
 * @export
 */
 myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, 'APP');
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
@@ -395,7 +395,7 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
 var ComparePendulumApp = myphysicslab.sims.pendulum.ComparePendulumApp;
 goog.inherits(ComparePendulumApp, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ComparePendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -419,7 +419,7 @@ ComparePendulumApp.prototype.getClassName = function() {
 * @export
 */
 ComparePendulumApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance1|advance2|axes|clock|displayClock|displayList'
@@ -455,7 +455,7 @@ ComparePendulumApp.prototype.setup = function() {
 */
 ComparePendulumApp.prototype.start = function() {
   this.simRun.startFiring();
-  //console.log(UtilityCore.prettyPrint(this.toString()));
+  //console.log(Util.prettyPrint(this.toString()));
 };
 
 /**

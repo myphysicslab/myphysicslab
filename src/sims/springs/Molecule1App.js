@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.sims.common.AbstractApp');
@@ -45,7 +45,7 @@ var PointMass = lab.model.PointMass;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Displays the {@link Molecule1Sim} simulation.
 
@@ -59,7 +59,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new Molecule1Sim();
   var advance = new CollisionAdvance(sim);
@@ -117,7 +117,7 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
 var Molecule1App = myphysicslab.sims.springs.Molecule1App;
 goog.inherits(Molecule1App, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Molecule1App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

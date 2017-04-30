@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -51,7 +51,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Displays the {@link CartPendulumSim} simulation.
@@ -66,7 +66,7 @@ var Vector = lab.util.Vector;
 * @export
 */
 sims.pendulum.CartPendulumApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-3, -4, 3, 2);
   var sim = new CartPendulumSim();
   var advance = new SimpleAdvance(sim);
@@ -129,7 +129,7 @@ sims.pendulum.CartPendulumApp = function(elem_ids) {
 var CartPendulumApp = sims.pendulum.CartPendulumApp;
 goog.inherits(CartPendulumApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CartPendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

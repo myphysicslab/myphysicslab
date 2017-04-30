@@ -21,19 +21,19 @@ goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Factory for making a set of four walls arranged in rectangle to form an enclosed
@@ -100,7 +100,7 @@ Walls.make = function(sim, width, height, opt_thickness, opt_center) {
         break;
     }
     if (bodyi != null) {
-      bodyi.setMass(UtilityCore.POSITIVE_INFINITY);
+      bodyi.setMass(Util.POSITIVE_INFINITY);
       bodyi.setElasticity(1.0);
       walls.push(bodyi);
       sim.addBody(bodyi);

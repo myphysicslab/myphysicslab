@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -58,7 +58,7 @@ var Polygon = lab.engine2D.Polygon;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -147,7 +147,7 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
 var BilliardsApp = myphysicslab.sims.engine2D.BilliardsApp;
 goog.inherits(BilliardsApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   BilliardsApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

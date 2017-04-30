@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -29,8 +29,8 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
 var Vector = myphysicslab.lab.util.Vector;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
+var Util = myphysicslab.lab.util.Util;
+var NF5E = myphysicslab.lab.util.Util.NF5E;
 
 /** A Force acts on a given {@link MassObject} at a defined location and with a defined
 direction and magnitude.
@@ -115,7 +115,7 @@ myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
 var Force = myphysicslab.lab.model.Force;
 goog.inherits(Force, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Force.prototype.toString = function() {
     return Force.superClass_.toString.call(this).slice(0, -1)

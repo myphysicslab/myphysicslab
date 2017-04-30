@@ -17,7 +17,7 @@ goog.provide('myphysicslab.sims.common.VerticalLayout');
 goog.require('goog.events');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.LabCanvas');
 
 goog.scope(function() {
@@ -28,7 +28,7 @@ var sims = myphysicslab.sims;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** VerticalLayout creates a SimView and a command line Terminal a command line Terminal
 for interactive scripting; also an area to show a graph, and an area to put controls.
@@ -60,7 +60,7 @@ stretched to large sizes on large screens.
 * @struct
 */
 myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
-  UtilityCore.setImagesDir(elem_ids['images_dir']);
+  Util.setImagesDir(elem_ids['images_dir']);
   /** whether to put dashed borders around elements
   * @type {boolean}
   * @const
@@ -156,7 +156,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
       (VerticalLayout.getElementById(elem_ids, 'label_terminal'));
   /** @type {function(boolean)} */
   this.showTerminal;
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     // Under advanced-optimized compile mode, Terminal cannot be used.
     // Therefore, hide the terminal checkbox.
     label_term.style.display = 'none';
@@ -185,7 +185,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
 };
 var VerticalLayout = myphysicslab.sims.common.VerticalLayout;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   VerticalLayout.prototype.toString = function() {
     return 'VerticalLayout{'

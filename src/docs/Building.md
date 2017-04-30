@@ -725,15 +725,15 @@ For scripting purposes it is often necessary to have a language independent stri
 so that a script can work regardless of the current locale. A language independent
 string is **derived from the English version** of the string by running it through
 the function
-[UtilityCore.toName()](myphysicslab.lab.util.UtilityCore.html#UtilityCore.toName)
+[Util.toName()](myphysicslab.lab.util.Util.html#Util.toName)
 which turns the name into all caps and replaces spaces and dashes with underscores. For
 example:
 
-    UtilityCore.toName('time step')
+    Util.toName('time step')
 
 will return `'TIME_STEP'`. Equivalently, you can use the property name:
 
-    UtilityCore.toName(SimRunner.en.TIME_STEP);
+    Util.toName(SimRunner.en.TIME_STEP);
 
 Many methods that deal with finding objects by name will do the `toName()` conversion
 automatically. For example, in the following code fragment, the
@@ -771,7 +771,7 @@ That comparison won't work because `NumericalPath.getName()` returns the
 language-independent version of the name which is not the same as the English version.
 There are two ways to fix this:
 
-    if (this.path.getName() == UtilityCore.toName(CirclePath.en.NAME)) {
+    if (this.path.getName() == Util.toName(CirclePath.en.NAME)) {
 
 or:
 
@@ -1001,7 +1001,7 @@ what directory the resulting files are output to (if `BUILD_DIR` is not already 
 + `COMPILE_LEVEL=debug` also sets `BUILD_DIR=debug`. Creates the HTML file that runs
     from source code, see [Debugging (running uncompiled)][]
 
-The [UtilityCore.ADVANCED](myphysicslab.lab.util.UtilityCore.html#ADVANCED) flag is set
+The [Util.ADVANCED](myphysicslab.lab.util.Util.html#ADVANCED) flag is set
 to `true` when advanced-compile is used. This flag is mostly used to avoid defining
 `toString` functions under advanced-compile.
 
@@ -1232,7 +1232,7 @@ are nested Vector objects inside it.
       height_: 0.8
     }
 The indentation shown above is done automatically by the function
-[UtilityCore.prettyPrint](myphysicslab.lab.util.UtilityCore.html#UtilityCore.prettyPrint).
+[Util.prettyPrint](myphysicslab.lab.util.Util.html#Util.prettyPrint).
 Without pretty-printing, the above output of `toString()` looks like this:
 
     PointMass{name_: "BLOCK", expireTime_: Infinity, mass_: 0.5, loc_world_: Vector{x:
@@ -1240,7 +1240,7 @@ Without pretty-printing, the above output of `toString()` looks like this:
     0, cm_body_: Vector{x: 0, y: 0}, zeroEnergyLevel_: null, moment_: 0, shape_: 1,
     width_: 0.4, height_: 0.8}
 
-The `toString()` method should be wrapped in an `if (!UtilityCore.ADVANCED)`
+The `toString()` method should be wrapped in an `if (!Util.ADVANCED)`
 statement that disables the code under advanced-compile.
 
 
@@ -1302,7 +1302,7 @@ those style guidelines are mostly followed by myPhysicsLab code.
 
 + Each class should have a `toString()` method wrapped in an
 
-        if (!UtilityCore.ADVANCED) { }
+        if (!Util.ADVANCED) { }
 
     statement that disables the code under advanced-compile. The `toString` method
     should appear right after the constructor.

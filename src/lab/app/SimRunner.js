@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.LabCanvas');
 
 goog.scope(function() {
@@ -42,12 +42,12 @@ var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Timer = myphysicslab.lab.util.Timer;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Uses an {@link AdvanceStrategy} to advance the
 {@link myphysicslab.lab.model.Simulation Simulation} state; the process is driven by a
@@ -172,7 +172,7 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   * @type {number}
   * @private
   */
-  this.lastDebug_ = UtilityCore.NEGATIVE_INFINITY;
+  this.lastDebug_ = Util.NEGATIVE_INFINITY;
   /** Whether the Timer stops firing when the window is not active (when a blur
   * event occurs).
   * @type {boolean}
@@ -240,7 +240,7 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
 var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SimRunner.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -341,7 +341,7 @@ SimRunner.prototype.callback = function() {
     var nowSysTime = this.timer_.callBackStarted();
     if (this.debug_ && nowSysTime > this.lastDebug_ + 1) {
       this.lastDebug_ = nowSysTime;
-      console.log(this.appName_+' time='+NF(UtilityCore.chopTime(nowSysTime)));
+      console.log(this.appName_+' time='+NF(Util.chopTime(nowSysTime)));
     }
     if (!this.clock_.isRunning() && !this.clock_.isStepping()) {
       this.timer_.fireAfter(this.displayPeriod_);
@@ -370,7 +370,7 @@ SimRunner.prototype.callback = function() {
             +' running='+this.clock_.isRunning()
             );
           //  +' late='+NF(startTime - expectedTime)
-          //  +' sys='+NF(UtilityCore.chopTime(UtilityCore.getSystemTime()))
+          //  +' sys='+NF(Util.chopTime(Util.getSystemTime()))
       }
       // If sim reaches almost current clock time, that is good enough.
       var targetTime = startTime - this.timeStep_/10;

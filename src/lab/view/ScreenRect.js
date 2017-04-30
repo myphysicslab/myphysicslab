@@ -14,12 +14,12 @@
 
 goog.provide('myphysicslab.lab.view.ScreenRect');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var Util = myphysicslab.lab.util.Util;
 
 /** An immutable rectangle corresponding to screen coordinates where the
 vertical coordinates increase downwards.
@@ -63,7 +63,7 @@ myphysicslab.lab.view.ScreenRect = function(left, top_, width, height) {
 };
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ScreenRect.prototype.toString = function() {
     return 'ScreenRect{left: '+NF(this.left_)
@@ -108,7 +108,7 @@ ScreenRect.isDuckType = function(obj) {
   if (obj instanceof ScreenRect) {
     return true;
   }
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     return false;
   }
   return obj.getLeft !== undefined
@@ -202,23 +202,23 @@ ScreenRect.prototype.makeRect = function(context) {
 
 /** Returns true if this ScreenRect is nearly equal to another ScreenRect.
 The optional tolerance value corresponds to the `epsilon` in
-{@link UtilityCore#veryDifferent}, so the actual tolerance
+{@link Util#veryDifferent}, so the actual tolerance
 used depends on the magnitude of the numbers being compared.
 * @param {!ScreenRect} otherRect  the ScreenRect to compare to
 * @param {number=} opt_tolerance optional tolerance for comparison
 * @return {boolean} true if this ScreenRect is nearly equal to the other ScreenRect
 */
 ScreenRect.prototype.nearEqual = function(otherRect, opt_tolerance) {
-  if (UtilityCore.veryDifferent(this.left_, otherRect.left_, opt_tolerance)) {
+  if (Util.veryDifferent(this.left_, otherRect.left_, opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.top_, otherRect.top_, opt_tolerance)) {
+  if (Util.veryDifferent(this.top_, otherRect.top_, opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.width_, otherRect.width_, opt_tolerance)) {
+  if (Util.veryDifferent(this.width_, otherRect.width_, opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.height_, otherRect.height_, opt_tolerance)) {
+  if (Util.veryDifferent(this.height_, otherRect.height_, opt_tolerance)) {
     return false;
   }
   return true;

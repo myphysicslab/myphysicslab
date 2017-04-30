@@ -17,19 +17,19 @@ goog.provide('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
-var nf5 = UtilityCore.nf5;
-var NF5 = UtilityCore.NF5;
-var NF5E = UtilityCore.NF5E;
-var NF7 = UtilityCore.NF7;
-var NFE = UtilityCore.NFE;
-var NFSCI = UtilityCore.NFSCI;
+var nf5 = Util.nf5;
+var NF5 = Util.NF5;
+var NF5E = Util.NF5E;
+var NF7 = Util.NF7;
+var NFE = Util.NFE;
+var NFSCI = Util.NFSCI;
 var Vector = myphysicslab.lab.util.Vector;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Collision = myphysicslab.lab.model.Collision;
@@ -321,12 +321,12 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   * @type {number}
   * @package
   */
-  this.distance = UtilityCore.NaN;
+  this.distance = Util.NaN;
   /** distance between objects when first detected, pre-backup
   * @type {number}
   * @private
   */
-  this.detectedDistance_ = UtilityCore.NaN;
+  this.detectedDistance_ = Util.NaN;
   /** normal pointing outward from normalObj, in world coords
   * @type {!Vector}
   * @package
@@ -341,23 +341,23 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   * @type {number}
   * @package
   */
-  this.radius1 = UtilityCore.NaN;
+  this.radius1 = Util.NaN;
   /** radius of curvature at impact1, for normal body; negative means concave
   * @type {number}
   * @package
   */
-  this.radius2 = UtilityCore.NaN;
+  this.radius2 = Util.NaN;
   /** relative normal velocity at impact point; negative=colliding,
   * positive = separating. Cached value: it is invalid when NaN.
   * @type {number}
   * @private
   */
-  this.normalVelocity_ = UtilityCore.NaN;
+  this.normalVelocity_ = Util.NaN;
   /** normal velocity when collision was detected, pre-backup.
   * @type {number}
   * @private
   */
-  this.detectedVelocity_ = UtilityCore.NaN;
+  this.detectedVelocity_ = Util.NaN;
   /** for debugging, unique code tells where this was generated
   * @type {string}
   * @package
@@ -367,31 +367,31 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   * @type {number}
   * @private
   */
-  this.detectedTime_ = UtilityCore.NaN;
+  this.detectedTime_ = Util.NaN;
   /** estimate of time when half-gap distance happens
   * @type {number}
   * @private
   */
-  this.estimate_ = UtilityCore.NaN;
+  this.estimate_ = Util.NaN;
   /** time corresponding to last update
   * @type {number}
   * @private
   */
-  this.updateTime_ = UtilityCore.NaN;
+  this.updateTime_ = Util.NaN;
   /** amount of impulse applied during collision
   * @type {number}
   * @package
   */
-  this.impulse = UtilityCore.NaN;
+  this.impulse = Util.NaN;
   /** amount of force applied at a contact point
   * @type {number}
   * @package
   */
-  this.force = UtilityCore.NaN;
+  this.force = Util.NaN;
 };
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidBodyCollision.prototype.toString = function() {
     return this.getClassName() + '{distance: '+NF5E(this.distance)
@@ -771,7 +771,7 @@ RigidBodyCollision.prototype.setDetectedTime = function(time) {
   this.detectedDistance_ = this.distance;
   var nv = this.getNormalVelocity();
   this.detectedVelocity_ = nv;
-  this.estimate_ = UtilityCore.NaN;
+  this.estimate_ = Util.NaN;
   if (!this.joint) {
     goog.asserts.assert(isFinite(this.distance));
     goog.asserts.assert(isFinite(nv));
@@ -821,7 +821,7 @@ by for example {@link myphysicslab.lab.engine2D.RigidBodySim#modifyObjects}.
 RigidBodyCollision.prototype.updateCollision = function(time) {
   if (!isFinite(this.distance))
     throw new Error('distance is NaN '+this);
-  this.normalVelocity_ = UtilityCore.NaN; // invalidate cached value
+  this.normalVelocity_ = Util.NaN; // invalidate cached value
   // experiment: May 11 2015
   // collisions with low velocity and close distance should be marked as a contact.
   // (These are typically first detected as penetrating collisions).
@@ -838,7 +838,7 @@ RigidBodyCollision.prototype.updateCollision = function(time) {
     // always use the fancy combined collision time estimate
     this.updateEstimatedTime(time, true);
   } else {
-    this.estimate_ = UtilityCore.NaN;
+    this.estimate_ = Util.NaN;
   }
 };
 

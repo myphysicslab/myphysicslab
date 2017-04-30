@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -30,11 +30,11 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -141,7 +141,7 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
   * @private
   */
   this.fixedPoint_ = PointMass.makeCircle(0.5, 'fixed_point')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   /**
   * @type {!PointMass}
   * @private
@@ -212,7 +212,7 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
 var DangleStickSim = myphysicslab.sims.springs.DangleStickSim;
 goog.inherits(DangleStickSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DangleStickSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -250,14 +250,14 @@ DangleStickSim.prototype.modifyObjects = function() {
   var vars = va.getValues();
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
   // limit angles to +/- Pi
-  var theta = UtilityCore.limitAngle(vars[0]);
+  var theta = Util.limitAngle(vars[0]);
   if (theta != vars[0]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
     va.setValue(0, theta, /*continuous=*/false);
     vars[0] = theta;
   }
-  var phi = UtilityCore.limitAngle(vars[4]);
+  var phi = Util.limitAngle(vars[4]);
   if (phi != vars[4]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -345,7 +345,7 @@ DangleStickSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 /** @inheritDoc */
 DangleStickSim.prototype.evaluate = function(vars, change, timeStep) {
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[6] = 1; // time
   if (!this.isDragging_) {
     var m2 = this.bob2_.getMass();

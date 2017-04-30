@@ -33,7 +33,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -57,7 +57,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VerticalLayout = sims.common.VerticalLayout;
 
 /** Shows a simulation from the `springs` namespace by executing commands in Terminal.
@@ -79,7 +79,7 @@ the simulations).
 * @export
 */
 myphysicslab.sims.springs.TerminalSpringApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
 };
@@ -91,7 +91,7 @@ var TerminalSpringApp = myphysicslab.sims.springs.TerminalSpringApp;
 * @export
 */
 TerminalSpringApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   var t = this.layout.terminal;
   t.addWhiteList(myName);

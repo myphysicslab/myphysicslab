@@ -55,7 +55,7 @@ var testVectorSimilar = function() {
   var Vector = myphysicslab.lab.util.Vector;
   var v1 = new Vector(2, 3);
   var v2 = new Vector(2.01, 3.02);
-  // see UtilityCore.veryDifferent: tolerance is multiplied by magnitude
+  // see Util.veryDifferent: tolerance is multiplied by magnitude
   assertTrue(v1.nearEqual(v2, 0.01));
   assertFalse(v1.nearEqual(v2, 0.003));
   assertFalse(v1.nearEqual(v2));

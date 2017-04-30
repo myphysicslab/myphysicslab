@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -35,11 +35,11 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Applies damping forces to a set of MassObjects. Damping is a friction force
@@ -123,7 +123,7 @@ myphysicslab.lab.model.DampingLaw = function(damping, rotateRatio, opt_simList) 
 var DampingLaw = myphysicslab.lab.model.DampingLaw;
 goog.inherits(DampingLaw, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DampingLaw.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

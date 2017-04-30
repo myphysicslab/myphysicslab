@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.roller.HasPath');
 
@@ -34,14 +34,14 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -181,7 +181,7 @@ myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
 var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
 goog.inherits(RollerSingleSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerSingleSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -351,7 +351,7 @@ RollerSingleSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) 
 RollerSingleSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[2] = 1; // time changes at a rate of 1 by definition.
   if (this.dragObj_ != this.ball1_) {
     // calculate the slope at the given arc-length position on the curve

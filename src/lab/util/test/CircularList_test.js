@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.util.HistoryList');
 goog.require('myphysicslab.lab.util.HistoryIterator');
 goog.require('myphysicslab.lab.util.CircularList');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
 /*
@@ -56,7 +56,7 @@ var testUtilCircularList1 = function() {
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
   var CircularList = myphysicslab.lab.util.CircularList;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
   var cList = new CircularList(10);
   var i, j;
@@ -214,7 +214,7 @@ goog.exportProperty(window, 'testUtilCircularList1', testUtilCircularList1);
 var testUtilCircularList2 = function() {
   var Vector = myphysicslab.lab.util.Vector;
   var CircularList = myphysicslab.lab.util.CircularList;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
 
@@ -232,7 +232,7 @@ var testUtilCircularList2 = function() {
   });
   var err = /** @type {!Error} */(e);
   assertEquals(CircularList.MAX_INDEX_ERROR, err.message);
-  assertTrue(j >= UtilityCore.MAX_INTEGER - 2);
+  assertTrue(j >= Util.MAX_INTEGER - 2);
   // show that we can still do reset after this error
   cList.reset();
   assertEquals(0, cList.getSize());
@@ -267,7 +267,7 @@ goog.exportProperty(window, 'testUtilCircularList2', testUtilCircularList2);
 var testUtilCircularList3 = function() {
   var Vector = myphysicslab.lab.util.Vector;
   var CircularList = myphysicslab.lab.util.CircularList;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
   /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/

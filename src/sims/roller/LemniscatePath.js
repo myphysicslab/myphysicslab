@@ -14,14 +14,14 @@
 
 goog.provide('myphysicslab.sims.roller.LemniscatePath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Lemniscate curve; a 'figure eight' path.
 
@@ -78,7 +78,7 @@ myphysicslab.sims.roller.LemniscatePath = function(size, start, finish,
 var LemniscatePath = myphysicslab.sims.roller.LemniscatePath;
 goog.inherits(LemniscatePath, AbstractPath);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   LemniscatePath.prototype.toString = function() {
     return LemniscatePath.superClass_.toString.call(this).slice(0, -1)

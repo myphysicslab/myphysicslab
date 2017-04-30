@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
@@ -57,7 +57,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -156,7 +156,7 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
 var CarSuspensionApp = myphysicslab.sims.engine2D.CarSuspensionApp;
 goog.inherits(CarSuspensionApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CarSuspensionApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

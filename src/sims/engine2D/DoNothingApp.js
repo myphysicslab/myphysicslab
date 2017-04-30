@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
@@ -66,7 +66,7 @@ var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RotatingTestForce = sims.engine2D.RotatingTestForce;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Simulation of the Do Nothing Grinder, which consists of two shuttle
@@ -153,7 +153,7 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
 var DoNothingApp = sims.engine2D.DoNothingApp;
 goog.inherits(DoNothingApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoNothingApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -275,7 +275,7 @@ DoNothingApp.setup = function(sim, tightFit) {
           DoNothingApp.i18n.FIXED_BLOCK+id);
       var d = 0.507 + size/2;
       p.setPosition(new Vector(d*(1 - 2*i), d*(1 - 2*j)), 0);
-      p.setMass(UtilityCore.POSITIVE_INFINITY);
+      p.setMass(Util.POSITIVE_INFINITY);
       sim.addBody(p);
       // the handle does not collide with fixed blocks
       handle.addNonCollide([p]);

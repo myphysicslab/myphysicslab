@@ -29,7 +29,7 @@ goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -41,7 +41,7 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
@@ -49,7 +49,7 @@ var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -174,7 +174,7 @@ myphysicslab.sims.pendulum.ReactionPendulumSim = function(length, radius, startA
 var ReactionPendulumSim = myphysicslab.sims.pendulum.ReactionPendulumSim;
 goog.inherits(ReactionPendulumSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ReactionPendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -235,12 +235,12 @@ ReactionPendulumSim.prototype.getEnergyInfo_ = function(vars) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   var ke = 0.5* this.mass_ *(vars[1]*vars[1] + vars[3]*vars[3]);
-  goog.asserts.assert(!UtilityCore.veryDifferent(ke, this.bob_.translationalEnergy()));
+  goog.asserts.assert(!Util.veryDifferent(ke, this.bob_.translationalEnergy()));
   // rotational inertia I = m r^2 / 2
   var I = this.mass_ * this.radius_ * this.radius_ / 2;
-  goog.asserts.assert(!UtilityCore.veryDifferent(I, this.bob_.momentAboutCM()));
+  goog.asserts.assert(!Util.veryDifferent(I, this.bob_.momentAboutCM()));
   var re = 0.5 * I * vars[5] * vars[5];
-  goog.asserts.assert(!UtilityCore.veryDifferent(re, this.bob_.rotationalEnergy()));
+  goog.asserts.assert(!Util.veryDifferent(re, this.bob_.rotationalEnergy()));
   var pe = this.gravity_ * this.mass_ * (vars[2] + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke, re);
 };
@@ -281,7 +281,7 @@ ReactionPendulumSim.prototype.moveObjects = function(vars) {
 ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[6] = 1; // time
   var m = this.mass_;
   change[0] = vars[1]; // x' = vx

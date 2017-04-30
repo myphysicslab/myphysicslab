@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -34,8 +34,8 @@ var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a spring attached between two {@link MassObject}s, generates a
@@ -123,7 +123,7 @@ myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
 var Spring = myphysicslab.lab.model.Spring;
 goog.inherits(Spring, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Spring.prototype.toString = function() {
     return Spring.superClass_.toString.call(this).slice(0, -1)

@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.Simulation');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayConnector');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -50,7 +50,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var Simulation = lab.model.Simulation;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Displays the {@link RigidDoublePendulumSim} simulation.
@@ -67,7 +67,7 @@ var Vector = lab.util.Vector;
 * @export
 */
 sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   /** @type {!RigidDoublePendulumSim.Parts} */
   this.parts = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0);
@@ -121,7 +121,7 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
 var RigidDoublePendulumApp = sims.pendulum.RigidDoublePendulumApp;
 goog.inherits(RigidDoublePendulumApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidDoublePendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

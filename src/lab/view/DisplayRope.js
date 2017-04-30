@@ -18,7 +18,7 @@ goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.Rope');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
@@ -26,10 +26,10 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var Rope = myphysicslab.lab.engine2D.Rope;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link Rope} by showing a straight line when the Rope is tight, or a
@@ -82,7 +82,7 @@ myphysicslab.lab.view.DisplayRope = function(rope, proto) {
 };
 var DisplayRope = myphysicslab.lab.view.DisplayRope;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayRope.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

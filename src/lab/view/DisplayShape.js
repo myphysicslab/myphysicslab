@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
@@ -31,11 +31,11 @@ goog.scope(function() {
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var MassObject = myphysicslab.lab.model.MassObject;
 var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link MassObject} with specified style such as color, border, etc.
@@ -310,7 +310,7 @@ myphysicslab.lab.view.DisplayShape = function(massObject, proto) {
 };
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayShape.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -415,7 +415,7 @@ DisplayShape.prototype.draw = function(context, map) {
     }
   }
   // Draw adornments for moveable objects (mass less than infinity).
-  if (this.massObject_.getMass() != UtilityCore.POSITIVE_INFINITY) {
+  if (this.massObject_.getMass() != Util.POSITIVE_INFINITY) {
     body_to_screen.setTransform(context);
     // detect when fillStyle changes, to update isDarkColor_
     if (this.lastColor_ !== fillStyle) {

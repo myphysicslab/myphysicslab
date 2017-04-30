@@ -52,7 +52,7 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayConnector');
@@ -120,7 +120,7 @@ var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Compares two double pendulum simulations that are run simultaneously: the
@@ -160,7 +160,7 @@ can be properly expanded.
 * @export
 */
 myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centered) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, 'APP');
   /** horizontal distance between the fixed pivot points of the two sims.
   * @type {number}
@@ -251,8 +251,8 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.sim2.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.simList2);
 
-  var angle1Name = UtilityCore.toName(RigidDoublePendulumSim.en.ANGLE_1);
-  var angle2Name = UtilityCore.toName(RigidDoublePendulumSim.en.ANGLE_2);
+  var angle1Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_1);
+  var angle2Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_2);
   new GenericObserver(this.sim1, goog.bind(function(evt) {
     if (evt.nameEquals(Simulation.RESET)) {
       // When initial angles are changed in sim, then clock time is also reset.
@@ -510,7 +510,7 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
 var CompareDoublePendulumApp = myphysicslab.sims.pendulum.CompareDoublePendulumApp;
 goog.inherits(CompareDoublePendulumApp, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CompareDoublePendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -534,7 +534,7 @@ CompareDoublePendulumApp.prototype.getClassName = function() {
 * @export
 */
 CompareDoublePendulumApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance1|advance2|axes|clock|displayClock'
@@ -571,7 +571,7 @@ CompareDoublePendulumApp.prototype.setup = function() {
 */
 CompareDoublePendulumApp.prototype.start = function() {
   this.simRun.startFiring();
-  //console.log(UtilityCore.prettyPrint(this.toString()));
+  //console.log(Util.prettyPrint(this.toString()));
 };
 
 /**

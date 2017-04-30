@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -34,11 +34,11 @@ var AbstractODESim = lab.model.AbstractODESim;
 var ConcreteLine = lab.model.ConcreteLine;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -283,7 +283,7 @@ myphysicslab.sims.pendulum.MoveableDoublePendulumSim = function(opt_name) {
 var MoveableDoublePendulumSim = myphysicslab.sims.pendulum.MoveableDoublePendulumSim;
 goog.inherits(MoveableDoublePendulumSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   MoveableDoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -388,14 +388,14 @@ MoveableDoublePendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // limit the pendulum angle to +/- Pi
-  var angle1 = UtilityCore.limitAngle(vars[0]);
+  var angle1 = Util.limitAngle(vars[0]);
   if (angle1 != vars[0]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
     this.getVarsList().setValue(0, angle1, /*continuous=*/false);
     vars[0] = angle1;
   }
-  var angle2 = UtilityCore.limitAngle(vars[2]);
+  var angle2 = Util.limitAngle(vars[2]);
   if (angle2 != vars[2]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -531,7 +531,7 @@ MoveableDoublePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed,
 
 /** @inheritDoc */
 MoveableDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   change[4] = 1; // time
   // vars  0    1     2    3      4    5     6      7     8      9  10  11

@@ -18,7 +18,7 @@ goog.require('goog.asserts');
 goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -26,7 +26,7 @@ goog.scope(function() {
 var Edge = myphysicslab.lab.engine2D.Edge;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A RigidBodyCollision between two Edges.
@@ -68,7 +68,7 @@ myphysicslab.lab.engine2D.EdgeEdgeCollision = function(primaryEdge, normalEdge) 
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
 goog.inherits(EdgeEdgeCollision, RigidBodyCollision);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EdgeEdgeCollision.prototype.toString = function() {
     return EdgeEdgeCollision.superClass_.toString.call(this).slice(0, -1)

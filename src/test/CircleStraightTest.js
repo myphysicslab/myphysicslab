@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
@@ -47,15 +47,15 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -290,7 +290,7 @@ CircleStraightTest.circle_arc_block = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
 };
@@ -332,7 +332,7 @@ CircleStraightTest.concave_ball_block_collide = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
       /*expectedCollisions=*/0);
 };
@@ -363,7 +363,7 @@ CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
   p2.setElasticity(0.8);
   var angle = Math.PI/16; // angle to set block at
   var dist = 1.5;  // distance from origin to place block at
-  var error = UtilityCore.POSITIVE_INFINITY;
+  var error = Util.POSITIVE_INFINITY;
   // Loop until error = 0, or equiv: distanceToHalfGap() = 0.001.
   while (Math.abs(error) > 1e-8) {
     //console.log('dist='+NF7(dist)+' error='+NF7(error));
@@ -379,7 +379,7 @@ CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
     if (collisions.length == 0) {
       dist += 0.01;
     } else {
-      error = UtilityCore.POSITIVE_INFINITY;
+      error = Util.POSITIVE_INFINITY;
       // find most negative or least positive depth among all collisions
       for (var i=0, len=collisions.length; i<len; i++) {
         /** @type {!RigidBodyCollision} */
@@ -534,7 +534,7 @@ CircleStraightTest.ball_falls_on_floor_setup = function(sim, advance) {
   body0.setPosition(new Vector(0,  0),  0);
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(10, 1, 'wall');
-  body1.setMass(UtilityCore.POSITIVE_INFINITY);
+  body1.setMass(Util.POSITIVE_INFINITY);
   body1.setPosition(new Vector(0,  -2.5),  0);
   sim.addBody(body1);
   var floor = body1.getTopWorld();
@@ -575,7 +575,7 @@ CircleStraightTest.wedged_ball_setup = function(sim, advance) {
   sim.addBody(body0);
   var body1 = Shapes.makeBlock(1, 1, 'fixed block');
   body1.setPosition(new Vector(-2.5,  -5),  0);
-  body1.setMass(UtilityCore.POSITIVE_INFINITY);
+  body1.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(body1);
   var gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
@@ -599,7 +599,7 @@ CircleStraightTest.wedged_ball = function() {
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // run for a few more seconds: there should be no more collision searches
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0002,
       /*expectedCollisions=*/0);
 };

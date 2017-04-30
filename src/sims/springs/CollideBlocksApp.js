@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
@@ -46,7 +46,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /**  CollideBlocksApp displays the CollideBlocksSim simulation.
@@ -61,7 +61,7 @@ var Vector = lab.util.Vector;
 * @export
 */
 myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-0.5, -2, 7.5, 2);
   var sim = new CollideBlocksSim();
   var advance = new CollisionAdvance(sim);
@@ -128,7 +128,7 @@ myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
 var CollideBlocksApp = myphysicslab.sims.springs.CollideBlocksApp;
 goog.inherits(CollideBlocksApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CollideBlocksApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

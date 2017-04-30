@@ -18,14 +18,14 @@ goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** A user interface control for displaying and editing the text value of an object.
 
@@ -135,7 +135,7 @@ myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, text
 };
 var TextControlBase = myphysicslab.lab.controls.TextControlBase;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   TextControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

@@ -16,16 +16,16 @@ goog.provide('myphysicslab.lab.view.DisplayText');
 
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays text. Can set display attributes {@link #font}, {@link #fillStyle},
@@ -90,7 +90,7 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
 };
 var DisplayText = myphysicslab.lab.view.DisplayText;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayText.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

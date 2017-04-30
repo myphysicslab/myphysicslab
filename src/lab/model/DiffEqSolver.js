@@ -31,7 +31,7 @@ purposes or the localized name for display to user.
 
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
-see {@link myphysicslab.lab.util.UtilityCore#toName} and {@link #nameEquals}.
+see {@link myphysicslab.lab.util.Util#toName} and {@link #nameEquals}.
 
 @param {boolean=} opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.
@@ -41,7 +41,7 @@ myphysicslab.lab.model.DiffEqSolver.prototype.getName;
 
 /** Whether this DiffEqSolver has the given name, adjusting for the transformation to a
 language-independent form of the name, as is done by
-{@link myphysicslab.lab.util.UtilityCore#toName}.
+{@link myphysicslab.lab.util.Util#toName}.
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this DiffEqSolver has the given name (adjusted to
     language-independent form)

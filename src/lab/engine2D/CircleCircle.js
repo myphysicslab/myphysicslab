@@ -17,17 +17,17 @@ goog.provide('myphysicslab.lab.engine2D.CircleCircle');
 goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /**  Provides static functions for handling interactions between two

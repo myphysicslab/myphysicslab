@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.model.EnergyInfo');
 goog.require('myphysicslab.lab.model.EnergySystem');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 goog.require('myphysicslab.lab.view.LabView');
@@ -32,11 +32,11 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var LabView = lab.view.LabView;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF = myphysicslab.lab.util.Util.NF;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a bar graph of the various forms of energy (potential, kinetic, etc.) in an
@@ -204,7 +204,7 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   * @type {number}
   * @private
   */
-  this.lastTime_ = UtilityCore.getSystemTime();
+  this.lastTime_ = Util.getSystemTime();
   /**
   * @type {number}
   * @private
@@ -235,7 +235,7 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   * @type {number}
   * @private
   */
-  this.lastTotalEnergyTime_ = UtilityCore.NEGATIVE_INFINITY;
+  this.lastTotalEnergyTime_ = Util.NEGATIVE_INFINITY;
   /**
   * @type {number}
   * @private
@@ -306,7 +306,7 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
 };
 var EnergyBarGraph = myphysicslab.lab.graph.EnergyBarGraph;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EnergyBarGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -325,7 +325,7 @@ if (!UtilityCore.ADVANCED) {
         +', maxEnergy: '+NF(this.maxEnergy_)
         +', megaMaxEnergy: '+NF(this.megaMaxEnergy_)
         +', totalEnergy: '+NF(this.totalEnergy_)
-        +', time: '+NF(UtilityCore.getSystemTime()-this.lastTime_)
+        +', time: '+NF(Util.getSystemTime()-this.lastTime_)
         +', zIndex: '+this.zIndex
         +'}';
   };
@@ -390,7 +390,7 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   var h2 = map.screenToSimScaleY(height2);
   // NOTE WELL: this.rect_ is empty first time thru here!
   if (this.needResize_ || this.rect_.isEmpty()
-      || UtilityCore.veryDifferent(h2, this.rect_.getHeight())) {
+      || Util.veryDifferent(h2, this.rect_.getHeight())) {
     if (this.debug_ && goog.DEBUG) {
       console.log('h2 = '+h2+' this.rect_.getHeight='+this.rect_.getHeight());
     }
@@ -430,8 +430,8 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   this.minEnergy_ = pe < 0 ? pe : 0;
   this.maxEnergy_ = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
   // update the total energy displayed, but not so often you can't read it
-  if (UtilityCore.getSystemTime()-this.lastTotalEnergyTime_ > this.totalEnergyPeriod_){
-    this.lastTotalEnergyTime_ = UtilityCore.getSystemTime();
+  if (Util.getSystemTime()-this.lastTotalEnergyTime_ > this.totalEnergyPeriod_){
+    this.lastTotalEnergyTime_ = Util.getSystemTime();
     this.lastEnergyDisplay_ = this.totalEnergyDisplay_;
     this.totalEnergyDisplay_ = e.getTotalEnergy();
   }
@@ -716,7 +716,7 @@ EnergyBarGraph.prototype.printEverything = function(s) {
   if (goog.DEBUG && this.debug_) {
     console.log(s + this);
     if (0 == 1) {  // equiv to 'if (false)'
-      UtilityCore.printArray(this.history_);
+      Util.printArray(this.history_);
     }
   }
 };
@@ -793,7 +793,7 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
   }
   // if graph has gotten too big or too small, reset the scale.
   if (this.needRescale_) {
-    this.lastTime_ = UtilityCore.getSystemTime(); // time reset
+    this.lastTime_ = Util.getSystemTime(); // time reset
     this.needRescale_ = false;
     // scale goes from megaMinEnergy to totalEnergy or zero.
     var total = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
@@ -905,7 +905,7 @@ EnergyBarGraph.prototype.setZIndex = function(zIndex) {
 * @private
 */
 EnergyBarGraph.prototype.timeCheck = function(minEnergy) {
-  var nowTime = UtilityCore.getSystemTime();
+  var nowTime = Util.getSystemTime();
   if (nowTime - this.lastTime2_ > 1.0) {
     this.lastTime2_ = nowTime;
     if (++this.bufptr_ >= this.history_.length)

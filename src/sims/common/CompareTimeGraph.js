@@ -34,7 +34,7 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DrawingMode');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
@@ -73,7 +73,7 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** Creates a time graph showing two GraphLines corresponding to two Simulations, where
@@ -203,7 +203,7 @@ myphysicslab.sims.common.CompareTimeGraph = function(line1, line2, graphCanvas,
 var CompareTimeGraph = myphysicslab.sims.common.CompareTimeGraph;
 goog.inherits(CompareTimeGraph, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CompareTimeGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

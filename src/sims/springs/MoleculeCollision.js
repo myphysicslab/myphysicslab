@@ -16,14 +16,14 @@ goog.provide('myphysicslab.sims.springs.MoleculeCollision');
 
 goog.require('myphysicslab.lab.model.Collision');
 goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var PointMass = myphysicslab.lab.model.PointMass;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Collision between an atom and a wall in
 {@link myphysicslab.sims.springs.Molecule1Sim Molecule1Sim} simulation.
@@ -81,12 +81,12 @@ myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
   * @type {number}
   * @package
   */
-  this.impulse = UtilityCore.NaN;
+  this.impulse = Util.NaN;
   this.updateCollision(time);
 };
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   MoleculeCollision.prototype.toString = function() {
     return 'MoleculeCollision{'
@@ -159,7 +159,7 @@ MoleculeCollision.prototype.getDistance = function() {
 
 /** @inheritDoc */
 MoleculeCollision.prototype.getEstimatedTime = function() {
-  return UtilityCore.NaN; // don't bother
+  return Util.NaN; // don't bother
 };
 
 /** @inheritDoc */

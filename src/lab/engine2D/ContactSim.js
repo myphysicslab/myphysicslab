@@ -34,7 +34,7 @@ goog.require('myphysicslab.lab.model.Simulation');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -45,12 +45,12 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Force = myphysicslab.lab.model.Force;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF9 = myphysicslab.lab.util.Util.NF9;
+var NFE = myphysicslab.lab.util.Util.NFE;
+var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
@@ -61,7 +61,7 @@ var SimList = myphysicslab.lab.model.SimList;
 var Simulation = myphysicslab.lab.model.Simulation;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Physics engine for rigid bodies with contact forces to allow resting contact. The
 contact forces prevent the bodies from interpenetrating when they are in resting
@@ -342,7 +342,7 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
   * @type {!Array<number>}
   * @private
   */
-  this.forceHistory_ = UtilityCore.newNumberArray(4);
+  this.forceHistory_ = Util.newNumberArray(4);
   /** for debugging
   * @type {number}
   * @private
@@ -374,7 +374,7 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 goog.inherits(ContactSim, ImpulseSim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc  */
   ContactSim.prototype.toString_ = function() {
     return ', extra_accel_: '+this.extra_accel_
@@ -656,7 +656,7 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
   /** @type {!Array<boolean>} */
   var joint = goog.array.map(subset, function(c) { return c.joint; });
   /** @type {!Array<number>} */
-  var f = UtilityCore.newNumberArray(b.length);
+  var f = Util.newNumberArray(b.length);
   if (goog.DEBUG && pileDebug) {
     this.printContactInfo(subset, b, vars);
   }
@@ -833,7 +833,7 @@ ContactSim.calculate_a_matrix = function(contacts) {
       if (goog.DEBUG && !isFinite(a[i][j])) {
         console.log('ci= '+ci);
         console.log('cj= '+cj);
-        UtilityCore.printNums5('nums ', Rx, Ry, Rxj, Ryj, R2x, R2y, R2xj, R2yj, m1, I1, m2, I2);
+        Util.printNums5('nums ', Rx, Ry, Rxj, Ryj, R2x, R2y, R2xj, R2yj, m1, I1, m2, I2);
         throw new Error('possible zero mass object');
       }
     }
@@ -912,8 +912,8 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
     /** @type {!RigidBodyCollision} */
     var c = contacts[i];
     b[i] = 0;
-    var fixedObj = c.primaryBody.getMass() == UtilityCore.POSITIVE_INFINITY;
-    var fixedNBody = c.normalBody.getMass() == UtilityCore.POSITIVE_INFINITY;
+    var fixedObj = c.primaryBody.getMass() == Util.POSITIVE_INFINITY;
+    var fixedNBody = c.normalBody.getMass() == Util.POSITIVE_INFINITY;
     var obj = fixedObj ? -1 : c.primaryBody.getVarsIndex();
     var nobj = fixedNBody ? -1 : c.normalBody.getVarsIndex();
     goog.asserts.assert( c.contact() );
@@ -975,8 +975,8 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
     var r2 = c.getU2();
     var Rx = r1.getX();
     var Ry = r1.getY();
-    var R2x = UtilityCore.NaN;
-    var R2y = UtilityCore.NaN;
+    var R2x = Util.NaN;
+    var R2y = Util.NaN;
     if (!fixedNBody) {
       R2x = r2.getX();
       R2y = r2.getY();
@@ -1068,7 +1068,7 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
     }
     if (!isFinite(b[i])) {
       console.log('c= '+c);
-      UtilityCore.printNums5('nums ', Rx, Ry, R2x, R2y, w1, w2, vx1, vy1, vx2, vy2);
+      Util.printNums5('nums ', Rx, Ry, R2x, R2y, w1, w2, vx1, vy1, vx2, vy2);
       throw new Error();
     }
   }

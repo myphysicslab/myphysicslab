@@ -48,7 +48,7 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayList');
@@ -109,7 +109,7 @@ var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
 var TimeGraph2 = sims.common.TimeGraph2;
 var ToggleControl = lab.controls.ToggleControl;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** SingleSpring2App displays the {@link SingleSpringSim} simulation.
@@ -129,7 +129,7 @@ this uses {@link TimeGraph2} instead of TimeGraph1.
 * @export
 */
 myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, opt_name || 'APP');
 
   /** @type {!DoubleRect} */
@@ -219,7 +219,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   this.displayList.add(this.spring);
 
   // Demo of adding an ExpressionVariable.
-  if (!UtilityCore.ADVANCED) {
+  if (!Util.ADVANCED) {
     var va = this.sim.getVarsList();
     va.addVariable(new ExpressionVariable(va, 'sin_time', 'sin(time)',
         this.terminal, 'Math.sin(sim.getTime());'));
@@ -294,7 +294,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
 var SingleSpring2App = myphysicslab.sims.springs.SingleSpring2App;
 goog.inherits(SingleSpring2App, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SingleSpring2App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DrawingMode');
 
 goog.scope(function() {
@@ -40,11 +40,11 @@ var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 var HistoryList = myphysicslab.lab.util.HistoryList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed
@@ -245,7 +245,7 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
 var GraphLine = myphysicslab.lab.graph.GraphLine;
 goog.inherits(GraphLine, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GraphLine.prototype.toString = function() {
     var s = this.toStringShort().slice(0, -1)
@@ -315,7 +315,7 @@ GraphLine.isDuckType = function(obj) {
   if (obj instanceof GraphLine) {
     return true;
   }
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     return false;
   }
   return goog.isObject(obj) && obj.setXVariable !== undefined
@@ -516,7 +516,7 @@ screen pixel. Applies only to portions of graph memorized after this time.
 * @param {number} value thickness of line in screen coordinates
 */
 GraphLine.prototype.setLineWidth = function(value) {
-  if (UtilityCore.veryDifferent(value, this.lineWidth_)) {
+  if (Util.veryDifferent(value, this.lineWidth_)) {
     this.lineWidth_ = value;
     this.addGraphStyle();
     this.broadcastParameter(GraphLine.en.LINE_WIDTH);

@@ -14,12 +14,12 @@
 
 goog.provide('myphysicslab.sims.roller.LoopTheLoopPath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** Loop-the-loop curve, like a roller coaster that has a loop in it where

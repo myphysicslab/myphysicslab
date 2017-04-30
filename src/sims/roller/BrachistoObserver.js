@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayPath');
@@ -49,7 +49,7 @@ var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
 var Subject = myphysicslab.lab.util.Subject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Observes the SimList of the BrachistoSim simulation, adding or removing
@@ -119,7 +119,7 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
 };
 var BrachistoObserver = myphysicslab.sims.roller.BrachistoObserver;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   BrachistoObserver.prototype.toString = function() {
     return 'BrachistoObserver{'

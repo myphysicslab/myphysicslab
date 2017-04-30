@@ -16,7 +16,7 @@ goog.provide('myphysicslab.lab.engine2D.test.Vertex_test');
 
 goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 

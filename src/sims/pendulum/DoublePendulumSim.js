@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.EnergySystem');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -31,10 +31,10 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -217,7 +217,7 @@ myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
 var DoublePendulumSim = myphysicslab.sims.pendulum.DoublePendulumSim;
 goog.inherits(DoublePendulumSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -289,12 +289,12 @@ DoublePendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // limit the pendulum angle to +/- Pi
-  var theta1 = UtilityCore.limitAngle(vars[0]);
+  var theta1 = Util.limitAngle(vars[0]);
   if (theta1 != vars[0]) {
     this.getVarsList().setValue(0, theta1, /*continuous=*/false);
     vars[0] = theta1;
   }
-  var theta2 = UtilityCore.limitAngle(vars[2]);
+  var theta2 = Util.limitAngle(vars[2]);
   if (theta2 != vars[2]) {
     this.getVarsList().setValue(2, theta2, /*continuous=*/false);
     vars[2] = theta2;
@@ -394,7 +394,7 @@ DoublePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent
 DoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[9] = 1; // time
   if (!this.isDragging_) {
     var th1 = vars[0];

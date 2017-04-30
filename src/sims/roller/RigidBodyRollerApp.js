@@ -37,7 +37,7 @@ goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayPath');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -101,7 +101,7 @@ var Shapes = lab.engine2D.Shapes;
 var Simulation = lab.model.Simulation;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Demonstrates a RigidBody connected to various 'roller coaster' paths by a PathJoint.
@@ -197,7 +197,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
 var RigidBodyRollerApp = myphysicslab.sims.roller.RigidBodyRollerApp;
 goog.inherits(RigidBodyRollerApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidBodyRollerApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

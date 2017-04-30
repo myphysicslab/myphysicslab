@@ -48,7 +48,7 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayLine');
@@ -111,7 +111,7 @@ var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Displays the reaction forces pendulum simulation {@link ReactionPendulumSim} and
@@ -242,7 +242,7 @@ can be properly expanded.
 * @export
 */
 myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, 'APP');
   /** distance between the pendulum anchor points
   * @type {number}
@@ -527,7 +527,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
 var ReactionPendulumApp = myphysicslab.sims.pendulum.ReactionPendulumApp;
 goog.inherits(ReactionPendulumApp, myphysicslab.lab.util.AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ReactionPendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -690,7 +690,7 @@ ReactionPendulumApp.prototype.setSeparation = function(value) {
 * @export
 */
 ReactionPendulumApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance2|advance1|axes|clock|displayList'
@@ -718,7 +718,7 @@ ReactionPendulumApp.prototype.setup = function() {
 */
 ReactionPendulumApp.prototype.start = function() {
   this.simRun.startFiring();
-  //console.log(UtilityCore.prettyPrint(this.toString()));
+  //console.log(Util.prettyPrint(this.toString()));
 };
 
 /**

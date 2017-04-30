@@ -14,16 +14,16 @@
 
 goog.provide('myphysicslab.lab.graph.GraphPoint');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A point in a 2D graph, with indication of when discontinuity occurs in a sequence
 * of points.  See {@link myphysicslab.lab.graph.GraphLine}.
@@ -50,7 +50,7 @@ myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
 };
 var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GraphPoint.prototype.toString = function() {
     return 'GraphPoint{x: '+NF(this.x)

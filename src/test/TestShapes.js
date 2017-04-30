@@ -20,18 +20,18 @@ goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /**  This class consists exclusively of static methods that create RigidBodys.

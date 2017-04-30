@@ -16,14 +16,14 @@ goog.provide('myphysicslab.lab.model.AbstractSimObject');
 
 goog.require('goog.array');
 goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Base class that provides common methods for SimObjects.
 
@@ -40,7 +40,7 @@ myphysicslab.lab.model.AbstractSimObject = function(opt_name, opt_localName) {
   * @type {string}
   * @private
   */
-  this.name_ = UtilityCore.validName(UtilityCore.toName(name));
+  this.name_ = Util.validName(Util.toName(name));
   /**
   * @type {string}
   * @private
@@ -50,11 +50,11 @@ myphysicslab.lab.model.AbstractSimObject = function(opt_name, opt_localName) {
   * @type {number}
   * @private
   */
-  this.expireTime_ = UtilityCore.POSITIVE_INFINITY;
+  this.expireTime_ = Util.POSITIVE_INFINITY;
 };
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractSimObject.prototype.toString = function() {
     return this.getClassName()+ '{name_: "' + this.getName() + '"'
@@ -98,7 +98,7 @@ AbstractSimObject.prototype.isMassObject = function() {
 
 /** @inheritDoc */
 AbstractSimObject.prototype.nameEquals = function(name) {
-  return this.name_ == UtilityCore.toName(name);
+  return this.name_ == Util.toName(name);
 };
 
 /** @inheritDoc */

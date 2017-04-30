@@ -16,14 +16,14 @@ goog.provide('myphysicslab.lab.model.CollisionStats');
 
 goog.require('goog.array');
 goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var Collision = myphysicslab.lab.model.Collision;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var Util = myphysicslab.lab.util.Util;
 
 /** Calculates statistics about a particular set of Collisions.
 
@@ -59,7 +59,7 @@ myphysicslab.lab.model.CollisionStats = function() {
   * @type {number}
   */
   this.numImminent = 0;
-  var infinity = UtilityCore.POSITIVE_INFINITY;
+  var infinity = Util.POSITIVE_INFINITY;
   /** the minimum --least positive or most negative-- distance among the collisions
   * @type {number}
   */
@@ -75,7 +75,7 @@ myphysicslab.lab.model.CollisionStats = function() {
 };
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CollisionStats.prototype.toString = function() {
     var s= 'CollisionStats{collisions: '+this.numCollisions;
@@ -103,7 +103,7 @@ CollisionStats.prototype.clear = function() {
   this.numNonContact = 0;
   this.numNeedsHandling = 0;
   this.numImminent = 0;
-  var infinity = UtilityCore.POSITIVE_INFINITY;
+  var infinity = Util.POSITIVE_INFINITY;
   this.minDistance = infinity;
   this.estTime = infinity;
   this.detectedTime = infinity;
@@ -115,7 +115,7 @@ First calls {@link #clear} to start from zero.
     examine
 */
 CollisionStats.prototype.update =  function(collisions) {
-  var infinity = UtilityCore.POSITIVE_INFINITY;
+  var infinity = Util.POSITIVE_INFINITY;
   this.clear();
   this.numCollisions = collisions.length;
   goog.array.forEach(collisions, function(c) {
@@ -147,7 +147,7 @@ CollisionStats.prototype.update =  function(collisions) {
       if (!isNaN(this.estTime)) {
         var t = c.getEstimatedTime();
         if (isNaN(t)) {
-          this.estTime = UtilityCore.NaN;
+          this.estTime = Util.NaN;
         } else if (t < this.estTime) {
             this.estTime = t;
         }
@@ -155,10 +155,10 @@ CollisionStats.prototype.update =  function(collisions) {
     }
   }, this);
   if (this.estTime == infinity) {
-    this.estTime = UtilityCore.NaN;
+    this.estTime = Util.NaN;
   }
   if (this.detectedTime == infinity) {
-    this.detectedTime = UtilityCore.NaN;
+    this.detectedTime = Util.NaN;
   }
 };
 

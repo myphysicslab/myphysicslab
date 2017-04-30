@@ -15,7 +15,7 @@
 goog.provide('myphysicslab.sims.roller.RollerCollision');
 
 goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.model.NumericalPath');
 goog.require('myphysicslab.lab.model.PathPoint');
 goog.require('myphysicslab.lab.model.PointMass');
@@ -23,10 +23,10 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.scope(function() {
 
 var Collision = myphysicslab.lab.model.Collision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
@@ -82,18 +82,18 @@ myphysicslab.sims.roller.RollerCollision = function(ball, path, time) {
   * @type {number}
   * @package
   */
-  this.impulse = UtilityCore.NaN;
+  this.impulse = Util.NaN;
   /** relative normal velocity between the two collision points
   * @type {number}
   * @package
   */
-  this.velocity = UtilityCore.NaN;
+  this.velocity = Util.NaN;
   this.updateCollision(time);
 };
 
 var RollerCollision = myphysicslab.sims.roller.RollerCollision;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerCollision.prototype.toString = function() {
     return 'RollerCollision{'
@@ -141,7 +141,7 @@ RollerCollision.prototype.getDetectedTime = function() {
 
 /** @inheritDoc */
 RollerCollision.prototype.getEstimatedTime = function() {
-  return UtilityCore.NaN;
+  return Util.NaN;
 };
 
 /** @inheritDoc */

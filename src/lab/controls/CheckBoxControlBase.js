@@ -18,12 +18,12 @@ goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Creates a checkbox user interface control which executes a specified
 function. You specify the functions for getting and setting the
@@ -106,7 +106,7 @@ myphysicslab.lab.controls.CheckBoxControlBase = function(label, getter, setter, 
 
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CheckBoxControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

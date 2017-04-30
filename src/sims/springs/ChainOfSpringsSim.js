@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -39,12 +39,12 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -150,7 +150,7 @@ myphysicslab.sims.springs.ChainOfSpringsSim = function(opt_name) {
 var ChainOfSpringsSim = myphysicslab.sims.springs.ChainOfSpringsSim;
 goog.inherits(ChainOfSpringsSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ChainOfSpringsSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -441,7 +441,7 @@ ChainOfSpringsSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent
 ChainOfSpringsSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   change[0] = 1; // time
   goog.array.forEach(this.atoms_, function(atom, listIdx) {

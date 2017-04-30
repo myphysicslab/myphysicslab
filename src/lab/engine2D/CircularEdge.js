@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
 goog.require('myphysicslab.lab.engine2D.StraightEdge');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -32,11 +32,11 @@ var CircleCircle = myphysicslab.lab.engine2D.CircleCircle;
 var CircleStraight = myphysicslab.lab.engine2D.CircleStraight;
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -276,7 +276,7 @@ myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
 goog.inherits(CircularEdge, AbstractEdge);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   CircularEdge.prototype.toString = function() {
     return CircularEdge.superClass_.toString.call(this)
         +', outsideIsOut_: '+this.outsideIsOut_
@@ -342,7 +342,7 @@ CircularEdge.make = function(body, vertex1, vertex2, radius, aboveRight, clockwi
   var mx = (vertex1.locBodyX() + vertex2.locBodyX())/2;
   var my = (vertex1.locBodyY() + vertex2.locBodyY())/2;
   // distance from vertex1 to midpoint
-  var a = UtilityCore.hypot(vertex1.locBodyX() - mx, vertex1.locBodyY() - my);
+  var a = Util.hypot(vertex1.locBodyX() - mx, vertex1.locBodyY() - my);
   var d = radius*radius - a*a;
   if (d < CircularEdge.TINY_POSITIVE) {
     throw new Error('radius '+radius+' is too small, must be >= '+a);
@@ -460,7 +460,7 @@ CircularEdge.prototype.distanceToEdge = function(edge) {
     var cb = this.body_.worldToBody(cw);
     var p_edge = this.bodyToEdge(cb);
     if (!this.isWithinArc(p_edge)) {
-      return UtilityCore.NaN;
+      return Util.NaN;
     }
     var len = p_edge.length();
     var r1 = (edge.outsideIsOut_ ? 1 : -1)*edge.radius_;
@@ -485,7 +485,7 @@ CircularEdge.prototype.distanceToPoint = function(p_body) {
   if (this.isWithinArc(p_edge)) {
     return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
   } else {
-    return UtilityCore.POSITIVE_INFINITY;
+    return Util.POSITIVE_INFINITY;
   }
 };
 

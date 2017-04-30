@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -35,15 +35,15 @@ var sims = myphysicslab.sims;
 var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
-var NF = lab.util.UtilityCore.NF;
-var NF5 = lab.util.UtilityCore.NF5;
-var NF7 = lab.util.UtilityCore.NF7;
+var NF = lab.util.Util.NF;
+var NF5 = lab.util.Util.NF5;
+var NF7 = lab.util.Util.NF7;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -144,14 +144,14 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
   * @private
   */
   this.wall1_ = PointMass.makeRectangle(0.4, 4, 'wall1')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   this.wall1_.setPosition(new Vector(-0.2,  0));
   /**
   * @type {!PointMass}
   * @private
   */
   this.wall2_ = PointMass.makeRectangle(0.4, 4, 'wall2')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   this.wall2_.setPosition(new Vector(9.8,  0));
   var length = 3.0;
   /**
@@ -237,7 +237,7 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
 var DoubleSpringSim = myphysicslab.sims.springs.DoubleSpringSim;
 goog.inherits(DoubleSpringSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoubleSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -424,7 +424,7 @@ DoubleSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) 
 DoubleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[9] = 1.0;  // time
   this.moveObjects(vars);
   if (this.dragBlock_ != 0) {

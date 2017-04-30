@@ -17,18 +17,18 @@ goog.provide('myphysicslab.lab.model.AdaptiveStepSolver');
 goog.require('myphysicslab.lab.model.DiffEqSolver');
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF9 = myphysicslab.lab.util.Util.NF9;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var ODESim = myphysicslab.lab.model.ODESim;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Experimental differential equation solver which reduces step size as
 needed to ensure that energy stays constant over every time step. Uses Decorator design
@@ -105,7 +105,7 @@ myphysicslab.lab.model.AdaptiveStepSolver = function(diffEq, energySystem,
 };
 var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AdaptiveStepSolver.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -128,14 +128,14 @@ AdaptiveStepSolver.prototype.getName = function(opt_localized) {
     return AdaptiveStepSolver.i18n.NAME + '-'
         + this.odeSolver_.getName(/*localized=*/true);
   } else {
-    return UtilityCore.toName(AdaptiveStepSolver.en.NAME) + '_'
+    return Util.toName(AdaptiveStepSolver.en.NAME) + '_'
         + this.odeSolver_.getName(/*localized=*/false);
   }
 };
 
 /** @inheritDoc */
 AdaptiveStepSolver.prototype.nameEquals = function(name) {
-  return this.getName() == UtilityCore.toName(name);
+  return this.getName() == Util.toName(name);
 };
 
 /** Returns whether to use second order differences for deciding when to reduce the step
@@ -186,8 +186,8 @@ AdaptiveStepSolver.prototype.step = function(stepSize) {
   var steps = 0;  // number of diffEqSolver steps taken during this step
   this.diffEq_.modifyObjects(); // to ensure getEnergyInfo gives correct value
   var startEnergy = this.energySystem_.getEnergyInfo().getTotalEnergy();
-  var lastEnergyDiff = UtilityCore.POSITIVE_INFINITY;
-  var value = UtilityCore.POSITIVE_INFINITY; // the value we are trying to reduce to zero
+  var lastEnergyDiff = Util.POSITIVE_INFINITY;
+  var value = Util.POSITIVE_INFINITY; // the value we are trying to reduce to zero
   var firstTime = true;
   if (stepSize < 1E-15)
     return null;

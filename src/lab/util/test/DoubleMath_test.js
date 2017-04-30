@@ -15,13 +15,13 @@
 goog.provide('myphysicslab.lab.util.test.DoubleMath_test');
 
 goog.require('myphysicslab.lab.util.DoubleMath');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
 var testDoubleMath = function() {
   var n, s;
   var DoubleMath = myphysicslab.lab.util.DoubleMath;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   assertEquals(s = '3FF0000000000000', DoubleMath.numToHex(n = 1));
   assertEquals(n, DoubleMath.hexToNum(s));
   assertEquals(s = '3FF0000000000001', DoubleMath.numToHex(n = 1.0000000000000002));
@@ -84,7 +84,7 @@ var testDoubleMath = function() {
   var cos = Math.cos(angle);
   // March 2014:  Chrome version 33 returns BFD4470BB84303C0 which is less accurate than version 32.
   // Oct 2014:  Chrome version 38 returns BFD4470BB84303C8, same as Java.
-  if (UtilityCore.isChrome() || UtilityCore.isIPhone()) {
+  if (Util.isChrome() || Util.isIPhone()) {
     assertEquals('BFD4470BB84303C8', DoubleMath.numToHex(cos));
   } else {
     assertEquals('BFD4470BB84303C9', DoubleMath.numToHex(cos));

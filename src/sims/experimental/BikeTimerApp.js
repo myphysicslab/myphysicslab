@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayText');
 goog.require('myphysicslab.lab.view.LabCanvas');
@@ -33,12 +33,12 @@ var Clock = myphysicslab.lab.util.Clock;
 var DisplayText = myphysicslab.lab.view.DisplayText;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
 var Timer = myphysicslab.lab.util.Timer;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Timer for Mark Neumann's bike ride record attempt.
@@ -65,7 +65,7 @@ var BikeTimerApp = myphysicslab.sims.experimental.BikeTimerApp;
 * @export
 */
 BikeTimerApp.makeApp = function(sound_url) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simDiv = window.document.getElementById('sim_applet');
   if (simDiv === null)
     throw new Error('cannot find sim_applet');

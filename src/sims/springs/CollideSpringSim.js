@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -39,12 +39,12 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -112,7 +112,7 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
   * @private
   */
   this.mouse_ = PointMass.makeCircle(0.5, 'mouse')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   /** the spring dragging the block
   * @type {?Spring}
   * @private
@@ -158,14 +158,14 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
   * @private
   */
   this.wall1_ = PointMass.makeRectangle(0.4, 4, 'wall1')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   this.wall1_.setPosition(new Vector(-6.2,  0));
   /**
   * @type {!PointMass}
   * @private
   */
   this.wall2_ = PointMass.makeRectangle(0.4, 4, 'wall2')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   this.wall2_.setPosition(new Vector(6.2,  0));
   /**
   * @type {!Array<!PointMass>}
@@ -203,7 +203,7 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
 var CollideSpringSim = myphysicslab.sims.springs.CollideSpringSim;
 goog.inherits(CollideSpringSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CollideSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -482,7 +482,7 @@ CollideSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent)
 
 /** @inheritDoc */
 CollideSpringSim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   // vars: 0   1   2   3   4   5
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time

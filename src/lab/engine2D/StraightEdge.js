@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -29,11 +29,11 @@ goog.scope(function() {
 var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
 var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -101,7 +101,7 @@ myphysicslab.lab.engine2D.StraightEdge = function(body, vertex1, vertex2, outsid
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 goog.inherits(StraightEdge, AbstractEdge);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   StraightEdge.prototype.toString = function() {
     return StraightEdge.superClass_.toString.call(this)
         +', outsideIsUp_: '+this.outsideIsUp_
@@ -200,20 +200,20 @@ StraightEdge.prototype.distanceToPoint = function(p_body) {
     // vertical edge
     // if p is beyond endpoints of this edge segment, return infinite distance
     if (y1 > y2 && (pby > y1 || pby < y2)) {
-      return UtilityCore.POSITIVE_INFINITY;
+      return Util.POSITIVE_INFINITY;
     }
     if (y2 > y1 && (pby > y2 || pby < y1)) {
-      return UtilityCore.POSITIVE_INFINITY;
+      return Util.POSITIVE_INFINITY;
     }
     return this.outsideIsUp_ ? pbx - x1 : x1 - pbx;
   } else if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {
     // horizontal edge
     // if p is beyond endpoints of this edge segment, return infinite distance
     if (x1 > x2 && (pbx > x1 || pbx < x2)) {
-      return UtilityCore.POSITIVE_INFINITY;
+      return Util.POSITIVE_INFINITY;
     }
     if (x2 > x1 && (pbx > x2 || pbx < x1)) {
-      return UtilityCore.POSITIVE_INFINITY;
+      return Util.POSITIVE_INFINITY;
     }
     return this.outsideIsUp_ ? pby - y1 : y1 - pby;
   } else {
@@ -223,10 +223,10 @@ StraightEdge.prototype.distanceToPoint = function(p_body) {
     var qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
     var qy = y1 + k * (qx - x1);
     if (x1 < x2 && (qx < x1 || qx > x2)) {
-      return UtilityCore.POSITIVE_INFINITY;
+      return Util.POSITIVE_INFINITY;
     }
     if (x2 < x1 && (qx < x2 || qx > x1)) {
-      return UtilityCore.POSITIVE_INFINITY;
+      return Util.POSITIVE_INFINITY;
     }
     var dx = pbx-qx;
     var dy = pby-qy;
@@ -269,7 +269,7 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
     var nw = this.body_.rotateBodyToWorld(new Vector(this.outsideIsUp_ ? 1 : -1, 0));
     rbc.normal = nw;
     rbc.ballNormal = false;
-    rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
+    rbc.radius2 = Util.POSITIVE_INFINITY;
     rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContactVert' : '';
     return rbc;
   }
@@ -295,7 +295,7 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
     var nw = this.body_.rotateBodyToWorld(new Vector(0, this.outsideIsUp_ ? 1 : -1));
     rbc.normal = nw;
     rbc.ballNormal = false;
-    rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
+    rbc.radius2 = Util.POSITIVE_INFINITY;
     rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContactHoriz' : '';
     return rbc;
   }
@@ -333,7 +333,7 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   }
   rbc.normal = nw;
   rbc.ballNormal = false;
-  rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
+  rbc.radius2 = Util.POSITIVE_INFINITY;
   rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContact' : '';
   return rbc;
 };
@@ -357,7 +357,7 @@ StraightEdge.prototype.getClassName = function() {
 
 /** @inheritDoc */
 StraightEdge.prototype.getCurvature = function(p_body) {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -495,7 +495,7 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
   goog.asserts.assert(this.body_ == rbc.normalBody);
   // problem with this is that the radius is small and can change quickly
   rbc.ballObject = false;
-  rbc.radius1 = UtilityCore.NaN;
+  rbc.radius1 = Util.NaN;
   rbc.ballNormal = true;
   rbc.radius2 = dist;
   rbc.creator = goog.DEBUG ? "StraightEdge.makeVertexVertex" : "";

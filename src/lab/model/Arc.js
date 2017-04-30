@@ -17,15 +17,15 @@ goog.provide('myphysicslab.lab.model.Arc');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Vector = myphysicslab.lab.util.Vector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var Util = myphysicslab.lab.util.Util;
 
 /** A {@link myphysicslab.lab.model.SimObject} that represents a semi-circular arc.
 
@@ -66,7 +66,7 @@ myphysicslab.lab.model.Arc = function(name, startAngle, radius, center) {
 var Arc = myphysicslab.lab.model.Arc;
 goog.inherits(Arc, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Arc.prototype.toString = function() {
     return Arc.superClass_.toString.call(this).slice(0, -1)
@@ -152,13 +152,13 @@ Arc.prototype.similar = function(obj, opt_tolerance) {
     return false;
   }
   var arc = /** @type {!Arc} */ (obj);
-  if (UtilityCore.veryDifferent(arc.startAngle_, this.startAngle_, opt_tolerance)) {
+  if (Util.veryDifferent(arc.startAngle_, this.startAngle_, opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(arc.angle_, this.angle_, opt_tolerance)) {
+  if (Util.veryDifferent(arc.angle_, this.angle_, opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(arc.radius_, this.radius_, opt_tolerance)) {
+  if (Util.veryDifferent(arc.radius_, this.radius_, opt_tolerance)) {
     return false;
   }
   return arc.getCenter().nearEqual(this.center_, opt_tolerance);

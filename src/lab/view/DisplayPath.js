@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.PathPoint');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -41,12 +41,12 @@ var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
 var DrawingStyle = lab.view.DrawingStyle;
 var MutableVector = lab.util.MutableVector;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var Path = lab.model.Path;
 var PathPoint = lab.model.PathPoint;
 var ScreenRect = lab.view.ScreenRect;
 var SimObject = lab.model.SimObject;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Displays one or more {@link Path}s within a specified screen rectangle in the
@@ -124,7 +124,7 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
 };
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayPath.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -340,7 +340,7 @@ DisplayPath.prototype.getPath = function(arg) {
       return this.paths_[arg];
     }
   } else if (goog.isString(arg)) {
-    arg = UtilityCore.toName(arg);
+    arg = Util.toName(arg);
     var e = goog.array.find(this.paths_,
       function (/** !Path */obj) {
         return obj.getName() == arg;

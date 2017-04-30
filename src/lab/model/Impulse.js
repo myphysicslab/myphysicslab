@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -28,8 +28,8 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF5E = myphysicslab.lab.util.Util.NF5E;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** An Impulse is a sudden change in momentum, it acts on a given {@link MassObject}
@@ -88,7 +88,7 @@ myphysicslab.lab.model.Impulse = function(name, body, magnitude, location, direc
 var Impulse = myphysicslab.lab.model.Impulse;
 goog.inherits(Impulse, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Impulse.prototype.toString = function() {
     return Impulse.superClass_.toString.call(this).slice(0, -1)
@@ -160,7 +160,7 @@ Impulse.prototype.similar = function(obj, opt_tolerance) {
   if (!this.location_.nearEqual(f.getStartPoint(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.magnitude_, f.getMagnitude(), opt_tolerance)) {
+  if (Util.veryDifferent(this.magnitude_, f.getMagnitude(), opt_tolerance)) {
     return false;
   }
   if (!this.direction_.nearEqual(f.getVector(), opt_tolerance)) {

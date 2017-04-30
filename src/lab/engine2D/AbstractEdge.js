@@ -17,15 +17,15 @@ goog.provide('myphysicslab.lab.engine2D.AbstractEdge');
 goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -84,7 +84,7 @@ myphysicslab.lab.engine2D.AbstractEdge = function(body, vertex1, vertex2) {
   * @type {number}
   * @protected
   */
-  this.centroidRadius_ = UtilityCore.NaN;
+  this.centroidRadius_ = Util.NaN;
   /** the Polygon that this edge is a part of
   * @type {!myphysicslab.lab.engine2D.Polygon}
   * @protected
@@ -106,7 +106,7 @@ var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
 */
 AbstractEdge.TINY_POSITIVE = 1E-10;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   AbstractEdge.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', v1_: '+this.v1_.toStringShort()

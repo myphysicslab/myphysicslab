@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -39,11 +39,11 @@ var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -281,7 +281,7 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
 var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;
 goog.inherits(PendulumSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -335,7 +335,7 @@ PendulumSim.prototype.modifyObjects = function() {
   var vars = va.getValues();
   if (this.limitAngle_) {
     // limit the pendulum angle to +/- Pi
-    var angle = UtilityCore.limitAngle(vars[0]);
+    var angle = Util.limitAngle(vars[0]);
     if (angle != vars[0]) {
       // This also increases sequence number when angle crosses over
       // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -439,7 +439,7 @@ PendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 PendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[2] = 1; // time
   if (!this.isDragging_) {
     // th' = v

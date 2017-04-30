@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.model.ConstantForceLaw');
 
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A ForceLaw that applies a single constant Force. The Force can be set to `null`, in
 which case this ForceLaw does nothing.
@@ -46,7 +46,7 @@ myphysicslab.lab.model.ConstantForceLaw = function(force) {
 };
 var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ConstantForceLaw.prototype.toString = function() {
     return this.toStringShort();

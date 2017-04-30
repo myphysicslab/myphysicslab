@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -30,11 +30,11 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -148,7 +148,7 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
   * @private
   */
   this.fixedPoint_ = PointMass.makeSquare(0.5, 'fixed_point')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   var restLength = 2.5;
   this.fixedPoint_.setPosition(new Vector(-restLength,  0));
   /**
@@ -201,13 +201,13 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
   this.addParameter(new ParameterNumber(this, SingleSpringSim.en.FIXED_POINT,
       SingleSpringSim.i18n.FIXED_POINT,
       goog.bind(this.getFixedPoint, this), goog.bind(this.setFixedPoint, this))
-      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
 
 var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
 goog.inherits(SingleSpringSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SingleSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -337,7 +337,7 @@ SingleSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) 
 SingleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[3] = 1.0;  // time
   if (!this.isDragging) {
     this.moveObjects(vars);

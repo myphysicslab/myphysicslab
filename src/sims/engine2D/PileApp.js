@@ -32,7 +32,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
@@ -66,7 +66,7 @@ var RandomLCG = lab.util.RandomLCG;
 var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var WayPoint = lab.model.CollisionAdvance.WayPoint;
 
@@ -194,7 +194,7 @@ sims.engine2D.PileApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.RANDOM_SEED,
       PileConfig.i18n.RANDOM_SEED,
       goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
-      .setDecimalPlaces(0).setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      .setDecimalPlaces(0).setLowerLimit(Util.NEGATIVE_INFINITY));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));
@@ -220,7 +220,7 @@ sims.engine2D.PileApp = function(elem_ids) {
 var PileApp = sims.engine2D.PileApp;
 goog.inherits(PileApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PileApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

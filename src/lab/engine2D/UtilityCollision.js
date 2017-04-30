@@ -22,19 +22,19 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -683,7 +683,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
     var e1_body = /** @type {?Vector} */(null);
     // distance from starting corner position to the edge intersection
     // distance from old corner to intersection pt
-    var distance_old = UtilityCore.POSITIVE_INFINITY;
+    var distance_old = Util.POSITIVE_INFINITY;
     // A corner might pass through multiple edges of an object;
     // we look for the first edge that it passes through.
     goog.array.forEach(body1.getEdges_(), function findEdgePassThru(e1) {

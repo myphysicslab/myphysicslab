@@ -35,7 +35,7 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
@@ -72,7 +72,7 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -207,7 +207,7 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
 var TimeGraph1 = myphysicslab.sims.common.TimeGraph1;
 goog.inherits(TimeGraph1, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   TimeGraph1.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

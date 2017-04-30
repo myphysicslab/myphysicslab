@@ -133,7 +133,7 @@ java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.util.test.EasyScriptParser_test \
 --entry_point=goog:myphysicslab.lab.util.test.Terminal_test \
 --entry_point=goog:myphysicslab.lab.util.test.TimerClock_test \
---entry_point=goog:myphysicslab.lab.util.test.UtilityCore_test \
+--entry_point=goog:myphysicslab.lab.util.test.Util_test \
 --entry_point=goog:myphysicslab.lab.util.test.Vector_test \
 --entry_point=goog:myphysicslab.lab.view.test.CoordMap_test \
 --entry_point=goog:myphysicslab.lab.view.test.DisplayList_test \
@@ -148,7 +148,7 @@ java -jar "$CLOSURE_COMPILER" \
 --compilation_level=$comp_level \
 --define=goog.DEBUG=true \
 --define=goog.LOCALE="'$locale'" \
---define=myphysicslab.lab.util.UtilityCore.ADVANCED=$advanced \
+--define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=src/ \

@@ -130,7 +130,7 @@ var testPointMassSimilar = function() {
   var p2 = PointMass.makeCircle(1).setMass(5);
   p2.setPosition(new Vector(2.01,  -2.02));
   assertTrue(p1.similar(p2, 0.015));
-  // see UtilityCore.veryDifferent: tolerance is multiplied by magnitude
+  // see Util.veryDifferent: tolerance is multiplied by magnitude
   assertFalse(p1.similar(p2, 0.007));
   var r1 = PointMass.makeSquare(1);
   r1.setShape(ShapeType.OVAL);

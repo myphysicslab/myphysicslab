@@ -21,19 +21,19 @@ goog.require('myphysicslab.lab.util.ClockTask');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ClockTask = myphysicslab.lab.util.ClockTask;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF3 = myphysicslab.lab.util.UtilityCore.NF3;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF3 = myphysicslab.lab.util.Util.NF3;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Subject = myphysicslab.lab.util.Subject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A clock that advances along with real time and can execute tasks at appointed
 times. There are commands to pause, resume, and single-step the Clock, as well as set
@@ -61,7 +61,7 @@ have a different meaning – see
 simulation time follows clock time, you should think of clock time being in the same
 units as simulation time.
 
-+ **System Time** is given by {@link UtilityCore#getSystemTime}.
++ **System Time** is given by {@link Util#getSystemTime}.
 System time is the basis of the other time measurements. For example, clock time and
 real time each have a 'system start time' by which they are measured. System time is
 always running.
@@ -144,7 +144,7 @@ myphysicslab.lab.util.Clock = function(opt_name) {
   * @type {number}
   * @private
   */
-  this.clockStart_sys_secs_ = UtilityCore.getSystemTime();
+  this.clockStart_sys_secs_ = Util.getSystemTime();
   /** when 'zero real time' occurs, in system time, in seconds
   * @type {number}
   * @private
@@ -195,7 +195,7 @@ myphysicslab.lab.util.Clock = function(opt_name) {
 var Clock = myphysicslab.lab.util.Clock;
 goog.inherits(Clock, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Clock.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -204,8 +204,8 @@ if (!UtilityCore.ADVANCED) {
         +', saveRealTime_secs_: '+NF5(this.saveRealTime_secs_)
         +', isRunning_: '+this.isRunning_
         +', stepMode_: '+this.stepMode_
-        +', clockStart_sys_secs_: '+NF5(UtilityCore.chopTime(this.clockStart_sys_secs_))
-        +', realStart_sys_secs_: '+NF5(UtilityCore.chopTime(this.realStart_sys_secs_))
+        +', clockStart_sys_secs_: '+NF5(Util.chopTime(this.clockStart_sys_secs_))
+        +', realStart_sys_secs_: '+NF5(Util.chopTime(this.realStart_sys_secs_))
         +', tasks_: ['+this.tasks_+']'
         + Clock.superClass_.toString.call(this);
   };
@@ -275,7 +275,7 @@ Clock.prototype.cancelAllTasks = function() {
 };
 
 /** Converts clock time to system time. System time is defined by
-{@link UtilityCore#getSystemTime}.
+{@link Util#getSystemTime}.
 @param {number} clockTime in seconds
 @return {number} system time equivalent of clockTime
 */
@@ -309,7 +309,7 @@ between real time and clock time tells us how far behind real time the simulatio
 */
 Clock.prototype.getRealTime = function() {
   if (this.isRunning_) {
-    return (UtilityCore.getSystemTime() - this.realStart_sys_secs_)*this.timeRate_;
+    return (Util.getSystemTime() - this.realStart_sys_secs_)*this.timeRate_;
   } else {
     return this.saveRealTime_secs_;
   }
@@ -328,7 +328,7 @@ advances along with system time at whatever {@link #getTimeRate time rate} is sp
 */
 Clock.prototype.getTime = function() {
   if (this.isRunning_) {
-    return (UtilityCore.getSystemTime() - this.clockStart_sys_secs_)*this.timeRate_;
+    return (Util.getSystemTime() - this.clockStart_sys_secs_)*this.timeRate_;
   } else {
     return this.saveTime_secs_;
   }
@@ -424,7 +424,7 @@ Clock.prototype.setRealTime = function(time_secs) {
   if (goog.DEBUG && this.clockDebug_)
     console.log('Clock.setRealTime '+NF5(time_secs));
   if (this.isRunning_) {
-    this.realStart_sys_secs_ = UtilityCore.getSystemTime() - time_secs/this.timeRate_;
+    this.realStart_sys_secs_ = Util.getSystemTime() - time_secs/this.timeRate_;
   } else {
     this.saveRealTime_secs_ = time_secs;
   }
@@ -449,7 +449,7 @@ Clock.prototype.setTime = function(time_secs) {
 */
 Clock.prototype.setTimePrivate = function(time_secs) {
   if (this.isRunning_) {
-    this.clockStart_sys_secs_ = UtilityCore.getSystemTime() - time_secs/this.timeRate_;
+    this.clockStart_sys_secs_ = Util.getSystemTime() - time_secs/this.timeRate_;
     // schedule all ClockTasks
     goog.array.forEach(this.tasks_, goog.bind(this.scheduleTask, this));
   } else {
@@ -463,7 +463,7 @@ as fast as system time.
 @param {number} rate the rate at which clock time passes compared to system time
 */
 Clock.prototype.setTimeRate = function(rate) {
-  if (UtilityCore.veryDifferent(this.timeRate_, rate)) {
+  if (Util.veryDifferent(this.timeRate_, rate)) {
     var t = this.getTime();
     var sysT = this.getRealTime();
     this.timeRate_ = rate;
@@ -502,7 +502,7 @@ Clock.prototype.step = function(timeStep) {
 };
 
 /** Converts system time to clock time. System time is defined by
-{@link UtilityCore#getSystemTime}.
+{@link Util#getSystemTime}.
 @param {number} systemTime in seconds
 @return {number} clock time equivalent of systemTime
 */

@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -47,14 +47,14 @@ var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var LabView = myphysicslab.lab.view.LabView;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 
@@ -265,7 +265,7 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
 var SimView = myphysicslab.lab.view.SimView;
 goog.inherits(SimView, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SimView.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -487,7 +487,7 @@ See {@link CoordMap}.
 @param {number} aspectRatio the aspect ratio used when displaying this SimView
 */
 SimView.prototype.setAspectRatio = function(aspectRatio) {
-  if (UtilityCore.veryDifferent(this.aspectRatio_, aspectRatio)) {
+  if (Util.veryDifferent(this.aspectRatio_, aspectRatio)) {
     this.aspectRatio_ = aspectRatio;
     this.realign();
     this.broadcastParameter(SimView.en.ASPECT_RATIO);
@@ -499,7 +499,7 @@ and broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @param {number} value the horizontal coordinate of simulation rectangle's center.
 */
 SimView.prototype.setCenterX = function(value) {
-  if (UtilityCore.veryDifferent(this.centerX_, value)) {
+  if (Util.veryDifferent(this.centerX_, value)) {
     this.centerX_ = value;
     this.modifySimRect();
   }
@@ -510,7 +510,7 @@ and broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @param {number} value the vertical coordinate of simulation rectangle's center.
 */
 SimView.prototype.setCenterY = function(value) {
-  if (UtilityCore.veryDifferent(this.centerY_, value)) {
+  if (Util.veryDifferent(this.centerY_, value)) {
     this.centerY_ = value;
     this.modifySimRect();
   }
@@ -529,7 +529,7 @@ SimView.prototype.setCoordMap = function(map) {
 * @param {number} value height of the simulation rectangle
 */
 SimView.prototype.setHeight = function(value) {
-  if (UtilityCore.veryDifferent(this.height_, value)) {
+  if (Util.veryDifferent(this.height_, value)) {
     this.height_ = value;
     if (this.scaleTogether_) {
       this.width_ = this.height_ / this.ratio_;
@@ -608,7 +608,7 @@ SimView.prototype.setVerticalAlign = function(alignVert) {
 * @param {number} value width of the simulation rectangle
 */
 SimView.prototype.setWidth = function(value) {
-  if (UtilityCore.veryDifferent(this.width_, value)) {
+  if (Util.veryDifferent(this.width_, value)) {
     this.width_ = value;
     if (this.scaleTogether_) {
       this.height_ = this.width_ * this.ratio_;

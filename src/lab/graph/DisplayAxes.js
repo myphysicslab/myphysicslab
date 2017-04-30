@@ -15,7 +15,7 @@
 goog.provide('myphysicslab.lab.graph.DisplayAxes');
 
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -28,7 +28,7 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -128,7 +128,7 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
 };
 var DisplayAxes = myphysicslab.lab.graph.DisplayAxes;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayAxes.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

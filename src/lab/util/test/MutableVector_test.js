@@ -58,7 +58,7 @@ var testMutableVectorSimilar = function() {
   var v2 = new MutableVector(2.01, 3.02, 4.015);
   assertTrue(v1.nearEqual(v2, 0.03));
   // because the magnitude of largest number is 4, the actual tolerance used is 0.04
-  // see UtilityCore.veryDifferent
+  // see Util.veryDifferent
   assertTrue(v1.nearEqual(v2, 0.01));
   assertFalse(v1.nearEqual(v2, 0.001));
 };

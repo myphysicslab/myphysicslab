@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayLine');
@@ -66,7 +66,7 @@ var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var GenericObserver = lab.util.GenericObserver;
 var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
-var NF5 = lab.util.UtilityCore.NF5;
+var NF5 = lab.util.Util.NF5;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var PointMass = lab.model.PointMass;
 var ScreenRect = lab.view.ScreenRect;
@@ -75,7 +75,7 @@ var SimView = lab.view.SimView;
 var Spring = lab.model.Spring;
 var Terminal = lab.util.Terminal;
 var Timer = lab.util.Timer;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -91,9 +91,9 @@ things with scripts.
 * @export
 */
 myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, 'APP');
-  UtilityCore.setImagesDir(elem_ids['images_dir']);
+  Util.setImagesDir(elem_ids['images_dir']);
   var div_sim = BlankSlateApp.getElementById(elem_ids, 'sim_canvas');
   // 'relative' allows absolute positioning of icon controls over the canvas
   div_sim.style.position = 'relative';
@@ -212,7 +212,7 @@ BlankSlateApp.prototype.getClassName = function() {
 * @export
 */
 BlankSlateApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('simCanvas|terminal|axes|simCtrl|simView|displayList',

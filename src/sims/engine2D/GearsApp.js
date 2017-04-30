@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.common.CommonControls');
@@ -65,7 +65,7 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var RigidBody = lab.engine2D.RigidBody;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -128,7 +128,7 @@ sims.engine2D.GearsApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, GearsConfig.en.TURNING_FORCE,
       GearsConfig.i18n.TURNING_FORCE,
       goog.bind(this.getTurningForce, this), goog.bind(this.setTurningForce, this)));
-  pn.setLowerLimit(UtilityCore.NEGATIVE_INFINITY);
+  pn.setLowerLimit(Util.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -147,7 +147,7 @@ sims.engine2D.GearsApp = function(elem_ids) {
 var GearsApp = sims.engine2D.GearsApp;
 goog.inherits(GearsApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GearsApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

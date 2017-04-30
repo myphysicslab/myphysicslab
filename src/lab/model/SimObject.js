@@ -18,14 +18,14 @@ goog.require('myphysicslab.lab.util.Printable');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** An object in a Simulation which can be displayed. The purpose of SimObjects is
 two-fold:
@@ -77,7 +77,7 @@ purposes or the localized name for display to user.
 
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
-see {@link UtilityCore#toName} and {@link #nameEquals}.
+see {@link Util#toName} and {@link #nameEquals}.
 
 The name should give an idea of the role of the SimObject in the simulation. This
 allows us to to treat an object in a special way depending on its name. For example, we
@@ -95,7 +95,7 @@ SimObject.prototype.getName;
 SimObject.prototype.isMassObject;
 
 /** Whether this SimObject has the given name, adjusting for the transformation to a
-language-independent form of the name, as is done by {@link UtilityCore#toName}.
+language-independent form of the name, as is done by {@link Util#toName}.
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this SimObject has the given name (adjusted to
     language-independent form)

@@ -15,15 +15,15 @@
 goog.provide('myphysicslab.lab.view.DisplayConnector');
 
 goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
 var Connector = myphysicslab.lab.engine2D.Connector;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Shows the location of a {@link Connector} as a small colored circle.
@@ -70,7 +70,7 @@ myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
 };
 var DisplayConnector = myphysicslab.lab.view.DisplayConnector;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayConnector.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

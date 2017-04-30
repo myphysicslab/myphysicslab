@@ -14,12 +14,12 @@
 
 goog.provide('myphysicslab.sims.roller.CustomPath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** A path defined by custom equations. The equations are JavaScript string
@@ -59,7 +59,7 @@ myphysicslab.sims.roller.CustomPath = function(start_t, finish_t, name, localNam
 var CustomPath = myphysicslab.sims.roller.CustomPath;
 goog.inherits(CustomPath, AbstractPath);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CustomPath.prototype.toString = function() {
     return CustomPath.superClass_.toString.call(this).slice(0, -1)

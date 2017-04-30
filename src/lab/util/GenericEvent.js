@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.util.GenericEvent');
 
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectEvent');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var Subject = myphysicslab.lab.util.Subject;
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A simple implementation of a SubjectEvent, represents an event that
 has occurred in a Subject.
@@ -40,7 +40,7 @@ myphysicslab.lab.util.GenericEvent = function(subject, name, value) {
   @type {string}
   @private
   */
-  this.name_ = UtilityCore.validName(UtilityCore.toName(name));
+  this.name_ = Util.validName(Util.toName(name));
   /**
   @type {!Subject}
   @private
@@ -54,7 +54,7 @@ myphysicslab.lab.util.GenericEvent = function(subject, name, value) {
 };
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GenericEvent.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -88,7 +88,7 @@ GenericEvent.prototype.getValue = function() {
 
 /** @inheritDoc */
 GenericEvent.prototype.nameEquals = function(name) {
-  return this.name_ == UtilityCore.toName(name);
+  return this.name_ == Util.toName(name);
 };
 
 }); // goog.scope

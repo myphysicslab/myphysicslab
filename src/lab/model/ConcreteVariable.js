@@ -18,13 +18,13 @@ goog.require('myphysicslab.lab.model.Variable');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var Parameter = myphysicslab.lab.util.Parameter;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var Subject = myphysicslab.lab.util.Subject;
@@ -33,7 +33,7 @@ var Subject = myphysicslab.lab.util.Subject;
 
 @param {!Subject} varsList the VarsList which contains this Variable
 @param {string} name the name of this Variable; this will be underscorized so the
-    English name can be passed in here. See {@link UtilityCore#toName}.
+    English name can be passed in here. See {@link Util#toName}.
 @param {string} localName the localized name of this Variable
 @constructor
 @struct
@@ -49,7 +49,7 @@ myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
   @type {string}
   @private
   */
-  this.name_ = UtilityCore.validName(UtilityCore.toName(name));
+  this.name_ = Util.validName(Util.toName(name));
   /**
   @type {string}
   @private
@@ -79,7 +79,7 @@ myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
 };
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ConcreteVariable.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -155,7 +155,7 @@ ConcreteVariable.prototype.isComputed = function() {
 
 /** @inheritDoc */
 ConcreteVariable.prototype.nameEquals = function(name) {
-  return this.name_ == UtilityCore.toName(name);
+  return this.name_ == Util.toName(name);
 };
 
 /** @inheritDoc */

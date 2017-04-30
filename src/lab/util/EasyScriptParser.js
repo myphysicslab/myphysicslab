@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Parser');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectEvent');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -29,7 +29,7 @@ var Parameter = myphysicslab.lab.util.Parameter;
 var Subject = myphysicslab.lab.util.Subject;
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 var Terminal = myphysicslab.lab.util.Terminal;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Parses simple "EasyScript" scripts which get or set values of {@link Parameter}s
 for a specified set of {@link Subject}s. Also executes some single word commands such
@@ -82,7 +82,7 @@ replaced. If not surrounded with quotes then the string ends at the semicolon or
 line.
 
 The English language version of Parameter or Subject names can also be given, they are
-converted to the language-independent form using {@link UtilityCore#toName}. Leading
+converted to the language-independent form using {@link Util#toName}. Leading
 and trailing spaces are trimmed from names and (unquoted) values.
 
 
@@ -248,10 +248,10 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, volatile) {
         return this.script();
       }, this), 'prints script to recreate current state');
   this.addCommand('values', goog.bind(function() {
-        return UtilityCore.prettyPrint(this.values());
+        return Util.prettyPrint(this.values());
       }, this), 'shows available parameters and their current values');
   this.addCommand('names', goog.bind(function() {
-        return UtilityCore.prettyPrint(this.names().join(';'));
+        return Util.prettyPrint(this.names().join(';'));
       }, this), 'shows available parameter names');
   this.addCommand('help', goog.bind(function() {
         return this.help();
@@ -260,7 +260,7 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, volatile) {
 };
 var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EasyScriptParser.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -339,12 +339,12 @@ EasyScriptParser.prototype.getParameter = function(fullName) {
 * @return {string}
 */
 EasyScriptParser.prototype.help = function() {
-  var s = 'myPhysicsLab version '+ UtilityCore.VERSION + ', '
-  s += (UtilityCore.ADVANCED ? 'advanced' : 'simple') + '-compiled.\n';
+  var s = 'myPhysicsLab version '+ Util.VERSION + ', '
+  s += (Util.ADVANCED ? 'advanced' : 'simple') + '-compiled.\n';
   s += 'Use the "values" command to see what can be set and the syntax.\n\n';
   s += 'command-K            clear Terminal window\n'
   s += 'arrow up/down        retrieve previous or next command\n'
-  if (!UtilityCore.ADVANCED) {
+  if (!Util.ADVANCED) {
     s += 'propertiesOf(app)    shows properties of that object\n';
     s += 'methodsOf(app)       shows methods defined on that object\n';
     s += 'prettyPrint(app)     prints the object nicely\n';
@@ -405,7 +405,7 @@ EasyScriptParser.prototype.namesAndValues = function(volatile, includeComputed, 
   var re = /^[a-zA-Z0-9_]+$/;
   var s = goog.array.map(params,
       function(p) {
-        var paramName = UtilityCore.toName(p.getName());
+        var paramName = Util.toName(p.getName());
         var idx = goog.array.indexOf(allParams, p);
         var v = p.getValue();
         if (goog.isString(v) && !re.test(v)) {
@@ -416,7 +416,7 @@ EasyScriptParser.prototype.namesAndValues = function(volatile, includeComputed, 
         if (!fullName && this.unique_[idx]) {
           return paramName + '=' + v;
         } else {
-          var subjName = UtilityCore.toName(p.getSubject().getName());
+          var subjName = Util.toName(p.getSubject().getName());
           return subjName + '.' + paramName + '=' + v;
         }
       }, this);
@@ -436,7 +436,7 @@ EasyScriptParser.prototype.parse = function(script) {
   }
   var a = script.split('=');
   // fullName can be 'SUBJECT_NAME.PARAM_NAME' or just 'PARAM_NAME'
-  var fullName = UtilityCore.toName(a[0].trim());
+  var fullName = Util.toName(a[0].trim());
   var param = this.getParameter(fullName);
   if (param == null || a.length > 2) {
     return undefined;
@@ -572,11 +572,11 @@ EasyScriptParser.prototype.update =  function() {
       function(p) { return p.getSubject(); });
 
   this.allParamNames_ = goog.array.map(params,
-      function(p) { return UtilityCore.toName(p.getName()); });
+      function(p) { return Util.toName(p.getName()); });
 
   this.allSubjParamNames_ = goog.array.map(params,
       function(p) {
-        return UtilityCore.toName(p.getSubject().getName()+'.'+p.getName());
+        return Util.toName(p.getSubject().getName()+'.'+p.getName());
       });
 
   this.unique_ = goog.array.map(this.allParamNames_,

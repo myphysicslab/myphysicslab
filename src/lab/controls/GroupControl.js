@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.controls.GroupControl');
 
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
 var LabControl = myphysicslab.lab.controls.LabControl;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A group of LabControls which implements the LabControl interface. Typical usage is
 for making the group of playback buttons for rewind, play/pause and step actions.
@@ -58,7 +58,7 @@ myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {
 };
 var GroupControl = myphysicslab.lab.controls.GroupControl;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GroupControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

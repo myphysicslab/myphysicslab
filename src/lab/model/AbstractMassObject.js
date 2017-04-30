@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.model.AbstractSimObject');
 goog.require('myphysicslab.lab.model.MassObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -28,9 +28,9 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Abstract class which implements most of the {@link MassObject} methods.
@@ -106,12 +106,12 @@ myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
   * @type {number}
   * @protected
   */
-  this.minHeight_ = UtilityCore.NaN;
+  this.minHeight_ = Util.NaN;
 };
 var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
 goog.inherits(AbstractMassObject, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractMassObject.prototype.toString = function() {
     return AbstractMassObject.superClass_.toString.call(this).slice(0, -1)
@@ -179,7 +179,7 @@ AbstractMassObject.prototype.getBottomBody = function() {};
 
 /** @inheritDoc */
 AbstractMassObject.prototype.getBottomWorld = function() {
-  var min = UtilityCore.POSITIVE_INFINITY;
+  var min = Util.POSITIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
     var p = this.bodyToWorld(v);
     if (p.getY() < min)
@@ -236,7 +236,7 @@ AbstractMassObject.prototype.getLeftBody = function() {};
 
 /** @inheritDoc */
 AbstractMassObject.prototype.getLeftWorld = function() {
-  var min = UtilityCore.POSITIVE_INFINITY;
+  var min = Util.POSITIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
     var p = this.bodyToWorld(v);
     if (p.getX() < min)
@@ -263,7 +263,7 @@ AbstractMassObject.prototype.getRightBody = function() {};
 
 /** @inheritDoc */
 AbstractMassObject.prototype.getRightWorld = function() {
-  var max = UtilityCore.NEGATIVE_INFINITY;
+  var max = Util.NEGATIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
     var p = this.bodyToWorld(v);
     if (p.getX() > max)
@@ -277,7 +277,7 @@ AbstractMassObject.prototype.getTopBody = function() {};
 
 /** @inheritDoc */
 AbstractMassObject.prototype.getTopWorld = function() {
-  var max = UtilityCore.NEGATIVE_INFINITY;
+  var max = Util.NEGATIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
     var p = this.bodyToWorld(v);
     if (p.getY() > max)
@@ -365,7 +365,7 @@ AbstractMassObject.prototype.setAngularVelocity = function(angular_velocity) {
 AbstractMassObject.prototype.setCenterOfMass = function(x_body, y_body) {
   this.cm_body_ = new Vector(x_body, y_body);
   // NaN indicates that minimum height must be recalculated
-  this.minHeight_ = UtilityCore.NaN;
+  this.minHeight_ = Util.NaN;
 };
 
 /** @inheritDoc */

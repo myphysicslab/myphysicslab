@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.roller.RollerCollision');
 
@@ -39,7 +39,7 @@ var Collision = myphysicslab.lab.model.Collision;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PathPoint = myphysicslab.lab.model.PathPoint;
@@ -47,7 +47,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 var RollerCollision = myphysicslab.sims.roller.RollerCollision;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -348,7 +348,7 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
 var RollerFlightSim = myphysicslab.sims.roller.RollerFlightSim;
 goog.inherits(RollerFlightSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerFlightSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -671,7 +671,7 @@ RollerFlightSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) 
 
 /** @inheritDoc */
 RollerFlightSim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[10] = 1; // time
   if (this.dragObj_ != null) {
     // when dragging, don't make any changes

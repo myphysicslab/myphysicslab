@@ -20,18 +20,18 @@ goog.require('myphysicslab.lab.model.ParametricPath');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.HasPath');
 
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var HasPath = myphysicslab.sims.roller.HasPath;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Provides a {@link HasPath} (such as roller coaster simulation) with a choice of
 several paths. Defines a ParameterString that has the set of available ParametricPaths
@@ -78,13 +78,13 @@ myphysicslab.sims.roller.PathSelector = function(hasPath, paths) {
   var ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
       goog.bind(this.getPathName, this), goog.bind(this.setPathName, this), localNames, names);
   // the input function allows passing in lowercase path names.
-  //ps.setInputFunction(UtilityCore.toName);
+  //ps.setInputFunction(Util.toName);
   this.addParameter(ps);
 };
 var PathSelector = myphysicslab.sims.roller.PathSelector;
 goog.inherits(PathSelector, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PathSelector.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -117,7 +117,7 @@ PathSelector.prototype.getPathName = function() {
 * @param {string} value  name of desired path
 */
 PathSelector.prototype.setPathName = function(value) {
-  value = UtilityCore.toName(value);
+  value = Util.toName(value);
   if (value != this.pathName_) {
     for (var i=0, len=this.paths_.length; i<len; i++) {
       var path = this.paths_[i];

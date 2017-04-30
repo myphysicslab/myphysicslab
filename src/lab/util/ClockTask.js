@@ -14,12 +14,12 @@
 
 goog.provide('myphysicslab.lab.util.ClockTask');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Holds a callback function to be executed at a specified time; used with
 {@link myphysicslab.lab.util.Clock}. ClockTasks are scheduled as a side effect of Clock
@@ -66,7 +66,7 @@ myphysicslab.lab.util.ClockTask = function(time, callBack) {
 };
 var ClockTask = myphysicslab.lab.util.ClockTask;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ClockTask.prototype.toString = function() {
     return 'ClockTask{time_: '+NF(this.time_)

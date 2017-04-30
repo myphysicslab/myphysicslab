@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.model.EulersMethod');
 
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var ODESim = myphysicslab.lab.model.ODESim;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Euler's method for solving ordinary differential equations
 expressed as a {@link ODESim}; operates by using the
@@ -62,7 +62,7 @@ myphysicslab.lab.model.EulersMethod = function(ode) {
 };
 var EulersMethod = myphysicslab.lab.model.EulersMethod;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EulersMethod.prototype.toString = function() {
     return this.toStringShort();
@@ -77,12 +77,12 @@ if (!UtilityCore.ADVANCED) {
 /** @inheritDoc */
 EulersMethod.prototype.getName = function(opt_localized) {
   return opt_localized ? EulersMethod.i18n.NAME :
-      UtilityCore.toName(EulersMethod.en.NAME);
+      Util.toName(EulersMethod.en.NAME);
 };
 
 /** @inheritDoc */
 EulersMethod.prototype.nameEquals = function(name) {
-  return this.getName() == UtilityCore.toName(name);
+  return this.getName() == Util.toName(name);
 };
 
 /** @inheritDoc */
@@ -101,7 +101,7 @@ EulersMethod.prototype.step = function(stepSize) {
     // set up input to diffeqs (note: this protects vars from being changed)
     inp[i] = vars[i];
   }
-  UtilityCore.zeroArray(k1);
+  Util.zeroArray(k1);
   error = this.ode_.evaluate(inp, k1, 0);  // evaluate at time t
   if (!goog.isNull(error))
     return error;

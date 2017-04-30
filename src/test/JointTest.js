@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -53,8 +53,8 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 var Joint = myphysicslab.lab.engine2D.Joint;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
@@ -62,7 +62,7 @@ var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -203,7 +203,7 @@ JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
   {
     JointUtil.addSingleFixedJoint(sim, p1, attach1, normalType, normal0);
     var pt1 = PointMass.makeCircle(0.2, 'ATTACH1')
-        .setMass(UtilityCore.POSITIVE_INFINITY);
+        .setMass(Util.POSITIVE_INFINITY);
     pt1.setPosition(p1.bodyToWorld(attach1));
     sim.getSimList().add(pt1);
   }

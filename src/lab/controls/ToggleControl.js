@@ -20,13 +20,13 @@ goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Creates and manages an HTMLButtonElement that toggles between two images; the state
 is connected to a ParameterBoolean. The image is assigned classname `icon` for CSS
@@ -90,7 +90,7 @@ myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff)
 };
 var ToggleControl = myphysicslab.lab.controls.ToggleControl;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ToggleControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

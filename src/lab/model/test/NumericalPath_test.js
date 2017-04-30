@@ -21,7 +21,7 @@ goog.require('myphysicslab.sims.roller.CirclePath');
 goog.require('myphysicslab.sims.roller.CustomPath');
 goog.require('myphysicslab.sims.roller.FlatPath');
 goog.require('myphysicslab.sims.roller.OvalPath');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 /** Test a CirclePath with radius 3 centered at the origin.
@@ -48,7 +48,7 @@ d normal/dp = (sin(t), -cos(t)) dt/dp = (sin(t), -cos(t))/r
 var testNumericalPath1 = function() {
   var tol = 1E-6;
   var tol2 = 1E-4;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var CirclePath = myphysicslab.sims.roller.CirclePath;
@@ -191,7 +191,7 @@ getting the normal that is "outward" facing here.
 var testNumericalPath2 = function() {
   var tol = 1E-6;
   var tol2 = 1E-4;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var CustomPath = myphysicslab.sims.roller.CustomPath;
@@ -271,7 +271,7 @@ goog.exportProperty(window, 'testNumericalPath2', testNumericalPath2);
 var testNumericalPath3 = function() {
   var tol = 1E-6;
   var tol2 = 1E-5;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var OvalPath = myphysicslab.sims.roller.OvalPath;
@@ -320,7 +320,7 @@ goog.exportProperty(window, 'testNumericalPath3', testNumericalPath3);
 var testNumericalPath4 = function() {
   var tol = 1E-6;
   var tol2 = 1E-5;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var FlatPath = myphysicslab.sims.roller.FlatPath;

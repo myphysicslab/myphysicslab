@@ -18,7 +18,7 @@ goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.ScreenRect');
@@ -30,9 +30,9 @@ var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -95,32 +95,32 @@ myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
   * @type {number}
   * @private
   */
-  this.screen_left_ = UtilityCore.testFinite(screen_left);
+  this.screen_left_ = Util.testFinite(screen_left);
   /**
   * @type {number}
   * @private
   */
-  this.screen_bottom_ = UtilityCore.testFinite(screen_bottom);
+  this.screen_bottom_ = Util.testFinite(screen_bottom);
   /**
   * @type {number}
   * @private
   */
-  this.sim_left_ = UtilityCore.testFinite(sim_left);
+  this.sim_left_ = Util.testFinite(sim_left);
   /**
   * @type {number}
   * @private
   */
-  this.sim_bottom_ = UtilityCore.testFinite(sim_bottom);
+  this.sim_bottom_ = Util.testFinite(sim_bottom);
   /**
   * @type {number}
   * @private
   */
-  this.pixel_per_unit_x_ = UtilityCore.testFinite(pixel_per_unit_x);
+  this.pixel_per_unit_x_ = Util.testFinite(pixel_per_unit_x);
   /**
   * @type {number}
   * @private
   */
-  this.pixel_per_unit_y_ = UtilityCore.testFinite(pixel_per_unit_y);
+  this.pixel_per_unit_y_ = Util.testFinite(pixel_per_unit_y);
   var at = AffineTransform.IDENTITY;
   // do operations in reverse order, because of how matrix multiplication works
   at = at.translate(this.screen_left_, this.screen_bottom_);
@@ -134,7 +134,7 @@ myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
 };
 var CoordMap = myphysicslab.lab.view.CoordMap;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CoordMap.prototype.toString = function() {
     return 'CoordMap{screen_left_: '+NF(this.screen_left_)
@@ -393,7 +393,7 @@ CoordMap.isDuckType = function(obj) {
   if (obj instanceof CoordMap) {
     return true;
   }
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     return false;
   }
   return obj.getAffineTransform !== undefined

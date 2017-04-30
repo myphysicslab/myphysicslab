@@ -16,11 +16,11 @@ goog.provide('myphysicslab.lab.engine2D.EdgeRange');
 
 goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Specifies a set of Edges in a Polygon. The Edges must be contiguous in the list of
 Edges in the Polygon. Edges are specified by their index in the list of Edges of the
@@ -66,7 +66,7 @@ myphysicslab.lab.engine2D.EdgeRange = function(body, beginIdx, endIdx) {
 };
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EdgeRange.prototype.toString = function() {
     return 'EdgeRange{beginIdx_: '+this.beginIdx_

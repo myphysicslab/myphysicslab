@@ -32,7 +32,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayConnector');
 goog.require('myphysicslab.lab.view.DisplayLine');
@@ -71,7 +71,7 @@ var SimList = lab.model.SimList;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
 var Subject = lab.util.Subject;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Automatically creates a {@link DisplayObject} for most types of {@link SimObject}
@@ -217,7 +217,7 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
 };
 var RigidBodyObserver = myphysicslab.sims.engine2D.RigidBodyObserver;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidBodyObserver.prototype.toString = function() {
     return 'RigidBodyObserver{'

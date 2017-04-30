@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.model.Gravity2Law');
 goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
@@ -44,15 +44,15 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -179,7 +179,7 @@ CircleCircleTest.concave_circle_and_ball = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
 };

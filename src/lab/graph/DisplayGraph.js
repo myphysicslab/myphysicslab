@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.graph.GraphPoint');
 goog.require('myphysicslab.lab.graph.GraphLine');
 goog.require('myphysicslab.lab.graph.GraphStyle');
 goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -41,10 +41,10 @@ var GraphPoint = lab.graph.GraphPoint;
 var GraphStyle = lab.graph.GraphStyle;
 var HistoryList = lab.util.HistoryList;
 var LabView = lab.view.LabView;
-var NF = lab.util.UtilityCore.NF;
-var NF5 = lab.util.UtilityCore.NF5;
+var NF = lab.util.Util.NF;
+var NF5 = lab.util.Util.NF5;
 var ScreenRect = lab.view.ScreenRect;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Displays one or more {@link GraphLine}. The GraphLines are drawn in the simulation
@@ -118,7 +118,7 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
 };
 var DisplayGraph = myphysicslab.lab.graph.DisplayGraph;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

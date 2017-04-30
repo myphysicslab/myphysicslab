@@ -27,13 +27,13 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 var testSingleSpring = function() {
   var SimObject = myphysicslab.lab.model.SimObject;
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
   var i;
   var tol = 1E-15;
@@ -51,20 +51,20 @@ var testSingleSpring = function() {
   // confirm parameters exist
   var dampingParam = sim.getParameterNumber(SingleSpringSim.en.DAMPING);
   assertTrue(dampingParam.nameEquals(SingleSpringSim.en.DAMPING));
-  assertEquals(UtilityCore.toName(SingleSpringSim.en.DAMPING), dampingParam.getName());
+  assertEquals(Util.toName(SingleSpringSim.en.DAMPING), dampingParam.getName());
   assertEquals(0.1, dampingParam.getValue());
   var lengthParam = sim.getParameterNumber(SingleSpringSim.en.SPRING_LENGTH);
-  assertEquals(UtilityCore.toName(SingleSpringSim.en.SPRING_LENGTH),
+  assertEquals(Util.toName(SingleSpringSim.en.SPRING_LENGTH),
      lengthParam.getName());
   assertTrue(lengthParam.nameEquals(SingleSpringSim.en.SPRING_LENGTH));
   assertEquals(2.5, lengthParam.getValue());
   var massParam = sim.getParameterNumber(SingleSpringSim.en.MASS);
   assertTrue(massParam.nameEquals(SingleSpringSim.en.MASS));
-  assertEquals(UtilityCore.toName(SingleSpringSim.en.MASS), massParam.getName());
+  assertEquals(Util.toName(SingleSpringSim.en.MASS), massParam.getName());
   assertEquals(0.5, massParam.getValue());
   var stiffnessParam = sim.getParameterNumber(SingleSpringSim.en.SPRING_STIFFNESS);
   assertTrue(stiffnessParam.nameEquals(SingleSpringSim.en.SPRING_STIFFNESS));
-  assertEquals(UtilityCore.toName(SingleSpringSim.en.SPRING_STIFFNESS),
+  assertEquals(Util.toName(SingleSpringSim.en.SPRING_STIFFNESS),
       stiffnessParam.getName());
   assertEquals(3.0, stiffnessParam.getValue());
 
@@ -151,12 +151,12 @@ var testSingleSpring = function() {
   va.setValue(0, 0.5);
   sim.initWork();
   sim.saveInitialState();
-  assertEquals(UtilityCore.toName(SingleSpringSim.en.POSITION),
+  assertEquals(Util.toName(SingleSpringSim.en.POSITION),
       va.getVariable(0).getName());
   assertEquals(SingleSpringSim.i18n.POSITION,
       va.getVariable(0).getName(/*localized=*/true));
   assertEquals(0.5, va.getValue(0));
-  assertEquals(UtilityCore.toName(SingleSpringSim.en.VELOCITY),
+  assertEquals(Util.toName(SingleSpringSim.en.VELOCITY),
       va.getVariable(1).getName());
   assertEquals(SingleSpringSim.i18n.VELOCITY,
       va.getVariable(1).getName(/*localized=*/true));

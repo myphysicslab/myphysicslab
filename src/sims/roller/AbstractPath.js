@@ -14,14 +14,14 @@
 
 goog.provide('myphysicslab.sims.roller.AbstractPath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.model.ParametricPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** An abstract base class for a ParametricPath.
 
@@ -45,7 +45,7 @@ myphysicslab.sims.roller.AbstractPath = function(name, localName, startTValue,
   * @type {string}
   * @private
   */
-  this.name_ = UtilityCore.validName(UtilityCore.toName(name));
+  this.name_ = Util.validName(Util.toName(name));
   /**
   * @type {string}
   * @private
@@ -69,7 +69,7 @@ myphysicslab.sims.roller.AbstractPath = function(name, localName, startTValue,
 };
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractPath.prototype.toString = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'
@@ -115,7 +115,7 @@ AbstractPath.prototype.isClosedLoop = function() {
 
 /** @inheritDoc */
 AbstractPath.prototype.nameEquals = function(name) {
-  return this.name_ == UtilityCore.toName(name);
+  return this.name_ == Util.toName(name);
 };
 
 /** Sets whether the path is a closed loop, ending at the same point it starts.

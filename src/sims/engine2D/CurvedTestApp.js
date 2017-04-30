@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
@@ -55,7 +55,7 @@ var SixThrusters = sims.engine2D.SixThrusters;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -135,7 +135,7 @@ sims.engine2D.CurvedTestApp = function(elem_ids) {
 var CurvedTestApp = sims.engine2D.CurvedTestApp;
 goog.inherits(CurvedTestApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CurvedTestApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -214,22 +214,22 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
   var b;
   b = Shapes.makeBlock(2.0, 2.0, CurvedTestApp.en.FIX_BLOCK+1,
       CurvedTestApp.i18n.FIX_BLOCK+1);
-  b.setMass(UtilityCore.POSITIVE_INFINITY);
+  b.setMass(Util.POSITIVE_INFINITY);
   b.setPosition(new Vector(-0.4,  -4.6),  -Math.PI/16);
   sim.addBody(b);
   b = Shapes.makeBall(2, CurvedTestApp.en.FIX_BALL+2,
       CurvedTestApp.i18n.FIX_BALL+2);
-  b.setMass(UtilityCore.POSITIVE_INFINITY);
+  b.setMass(Util.POSITIVE_INFINITY);
   b.setPosition(new Vector(3,  2.5-4.5-0.1), 0);
   sim.addBody(b);
   b = Shapes.makeBlock(2.0, 2.0, CurvedTestApp.en.FIX_BLOCK+3,
       CurvedTestApp.i18n.FIX_BLOCK+3);
-  b.setMass(UtilityCore.POSITIVE_INFINITY);
+  b.setMass(Util.POSITIVE_INFINITY);
   b.setPosition(new Vector(-3.4,  -4.6),  Math.PI/16);
   sim.addBody(b);
   b = Shapes.makeBlock(1.5, 4, CurvedTestApp.en.FIX_BLOCK+4,
       CurvedTestApp.i18n.FIX_BLOCK+4);
-  b.setMass(UtilityCore.POSITIVE_INFINITY);
+  b.setMass(Util.POSITIVE_INFINITY);
   b.setPosition(new Vector(6.7, -1.0), -0.2);
   sim.addBody(b);
   if (numBods >= 1) {

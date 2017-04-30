@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
@@ -47,7 +47,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** StuckTestApp runs a simulation that is guaranteed to become 'stuck', at which point
 we should get an error dialog and be able to restart the simulation. This is mainly
@@ -92,7 +92,7 @@ myphysicslab.test.StuckTestApp = function(elem_ids) {
 var StuckTestApp = myphysicslab.test.StuckTestApp;
 goog.inherits(StuckTestApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StuckTestApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

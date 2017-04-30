@@ -37,7 +37,7 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
@@ -79,7 +79,7 @@ var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -197,7 +197,7 @@ myphysicslab.sims.common.StandardGraph1 = function(varsList, graphCanvas, div_co
 var StandardGraph1 = myphysicslab.sims.common.StandardGraph1;
 goog.inherits(StandardGraph1, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StandardGraph1.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

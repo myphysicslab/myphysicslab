@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
@@ -37,7 +37,7 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -77,7 +77,7 @@ sims.engine2D.FastBallApp = function(elem_ids) {
 var FastBallApp = sims.engine2D.FastBallApp;
 goog.inherits(FastBallApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   FastBallApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

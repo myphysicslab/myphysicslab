@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
@@ -49,7 +49,7 @@ var ParameterString = lab.util.ParameterString;
 var Polygon = lab.engine2D.Polygon;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Simulation of an asteroid orbiting a moon.
@@ -142,7 +142,7 @@ sims.engine2D.MarsMoonApp = function(elem_ids) {
 var MarsMoonApp = sims.engine2D.MarsMoonApp;
 goog.inherits(MarsMoonApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   MarsMoonApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

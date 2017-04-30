@@ -19,20 +19,20 @@ goog.require('goog.asserts');
 goog.require('goog.vec.Float64Array');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF18 = myphysicslab.lab.util.UtilityCore.NF18;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var NF0 = myphysicslab.lab.util.UtilityCore.NF0;
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
+var NF18 = myphysicslab.lab.util.Util.NF18;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF9 = myphysicslab.lab.util.Util.NF9;
+var NFE = myphysicslab.lab.util.Util.NFE;
+var NF0 = myphysicslab.lab.util.Util.NF0;
+var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var Random = myphysicslab.lab.util.Random;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 
 /** Computes forces at contact points between RigidBodys, or impulses at collision
@@ -554,13 +554,13 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
   // resize vectors to be at least length n.
   if (this.a.length < this.n) {
     var size = this.n+10;  // allocate extra space to avoid frequent resizing
-    this.a = UtilityCore.newNumberArray(size);
-    this.C = UtilityCore.newBooleanArray(size);
-    this.NC = UtilityCore.newBooleanArray(size);
-    this.R = UtilityCore.newBooleanArray(size);
-    this.delta_a = UtilityCore.newNumberArray(size);
-    this.delta_f = UtilityCore.newNumberArray(size);
-    this.zeroSteps = UtilityCore.newBooleanArray(size);
+    this.a = Util.newNumberArray(size);
+    this.C = Util.newBooleanArray(size);
+    this.NC = Util.newBooleanArray(size);
+    this.R = Util.newBooleanArray(size);
+    this.delta_a = Util.newNumberArray(size);
+    this.delta_f = Util.newNumberArray(size);
+    this.zeroSteps = Util.newBooleanArray(size);
   }
   // When a contact is deferred by drive_to_zero, put it on list of rejects,
   // and then process other contacts, returning to the rejects at the end
@@ -829,7 +829,7 @@ ComputeForces.prototype.nextContactHybrid = function() {
     }
   }
   // find the non-Joint with most negative accel
-  var minAccel = UtilityCore.POSITIVE_INFINITY;
+  var minAccel = Util.POSITIVE_INFINITY;
   j = -1;
   for (i=0; i<this.n; i++) {
     if (!this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
@@ -874,7 +874,7 @@ ComputeForces.prototype.nextContactMinAccel = function() {
     return j;
   }
   // for non-Joints find the non-Joint with most negative accel
-  var minAccel = UtilityCore.POSITIVE_INFINITY;
+  var minAccel = Util.POSITIVE_INFINITY;
   j = -1;
   for (i=0; i<this.n; i++) {
     if (!this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
@@ -1477,7 +1477,7 @@ ComputeForces.prototype.fdirection = function(d) {
     // Acc is an augmented matrix: the last column is for vector v1
     var Acc = this.resizeMatrix(c);
     if (this.v1 == null || this.v1.length < c)
-      this.v1 = UtilityCore.newNumberArray(c+10);
+      this.v1 = Util.newNumberArray(c+10);
     var p = 0;
     for (i=0; i<this.n; i++) {
       if (this.C[i]) {
@@ -1497,7 +1497,7 @@ ComputeForces.prototype.fdirection = function(d) {
         p++;
       }
     }
-    var x = UtilityCore.newNumberArray(c);
+    var x = Util.newNumberArray(c);
     ComputeForces.copyMatrix(c, c+1, Acc, this.bMatrix);
     // this loop reduces the matrix solve tolerance until a good
     // solution is found, or the tolerance gets too small
@@ -1506,7 +1506,7 @@ ComputeForces.prototype.fdirection = function(d) {
     while (true) {
       //UtilEngine.MATRIX_SOLVE_DEBUG = false;
       // note that we put v1 into the last column of Acc earlier
-      var nrow = UtilityCore.newNumberArray(c);
+      var nrow = Util.newNumberArray(c);
       var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
       if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
         var singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
@@ -1596,11 +1596,11 @@ size can be negative when d is a Joint with positive acceleration.
 * @private
 */
 ComputeForces.prototype.maxStep = function(d) {
-  var s = UtilityCore.POSITIVE_INFINITY;
+  var s = Util.POSITIVE_INFINITY;
   // for a Joint d with positive acceleration, need to decrease the force f[d],
   // so we will have negative step size in this case.
   if (this.joint[d] && this.a[d] > 0)
-    s = UtilityCore.NEGATIVE_INFINITY;
+    s = Util.NEGATIVE_INFINITY;
   var j = -1;
   var i, sPrime;
   //  d is the contact whose acceleration we are trying to drive to zero.
@@ -1744,8 +1744,8 @@ ComputeForces.prototype.wouldBeSingular1 = function(d) {
       p++;
     }
   }
-  var nrow = UtilityCore.newNumberArray(c);
-  var x = UtilityCore.newNumberArray(c);
+  var nrow = Util.newNumberArray(c);
+  var x = Util.newNumberArray(c);
   var tolerance = 1E-9;
   var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
   var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
@@ -1797,8 +1797,8 @@ ComputeForces.prototype.wouldBeSingular2 = function(d, e) {
       p++;
     }
   }
-  var nrow = UtilityCore.newNumberArray(c);
-  var x = UtilityCore.newNumberArray(c);
+  var nrow = Util.newNumberArray(c);
+  var x = Util.newNumberArray(c);
   var tolerance = 1E-9;
   var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
   var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,

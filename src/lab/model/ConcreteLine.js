@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.model.ConcreteLine');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.model.Line');
 
 goog.scope(function() {
@@ -25,8 +25,8 @@ goog.scope(function() {
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Vector = myphysicslab.lab.util.Vector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var Util = myphysicslab.lab.util.Util;
 
 /** A {@link myphysicslab.lab.model.Line} whose endpoints can be modified.
 
@@ -55,7 +55,7 @@ myphysicslab.lab.model.ConcreteLine = function(name, startPt, endPt) {
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 goog.inherits(ConcreteLine, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ConcreteLine.prototype.toString = function() {
     return ConcreteLine.superClass_.toString.call(this).slice(0, -1)

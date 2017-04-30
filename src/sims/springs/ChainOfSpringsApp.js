@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.view.DrawingMode');
@@ -70,7 +70,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Displays the simulation {@link ChainOfSpringsSim}.
 
@@ -87,7 +87,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attachRight) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   /** @type {number} */
   this.numAtoms = goog.isNumber(numAtoms) ? numAtoms : 10;
   /** @type {boolean} */
@@ -172,7 +172,7 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
 var ChainOfSpringsApp = sims.springs.ChainOfSpringsApp;
 goog.inherits(ChainOfSpringsApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ChainOfSpringsApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

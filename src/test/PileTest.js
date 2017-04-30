@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.model.ModifiedEuler');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.PileConfig');
 goog.require('myphysicslab.test.Engine2DTestRig');
@@ -45,17 +45,17 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
-var NF1S = myphysicslab.lab.util.UtilityCore.NF1S;
-var NF2 = myphysicslab.lab.util.UtilityCore.NF2;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF1S = myphysicslab.lab.util.Util.NF1S;
+var NF2 = myphysicslab.lab.util.Util.NF2;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var PileConfig = myphysicslab.sims.engine2D.PileConfig;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -84,7 +84,7 @@ PileTest.test = function() {
 
 PileTest.testPerformance = function() {
   Engine2DTestRig.schedule(PileTest.pile_10_perf);
-  if (0 == 1 && UtilityCore.isChrome()) {
+  if (0 == 1 && Util.isChrome()) {
     // this test is too slow on non-Chrome browsers
     Engine2DTestRig.schedule(PileTest.pile_20_perf);
   }
@@ -155,7 +155,7 @@ PileTest.connected_blocks_pile_test = function() {
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
                /*expectedCollisions=*/0);
   Engine2DTestRig.checkTightJoints(sim, 0.025);
@@ -361,7 +361,7 @@ PileTest.near_stable_connected_blocks_pile_test = function() {
   var advance = new CollisionAdvance(sim);
   PileTest.near_stable_connected_blocks_pile_setup(sim, advance);
   var vars = Engine2DTestRig.makeVars(11*6);
-  if (UtilityCore.isChrome()) {
+  if (Util.isChrome()) {
     Engine2DTestRig.setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
     Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
     Engine2DTestRig.setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
@@ -393,7 +393,7 @@ PileTest.near_stable_connected_blocks_pile_test = function() {
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
   Engine2DTestRig.checkTightJoints(sim, 0.025);
@@ -498,7 +498,7 @@ PileTest.pile_config_1_test = function() {
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
   Engine2DTestRig.checkTightJoints(sim, 0.025);
@@ -557,13 +557,13 @@ PileTest.pile_10_random_blocks = function() {
   Engine2DTestRig.setBodyVars(sim, vars, 11, 0.7205631, 0, -8.2682827, -0, 0.7924107, 0);
   Engine2DTestRig.setBodyVars(sim, vars, 12, 0.7795149, 0, -7.7446799, 0, 3.9304584, -0);
   Engine2DTestRig.setBodyVars(sim, vars, 13, 0.3485821, 0, -6.9817453, -0, 2.3673243, -0);
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   // run until all collisions are done and energy is stable.
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
               /*expectedVars=*/vars, /*tolerance=*/0.01);
   // run another few seconds to have lots of contact calculations as well
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0); // new Jan '13: test expected collisions
   var s = ' collisions='+advance.getCollisionTotals().getCollisions()
@@ -578,9 +578,9 @@ contact force calculation.
 PileTest.pile_10_perf = function() {
   var testName = 'pile_10_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   PileTest.pile_10_random_blocks();
-  var duration = UtilityCore.getSystemTime() - startTime;
+  var duration = Util.getSystemTime() - startTime;
   Engine2DTestRig.testName = PileTest.groupName+testName;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);
@@ -675,16 +675,16 @@ PileTest.pile_20_random_blocks = function() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.pile_20_random_blocks_setup(sim, advance);
-  if (!UtilityCore.isChrome()) {
+  if (!Util.isChrome()) {
     // this test takes too long on non-Chrome browsers
     throw new Error();
   }
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
               /*expectedVars=*/null, /*tolerance=*/NaN);
   // run another few seconds to have lots of contact calculations as well
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0);
   var s = ' collisions='+advance.getCollisionTotals().getCollisions()
@@ -715,9 +715,9 @@ changed so that the blocks are not moving after 7 or 8 seconds.
 PileTest.pile_20_perf = function() {
   var testName = 'pile_20_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   PileTest.pile_20_random_blocks();
-  var duration = UtilityCore.getSystemTime() - startTime;
+  var duration = Util.getSystemTime() - startTime;
   Engine2DTestRig.testName = PileTest.groupName+testName;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);
@@ -761,7 +761,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
   var TIME_SPAN = 5.0;
   var LIMIT_TIME = 0.9*TIME_SPAN;
   var num_blocks = 0;
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   // feed in blocks at start more quickly, to speed up the test.
   while (num_blocks < start_num_blocks) {
     simTime += 1.0;
@@ -775,7 +775,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
     Engine2DTestRig.myPrintln('num_bodies='+num_blocks
         +' time='+NF2(realTime)
         +' limit='+NF2(LIMIT_TIME)
-        +' totalTime='+NF5(UtilityCore.getSystemTime() - startTime)
+        +' totalTime='+NF5(Util.getSystemTime() - startTime)
         +' contacts='+sim.getNumContacts()
         );
     if (realTime > LIMIT_TIME) {
@@ -795,7 +795,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
 @private
 */
 PileTest.add_block_and_run = function(sim, advance, runUntil, square) {
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   var p = square ? Shapes.makeBlock(1.0, 1.0, 'block')
                  : Shapes.makeBall(0.5, 'ball');
   // move a bit right of center and tilted, to avoid 'perfect' bounces
@@ -804,7 +804,7 @@ PileTest.add_block_and_run = function(sim, advance, runUntil, square) {
   sim.addBody(p);
   // run till requested time, without any expected results
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/runUntil);
-  return (UtilityCore.getSystemTime() - startTime);
+  return (Util.getSystemTime() - startTime);
 };
 
 /** Adds same sized square blocks to a pile until performance degrades
@@ -813,10 +813,10 @@ to the point that the sim is barely keeping up with real time
 */
 PileTest.additive_pile_square_test = function(expectedBlocks) {
   Engine2DTestRig.testName = PileTest.groupName+'additive_pile_square_test';
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/true,
     /*start_num_blocks=*/expectedBlocks-3);
-  var totalTime = UtilityCore.getSystemTime() - startTime;
+  var totalTime = Util.getSystemTime() - startTime;
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+NF5(totalTime);
@@ -830,10 +830,10 @@ to the point that the sim is barely keeping up with real time
 */
 PileTest.additive_pile_circle_test = function(expectedBlocks) {
   Engine2DTestRig.testName = PileTest.groupName+'additive_pile_circle_test';
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/false,
       /*start_num_blocks=*/expectedBlocks-3);
-  var totalTime = UtilityCore.getSystemTime() - startTime;
+  var totalTime = Util.getSystemTime() - startTime;
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+NF5(totalTime);

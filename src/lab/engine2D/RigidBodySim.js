@@ -41,7 +41,7 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Printable');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -59,14 +59,14 @@ var Force = lab.model.Force;
 var ForceLaw = lab.model.ForceLaw;
 var GenericEvent = lab.util.GenericEvent;
 var GravityLaw = lab.model.GravityLaw;
-var NF = lab.util.UtilityCore.NF;
-var NF5 = lab.util.UtilityCore.NF5;
-var NF5E = lab.util.UtilityCore.NF5E;
-var NF7 = lab.util.UtilityCore.NF7;
-var NF7E = lab.util.UtilityCore.NF7E;
-var NF9 = lab.util.UtilityCore.NF9;
-var NFE = lab.util.UtilityCore.NFE;
-var NFSCI = lab.util.UtilityCore.NFSCI;
+var NF = lab.util.Util.NF;
+var NF5 = lab.util.Util.NF5;
+var NF5E = lab.util.Util.NF5E;
+var NF7 = lab.util.Util.NF7;
+var NF7E = lab.util.Util.NF7E;
+var NF9 = lab.util.Util.NF9;
+var NFE = lab.util.Util.NFE;
+var NFSCI = lab.util.Util.NFSCI;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -78,7 +78,7 @@ var Scrim = lab.engine2D.Scrim;
 var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var UtilEngine = lab.engine2D.UtilEngine;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -275,7 +275,7 @@ myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 goog.inherits(RigidBodySim, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidBodySim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1) + this.toString_();
@@ -415,7 +415,7 @@ RigidBodySim.prototype.reset = function() {
   goog.array.forEach(this.bods_, function(b) {
     b.eraseOldCoords();
   });
-  this.getSimList().removeTemporary(UtilityCore.POSITIVE_INFINITY);
+  this.getSimList().removeTemporary(Util.POSITIVE_INFINITY);
   this.modifyObjects();
   this.broadcast(new GenericEvent(this, Simulation.RESET));
 };
@@ -542,7 +542,7 @@ RigidBodySim.prototype.getBody = function(numOrName) {
   /** @type {Polygon} */
   var bod = null;
   if (goog.isString(numOrName)) {
-    var bodName = UtilityCore.toName(numOrName);
+    var bodName = Util.toName(numOrName);
     bod = goog.array.find(this.bods_,
       function(body, index, array) {
         return body.getName() == bodName;
@@ -713,7 +713,7 @@ RigidBodySim.prototype.evaluate = function(vars, change, timeStep) {
     if (idx < 0)
       return;
     var mass = body.getMass();
-    if (mass == UtilityCore.POSITIVE_INFINITY) {
+    if (mass == Util.POSITIVE_INFINITY) {
       for (var k=0; k<6; k++)
         change[idx + k] = 0;  // infinite mass objects don't move
     } else {

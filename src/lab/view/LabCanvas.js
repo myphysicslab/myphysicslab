@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
 goog.require('myphysicslab.lab.view.LabView');
@@ -38,11 +38,11 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabView = myphysicslab.lab.view.LabView;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into
 the canvas. The LabViews are drawn overlapping so that the *last LabView appears on
@@ -207,7 +207,7 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 goog.inherits(LabCanvas, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   LabCanvas.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -469,11 +469,11 @@ non-empty string.
 * @param {number} value transparency used when painting, between 0 and 1
 */
 LabCanvas.prototype.setAlpha = function(value) {
-  if (UtilityCore.veryDifferent(this.alpha_, value)) {
+  if (Util.veryDifferent(this.alpha_, value)) {
     this.alpha_ = value;
     // Alpha has no effect when background is empty string which means
     // "clear to transparent black". Set background to white in that case.
-    if (UtilityCore.veryDifferent(value, 1) && this.background_ == '') {
+    if (Util.veryDifferent(value, 1) && this.background_ == '') {
       this.setBackground('white');
     }
     this.broadcastParameter(LabCanvas.en.ALPHA);
@@ -520,7 +520,7 @@ LabViews. Notifies any Observers by broadcasting a GenericEvent named
 @param {number} value  the height of the canvas, in screen coords (pixels),
 */
 LabCanvas.prototype.setHeight = function(value) {
-  if (UtilityCore.veryDifferent(value, this.canvas_.height)) {
+  if (Util.veryDifferent(value, this.canvas_.height)) {
     this.canvas_.height = value;
   }
   this.notifySizeChanged();
@@ -564,7 +564,7 @@ LabViews. Notifies any Observers by broadcasting a GenericEvent named
 @param {number} value  the width of the canvas, in screen coords (pixels),
 */
 LabCanvas.prototype.setWidth = function(value) {
-  if (UtilityCore.veryDifferent(value, this.canvas_.width)) {
+  if (Util.veryDifferent(value, this.canvas_.width)) {
     this.canvas_.width = value;
   }
   this.notifySizeChanged();

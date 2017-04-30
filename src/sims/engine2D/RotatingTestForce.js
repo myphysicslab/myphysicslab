@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -29,7 +29,7 @@ var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A ForceLaw that creates a Force whose direction rotates continuously.
@@ -73,7 +73,7 @@ myphysicslab.sims.engine2D.RotatingTestForce = function(sim, body, location_body
 };
 var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RotatingTestForce.prototype.toString = function() {
     return 'RotatingTestForce{body: "'+this.body_.getName()+'"}';

@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.engine2D.JointUtil');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 

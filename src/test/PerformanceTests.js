@@ -14,7 +14,7 @@
 
 goog.provide('myphysicslab.test.PerformanceTests');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.test.CircleCircleTest');
 goog.require('myphysicslab.test.CircleStraightTest');
 goog.require('myphysicslab.test.DoNothingTest');
@@ -40,7 +40,7 @@ var PileTest = myphysicslab.test.PileTest;
 var RopeTest = myphysicslab.test.RopeTest;
 var SpeedTest = myphysicslab.test.SpeedTest;
 var StraightStraightTest = myphysicslab.test.StraightStraightTest;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Runs performance tests of the rigid body physics engine. See
 [2D Physics Engine Overview](Engine2D.html). Each test has an expected time, if it

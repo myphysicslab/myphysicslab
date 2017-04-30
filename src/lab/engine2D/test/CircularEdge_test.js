@@ -18,7 +18,7 @@ goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.engine2D.CircularEdge');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
@@ -26,7 +26,7 @@ var testCircularEdge1 = function() {
   var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
   var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
   var Polygon = myphysicslab.lab.engine2D.Polygon;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Vector = myphysicslab.lab.util.Vector;
   var vec2 = new Vector(2, 0);
   var vertex2 = new ConcreteVertex(vec2, /*endPoint=*/true);

@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.DoNothingApp');
 goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
@@ -44,14 +44,14 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Force = myphysicslab.lab.model.Force;
-var NF2 = myphysicslab.lab.util.UtilityCore.NF2;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF2 = myphysicslab.lab.util.Util.NF2;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /**

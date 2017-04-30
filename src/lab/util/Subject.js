@@ -38,7 +38,7 @@ have language independent names. Therefore `Parameter.getName()` and
 `SubjectEvent.getName()` return a language independent name which is derived from the
 English localized name by converting the English name to uppercase and replacing spaces
 and dashes by underscore. You can use the function
-{@link myphysicslab.lab.util.UtilityCore#toName} to convert an English name to the
+{@link myphysicslab.lab.util.Util#toName} to convert an English name to the
 universal name. Or use `SubjectEvent.nameEquals()` which handles the conversion
 to language independent name.
 

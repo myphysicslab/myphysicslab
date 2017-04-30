@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -38,7 +38,7 @@ var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Makes available several {@link DiffEqSolver}s for advancing
 an ODESim simulation. Creates a ParameterString for changing which DiffEqSolver to use.
@@ -109,7 +109,7 @@ myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
 var DiffEqSolverSubject = myphysicslab.lab.model.DiffEqSolverSubject;
 goog.inherits(DiffEqSolverSubject, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DiffEqSolverSubject.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

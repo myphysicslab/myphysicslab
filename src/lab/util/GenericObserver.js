@@ -17,14 +17,14 @@ goog.provide('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.SubjectEvent');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var Observer = myphysicslab.lab.util.Observer;
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 var Subject = myphysicslab.lab.util.Subject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Observes a Subject; when the Subject broadcasts a SubjectEvent then this executes a
 specified function.
@@ -60,7 +60,7 @@ green = max distance.
           var f = obj.getSimObjects()[0];
           if (f.getName().match(/^CONTACT_FORCE1/)) {
             var pct = Math.max(0, Math.min(1, f.contactDistance/f.contactTolerance));
-            obj.color = UtilityCore.colorString3(1-pct, pct, 0);
+            obj.color = Util.colorString3(1-pct, pct, 0);
           }
         }
       }
@@ -86,7 +86,7 @@ myphysicslab.lab.util.GenericObserver = function(subject, observeFn, opt_purpose
   * @private
   * @const
   */
-  this.purpose_ = UtilityCore.ADVANCED ? '' : (opt_purpose || '');
+  this.purpose_ = Util.ADVANCED ? '' : (opt_purpose || '');
   /**
   * @type {!Subject}
   * @private
@@ -103,7 +103,7 @@ myphysicslab.lab.util.GenericObserver = function(subject, observeFn, opt_purpose
 };
 var GenericObserver = myphysicslab.lab.util.GenericObserver;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GenericObserver.prototype.toString = function() {
     return this.toStringShort();

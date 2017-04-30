@@ -33,10 +33,10 @@
 *
 * The compiled version of the unit tests is created by compile_test.sh which
 * has a parallel list of unit test namespaces to run.  For example,
-* including the namespace "myphysicslab.lab.util.vector_test" will cause
-* the contents of the file at src/lab/util/vector_test.js to be compiled
+* including the namespace "myphysicslab.lab.util.Vector_test" will cause
+* the contents of the file at src/lab/util/Vector_test.js to be compiled
 * because that file includes the statement
-*     goog.provide('myphysicslab.lab.util.vector_test');
+*     goog.provide('myphysicslab.lab.util.Vector_test');
 * Note that there is not any object created for that namespace.
 * It is only a way to trick the compiler into compiling that particular file,
 * which results in various test functions, such as 'testVector', being added
@@ -45,7 +45,7 @@
 *
 * Unit tests need to use goog.exportProperty to ensure the name
 * of the unit test functions are not minified, so that goog.testing.jsunit
-* can find them by looking for functions that being with 'test'.
+* can find them by looking for functions that begin with 'test'.
 -->
 
 <body>
@@ -97,7 +97,7 @@
     goog.require('myphysicslab.lab.util.test.EasyScriptParser_test');\
     goog.require('myphysicslab.lab.util.test.Terminal_test');\
     goog.require('myphysicslab.lab.util.test.TimerClock_test');\
-    goog.require('myphysicslab.lab.util.test.UtilityCore_test');\
+    goog.require('myphysicslab.lab.util.test.Util_test');\
     goog.require('myphysicslab.lab.util.test.Vector_test');\
     goog.require('myphysicslab.lab.view.test.CoordMap_test');\
     goog.require('myphysicslab.lab.view.test.DisplayList_test');\

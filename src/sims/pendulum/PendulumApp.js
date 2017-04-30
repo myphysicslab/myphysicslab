@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayArc');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -49,7 +49,7 @@ var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Displays the {@link PendulumSim} simulation.
 
@@ -63,7 +63,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 sims.pendulum.PendulumApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
   var sim = new PendulumSim();
   var advance = new SimpleAdvance(sim);
@@ -115,7 +115,7 @@ sims.pendulum.PendulumApp = function(elem_ids) {
 var PendulumApp = sims.pendulum.PendulumApp;
 goog.inherits(PendulumApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

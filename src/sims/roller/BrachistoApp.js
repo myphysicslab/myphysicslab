@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.ClockTask');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.common.AbstractApp');
 goog.require('myphysicslab.sims.common.CommonControls');
@@ -51,7 +51,7 @@ var ParametricPath = lab.model.ParametricPath;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Displays the {@link BrachistoSim} simulation which shows a ball sliding down various
@@ -72,7 +72,7 @@ the origin (0, 0) and pass thru the point (3, -2).
 * @export
 */
 myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   /** @type {!Array<!ParametricPath>} **/
   this.paths = [
       new BrachistoPaths.BrachistochronePath(),
@@ -153,7 +153,7 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
 var BrachistoApp = myphysicslab.sims.roller.BrachistoApp;
 goog.inherits(BrachistoApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   BrachistoApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

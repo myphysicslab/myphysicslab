@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.LabCanvas');
@@ -54,7 +54,7 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var ToggleControl = lab.controls.ToggleControl;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** A collection of static functions for making controls, used in several applications.
@@ -125,7 +125,7 @@ CommonControls.makeBackgroundMenu = function(labCanvas) {
       CommonControls.en.WHITE_WITH_LONG_TRAILS,
       CommonControls.en.BLACK_WITH_LONG_TRAILS
     ];
-  values = goog.array.map(values, function(v) { return UtilityCore.toName(v); });
+  values = goog.array.map(values, function(v) { return Util.toName(v); });
   var longAlpha = CommonControls.LONG_TRAILS;
   var shortAlpha = CommonControls.SHORT_TRAILS;
   var getter = function() {
@@ -134,19 +134,19 @@ CommonControls.makeBackgroundMenu = function(labCanvas) {
     if (bg == '') {
       return values[0];
     } else if (bg == 'black') {
-      if (!UtilityCore.veryDifferent(alpha, 1)) {
+      if (!Util.veryDifferent(alpha, 1)) {
         return values[1];
-      } else if (!UtilityCore.veryDifferent(alpha, shortAlpha)) {
+      } else if (!Util.veryDifferent(alpha, shortAlpha)) {
         return values[3];
-      } else if (!UtilityCore.veryDifferent(alpha, longAlpha)) {
+      } else if (!Util.veryDifferent(alpha, longAlpha)) {
         return values[5];
       }
     } else if (bg == 'white') {
-      if (!UtilityCore.veryDifferent(alpha, 1)) {
+      if (!Util.veryDifferent(alpha, 1)) {
         return values[0];
-      } else if (!UtilityCore.veryDifferent(alpha, shortAlpha)) {
+      } else if (!Util.veryDifferent(alpha, shortAlpha)) {
         return values[2];
-      } else if (!UtilityCore.veryDifferent(alpha, longAlpha)) {
+      } else if (!Util.veryDifferent(alpha, longAlpha)) {
         return values[4];
       }
     }
@@ -180,7 +180,7 @@ CommonControls.makeBackgroundMenu = function(labCanvas) {
 * @return {!Element} the div containing the pan-zoom controls.
 */
 CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
-  var imagesPath = UtilityCore.IMAGES_DIR+'/';
+  var imagesPath = Util.IMAGES_DIR+'/';
   // There are several nested div's used to achieve the layout.
   // <div>
   //   <div style=float: right;>
@@ -207,7 +207,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   var up_div = /** @type {!Element}*/(document.createElement('div'));
   if (debug) up_div.style.border = 'dashed red thin';
   up_div.style.width = (sz*3.2)+'px';
-  var img = UtilityCore.createImage(imagesPath+'up_gray.png', sz);
+  var img = Util.createImage(imagesPath+'up_gray.png', sz);
   /** @type {!ButtonControl} */
   var bc = new ButtonControl('up', goog.bind(simView.panUp, simView), img);
   bc.repeatDelay = 100;
@@ -216,20 +216,20 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   var mid_div = /** @type {!Element}*/(document.createElement('div'));
   if (debug) mid_div.style.border = 'dashed red thin';
   mid_div.style.width = up_div.style.width;
-  img = UtilityCore.createImage(imagesPath+'backward_gray.png', sz);
+  img = Util.createImage(imagesPath+'backward_gray.png', sz);
   bc = new ButtonControl('left', goog.bind(simView.panLeft, simView), img);
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
-  img = UtilityCore.createImage(imagesPath+'target_gray.png', sz);
+  img = Util.createImage(imagesPath+'target_gray.png', sz);
   bc = new ButtonControl('reset', resetFunc, img);
   mid_div.appendChild(bc.getElement());
-  img = UtilityCore.createImage(imagesPath+'forward_gray.png', sz);
+  img = Util.createImage(imagesPath+'forward_gray.png', sz);
   bc = new ButtonControl('right', goog.bind(simView.panRight, simView), img);
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
 
   var down_div = /** @type {!Element}*/(document.createElement('div'));
-  img = UtilityCore.createImage(imagesPath+'down_gray.png', sz);
+  img = Util.createImage(imagesPath+'down_gray.png', sz);
   bc = new ButtonControl('down', goog.bind(simView.panDown, simView), img);
   bc.repeatDelay = 100;
   down_div.appendChild(bc.getElement());
@@ -244,12 +244,12 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
   pan_div.style.textAlign = 'center';
 
   var zoom_div = /** @type {!Element}*/(document.createElement('div'));
-  img = UtilityCore.createImage(imagesPath+'plus_gray.png', sz);
+  img = Util.createImage(imagesPath+'plus_gray.png', sz);
   bc = new ButtonControl('zoomIn', goog.bind(simView.zoomIn, simView), img);
   bc.repeatDelay = 100;
   zoom_div.appendChild(bc.getElement());
   zoom_div.appendChild(document.createElement('BR'));
-  img = UtilityCore.createImage(imagesPath+'minus_gray.png', sz);
+  img = Util.createImage(imagesPath+'minus_gray.png', sz);
   bc = new ButtonControl('zoomOut', goog.bind(simView.zoomOut, simView), img);
   bc.repeatDelay = 100;
   zoom_div.appendChild(bc.getElement());
@@ -287,7 +287,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
 * @return {!GroupControl}
 */
 CommonControls.makePlaybackControls = function(simrun, opt_overlay) {
-  var imagesPath = UtilityCore.IMAGES_DIR+'/';
+  var imagesPath = Util.IMAGES_DIR+'/';
   // To overlay the controls on top of canvas:  put the controls in a div;
   // use absolute positioning to place the div on top of canvas.
   var timer_div =  /** @type {!Element}*/(document.createElement('div'));
@@ -303,16 +303,16 @@ CommonControls.makePlaybackControls = function(simrun, opt_overlay) {
     timer_div.style.opacity=0.5;
   }
   var sz = 30;
-  var img = UtilityCore.createImage(imagesPath+'rewind.png', sz);
+  var img = Util.createImage(imagesPath+'rewind.png', sz);
   /** @type {!ButtonControl} */
   var bc1 = new ButtonControl(SimRunner.i18n.RESTART, goog.bind(simrun.reset, simrun),
       img);
   timer_div.appendChild(bc1.getElement());
-  img =  UtilityCore.createImage(imagesPath+'forward.png', sz);
-  var img2 =  UtilityCore.createImage(imagesPath+'pause.png', sz);
+  img =  Util.createImage(imagesPath+'forward.png', sz);
+  var img2 =  Util.createImage(imagesPath+'pause.png', sz);
   var tc = new ToggleControl(simrun.getParameterBoolean(SimRunner.en.RUNNING), img, img2);
   timer_div.appendChild(tc.getElement());
-  img =  UtilityCore.createImage(imagesPath+'next.png', sz);
+  img =  Util.createImage(imagesPath+'next.png', sz);
   var bc2 = new ButtonControl(SimRunner.i18n.STEP, goog.bind(simrun.step, simrun), img);
   bc2.repeatDelay = 100;
   timer_div.appendChild(bc2.getElement());

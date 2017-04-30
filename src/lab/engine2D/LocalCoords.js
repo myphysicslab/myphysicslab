@@ -15,15 +15,15 @@
 goog.provide('myphysicslab.lab.engine2D.LocalCoords');
 
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Remembers the local coordinate system of a
 * {@link myphysicslab.lab.model.MassObject}. Used during collision checking to
@@ -56,7 +56,7 @@ myphysicslab.lab.engine2D.LocalCoords = function() {
 };
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   LocalCoords.prototype.toString = function() {
     return 'LocalCoords{'

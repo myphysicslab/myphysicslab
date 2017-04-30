@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayPath');
@@ -35,14 +35,14 @@ var DisplayPath = myphysicslab.lab.view.DisplayPath;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericObserver = myphysicslab.lab.util.GenericObserver;
 var LabView = myphysicslab.lab.view.LabView;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var Observer = myphysicslab.lab.util.Observer;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
 var Subject = myphysicslab.lab.util.Subject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Automatically creates a DisplayPath when a NumericalPath is added to a SimList.
@@ -143,7 +143,7 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
 };
 var PathObserver = myphysicslab.sims.roller.PathObserver;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PathObserver.prototype.toString = function() {
     return 'PathObserver{'

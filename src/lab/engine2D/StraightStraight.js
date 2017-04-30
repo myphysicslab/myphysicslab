@@ -18,18 +18,18 @@ goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Provides static functions for handling interactions between two
@@ -87,7 +87,7 @@ StraightStraight.improveAccuracy = function(rbc, edge1, edge2) {
   } else {
     // If lines are not intersecting, then use endpoint that is closest to other line.
     // This will be the endpoint with smallest positive distance.
-    var dist = UtilityCore.POSITIVE_INFINITY;
+    var dist = Util.POSITIVE_INFINITY;
     var body1 = edge1.getBody();
     var body2 = edge2.getBody();
     var e1v1 = body1.bodyToWorld(edge1.getVertex1().locBody());
@@ -158,8 +158,8 @@ StraightStraight.addCollision = function(collisions, edge1, edge2, pt, time) {
   var rbc = new EdgeEdgeCollision(edge1, edge2);
   rbc.ballNormal = false;
   rbc.ballObject = false;
-  rbc.radius1 = UtilityCore.POSITIVE_INFINITY;
-  rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
+  rbc.radius1 = Util.POSITIVE_INFINITY;
+  rbc.radius2 = Util.POSITIVE_INFINITY;
   rbc.distance = -0.1; // distance is meaningless for edge/edge collision
   rbc.impact1 = pt;
   rbc.creator = goog.DEBUG ? 'StraightStraight' : '';

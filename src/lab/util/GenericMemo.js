@@ -15,12 +15,12 @@
 goog.provide('myphysicslab.lab.util.GenericMemo');
 
 goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A generic {@link Memorizable} object that calls a JavaScript function.
 
@@ -46,9 +46,9 @@ This sets the color of a spring depending on how much it is stretched.
     var memo = new GenericMemo(function() {
       var stretch = Math.max(Math.min(spring.getStretch(), 1), -1);
       if (stretch < 0) {
-        dispSpring.setColorCompressed(UtilityCore.colorString3(-stretch, 0, 0));
+        dispSpring.setColorCompressed(Util.colorString3(-stretch, 0, 0));
       } else {
-        dispSpring.setColorExpanded(UtilityCore.colorString3(0, stretch, 0));
+        dispSpring.setColorExpanded(Util.colorString3(0, stretch, 0));
       }
     });
     simRun.addMemo(memo);
@@ -76,11 +76,11 @@ myphysicslab.lab.util.GenericMemo = function(func, opt_purpose) {
   * @private
   * @const
   */
-  this.purpose_ = UtilityCore.ADVANCED ? '' : (opt_purpose || '');
+  this.purpose_ = Util.ADVANCED ? '' : (opt_purpose || '');
 };
 var GenericMemo = myphysicslab.lab.util.GenericMemo;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   GenericMemo.prototype.toString = function() {
     return this.toStringShort();

@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.controls.ButtonControl');
 
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Creates and manages an HTML button control; executes a function when the button
 is pressed. Displays an image if provided, otherwise the text name is displayed.
@@ -96,7 +96,7 @@ myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_ima
 };
 var ButtonControl = myphysicslab.lab.controls.ButtonControl;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ButtonControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

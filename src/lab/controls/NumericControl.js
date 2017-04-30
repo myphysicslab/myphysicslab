@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.controls.NumericControl');
 
 goog.require('myphysicslab.lab.controls.NumericControlBase');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A user interface control for displaying and editing the numeric value of a
 {@link ParameterNumber}.
@@ -57,7 +57,7 @@ myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
 var NumericControl = myphysicslab.lab.controls.NumericControl;
 goog.inherits(NumericControl, NumericControlBase);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   NumericControl.prototype.toString = function() {
     return NumericControl.superClass_.toString.call(this).slice(0, -1)

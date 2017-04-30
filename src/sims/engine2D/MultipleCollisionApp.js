@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
@@ -53,7 +53,7 @@ var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var JointUtil = lab.engine2D.JointUtil;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -61,7 +61,7 @@ var Polygon = lab.engine2D.Polygon;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -161,7 +161,7 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
       MultipleCollisionApp.en.TWO_ON_WALL
     ];
   this.formations = goog.array.map(this.formations, function(v) {
-        return UtilityCore.toName(v);
+        return Util.toName(v);
       });
   /** @type {string} */
   this.formation = this.formations[0];
@@ -192,7 +192,7 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.ANGLE,
       MultipleCollisionApp.i18n.ANGLE,
       goog.bind(this.getAngle, this), goog.bind(this.setAngle, this)));
-  pn.setLowerLimit(UtilityCore.NEGATIVE_INFINITY);
+  pn.setLowerLimit(Util.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.SPEED,
@@ -219,7 +219,7 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
 var MultipleCollisionApp = myphysicslab.sims.engine2D.MultipleCollisionApp;
 goog.inherits(MultipleCollisionApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   MultipleCollisionApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -588,7 +588,7 @@ MultipleCollisionApp.prototype.getFormation = function() {
 * @param {string} value
 */
 MultipleCollisionApp.prototype.setFormation = function(value) {
-  value = UtilityCore.toName(value);
+  value = Util.toName(value);
   if (this.formation != value) {
     if (!goog.array.contains(this.formations, value)) {
       throw new Error('unknown formation: '+value);
@@ -658,7 +658,7 @@ MultipleCollisionApp.prototype.getShape = function() {
 * @param {string} value
 */
 MultipleCollisionApp.prototype.setShape = function(value) {
-  value = UtilityCore.toName(value);
+  value = Util.toName(value);
   if (this.shape != value) {
     this.shape = value;
     this.config();

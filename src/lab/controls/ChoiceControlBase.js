@@ -18,13 +18,13 @@ goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A pop-up menu which executes a specified `setter` function when selecting a menu
 choice.
@@ -161,7 +161,7 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ChoiceControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

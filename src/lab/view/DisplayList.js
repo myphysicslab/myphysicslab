@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -36,9 +36,9 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A set of {@link DisplayObject}s, which show the state of the simulation. A
 DisplayObject typically represents a {@link SimObject}, but not always.
@@ -65,7 +65,7 @@ myphysicslab.lab.view.DisplayList = function(opt_name) {
 var DisplayList = myphysicslab.lab.view.DisplayList;
 goog.inherits(DisplayList, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -177,7 +177,7 @@ DisplayList.prototype.find = function(search) {
       return this.drawables_[index];
     }
   } else if (goog.isString(search)) {
-    var objName = UtilityCore.toName(search);
+    var objName = Util.toName(search);
     return goog.array.find(this.drawables_, function(element, index, array) {
       var simObjs = element.getSimObjects();
       for (var i=0, n=simObjs.length; i<n; i++) {
@@ -327,7 +327,7 @@ DisplayList.prototype.removeAll = function() {
 DisplayList.prototype.sort = function() {
   // avoid sorting if the list is already sorted
   var isSorted = true;
-  var lastZ = UtilityCore.NEGATIVE_INFINITY;
+  var lastZ = Util.NEGATIVE_INFINITY;
   for (var i=0, n= this.drawables_.length; i<n; i++) {
     var z = this.drawables_[i].getZIndex();
     if (z < lastZ) {

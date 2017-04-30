@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.AbstractSimObject');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -34,17 +34,17 @@ var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF9 = myphysicslab.lab.util.Util.NF9;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A Joint connects two RigidBodys by generating RigidBodyCollisions which are
@@ -198,7 +198,7 @@ myphysicslab.lab.engine2D.Joint = function(rigidBody1, attach1_body,
 var Joint = myphysicslab.lab.engine2D.Joint;
 goog.inherits(Joint, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Joint.prototype.toString = function() {
     return Joint.superClass_.toString.call(this).slice(0, -1)

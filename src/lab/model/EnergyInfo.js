@@ -13,12 +13,12 @@
 // limitations under the License.
 
 goog.provide('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Provides information about an
 {@link myphysicslab.lab.model.EnergySystem EnergySystem}, such as potential and
@@ -59,21 +59,21 @@ myphysicslab.lab.model.EnergyInfo = function(potential, translational,
   * @type {number}
   * @private
   */
-  this.rotational_ = (rotational === undefined) ? UtilityCore.NaN : rotational;
+  this.rotational_ = (rotational === undefined) ? Util.NaN : rotational;
   /**
   * @type {number}
   * @private
   */
-  this.workDone_ = (workDone === undefined) ? UtilityCore.NaN : workDone;
+  this.workDone_ = (workDone === undefined) ? Util.NaN : workDone;
   /**
   * @type {number}
   * @private
   */
-  this.initialEnergy_ = (initialEnergy === undefined) ? UtilityCore.NaN : initialEnergy;
+  this.initialEnergy_ = (initialEnergy === undefined) ? Util.NaN : initialEnergy;
 };
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   EnergyInfo.prototype.toString = function() {
     return 'EnergyInfo{potential_: '+NF(this.potential_)

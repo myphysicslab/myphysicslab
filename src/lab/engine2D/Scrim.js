@@ -17,16 +17,16 @@ goog.provide('myphysicslab.lab.engine2D.Scrim');
 goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** The fixed background to which objects can be attached with Springs, Joints or Ropes;
@@ -67,7 +67,7 @@ Scrim.getScrim = function() {
   return Scrim.singleton;
 };
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Scrim.prototype.toString = function() {
     return 'Scrim{}';
@@ -131,12 +131,12 @@ Scrim.prototype.getAngularVelocity = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getBottomBody = function() {
-  return UtilityCore.NEGATIVE_INFINITY;
+  return Util.NEGATIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getBottomWorld = function() {
-  return UtilityCore.NEGATIVE_INFINITY;
+  return Util.NEGATIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -162,7 +162,7 @@ Scrim.prototype.getCentroidBody = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getCentroidRadius = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -187,12 +187,12 @@ Scrim.prototype.getElasticity = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getExpireTime = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getHeight = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -202,17 +202,17 @@ Scrim.prototype.getKineticEnergy = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getLeftBody = function() {
-  return UtilityCore.NEGATIVE_INFINITY;
+  return Util.NEGATIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getLeftWorld = function() {
-  return UtilityCore.NEGATIVE_INFINITY;
+  return Util.NEGATIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getMass = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -222,7 +222,7 @@ Scrim.prototype.getName = function(opt_localized) {
 
 /** @inheritDoc */
 Scrim.prototype.getMinHeight = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -237,22 +237,22 @@ Scrim.prototype.getPosition = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getRightBody = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getRightWorld = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getTopBody = function() {
-return UtilityCore.POSITIVE_INFINITY;
+return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.getTopWorld = function() {
-return UtilityCore.POSITIVE_INFINITY;
+return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -277,7 +277,7 @@ Scrim.prototype.getVerticesBody = function() {
 
 /** @inheritDoc */
 Scrim.prototype.getWidth = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
@@ -292,19 +292,19 @@ Scrim.prototype.isMassObject = function() {
 
 /** @inheritDoc */
 Scrim.prototype.momentAboutCM = function() {
-  return UtilityCore.POSITIVE_INFINITY;
+  return Util.POSITIVE_INFINITY;
 };
 
 /** @inheritDoc */
 Scrim.prototype.momentum = function() {
   var r = new Array(3);
-  r[0] = r[1] = r[2] = UtilityCore.POSITIVE_INFINITY;
+  r[0] = r[1] = r[2] = Util.POSITIVE_INFINITY;
   return r;
 };
 
 /** @inheritDoc */
 Scrim.prototype.nameEquals = function(name) {
-  return this.getName() == UtilityCore.toName(name);
+  return this.getName() == Util.toName(name);
 };
 
 /** @inheritDoc */

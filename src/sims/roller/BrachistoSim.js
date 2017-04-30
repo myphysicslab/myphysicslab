@@ -27,14 +27,14 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
@@ -44,7 +44,7 @@ var ShapeType = myphysicslab.lab.model.ShapeType;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -164,7 +164,7 @@ myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
 var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
 goog.inherits(BrachistoSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   BrachistoSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -311,7 +311,7 @@ BrachistoSim.prototype.modifyObjects = function() {
 BrachistoSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   // find the closest path to this point.
-  var dist = UtilityCore.POSITIVE_INFINITY;
+  var dist = Util.POSITIVE_INFINITY;
   var closestPath = -1;
   for (var i=0, len=this.paths_.length; i<len; i++) {
     var pathPoint = this.paths_[i].findNearestGlobal(location);

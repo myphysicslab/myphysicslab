@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayPath');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -44,7 +44,7 @@ var NumericControl = lab.controls.NumericControl;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Shows the {@link LagrangeRollerSim} simulation.
@@ -59,7 +59,7 @@ var Vector = lab.util.Vector;
 * @export
 */
 sims.roller.LagrangeRollerApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new LagrangeRollerSim();
   var advance = new SimpleAdvance(sim);
@@ -104,7 +104,7 @@ sims.roller.LagrangeRollerApp = function(elem_ids) {
 var LagrangeRollerApp = sims.roller.LagrangeRollerApp;
 goog.inherits(LagrangeRollerApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   LagrangeRollerApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

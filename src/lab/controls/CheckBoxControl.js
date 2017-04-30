@@ -15,13 +15,13 @@
 goog.provide('myphysicslab.lab.controls.CheckBoxControl');
 
 goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.controls.CheckBoxControlBase');
 
 goog.scope(function() {
 
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 
 /** Creates and manages a checkbox user interface control to synchronize with a
@@ -54,7 +54,7 @@ myphysicslab.lab.controls.CheckBoxControl = function(parameter, checkBox) {
 var CheckBoxControl = myphysicslab.lab.controls.CheckBoxControl;
 goog.inherits(CheckBoxControl, CheckBoxControlBase);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CheckBoxControl.prototype.toString = function() {
     return CheckBoxControl.superClass_.toString.call(this).slice(0, -1)

@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.model.ODEAdvance');
 goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -28,7 +28,7 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Advances an {@link ODESim} in a single step without doing any collision handling.
 
@@ -63,7 +63,7 @@ myphysicslab.lab.model.SimpleAdvance = function(sim, opt_diffEqSolver) {
 };
 var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SimpleAdvance.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Random');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -34,13 +34,13 @@ var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DoubleRect = lab.util.DoubleRect;
 var JointUtil = lab.engine2D.JointUtil;
-var NF5 = lab.util.UtilityCore.NF5;
+var NF5 = lab.util.Util.NF5;
 var Polygon = lab.engine2D.Polygon;
 var Random = lab.util.Random;
 var RandomLCG = lab.util.RandomLCG;
 var RigidBody = lab.engine2D.RigidBody;
 var Shapes = lab.engine2D.Shapes;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -73,23 +73,23 @@ PileConfig.makeVPit = function(sim, opt_offset) {
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.LEFT,
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.LEFT);
   p1.setPosition(new Vector(-5,  -5+offset),  -Math.PI/4);
-  p1.setMass(UtilityCore.POSITIVE_INFINITY);
+  p1.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p1);
   var p2 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.RIGHT,
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.RIGHT);
   p2.setPosition(new Vector(5,  -5+offset),  Math.PI/4);
-  p2.setMass(UtilityCore.POSITIVE_INFINITY);
+  p2.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p2);
   var p3 = Shapes.makeWall(1, 15, Shapes.LEFT_EDGE, Walls.en.WALL_RIGHT,
       Walls.i18n.WALL_RIGHT);
   p3.setPosition(new Vector(10.5,  7.5+offset),  0);
-  p3.setMass(UtilityCore.POSITIVE_INFINITY);
+  p3.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p3);
   var p4 = Shapes.makeWall(1, 15, Shapes.RIGHT_EDGE, Walls.en.WALL_LEFT,
       Walls.i18n.WALL_LEFT);
   p4.setPosition(new Vector(-10.5,  7.5+offset),  0);
-  p4.setMass(UtilityCore.POSITIVE_INFINITY);
+  p4.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p4);
   // set each wall to not collide with any other wall
   var walls = [p1, p2, p3, p4];
@@ -141,7 +141,7 @@ PileConfig.makeDoubleVPit = function(sim, opt_offset) {
   w.setPosition(new Vector(-10.5,  7.5+offset),  0);
   walls.push(w);
   goog.array.forEach(walls, function(p) {
-    p.setMass(UtilityCore.POSITIVE_INFINITY);
+    p.setMass(Util.POSITIVE_INFINITY);
     sim.addBody(p);
     // set each wall to not collide with any other wall
     p.addNonCollide(walls);
@@ -301,7 +301,7 @@ PileConfig.getRandomColor = function(random) {
   if (nearWhite) {
     return PileConfig.getRandomColor(random);
   } else {
-    return UtilityCore.colorString6(colors[0], colors[1], colors[2]);
+    return Util.colorString6(colors[0], colors[1], colors[2]);
   }
 };
 

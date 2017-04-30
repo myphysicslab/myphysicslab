@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -53,7 +53,7 @@ var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var VectorGraph = lab.graph.VectorGraph;
 
@@ -69,7 +69,7 @@ var VectorGraph = lab.graph.VectorGraph;
 * @export
 */
 sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
   var sim = new PendulumSim();
   var advance = new SimpleAdvance(sim);
@@ -131,7 +131,7 @@ sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
 var VectorGraphPendulumApp = sims.pendulum.VectorGraphPendulumApp;
 goog.inherits(VectorGraphPendulumApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   VectorGraphPendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

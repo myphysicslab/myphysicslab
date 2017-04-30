@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.engine2D.Walls');
 goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
@@ -44,11 +44,11 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -127,7 +127,7 @@ SpeedTest.ball_vs_wall_0 = function() {
   Engine2DTestRig.setBodyVars(sim, vars, 0, -4.349276, 0.4830918, 4.4247788, -0.4310427, 0, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
-      /*expectedEnergyDiff=*/UtilityCore.NaN, /*energyTol=*/UtilityCore.NaN,
+      /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/37);
 };
 
@@ -144,7 +144,7 @@ SpeedTest.ball_vs_wall_1 = function() {
   Engine2DTestRig.setBodyVars(sim, vars, 0, -4.3493183, 0.4830918, 4.4248186, -0.4310427, 0, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
-      /*expectedEnergyDiff=*/UtilityCore.NaN, /*energyTol=*/UtilityCore.NaN,
+      /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/37);
 };
 
@@ -163,7 +163,7 @@ SpeedTest.ball_vs_circle_setup = function(sim, advance) {
   // super-thin walls
   Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/0.01);
   var b = Shapes.makeBall(4, 'fixBall');
-  b.setMass(UtilityCore.POSITIVE_INFINITY);
+  b.setMass(Util.POSITIVE_INFINITY);
   b.setPosition(new Vector(0,  0),  0);
   sim.addBody(b);
   sim.setElasticity(0.95);
@@ -180,7 +180,7 @@ SpeedTest.ball_vs_circle_0 = function() {
   SpeedTest.ball_vs_circle_setup(sim, advance);
   var vars = Engine2DTestRig.makeVars(6*1);
   var expectedCollisions;
-  if (UtilityCore.isChrome()) {
+  if (Util.isChrome()) {
     Engine2DTestRig.setBodyVars(sim, vars, 0, -5.6805659, -0.1123115, 5.6022192, 0.2347565, -0.0000012, -0);
     expectedCollisions = 55;
   } else {

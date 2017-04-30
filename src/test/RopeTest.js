@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
@@ -51,8 +51,8 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Force = myphysicslab.lab.model.Force;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Rope = myphysicslab.lab.engine2D.Rope;
@@ -60,7 +60,7 @@ var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -250,7 +250,7 @@ RopeTest.pendulum_rope_bounce_test = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.002,
       /*expectedCollisions=*/0);
 };
@@ -318,7 +318,7 @@ RopeTest.double_rope_spin_test = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
 };
@@ -351,7 +351,7 @@ RopeTest.double_rod_spin_test = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
 };
@@ -380,8 +380,8 @@ RopeTest.double_rope_thrust_test = function() {
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
-      /*expectedEnergyDiff=*/UtilityCore.NaN, /*energyTol=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
+      /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/0);
 };
 
@@ -409,8 +409,8 @@ RopeTest.double_rod_thrust_test = function() {
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
-      /*expectedEnergyDiff=*/UtilityCore.NaN, /*energyTol=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
+      /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/0);
 };
 

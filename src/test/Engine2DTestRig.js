@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.test.ExpectedPerf');
 
@@ -33,20 +33,20 @@ var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var Joint = myphysicslab.lab.engine2D.Joint;
-var NF1S = myphysicslab.lab.util.UtilityCore.NF1S;
-var NF2 = myphysicslab.lab.util.UtilityCore.NF2;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var nf7 = myphysicslab.lab.util.UtilityCore.nf7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
+var NF1S = myphysicslab.lab.util.Util.NF1S;
+var NF2 = myphysicslab.lab.util.Util.NF2;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF5E = myphysicslab.lab.util.Util.NF5E;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var nf7 = myphysicslab.lab.util.Util.nf7;
+var NF9 = myphysicslab.lab.util.Util.NF9;
+var NFE = myphysicslab.lab.util.Util.NFE;
+var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
 
 /** Static class that provides common test functions such as
@@ -213,7 +213,7 @@ Engine2DTestRig.perfExpected = function(testName, defaultTime) {
   }
   var machine = Engine2DTestRig.getMachineName();
   var browser = Engine2DTestRig.getBrowserName();
-  var compiled = UtilityCore.ADVANCED ? 'advanced' : 'simple';
+  var compiled = Util.ADVANCED ? 'advanced' : 'simple';
   var e0 = myphysicslab.test.ExpectedPerf;
   goog.asserts.assertObject(e0, 'not an object '+e0);
   var err = 'no expected results for machine: '+machine;
@@ -304,10 +304,10 @@ Engine2DTestRig.startTests = function() {
     Engine2DTestRig.myPrintln('COMPILE_LEVEL = debug (uncompiled)');
   } else {
     Engine2DTestRig.myPrintln('COMPILE_LEVEL = '
-      +(UtilityCore.ADVANCED ? 'advanced' : 'simple'));
+      +(Util.ADVANCED ? 'advanced' : 'simple'));
   }
   Engine2DTestRig.myPrintln('goog.DEBUG = '+goog.DEBUG);
-  Engine2DTestRig.myPrintln('myPhysicsLab version = '+UtilityCore.VERSION);
+  Engine2DTestRig.myPrintln('myPhysicsLab version = '+Util.VERSION);
   var nav = navigator;
   if (nav != null) {
     Engine2DTestRig.myPrintln('userAgent = '+nav.userAgent);
@@ -386,7 +386,7 @@ Engine2DTestRig.checkValue = function(message, value, expected, tolerance) {
 Engine2DTestRig.makeVars = function(n) {
   var vars = new Array(n);
   for (var i=0; i<n; i++)
-    vars[i] = UtilityCore.NaN;
+    vars[i] = Util.NaN;
   return vars;
 };
 

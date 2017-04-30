@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 goog.require('myphysicslab.sims.common.CommonControls');
@@ -55,7 +55,7 @@ var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -131,7 +131,7 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
 var CartPendulum2App = myphysicslab.sims.engine2D.CartPendulum2App;
 goog.inherits(CartPendulum2App, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CartPendulum2App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

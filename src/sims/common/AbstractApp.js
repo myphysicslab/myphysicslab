@@ -47,7 +47,7 @@ goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayList');
@@ -100,7 +100,7 @@ var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
 var TimeGraph1 = sims.common.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -231,7 +231,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
 var AbstractApp = sims.common.AbstractApp;
 goog.inherits(AbstractApp, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractApp.prototype.toString = function() {
     return ', sim: '+this.sim.toStringShort()
@@ -297,7 +297,7 @@ AbstractApp.prototype.addStandardControls = function() {
 */
 AbstractApp.prototype.defineNames = function(myName) {
   this.simRun.setAppName(myName);
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
@@ -386,8 +386,8 @@ AbstractApp.prototype.setup = function() {
 */
 AbstractApp.prototype.start = function() {
   this.simRun.startFiring();
-  //console.log(UtilityCore.prettyPrint(this.toString()));
-  //console.log(UtilityCore.prettyPrint(this.sim.toString()));
+  //console.log(Util.prettyPrint(this.toString()));
+  //console.log(Util.prettyPrint(this.sim.toString()));
 };
 
 }); // goog.scope

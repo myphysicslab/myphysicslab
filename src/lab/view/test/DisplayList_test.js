@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.view.test.DisplayList_test');
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
 goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayList');
 goog.require('myphysicslab.lab.view.DisplayShape');
 
@@ -26,7 +26,7 @@ var testDisplayList = function() {
   var DisplayList = myphysicslab.lab.view.DisplayList;
   var DisplayShape = myphysicslab.lab.view.DisplayShape;
   var PointMass = myphysicslab.lab.model.PointMass;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
 
   var displayList = new DisplayList('TEST');
   assertEquals('TEST', displayList.getName());

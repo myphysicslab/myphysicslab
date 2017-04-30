@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -31,9 +31,9 @@ var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ShapeType = myphysicslab.lab.model.ShapeType;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A simple point-like {@link MassObject}, it has mass, velocity, size and shape.
@@ -88,7 +88,7 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
 var PointMass = myphysicslab.lab.model.PointMass;
 goog.inherits(PointMass, AbstractMassObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PointMass.prototype.toString = function() {
     return PointMass.superClass_.toString.call(this).slice(0, -1)
@@ -313,10 +313,10 @@ PointMass.prototype.similar = function(obj, opt_tolerance) {
   var pm = /** @type {!PointMass} */ (obj);
   if (!pm.loc_world_.nearEqual(this.loc_world_, opt_tolerance))
     return false;
-  if (UtilityCore.veryDifferent(pm.width_, this.width_, opt_tolerance)) {
+  if (Util.veryDifferent(pm.width_, this.width_, opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(pm.height_, this.height_, opt_tolerance)) {
+  if (Util.veryDifferent(pm.height_, this.height_, opt_tolerance)) {
     return false;
   }
   if (pm.shape_ != this.shape_) {

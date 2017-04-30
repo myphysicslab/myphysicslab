@@ -369,7 +369,7 @@ Some useful utilities available in Terminal:
 
 + `prettyPrint(app)` inserts carriage returns and indentation to make the `toString()`
     result more readable. Synonym for
-    [UtilityCore.prettyPrint](myphysicslab.lab.util.UtilityCore.html#UtilityCore.prettyPrint).
+    [Util.prettyPrint](myphysicslab.lab.util.Util.html#Util.prettyPrint).
 
 
 + `prettyPrint(app, 5)` does prettyPrinting with indentation level of 5 instead of
@@ -377,17 +377,17 @@ Some useful utilities available in Terminal:
 
 + `methodsOf(app)` shows the available methods that can be called on the object.
     Synonym for
-    [UtilityCore.methodsOf](myphysicslab.lab.util.UtilityCore.html#UtilityCore.methodsOf).
+    [Util.methodsOf](myphysicslab.lab.util.Util.html#Util.methodsOf).
 
 + `propertiesOf(app)` shows the names of properties of an object. Synonym for
-    [UtilityCore.propertiesOf](myphysicslab.lab.util.UtilityCore.html#UtilityCore.propertiesOf).
+    [Util.propertiesOf](myphysicslab.lab.util.Util.html#Util.propertiesOf).
     Useful especially to see the what is defined on `app` which is the usual name for
     the application that creates the simulation.
 
 + `propertiesOf(app, true)` shows the properties and values of object `app`
 
-+ [UtilityCore.get](myphysicslab.lab.util.UtilityCore.html#UtilityCore.get) and
-    [UtilityCore.set](myphysicslab.lab.util.UtilityCore.html#UtilityCore.set)
++ [Util.get](myphysicslab.lab.util.Util.html#Util.get) and
+    [Util.set](myphysicslab.lab.util.Util.html#Util.set)
     can be used to access and modify arrays, which gets around the restrictions about
     using square brackets in Terminal.
     See [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript)

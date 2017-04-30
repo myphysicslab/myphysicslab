@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
@@ -50,7 +50,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Displays the {@link Double2DSpringSim} simulation.
 
@@ -64,7 +64,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new Double2DSpringSim();
   var advance = new SimpleAdvance(sim);
@@ -129,7 +129,7 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
 var Double2DSpringApp = myphysicslab.sims.springs.Double2DSpringApp;
 goog.inherits(Double2DSpringApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Double2DSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

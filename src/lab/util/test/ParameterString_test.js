@@ -16,13 +16,13 @@ goog.provide('myphysicslab.lab.util.test.ParameterString_test');
 
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
 
 var testParameterString1 = function() {
   var ParameterString = myphysicslab.lab.util.ParameterString;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 
   /**
@@ -84,7 +84,7 @@ var testParameterString1 = function() {
       goog.bind(mockSubj2.getFooness, mockSubj2),
       goog.bind(mockSubj2.setFooness, mockSubj2));
   mockSubj2.addParameter(paramFoo);
-  assertEquals(UtilityCore.toName(MockSubject2.FOONESS), paramFoo.getName());
+  assertEquals(Util.toName(MockSubject2.FOONESS), paramFoo.getName());
   assertTrue(paramFoo.nameEquals(MockSubject2.FOONESS));
   assertEquals(mockSubj2, paramFoo.getSubject());
   assertTrue(paramFoo instanceof ParameterString);
@@ -99,7 +99,7 @@ var testParameterString1 = function() {
   assertEquals(20, paramFoo.getSuggestedLength());
   assertEquals(paramFoo, paramFoo.setSuggestedLength(10));
   assertEquals(10, paramFoo.getSuggestedLength());
-  assertEquals(UtilityCore.POSITIVE_INFINITY, paramFoo.getMaxLength());
+  assertEquals(Util.POSITIVE_INFINITY, paramFoo.getMaxLength());
   // can't set max length to less than length of current string value
   assertThrows(function() { paramFoo.setMaxLength(2); });
   assertEquals(paramFoo, paramFoo.setMaxLength(10));
@@ -117,7 +117,7 @@ var testParameterString1 = function() {
       goog.bind(mockSubj2.setFooBarness, mockSubj2),
     ['keine', 'manche', 'viele'], ['none', 'some', 'many']);
   mockSubj2.addParameter(paramFooBar);
-  assertEquals(UtilityCore.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());
+  assertEquals(Util.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());
   assertTrue(paramFooBar.nameEquals(MockSubject2.FOOBARNESS));
   assertEquals(mockSubj2, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterString);

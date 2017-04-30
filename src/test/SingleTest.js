@@ -15,7 +15,7 @@
 goog.provide('myphysicslab.test.SingleTest');
 
 goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.test.CircleCircleTest');
 goog.require('myphysicslab.test.CircleStraightTest');
 goog.require('myphysicslab.test.DoNothingTest');
@@ -42,7 +42,7 @@ var PileTest = myphysicslab.test.PileTest;
 var RopeTest = myphysicslab.test.RopeTest;
 var SpeedTest = myphysicslab.test.SpeedTest;
 var StraightStraightTest = myphysicslab.test.StraightStraightTest;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See
 [2D Physics Engine Overview](Engine2D.html).

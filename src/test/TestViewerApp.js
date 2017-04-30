@@ -50,7 +50,7 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
 goog.require('myphysicslab.lab.view.DisplayList');
@@ -124,7 +124,7 @@ var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 var VerticalLayout = sims.common.VerticalLayout;
@@ -240,7 +240,7 @@ see {@link #prependControl}.
 * @export
 */
 myphysicslab.test.TestViewerApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   AbstractSubject.call(this, 'TEST_VIEWER_APP');
 
   /**  The test classes in which test functions are found.
@@ -473,7 +473,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
 var TestViewerApp = myphysicslab.test.TestViewerApp;
 goog.inherits(TestViewerApp, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   TestViewerApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -492,7 +492,7 @@ TestViewerApp.prototype.getClassName = function() {
 * @export
 */
 TestViewerApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
@@ -805,7 +805,7 @@ TestViewerApp.prototype.setSimRect_ = function() {
 * @export
 */
 TestViewerApp.prototype.setup = function() {
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     this.terminal.println('TestViewerApp does not work with advanced-compile');
     return;
   }
@@ -864,7 +864,7 @@ TestViewerApp.prototype.eval = function(script) {
 * @export
 */
 TestViewerApp.prototype.start = function() {
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     return;
   }
   this.simRun.startFiring();

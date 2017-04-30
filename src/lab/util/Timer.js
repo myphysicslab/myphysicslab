@@ -16,14 +16,14 @@ goog.provide('myphysicslab.lab.util.Timer');
 
 goog.require('goog.asserts');
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF3 = myphysicslab.lab.util.UtilityCore.NF3;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF3 = myphysicslab.lab.util.Util.NF3;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
+var Util = myphysicslab.lab.util.Util;
 
 /** Periodically executes a callback function; Timer is a fancier version of
 JavaScript's `setInterval()` function.
@@ -126,21 +126,21 @@ myphysicslab.lab.util.Timer = function() {
   * @type {number}
   * @private
   */
-  this.actual_sys_ = UtilityCore.NaN;
+  this.actual_sys_ = Util.NaN;
   /** when the last callBack fired, in system time; for debugging only.
   * @type {number}
   * @private
   */
-  this.last_sys_ = UtilityCore.NaN;
+  this.last_sys_ = Util.NaN;
   /** when the callback was requested to fire, in system time; for debugging only.
   * @type {number}
   * @private
   */
-  this.request_sys_ = UtilityCore.NaN;
+  this.request_sys_ = Util.NaN;
 };
 var Timer = myphysicslab.lab.util.Timer;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Timer.prototype.toString = function() {
     return 'Timer{period_: '+this.period_
@@ -156,7 +156,7 @@ for debugging only.
 * @return {number} the current time as given by the system clock, in seconds
 */
 Timer.prototype.callBackStarted = function() {
-  var nowTime = UtilityCore.getSystemTime();
+  var nowTime = Util.getSystemTime();
   this.actual_sys_ = nowTime;
   return nowTime;
 };
@@ -168,7 +168,7 @@ callback is `null` or Timer is not firing. Uses JavaScript's `setTimeout()` func
 do the scheduling.
 
 The finish time is in given in *system time*, see
-{@link UtilityCore#getSystemTime} for how system time is defined.
+{@link Util#getSystemTime} for how system time is defined.
 
 @param {number} finishTimeSys the time when the next callback should finish execution, in system time seconds
 */
@@ -188,7 +188,7 @@ Timer.prototype.finishAt = function(finishTimeSys) {
   // Therefore delay till firing is
   //     delay = finishTime - (now - expected_start) - now
   //           = (finishTime - now) - (now - expected_start)
-  var now_secs = UtilityCore.getSystemTime();
+  var now_secs = Util.getSystemTime();
   var delay_secs = finishTimeSys - now_secs;
   if (isFinite(this.expected_sys_)) {
     var d = now_secs - this.expected_sys_;
@@ -219,7 +219,7 @@ Timer.prototype.finishAt = function(finishTimeSys) {
       +' BEHIND='+NF3(now_secs - this.request_sys_)
       );
     this.last_sys_ = this.actual_sys_;
-    this.actual_sys_ = UtilityCore.NaN;
+    this.actual_sys_ = Util.NaN;
   }
   this.request_sys_ = finishTimeSys;
   // important to convert to integer (otherwise unit tests fail when delay is
@@ -239,7 +239,7 @@ JavaScript's `setTimeout()` function to do the scheduling.
 */
 Timer.prototype.fireAfter = function(opt_delay) {
   var delay = goog.isNumber(opt_delay) ? opt_delay : this.period_;
-  this.finishAt(UtilityCore.getSystemTime() + delay);
+  this.finishAt(Util.getSystemTime() + delay);
 };
 
 /** Expected time when the next callback should occur, in system time, in seconds. This

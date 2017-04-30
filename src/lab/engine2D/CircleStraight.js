@@ -18,18 +18,18 @@ goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Provides static functions for handling interactions between
@@ -88,7 +88,7 @@ CircleStraight.improveAccuracy = function(rbc, circle, straight) {
   var nb = straight.getNormalBody(pb);
   // nw = normal in world coords
   var nw = straightBody.rotateBodyToWorld(nb);
-  //console.log('improveAccuracy '+UtilityCore.hypot(rbc.impact1.getX() - pw[0],
+  //console.log('improveAccuracy '+Util.hypot(rbc.impact1.getX() - pw[0],
   //   rbc.impact1.getY() - pw[1]));
   // always use pb2 here; even for contact, otherwise get zero distance
   rbc.distance = straight.distanceToLine(pb2);
@@ -138,7 +138,7 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
     }
     // possible contact.  Is the point 'next to' the straight edge, or past it?
     var dist2 = straight.distanceToPoint(pb);
-    if (dist2 == UtilityCore.POSITIVE_INFINITY) { // center is not 'next to' the edge
+    if (dist2 == Util.POSITIVE_INFINITY) { // center is not 'next to' the edge
       return;
     }
     goog.asserts.assert( Math.abs(dist - dist2) < 1e-8 );
@@ -247,7 +247,7 @@ CircleStraight.addCollision = function(contact, collisions, straight, circle, di
   rbc.ballNormal = false;
   rbc.ballObject = true;
   rbc.radius1 = circle.getRadius();
-  rbc.radius2 = UtilityCore.POSITIVE_INFINITY;
+  rbc.radius2 = Util.POSITIVE_INFINITY;
   goog.asserts.assert( rbc.radius1 > 0 );  // only convex circles here.
   if (contact) {
     // add the gap distance to the radius, for better accuracy in contact

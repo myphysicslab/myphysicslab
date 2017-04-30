@@ -21,12 +21,12 @@ goog.provide('myphysicslab.sims.pde.HalfSinePulseShape');
 goog.provide('myphysicslab.sims.pde.MultiSineShape');
 goog.provide('myphysicslab.sims.pde.TriangleShape');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Defines initial conditions of a string used in the
 {@link myphysicslab.sims.pde.StringSim} PDE simulation by specifying the initial displacement
@@ -62,7 +62,7 @@ myphysicslab.sims.pde.StringShape = function(length, name, opt_localName) {
   * @type {string}
   * @private
   */
-  this.name_ = UtilityCore.toName(name);
+  this.name_ = Util.toName(name);
   /**
   * @type {string}
   * @private
@@ -71,7 +71,7 @@ myphysicslab.sims.pde.StringShape = function(length, name, opt_localName) {
 };
 var StringShape = myphysicslab.sims.pde.StringShape;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringShape.prototype.toString = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'

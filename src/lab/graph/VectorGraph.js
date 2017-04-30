@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.ODESim');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -35,12 +35,12 @@ var sims = myphysicslab.sims;
 var CoordMap = lab.view.CoordMap;
 var GenericEvent = lab.util.GenericEvent;
 var LabView = lab.view.LabView;
-var NF = lab.util.UtilityCore.NF;
-var NF5 = lab.util.UtilityCore.NF5;
+var NF = lab.util.Util.NF;
+var NF5 = lab.util.Util.NF5;
 var ODESim = lab.model.ODESim;
 var ScreenRect = lab.view.ScreenRect;
 var Subject = lab.util.Subject;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Draws vectors showing the direction field of the differential equation. In a graph
@@ -128,7 +128,7 @@ myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
 };
 var VectorGraph = myphysicslab.lab.graph.VectorGraph;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   VectorGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -219,8 +219,8 @@ VectorGraph.prototype.fullDraw = function(context, coordMap) {
   var left = sr.getLeft();
   var top_ = sr.getTop();
   var va = this.sim_.getVarsList();
-  var state = UtilityCore.newNumberArray(va.numVariables());
-  var change = UtilityCore.newNumberArray(va.numVariables());
+  var state = Util.newNumberArray(va.numVariables());
+  var change = Util.newNumberArray(va.numVariables());
   // draw dots, in like a 4 x 4 grid
   for (var i=0; i<gp; i++) {
     for (var j=0; j<gp; j++) {
@@ -235,7 +235,7 @@ VectorGraph.prototype.fullDraw = function(context, coordMap) {
       var sim_y = coordMap.screenToSimY(y);
       state[this.xVariable_] = sim_x;
       state[this.yVariable_] = sim_y;
-      UtilityCore.zeroArray(change);
+      Util.zeroArray(change);
       this.sim_.evaluate(state, change, 0);
       var delta_x = coordMap.simToScreenScaleX(change[this.xVariable_]);
       var delta_y = coordMap.simToScreenScaleY(change[this.yVariable_]);

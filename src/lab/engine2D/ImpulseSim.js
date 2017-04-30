@@ -37,12 +37,12 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Printable');
 goog.require('myphysicslab.lab.util.Random');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CollisionTotals = lab.model.CollisionTotals;
@@ -50,16 +50,16 @@ var ComputeForces = lab.engine2D.ComputeForces;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 var GenericEvent = lab.util.GenericEvent;
 var Impulse = lab.model.Impulse;
-var NF = UtilityCore.NF;
-var NF5 = UtilityCore.NF5;
-var nf5 = UtilityCore.nf5;
-var NF5E = UtilityCore.NF5E;
-var NF7 = UtilityCore.NF7;
-var nf7 = UtilityCore.nf7;
-var NF7E = UtilityCore.NF7E;
-var NF9 = UtilityCore.NF9;
-var NFE = UtilityCore.NFE;
-var NFSCI = UtilityCore.NFSCI;
+var NF = Util.NF;
+var NF5 = Util.NF5;
+var nf5 = Util.nf5;
+var NF5E = Util.NF5E;
+var NF7 = Util.NF7;
+var nf7 = Util.nf7;
+var NF7E = Util.NF7E;
+var NF9 = Util.NF9;
+var NFE = Util.NFE;
+var NFSCI = Util.NFSCI;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -325,12 +325,12 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
       RigidBodySim.i18n.RANDOM_SEED,
       goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
       .setDecimalPlaces(0)
-      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 goog.inherits(ImpulseSim, RigidBodySim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc  */
   ImpulseSim.prototype.toString_ = function() {
     return ', collisionHandling_: '+this.collisionHandling_
@@ -553,7 +553,7 @@ ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {
   goog.array.forEach(this.bods_, function(b) {
     var idx = b.getVarsIndex();
     goog.asserts.assert(idx >= 0);
-    if (b.getMass() == UtilityCore.POSITIVE_INFINITY) {
+    if (b.getMass() == Util.POSITIVE_INFINITY) {
       var vx = vars[idx + RigidBodySim.VX_];
       var vy = vars[idx + RigidBodySim.VY_];
       var vw = vars[idx + RigidBodySim.VW_];
@@ -586,8 +586,8 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
         continue loop2;
       }
       // infinite mass objects cannot move, so no contact or collisions between them
-      if (bod1.getMass() == UtilityCore.POSITIVE_INFINITY
-          && bod2.getMass() == UtilityCore.POSITIVE_INFINITY)
+      if (bod1.getMass() == Util.POSITIVE_INFINITY
+          && bod2.getMass() == Util.POSITIVE_INFINITY)
         continue loop2;
       // if both bodies are moving slowly, do an intersection test
       // Ensure that the bodies cannot move through each other during the time step.
@@ -794,7 +794,7 @@ ImpulseSim.prototype.makeCollisionMatrix = function(collisions) {
   var n = collisions.length;
   var A = new Array(n);
   for (var k = 0; k<n; k++) {
-    A[k] = new Float64Array(n); //UtilityCore.newNumberArray(n);
+    A[k] = new Float64Array(n); //Util.newNumberArray(n);
   }
   for (var i=0; i<n; i++) {
     var ci = collisions[i];
@@ -869,10 +869,10 @@ ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
 */
 ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_totals) {
   var n = collisions.length;
-  var b = UtilityCore.newNumberArray(n);
-  var j = UtilityCore.newNumberArray(n);
-  var e = UtilityCore.newNumberArray(n);  // keep track of elasticity for debugging
-  var joint = UtilityCore.newBooleanArray(n);  // joint is array of boolean
+  var b = Util.newNumberArray(n);
+  var j = Util.newNumberArray(n);
+  var e = Util.newNumberArray(n);  // keep track of elasticity for debugging
+  var joint = Util.newBooleanArray(n);  // joint is array of boolean
   var nonJoint = false; // whether there is a non-joint
   for (var k=0; k<n; k++) {
     var ck = collisions[k];
@@ -1063,11 +1063,11 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
   var focus = -1; // index of the collision to handle, or -1 when done
   // debugHCS = print debug messages for handleCollisionsSerial
   var debugHCS = false; //this.getTime() > 1.175;
-  var e = UtilityCore.newNumberArray(n);  // elasticity at each collision
-  var b = UtilityCore.newNumberArray(n);  // normal velocity at each collision
-  var j2 = UtilityCore.newNumberArray(n);  // cumulative impulse (calculated)
-  var nv = UtilityCore.newNumberArray(n);  // initial normal velocities (debug only)
-  var joint = UtilityCore.newBooleanArray(n); // which collisions are joints
+  var e = Util.newNumberArray(n);  // elasticity at each collision
+  var b = Util.newNumberArray(n);  // normal velocity at each collision
+  var j2 = Util.newNumberArray(n);  // cumulative impulse (calculated)
+  var nv = Util.newNumberArray(n);  // initial normal velocities (debug only)
+  var joint = Util.newBooleanArray(n); // which collisions are joints
   var nonJoint = false; // whether there is a non-joint
   if (goog.DEBUG && debugHCS) {
     console.log('handleCollisionSerial start n = '+n);
@@ -1296,7 +1296,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     UtilEngine.printArray('e ',e, nf7);
   }
 
-  var set = UtilityCore.newBooleanArray(n);
+  var set = Util.newBooleanArray(n);
   if (focus == -1) {
     // during 'final pass' handle all collisions with elasticity = 0
     for (k=0; k<n; k++) {
@@ -1327,12 +1327,12 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
   //            idx = (-1, 0, -1, -1, 1, 2, -1, 3)
   //            idx2 = (1, 4, 5, 7)
   var n1 = 0;  // n1 = number in subset
-  var idx = UtilityCore.newNumberArray(n);  // idx = index from big set to subset
+  var idx = Util.newNumberArray(n);  // idx = index from big set to subset
   for (k=0; k<n; k++) {
     idx[k] = set[k] ? n1 : -1;
     n1 += set[k] ? 1 : 0;
   }
-  var idx2 = UtilityCore.newNumberArray(n1);  // idx2 = index from subset to big set
+  var idx2 = Util.newNumberArray(n1);  // idx2 = index from subset to big set
   for (k=0; k<n; k++) {
     if (set[k])
       idx2[idx[k]] = k;
@@ -1344,7 +1344,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
   var A1;  // A matrix for the subset
   var b1 = null;  // b vector for subset
   var joint1;  // joint flags for subset
-  var j1 = UtilityCore.newNumberArray(n1);  // impulses for subset
+  var j1 = Util.newNumberArray(n1);  // impulses for subset
   if (1 == 0 && n1 == n) {
     // DON'T DO THIS  (at least always copy b)
     // this could lead to amplification bugs when we do b *= 1+elasticity
@@ -1355,10 +1355,10 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     // A1 is n1 x n1 matrix of numbers
     A1 = new Array(n1);
     for (k = 0; k<n1; k++) {
-      A1[k] = new Float64Array(n1); //UtilityCore.newNumberArray(n1);
+      A1[k] = new Float64Array(n1); //Util.newNumberArray(n1);
     }
-    b1 = UtilityCore.newNumberArray(n1);
-    joint1 = UtilityCore.newBooleanArray(n1);  // joint1 is array of booleans
+    b1 = Util.newNumberArray(n1);
+    joint1 = Util.newBooleanArray(n1);  // joint1 is array of booleans
     for (i=0; i<n; i++) {
       if (set[i]) {
         b1[idx[i]] = b[i];
@@ -1420,7 +1420,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     }
   }
   if (goog.DEBUG && debugHCS) {
-    UtilEngine.printArray('idx2', idx2, UtilityCore.NF0);
+    UtilEngine.printArray('idx2', idx2, Util.NF0);
     UtilEngine.printArray('j1', j1, nf7);
     UtilEngine.printArray('j2', j2, nf7);
     UtilEngine.printArray('b ',b, nf7);
@@ -1447,7 +1447,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
       }
     }
     // MAY 2013:  @todo  invent this myWait function
-    //UtilityCore.myWait(30);
+    //Util.myWait(30);
   }
 };
 

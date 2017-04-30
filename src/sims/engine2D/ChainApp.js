@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.sims.engine2D.ChainConfig');
@@ -60,7 +60,7 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -165,7 +165,7 @@ sims.engine2D.ChainApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.FIXED_LEFT_X,
       ChainConfig.i18n.FIXED_LEFT_X,
       goog.bind(this.getFixedLeftX, this), goog.bind(this.setFixedLeftX, this))
-      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.BLOCK_LENGTH,
@@ -214,7 +214,7 @@ sims.engine2D.ChainApp = function(elem_ids) {
 var ChainApp = sims.engine2D.ChainApp;
 goog.inherits(ChainApp, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ChainApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

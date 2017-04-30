@@ -18,13 +18,13 @@ goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.events.KeyEvent');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Parser');
 goog.require('myphysicslab.lab.util.GenericMemo'); // in case user wants to use it.
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Parser = myphysicslab.lab.util.Parser;
 
 /** Executes scripts and provides a command line user interface with separate text
@@ -100,8 +100,8 @@ following is not allowed:
     terminal['white'+'List_']
 
 Arrays of objects other than numbers can be made using `new Array()`. Array access can
-be done using the built-in functions {@link UtilityCore#get} and
-{@link UtilityCore#set}.
+be done using the built-in functions {@link Util#get} and
+{@link Util#set}.
 
 
 <a name="shortnames"></a>
@@ -415,7 +415,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
 };
 var Terminal = myphysicslab.lab.util.Terminal;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Terminal.prototype.toString = function() {
     return 'Terminal{history.length: '+this.history_.length
@@ -455,7 +455,7 @@ Terminal.regexPair;
 */
 Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend) {
   var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
-  if (!UtilityCore.ADVANCED) {
+  if (!Util.ADVANCED) {
     if (names.length == 0) {
       throw new Error();
     }
@@ -824,7 +824,7 @@ Terminal.prototype.inputCallback = function(evt) {
 * @private
 */
 Terminal.prototype.myEval = function(script) {
-  if (!UtilityCore.ADVANCED) {
+  if (!Util.ADVANCED) {
     return eval('"use strict"; '+script);
   } else {
     this.println('JavaScript is disabled due to advanced compilation; try a simple-compiled version');
@@ -1004,7 +1004,7 @@ Terminal.prototype.setAfterEval = function(afterEvalFn) {
 */
 Terminal.prototype.setParser = function(parser) {
   this.parser_ = parser;
-  if (!UtilityCore.ADVANCED) {
+  if (!Util.ADVANCED) {
     parser.addCommand('vars', goog.bind(this.vars, this),
         'lists available variables');
   }
@@ -1078,7 +1078,7 @@ Terminal.stdRegex = function(terminal) {
   // (^|[^\w.]) means:  either start of line, or a not-word-or-dot character.
 
   terminal.addRegex('methodsOf|propertiesOf|prettyPrint',
-       'UtilityCore', /*addToVars=*/false);
+       'Util', /*addToVars=*/false);
   // replace 'println' with 'terminal.println'
   terminal.addRegex('println|z',
        'terminal', /*addToVars=*/false);
@@ -1090,11 +1090,11 @@ Terminal.stdRegex = function(terminal) {
   // (The alternative is create a new RegExp from a set of concatenated strings).
   terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask|DoubleRect'
       +'|GenericEvent|GenericObserver|GenericMemo|ParameterBoolean|ParameterNumber'
-      +'|ParameterString|RandomLCG|EasyScriptParser|Terminal|Timer|UtilityCore|Vector',
+      +'|ParameterString|RandomLCG|EasyScriptParser|Terminal|Timer|Util|Vector',
       'myphysicslab.lab.util', /*addToVars=*/false);
 
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',
-      'myphysicslab.lab.util.UtilityCore', /*addToVars=*/false);
+      'myphysicslab.lab.util.Util', /*addToVars=*/false);
 
   terminal.addRegex('CollisionAdvance|CoordType|EulersMethod|ExpressionVariable'
       +'|FunctionVariable|MassObject|ModifiedEuler|ConcreteLine|NumericalPath'
@@ -1141,7 +1141,7 @@ Square brackets can be used to access properties by name, which is dangerous.
 For example: `this['white'+'List_']` would not be detected.
 Prohibit square brackets, except allow square brackets with numbers inside
 so that simple array indexing is allowed, and creating arrays of numbers is allowed.
-Note: a script can use UtilityCore.get() or set() for more complex expressions.
+Note: a script can use Util.get() or set() for more complex expressions.
 * @param {string} command
 */
 Terminal.prototype.vetBrackets = function(command) {

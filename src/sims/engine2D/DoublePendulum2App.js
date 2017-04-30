@@ -33,7 +33,7 @@ goog.require('myphysicslab.lab.model.GravityLaw');
 goog.require('myphysicslab.lab.util.AffineTransform');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.common.CommonControls');
@@ -67,7 +67,7 @@ var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -225,7 +225,7 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
 var DoublePendulum2App = sims.engine2D.DoublePendulum2App;
 goog.inherits(DoublePendulum2App, Engine2DApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoublePendulum2App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

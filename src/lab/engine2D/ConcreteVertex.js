@@ -17,15 +17,15 @@ goog.provide('myphysicslab.lab.engine2D.ConcreteVertex');
 goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Concrete implementation of Vertex interface.
@@ -70,7 +70,7 @@ myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_ed
 };
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   ConcreteVertex.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', id_: '+this.id_
@@ -128,7 +128,7 @@ ConcreteVertex.prototype.highlight = function() {
 
 /** @inheritDoc */
 ConcreteVertex.prototype.getCurvature = function() {
-  var r = UtilityCore.POSITIVE_INFINITY;
+  var r = Util.POSITIVE_INFINITY;
   if (this.edge_ != null) {
     r = this.edge_.getCurvature(this.loc_body_);
     if (this.edge2_ != null) {

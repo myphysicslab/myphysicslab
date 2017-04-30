@@ -15,14 +15,14 @@
 goog.provide('myphysicslab.lab.util.Vector');
 
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NFSCI = myphysicslab.lab.util.Util.NFSCI;
+var Util = myphysicslab.lab.util.Util;
+var NF = myphysicslab.lab.util.Util.NF;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 
 /** An immutable vector in 3D space; after creation it cannot be altered.
@@ -38,9 +38,9 @@ var GenericVector = myphysicslab.lab.util.GenericVector;
 myphysicslab.lab.util.Vector = function(x, y, opt_z) {
   var z = goog.isNumber(opt_z) ? opt_z : 0;
   if (true) {
-    UtilityCore.testNumber(x);
-    UtilityCore.testNumber(y);
-    UtilityCore.testNumber(z);
+    Util.testNumber(x);
+    Util.testNumber(y);
+    Util.testNumber(z);
   }
   /**
   * @const
@@ -63,7 +63,7 @@ myphysicslab.lab.util.Vector = function(x, y, opt_z) {
 };
 var Vector = myphysicslab.lab.util.Vector;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Vector.prototype.toString = function() {
     return 'Vector{x: '+NF(this.x_)+', y: '+NF(this.y_)
@@ -137,7 +137,7 @@ Vector.prototype.angleTo = function(vector) {
   }
   var at = Math.atan2(this.y_, this.x_);
   var bt = Math.atan2(vector.getY(), vector.getX());
-  return UtilityCore.limitAngle(bt - at);
+  return Util.limitAngle(bt - at);
 };
 
 /** Returns distance-squared between this Vector and another GenericVector regarding
@@ -280,20 +280,20 @@ Vector.prototype.multiply = function(factor) {
 };
 
 /** Returns `true` if this Vector is nearly equal to another Vector. The optional
-tolerance value corresponds to the `epsilon` in {@link UtilityCore#veryDifferent}, so
+tolerance value corresponds to the `epsilon` in {@link Util#veryDifferent}, so
 the actual tolerance used depends on the magnitude of the numbers being compared.
 @param {!GenericVector} vector the vector to compare to
 @param {number=} opt_tolerance optional tolerance for equality test
 @return {boolean} true if the vectors are similar
 */
 Vector.prototype.nearEqual = function(vector, opt_tolerance) {
-  if (UtilityCore.veryDifferent(this.x_, vector.getX(), opt_tolerance)) {
+  if (Util.veryDifferent(this.x_, vector.getX(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.y_, vector.getY(), opt_tolerance)) {
+  if (Util.veryDifferent(this.y_, vector.getY(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.z_, vector.getZ(), opt_tolerance)) {
+  if (Util.veryDifferent(this.z_, vector.getZ(), opt_tolerance)) {
     return false;
   }
   return true;

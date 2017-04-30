@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.LabCanvas');
 
 goog.scope(function() {
@@ -35,12 +35,12 @@ var lab = myphysicslab.lab;
 var AbstractSubject = lab.util.AbstractSubject;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** TabLayout is a tab-based layout for showing a simulation, graph, controls.
 TabLayout implements specific ways to present the application on the web page, in this
@@ -187,7 +187,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   * @private
   */
   this.timeGraphWidth_ = 1;
-  UtilityCore.setImagesDir(elem_ids['images_dir']);
+  Util.setImagesDir(elem_ids['images_dir']);
   /** Whether to put dashed borders around elements for debugging layout.
   * @type {boolean}
   * @const
@@ -375,7 +375,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 var TabLayout = myphysicslab.sims.common.TabLayout;
 goog.inherits(TabLayout, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   TabLayout.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -734,7 +734,7 @@ TabLayout.prototype.setDisplaySize = function(max_width, graph_div) {
 @param {number} value  width of the graph LabCanvas, as fraction of available width
 */
 TabLayout.prototype.setGraphWidth = function(value) {
-  if (UtilityCore.veryDifferent(value, this.graphWidth_)) {
+  if (Util.veryDifferent(value, this.graphWidth_)) {
     this.graphWidth_ = value;
   }
   this.redoLayout();
@@ -824,7 +824,7 @@ TabLayout.prototype.setSelectedTab = function(layout) {
 @param {number} value  width of the simulation LabCanvas, as fraction of available width
 */
 TabLayout.prototype.setSimWidth = function(value) {
-  if (UtilityCore.veryDifferent(value, this.simWidth_)) {
+  if (Util.veryDifferent(value, this.simWidth_)) {
     this.simWidth_ = value;
   }
   this.redoLayout();
@@ -835,7 +835,7 @@ TabLayout.prototype.setSimWidth = function(value) {
 @param {number} value  width of the time graph LabCanvas, as fraction of available width
 */
 TabLayout.prototype.setTimeGraphWidth = function(value) {
-  if (UtilityCore.veryDifferent(value, this.timeGraphWidth_)) {
+  if (Util.veryDifferent(value, this.timeGraphWidth_)) {
     this.timeGraphWidth_ = value;
   }
   this.redoLayout();

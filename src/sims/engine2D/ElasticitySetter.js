@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -29,7 +29,7 @@ var AbstractSubject = lab.util.AbstractSubject;
 var Observer = lab.util.Observer;
 var ParameterNumber = lab.util.ParameterNumber;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Provides a ParameterNumber for setting the elasticity of all RigidBodys in an
 RigidBodySim.
@@ -74,7 +74,7 @@ myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
 var ElasticitySetter = myphysicslab.sims.engine2D.ElasticitySetter;
 goog.inherits(ElasticitySetter, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ElasticitySetter.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

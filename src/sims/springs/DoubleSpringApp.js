@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayLine');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
@@ -56,7 +56,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Displays the {@link DoubleSpringSim} simulation.
 
@@ -70,7 +70,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-0.5, -5, 10, 5);
   var sim = new DoubleSpringSim(/*thirdSpring=*/false);
   var advance = new SimpleAdvance(sim);
@@ -145,7 +145,7 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
 var DoubleSpringApp = myphysicslab.sims.springs.DoubleSpringApp;
 goog.inherits(DoubleSpringApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoubleSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

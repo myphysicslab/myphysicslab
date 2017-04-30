@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.sims.common.AbstractApp');
@@ -75,7 +75,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Creates the {@link RollerSingleSim} simulation with a spring.
 
@@ -90,7 +90,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 myphysicslab.sims.roller.RollerSpringApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new RollerSingleSim(/*hasSpring=*/true);
   var advance = new SimpleAdvance(sim);
@@ -162,7 +162,7 @@ myphysicslab.sims.roller.RollerSpringApp = function(elem_ids) {
 var RollerSpringApp = myphysicslab.sims.roller.RollerSpringApp;
 goog.inherits(RollerSpringApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

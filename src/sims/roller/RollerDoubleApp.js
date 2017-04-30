@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
@@ -76,7 +76,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Creates the RollerDoubleSim simulation
@@ -92,7 +92,7 @@ var Vector = lab.util.Vector;
 * @export
 */
 myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new RollerDoubleSim();
   var advance = new SimpleAdvance(sim);
@@ -168,7 +168,7 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
 var RollerDoubleApp = myphysicslab.sims.roller.RollerDoubleApp;
 goog.inherits(RollerDoubleApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerDoubleApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

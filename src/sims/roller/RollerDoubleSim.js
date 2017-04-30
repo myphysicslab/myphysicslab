@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.roller.HasPath');
 
@@ -35,14 +35,14 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var HasPath = myphysicslab.sims.roller.HasPath;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -187,7 +187,7 @@ myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
 var RollerDoubleSim = myphysicslab.sims.roller.RollerDoubleSim;
 goog.inherits(RollerDoubleSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerDoubleSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -356,7 +356,7 @@ RollerDoubleSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) 
 
 /** @inheritDoc */
 RollerDoubleSim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[7] = 1; // time
   // calculate the slope at the given arc-length position on the curve
   // vars[0] is p = path length position.

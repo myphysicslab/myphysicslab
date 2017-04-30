@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Subject');
 
 goog.scope(function() {
@@ -31,7 +31,7 @@ var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var Subject = myphysicslab.lab.util.Subject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Implementation of {@link Subject} interface.
 
@@ -54,7 +54,7 @@ myphysicslab.lab.util.AbstractSubject = function(name) {
   * @type {string}
   * @private
   */
-  this.name_ = UtilityCore.validName(UtilityCore.toName(name));
+  this.name_ = Util.validName(Util.toName(name));
   /** The list of Observers of this Subject.
   * @type {!Array<!Observer>}
   * @private
@@ -73,7 +73,7 @@ myphysicslab.lab.util.AbstractSubject = function(name) {
 };
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractSubject.prototype.toString = function() {
     // assumes that className and name are displayed by sub-class
@@ -161,7 +161,7 @@ AbstractSubject.prototype.getObservers = function() {
 * @private
 */
 AbstractSubject.prototype.getParam = function(name) {
-  name = UtilityCore.toName(name);
+  name = Util.toName(name);
   return goog.array.find(this.paramList_, function(p) {
     return p.getName() == name;
   });

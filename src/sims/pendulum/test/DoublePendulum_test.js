@@ -27,13 +27,13 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.pendulum.DoublePendulumSim');
 
 var testDoublePendulum = function() {
   var SimObject = myphysicslab.lab.model.SimObject;
   var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
   var DoublePendulumSim = myphysicslab.sims.pendulum.DoublePendulumSim;
   var i;
@@ -54,23 +54,23 @@ var testDoublePendulum = function() {
 
   // confirm parameters exist
   var rod1LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_1_LENGTH);
-  assertEquals('ROD_1_LENGTH', UtilityCore.toName(DoublePendulumSim.en.ROD_1_LENGTH));
+  assertEquals('ROD_1_LENGTH', Util.toName(DoublePendulumSim.en.ROD_1_LENGTH));
   assertTrue(rod1LengthParam.nameEquals(DoublePendulumSim.en.ROD_1_LENGTH));
-  assertEquals(UtilityCore.toName(DoublePendulumSim.en.ROD_1_LENGTH),
+  assertEquals(Util.toName(DoublePendulumSim.en.ROD_1_LENGTH),
       rod1LengthParam.getName());
   assertEquals(1.0, rod1LengthParam.getValue());
   var rod2LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_2_LENGTH);
-  assertEquals(UtilityCore.toName(DoublePendulumSim.en.ROD_2_LENGTH),
+  assertEquals(Util.toName(DoublePendulumSim.en.ROD_2_LENGTH),
       rod2LengthParam.getName());
   assertEquals(1.0, rod2LengthParam.getValue());
   var mass1Param = sim.getParameterNumber(DoublePendulumSim.en.MASS_1);
-  assertEquals(UtilityCore.toName(DoublePendulumSim.en.MASS_1), mass1Param.getName());
+  assertEquals(Util.toName(DoublePendulumSim.en.MASS_1), mass1Param.getName());
   assertEquals(2.0, mass1Param.getValue());
   var mass2Param = sim.getParameterNumber(DoublePendulumSim.en.MASS_2);
-  assertEquals(UtilityCore.toName(DoublePendulumSim.en.MASS_2), mass2Param.getName());
+  assertEquals(Util.toName(DoublePendulumSim.en.MASS_2), mass2Param.getName());
   assertEquals(2.0, mass2Param.getValue());
   var gravityParam = sim.getParameterNumber(DoublePendulumSim.en.GRAVITY);
-  assertEquals(UtilityCore.toName(DoublePendulumSim.en.GRAVITY),
+  assertEquals(Util.toName(DoublePendulumSim.en.GRAVITY),
       gravityParam.getName());
   assertEquals(9.8, gravityParam.getValue());
 
@@ -197,8 +197,8 @@ var testDoublePendulum = function() {
     }
     // check that energy is constant
     assertRoughlyEquals(1.0047901623242046, vars[8], 2E-5);
-    //console.log('time='+UtilityCore.NF5(sim.getVarsList().getTime()));
-    //UtilityCore.printArray(sim.getVarsList().getValues());
+    //console.log('time='+Util.NF5(sim.getVarsList().getTime()));
+    //Util.printArray(sim.getVarsList().getValues());
   }
 
   sim.setPotentialEnergy(99);

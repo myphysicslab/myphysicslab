@@ -13,15 +13,15 @@
 // limitations under the License.
 
 goog.provide('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var NF = myphysicslab.lab.util.Util.NF;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /**  A rectangle whose boundaries are stored with double floating
@@ -48,10 +48,10 @@ see [Immutables by Mark Davis](http://macchiato.com/columns/Durable2.html)
 */
 myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top_) {
   if (true) {
-    UtilityCore.testNumber(left);
-    UtilityCore.testNumber(right);
-    UtilityCore.testNumber(bottom);
-    UtilityCore.testNumber(top_);
+    Util.testNumber(left);
+    Util.testNumber(right);
+    Util.testNumber(bottom);
+    Util.testNumber(top_);
   }
   /**
   * @type {number}
@@ -82,7 +82,7 @@ myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top_) {
 };
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoubleRect.prototype.toString = function() {
     return 'DoubleRect{left_: '+NF(this.left_)
@@ -117,7 +117,7 @@ DoubleRect.isDuckType = function(obj) {
   if (obj instanceof DoubleRect) {
     return true;
   }
-  if (UtilityCore.ADVANCED) {
+  if (Util.ADVANCED) {
     return false;
   }
   return obj.getLeft !== undefined
@@ -322,23 +322,23 @@ DoubleRect.prototype.maybeVisible = function(p1, p2) {
 
 /** Returns `true` if this DoubleRect is nearly equal to another DoubleRect.
 The optional tolerance value corresponds to the `epsilon` in
-{@link UtilityCore#veryDifferent}, so the actual tolerance used depends on the
+{@link Util#veryDifferent}, so the actual tolerance used depends on the
 magnitude of the numbers being compared.
 * @param {!DoubleRect} rect  the DoubleRect to compare with
 * @param {number=} opt_tolerance optional tolerance for equality test
 * @return {boolean} true` if this DoubleRect is nearly equal to another DoubleRect
 */
 DoubleRect.prototype.nearEqual = function(rect, opt_tolerance) {
-  if (UtilityCore.veryDifferent(this.left_, rect.getLeft(), opt_tolerance)) {
+  if (Util.veryDifferent(this.left_, rect.getLeft(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.bottom_, rect.getBottom(), opt_tolerance)) {
+  if (Util.veryDifferent(this.bottom_, rect.getBottom(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.right_, rect.getRight(), opt_tolerance)) {
+  if (Util.veryDifferent(this.right_, rect.getRight(), opt_tolerance)) {
     return false;
   }
-  if (UtilityCore.veryDifferent(this.top_, rect.getTop(), opt_tolerance)) {
+  if (Util.veryDifferent(this.top_, rect.getTop(), opt_tolerance)) {
     return false;
   }
   return true;

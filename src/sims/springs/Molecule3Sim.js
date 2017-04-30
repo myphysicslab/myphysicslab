@@ -29,7 +29,7 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.springs.MoleculeCollision');
 
@@ -44,12 +44,12 @@ var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var Spring = myphysicslab.lab.model.Spring;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -277,7 +277,7 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
   * @private
   */
   this.walls_ = PointMass.makeSquare(12, 'walls')
-      .setMass(UtilityCore.POSITIVE_INFINITY);
+      .setMass(Util.POSITIVE_INFINITY);
   this.getSimList().add(this.walls_);
   /** Mass-Spring-Mass matrix says how springs & masses are connected
   * each row corresponds to a spring, with indices of masses connected to that spring.
@@ -360,7 +360,7 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
 var Molecule3Sim = myphysicslab.sims.springs.Molecule3Sim;
 goog.inherits(Molecule3Sim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Molecule3Sim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -719,7 +719,7 @@ Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
 
 /** @inheritDoc */
 Molecule3Sim.prototype.evaluate = function(vars, change, timeStep) {
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   this.moveObjects(vars);
   change[this.nm_*4+3] = 1; // time
   var walls = this.walls_.getBoundsWorld();

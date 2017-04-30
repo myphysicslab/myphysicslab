@@ -22,20 +22,20 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF5E = myphysicslab.lab.util.Util.NF5E;
 var Parameter = myphysicslab.lab.util.Parameter;
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 var Subject = myphysicslab.lab.util.Subject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Variable = myphysicslab.lab.model.Variable;
 
 /** A set of {@link Variable}s which represent the current state of a simulation.
@@ -91,7 +91,7 @@ index of other existing variables.
 
 * @param {!Array<string>} varNames  array of language-independent variable names;
      these will be underscorized so the English names can be passed in here.
-     See {@link UtilityCore#toName}.
+     See {@link Util#toName}.
 * @param {!Array<string>} localNames  array of localized variable names
 * @param {string=} opt_name name of this VarsList
 * @constructor
@@ -117,7 +117,7 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
     if (!goog.isString(s)) {
       throw new Error('variable name '+s+' is not a string i='+i);
     }
-    s = UtilityCore.validName(UtilityCore.toName(s));
+    s = Util.validName(Util.toName(s));
     varNames[i] = s;
     // find index of the time variable.
     if (s == VarsList.TIME) {
@@ -125,7 +125,7 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
     }
   }
   if (goog.DEBUG) {
-    UtilityCore.assertUnique(varNames);
+    Util.assertUnique(varNames);
   };
   /**
   * @type {!Array<!Variable>}
@@ -150,7 +150,7 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
 var VarsList = myphysicslab.lab.model.VarsList;
 goog.inherits(VarsList, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   VarsList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -202,7 +202,7 @@ VarsList.prototype.addVariable = function(variable) {
 /** Add a continguous block of ConcreteVariables.
 @param {!Array<string>} names language-independent names of variables; these will be
      underscorized so the English name can be passed in here.
-     See {@link UtilityCore#toName}.
+     See {@link Util#toName}.
 @param {!Array<string>} localNames localized names of variables
 @return {number} index index of first Variable that was added
 @throws {Error} if any of the variable names is 'DELETED', or array of names is empty
@@ -217,7 +217,7 @@ VarsList.prototype.addVariables = function(names, localNames) {
   }
   var position = this.findOpenSlot_(howMany);
   for (var i=0; i<howMany; i++) {
-    var name = UtilityCore.validName(UtilityCore.toName(names[i]));
+    var name = Util.validName(Util.toName(names[i]));
     if (name == VarsList.DELETED) {
       throw new Error("variable cannot be named ''+VarsList.DELETED+''");
     }
@@ -302,7 +302,7 @@ VarsList.prototype.findOpenSlot_ = function(quantity) {
     newVars.push(new ConcreteVariable(this, VarsList.DELETED,
          VarsList.DELETED));
   }
-  UtilityCore.extendArray(this.varList_, expand, newVars);
+  Util.extendArray(this.varList_, expand, newVars);
   return startIdx;
 };
 
@@ -315,7 +315,7 @@ VarsList.prototype.getHistory = function() {
 
 /** @inheritDoc */
 VarsList.prototype.getParameter = function(name) {
-  name = UtilityCore.toName(name);
+  name = Util.toName(name);
   var p = goog.array.find(this.varList_, function(p) {
     return p.getName() == name;
   });
@@ -372,7 +372,7 @@ VarsList.prototype.getVariable = function(id) {
   if (goog.isNumber(id)) {
     index = id;
   } else if (goog.isString(id)) {
-    id = UtilityCore.toName(id);
+    id = Util.toName(id);
     index = goog.array.findIndex(this.varList_,
         function(v) { return v.getName() == id; });
     if (index < 0) {

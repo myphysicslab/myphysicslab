@@ -16,7 +16,7 @@ goog.provide('myphysicslab.lab.app.MouseTracker');
 goog.require('goog.events.BrowserEvent');
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -32,7 +32,7 @@ var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Processes mouse events to drag a DisplayObject or passes events to an
@@ -241,7 +241,7 @@ MouseTracker.findNearestDragable = function(labCanvas, start_screen, eventHandle
   * @type {?Vector}
   */
   var dragPt = null;
-  var distance = UtilityCore.POSITIVE_INFINITY;
+  var distance = Util.POSITIVE_INFINITY;
   // iterate in reverse order, which is visually front to back.
   var views = labCanvas.getViews();
   searchViews:

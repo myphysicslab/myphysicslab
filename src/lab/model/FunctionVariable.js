@@ -16,12 +16,12 @@ goog.provide('myphysicslab.lab.model.FunctionVariable');
 
 goog.require('myphysicslab.lab.model.ConcreteVariable');
 goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
@@ -29,7 +29,7 @@ function.
 
 @param {!VarsList} varsList the VarsList which contains this Variable
 @param {string} name the name of this Variable; this will be underscorized so the
-    English name can be passed in here. See {@link UtilityCore#toName}.
+    English name can be passed in here. See {@link Util#toName}.
 @param {string} localName the localized name of this Variable
 * @param {function():number} fnc function that returns a value
 * @constructor
@@ -49,7 +49,7 @@ myphysicslab.lab.model.FunctionVariable = function(varsList, name, localName, fn
 var FunctionVariable = myphysicslab.lab.model.FunctionVariable;
 goog.inherits(FunctionVariable, ConcreteVariable);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   FunctionVariable.prototype.toString = function() {
     return FunctionVariable.superClass_.toString.call(this).slice(0, -1)

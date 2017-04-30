@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.sims.common.AbstractApp');
@@ -48,7 +48,7 @@ var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var NumericControl = lab.controls.NumericControl;
 var Observer = lab.util.Observer;
 var ParameterBoolean = lab.util.ParameterBoolean;
@@ -60,7 +60,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 
 /** Displays the simulation {@link CollideSpringSim}.
 
@@ -75,7 +75,7 @@ var UtilityCore = lab.util.UtilityCore;
 * @export
 */
 myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6.4, -2, 6.4, 2);
   var sim = new CollideSpringSim();
   /** @type {!CollideSpringSim} */
@@ -164,7 +164,7 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
 var CollideSpringApp = myphysicslab.sims.springs.CollideSpringApp;
 goog.inherits(CollideSpringApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CollideSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

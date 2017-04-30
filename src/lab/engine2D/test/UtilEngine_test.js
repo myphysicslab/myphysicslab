@@ -20,7 +20,7 @@ goog.require('goog.vec.Float64Array');
 goog.require('myphysicslab.lab.engine2D.ComputeForces');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 /* Check that double arithmetic behaves the expected ways.
 See Java Floating-Point Number Intricacies by Thomas Wang, March 2000
@@ -494,11 +494,11 @@ Checks that various contact ordering policies find a valid solution.
 */
 var testMatrix11_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix11_CF ***');
@@ -649,11 +649,11 @@ between C/NC while driving a particular contact to zero.
 */
 var testMatrix12_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix12_CF ***');
@@ -787,11 +787,11 @@ Update May 2013: all the solutions seem to be the maxForce = 7.60 now.
 */
 var testMatrix15_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix15_CF ***');
@@ -887,11 +887,11 @@ contact order does not find a lower force.
 */
 var testMatrix16_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix16_CF ***');
@@ -990,9 +990,9 @@ get many cases where maxForce is 54 or 179.
 */
 var testMatrix17_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
+  var Util = myphysicslab.lab.util.Util;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
@@ -1097,10 +1097,10 @@ that random contact order does not find a lower force.
 */
 var testMatrix18_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1198,10 +1198,10 @@ of 135701.
 */
 var testMatrix19_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1305,10 +1305,10 @@ that random contact order does not find a lower force.
 */
 var testMatrix20_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1403,10 +1403,10 @@ that random contact order does not find a lower force.
 */
 var testMatrix21_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1512,10 +1512,10 @@ maxForce=9.46, length = 24.00.
 */
 var testMatrix22_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1707,10 +1707,10 @@ Max force is 16.588.
 */
 var testMatrix23_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1837,10 +1837,10 @@ goog.exportProperty(window, 'testMatrix23_CF', testMatrix23_CF);
 */
 var testMatrix24_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1945,10 +1945,10 @@ allowing diagonal entries as small as 0.0016.
 */
 var testMatrix25_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2043,10 +2043,10 @@ a singular matrix and not being able to get all contact accelerations to zero.
 */
 var testMatrix26_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2111,10 +2111,10 @@ see {@link myphysicslab.lab.engine2D.ComputeForces#checkLoop}.
 */
 var testMatrix27_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2215,10 +2215,10 @@ rely on that.
 */
 var testMatrix28_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-  var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+  var NF7 = myphysicslab.lab.util.Util.NF7;
+  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)

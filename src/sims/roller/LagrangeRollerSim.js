@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.roller.HumpPath');
 
@@ -38,14 +38,14 @@ var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var HumpPath = sims.roller.HumpPath;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var NumericalPath = lab.model.NumericalPath;
 var ParameterNumber = lab.util.ParameterNumber;
 var PathPoint = lab.model.PathPoint;
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -230,7 +230,7 @@ myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
 var LagrangeRollerSim = myphysicslab.sims.roller.LagrangeRollerSim;
 goog.inherits(LagrangeRollerSim, AbstractODESim);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   LagrangeRollerSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -313,7 +313,7 @@ LagrangeRollerSim.prototype.getEnergyInfo_ = function(vars) {
   // kinetic energy is 1/2 m v^2
   var ke = 0.5 * this.ball1_.getMass() * vars[3] * vars[3];
   var ke2 = this.ball1_.getKineticEnergy();
-  if (UtilityCore.veryDifferent(ke, ke2)) {
+  if (Util.veryDifferent(ke, ke2)) {
     throw new Error('kinetic energy calcs differ '+ke+' vs '+ke2);
   }
   // gravity potential = m g y
@@ -370,7 +370,7 @@ LagrangeRollerSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent
 LagrangeRollerSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
-  UtilityCore.zeroArray(change);
+  Util.zeroArray(change);
   change[7] = 1; // time changes at a rate of 1 by definition.
   if (this.dragObj_ != this.ball1_) {
     var x = vars[0];

@@ -14,14 +14,14 @@
 
 goog.provide('myphysicslab.sims.roller.OvalPath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** A path like an oval racetrack with vertical sections. The straight
 sections are vertical, so it is a good test for handling infinite slope situations.
@@ -95,7 +95,7 @@ myphysicslab.sims.roller.OvalPath = function(straight, name, localName) {
 var OvalPath = myphysicslab.sims.roller.OvalPath;
 goog.inherits(OvalPath, AbstractPath);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   OvalPath.prototype.toString = function() {
     return OvalPath.superClass_.toString.call(this).slice(0, -1)

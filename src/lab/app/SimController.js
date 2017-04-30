@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ErrorObserver');
 goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayObject');
@@ -43,7 +43,7 @@ var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var MouseTracker = myphysicslab.lab.app.MouseTracker;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var ViewPanner = myphysicslab.lab.app.ViewPanner;
 
@@ -294,7 +294,7 @@ myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifi
 };
 var SimController = myphysicslab.lab.app.SimController;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   SimController.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -446,7 +446,7 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 @private
 */
 SimController.prototype.doMouseMove = function(evt, mouseX, mouseY) {
-  //console.log('SimController.mouseMove evt='+UtilityCore.propertiesOf(evt, true));
+  //console.log('SimController.mouseMove evt='+Util.propertiesOf(evt, true));
   var cvs = this.labCanvas_.getCanvas();
   // offsetParent returns null when the element has style.display set to 'none'.
   // see https://developer.mozilla.org/en/DOM/element.offsetParent
@@ -515,7 +515,7 @@ SimController.prototype.keyPressed = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
       if (goog.DEBUG && this.debug_) {
-        console.log('keyPressed '+UtilityCore.propertiesOf(evt, true));
+        console.log('keyPressed '+Util.propertiesOf(evt, true));
       }
       this.eventHandler_.handleKeyEvent(evt.keyCode, true, evt);
     }
@@ -532,7 +532,7 @@ SimController.prototype.keyReleased = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
       if (goog.DEBUG && this.debug_) {
-        console.log('keyReleased '+UtilityCore.propertiesOf(evt, true));
+        console.log('keyReleased '+Util.propertiesOf(evt, true));
       }
       this.eventHandler_.handleKeyEvent(evt.keyCode, false, evt);
     }

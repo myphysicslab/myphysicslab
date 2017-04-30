@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
 goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -28,13 +28,13 @@ goog.scope(function() {
 var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF7E = myphysicslab.lab.util.UtilityCore.NF7E;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF5E = myphysicslab.lab.util.Util.NF5E;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF7E = myphysicslab.lab.util.Util.NF7E;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var Random = myphysicslab.lab.util.Random;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Provides utility methods for the physics engine.
@@ -627,7 +627,7 @@ UtilEngine.maxSize = function(r, n) {
 * @return {number} the minimum value of the vector
 */
 UtilEngine.minValue = function(r, n) {
-  var min = UtilityCore.POSITIVE_INFINITY;
+  var min = Util.POSITIVE_INFINITY;
   n = n || r.length;
   for (var i=0; i<n; i++) {
     if (r[i] < min) {
@@ -1086,7 +1086,7 @@ and `L` has all 1's on its diagonal.
 @return {boolean} true if the given upper triangular matrix is singular
 */
 UtilEngine.matrixIsSingular = function(Acc, n, nrow, tolerance) {
-  var min = UtilityCore.POSITIVE_INFINITY;
+  var min = Util.POSITIVE_INFINITY;
   var max = 0;
   for (var i=0; i<n; i++) {
     var diag = Math.abs(Acc[nrow[i]][i]);
@@ -1179,15 +1179,15 @@ used for detecting when a point is in contact.
 *    are considered to be the same contact point.
 */
 UtilEngine.nearness = function(r1, r2, distTol) {
-  if (r1 == UtilityCore.NaN || r2 == UtilityCore.NaN)
+  if (r1 == Util.NaN || r2 == Util.NaN)
     throw new Error();
   var r = -1;
-  if (r1 == UtilityCore.POSITIVE_INFINITY) {
+  if (r1 == Util.POSITIVE_INFINITY) {
     // r1 is a straight edge
     // if r2 is concave, then treat same as straight/straight case
     // if r2 is convex, then use r2
     r = r2 > 0 ? r2 : r1;
-  } else if (r2 == UtilityCore.POSITIVE_INFINITY) {
+  } else if (r2 == Util.POSITIVE_INFINITY) {
     // if r1 is concave, then treat same as straight/straight case
     // if r1 is convex, then use r1
     r = r1 > 0 ? r1 : r2;
@@ -1202,7 +1202,7 @@ UtilEngine.nearness = function(r1, r2, distTol) {
     r = -r2;
   }
   goog.asserts.assert(r > 0);
-  if (r == UtilityCore.POSITIVE_INFINITY) {
+  if (r == Util.POSITIVE_INFINITY) {
     return distTol;
   } else {
     return 2*r*Math.sqrt(2*distTol / r);

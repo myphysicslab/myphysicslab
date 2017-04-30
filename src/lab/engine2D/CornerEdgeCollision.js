@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.engine2D.Edge');
 goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 goog.require('myphysicslab.lab.engine2D.UtilEngine');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -27,7 +27,7 @@ goog.scope(function() {
 var Edge = myphysicslab.lab.engine2D.Edge;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -82,7 +82,7 @@ myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 goog.inherits(CornerEdgeCollision, RigidBodyCollision);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CornerEdgeCollision.prototype.toString = function() {
     return CornerEdgeCollision.superClass_.toString.call(this).slice(0, -1)

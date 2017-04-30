@@ -15,12 +15,12 @@
 goog.provide('myphysicslab.lab.view.DrawingStyle');
 
 goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Specifies drawing style including: whether to draw dots or lines; color; thickness;
 line dash.
@@ -61,14 +61,14 @@ myphysicslab.lab.view.DrawingStyle = function(drawMode, color, lineWidth, opt_li
 };
 var DrawingStyle = myphysicslab.lab.view.DrawingStyle;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   DrawingStyle.prototype.toString = function() {
     return 'DrawingStyle{drawMode: '+this.drawMode
         +', color:"'+this.color+'"'
         +', lineWidth: '+this.lineWidth
         +', lineDash: ['
-        + UtilityCore.array2string(this.lineDash, UtilityCore.NF0)
+        + Util.array2string(this.lineDash, Util.NF0)
         +']}';
   };
 };

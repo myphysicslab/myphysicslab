@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.engine2D.RigidBody');
 goog.require('myphysicslab.lab.engine2D.Shapes');
 goog.require('myphysicslab.lab.engine2D.StraightEdge');
 goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
@@ -31,7 +31,7 @@ var testPolygon1 = function() {
   var RigidBody = myphysicslab.lab.engine2D.RigidBody;
   var Shapes = myphysicslab.lab.engine2D.Shapes;
   var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var Vector = myphysicslab.lab.util.Vector;
   var Vertex = myphysicslab.lab.engine2D.Vertex;
 

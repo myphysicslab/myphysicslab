@@ -14,14 +14,14 @@
 
 goog.provide('myphysicslab.sims.roller.CirclePath');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
+var NF = myphysicslab.lab.util.Util.NF;
 
 /** Circular path centered at the origin.
 
@@ -56,7 +56,7 @@ myphysicslab.sims.roller.CirclePath = function(radius, start, finish,
 var CirclePath = myphysicslab.sims.roller.CirclePath;
 goog.inherits(CirclePath, AbstractPath);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   CirclePath.prototype.toString = function() {
     return CirclePath.superClass_.toString.call(this).slice(0, -1)

@@ -38,7 +38,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.sims.pde.StringShape');
 
@@ -57,14 +57,14 @@ var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var GenericEvent = lab.util.GenericEvent;
 var MutableVector = lab.util.MutableVector;
-var NF = lab.util.UtilityCore.NF;
+var NF = lab.util.Util.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var Spring = lab.model.Spring;
 var StringShape = sims.pde.StringShape;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -196,12 +196,12 @@ myphysicslab.sims.pde.StringSim = function(shape, opt_simList) {
   * @type {!Array<number>}
   * @private
   */
-  this.times_ = UtilityCore.newNumberArray(this.avgLen_);
+  this.times_ = Util.newNumberArray(this.avgLen_);
   /** for averaging stability value
   * @type {!Array<number>}
   * @private
   */
-  this.stab_ = UtilityCore.newNumberArray(this.avgLen_);
+  this.stab_ = Util.newNumberArray(this.avgLen_);
   /** sequence number indicates when the data array has changed.
   * @type {number}
   * @private
@@ -263,7 +263,7 @@ myphysicslab.sims.pde.StringSim = function(shape, opt_simList) {
 var StringSim = myphysicslab.sims.pde.StringSim;
 goog.inherits(StringSim, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
@@ -300,7 +300,7 @@ StringSim.prototype.saveInitialState = function() {
 StringSim.prototype.reset = function() {
   this.nowTime_ = 0;
   this.initializeFromShape();
-  this.simList_.removeTemporary(UtilityCore.POSITIVE_INFINITY);
+  this.simList_.removeTemporary(Util.POSITIVE_INFINITY);
   this.modifyObjects();
   this.broadcast(new GenericEvent(this, Simulation.RESET));
 };
@@ -346,9 +346,9 @@ StringSim.prototype.initializeFromShape = function()  {
   this.length_ = this.shape_.getLength();
   this.deltaX_ = this.length_/(this.numPoints_-1);
   //this.deltaT_ = 0.0025;  // was 0.03
-  this.w1_ = UtilityCore.newNumberArray(this.numPoints_);
-  this.w2_ = UtilityCore.newNumberArray(this.numPoints_);
-  this.w3_ = UtilityCore.newNumberArray(this.numPoints_);
+  this.w1_ = Util.newNumberArray(this.numPoints_);
+  this.w2_ = Util.newNumberArray(this.numPoints_);
+  this.w3_ = Util.newNumberArray(this.numPoints_);
   this.wIdx_ = 2;
   this.w_ = this.w2_;
 
@@ -423,7 +423,7 @@ StringSim.prototype.advance = function() {
   this.nowTime_ += this.deltaT_;
   this.w_ = wNew;
   this.sequence_++; // changing sequence number indicates data array has changed
-  if (this.sequence_ >= UtilityCore.MAX_INTEGER) {
+  if (this.sequence_ >= Util.MAX_INTEGER) {
     this.sequence_ = 0;
   }
 };
@@ -648,7 +648,7 @@ myphysicslab.sims.pde.StringAdvance = function(sim) {
 };
 var StringAdvance = myphysicslab.sims.pde.StringAdvance;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringAdvance.prototype.toString = function() {
     return this.toStringShort();
@@ -719,7 +719,7 @@ myphysicslab.sims.pde.StringPath = function(sim) {
 var StringPath = myphysicslab.sims.pde.StringPath;
 goog.inherits(StringPath, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringPath.prototype.toString = function() {
     return StringPath.superClass_.toString.call(this).slice(0, -1)

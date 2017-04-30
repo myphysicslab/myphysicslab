@@ -14,7 +14,7 @@
 goog.provide('myphysicslab.lab.app.ViewPanner');
 
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.LabView');
@@ -24,7 +24,7 @@ goog.scope(function() {
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var LabView = myphysicslab.lab.view.LabView;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Pans (translates) a LabView to follow mouse movements.

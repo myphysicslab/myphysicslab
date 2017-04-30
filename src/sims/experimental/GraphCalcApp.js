@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
@@ -44,12 +44,12 @@ var GraphLine = lab.graph.GraphLine;
 var GraphPoint = lab.graph.GraphPoint;
 var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
-var NF5 = lab.util.UtilityCore.NF5;
+var NF5 = lab.util.Util.NF5;
 var ScreenRect = lab.view.ScreenRect;
 var SimController = lab.app.SimController;
 var SimView = lab.view.SimView;
 var Terminal = lab.util.Terminal;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -82,8 +82,8 @@ Recipe for Graphing
 * @export
 */
 myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
-  UtilityCore.setImagesDir(elem_ids['images_dir']);
+  Util.setErrorHandler();
+  Util.setImagesDir(elem_ids['images_dir']);
   /** The expression evaluating process uses Terminal.expand() to access
   * the 'x' variable which is a property of GraphCalcApp.
   * @type {number}
@@ -253,7 +253,7 @@ GraphCalcApp.prototype.plot = function(expr, range1, range2, numPts) {
 * @export
 */
 GraphCalcApp.prototype.defineNames = function(myName) {
-  if (UtilityCore.ADVANCED)
+  if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex( 'simCanvas|vars|terminal|graph|graphLine|axes|plot'

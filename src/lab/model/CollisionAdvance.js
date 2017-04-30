@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.model.CollisionStats');
 goog.require('myphysicslab.lab.model.CollisionTotals');
 goog.require('myphysicslab.lab.model.DiffEqSolver');
 goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
@@ -32,16 +32,16 @@ var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
 var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF5E = myphysicslab.lab.util.UtilityCore.NF5E;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF7E = myphysicslab.lab.util.UtilityCore.NF7E;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
-var NFSCI = myphysicslab.lab.util.UtilityCore.NFSCI;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF5E = myphysicslab.lab.util.Util.NF5E;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF7E = myphysicslab.lab.util.Util.NF7E;
+var NFE = myphysicslab.lab.util.Util.NFE;
+var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** Handles collisions by backing up in time with binary search algorithm. For better
 performance uses collision time estimates and handles imminent collisions.
@@ -105,7 +105,7 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   * @type {number}
   * @private
   */
-  this.printTime_ = UtilityCore.NEGATIVE_INFINITY;
+  this.printTime_ = Util.NEGATIVE_INFINITY;
   /** long term count of number of collisions, backups, ode steps taken, etc.
   * @type {!CollisionTotals}
   * @private
@@ -143,7 +143,7 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   * @type {number}
   * @private
   */
-  this.nextEstimate_ = UtilityCore.NaN;
+  this.nextEstimate_ = Util.NaN;
   /** the current set of collisions; includes joints, contacts, imminent collisions
   * @type {!Array<!Collision>}
   * @private
@@ -227,7 +227,7 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
 };
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   CollisionAdvance.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', odeSolver_: '+this.odeSolver_.toStringShort()
@@ -367,8 +367,8 @@ CollisionAdvance.prototype.advance = function(timeStep, opt_memoList) {
   this.currentStep_ = timeStep;
   this.binarySteps_ = 0;
   this.binarySearch_ = false;
-  this.detectedTime_ = UtilityCore.NaN;
-  this.nextEstimate_ = UtilityCore.NaN;
+  this.detectedTime_ = Util.NaN;
+  this.nextEstimate_ = Util.NaN;
   this.stuckCount_ = 0;
   this.backupCount_ = 0;
   this.odeSteps_ = 0;
@@ -868,7 +868,7 @@ CollisionAdvance.prototype.minVelocity = function(collisions) {
   return goog.array.reduce(collisions, function(min, c, index, array) {
     var v = c.getVelocity();
     return isFinite(v) ? Math.min(min, v) : min;
-  }, UtilityCore.POSITIVE_INFINITY);
+  }, Util.POSITIVE_INFINITY);
 };
 
 /**
@@ -1007,8 +1007,8 @@ CollisionAdvance.prototype.print = function(wayPoint) {
           +' num collisions='+this.collisions_.length
           +' max impulse='+NF5E(this.maxImpulse(this.collisions_))
           +' min velocity='+NF7E(this.minVelocity(this.collisions_)));
-      //this.myPrint(UtilityCore.arrayBool2string(this.jointFlags(this.collisions_)));
-      //this.myPrint(UtilityCore.array2string(this.allVelocities(this.collisions_)));
+      //this.myPrint(Util.arrayBool2string(this.jointFlags(this.collisions_)));
+      //this.myPrint(Util.array2string(this.allVelocities(this.collisions_)));
       break;
 
     case WayPoint.BINARY_SEARCH_FAIL:
@@ -1169,7 +1169,7 @@ CollisionAdvance.prototype.printJointDistance = function() {
     var dists = goog.array.map(joints, function(c, index, array) {
       return c.getDistance();
     });
-    this.myPrint(UtilityCore.array2string(dists));
+    this.myPrint(Util.array2string(dists));
   }
 };
 
@@ -1201,7 +1201,7 @@ CollisionAdvance.prototype.removeDistant = function(allowTiny) {
 CollisionAdvance.prototype.reset = function() {
   this.sim_.reset();
   this.collisionTotals_.reset();
-  this.printTime_ = UtilityCore.NEGATIVE_INFINITY;
+  this.printTime_ = Util.NEGATIVE_INFINITY;
 };
 
 /** Sets how much debugging information to show,

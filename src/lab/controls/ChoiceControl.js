@@ -17,13 +17,13 @@ goog.provide('myphysicslab.lab.controls.ChoiceControl');
 goog.require('myphysicslab.lab.controls.ChoiceControlBase');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
 var Parameter = myphysicslab.lab.util.Parameter;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 
 /** A pop-up menu which synchronizes its state with a
 {@link Parameter} of a {@link myphysicslab.lab.util.Subject}.
@@ -85,7 +85,7 @@ myphysicslab.lab.controls.ChoiceControl = function(parameter, opt_label, opt_cho
 var ChoiceControl = myphysicslab.lab.controls.ChoiceControl;
 goog.inherits(ChoiceControl, ChoiceControlBase);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   ChoiceControl.prototype.toString = function() {
     return ChoiceControl.superClass_.toString.call(this).slice(0, -1)

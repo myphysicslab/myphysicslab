@@ -14,14 +14,14 @@
 
 goog.provide('myphysicslab.lab.util.test.ParameterBoolean_test');
 
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('goog.testing.jsunit');
 
 var testParameterBoolean1 = function() {
   var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
-  var UtilityCore = myphysicslab.lab.util.UtilityCore;
+  var Util = myphysicslab.lab.util.Util;
   var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 
   /**

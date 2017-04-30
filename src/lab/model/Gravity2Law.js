@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -36,13 +36,13 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
 var Observer = myphysicslab.lab.util.Observer;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Applies gravitational force between each pair of objects proportional to the
@@ -102,7 +102,7 @@ myphysicslab.lab.model.Gravity2Law = function(gravity, opt_simList) {
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 goog.inherits(Gravity2Law, AbstractSubject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   Gravity2Law.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)

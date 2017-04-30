@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.model.NumericalPath');
 goog.require('myphysicslab.lab.model.PathPoint');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
@@ -37,18 +37,18 @@ var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.UtilityCore.NF;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NF7 = myphysicslab.lab.util.UtilityCore.NF7;
-var NF9 = myphysicslab.lab.util.UtilityCore.NF9;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF = myphysicslab.lab.util.Util.NF;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var NF9 = myphysicslab.lab.util.Util.NF9;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a bilateral contact point between a {@link RigidBody} and a
@@ -106,7 +106,7 @@ myphysicslab.lab.engine2D.PathJoint = function(path, body, attach_body) {
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 goog.inherits(PathJoint, AbstractSimObject);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   PathJoint.prototype.toString = function() {
     return PathJoint.superClass_.toString.call(this).slice(0, -1)
@@ -259,7 +259,7 @@ PathJoint.prototype.updateCollision = function(c) {
   // Radius of curvature is expensive to calculate and not needed here
   // because we already know the derivative of the normal, which is what
   // the radius is used for.
-  c.radius2 = UtilityCore.NaN;
+  c.radius2 = Util.NaN;
   c.ballNormal = true;
   c.impact2 = this.ppt_.getPosition();
   c.normal = normal_world;

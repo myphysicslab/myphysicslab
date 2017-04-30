@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.RungeKutta');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.test.Engine2DTestRig');
@@ -46,17 +46,17 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
-var NF1S = myphysicslab.lab.util.UtilityCore.NF1S;
-var NF2 = myphysicslab.lab.util.UtilityCore.NF2;
-var NF5 = myphysicslab.lab.util.UtilityCore.NF5;
-var NFE = myphysicslab.lab.util.UtilityCore.NFE;
+var NF1S = myphysicslab.lab.util.Util.NF1S;
+var NF2 = myphysicslab.lab.util.Util.NF2;
+var NF5 = myphysicslab.lab.util.Util.NF5;
+var NFE = myphysicslab.lab.util.Util.NFE;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var UtilityCore = myphysicslab.lab.util.UtilityCore;
+var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -144,10 +144,10 @@ StraightStraightTest.commonSetup1 = function(sim, advance, damping) {
 StraightStraightTest.six_blocks_perf = function() {
   var testName = 'six_blocks_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = UtilityCore.getSystemTime();
+  var startTime = Util.getSystemTime();
   StraightStraightTest.six_blocks_settle();
   Engine2DTestRig.testName = StraightStraightTest.groupName+testName;
-  var endTime = UtilityCore.getSystemTime();
+  var endTime = Util.getSystemTime();
   var duration = endTime - startTime;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);
@@ -197,7 +197,7 @@ StraightStraightTest.six_blocks_settle = function() {
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // run for a few more seconds: there should be no more collision searches
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
       /*expectedCollisions=*/0);
 };
@@ -237,7 +237,7 @@ StraightStraightTest.six_blocks_settle2 = function() {
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // run for a few more seconds: there should be no more collision searches
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.1,
       /*expectedCollisions=*/0);
   // the contact distances should all be zero
@@ -608,7 +608,7 @@ StraightStraightTest.six_blocks_4 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_4_setup(sim, advance);
   var energyDiff, expectCollisions;
-  if (UtilityCore.isChrome()) {
+  if (Util.isChrome()) {
     energyDiff = -1.751934748;
     expectCollisions = 7;
   } else {
@@ -616,11 +616,11 @@ StraightStraightTest.six_blocks_4 = function() {
     expectCollisions = 5;
   }
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/energyDiff, /*energyTol=*/0.1,
                /*expectedCollisions=*/expectCollisions);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-               /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+               /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/0);
 };
@@ -683,7 +683,7 @@ StraightStraightTest.six_blocks_5 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_5_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/-0.0149, /*energyTol=*/0.1,
           /*expectedCollisions=*/0);
 };
@@ -747,7 +747,7 @@ StraightStraightTest.six_blocks_6 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_6_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/-0.184767922, /*energyTol=*/0.001,
           /*expectedCollisions=*/2);
 };
@@ -809,7 +809,7 @@ StraightStraightTest.six_blocks_7 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_7_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
           /*expectedCollisions=*/0);
 };
@@ -871,7 +871,7 @@ StraightStraightTest.six_blocks_8 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_8_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/9.96657E-5, /*energyTol=*/0.001,
           /*expectedCollisions=*/0);
 };
@@ -932,14 +932,14 @@ StraightStraightTest.six_blocks_9 = function() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_9_setup(sim, advance);
-  if (UtilityCore.isChrome()) {
+  if (Util.isChrome()) {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-       /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
        /*expectedEnergyDiff=*/-0.313720709, /*energyTol=*/0.001,
        /*expectedCollisions=*/3);
   } else {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
-       /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
        /*expectedEnergyDiff=*/-0.319376774, /*energyTol=*/0.001,
        /*expectedCollisions=*/3);
   }
@@ -1090,7 +1090,7 @@ StraightStraightTest.six_blocks_11 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_11_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/-0.0012705, /*energyTol=*/0.001,
           /*expectedCollisions=*/0);
   ContactSim.SUBSET_COLLISIONS = saveFlag;
@@ -1176,7 +1176,7 @@ StraightStraightTest.six_blocks_12 = function() {
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_12_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/-0.160986774, /*energyTol=*/0.001,
       /*expectedCollisions=*/2);
 };
@@ -1199,7 +1199,7 @@ StraightStraightTest.hexagon_1_setup = function(sim, advance) {
   block.setPosition(new Vector(0, 2*a + 2*0.009 + Math.sqrt(2)/2), Math.PI/4);
   sim.addBody(block);
   var floor = Shapes.makeBlock(6, 1, 'floor');
-  floor.setMass(UtilityCore.POSITIVE_INFINITY);
+  floor.setMass(Util.POSITIVE_INFINITY);
   floor.setPosition(new Vector(0,  -0.5),  0);
   sim.addBody(floor);
   sim.setElasticity(0.8);
@@ -1302,7 +1302,7 @@ StraightStraightTest.block_block_contact_2 = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/14.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00002,
           /*expectedCollisions=*/0);
 };
@@ -1326,7 +1326,7 @@ StraightStraightTest.block_block_contact_2b = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/14.0,
-          /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+          /*expectedVars=*/null, /*tolerance=*/Util.NaN,
           /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0000001,
           /*expectedCollisions=*/0);
 };
@@ -1407,7 +1407,7 @@ StraightStraightTest.diamonds = function() {
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/11.0,
-      /*expectedVars=*/null, /*tolerance=*/UtilityCore.NaN,
+      /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
 };
@@ -1612,7 +1612,7 @@ StraightStraightTest.oblique_corner_collision_setup = function(sim, advance) {
   sim.setCollisionAccuracy(0.1);
   advance.setTimeStep(0.025);
   var body0 = Shapes.makeBlock(2, 2, 'fixed');
-  body0.setMass(UtilityCore.POSITIVE_INFINITY);
+  body0.setMass(Util.POSITIVE_INFINITY);
   // origin is top-left corner of fixed block
   body0.setPosition(new Vector(1,  -1),  0);
   sim.addBody(body0);

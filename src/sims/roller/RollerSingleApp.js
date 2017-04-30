@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.UtilityCore');
+goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.sims.common.AbstractApp');
@@ -76,7 +76,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
 var TextControl = lab.controls.TextControl;
-var UtilityCore = lab.util.UtilityCore;
+var Util = lab.util.Util;
 var Vector = lab.util.Vector;
 
 /** Creates the RollerSingleSim simulation with no spring.
@@ -92,7 +92,7 @@ var Vector = lab.util.Vector;
 * @export
 */
 myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
-  UtilityCore.setErrorHandler();
+  Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new RollerSingleSim();
   var advance = new SimpleAdvance(sim);
@@ -155,12 +155,12 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.START_T_VALUE,
       RollerSingleApp.i18n.START_T_VALUE,
       goog.bind(this.getStartTValue, this), goog.bind(this.setStartTValue, this))
-      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.FINISH_T_VALUE,
       RollerSingleApp.i18n.FINISH_T_VALUE,
       goog.bind(this.getFinishTValue, this), goog.bind(this.setFinishTValue, this))
-      .setLowerLimit(UtilityCore.NEGATIVE_INFINITY));
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
@@ -177,7 +177,7 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
 var RollerSingleApp = myphysicslab.sims.roller.RollerSingleApp;
 goog.inherits(RollerSingleApp, AbstractApp);
 
-if (!UtilityCore.ADVANCED) {
+if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerSingleApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
