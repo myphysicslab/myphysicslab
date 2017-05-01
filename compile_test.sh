@@ -186,7 +186,7 @@ java -jar "$CLOSURE_COMPILER" \
 --new_type_inf \
 --jscomp_warning=newCheckTypes \
 --hide_warnings_for=`readlink closure-library` \
---conformance_configs=`pwd`/test_conformance_config.textproto \
+--conformance_configs=`pwd`/conformance_config.textproto \
 --dependency_mode=STRICT \
 --warning_level=VERBOSE \
 > $target

@@ -19,6 +19,7 @@ requirement: {
   type: CUSTOM
   error_message: 'Global variables must be goog.provided or whitelisted'
   java_class: 'com.google.javascript.jscomp.ConformanceRules$BanGlobalVars'
+  whitelist_regexp: '.*_test\\.js'
 }
 
 requirement: {
