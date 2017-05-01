@@ -91,7 +91,7 @@ sims.engine2D.ContactApp = function(elem_ids) {
   // Try different ExtraAccel values here. Can also do this in Terminal.
   //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);
   var advance = new CollisionAdvance(this.mySim);
-  advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
+  //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);

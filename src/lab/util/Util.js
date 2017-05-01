@@ -961,7 +961,7 @@ Util.take = function(text, n) {
 * @throws {Error} if the argument is not a finite number
 */
 Util.testFinite = function(value) {
-  if (typeof value != 'number' || !isFinite(value)) {
+  if (!isFinite(value)) {
     throw new Error('not a finite number '+value);
   }
   return value;
@@ -970,11 +970,11 @@ Util.testFinite = function(value) {
 /** Throws an error if the argument is not a number.
 * @param {number} value the number to test
 * @return {number} the value that passed the test
-* @throws {Error} if the argument is not a finite number
+* @throws {Error} if the argument is not a number
 */
 Util.testNumber = function(value) {
-  if (typeof value != 'number' || isNaN(value)) {
-    throw new Error('not a number '+value+' (testNumber)');
+  if (isNaN(value)) {
+    throw new Error('not a number '+value);
   }
   return value;
 };

@@ -37,29 +37,24 @@ var GenericVector = myphysicslab.lab.util.GenericVector;
 */
 myphysicslab.lab.util.Vector = function(x, y, opt_z) {
   var z = goog.isNumber(opt_z) ? opt_z : 0;
-  if (true) {
-    Util.testNumber(x);
-    Util.testNumber(y);
-    Util.testNumber(z);
-  }
   /**
   * @const
   * @type {number}
   * @private
   */
-  this.x_ = x;
+  this.x_ = Util.testNumber(x);
   /**
   * @const
   * @type {number}
   * @private
   */
-  this.y_ = y;
+  this.y_ = Util.testNumber(y);
   /**
   * @const
   * @type {number}
   * @private
   */
-  this.z_ = z;
+  this.z_ = Util.testNumber(z);
 };
 var Vector = myphysicslab.lab.util.Vector;
 
