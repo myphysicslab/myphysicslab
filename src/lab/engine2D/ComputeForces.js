@@ -356,7 +356,7 @@ myphysicslab.lab.engine2D.ComputeForces = function(name, pRNG, tolerance) {
   * @private
   */
   this.nextContactPolicy = ComputeForces.NEXT_CONTACT_HYBRID;
-  if (goog.DEBUG && this.debugCF)
+  if (Util.DEBUG && this.debugCF)
     this.print('nextContactPolicy=' + this.nextContactPolicy);
   /** SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
   * for Acc to be singular
@@ -501,7 +501,7 @@ See {@link #getNextContactPolicy}.
     {@link #NEXT_CONTACT_HYBRID}
 */
 ComputeForces.prototype.setNextContactPolicy = function(nextContactPolicy) {
-  if (goog.DEBUG && this.debugCF)
+  if (Util.DEBUG && this.debugCF)
     this.print('nextContactPolicy='+ nextContactPolicy);
   this.nextContactPolicy = nextContactPolicy;
 }
@@ -530,7 +530,7 @@ ComputeForces.prototype.getNextContactPolicy = function() {
 @return {number} error code, -1 if successful otherwise an error occurred
 */
 ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
-  if (goog.DEBUG && 1==0 && this.name_ == 'C' && this.pRNG.nextFloat() < 0.001) {
+  if (Util.DEBUG && 1==0 && this.name_ == 'C' && this.pRNG.nextFloat() < 0.001) {
     // test of the ContactSim.reportError mechanism: randomly generate an error
     return -999;
   }
@@ -578,10 +578,10 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
     this.R[i] = false;
   }
   var loopCtr = 0;
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     this.order = [];
   }
-  if (goog.DEBUG && this.debugCF) {
+  if (Util.DEBUG && this.debugCF) {
     if (this.preOrder.length > 0) {
       UtilEngine.printList('preOrder ', this.preOrder);
     }
@@ -606,7 +606,7 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
         break;
       default: throw new Error();
     }
-    if (goog.DEBUG && this.debugCF) {
+    if (Util.DEBUG && this.debugCF) {
       this.print('\n--------- in compute_forces, d='+d
         +' loopCtr='+loopCtr+' --------------');
     }
@@ -618,20 +618,20 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
     }
     if (this.checkLoop(d)) {
       //this.specialCase = true;
-      if (goog.DEBUG && this.WARNINGS)
+      if (Util.DEBUG && this.WARNINGS)
         this.print('checkLoop STOP');
       break;
     }
     // keep track of the order of treating contacts, for debugging.
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       this.order.push(d);
     }
-    if (goog.DEBUG && loopCtr > 2*this.n) {
+    if (Util.DEBUG && loopCtr > 2*this.n) {
       this.debugCF = true;
       this.printEverything('compute_forces loopCtr= '+loopCtr+' d='+d, false);
     }
     var error = this.drive_to_zero(d);
-    if (goog.DEBUG && this.debugCF) {
+    if (Util.DEBUG && this.debugCF) {
       this.print('drive_to_zero returned '+
           (error == -1 ? 'OK' : error) +' d='+d+' N='+this.n);
       //this.printEverything('after drive_to_zero('+d+')', false);
@@ -643,12 +643,12 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
       this.NC[error] = false;
       this.R[error] = true;
       // indicate a deferral/reject with negative index.  (For zero, use -9999).
-      if (goog.DEBUG) {
+      if (Util.DEBUG) {
         this.order.push(error == 0 ? -9999 : -error);
       }
     } else if (error < -1) {
       // negative error code (other than -1) means general failure
-      if (goog.DEBUG && (this.WARNINGS || this.debugCF)) {
+      if (Util.DEBUG && (this.WARNINGS || this.debugCF)) {
         //var e = new Error();
         //console.log(e.stack);
         this.print('compute_forces general error '+error);
@@ -660,17 +660,17 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
       // and reset the reRejects list.
       goog.array.clear(this.reRejects);
       if (this.R[d]) {
-        if (goog.DEBUG && this.debugCF)
+        if (Util.DEBUG && this.debugCF)
           this.printContact(' deferral solved ', true, d, -1, -1);
         solved++;
         this.R[d] = false;
       }
     }
   }
-  if (goog.DEBUG && 0 == 1) {
+  if (Util.DEBUG && 0 == 1) {
     UtilEngine.printArray2(NF7(time)+' ComputeForces order ', this.order, NF0);
   }
-  if (goog.DEBUG && this.debugCF && solved > 0) {
+  if (Util.DEBUG && this.debugCF && solved > 0) {
     if (solved > 0) {
       this.print('compute_forces rejects solved '+solved);
     }
@@ -692,7 +692,7 @@ of C, NC, or R. We keep a list of every state seen previously.
 ComputeForces.prototype.checkLoop = function(d) {
   var debug = this.debugCF; //time >= 46.4499;
   var i, len;
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     // check that only one of C, NC, or R are true
     for (i=0; i<this.n; i++) {
       if (this.C[i])
@@ -731,7 +731,7 @@ ComputeForces.prototype.checkLoop = function(d) {
     if (debug)
       UtilEngine.printList('state', state);
     if (goog.array.equals(state, s)) {
-      if (goog.DEBUG && this.WARNINGS) {
+      if (Util.DEBUG && this.WARNINGS) {
         var accelOld = this.accels[i];
         var accelMin = UtilEngine.minValue(this.accels);
         this.print('num states='+this.states.length
@@ -750,7 +750,7 @@ ComputeForces.prototype.checkLoop = function(d) {
     this.states.push(state);
     this.accels.push(ComputeForces.sumAccelSquare(this.a, this.joint, this.n));
   }
-  if (duplicateState && goog.DEBUG && this.WARNINGS) {
+  if (duplicateState && Util.DEBUG && this.WARNINGS) {
     UtilEngine.printList('now state', state);
     for (i=0, len=this.states.length; i<len; i++) {
       /** @type {!Array<number>} */
@@ -982,7 +982,7 @@ debug information to console when errors are detected.
 */
 ComputeForces.prototype.checkAccel = function(tolerance) {
   var i;
-  if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+  if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
     for (i=0; i<this.n; i++) {
       if ((this.C[i] || this.joint[i]) && Math.abs(this.a[i]) > this.SMALL_POSITIVE) {
         //this.specialCase = true;
@@ -1000,7 +1000,7 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
               +NFE(this.f[i])+' tol='+NFE(this.SMALL_POSITIVE));
       }
     }
-    if (0 == 1 && goog.DEBUG) {
+    if (0 == 1 && Util.DEBUG) {
       var accel = UtilEngine.matrixMultiply(this.A, this.f);
       accel = UtilEngine.vectorAdd(accel, this.b);
       var minAccel2 = UtilEngine.minValue(accel);
@@ -1011,7 +1011,7 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
       );
       this.printEverything('checkAccel', true);
     }
-    if (0 == 1 && goog.DEBUG) {
+    if (0 == 1 && Util.DEBUG) {
       UtilEngine.printArrayIndices('C', this.C, this.n);
       UtilEngine.printArrayIndices('NC', this.NC, this.n);
       UtilEngine.printArrayIndices('R', this.R, this.n);
@@ -1024,7 +1024,7 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
     }
   }
   if (!ComputeForces.checkForceAccel(tolerance, this.f, this.a, this.joint)) {
-    if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+    if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
       this.print('checkForceAccel FAILED with tolerance='+NFE(tolerance));
       UtilEngine.printArray('force', this.f, NFE, this.n);
       UtilEngine.printArray('accel', this.a, NFE, this.n);
@@ -1043,7 +1043,7 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
 * @return {boolean} true if the force and accel vectors satisfy the constraints
 */
 ComputeForces.checkForceAccel = function(tolerance, force, accel, joint) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     UtilEngine.checkArrayNaN(accel);
     UtilEngine.checkArrayNaN(force);
   }
@@ -1056,7 +1056,7 @@ ComputeForces.checkForceAccel = function(tolerance, force, accel, joint) {
     if (joint[i] || Math.abs(force[i]) > 1E-10) {
       if (Math.abs(accel[i]) > tolerance) {
         r = false;
-        if (goog.DEBUG) {
+        if (Util.DEBUG) {
           console.log('checkForceAccel i='+i
               +' accel[i]='+NFE(accel[i])
               +' force[i]='+NFE(force[i]));
@@ -1065,7 +1065,7 @@ ComputeForces.checkForceAccel = function(tolerance, force, accel, joint) {
     } else {
       if (accel[i] < - tolerance) {
         r = false;
-        if (goog.DEBUG) {
+        if (Util.DEBUG) {
           console.log('checkForceAccel i='+i
               +' accel[i]='+NFE(accel[i])
               +' force[i]='+NFE(force[i]));
@@ -1176,7 +1176,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
   goog.asserts.assert(this.n <= this.f.length);
   goog.asserts.assert(!this.C[d]);
   goog.asserts.assert(!this.NC[d]);
-  if (this.debugCF && goog.DEBUG)
+  if (this.debugCF && Util.DEBUG)
     this.print('drive_to_zero d='+d+' a['+d+']='+NFE(this.a[d])
       +' joint='+this.joint[d]+' N='+this.n);
   // First deal with cases where we don't have to do anything at all
@@ -1196,14 +1196,14 @@ ComputeForces.prototype.drive_to_zero = function(d) {
     var defer = singular && !this.R[d];
     if (defer) {
       // defer d because adding d to C would make Acc+d matrix singular.
-      if (goog.DEBUG && (this.debugCF)) {
+      if (Util.DEBUG && (this.debugCF)) {
         this.print('SINGULAR MATRIX(1) DEFER d='+d
               +' f[d]='+NFE(this.f[d])
               +' a[d]='+NFE(this.a[d])
               );
       }
       return d;
-    } else if (goog.DEBUG && (this.debugCF) && singular && this.R[d]) {
+    } else if (Util.DEBUG && (this.debugCF) && singular && this.R[d]) {
       // we won't defer d because we previously rejected it.
       this.print('SINGULAR MATRIX(1) IN REJECTS d='+d
             +' a[d]='+NFE(this.a[d])
@@ -1222,7 +1222,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
   // for Joint: ensure that acceleration is zero
   while (!this.joint[d] && this.a[d] < -accelTol ||
           this.joint[d] && Math.abs(this.a[d]) > accelTol) {
-    if (this.debugCF && goog.DEBUG) {
+    if (this.debugCF && Util.DEBUG) {
       var accDsingular = this.wouldBeSingular1(d);
       this.print('Acc+d would be '+(accDsingular? '' : 'non-')+'singular, d='+d);
     }
@@ -1230,9 +1230,9 @@ ComputeForces.prototype.drive_to_zero = function(d) {
     var error = this.fdirection(d);
     if (error != -1)
       return error;
-    if (this.debugCF && goog.DEBUG)
+    if (this.debugCF && Util.DEBUG)
       this.printEverything('drive_to_zero after fdirection, d='+d);
-    if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+    if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
       for (i=0; i<this.n; i++) {
         // check that delta_a[i] = 0 for all members of C
         if (this.C[i] && Math.abs(this.delta_a[i])> this.SMALL_POSITIVE) {
@@ -1251,7 +1251,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
     var j = this.maxStep(d);
     if (j<0 || Math.abs(this.stepSize) > 1E5) {
       // maxStep found a huge step, or cannot figure what to do.
-      if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+      if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
         if (j > -1)
           this.print('HUGE STEP j='+j+' d='+d+' stepSize='+NFE(this.stepSize));
         else
@@ -1270,7 +1270,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         }
         // f[d] has significant force, so we cannot defer it, because
         // d is not yet in C so we can no longer balance the forces.
-        if (goog.DEBUG) {
+        if (Util.DEBUG) {
           this.printEverything('maxStep failed but f[d]>0, d='+d+' j='+j, false);
         }
         // If this assert ever happens, we need to debug it.
@@ -1279,18 +1279,18 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       }
     }
     goog.asserts.assert(j > -1);
-    if (this.debugCF && goog.DEBUG) {
+    if (this.debugCF && Util.DEBUG) {
       this.printContact(' maxStep', false, j, d, loopCtr);
     }
     if (Math.abs(this.stepSize) < 1E-12) {
       // We are taking a zero size step;  ensure not happening repeatedly.
-      if (this.debugCF && goog.DEBUG)
+      if (this.debugCF && Util.DEBUG)
         this.printContact(' ZERO STEP', false, j, d, loopCtr);
       if (this.zeroSteps[j]) {
         // This contact has previously caused a zero-size step during this
         // drive-to-zero loop, so it is flip-flopping between C and NC,
         // potentially as an infinite loop.
-        if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+        if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.print('FLIP-FLOP DEFER j='+j
             +' f[j]='+NFE(this.f[j])
             +' a[j]='+NFE(this.a[j])
@@ -1313,7 +1313,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       this.a[i] += this.stepSize*this.delta_a[i];
     }
     if (loopCtr++ > 10*this.n) {
-      if (goog.DEBUG) {
+      if (Util.DEBUG) {
         this.debugCF = true;
         this.print('drive_to_zero() loopCtr='+loopCtr+' d='+d+' a[d]='+this.a[d]);
       } else if (loopCtr > 1000*this.n) {
@@ -1331,7 +1331,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       var defer = singular && !this.R[j];
       if (defer) {
         // we will defer j because it would make Acc+d+j singular
-        if ((this.debugCF) && goog.DEBUG) {
+        if ((this.debugCF) && Util.DEBUG) {
           this.print('SINGULAR MATRIX(2) DEFER NC j='+j
             +' f[j]='+NFE(this.f[j])+' a[j]='+NFE(this.a[j])
             );
@@ -1343,7 +1343,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       } else if (singular && this.R[j]) {
         // we won't defer j because we previously rejected it.
         // (This case doesn't seem to happen, and it is unclear what to do here.)
-        if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+        if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
                 +' a[j]='+NFE(this.a[j])
                 );
@@ -1370,12 +1370,12 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // so that we can drive it to zero again.
         if (Math.abs(this.f[j])> 10*this.SMALL_POSITIVE) {
           var s = 'moving C to NC but f[j]='+ NFE(this.f[j]);
-          if (goog.DEBUG)
+          if (Util.DEBUG)
             this.printEverything(s);
           else
             throw new Error(s);
         }
-        if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+        if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.printContact(' redo C', false, j, d, loopCtr);
         }
         this.C[j] = false;
@@ -1396,7 +1396,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // ??? SHOULD WE ADD THIS TO REJECTS???
         if (Math.abs(this.a[j])> 10*this.SMALL_POSITIVE)
           this.print('WARNING moving NC to C but a[j]='+NFE(this.a[j]));
-        if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+        if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.printContact(' redo NC', false, j, d, loopCtr);
         }
         this.C[j] = false;
@@ -1415,7 +1415,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
     } else {
       // when j is in neither C nor NC, then we just deferred it.
       goog.asserts.assert(this.R[j]);
-      if (0 == 1 && (this.WARNINGS || this.debugCF) && goog.DEBUG) {
+      if (0 == 1 && (this.WARNINGS || this.debugCF) && Util.DEBUG) {
         this.print('we probably just deferred something.  j='+j+' d='+d);
         this.printContact('we probably deferred', false, j, d, loopCtr);
       }
@@ -1428,7 +1428,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
   // If we applied some force at f[d], it must be in C, otherwise in NC.
   goog.asserts.assert( (Math.abs(this.f[d]) > this.SMALL_POSITIVE && this.C[d])
         || (Math.abs(this.f[d]) <= this.SMALL_POSITIVE && this.NC[d]) );
-  if (this.debugCF && goog.DEBUG) {
+  if (this.debugCF && Util.DEBUG) {
     this.print('drive_to_zero finish d='+d
       +' a['+d+']='+NFE(this.a[d]));
     this.printEverything('drive_to_zero finish');
@@ -1508,7 +1508,7 @@ ComputeForces.prototype.fdirection = function(d) {
       // note that we put v1 into the last column of Acc earlier
       var nrow = Util.newNumberArray(c);
       var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
-      if ((this.WARNINGS || this.debugCF) && goog.DEBUG) {
+      if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
         var singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
             this.SINGULAR_MATRIX_LIMIT);
         if (singular) {
@@ -1528,7 +1528,7 @@ ComputeForces.prototype.fdirection = function(d) {
         if (maxError < accelTolerance) {
           break;
         } else {
-          if ((true || this.WARNINGS || this.debugCF) && goog.DEBUG) {
+          if ((true || this.WARNINGS || this.debugCF) && Util.DEBUG) {
             this.print(' %%% maxtrix solve error = '+NFE(maxError)
               +' not within accel tol='+NFE(accelTolerance)
               +' using solve tol='+NFE(tolerance)
@@ -1547,16 +1547,16 @@ ComputeForces.prototype.fdirection = function(d) {
           // but now we avoid Acc becoming singular.
           // If this assert never happens, then I can remove this code.
           var msg = 'should not need to loosen tolerance on matrix solve';
-          if (goog.DEBUG)
+          if (Util.DEBUG)
             this.print(msg);
           // try reducing the tolerance and solve again
           tolerance /= 10;
           ComputeForces.copyMatrix(c, c+1, this.bMatrix, Acc);
-          if ((this.WARNINGS || this.debugCF) && goog.DEBUG)
+          if ((this.WARNINGS || this.debugCF) && Util.DEBUG)
             this.print('fdirection retry with tolerance '
                     +NFE(tolerance)+' d='+d);
           if (tolerance < 1E-17) {
-            if ((this.WARNINGS || this.debugCF) && goog.DEBUG)
+            if ((this.WARNINGS || this.debugCF) && Util.DEBUG)
               this.print('fdirection fail:  tolerance reduced to '
                 +NFE(tolerance)+' d='+d);
             break;
@@ -1630,7 +1630,7 @@ ComputeForces.prototype.maxStep = function(d) {
       this.debugCF = true;
     }
   }
-  if (this.debugCF && goog.DEBUG) {
+  if (this.debugCF && Util.DEBUG) {
     this.print('maxStep start with d='+d+' j='+j
         +' s='+NFE(s));
     //this.printEverything('maxStep start');
@@ -1652,7 +1652,7 @@ ComputeForces.prototype.maxStep = function(d) {
         if (Math.abs(this.f[i]) > 2*this.SMALL_POSITIVE) {
           this.debugCF = true;
         }
-        if (this.debugCF && goog.DEBUG) {
+        if (this.debugCF && Util.DEBUG) {
           this.print('opposite step(1) i='+i
             +' '+NFE(sPrime)
             +' delta_f[i]='+NFE(this.delta_f[i])
@@ -1660,7 +1660,7 @@ ComputeForces.prototype.maxStep = function(d) {
         }
         sPrime = 0;
       }
-      if (this.debugCF && goog.DEBUG) {
+      if (this.debugCF && Util.DEBUG) {
         this.print('C['+i+'] sPrime='+NFE(sPrime));
       }
       if (sPrime*sign < s*sign) {
@@ -1685,7 +1685,7 @@ ComputeForces.prototype.maxStep = function(d) {
           this.debugCF = true;
           this.printContact('opposite step(2)', true, i, d, -1);
         }
-        if (this.debugCF && goog.DEBUG) {
+        if (this.debugCF && Util.DEBUG) {
           this.print('opposite step(2) i='+i
             +' sPrime='+NFE(sPrime)
             +' delta_a[i]='+NFE(this.delta_a[i])
@@ -1693,7 +1693,7 @@ ComputeForces.prototype.maxStep = function(d) {
         }
         sPrime = 0;
       }
-      if (this.debugCF && goog.DEBUG) {
+      if (this.debugCF && Util.DEBUG) {
         this.print('NC['+i+'] sPrime='+NFE(sPrime));
       }
       if (sPrime*sign < s*sign) {
@@ -1702,7 +1702,7 @@ ComputeForces.prototype.maxStep = function(d) {
       }
     }
   }
-  if (this.debugCF && goog.DEBUG) {
+  if (this.debugCF && Util.DEBUG) {
     this.print('maxStep end with j='+j+' d='+d+' s='+NFE(s));
   }
   this.stepSize = s;
@@ -1750,7 +1750,7 @@ ComputeForces.prototype.wouldBeSingular1 = function(d) {
   var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
   var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
       this.SINGULAR_MATRIX_LIMIT);
-  if (this.debugCF && goog.DEBUG && (1 == 1 || isSingular)) {
+  if (this.debugCF && Util.DEBUG && (1 == 1 || isSingular)) {
     // print the matrix in triangular form after Gaussian Elimination
     var ncol = new Array(c+1);
     for (i=0; i<c+1; i++)
@@ -1803,7 +1803,7 @@ ComputeForces.prototype.wouldBeSingular2 = function(d, e) {
   var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
   var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
       this.SINGULAR_MATRIX_LIMIT);
-  if (this.debugCF && goog.DEBUG && (true || isSingular)) {
+  if (this.debugCF && Util.DEBUG && (true || isSingular)) {
     // print the matrix in triangular form after Gaussian Elimination
     var ncol = new Array(c+1);
     for (i=0; i<c+1; i++)
@@ -1819,7 +1819,7 @@ ComputeForces.prototype.wouldBeSingular2 = function(d, e) {
 * @private
 */
 ComputeForces.prototype.printEverything = function(s, printMatrix) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     printMatrix = printMatrix || false;
     this.print('printEverything '+s);
     console.log('seed='+this.pRNG.getSeed());
@@ -1856,7 +1856,7 @@ ComputeForces.prototype.printEverything = function(s, printMatrix) {
 * @private
 */
 ComputeForces.prototype.printContact = function(s, allInfo, j, d, loopCtr) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     s = s+' j='+j+' N='+this.n+' step='+NFE(this.stepSize);
     if (allInfo || this.C[j])
         s += ' C['+j+']='+this.C[j]
@@ -1928,7 +1928,7 @@ ComputeForces.copyArray = function(n, r, dest) {
 * @private
 */
 ComputeForces.prototype.print = function(s) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     console.log(this.name_+' '+NF7(this.time)+' '+s);
   }
 }

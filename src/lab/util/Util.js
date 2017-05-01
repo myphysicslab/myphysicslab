@@ -35,14 +35,20 @@ myphysicslab.lab.util.Util = function() {
 var Util = myphysicslab.lab.util.Util;
 
 /** Flag indicates when advanced-compile option is being used during compilation
-* by Closure Compiler. This disables usage of command-line Terminal.
+* by Closure Compiler.
 * See [Advanced vs. Simple Compile](Building.html#advancedvs.simplecompile).
 * See the shell script `compile_js.sh` which sets this flag at compile time.
 * @define {boolean}
 */
 Util.ADVANCED = false;
 
-/**  A string listing the the hexadecimal digits '0123456789abcdef'
+/** Flag indicates whether to include debug code.
+* See the shell script `compile_js.sh` which sets this flag at compile time.
+* @define {boolean}
+*/
+Util.DEBUG = false;
+
+/** A string listing the the hexadecimal digits '0123456789abcdef'
 * @type {string}
 * @const
 */
@@ -74,13 +80,13 @@ Util.MAX_INTEGER = Math.pow(2, 53);
 */
 Util.MIN_INTEGER = -Math.pow(2, 53);
 
-/**  Using this constant allows the compiler to rename and minify.
+/** Using this constant allows the compiler to rename and minify.
 * @type {number}
 * @const
 */
 Util.NaN = Number.NaN;
 
-/**  Using this constant allows the compiler to rename and minify.
+/** Using this constant allows the compiler to rename and minify.
 * @type {number}
 * @const
 */
@@ -91,7 +97,7 @@ Util.NEGATIVE_INFINITY = Number.NEGATIVE_INFINITY;
 */
 Util.numErrors = 0;
 
-/**  Using this constant allows the compiler to rename and minify.
+/** Using this constant allows the compiler to rename and minify.
 * @type {number}
 * @const
 */
@@ -805,7 +811,7 @@ Util.prettyPrint = function(input, level, indent) {
 * @param {function(number) : string=} format  formatting function, default is NF5E
 */
 Util.printArray = function(array, lineLength, format) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     lineLength = lineLength || 80;
     format = format || Util.NF5E;
     var s = '';
@@ -876,7 +882,6 @@ Util.propertiesOf = function(obj, showValues) {
   return s;
 };
 
-
 /** Sets the specified element of an array. Useful in Terminal scripts
 where we prohibit square brackets with anything other than simple index numbers.
 * @param {!Array} array the array to access
@@ -897,13 +902,29 @@ Util.set = function(array, index, value) {
 Util.setErrorHandler = function() {
   window.onerror = function(msg, url, line) {
     var s = msg + '\n' + url + ':' + line;
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       console.log(s);
     }
     if (Util.numErrors++ < Util.maxErrors) {
       alert(s);
       //return true;  this causes compile error under NTI
     }
+  }
+  // Check that assertions are working.
+  // Note that assertions are always removed under advanced compile.
+  if (goog.DEBUG && !Util.ADVANCED) {
+    try {
+      var a = 1;
+      goog.asserts.assert(1 == 0);
+      a = 2;
+    } catch(e) {
+      console.log('asserts are working');
+    }
+    if (a == 2) {
+      throw new Error('asserts are not working');
+    }
+  } else if (Util.DEBUG) {
+    console.log('WARNING: asserts are NOT enabled!');
   }
 };
 

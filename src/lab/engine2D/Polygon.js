@@ -545,7 +545,7 @@ Polygon.prototype.calculateSize = function() {
     if (e.getTopBody() > ymax)
       ymax = e.getTopBody();
   });
-  if (1 == 0 && goog.DEBUG) {
+  if (1 == 0 && Util.DEBUG) {
     console.log('Polygon size xmin='+NF(xmin)
       +' xmax='+NF(xmax)
       +' ymin='+NF(ymin)
@@ -585,7 +585,7 @@ Polygon.prototype.checkCollision = function(collisions, body, time) {
           return;
         }
       }
-      if (UtilityCollision.HIGHLIGHT_COLLISION_TESTING && goog.DEBUG) {
+      if (UtilityCollision.HIGHLIGHT_COLLISION_TESTING && Util.DEBUG) {
         e1.highlight();
         e2.highlight();
       }
@@ -674,7 +674,7 @@ and Vertex v2 is deleted.
 */
 Polygon.prototype.closePath_ = function(v1, v2) {
   if (v1.locBody().distanceTo(v2.locBody()) > 1E-8) {
-    throw new Error(goog.DEBUG ?
+    throw new Error(Util.DEBUG ?
       ('Vertexes must be at same location '+v1+' '+v2) : '');
   }
   var v2_edge1 = v2.getEdge1();
@@ -713,7 +713,7 @@ Polygon.prototype.createCanvasPath = function(context) {
     // (as if by calling moveTo()) at that same point.
     context.closePath();
   });
-  if (goog.DEBUG && (Polygon.SHOW_VERTICES || Polygon.SHOW_ALL_VERTICES)) {
+  if (Util.DEBUG && (Polygon.SHOW_VERTICES || Polygon.SHOW_ALL_VERTICES)) {
     // put a small circle at each Vertex
     goog.array.forEach(this.vertices_, function(v) {
       context.moveTo(v.locBodyX(), v.locBodyY());
@@ -754,7 +754,7 @@ Polygon.prototype.findCentroid = function() {
       return thisPolygon.maxRadiusSquared(p_body.immutable());
     }, NEARNESS_TOLERANCE, info);
   if (info[1] != 0) {
-    throw new Error(goog.DEBUG ? ('could not find centroid, iterations='+info[0]) : '');
+    throw new Error(Util.DEBUG ? ('could not find centroid, iterations='+info[0]) : '');
   }
   return centroid;
 };
@@ -797,7 +797,7 @@ Polygon.prototype.finish = function() {
   this.specialNormalWorld_ = null;
   // force the centroid to be calculated
   var centroid_body = this.getCentroidBody();
-  if (Polygon.PRINT_POLYGON_STRUCTURE && goog.DEBUG) {
+  if (Polygon.PRINT_POLYGON_STRUCTURE && Util.DEBUG) {
     this.printAll();
   }
 };
@@ -868,7 +868,7 @@ Polygon.prototype.getMinHeight = function() {
     goog.array.forEach(this.edges_,
       function(e) {
         var d = e.distanceToPoint(this.cm_body_);
-        if (1 == 0 && goog.DEBUG)
+        if (1 == 0 && Util.DEBUG)
           console.log('d='+NF(d)+' cm='+this.cm_body_+' '+e);
         // Distance of infinity means the point is 'beyond' the Edge, ie.
         // not in the region perpendicular to the Edge.
@@ -960,11 +960,11 @@ Polygon.prototype.getSpecialNormalWorld = function() {
     return null;
   var v = this.specialNormalWorld_;
   if (v == null) {
-    if (goog.DEBUG) UtilityCollision.specialNormalMisses++;
+    if (Util.DEBUG) UtilityCollision.specialNormalMisses++;
     v = this.rotateBodyToWorld(e.getNormalBody(Vector.ORIGIN));
     this.specialNormalWorld_ = v;
   } else {
-    if (goog.DEBUG) UtilityCollision.specialNormalHits++;
+    if (Util.DEBUG) UtilityCollision.specialNormalHits++;
   }
   return v;
 };
@@ -1124,7 +1124,7 @@ Polygon.prototype.nonCollideEdge = function(edge) {
   }
 };
 
-if (goog.DEBUG) {
+if (Util.DEBUG) {
   /** Prints all edges and Vertexes to console for debugging.
   * @return {undefined}
   */
@@ -1203,7 +1203,7 @@ Polygon.prototype.setCentroid = function(centroid_body) {
   // check that the assigned centroid is reasonable
   // (If not, it is still OK, just less efficient because centroidRadius_ is bigger
   // than necessary).
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     // NOTE: there is a performance difference from doing this test!
     var ctrd = this.findCentroid();
     var c_dist = centroid_body.distanceTo(ctrd);
@@ -1284,7 +1284,7 @@ See {@link #getSpecialNormalWorld}.
 */
 Polygon.prototype.setSpecialEdge = function(edgeIndex, radius) {
   if (this.edges_.length != 4)
-    throw new Error(goog.DEBUG ? 'can only set special edge on rectangle' : '');
+    throw new Error(Util.DEBUG ? 'can only set special edge on rectangle' : '');
   if (edgeIndex < 0 || edgeIndex > 3)
     throw new Error();
   this.specialEdge_ = this.edges_[edgeIndex];

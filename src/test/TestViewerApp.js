@@ -664,7 +664,7 @@ TestViewerApp.prototype.startTest_ = function(testIndex) {
   this.advance.reset();
   var groupName = this.groupNames_[this.groupSelected_];
   var testName = this.testNames_[testIndex];
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     console.log('TestViewerApp.startTest group='+groupName+' test="'+testName+'"');
   }
   // preserve the 'show forces' setting

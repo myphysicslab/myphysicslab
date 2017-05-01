@@ -525,7 +525,7 @@ MiscellanyTest.three_body_spin_test3A = function() {
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
        /*expectedCollisions=*/-1);
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('start energy '+NF7(startEnergy)
       +' ending energy '
       +NF7(sim.getEnergyInfo().getTotalEnergy()));
@@ -561,7 +561,7 @@ MiscellanyTest.three_body_spin_test3B = function() {
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
        /*expectedCollisions=*/-1);
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('start energy '+NF7(startEnergy)
       +' ending energy '
       +NF7(sim.getEnergyInfo().getTotalEnergy()));
@@ -593,7 +593,7 @@ MiscellanyTest.three_body_spin_test4A = function() {
   var startEnergy = sim.getEnergyInfo().getTotalEnergy();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('start energy '+NF7(startEnergy)
       +' ending energy '
       +NF7(sim.getEnergyInfo().getTotalEnergy()));
@@ -627,7 +627,7 @@ MiscellanyTest.three_body_spin_test4B = function() {
   var startEnergy = sim.getEnergyInfo().getTotalEnergy();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('start energy '+NF7(startEnergy)
       +' ending energy '
       +NF7(sim.getEnergyInfo().getTotalEnergy()));

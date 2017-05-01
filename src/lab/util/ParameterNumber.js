@@ -14,6 +14,7 @@
 
 goog.provide('myphysicslab.lab.util.ParameterNumber');
 
+goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Parameter');
 goog.require('myphysicslab.lab.util.Subject');

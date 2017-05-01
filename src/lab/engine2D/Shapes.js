@@ -73,6 +73,13 @@ Shapes.TOP_EDGE = 2;
 */
 Shapes.LEFT_EDGE = 3;
 
+/**
+* @type {!RandomLCG}
+* @const
+* @private
+*/
+Shapes.RANDOM = new RandomLCG(0);
+
 /** Makes a circular Polygon with given radius.
 * @param {number} radius radius of the circle
 * @param {string=} opt_name name of the Polygon
@@ -318,12 +325,11 @@ Shapes.makeRandomPolygon = function(sides, radius, minAngle, maxAngle, opt_name,
   if (!goog.isDef(maxAngle)) {
     maxAngle = 3*Math.PI/sides;
   }
-  // get a random number for each side
-  var rng = new RandomLCG();
   var angles = [0];
   var sum = 0;
   for (var i=0; i<sides-1; i++) {
-    var angle = (0.5+rng.nextFloat())*(2*Math.PI - sum)/(sides-i);
+    // get a random number for each side
+    var angle = (0.5 + Shapes.RANDOM.nextFloat())*(2*Math.PI - sum)/(sides-i);
     // leave room for the sides yet to be chosen
     var remain = 2*Math.PI - sum;
     var max = Math.min(maxAngle, remain - minAngle*(sides-1 - i));

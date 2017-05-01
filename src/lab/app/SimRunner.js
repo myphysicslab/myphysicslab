@@ -319,7 +319,7 @@ SimRunner.prototype.advanceSims = function(strategy, targetTime) {
     if (simTime - lastSimTime <= 1e-15) {
       throw new Error('SimRunner time did not advance');
     }
-    if (this.debugTiming_ && goog.DEBUG) {
+    if (this.debugTiming_ && Util.DEBUG) {
       var clockTime = this.clock_.getTime();
       console.log(NF(strategy.getTime())
         +' now='+NF(clockTime)
@@ -339,7 +339,7 @@ itself to run again, to continue the chain of callbacks.
 SimRunner.prototype.callback = function() {
   try {
     var nowSysTime = this.timer_.callBackStarted();
-    if (this.debug_ && nowSysTime > this.lastDebug_ + 1) {
+    if (Util.DEBUG && this.debug_ && nowSysTime > this.lastDebug_ + 1) {
       this.lastDebug_ = nowSysTime;
       console.log(this.appName_+' time='+NF(Util.chopTime(nowSysTime)));
     }
@@ -358,7 +358,7 @@ SimRunner.prototype.callback = function() {
         clockTime = t;
       }
       var startTime = clockTime;
-      if (goog.DEBUG && this.debugTiming_) {
+      if (Util.DEBUG && this.debugTiming_) {
         var expectedTime = this.clock_.systemToClock(this.timer_.getExpectedTime());
         console.log(NF(simTime)
             +' callback '
@@ -387,7 +387,7 @@ SimRunner.prototype.callback = function() {
         simTime = this.advanceList_[0].getTime();
         var limit = 20*this.timeStep_;
         var retard = clockTime - simTime > limit;
-        if (this.debugTiming_ && goog.DEBUG) {
+        if (this.debugTiming_ && Util.DEBUG) {
           // elapsedTime = how long it took to calculate the frames
           console.log(NF(simTime)
             +(retard ? ' ### retard labTimer ': '')

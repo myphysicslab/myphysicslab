@@ -273,6 +273,11 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
   */
   this.debugPaint_ = null;
   /**
+  * @type {!RandomLCG}
+  * @private
+  */
+  this.random_ = new RandomLCG(78597834798);
+  /**
   * @type {!PointMass}
   * @private
   */
@@ -499,10 +504,9 @@ Molecule3Sim.prototype.initialConfig = function()  {
   //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
   var r = 1.0; // radius
-  var random = new RandomLCG();
   var n = this.atoms_.length;
   for (var i=0; i<n; i++) {
-    var rnd = 1.0 + 0.1*random.nextFloat();
+    var rnd = 1.0 + 0.1 * this.random_.nextFloat();
     vars[0 + i*4] = r * Math.cos(rnd*i*2*Math.PI/n);
     vars[1 + i*4] = r * Math.sin(rnd*i*2*Math.PI/n);
   }

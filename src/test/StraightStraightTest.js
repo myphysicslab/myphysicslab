@@ -185,6 +185,7 @@ StraightStraightTest.six_blocks_settle = function() {
   Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_settle';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
+  //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   StraightStraightTest.six_blocks_settle_setup(sim, advance);
   var vars = Engine2DTestRig.makeVars(6*6);
   Engine2DTestRig.setBodyVars(sim, vars, 0, -4.4957656, 0, -5.4912852, -0, 1.570724, 0);

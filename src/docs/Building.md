@@ -173,10 +173,16 @@ build process. These variables have default values which can be overridden in
 
     To build all apps for a particular locale use targets `apps-en` or `apps-de`.
 
-+ `GOOG_DEBUG` – turns on the `goog.DEBUG` flag which enables debug code. Examples:
++ `GOOG_DEBUG` – turns on the `goog.DEBUG` flag which enables assertions (note that
+    assertions are removed under advanced compile). Examples:
 
         make GOOG_DEBUG=true
         make GOOG_DEBUG=false
+
++ `UTIL_DEBUG` – turns on the `Util.DEBUG` flag which enables debug code. Examples:
+
+        make UTIL_DEBUG=true
+        make UTIL_DEBUG=false
 
 The `makefile` contains **shortcuts for building applications**. For example, instead
 of typing:

@@ -6,7 +6,8 @@
 # compile a single simulation.
 # param: {string} source = source file name, example: src/sims/mechanics/Spring1App.js
 # param: {string} target = output file, example: build/sims/mechanics/Spring1App-en.js
-# param: {boolean} debug = whether to compile with goog.DEBUG=true
+# param: {boolean} goog_debug = whether to compile with goog.DEBUG=true
+# param: {boolean} util_debug = whether to compile with Util.DEBUG=true
 # param: {string} COMPILE_LEVEL = "simple" or "advanced", whether to compile with
 #        advanced closure compiler optimizations
 # input: the variable CLOSURE_COMPILER must be set; it is set in myConfig.mk
@@ -53,8 +54,9 @@ fi
 # ${parameter:-word} Use Default Values. If parameter is unset or null, 
 # the expansion of word is substituted. Otherwise, the value of parameter 
 # is substituted.
-debug="${3:-false}"
-COMPILE_LEVEL="${4:-simple}"
+goog_debug="${3:-false}"
+util_debug="${4:-false}"
+COMPILE_LEVEL="${5:-simple}"
 
 if [[ "$COMPILE_LEVEL" == "advanced" ]] ; then
 	comp_level="ADVANCED"
@@ -110,7 +112,7 @@ namespace="myphysicslab.${namespace//\//.}"
 
 # -n <STRING>	True, if <STRING> is not empty
 if [ -n "$dbg" ] ; then
-	echo "source=$source, target=$target, locale=$locale, buildRoot=$buildRoot, buildDir=$buildDir, debug=$debug, COMPILE_LEVEL=$COMPILE_LEVEL, namespace=$namespace";
+	echo "source=$source, target=$target, locale=$locale, buildRoot=$buildRoot, buildDir=$buildDir, goog_debug=$goog_debug, COMPILE_LEVEL=$COMPILE_LEVEL, namespace=$namespace";
 fi
 
 #exit 0
@@ -200,9 +202,10 @@ set -x
 java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:$namespace \
 --compilation_level=$comp_level \
---define=goog.DEBUG=$debug \
+--define=goog.DEBUG=$goog_debug \
 --define=goog.LOCALE="'$locale'" \
 --define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
+--define=myphysicslab.lab.util.Util.DEBUG=$util_debug \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=$rootDir \

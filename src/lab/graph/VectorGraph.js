@@ -163,7 +163,7 @@ The procedure is as follows:
 /** @inheritDoc */
 VectorGraph.prototype.draw = function(context, map) {
   if (this.screenRect_.isEmpty()) {
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       console.log('VectorGraph: screenRect is empty');
     }
     return;

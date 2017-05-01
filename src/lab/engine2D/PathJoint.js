@@ -133,7 +133,7 @@ PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/true);
   this.updateCollision(c);
   c.setDetectedTime(time);
-  if (0 == 1 && goog.DEBUG && UtilEngine.debugEngine2D != null) {
+  if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     UtilEngine.debugEngine2D.myPrint('joint collision '+c);
     // show the normal vector at the joint
     UtilEngine.debugEngine2D.debugLine('normal', c.impact1, c.impact1.add(c.normal));
@@ -248,7 +248,7 @@ PathJoint.prototype.updateCollision = function(c) {
   var slopeVector = new Vector(this.ppt_.slopeX, this.ppt_.slopeY);
   goog.asserts.assert( Math.abs(slopeVector.lengthSquared() - 1.0) < 1E-10);
   var pathVelocity = attachVelocity.dotProduct(slopeVector);
-  if (0 == 1 && goog.DEBUG && UtilEngine.debugEngine2D != null) {
+  if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     // show visually the velocity vector of the attachment point
     var pv = slopeVector.multiply(pathVelocity);
     UtilEngine.debugEngine2D.debugLine(this.getName(), c.impact1, c.impact1.add(pv));

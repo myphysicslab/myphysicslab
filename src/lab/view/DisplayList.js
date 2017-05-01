@@ -117,7 +117,7 @@ DisplayList.prototype.add = function(dispObj) {
     throw new Error('non-object passed to DisplayList.add');
   }
   var zIndex = dispObj.getZIndex();
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     this.preExist(dispObj);
   }
   this.sort();
@@ -256,7 +256,7 @@ DisplayList.prototype.length = function() {
 @private
 */
 DisplayList.prototype.preExist = function(dispObj) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     var simObjs = dispObj.getSimObjects();
     for (var i=0, len=simObjs.length; i<len; i++) {
       var obj = simObjs[i];
@@ -281,7 +281,7 @@ DisplayList.prototype.prepend = function(dispObj) {
     throw new Error('non-object passed to DisplayList.add');
   }
   var zIndex = dispObj.getZIndex();
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     this.preExist(dispObj);
   }
   this.sort();

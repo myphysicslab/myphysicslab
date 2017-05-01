@@ -213,7 +213,7 @@ GravityLaw.prototype.getPotentialEnergy = function() {
   var pe = 0;
   goog.array.forEach(this.bods_, function(body) {
     if (isFinite(body.getMass())) { // skip infinite mass objects
-      if (0 == 1 && goog.DEBUG) {
+      if (0 == 1 && Util.DEBUG) {
         console.log('body '+body.getName()
           +' cmy='+NF(body.getPosition().getY())
           +' zel='+NF(body.getZeroEnergyLevel())

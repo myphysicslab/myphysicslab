@@ -135,7 +135,7 @@ UtilEngine.addColumnToMatrix = function(A, b) {
 * @param {!Array<number>} x
 */
 UtilEngine.checkArrayNaN = function(x) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     var isOK = true;
     for (var i=0, len=x.length; i<len; i++)
       isOK = isOK && !isNaN(x[i]);
@@ -269,9 +269,9 @@ distance between points becoming small.
 UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
   var i;
   if (info.length < 2)
-    throw new Error(goog.DEBUG ? 'info array length < 2' : '');
+    throw new Error(Util.DEBUG ? 'info array length < 2' : '');
   if (p.length != 3)
-    throw new Error(goog.DEBUG ? 'must pass 3 points' : '');
+    throw new Error(Util.DEBUG ? 'must pass 3 points' : '');
   /** @type {!Array<number>} */
   var v = new Array(3); // values of the three points
   for (i=0; i<3; i++) {
@@ -644,7 +644,7 @@ UtilEngine.minValue = function(r, n) {
 * @param {number=} opt_n  length of array
 */
 UtilEngine.printArray = function(s, r, nf, opt_n) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     nf = nf || NF7E;
     opt_n = opt_n || r.length;
     for (var i=0; i<opt_n; i++) {
@@ -661,7 +661,7 @@ UtilEngine.printArray = function(s, r, nf, opt_n) {
 * @param {number=} opt_n  length of array
 */
 UtilEngine.printArray2 = function(s, r, nf, opt_n) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     nf = nf || NF7E;
     opt_n = opt_n || r.length;
     s += ' ';
@@ -678,7 +678,7 @@ UtilEngine.printArray2 = function(s, r, nf, opt_n) {
 * @param {string} delim  delimiter between entries
 */
 UtilEngine.printArray3 = function(s, r, delim) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     for (var i=0, len=r.length; i<len; i++) {
       /** @type {string} */
       var ns;
@@ -704,7 +704,7 @@ UtilEngine.printArray3 = function(s, r, delim) {
 * @param {number} n length of array
 */
 UtilEngine.printArrayIndices = function(s, r, n) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     s += ' [';
     for (var i=0; i<n; i++)
       if (r[i])
@@ -722,7 +722,7 @@ UtilEngine.printArrayIndices = function(s, r, n) {
 * @param {number=} opt_n  length of array
 */
 UtilEngine.printArrayPermutation = function(s, r, ncol, nf, opt_n) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     nf = nf || NF7;
     opt_n = opt_n || r.length;
     for (var i=0; i<opt_n; i++)
@@ -751,7 +751,7 @@ UtilEngine.printList = function(s, list) {
 * @param {number=} n  number of rows of matrix
 */
 UtilEngine.printMatrix2 = function(s, m, nf, n) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     nf = nf || NF7E;
     n = n || m.length;
     console.log(s);
@@ -768,7 +768,7 @@ UtilEngine.printMatrix2 = function(s, m, nf, n) {
 * @param {!Array<number>} nrow  the row permutation vector
 */
 UtilEngine.printMatrix3 = function(s, m, nrow) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     console.log(s);
     for (var i=0, len=m.length; i<len; i++) {
       UtilEngine.printArray3('', m[nrow[i]], ',');
@@ -785,7 +785,7 @@ UtilEngine.printMatrix3 = function(s, m, nrow) {
 * @param {number=} n  number of rows of matrix
 */
 UtilEngine.printMatrixPermutation = function(s, m, nrow, ncol, nf, n) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     console.log(s);
     n = n || m.length;
     for (var i=0; i<n; i++)
@@ -893,7 +893,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
   var c, i, j, k, ncopy;
   goog.asserts.assert(A.length >= n);
   goog.asserts.assert(A[0].length >= n+1);
-  if (goog.DEBUG && debug)
+  if (Util.DEBUG && debug)
     console.log('maxtrixSolve3 n='+n);
   // Step 1. Initialize row pointer and scaling factors
   goog.asserts.assert(nrow.length >= n);
@@ -910,7 +910,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
         s[i] = Math.abs(A[i][j]);
     // @todo why not use zero_tol here??
     if (s[i] < UtilEngine.SMALL_POSITIVE) {
-      if (goog.DEBUG) {
+      if (Util.DEBUG) {
         console.log('no unique solution, because row '+i
             +' is zero; n='+n);
         UtilEngine.printMatrix2('A', A, NF7, n);
@@ -925,7 +925,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
   var loopCtr = 0;
   eliminate:
   for (c=0; c<n; c++) {
-    if (goog.DEBUG && loopCtr++ > 2*n) {
+    if (Util.DEBUG && loopCtr++ > 2*n) {
       console.log('matrixSolv3 loopCtr='+loopCtr+' c='+c+' n='+n);
     }
     var columnSwaps = 0;
@@ -944,17 +944,17 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
       // Step 4. If A[nrow[p]][c] == 0, then no unique solution
       // new:  swap columns, and hope for the best
       if (Math.abs(A[nrow[p]][ncol[c]]) < zero_tol) {
-        if (debug && goog.DEBUG) {
+        if (debug && Util.DEBUG) {
           console.log('largest scaled entry in column '+c+' is small: '
               +NFE(A[nrow[p]][ncol[c]]));
         }
         if (columnSwaps >= (n-1 - c)) {
-          if (debug && goog.DEBUG)
+          if (debug && Util.DEBUG)
             console.log('columnSwaps='+columnSwaps+' >= '+(n-1)+' - '+c);
           break eliminate;
         }
         // simulated column interchange
-        if (debug && goog.DEBUG)
+        if (debug && Util.DEBUG)
           UtilEngine.printArray('before column swap; c='+c, ncol);
         ncopy = ncol[c];
         for (j=c; j<n-1; j++) {
@@ -962,7 +962,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
         }
         ncol[n-1] = ncopy;
         columnSwaps++;
-        if (debug && goog.DEBUG)
+        if (debug && Util.DEBUG)
           UtilEngine.printArray('after column swap', ncol);
         continue;
       }
@@ -978,7 +978,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
         for (k=0; k<n+1; k++)
           A[nrow[j]][ncol[k]] -= m*A[nrow[r]][ncol[k]];
       }
-      if (debug && goog.DEBUG)
+      if (debug && Util.DEBUG)
         UtilEngine.printMatrixPermutation('A '+n, A, nrow, ncol, NFE, n);
       r++;  // only increment row when successful.
       columnSwaps = 0;
@@ -987,7 +987,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
   }
   // r is incremented one beyond the last row treated.
   r--;
-  if (debug && goog.DEBUG)
+  if (debug && Util.DEBUG)
     console.log('last row treated: r = '+r);
   // For singular matrix, we wind up with one or more rows of all zeros at the end.
   // To have a solution, the corresponding entries in the b vector must be zero.
@@ -995,13 +995,13 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
   if (r < n-1) {
     for (i=r+1; i<n; i++) {
       if (Math.abs(A[nrow[i]][n]) > ZERO_TOL2) {
-        if (0 == 1 && goog.DEBUG) {
+        if (0 == 1 && Util.DEBUG) {
           console.log('b vector not in column space ['+nrow[i]+'] '
               +NFE(A[nrow[i]][n]));
           UtilEngine.printMatrixPermutation('A', A, nrow, ncol, NF7, n);
         }
         return nrow[i];
-      } else if (0 == 1 && goog.DEBUG) {
+      } else if (0 == 1 && Util.DEBUG) {
         if (Math.abs(A[nrow[i]][n]) > 1E-7)
           console.log('matrix is singular and last b-value ['+nrow[i]+'] '
               +NFE(A[nrow[i]][n]));
@@ -1024,20 +1024,20 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
     }
     if (lmost != -1 && lmost != c) {
       c = lmost;
-      if (debug && goog.DEBUG)
+      if (debug && Util.DEBUG)
         console.log('move left in row  r = '+r+' to c='+c
             +' A[r,c]='+NFE(A[nrow[r]][ncol[c]]));
     }
     // if there is a zero at A[r,c], then move up a row
     if (Math.abs(A[nrow[r]][ncol[c]]) < zero_tol) {
-      if (debug && goog.DEBUG)
+      if (debug && Util.DEBUG)
         console.log('zero on diagonal move up a row r='+r+' c='+c
             +' A[r,c]='+NFE(A[nrow[r]][ncol[c]]));
       r--;
       continue;
     }
     // we now have the left-most non-zero entry A[r,c] with c >= r
-    if (debug && goog.DEBUG)
+    if (debug && Util.DEBUG)
       console.log('r='+r+' c='+c+' A[r,c]='+NFE(A[nrow[r]][ncol[c]]));
     // if underdetermined, set some of the x[i] to 0
     // 'underdetermined' means that we have more than one free variable in this
@@ -1059,7 +1059,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
     c--;
     r--;
   }
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     UtilEngine.printArray('',nrow);
     UtilEngine.printMatrix3('A '+A.length+'x'+A[0].length, A, nrow);
   }
@@ -1098,7 +1098,7 @@ UtilEngine.matrixIsSingular = function(Acc, n, nrow, tolerance) {
   //double condition = min > 1E-3 ? max/min : Double.MAX_VALUE;
   var condition = max/min;
   var r = Math.abs(min) < tolerance;
-  if (0 == 1 && (r || Math.abs(min) < 1.0) && goog.DEBUG)
+  if (0 == 1 && (r || Math.abs(min) < 1.0) && Util.DEBUG)
     console.log('diagonal min='+NFE(min)+' max='+NF5(max)
          +' condition='+NFE(condition)+' singular='+r);
   return r;

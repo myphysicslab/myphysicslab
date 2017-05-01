@@ -77,7 +77,6 @@ var testEasyScript1 = function() {
   window.terminal = new Terminal(input_elem, output_elem);
   var t = window.terminal;
   Terminal.stdRegex(t);
-  assertEquals(4, t.eval('2+2'));
   // EasyScriptParser operates on three Subjects, two are the same type with same
   // Parameter names.
   var easyScript = new EasyScriptParser([va, simView1, simView2]);
@@ -141,14 +140,19 @@ var testEasyScript1 = function() {
   assertEquals('POSITION=-3.1456;VIEW1.WIDTH=5;VIEW1.HEIGHT=20;'
       +'VIEW1.SCALE_X_Y_TOGETHER=false;VIEW2.WIDTH=2;VIEW2.HEIGHT=2;',
       easyScript.script());
+  assertEquals(1, t.eval('position=1;'));
 
   // Test that semi-colons inside brackets don't break up the command
   // This adds all the variables together.
-  t.z.va = va;
-  assertEquals(165.1, t.eval(
-      'position=1;goog.array.reduce(z.va.toArray(), '
-      +'function(r, v) { return r+v.getValue(); }, 0)'));
-
+  if (!Util.ADVANCED) {
+    // Under advanced-compile there are many global variables being made
+    // including 'z', and the Terminal parser prohibits scripts that reference
+    // global variables.
+    t.z.va = va;
+    assertEquals(165.1, t.eval(
+        'position=1;goog.array.reduce(z.va.toArray(), '
+        +'function(r, v) { return r+v.getValue(); }, 0)'));
+  }
   assertSameElements('VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.WORK_FROM_DAMPING,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(','), easyScript.names());
 
   // Delete a variable, it should no longer appear in script() or names()
@@ -169,8 +173,13 @@ var testEasyScript1 = function() {
       easyScript.script());
 
   // Test that semi-colons inside strings don't break up the command
-  assertTrue(t.eval('z.va.getVariable(0).getName()=="POSITION"'));
-  assertFalse(t.eval('z.va.getVariable(0).getName()=="POSITION;"'));
+  if (!Util.ADVANCED) {
+    // Under advanced-compile there are many global variables being made
+    // including 'z', and the Terminal parser prohibits scripts that reference
+    // global variables.
+    assertTrue(t.eval('z.va.getVariable(0).getName()=="POSITION"'));
+    assertFalse(t.eval('z.va.getVariable(0).getName()=="POSITION;"'));
+  }
 
   // Set a Parameter using quoted string
   assertEquals('FULL', t.eval('view1.vertical_align="FULL"'));

@@ -347,7 +347,7 @@ CollisionAdvance.prototype.advance = function(timeStep, opt_memoList) {
     this.sim_.modifyObjects();
     return true;
   }
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     // turn on debug at a specific time
     var t = this.sim_.getTime();
     if (t >= 6.5 && t < 8.0) {
@@ -564,7 +564,7 @@ collisions
 @private
 */
 CollisionAdvance.prototype.checkNoneCollide = function() {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     var numIllegal = 0;
     goog.array.forEach(this.collisions_, function(c) {
       if (c.illegalState())
@@ -593,14 +593,14 @@ CollisionAdvance.prototype.do_advance_sim = function(stepSize) {
   this.collisions_ = [];
   // ===================== save current state =====================
   this.sim_.saveState();
-  if (goog.DEBUG && stepSize <= 1E-15) {
+  if (Util.DEBUG && stepSize <= 1E-15) {
     this.myPrint('*** WARNING tiny time step = '+NFE(stepSize));
   }
   this.print(WayPoint.ADVANCE_SIM_START);
   // ===================== step the ODE forward =====================
   var error = this.odeSolver_.step(stepSize);
   this.sim_.modifyObjects();
-  if (goog.DEBUG && this.debugPaint_ != null) {
+  if (Util.DEBUG && this.debugPaint_ != null) {
     this.debugPaint_();
   }
   this.odeSteps_++;
@@ -676,7 +676,7 @@ CollisionAdvance.prototype.do_backup = function(stepSize) {
   this.print(WayPoint.POST_COLLISION);
   this.sim_.restoreState();
   this.sim_.modifyObjects();
-  if (goog.DEBUG && this.debugPaint_ != null) {
+  if (Util.DEBUG && this.debugPaint_ != null) {
     this.debugPaint_();
   }
   this.backupCount_++;
@@ -786,7 +786,7 @@ CollisionAdvance.prototype.do_small_impacts = function() {
     this.sim_.handleCollisions(this.collisions_, this.collisionTotals_);
     // NOTE: not adding these small impacts to the collision totals.
     this.sim_.modifyObjects();
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       var time = this.sim_.getTime();
       goog.array.forEach(this.collisions_, function(c) {
         // update the collisions to see new velocity when debugging
@@ -877,7 +877,7 @@ CollisionAdvance.prototype.minVelocity = function(collisions) {
 * @private
 */
 CollisionAdvance.prototype.myPrint = function(message, colors) {
-  if (!goog.DEBUG)
+  if (!Util.DEBUG)
     return;
   // Note that `colors` is never referenced within this function body.
   // It primarily exists so it can be annotated with `...` for the Compiler,
@@ -893,7 +893,7 @@ CollisionAdvance.prototype.myPrint = function(message, colors) {
 @private
 */
 CollisionAdvance.prototype.print = function(wayPoint) {
-  if (!goog.DEBUG) {
+  if (!Util.DEBUG) {
     return;
   }
   if (!goog.array.contains(this.wayPoints_, wayPoint)) {
@@ -1090,7 +1090,8 @@ CollisionAdvance.prototype.print = function(wayPoint) {
       break;
 
     case WayPoint.STUCK:
-      this.myPrint('STUCK collision was not resolved after '+this.stuckCount_+' tries');
+      this.myPrint('STUCK collision was not resolved after '+this.stuckCount_
+          +' tries');
       this.printCollisions('STUCK', true);
       // print history so we can reproduce the error
       console.log(this.sim_.getVarsList().printHistory());
@@ -1127,7 +1128,7 @@ CollisionAdvance.printCollision = function(time, msg, c) {
 * @private
 */
 CollisionAdvance.prototype.printCollisions = function(msg, printAll) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     var time = this.sim_.getTime();
     goog.array.forEach(this.collisions_, function(c, i) {
       if (printAll || c.needsHandling() || !c.contact()) {
@@ -1143,7 +1144,7 @@ CollisionAdvance.prototype.printCollisions = function(msg, printAll) {
 * @private
 */
 CollisionAdvance.prototype.printCollisions2 = function(msg, impulse) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     var time = this.sim_.getTime();
     goog.array.forEach(this.collisions_, function(c, i) {
       if (Math.abs(c.getImpulse()) > impulse) {
@@ -1321,7 +1322,7 @@ Here is example code where `simRun.paintAll` is the SimRunner method
 @param {?function():undefined} fn function that will paint canvases
 */
 CollisionAdvance.prototype.setDebugPaint = function(fn) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     this.debugPaint_ = fn;
     if (0 == 1) {
       // Tell sim to also show intermediate states for more detailed debugging.

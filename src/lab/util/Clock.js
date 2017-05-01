@@ -371,7 +371,7 @@ Clock.prototype.pause = function() {
     this.cancelAllTasks();
     this.isRunning_ = false;
     this.broadcast(new GenericEvent(this, Clock.CLOCK_PAUSE));
-    if (goog.DEBUG && this.clockDebug_)
+    if (Util.DEBUG && this.clockDebug_)
       console.log('Clock.pause '+this.toString());
   }
 };
@@ -394,7 +394,7 @@ Clock.prototype.resume = function() {
     this.isRunning_ = true;
     this.setTimePrivate(this.saveTime_secs_);
     this.setRealTime(this.saveRealTime_secs_);
-    if (goog.DEBUG && this.clockDebug_) {
+    if (Util.DEBUG && this.clockDebug_) {
       console.log('Clock.resume '+this.toString());
     }
     this.broadcast(new GenericEvent(this, Clock.CLOCK_RESUME));
@@ -421,7 +421,7 @@ Clock.prototype.scheduleTask = function(task) {
 @param {number} time_secs the time to set
 */
 Clock.prototype.setRealTime = function(time_secs) {
-  if (goog.DEBUG && this.clockDebug_)
+  if (Util.DEBUG && this.clockDebug_)
     console.log('Clock.setRealTime '+NF5(time_secs));
   if (this.isRunning_) {
     this.realStart_sys_secs_ = Util.getSystemTime() - time_secs/this.timeRate_;
@@ -436,7 +436,7 @@ or after the given time. Broadcasts a {@link #CLOCK_SET_TIME} event.
 */
 Clock.prototype.setTime = function(time_secs) {
   this.setTimePrivate(time_secs);
-  if (goog.DEBUG && this.clockDebug_) {
+  if (Util.DEBUG && this.clockDebug_) {
     console.log('Clock.setTime '+' time='+NF5(this.getTime())
         +' realTime='+NF5(this.getRealTime()));
   }
@@ -494,7 +494,7 @@ Clock.prototype.step = function(timeStep) {
   this.saveTime_secs_ += timeStep;
   this.saveRealTime_secs_ += timeStep;
   this.broadcast(new GenericEvent(this, Clock.CLOCK_STEP));
-  if (goog.DEBUG && this.clockDebug_) {
+  if (Util.DEBUG && this.clockDebug_) {
     console.log('Clock.step timeStep='+NFE(timeStep)+' '+this.toString());
   }
   // execute tasks that should fire during this step

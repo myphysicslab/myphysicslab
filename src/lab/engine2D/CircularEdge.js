@@ -605,7 +605,7 @@ CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   //rbc.impact2 = rw;  // point on circle edge
   rbc.ballNormal = true;
   rbc.radius1 = v.getCurvature();
-  rbc.creator = goog.DEBUG ? 'CircularEdge.findVertexContact' : '';
+  rbc.creator = Util.DEBUG ? 'CircularEdge.findVertexContact' : '';
   return rbc;
 };
 
@@ -667,7 +667,7 @@ CircularEdge.prototype.getNormalBody = function(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   var h = p_edge.length();
   if (h < CircularEdge.TINY_POSITIVE) {
-    throw new Error(goog.DEBUG ? ('cannot get normal at point '+p_body) : '');
+    throw new Error(Util.DEBUG ? ('cannot get normal at point '+p_body) : '');
   }
   // note: because bodyToEdge does not rotate, the normal is same in edge or body coords
   return p_edge.multiply(this.outsideIsOut_ ? 1/h : -1/h);
@@ -950,7 +950,7 @@ CircularEdge.prototype.nearestPointByAngle = function(p_body) {
         angle - this.angle_high_ : (2*Math.PI + angle) - this.angle_high_;
     var angle_new = d1 < d2 ? this.angle_low_ : this.angle_high_;
     var qb2 = this.angleToBody(angle_new);
-    if (0 == 1 && goog.DEBUG) {
+    if (0 == 1 && Util.DEBUG) {
       console.log('nearestOldPointTo angle '+NF5(angle)+' became '
           +NF5(angle_new)+' body '+p_body+' became '+qb2);
     }
@@ -970,12 +970,12 @@ CircularEdge.prototype.outsideIsOut = function() {
 /** @inheritDoc */
 CircularEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       UtilityCollision.edgeEdgeCollisionTests++;
     }
     CircleStraight.testCollision(collisions, edge, this, time);
   } else if (edge instanceof CircularEdge) {
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       UtilityCollision.edgeEdgeCollisionTests++;
     }
     CircleCircle.testCollision(collisions, edge, this, time);

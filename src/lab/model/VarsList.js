@@ -124,7 +124,7 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
       this.timeIdx_ = i;
     }
   }
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     Util.assertUnique(varNames);
   };
   /**
@@ -139,7 +139,7 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
   * @type {boolean}
   * @private
   */
-  this.history_ = goog.DEBUG;
+  this.history_ = Util.DEBUG;
   /** Recent history of the simulation state for debugging;  an array of copies
   * of the vars array.
   * @type {!Array<!Array<number>>}

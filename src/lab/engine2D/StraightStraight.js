@@ -162,7 +162,7 @@ StraightStraight.addCollision = function(collisions, edge1, edge2, pt, time) {
   rbc.radius2 = Util.POSITIVE_INFINITY;
   rbc.distance = -0.1; // distance is meaningless for edge/edge collision
   rbc.impact1 = pt;
-  rbc.creator = goog.DEBUG ? 'StraightStraight' : '';
+  rbc.creator = Util.DEBUG ? 'StraightStraight' : '';
   rbc.normal = edge2.getBody().rotateBodyToWorld(edge2.getNormalBody(pt));
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);

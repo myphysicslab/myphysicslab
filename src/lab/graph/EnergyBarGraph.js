@@ -22,7 +22,6 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.ScreenRect');
 
 goog.scope(function() {
@@ -31,7 +30,6 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var LabView = lab.view.LabView;
 var NF = myphysicslab.lab.util.Util.NF;
 var NFE = myphysicslab.lab.util.Util.NFE;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
@@ -96,7 +94,7 @@ See {@link #graphFont}, {@link #potentialColor}, {@link #translationColor}, and
 
 The EnergyBarGraph will only draw after the visible area has been set via
 {@link #setVisibleArea}. Usually this is set to be the entire visible area of the
-{@link LabView} containing the EnergyBarGraph.
+{@link myphysicslab.lab.view.LabView} containing the EnergyBarGraph.
 
 The width of the EnergyBarGraph is always the full width of the visible area.
 
@@ -391,12 +389,12 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   // NOTE WELL: this.rect_ is empty first time thru here!
   if (this.needResize_ || this.rect_.isEmpty()
       || Util.veryDifferent(h2, this.rect_.getHeight())) {
-    if (this.debug_ && goog.DEBUG) {
+    if (this.debug_ && Util.DEBUG) {
       console.log('h2 = '+h2+' this.rect_.getHeight='+this.rect_.getHeight());
     }
     this.resizeRect(h2);
   }
-  if (this.debug_ && goog.DEBUG) {
+  if (this.debug_ && Util.DEBUG) {
     var r = map.simToScreenRect(this.rect_);
     context.fillStyle = 'rgba(255,255,0,0.5)'; // transparent yellow
     context.fillRect(r.getLeft(), r.getTop(), r.getWidth(), r.getHeight());
@@ -415,7 +413,7 @@ EnergyBarGraph.prototype.draw = function(context, map) {
         height2);
   }
   // for debugging:  draw outline
-  if (this.debug_ && goog.DEBUG) {
+  if (this.debug_ && Util.DEBUG) {
     context.strokeStyle = '#90c'; // purple
     context.strokeRect(this.leftEdge_- EnergyBarGraph.LEFT_MARGIN,
         top_ + EnergyBarGraph.TOP_MARGIN,
@@ -544,12 +542,12 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
       var textWidth = context.measureText(s).width;
       context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
       scale += this.graphDelta_;
-      if (this.debug_ && goog.DEBUG && ++loopCtr > 100) {
+      if (this.debug_ && Util.DEBUG && ++loopCtr > 100) {
         console.log('loop 1 x='+x+' s='+s+' scale='+NFE(scale)
           +' total='+NFE(total)+' graphDelta='+NFE(this.graphDelta_)  );
       }
     } while (scale < total + this.graphDelta_ + 1E-16);
-    if (this.debug_ && goog.DEBUG) {
+    if (this.debug_ && Util.DEBUG) {
       console.log('megaMinEnergy='+NFE(this.megaMinEnergy_)
         +' graphDelta='+NFE(this.graphDelta_)
         +' graphFactor='+NFE(this.graphFactor_)
@@ -569,7 +567,7 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
         var textWidth = context.measureText(s).width;
         context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
         scale -= this.graphDelta_;
-        if (this.debug_ && goog.DEBUG) {
+        if (this.debug_ && Util.DEBUG) {
           console.log('loop 2 x='+x+' s='+s+' scale='+NFE(scale)
             +' megaMinEnergy='+NFE(this.megaMinEnergy_) );
         }
@@ -713,7 +711,7 @@ EnergyBarGraph.numberFormat1 = function(value) {
 * @private
 */
 EnergyBarGraph.prototype.printEverything = function(s) {
-  if (goog.DEBUG && this.debug_) {
+  if (Util.DEBUG && this.debug_) {
     console.log(s + this);
     if (0 == 1) {  // equiv to 'if (false)'
       Util.printArray(this.history_);
@@ -727,7 +725,7 @@ EnergyBarGraph.prototype.printEverything = function(s) {
 */
 EnergyBarGraph.prototype.rescale = function(maxWidth) {
   var time_check = this.timeCheck(this.minEnergy_);
-  if (goog.DEBUG) { this.printEverything('(status)'); }
+  if (Util.DEBUG) { this.printEverything('(status)'); }
   // keep track of most negative min energy value during this time check period
   this.megaMinEnergy_ = this.minHistory();
   goog.asserts.assert(isFinite(this.megaMinEnergy_));
@@ -736,21 +734,21 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
     // rescale when minEnergy is negative and has gone past left edge
     if (this.graphOrigin_ + Math.floor(0.5 + this.megaMinEnergy_*this.graphFactor_) <
         this.leftEdge_ - EnergyBarGraph.LEFT_MARGIN) {
-      if (goog.DEBUG) { this.printEverything('BIG MIN ENERGY'); }
+      if (Util.DEBUG) { this.printEverything('BIG MIN ENERGY'); }
       this.needRescale_ = true;
     }
     if (time_check) {
       // every few seconds, check if minEnergy is staying in smaller negative range
       if (-this.megaMinEnergy_*this.graphFactor_ <
             0.2*(this.graphOrigin_ - this.leftEdge_)) {
-        if (goog.DEBUG) { this.printEverything('SMALL MIN ENERGY'); }
+        if (Util.DEBUG) { this.printEverything('SMALL MIN ENERGY'); }
         this.needRescale_ = true;
       }
     }
   } else if (this.megaMinEnergy_ > 1E-6) {
     // minEnergy is not negative, ensure left edge is zero
     if (this.graphOrigin_ > this.leftEdge_) {
-      if (goog.DEBUG) { this.printEverything('POSITIVE MIN ENERGY'); }
+      if (Util.DEBUG) { this.printEverything('POSITIVE MIN ENERGY'); }
       this.needRescale_ = true;
     }
   } else {
@@ -768,7 +766,7 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
     // rescale when max energy is too big
     if (this.graphOrigin_ + this.totalEnergy_*this.graphFactor_ > this.rightEdge_) {
       this.needRescale_ = true;
-      if (goog.DEBUG) { this.printEverything('BIG TOTAL ENERGY'); }
+      if (Util.DEBUG) { this.printEverything('BIG TOTAL ENERGY'); }
     }
     // rescale when max energy is small,
     // but only when positive part of graph is large compared to negative part.
@@ -778,7 +776,7 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
             0.2*(this.rightEdge_ - this.graphOrigin_)) {
       this.needRescale_ = true;
       this.megaMaxEnergy_ = this.totalEnergy_;
-      if (goog.DEBUG) { this.printEverything('SMALL TOTAL ENERGY'); }
+      if (Util.DEBUG) { this.printEverything('SMALL TOTAL ENERGY'); }
     }
 
   } else if (this.totalEnergy_ < -1E-12) {
@@ -786,7 +784,7 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
     if (time_check) {
       if (this.megaMaxEnergy_ < 0 && this.graphOrigin_ < this.rightEdge_) {
         this.needRescale_ = true;
-        if (goog.DEBUG) { this.printEverything('NEGATIVE TOTAL ENERGY'); }
+        if (Util.DEBUG) { this.printEverything('NEGATIVE TOTAL ENERGY'); }
       }
       this.megaMaxEnergy_ = this.totalEnergy_;
     }
@@ -851,13 +849,13 @@ EnergyBarGraph.prototype.resizeRect = function(height) {
     bottom = this.visibleRect_.getBottom();
     top_ = bottom + height;
   }
-  if (this.debug_ && goog.DEBUG) {
+  if (this.debug_ && Util.DEBUG) {
     console.log('resizeRect visibleRect='+this.visibleRect_
       +' rect='+this.rect_+ ' top_='+top_+' bottom='+bottom);
   }
   this.rect_ = new DoubleRect(this.visibleRect_.getLeft(), bottom,
       this.visibleRect_.getRight(), top_);
-  if (this.debug_ && goog.DEBUG) {
+  if (this.debug_ && Util.DEBUG) {
     console.log('resizeRect new rect='+this.rect_);
   }
   this.needRescale_ = true;
@@ -875,7 +873,7 @@ EnergyBarGraph.prototype.setPosition = function(position) {
     var h = this.rect_.getHeight()/2;
     this.rect_ = new DoubleRect(this.rect_.getLeft(), position.getY() - h,
         this.rect_.getRight(), position.getY() + h);
-    if (this.debug_ && goog.DEBUG) {
+    if (this.debug_ && Util.DEBUG) {
       console.log('setPosition '+this.rect_);
     }
   } else {

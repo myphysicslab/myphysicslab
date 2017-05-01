@@ -24,14 +24,17 @@ export DOSSIER
 COMPILE_LEVEL ?= simple
 
 # GOOG_DEBUG is passed to compile_js.sh, it determines whether goog.DEBUG=true
-# Leave GOOG_DEBUG unspecified to let it be determined by COMPILE_LEVEL flag.
+# which also turns goog.asserts assertions on or off.
 # GOOG_DEBUG ?= true
+
+# UTIL_DEBUG is passed to compile_js.sh, it determines whether Util.DEBUG=true
+# UTIL_DEBUG ?= true
 
 # LOCALE can be "en" or "de" or "en de" (but without the quotes)
 LOCALE ?= en
 
+# BUILD_DIR is location of build directory where compiler output goes.
 # Leave BUILD_DIR unspecified to let it be determined by COMPILE_LEVEL flag.
-# Or specify BUILD_DIR if desired.
 # BUILD_DIR ?= build
 
 # Custom locations for build directories can be specified like this:

@@ -465,7 +465,7 @@ RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
     // 'allowTiny' handles cases where a collision has very small distance, but we
     // cannot backup to a time when distance was near targetGap.
     // This occurs in StraightStraightTest.fast_close_setup().
-    if (goog.DEBUG && this.distance > 0
+    if (Util.DEBUG && this.distance > 0
         && this.distance < this.targetGap_ - this.accuracy_) {
       console.log('%cTINY DISTANCE%c '+this, 'background:#f9c', 'color:black',
         'background:#fc6', 'color:black');
@@ -779,7 +779,7 @@ RigidBodyCollision.prototype.setDetectedTime = function(time) {
     if (nv < -0.001) {
       this.estimate_ = time + (this.targetGap_ - this.distance) / nv;
     }
-    if (0 == 1 && goog.DEBUG)
+    if (0 == 1 && Util.DEBUG)
       console.log(NF5(time)+' setDetectedTime '+this.toString());
   }
 };
@@ -906,7 +906,7 @@ RigidBodyCollision.prototype.updateEstimatedTime = function(time, doUpdate) {
         didUpdate = true;
       }
     }
-    if (0 == 1 && goog.DEBUG) {
+    if (0 == 1 && Util.DEBUG) {
       console.log(NF7(time)+' UPDATE ESTIMATE '+didUpdate
       +' old='+NF7(oldEstimate)
       +' targetGap='+NF5E(this.targetGap_)

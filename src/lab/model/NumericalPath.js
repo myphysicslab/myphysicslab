@@ -512,7 +512,7 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
       var p2 = this.mod_p(p + d);
       y2 = this.distanceSquared2(target, p2, this.linearSearch(p2, k_int));
     }
-    if (ctr > 1000 && goog.DEBUG)
+    if (ctr > 1000 && Util.DEBUG)
       console.log(ctr
         +' y0='+NF5(y0)
         +' y1='+NF5(y1)
@@ -557,7 +557,7 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
     }
     ctr++;
   } while (dk_int > 1 || d > 1E-6);
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('map exit '+ctr
       +' p='+NF5(p)
       +' d='+NF7(d)
@@ -705,7 +705,7 @@ NumericalPath.interp4 = function(xx, yy, x, k, closedLoop) {
   } else if (i < 0) {
     i = 0;
   }
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     // if not at end point, check that the x value is in middle of the range
     if (i > 0 && i < n-4) {
       goog.asserts.assert(xx[i+1] <= x && x < xx[i+2] ); // xx[i+1]+' '+x+' '+xx[i+2]
@@ -798,7 +798,7 @@ NumericalPath.prototype.linearSearch = function(p, k) {
   // for closedLoop, we might have gone past the stitch point (wrap around end)
   // so switch to binary search if pval is very far away
   if (Math.abs(this.pvals[j] - p) > this.plen/20) {
-    if (true && goog.DEBUG)
+    if (true && Util.DEBUG)
       console.log('use binary not linear search '+NF5(p)
         +' '+NF5(this.pvals[j]));
     j = NumericalPath.binarySearch(this.pvals, p);
@@ -820,7 +820,7 @@ NumericalPath.prototype.linearSearch = function(p, k) {
       }
     }
   }
-  if (goog.DEBUG && j < this.tableLength_-2)
+  if (Util.DEBUG && j < this.tableLength_-2)
     goog.asserts.assert( this.pvals[j] <= p && p < this.pvals[j+1] );
     //  : this.pvals[j]+' '+p+' '+this.pvals[j+1];
   return j;
@@ -836,7 +836,7 @@ NumericalPath.prototype.make_table = function(path) {
   var tHigh = path.getFinishTValue();
   var i;
   /* Create table of x,y, and p (= path distance). */
-  if (NumericalPath.debug && goog.DEBUG)
+  if (NumericalPath.debug && Util.DEBUG)
     console.log('make_table '+this.getName());
   {
     var delta = (tHigh-tLow)/(this.tableLength_-1);
@@ -917,10 +917,10 @@ NumericalPath.prototype.make_table = function(path) {
       this.nypVals[i] = this.deriv3(this.nyVals, i-1, 1);
     }
   }
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     this.printTable();
   }
-  if (goog.DEBUG && this.closedLoop) {
+  if (Util.DEBUG && this.closedLoop) {
     console.log('WARNING:  derivative of normal not calculated at loop point');
   }
 };
@@ -1090,7 +1090,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
       this.pvals[k+1] <= nowP) {
     var k0 = k;
     ppt.idx = k = NumericalPath.binarySearch(this.pvals, nowP);
-    if (0 == 1 && goog.DEBUG) {
+    if (0 == 1 && Util.DEBUG) {
       var s = 'binarySearch needed '+k0+'->'+k+' p='+NF5(nowP);
       if (k0 > -1 && k0 < this.tableLength_)
         s += ' p['+k0+']='+NF5(this.pvals[k0]);
@@ -1102,7 +1102,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
     k = 0;
   if (k >= this.tableLength_-1)
     k = this.tableLength_-2;
-  if (goog.DEBUG && k > 0 && k < this.tableLength_-2) {
+  if (Util.DEBUG && k > 0 && k < this.tableLength_-2) {
     // if not at endpoint, check that index k corresponds to p
     goog.asserts.assert( this.pvals[k] <= nowP && nowP < this.pvals[k+1] );
     //      k+' '+this.pvals[k]+' '+nowP+' '+this.pvals[k+1];
@@ -1237,7 +1237,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
   goog.asserts.assert(ppt.p == saveP);  // ensure that p value is not changed
 };
 
-if (goog.DEBUG) {
+if (Util.DEBUG) {
   /** print the table for debugging.
   * @return {undefined}
   * @private

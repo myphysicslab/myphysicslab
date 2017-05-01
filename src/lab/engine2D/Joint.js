@@ -228,7 +228,7 @@ Joint.prototype.addCollision = function(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/true);
   this.updateCollision(c);
   c.setDetectedTime(time);
-  if (0 == 1 && goog.DEBUG && UtilEngine.debugEngine2D != null) {
+  if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     UtilEngine.debugEngine2D.myPrint('joint collision '+c);
     // show the normal vector at the joint
     UtilEngine.debugEngine2D.debugLine('normal', c.impact1, c.impact1.add(c.normal));

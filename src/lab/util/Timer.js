@@ -202,7 +202,7 @@ Timer.prototype.finishAt = function(finishTimeSys) {
   //console.log('finishAt delay_secs='+delay_secs+' expect='
   //    +this.expected_sys_+' now='+now_secs);
   this.expected_sys_ = now_secs + delay_secs;
-  if (goog.DEBUG && this.timerDebug_) {
+  if (Util.DEBUG && this.timerDebug_) {
     var elapsed_secs = now_secs - this.actual_sys_;
     goog.asserts.assert( isNaN(this.actual_sys_) || elapsed_secs >= 0,
         'elapsed_secs<0' );
@@ -303,7 +303,7 @@ callback.
 Timer.prototype.stopFiring = function() {
   this.firing_ = false;
   if (goog.isDef(this.timeoutID_)) {
-    if (goog.DEBUG && this.timerDebug_) {
+    if (Util.DEBUG && this.timerDebug_) {
       console.log('Timer.stop:clearTimeout '+this.toString());
     }
     clearTimeout(this.timeoutID_);

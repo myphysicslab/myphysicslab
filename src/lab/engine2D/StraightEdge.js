@@ -182,7 +182,7 @@ StraightEdge.prototype.distanceToLine = function(p_body) {
     r = this.outsideIsUp_ ? d : -d;
   }
   if (isNaN(r)) {
-    throw new Error(goog.DEBUG ?
+    throw new Error(Util.DEBUG ?
         ('distanceToLine NaN '+p_body+' '+this.v1_+' '+this.v2_) : '');
   }
   return r;
@@ -270,7 +270,7 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
     rbc.normal = nw;
     rbc.ballNormal = false;
     rbc.radius2 = Util.POSITIVE_INFINITY;
-    rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContactVert' : '';
+    rbc.creator = Util.DEBUG ? 'StraightEdge.findVertexContactVert' : '';
     return rbc;
   }
   if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {  // horizontal edge
@@ -296,7 +296,7 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
     rbc.normal = nw;
     rbc.ballNormal = false;
     rbc.radius2 = Util.POSITIVE_INFINITY;
-    rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContactHoriz' : '';
+    rbc.creator = Util.DEBUG ? 'StraightEdge.findVertexContactHoriz' : '';
     return rbc;
   }
   var k = (y2 - y1)/(x2 - x1);  // slope of the edge
@@ -334,7 +334,7 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   rbc.normal = nw;
   rbc.ballNormal = false;
   rbc.radius2 = Util.POSITIVE_INFINITY;
-  rbc.creator = goog.DEBUG ? 'StraightEdge.findVertexContact' : '';
+  rbc.creator = Util.DEBUG ? 'StraightEdge.findVertexContact' : '';
   return rbc;
 };
 
@@ -498,7 +498,7 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
   rbc.radius1 = Util.NaN;
   rbc.ballNormal = true;
   rbc.radius2 = dist;
-  rbc.creator = goog.DEBUG ? "StraightEdge.makeVertexVertex" : "";
+  rbc.creator = Util.DEBUG ? "StraightEdge.makeVertexVertex" : "";
   // Only low velocity contacts are valid. At high speeds, CornerCornerCollisions
   // are likely not valid.
   return rbc.contact() ? rbc : null;

@@ -16,6 +16,7 @@ goog.provide('myphysicslab.lab.util.test.Util_test');
 
 goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
+goog.require('goog.asserts');
 
 var testUtil = function() {
   var Util = myphysicslab.lab.util.Util;
@@ -170,5 +171,16 @@ var testUtil = function() {
       Util.limitAngle(Math.PI-0.001 - 4*Math.PI), 1e-15);
   assertRoughlyEquals(-Math.PI+0.001,
       Util.limitAngle(-Math.PI+0.001 - 4*Math.PI), 1e-15);
+  // ensure that goog.asserts is working
+  if (!Util.ADVANCED) {
+    try {
+      var a = 1;
+      goog.asserts.assert(1 == 0);
+      a = 2;
+    } catch(e) {
+      //asserts are working
+    }
+    assertEquals(1, a);
+  }
 };
 goog.exportProperty(window, 'testUtil', testUtil);

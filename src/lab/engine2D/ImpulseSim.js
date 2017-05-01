@@ -361,7 +361,7 @@ ImpulseSim.COLLISIONS_DISABLED = false;
 * @const
 * @private
 */
-ImpulseSim.DEBUG_IMPULSE = false && goog.DEBUG;
+ImpulseSim.DEBUG_IMPULSE = false && Util.DEBUG;
 
 /** Impulse smaller than this is regarded as insignificant at various points
 * in the collision handling algorithm.
@@ -559,7 +559,7 @@ ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {
       var vw = vars[idx + RigidBodySim.VW_];
       if (vx != 0 || vy != 0 || vw != 0) {
         console.log(this.formatVars());
-        throw new Error(goog.DEBUG ? ('infinite mass object must remain at rest '
+        throw new Error(Util.DEBUG ? ('infinite mass object must remain at rest '
             +vx+' '+vy+' '+vw+' '+b): '');
       }
     }
@@ -568,7 +568,7 @@ ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {
 
 /** @inheritDoc */
 ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
-  if (goog.DEBUG)
+  if (Util.DEBUG)
     this.checkInfiniteMassVelocity(vars);
   if (ImpulseSim.COLLISIONS_DISABLED) {
     return;
@@ -608,7 +608,7 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
         // this section turns off the proximity check, and issues a periodic warning
         if (this.getTime() - this.warningTime_ > 5) {
           this.warningTime_ = this.getTime();
-          if (goog.DEBUG)
+          if (Util.DEBUG)
             this.myPrint('%cWARNING:  proximity test is off%c', 'background:#fc6',
                 'color:black');
         }
@@ -619,7 +619,7 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
         if (!UtilityCollision.intersectionPossible(bod1, bod2, this.distanceTol_))
           continue loop2;
       } else {
-        if (1 == 0 && goog.DEBUG) {
+        if (1 == 0 && Util.DEBUG) {
           this.myPrint('velocity ' +NF5(bod1.getVelocity().lengthCheap()
               + bod2.getVelocity().lengthCheap())+ ' >  speed limit = '+NF5(speed_limit)
               +' step='+NF5(stepSize));
@@ -635,14 +635,14 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
              || oval.getPosition().getY() < -6 || oval.getPosition().getY() > 6;
   if (outside && collisions.length==0) {
     for (i=4; i<this.bods_.length; i++) {
-      if (1 == 0 && goog.DEBUG) this.myPrint('bods['+i+'] '+bod1);
-      if (1 == 0 && goog.DEBUG) this.myPrint('bods['+i+'].body_old '+bod1.body_old);
+      if (1 == 0 && Util.DEBUG) this.myPrint('bods['+i+'] '+bod1);
+      if (1 == 0 && Util.DEBUG) this.myPrint('bods['+i+'].body_old '+bod1.body_old);
     }
-    throw new Error(goog.DEBUG ? 'point is outside but no collision detected' : '');
+    throw new Error(Util.DEBUG ? 'point is outside but no collision detected' : '');
   }
   */
   //var time = this.getTime() + stepSize;  // alternative way to get time
-  if (1 == 0 && goog.DEBUG && collisions.length > 0) {
+  if (1 == 0 && Util.DEBUG && collisions.length > 0) {
     console.log(NF7(time)+' findCollisions stepSize='
             +NF7(stepSize)+' collisions '+collisions.length);
   }
@@ -814,12 +814,12 @@ ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
   if (collisions.length==0) {
     throw new Error('empty array passed to handleCollisions');
   }
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     goog.array.forEach(rbcs, function(c, index, array) {
       c.checkConsistent();
     });
   }
-  if (1 == 0 && goog.DEBUG)
+  if (1 == 0 && Util.DEBUG)
     energy = this.getEnergyInfo().getTotalEnergy();
   var impulse = true;
   switch (this.collisionHandling_) {
@@ -846,10 +846,10 @@ ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
           /*grouped=*/true, /*lastPass=*/true);
       break;
     default:
-      throw new Error(goog.DEBUG ?
+      throw new Error(Util.DEBUG ?
         ('unknown collision handler '+this.collisionHandling_) : '');
   }
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     var energy2 = this.getEnergyInfo().getTotalEnergy();
     this.myPrint('handleCollisions energy change '+ NFE(energy2 - energy)
           +' total energy '+NF9(energy2));
@@ -877,7 +877,7 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
   for (var k=0; k<n; k++) {
     var ck = collisions[k];
     b[k] = ck.getNormalVelocity();
-    if (0 == 1 && goog.DEBUG)
+    if (0 == 1 && Util.DEBUG)
       this.myPrint('handle collision['+k+']='+NF5(b[k])+' '+ck);
     // Normal collisions have elasticity;
     // joints and contacts have zero elasticity.
@@ -893,13 +893,13 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
 
   var error = this.computeImpacts_.compute_forces(A, j, b, joint, false,
       this.getTime());
-  if (goog.DEBUG && error != -1) {
+  if (Util.DEBUG && error != -1) {
     // check on how bad the solution is.
     var accel = UtilEngine.matrixMultiply(A, j);
     accel = UtilEngine.vectorAdd(accel, b);
     var tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j, accel, joint)) {
-      throw new Error(goog.DEBUG ? (NF7(this.getTime())
+      throw new Error(Util.DEBUG ? (NF7(this.getTime())
           +' compute_impulses failed error='+error
           +' with tol='+NFE(tol)) : '');
     } else {
@@ -1069,12 +1069,12 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
   var nv = Util.newNumberArray(n);  // initial normal velocities (debug only)
   var joint = Util.newBooleanArray(n); // which collisions are joints
   var nonJoint = false; // whether there is a non-joint
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     console.log('handleCollisionSerial start n = '+n);
   }
   for (i=0; i<n; i++) {
     var ck = collisions[i];
-    if (goog.DEBUG && debugHCS)
+    if (Util.DEBUG && debugHCS)
       console.log('collision['+i+']='+ck);
     joint[i] = ck.joint;
     if (grouped) {
@@ -1099,12 +1099,12 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       // we were unable to handle all collisions; try again accepting larger velocity
       small_velocity = small_velocity * 2;
       loopPanic = loopPanic + PANIC_LIMIT;
-      if (goog.DEBUG) {
+      if (Util.DEBUG) {
         console.log('loopPanic! loopCtr='+loopCtr
             +' small_velocity='+NF5(small_velocity));
       }
     }
-    if (goog.DEBUG && loopCtr > LOOP_LIMIT) {
+    if (Util.DEBUG && loopCtr > LOOP_LIMIT) {
       // turn on debugging in extreme failure case
       // TO DO: this is not useful anymore.  An exception might be better?
       debugHCS = true;
@@ -1119,7 +1119,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
     // Randomly pick a collision (larger than small_velocity) to handle.
     // If all collisions are small, then focus == -1.
     focus = this.hcs_focus(debugHCS, small_velocity, loopCtr, joint, b);
-    if (debugHCS && goog.DEBUG && focus > -1) {
+    if (debugHCS && Util.DEBUG && focus > -1) {
       // THIS IS AN EXCELLENT PLACE TO SEE WHAT IS GOING ON
       console.log('focus='+focus+' loopCtr='+loopCtr+' b['+focus+']='+NF7E(b[focus]));
     }
@@ -1136,12 +1136,12 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
     }
   } while (focus > -1);
 
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     // THIS SHOWS THE LARGEST VELOCITY AT END OF THE PROCESS
     console.log('focus= -1 loopCtr='+loopCtr
       +' max b='+NF7E(ImpulseSim.largestVelocity(joint, b)));
   }
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     for (i=0; i<n; i++) {
       var ck = collisions[i];
       console.log('collision['+i+'] '+ck);
@@ -1149,7 +1149,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
     UtilEngine.printMatrix2('A ',A);
   }
 
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     for (i=0; i<n; i++) {
       var c = collisions[i];
       // print velocity before the impulses are applied
@@ -1171,7 +1171,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
     }
     // apply calculated impulse, changing simulation state
     this.applyCollisionImpulse(c, j2[i]);
-    if (goog.DEBUG && debugHCS) {
+    if (Util.DEBUG && debugHCS) {
       console.log('impulse j2['+i+'] = '+NFE(j2[i]));
     }
   }
@@ -1181,7 +1181,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
   }
   this.modifyObjects();
 
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     // print the impulses that were calculated and new normal velocity
     for (i=0; i<n; i++) {
       var c = collisions[i];
@@ -1194,20 +1194,20 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       }
     }
   }
-  if (goog.DEBUG && loopCtr > 100 + 2*n*Math.log(n+1)) {
+  if (Util.DEBUG && loopCtr > 100 + 2*n*Math.log(n+1)) {
     // PRINT WARNING WHEN TOO MANY LOOPS HAVE HAPPENED
     console.log('%c %s %c %s', 'color:red', NF7(this.getTime()),
       'color:black', 'handleCollisions many loops: n='+n
       +' loopCtr='+loopCtr+' small_velocity='+NF5(small_velocity));
   }
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     console.log('handleCollisions end  impulse='+impulse+' loopCtr='+loopCtr
       +' small_velocity='+NF5(small_velocity));
   }
   return impulse;
 };
 
-if (goog.DEBUG) {
+if (Util.DEBUG) {
   /** Returns size of 'largest' velocity among the set of velocities.  Here 'largest'
   means either:
 
@@ -1290,7 +1290,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     small_velocity, loopCtr, focus, joint, e, b, j2, collisions, A) {
   var i, j, k;
   var n = b.length;
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     console.log('focus='+focus+' loopCtr='+loopCtr);
     UtilEngine.printArray('b ',b, nf7);
     UtilEngine.printArray('e ',e, nf7);
@@ -1337,7 +1337,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     if (set[k])
       idx2[idx[k]] = k;
   }
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     UtilEngine.printArray('idx ', idx);
     UtilEngine.printArray('idx2', idx2);
   }
@@ -1383,7 +1383,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
   var pileDebug = false; //Math.abs(this.getTime() - 16.00) < 1E-4;
   var error = this.computeImpacts_.compute_forces(A1, j1, b1, joint1, pileDebug,
       this.getTime());
-  if (1 == 0 && goog.DEBUG && this.computeImpacts_.specialCase) {
+  if (1 == 0 && Util.DEBUG && this.computeImpacts_.specialCase) {
     // Print the A matrix and b vector for further analysis.
     // This prints the data needed as input to compute_forces, so that
     // you can try it again as a standalone test, see UtilityTest.
@@ -1397,15 +1397,15 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     accel = UtilEngine.vectorAdd(accel, b1);
     var tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j1, accel, joint1)) {
-      throw new Error(goog.DEBUG ? (NF7(this.getTime())
+      throw new Error(Util.DEBUG ? (NF7(this.getTime())
           +' compute_impulses failed error='+error
           +' with tolerance='+NFE(tol)) : '');
-    } else if (goog.DEBUG) {
+    } else if (Util.DEBUG) {
       console.log('warning: compute_impulses failed error='+error
               +' but is within tolerance='+NFE(tol));
     }
   }
-  if (1 == 0 && goog.DEBUG) {
+  if (1 == 0 && Util.DEBUG) {
     console.log(' max impulse '+NFE(UtilEngine.maxSize(j1))  );
   }
   // update the cumulative impulse j2
@@ -1419,7 +1419,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
         b[i] += A[i][j]*j1[idx[j]];
     }
   }
-  if (goog.DEBUG && debugHCS) {
+  if (Util.DEBUG && debugHCS) {
     UtilEngine.printArray('idx2', idx2, Util.NF0);
     UtilEngine.printArray('j1', j1, nf7);
     UtilEngine.printArray('j2', j2, nf7);
@@ -1427,7 +1427,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
   }
   // showVelo = show collision velocities visually (not currently working)
   var showVelo = false;
-  if (goog.DEBUG && showVelo && loopCtr > 5) {
+  if (Util.DEBUG && showVelo && loopCtr > 5) {
     for (k=0; k<n;k++) {
       // Show visually the velocity at contact points
       // with logarithmic scaling.  red = colliding, green = separating.
@@ -1461,7 +1461,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
 ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
   if (!cd.joint && j < 0) {
     if (j < -ImpulseSim.TINY_IMPULSE) {
-      throw new Error(goog.DEBUG ? ('negative impulse is impossible '+j+' '+cd) : '');
+      throw new Error(Util.DEBUG ? ('negative impulse is impossible '+j+' '+cd) : '');
     } else {
       // change tiny negative impulse to zero impulse; due to tiny numerical error
       j = 0;
@@ -1476,12 +1476,12 @@ ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
   this.applyImpulse(new Impulse('IMPULSE1', cd.primaryBody, j, cd.impact1, cd.normal, cd.getR1()));
   var i2 = cd.impact2 != null ? cd.impact2 : cd.impact1;
   this.applyImpulse(new Impulse('IMPULSE2', cd.normalBody, -j, i2, cd.normal, cd.getR2()));
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     // this is for looking at small impulses
     this.myPrint('impulse='+NFE(j)+' dist='+NFE(cd.distance)
         +' velocity='+NFE(cd.getNormalVelocity()));
   }
-  if (ImpulseSim.DEBUG_IMPULSE && goog.DEBUG) {
+  if (ImpulseSim.DEBUG_IMPULSE && Util.DEBUG) {
     if (j > 1e-16)
       this.myPrint('impulse='+NF9(j)+' '+cd);
   }

@@ -94,7 +94,7 @@ CircleStraight.improveAccuracy = function(rbc, circle, straight) {
   rbc.distance = straight.distanceToLine(pb2);
   rbc.impact1 = pw;
   rbc.normal = nw;
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('CircleStraight.improveAccuracy '
       +NF7(oldX)+' '
       +NF7(oldY)+' -> '
@@ -220,7 +220,7 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
   if (r == null) {
     return;
   }
-  if (0 == 1 && goog.DEBUG && UtilEngine.debugEngine2D != null) {
+  if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     // add a visible dot
     var t = straight.getBody().bodyToWorld(r[0]);
     UtilEngine.debugEngine2D.debugCircle('dot', t, 0.08);
@@ -256,7 +256,7 @@ CircleStraight.addCollision = function(contact, collisions, straight, circle, di
   }
   rbc.distance = dist;
   rbc.impact1 = pw;
-  rbc.creator = goog.DEBUG ? 'CircleStraight' : '';
+  rbc.creator = Util.DEBUG ? 'CircleStraight' : '';
   rbc.normal = straight.getBody().rotateBodyToWorld(straight.getNormalBody(pb));
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);

@@ -268,7 +268,7 @@ NumericControlBase.prototype.doClick = function(event) {
 NumericControlBase.prototype.formatTextField = function() {
   var dec = this.decimalPlacesNeeded(this.value_, this.signifDigits_);
   var col = this.columnsNeeded(this.value_, this.signifDigits_);
-  if (goog.DEBUG && 0 == 1) {
+  if (Util.DEBUG && 0 == 1) {
     console.log('columnsNeeded '+col+' dec='+dec+' x='
         +Util.NFE(this.value_)+' '+this.label_);
   }
@@ -390,7 +390,7 @@ NumericControlBase.prototype.setSignifDigits = function(signifDigits) {
 */
 NumericControlBase.prototype.setValue = function(value) {
   if (value != this.value_) {
-    if (goog.DEBUG && 0 == 1) {
+    if (Util.DEBUG && 0 == 1) {
       console.log('NumericControlBase.setValue value='+value+' vs '+this.value_);
     }
     try {

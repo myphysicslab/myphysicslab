@@ -60,7 +60,7 @@ var PileConfig = myphysicslab.sims.engine2D.PileConfig;
 * @type {!Random}
 * @private
 */
-PileConfig.randomColor_ = new RandomLCG();
+PileConfig.randomColor_ = new RandomLCG(901745);
 
 /** Makes a single V-shaped 'pit' for blocks to fall into.
 @param {!ContactSim} sim

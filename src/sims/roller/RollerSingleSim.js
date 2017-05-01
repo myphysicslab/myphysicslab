@@ -217,7 +217,7 @@ RollerSingleSim.prototype.setPath = function(path) {
     simList.remove(oldPath);
   }
   this.path_ = path;
-  if (0 == 1 && goog.DEBUG)
+  if (0 == 1 && Util.DEBUG)
     console.log('RollerSingleSim.setPath path='+path);
   simList.add(path);
   var r = path.getBoundsWorld();

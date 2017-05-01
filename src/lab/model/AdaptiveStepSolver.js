@@ -230,7 +230,7 @@ AdaptiveStepSolver.prototype.step = function(stepSize) {
       // reduce time step until change in energy goes to zero
       value = energyDiff;
     }
-    if (0 == 1 && goog.DEBUG) {
+    if (0 == 1 && Util.DEBUG) {
       if (!this.secondDiff_ || !firstTime) {
         console.log(NF7(startTime)
           +' value='+NF9(value)

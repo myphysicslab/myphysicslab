@@ -185,7 +185,7 @@ Vector.prototype.divide = function(factor) {
 Vector.prototype.dotProduct = function(vector) {
   var r = this.x_ * vector.getX() + this.y_ * vector.getY() + this.z_ * vector.getZ();
   if (isNaN(r)) {
-    throw new Error(goog.DEBUG ? ('dotproduct is not a number '+this+' '+vector) : '');
+    throw new Error(Util.DEBUG ? ('dotproduct is not a number '+this+' '+vector) : '');
   }
   return r;
 };

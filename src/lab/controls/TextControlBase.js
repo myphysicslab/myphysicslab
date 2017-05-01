@@ -246,7 +246,7 @@ TextControlBase.prototype.setEnabled = function(enabled) {
 */
 TextControlBase.prototype.setValue = function(value) {
   if (value != this.value_) {
-    if (goog.DEBUG && 0 == 1) {
+    if (Util.DEBUG && 0 == 1) {
       console.log('TextControlBase.setValue value='+value+' vs '+this.value_);
     }
     try {

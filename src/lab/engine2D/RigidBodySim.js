@@ -798,7 +798,7 @@ RigidBodySim.prototype.debugCircle = function(name, center, radius, expireTime) 
 
 /** @inheritDoc */
 RigidBodySim.prototype.myPrint = function(message, colors) {
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     var args = goog.array.slice(arguments, 1);
     args.unshift('%c'+NF7(this.getTime())+'%c '+message, 'color:green', 'color:black');
     console.log.apply(console, args);

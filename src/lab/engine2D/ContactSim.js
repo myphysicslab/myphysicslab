@@ -600,7 +600,7 @@ ContactSim.prototype.evaluate = function(vars, change, timeStep) {
   var startN = contactsFound.length;  // starting number of contacts
   var loopCtr = 0;
   while (contactsFound.length > 0) {
-    if (goog.DEBUG && loopCtr++ > 2*startN)
+    if (Util.DEBUG && loopCtr++ > 2*startN)
       this.myPrint('ContactSim.evaluate loopCtr='+loopCtr);
     // ===================== find collision subset =====================
     // Find subset of contacts which are all connected to each other
@@ -626,8 +626,8 @@ ContactSim.prototype.evaluate = function(vars, change, timeStep) {
     }
   }
   this.numContacts_ = maxContacts;
-  if (goog.DEBUG && 1 == 1) this.printNumContacts();
-  if (goog.DEBUG && 0 == 1) this.myPrint('*** EXIT CONTACTSIM.EVALUATE');
+  if (Util.DEBUG && 1 == 1) this.printNumContacts();
+  if (Util.DEBUG && 0 == 1) this.myPrint('*** EXIT CONTACTSIM.EVALUATE');
   return null;
 };
 
@@ -638,14 +638,14 @@ ContactSim.prototype.evaluate = function(vars, change, timeStep) {
 * @private
 */
 ContactSim.prototype.calcContactForces = function(vars, change, subset) {
-  if (0 == 1 && goog.DEBUG)
+  if (0 == 1 && Util.DEBUG)
     UtilEngine.printList('subset size='+subset.length, subset);
   /** @type {boolean} */
   var pileDebug = false; //Math.abs(getTime() - 52.2250000) < 2e-7;
   // ===================== calculate A matrix & b vector =====================
   /** @type {!Array<!Float64Array>} */
   var A = ContactSim.calculate_a_matrix(subset);
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     // demonstrates that we have duplicate code for finding the A matrix
     /** @type {!Array<!Float64Array>} */
     var A2 = this.makeCollisionMatrix(subset);
@@ -657,13 +657,13 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
   var joint = goog.array.map(subset, function(c) { return c.joint; });
   /** @type {!Array<number>} */
   var f = Util.newNumberArray(b.length);
-  if (goog.DEBUG && pileDebug) {
+  if (Util.DEBUG && pileDebug) {
     this.printContactInfo(subset, b, vars);
   }
   // ===================== compute forces =====================
   var time = vars[this.varsList_.timeIndex()];
   var error = this.computeForces_.compute_forces(A, f, b, joint, pileDebug, time);
-  if (goog.DEBUG && 0 == 1) {
+  if (Util.DEBUG && 0 == 1) {
     this.printForceInfo(subset, A, f, b, joint, vars);
   }
   var tol = 1e-4;
@@ -671,7 +671,7 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
     this.reportError(error, tol, A, f, b, joint);
   }
   // ===================== apply forces =====================
-  if (goog.DEBUG && ContactSim.SHOW_CONTACTS && subset.length > 0) {
+  if (Util.DEBUG && ContactSim.SHOW_CONTACTS && subset.length > 0) {
     this.myPrint('found '+subset.length+' contacts');
   }
   // apply the calculated contact forces
@@ -679,11 +679,11 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
     /** @type {!RigidBodyCollision} */
     var c = subset[i];
     this.applyContactForce(c, f[i], change);
-    if (goog.DEBUG && ContactSim.SHOW_CONTACTS) {
+    if (Util.DEBUG && ContactSim.SHOW_CONTACTS) {
       this.myPrint('contact['+i+']= '+c);
     }
   }
-  if (goog.DEBUG && 0 == 1) {
+  if (Util.DEBUG && 0 == 1) {
     this.printContactDistances(subset);
   }
 };
@@ -729,7 +729,7 @@ ContactSim.prototype.findCollisions = function(collisions, vars, stepSize) {
     var time = vars[this.varsList_.timeIndex()];
     connector.addCollision(rbcs, time, this.collisionAccuracy_);
   }
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     var numFound = 0;
     for (i=0, len=rbcs.length; i<len; i++) {
       var c = rbcs[i];
@@ -830,7 +830,7 @@ ContactSim.calculate_a_matrix = function(contacts) {
         a[i][j] += ci.normal.getY()*(cj.normal.getY()/m2
                     + (-R2x*R2yj*cj.normal.getX() + R2x*R2xj*cj.normal.getY())/I2);
       }
-      if (goog.DEBUG && !isFinite(a[i][j])) {
+      if (Util.DEBUG && !isFinite(a[i][j])) {
         console.log('ci= '+ci);
         console.log('cj= '+cj);
         Util.printNums5('nums ', Rx, Ry, Rxj, Ryj, R2x, R2y, R2xj, R2yj, m1, I1, m2, I2);
@@ -951,7 +951,7 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
         goog.asserts.fail();
     }
     b[i] += extrab;
-    if (0 == 1 && goog.DEBUG && Math.abs(extrab) > 1E-10) {
+    if (0 == 1 && Util.DEBUG && Math.abs(extrab) > 1E-10) {
       this.myPrint('EXTRAB '+ NFE(extrab)
           +' normVel='+NF7(c.getNormalVelocity())
           +' dist='+NF5(c.distance)
@@ -1108,7 +1108,7 @@ fixed body cannot move. We could let those forces thru if desired.
 * @private
 */
 ContactSim.prototype.applyContactForce = function(c, f, change) {
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     this.myPrint('contact force '+NF5(f)+' '+c);
   }
   c.force = f;
@@ -1157,17 +1157,19 @@ ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
   var accel = UtilEngine.matrixMultiply(A, f);
   accel = UtilEngine.vectorAdd(accel, b);
   if (!ComputeForces.checkForceAccel(tol, f, accel, joint)) {
-    console.log(this.varsList_.printHistory());
+    if (Util.DEBUG) {
+      console.log(this.varsList_.printHistory());
+    }
     throw new Error(NF7(this.getTime())
         +' compute_forces failed error='+error
         +' with tol='+NFE(tol));
-  } else if (error != -1 && goog.DEBUG) {
+  } else if (error != -1 && Util.DEBUG) {
     this.myPrint('warning: compute_forces failed error='+error
         +' but is within tol='+NFE(tol));
   }
 };
 
-if (goog.DEBUG) {
+if (Util.DEBUG) {
   /**
   * @param {!Array<!Float64Array>} A1
   * @param {!Array<!Float64Array>} A2
@@ -1261,7 +1263,7 @@ if (goog.DEBUG) {
   * @private
   */
   ContactSim.prototype.printContactDistances = function(contacts) {
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       // print all contact distances
       var s = 'contact dist ';
       for (var i=0, len=contacts.length; i<len; i++) {

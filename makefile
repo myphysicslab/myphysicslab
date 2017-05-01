@@ -170,6 +170,9 @@ endif
 # GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
 GOOG_DEBUG ?= false
 
+# UTIL_DEBUG is passed to compile_js, determines whether Util.DEBUG=true
+UTIL_DEBUG ?= false
+
 biketimer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BikeTimerApp-$(loc).html )
 billiards: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BilliardsApp-$(loc).html )
 blank: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BlankApp-$(loc).html )
@@ -497,17 +500,23 @@ src/macros_vert.html
 $(BUILD_DIR)/sims/*/*.js : $(sims_req)
 $(BUILD_DIR)/test/*.js : $(test_req)
 
-# To avoid seeing lots of debug messages during tests: turn off GOOG_DEBUG
+# The following use Target Specific Variable Values
+# https://www.gnu.org/software/make/manual/make.html#Target_002dspecific
+# Turn off GOOG_DEBUG for maximum performance
+$(BUILD_DIR)/test/PerformanceTests*.js : override GOOG_DEBUG:=false
+# Turn on GOOG_DEBUG to ensure that assertions are working.
+$(BUILD_DIR)/test/Engine2DTests*.js : override GOOG_DEBUG:=true
+# Turn off UTIL_DEBUG to avoid seeing lots of debug messages during tests.
 $(BUILD_DIR)/test/PerformanceTests*.js \
-$(BUILD_DIR)/test/Engine2DTests*.js : GOOG_DEBUG := false
+$(BUILD_DIR)/test/Engine2DTests*.js : override UTIL_DEBUG:=false
 
 apps_js_en := $(addsuffix -en.js,$(bld_apps)) $(addsuffix -en.js,$(bld_combos))
 $(apps_js_en): $(BUILD_DIR)/%-en.js : src/%.js
-	./compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
+	./compile_js.sh $< $@ $(GOOG_DEBUG) $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
 apps_js_de := $(addsuffix -de.js,$(bld_apps)) $(addsuffix -de.js,$(bld_combos))
 $(apps_js_de): $(BUILD_DIR)/%-de.js : src/%.js
-	./compile_js.sh $< $@ $(GOOG_DEBUG) $(COMPILE_LEVEL)
+	./compile_js.sh $< $@ $(GOOG_DEBUG) $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
 unit_test := $(BUILD_DIR)/test/UnitTest-en $(BUILD_DIR)/test/UnitTest-de
 unit_test_js := $(addsuffix .js,$(unit_test))
@@ -517,7 +526,7 @@ unit_test_js := $(addsuffix .js,$(unit_test))
 $(unit_test_js) : $(BUILD_DIR)/test/UnitTest%.js : $(lab_js) \
 src/sims/springs/test/*.js \
 src/sims/pendulum/test/*.js
-	./compile_test.sh src $@ $(COMPILE_LEVEL)
+	./compile_test.sh src $@ $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
 # Extra requirement for some HTML test files
 $(BUILD_DIR)/test/Engine2DTests*.html \
@@ -530,25 +539,25 @@ $(BUILD_DIR)/test/UnitTestOne.html: src/test/UnitTestOne.html | $(BUILD_DIR)/dep
 
 ifeq "$(COMPILE_LEVEL)" "debug"
 # make HTML file that loads uncompiled (source) JavaScript. Needs deps.js.
-$(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | settings $(BUILD_DIR)/deps.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
-$(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/deps.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | settings $(BUILD_DIR)/deps.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 else
 # special rule for HTML file which requires different-named JS file
-$(BUILD_DIR)/sims/springs/TerminalSpring2DApp%.html : src/sims/springs/TerminalSpring2DApp.html $(macros_req) | $(BUILD_DIR)/sims/springs/TerminalSpringApp%.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/sims/springs/TerminalSpring2DApp%.html : src/sims/springs/TerminalSpring2DApp.html $(macros_req) | settings $(BUILD_DIR)/sims/springs/TerminalSpringApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
-$(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp.html $(macros_req) | $(BUILD_DIR)/sims/springs/SingleSpringApp%.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp.html $(macros_req) | settings $(BUILD_DIR)/sims/springs/SingleSpringApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 # rule for HTML file which requires same-named JS file (most apps are like this)
-$(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%-en.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | settings  $(BUILD_DIR)/%-en.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
-$(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | $(BUILD_DIR)/%-de.js $(build_images) $(bld_css) settings
+$(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | settings $(BUILD_DIR)/%-de.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 endif
 
@@ -658,13 +667,15 @@ help:
 	@echo "COMPILE_LEVEL= advanced, simple, debug; default is simple"
 	@echo "BUILD_DIR=     where to put compiled files; default is build"
 	@echo "LOCALE=        en, de; default is en"
-	@echo "GOOG_DEBUG=    true, false; default is true"
+	@echo "UTIL_DEBUG=    true, false; default is false"
+	@echo "GOOG_DEBUG=    true, false; default is false"
 
 settings:
 	@echo "Current settings:"
 	@echo "COMPILE_LEVEL = $(COMPILE_LEVEL)"
 	@echo "BUILD_DIR = $(BUILD_DIR)"
 	@echo "LOCALE = $(LOCALE)"
+	@echo "UTIL_DEBUG = $(UTIL_DEBUG)"
 	@echo "GOOG_DEBUG = $(GOOG_DEBUG)"
 
 compiler:

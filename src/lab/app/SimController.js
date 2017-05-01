@@ -514,7 +514,7 @@ that case).
 SimController.prototype.keyPressed = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
-      if (goog.DEBUG && this.debug_) {
+      if (Util.DEBUG && this.debug_) {
         console.log('keyPressed '+Util.propertiesOf(evt, true));
       }
       this.eventHandler_.handleKeyEvent(evt.keyCode, true, evt);
@@ -531,7 +531,7 @@ that case).
 SimController.prototype.keyReleased = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
-      if (goog.DEBUG && this.debug_) {
+      if (Util.DEBUG && this.debug_) {
         console.log('keyReleased '+Util.propertiesOf(evt, true));
       }
       this.eventHandler_.handleKeyEvent(evt.keyCode, false, evt);

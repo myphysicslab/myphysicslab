@@ -7,8 +7,9 @@
 # WARNING: when adding a unit test, also change the list in src/test/UnitTest.html
 # param: {string} rootDir = top level source directory, example: src/
 # param: {string} target = output file, example: build/test/UnitTest-en.js
-# param: {string} COMPILE_LEVEL = "simple" or "advanced", whether to compile with advanced
-#                 closure compiler optimizations
+# param: {boolean} util_debug = whether to compile with Util.DEBUG=true
+# param: {string} COMPILE_LEVEL = "simple" or "advanced", whether to compile with
+#        advanced closure compiler optimizations
 # input: the variable CLOSURE_COMPILER must be set; it is set in myConfig.mk
 #        so that each user can specify it for their environment.
 # output: compiled version of unit tests in a single javascript file
@@ -17,6 +18,8 @@
 # goog.async.run which requires goog.DEBUG to be true.
 # The error message was something like `goog.async.run.resetQueue is undefined`
 # which happened while trying to uninstall a MockClock.
+# Also goog.DEBUG must be true for goog.asserts.asserts() to work. (Note that
+# those assertions are a different mechanism from the unit test asserts).
 
 #set dbg to "true" to show some debug statements
 dbg=""
@@ -58,6 +61,8 @@ if [ -z "$locale" ] ; then
 	exit 1
 fi
 
+util_debug="${3:-false}"
+
 # ${parameter:-word} Use Default Values. If parameter is unset or null, 
 # the expansion of word is substituted. Otherwise, the value of parameter 
 # is substituted.
@@ -84,7 +89,7 @@ buildDir="${target%/*}"
 mkdir -p "$buildDir"
 
 if [ -n "$dbg" ] ; then
-	echo "rootDir=$rootDir, target=$target, locale=$locale, buildRoot=$buildRoot, buildDir=$buildDir, advanced=$advanced";
+	echo "rootDir=$rootDir, target=$target, locale=$locale, buildRoot=$buildRoot, buildDir=$buildDir, util_debug=$util_debug, advanced=$advanced";
 fi
 
 #exit 0
@@ -149,6 +154,7 @@ java -jar "$CLOSURE_COMPILER" \
 --define=goog.DEBUG=true \
 --define=goog.LOCALE="'$locale'" \
 --define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
+--define=myphysicslab.lab.util.Util.DEBUG=$util_debug \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=src/ \

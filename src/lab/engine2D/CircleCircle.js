@@ -57,7 +57,7 @@ CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
   goog.asserts.assert( rbc.getNormalBody() == normalBody);
   var oldX = rbc.impact1.getX();
   var oldY = rbc.impact1.getY();
-  if (0 == 1 && goog.DEBUG) console.log('before improveAccuracy '+rbc);
+  if (0 == 1 && Util.DEBUG) console.log('before improveAccuracy '+rbc);
   // The scenario is:  collision between two circles happened, it was detected
   // from one (or more?) vertex of the other circle crossing the normalCircle edge.
   // Now we want to find the closest point between the circle edges,
@@ -99,7 +99,7 @@ CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
     console.log('len '+len);
     console.log('other circle '+other);
     console.log('normal circle '+normalCircle);
-    throw new Error(goog.DEBUG ? ('distance should be negative '+rbc) : '');
+    throw new Error(Util.DEBUG ? ('distance should be negative '+rbc) : '');
   }
   // ne = normal in normalCircle's edge coords
   var ne = coe.multiply(1/len);
@@ -115,7 +115,7 @@ CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
   // radius should not change;
   //rbc.radius1 = other.getRadius();
   //rbc.radius2 = normalCircle.getRadius();
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('CircleCircle.improveAccuracy '
       +NF7(oldX)+' '
       +NF7(oldY)+' -> '
@@ -123,7 +123,7 @@ CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
       +NF7(rbc.impact1.getY())+' '
       );
   }
-  if (0 == 1 && goog.DEBUG) console.log('after improveAccuracy '+rbc);
+  if (0 == 1 && Util.DEBUG) console.log('after improveAccuracy '+rbc);
 };
 
 /** Tests the positions and velocities of the two Edges, and if a collision or contact
@@ -249,7 +249,7 @@ CircleCircle.addCollision = function(contact, collisions, self, other, distance,
   rbc.distance = distance;
   rbc.ballNormal = true;
   rbc.ballObject = true;
-  rbc.creator = goog.DEBUG ? 'CircleCircle' : '';
+  rbc.creator = Util.DEBUG ? 'CircleCircle' : '';
   // ne = normal in self's edge coords
   var ne = coe.multiply(1/len);
   // pw = point of impact in world coords

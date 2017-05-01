@@ -48,7 +48,7 @@ var Util = myphysicslab.lab.util.Util;
 [2D Physics Engine Overview](Engine2D.html).
 
 Unlike other tests, the makefile does not set `GOOG_DEBUG` to false for this test, so
-`goog.DEBUG` should be true when this is compiled.
+`Util.DEBUG` should be true when this is compiled.
 * @constructor
 * @final
 * @struct
@@ -72,8 +72,8 @@ SingleTest.runTests = function() {
   //CircleStraightTest.elastic_balls();
   //CircleStraightTest.test();
   //CircleStraightTest.wedged_ball();
-  //DoNothingTest.do_nothing_error();
-  JointTest.pendulum_1_joint_1();
+  DoNothingTest.do_nothing_error();
+  //JointTest.pendulum_1_joint_1();
   //JointTest.pendulum_1_joint_2();
   //JointTest.test();
   //MiscellanyTest.chain();

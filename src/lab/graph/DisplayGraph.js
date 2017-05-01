@@ -158,7 +158,7 @@ DisplayGraph.prototype.contains = function(p_world) {
 /** @inheritDoc */
 DisplayGraph.prototype.draw = function(context, map) {
   if (this.screenRect_.isEmpty()) {
-    if (goog.DEBUG) {
+    if (Util.DEBUG) {
       console.log('DisplayGraph: screenRect is empty');
     }
     return;

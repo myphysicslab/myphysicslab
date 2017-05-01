@@ -46,7 +46,7 @@ var Util = myphysicslab.lab.util.Util;
 {@link Engine2DTestRig}.
 
 `GOOG_DEBUG` flag: Check the makefile to see if it is setting `GOOG_DEBUG` to false
-for this test; usually `goog.DEBUG` should be false when this is compiled to avoid
+for this test; usually `Util.DEBUG` should be false when this is compiled to avoid
 printing lots of debug messages to console.
 * @constructor
 * @final

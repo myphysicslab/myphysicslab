@@ -196,7 +196,7 @@ UtilityCollision.addCollision = function(collisions, c2) {
     }); // forEach
   }
   if (removeMe.length > 0) {
-    if (1 == 0 && goog.DEBUG) {
+    if (1 == 0 && Util.DEBUG) {
       if (removeMe.length > 1)
         console.log('**** removeMe.length='+removeMe.length);
       goog.array.forEach(removeMe, function(c) {
@@ -209,11 +209,11 @@ UtilityCollision.addCollision = function(collisions, c2) {
   }
   if (shouldAdd) {
     collisions.push(c2);
-    if (1 == 0 && goog.DEBUG && removeMe.length > 0) {
+    if (1 == 0 && Util.DEBUG && removeMe.length > 0) {
       console.log('++++ addCollision adding '+c2);
     }
   } else {
-    if (1 == 0 && goog.DEBUG) {
+    if (1 == 0 && Util.DEBUG) {
       console.log("---- addCollision didn't add "+c2);
       console.log('++++ addCollision already had '+better);
     }
@@ -235,7 +235,7 @@ UtilityCollision.checkVertexes = function(collisions, body1, body2, time) {
   var specialNormal = body1.getSpecialNormalWorld();
   if (specialNormal != null) {
     specialNormal = body2.rotateWorldToBody(specialNormal);
-    if (goog.DEBUG)
+    if (Util.DEBUG)
       UtilityCollision.specialNormalRotate++;
   }
   goog.array.forEach(body2.getVertexes_(), function checkVertex1(v2) {
@@ -350,7 +350,7 @@ UtilityCollision.intersectionPossibleSpecial = function(poly1, poly2, swellage) 
                 .dotProduct(specialNormal);
   // use the special maximum radius for this test
   var dist2 = poly2.getCentroidRadius() + poly1.getCentroidRadius() + swellage;
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     UtilityCollision.specialNormalRotate++;
   }
   return dist1 < dist2;
@@ -395,8 +395,8 @@ UtilityCollision.makeCollision = function(collisions, edge, vertex, e_body, p_bo
   c.normal = n_world;
   c.radius2 = edge.getCurvature(e_body);
   c.ballNormal = isFinite(c.radius2);
-  c.creator = goog.DEBUG ? 'testCollisionVertex' : '';
-  if (1 == 0 && goog.DEBUG)
+  c.creator = Util.DEBUG ? 'testCollisionVertex' : '';
+  if (1 == 0 && Util.DEBUG)
     console.log('UtilityCollision.testCollisionVertex '+c);
   c.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, c);
@@ -488,7 +488,7 @@ UtilityCollision.subsetCollisions1 = function(superset) {
       }
     }
   } while (n < subset.length);  // while the subset size is increasing
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('subsetCollisions1:  super='+superset.length
       +' sub='+subset.length+' bods='+subsetBods.length);
     for (i=0, len=subset.length; i<len; i++) {
@@ -589,7 +589,7 @@ UtilityCollision.subsetCollisions2 = function(superset, startC, hybrid, v,
       }
     }
   } while (n < subset.length);  // while the subset size is increasing
-  if (0 == 1 && goog.DEBUG) {
+  if (0 == 1 && Util.DEBUG) {
     console.log('subsetCollisions2:  super='+superset.length
       +' sub='+subset.length+' bods='+subsetBods.length);
     for (i=0, len=subset.length; i<len; i++) {
@@ -620,11 +620,11 @@ yet again when making the collision record).
 */
 UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_body,
     v_body_old, travelDist, time) {
-  if (goog.DEBUG)
+  if (Util.DEBUG)
     UtilityCollision.vertexBodyCollisionTests++;
   var edge2 = vertex2.getEdge1();
   if (edge2 == null) {
-    throw new Error(goog.DEBUG ? 'vertex2 has no edge: '+vertex2 : '');
+    throw new Error(Util.DEBUG ? 'vertex2 has no edge: '+vertex2 : '');
   }
   // type needed for NTI?
   /** @type {!myphysicslab.lab.engine2D.Polygon} */
@@ -648,12 +648,12 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
      || v_body.getY() > body1.getTopBody()+ distTol
         && v_body_old.getY() > body1.getTopBody()  )
   {
-    if (1 == 0 && goog.DEBUG) {
+    if (1 == 0 && Util.DEBUG) {
        if (isFinite(body1.getMass()))
          console.log('*** proximity fail v_body='+v_body
                             +' v_body_old='+v_body_old+' body1='+body1);
     }
-    if (goog.DEBUG && body1.probablyPointInside(v_body)) {
+    if (Util.DEBUG && body1.probablyPointInside(v_body)) {
       // sanity check
       throw new Error('probablyPointInside: '+v_body+' '+body1);
     }
@@ -664,7 +664,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
   // This loop is to turn on lots of debugging code during a second pass
   // in the rare case that the bodies are intersecting but we found no collision.
   while (true)   {
-    if (goog.DEBUG && debugPenetration) {
+    if (Util.DEBUG && debugPenetration) {
       console.log('*****  PROBABLY POINT INSIDE v_body='+v_body);
       // show what Vertexes are being tested
       // type cast needed for NTI?
@@ -688,7 +688,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
     // we look for the first edge that it passes through.
     goog.array.forEach(body1.getEdges_(), function findEdgePassThru(e1) {
       //checkPrint('test edge ', body2, vertex2, e1, v_body);
-      if (goog.DEBUG && debugPenetration) {
+      if (Util.DEBUG && debugPenetration) {
         console.log('\n===== test edge '+e1);
       }
       if (body2.nonCollideEdge(e1)) {
@@ -704,7 +704,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
       var maxRadius = e1.getCentroidRadius() + distTol + travelDist;
       var maxRadiusSqr = maxRadius * maxRadius;
       if (e1.getCentroidBody().distanceSquaredTo(v_body) > maxRadiusSqr) {
-        if (goog.DEBUG && debugPenetration) {
+        if (Util.DEBUG && debugPenetration) {
           console.log('not in range '+body2.getName()+' vertex2='+vertex2.getID()
               +' edge1='+e1.getIndex());
           console.log('v_body='+v_body);
@@ -715,7 +715,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         //checkPrint('not in range, convex ', body2, vertex2, e, v_body);
         return;  // continue to next edge
       }
-      if (UtilityCollision.HIGHLIGHT_COLLISION_TESTING && goog.DEBUG) {
+      if (UtilityCollision.HIGHLIGHT_COLLISION_TESTING && Util.DEBUG) {
         e1.highlight();
         vertex2.highlight();
       }
@@ -724,12 +724,12 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
       // There can be zero, one or two points of intersection in r1_array,
       // (for example, the line of travel of a vertex could pass thru a circle
       // in two points).
-      if (goog.DEBUG && debugPenetration) {
+      if (Util.DEBUG && debugPenetration) {
         console.log('v_body='+v_body+' e1='+e1);
       }
       var r1_array = e1.intersection(v_body, v_body_old);
       if (r1_array == null) {
-        if (goog.DEBUG && debugPenetration) {
+        if (Util.DEBUG && debugPenetration) {
           console.log('!!!!! no intersection found  !!!!!');
           console.log('v_body='+v_body+' v_body_old='+v_body_old);
           console.log('v_body.x='+NFSCI(v_body.getX()));
@@ -743,7 +743,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         if (UtilityCollision.DISABLE_MIDPOINT_VERTEX_CONTACT && !vertex2.isEndPoint())
           return;  // continue to next edge
         var c = e1.findVertexContact(vertex2, v_body, distTol);
-        if (goog.DEBUG && debugPenetration) {
+        if (Util.DEBUG && debugPenetration) {
           console.log('findVertexContact '+c);
         }
         if (c != null) {
@@ -756,7 +756,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         return;  // continue to next edge
       }
       goog.asserts.assert(v_body != v_body_old);
-      if (0 == 1 && goog.DEBUG) {
+      if (0 == 1 && Util.DEBUG) {
         console.log('r1_array[0]='+r1_array[0]);
       }
       //checkPrint('intersection found', body2, vertex2, e, v_body);
@@ -766,20 +766,20 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
       // we choose that edge.
       goog.array.forEach(r1_array, function(r1b) {
         // r1b = intersection point on edge, in body1 coords
-        if (goog.DEBUG && debugPenetration && UtilEngine.debugEngine2D != null) {
+        if (Util.DEBUG && debugPenetration && UtilEngine.debugEngine2D != null) {
           var t = body1.bodyToWorld(r1b);
           UtilEngine.debugEngine2D.debugCircle('dot', t, 0.1);
         }
         // @todo  use distance squared instead -- its faster!
         var d = v_body_old.subtract(r1b).length();
-        if (goog.DEBUG && debugPenetration) {
+        if (Util.DEBUG && debugPenetration) {
           console.log('distance_old='+distance_old+' d='+d);
         }
         if (d < distance_old) {
           distance_old = d;
           e1_body = r1b;
           edge1 = e1;
-          if (goog.DEBUG && debugPenetration) {
+          if (Util.DEBUG && debugPenetration) {
             console.log('edge1='+edge1);
           }
         }
@@ -793,7 +793,7 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
           /** @type {!Vector}*/(e1_body), v_body, time);
       break;
     } else {
-      if (!goog.DEBUG) {
+      if (!Util.DEBUG) {
         break;
       } else {
         // No intersection was found.

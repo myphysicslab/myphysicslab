@@ -78,14 +78,19 @@ var testNumericalBug1 = function() {
 var testRandomInts = function() {
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
+  var Util = myphysicslab.lab.util.Util;
   var i;
   // 2 arrays of random ints should be different
-  var prng = new RandomLCG();
+  var prng = new RandomLCG(6473275);
   var a = prng.randomInts(100);
   var b = prng.randomInts(100);
   var same = true;
-  for (i=0; i<a.length; i++)
-    same = same && a[i] == b[i];
+  for (i=0; i<a.length; i++) {
+    if (a[i] != b[i]) {
+      same = false;
+      break;
+    }
+  }
   assertFalse(same);
   // all digits should be in the result
   var digit = new Array(a.length);

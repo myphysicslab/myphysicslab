@@ -49,10 +49,9 @@ var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var Util = myphysicslab.lab.util.Util;
 var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
 
-/** Static class that provides common test functions such as
-`runTest`.
+/** Static class that provides common test functions such as `runTest`.
 
-When using these test functions, be sure to set the testName class variable.
+When using these test functions, be sure to set the `testName` class variable.
 
 ## Why the testName class property exists
 
@@ -154,7 +153,7 @@ Engine2DTestRig.getMachineName = function() {
       return s;
     }
   }
-  if (goog.DEBUG) {
+  if (Util.DEBUG) {
     console.log('Engine2DTestRig.getMachineName: not defined '
         +Engine2DTestRig.machineName);
   }
@@ -307,6 +306,7 @@ Engine2DTestRig.startTests = function() {
       +(Util.ADVANCED ? 'advanced' : 'simple'));
   }
   Engine2DTestRig.myPrintln('goog.DEBUG = '+goog.DEBUG);
+  Engine2DTestRig.myPrintln('Util.DEBUG = '+Util.DEBUG);
   Engine2DTestRig.myPrintln('myPhysicsLab version = '+Util.VERSION);
   var nav = navigator;
   if (nav != null) {
@@ -319,6 +319,20 @@ Engine2DTestRig.startTests = function() {
     // and fool Gmail somehow."
     Engine2DTestRig.myPrintln('MSStream detected: probably on Internet Explorer'
         +' for Windows Phone');
+  }
+  if (goog.DEBUG && !Util.ADVANCED) {
+    try {
+      var a = 1;
+      goog.asserts.assert(1 == 0);
+      a = 2;
+    } catch(e) {
+      Engine2DTestRig.myPrintln('asserts are working');
+    }
+    if (a == 2) {
+      throw new Error('asserts are not working');
+    }
+  } else {
+    Engine2DTestRig.myPrintln('NOTE: asserts are NOT enabled');
   }
 };
 
@@ -506,7 +520,7 @@ Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, toleran
   energyTol = goog.isDef(energyTol) ? energyTol : 0;
   expectedCollisions = goog.isDef(expectedCollisions) ? expectedCollisions : -1;
   expectedSearches = goog.isDef(expectedSearches) ? expectedSearches : 0;
-  if (goog.DEBUG && Engine2DTestRig.debug) {
+  if (Util.DEBUG && Engine2DTestRig.debug) {
     console.log(
       'Engine2DTestRig.runTest expectedEnergyDiff='+NFE(expectedEnergyDiff)
       +' energyTol='+NFE(energyTol)
@@ -567,7 +581,7 @@ Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, toleran
     //    +' Engine2DTestRig.runTest seed='+sim.getRandomSeed());
 
     // occasionally report collision statistics
-    if (0 == 1 && goog.DEBUG && advance.getTime() - lastReportTime >= 1.0) {
+    if (0 == 1 && Util.DEBUG && advance.getTime() - lastReportTime >= 1.0) {
       UtilityCollision.printCollisionStatistics();
       lastReportTime = advance.getTime();
     }
