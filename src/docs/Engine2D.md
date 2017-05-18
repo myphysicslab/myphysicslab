@@ -841,10 +841,10 @@ There are two types of Rope:
 
 This section describes how to stop "jitter" -- continuous small shaking, bouncing
 movements -- of objects that should be at rest. You can see the problem in
-[ContactApp](myphysicslab.sims.engine2D.ContactApp.html) if you execute this
+[ContactApp](https://www.myphysicslab.com/engine2D/contact/contact-en.html?NUMBER_OF_OBJECTS=2;RANDOM_SEED=1313594222;EXTRA_ACCEL=none;FIRING=true;TIME=72.89999999999945;BLOCK1_X_POSITION=-2.9632326540461316;BLOCK1_X_VELOCITY=0.06638147623841413;BLOCK1_Y_POSITION=-3.020906561945242;BLOCK1_Y_VELOCITY=-0.030942379968168232;BLOCK1_ANGLE=-2.44559703984784;BLOCK1_ANGULAR_VELOCITY=0.00822402851883133;BLOCK2_X_POSITION=0.06829588959131906;BLOCK2_X_VELOCITY=0.07742031767527323;BLOCK2_Y_POSITION=-2.0913303270761627;BLOCK2_Y_VELOCITY=-0.07988926009663815;BLOCK2_ANGLE=-6.286252358424133;BLOCK2_ANGULAR_VELOCITY=-0.0314376041333151;) when we execute this
 script in [Terminal](Customizing.html#terminal:forscriptexecution):
 
-    sim.setExtraAccel(ExtraAccel.NONE)
+    EXTRA_ACCEL=none
 
 After the blocks fall to the ground they never quite stop moving. There is a
 continual series of small collisions at all of the contact points.
@@ -877,8 +877,8 @@ The following solutions have been found to help stop jitter:
     [Multiple Simultaneous Collisions][]).
 
 2. Add *extra acceleration* at each contact to reduce the relative velocity to zero.
-    This is a "non-physical" mechanism, though one could argue that this models something
-    like surface tension or friction. See
+    This is a "non-physical" mechanism, though one could argue that this corresponds
+    to surface tension or friction. See
     [`ContactSim.setExtraAccel`](myphysicslab.lab.engine2D.ContactSim.html#setExtraAccel).
     This also helps maintain a healthy gap distance at contact points – when the gap
     becomes close to zero, the simulation can become stuck from having low speed
