@@ -123,8 +123,9 @@ into situations which are not appropriate for interpolation with a cubic polynom
 (which we do with the private static method `NumericalPath.interp4`).
 
 For example, consider the following case with four values evenly spaced horizontally,
-but where the `y` values are highly variable: [[0.01, 1E-6], [0.02, 6E-6], [0.03, 1E-3],
-[0.04, 1E3]]. The `y` values represent slope and are monotonically increasing. But
+but where the `y` values are highly variable:
+    [[0.01, 1E-6], [0.02, 6E-6], [0.03, 1E-3], [0.04, 1E3]]
+The `y` values represent slope and are monotonically increasing. But
 a cubic polynomial fitted to those points will swing wildly between the first 3 points
 giving a non-monotonic function that crosses over to negative values.
 
@@ -362,8 +363,8 @@ derivative. For example, to get the derivative at the first point in the table, 
 the left derivative. To get the derivative at the last point in the table, use the
 right derivative.
 
-See equation 4.3, page 171, of <cite>Numerical Analysis, 6th edition</cite> by
-Burden, Faires in section 4.1 <cite>Numerical Differentiation</cite> for the
+See equation 4.3, page 171, of *Numerical Analysis, 6th edition* by
+Burden, Faires in section 4.1 *Numerical Differentiation* for the
 three-point differentiation formula used here.
 
 @param {!Array<number>} yy

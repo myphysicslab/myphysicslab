@@ -32,14 +32,6 @@ var Vector = myphysicslab.lab.util.Vector;
 the initial raw mouse or keyboard events, translates them into simulation coordinates,
 finds the nearest dragable SimObject, and calls the appropriate EventHandler method.
 
-
-@todo  should this be somewhere else?  Like with SimController in builder package?
-Or a separate Controller package?  Or in the model package?  It currently uses SimObject
-from model, so maybe it belongs there.
-
-@todo  add state of control, shift, and alt modifier keys to key event, and also
-mouse down events
-
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
 */

@@ -21,7 +21,6 @@ goog.require('goog.events.KeyEvent');
 goog.require('myphysicslab.lab.app.EventHandler');
 goog.require('myphysicslab.lab.app.MouseTracker');
 goog.require('myphysicslab.lab.app.ViewPanner');
-goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ErrorObserver');
 goog.require('myphysicslab.lab.util.Printable');
@@ -42,7 +41,6 @@ var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var MouseTracker = myphysicslab.lab.app.MouseTracker;
-var SimObject = myphysicslab.lab.model.SimObject;
 var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 var ViewPanner = myphysicslab.lab.app.ViewPanner;
@@ -130,14 +128,6 @@ Here is an example where LabView panning happens when both the meta and alt keys
 Note that the exact combination of modifier keys must be pressed to enable LabView
 panning; for example, if only the control key is specified, then when *both* control and
 shift modifiers are down LabView panning will *not* occur.
-
-
-Technical Note
---------------
-Sept 7 2016: To deal with some NTI errors about `touches` I tried to use `UIEvent`
-instead of `goog.events.BrowserEvent`, but under advanced compile in BrachistoApp when
-clicking in the canvas I get a TypeError with message "a.preventDefault is not a
-function".
 
 
 @todo Should this class be designed for inheritance?

@@ -100,23 +100,16 @@ See explanations at:
 
 The algorithm used here is based on these papers:
 
-<cite>
-David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid
-Bodies.](Baraff_Fast_Contact_Force_94.pdf) Computer Graphics Proceedings, Annual
-Conference Series, 1994; pages 23-34.
-</cite>
++ David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid Bodies.](Baraff_Fast_Contact_Force_94.pdf)
+Computer Graphics Proceedings, Annual Conference Series, 1994; pages 23-34.
 
-<cite>
-David Baraff, [An Introduction to Physically Based Modeling: Rigid Body Simulation
-II—Nonpenetration Constraints.](Baraff_Siggraph_97_Course_Notes.pdf) Siggraph '97 Course
-Notes.
-</cite>
++ David Baraff, [An Introduction to Physically Based Modeling: Rigid Body Simulation II—Nonpenetration Constraints.](Baraff_Siggraph_97_Course_Notes.pdf)
+Siggraph '97 Course Notes.
 
-See also the [list of David Baraff's
-papers](http://www-2.cs.cmu.edu/~baraff/papers/index.html).
+See also the [list of David Baraff's papers](http://www-2.cs.cmu.edu/~baraff/papers/index.html).
 
-See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik Neumann for
-modifications to contact forces when curved edges are involved.
+See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik Neumann
+for modifications to contact forces when curved edges are involved.
 
 
 ### Find External Forces
