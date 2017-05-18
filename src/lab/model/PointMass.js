@@ -61,8 +61,8 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
   var name, localName;
   if (!goog.isDef(opt_name) || opt_name == '') {
     var id = PointMass.ID++;
-    name = PointMass.en.POINT_MASS+id;
-    localName = PointMass.i18n.POINT_MASS+id;
+    name = PointMass.en.POINT_MASS + id;
+    localName = PointMass.i18n.POINT_MASS + id;
   } else {
     name = opt_name;
     localName = opt_localName ? opt_localName : name;
@@ -71,17 +71,17 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
   this.mass_ = 1;
   /**
   * @type {!ShapeType}
-  * @protected
+  * @private
   */
   this.shape_ = ShapeType.OVAL;
   /**
   * @type {number}
-  * @protected
+  * @private
   */
   this.width_ = 1;
   /**
   * @type {number}
-  * @protected
+  * @private
   */
   this.height_ = 1;
 };
@@ -92,7 +92,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   PointMass.prototype.toString = function() {
     return PointMass.superClass_.toString.call(this).slice(0, -1)
-        +', shape_: '+this.shape_
+        +', shape_: ' + this.shape_
         +', width_: ' + NF(this.width_)
         +', height_: '+ NF(this.height_)
         +'}';
