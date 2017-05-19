@@ -10,6 +10,8 @@ Title: Architecture of myPhysicsLab
 * See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
 -->
 
+[myPhysicsLab Documentation](index.html)
+
 # myPhysicsLab Architecture
 
 [myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time

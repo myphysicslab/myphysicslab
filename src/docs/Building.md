@@ -8,6 +8,8 @@ Title: Building myPhysicsLab
 * See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
 -->
 
+[myPhysicsLab Documentation](index.html)
+
 # Building myPhysicsLab Software
 
 [myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time

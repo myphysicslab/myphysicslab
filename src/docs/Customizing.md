@@ -6,6 +6,8 @@ Title: Customizing myPhysicsLab
 * See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
 -->
 
+[myPhysicsLab Documentation](index.html)
+
 # Customizing myPhysicsLab Simulations
 
 This page describes how to customize

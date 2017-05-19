@@ -8,6 +8,8 @@ Title: ContactSim Math
 * See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
 -->
 
+[myPhysicsLab Documentation](index.html)
+
 # ContactSim Math
 
 This describes details of the math involved in the class
