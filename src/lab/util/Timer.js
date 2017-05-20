@@ -39,8 +39,7 @@ execute again in future by calling {@link #fire}, {@link #fireAfter} or
 Once the callback has been specified via {@link #setCallBack}, the chain of callbacks is
 started by calling {@link #startFiring}.
 
-Here is some example code showing how to use a Timer, from
-{@link myphysicslab.sims.experimental.BlankSlateApp BlankSlateApp}
+Here is some example code showing how to use a Timer.
 
     var r = PointMass.makeSquare(4);
     var dr = new DisplayShape(r);
@@ -57,8 +56,8 @@ Here is some example code showing how to use a Timer, from
     clock.resume();
     timer.startFiring();
 
-You can try that code out by pasting it into the Terminal on the
-[BlankSlateApp example page](http://www.myphysicslab.com/develop/sims/experimental/BlankSlateApp_en.html).
+You can try that code out by pasting it into the Terminal in the
+[BlankSlateApp example page](https://www.myphysicslab.com/develop/build/sims/experimental/BlankSlateApp-en.html).
 
 
 ## Timing of Callbacks

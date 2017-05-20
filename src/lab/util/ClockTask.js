@@ -23,23 +23,26 @@ var NF = myphysicslab.lab.util.Util.NF;
 
 /** Holds a callback function to be executed at a specified time; used with
 {@link myphysicslab.lab.util.Clock}. ClockTasks are scheduled as a side effect of Clock
-methods such as `setTime(), resume(), addTask()`. ClockTasks are cancelled as a side
-effect of Clock methods such as `pause(), removeTask()`.
+methods such as `setTime()`, `resume()`, `addTask()`. ClockTasks are cancelled as a
+side effect of Clock methods such as `pause()`, `removeTask()`.
 
-See Clock section {@linkplain myphysicslab.lab.util.Clock#typesoftime Types of Time}
-about *clock time* and *system time*.
+Here is an example of a ClockTask that resets the simulation every 5 seconds. This can
+be entered in Terminal of most simple-compiled apps, for example in
+[Single Spring App](https://www.myphysicslab.com/develop/build/sims/springs/SingleSpringApp-en.html)
 
-Here is an example of setting up a ClockTask that pauses the Clock after 5 seconds.
-This can be entered in {@link myphysicslab.lab.util.Terminal} if using simple-compile.
+    var redo = function() { sim.reset(); };
+    clock.addTask(new ClockTask(5, redo));
+    redo();
+
+Example of a ClockTask that pauses the Clock after 5 seconds:
 
     var task = new ClockTask(5, function() { clock.pause(); });
     clock.addTask(task);
+    sim.reset();
 
-Here is an example of a ClockTask that resets the simulation every 15 seconds. This can
-be entered in Terminal if using simple-compile.
 
-    var redo = function() { sim.reset(); };
-    clock.addTask(new ClockTask(15, redo));
+See Clock section {@linkplain myphysicslab.lab.util.Clock#typesoftime Types of Time}
+about *clock time* and *system time*.
 
 * @param {number} time the clock time in seconds when the callBack should start
 * @param {function():*} callBack the function to execute at the given clock time

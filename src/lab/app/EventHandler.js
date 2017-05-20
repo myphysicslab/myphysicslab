@@ -24,13 +24,12 @@ goog.scope(function() {
 var SimObject = myphysicslab.lab.model.SimObject;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Handles mouse dragging and keyboard events. Turns key events or mouse actions on a
-{@link SimObject} into changes in state variables of a
-{@link myphysicslab.lab.model.Simulation Simulation}.
+/** Handles mouse and keyboard events for a
+{@link myphysicslab.lab.model.Simulation Simulation}. Converts mouse or key events on a
+{@link SimObject} to changes in the Simulation state.
 
-{@link myphysicslab.lab.app.SimController SimController} is the intermediary that gets
-the initial raw mouse or keyboard events, translates them into simulation coordinates,
-finds the nearest dragable SimObject, and calls the appropriate EventHandler method.
+See {@link myphysicslab.lab.app.SimController SimController} which is usually the
+entity that supplies events to the EventHandler.
 
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
@@ -47,8 +46,9 @@ the SimObject then it should return `false`.
 @param {?SimObject} simObject the SimObject that is nearest to
     the mouse drag coordinates, or `null` if no SimObject was found
 @param {!Vector} location the location of the mouse in
-    simulation coordinates of the LabView where `simObject` was found, or the focus
-    LabView if `simObject` is `null`
+    simulation coordinates of the LabView where `simObject` was found, or in the
+    [focus view](myphysicslab.lab.view.LabCanvas.html#focusview) if `simObject` is
+    `null`.
 @param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag
 @param {?Vector} dragBody location of 'drag point' on the
@@ -65,17 +65,17 @@ appropriate. Only called if {@link #startDrag} returned `true`. The
 SimObject being moved is passed in, along with the current mouse position, in
 simulation coordinates, and an offset calculated at the start of the drag.
 
-The offset is the distance from the SimObject's initial position,
-from {@link myphysicslab.lab.view.DisplayObject#getPosition},
-to the mouse position at the start of the drag.
-Therefore, setting the SimObject position to `(x - offsetX, y - offsetY)`
-will move the SimObject smoothly along with the mouse movement.
+The offset is distance from initial object position (from
+{@link SimObject#getPosition}) to mouse position at start of drag. Setting the
+SimObject position to `(x - offsetX, y - offsetY)` will move the SimObject smoothly
+along with the mouse movement.
 
 @param {?SimObject} simObject the SimObject being dragged, or
     `null` if no SimObject was found
 @param {!Vector} location the location of the mouse in
-    simulation coordinates of the LabView where `simObject` was found, or the focus
-    LabView if `simObject` is `null`
+    simulation coordinates of the LabView where `simObject` was found, or in the
+    [focus view](myphysicslab.lab.view.LabCanvas.html#focusview) if `simObject` is
+    `null`.
 @param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag.
 @param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
@@ -88,8 +88,9 @@ appropriate.  Only called if {@link #startDrag} returned `true`.
 @param {?SimObject} simObject the SimObject being dragged, or
     `null` if no SimObject was found
 @param {!Vector} location the location of the mouse in
-    simulation coordinates of the LabView where `simObject` was found, or the focus
-    LabView if `simObject` is `null`
+    simulation coordinates of the LabView where `simObject` was found, or in the
+    [focus view](myphysicslab.lab.view.LabCanvas.html#focusview) if `simObject` is
+    `null`.
 @param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag.
 */
@@ -99,7 +100,7 @@ EventHandler.prototype.finishDrag;
 for that event.
 
 @param {number} keyCode the key code of the key that was pressed
-@param {boolean} pressed true` means this is a key-down event; `false` means a key-up
+@param {boolean} pressed `true` means this is a key-down event; `false` means a key-up
     event
 @param {!goog.events.BrowserEvent} keyEvent the original BrowserEvent
 */

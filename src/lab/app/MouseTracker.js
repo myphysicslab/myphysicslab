@@ -35,45 +35,33 @@ var SimObject = myphysicslab.lab.model.SimObject;
 var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Processes mouse events to drag a DisplayObject or passes events to an
-EventHandler. See 'Mouse Events' in {@link myphysicslab.lab.app.SimController}.
+/** Processes mouse events to either (1) directly move a {@link DisplayObject} or (2)
+forward events to an {@link EventHandler}.
 
-Events are sent to the EventHandler when:
+(1) MouseTracker moves the DisplayObject directly when:
 
-+ `dragDispObj` has a SimObject which is recognized by the EventHandler; events are
-translated to simulation coordinates for the LabView that the DisplayObject is in. An
-EventHandler indicates that it recognizes a SimObject by returning `true` from
-{@link EventHandler#startDrag}.
++ No EventHandler is specified.
 
-+ `dragDispObj` is `null`; events are translated to simulation coordinates for the given
-LabView of the LabCanvas.
-
-MouseTracker moves the DisplayObject directly, and no events are sent to
-EventHandler when:
-
-+ `dragDispObj` does not have a SimObject; examples include DisplayClock and
++ `dragDispObj` does not have a SimObject. Examples include DisplayClock and
 EnergyBarGraph.
 
-+ `dragDispObj` has a SimObject which is not recognized by the EventHandler. The use
-case is for adding dragable marker objects which the user can position as desired, see
-Design Notes below.
++ `dragDispObj` has a SimObject but it is not recognized by the EventHandler.
+An EventHandler indicates that it doesn't recognize a SimObject by returning `false`
+from {@link EventHandler#startDrag}. An example scenario is a dragable marker
+object which the user can position as desired.
 
-### Design Notes
+(2) Events are sent to the EventHandler when:
 
-It is possible to have a DisplayObject that has a SimObject, but which is just used
-for display only. This is similar to the 'DisplayObject without SimObject' case like
-EnergyBarGraph or DisplayClock, except that someone (the app, or the user via Terminal)
-has made a SimObject that the Simulation is unaware of.
++ `dragDispObj` has a SimObject which is recognized by the EventHandler. An
+EventHandler indicates that it recognizes a SimObject by returning `true` from
+{@link EventHandler#startDrag}. In this case, events are translated to simulation
+coordinates for the LabView that the DisplayObject is in.
 
-The use case is for teaching or experimenting: you might add some static but moveable
-DisplayObjects to a LabView for marking the starting or ending position of an object
-(for example to show the effect of different parameter values or initial conditions).
++ `dragDispObj` is `null`. In this case, events are translated to simulation
+coordinates of the specified LabView.
 
-Imagine adding text, lines, shapes, etc., by writing short scripts in Terminal. One
-could make a fancier user interface like a tool bar for adding and deleting shapes. You
-might indicate selection by showing with handles for resizing. This is all beyond the
-scope of the MouseTracker class, but is a possible future direction. The current
-MouseTracker should however be able to move such DisplayObjects if they exist.
+See *Mouse Events* in {@link myphysicslab.lab.app.SimController}.
+
 
 @todo  what to do when there are multiple SimObjects, as with DisplayPath?
 
@@ -163,6 +151,24 @@ myphysicslab.lab.app.MouseTracker = function(dragDispObj, view, loc_sim, drag_bo
 };
 var MouseTracker = myphysicslab.lab.app.MouseTracker;
 
+/*  Design Notes
+
+It is possible to have a DisplayObject that has a SimObject, but which is used
+for display only. This is similar to the 'DisplayObject without SimObject' case like
+EnergyBarGraph or DisplayClock, except that someone (the app, or the user via Terminal)
+has made a SimObject that the Simulation is unaware of.
+
+The use case is for teaching or experimenting: you might add some static but moveable
+DisplayObjects to a LabView for marking the starting or ending position of an object
+(for example to show the effect of different parameter values or initial conditions).
+
+Imagine adding text, lines, shapes, etc., by writing short scripts in Terminal. One
+could make a fancier user interface like a tool bar for adding and deleting shapes. You
+might indicate selection by showing with handles for resizing. This is all beyond the
+scope of the MouseTracker class, but is a possible future direction. The current
+MouseTracker should however be able to move such DisplayObjects if they exist.
+*/
+
 /** Called when a mouse down event occurs.
 @param {!BrowserEvent} evt the mouse down event that occurred
 */
@@ -176,15 +182,14 @@ MouseTracker.prototype.startDrag = function(evt) {
 };
 
 /** Called when a mouse move event occurs.
-@param {!Vector} loc_screen location of the event in screen
-    coordinates
+@param {!Vector} loc_screen location of the event in screen coordinates
 @param {!BrowserEvent} evt the mouse move event that occurred
 */
 MouseTracker.prototype.mouseDrag = function(loc_screen, evt) {
   var map = this.view_.getCoordMap();
   this.loc_sim_ = map.screenToSim(loc_screen);
   if (this.dragDispObj_ != null && (this.dragSimObj_ == null || !this.ehDrag_)) {
-    // we try to move the dragObj on our own
+    // we move the dragObj directly
     this.dragDispObj_.setPosition(this.loc_sim_.subtract(this.dragOffset_));
   } else {
     if (this.eventHandler_!=null && this.ehDrag_) {
@@ -205,11 +210,12 @@ MouseTracker.prototype.finishDrag = function() {
 };
 
 /** Finds the nearest dragable DisplayObject to the starting location (using distance
-in screen coordinates), and creates a MouseTracker for dragging it; if no dragable
-DisplayObject is found creates a MouseTracker which will translate mouse
-events to simulation coordinates of the LabCanvas's focus view.
+in screen coordinates), and creates a MouseTracker for dragging it. If no dragable
+DisplayObject is found, creates a MouseTracker which translates mouse events to
+simulation coordinates of the LabCanvas's
+[focus view](myphysicslab.lab.view.LabCanvas.html#focusview).
 
-Searches all the SimView's of the LabCanvas, in front to back order. When a
+Searches all the LabView's of the LabCanvas, in front to back order. When a
 DisplayObject has no SimObject, then regard it as an 'opaque' object and immediately
 accept it as the target if mouse is inside; or ignore it entirely if mouse is outside.
 We search from front to back in visual order, so that objects that are visually 'on top'
@@ -217,10 +223,10 @@ are checked first.
 
 @param {!LabCanvas} labCanvas the LabCanvas to process events for
 @param {!Vector} start_screen mouse down location in LabCanvas screen coords
-@param {?EventHandler} eventHandler the EventHandler to send
-    mouse events to, or `null`
-@return {?MouseTracker} the MouseTracker to use for processing
-    mouse events, or `null` if MouseTracking is not possible
+@param {?EventHandler} eventHandler the EventHandler to send mouse events to,
+    or `null`
+@return {?MouseTracker} the MouseTracker to use for processing mouse events,
+    or `null` if MouseTracking is not possible
 */
 MouseTracker.findNearestDragable = function(labCanvas, start_screen, eventHandler) {
   /** the DisplayObject currently being dragged.

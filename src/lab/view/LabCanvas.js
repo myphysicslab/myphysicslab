@@ -45,41 +45,49 @@ var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var Util = myphysicslab.lab.util.Util;
 
 /** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into
-the canvas. The LabViews are drawn overlapping so that the *last LabView appears on
-top* of the others.
+the canvas. The LabViews are drawn overlapping so that the last LabView appears on
+top of the others.
 
-### Canvas Size and Shape
+### Canvas Size
 
-The HTML canvas has a specified width and height, which determines its resolution and
-shape. The size can be changed via {@link #setWidth}, {@link #setHeight}, or
-{@link #setSize}. When the size of the HTML canvas changes, the LabViews are set to have the
-same screen rectangle as the canvas.
+The HTML canvas has a specified width and height, which determines
+the *screen rectangle* of the canvas. The canvas screen rectangle has `(0, 0)` for
+the top-left corner and `(width, height)` for the bottom-right corner. The vertical
+coordinates increase downwards.
 
-Each LabView has a simulation rectangle which is placed over its screen rectangle via a
-{@link CoordMap}. The simulation rectangle specifies the simulation coordinates, and
-the CoordMap translates simulation coordinates to screen coordinates. Pan and zoom can
-be accomplished by changing the simulation rectangle of a LabView (which changes its
-CoordMap accordingly).
+The size can be changed via {@link #setWidth}, {@link #setHeight},
+{@link #setSize} or {@link #setScreenRect}. When the size of the HTML canvas changes,
+the LabViews are set to have the same screen rectangle as the canvas.
+
+Each LabView has a simulation rectangle and a screen rectangle, and these are aligned
+by a {@link CoordMap}. The simulation rectangle specifies the simulation coordinates,
+and the CoordMap translates simulation coordinates to screen coordinates. Pan and zoom
+can be accomplished by changing the simulation rectangle of a LabView (which changes
+its CoordMap accordingly).
 
 
 ### Focus View
+<a name="focusview"></a>
 
-The first LabView that is added becomes the **focus view**. The focus view is treated
-specially by some classes, for example {@link myphysicslab.lab.app.SimController} will
-pan the focus LabView when a particular set of modifier keys are pressed during a mouse
-drag. The focus view can be changed via {@link #setFocusView}.
+The {@link #getFocusView focus view} is the LabView that the user expects to modify by
+his/her actions. For example, {@link myphysicslab.lab.app.SimController} will pan the
+focus LabView when a particular set of modifier keys are pressed during a mouse drag.
+
+The first LabView that is added becomes the initial focus view, but the focus view can
+be changed via {@link #setFocusView}.
 
 
 ### Background Color
 
 Whenever {@link #paint} is called to draw a new frame, the first step is to clear the
-old frame from the HTML canvas.
+old frame from the HTML canvas. What happens depends on the
+{@link #getBackground background color}.
 
-+ If no background color is specified (an empty string) then we use the
-JavaScript `canvas.clearRect()` method which clears to transparent black pixels.
++ If no background color is specified then we use JavaScript `canvas.clearRect()`
+    which clears to transparent black pixels.
 
-+ If a background color is specified, then we use JavaScript
-`canvas.fillRect()` to fill the HTML canvas with that color.
++ If a background color is specified, then we use JavaScript `canvas.fillRect()`
+    which fills the HTML canvas with that color.
 
 The background color can be set with {@link #setBackground}.
 
@@ -87,7 +95,7 @@ The background color can be set with {@link #setBackground}.
 ### Trails Effect
 
 A visual effect where moving objects leave behind a smeared out trail can be done by
-setting the background color and the *alpha* transparency, see {@link #setAlpha}.
+setting the background color and the *alpha transparency*, see {@link #setAlpha}.
 Here are example settings, which can be done in a
 {@link myphysicslab.lab.util.Terminal} session:
 
@@ -302,9 +310,9 @@ LabCanvas.prototype.focus = function() {
   this.canvas_.focus();
 };
 
-/** Returns the transparency used when painting; a number between 0.0 (fully
-transparent) and 1.0 (fully opaque). Only has an effect if the background color is
-non-empty string.
+/** Returns the transparency used when painting the background color;
+a number between 0.0 (fully transparent) and 1.0 (fully opaque).
+Only has an effect if the background color is non-empty string.
 * @return {number} transparency used when painting, between 0 and 1.
 */
 LabCanvas.prototype.getAlpha = function() {
@@ -335,7 +343,7 @@ LabCanvas.prototype.getContext = function() {
   return /** @type {!CanvasRenderingContext2D} */(this.canvas_.getContext('2d'));
 };
 
-/** Returns the focus LabView which is the main focus of the LabCanvas.
+/** Returns the focus LabView which the user expects to modify by his/her actions.
 * @return {?LabView} the focus LabView, or `null` when there is no focus LabView
 */
 LabCanvas.prototype.getFocusView = function() {
@@ -397,7 +405,7 @@ LabCanvas.prototype.notifySizeChanged = function() {
 };
 
 /** Clears the canvas to the background color; then paints each LabView.
-See {@link #background_} and {@link #alpha_}.
+See {@link #setBackground} and {@link #setAlpha}.
 @return {undefined}
 */
 LabCanvas.prototype.paint = function() {
@@ -463,9 +471,9 @@ LabCanvas.prototype.removeView = function(view) {
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_LIST_MODIFIED));
 };
 
-/** Sets the transparency used when painting; a number between 0.0 (fully
-transparent) and 1.0 (fully opaque). Only has an effect if the background color is
-non-empty string.
+/** Sets the transparency used when painting the background color;
+a number between 0.0 (fully transparent) and 1.0 (fully opaque).
+Only has an effect if the background color is non-empty string.
 * @param {number} value transparency used when painting, between 0 and 1
 */
 LabCanvas.prototype.setAlpha = function(value) {

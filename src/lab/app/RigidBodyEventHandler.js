@@ -45,8 +45,9 @@ var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** User interface controller for RigidBodySim, provides mouse dragging of nearest
-moveable RigidBody, and keyboard thrust controls for one or two selected RigidBodys.
+/** User interface controller for {@link RigidBodySim}, provides mouse dragging of
+nearest moveable {@link RigidBody}, and keyboard thrust controls for one or two
+selected RigidBodys.
 
 Mouse Drag
 ----------

@@ -35,19 +35,20 @@ var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Subject = myphysicslab.lab.util.Subject;
 var Util = myphysicslab.lab.util.Util;
 
-/** A clock that advances along with real time and can execute tasks at appointed
+/** Advances along with real time when active, and can execute tasks at appointed
 times. There are commands to pause, resume, and single-step the Clock, as well as set
 its time and speed relative to system time. Clock has a list of
 {@link ClockTask}s which it causes to be executed at the times
-specified by the ClockTasks. Clock has a parallel *real time* clock for measuring
+specified by the ClockTasks. Clock has a parallel *real time clock* for measuring
 performance.
 
-Clock time is used with a Simulation to know **how much to advance the simulation**.
-This is done by a **client** object such as {@link myphysicslab.lab.app.SimRunner}. By
-matching Clock time, operations on Clock like pause, single-step, setting time rate,
-etc. will also therefore affect the display of the Simulation.
+Clock time is used by a **client** object such as {@link myphysicslab.lab.app.SimRunner}
+to know *how much to advance a simulation*. (When clock time is in the past, such as
+at time zero, then the client will reset the simulation back to initial conditions.)
+This is how operations on Clock like pause, single-step, setting time rate, etc. affect
+the display of the Simulation.
 
-Note that while a **unit of simulation time** can be interpreted to mean anything from
+While a *unit of simulation time* can be interpreted to mean anything from
 a millisecond to a millenium, we use the Clock to advance the Simulation time along
 with real time as though each unit of time is equal to one second of real time.
 
@@ -61,49 +62,46 @@ have a different meaning – see
 simulation time follows clock time, you should think of clock time being in the same
 units as simulation time.
 
-+ **System Time** is given by {@link Util#getSystemTime}.
-System time is the basis of the other time measurements. For example, clock time and
-real time each have a 'system start time' by which they are measured. System time is
-always running.
++ **System Time** is given by {@link Util#getSystemTime}. System time is the basis of
+the other time measurements. For example, clock time and real time each have a 'system
+start time' by which they are measured. System time is always running.
 
-+ **Clock Time** is given by {@link #getTime Clock.getTime()}.
-Clock time advances at the current time-rate (multiple of system
-time). Clock time can be modified directly by calling {@link #setTime Clock.setTime()}.
-Clock time can be paused or resumed.
++ **Clock Time** is given by {@link #getTime}.
+Clock time advances at the current time-rate (multiple of system time). Clock time can
+be modified directly by calling {@link #setTime}. Clock time can be paused or resumed.
 
-+ **Simulation Time** is given by
-{@link myphysicslab.lab.model.Simulation#getTime}. Simulation time
-is advanced by the client, usually to keep up with clock time. When performance problems
-occur, the clock time is retarded via {@link #setTime Clock.setTime()} to match the
-current simulation time.
++ **Simulation Time** is given by {@link myphysicslab.lab.model.Simulation#getTime}.
+Simulation time is advanced by the client, usually to keep up with clock time. When
+performance problems occur, the clock time is retarded via {@link #setTime} to match
+the current simulation time.
 
-+ **Real Time** is given by {@link #getRealTime Clock.getRealTime()}. Closely related to
-clock time, real time is used to measure performance: how much the simulation time
-(usually same as clock time) has slipped behind real time because the simulation
-couldn't compute quickly enough. Real time usually mirrors clock time – they are paused
-or resumed together and have the same time rate relative to system time – but real time
-is *not affected by {@link #setTime Clock.setTime()}*. When performance problems happen
-the usual result is that clock time is retarded to match simulation time by setting
-clock time to an earlier value. In this case, real time is unaffected and will be ahead
-of clock time by the amount of time lost to performance problems.
++ **Real Time** is given by {@link #getRealTime}. Closely related to clock time, real
+time is used to measure performance: how much the simulation time (usually same as
+clock time) has slipped behind real time because the simulation couldn't compute
+quickly enough. Real time usually mirrors clock time – they are paused or resumed
+together and have the same time rate relative to system time – but real time is not
+affected by {@link #setTime}. When performance problems happen the usual result is that
+clock time is retarded to match simulation time by setting clock time to an earlier
+value. In this case, real time is unaffected and will be ahead of clock time by the
+amount of time lost to performance problems.
 
 
 ## ClockTask
 
-A {@link ClockTask} contains a function which is to
-be executed at a specific time. ClockTasks are scheduled as a side effect of Clock
-methods such as `setTime(), resume(), addTask()`. ClockTasks are cancelled as a side
-effect of Clock methods such as `pause(), removeTask()`.
+A {@link ClockTask} contains a function which is to be executed at a specific time.
+ClockTasks are scheduled as a side effect of Clock methods such as
+`setTime()`, `resume()`, `addTask()`. ClockTasks are cancelled as a side
+effect of Clock methods such as `pause()`, `removeTask()`.
 
 
 
 ## Step Mode
 
 The {@link #step} method puts the Clock into a special *step mode*. Clients should check
-for this step mode by calling {@link #isStepping}. Step mode being `true` means that
-* *clock time has advanced even though the clock is paused*. The client should update
-  the simulation to match the new clock time, and then call {@link #clearStepMode} to
-  indicate that it has advanced the simulation.
+for this step mode by calling {@link #isStepping}. Step mode being `true` means
+that *clock time has advanced even though the clock is paused*. The client should
+update the simulation to match the new clock time, and then call {@link #clearStepMode}
+to indicate that it has advanced the simulation.
 
 
 Parameters Created
@@ -301,10 +299,13 @@ Clock.prototype.executeTasks = function(startTime, timeStep) {
 used for checking simulation performance. Like clock time, real time starts at zero
 time; is paused when the Clock is paused; and runs at the same rate as clock time.
 
-When a simulation cannot keep up with real time, the Clock is retarded; this is done (in
-client code) by calling {@link #setTime} to set clock time to an earlier time. In
-contrast, the real time clock is unaffected by `setTime`; therefore the difference
-between real time and clock time tells us how far behind real time the simulation is.
+When a simulation cannot keep up with real time the Clock is **retarded** by client
+code calling {@link #setTime} to set clock time to an earlier time. In contrast, the
+real time is unaffected by `setTime`; therefore the difference between real time
+and clock time tells us how far behind real time the simulation is.
+
+When the simulation is reset, the clock is typically set to time zero. In that case
+the real time should be set to match the clock by using {@link #setRealTime}.
 @return {number} current real time in seconds
 */
 Clock.prototype.getRealTime = function() {
@@ -417,7 +418,7 @@ Clock.prototype.scheduleTask = function(task) {
   }
 };
 
-/** Sets the real time to the given time in seconds.
+/** Sets the real time to the given time in seconds. See {@link #getRealTime}.
 @param {number} time_secs the time to set
 */
 Clock.prototype.setRealTime = function(time_secs) {
