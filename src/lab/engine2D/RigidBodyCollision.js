@@ -184,8 +184,8 @@ See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik N
 for modifications to contact forces when curved edges are involved.
 
 
-## Equivalence of Using R or U Vector For Normal Velocity
 <a name="equivalenceofusingroruvector"></a>
+## Equivalence of Using R or U Vector For Normal Velocity
 
 Here we show that you get the same result whether using the R or U vector in
 {@link #getNormalVelocity}.

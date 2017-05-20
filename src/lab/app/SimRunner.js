@@ -54,6 +54,64 @@ var Util = myphysicslab.lab.util.Util;
 {@link Timer} and a {@link Clock} to synchronize the Simulation with real time; updates
 the {@link LabCanvas} to show the current Simulation state.
 
+
+How Simulation Advances with Clock
+----------------------------------
+SimRunner advances the Simulation state, keeping it in sync with the Clock time, and
+therefore we see the Simulation advancing in real time.  Here are the details:
+
++ The Timer **callback** is set to be the SimRunner method `callback()`.
+
++ The `callback()` method **reschedules itself** to run again by
+calling {@link Timer#finishAt} or {@link Timer#fireAfter} thus continuing the
+[chain of callbacks](myphysicslab.lab.util.Timer.html#chainofcallbacks).
+The callback reschedules itself regardless of whether the Clock is paused,
+stepping, or running (though it calculates the delay differently in those cases).
+
++ When the Clock is **running or stepping**, `callback()` advances the
+Simulation up to (or just beyond) the current {@link Clock#getTime clock time} by
+calling {@link AdvanceStrategy#advance}. This keeps the
+Simulation in sync with the Clock.
+
++ **Stepping** forward by a single time step employs the special
+[step mode](myphysicslab.lab.util.Clock.html#stepmode) of Clock. When `callback()`
+sees the Clock is in step mode, it advances the Simulation by a single time step
+and then clears the Clock's step mode so that the Clock will thereafter be in the
+regular "paused" state.
+
++ Sometimes the Simulation cannot be computed in real time. In that case `callback()`
+will **retard the clock time** when it is too far ahead of simulation time, by calling
+{@link Clock#setTime}. Once that happens {@link Clock#getRealTime} will be greater than
+{@link Clock#getTime}. We can calculate how much time has been lost due to performance
+problems by comparing these.
+
++ When the Clock is **paused** `callback()` still updates the LabCanvas, so any changes
+to objects will be seen. The callback chain continues to be rescheduled with
+{@link Timer#fireAfter}, but the Clock time is frozen. This allows the user to position
+objects while the simulation is paused.
+
++ The Timer period (the callback frequency) determines the **frame rate** of the
+simulation display, because a new frame is drawn each time the `callback()`
+callback fires. See {@link #setDisplayPeriod}.
+
++ The Timer period has no effect on how often the Simulation's differential equation is
+calculated; that is determined separately by the **time step** used when calling
+{@link AdvanceStrategy#advance}. See {@link #setTimeStep}.
+
+
+Stop Simulation When Window is Not Active
+-----------------------------------------
+SimRunner listens for blur and focus events to stop and start the Timer. Those events
+occur when the browser window changes from being the front most active window to some
+other window or browser tab being active. This means the simulation will only run when
+the browser window is the frontmost active window. This helps reduce CPU usage when the
+user is not viewing the simulation.
+
+There is a "non-stop" Parameter which allows the simulation to run even when the window
+is not active. This is useful if you want to view two simulations running in separate
+browser windows. See {@link #setNonStop}.
+
+
 Parameters Created
 ------------------
 + ParameterNumber named `TIME_STEP`, see {@link #setTimeStep}
@@ -73,62 +131,6 @@ All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `RESET`, see {@link #reset}.
 
-
-How Simulation Advances with Clock
-----------------------------------
-SimRunner advances the Simulation state, keeping it in sync with the Clock time, and
-therefore we see the Simulation advancing in real time.  Here are the details:
-
-+ The Timer **callback** is set to be the SimRunner method {@link #callback}.
-
-+ The `callback()` method **reschedules itself** to run again by
-calling `Timer.finishAt()` or `Timer.fireAfter()` thus continuing the
-{@link Timer chain of callbacks}.
-The callback reschedules itself regardless of whether the Clock is paused,
-stepping, or running (though it calculates the delay differently in those cases).
-
-+ When the Clock is **running or stepping**, `callback()` advances the
-Simulation up to (or just beyond) the current clock time (from `Clock.getTime()`) by
-calling `AdvanceStrategy.advance()`. This keeps the
-Simulation in sync with the Clock and therefore (hopefully) with real time.
-
-+ **Stepping** forward by a single time step employs the special
-{@link Clock step mode} of Clock. When `callback()`
-sees the Clock is in step mode, it advances the Simulation by a single time step
-and then clears the Clock's step mode so that the Clock will thereafter be in the
-regular 'paused' state.
-
-+ Sometimes the Simulation cannot be computed in real time. In that case
-`callback()` will **retard the clock time** when it is too far ahead of
-simulation time, by calling `Clock.setTime()`. Once that happens `Clock.getRealTime()`
-will be greater than `Clock.getTime()`. We can calculate how much time has been lost
-due to performance problems by comparing these.
-
-+ When the Clock is **paused** `callback()` still updates the LabCanvas, so
-any changes to objects will be seen. The callback chain continues to be rescheduled with
-`Timer.fireAfter()`, but the Clock time is frozen. This allows the user to position
-objects while the simulation is paused.
-
-+ The Timer period (the callback frequency) determines the **frame rate** of the
-simulation display, because a new frame is drawn each time the `callback()`
-callback fires. See {@link #setDisplayPeriod}.
-
-+ The Timer period has no effect on how often the Simulation's
-differential equation is calculated; that is determined separately by the **time step**
-used when calling `AdvanceStrategy.advance()`. See {@link #setTimeStep}.
-
-
-Stop Simulation When Window is Not Active
------------------------------------------
-SimRunner listens for blur and focus events to stop and start the Timer. Those events
-occur when the browser window changes from being the front most active window to some
-other window or browser tab being active. This means the simulation will only run when
-the browser window is the frontmost active window. This helps reduce CPU usage when the
-user is not viewing the simulation.
-
-There is a "non-stop" Parameter which allows the simulation to run even when the window
-is not active. This is useful if you want to view two simulations running in separate
-browser windows. See {@link #setNonStop}.
 
 * @param {!AdvanceStrategy} advance  the AdvanceStrategy which
 *     runs advances the Simulation
@@ -335,6 +337,7 @@ repaints the LabCanvas's. Calls `memorize` on the list of Memorizables after eac
 step. This is the callback function that is being run by the {@link Timer}. Reschedules
 itself to run again, to continue the chain of callbacks.
 * @return {undefined}
+* @private
 */
 SimRunner.prototype.callback = function() {
   try {
@@ -436,15 +439,14 @@ SimRunner.prototype.getClock = function() {
   return this.clock_;
 };
 
-/** Returns the amount of time between callbacks which display frames of the Simulation,
-in seconds.
-@return {number} amount of time between callbacks, in seconds
+/** Returns the amount of time between displaying frames of the Simulation, in seconds.
+@return {number} amount of time between displaying frames of the Simulation, in seconds.
 */
 SimRunner.prototype.getDisplayPeriod = function() {
   return this.displayPeriod_;
 };
 
-/** Whether the Timer is executing {@link #callback}.
+/** Whether the Timer is executing `callback()`.
 @return {boolean}
 */
 SimRunner.prototype.getFiring = function() {
@@ -484,9 +486,8 @@ SimRunner.prototype.getTimeStep = function() {
 };
 
 /** Presents an alert to the user about the exception with instructions about how to
-* get the Simulation running again; calls `SimRunner.pause()` to stop the Simulation.
+* get the Simulation running again; calls {@link #pause} to stop the Simulation.
 * @param {*} error the error that caused the exception
-* @protected
 */
 SimRunner.prototype.handleException = function(error) {
   this.pause();
@@ -590,9 +591,9 @@ SimRunner.prototype.setAppName = function(name) {
   this.appName_ = name;
 };
 
-/** Sets amount of time between callbacks which display frames of the Simulation, in
-seconds.  This determines the frame rate of the simulation display.
-@param {number} displayPeriod amount of time between callbacks, in seconds
+/** Sets amount of time between displaying frames of the Simulation, in seconds.
+@param {number} displayPeriod amount of time between displaying frames of the
+    Simulation, in seconds.
 */
 SimRunner.prototype.setDisplayPeriod = function(displayPeriod) {
   this.displayPeriod_ = displayPeriod;
@@ -600,7 +601,7 @@ SimRunner.prototype.setDisplayPeriod = function(displayPeriod) {
   this.broadcastParameter(SimRunner.en.DISPLAY_PERIOD);
 };
 
-/** Sets whether the Timer is executing {@link #callback}. However, if
+/** Sets whether the Timer is executing `callback()`. However, if
 non-stop mode is on, then this will not stop the Timer, see {@link #setNonStop}.
 @param {boolean} value `true` causes the Timer to start firing
 */
@@ -646,7 +647,7 @@ SimRunner.prototype.setTimeStep = function(timeStep) {
   this.broadcastParameter(SimRunner.en.TIME_STEP);
 };
 
-/** Starts the Timer executing {@link #callback}.
+/** Starts the Timer executing `callback()`.
 @return {undefined}
 */
 SimRunner.prototype.startFiring = function() {
@@ -664,7 +665,7 @@ SimRunner.prototype.step = function() {
   this.timer_.startFiring(); // in case the timer was stopped.
 };
 
-/** Stops the Timer from executing {@link #callback}, but only if the non-stop flag is
+/** Stops the Timer from executing `callback()`, but only if the non-stop flag is
 * `false`, see {@link #setNonStop}.
 @return {undefined}
 */

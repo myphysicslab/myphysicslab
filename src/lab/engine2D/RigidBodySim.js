@@ -109,6 +109,7 @@ More information:
 + ParameterBoolean named `SHOW_FORCES`, see {@link #setShowForces}
 
 ### Events Broadcast
+All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `ELASTICITY_SET`, see {@link #setElasticity}.
 

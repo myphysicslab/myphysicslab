@@ -66,8 +66,8 @@ can be accomplished by changing the simulation rectangle of a LabView (which cha
 its CoordMap accordingly).
 
 
-### Focus View
 <a name="focusview"></a>
+### Focus View
 
 The {@link #getFocusView focus view} is the LabView that the user expects to modify by
 his/her actions. For example, {@link myphysicslab.lab.app.SimController} will pan the
@@ -124,8 +124,7 @@ Parameters Created
 
 Events Broadcast
 ----------------
-
-LabCanvas broadcasts these {@link GenericEvent}s to its Observers:
+All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `VIEW_ADDED`; the value is the LabView being added
 

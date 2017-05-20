@@ -115,7 +115,7 @@ Parameters Created
 
 Events Broadcast
 ----------------
-SimView broadcasts these {@link GenericEvent}s to its Observers:
+All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `SIM_RECT_CHANGED` when the simulation rectangle changes.
 

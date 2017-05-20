@@ -589,7 +589,7 @@ SimController.prototype.touchEnd = function(evt) {
   }
 };
 
-/**  Set of modifier keys that occur during browser events.
+/**  Specifies a set of modifier keys that can occur during browser events.
 
 The table below shows how modifier keys are named on different operating systems.
 

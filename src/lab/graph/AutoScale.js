@@ -95,6 +95,8 @@ Parameters Created
 
 Events Broadcast
 ----------------
+All the Parameters are broadcast when their values change.  In addition:
+
 + GenericEvent named `AUTO_SCALE` is broadcast when the range rectangle changes. The new
 range rectangle is the value of the event.
 

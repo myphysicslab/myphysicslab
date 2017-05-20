@@ -49,9 +49,9 @@ Perhaps the most useful command is `vars` which shows the list of variables that
 available.
 
 
+<a name="twotypesofscripts"></a>
 Two Types of Scripts
 --------------------
-<a name="twotypesofscripts"></a>
 
 Terminal can execute two types of scripts:
 
@@ -79,9 +79,9 @@ you can use it to execute EasyScript within JavaScript. Examples:
 
 
 
+<a name="safesubsetofjavascript"></a>
 Safe Subset of JavaScript
 -------------------------
-<a name="safesubsetofjavascript"></a>
 
 To prevent malicious scripts from being executed, only a safe subset of JavaScript is
 allowed. See the book *JavaScript: The Definitive Guide* by Flanagan, section 11.1.2
@@ -168,9 +168,9 @@ interpreted as two separate scripts.
 
 
 
+<a name="urlqueryscript"></a>
 URL Query Script
 ----------------
-<a name="urlqueryscript"></a>
 
 A Terminal script can be embedded into a URL
 [query string](https://en.wikipedia.org/wiki/Query_string) which will be
@@ -216,9 +216,9 @@ This feature is only for the convenience of the Terminal user, and has no relati
 the command storage feature.
 
 
+<a name="scriptstorage"></a>
 Script Storage
 --------------
-<a name="scriptstorage"></a>
 
 To allow storage in **HTML5 Local Storage** of commands and later re-use, there are
 methods {@link #remember}, {@link #recall}, and {@link #forget}. This allows users to
@@ -288,9 +288,9 @@ is a valid JavaScript reference.
 (In unit tests of Terminal, we temporarily define a global variable named `terminal`.)
 
 
+<a name="advanced-compileistheenemyofjavascript"></a>
 Advanced-compile is the Enemy of JavaScript
 -------------------------------------------
-<a name="advanced-compileistheenemyofjavascript"></a>
 
 When using [Advanced Compile](Building.html#advancedvs.simplecompile) only EasyScript
 can be executed in Terminal, not JavaScript code.

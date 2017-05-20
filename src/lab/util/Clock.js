@@ -52,8 +52,8 @@ While a *unit of simulation time* can be interpreted to mean anything from
 a millisecond to a millenium, we use the Clock to advance the Simulation time along
 with real time as though each unit of time is equal to one second of real time.
 
-## Types of Time
 <a name="typesoftime"></a>
+## Types of Time
 
 There are several types of time considered here: system time, clock time, simulation
 time, and real time. All of these are measured in seconds, though simulation time might
@@ -95,6 +95,7 @@ effect of Clock methods such as `pause()`, `removeTask()`.
 
 
 
+<a name="stepmode"></a>
 ## Step Mode
 
 The {@link #step} method puts the Clock into a special *step mode*. Clients should check
@@ -112,16 +113,15 @@ Parameters Created
 
 Events Broadcast
 ----------------
+All the Parameters are broadcast when their values change.  In addition:
 
-As a {@link Subject}, Clock broadcasts to its Observers these {@link GenericEvent}s:
++ GenericEvent named `CLOCK_PAUSE`, see {@link #pause}
 
-+ GenericEvent named `CLOCK_PAUSE`
++ GenericEvent named `CLOCK_RESUME`, see {@link #resume}
 
-+ GenericEvent named `CLOCK_RESUME`
++ GenericEvent named `CLOCK_STEP`, see {@link #step}
 
-+ GenericEvent named `CLOCK_STEP`
-
-+ GenericEvent named `CLOCK_SET_TIME`
++ GenericEvent named `CLOCK_SET_TIME`, see {@link #setTime}
 
 
 @todo Do error handling or adapt in case where callBackStarted() is not
@@ -323,8 +323,9 @@ Clock.prototype.getTasks = function() {
   return goog.array.clone(this.tasks_);
 };
 
-/** Returns the clock time in seconds. When the Clock {@link #isRunning}, the clock time
-advances along with system time at whatever {@link #getTimeRate time rate} is specified.
+/** Returns the clock time in seconds. When the Clock {@link #isRunning is running},
+the clock time advances along with system time at whatever
+{@link #getTimeRate time rate} is specified.
 @return {number} the clock time in seconds
 */
 Clock.prototype.getTime = function() {

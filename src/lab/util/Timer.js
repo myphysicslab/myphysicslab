@@ -29,6 +29,7 @@ var Util = myphysicslab.lab.util.Util;
 JavaScript's `setInterval()` function.
 
 
+<a name="chainofcallbacks"></a>
 ## Chain of Callbacks
 
 Timer has a single callback function which is intended to repeatedly execute or 'fire'.

@@ -147,8 +147,8 @@ cost of the square root function.
 
 
 
-### Special Edge for Proximity Testing
 <a name="specialedgeforproximitytesting"></a>
+### Special Edge for Proximity Testing
 
 <img src="Polygon_Special_Edge.svg">
 
