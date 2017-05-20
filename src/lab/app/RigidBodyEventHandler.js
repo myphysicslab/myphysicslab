@@ -67,8 +67,8 @@ of thrust forces for each RigidBody. The keyboard commands to fire thrusters are
 + Right hand controls: keys J, K, L, I and arrow keys.
 + Left hand controls: keys S, D, F, E.
 
-Some of these key commands will fire pairs of 'side ways' thrust controls. Holding shift
-key with those changes the pair of thrusters to give a rotation effect.
+Some of the key commands will fire pairs of 'side ways' thrust controls. Holding shift
+key changes the pair of thrusters to give a rotation effect.
 
 
 @todo extract the stuff about thrusters into a subclass or decorating class, so that
@@ -362,14 +362,14 @@ RigidBodyEventHandler.prototype.handleKeyEvent = function(keyCode, pressed, keyE
   }
 };
 
-/** Returns stiffness of the drag spring
+/** Returns stiffness of the drag spring.
 @return {number} stiffness of the drag spring
 */
 RigidBodyEventHandler.prototype.getDragStiffness = function() {
   return this.dragStiffness_;
 };
 
-/** Sets stiffness of the drag spring
+/** Sets stiffness of the drag spring.
 @param {number} stiffness of the drag spring
 */
 RigidBodyEventHandler.prototype.setDragStiffness = function(stiffness) {

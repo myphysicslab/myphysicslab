@@ -52,53 +52,50 @@ to an {@link EventHandler}, or does LabView panning
 
 Key Events
 ----------
-Key events are forwarded to the EventHandler, but only when the selected target on web
-page is the LabCanvas, or there is no selected target (`document.body` is the target in
+Key events are forwarded to the EventHandler, but only when the event target is the
+LabCanvas, or when there is no specific target (`document.body` is the event target in
 that case). This avoids forwarding key events intended for some other target, for
 example a text edit area.
 
 
 Mouse Events
 ------------
-If LabView panning is in effect (see below), then mouse events are sent to the
-ViewPanner that was created. Otherwise, SimController calls
-{@link MouseTracker#findNearestDragable} which returns a {@link MouseTracker} instance
-that processes the mouse events before (possibly) sending them to the EventHandler.
+If LabView panning is in effect, then mouse events are sent to the ViewPanner that was
+created. Otherwise, SimController calls {@link MouseTracker#findNearestDragable} which
+returns a {@link MouseTracker} instance that processes the mouse events before
+(possibly) sending them to the EventHandler.
 
 The MouseTracker forwards the mouse events to the EventHandler along with information
 such as: the mouse position in simulation coordinates of the LabView; the nearest
 dragable DisplayObject; the initial offset between the mouse and the DisplayObject.
 
-Even if no dragable DisplayObject is found (and LabView panning is not occurring) then
-the MouseTracker still forwards the event to the EventHandler with the mouse position in
-simulation coordinates of the focus LabView of the LabCanvas.
+Even if no dragable DisplayObject is found (and LabView panning is not occurring)
+the MouseTracker still forwards the event to the EventHandler. The mouse position is
+given in simulation coordinates of the focus LabView of the LabCanvas.
 
 
 Touch Events
 ------------
-The policy is to treat single touch events in canvas like mouse events, but allow
-multiple touch events like 'pinch to zoom' or 'two finger pan' by ignoring them and
-letting system process them.
+Single touch events are handled like mouse events. Multiple touch events like *pinch to
+zoom* or *two finger pan* are ignored and left for the operating system to respond to.
 
-Single touch events are handled like mouse events. Multiple touch events are ignored
-and left for the system to respond to (for example two finger zoom or pan on iOS).
 Because people are inexact about putting all their fingers on the screen at the same
 exact moment, most multiple touch events start as a single touch, followed quickly by a
 multiple touch event. The typical sequence is:
 
-1. A single-touch touchStart comes thru, and we start dragging an object. We allow the
-event to also be processed by the system (otherwise many multi-touch events are not
-processed by the system).
+1. A single-touch `touchStart` comes thru, and we start dragging an object. We also
+allow the event to also be processed by the operating system (otherwise many
+multi-touch events are not processed by the system).
 
-2. A single-touch touchMove event or two occurs, which causes some mouse dragging to
+2. A single-touch `touchMove` event or two occurs, which causes some mouse dragging to
 happen.
 
-3. A multi-touch touchStart event occurs. We call {@link #finishDrag} to stop mouse
-dragging. The multi-touch touchStart is then handled by the system.
+3. A multi-touch `touchStart` event occurs, we stop mouse dragging. The multi-touch
+`touchStart` is then handled by the operating system.
 
-Note that allowing the first touchStart to be processed by the system results in the
-canvas being highlighted (on iOS, probably others). To prevent that highlighting you can
-add this bit of CSS code:
+Note that allowing the first `touchStart` to be processed by the system results in the
+canvas being highlighted (on iOS, probably others). To prevent that highlighting you
+can add this bit of CSS code:
 
     canvas {
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -109,15 +106,15 @@ There are other such CSS options for other browsers.
 
 LabView Panning
 ------------
-When specified modifier keys are pressed (such as control key) then mouse drag events
-will directly pan the focus LabView instead of sending events to the EventHandler. This
-modifies the simulation rectangle of the LabView by calling
-{@link LabView#setSimRect}. An instance of
-{@link ViewPanner} is created to handle the LabView panning.
+When specified modifier keys are pressed (such as option key) then mouse drag events
+will directly pan the focus LabView instead of sending events to the EventHandler. An
+instance of {@link ViewPanner} is created to handle the LabView panning. Panning is
+accomplished by modifying the simulation rectangle of the LabView with {@link
+LabView#setSimRect}.
 
-If LabView panning is enabled, it only occurs when the specified combination of modifier
-keys are down during the mouse event, given in the `panModifier` parameter. Here is an
-example where LabView panning happens when no modifier keys are pressed:
+If LabView panning is enabled, it only occurs when the specified combination of
+modifier keys are down during the mouse event, given in the `panModifier` parameter.
+Here is an example where LabView panning happens when no modifier keys are pressed:
 
     new SimController(graphCanvas, null, {alt:false, control:false, meta:false, shift:false})
 
@@ -126,8 +123,16 @@ Here is an example where LabView panning happens when both the meta and alt keys
     new SimController(labCanvas, eventHandler, {alt:true, control:false, meta:true, shift:false})
 
 Note that the exact combination of modifier keys must be pressed to enable LabView
-panning; for example, if only the control key is specified, then when *both* control and
-shift modifiers are down LabView panning will *not* occur.
+panning. For example, if only the alt key is specified, then LabView panning will not
+occur if any other modifier is also pressed.
+
+The table below shows how modifier keys are named on different operating systems.
+
+|          | Mac OS    |  Windows    |
+| :----    | :-------- | :---------- |
+| alt      | option    | alt         |
+| meta     | command   | windows     |
+
 
 
 @todo Should this class be designed for inheritance?
@@ -164,6 +169,7 @@ shift modifiers are down LabView panning will *not* occur.
 * @param {?SimController.modifierKey=} panModifier  which modifier
     keys are needed for LabView panning; if `null`, then LabView panning will not be
     done; if `undefined` then default is to do LabView panning when alt key is pressed.
+    See {@link SimController#modifierKey}.
 * @constructor
 * @final
 * @implements {myphysicslab.lab.util.Printable}
@@ -331,6 +337,7 @@ SimController.prototype.destroy = function() {
 
 /**  Callback for mouseDown event.
 @param {!goog.events.BrowserEvent} evt the mouse down event that occurred
+@private
 */
 SimController.prototype.mouseDown = function(evt) {
   this.doMouseDown(evt, evt.clientX, evt.clientY);
@@ -339,8 +346,8 @@ SimController.prototype.mouseDown = function(evt) {
 /** Process a mouseDown in the LabCanvas; decides whether to start panning the LabView,
 start dragging a DisplayObject, or simply send events to the EventHandler.
 
-The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a value of
-(0,0) for the top left corner of the client area (the canvas). See
+The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a value
+of (0,0) for the top left corner of the client area (the canvas). See
 <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX>
 
 @param {!goog.events.BrowserEvent} evt the mouse down event that occurred
@@ -417,6 +424,7 @@ SimController.prototype.eventToScreen = function(mouseX, mouseY) {
 
 /** Callback for mouseMove event.
 @param {!goog.events.BrowserEvent} evt the mouse move event that occurred
+@private
 */
 SimController.prototype.mouseMove = function(evt) {
   this.doMouseMove(evt, evt.clientX, evt.clientY);
@@ -461,6 +469,7 @@ SimController.prototype.doMouseMove = function(evt, mouseX, mouseY) {
 
 /** Callback for mouseUp event.
 @param {!goog.events.BrowserEvent} evt the mouse up event that occurred
+@private
 */
 SimController.prototype.mouseUp = function(evt) {
   var cvs = this.labCanvas_.getCanvas();
@@ -482,6 +491,7 @@ SimController.prototype.mouseUp = function(evt) {
 
 /** Finish mouse drag operation, if any, and reset state to 'not dragging'.
 * @return {undefined}
+* @private
 */
 SimController.prototype.finishDrag = function() {
   if (this.myViewPanner_ != null) {
@@ -494,12 +504,11 @@ SimController.prototype.finishDrag = function() {
   this.mouseDrag_ = false;
 };
 
-/** Called when a key has been pressed, forwards the event by calling
-{@link EventHandler#handleKeyEvent}.
-Only forward key events when selected
-target on web page is the LabCanvas, or no selected target (document.body is target in
-that case).
+/** Called when a key has been pressed, forwards the event by calling {@link
+EventHandler#handleKeyEvent}. Only forwards when the event target is the LabCanvas, or
+when there is no specific target (`document.body` is the event target in that case).
 * @param {!goog.events.KeyEvent} evt the key down event that occurred
+* @private
 */
 SimController.prototype.keyPressed = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
@@ -512,11 +521,11 @@ SimController.prototype.keyPressed = function(evt) {
   }
 };
 
-/** Called when a key has been released, forwards the event by calling
-{@link EventHandler#handleKeyEvent}. Only forward key events when selected
-target on web page is the LabCanvas, or no selected target (document.body is target in
-that case).
+/** Called when a key has been released, forwards the event by calling {@link
+EventHandler#handleKeyEvent}. Only forwards when the event target is the LabCanvas, or
+when there is no specific target (`document.body` is the event target in that case).
 * @param {!goog.events.KeyEvent} evt the key up event that occurred
+* @private
 */
 SimController.prototype.keyReleased = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
@@ -529,10 +538,11 @@ SimController.prototype.keyReleased = function(evt) {
   };
 };
 
-/** Callback for touchStart event. If single touch in canvas, then pass event to
-{@link #doMouseDown}.  Multiple touch cancels an ongoing mouse drag by calling
+/** Callback for touchStart event. If single touch in canvas, then process as a
+mouse-down event. Multiple touch cancels an ongoing mouse drag by calling
 {@link #finishDrag}.
 @param {!goog.events.BrowserEvent} evt the touch start event that occurred
+@private
 */
 SimController.prototype.touchStart = function(evt) {
   if (evt.target == this.labCanvas_.getCanvas()) {
@@ -550,10 +560,11 @@ SimController.prototype.touchStart = function(evt) {
   }
 };
 
-/** Callback for touchMove event. If single touch in canvas, then pass event to
-{@link #doMouseMove}.  Multiple touch cancels an ongoing mouse drag by calling
+/** Callback for touchMove event. If single touch in canvas, then process as a
+mouse-move event.  Multiple touch cancels an ongoing mouse drag by calling
 {@link #finishDrag}.
 @param {!goog.events.BrowserEvent} evt the touch move event that occurred
+@private
 */
 SimController.prototype.touchMove = function(evt) {
   var e = /** @type {!TouchEvent} */(evt.getBrowserEvent());
@@ -567,9 +578,10 @@ SimController.prototype.touchMove = function(evt) {
   }
 };
 
-/** Callback for touchEnd event. If a mouseDrag is in process, then pass the event to
-mouseUp callback.
+/** Callback for touchEnd event. If a mouseDrag is happening, then process as a
+mouse-up event.
 @param {!goog.events.BrowserEvent} evt the touch end event that occurred
+@private
 */
 SimController.prototype.touchEnd = function(evt) {
   if (this.mouseDrag_) {
@@ -578,8 +590,14 @@ SimController.prototype.touchEnd = function(evt) {
 };
 
 /**  Set of modifier keys that occur during browser events.
-On Mac OS X: alt key is called 'option';  meta key is called 'command'.
-On Windows: alt key is called 'alt'; meta key is called 'windows key'.
+
+The table below shows how modifier keys are named on different operating systems.
+
+|          | Mac OS    |  Windows    |
+| :----    | :-------- | :---------- |
+| alt      | option    | alt         |
+| meta     | command   | windows     |
+
 * @typedef {{control: boolean, meta: boolean, shift: boolean, alt: boolean}}
 */
 SimController.modifierKey;
