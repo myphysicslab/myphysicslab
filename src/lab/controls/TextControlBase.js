@@ -24,26 +24,27 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var Observer = myphysicslab.lab.util.Observer;
 var Util = myphysicslab.lab.util.Util;
 var NF = myphysicslab.lab.util.Util.NF;
 
 /** A user interface control for displaying and editing the text value of an object.
+Synchronizes with the target object's string value by executing specified `getter` and
+`setter` functions. Creates (or uses an existing) text input element to display and
+edit the text.
 
-Because this is an Observer, you can connect it to a Subject; when the Subject
+Because this is an {@link Observer}, you can connect it to a Subject; when the Subject
 broadcasts events, this will update the value it displays.
 
-This is the base class for {@link myphysicslab.lab.controls.TextControl} which
-which connects to a {@link myphysicslab.lab.util.ParameterString}.
-
-* @param {string} label the text shown in a label next to the number input field
-* @param {function():string} getter function that returns the current target value
+* @param {string} label the text shown in a label next to the text input area
+* @param {function():string} getter function that returns the target value
 * @param {function(string)} setter function to change the target value
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
-*     a text field is created.
+*     a text input field is created.
 * @constructor
 * @struct
 * @implements {myphysicslab.lab.controls.LabControl}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
 myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, textField) {
   /** the name shown in a label next to the textField
@@ -170,7 +171,7 @@ TextControlBase.prototype.doClick = function(event) {
 
 /**  Sets the text field to match this.value_.
 * @return {undefined}
-* @protected
+* @private
 */
 TextControlBase.prototype.formatTextField = function() {
   this.lastValue_ = this.value_;
@@ -193,6 +194,13 @@ TextControlBase.prototype.getClassName = function() {
   return 'TextControlBase';
 };
 
+/** Returns width of the text input field (number of characters).
+@return {number} the width of the text input field.
+*/
+TextControlBase.prototype.getColumns = function() {
+  return this.columns_;
+};
+
 /** @inheritDoc */
 TextControlBase.prototype.getElement = function() {
   return this.topElement_;
@@ -203,7 +211,8 @@ TextControlBase.prototype.getParameter = function() {
   return null;
 };
 
-/** Returns the value of this control.
+/** Returns the value of this control (which should match the target value if
+{@link #observe} is being called).
 @return {string} the value of this control
 */
 TextControlBase.prototype.getValue = function() {
@@ -216,15 +225,8 @@ TextControlBase.prototype.observe =  function(event) {
   this.setValue(this.getter_());
 };
 
-/** Returns width of the text field (number of characters).
-@return {number} the width of the text field (number of characters).
-*/
-TextControlBase.prototype.getColumns = function() {
-  return this.columns_;
-};
-
-/** Sets the width of the text field (number of characters).
-@param {number} value the width of the text field (number of characters).
+/** Sets the width of the text input field (number of characters).
+@param {number} value the width of the text input field
 @return {!TextControlBase} this object for chaining setters
 */
 TextControlBase.prototype.setColumns = function(value) {

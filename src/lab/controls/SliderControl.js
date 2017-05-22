@@ -28,20 +28,26 @@ var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Util = myphysicslab.lab.util.Util;
 var NF = myphysicslab.lab.util.Util.NF;
 
-/** Creates a 'slider plus textbox' control that displays and modifies the given
-ParameterNumber. Consists of a label plus a slider and textbox which show the value of
+/** Creates a "slider plus textbox" control that displays and modifies the given {@link
+ParameterNumber}. Consists of a label plus a slider and textbox which show the value of
 the ParameterNumber. Modifying the slider changes the value of the ParameterNumber, as
-does editting the number in the textbox.
+does editing the number in the textbox.
 
-The HTML elements created are wrapped in a DIV.  The slider has a classname of
-'slider' for CSS scripting.  The label is just text within the DIV.
+In most browsers you can use the arrow keys to adjust the value after clicking on the
+slider. Some browsers highlight the slider when it is active.
 
-SliderControl takes on discrete values. The value of the SliderControl may only roughly
-match the value of the ParameterNumber because it can only take on discrete values. In
-the following `sliderIndex` means the value of the HTML range element, which is an
-integer from 0 to `increments`.
+The HTML elements created are wrapped in a single `<div>` element. The slider has a
+classname of `slider` for CSS scripting. The label is just text within the `<div>`.
 
-SliderControl can multiply or add a factor to get between increments.  If it
+SliderControl Math
+------------------
+
+The value of the SliderControl can only roughly match the value of the ParameterNumber
+because *SliderControl can only take on discrete values*. In the following,
+`sliderIndex` means the value of the HTML range element, which is an integer from 0 to
+`increments`.
+
+SliderControl can multiply or add a factor to move between increments.  If it
 adds, the relationships are:
 
     delta = (maximum - minimum)/increments
@@ -55,64 +61,93 @@ If it multiplies, the relationships are:
     ln(value) = ln(minimum) + sliderIndex*ln(delta)
     sliderIndex = (ln(value) - ln(minimum)) / ln(delta)
 
-How It Works
-------------
+Number Formatting
+------------------
 
-SliderControl takes on discrete values, so what happens when the value it is tracking is
-between those discrete values? The answer is that SliderControl moves its slider to the
-nearest position to that value, but does not force the value to match the corresponding
-discrete value. It is important that when the ParameterNumber is modified by some other
-entity, the SliderControl does not force the ParameterNumber value to become one of the
-discrete values it can represent.
+The number is formatted without any thousands separators and with the number of
+fractional decimal places depending on the "mode".
+
++ **Fixed decimal places mode** shows the number of decimal places given by
+{@link #getDecimalPlaces}.
+Ignores significant digits setting. *Fixed decimal places mode* is active when
+`getDecimalPlaces()` returns 0 or greater.
+
++ **Variable decimal places mode** ensures that the requested number of significant
+digits are visible. Adjusts decimal places shown based on the magnitude of the value.
+See {@link #setSignifDigits}. *Variable decimal places mode* is active when
+`getDecimalPlaces()` returns –1.
+
+The default settings are gotten from the ParameterNumber:
+see {@link ParameterNumber#setDecimalPlaces}
+and {@link ParameterNumber#setSignifDigits}.
+
+The displayed value is rounded to a certain number of digits, and therefore the
+displayed value can differ from the target value. SliderControl allows for
+this difference by only making changes to the target value when the the user
+modifies the displayed value, or when {@link #setValue} is called.
+
+Preventing Forbidden Values
+---------------------------
+
+To prevent the user from entering forbidden values (such as enforcing upper or lower
+limits) the setter function can throw an Error. An alert is displayed to the user with
+the text of the Error. After dismissing the alert, the displayed value will be restored
+to match the current target value, as returned by the `getter`. (Note that the user's
+input is discarded).
+
+
+How SliderControl Works
+-----------------------
+
+Both the slider and the text are approximations of the value of the ParameterNumber.
+SliderControl allows for this difference by only making changes to the target value
+when the the user modifies the displayed value, or when {@link #setValue} is called.
 
 There are 3 entities to coordinate: ParameterNumber, textbox, slider. Each has its own
 notion of the current value; changes can come from any of the 3 entities. The textbox
 and slider are limited in the values they can represent because of rounding in textbox
 or increments in slider. Essentially we need to:
 
-+ Distinguish between a **genuine change** vs. events coming thru as a result of
-updating a control or ParameterNumber in response to a genuine change (we can call these
-'echo events').
++ Distinguish between a *genuine change* vs. events coming thru as a result of
+updating a control or ParameterNumber in response to a genuine change (we can call
+these 'echo events').
 
 +  when a genuine change occurs, update all 3 entities.
 
-The ParameterNumber, and the textbox can take on any value allowed by the
-ParameterNumber, which are limited by the ParameterNumber's upper and lower limits. If
-the ParameterNumber takes on a value outside the range of the slider, then the slider
-will be at its min or max position.
+The ParameterNumber can take on any value allowed by the ParameterNumber's upper and
+lower limits. If the ParameterNumber takes on a value outside the range of the slider,
+then the slider will be at its min or max position.
 
 
 Odd Behavior in Browsers
 ------------------------
 
-* **Firefox:** In all browsers, clicking in the slider area moves the thumb to that
-position. In Safari and Chrome, clicking on the thumb does not change the value. But in
-Safari, clicking on the thumb does 'move to that position' which results in the value
-changing unexpectedly.
++ In all browsers, clicking in the slider area moves the thumb to that position. In
+Safari and Chrome, clicking directly on the thumb does not change the value. But in
+Firefox, clicking directly on the thumb does "move to that position" which results in
+the value being set to the nearest increment.
 
-* **Chrome:** Does not keep the thumb visually highlighted after clicking it (see
-`doClick2` where we call `focus()` method on the slider). Other browsers (Safari,
-Firefox) do keep the thumb highlighted. But it seems the slider still has focus because
-you can use arrow keys in Chrome, after which the thumb is highlighted. There is a bug
-about this from 2011: [Issue 89698: input type=range should allow keyboard control by
-default](https://code.google.com/p/chromium/issues/detail?id=89698)
++ Safari does not visually highlight the thumb after clicking it.
+
++ In Safari, to be able to "tab select" to get to the slider, turn on the option in
+Preferences>Advanced called "Press Tab to highlight each item on a webpage".
 
 History
 -------
-In an earlier version the slider and text box were both contained in a
-LABEL element. This caused confusion because click events would be passed to the 'for'
-control. The 'for' control of the LABEL seems to be the first control unless it is
-explicitly specified. The solution is to not use LABEL for grouping the slider elements,
-but use a DIV instead.
+In an earlier version the slider and text box were both contained in a `<label>`
+element. This caused confusion because click events would be passed to the `for` entity
+of the label. The `for` attribute of a label seems to be the first control unless it is
+explicitly specified. The solution is to not use `<label>` for grouping the slider
+elements, but use a `<div>` instead.
 
 * @param {!ParameterNumber} parameter the ParameterNumber to
       display and control
-* @param {number} min  the minimum value that the parameter can take on
-* @param {number} max  the maximum value that the parameter can take on
+* @param {number} min  the minimum value that the slider can reach
+* @param {number} max  the maximum value that the slider can reach
 * @param {boolean=} multiply whether the slider increases by multiplying or adding the
-*     delta for each step; default is `false` meaning 'add'
+*     delta for each step; default is `false` meaning "add"
 * @param {number=} increments  the number of increments, between max and min,
-*     that the value can take on
+*     that the value can take on; default is 100
 * @constructor
 * @final
 * @struct
@@ -175,7 +210,7 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   * @type {number}
   * @private
   */
-  this.sigDigits_ = parameter.getSignifDigits();
+  this.signifDigits_ = parameter.getSignifDigits();
   /** Fixed number of fractional decimal places to show, or -1 if variable.
   * @type {number}
   * @private
@@ -185,7 +220,7 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   * @type {number}
   * @private
   */
-  this.columns_ = Math.max(8, 1+this.sigDigits_);
+  this.columns_ = Math.max(8, 1+this.signifDigits_);
   /** The exact value of the Parameter as last seen by this control;
    note that the displayed value may be different due to rounding.
   * @type {number}
@@ -298,7 +333,7 @@ if (!Util.ADVANCED) {
         +', increments_: '+this.increments_
         +', delta_: '+NF(this.delta_)
         +', multiply_: '+this.multiply_
-        +', sigDigits_: '+this.sigDigits_
+        +', signifDigits_: '+this.signifDigits_
         +', decimalPlaces_: '+this.decimalPlaces_
         +', columns_: '+this.columns_
         +'}';
@@ -378,8 +413,8 @@ SliderControl.prototype.doClick2 = function(evt) {
 * @private
 */
 SliderControl.prototype.formatTextField = function() {
-  var dec = this.decimalPlacesNeeded(this.paramValue_, this.sigDigits_);
-  var col = this.columnsNeeded(this.paramValue_, this.sigDigits_);
+  var dec = this.decimalPlacesNeeded(this.paramValue_, this.signifDigits_);
+  var col = this.columnsNeeded(this.paramValue_, this.signifDigits_);
   // console.log('columnsNeeded '+col+' dec='+dec+' x='
   //      +Util.NFE(this.paramValue_)+' '+this.parameter_.getName());
   this.textboxValue_ = this.paramValue_.toFixed(dec);
@@ -399,9 +434,9 @@ SliderControl.prototype.gainFocus = function(event) {
 };
 
 /** Returns the fixed number of fractional decimal places to show when formatting
-the number.
+the number, or –1 when in *variable decimal places mode*.
 @return {number} the fixed number of fractional decimal places to show when formatting
-    the number, or -1 to have variable number of fractional decimal places.
+    the number, or –1 when in *variable decimal places mode*.
 */
 SliderControl.prototype.getDecimalPlaces = function() {
   return this.decimalPlaces_;
@@ -417,8 +452,16 @@ SliderControl.prototype.getParameter = function() {
   return this.parameter_;
 };
 
-/** Returns the value of the control, which might be different from the value
-of the parameter.
+/** Returns the number of significant digits to show when formatting the number. Only
+has an effect in *variable decimal places mode*, see {@link #getDecimalPlaces}.
+@return {number} the number of significant digits to show when formatting the number
+*/
+SliderControl.prototype.getSignifDigits = function() {
+  return this.signifDigits_;
+};
+
+/** Returns the value of this control (which should match the Parameter value if
+{@link #observe} is being called).
 @return {number} the value that this control is currently displaying
 */
 SliderControl.prototype.getValue = function() {
@@ -478,17 +521,19 @@ SliderControl.rangeToDelta = function(min, max, increments, multiply) {
 };
 
 /** Sets the fixed number of fractional decimal places to show when formatting the
-number, or puts this SliderControl into 'variable decimal places' mode where
-the number of decimal places depends on the desired number of significant digits for
-the ParameterNumber.
+number, or puts this SliderControl into *variable decimal places mode* where
+the number of decimal places depends on the desired number of significant digits.
+See {@link #setSignifDigits}.
 @param {number} decimalPlaces the fixed number of fractional decimal places to show when
-    formatting the number, or -1 to have variable number of fractional decimal places.
+    formatting the number, or –1 to have variable number of fractional decimal places.
 @return {!SliderControl} this SliderControl for chaining
     setters
 */
 SliderControl.prototype.setDecimalPlaces = function(decimalPlaces) {
-  this.decimalPlaces_ = decimalPlaces > -1 ? decimalPlaces : -1;
-  this.formatTextField();
+  if (this.decimalPlaces_ != decimalPlaces) {
+    this.decimalPlaces_ = decimalPlaces > -1 ? decimalPlaces : -1;
+    this.formatTextField();
+  }
   return this;
 };
 
@@ -497,11 +542,24 @@ SliderControl.prototype.setEnabled = function(enabled) {
   this.textField_.disabled = !enabled;
 };
 
+/** Sets the number of significant digits to show when formatting the number. Only
+has an effect in *variable decimal places mode*, see {@link #setDecimalPlaces}.
+@param {number} signifDigits the number of significant digits to show when
+    formatting the number
+@return {!SliderControl} this object for chaining setters
+*/
+SliderControl.prototype.setSignifDigits = function(signifDigits) {
+  if (this.signifDigits_ != signifDigits) {
+    this.signifDigits_ = signifDigits;
+    this.formatTextField();
+  }
+  return this;
+};
+
 /** Changes the value shown by this control, and sets the corresponding
 ParameterNumber to this value.
-@throws {Error} if value is NaN (not a number)
 @param {number} value  the new value
-@protected
+@throws {Error} if value is NaN (not a number)
 */
 SliderControl.prototype.setValue = function(value) {
   if (value != this.paramValue_) {
@@ -522,8 +580,9 @@ SliderControl.prototype.setValue = function(value) {
     // note that the scroll can only reach certain discrete values,
     // so its positioning will only approximate this.value
     var incr = this.valueToIncrement(this.paramValue_);
+    // We store the sliderValue to be able to ignore upcoming "slider changed" event.
     this.sliderValue_ = this.incrementToValue(incr);
-    // note that this will fire a 'slider changed' event
+    // Note that this will fire a 'slider changed' event
     this.slider_.value = String(incr);
   }
 };

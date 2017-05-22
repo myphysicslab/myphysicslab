@@ -24,11 +24,7 @@ var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var Util = myphysicslab.lab.util.Util;
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 
-/** Creates and manages a checkbox user interface control to synchronize with a
-ParameterBoolean.
-
-CheckBoxControl extends CheckBoxControlBase, which is the function-based version that
-doesn't take a ParameterBoolean but instead has getter and setter functions.
+/** A checkbox input element that is synchronized with a {@link ParameterBoolean}.
 
 * @param {!myphysicslab.lab.util.ParameterBoolean} parameter  the ParameterBoolean to
 *     synchronize with

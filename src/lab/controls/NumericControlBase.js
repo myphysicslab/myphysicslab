@@ -24,44 +24,46 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var Observer = myphysicslab.lab.util.Observer;
 var Util = myphysicslab.lab.util.Util;
 var NF = myphysicslab.lab.util.Util.NF;
 
-/** A user interface control for displaying and editing the numeric value of an object.
-Has optional upper and lower limits on the allowed value. Has control over the number of
-decimal places shown, see {@link #setDecimalPlaces} **and maybe significant digits also?**
+/** A text input element for displaying and editing the numeric value of a target
+object.
 
-Because this is an Observer, you can connect it to a Subject; when the Subject
-broadcasts events, this will update the value it displays.
-
-This is the base class for {@link myphysicslab.lab.controls.NumericControl} which
-which connects to a {@link myphysicslab.lab.util.ParameterNumber}.
+Because this is an {@link Observer}, you can connect it to a Subject; when the Subject
+broadcasts events, the {@link #observe} method ensures that this control reflects the
+current target value.
 
 ### Number Formatting
 
-To format the number, we currently never use exponential notation, instead we display
-the number without any thousands separators, with some number of fractional decimal
-places depending on the 'mode'. There are two modes for how NumericControlBase
-formats the number and calculates the size of the text field:
+The number is formatted without any thousands separators and with the number of
+fractional decimal places depending on the "mode".
 
-+ Variable decimal places mode: ensures that the requested number of significant
-digits are visible by changing how many fractional decimal places are shown, based on
-the magnitude of the value.
++ **Fixed decimal places mode** shows the number of decimal places given by
+{@link #getDecimalPlaces}.
+Ignores significant digits setting. *Fixed decimal places mode* is active when
+`getDecimalPlaces()` returns 0 or greater.
 
-+ Fixed decimal places mode: fixes the number of fractional decimal places to show,
-regardless of the size of the value.
++ **Variable decimal places mode** ensures that the requested number of significant
+digits are visible. Adjusts decimal places shown based on the magnitude of the value.
+See {@link #setSignifDigits}. *Variable decimal places mode* is active when
+`getDecimalPlaces()` returns –1.
+
+The default setting is *variable decimal places mode* with 3 significant digits.
 
 The displayed value is rounded to a certain number of digits, and therefore the
 displayed value can differ from the target value. NumericControlBase allows for
 this difference by only making changes to the target value when the the user
 modifies the displayed value, or when {@link #setValue} is called.
 
-### Upper and Lower Limits
+### Preventing Forbidden Values
 
-The value displayed should always match the target (rounded according to number
-of digits), even when that value is outside the upper or lower limits. The limits only
-affect attempts by to change the value, by {@link #setValue} or by the user changing the
-number displayed in the control.
+To prevent the user from entering forbidden values (such as enforcing upper or lower
+limits) the setter function can throw an Error. An alert is displayed to the user with
+the text of the Error. After dismissing the alert, the displayed value will be restored
+to match the current target value, as returned by the `getter`. (Note that the user's
+input is discarded).
 
 ### To Do List
 
@@ -69,19 +71,9 @@ There is a problem with the current variable mode which is when you have a
 very tiny number, say 1.234567e-12, then it will format it like: 0.000000000001234567
 when setting the significant digits to 7 and decimals to be variable. This is usually
 far bigger than we want. It should instead either switch to exponential, or have a
-maximum limit on the number of decimals shown.
+maximum limit on the number of decimals shown.  Or a limit on total number of digits
+shown, switching to exponential when needed.
 
-@todo  perhaps have a 'maximum number of fractional decimalPlaces' setting, because
-in adjustable mode, if the value is near zero, then it can suddenly result in lots of
-decimal places being needed to show N significant digits.
-
-@todo deal with the case when decimals are variable, but you wind up with a super
-tiny number.  Switch to exponential notation in that case, or have a maximum number of
-decimals to show.
-
-HISTORY: Oct 13 2014. The NumericControlBase input fields are too small under Safari
-browser, but OK under Chrome. I've bumped up the 'size' of the input fields by one, so
-it now looks OK under Safari, but is a little too wide in Chrome.
 
 * @param {string} label the text shown in a label next to the number input field
 * @param {function():number} getter function that returns the current target value
@@ -91,7 +83,7 @@ it now looks OK under Safari, but is a little too wide in Chrome.
 * @constructor
 * @struct
 * @implements {myphysicslab.lab.controls.LabControl}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
 myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, textField) {
   /** the name shown in a label next to the textField
@@ -120,12 +112,12 @@ myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, t
   }
   /** The number of significant digits to display.
   * @type {number}
-  * @protected
+  * @private
   */
   this.signifDigits_ = 3;
-  /** Fixed number of fractional decimal places to show, or -1 if variable.
+  /** Fixed number of fractional decimal places to show, or –1 if variable.
   * @type {number}
-  * @protected
+  * @private
   */
   this.decimalPlaces_ = -1;
   /** The number of columns (characters) shown in the text field.
@@ -195,6 +187,11 @@ myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, t
 };
 var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 
+// HISTORY: Oct 13 2014. The NumericControlBase input fields are too small
+// under Safari browser, but OK under Chrome. I've bumped up the 'size' of
+// the input fields by one, so it now looks OK under Safari, but is a
+// little too wide in Chrome.
+
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   NumericControlBase.prototype.toString = function() {
@@ -211,8 +208,8 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** Returns the number of columns needed to show the number `x`
-with the given number of significant digits.
+/** Returns the number of columns needed to show the number with the given number of
+significant digits.
 @param {number} x the number to display
 @param {number} sigDigits the number of significant digits to show
 @return {number} the number of columns needed
@@ -224,7 +221,7 @@ NumericControlBase.prototype.columnsNeeded = function(x, sigDigits) {
 };
 
 /** Returns the number of fractional decimal places needed to show the number
-`x` with the given number of significant digits.
+with the given number of significant digits.
 @param {number} x the number to display
 @param {number} sigDigits the number of significant digits to show
 @return {number} the number of fractional decimal places needed
@@ -263,7 +260,7 @@ NumericControlBase.prototype.doClick = function(event) {
 
 /**  Sets the text field to match this.value_.
 * @return {undefined}
-* @protected
+* @private
 */
 NumericControlBase.prototype.formatTextField = function() {
   var dec = this.decimalPlacesNeeded(this.value_, this.signifDigits_);
@@ -296,9 +293,9 @@ NumericControlBase.prototype.getClassName = function() {
 };
 
 /** Returns the fixed number of fractional decimal places to show when formatting
-the number.
+the number, or –1 when in *variable decimal places mode*.
 @return {number} the fixed number of fractional decimal places to show when formatting
-    the number, or -1 when in variable decimal places mode.
+    the number, or –1 when in *variable decimal places mode*.
 */
 NumericControlBase.prototype.getDecimalPlaces = function() {
   return this.decimalPlaces_;
@@ -314,16 +311,16 @@ NumericControlBase.prototype.getParameter = function() {
   return null;
 };
 
-/** Returns the number of significant digits to show when formatting the number.
-@return {number} the number of significant digits to show when
-    formatting the number
+/** Returns the number of significant digits to show when formatting the number. Only
+has an effect in *variable decimal places mode*, see {@link #getDecimalPlaces}.
+@return {number} the number of significant digits to show when formatting the number
 */
 NumericControlBase.prototype.getSignifDigits = function() {
   return this.signifDigits_;
 };
 
-/** Returns the value of this control. The displayed value may be different due to
-rounding.  Call {@link #observe} to ensure this value matches the target value.
+/** Returns the value of this control (which should match the target value if
+{@link #observe} is being called). The displayed value may be different due to rounding.
 @return {number} the value of this control
 */
 NumericControlBase.prototype.getValue = function() {
@@ -351,11 +348,11 @@ NumericControlBase.prototype.observe =  function(event) {
 };
 
 /** Sets the fixed number of fractional decimal places to show when formatting the
-number, or puts this NumericControlBase into 'variable decimal places' mode where
-the number of decimal places depends on the desired number of significant digits for
-the target.
+number, or a value of –1 puts this into *variable decimal places mode* where
+the number of decimal places depends on the desired number of significant digits.
+See {@link #setSignifDigits}.
 @param {number} decimalPlaces the fixed number of fractional decimal places to show when
-    formatting the number, or -1 to have variable number of fractional decimal places.
+    formatting the number, or –1 to have variable number of fractional decimal places.
 @return {!NumericControlBase} this object for chaining setters
 */
 NumericControlBase.prototype.setDecimalPlaces = function(decimalPlaces) {
@@ -371,7 +368,8 @@ NumericControlBase.prototype.setEnabled = function(enabled) {
   this.textField_.disabled = !enabled;
 };
 
-/** Sets the number of significant digits to show when formatting the number.
+/** Sets the number of significant digits to show when formatting the number. Only
+has an effect in *variable decimal places mode*, see {@link #setDecimalPlaces}.
 @param {number} signifDigits the number of significant digits to show when
     formatting the number
 @return {!NumericControlBase} this object for chaining setters
@@ -385,7 +383,6 @@ NumericControlBase.prototype.setSignifDigits = function(signifDigits) {
 };
 
 /** Changes the value shown by this control, and sets the target to this value.
-@throws {Error} if value is NaN (not a number)
 @param {number} value  the new value
 */
 NumericControlBase.prototype.setValue = function(value) {

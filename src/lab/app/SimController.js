@@ -104,6 +104,7 @@ can add this bit of CSS code:
 There are other such CSS options for other browsers.
 
 
+<a name="labviewpanning"></a>
 LabView Panning
 ------------
 When specified modifier keys are pressed (such as option key) then mouse drag events

@@ -24,12 +24,7 @@ var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Util = myphysicslab.lab.util.Util;
 
-/** A user interface control for displaying and editing the numeric value of a
-{@link ParameterNumber}.
-
-NumericControl is an extension of {@link NumericControlBase}.
-NumericControlBase is the function-based version which doesn't take a ParameterNumber
-but instead has getter and setter functions.
+/** A text input element for displaying and editing the numeric value of a{@link ParameterNumber}.
 
 * @param {!ParameterNumber} parameter the ParameterNumber to display and edit
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
@@ -51,7 +46,6 @@ myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
   this.parameter_ = parameter;
   this.setSignifDigits(parameter.getSignifDigits());
   this.setDecimalPlaces(parameter.getDecimalPlaces());
-  this.formatTextField();
   this.parameter_.getSubject().addObserver(this);
 };
 var NumericControl = myphysicslab.lab.controls.NumericControl;

@@ -27,8 +27,9 @@ var LabView = myphysicslab.lab.view.LabView;
 var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Pans (translates) a LabView to follow mouse movements.
-See 'LabView Panning' in {@link myphysicslab.lab.app.SimController}.
+/** Pans (scrolls) a LabView to follow mouse movements.
+See [LabView Panning](myphysicslab.lab.app.SimController.html#labviewpanning)
+in SimController documentation.
 
 @param {!LabView} view the LabView to pan
 @param {!Vector} start_screen initial mouse position in LabCanvas screen coordinates

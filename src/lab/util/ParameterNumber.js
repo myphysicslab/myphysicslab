@@ -107,7 +107,7 @@ myphysicslab.lab.util.ParameterNumber = function(subject, name, localName, gette
   @private
   */
   this.signifDigits_ = 3;
-  /** Fixed number of fractional decimal places to show, or -1 if variable.
+  /** Fixed number of fractional decimal places to show, or –1 if variable.
   @type {number}
   @private
   */
@@ -175,8 +175,8 @@ ParameterNumber.prototype.getChoices = function() {
   return goog.array.clone(this.choices_);
 };
 
-/** Returns the suggested number of decimal places to show or -1 if variable.
-@return {number} suggested number of decimal places to show or -1 if variable
+/** Returns the suggested number of decimal places to show or –1 if variable.
+@return {number} suggested number of decimal places to show or –1 if variable
 */
 ParameterNumber.prototype.getDecimalPlaces = function() {
   return this.decimalPlaces_;
@@ -268,7 +268,7 @@ ParameterNumber.prototype.setComputed = function(value) {
 };
 
 /** Sets suggested number of decimal places to show.
-@param {number} decimals suggested number of decimal places to show, or -1 if variable
+@param {number} decimals suggested number of decimal places to show, or –1 if variable
 @return {!ParameterNumber} this Parameter for chaining setters
 */
 ParameterNumber.prototype.setDecimalPlaces = function(decimals) {

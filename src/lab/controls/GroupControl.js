@@ -24,16 +24,20 @@ goog.scope(function() {
 var LabControl = myphysicslab.lab.controls.LabControl;
 var Util = myphysicslab.lab.util.Util;
 
-/** A group of LabControls which implements the LabControl interface. Typical usage is
-for making the group of playback buttons for rewind, play/pause and step actions.
-Another usage is to insert a `BR` element to break up long lines of controls into
-logical groups. In the latter case {@link #getControls} returns an empty array,
-but {@link #getElement} returns the `BR` element.
+/** A group of LabControls which implements the LabControl interface.
+
+A typical usage is to ensure a group of buttons stays together, such as playback
+buttons for rewind, play/pause and step actions. Put the buttons into a single `<div>`
+element, and make a GroupControl whose top element is that `<div>`.
+
+Another usage is to insert a `<br>` element to break up long lines of controls into
+logical groups. The GroupControl has the `<br>` as its top element and an empty list of
+other controls.
 
 * @param {string} name  name of the group
-* @param {!Element} topElement the div element that contains all the controls
+* @param {!Element} topElement the top element that contains all the controls
 * @param {!Array<!LabControl>} controls the set of controls contained in this
-*     GroupControl
+*     GroupControl, can be empty
 * @constructor
 * @final
 * @implements {LabControl}

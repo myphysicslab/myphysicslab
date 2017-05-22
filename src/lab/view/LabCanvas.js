@@ -155,7 +155,7 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   this.canvas_ = canvas;
   // contentEditable makes the canvas be focusable (can get keyboard focus)
   // and can get control of the cursor.
-  // Result is: if you were editting a NumericControl, for example, then
+  // Result is: if you were editing a NumericControl, for example, then
   // clicking on canvas will cause that control to lose focus, which is what we want.
   // Also, this seems to enable setting the cursor according to the CSS values
   // for canvas.cursor and canvas:active.cursor.
@@ -303,7 +303,7 @@ LabCanvas.prototype.addView = function(view) {
 */
 LabCanvas.prototype.focus = function() {
   // Move the keyboard focus to the canvas.  This is desirable so that if
-  // the user was editting a text field, it ends that editting operation.
+  // the user was editing a text field, it ends that editing operation.
   // see http://stackoverflow.com/questions/1829586/
   //     how-do-i-give-an-html-canvas-the-keyboard-focus-using-jquery
   this.canvas_.focus();

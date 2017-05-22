@@ -24,9 +24,12 @@ goog.scope(function() {
 var Util = myphysicslab.lab.util.Util;
 var NF = myphysicslab.lab.util.Util.NF;
 
-/** Creates and manages an HTML button control; executes a function when the button
-is pressed. Displays an image if provided, otherwise the text name is displayed.
-The image is assigned classname `icon` for CSS scripting.
+/** A button input element which executes a function when the button is pressed.
+Displays an image if provided, otherwise the text name is displayed. The image is
+assigned classname `icon` for CSS scripting.
+
+Can be configured so the function is executed repeatedly when the button is held down.
+See {@link #repeatDelay} and {@link #repeatFirst}.
 
 * @param {string} label name of the button
 * @param {!function()} clickFunction the function to execute when button is clicked
@@ -83,12 +86,13 @@ myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_ima
   * @private
   */
   this.timeoutID_ = undefined;
-  /** When button is held down we fire the clickFunction repeatedly. This is the delay
-  * in milliseconds between firing of the clickFunction. Zero means only fire once.
+  /** When button is held down we fire the `clickFunction` repeatedly. This is the delay
+  * in milliseconds between firing of the `clickFunction`. Zero means only fire once.
+  * The default is zero.
   * @type {number}
   */
   this.repeatDelay = 0;
-  /** The first repeatDelay should be longer to avoid unwanted held-button repeats.
+  /** The first `repeatDelay` should be longer to avoid unwanted held-button repeats.
   * This is the multiplier used on the first delay.
   * @type {number}
   */

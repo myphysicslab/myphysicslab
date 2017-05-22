@@ -25,23 +25,25 @@ var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
 var Parameter = myphysicslab.lab.util.Parameter;
 var Util = myphysicslab.lab.util.Util;
 
-/** A pop-up menu which synchronizes its state with a
-{@link Parameter} of a {@link myphysicslab.lab.util.Subject}.
+/** A pop-up menu which synchronizes its state with the {@link Parameter} of a
+{@link myphysicslab.lab.util.Subject Subject}.
 
 When the value of the ChoiceControl is changed, the Parameter's value is changed
 accordingly and therefore the Subject broadcasts the Parameter's value to all its
 Observers.
 
+ChoiceControl extends {@link ChoiceControlBase}, which has getter and setter functions
+that operate on strings. Therefore the getter and setter functions used here are
+{@link Parameter#getAsString} and {@link Parameter#setFromString}.
 
 Choices and Values
 ------------------
-If the values and choices are not specified as arguments to the constructor, then the
-values and choices of the Parameter are used, see
-{@link Parameter#getChoices} and
+If the choices and values are not specified as arguments to the constructor, then the
+choices and values of the Parameter are used, see {@link Parameter#getChoices} and
 {@link Parameter#getValues}.
 
-This means we can override the choices/values of the Parameter by passing in whatever
-set of choices/values are desired to the ChoiceControl constructor.
+If the choices and values *are* specified as arguments to the constructor, those will
+override the choices and values of the Parameter.
 
 
 How to Represent an Enum
@@ -119,6 +121,9 @@ ChoiceControl.prototype.observe =  function(event) {
     // and the first of these to fire will rebuild the menu correctly;
     // the later ones to fire will see that the current menu matches the Parameter
     // choices and do nothing.
+    // Example: adding several bodies by calling RigidBodySim.addBody().
+    // That results in VarsList.addVariables() broadcasting VARS_MODIFIED event each
+    // time a body is added.
     setTimeout(goog.bind(this.rebuildMenu, this), 50);
   } else if (event == this.parameter_) {
     // only update when this parameter has changed
@@ -133,7 +138,7 @@ ChoiceControl.prototype.observe =  function(event) {
 ChoiceControl.prototype.rebuildMenu = function() {
   var newChoices = this.parameter_.getChoices();
   // Does the current menu match the current set of choices?  If so, do nothing.
-  if (!goog.array.equals(this.choices_, newChoices)) {
+  if (!goog.array.equals(this.choices, newChoices)) {
     this.setChoices(newChoices, this.parameter_.getValues());
   }
 };

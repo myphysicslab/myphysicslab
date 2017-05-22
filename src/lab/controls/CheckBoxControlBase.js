@@ -23,28 +23,25 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var Observer = myphysicslab.lab.util.Observer;
 var Util = myphysicslab.lab.util.Util;
 
-/** Creates a checkbox user interface control which executes a specified
-function. You specify the functions for getting and setting the
-target boolean value which this control is tracking.
+/** A checkbox input element which synchronizes with a target boolean value by
+executing specified `getter` and `setter` functions.
 
-Because this is an Observer, you can connect it to a Subject; when the Subject
-broadcasts events, this checkbox will ensure that it reflects the current target boolean
-value.
-
-This is the base class for {@link myphysicslab.lab.controls.CheckBoxControl} which
-which connects to a {@link myphysicslab.lab.util.ParameterBoolean}.
+Because this is an {@link Observer}, you can connect it to a Subject; when the Subject
+broadcasts events, the {@link #observe} method ensures that this control reflects the
+current target value.
 
 * @param {string} label the name shown in a label next to the checkbox
 * @param {function():boolean} getter function that returns the current target state
 * @param {function(boolean)} setter function to change the target state
 * @param {!HTMLInputElement=} checkBox  the checkbox to use; if not provided, then
-*     a checkbox is created.
+*     a checkbox and label are created.
 * @constructor
 * @struct
 * @implements {myphysicslab.lab.controls.LabControl}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
 myphysicslab.lab.controls.CheckBoxControlBase = function(label, getter, setter, checkBox) {
   /** the name shown in a label next to the checkbox
@@ -142,8 +139,9 @@ CheckBoxControlBase.prototype.getParameter = function() {
   return null;
 };
 
-/** Returns the state of this control.
-@return {boolean} the state of this control
+/** Returns the checked state of this control (which should match the target state if
+{@link #observe} is being called).
+@return {boolean} the checked state of this control
 */
 CheckBoxControlBase.prototype.getState = function() {
   return this.getter_();
@@ -168,8 +166,8 @@ CheckBoxControlBase.prototype.setEnabled = function(enabled) {
   this.checkBox_.disabled = !enabled;
 };
 
-/** Sets the state of this control, and modifies the target if necessary.
-* @param {boolean} newState the state to set the control to
+/** Sets the checked state of this control, and modifies the target if necessary.
+* @param {boolean} newState the checked state to set the control to
 */
 CheckBoxControlBase.prototype.setState = function(newState) {
   if (this.getState() != newState) {

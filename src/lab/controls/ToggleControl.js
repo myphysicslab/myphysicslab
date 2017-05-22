@@ -28,9 +28,9 @@ goog.scope(function() {
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var Util = myphysicslab.lab.util.Util;
 
-/** Creates and manages an HTMLButtonElement that toggles between two images; the state
-is connected to a ParameterBoolean. The image is assigned classname `icon` for CSS
-scripting.
+/** Creates and manages an HTMLButtonElement that toggles between two images; the
+state is connected to a ParameterBoolean. The image is assigned classname `icon` for
+CSS scripting.
 
 * @param {!ParameterBoolean} parameter  the ParameterBoolean to connect to
 * @param {!HTMLImageElement} imageOn the HTMLImageElement to show for the 'on' state
@@ -120,7 +120,8 @@ ToggleControl.prototype.getParameter = function() {
   return this.parameter_;
 };
 
-/** Returns the state of this control.
+/** Returns the state of this control (which should match the target state if
+{@link #observe} is being called).
 @return {boolean} the state of this control, `true` means 'on'
 */
 ToggleControl.prototype.getState = function() {
@@ -149,7 +150,7 @@ ToggleControl.prototype.setEnabled = function(enabled) {
   this.button_.disabled = !enabled;
 };
 
-/** Sets the state of the control, and modifies the Parameter to match.
+/** Sets the state of the control, and modifies the ParameterBoolean to match.
 * @param {boolean} newState the new state of the control, `true` means 'on'
 */
 ToggleControl.prototype.setState = function(newState) {

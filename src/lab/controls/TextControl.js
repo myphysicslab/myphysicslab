@@ -27,10 +27,6 @@ var Util = myphysicslab.lab.util.Util;
 /** A user interface control for displaying and editing the value of a
 {@link ParameterString}.
 
-TextControl is an extension of {@link TextControlBase}.
-TextControlBase is the function-based version which doesn't take a ParameterString
-but instead has getter and setter functions.
-
 * @param {!ParameterString} parameter the ParameterString to display and edit
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
 *     a text field is created.
@@ -50,7 +46,6 @@ myphysicslab.lab.controls.TextControl = function(parameter, textField) {
   */
   this.parameter_ = parameter;
   this.setColumns(this.parameter_.getSuggestedLength());
-  this.formatTextField();
   this.parameter_.getSubject().addObserver(this);
 };
 var TextControl = myphysicslab.lab.controls.TextControl;

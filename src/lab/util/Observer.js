@@ -15,29 +15,36 @@
 goog.provide('myphysicslab.lab.util.Observer');
 
 goog.require('myphysicslab.lab.util.Printable');
+goog.require('myphysicslab.lab.util.Subject');
 
-/** Observes a {@link myphysicslab.lab.util.Subject}; is notified when something
-changes in the Subject. The change can be in the value of a
-{@link myphysicslab.lab.util.Parameter}, or the occurrence of some event such
-as a {@link myphysicslab.lab.util.GenericEvent}. The Observer is connected
-to the Subject via the
-{@link myphysicslab.lab.util.Subject#addObserver} method, which is
-typically called by the Observer's constructor or the entity that creates the
-Observer. When a change occurs, the
-{@link myphysicslab.lab.util.Subject#broadcast} method is called which
-results in the Observer's `observe` method being called.
+goog.scope(function() {
+
+var Subject = myphysicslab.lab.util.Subject;
+
+/** An Observer is notified whenever something changes in a {@link Subject} it is
+observing. The change can be in the value of a Subject's
+{@link myphysicslab.lab.util.Parameter Parameter}, or the occurrence of an event such
+as a {@link myphysicslab.lab.util.GenericEvent GenericEvent}. When a change occurs in
+the Subject, the {@link Subject#broadcast} method calls the Observer's
+{@link #observe} method.
+
+The Observer is connected to the Subject via the {@link Subject#addObserver} method.
+This is typically done in the Observer's constructor or by the entity that creates the
+Observer.
 
 Implements the [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern).
-See {@link myphysicslab.lab.util.Subject} for more extensive documentation.
+See {@link Subject} for more extensive documentation.
 
 @interface
 @extends {myphysicslab.lab.util.Printable}
 */
 myphysicslab.lab.util.Observer = function() {};
 
-/** Tells this Observer that a change has occurred in the Subject.
+/** Notifies this Observer that a change has occurred in the Subject.
 @param {!myphysicslab.lab.util.SubjectEvent} event  contains information about
-      what has changed in the Subject, either a one-time GenericEvent, or a change
-      to the value of a Parameter
+      what has changed in the Subject: typically either a one-time GenericEvent,
+      or a change to the value of a Parameter
 */
 myphysicslab.lab.util.Observer.prototype.observe;
+
+}); // goog.scope

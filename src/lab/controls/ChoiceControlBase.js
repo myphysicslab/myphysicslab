@@ -24,43 +24,45 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var Observer = myphysicslab.lab.util.Observer;
 var Util = myphysicslab.lab.util.Util;
 
-/** A pop-up menu which executes a specified `setter` function when selecting a menu
-choice.
-
-This is the base class for {@link myphysicslab.lab.controls.ChoiceControl} which
-which connects to a {@link myphysicslab.lab.util.Parameter}.
-
-Choices and Values
-------------------
-+ the array of translated localized **choices** are the strings which are
-displayed in the menu.
-
-+ the array of **values** correspond to each choice. The type of the value is that of
-the generic template type `T`, which is either `string`, `number`, or `boolean`.
-
+/** A pop-up menu which which synchronizes with a target object's string value by
+executing specified `getter` and `setter` functions.
 
 Getter and Setter Functions
 ---------------------------
-The `setter` and `getter` functions synchronize between a target object and the
-menu.
+The `setter` and `getter` functions are used to synchronize the menu and target object.
 
-+ the `getter` returns the value that corresponds to the target state
++ the `getter` returns the string value that corresponds to the target state
 
-+ the `setter` modifies the target state to correspond to the given value
++ the `setter` modifies the target state to correspond to the given string value
 
-The menu item is initially set to correspond to the position in the array of values of
-the target's value returned by the `getter`. When a menu item is selected, we call the
-`setter` with the corresponding value in the array of values.
+The menu is initially set to show the the target's current value, as given by the
+`getter`.
+
+When a menu item is selected, the target is modified by calling the `setter` with the
+value corresponding to the selected choice.
 
 
+Choices and Values
+------------------
+ChoiceControlBase has two (same-length) arrays:
+
++ The array of **choices** are the strings which are displayed in the menu. These
+should be localized (translated) strings.
+
++ The array of **values** are strings that correspond to each choice. The value is
+given to the setter function to change the target object.
+
+
+<a name="noselectionstate"></a>
 'No Selection' State
 --------------------
 A ChoiceControlBase can be in a state of 'no selection', which is indicated by index of
-`–1` in {@link #setChoice} or {@link #getChoice}. This can also happen when
-ChoiceControlBase observes that the value returned by the `getter` function is not
-among the array of values specified to the constructor or to {@link #setChoices}.
+`–1` in {@link #setChoice} or {@link #getChoice}. In this case, the menu item shown is
+blank (no text is shown, just empty space). This happens when the value returned by the
+`getter` function is not among the array of ChoiceControlBase values.
 
 When moving into a state of 'no selection', no notification is given via the
 specified `setter` function. When moving out of the 'no selection' state, the `setter`
@@ -78,17 +80,18 @@ Observer of the Subject.
 * @param {!Array<string>} choices an array of localized strings giving the names
    of the menu items.
 * @param {!Array<string>} values array of values corresponding to the choices, in
-    string form; these values are supplied to the setter function.
+    string form; these values will be supplied to the setter function when the
+    corresponding menu item is chosen
 * @param {function():string} getter function that returns the value that corresponds
-  to the target state
-* @param {function(string)} setter function that modifies the target state to
-  correspond to the given value
+    to the target's current state
+* @param {function(string)} setter function that modifies the target's state to
+    be the given string value
 * @param {?string=} opt_label the text label to show besides this choice; if `null` or
     `undefined` or empty string then no label is made.
 * @constructor
 * @struct
 * @implements {myphysicslab.lab.controls.LabControl}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
 myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, setter,
       opt_label) {
@@ -102,12 +105,12 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
   * @private
   */
   this.setter_ = setter;
-  /** choices are the localized translated form of the item, which are presented to
-  * the user in the menu items.
+  /** The menu items shown to the user for each choice, an array of localized
+  * (translated) strings.
   * @type {!Array<string>}
   * @protected
   */
-  this.choices_ = choices;
+  this.choices = choices;
   /**
   * @type {!Array<string>}
   * @private
@@ -166,9 +169,9 @@ if (!Util.ADVANCED) {
   ChoiceControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', currentIndex_: '+this.currentIndex_
-        +', choices_.length: '+this.choices_.length
+        +', choices.length: '+this.choices.length
         +', selected: "'+(this.currentIndex_ > -1 ?
-          this.choices_[this.currentIndex_] : '(none)')
+          this.choices[this.currentIndex_] : '(none)')
         +'"}';
   };
 
@@ -185,8 +188,8 @@ if (!Util.ADVANCED) {
 ChoiceControlBase.prototype.buildSelectMenu = function() {
   // remove any existing options from list
   this.selectMenu_.options.length = 0;
-  for (var i=0, len=this.choices_.length; i<len; i++) {
-    this.selectMenu_.options[i] = new Option(this.choices_[i]);
+  for (var i=0, len=this.choices.length; i<len; i++) {
+    this.selectMenu_.options[i] = new Option(this.choices[i]);
   }
 };
 
@@ -237,11 +240,12 @@ ChoiceControlBase.prototype.observe =  function(event) {
   this.setChoice(index);
 };
 
-/** Changes the value shown by this control, and sets the target to this value.
-Sets the choice menu to the specified value, and fires the 'setter function' unless
-the index is -1. The first item has index zero. See {@link #getChoice}.
-Index -1 goes to the 'no selection' state.
-@param {number} index the index of the chosen item, or -1 if no item is selected
+/** Changes the menu item shown by this control, and sets the target to have the
+corresponding value by firing the `setter` function. An index of -1 causes this control
+to enter the
+["no selection" state](myphysicslab.lab.controls.ChoiceControlBase.html#noselectionstate).
+@param {number} index the index of the chosen item within array of choices,
+    where the first item has index zero and -1 means no item is selected
 */
 ChoiceControlBase.prototype.setChoice = function(index) {
   if (this.currentIndex_ !== index) {
@@ -277,8 +281,8 @@ ChoiceControlBase.prototype.setChoice = function(index) {
   }
 };
 
-/** Changes the array of choices and sets the current choice. The setter function is
-not be called.
+/** Changes the array of choices and modifies the current choice to match the target's
+state. The `setter` function is not called.
 @param {!Array<string>} choices  the new set of choices to display
 @param {!Array<string>} values  the new set of values that correspond to the choices
 @throws {Error} if choices and values have different length
@@ -287,7 +291,7 @@ ChoiceControlBase.prototype.setChoices = function(choices, values) {
   if (choices.length != values.length) {
     throw new Error();
   }
-  this.choices_ = choices;
+  this.choices = choices;
   this.values_ = values;
   this.currentIndex_ = goog.array.indexOf(this.values_, this.getter_());
   this.buildSelectMenu();
