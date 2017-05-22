@@ -70,6 +70,16 @@ myphysicslab.lab.util.AbstractSubject = function(name) {
   * @private
   */
   this.doBroadcast_ = true;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.isBroadcasting_ = false;
+  /**
+  * @type {!Array<!AbstractSubject.Command>}
+  * @private
+  */
+  this.commandList_ = [];
 };
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 
@@ -90,10 +100,42 @@ if (!Util.ADVANCED) {
   };
 };
 
+/** A delayed command to add (`true`) or remove (`false`) an Observer.
+* @typedef {{action: boolean, observer: !Observer}}
+* @private
+*/
+AbstractSubject.Command;
+
 /** @inheritDoc */
 AbstractSubject.prototype.addObserver = function(observer) {
-  if (!goog.array.contains(this.observers_, observer)) {
-    this.observers_.push(observer);
+  /** @type {!AbstractSubject.Command} */
+  var cmd = {
+    action: true,
+    observer: observer
+  };
+  this.commandList_.push(cmd);
+  this.doCommands(); // if not broadcasting, this happens immediately
+};
+
+/** Execute the set of delayed commands to add/remove observers.
+* This addresses the issue that an Observer can call addObserver or removeObserver
+* during it's observe() method.
+* @return {undefined}
+* @private
+*/
+AbstractSubject.prototype.doCommands = function() {
+  if (!this.isBroadcasting_) {
+    for (var i=0, len=this.commandList_.length; i<len; i++) {
+      var cmd = this.commandList_[i];
+      if (cmd.action) {
+        if (!goog.array.contains(this.observers_, cmd.observer)) {
+          this.observers_.push(cmd.observer);
+        }
+      } else {
+        goog.array.remove(this.observers_, cmd.observer);
+      }
+    }
+    this.commandList_ = [];
   }
 };
 
@@ -113,10 +155,18 @@ AbstractSubject.prototype.addParameter = function(parameter) {
 /** @inheritDoc */
 AbstractSubject.prototype.broadcast = function(evt) {
   if (this.doBroadcast_) {
-    // For debugging: can see events being broadcast here.
-    //if (!this.getName().match(/.*GRAPH.*/i)) { console.log('broadcast '+evt); }
-    for (var i=0, len=this.observers_.length; i<len; i++) {
-      this.observers_[i].observe(evt);
+    this.isBroadcasting_ = true;
+    try {
+      // For debugging: can see events being broadcast here.
+      //if (!this.getName().match(/.*GRAPH.*/i)) { console.log('broadcast '+evt); }
+      for (var i=0, len=this.observers_.length; i<len; i++) {
+        this.observers_[i].observe(evt);
+      }
+    } finally {
+      this.isBroadcasting_ = false;
+      // do add/remove commands afterwards, in case an Observer called addObserver or
+      // removeObserver during observe()
+      this.doCommands();
     }
   }
 };
@@ -210,7 +260,13 @@ AbstractSubject.prototype.getParameters = function() {
 
 /** @inheritDoc */
 AbstractSubject.prototype.removeObserver = function(observer) {
-  goog.array.remove(this.observers_, observer);
+  /** @type {!AbstractSubject.Command} */
+  var cmd = {
+    action: false,
+    observer: observer
+  };
+  this.commandList_.push(cmd);
+  this.doCommands(); // if not broadcasting, this happens immediately
 };
 
 /** Removes the Parameter from the list of this Subject's available Parameters.

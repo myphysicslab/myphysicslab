@@ -470,6 +470,7 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
     // Should NOT match within: new myphysicslab.lab.util.DoubleRect
     // SHOULD match within: new DoubleRect
     // (^|[^\w.]) means:  either start of line, or a not-word-or-dot character.
+    /** @type {!Terminal.regexPair} */
     var re = {
       regex: new RegExp('(^|[^\\w.])('+names+')\\b', 'g'),
       replace: '$1'+prefix+'.$2'

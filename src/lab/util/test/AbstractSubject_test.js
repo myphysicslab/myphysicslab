@@ -248,5 +248,91 @@ var testAbstractSubject1 = function() {
   paramQux.setValue('blarg');
   mockSubj1.broadcastParameter(MockSubject1.QUX);
   assertEquals(3, mockObsvr1.numStrings);
+  // remove the observer
+  mockSubj1.removeObserver(mockObsvr1);
+  assertEquals(0, mockSubj1.getObservers().length);
+  mockSubj1.broadcastParameter(MockSubject1.FOOBARNESS);
+  // mockObsvr1 should be unchanged
+  assertEquals(3, mockObsvr1.numBooleans);
+
+  /**  Observer that counts number of times that parameters are changed or events fire.
+  @constructor
+  @implements {myphysicslab.lab.util.Observer}
+  */
+  var MockObserver2 = function() {
+    /**
+    * @type {number}
+    */
+    this.numEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numBooleans = 0;
+    /**
+    * @type {number}
+    */
+    this.numDoubles = 0;
+    /**
+    * @type {number}
+    */
+    this.numStrings = 0;
+  };
+  MockObserver2.prototype.observe =  function(event) {
+    if (event instanceof GenericEvent) {
+      this.numEvents++;
+      assertEquals('FOOEVENT', event.getName());
+      assertTrue(event.nameEquals('fooevent'));
+      assertTrue(event instanceof GenericEvent);
+      assertEquals(mockSubj1, event.getSubject());
+    } else if (event instanceof ParameterBoolean) {
+      // remove myself from observer list
+      mockSubj1.removeObserver(this);
+      this.numBooleans++;
+      assertEquals('FOO_BARNESS', event.getName());
+      assertTrue(event.nameEquals('foo-barness'));
+      assertTrue(event instanceof ParameterBoolean);
+      assertEquals(mockSubj1, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isBoolean(val));
+    } else if (event instanceof ParameterNumber) {
+      this.numDoubles++;
+      assertEquals('FOONESS', event.getName());
+      assertTrue(event.nameEquals('fooness'));
+      assertTrue(event instanceof ParameterNumber);
+      assertEquals(mockSubj1, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isNumber(val));
+    } else if (event instanceof ParameterString) {
+      this.numStrings++;
+      assertEquals('QUX', event.getName());
+      assertTrue(event.nameEquals('qux'));
+      assertTrue(event instanceof ParameterString);
+      assertEquals(mockSubj1, event.getSubject());
+      assertTrue(goog.isString(event.getValue()));
+    }
+  };
+  MockObserver2.prototype.toStringShort = function() {
+    return 'MockObserver2';
+  };
+
+  // make a second observer, to test the claim that
+  // "you can do removeObserver() during observe()"
+  var mockObsvr2 = new MockObserver2();
+  mockSubj1.addObserver(mockObsvr2);
+  mockSubj1.addObserver(mockObsvr1);
+  assertEquals(2, mockSubj1.getObservers().length);
+  // broadcast a parameter, which both observers should see
+  paramFoo.getSubject().broadcast(paramFoo);
+  assertEquals(1, mockObsvr2.numDoubles);
+  assertEquals(2, mockObsvr1.numDoubles);
+  // broadcast a parameter that causes mockObsvr2 to remove itself
+  mockSubj1.broadcastParameter(MockSubject1.FOOBARNESS);
+  // both observers should increase by one
+  assertEquals(1, mockObsvr2.numBooleans);
+  assertEquals(4, mockObsvr1.numBooleans);
+  obsvrs = mockSubj1.getObservers();
+  assertEquals(1, obsvrs.length);
+  assertFalse(goog.array.contains(obsvrs, mockObsvr2));
+  assertTrue(goog.array.contains(obsvrs, mockObsvr1));
 };
 goog.exportProperty(window, 'testAbstractSubject1', testAbstractSubject1);
