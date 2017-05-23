@@ -18,6 +18,7 @@ goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.ConcreteMemoList');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MemoList');
@@ -38,6 +39,7 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayList = myphysicslab.lab.view.DisplayList;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
@@ -224,10 +226,10 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
   */
   this.ratio_ = this.height_/this.width_;
   /**
-  * @type {!Array<!Memorizable>}
+  * @type {!MemoList}
   * @private
   */
-  this.memorizables_ = [];
+  this.memoList_ = new ConcreteMemoList();
   this.addParameter(new ParameterNumber(this, SimView.en.WIDTH, SimView.i18n.WIDTH,
       goog.bind(this.getWidth, this), goog.bind(this.setWidth, this)));
   this.addParameter(new ParameterNumber(this, SimView.en.HEIGHT, SimView.i18n.HEIGHT,
@@ -276,9 +278,7 @@ if (!Util.ADVANCED) {
         +', aspectRatio_: '+NF5(this.aspectRatio_)
         +', opaqueness: '+NF5(this.opaqueness)
         +', coordMap_: '+this.coordMap_
-        +', memorizables_: ['
-        + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
-        + ']'
+        +', memoList_: '+this.memoList_
         + SimView.superClass_.toString.call(this);
   };
 
@@ -296,9 +296,7 @@ SimView.prototype.getClassName = function() {
 
 /** @inheritDoc */
 SimView.prototype.addMemo = function(memorizable) {
-  if (!goog.array.contains(this.memorizables_, memorizable)) {
-    this.memorizables_.push(memorizable);
-  }
+  this.memoList_.addMemo(memorizable);
 };
 
 /** @inheritDoc */
@@ -357,7 +355,7 @@ SimView.prototype.getHorizAlign = function() {
 
 /** @inheritDoc */
 SimView.prototype.getMemos = function() {
-  return goog.array.clone(this.memorizables_);
+  return this.memoList_.getMemos();
 };
 
 /** Whether the width and height of the simulation rectangle scale together; if
@@ -400,9 +398,7 @@ SimView.prototype.loseFocus = function() {
 
 /** @inheritDoc */
 SimView.prototype.memorize = function() {
-  for (var i=0, n=this.memorizables_.length; i<n; i++) {
-    this.memorizables_[i].memorize();
-  }
+  this.memoList_.memorize();
 };
 
 /** Modifies the simulation rectangle of the target SimView according to our
@@ -478,7 +474,7 @@ SimView.prototype.realign = function() {
 
 /** @inheritDoc */
 SimView.prototype.removeMemo = function(memorizable) {
-  goog.array.remove(this.memorizables_, memorizable);
+  this.memoList_.removeMemo(memorizable);
 };
 
 /** Sets the ratio of 'pixels per simulation unit along y axis' divided

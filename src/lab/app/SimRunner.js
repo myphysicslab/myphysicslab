@@ -22,6 +22,7 @@ goog.require('goog.events.KeyEvent');
 goog.require('myphysicslab.lab.model.AdvanceStrategy');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Clock');
+goog.require('myphysicslab.lab.util.ConcreteMemoList');
 goog.require('myphysicslab.lab.util.ErrorObserver');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MemoList');
@@ -38,9 +39,11 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
 var Clock = myphysicslab.lab.util.Clock;
+var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
+var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
 var NF = myphysicslab.lab.util.Util.NF;
 var NF7 = myphysicslab.lab.util.Util.NF7;
@@ -207,10 +210,10 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   */
   this.canvasList_ = [];
   /**
-  * @type {!Array<!Memorizable>}
+  * @type {!MemoList}
   * @private
   */
-  this.memorizables_ = [];
+  this.memoList_ = new ConcreteMemoList();
   /**
   * @type {!Array<!ErrorObserver>}
   * @private
@@ -255,9 +258,7 @@ if (!Util.ADVANCED) {
         +', nonStop_: '+this.nonStop_
         +', canvasList_: ['
         + goog.array.map(this.canvasList_, function(a) { return a.toStringShort(); })
-        +'], memorizables_: ['
-        + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
-        +']'
+        +'], memoList_: '+this.memoList_
         + SimRunner.superClass_.toString.call(this);
   };
 }
@@ -292,9 +293,7 @@ SimRunner.prototype.addErrorObserver = function(errorObserver) {
 
 /** @inheritDoc */
 SimRunner.prototype.addMemo = function(memorizable) {
-  if (!goog.array.contains(this.memorizables_, memorizable)) {
-    this.memorizables_.push(memorizable);
-  }
+  this.memoList_.addMemo(memorizable);
 };
 
 /** Adds an AdvanceStrategy to the set being advanced.
@@ -455,7 +454,7 @@ SimRunner.prototype.getFiring = function() {
 
 /** @inheritDoc */
 SimRunner.prototype.getMemos = function() {
-  return goog.array.clone(this.memorizables_);
+  return this.memoList_.getMemos();
 };
 
 /** Returns `true` if the Timer keeps firing even when the window is not active (not
@@ -499,7 +498,7 @@ SimRunner.prototype.handleException = function(error) {
 
 /** @inheritDoc */
 SimRunner.prototype.memorize = function() {
-  goog.array.forEach(this.memorizables_, function(c) { c.memorize(); });
+  this.memoList_.memorize();
 };
 
 /** @inheritDoc */
@@ -554,7 +553,7 @@ SimRunner.prototype.removeErrorObserver = function(errorObserver) {
 
 /** @inheritDoc */
 SimRunner.prototype.removeMemo = function(memorizable) {
-  goog.array.remove(this.memorizables_, memorizable);
+  this.memoList_.removeMemo(memorizable);
 };
 
 /** Sets the Simulation to its initial conditions by calling

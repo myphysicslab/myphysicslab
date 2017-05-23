@@ -17,6 +17,7 @@ goog.provide('myphysicslab.lab.view.LabCanvas');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.ConcreteMemoList');
 goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.MemoList');
 goog.require('myphysicslab.lab.util.Memorizable');
@@ -32,6 +33,7 @@ goog.require('myphysicslab.lab.view.ScreenRect');
 goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
@@ -171,10 +173,10 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
   */
   this.labViews_ = [];
   /**
-  * @type {!Array<!Memorizable>}
+  * @type {!MemoList}
   * @private
   */
-  this.memorizables_ = [];
+  this.memoList_ = new ConcreteMemoList();
   /** The view which is the main focus and is drawn normally.
   * @type {?LabView}
   * @private
@@ -226,9 +228,7 @@ if (!Util.ADVANCED) {
         + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
         +', labViews_: ['
         + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
-        +'], memorizables_: ['
-        + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
-        +']'
+        +'], memoList_: '+this.memoList_
         + LabCanvas.superClass_.toString.call(this);
   };
 };
@@ -270,9 +270,7 @@ LabCanvas.VIEW_REMOVED = 'VIEW_REMOVED';
 
 /** @inheritDoc */
 LabCanvas.prototype.addMemo = function(memorizable) {
-  if (!goog.array.contains(this.memorizables_, memorizable)) {
-    this.memorizables_.push(memorizable);
-  }
+  this.memoList_.addMemo(memorizable);
 };
 
 /** Adds the LabView to the end of the list of LabViews displayed and memorized by this
@@ -358,7 +356,7 @@ LabCanvas.prototype.getHeight = function() {
 
 /** @inheritDoc */
 LabCanvas.prototype.getMemos = function() {
-  return goog.array.clone(this.memorizables_);
+  return this.memoList_.getMemos();
 };
 
 /** Returns the ScreenRect corresponding to the area of the HTML canvas.
@@ -386,9 +384,7 @@ LabCanvas.prototype.getWidth = function() {
 
 /** @inheritDoc */
 LabCanvas.prototype.memorize = function() {
-  for (var i=0, n=this.memorizables_.length; i<n; i++) {
-    this.memorizables_[i].memorize();
-  }
+  this.memoList_.memorize();
 };
 
 /**
@@ -449,7 +445,7 @@ LabCanvas.prototype.paint = function() {
 
 /** @inheritDoc */
 LabCanvas.prototype.removeMemo = function(memorizable) {
-  goog.array.remove(this.memorizables_, memorizable);
+  this.memoList_.removeMemo(memorizable);
 };
 
 /** Removes the LabView from the list of LabViews displayed and memorized by this

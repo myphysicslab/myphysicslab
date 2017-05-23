@@ -97,7 +97,7 @@ is already on the list. An Observer may call `Subject.addObserver` during its
 Subject.prototype.addObserver;
 
 /** Notifies all Observers that the Subject has changed by calling
-{@link myphysicslab.lab.util.Observer#observe} on each Observer.
+{@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
 An Observer may call `Subject.addObserver` or `Subject.removeObserver` during its
 `observe` method.
 @param {!myphysicslab.lab.util.SubjectEvent} evt a SubjectEvent
@@ -106,7 +106,7 @@ An Observer may call `Subject.addObserver` or `Subject.removeObserver` during it
 Subject.prototype.broadcast;
 
 /** Notifies all Observers that the Parameter with the given `name` has changed by
-calling {@link myphysicslab.lab.util.Observer#observe} on each Observer.
+calling {@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
 @param {string} name the universal or English name of the Parameter that has changed
 @throws {Error} if there is no Parameter with the given name
 */

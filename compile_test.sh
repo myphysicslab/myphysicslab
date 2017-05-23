@@ -128,6 +128,7 @@ java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.util.test.AbstractSubject_test \
 --entry_point=goog:myphysicslab.lab.util.test.AffineTransform_test \
 --entry_point=goog:myphysicslab.lab.util.test.CircularList_test \
+--entry_point=goog:myphysicslab.lab.util.test.ConcreteMemoList_test \
 --entry_point=goog:myphysicslab.lab.util.test.DoubleMath_test \
 --entry_point=goog:myphysicslab.lab.util.test.DoubleRect_test \
 --entry_point=goog:myphysicslab.lab.util.test.MutableVector_test \

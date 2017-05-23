@@ -159,9 +159,7 @@ AbstractSubject.prototype.broadcast = function(evt) {
     try {
       // For debugging: can see events being broadcast here.
       //if (!this.getName().match(/.*GRAPH.*/i)) { console.log('broadcast '+evt); }
-      for (var i=0, len=this.observers_.length; i<len; i++) {
-        this.observers_[i].observe(evt);
-      }
+      goog.array.forEach(this.observers_, function(o) { o.observe(evt); });
     } finally {
       this.isBroadcasting_ = false;
       // do add/remove commands afterwards, in case an Observer called addObserver or
@@ -180,8 +178,8 @@ AbstractSubject.prototype.broadcastParameter = function(name) {
   this.broadcast(p);
 };
 
-/** Returns whether this Subject is broadcasting events.
-@return {boolean} whether this Subject is broadcasting events
+/** Returns whether broadcasting is enabled for this Subject.
+@return {boolean} whether broadcasting is enabled for this Subject
 @protected
 */
 AbstractSubject.prototype.getBroadcast = function() {
