@@ -156,7 +156,7 @@ for debugging only.
 * @return {number} the current time as given by the system clock, in seconds
 */
 Timer.prototype.callBackStarted = function() {
-  var nowTime = Util.getSystemTime();
+  var nowTime = Util.systemTime();
   this.actual_sys_ = nowTime;
   return nowTime;
 };
@@ -168,7 +168,7 @@ callback is `null` or Timer is not firing. Uses JavaScript's `setTimeout()` func
 do the scheduling.
 
 The finish time is in given in *system time*, see
-{@link Util#getSystemTime} for how system time is defined.
+{@link Util#systemTime} for how system time is defined.
 
 @param {number} finishTimeSys the time when the next callback should finish execution, in system time seconds
 */
@@ -188,7 +188,7 @@ Timer.prototype.finishAt = function(finishTimeSys) {
   // Therefore delay till firing is
   //     delay = finishTime - (now - expected_start) - now
   //           = (finishTime - now) - (now - expected_start)
-  var now_secs = Util.getSystemTime();
+  var now_secs = Util.systemTime();
   var delay_secs = finishTimeSys - now_secs;
   if (isFinite(this.expected_sys_)) {
     var d = now_secs - this.expected_sys_;
@@ -239,7 +239,7 @@ JavaScript's `setTimeout()` function to do the scheduling.
 */
 Timer.prototype.fireAfter = function(opt_delay) {
   var delay = goog.isNumber(opt_delay) ? opt_delay : this.period_;
-  this.finishAt(Util.getSystemTime() + delay);
+  this.finishAt(Util.systemTime() + delay);
 };
 
 /** Expected time when the next callback should occur, in system time, in seconds. This

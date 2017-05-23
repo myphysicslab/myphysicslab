@@ -100,7 +100,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** A delayed command to add (`true`) or remove (`false`) an Observer.
+/** A delayed command to add (`action=true`) or remove (`action=false`) an Observer.
 * @typedef {{action: boolean, observer: !Observer}}
 * @private
 */
@@ -179,6 +179,7 @@ AbstractSubject.prototype.broadcastParameter = function(name) {
 };
 
 /** Returns whether broadcasting is enabled for this Subject.
+See {@link #setBroadcast}.
 @return {boolean} whether broadcasting is enabled for this Subject
 @protected
 */

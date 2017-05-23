@@ -372,7 +372,7 @@ SimRunner.prototype.callback = function() {
             +' running='+this.clock_.isRunning()
             );
           //  +' late='+NF(startTime - expectedTime)
-          //  +' sys='+NF(Util.chopTime(Util.getSystemTime()))
+          //  +' sys='+NF(Util.chopTime(Util.systemTime()))
       }
       // If sim reaches almost current clock time, that is good enough.
       var targetTime = startTime - this.timeStep_/10;

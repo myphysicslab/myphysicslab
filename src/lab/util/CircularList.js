@@ -29,7 +29,14 @@ var Util = myphysicslab.lab.util.Util;
 /** A circular list of values, where the next value added overwrites the oldest
 value. The list is filled in until full, then it overwrites earlier entries in the list.
 
-## Index Numbers, Pointers, and Overflow
+
+## How CircularList Works
+
+This section describes how the class works internally. This information **is not
+needed for using this class**.
+
+
+### Index Numbers, Pointers, and Overflow
 
 Each value added has an index number which starts at zero and increases by one with
 each new value. The index number keeps increasing even when the list has
@@ -58,7 +65,7 @@ changing the index number associated with each value. Or the caller can simply m
 new CircularList when catching the exception.
 
 
-## How CircularList Works
+### Example Scenario
 
 We write new entries into the arrays `memX` and `memY` until they fill.
 Then we wrap around and start writing to the beginning again.

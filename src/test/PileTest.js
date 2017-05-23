@@ -557,7 +557,7 @@ PileTest.pile_10_random_blocks = function() {
   Engine2DTestRig.setBodyVars(sim, vars, 11, 0.7205631, 0, -8.2682827, -0, 0.7924107, 0);
   Engine2DTestRig.setBodyVars(sim, vars, 12, 0.7795149, 0, -7.7446799, 0, 3.9304584, -0);
   Engine2DTestRig.setBodyVars(sim, vars, 13, 0.3485821, 0, -6.9817453, -0, 2.3673243, -0);
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   // run until all collisions are done and energy is stable.
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
               /*expectedVars=*/vars, /*tolerance=*/0.01);
@@ -578,9 +578,9 @@ contact force calculation.
 PileTest.pile_10_perf = function() {
   var testName = 'pile_10_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   PileTest.pile_10_random_blocks();
-  var duration = Util.getSystemTime() - startTime;
+  var duration = Util.systemTime() - startTime;
   Engine2DTestRig.testName = PileTest.groupName+testName;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);
@@ -679,7 +679,7 @@ PileTest.pile_20_random_blocks = function() {
     // this test takes too long on non-Chrome browsers
     throw new Error();
   }
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
               /*expectedVars=*/null, /*tolerance=*/NaN);
   // run another few seconds to have lots of contact calculations as well
@@ -715,9 +715,9 @@ changed so that the blocks are not moving after 7 or 8 seconds.
 PileTest.pile_20_perf = function() {
   var testName = 'pile_20_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   PileTest.pile_20_random_blocks();
-  var duration = Util.getSystemTime() - startTime;
+  var duration = Util.systemTime() - startTime;
   Engine2DTestRig.testName = PileTest.groupName+testName;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);
@@ -761,7 +761,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
   var TIME_SPAN = 5.0;
   var LIMIT_TIME = 0.9*TIME_SPAN;
   var num_blocks = 0;
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   // feed in blocks at start more quickly, to speed up the test.
   while (num_blocks < start_num_blocks) {
     simTime += 1.0;
@@ -775,7 +775,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
     Engine2DTestRig.myPrintln('num_bodies='+num_blocks
         +' time='+NF2(realTime)
         +' limit='+NF2(LIMIT_TIME)
-        +' totalTime='+NF5(Util.getSystemTime() - startTime)
+        +' totalTime='+NF5(Util.systemTime() - startTime)
         +' contacts='+sim.getNumContacts()
         );
     if (realTime > LIMIT_TIME) {
@@ -795,7 +795,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
 @private
 */
 PileTest.add_block_and_run = function(sim, advance, runUntil, square) {
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   var p = square ? Shapes.makeBlock(1.0, 1.0, 'block')
                  : Shapes.makeBall(0.5, 'ball');
   // move a bit right of center and tilted, to avoid 'perfect' bounces
@@ -804,7 +804,7 @@ PileTest.add_block_and_run = function(sim, advance, runUntil, square) {
   sim.addBody(p);
   // run till requested time, without any expected results
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/runUntil);
-  return (Util.getSystemTime() - startTime);
+  return (Util.systemTime() - startTime);
 };
 
 /** Adds same sized square blocks to a pile until performance degrades
@@ -813,10 +813,10 @@ to the point that the sim is barely keeping up with real time
 */
 PileTest.additive_pile_square_test = function(expectedBlocks) {
   Engine2DTestRig.testName = PileTest.groupName+'additive_pile_square_test';
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/true,
     /*start_num_blocks=*/expectedBlocks-3);
-  var totalTime = Util.getSystemTime() - startTime;
+  var totalTime = Util.systemTime() - startTime;
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+NF5(totalTime);
@@ -830,10 +830,10 @@ to the point that the sim is barely keeping up with real time
 */
 PileTest.additive_pile_circle_test = function(expectedBlocks) {
   Engine2DTestRig.testName = PileTest.groupName+'additive_pile_circle_test';
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/false,
       /*start_num_blocks=*/expectedBlocks-3);
-  var totalTime = Util.getSystemTime() - startTime;
+  var totalTime = Util.systemTime() - startTime;
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+NF5(totalTime);

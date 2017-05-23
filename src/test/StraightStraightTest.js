@@ -144,10 +144,10 @@ StraightStraightTest.commonSetup1 = function(sim, advance, damping) {
 StraightStraightTest.six_blocks_perf = function() {
   var testName = 'six_blocks_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   StraightStraightTest.six_blocks_settle();
   Engine2DTestRig.testName = StraightStraightTest.groupName+testName;
-  var endTime = Util.getSystemTime();
+  var endTime = Util.systemTime();
   var duration = endTime - startTime;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);

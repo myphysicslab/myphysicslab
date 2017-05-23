@@ -278,10 +278,10 @@ MiscellanyTest.clock_with_gears = function() {
 MiscellanyTest.clock_gears_perf = function() {
   var testName = 'clock_gears_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
-  var startTime = Util.getSystemTime();
+  var startTime = Util.systemTime();
   MiscellanyTest.clock_with_gears();
   Engine2DTestRig.testName = MiscellanyTest.groupName+testName;
-  var endTime = Util.getSystemTime();
+  var endTime = Util.systemTime();
   var duration = endTime - startTime;
   var s = Engine2DTestRig.perfResult(duration, expected);
   var timeLimit = Engine2DTestRig.getPerfLimit(expected);

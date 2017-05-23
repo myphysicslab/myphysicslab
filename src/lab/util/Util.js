@@ -343,9 +343,10 @@ Util.get = function(array, index) {
 };
 
 /** Returns the current time as given by the system clock, in seconds.
+Typically system time is a large number in the billions.
 * @return {number} the current time as given by the system clock, in seconds
 */
-Util.getSystemTime = function() {
+Util.systemTime = function() {
   return goog.now()*1E-3;
 };
 

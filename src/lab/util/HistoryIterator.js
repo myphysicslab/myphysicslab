@@ -17,6 +17,8 @@ goog.provide('myphysicslab.lab.util.HistoryIterator');
 goog.scope(function() {
 
 /** Provides access to items in a {@link myphysicslab.lab.util.HistoryList}.
+The iteration can start anywhere in the HistoryList. The iteration ends
+with the newest value that was added to the HistoryList.
 * @interface
 * @template T
 */

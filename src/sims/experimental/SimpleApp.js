@@ -103,7 +103,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
     var delta = now - lastTime;
     var h = timer.getPeriod();
     //console.log('timer now='+NF5(now)+' last='+NF5(lastTime)
-    //    +' sys='+Util.getSystemTime());
+    //    +' sys='+Util.systemTime());
     // limit the amount of time to advance and retard the clock when long delays occur.
     if (delta > 1.5*h) {
       console.log('retard clock');

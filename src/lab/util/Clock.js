@@ -42,11 +42,11 @@ its time and speed relative to system time. Clock has a list of
 specified by the ClockTasks. Clock has a parallel *real time clock* for measuring
 performance.
 
-Clock time is used by a **client** object such as {@link myphysicslab.lab.app.SimRunner}
-to know *how much to advance a simulation*. (When clock time is in the past, such as
-at time zero, then the client will reset the simulation back to initial conditions.)
-This is how operations on Clock like pause, single-step, setting time rate, etc. affect
-the display of the Simulation.
+Clock time is used by a **client** object such as {@link
+myphysicslab.lab.app.SimRunner} to know *how much to advance a simulation*. This is how
+operations on Clock like pause, single-step, setting time rate, etc. affect the display
+of the Simulation. (When clock time is in the past, such as at time zero, then the
+client can restart the simulation from initial conditions.)
 
 While a *unit of simulation time* can be interpreted to mean anything from
 a millisecond to a millenium, we use the Clock to advance the Simulation time along
@@ -58,11 +58,11 @@ with real time as though each unit of time is equal to one second of real time.
 There are several types of time considered here: system time, clock time, simulation
 time, and real time. All of these are measured in seconds, though simulation time might
 have a different meaning – see
-[About Units Of Measurement](Architecture.html#aboutunitsofmeasurement). Since
+[About Units Of Measurement](Architecture.html#aboutunitsofmeasurement). <del>Since
 simulation time follows clock time, you should think of clock time being in the same
-units as simulation time.
+units as simulation time.</del>
 
-+ **System Time** is given by {@link Util#getSystemTime}. System time is the basis of
++ **System Time** is given by {@link Util#systemTime}. System time is the basis of
 the other time measurements. For example, clock time and real time each have a 'system
 start time' by which they are measured. System time is always running.
 
@@ -72,12 +72,12 @@ be modified directly by calling {@link #setTime}. Clock time can be paused or re
 
 + **Simulation Time** is given by {@link myphysicslab.lab.model.Simulation#getTime}.
 Simulation time is advanced by the client, usually to keep up with clock time. When
-performance problems occur, the clock time is retarded via {@link #setTime} to match
-the current simulation time.
+performance problems occur, the clock time can be retarded via {@link #setTime} to
+match the current simulation time.
 
 + **Real Time** is given by {@link #getRealTime}. Closely related to clock time, real
-time is used to measure performance: how much the simulation time (usually same as
-clock time) has slipped behind real time because the simulation couldn't compute
+time is used to measure performance: how much the simulation time
+has slipped behind real time because the simulation couldn't compute
 quickly enough. Real time usually mirrors clock time – they are paused or resumed
 together and have the same time rate relative to system time – but real time is not
 affected by {@link #setTime}. When performance problems happen the usual result is that
@@ -88,7 +88,9 @@ amount of time lost to performance problems.
 
 ## ClockTask
 
-A {@link ClockTask} contains a function which is to be executed at a specific time.
+A {@link ClockTask} contains a function which is to be executed at a particular time.
+The time is expressed in *clock time*.
+
 ClockTasks are scheduled as a side effect of Clock methods such as
 `setTime()`, `resume()`, `addTask()`. ClockTasks are cancelled as a side
 effect of Clock methods such as `pause()`, `removeTask()`.
@@ -142,7 +144,7 @@ myphysicslab.lab.util.Clock = function(opt_name) {
   * @type {number}
   * @private
   */
-  this.clockStart_sys_secs_ = Util.getSystemTime();
+  this.clockStart_sys_secs_ = Util.systemTime();
   /** when 'zero real time' occurs, in system time, in seconds
   * @type {number}
   * @private
@@ -244,14 +246,6 @@ Clock.CLOCK_SET_TIME ='CLOCK_SET_TIME';
 */
 Clock.CLOCK_STEP ='CLOCK_STEP';
 
-/** Called during *step mode*, this indicates that the client has advanced the
-Simulation to match the clock time.
-@return {undefined}
-*/
-Clock.prototype.clearStepMode = function() {
-  this.stepMode_ = false;
-};
-
 /** Adds a ClockTask to the list of tasks which will be run, and schedules it to be run
 if its time is now or in the future. The time to run the task is specified in the
 ClockTask.
@@ -272,8 +266,16 @@ Clock.prototype.cancelAllTasks = function() {
   goog.array.forEach(this.tasks_, function(task) { task.cancel(); });
 };
 
+/** Called during [step mode](#stepmode), this indicates that the client has advanced
+the Simulation to match the clock time.
+@return {undefined}
+*/
+Clock.prototype.clearStepMode = function() {
+  this.stepMode_ = false;
+};
+
 /** Converts clock time to system time. System time is defined by
-{@link Util#getSystemTime}.
+{@link Util#systemTime}.
 @param {number} clockTime in seconds
 @return {number} system time equivalent of clockTime
 */
@@ -305,12 +307,12 @@ real time is unaffected by `setTime`; therefore the difference between real time
 and clock time tells us how far behind real time the simulation is.
 
 When the simulation is reset, the clock is typically set to time zero. In that case
-the real time should be set to match the clock by using {@link #setRealTime}.
+the real time should be set to match clock time by using {@link #setRealTime}.
 @return {number} current real time in seconds
 */
 Clock.prototype.getRealTime = function() {
   if (this.isRunning_) {
-    return (Util.getSystemTime() - this.realStart_sys_secs_)*this.timeRate_;
+    return (Util.systemTime() - this.realStart_sys_secs_)*this.timeRate_;
   } else {
     return this.saveRealTime_secs_;
   }
@@ -330,7 +332,7 @@ the clock time advances along with system time at whatever
 */
 Clock.prototype.getTime = function() {
   if (this.isRunning_) {
-    return (Util.getSystemTime() - this.clockStart_sys_secs_)*this.timeRate_;
+    return (Util.systemTime() - this.clockStart_sys_secs_)*this.timeRate_;
   } else {
     return this.saveTime_secs_;
   }
@@ -352,9 +354,10 @@ Clock.prototype.isRunning = function() {
   return this.isRunning_;
 };
 
-/** Returns `true` when in *step mode* which means that clock time has advanced even
-though the Clock is paused. The client should update the Simulation to match the new
-clock time, and call {@link #clearStepMode} to indicate that the Simulation has advanced.
+/** Returns `true` when in [step mode](#stepmode) which means that clock time has
+advanced even though the Clock is paused. The client should update the Simulation to
+match the new clock time, and call {@link #clearStepMode} to indicate that the
+Simulation has advanced.
 @return {boolean} `true` when in *step mode*
 */
 Clock.prototype.isStepping = function() {
@@ -426,7 +429,7 @@ Clock.prototype.setRealTime = function(time_secs) {
   if (Util.DEBUG && this.clockDebug_)
     console.log('Clock.setRealTime '+NF5(time_secs));
   if (this.isRunning_) {
-    this.realStart_sys_secs_ = Util.getSystemTime() - time_secs/this.timeRate_;
+    this.realStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
   } else {
     this.saveRealTime_secs_ = time_secs;
   }
@@ -451,7 +454,7 @@ Clock.prototype.setTime = function(time_secs) {
 */
 Clock.prototype.setTimePrivate = function(time_secs) {
   if (this.isRunning_) {
-    this.clockStart_sys_secs_ = Util.getSystemTime() - time_secs/this.timeRate_;
+    this.clockStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
     // schedule all ClockTasks
     goog.array.forEach(this.tasks_, goog.bind(this.scheduleTask, this));
   } else {
@@ -479,7 +482,7 @@ Clock.prototype.setTimeRate = function(rate) {
   };
 };
 
-/** Performs a single step forward in time; puts the Clock into *step mode*;
+/** Performs a single step forward in time; puts the Clock into [step mode](#stepmode);
 advances the clock time and real time by the specified time step; pauses the clock; and
 broadcasts a {@link #CLOCK_STEP} event.
 
@@ -504,7 +507,7 @@ Clock.prototype.step = function(timeStep) {
 };
 
 /** Converts system time to clock time. System time is defined by
-{@link Util#getSystemTime}.
+{@link Util#systemTime}.
 @param {number} systemTime in seconds
 @return {number} clock time equivalent of systemTime
 */

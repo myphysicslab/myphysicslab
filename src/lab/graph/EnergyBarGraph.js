@@ -202,7 +202,7 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   * @type {number}
   * @private
   */
-  this.lastTime_ = Util.getSystemTime();
+  this.lastTime_ = Util.systemTime();
   /**
   * @type {number}
   * @private
@@ -323,7 +323,7 @@ if (!Util.ADVANCED) {
         +', maxEnergy: '+NF(this.maxEnergy_)
         +', megaMaxEnergy: '+NF(this.megaMaxEnergy_)
         +', totalEnergy: '+NF(this.totalEnergy_)
-        +', time: '+NF(Util.getSystemTime()-this.lastTime_)
+        +', time: '+NF(Util.systemTime()-this.lastTime_)
         +', zIndex: '+this.zIndex
         +'}';
   };
@@ -428,8 +428,8 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   this.minEnergy_ = pe < 0 ? pe : 0;
   this.maxEnergy_ = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
   // update the total energy displayed, but not so often you can't read it
-  if (Util.getSystemTime()-this.lastTotalEnergyTime_ > this.totalEnergyPeriod_){
-    this.lastTotalEnergyTime_ = Util.getSystemTime();
+  if (Util.systemTime()-this.lastTotalEnergyTime_ > this.totalEnergyPeriod_){
+    this.lastTotalEnergyTime_ = Util.systemTime();
     this.lastEnergyDisplay_ = this.totalEnergyDisplay_;
     this.totalEnergyDisplay_ = e.getTotalEnergy();
   }
@@ -791,7 +791,7 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
   }
   // if graph has gotten too big or too small, reset the scale.
   if (this.needRescale_) {
-    this.lastTime_ = Util.getSystemTime(); // time reset
+    this.lastTime_ = Util.systemTime(); // time reset
     this.needRescale_ = false;
     // scale goes from megaMinEnergy to totalEnergy or zero.
     var total = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
@@ -903,7 +903,7 @@ EnergyBarGraph.prototype.setZIndex = function(zIndex) {
 * @private
 */
 EnergyBarGraph.prototype.timeCheck = function(minEnergy) {
-  var nowTime = Util.getSystemTime();
+  var nowTime = Util.systemTime();
   if (nowTime - this.lastTime2_ > 1.0) {
     this.lastTime2_ = nowTime;
     if (++this.bufptr_ >= this.history_.length)

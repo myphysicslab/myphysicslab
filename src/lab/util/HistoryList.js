@@ -22,13 +22,18 @@ var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
 /** An ordered list of values that can be added to but not altered; older
 values might be forgotten. Each value has a unique unchanging index in the HistoryList,
 but the HistoryList can have limited capacity and old values might be dropped from the
-HistoryList to make room for new values to be added. HistoryList contains only those
-values whose index is between {@link #getStartIndex} and {@link #getEndIndex}
-(inclusive).
+HistoryList to make room for new values to be added.
 
-Designed to represent a {@link myphysicslab.lab.util.CircularList} where new values are
-written over old values. Therefore the starting index can change when writing a new
-value to the list, because the new value might overwrite an old value.
+HistoryList contains only those values whose index is between {@link #getStartIndex}
+and {@link #getEndIndex} (inclusive). The start and end index can change when writing a
+new value to the list, because a new value might overwrite an old value.
+
+The type of value stored can be number, string, boolean or any object. When using
+HistoryList you can specify to the compiler the type of the value with angle brackets.
+For example `HistoryList<!Vector>` indicates storing non-nullable Vectors in the
+HistoryList.
+See [Closure Compiler Generic Types](https://github.com/google/closure-compiler/wiki/Generic-Types).
+
 * @interface
 * @template T
 */
@@ -37,20 +42,22 @@ var HistoryList = myphysicslab.lab.util.HistoryList;
 
 /** Returns the index of the ending value in this HistoryList. The ending value is
 the newest value in this HistoryList.
-@return {number} the index of the ending value in this HistoryList, or -1 if nothing has
-    yet been stored
+@return {number} the index of the ending value in this HistoryList, or –1 if nothing
+    has been stored
 @throws {Error} when the index number exceeds the maximum representable integer
 */
 HistoryList.prototype.getEndIndex;
 
-/** Returns the last value stored in this HistoryList.
-@return {?T} the value stored at the given index, or null if this HistoryList is empty
+/** Returns the last value stored in this HistoryList, or `null` if this HistoryList is
+empty.
+@return {?T} the last value stored in this HistoryList, or `null` if this
+    HistoryList is empty
 */
 HistoryList.prototype.getEndValue;
 
 /** Returns a {@link HistoryIterator} which begins at the given index in this
 HistoryList.
-@param {number=} index the index to start the iterator at;  if undefined or -1, then
+@param {number=} index the index to start the iterator at;  if undefined or –1, then
     starts at beginning of this HistoryList
 @return {!HistoryIterator<T>} a HistoryIterator which begins at the given index in this
     HistoryList.
@@ -83,8 +90,7 @@ The capacity of this HistoryList is unchanged.
 */
 HistoryList.prototype.reset;
 
-/** Stores the given value into this HistoryList, and advances the internal pointer to
-the next available spot in this HistoryList.
+/** Stores the given value into this HistoryList.
 @param {T} value the value to store
 @return {number} index within HistoryList where the value was stored
 @throws {Error} when the index number exceeds the maximum representable integer
