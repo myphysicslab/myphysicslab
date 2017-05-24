@@ -109,7 +109,7 @@ Vector.WEST = new Vector(-1, 0);
 @return {!Vector} a new Vector with the same values as the input
     GenericVector
 */
-Vector.copy = function(vector) {
+Vector.clone = function(vector) {
   return new Vector(vector.getX(), vector.getY(), vector.getZ());
 };
 

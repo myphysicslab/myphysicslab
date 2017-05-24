@@ -31,7 +31,7 @@ var testMutableVector = function() {
   assertEquals(31, v1.getY());
   assertEquals(window, goog.global);  // just an interesting fact to know
   //var v7 = new Vector();  // compile error
-  var v3 = MutableVector.copy(v2);
+  var v3 = MutableVector.clone(v2);
   assertEquals(1.0, v3.getX());
   assertEquals(1.0, v3.getY());
   assertTrue(v3.equals(v2));

@@ -58,23 +58,24 @@ with real time as though each unit of time is equal to one second of real time.
 There are several types of time considered here: system time, clock time, simulation
 time, and real time. All of these are measured in seconds, though simulation time might
 have a different meaning – see
-[About Units Of Measurement](Architecture.html#aboutunitsofmeasurement). <del>Since
-simulation time follows clock time, you should think of clock time being in the same
-units as simulation time.</del>
+[About Units Of Measurement](Architecture.html#aboutunitsofmeasurement).
 
 + **System Time** is given by {@link Util#systemTime}. System time is the basis of
-the other time measurements. For example, clock time and real time each have a 'system
-start time' by which they are measured. System time is always running.
+the other time measurements. For example, clock time and real time each have a "system
+start time" by which they are measured. System time is always running.
 
+<a name="clocktime"></a>
 + **Clock Time** is given by {@link #getTime}.
-Clock time advances at the current time-rate (multiple of system time). Clock time can
-be modified directly by calling {@link #setTime}. Clock time can be paused or resumed.
+Clock time advances at the current {@link #getTimeRate time rate} (multiple of system
+time). Clock time can be modified directly by calling {@link #setTime}. Clock time can
+be {@link #pause paused} or {@link #resume resumed}.
 
 + **Simulation Time** is given by {@link myphysicslab.lab.model.Simulation#getTime}.
 Simulation time is advanced by the client, usually to keep up with clock time. When
 performance problems occur, the clock time can be retarded via {@link #setTime} to
 match the current simulation time.
 
+<a name="realtime"></a>
 + **Real Time** is given by {@link #getRealTime}. Closely related to clock time, real
 time is used to measure performance: how much the simulation time
 has slipped behind real time because the simulation couldn't compute
@@ -95,6 +96,8 @@ ClockTasks are scheduled as a side effect of Clock methods such as
 `setTime()`, `resume()`, `addTask()`. ClockTasks are cancelled as a side
 effect of Clock methods such as `pause()`, `removeTask()`.
 
+A typical use of ClockTask is to restart the simulation after a few seconds, which
+makes the simulation repeatedly "loop" showing it's first few seconds.
 
 
 <a name="stepmode"></a>
@@ -297,9 +300,10 @@ Clock.prototype.executeTasks = function(startTime, timeStep) {
   });
 };
 
-/** Returns the real time in seconds which is in the same time scale as the clock time;
-used for checking simulation performance. Like clock time, real time starts at zero
-time; is paused when the Clock is paused; and runs at the same rate as clock time.
+/** Returns the [real time](#realtime) in seconds which is in the same time scale as
+the clock time; used for checking simulation performance. Like clock time, real time
+starts at zero time; is paused when the Clock is paused; and runs at the same rate as
+clock time.
 
 When a simulation cannot keep up with real time the Clock is **retarded** by client
 code calling {@link #setTime} to set clock time to an earlier time. In contrast, the
@@ -325,9 +329,9 @@ Clock.prototype.getTasks = function() {
   return goog.array.clone(this.tasks_);
 };
 
-/** Returns the clock time in seconds. When the Clock {@link #isRunning is running},
-the clock time advances along with system time at whatever
-{@link #getTimeRate time rate} is specified.
+/** Returns the [clock time](#clocktime) in seconds. When the Clock
+{@link #isRunning is running}, the clock time advances along with system time at
+whatever {@link #getTimeRate time rate} is specified.
 @return {number} the clock time in seconds
 */
 Clock.prototype.getTime = function() {
@@ -435,8 +439,8 @@ Clock.prototype.setRealTime = function(time_secs) {
   }
 };
 
-/** Sets the clock time, in seconds. Also schedules all ClockTasks that should run at
-or after the given time. Broadcasts a {@link #CLOCK_SET_TIME} event.
+/** Sets the [clock time](#clocktime), in seconds. Also schedules all ClockTasks that
+should run at or after the given time. Broadcasts a {@link #CLOCK_SET_TIME} event.
 @param {number} time_secs the time in seconds to set this Clock to
 */
 Clock.prototype.setTime = function(time_secs) {
@@ -464,7 +468,7 @@ Clock.prototype.setTimePrivate = function(time_secs) {
 
 /** Sets the rate at which clock time passes compared to system time. A value of 2 makes
 clock time pass twice as fast as system time; a value of 0.5 makes clock time pass half
-as fast as system time.
+as fast as system time. Broadcasts the {@link #TIME_RATE} Parameter if it changes.
 @param {number} rate the rate at which clock time passes compared to system time
 */
 Clock.prototype.setTimeRate = function(rate) {

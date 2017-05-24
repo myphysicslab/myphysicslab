@@ -217,7 +217,7 @@ VectorGraph.prototype.fullDraw = function(context, coordMap) {
   var w = sr.getWidth();
   var h = sr.getHeight();
   var left = sr.getLeft();
-  var top_ = sr.getTop();
+  var top = sr.getTop();
   var va = this.sim_.getVarsList();
   var state = Util.newNumberArray(va.numVariables());
   var change = Util.newNumberArray(va.numVariables());
@@ -225,7 +225,7 @@ VectorGraph.prototype.fullDraw = function(context, coordMap) {
   for (var i=0; i<gp; i++) {
     for (var j=0; j<gp; j++) {
       var x = left + (i*w/gp) + w/(2*gp);
-      var y = top_ + (j*h/gp) + h/(2*gp);
+      var y = top + (j*h/gp) + h/(2*gp);
       var dot = new ScreenRect(x-3, y-3, 6, 6);
       dot.makeOval(context);
       context.lineWidth = 1;

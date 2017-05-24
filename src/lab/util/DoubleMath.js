@@ -18,9 +18,12 @@ goog.require('goog.asserts');
 
 goog.scope(function() {
 
-/** Utility functions to convert a floating point double number to/from its
+/** Utility functions to convert a floating point double-precision number to/from its
 representation as a IEEE 754 binary number. The main functions defined here are
 {@link #numToHex} and {@link #hexToNum}.
+
+DoubleMath can help detect changes in floating point numbers when debugging a sensitive
+numerical computational algorithm.
 
 See [IEEE 754 double-precision binary floating-point format:
 binary64](http://en.wikipedia.org/wiki/Double-precision_floating-point_format)

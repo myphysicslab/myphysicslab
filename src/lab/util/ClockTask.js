@@ -26,8 +26,10 @@ var NF = myphysicslab.lab.util.Util.NF;
 methods such as `setTime()`, `resume()`, `addTask()`. ClockTasks are cancelled as a
 side effect of Clock methods such as `pause()`, `removeTask()`.
 
-Here is an example of a ClockTask that resets the simulation every 5 seconds. This can
-be entered in Terminal of most simple-compiled apps, for example in
+Here is an example of a ClockTask that restarts the simulation every 5 seconds. This
+script can be entered in the
+[command-line Terminal](Customizing.html#terminalforscriptexecution) of most
+[simple-compiled](Building.html#advancedvs.simplecompile) apps, for example in
 [Single Spring App](https://www.myphysicslab.com/develop/build/sims/springs/SingleSpringApp-en.html)
 
     var redo = function() { sim.reset(); };

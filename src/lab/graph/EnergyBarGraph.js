@@ -403,12 +403,12 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   this.rightEdge_ = map.simToScreenX(this.rect_.getRight())
       - EnergyBarGraph.RIGHT_MARGIN;
   var maxWidth = this.rightEdge_ - this.leftEdge_;
-  var top_ = map.simToScreenY(this.rect_.getTop());
+  var top = map.simToScreenY(this.rect_.getTop());
   if (this.drawBackground_) {
     // draw a semi-transparent white rectangle, in case background is black
     context.fillStyle = 'rgba(255,255,255,0.75)'; // transparent white
     context.fillRect(this.leftEdge_- EnergyBarGraph.LEFT_MARGIN,
-        top_ + EnergyBarGraph.TOP_MARGIN,
+        top + EnergyBarGraph.TOP_MARGIN,
         maxWidth + EnergyBarGraph.LEFT_MARGIN + EnergyBarGraph.RIGHT_MARGIN,
         height2);
   }
@@ -416,12 +416,12 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   if (this.debug_ && Util.DEBUG) {
     context.strokeStyle = '#90c'; // purple
     context.strokeRect(this.leftEdge_- EnergyBarGraph.LEFT_MARGIN,
-        top_ + EnergyBarGraph.TOP_MARGIN,
+        top + EnergyBarGraph.TOP_MARGIN,
         maxWidth+EnergyBarGraph.LEFT_MARGIN+EnergyBarGraph.RIGHT_MARGIN,
         height2);
   }
   //g.setColor(Color.red);  // for debugging, draw outline in red
-  //g.drawRect(left, top_, width, height);
+  //g.drawRect(left, top, width, height);
   this.totalEnergy_ = te + pe + (isNaN(re) ? 0 : re);
   goog.asserts.assert(Math.abs(this.totalEnergy_ - e.getTotalEnergy()) < 1e-12);
   // find the minimum and maximum energy being graphed
@@ -441,19 +441,19 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   context.fillStyle = this.potentialColor;
   if (pe < 0) {
     w2 = Math.floor(0.5 - pe*this.graphFactor_);
-    context.fillRect(w-w2, top_ + EnergyBarGraph.TOP_MARGIN, w2,
+    context.fillRect(w-w2, top + EnergyBarGraph.TOP_MARGIN, w2,
         EnergyBarGraph.HEIGHT);
     w = w - w2;
   } else {
     w2 = Math.floor(0.5+pe*this.graphFactor_);
-    context.fillRect(w, top_ + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
+    context.fillRect(w, top + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
         EnergyBarGraph.HEIGHT);
     w += w2;
   }
   if (!isNaN(re)) {
     w2 = Math.floor(0.5 + re*this.graphFactor_);
     context.fillStyle = this.rotationColor;
-    context.fillRect(w, top_ + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
+    context.fillRect(w, top + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
         EnergyBarGraph.HEIGHT);
     w += w2;
   }
@@ -467,13 +467,13 @@ EnergyBarGraph.prototype.draw = function(context, map) {
   goog.asserts.assert(Math.abs(w + w2 - totalLoc) <= 2);
   w2 = totalLoc - w;
   context.fillStyle = this.translationColor;
-  context.fillRect(w, top_ + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
+  context.fillRect(w, top + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
       EnergyBarGraph.HEIGHT);
   // rightEnergy = energy at right-hand edge of the display
   var rightEnergy = (this.rightEdge_ - this.graphOrigin_)/this.graphFactor_;
   var y = this.drawScale(context,
         /*left=*/this.leftEdge_,
-        /*top_=*/top_ + EnergyBarGraph.HEIGHT + EnergyBarGraph.TOP_MARGIN,
+        /*top=*/top + EnergyBarGraph.HEIGHT + EnergyBarGraph.TOP_MARGIN,
         /*total=*/rightEnergy);
   // draw legend:  boxes and text
   var x = this.leftEdge_;
@@ -518,12 +518,12 @@ EnergyBarGraph.prototype.drawLegend = function(context, s, c, filled, x, y) {
 /** Draws the numeric scale for the bar chart.
 @param {!CanvasRenderingContext2D} context the canvas's context to draw into
 @param {number} left
-@param {number} top_
+@param {number} top
 @param {number} total
 @return {number}
 @private
 */
-EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
+EnergyBarGraph.prototype.drawScale = function(context, left, top, total) {
   var graphAscent = this.fontAscent_;
   // don't draw anything when total is zero.
   if (Math.abs(total) > 1E-18 && this.graphDelta_ > 1E-18) {
@@ -535,12 +535,12 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
     do {
       var x = this.graphOrigin_ + Math.floor(scale*this.graphFactor_);
       context.beginPath();
-      context.moveTo(x, top_+EnergyBarGraph.HEIGHT/2);
-      context.lineTo(x, top_+EnergyBarGraph.HEIGHT+2);
+      context.moveTo(x, top+EnergyBarGraph.HEIGHT/2);
+      context.lineTo(x, top+EnergyBarGraph.HEIGHT+2);
       context.stroke();
       var s = EnergyBarGraph.numberFormat1(scale);
       var textWidth = context.measureText(s).width;
-      context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
+      context.fillText(s, x -textWidth/2, top+EnergyBarGraph.HEIGHT+graphAscent+3);
       scale += this.graphDelta_;
       if (this.debug_ && Util.DEBUG && ++loopCtr > 100) {
         console.log('loop 1 x='+x+' s='+s+' scale='+NFE(scale)
@@ -560,12 +560,12 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
       do {
         x = this.graphOrigin_ + Math.floor(scale*this.graphFactor_);
         context.beginPath();
-        context.moveTo(x, top_+EnergyBarGraph.HEIGHT/2);
-        context.lineTo(x, top_+EnergyBarGraph.HEIGHT+2);
+        context.moveTo(x, top+EnergyBarGraph.HEIGHT/2);
+        context.lineTo(x, top+EnergyBarGraph.HEIGHT+2);
         context.stroke();
         var s = EnergyBarGraph.numberFormat1(scale);
         var textWidth = context.measureText(s).width;
-        context.fillText(s, x -textWidth/2, top_+EnergyBarGraph.HEIGHT+graphAscent+3);
+        context.fillText(s, x -textWidth/2, top+EnergyBarGraph.HEIGHT+graphAscent+3);
         scale -= this.graphDelta_;
         if (this.debug_ && Util.DEBUG) {
           console.log('loop 2 x='+x+' s='+s+' scale='+NFE(scale)
@@ -574,7 +574,7 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top_, total) {
       } while (scale > this.megaMinEnergy_ && x >= left);
     }
   }
-  return top_+EnergyBarGraph.HEIGHT+graphAscent+3+this.fontDescent_;
+  return top+EnergyBarGraph.HEIGHT+graphAscent+3+this.fontDescent_;
 };
 
 /**
@@ -839,22 +839,22 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
 */
 EnergyBarGraph.prototype.resizeRect = function(height) {
   goog.asserts.assertObject(this.visibleRect_);
-  var top_ = this.rect_.isEmpty() ?
+  var top = this.rect_.isEmpty() ?
       this.visibleRect_.getTop() : this.rect_.getTop();
-  var bottom = top_ - height;
-  if (top_ > this.visibleRect_.getTop() || height > this.visibleRect_.getHeight()) {
-    top_ = this.visibleRect_.getTop();
-    bottom = top_ - height;
+  var bottom = top - height;
+  if (top > this.visibleRect_.getTop() || height > this.visibleRect_.getHeight()) {
+    top = this.visibleRect_.getTop();
+    bottom = top - height;
   } else if (bottom < this.visibleRect_.getBottom()) {
     bottom = this.visibleRect_.getBottom();
-    top_ = bottom + height;
+    top = bottom + height;
   }
   if (this.debug_ && Util.DEBUG) {
     console.log('resizeRect visibleRect='+this.visibleRect_
-      +' rect='+this.rect_+ ' top_='+top_+' bottom='+bottom);
+      +' rect='+this.rect_+ ' top='+top+' bottom='+bottom);
   }
   this.rect_ = new DoubleRect(this.visibleRect_.getLeft(), bottom,
-      this.visibleRect_.getRight(), top_);
+      this.visibleRect_.getRight(), top);
   if (this.debug_ && Util.DEBUG) {
     console.log('resizeRect new rect='+this.rect_);
   }

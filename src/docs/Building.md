@@ -967,9 +967,13 @@ See the documentation at the start of `prep_html.pl` for more information.
 
 ## Advanced vs. Simple Compile
 
+The simulations on the myPhysicsLab website are mostly advance-compiled, but there is
+available a
+[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
+
 Google [Closure Compiler][References] is used to compile the myPhysicsLab code.
-Closure Compiler has many options, but the most important is the
-[`compilation_level`](https://developers.google.com/closure/compiler/docs/compilation_levels)
+Closure Compiler has many options, but the most important is
+[compilation_level](https://developers.google.com/closure/compiler/docs/compilation_levels)
 which can be set to:
 
 1. **WHITESPACE_ONLY** removes comments and whitespace (this level is rarely used).

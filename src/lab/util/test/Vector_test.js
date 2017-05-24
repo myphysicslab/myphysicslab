@@ -42,7 +42,7 @@ var testVector = function() {
   var v6 = v4.normalize();
   assertRoughlyEquals(1.0, v6.length(), 1E-15);
   assertEquals(v6.getX(), v6.getY());
-  var v7 = Vector.copy(v6);
+  var v7 = Vector.clone(v6);
   assertTrue(v7.equals(v6));
   assertTrue(v6.equals(v7));
   assertThrows(function() { new Vector(NaN, NaN); });

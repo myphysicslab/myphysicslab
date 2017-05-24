@@ -25,15 +25,15 @@ var Util = myphysicslab.lab.util.Util;
 vertical coordinates increase downwards.
 
 @param {number} left the horizontal coordinate of the top-left corner
-@param {number} top_ the vertical coordinate of the top-left corner
+@param {number} top the vertical coordinate of the top-left corner
 @param {number} width the width of the rectangle
 @param {number} height the height of the rectangle
 @constructor
 @final
 @struct
 */
-myphysicslab.lab.view.ScreenRect = function(left, top_, width, height) {
-  if (!goog.isNumber(left) || !goog.isNumber(top_) || !goog.isNumber(width)
+myphysicslab.lab.view.ScreenRect = function(left, top, width, height) {
+  if (!goog.isNumber(left) || !goog.isNumber(top) || !goog.isNumber(width)
       || !goog.isNumber(height)) {
     throw new Error();
   }
@@ -49,7 +49,7 @@ myphysicslab.lab.view.ScreenRect = function(left, top_, width, height) {
   * @type {number}
   * @private
   */
-  this.top_ = top_;
+  this.top_ = top;
   /**
   * @type {number}
   * @private
@@ -66,10 +66,10 @@ var ScreenRect = myphysicslab.lab.view.ScreenRect;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   ScreenRect.prototype.toString = function() {
-    return 'ScreenRect{left: '+NF(this.left_)
+    return 'ScreenRect{left_: '+NF(this.left_)
         +', top_: '+NF(this.top_)
-        +', width: '+NF(this.width_)
-        +', height: '+NF(this.height_)
+        +', width_: '+NF(this.width_)
+        +', height_: '+NF(this.height_)
         +'}';
   };
 };

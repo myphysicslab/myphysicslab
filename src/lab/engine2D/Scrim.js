@@ -90,7 +90,7 @@ Scrim.prototype.alignTo = function(p_body, p_world, opt_angle) {
 
 /** @inheritDoc */
 Scrim.prototype.bodyToWorld = function(p_body) {
-  return Vector.copy(p_body);
+  return Vector.clone(p_body);
 };
 
 /** @inheritDoc */
@@ -313,12 +313,12 @@ Scrim.prototype.removeNonCollide = function(bodies) {
 
 /** @inheritDoc */
 Scrim.prototype.rotateBodyToWorld = function(v_body) {
-  return Vector.copy(v_body);
+  return Vector.clone(v_body);
 };
 
 /** @inheritDoc */
 Scrim.prototype.rotateWorldToBody = function(v_world) {
-  return Vector.copy(v_world);
+  return Vector.clone(v_world);
 };
 
 /** @inheritDoc */
@@ -417,7 +417,7 @@ Scrim.prototype.translationalEnergy = function() {
 
 /** @inheritDoc */
 Scrim.prototype.worldToBody = function(p_world) {
-  return Vector.copy(p_world);
+  return Vector.clone(p_world);
 };
 
 }); // goog.scope

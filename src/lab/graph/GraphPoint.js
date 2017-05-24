@@ -87,7 +87,7 @@ GraphPoint.prototype.getZ = function() {
 
 /** @inheritDoc */
 GraphPoint.prototype.immutable = function() {
-  return Vector.copy(this);
+  return Vector.clone(this);
 };
 
 }); // goog.scope

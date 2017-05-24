@@ -67,7 +67,7 @@ if (!Util.ADVANCED) {
 @return {!MutableVector} a new MutableVector with the same
     values as the input GenericVector
 */
-MutableVector.copy = function(v) {
+MutableVector.clone = function(v) {
   return new MutableVector(v.getX(), v.getY(), v.getZ());
 };
 
@@ -154,7 +154,7 @@ MutableVector.prototype.getZ = function() {
 
 /** @inheritDoc */
 MutableVector.prototype.immutable = function() {
-  return Vector.copy(this);
+  return Vector.clone(this);
 };
 
 /** Returns length of this MutableVector. Note this is computationally expensive as it

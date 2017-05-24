@@ -24,9 +24,8 @@ var NF = myphysicslab.lab.util.Util.NF;
 var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
-/**  A rectangle whose boundaries are stored with double floating
-point precision. This is an immutable class: once an instance is created it cannot be
-changed.
+/**  An immutable rectangle whose boundaries are stored with double floating
+point precision.
 
 Note that for DoubleRect we regard the vertical coordinate as **increasing upwards**, so
 the top coordinate is greater than the bottom coordinate. This is in contrast to HTML5
@@ -40,13 +39,13 @@ see [Immutables by Mark Davis](http://macchiato.com/columns/Durable2.html)
 @param {number} left left side of DoubleRect, must be less than right
 @param {number} bottom bottom of DoubleRect, must be less than top
 @param {number} right right side of DoubleRect
-@param {number} top_ top of DoubleRect
+@param {number} top top of DoubleRect
 @throws {Error} when left > right or bottom > top
 @constructor
 @final
 @struct
 */
-myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top_) {
+myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top) {
   /**
   * @type {number}
   * @private
@@ -66,12 +65,12 @@ myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top_) {
   * @type {number}
   * @private
   */
-  this.top_ = Util.testNumber(top_);
+  this.top_ = Util.testNumber(top);
   if (left > right) {
     throw new Error('DoubleRect: left > right '+left+' > '+right);
   }
-  if (bottom > top_) {
-    throw new Error('DoubleRect: bottom > top '+bottom+' > '+top_);
+  if (bottom > top) {
+    throw new Error('DoubleRect: bottom > top '+bottom+' > '+top);
   }
 };
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
@@ -98,8 +97,8 @@ DoubleRect.EMPTY_RECT = new DoubleRect(0, 0, 0, 0);
 @return {!DoubleRect} a copy of the given DoubleRect
 */
 DoubleRect.clone = function(rect) {
-  return new DoubleRect(rect.getLeft(), rect.getBottom(),
-    rect.getRight(), rect.getTop());
+  return new DoubleRect(rect.getLeft(), rect.getBottom(), rect.getRight(),
+      rect.getTop());
 };
 
 /** Returns true if the object is likely a DoubleRect. Only works under simple
@@ -131,8 +130,8 @@ DoubleRect.make = function(point1, point2) {
   var left = Math.min(point1.getX(), point2.getX());
   var right = Math.max(point1.getX(), point2.getX());
   var bottom = Math.min(point1.getY(), point2.getY());
-  var top_ = Math.max(point1.getY(), point2.getY());
-  return new DoubleRect(left, bottom, right, top_);
+  var top = Math.max(point1.getY(), point2.getY());
+  return new DoubleRect(left, bottom, right, top);
 };
 
 /** Returns a DoubleRect centered at the given point with given height and width.

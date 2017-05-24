@@ -178,11 +178,15 @@ Using JavaScript to customize a simulation allows access to the full set of clas
 methods of myPhysicsLab, as well as anything that can be done with JavaScript.
 
 JavaScript can only be used with
-[simple-compiled](Building.html#advancedvs.simplecompile) applications. The `help`
-command in Terminal tells whether the application has been simple-compiled or
-advance-compiled. When advanced-compile is used, the names of myPhysicsLab classes and
-methods are renamed to minimized names, so they cannot be called from a script that
-references the original names. See also the section
+[simple-compiled](Building.html#advancedvs.simplecompile) applications. The simulations
+on the myPhysicsLab website are mostly advance-compiled, but there is available a
+[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
+
+The `help` command in [Terminal][Terminal for Script Execution] tells whether the
+application has been simple-compiled or advance-compiled. When advanced-compile is
+used, the names of myPhysicsLab classes and methods are renamed to minimized names, so
+they cannot be called from a script that references the original names. See also the
+section
 [Advanced-compile is the Enemy of JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compileistheenemyofjavascript)
 in Terminal documentation.
 
@@ -338,6 +342,7 @@ different simulations:
 
 The Terminal class provides a **command line interface** that allows executing script
 commands, both EasyScript and JavaScript, and displays the results of those commands.
+See the above section [Customizing with JavaScript][] for more about using JavaScript.
 See the [Terminal documentation](myphysicslab.lab.util.Terminal.html) for more details.
 
 In most myPhysicsLab applications the Terminal input and output text areas can be made
