@@ -70,7 +70,7 @@ EasyScript allows setting any Parameter or Variable of an application.
 
 EasyScript is a very simple scripting language with just one command:
 assignment. Here is an example of an EasyScript that you can use in
-[PendulumApp](http://www.myphysicslab.com/pendulum/pendulum/pendulum-en.html)
+[PendulumApp](https://www.myphysicslab.com/pendulum/pendulum-en.html)
 
     ANGLE=-2.5; ANGLE_VELOCITY=-4; GRAVITY=5; DAMPING=0.1;
 
@@ -160,7 +160,7 @@ Here are some ways to use EasyScript:
     simulation. Here is an example:
 
         > url
-        http://www.myphysicslab.com/PendulumApp-en.html?DAMPING=0.1;GRAVITY=5;
+        https://www.myphysicslab.com/pendulum/pendulum-en.html?DAMPING=0.1;GRAVITY=5;
         RUNNING=true;ANGLE=-2.5;ANGLE_VELOCITY=-4;
 
 EasyScript can be mixed with JavaScript, see [Customizing with JavaScript][] below.

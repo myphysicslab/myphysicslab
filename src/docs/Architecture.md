@@ -436,7 +436,7 @@ Parameter but only a function or two.
 
 _Key Points:_
 
-+ This is an implementation of the Observer Design Pattern
++ This is an implementation of the Observer design pattern
 
 + A Parameter provides access to a value of a Subject, and meta-information such as
     the name of the Parameter.
@@ -450,8 +450,8 @@ _Key Points:_
     Observers.
 
 The interfaces Subject, Observer, Parameter, and SubjectEvent are widely used
-throughout myPhysicsLab. They comprise an implementation of the well-known
-[Observer Design Pattern](http://en.wikipedia.org/wiki/Observer_pattern). They are
+throughout myPhysicsLab. They comprise an implementation of the
+[Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern). They are
 defined in the `myphysicslab.lab.util` namespace.
 
 <img src='Overview_Subject_Observer_Classes.svg'>

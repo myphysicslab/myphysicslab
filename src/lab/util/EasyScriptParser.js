@@ -46,7 +46,7 @@ An application will set up EasyScriptParser to know about its dozen or so import
 Subjects. EasyScriptParser interrogates all the Subjects to find what settable
 Parameters they contain and their current values.
 
-See [Subject-Observer Pesign Pattern](Architecture.html#subjectobserverparameter) for
+See [Subject, Observer, Parameter](Architecture.html#subjectobserverparameter) for
 background information about Parameters and Subjects.
 
 
@@ -70,7 +70,7 @@ With both setter and getter syntax the value of the Parameter is available via
 
 + `SubjectName` is the language-independent name returned by
 {@link Subject#getName}. It is optional when `ParameterName` is unique among all
-Subjects. It is required when multiple Subjects have the same Parameter name.
+specified Subjects. It is required when multiple Subjects have the same Parameter name.
 
 + `ParameterName` is the language-independent name returned by
 {@link SubjectEvent#getName}. (Note that Parameter extends SubjectEvent).
@@ -92,19 +92,24 @@ EasyScript Embedded in URL
 To share a customized simulation with someone else, the {@link #scriptURL} method gives
 the URL of the current page along with a script that sets Parameters to their current
 values. The script follows a question mark in the URL, so it is called a 'query script'
-or 'query URL'. Here is an example:
+or 'query URL'. Here is an [example](https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;)
 
-    http://www.myphysicslab.com/PendulumApp_en.html?DRIVE_AMPLITUDE=0;
+    https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;
     DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;
 
-A user can then send this custom URL to someone else, and when that other user enters
-the URL into a browser, the scripts embedded in the URL will be executed if
-{@link Terminal#parseURL} is called at startup that app, assuming that EasyScriptParser
-has been installed via {@link Terminal#setParser}.
+A user can save this custom URL or send it to someone else. When the URL into a
+browser, the scripts embedded in the URL will be executed.
 
-The method {@link #script} returns just the script without the URL. This can be useful
-when creating a script to save with the {@link Terminal#remember} command, or to put in
-an HTML file, or paste into Terminal
+For the app to execute the query URL requires two things:
+
+1. EasyScriptParser is installed via {@link Terminal#setParser}
+
+2. {@link Terminal#parseURL} is called during app startup
+
+The {@link #script} method returns just the script without the URL. It can be executed
+in the Terminal command line interface. This can be useful when creating a script to
+save with the {@link Terminal#remember} command, or to put in a start-up HTML file, or
+paste directly into Terminal.
 
 
 Volatile Subjects

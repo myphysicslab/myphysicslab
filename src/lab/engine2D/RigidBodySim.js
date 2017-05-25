@@ -98,9 +98,9 @@ More information:
 + [2D Physics Engine Overview](Engine2D.html)
 
 + The math and physics underlying
-    [RigidBodySim](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body-en.html),
-    [ImpulseSim](http://www.myphysicslab.com/engine2D/collision/collision-en.html) and
-    [ContactSim](http://www.myphysicslab.com/engine2D/contact/contact-en.html) are
+    [RigidBodySim](http://www.myphysicslab.com/engine2D/rigid-body-en.html),
+    [ImpulseSim](http://www.myphysicslab.com/engine2D/collision-en.html) and
+    [ContactSim](http://www.myphysicslab.com/engine2D/contact-en.html) are
     described on the myPhysicsLab website.
 
 

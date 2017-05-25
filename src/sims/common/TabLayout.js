@@ -604,7 +604,6 @@ TabLayout.prototype.redoLayout = function() {
   // WARNING-NOTE: viewport size can change if scrollbars appear or disappear
   // due to layout changes.
   var view_sz = goog.dom.getViewportSize();
-  //console.log('view_sz '+view_sz.width+' x '+view_sz.height);
   goog.style.setFloat(this.div_sim, 'left');
   goog.style.setFloat(this.div_graph, 'left');
   goog.style.setFloat(this.div_time_graph, 'left');

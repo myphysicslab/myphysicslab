@@ -64,10 +64,10 @@ information.
 
 + [2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine-en.html)
     introduction to the Physics Engine
-+ [differential equations](http://www.myphysicslab.com/engine2D/rigid-body/rigid-body-en.html#differential_equations)
++ [differential equations](http://www.myphysicslab.com/engine2D/rigid-body-en.html#differential_equations)
     for movement of RigidBody objects with various forces acting
-+ [physics of collisions for rigid bodies](http://www.myphysicslab.com/engine2D/collision/collision-en.html#collision_physics).
-+ [contact force calculation](http://www.myphysicslab.com/engine2D/contact/contact-en.html)
++ [physics of collisions for rigid bodies](http://www.myphysicslab.com/engine2D/collision-en.html#collision_physics).
++ [contact force calculation](http://www.myphysicslab.com/engine2D/contact-en.html)
 + [ContactSim Math](ContactSim_Math.html) has details about the math involved in
     the physics engine.
 + [ContactSim documentation](myphysicslab.lab.engine2D.ContactSim.html) has
@@ -708,9 +708,10 @@ Summary:
 ## Multiple Simultaneous Collisions
 
 There isn't a guaranteed theoretically correct way to handle multiple simultaneous
-collisions. See the web page at
-<http://www.myphysicslab.com/beta/Collision-methods.html> for a discussion.
-The `engine2D` code makes several collision handling methods available.
+collisions. See the myPhysicsLab page about
+[collision methods](http://www.myphysicslab.com/engine2D/collision-methods-en.html)
+for a discussion. The `engine2D` code makes several collision handling methods
+available.
 
 The desired method is specified via
 [`ImpulseSim.setCollisionHandling`](myphysicslab.lab.engine2D.ImpulseSim.html#setCollisionHandling)
@@ -843,7 +844,7 @@ There are two types of Rope:
 
 This section describes how to stop "jitter" -- continuous small shaking, bouncing
 movements -- of objects that should be at rest. You can see the problem in
-[ContactApp](https://www.myphysicslab.com/engine2D/contact/contact-en.html?NUMBER_OF_OBJECTS=2;RANDOM_SEED=1313594222;EXTRA_ACCEL=none;FIRING=true;TIME=72.89999999999945;BLOCK1_X_POSITION=-2.9632326540461316;BLOCK1_X_VELOCITY=0.06638147623841413;BLOCK1_Y_POSITION=-3.020906561945242;BLOCK1_Y_VELOCITY=-0.030942379968168232;BLOCK1_ANGLE=-2.44559703984784;BLOCK1_ANGULAR_VELOCITY=0.00822402851883133;BLOCK2_X_POSITION=0.06829588959131906;BLOCK2_X_VELOCITY=0.07742031767527323;BLOCK2_Y_POSITION=-2.0913303270761627;BLOCK2_Y_VELOCITY=-0.07988926009663815;BLOCK2_ANGLE=-6.286252358424133;BLOCK2_ANGULAR_VELOCITY=-0.0314376041333151;) when we execute this
+[ContactApp](https://www.myphysicslab.com/engine2D/contact-en.html?NUMBER_OF_OBJECTS=2;RANDOM_SEED=1313594222;EXTRA_ACCEL=none;FIRING=true;TIME=72.89999999999945;BLOCK1_X_POSITION=-2.9632326540461316;BLOCK1_X_VELOCITY=0.06638147623841413;BLOCK1_Y_POSITION=-3.020906561945242;BLOCK1_Y_VELOCITY=-0.030942379968168232;BLOCK1_ANGLE=-2.44559703984784;BLOCK1_ANGULAR_VELOCITY=0.00822402851883133;BLOCK2_X_POSITION=0.06829588959131906;BLOCK2_X_VELOCITY=0.07742031767527323;BLOCK2_Y_POSITION=-2.0913303270761627;BLOCK2_Y_VELOCITY=-0.07988926009663815;BLOCK2_ANGLE=-6.286252358424133;BLOCK2_ANGULAR_VELOCITY=-0.0314376041333151;) when we execute this
 script in [Terminal](Customizing.html#terminal:forscriptexecution):
 
     EXTRA_ACCEL=none
