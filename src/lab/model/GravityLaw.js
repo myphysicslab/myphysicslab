@@ -109,7 +109,8 @@ myphysicslab.lab.model.GravityLaw = function(gravity, opt_simList) {
   this.addParameter(new ParameterNumber(this, GravityLaw.en.ZERO_ENERGY,
       GravityLaw.i18n.ZERO_ENERGY,
       goog.bind(this.getZeroEnergyLevel, this),
-      goog.bind(this.setZeroEnergyLevel, this)));
+      goog.bind(this.setZeroEnergyLevel, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 goog.inherits(GravityLaw, AbstractSubject);
