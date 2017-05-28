@@ -57,9 +57,9 @@ are named according to the constants {@link #WALL_BOTTOM}, {@link #WALL_TOP},
 @param {!RigidBodySim} sim the RigidBodySim to which the walls are added
 @param {number} width the horizontal distance between the walls
 @param {number} height the vertical distance between the walls
-@param {number=} opt_thickness  the thickness of each wall
+@param {number=} opt_thickness  the thickness of each wall; default is 1.
 @param {!Vector=} opt_center location of the center of the rectangle formed by the
-    walls, in world coordinates
+    walls, in world coordinates; default is origin.
 @return {number} suggested zero potential energy level -- the top of the bottom wall.
 */
 Walls.make = function(sim, width, height, opt_thickness, opt_center) {

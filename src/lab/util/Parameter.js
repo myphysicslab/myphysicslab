@@ -25,21 +25,15 @@ meta-data such as name, a set of possible values, or whether it is editable. Par
 the [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern) which
 ensures that change notification operates correctly even when any of several objects
 can potentially change the value.
-
-See {@link myphysicslab.lab.util.Subject} for more documentation about how Subject,
-Observer and Parameter work together.
-
-A Parameter of a Simulation is a value that usually doesn't change during the running
-of the Simulation. For example, gravity would not change while running the Simulation;
-however an outside entity like the user can change the gravity as the Simulation is
-running.
+See [Subject, Observer, Parameter](Architecture.html#subjectobserverparameter) for
+an overview.
 
 A Parameter makes its value easily accessible to a user interface control like
 {@link myphysicslab.lab.controls.NumericControl NumericControl},
 {@link myphysicslab.lab.controls.ChoiceControl ChoiceControl}, or
 {@link myphysicslab.lab.controls.CheckBoxControl CheckBoxControl}. Using a Parameter
-ensures that those controls display the correct value because the Parameter is broadcast
-to all Observers of the Subject whenever the value changes.
+ensures that those controls display the correct value because the Parameter is
+broadcast to all Observers of the Subject whenever the value changes.
 
 Parameter helps to minimize how much knowledge classes have about each other. For
 example, a NumericControl can be set up to display and modify the ParameterNumber of
@@ -125,8 +119,13 @@ form.
 */
 Parameter.prototype.getValues;
 
-/** Returns whether the value is being automatically computed.
-@return {boolean} whether the value is being automatically computed
+/** Returns whether the value is being automatically computed; setting the value of
+* this Parameter has no effect.
+*
+* Examples of automatically computed Parameters: the variables that give the
+* current energy of a simulation. Another example is when the size of a graph's
+* SimView is under control of an {@link myphysicslab.lab.graph.AutoScale AutoScale}.
+* @return {boolean} whether the value is being automatically computed
 */
 Parameter.prototype.isComputed;
 

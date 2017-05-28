@@ -33,7 +33,7 @@ See {@link myphysicslab.lab.util.Subject} for more extensive documentation.
 myphysicslab.lab.util.SubjectEvent = function() {};
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 
-/** Name of this object, either the language-independent name for scripting
+/** Name of this SubjectEvent, either the language-independent name for scripting
 purposes or the localized name for display to user.
 
 The language-independent name should be the same as the English version but
