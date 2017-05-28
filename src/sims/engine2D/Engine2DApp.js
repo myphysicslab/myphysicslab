@@ -332,7 +332,7 @@ Engine2DApp.prototype.getSubjects = function() {
 */
 Engine2DApp.prototype.makeEasyScript = function(opt_volatile) {
   var subjects = this.getSubjects();
-  var volatile = [ this.sim.getVarsList(), this.simView ];
+  var volatile = [ this.sim.getVarsList() ];
   if (goog.isArray(opt_volatile)) {
     volatile = goog.array.concat(opt_volatile, volatile);
   }

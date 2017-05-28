@@ -285,7 +285,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   // easyScript.update() is called.  easyScript.update() is called when a new
   // configuration is set up. This helps make the resulting easyScript.script()
   // be a much smaller script.
-  var volatile = [ this.sim.getVarsList(), this.simView ];
+  var volatile = [ this.sim.getVarsList() ];
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
   this.terminal.setParser(this.easyScript);
