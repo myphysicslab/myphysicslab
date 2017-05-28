@@ -45,14 +45,15 @@ myphysicslab.sims.engine2D.ChainConfig = function() {
 var ChainConfig = myphysicslab.sims.engine2D.ChainConfig;
 
 
-/**
-* @typedef {{wallPivotX: number,
+/** @typedef {{
+    wallPivotX: number,
     wallPivotY: number,
     fixedLeft: boolean,
     fixedRight: boolean,
     blockWidth: number,
     blockHeight: number,
-    numLinks: number}}
+    numLinks: number
+  }}
 */
 ChainConfig.options;
 
@@ -127,7 +128,8 @@ ChainConfig.makeChain = function(sim, options) {
   FIXED_LEFT_Y: string,
   BLOCK_LENGTH: string,
   BLOCK_WIDTH: string,
-  CHAIN: string
+  CHAIN: string,
+  WALL_WIDTH: string,
   }}
 */
 ChainConfig.i18n_strings;
@@ -145,7 +147,8 @@ ChainConfig.en = {
   FIXED_LEFT_Y: 'fixed point left Y',
   BLOCK_LENGTH: 'block length',
   BLOCK_WIDTH: 'block width',
-  CHAIN: 'chain'
+  CHAIN: 'chain',
+  WALL_WIDTH: 'wall width'
 };
 
 /**
@@ -162,7 +165,8 @@ ChainConfig.de_strings = {
   FIXED_LEFT_Y: 'Fixpunkt links Y',
   BLOCK_LENGTH: 'Blockl\u00e4nge',
   BLOCK_WIDTH: 'Blockbreite',
-  CHAIN: 'Kette'
+  CHAIN: 'Kette',
+  WALL_WIDTH: 'Wand breite'
 };
 
 /** Set of internationalized strings.

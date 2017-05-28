@@ -130,6 +130,8 @@ sims.engine2D.ChainApp = function(elem_ids) {
   this.extraBody = true;
   /** @type {boolean} */
   this.walls = true;
+  /** @type {number} */
+  this.wallWidth = this.simView.getSimRect().getWidth();
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
@@ -146,6 +148,11 @@ sims.engine2D.ChainApp = function(elem_ids) {
       ChainConfig.i18n.WALLS,
       goog.bind(this.getWalls, this), goog.bind(this.setWalls, this)));
   this.addControl(new CheckBoxControl(pb));
+
+  this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.WALL_WIDTH,
+      ChainConfig.i18n.WALL_WIDTH,
+      goog.bind(this.getWallWidth, this), goog.bind(this.setWallWidth, this)));
+  this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.EXTRA_BODY,
       ChainConfig.i18n.EXTRA_BODY,
@@ -262,18 +269,20 @@ ChainApp.prototype.config = function() {
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
   var r = ChainConfig.makeChain(this.mySim, this.options);
-  if (this.walls) {
-    /* ensure walls are wide apart enough to contain chain */
-    r = r.scale(1.15);
-    var zel = Walls.make2(this.mySim, r.union(this.simView.getSimRect()));
-    this.gravityLaw.setZeroEnergyLevel(zel);
-  }
   if (this.extraBody) {
     var block = Shapes.makeBlock(1, 3, ChainConfig.en.EXTRA_BODY,
         ChainConfig.i18n.EXTRA_BODY);
     block.setPosition(new Vector(-4,  -4));
     this.mySim.addBody(block);
     this.displayList.findShape(block).setFillStyle('blue');
+    r = r.union(block.getBoundsWorld());
+  }
+  if (this.walls) {
+    /* ensure walls are wide apart enough to contain chain and extra body */
+    r = r.scale(1.1);
+    var wr = DoubleRect.makeCentered(Vector.ORIGIN, this.wallWidth, this.wallWidth);
+    var zel = Walls.make2(this.mySim, wr.union(r));
+    this.gravityLaw.setZeroEnergyLevel(zel);
   }
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);
@@ -313,6 +322,22 @@ ChainApp.prototype.setWalls = function(value) {
   this.walls = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.WALLS);
+};
+
+/**
+* @return {number}
+*/
+ChainApp.prototype.getWallWidth = function() {
+  return this.wallWidth;
+};
+
+/**
+* @param {number} value
+*/
+ChainApp.prototype.setWallWidth = function(value) {
+  this.wallWidth = value;
+  this.config();
+  this.broadcastParameter(ChainConfig.en.WALL_WIDTH);
 };
 
 /**
