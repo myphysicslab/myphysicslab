@@ -20,6 +20,7 @@ goog.require('goog.events');
 goog.require('goog.style');
 goog.require('myphysicslab.lab.controls.LabControl');
 goog.require('myphysicslab.lab.util.AbstractSubject');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
@@ -36,6 +37,7 @@ var AbstractSubject = lab.util.AbstractSubject;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 var NF = lab.util.Util.NF;
+var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var SubjectList = lab.util.SubjectList;
@@ -151,6 +153,7 @@ Parameters Created
 
 + ParameterString named `LAYOUT`, see {@link #setLayout}
 
++ ParameterBoolean named `SHOW_TERMINAL`, see {@link #showTerminal}
 
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elements to look for in the HTML document; these elements are where the user
@@ -371,6 +374,10 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
       TabLayout.i18n.LAYOUT, goog.bind(this.getLayout, this),
       goog.bind(this.setLayout, this),
       TabLayout.getValues(), TabLayout.getValues()));
+  this.addParameter(new ParameterBoolean(this, TabLayout.en.SHOW_TERMINAL,
+      TabLayout.i18n.SHOW_TERMINAL,
+      goog.bind(function() { return this.show_term_cb.checked; }, this),
+      goog.bind(this.showTerminal, this)));
 };
 var TabLayout = myphysicslab.sims.common.TabLayout;
 goog.inherits(TabLayout, AbstractSubject);
@@ -901,7 +908,8 @@ TabLayout.prototype.showTerminal = function(visible) {
   SIM_WIDTH: string,
   GRAPH_WIDTH: string,
   TIME_GRAPH_WIDTH: string,
-  LAYOUT: string
+  LAYOUT: string,
+  SHOW_TERMINAL: string
   }}
 */
 TabLayout.i18n_strings;
@@ -913,7 +921,8 @@ TabLayout.en = {
   SIM_WIDTH: 'sim-width',
   GRAPH_WIDTH: 'graph-width',
   TIME_GRAPH_WIDTH: 'time-graph-width',
-  LAYOUT: 'layout'
+  LAYOUT: 'layout',
+  SHOW_TERMINAL: 'show terminal'
 };
 
 /**
@@ -924,7 +933,8 @@ TabLayout.de_strings = {
   SIM_WIDTH: 'Sim Breite',
   GRAPH_WIDTH: 'Graf Breite',
   TIME_GRAPH_WIDTH: 'Zeit Graf Breite',
-  LAYOUT: 'layout'
+  LAYOUT: 'layout',
+  SHOW_TERMINAL: 'zeige Terminal'
 };
 
 /** Set of internationalized strings.
