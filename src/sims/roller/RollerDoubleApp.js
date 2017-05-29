@@ -161,7 +161,7 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
   this.timeGraph.line1.setYVariable(0);
   this.timeGraph.line2.setYVariable(2);
 
-  this.makeEasyScript();
+  this.makeEasyScript([this.simView]);
   this.addURLScriptButton();
   this.pathSelect.addObserver(this);
 };

@@ -305,9 +305,6 @@ Engine2DApp.prototype.watchEnergyChange = function(parameter) {
 
 /** @inheritDoc */
 Engine2DApp.prototype.getSubjects = function() {
-  // Important that sim.getVarsList() come after app (=this) and sim, because they
-  // might have parameters that change the configuration which changes the set of
-  // variables.
   var subjects = [
     this,
     this.sim,
@@ -323,20 +320,18 @@ Engine2DApp.prototype.getSubjects = function() {
       this.graph.getSubjects(), this.timeGraph.getSubjects());
 };
 
-/** Creates the EasyScriptParser for this app.
-*
-* If any volatile Subjects are specified, then when a new configuration is set up
-* `EasyScriptParser.update()` will re-memorize those volatile Subjects.
-* This helps the resulting `EasyScriptParser.script()` be much smaller.
-* @param {!Array<!Subject>=} opt_volatile additional volatile Subjects
+/** Creates the EasyScriptParser for this app. See explanation of
+[dependent Subjects](myphysicslab.lab.util.EasyScriptParser.html#dependentsubjects)
+in EasyScriptParser documentation.
+* @param {!Array<!Subject>=} opt_dependent additional dependent Subjects
 */
-Engine2DApp.prototype.makeEasyScript = function(opt_volatile) {
-  var subjects = this.getSubjects();
-  var volatile = [ this.sim.getVarsList() ];
-  if (goog.isArray(opt_volatile)) {
-    volatile = goog.array.concat(opt_volatile, volatile);
+Engine2DApp.prototype.makeEasyScript = function(opt_dependent) {
+  var dependent = [ this.varsList ];
+  if (goog.isArray(opt_dependent)) {
+    dependent = goog.array.concat(dependent, opt_dependent);
   }
-  this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
+  this.easyScript = CommonControls.makeEasyScript(this.getSubjects(), dependent,
+      this.simRun);
   this.terminal.setParser(this.easyScript);
 };
 

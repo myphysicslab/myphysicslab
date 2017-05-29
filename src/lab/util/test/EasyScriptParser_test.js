@@ -188,9 +188,6 @@ var testEasyScript1 = function() {
   // Subjects with duplicate names should cause an exception.
   assertThrows(function() { new EasyScriptParser([va, simView1, simView2, va]) });
 
-  // volatile Subject not included in list of Subjects
-  assertThrows(function() { new EasyScriptParser([va, simView1], [simView2]) });
-
   // Test the EasyScriptParser.addCommand() function
   easyScript.addCommand('how_are_you', function() { return 'OK'; }, 'tells how you are');
   assertEquals('OK', easyScript.parse('how_are_you'));

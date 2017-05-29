@@ -36,26 +36,31 @@ for a specified set of {@link Subject}s. Also executes some single word commands
 as `help`. Can generate a script to recreate the current state of an application/
 simulation.
 
+
 Execute EasyScript Commands
 ---------------------------
 EasyScriptParser (ESP) is given a list of Subjects in its constructor. ESP interrogates
 all the Subjects and remembers their settable Parameters and initial values.
 
 ESP is typically used with {@link Terminal}. ESP is installed via
-{@link Terminal#setParser}. When a script is executed in Terminal, the script is first
+{@link Terminal#setParser}. Note that {@link #saveStart} must be called before
+using ESP; in Terminal this is done as part of {@link #parseURL}.
+
+When a script is executed in Terminal, the script is first
 offered to ESP by calling {@link #parse}.
 
-+ If ESP recognizes the Subject and Parameter name in the script then ESP will get or
-set the Parameter value.
++ If ESP recognizes the Subject and Parameter name in the script then `parse`
+    will get or set the Parameter value and return the value.
 
-+ If ESP doesn't recognize the Subject and Parameter name there is no error, instead
-`parse()` returns `undefined` and Terminal will try to execute the script as JavaScript
-instead.
++ If ESP doesn't recognize the Subject and Parameter name there is no error,
+    instead `parse` returns `undefined` and Terminal will try to execute
+    the script as JavaScript instead.
 
 
 EasyScript Syntax
 -----------------
-Here is an example EasyScript that can be used in [Newtons Cradle](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html)
+Here is an example EasyScript that can be entered in the Terminal interface of
+[Newtons Cradle](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html)
 
     DAMPING=0.1;GRAVITY=16;PENDULUMS=4;PENDULUM_LENGTH=4;
 
@@ -91,72 +96,89 @@ The English language version of Parameter or Subject names can also be given, th
 converted to the language-independent form using {@link Util#toName}. Leading
 and trailing spaces are trimmed from names and (unquoted) values.
 
+
 Single Word Commands
 --------------------
 A small set of single word commands are recognized by EasyScriptParser.
 Use {@link #addCommand} to add more single word commands. The built-in commands are:
 
 + `help` lists the available single word commands and other help information
-+ `names` shows available parameter names
++ `names` shows available Parameter names
 + `script` prints a script to recreate current state of application/ simulation
 + `url` prints URL of current web page along with script to recreate current state
-+ `values` shows available parameter names and their current values
++ `values` shows available Parameter names and their current values
 
-Generate a script that recreates the simulation
+
+Generate a Script that Recreates the Simulation
 -----------------------------------------------
-{@link #script} makes a script to set all Parameters to the current simulation state.
+The {@link #script} method makes a script that sets all Parameters to match the current
+simulation state.
+
 To keep the generated script as small as possible, EasyScriptParser remembers the
-initial value of all Parameters at startup. The `script` method only creates commands
+initial value of all Parameters at startup (the {@link #saveStart} method can be used
+to update the initial values after startup). The `script` method only creates commands
 to set Parameters whose value has changed.
 {@link myphysicslab.lab.util.Parameter#isComputed Computed Parameters} are ignored
 because setting them has no effect (their value is always computed from other values).
 
-The {@link #script} method returns just the script without the URL of the current web
-page (see section below [EasyScript Embedded in URL](#easyscriptembeddedinurl)). The script can be executed in the Terminal
-command line interface. This can be useful when creating a script to paste directly
-into Terminal, to put in a
+The `script` method returns just the script without the URL of the current web page
+(see [EasyScript Embedded in URL](#easyscriptembeddedinurl) if you want the URL as
+well). The script can be pasted into the
+[Terminal command line interface](Customizing.html#terminalforscriptexecution),
+or put in a
 [start-up HTML page](Customizing.html#customizingthestart-uphtmlpage),
-or save with the {@link Terminal#remember} command,
+or saved with the {@link Terminal#remember} command.
 
-Volatile Subjects
------------------
-A volatile Subject can at any time change its set of Parameters and/or their initial
-values. For volatile Subjects, EasyScriptParser updates its remembered set of
-Parameters and their initial values when {@link #update} is called.
-
-While any Subject can be a volatile Subject, in practice the only volatile Subjects are
-instances of {@link myphysicslab.lab.model.VarsList VarList} with its associated set of
-{@link myphysicslab.lab.model.Variable Variables}.
-
-Many applications have multiple "configurations" that the user can choose between. A
-configuration specifies what objects are created and their initial positions. For
-example, in
-[Newtons Cradle](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html)
-you can choose the number of pendulums, which changes the set of variables and their
-initial positions. The configuration is itself controlled by a Parameter, for example
-{@link myphysicslab.sims.engine2D.NewtonsCradleApp NewtonsCradleApp.en.NUM_BODIES}
-is the name of the Parameter controlling the number of pendulums.
-
-Because the VarsList is specified as a volatile Subject we are able to generate a very
-short script like `PENDULUMS=4;` that only shows the configuration Parameter changing
-instead of showing every variable that changes.
+See [Customizing myPhysicsLab Simulations](Customizing.html) for more about how to use
+scripts in myPhysicsLab.
 
 
 Parameter Independence
 ----------------------
-To work well with EasyScriptParser (ESP), an application or simulation should strive to
+To work well with EasyScriptParser, an application or simulation should strive to
 have all Parameters be independent of each other.
 
-Otherwise, if Parameter A modifies the setting of Parameter B, then the result of
-running the script generated by ESP will depend on the order of the statements: setting
-Parameter B only has an effect if it is done after setting Parameter A.
-
-(There is limited control over the order of statements generated by {@link #script}.
-You can change the order of Subjects passed to ESP constructor. But within the Subject,
-the Parameter order is that returned by {@link Subject#getParameters}).
+Suppose Parameter A modifies the value of Parameter B. Then the result of
+running the script generated by EasyScriptParser will depend on the order of the
+statements: setting Parameter B only has an effect if it is done *after* setting
+Parameter A.
 
 Note that "configuration" Parameters violate this concept of Parameter Independence,
-which is why we specify the affected Subjects to be "volatile".
+which is why we specify the affected Subjects to be "dependent".
+
+
+<a name="dependentsubjects"></a>
+Dependent Subjects
+-----------------
+A dependent Subject can be changed by a controlling "configuration" Parameter. The
+configuration Parameter determines the size, shape, initial positions and number of
+objects in the simulation. In essence, the configuration Parameter implies a new set of
+initial values for the dependent Subjects.
+
+Many applications have multiple "configurations" that the user can choose between. For
+example, in
+[Newtons Cradle](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html)
+the number of pendulums is controlled by a Parameter called `PENDULUMS` which is
+connected to the
+{@link myphysicslab.sims.engine2D.NewtonsCradleApp#setNumBodies
+NewtonsCradleApp.setNumBodies} method.
+
+The dependent Subject is typically the
+{@link myphysicslab.lab.model.VarsList VarsList} that holds
+the Variables corresponding to the positions of the objects. If the configuration
+Parameter also sets the viewing rectangle, then the
+{@link myphysicslab.lab.view.SimView SimView} might also a dependent Subject (an
+example is {@link myphysicslab.sims.roller.RollerSingleApp RollerSingleApp} where
+selecting a path changes the viewing rectangle).
+
+When the configuration changes, the application must call {@link #update} to update
+the remembered initial values of the dependent Subjects. Having this new set of initial
+values makes it possible for the {@link #script} method to generate a
+very short script like `PENDULUMS=4;` instead of setting all the Variables.
+
+The {@link #script} method ensures that dependent Subjects are modified at the end of
+the script, so that those changes are not overridden by a configuration Parameter.
+
 
 <a name="easyscriptembeddedinurl"></a>
 EasyScript Embedded in URL
@@ -167,32 +189,34 @@ that sets Parameters to their current values.
 
 The script follows a question mark in the URL, so it is called a 'query script' or
 'query URL'. Here is an
-[example](https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;)
+[example](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html?DAMPING=0.1;GRAVITY=16;PENDULUMS=4;PENDULUM_LENGTH=4;)
 
-    https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;
-    DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;
+    https://www.myphysicslab.com/engine2D/newtons-cradle-en.html?DAMPING=0.1;
+    GRAVITY=16;PENDULUMS=4;PENDULUM_LENGTH=4;
 
 A user can save or share this custom URL. When the URL is pasted into a
 browser, the scripts embedded in the URL will be executed.
 
-For the application to execute the query URL requires that {@link Terminal#parseURL} is
-called during application startup.
+The application should call {@link Terminal#parseURL} in order to execute the query URL
+during application startup.
 
-* @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from;
-    note that the order here is significant; the Parameters are processed according
-    to the order of the Subjects in this list.
-* @param {!Array<!Subject>=} volatile those Subject's whose initial conditions
-*    change depending on another configuration parameter. Generally this is the
-*    VarsList of a simulation. These must also be included in `subjects`.
+* @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from.
+* @param {!Array<!Subject>=} dependent those Subject's whose set of Parameters and
+*    initial values can change depending on a "configuration" Parameter. Typically
+*    this is the VarsList of a simulation.
 * @constructor
 * @final
 * @struct
 * @implements {myphysicslab.lab.util.Parser}
 */
-myphysicslab.lab.util.EasyScriptParser = function(subjects, volatile) {
+myphysicslab.lab.util.EasyScriptParser = function(subjects, dependent) {
   EasyScriptParser.checkUniqueNames(subjects);
-  /* The set of Parameters can change over time; this is especially true for
-  * volatile Subjects. To cope with a changing set of Parameters, we store only
+  /* The order of subjects can be significant when generating a script
+  * because the Parameters are processed in the order of the Subjects in this list.
+  * But if Parameters are independent then order should not matter.
+  *
+  * The set of Parameters can change over time; this is especially true for
+  * dependent Subjects. To cope with a changing set of Parameters, we store only
   * Parameter names, not references to Parameters objects. We store a parallel list
   * of Subjects, so we can get the Parameter object by asking the Subject for a
   * Parameter with that name. This allows for the Parameter to be a different
@@ -204,28 +228,31 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, volatile) {
   * @private
   */
   this.subjects_ = subjects;
-  /** The set of volatile Subjects to examine (usually VarsList).
+  /** The set of dependent Subjects to examine (usually a VarsList).
   * @type {!Array<!Subject>}
   * @private
   */
-  this.volatile_ = goog.isArray(volatile) ? volatile : [];
-  goog.array.forEach(this.volatile_, function(v) {
-    if (!goog.array.contains(subjects, v)) {
-      throw new Error('volatile Subject not included in list of Subjects '+v);
-    }
-  });
-  /** Names and initial values of non-volatile Parameters. Used for making the script
+  this.dependent_ = goog.isArray(dependent) ? dependent : [];
+  /* Ensure that dependent Subjects are at the end of the list of Subjects.
+  * Because when generating a script, we add commands in order of Subjects list
+  * and "configuration Parameters" can change the dependent Subjects.
+  */
+  goog.array.removeAllIf(this.subjects_, function(s) {
+      return goog.array.contains(this.dependent_, s);
+    }, this);
+  this.subjects_ = goog.array.concat(this.subjects_, this.dependent_);
+  /** Names and initial values of non-dependent Parameters. Used for making the script
   * shorter.
   * @type {!Array<string>}
   * @private
   */
-  this.initialNonVolatile_ = [];
-  /** Names and initial values of volatile Parameters. Used for making the script
+  this.initialNonDependent_ = [];
+  /** Names and initial values of dependent Parameters. Used for making the script
   * shorter.
   * @type {!Array<string>}
   * @private
   */
-  this.initialVolatile_ = [];
+  this.initialDependent_ = [];
   /** The complete set of SubjectName.ParameterName strings.
   * One string for each Parameter.
   * @type {!Array<string>}
@@ -402,8 +429,8 @@ See {@link EasyScriptParser} for the syntax of the script.
 Uses {@link Parameter#isComputed} to exclude Parameters
 that are being automatically computed, unless `includeComputed` is `true`.
 
-* @param {boolean} volatile `true` means return only Parameters belonging to the
-*    set of volatile Subjects; `false` means return only non-volatile Parameters.
+* @param {boolean} dependent `true` means return only Parameters belonging to the
+*    set of dependent Subjects; `false` means return only non-dependent Parameters.
 * @param {boolean=} includeComputed `true` means include Parameters that are
 *    automatically computed; default is `false` which means filter out Parameters
 *    that are automatically computed.
@@ -413,8 +440,8 @@ that are being automatically computed, unless `includeComputed` is `true`.
 * @return {string} a script which sets Parameters to their current values
 * @private
 */
-EasyScriptParser.prototype.namesAndValues = function(volatile, includeComputed, fullName) {
-  volatile = volatile == true;
+EasyScriptParser.prototype.namesAndValues = function(dependent, includeComputed, fullName) {
+  dependent = dependent == true;
   var allParams = goog.array.map(this.allSubjects_,
       function(s, idx) { return s.getParameter(this.allParamNames_[idx]); }, this);
   var params = allParams;
@@ -422,10 +449,10 @@ EasyScriptParser.prototype.namesAndValues = function(volatile, includeComputed, 
     // filter out Parameters that are automatically computed
     params = goog.array.filter(params, function(p) { return !p.isComputed(); });
   }
-  // Keep only Parameters of volatile or non-volatile Subjects as requested.
+  // Keep only Parameters of dependent or non-dependent Subjects as requested.
   params = goog.array.filter(params,
       function(p) {
-        return goog.array.contains(this.volatile_, p.getSubject()) == volatile;
+        return goog.array.contains(this.dependent_, p.getSubject()) == dependent;
       }, this);
   var re = /^[a-zA-Z0-9_]+$/;
   var s = goog.array.map(params,
@@ -481,8 +508,8 @@ EasyScriptParser.prototype.parse = function(script) {
 
 /** @inheritDoc */
 EasyScriptParser.prototype.saveStart = function() {
-  this.initialNonVolatile_ = this.namesAndValues(false).split(';');
-  this.initialVolatile_ = this.namesAndValues(true).split(';');
+  this.initialNonDependent_ = this.namesAndValues(false).split(';');
+  this.initialDependent_ = this.namesAndValues(true).split(';');
 };
 
 /** Returns a script which sets Parameters to their current values.
@@ -493,7 +520,7 @@ EasyScriptParser.prototype.saveStart = function() {
 *    {@link Parameter#isComputed}.
 *
 * + this ignores Parameters whose value is unchanged since {@link #saveStart}
-*    was called (or for a volatile Subject, since {@link #update} was called.
+*    was called (or for a dependent Subject, since {@link #update} was called).
 *
 * + when a Parameter name is unique, we don't include the Subject name.
 *
@@ -502,7 +529,8 @@ EasyScriptParser.prototype.saveStart = function() {
 EasyScriptParser.prototype.script = function() {
   var ar = this.namesAndValues(false).split(';');
   ar = goog.array.concat(ar, this.namesAndValues(true).split(';'));
-  var initSettings = goog.array.concat(this.initialNonVolatile_, this.initialVolatile_);
+  var initSettings = goog.array.concat(this.initialNonDependent_,
+      this.initialDependent_);
   // strip out any settings that are identical to initial settings
   goog.array.removeAllIf(ar, function(s) {
       return goog.array.contains(initSettings, s);
@@ -577,10 +605,10 @@ EasyScriptParser.unquote = function(text) {
 };
 
 /** Updates the set of Parameters associated with the Subjects, and remembers the
-* initial settings of any 'volatile' Subject's Parameters.
+* initial settings of any ["dependent" Subject's](#dependentsubjects) Parameters.
 *
 * This is different from {@link #saveStart} in two ways:
-* 1. this updates initial values only for volatile Subjects.
+* 1. this updates initial values only for dependent Subjects.
 * 2. this updates the remembered list of available Parameter names.
 *
 * @return {undefined}
@@ -610,7 +638,7 @@ EasyScriptParser.prototype.update =  function() {
           function(q) { return q == p; });
       }, this);
 
-  this.initialVolatile_ = this.namesAndValues(true).split(';');
+  this.initialDependent_ = this.namesAndValues(true).split(';');
 };
 
 /** Returns the set of Parameter names that can be set by this EasyScriptParser, and

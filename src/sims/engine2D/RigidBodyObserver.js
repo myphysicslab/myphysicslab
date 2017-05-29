@@ -212,7 +212,7 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
   /** Prototype DisplayConnector for showing PathEndPoint.
   * @type {!DisplayConnector}
   */
-  this.protoPathEndPoint = new DisplayConnector().setRadius(3).setColor('gray');
+  this.protoPathEndPoint = new DisplayConnector().setRadius(3).setColor('red');
   this.protoPathEndPoint.setZIndex(10);
 };
 var RigidBodyObserver = myphysicslab.sims.engine2D.RigidBodyObserver;

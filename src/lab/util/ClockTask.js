@@ -32,9 +32,9 @@ script can be entered in the
 [simple-compiled](Building.html#advancedvs.simplecompile) apps, for example in
 [Single Spring App](https://www.myphysicslab.com/develop/build/sims/springs/SingleSpringApp-en.html)
 
-    var redo = function() { sim.reset(); };
-    clock.addTask(new ClockTask(5, redo));
-    redo();
+    var task = function() { sim.reset(); };
+    clock.addTask(new ClockTask(5, task));
+    sim.reset();
 
 Example of a ClockTask that pauses the Clock after 5 seconds:
 
@@ -42,6 +42,11 @@ Example of a ClockTask that pauses the Clock after 5 seconds:
     clock.addTask(task);
     sim.reset();
 
+Example of a ClockTask that slows the time rate the Clock after 5 seconds:
+
+    var task = new ClockTask(5, function() { clock.setTimeRate(0.1); });
+    clock.addTask(task);
+    sim.reset();
 
 See Clock section {@linkplain myphysicslab.lab.util.Clock#typesoftime Types of Time}
 about *clock time* and *system time*.

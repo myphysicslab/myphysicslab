@@ -25,9 +25,9 @@ goog.scope(function() {
 myphysicslab.lab.util.Parser = function() {};
 var Parser = myphysicslab.lab.util.Parser;
 
-/** Adds a command to this Parser. A command is a single word, when Parser
-sees this command during {@link #parse} it will execute the given function. The
-function result is returned as the result of `parse`.
+/** Adds a single-word command to this Parser. When the Parser sees this command during
+{@link #parse} it will execute the given function. The function result is returned as
+the result of `parse`.
 * @param {string} commandName name of command
 * @param {function():string} commandFnc function to execute
 * @param {string} helpText description of the command for help text

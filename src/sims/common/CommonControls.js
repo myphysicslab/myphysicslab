@@ -325,14 +325,14 @@ controlling the SimRunner
 * @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from;
 *    note that the order here is significant; the Parameters are processed according
 *    to the order of the Subjects in this list.
-* @param {!Array<!Subject>} volatile those Subject's whose initial conditions
+* @param {!Array<!Subject>} dependent those Subject's whose initial conditions
 *    change depending on another configuration parameter. Generally this is the
 *    VarsList of a simulation. These must also be included in `subjects`.
 * @param {!SimRunner} simRun the SimRunner to use for 'reset' and 'step' commands
 * @return {!EasyScriptParser}
 */
-CommonControls.makeEasyScript = function(subjects, volatile, simRun) {
-  var easyScript = new EasyScriptParser(subjects, volatile);
+CommonControls.makeEasyScript = function(subjects, dependent, simRun) {
+  var easyScript = new EasyScriptParser(subjects, dependent);
   easyScript.addCommand('reset', function() {
       simRun.reset();
       return String(simRun.getClock().getTime());

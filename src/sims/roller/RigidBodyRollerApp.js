@@ -189,7 +189,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
 
   this.addStandardControls();
 
-  this.makeEasyScript();
+  this.makeEasyScript([this.simView]);
   this.addURLScriptButton();
   this.setPath(this.path);
   this.graphSetup();

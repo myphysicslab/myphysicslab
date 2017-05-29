@@ -37,6 +37,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
 goog.require('myphysicslab.lab.model.Spring');
+goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -110,6 +111,7 @@ var Terminal = lab.util.Terminal;
 var TimeGraph2 = sims.common.TimeGraph2;
 var ToggleControl = lab.controls.ToggleControl;
 var Util = lab.util.Util;
+var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
 /** SingleSpring2App displays the {@link SingleSpringSim} simulation.
@@ -154,6 +156,8 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   }, this), 'modifyObjects after parameter or variable change');
   /** @type {!SimList} */
   this.simList = this.sim.getSimList();
+  /** @type {!VarsList} */
+  this.varsList = this.sim.getVarsList();
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.sim);
   /** @type {!SimpleAdvance} */
@@ -254,9 +258,6 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
-  // Important that sim.getVarsList() come after app (=this) and sim, because they
-  // might have parameters that change the configuration which changes the set of
-  // variables.
   var subjects = [
     this,
     this.sim,
@@ -265,7 +266,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
     this.simRun.getClock(),
     this.simView,
     this.statusView,
-    this.sim.getVarsList(),
+    this.varsList,
     this.layout,
     this.layout.simCanvas,
     this.layout.graphCanvas,
@@ -281,13 +282,9 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
     this.timeGraph.autoScale1,
     this.timeGraph.autoScale2
   ];
-  // volatile Subjects have their initial settings re-memorized when
-  // easyScript.update() is called.  easyScript.update() is called when a new
-  // configuration is set up. This helps make the resulting easyScript.script()
-  // be a much smaller script.
-  var volatile = [ this.sim.getVarsList() ];
   /** @type {!EasyScriptParser} */
-  this.easyScript = CommonControls.makeEasyScript(subjects, volatile, this.simRun);
+  this.easyScript = CommonControls.makeEasyScript(subjects, [ this.varsList ],
+       this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
@@ -334,7 +331,7 @@ SingleSpring2App.prototype.getClassName = function() {
 SingleSpring2App.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
-      +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
+      +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun|varsList'
       +'|simView|statusView|timeGraph|easyScript|terminal|displayList',
       myName);
   this.terminal.addRegex('simCanvas',

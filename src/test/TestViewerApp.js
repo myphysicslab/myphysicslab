@@ -48,7 +48,6 @@ goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
 goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.SubjectList');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
@@ -122,7 +121,6 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
-var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
 var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
@@ -236,7 +234,6 @@ see {@link #prependControl}.
 * @final
 * @struct
 * @extends {AbstractSubject}
-* @implements {SubjectList}
 * @export
 */
 myphysicslab.test.TestViewerApp = function(elem_ids) {
@@ -458,15 +455,30 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.addControl(new ChoiceControl(ps));
 
   /** @type {!StandardGraph1} */
-  this.graph = new StandardGraph1(this.sim.getVarsList(), this.layout.graphCanvas,
+  this.graph = new StandardGraph1(this.varsList, this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun, 'inline');
 
   this.rbo.protoPolygon.setFillStyle('rgba(51,204,255,0.5)')
       .setNameColor('gray').setNameFont('12pt sans-serif')
       .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
+  var subjects = [
+    this,
+    this.sim,
+    this.diffEqSolver,
+    this.simRun,
+    this.clock,
+    this.simView,
+    this.statusView,
+    this.layout.simCanvas,
+    this.layout.graphCanvas,
+    this.elasticity,
+    this.graph.getSubjects()
+  ];
+
   /** @type {!EasyScriptParser} */
-  this.easyScript = this.makeEasyScript();
+  this.easyScript = CommonControls.makeEasyScript(subjects, [ this.varsList ],
+      this.simRun);
   this.terminal.setParser(this.easyScript);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
@@ -503,44 +515,6 @@ TestViewerApp.prototype.defineNames = function(myName) {
       myName+'.layout');
   this.terminal.addRegex('gravityLaw|dampingLaw|easyScript|elasticity',
        myName);
-};
-
-/** @inheritDoc */
-TestViewerApp.prototype.getSubjects = function() {
-  // Important that varsList come after app (=this) and sim, because they
-  // might have parameters that change the configuration which changes the set of
-  // variables.
-  var subjects = [
-    this,
-    this.sim,
-    this.diffEqSolver,
-    this.simRun,
-    this.clock,
-    this.simView,
-    this.statusView,
-    this.layout.simCanvas,
-    this.layout.graphCanvas,
-    this.elasticity,
-    this.varsList
-  ];
-  return goog.array.concat(subjects, this.graph.getSubjects());
-};
-
-/** Creates the EasyScriptParser for this app.
-*
-* If any volatile Subjects are specified, then when a new configuration is set up
-* `EasyScriptParser.update()` will re-memorize those volatile Subjects.
-* This helps the resulting `EasyScriptParser.script()` be much smaller.
-* @param {!Array<!Subject>=} opt_volatile additional volatile Subjects
-* @return {!EasyScriptParser}
-*/
-TestViewerApp.prototype.makeEasyScript = function(opt_volatile) {
-  var subjects = this.getSubjects();
-  var volatile = [ this.sim.getVarsList() ];
-  if (goog.isArray(opt_volatile)) {
-    volatile = goog.array.concat(opt_volatile, volatile);
-  }
-  return CommonControls.makeEasyScript(subjects, volatile, this.simRun);
 };
 
 /** Returns index of current group within group menu
