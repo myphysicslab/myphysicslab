@@ -182,6 +182,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance);
   this.simRun.addCanvas(simCanvas);
+  this.simRun.addErrorObserver(this.simCtrl);
   /** @type {!Clock} */
   this.clock = this.simRun.getClock();
 
