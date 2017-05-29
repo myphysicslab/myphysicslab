@@ -28,8 +28,8 @@ var Util = myphysicslab.lab.util.Util;
 has occurred in a Subject.
 
 @param {!Subject} subject the Subject where the event occurred
-@param {string} name the name of this event
-@param {*=} value an optional value associated with this event
+@param {string} name the name of the event
+@param {*=} value an optional value associated with the event
 @constructor
 @final
 @struct

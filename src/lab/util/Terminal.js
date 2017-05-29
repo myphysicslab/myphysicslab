@@ -178,33 +178,43 @@ executed when the page is loaded. This provides a convenient way to share a
 customized simulation with someone else.
 
 The script follows a question mark in the URL, so it is called a 'query script'
-or 'query URL'. Here is an example:
+or 'query URL'. Here is an
+[example](<https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;>):
 
-    http://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;
+    https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;
     DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;
 
 The URL Query Script is executed at startup by calling {@link #parseURL} or
 {@link #parseURLorRecall}.  Most myPhysicsLab applications do this.
 
-Because of [percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding)
+Because of [URL percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding)
 we must substitute in the URL:
 
   + `%20` for space
-  + `%22` for double-quote
+  + `%22` for `"`
+  + `%3C` for `<`
+  + `%3E` for `>`
 
 See this
 [character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
-to learn which other characters must be percent-encoded.
+to learn which other characters must be percent-encoded. It might be necessary to
+percent-encode these other symbols:
+
+  + `%28` for `(`
+  + `%29` for `)`
 
 Here is an example of a URL query script using JavaScript in a simple-compiled
 application:
 
-    http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?
+    https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?
     simRun.pause();simRun.reset();sim.setGravity(5.0);statusView.getDisplayList()
     .add(energyGraph);statusView.getDisplayList().add(displayClock);
     var%20va=sim.getVarsList();va.setValue(0,0.15545);va.setValue(1,-0.33548);
     va.setValue(2,-2.30681);va.setValue(3,2.68179);sim.saveInitialState();
-    simRun.resume();
+    simRun.resume();layout.showTerminal(true);
+
+[Try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?simRun.pause();simRun.reset();sim.setGravity(5.0);statusView.getDisplayList().add(energyGraph);statusView.getDisplayList().add(displayClock);var%20va=sim.getVarsList();va.setValue(0,0.15545);va.setValue(1,-0.33548);va.setValue(2,-2.30681);va.setValue(3,2.68179);sim.saveInitialState();simRun.resume();layout.showTerminal(true);>)
+which contains the above code; you should also see the code in the Terminal output area.
 
 
 Session History
@@ -213,29 +223,31 @@ A session history feature recalls previous input lines; these are accessed using
 up/down arrow keys. Command-K clears the output area.
 
 This feature is only for the convenience of the Terminal user, and has no relation to
-the command storage feature.
+the script storage feature.
 
 
 <a name="scriptstorage"></a>
 Script Storage
 --------------
 
-To allow storage in **HTML5 Local Storage** of commands and later re-use, there are
-methods {@link #remember}, {@link #recall}, and {@link #forget}. This allows users to
-customize a simulation by remembering a specific script.
+To allow storage of scripts in
+[HTML5 Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+use the methods {@link #remember}, {@link #recall}, and {@link #forget}. These allow
+a user to customize a simulation by remembering a specific script which is executed
+whenever the page loads on that user's machine.
 
-Most applications call {@parseURLorRecall} when starting, therefore whenever the page
-loads, the remembered script will be executed (unless there is a URL script which would
-take priority).
+On startup most applications call {@link #parseURLorRecall} which calls `recall` unless
+there is a URL script which would take priority.
 
 If no script is explicitly supplied to `remember()`, then the commands in the Terminal
 output window are saved, as returned by the method {@link #commands}. A user can edit
 the contents of the Terminal output window to change what is remembered. Commands are
 any line in the output text area that start with '> '.
 
-The {@link #remember} command saves a script specific for the current page and browser.
+The `remember()` method saves a script specific for the current page and browser.
 If you load the page under a different browser, or for a different locale (which is a
 different page), there will be a different stored script.
+See [Internationalization (i18n)](Building.html#internationalizationi18n).
 
 
 The z Object

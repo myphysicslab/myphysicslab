@@ -35,7 +35,10 @@ Here `simRun` is an instance of {@link myphysicslab.lab.app.SimRunner}.
     simRun.addMemo(memo);
 
 This code can be entered as Terminal commands in
-{@link myphysicslab.sims.pendulum.PendulumApp} if using simple-compiled version.
+[simple-compiled PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html).
+Try this [query script](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20angle%20=%20sim.getVarsList().getVariable('ANGLE');var%20memo%20=%20new%20GenericMemo(function(){println('angle:%20'+angle.getValue())});simRun.addMemo(memo);layout.showTerminal(true);>)
+which contains the above code.
+
 
 Example 2
 ---------
@@ -54,6 +57,10 @@ This sets the color of a spring depending on how much it is stretched.
     simRun.addMemo(memo);
 
 This script can be entered as Terminal commands in
+[simple-compiled CartPendulum2App](https://www.myphysicslab.com/develop/build/sims/engine2D/CartPendulum2App-en.html).
+Try this [query script](<https://www.myphysicslab.com/develop/build/sims/engine2D/CartPendulum2App-en.html?var%20spring=simList.get('spring1');var%20dispSpring=displayList.findSpring(spring);var%20memo=new%20GenericMemo(function(){var%20stretch=Math.max(Math.min(spring.getStretch(),1),-1);if(stretch%3C0){dispSpring.setColorCompressed(Util.colorString3(-stretch,0,0));}else{dispSpring.setColorExpanded(Util.colorString3(0,stretch,0));}});simRun.addMemo(memo);layout.showTerminal(true);>)
+which contains the above code.
+
 {@link myphysicslab.sims.engine2D.CartPendulum2App} if using simple-compiled version.
 
 

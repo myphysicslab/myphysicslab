@@ -18,6 +18,8 @@ goog.require('myphysicslab.lab.util.Printable');
 
 /** An object that is notified when an error occurs.
 
+See {@link myphysicslab.lab.app.SimRunner#addErrorObserver}.
+
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
 */
