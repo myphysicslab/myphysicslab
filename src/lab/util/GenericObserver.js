@@ -38,6 +38,15 @@ Here is an example of a GenericObserver that prints any event broadcast by a
       println('event='+evt);
     });
 
+Paste that code into the Terminal command line of any [simple-compiled application](https://www.myphysicslab.com/develop/build/index-en.html), or
+[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs=new%20GenericObserver(clock,function(evt){println('event='+evt);});layout.showTerminal(true);>)
+which contains the above code running in the simple-compiled pendulum simulation. Click
+the rewind, play, and step buttons to see events in the Terminal output area.
+
+Use the following to turn off the GenericObserver:
+
+    clock.removeObserver(obs);
+
 Example 2
 ---------
 This prints only when a particular Clock event occurs:
@@ -48,27 +57,36 @@ This prints only when a particular Clock event occurs:
         }
     });
 
+Paste that code into the Terminal command line of any [simple-compiled application](https://www.myphysicslab.com/develop/build/index-en.html), or
+[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs=new%20GenericObserver(clock,function(evt){if(evt.nameEquals(Clock.CLOCK_PAUSE)){println('event='+evt);}});layout.showTerminal(true);>)
+which contains the above code running in the simple-compiled pendulum simulation. Click
+the pause button to see events in the Terminal output area.
+
 Example 3
 ---------
-This sets color of a contact force line by gap distance: red = zero distance,
-green = max distance.
+This sets color of a contact force line according to gap distance: red = zero distance,
+green = max distance. This is useful to study the effects of using different settings
+for {@link myphysicslab.lab.engine2D.ExtraAccel}.
 
-    var obs = new GenericObserver(displayList, function(evt) {
+    new GenericObserver(displayList, function(evt) {
       if (evt.nameEquals(DisplayList.OBJECT_ADDED)) {
         var obj = evt.getValue();
         if (obj instanceof DisplayLine) {
           var f = obj.getSimObjects()[0];
           if (f.getName().match(/^CONTACT_FORCE1/)) {
             var pct = Math.max(0, Math.min(1, f.contactDistance/f.contactTolerance));
-            obj.color = Util.colorString3(1-pct, pct, 0);
+            obj.setColor(Util.colorString3(1-pct, pct, 0));
           }
         }
       }
     });
 
-The above script can be entered into Terminal for simple-compiled applications using
-{@link myphysicslab.lab.engine2D.ContactSim}. It is useful to study the effects of
-using different settings for {@link myphysicslab.lab.engine2D.ExtraAccel}.
+The above script can be entered into the Terminal command line of most
+[simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html)
+which use  {@link myphysicslab.lab.engine2D.ContactSim}, or
+[try this link](<https://www.myphysicslab.com/develop/build/sims/engine2D/ContactApp-en.html?NUMBER_OF_OBJECTS=1;EXTRA_ACCEL=none;ELASTICITY=0.6;SIM_CANVAS.ALPHA=1;SIM_CANVAS.BACKGROUND="";new%20GenericObserver(displayList,function(evt){if(evt.nameEquals(DisplayList.OBJECT_ADDED)){var%20obj=evt.getValue();if(obj%20instanceof%20DisplayLine){var%20f=obj.getSimObjects()[0];if(f.getName().match(/^CONTACT_FORCE1/)){var%20pct=Math.max(0,Math.min(1,f.contactDistance/f.contactTolerance));obj.setColor(Util.colorString3(1-pct,pct,0));}}}});>)
+which contains the above code running in simple-compiled ContactApp. That link also
+sets `EXTRA_ACCEL=none` so you will see the gap distance color vary periodically.
 
 
 @param {!Subject} subject  the Subject to observe
