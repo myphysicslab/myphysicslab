@@ -87,7 +87,7 @@ myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
   * @type {!Vector}
   * @private
   */
-  this.attach1_ = attach1_body.immutable();
+  this.attach1_ = Vector.clone(attach1_body);
   /** body to attach point2 to
   * @type {!MassObject}
   * @private
@@ -97,7 +97,7 @@ myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
   * @type {!Vector}
   * @private
   */
-  this.attach2_ = attach2_body.immutable();
+  this.attach2_ = Vector.clone(attach2_body);
   /**
   * @type {number}
   * @private

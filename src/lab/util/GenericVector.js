@@ -35,10 +35,3 @@ myphysicslab.lab.util.GenericVector.prototype.getY;
 * @return {number} the Z value of the GenericVector
 */
 myphysicslab.lab.util.GenericVector.prototype.getZ;
-
-/** Returns an immutable copy of this vector.  Might return itself if this is an
-* immutable vector, otherwise makes a new immutable vector.
-* @return {!myphysicslab.lab.util.Vector} an immutable copy of this vector
-*/
-myphysicslab.lab.util.GenericVector.prototype.immutable;
-

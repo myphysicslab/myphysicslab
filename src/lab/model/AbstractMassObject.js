@@ -294,7 +294,7 @@ AbstractMassObject.prototype.getWidth = function() {
 /** @inheritDoc */
 AbstractMassObject.prototype.getVelocity = function(p_body) {
   if (goog.isDef(p_body)) {
-    var r = this.rotateBodyToWorld(p_body.immutable().subtract(this.cm_body_));
+    var r = this.rotateBodyToWorld(Vector.clone(p_body).subtract(this.cm_body_));
     return new Vector(this.velocity_.getX() - r.getY()*this.angular_velocity_,
                     this.velocity_.getY() + r.getX()*this.angular_velocity_);
   } else {
@@ -333,14 +333,14 @@ AbstractMassObject.prototype.momentum = function() {
 
 /** @inheritDoc */
 AbstractMassObject.prototype.rotateBodyToWorld = function(v_body) {
-  return v_body.immutable().rotate(this.cosAngle_, this.sinAngle_);
+  return Vector.clone(v_body).rotate(this.cosAngle_, this.sinAngle_);
 };
 
 /** @inheritDoc */
 AbstractMassObject.prototype.rotateWorldToBody = function(v_world) {
   // rotate by -angle
   // note that cos(-a) = cos(a) and sin(-a) = -sin(a).
-  return v_world.immutable().rotate(this.cosAngle_, -this.sinAngle_);
+  return Vector.clone(v_world).rotate(this.cosAngle_, -this.sinAngle_);
 };
 
 /** @inheritDoc */
@@ -394,7 +394,7 @@ AbstractMassObject.prototype.setMomentAboutCM = function(moment) {
 
 /** @inheritDoc */
 AbstractMassObject.prototype.setPosition = function(loc_world, angle) {
-  this.loc_world_ = loc_world.immutable();
+  this.loc_world_ = Vector.clone(loc_world);
   if (goog.isDef(angle) && this.angle_ != angle) {
     this.angle_ = angle;
     this.sinAngle_ = Math.sin(angle);
@@ -404,7 +404,7 @@ AbstractMassObject.prototype.setPosition = function(loc_world, angle) {
 
 /** @inheritDoc */
 AbstractMassObject.prototype.setVelocity = function(velocity_world, angular_velocity) {
-  this.velocity_ = velocity_world.immutable();
+  this.velocity_ = Vector.clone(velocity_world);
   if (goog.isDef(angular_velocity)) {
     this.setAngularVelocity(angular_velocity);
   }

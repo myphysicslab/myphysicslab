@@ -27,9 +27,9 @@ var Vector = myphysicslab.lab.util.Vector;
 
 /** Mutable vector defines a point in 2D or 3D and can be altered after creation.
 
-* @param {number} x the X value of the Vector
-* @param {number} y the Y value of the Vector
-* @param {number=} opt_z the optional Z value of the Vector (default is zero)
+* @param {number} x the X value of the vector
+* @param {number} y the Y value of the vector
+* @param {number=} opt_z the optional Z value of the vector (default is zero)
 * @constructor
 * @final
 * @struct
@@ -152,11 +152,6 @@ MutableVector.prototype.getZ = function() {
   return this.z_;
 };
 
-/** @inheritDoc */
-MutableVector.prototype.immutable = function() {
-  return Vector.clone(this);
-};
-
 /** Returns length of this MutableVector. Note this is computationally expensive as it
 involves taking a square root.
 @return {number} length of this MutableVector
@@ -200,7 +195,7 @@ MutableVector.prototype.multiply = function(factor) {
   return this;
 };
 
-/** Returns `true` if this Vector is nearly equal to another Vector.
+/** Returns `true` if this MutableVector is nearly equal to another GenericVector.
 @param {!GenericVector} vector the vector to compare to
 @param {number=} opt_tolerance optional tolerance for equality test
 @return {boolean} true if the vectors are similar

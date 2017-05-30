@@ -104,13 +104,17 @@ Vector.TINY_POSITIVE = 1E-10;
 */
 Vector.WEST = new Vector(-1, 0);
 
-/** Returns a new Vector having the same values as the input GenericVector.
+/** Returns an immutable Vector having the same values as the input GenericVector.
+If the input vector is an immutable Vector, returns that same Vector.
 @param {!GenericVector} vector the GenericVector to copy
-@return {!Vector} a new Vector with the same values as the input
-    GenericVector
+@return {!Vector} an immutable Vector with the same values as the input GenericVector
 */
 Vector.clone = function(vector) {
-  return new Vector(vector.getX(), vector.getY(), vector.getZ());
+  if (vector instanceof Vector) {
+    return vector;
+  } else {
+    return new Vector(vector.getX(), vector.getY(), vector.getZ());
+  }
 };
 
 /** Returns sum of this Vector and given GenericVector.
@@ -221,11 +225,6 @@ Vector.prototype.getY = function() {
 /** @inheritDoc */
 Vector.prototype.getZ = function() {
   return this.z_;
-};
-
-/** @inheritDoc */
-Vector.prototype.immutable = function() {
-  return this;
 };
 
 /** Returns length of this Vector.  Note this is computationally expensive as it

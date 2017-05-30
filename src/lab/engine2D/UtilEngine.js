@@ -154,8 +154,8 @@ UtilEngine.checkArrayNaN = function(x) {
 UtilEngine.colinearity = function(p) {
   goog.asserts.assert(p.length == 3);
   // find dot product of two lines
-  var v1 = p[1].immutable().subtract(p[0]).normalize();
-  var v2 = p[2].immutable().subtract(p[0]).normalize();
+  var v1 = Vector.clone(p[1]).subtract(p[0]).normalize();
+  var v2 = Vector.clone(p[2]).subtract(p[0]).normalize();
   if (v1 == null || v2 == null)
     return 0;
   else
@@ -314,7 +314,7 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
       }
       info[0] = counter;
       info[1] = 1;  // 1 = failure
-      return p[0].immutable();
+      return Vector.clone(p[0]);
     }
     // The triangle has 3 points: p[] = best, good, worst = (B, G, W)
     // p[0] = B = best;   p[1] = G = good;  p[2] = W = worst
@@ -426,7 +426,7 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
   info[0] = counter;
   //info[1] = v[0] < 0.01 ? 0 : 1; // 0 means successful completion
   info[1] = 0;  // 0 means successful completion
-  return p[0].immutable();
+  return Vector.clone(p[0]);
 };
 
 /** Returns array formatted as string, showing index number and value of each element.

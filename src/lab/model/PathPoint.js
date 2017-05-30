@@ -230,9 +230,4 @@ PathPoint.prototype.getZ = function() {
   return 0;
 };
 
-/** @inheritDoc */
-PathPoint.prototype.immutable = function() {
-  return Vector.clone(this);
-};
-
 }); // goog.scope

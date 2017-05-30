@@ -16,13 +16,11 @@ goog.provide('myphysicslab.lab.graph.GraphPoint');
 
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
 var NF = myphysicslab.lab.util.Util.NF;
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var Vector = myphysicslab.lab.util.Vector;
 var Util = myphysicslab.lab.util.Util;
 
 /** A point in a 2D graph, with indication of when discontinuity occurs in a sequence
@@ -83,11 +81,6 @@ GraphPoint.prototype.getY = function() {
 /** @inheritDoc */
 GraphPoint.prototype.getZ = function() {
   return 0;
-};
-
-/** @inheritDoc */
-GraphPoint.prototype.immutable = function() {
-  return Vector.clone(this);
 };
 
 }); // goog.scope

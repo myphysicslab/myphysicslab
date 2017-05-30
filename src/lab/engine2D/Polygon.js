@@ -751,7 +751,7 @@ Polygon.prototype.findCentroid = function() {
   s[2] = new MutableVector(this.cm_body_.getX()-delta, this.cm_body_.getY()-delta);
   var thisPolygon = this;
   var centroid = UtilEngine.findMinimumSimplex(s, function(p_body) {
-      return thisPolygon.maxRadiusSquared(p_body.immutable());
+      return thisPolygon.maxRadiusSquared(Vector.clone(p_body));
     }, NEARNESS_TOLERANCE, info);
   if (info[1] != 0) {
     throw new Error(Util.DEBUG ? ('could not find centroid, iterations='+info[0]) : '');
@@ -1256,7 +1256,7 @@ Polygon.prototype.setNonCollideEdge = function(nonCollideSet) {
 
 /** @inheritDoc */
 Polygon.prototype.setPosition = function(loc_world, angle) {
-  this.loc_world_ = loc_world.immutable();
+  this.loc_world_ = Vector.clone(loc_world);
   if (goog.isDef(angle) && isFinite(angle) && this.angle_ != angle) {
     this.angle_ = angle;
     this.sinAngle_ = Math.sin(angle);
