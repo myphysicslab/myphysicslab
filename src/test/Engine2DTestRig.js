@@ -439,7 +439,7 @@ which variable was out of tolerance.
 @param {!Array<number>} expected the expected values
 @param {number} tolerance the amount of difference allowed before signalling an error
 @return {boolean} true if expected results are found or expected results are null
-@throws {Error} if expected results are null, or tolerance is NaN
+@throws {!Error} if expected results are null, or tolerance is NaN
 */
 Engine2DTestRig.checkResult = function(sim, expected, tolerance) {
   if (expected == null || isNaN(tolerance))
@@ -659,7 +659,7 @@ whose name includes the word 'error' is printed with the 'warning' highlighting.
 @param {string} testType type of test (variables, energy, number of collisions, etc.)
 @param {?string=} reason why the test failed: a string giving details of
     test results, or `null`
-@throws {Error} if `passed` is false and `ABORT_ON_FAIL` is true
+@throws {!Error} if `passed` is false and `ABORT_ON_FAIL` is true
 */
 Engine2DTestRig.reportTestResults = function(passed, testType, reason) {
   var s = Engine2DTestRig.testName+' ['+testType+']';

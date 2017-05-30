@@ -25,16 +25,16 @@ with the newest value that was added to the HistoryList.
 myphysicslab.lab.util.HistoryIterator = function() {};
 var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
 
-/** Returns the index of the current value; the index starts at zero and increases
-as each value is added to the HistoryList
+/** Returns the index of the current value. In a HistoryList the index starts at zero
+and increases as each value is added to the HistoryList.
 * @return {number} the index of the current value
-* @throws {Error} when the index number exceeds the maximum representable integer
+* @throws {!Error} when the index number exceeds the maximum representable integer
 */
 HistoryIterator.prototype.getIndex;
 
 /** Returns the current value that this iterator points to in the HistoryList.
 * @return {T} the current value in the HistoryList
-* @throws {Error} if there is no current value
+* @throws {!Error} if there is no current value
 */
 HistoryIterator.prototype.getValue;
 
@@ -50,13 +50,13 @@ HistoryIterator.prototype.hasPrevious
 
 /** Moves to the next value in the HistoryList.
 * @return {T} the next value in the HistoryList
-* @throws {Error} if there is no next value
+* @throws {!Error} if there is no next value
 */
 HistoryIterator.prototype.nextValue;
 
 /** Moves to the previous value in the HistoryList.
 * @return {T} the previous value in the HistoryList
-* @throws {Error} if there is no next value
+* @throws {!Error} if there is no previous value
 */
 HistoryIterator.prototype.previousValue;
 

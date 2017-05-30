@@ -78,7 +78,7 @@ orientation.
     move the specified `p_body` point to
 @param {number=} opt_angle the angle in radians to rotate this body counter-clockwise
     from 'body coordinates' orientation;  if not specified then leave the angle as is.
-@throws {Error} if this RigidBody is immoveable
+@throws {!Error} if this RigidBody is immoveable
 */
 MassObject.prototype.alignTo;
 

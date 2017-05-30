@@ -812,7 +812,7 @@ elastic where the kinetic energy after collision is the same as before (extremel
 bouncy), while a value of 0 means no elasticity (no bounce).
 Broadcasts a {@link #ELASTICITY_SET} event. See {@link RigidBody#setElasticity}.
 * @param {number} value elasticity to set on all RigidBodys, a number from 0 to 1.
-* @throws {Error} if there are no RigidBodys
+* @throws {!Error} if there are no RigidBodys
 */
 RigidBodySim.prototype.setElasticity = function(value) {
   if (this.bods_.length == 0) {

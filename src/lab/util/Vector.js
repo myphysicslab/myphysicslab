@@ -164,7 +164,7 @@ Vector.prototype.distanceTo = function(point) {
 /** Returns quotient of this Vector and given factor.
 @param {number} factor by which to divide this Vector
 @return {!Vector} quotient of this vector and given factor
-@throws {Error} if factor is less than {@link #TINY_POSITIVE}
+@throws {!Error} if factor is less than {@link #TINY_POSITIVE}
 */
 Vector.prototype.divide = function(factor) {
   if (factor === 1.0) {
@@ -297,7 +297,7 @@ Vector.prototype.nearEqual = function(vector, opt_tolerance) {
 direction.
 @return {!Vector} normalized version of this Vector, having unit length and the same
     direction
-@throws {Error} if this Vector has length less than {@link #TINY_POSITIVE}
+@throws {!Error} if this Vector has length less than {@link #TINY_POSITIVE}
 */
 Vector.prototype.normalize = function() {
   return this.divide(this.length());

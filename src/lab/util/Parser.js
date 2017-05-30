@@ -38,7 +38,7 @@ Parser.prototype.addCommand;
 * @param {string} script the script to parse and execute
 * @return {*} the value of the script, or `undefined` if the script did not fit
 *     the allowed syntax
-* @throws {Error} if executing the script causes an error
+* @throws {!Error} if executing the script causes an error
 */
 Parser.prototype.parse;
 

@@ -980,7 +980,7 @@ NumericalPath.prototype.map_p_to_y = function(p) {
 /** Returns the path distance `p` value corresponding to the given `x` value.
 @param {number} x the `x` value to search for
 @return {number} the path distance `p` value corresponding to the given `x` value
-@throws {Error} if `x` values are not monotonically increasing or decreasing
+@throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
 NumericalPath.prototype.map_x_to_p = function(x) {
   if (!this.x_monotonic)
@@ -992,7 +992,7 @@ NumericalPath.prototype.map_x_to_p = function(x) {
 /** Returns the `y` value corresponding to the given `x` value.
 @param {number} x the `x` value to search for
 @return {number} the `y` value corresponding to the given `x` value
-@throws {Error} if `x` values are not monotonically increasing or decreasing
+@throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
 NumericalPath.prototype.map_x_to_y = function(x) {
   if (!this.x_monotonic)
@@ -1006,7 +1006,7 @@ interpolates to find corresponding `y` and `p` values.
 @param {!PathPoint} ppt the PathPoint used for input and output;
     `ppt.x` is the input `x` value searched for; `ppt.y` and `ppt.p` are set
     accordingly.
-@throws {Error} if `x` values are not monotonically increasing or decreasing
+@throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
 NumericalPath.prototype.map_x_to_y_p = function(ppt) {
   if (!this.x_monotonic)

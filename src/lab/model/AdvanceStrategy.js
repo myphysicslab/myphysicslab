@@ -35,7 +35,7 @@ var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
 @param {number} timeStep  the amount of time to advance in seconds
 @param {!myphysicslab.lab.util.MemoList=} opt_memoList optional MemoList to call
     whenever the simulation state is advanced
-@throws {Error} when unable to advance the simulation
+@throws {!Error} when unable to advance the simulation
 */
 AdvanceStrategy.prototype.advance;
 

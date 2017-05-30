@@ -285,7 +285,7 @@ ChoiceControlBase.prototype.setChoice = function(index) {
 state. The `setter` function is not called.
 @param {!Array<string>} choices  the new set of choices to display
 @param {!Array<string>} values  the new set of values that correspond to the choices
-@throws {Error} if choices and values have different length
+@throws {!Error} if choices and values have different length
 */
 ChoiceControlBase.prototype.setChoices = function(choices, values) {
   if (choices.length != values.length) {

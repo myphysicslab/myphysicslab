@@ -79,7 +79,7 @@ Edge.prototype.chordError;
 cases where the calculation can't be done. One of the Edges must be curved.
 @todo distanceToEdge is not used currently... delete it? or use it in places like
   `CircleStraight.testCollision` and `CircleCircle.testCollision`?
-@throws {Error} if both Edges are StraightEdges.
+@throws {!Error} if both Edges are StraightEdges.
 @param {!Edge} edge the Edge to measure distance to
 @return {number} smallest distance between this Edge and the given Edge, or `NaN`
     when the calculation cannot be done
@@ -195,7 +195,7 @@ center and radius of curvature.
     coordinates
 @return {number}  the radius of curvature; negative means concave; returns positive
     infinity if this is a straight edge
-@throws {Error} if the point is not close to this Edge
+@throws {!Error} if the point is not close to this Edge
 */
 Edge.prototype.getCurvature;
 

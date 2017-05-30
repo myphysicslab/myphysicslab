@@ -760,7 +760,7 @@ RigidBodyCollision.prototype.needsHandling = function() {
 velocity as the detected distance and detected velocity, and estimates when the
 collision occurred.
 @param {number} time  when this collision is detected
-@throws {Error} if the detected time has been previously set
+@throws {!Error} if the detected time has been previously set
 @package
 */
 RigidBodyCollision.prototype.setDetectedTime = function(time) {

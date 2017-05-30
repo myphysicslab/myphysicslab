@@ -53,7 +53,7 @@ var MemoList = myphysicslab.lab.util.MemoList;
 /** Adds an object to the list of Memorizable objects. These object's `memorize`
 methods will be called from this object's `memorize` method.
 @param {!Memorizable} memorizable object to add to the list of Memorizable objects
-@throws {Error} if called during the `memorize` method.
+@throws {!Error} if called during the `memorize` method.
 */
 MemoList.prototype.addMemo;
 
@@ -64,7 +64,7 @@ MemoList.prototype.getMemos;
 
 /** Removes an object from the list of Memorizable objects.
 @param {!Memorizable} memorizable object to remove from the list of Memorizable objects
-@throws {Error} if called during the `memorize` method.
+@throws {!Error} if called during the `memorize` method.
 */
 MemoList.prototype.removeMemo;
 

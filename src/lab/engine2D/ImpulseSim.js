@@ -449,7 +449,7 @@ ImpulseSim.prototype.getCollisionAccuracy = function() {
 collision distance is within `accuracy * targetGap` of the target gap distance, then
 the collision is considered close enough to handle (apply an impulse).
 * @param {number} value how close in distance to be in order to handle a collision
-* @throws {Error} if value is out of the range 0 to 1, or is exactly zero
+* @throws {!Error} if value is out of the range 0 to 1, or is exactly zero
 */
 ImpulseSim.prototype.setCollisionAccuracy = function(value) {
   if (value <= 0 || value > 1) {
@@ -546,7 +546,7 @@ ImpulseSim.prototype.cleanSlate = function() {
 
 /** Check that infinite mass object remain at rest.
 * @param {!Array<number>} vars
-* @throws {Error} if an infinite mass object has non-zero velocity
+* @throws {!Error} if an infinite mass object has non-zero velocity
 * @private
 */
 ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {

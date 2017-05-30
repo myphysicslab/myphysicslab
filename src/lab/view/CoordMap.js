@@ -285,7 +285,7 @@ the CoordMap.
 @param {number=} aspectRatio  the ratio of 'pixels per simulation unit along y axis'
     divided by 'pixels per simulation unit along x axis';  default is 1.0
 @return {!CoordMap} the CoordMap corresponding to the given options
-@throws {Error} if simRect is empty (has zero area), or invalid alignment options
+@throws {!Error} if simRect is empty (has zero area), or invalid alignment options
     are given.
 */
 CoordMap.make = function(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {

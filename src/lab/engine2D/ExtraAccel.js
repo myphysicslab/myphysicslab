@@ -73,7 +73,7 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 /** Converts a localized choice string to an enum.
 * @param {string} value the localized choice string to convert
 * @return {!ExtraAccel} the enum corresponding to the choice
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 ExtraAccel.choiceToEnum = function(value) {
   var choices = ExtraAccel.getChoices();
@@ -88,7 +88,7 @@ ExtraAccel.choiceToEnum = function(value) {
 /** Converts an enum to a localized choice string.
 * @param {!ExtraAccel} value enum value to convert
 * @return {string} the localized choice string corresponding to the enum
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 ExtraAccel.enumToChoice = function(value) {
   var vals = ExtraAccel.getValues();
@@ -127,7 +127,7 @@ ExtraAccel.getValues = function() {
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!ExtraAccel} the enum corresponding to the value
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 ExtraAccel.stringToEnum = function(value) {
   var vals = ExtraAccel.getValues();

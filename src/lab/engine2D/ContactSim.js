@@ -482,7 +482,7 @@ see {@link #alignConnectors}.
 @param {!Connector} connector the Connector to add
 @param {?Connector=} follow add new Connector into list after
     this Connector; if null then add at front of list; if undefined, add at end of list
-@throws {Error} if RigidBodys of the Connector have not been added to this
+@throws {!Error} if RigidBodys of the Connector have not been added to this
     ContactSim
 */
 ContactSim.prototype.addConnector = function(connector, follow) {

@@ -423,8 +423,8 @@ moving clockwise or counter-clockwise from the start Vertex. See
     of this body; `false` means the opposite, that any point inside the circle is
     outside this body.
 @return {!CircularEdge} the Edge that is created
-@throws {Error} if Polygon does not have an open path to add Edges to
-@throws {Error} if `p_body` and last point are not equidistant from `center_body`
+@throws {!Error} if Polygon does not have an open path to add Edges to
+@throws {!Error} if `p_body` and last point are not equidistant from `center_body`
     within `CircularEdge.TINY_POSITIVE` tolerance
 */
 Polygon.prototype.addCircularEdge = function(p_body, center_body, clockwise,
@@ -462,7 +462,7 @@ line.
     of this body; `false` means the opposite, that any point inside the circle is
     outside this body.
 @return {!CircularEdge} the Edge that is created
-@throws {Error} if Polygon does not have an open path to add Edges to
+@throws {!Error} if Polygon does not have an open path to add Edges to
 */
 Polygon.prototype.addCircularEdge2 = function(p_body, radius, aboveRight, clockwise, outsideIsOut) {
   var edge = CircularEdge.make(this, this.lastOpenVertex(),
@@ -476,7 +476,7 @@ Polygon.prototype.addCircularEdge2 = function(p_body, radius, aboveRight, clockw
 * match the end Vertex of last Edge in open path as given by {@link #lastOpenVertex}.
 * See {@link #startPath}.
 * @param {!Edge} edge the Edge to add to current open path
-* @throws {Error} if there is no open path, or the start Vertex of the Edge does not
+* @throws {!Error} if there is no open path, or the start Vertex of the Edge does not
 *     match the end Vertex of last Edge in open path.
 */
 Polygon.prototype.addEdge = function(edge) {
@@ -516,7 +516,7 @@ Vertex and ending at the given point. See {@link #lastOpenVertex} and
     on the outside of this body (for vertical lines a point to the right is outside);
     false means the opposite, that any point below (or left) is outside this body.
 @return {!StraightEdge} the Edge that is created
-@throws {Error} if Polygon does not have an open path to add Edges to
+@throws {!Error} if Polygon does not have an open path to add Edges to
 */
 Polygon.prototype.addStraightEdge = function(p_body, outsideIsUp) {
   // the StraightEdge adds itself to the Polygon's list of Edges & Vertexes
@@ -624,8 +624,8 @@ Polygon.prototype.checkConsistent = function() {
 path with the last Edge of the open path. See {@link #startPath}, {@link #lastOpenEdge},
 and {@link #getStartVertex}.
 * @return {boolean} `true` if there was an open path that was successfully closed
-@throws {Error} if Polygon construction was previously finished
-@throws {Error} if start and end Vertex of the path are not at the same location
+@throws {!Error} if Polygon construction was previously finished
+@throws {!Error} if start and end Vertex of the path are not at the same location
 */
 Polygon.prototype.closePath = function() {
   if (this.finished_) {
@@ -1065,7 +1065,7 @@ in the linked list of Edges that makes up the open path. If there is no Edge in 
 then this is the starting Vertex, see {@link #startPath} and {@link #getStartVertex}.
 
 * @return {!Vertex} last Vertex in current open path
-* @throws {Error} if there is no open path
+* @throws {!Error} if there is no open path
 */
 Polygon.prototype.lastOpenVertex = function() {
   if (this.startVertex_ == null) {
@@ -1192,7 +1192,7 @@ radius of the circle. A circle centered at this centroid with radius
 @param {!Vector} centroid_body the center of the circle to use for
 proximity testing in world coords, in body coordinates
 @return {!Polygon} this Polygon, for chaining setters
-@throws {Error} when `setCentroid` is called while the Polygon is 'open' in process of
+@throws {!Error} when `setCentroid` is called while the Polygon is 'open' in process of
     adding edges, before the Polygon is closed with `finish()` method
 */
 Polygon.prototype.setCentroid = function(centroid_body) {
@@ -1279,7 +1279,7 @@ See {@link #getSpecialNormalWorld}.
 @param {number} edgeIndex the index of the Edge that takes priority
     for collision handling, within the Polygon's list of edges
 @param {number} radius the radius of the circle to use for proximity testing.
-@throws {Error} if this is not a rectangular Polygon, or the
+@throws {!Error} if this is not a rectangular Polygon, or the
     `edgeIndex` is not in range
 */
 Polygon.prototype.setSpecialEdge = function(edgeIndex, radius) {

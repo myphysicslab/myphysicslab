@@ -140,7 +140,7 @@ AbstractSubject.prototype.doCommands = function() {
 };
 
 /** Adds the Parameter to the list of this Subject's available Parameters.
-@throws {Error} if a Parameter with the same name already exists.
+@throws {!Error} if a Parameter with the same name already exists.
 @param {!Parameter} parameter the Parameter to add
 */
 AbstractSubject.prototype.addParameter = function(parameter) {

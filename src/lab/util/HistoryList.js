@@ -44,7 +44,7 @@ var HistoryList = myphysicslab.lab.util.HistoryList;
 the newest value in this HistoryList.
 @return {number} the index of the ending value in this HistoryList, or –1 if nothing
     has been stored
-@throws {Error} when the index number exceeds the maximum representable integer
+@throws {!Error} when the index number exceeds the maximum representable integer
 */
 HistoryList.prototype.getEndIndex;
 
@@ -73,14 +73,14 @@ HistoryList.prototype.getSize;
 /** Returns the index of the starting value in this HistoryList. The starting value is
 the oldest value in this HistoryList.
 @return {number} the index of the starting value in this HistoryList
-@throws {Error} when the index number exceeds the maximum representable integer
+@throws {!Error} when the index number exceeds the maximum representable integer
 */
 HistoryList.prototype.getStartIndex;
 
 /** Returns the value stored at the given index in this HistoryList.
 @param {number} index  the index of the point of interest
 @return {T} the value stored at the given index
-@throws {Error} if the index is out of range
+@throws {!Error} if the index is out of range
 */
 HistoryList.prototype.getValue;
 
@@ -93,7 +93,7 @@ HistoryList.prototype.reset;
 /** Stores the given value into this HistoryList.
 @param {T} value the value to store
 @return {number} index within HistoryList where the value was stored
-@throws {Error} when the index number exceeds the maximum representable integer
+@throws {!Error} when the index number exceeds the maximum representable integer
 */
 HistoryList.prototype.store;
 

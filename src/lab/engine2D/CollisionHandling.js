@@ -118,7 +118,7 @@ var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 /** Converts a localized choice string to an enum.
 * @param {string} value the localized choice string to convert
 * @return {!CollisionHandling} the enum corresponding to the choice
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 CollisionHandling.choiceToEnum = function(value) {
   var choices = CollisionHandling.getChoices();
@@ -133,7 +133,7 @@ CollisionHandling.choiceToEnum = function(value) {
 /** Converts an enum to a localized choice string.
 * @param {!CollisionHandling} value enum value to convert
 * @return {string} the localized choice string corresponding to the enum
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 CollisionHandling.enumToChoice = function(value) {
   var vals = CollisionHandling.getValues();
@@ -170,7 +170,7 @@ CollisionHandling.getValues = function() {
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!CollisionHandling} the enum corresponding to the value
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 CollisionHandling.stringToEnum = function(value) {
   var vals = CollisionHandling.getValues();

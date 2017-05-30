@@ -210,7 +210,7 @@ ParameterString.prototype.nameEquals = function(name) {
 /**  Sets the choices and values associated with this Parameter.
 @param {!Array<string>} choices  localized strings giving name of each choice
 @param {!Array<string>} values  the values corresponding to each choice
-@throws {Error} if `values` is of different length than `choices`
+@throws {!Error} if `values` is of different length than `choices`
 */
 ParameterString.prototype.setChoices = function(choices, values) {
   this.setChoices_(choices, values);
@@ -255,7 +255,7 @@ ParameterString.prototype.setInputFunction = function(inputFunction) {
 /** Sets the maximum length of the string.
 @param {number} len the maximum length of the string
 @return {!ParameterString} this Parameter for chaining setters
-@throws {Error} if the max length is less than length of current value of this
+@throws {!Error} if the max length is less than length of current value of this
     parameter.
 */
 ParameterString.prototype.setMaxLength = function(len) {

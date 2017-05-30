@@ -142,10 +142,10 @@ coordinates.
 * @final
 * @struct
 * @extends {AbstractEdge}
-* @throws {Error} if the Vertexes are not equidistant from the center within
+* @throws {!Error} if the Vertexes are not equidistant from the center within
   {@link #TINY_POSITIVE} tolerance
-* @throws {Error} if `vertex1` is already connected to a 'next' Edge
-* @throws {Error} if `vertex2` is already connected to a 'previous' Edge
+* @throws {!Error} if `vertex1` is already connected to a 'next' Edge
+* @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
 myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center_body,
     clockwise, outsideIsOut, opt_spacing) {
@@ -329,10 +329,10 @@ left of the line.
 * @param {boolean} outsideIsOut true means the outside of the circle is considered the
   outside of the RigidBody.
 * @return {!CircularEdge} the CircularEdge that is created
-* @throws {Error} if absolute value of `radius` is too small; must be greater than half
+* @throws {!Error} if absolute value of `radius` is too small; must be greater than half
   the distance between the two Vertexes
-* @throws {Error} if `vertex1` is already connected to a 'next' Edge
-* @throws {Error} if `vertex2` is already connected to a 'previous' Edge
+* @throws {!Error} if `vertex1` is already connected to a 'next' Edge
+* @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
 CircularEdge.make = function(body, vertex1, vertex2, radius, aboveRight, clockwise,
       outsideIsOut) {

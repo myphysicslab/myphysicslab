@@ -241,7 +241,7 @@ CircularList.prototype.indexToPointer = function(index) {
 
 /**  Converts a pointer into the list to an index number that includes cycles.
 Pointer and index are the same until the list fills and 'wraps around'.
-* @throws {Error} when the index number exceeds the maximum representable integer
+* @throws {!Error} when the index number exceeds the maximum representable integer
 * @param {number} pointer an index from 0 to size
 * @return {number} the index number of this point including cycles
 * @private

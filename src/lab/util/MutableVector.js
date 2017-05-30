@@ -109,7 +109,7 @@ MutableVector.prototype.distanceTo = function(point) {
 @param {number} factor by which to divide this vector, must be greater than
 {@link Vector.TINY_POSITIVE}
 @return {!MutableVector} this MutableVector for chaining
-@throws {Error} if factor is less than {@link Vector.TINY_POSITIVE}
+@throws {!Error} if factor is less than {@link Vector.TINY_POSITIVE}
 */
 MutableVector.prototype.divide = function(factor) {
   if (factor === 1.0) {
@@ -217,7 +217,7 @@ MutableVector.prototype.nearEqual = function(vector, opt_tolerance) {
 and the same direction.
 @return {!Vector} normalized version of this MutableVector,
     having unit length and the same direction
-@throws {Error} if this MutableVector has length less than
+@throws {!Error} if this MutableVector has length less than
 {@link Vector.TINY_POSITIVE}
 */
 MutableVector.prototype.normalize = function() {

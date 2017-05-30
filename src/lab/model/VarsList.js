@@ -98,7 +98,7 @@ index of other existing variables.
 * @final
 * @struct
 * @extends {AbstractSubject}
-* @throws {Error} if varNames and localNames are different lengths, or contain
+* @throws {!Error} if varNames and localNames are different lengths, or contain
 *     anything other than strings, or have duplicate values
 */
 myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
@@ -181,7 +181,7 @@ VarsList.prototype.addParameter = function(parameter) {
 /** Add a Variable to this VarsList.
 @param {!Variable} variable the Variable to add
 @return {number} the index number of the variable
-@throws {Error} if name if the Variable is 'DELETED'
+@throws {!Error} if name if the Variable is 'DELETED'
 */
 VarsList.prototype.addVariable = function(variable) {
   var name = variable.getName();
@@ -205,7 +205,7 @@ VarsList.prototype.addVariable = function(variable) {
      See {@link Util#toName}.
 @param {!Array<string>} localNames localized names of variables
 @return {number} index index of first Variable that was added
-@throws {Error} if any of the variable names is 'DELETED', or array of names is empty
+@throws {!Error} if any of the variable names is 'DELETED', or array of names is empty
 */
 VarsList.prototype.addVariables = function(names, localNames) {
   var howMany = names.length;
@@ -337,7 +337,7 @@ There are no explicit units for the time, so you can regard a time unit as any l
 of time, as long as it is consistent with other units.
 See [About Units Of Measurement](Architecture.html#aboutunitsofmeasurement).
 @return {number} the current simulation time
-@throws {Error} if there is no time variable
+@throws {!Error} if there is no time variable
 */
 VarsList.prototype.getTime = function() {
   if (this.timeIdx_ < 0) {
@@ -491,7 +491,7 @@ VarsList.prototype.setHistory = function(value) {
 you can regard a time unit as seconds or years as desired. See [About Units Of
 Measurement](Architecture.html#aboutunitsofmeasurement).
 @param {number} time the current simulation time.
-@throws {Error} if there is no time variable
+@throws {!Error} if there is no time variable
 */
 VarsList.prototype.setTime = function(time) {
   this.setValue(this.timeIdx_, time);
@@ -506,7 +506,7 @@ See {@link #incrSequence}.
 @param {boolean=} continuous `true` means this new value is continuous with
     previous values; `false` (the default) means the new value is discontinuous with
     previous values, so the sequence number for the variable is incremented
-@throws {Error} if value is `NaN`
+@throws {!Error} if value is `NaN`
 */
 VarsList.prototype.setValue = function(index, value, continuous) {
   this.checkIndex_(index);
@@ -530,7 +530,7 @@ See {@link #incrSequence}.
 @param {boolean=} continuous `true` means this new value is continuous with
     previous values; `false` (the default) means the new value is discontinuous with
     previous values, so the sequence number for the variable is incremented
-@throws {Error} if length of `vars` exceeds length of VarsList
+@throws {!Error} if length of `vars` exceeds length of VarsList
 */
 VarsList.prototype.setValues = function(vars, continuous) {
   // NOTE: vars.length can be less than this.varList_.length

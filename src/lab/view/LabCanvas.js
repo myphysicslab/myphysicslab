@@ -500,7 +500,7 @@ observers that the focus has changed by broadcasting the GenericEvent named
 {@link #FOCUS_VIEW_CHANGED}.
 @param {?LabView} view the view that should be the focus; can be
     `null` when no LabView has the focus.
-@throws {Error} if `view` is not contained by this LabCanvas
+@throws {!Error} if `view` is not contained by this LabCanvas
 */
 LabCanvas.prototype.setFocusView = function(view) {
   if (view != null && !goog.array.contains(this.labViews_, view))
@@ -532,7 +532,7 @@ LabCanvas.prototype.setHeight = function(value) {
 
 /** Sets the size of this LabCanvas to the given ScreenRect by calling {@link #setSize}.
 @param {!ScreenRect} sr  specifies the width and height; the top-left must be (0,0).
-@throws {Error} if the top-left of the given ScreenRect is not (0,0).
+@throws {!Error} if the top-left of the given ScreenRect is not (0,0).
 */
 LabCanvas.prototype.setScreenRect = function(sr) {
   if (!ScreenRect.isDuckType(sr)) {

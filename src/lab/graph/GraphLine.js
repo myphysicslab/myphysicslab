@@ -491,7 +491,7 @@ GraphLine.prototype.setColor = function(color) {
 /** Sets whether to draw the graph with dots or lines. Applies only to portions of graph
 memorized after this time.
 @param {!DrawingMode} value the DrawingMode (dots or lines) to draw this graph with.
-@throws {Error} if the value does not represent a valid DrawingMode
+@throws {!Error} if the value does not represent a valid DrawingMode
 */
 GraphLine.prototype.setDrawingMode = function(value) {
   var dm = DrawingMode.stringToEnum(value);

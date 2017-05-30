@@ -40,7 +40,7 @@ see [Immutables by Mark Davis](http://macchiato.com/columns/Durable2.html)
 @param {number} bottom bottom of DoubleRect, must be less than top
 @param {number} right right side of DoubleRect
 @param {number} top top of DoubleRect
-@throws {Error} when left > right or bottom > top
+@throws {!Error} when left > right or bottom > top
 @constructor
 @final
 @struct
@@ -363,7 +363,7 @@ DoubleRect.prototype.scale = function(factorX, factorY) {
 @param {number=} y vertical amount to translate by; required when `x` is a number.
 @return {!DoubleRect} a copy of this rectangle translated by the
     given amount
-@throws {Error} when `x` is a number and `y` is not defined
+@throws {!Error} when `x` is a number and `y` is not defined
 */
 DoubleRect.prototype.translate = function(x, y) {
   var x1, y1;

@@ -70,7 +70,7 @@ Simulation.prototype.getSimList;
 
 /** Returns the current Simulation time.
 @return {number} the current Simulation time.
-@throws {Error} if there is no time variable for the simulation
+@throws {!Error} if there is no time variable for the simulation
 */
 Simulation.prototype.getTime;
 

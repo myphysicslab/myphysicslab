@@ -84,8 +84,8 @@ the Edge is outside of the body.
 * @final
 * @struct
 * @extends {AbstractEdge}
-* @throws {Error} if `vertex1` is already connected to a 'next' Edge
-* @throws {Error} if `vertex2` is already connected to a 'previous' Edge
+* @throws {!Error} if `vertex1` is already connected to a 'next' Edge
+* @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
 myphysicslab.lab.engine2D.StraightEdge = function(body, vertex1, vertex2, outsideIsUp) {
   AbstractEdge.call(this, body, vertex1, vertex2);

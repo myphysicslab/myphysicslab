@@ -559,7 +559,7 @@ SliderControl.prototype.setSignifDigits = function(signifDigits) {
 /** Changes the value shown by this control, and sets the corresponding
 ParameterNumber to this value.
 @param {number} value  the new value
-@throws {Error} if value is NaN (not a number)
+@throws {!Error} if value is NaN (not a number)
 */
 SliderControl.prototype.setValue = function(value) {
   if (value != this.paramValue_) {

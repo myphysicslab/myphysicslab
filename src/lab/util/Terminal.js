@@ -600,7 +600,7 @@ the error).
 * @param {boolean=} opt_userInput whether the script was input by user in Terminal
 *    command line interface; default is `false`
 * @return {*} the result of executing the command script
-* @throws {Error} if an error occurs while executing the script and opt_userInput
+* @throws {!Error} if an error occurs while executing the script and opt_userInput
 *    is false
 */
 Terminal.prototype.eval = function(command, opt_output, opt_userInput) {

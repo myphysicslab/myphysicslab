@@ -108,7 +108,7 @@ Subject.prototype.broadcast;
 /** Notifies all Observers that the Parameter with the given `name` has changed by
 calling {@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
 @param {string} name the universal or English name of the Parameter that has changed
-@throws {Error} if there is no Parameter with the given name
+@throws {!Error} if there is no Parameter with the given name
 */
 Subject.prototype.broadcastParameter;
 
@@ -126,7 +126,7 @@ Subject.prototype.getObservers;
 /** Returns the Parameter with the given name.
 @param {string} name the language-independent or English name of the Parameter
 @return {!myphysicslab.lab.util.Parameter} the Parameter with the given name
-@throws {Error} if there is no Parameter with the given name
+@throws {!Error} if there is no Parameter with the given name
 */
 Subject.prototype.getParameter;
 
@@ -140,7 +140,7 @@ Subject.prototype.getParameters;
 @param {string} name the universal or English name of the ParameterBoolean
 @return {!myphysicslab.lab.util.ParameterBoolean} the ParameterBoolean with
     the given name
-@throws {Error} if there is no ParameterBoolean with the given name
+@throws {!Error} if there is no ParameterBoolean with the given name
 */
 Subject.prototype.getParameterBoolean;
 
@@ -148,7 +148,7 @@ Subject.prototype.getParameterBoolean;
 @param {string} name the universal or English name of the ParameterNumber
 @return {!myphysicslab.lab.util.ParameterNumber} the ParameterNumber with
     the given name
-@throws {Error} if there is no ParameterNumber with the given name
+@throws {!Error} if there is no ParameterNumber with the given name
 */
 Subject.prototype.getParameterNumber;
 
@@ -156,7 +156,7 @@ Subject.prototype.getParameterNumber;
 @param {string} name the universal or English name of the ParameterString
 @return {!myphysicslab.lab.util.ParameterString} the ParameterString with
     the given name
-@throws {Error} if there is no ParameterString with the given name
+@throws {!Error} if there is no ParameterString with the given name
 */
 Subject.prototype.getParameterString;
 

@@ -153,7 +153,7 @@ RigidBody.prototype.saveOldCoords;
 collision distance is within `accuracy * targetGap` of the target gap distance, then
 the collision is considered close enough to handle (apply an impulse).
 * @param {number} value how close in distance to be in order to handle a collision
-* @throws {Error} if value is out of the range 0 to 1, or is exactly zero
+* @throws {!Error} if value is out of the range 0 to 1, or is exactly zero
 */
 RigidBody.prototype.setAccuracy;
 

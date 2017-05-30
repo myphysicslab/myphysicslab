@@ -97,7 +97,7 @@ GraphColor.getValues = function() {
 /** Converts a string to an enum
 * @param {string} value the string to convert
 * @return {!GraphColor} the enum corresponding to the value, from {@link #getValues}
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 GraphColor.stringToEnum = function(value) {
   var vals = GraphColor.getValues();

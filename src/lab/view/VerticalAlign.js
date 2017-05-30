@@ -64,7 +64,7 @@ VerticalAlign.getValues = function() {
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!VerticalAlign} the enum corresponding to the value
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 VerticalAlign.stringToEnum = function(value) {
   var vals = VerticalAlign.getValues();

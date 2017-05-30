@@ -161,7 +161,7 @@ ParameterBoolean.prototype.nameEquals = function(name) {
 /**  Sets the choices and values associated with this Parameter.
 @param {!Array<string>} choices  localized strings giving name of each choice
 @param {!Array<boolean>} values  the values corresponding to each choice
-@throws {Error} if `values` is of different length than `choices`
+@throws {!Error} if `values` is of different length than `choices`
 */
 ParameterBoolean.prototype.setChoices = function(choices, values) {
   this.setChoices_(choices, values);

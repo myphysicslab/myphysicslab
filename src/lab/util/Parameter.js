@@ -137,7 +137,7 @@ Parameter.prototype.setComputed;
 /** Sets the value of this Parameter after converting the given string to the
 appropriate type (boolean, number or string).
 @param {string} value the value to set this Parameter to, in string form
-@throws {Error} if the string cannot be converted to the needed type
+@throws {!Error} if the string cannot be converted to the needed type
 */
 Parameter.prototype.setFromString;
 

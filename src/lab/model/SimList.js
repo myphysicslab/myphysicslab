@@ -198,7 +198,7 @@ SimObject in this SimList with the given name.
     or language-independent version of name.
 @return {!SimObject} the SimObject at the specified position in this SimList,
     or with the given name
-@throws {Error} if SimObject not found or index out of range
+@throws {!Error} if SimObject not found or index out of range
 */
 SimList.prototype.get = function(arg) {
   if (goog.isNumber(arg)) {
@@ -221,7 +221,7 @@ SimList.prototype.get = function(arg) {
 /** Returns the Arc with the given name, if found in this SimList.
 @param {string} name name of Arc to find
 @return {!Arc} the Arc with the given name
-@throws {Error} if Arc not found
+@throws {!Error} if Arc not found
 */
 SimList.prototype.getArc = function(name) {
   var obj = this.get(name);
@@ -235,7 +235,7 @@ SimList.prototype.getArc = function(name) {
 /** Returns the ConcreteLine with the given name, if found in this SimList.
 @param {string} name name of ConcreteLine to find
 @return {!ConcreteLine} the ConcreteLine with the given name
-@throws {Error} if ConcreteLine not found
+@throws {!Error} if ConcreteLine not found
 */
 SimList.prototype.getConcreteLine = function(name) {
   var obj = this.get(name);
@@ -249,7 +249,7 @@ SimList.prototype.getConcreteLine = function(name) {
 /** Returns the PointMass with the given name, if found in this SimList.
 @param {string} name name of PointMass to find
 @return {!PointMass} the PointMass with the given name
-@throws {Error} if PointMass not found
+@throws {!Error} if PointMass not found
 */
 SimList.prototype.getPointMass = function(name) {
   var obj = this.get(name);
@@ -279,7 +279,7 @@ SimList.prototype.getSimilar = function(simObj, tolerance) {
 /** Returns the Spring with the given name, if found in this SimList.
 @param {string} name name of Spring to find
 @return {!Spring} the Spring with the given name
-@throws {Error} if Spring not found
+@throws {!Error} if Spring not found
 */
 SimList.prototype.getSpring = function(name) {
   var obj = this.get(name);

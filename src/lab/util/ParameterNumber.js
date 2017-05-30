@@ -241,7 +241,7 @@ ParameterNumber.prototype.nameEquals = function(name) {
 /**  Sets the choices and values associated with this Parameter.
 @param {!Array<string>} choices  localized strings giving name of each choice
 @param {!Array<number>} values  the values corresponding to each choice
-@throws {Error} if `values` is of different length than `choices`
+@throws {!Error} if `values` is of different length than `choices`
 */
 ParameterNumber.prototype.setChoices = function(choices, values) {
   this.setChoices_(choices, values);
@@ -289,7 +289,7 @@ ParameterNumber.prototype.setFromString = function(value) {
 {@link #setValue} will throw an Error in that case.
 @param {number} lowerLimit the lower limit of the Parameter value
 @return {!ParameterNumber} this Parameter for chaining setters
-@throws {Error} if the value is currently less than the lower limit, or the lower limit
+@throws {!Error} if the value is currently less than the lower limit, or the lower limit
     is not a number
 */
 ParameterNumber.prototype.setLowerLimit = function(lowerLimit) {
@@ -316,7 +316,7 @@ ParameterNumber.prototype.setSignifDigits = function(signifDigits) {
 
 @param {number} upperLimit the upper limit of the Parameter value
 @return {!ParameterNumber} this Parameter for chaining setters
-@throws {Error} if the value is currently greater than the upper limit, or the upper
+@throws {!Error} if the value is currently greater than the upper limit, or the upper
     limit is not a number
 */
 ParameterNumber.prototype.setUpperLimit = function(upperLimit) {

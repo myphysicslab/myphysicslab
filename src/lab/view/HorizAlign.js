@@ -65,7 +65,7 @@ HorizAlign.getValues = function() {
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!HorizAlign} the enum corresponding to the value
-* @throws {Error} if the value does not represent a valid enum
+* @throws {!Error} if the value does not represent a valid enum
 */
 HorizAlign.stringToEnum = function(value) {
   var vals = HorizAlign.getValues();

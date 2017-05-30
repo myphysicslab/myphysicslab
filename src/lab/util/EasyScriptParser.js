@@ -357,7 +357,7 @@ Parameter name separated by a dot.
 *    and a dot
 * @return {?Parameter} the Parameter corresponding to the given name, or `null` if
 *    no Parameter found
-* @throws {Error} when only Parameter name is given, but multiple Subjects have that
+* @throws {!Error} when only Parameter name is given, but multiple Subjects have that
 *    Parameter.
 * @private
 */

@@ -959,7 +959,7 @@ Util.take = function(text, n) {
 /** Throws an error if the argument is not a finite number.
 * @param {number} value the number to test
 * @return {number} the value that passed the test
-* @throws {Error} if the argument is not a finite number
+* @throws {!Error} if the argument is not a finite number
 */
 Util.testFinite = function(value) {
   if (!isFinite(value)) {
@@ -971,7 +971,7 @@ Util.testFinite = function(value) {
 /** Throws an error if the argument is not a number.
 * @param {number} value the number to test
 * @return {number} the value that passed the test
-* @throws {Error} if the argument is not a number
+* @throws {!Error} if the argument is not a number
 */
 Util.testNumber = function(value) {
   if (isNaN(value)) {
@@ -994,7 +994,7 @@ Util.toName = function(text) {
 * and first character is a letter or underscore.
 * @param {string} text
 * @return {string} the validated text
-* @throws {Error} if text does not qualify as a name
+* @throws {!Error} if text does not qualify as a name
 */
 Util.validName = function(text) {
   if (!text.match(/^[A-Z_][A-Z_0-9]*$/)) {
@@ -1042,7 +1042,7 @@ See [StackOverflow: How dangerous is it to compare floating point values?](http:
 @param {number=} magnitude the approximate magnitude of the numbers being compared,
     default is 1.0.
 @return {boolean} true if the doubles are different to 14 significant decimal digits
-@throws {Error} if `magnitude` or `epsilon` is negative or zero
+@throws {!Error} if `magnitude` or `epsilon` is negative or zero
 */
 Util.veryDifferent = function(arg1, arg2, epsilon, magnitude) {
   epsilon = epsilon || 1E-14;

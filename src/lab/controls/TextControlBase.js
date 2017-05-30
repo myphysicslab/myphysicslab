@@ -243,7 +243,7 @@ TextControlBase.prototype.setEnabled = function(enabled) {
 };
 
 /** Changes the value shown by this control, and sets the target to this value.
-@throws {Error} if value is not a string
+@throws {!Error} if value is not a string
 @param {string} value  the new value
 */
 TextControlBase.prototype.setValue = function(value) {

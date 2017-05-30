@@ -362,7 +362,7 @@ with no forces other than gravity acting, then the angle of the pendulum would b
 @param {!Joint} pivot the Joint that the pendulum is hanging from
 @return {number} angle between vertical (in body coordinates) and the vector from
     joint to center of mass of the pendulum
-@throws {Error} if the pendulum is not one of the bodies of the joint
+@throws {!Error} if the pendulum is not one of the bodies of the joint
 */
 RigidDoublePendulumSim.getGamma = function(pendulum, pivot) {
   /** @type {!Vector} */

@@ -203,7 +203,7 @@ DisplayList.prototype.find = function(search) {
     Name should be English or language-independent version of name.
 @return {!DisplayShape} the DisplayShape on this list that shows
     the given SimObject
-@throws {Error} if DisplayShape is not found
+@throws {!Error} if DisplayShape is not found
 */
 DisplayList.prototype.findShape = function(search) {
   var ds = this.find(search);
@@ -219,7 +219,7 @@ DisplayList.prototype.findShape = function(search) {
     Name should be English or language-independent version of name.
 @return {!DisplaySpring} the DisplaySpring on this list that shows
     the given SimObject
-@throws {Error} if DisplaySpring is not found
+@throws {!Error} if DisplaySpring is not found
 */
 DisplayList.prototype.findSpring = function(search) {
   var ds = this.find(search);
@@ -233,7 +233,7 @@ DisplayList.prototype.findSpring = function(search) {
 @param {number} index  index number of DisplayObject
 @return {!DisplayObject} the DisplayObject at the specified
     position in this DisplayList
-@throws {Error} if index out of range
+@throws {!Error} if index out of range
 */
 DisplayList.prototype.get = function(index) {
   var n = this.drawables_.length;

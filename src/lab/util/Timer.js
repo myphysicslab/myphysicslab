@@ -279,7 +279,7 @@ Timer.prototype.setCallBack = function(callBack) {
 /** Sets the default time period between callback execution in seconds of system
 clock time.
 @param {number} period the number of seconds between successive callbacks
-@throws {Error} if period is negative
+@throws {!Error} if period is negative
 */
 Timer.prototype.setPeriod = function(period) {
   if (period < 0) {

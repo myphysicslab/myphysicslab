@@ -85,14 +85,14 @@ Vertex.prototype.getCurvature;
 /** Returns the 'previous' Edge that this Vertex is connected to.
 @return {!myphysicslab.lab.engine2D.Edge} the 'previous' Edge that this Vertex is
     connected to.
-@throws {Error} if edge1 not yet set for this Vertex
+@throws {!Error} if edge1 not yet set for this Vertex
 */
 Vertex.prototype.getEdge1;
 
 /** Returns the 'next' Edge that this Vertex is connected to.
 @return {!myphysicslab.lab.engine2D.Edge} the 'next' Edge that this Vertex is
     connected to.
-@throws {Error} if edge2 not yet set for this Vertex
+@throws {!Error} if edge2 not yet set for this Vertex
 */
 Vertex.prototype.getEdge2;
 
@@ -137,14 +137,14 @@ Vertex.prototype.safeGetEdge2;
 /** Sets the 'previous' Edge that this Vertex is connected to.
 @param {!myphysicslab.lab.engine2D.Edge} edge the 'previous' Edge that this Vertex is
     connected to.
-@throws {Error} if this Vertex was already connected to a previous Edge
+@throws {!Error} if this Vertex was already connected to a previous Edge
 */
 Vertex.prototype.setEdge1;
 
 /** Sets the 'next' Edge that this Vertex is connected to.
 @param {!myphysicslab.lab.engine2D.Edge} edge the 'next' Edge that this Vertex is
     connected to
-@throws {Error} if this Vertex was already connected to a next Edge
+@throws {!Error} if this Vertex was already connected to a next Edge
 */
 Vertex.prototype.setEdge2;
 
