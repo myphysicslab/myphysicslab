@@ -30,6 +30,9 @@ var Subject = myphysicslab.lab.util.Subject;
 /** Provides access to a string value of a {@link Subject}. See {@link Parameter} for
 more information.
 
+See [Internationalization](Building.html#internationalizationi18n) for information
+about localized and language-independent strings.
+
 How to Represent an Enum
 ------------------------
 To create a ParameterString that represents a string enum requires some extra code for
@@ -47,8 +50,8 @@ of the enum type `ExtraAccel`, not of type `string`.
 See [Enums](Building.html#enums) for more information.
 
 @param {!Subject} subject the Subject whose value this ParameterString represents
-@param {string} name the name of this Parameter; this will be underscorized so the
-    English name can be passed in here. See {@link Util#toName}.
+@param {string} name the language-independent name of this Parameter; the English
+    name can be passed in here because it will be run thru {@link Util#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): string} getter A function with no arguments that returns
     the value of this Parameter
@@ -161,7 +164,8 @@ ParameterString.prototype.getChoices = function() {
   return goog.array.clone(this.choices_);
 };
 
-/** Returns the maximum length of the string.
+/** Returns the maximum length of the string. {@link #setValue} will throw an Error if
+trying to set a string longer than this.
 @return {number} the maximum length of the string
 */
 ParameterString.prototype.getMaxLength = function() {
@@ -178,7 +182,7 @@ ParameterString.prototype.getSubject = function() {
   return this.subject_;
 };
 
-/** Returns the suggested length of string when making a control.
+/** Returns the suggested length of string when making a user interface control.
 @return {number} the suggested length of string when making a control
 */
 ParameterString.prototype.getSuggestedLength = function() {
@@ -208,6 +212,7 @@ ParameterString.prototype.nameEquals = function(name) {
 };
 
 /**  Sets the choices and values associated with this Parameter.
+See [Internationalization](Building.html#internationalizationi18n).
 @param {!Array<string>} choices  localized strings giving name of each choice
 @param {!Array<string>} values  the values corresponding to each choice
 @throws {!Error} if `values` is of different length than `choices`
@@ -252,11 +257,12 @@ ParameterString.prototype.setInputFunction = function(inputFunction) {
   return this;
 };
 
-/** Sets the maximum length of the string.
+/** Sets the maximum length of the string. {@link #setValue} will throw an Error if
+trying to set a string longer than this.
 @param {number} len the maximum length of the string
 @return {!ParameterString} this Parameter for chaining setters
 @throws {!Error} if the max length is less than length of current value of this
-    parameter.
+    Parameter.
 */
 ParameterString.prototype.setMaxLength = function(len) {
   if (len < this.getValue().length)
@@ -265,8 +271,7 @@ ParameterString.prototype.setMaxLength = function(len) {
   return this;
 };
 
-/** Sets the suggested length of string when making a control. This affects for example
-the size of a control that displays and alters this parameter.
+/** Sets the suggested length of string when making a user interface control.
 @param {number} len suggested length of string to show
 @return {!ParameterString} this Parameter for chaining setters
 */

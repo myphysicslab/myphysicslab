@@ -21,17 +21,17 @@ should accept GenericVector so that many different types of vector can be provid
 * */
 myphysicslab.lab.util.GenericVector = function() {};
 
-/** Returns the X value of the GenericVector.
-* @return {number} the X value of the GenericVector
+/** Returns the X value of this GenericVector.
+* @return {number} the X value of this GenericVector
 */
 myphysicslab.lab.util.GenericVector.prototype.getX;
 
-/** Returns the Y value of the GenericVector.
-* @return {number} the Y value of the GenericVector
+/** Returns the Y value of this GenericVector.
+* @return {number} the Y value of this GenericVector
 */
 myphysicslab.lab.util.GenericVector.prototype.getY;
 
-/** Returns the Z value of the GenericVector.
-* @return {number} the Z value of the GenericVector
+/** Returns the Z value of this GenericVector.
+* @return {number} the Z value of this GenericVector
 */
 myphysicslab.lab.util.GenericVector.prototype.getZ;

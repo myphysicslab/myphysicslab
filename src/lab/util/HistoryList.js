@@ -19,9 +19,9 @@ goog.scope(function() {
 
 var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
 
-/** An ordered list of values that can be added to but not altered; older
-values might be forgotten. Each value has a unique unchanging index in the HistoryList,
-but the HistoryList can have limited capacity and old values might be dropped from the
+/** An ordered list of values that can be added to but not altered; older values might
+be forgotten. Each value has a unique unchanging index in the HistoryList, but a
+HistoryList has a limited capacity and old values will be dropped if necessary from the
 HistoryList to make room for new values to be added.
 
 HistoryList contains only those values whose index is between {@link #getStartIndex}
@@ -30,7 +30,7 @@ new value to the list, because a new value might overwrite an old value.
 
 The type of value stored can be number, string, boolean or any object. When using
 HistoryList you can specify to the compiler the type of the value with angle brackets.
-For example `HistoryList<!Vector>` indicates storing non-nullable Vectors in the
+For example `HistoryList<!Vector>` indicates storing non-null Vectors in the
 HistoryList.
 See [Closure Compiler Generic Types](https://github.com/google/closure-compiler/wiki/Generic-Types).
 

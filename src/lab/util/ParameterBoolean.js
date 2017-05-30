@@ -29,9 +29,12 @@ var Subject = myphysicslab.lab.util.Subject;
 /** Provides access to a boolean value of a {@link Subject}. See {@link Parameter} for
 more information.
 
+See [Internationalization](Building.html#internationalizationi18n) for information
+about localized and language-independent strings.
+
 @param {!Subject} subject the Subject whose value this ParameterBoolean represents
-@param {string} name the name of this Parameter; this will be underscorized so the
-    English name can be passed in here. See {@link Util#toName}.
+@param {string} name the language-independent name of this Parameter; the English
+    name can be passed in here because it will be run thru {@link Util#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): boolean} getter A function with no arguments that returns
     the value of this Parameter

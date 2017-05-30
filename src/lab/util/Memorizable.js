@@ -20,14 +20,15 @@ goog.require('myphysicslab.lab.util.Printable');
 to happen regularly. The `memorize` method is meant to be called after each simulation
 time step, as is done in {@link myphysicslab.lab.model.AdvanceStrategy#advance}.
 See {@link myphysicslab.lab.util.MemoList} for how to add a Memorizable
-object to the list of those that will be called.
+object so that it will be called frequently.
 
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
 */
 myphysicslab.lab.util.Memorizable = function() {};
 
-/** Memorize the current simulation data or do some other function.
+/** Memorize the current simulation data, or do some other function that should happen
+regularly after each simulation time step.
 @return {undefined}
 */
 myphysicslab.lab.util.Memorizable.prototype.memorize;

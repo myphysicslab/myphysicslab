@@ -57,7 +57,7 @@ methods will be called from this object's `memorize` method.
 */
 MemoList.prototype.addMemo;
 
-/** Returns the list of Memorizable objects.
+/** Returns the list of Memorizable objects stored in this MemoList.
 @return {!Array<!Memorizable>} the list of Memorizable objects
 */
 MemoList.prototype.getMemos;

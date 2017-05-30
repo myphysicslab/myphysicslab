@@ -20,25 +20,25 @@ goog.scope(function() {
 
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 
-/** Provides access to a value of a {@link myphysicslab.lab.util.Subject} and
-meta-data such as name, a set of possible values, or whether it is editable. Part of
-the [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern) which
-ensures that change notification operates correctly even when any of several objects
-can potentially change the value.
+/** Provides access to a value of a {@link myphysicslab.lab.util.Subject Subject} and
+meta-data such as name, a set of possible values and more. Part of the
+[Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern) which
+ensures that change notification happens regardless of how the value was changed.
 See [Subject, Observer, Parameter](Architecture.html#subjectobserverparameter) for
 an overview.
 
-A Parameter makes its value easily accessible to a user interface control like
+It is very easy to connect a Parameter to a user interface control like
 {@link myphysicslab.lab.controls.NumericControl NumericControl},
 {@link myphysicslab.lab.controls.ChoiceControl ChoiceControl}, or
-{@link myphysicslab.lab.controls.CheckBoxControl CheckBoxControl}. Using a Parameter
-ensures that those controls display the correct value because the Parameter is
-broadcast to all Observers of the Subject whenever the value changes.
+{@link myphysicslab.lab.controls.CheckBoxControl CheckBoxControl}.
 
-Parameter helps to minimize how much knowledge classes have about each other. For
-example, a NumericControl can be set up to display and modify the ParameterNumber of
-a Subject without knowing anything about the Subject other than that it implements
+Parameter helps to minimize the knowledge that classes have about each other. For
+example, a NumericControl can display and modify the ParameterNumber of
+a Subject without knowing anything about the Subject other than it implements
 the Subject interface.
+
+See [Internationalization](Building.html#internationalizationi18n) for information
+about localized and language-independent strings.
 
 
 Getter and Setter Methods
@@ -62,7 +62,8 @@ broadcast in the *setter* method of the Subject.
     };
 
 Here is an example showing how the *getter* and *setter* methods are specified when
-creating a ParameterNumber. This is from the SingleSpringSim constructor:
+creating a ParameterNumber. This is from the
+{@link myphysicslab.sims.springs.SingleSpringSim SingleSpringSim constructor}:
 
     this.addParameter(new ParameterNumber(this, SingleSpringSim.en.MASS,
         SingleSpringSim.i18n.MASS,
@@ -72,15 +73,15 @@ creating a ParameterNumber. This is from the SingleSpringSim constructor:
 
 Choices and Values
 ------------------
-It is optional for a Parameter to have a set of specified choices and values. If they
+A Parameter can have a set of choices and values. If they
 are specified, then the Parameter value is only allowed to be set to one of those
 values.
 
 + {@link #getValues} returns a list of *values* that the Parameter can be set to.
 
-+ {@link #getChoices} returns a corresponding list of translated localized strings which
-are shown to the user as the *choices* for this Parameter, typically in a user
-interface menu such as {@link myphysicslab.lab.controls.ChoiceControl}.
++ {@link #getChoices} returns a corresponding list of localized (translated) strings
+    which are shown to the user as the *choices* for this Parameter, typically in a
+    user interface menu such as {@link myphysicslab.lab.controls.ChoiceControl}.
 
 When the set of Parameter choices is changed, a GenericEvent should be broadcast with
 the name {@link #CHOICES_MODIFIED}. Then any control that is displaying the
@@ -106,7 +107,7 @@ Parameter.CHOICES_MODIFIED = 'CHOICES_MODIFIED';
 Parameter.prototype.getAsString;
 
 /** Returns the localized strings corresponding to the possible values from
-{@link #getValues}.
+{@link #getValues}. See [Internationalization](Building.html#internationalizationi18n).
 @return {!Array<string>} the localized strings corresponding to the
     possible values
 */
@@ -129,7 +130,7 @@ Parameter.prototype.getValues;
 */
 Parameter.prototype.isComputed;
 
-/** Sets whether the value is being automatically computed.
+/** Sets whether the value is being automatically computed. See {@link #isComputed}.
 @param {boolean} value whether the value is being automatically computed.
 */
 Parameter.prototype.setComputed;

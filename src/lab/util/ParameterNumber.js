@@ -34,28 +34,12 @@ number of significant digits to show, and upper/lower limit on value. Default is
 significant digits, lower limit of zero, and upper limit is infinity.
 See {@link Parameter} for more information.
 
-How to Represent an Enum
-------------------------
-To create a ParameterNumber that represents a numeric enum requires some extra code for
-satisfying the compiler about the conversion between number and enum. Here is an
-example from {@link myphysicslab.lab.graph.GraphLine} (NOTE: this has since changed
-to be a ParameterString).
-
-    new ParameterNumber(this, GraphLine.en.DRAWING_MODE,
-      GraphLine.i18n.DRAWING_MODE,
-      goog.bind(this.getDrawingMode, this),
-      goog.bind(function(s) { this.setDrawingMode(DrawingMode.stringToEnum(s)); },
-          this),
-      DrawingMode.getChoices(), DrawingMode.getValues());
-
-This defines a special 'setter' function because `setDrawingMode` takes an argument
-of the enum type `DrawingMode`, not of type `number`.
-See [Enums](Building.html#enums) for more information.
-
+See [Internationalization](Building.html#internationalizationi18n) for information
+about localized and language-independent strings.
 
 @param {!Subject} subject the Subject whose value this ParameterNumber represents
-@param {string} name the name of this Parameter; this will be underscorized so the
-    English name can be passed in here. See {@link Util#toName}.
+@param {string} name the language-independent name of this Parameter; the English
+    name can be passed in here because it will be run thru {@link Util#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): number} getter A function with no arguments that returns
     the value of this Parameter
@@ -239,6 +223,7 @@ ParameterNumber.prototype.nameEquals = function(name) {
 };
 
 /**  Sets the choices and values associated with this Parameter.
+See [Internationalization](Building.html#internationalizationi18n).
 @param {!Array<string>} choices  localized strings giving name of each choice
 @param {!Array<number>} values  the values corresponding to each choice
 @throws {!Error} if `values` is of different length than `choices`
