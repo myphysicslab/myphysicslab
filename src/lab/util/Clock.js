@@ -444,12 +444,18 @@ should run at or after the given time. Broadcasts a {@link #CLOCK_SET_TIME} even
 @param {number} time_secs the time in seconds to set this Clock to
 */
 Clock.prototype.setTime = function(time_secs) {
-  this.setTimePrivate(time_secs);
-  if (Util.DEBUG && this.clockDebug_) {
-    console.log('Clock.setTime '+' time='+NF5(this.getTime())
-        +' realTime='+NF5(this.getRealTime()));
+  // Ignore when we are close to the requested time; this prevents needless
+  // CLOCK_SET_TIME events. Because system clock usually has millisecond resolution
+  // we use 0.001 for the threshold to set the time.
+  var t = this.getTime();
+  if (Util.veryDifferent(t, time_secs, 0.001)) {
+    this.setTimePrivate(time_secs);
+    if (Util.DEBUG && this.clockDebug_) {
+      console.log('Clock.setTime('+time_secs+') getTime='+t
+          +' realTime='+NF5(this.getRealTime()));
+    }
+    this.broadcast(new GenericEvent(this, Clock.CLOCK_SET_TIME));
   }
-  this.broadcast(new GenericEvent(this, Clock.CLOCK_SET_TIME));
 };
 
 /**
