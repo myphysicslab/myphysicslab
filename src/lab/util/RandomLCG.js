@@ -68,9 +68,9 @@ prime factors of the multiplier, `a`
 Floating Point Number
 ---------------------
 The double number format allows exact representation of all integers with absolute
-value less than 2^53. We need to avoid making numbers larger than 2^53 to avoid loss
-of accuracy. Every number generated will be between 0 and `m-1`. The maximum number that
-can be made in the algorithm is `(m-1)*a + c`. So we have to ensure that
+value less than `2^53`. We need to avoid making numbers larger than `2^53` to avoid
+loss of accuracy. Every number generated will be between 0 and `m-1`. The maximum
+number that can be made in the algorithm is `(m-1)*a + c`. So we have to ensure that
 
     (m-1)*a + c < 2^53.
 
@@ -211,8 +211,6 @@ RandomLCG.prototype.nextInt_ = function() {
   RandomLCG.checkSeed(this.seed_);
   if (RandomLCG.DEBUG_RANDOM_DEEP) {
     var err = new Error();
-    //console.log('RandomLCG.nextInt_ '+this.seed_);
-    //console.log(err.stack);
   }
   return this.seed_;
 };

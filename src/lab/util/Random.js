@@ -32,8 +32,8 @@ Random.prototype.getModulus;
 */
 Random.prototype.getSeed;
 
-/** Returns random floating point number in range [0,1].
-@return {number} random floating point number in range [0,1]
+/** Returns random floating point number in range `[0,1]`.
+@return {number} random floating point number in range `[0,1]`
 */
 Random.prototype.nextFloat;
 
@@ -48,14 +48,17 @@ Random.prototype.nextInt;
 */
 Random.prototype.nextRange;
 
-/** Returns an array of integers from 0 to n-1, in random order.
+/** Returns an array of integers from 0 to `n-1`, in random order.
 @param {number} n the size of the array to create
-@return {!Array<number>} an array of integers from 0 to n-1, in random order.
+@return {!Array<number>} an array of integers from 0 to `n-1`, in random order.
 */
 Random.prototype.randomInts;
 
-/** Sets the seed of the random number generator.
+/** Sets the seed of the random number generator; must be an integer between 0
+(inclusive) and modulus (exclusive).
 @param {number} seed  the seed to start the random number generator with
+@throws {!Error} if seed is not an integer between 0 (inclusive) and modulus
+    (exclusive).
 */
 Random.prototype.setSeed;
 
