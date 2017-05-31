@@ -1202,17 +1202,10 @@ Terminal.prototype.vetCommand = function(command) {
   // structure of the Document.
   // We allow `setParser` because any Parser that is defined via script will have
   // been vetted.
-  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|parser_|defineNames|globalEval|window|top|document)\b/g;
+  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|parser_|defineNames|globalEval|window)\b/g;
   if (blackList.test(command)) {
     throw new Error('prohibited name in command: '+command);
   }
-  // 'top' is a global that refers to the containing window (or the window itself).
-  // Prohibit any usage of 'top' but allow '.top'.
-  // (^|[^\w.]) means:  either start of line, or a not-word-or-dot character.
-  //var topRegexp = /(^|[^\w.])top\b/g;
-  //if (topRegexp.test(command)) {
-  //  throw new Error('prohibited usage of "top" in command: ' + command);
-  //}
 };
 
 /** Set of internationalized strings.

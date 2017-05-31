@@ -191,7 +191,15 @@ var testTerminal4 = function() {
   assertThrows(function(){ t.eval('win\u0064\x4Fw'); });
   assertThrows(function(){ t.eval('win\u0064\x4fw'); });
   assertThrows(function(){ t.eval('foo;top'); });
+  assertThrows(function(){ t.eval('alert("foo")'); });
   assertThrows(function(){ t.eval('foo;document'); });
+  assertThrows(function(){ t.eval('goog.globalEval("foo")'); });
+  // these hacks were found by reddit
+  // https://www.reddit.com/r/AskNetsec/comments/64erdg/is_my_javascript_physics_simulation_app_hackproof/
+  assertThrows(function(){
+      t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'); });
+  assertThrows(function(){
+      t.eval('win\u0064ow.lo\u0063ation=\'https://www.reddit.com\''); });
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal4', testTerminal4);
