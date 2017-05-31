@@ -39,7 +39,7 @@ purposes or the localized name for display to user.
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
 see {@link Util#toName} and {@link #nameEquals}.
-See [Internationalization](Building.html#internationalizationi18n).
+See [Internationalization Overview](Building.html#internationalizationi18n).
 
 @param {boolean=} opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.
@@ -52,14 +52,15 @@ SubjectEvent.prototype.getName;
 */
 SubjectEvent.prototype.getSubject;
 
-/** Returns the value of this SubjectEvent.
+/** Returns the value of this SubjectEvent, or `undefined` if there is no assigned
+value.
 @return {*} the value of this SubjectEvent
 */
 SubjectEvent.prototype.getValue;
 
 /** Whether this SubjectEvent has the given name, adjusting for the transformation to a
 language-independent form of the name, as is done by {@link Util#toName}.
-See [Internationalization](Building.html#internationalizationi18n).
+See [Internationalization Overview](Building.html#internationalizationi18n).
 
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this SubjectEvent has the given name (adjusted to

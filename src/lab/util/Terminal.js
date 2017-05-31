@@ -29,8 +29,8 @@ var Parser = myphysicslab.lab.util.Parser;
 
 /** Executes scripts and provides a command line user interface with separate text
 fields for input and output. Executes EasyScript or JavaScript. The JavaScript is a
-safe subset to prevent malicious scripts and work in strict mode. Allows use of "short
-names" to replace full name space pathnames of classes.
+safe subset to prevent malicious scripts. Allows use of "short names" to replace full
+namespace pathnames of classes.
 
 After the command is executed the result is converted to text and displayed in the
 output text field. The output is not displayed if the result is `undefined` or the
@@ -43,7 +43,7 @@ Getting Help
 ------------
 Type `help` in the Terminal input text area and press return to see the help message.
 Several useful Terminal commands are shown. The help message also specifies whether the
-code was *simple-compiled* or *advance-compiled*.
+code was *simple-compiled* or *advanced-compiled*.
 
 Perhaps the most useful command is `vars` which shows the list of variables that are
 available.
@@ -56,22 +56,26 @@ Two Types of Scripts
 Terminal can execute two types of scripts:
 
 1. JavaScript: a safe subset of JavaScript, where you can use short-names that are
-    run thru {@link #expand}.
+    run thru {@link #expand}. JavaScript is only available when the application
+    has been
+     [simple-compiled](https://www.myphysicslab.com/develop/docs/Building.html#advancedvs.simplecompile)
 
 2. EasyScript: a very simple scripting language for setting Parameter values.
     See {@link myphysicslab.lab.util.EasyScriptParser} for syntax details.
+    Works with either simple or advanced-compile
 
 These two types of script can be intermixed in a single command as long as they are
-separated with a semicolon. For example, here are both types of scripts in
-one command:
+separated by a semicolon. For example, here are both types of scripts in
+one command which could be entered in
+[simple-compiled PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?SHOW_TERMINAL=true).
 
-    DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;bob.fillStyle='red'
+    DAMPING=0.1; GRAVITY=9.8; ANGLE=2.5; bob.setFillStyle('red');
 
 The first three commands are EasyScript commands that set Parameter values; the last is
 a JavaScript command.
 
 In most applications the EasyScriptParser is available in the variable `easyScript` and
-you can use it to execute EasyScript within JavaScript. Examples:
+you can use it to execute EasyScript from within JavaScript. Examples:
 
     easyScript.parse('angle')+0.1
 
@@ -407,7 +411,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @type {!Array<string>}
   * @private
   */
-  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'top', 'name', 'terminal',
+  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal',
       'find' ];
   /**
   * @type {?Parser}
@@ -614,6 +618,12 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
     // blank line: don't enter into history
     return undefined;
   }
+  // Replace unicode characters, example: \x61 = \u0061 = 'a'
+  // This is so our blacklist checking can work (this defeats the hack of
+  // spelling "window" like "win\u0064ow").
+  command = command.replace(/\\(x|u00)([0-9a-fA-F]{2})/g, function(v1, v2, v3) {
+        return String.fromCharCode(Number('0x'+v3));
+      });
   this.evalCalls_++; // number of simultaneous calls to eval() = depth of recursion
   if (output) {
     goog.asserts.assert(this.evalCalls_ <= 1);
@@ -1192,17 +1202,17 @@ Terminal.prototype.vetCommand = function(command) {
   // structure of the Document.
   // We allow `setParser` because any Parser that is defined via script will have
   // been vetted.
-  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|parser_|defineNames)\b/g;
+  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|parser_|defineNames|globalEval|window|top|document)\b/g;
   if (blackList.test(command)) {
     throw new Error('prohibited name in command: '+command);
   }
   // 'top' is a global that refers to the containing window (or the window itself).
   // Prohibit any usage of 'top' but allow '.top'.
   // (^|[^\w.]) means:  either start of line, or a not-word-or-dot character.
-  var topRegexp = /(^|[^\w.])top\b/g;
-  if (topRegexp.test(command)) {
-    throw new Error('prohibited usage of "top" in command: ' + command);
-  }
+  //var topRegexp = /(^|[^\w.])top\b/g;
+  //if (topRegexp.test(command)) {
+  //  throw new Error('prohibited usage of "top" in command: ' + command);
+  //}
 };
 
 /** Set of internationalized strings.

@@ -151,7 +151,7 @@ var testTerminal3 = function() {
   var t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
-  // test the Terminal.varReplace() method.
+  // test the Terminal.replaceVar() method.
   assertEquals(3, t.eval('var foo=3'));
   assertEquals(3, t.eval('foo'));
   assertEquals(3, t.eval('z.foo'));
@@ -167,3 +167,31 @@ var testTerminal3 = function() {
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal3', testTerminal3);
+
+var testTerminal4 = function() {
+  var Util = myphysicslab.lab.util.Util;
+  var Terminal = myphysicslab.lab.util.Terminal;
+  if (Util.ADVANCED) {
+    // Terminal doesn't work under advanced-compile.
+    return;
+  }
+  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  input_elem.type = 'text';
+  window.terminal = new Terminal(input_elem, output_elem);
+  var t = window.terminal;
+  Terminal.stdRegex(t);
+  assertEquals(4, t.eval('2+2'));
+  // test blacklist. These are variant spellings of "window".
+  assertThrows(function(){ t.eval('window'); });
+  assertThrows(function(){ t.eval('win\u0064ow'); });
+  assertThrows(function(){ t.eval('win\x64ow'); });
+  assertThrows(function(){ t.eval('win\u0064\u004Fw'); });
+  assertThrows(function(){ t.eval('win\u0064\u004fw'); });
+  assertThrows(function(){ t.eval('win\u0064\x4Fw'); });
+  assertThrows(function(){ t.eval('win\u0064\x4fw'); });
+  assertThrows(function(){ t.eval('foo;top'); });
+  assertThrows(function(){ t.eval('foo;document'); });
+  delete window.terminal;
+};
+goog.exportProperty(window, 'testTerminal4', testTerminal4);
