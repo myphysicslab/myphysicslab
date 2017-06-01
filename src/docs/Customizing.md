@@ -187,7 +187,7 @@ application has been simple-compiled or advance-compiled. When advanced-compile 
 used, the names of myPhysicsLab classes and methods are renamed to minimized names, so
 they cannot be called from a script that references the original names. See also the
 section
-[Advanced-compile is the Enemy of JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compileistheenemyofjavascript)
+[Advanced-compile disables JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compiledisablesjavascript)
 in Terminal documentation.
 
 JavaScript can be put in `<script>` tags on an HTML page. See the section below about

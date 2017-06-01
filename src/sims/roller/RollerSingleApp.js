@@ -81,6 +81,9 @@ var Vector = lab.util.Vector;
 
 /** Creates the RollerSingleSim simulation with no spring.
 
+Allows defining a parametric equation to define the path. The parameter is `t` which
+can be used in JavaScript expressions for Parameters `EQUATION_X` and `EQUATION_Y`.
+
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.

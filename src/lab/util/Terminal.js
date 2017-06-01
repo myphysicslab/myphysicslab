@@ -32,9 +32,9 @@ fields for input and output. Executes EasyScript or JavaScript. The JavaScript i
 safe subset to prevent malicious scripts. Allows use of "short names" to replace full
 namespace pathnames of classes.
 
-After the command is executed the result is converted to text and displayed in the
+After the script is executed the result is converted to text and displayed in the
 output text field. The output is not displayed if the result is `undefined` or the
-command ends with a semi-colon.
+script ends with a semi-colon.
 
 See also [Customizing myPhysicsLab Software](Customizing.html).
 
@@ -64,9 +64,9 @@ Terminal can execute two types of scripts:
     See {@link myphysicslab.lab.util.EasyScriptParser} for syntax details.
     Works with either simple or advanced-compile
 
-These two types of script can be intermixed in a single command as long as they are
+These two types of script can be intermixed in a single script as long as they are
 separated by a semicolon. For example, here are both types of scripts in
-one command which could be entered in
+one script which could be entered in
 [simple-compiled PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?SHOW_TERMINAL=true).
 
     DAMPING=0.1; GRAVITY=9.8; ANGLE=2.5; bob.setFillStyle('red');
@@ -94,8 +94,8 @@ function under
 [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
 
 We prohibit access to most global variables including the `window` object which defines
-global variables. We prohibit usage of the JavaScript `eval` function and access to
-certain methods and properties of Terminal.
+global variables. We prohibit usage of the JavaScript `eval` function and prohibit
+access to certain methods and properties of Terminal.
 
 Square-brackets are only allowed when they contain a list of numbers. This is to
 prevent accessing prohibited properties by manipulating strings, for example the
@@ -122,15 +122,15 @@ instead of
 
     new myphysicslab.lab.util.DoubleRect(0,0,1,1)
 
-Applications will typically make their key objects available as short-names. So instead
-of `app.sim` you can just type `sim`.
+Applications will typically make their key objects available with short-names.
+So instead of `app.sim` you can just type `sim`.
 
-These short-names are implemented by defining a set of regular expression replacements
+Short-names are implemented by defining a set of regular expression replacement rules
 which are applied to the Terminal input string before it is executed.
 
 The methods {@link #addRegex} and {@link #expand} are how short-names are defined and
-used. Regular expressions are registered with Terminal using `addRegex`. Then whenever
-a command is evaluated it is first expanded to the long form using `expand`.
+used. Regular expression rules are registered with Terminal using `addRegex`. Then
+whenever a command is evaluated it is first expanded to the long form using `expand`.
 
 {@link #stdRegex Terminal.stdRegex} defines a standard set of regular expressions for
 expanding myPhysicsLab class names (like `DoubleRect`) and for expanding a few function
@@ -142,7 +142,7 @@ To see the post-expansion names in the Terminal output, use {@link #setVerbose}.
 
 The Result Variable
 -------------------
-The result of the last Terminal command is stored in a variable named `result`. Here is
+The result of the last Terminal script is stored in a variable named `result`. Here is
 an example Terminal session:
 
     > 2+2
@@ -177,9 +177,9 @@ URL Query Script
 ----------------
 
 A Terminal script can be embedded into a URL
-[query string](https://en.wikipedia.org/wiki/Query_string) which will be
-executed when the page is loaded. This provides a convenient way to share a
-customized simulation with someone else.
+[query string](https://en.wikipedia.org/wiki/Query_string) which will be executed when
+the page is loaded. This provides a convenient way to remember or share a customized
+simulation with someone else.
 
 The script follows a question mark in the URL, so it is called a 'query script'
 or 'query URL'. Here is an
@@ -221,9 +221,10 @@ application:
 which contains the above code; you should also see the code in the Terminal output area.
 
 
+<a name="sessionhistory"></a>
 Session History
 ---------------
-A session history feature recalls previous input lines; these are accessed using the
+The session history feature recalls previous input lines; these are accessed using the
 up/down arrow keys. Command-K clears the output area.
 
 This feature is only for the convenience of the Terminal user, and has no relation to
@@ -243,17 +244,18 @@ whenever the page loads on that user's machine.
 On startup most applications call {@link #parseURLorRecall} which calls `recall` unless
 there is a URL script which would take priority.
 
-If no script is explicitly supplied to `remember()`, then the commands in the Terminal
+If no script is explicitly supplied to `remember()`, then the scripts in the Terminal
 output window are saved, as returned by the method {@link #commands}. A user can edit
 the contents of the Terminal output window to change what is remembered. Commands are
 any line in the output text area that start with '> '.
 
 The `remember()` method saves a script specific for the current page and browser.
-If you load the page under a different browser, or for a different locale (which is a
-different page), there will be a different stored script.
-See [Internationalization (i18n)](Building.html#internationalizationi18n).
+If you load the page under a different browser, or for a different locale, there will
+be a different stored script.
+See [Internationalization](Building.html#internationalizationi18n).
 
 
+<a name="thezobject"></a>
 The z Object
 --------------
 Strict mode prevents adding global variables when using the JavaScript `eval` command.
@@ -297,37 +299,38 @@ In most apps this is accomplished by using {@link #addRegex} like this:
 
     terminal.addRegex('terminal', myName);
 
-where `myName` is the global name of the app, which is usually just 'app'. The purpose
+where `myName` is the global name of the app, which is usually just `app`. The purpose
 of the regex is to replace the word `terminal` with `app.terminal` which
 is a valid JavaScript reference.
 
 (In unit tests of Terminal, we temporarily define a global variable named `terminal`.)
 
 
-<a name="advanced-compileistheenemyofjavascript"></a>
-Advanced-compile is the Enemy of JavaScript
--------------------------------------------
+<a name="advanced-compiledisablesjavascript"></a>
+Advanced-compile disables JavaScript
+------------------------------------
 
-When using [Advanced Compile](Building.html#advancedvs.simplecompile) only EasyScript
+When using [advanced-compile](Building.html#advancedvs.simplecompile) only EasyScript
 can be executed in Terminal, not JavaScript code.
 
 Advanced compilation causes all class and method names to be minified to one or two
 character names, so scripts based on non-minified names will not work. Also, unused
 code is eliminated, so desired features might be missing.
 
-However, names that are **exported** can be used in HTML scripts under
+However, names that are *exported* can be used in HTML scripts under
 advanced-compile. For example, we export the `eval` method in
 {@link myphysicslab.sims.common.AbstractApp} so that EasyScript can be executed via
 `app.eval()` even under advanced-compile.
 See [Exporting Symbols](Building.html#exportingsymbols).
 
-JavaScript code is disabled under advanced-compile due to security considerations.
-The 'safe subset' strategy used here depends on detecting names in the script such as
-`window`, `eval`, `myEval`, `whiteList_`, etc. Because advanced-compile renames many of
-these, we are no longer able to detect their usage. For example, an attacker could
-figure out what the `myEval` function was renamed to, and enter a script that would
-call that function; this would not be detected by the 'safe subset' checking which is
-looking for `myEval`, not for whatever that method got renamed to.
+Security considerations are another reason do disable JavaScript code under
+advanced-compile. The 'safe subset' strategy used here depends on detecting names in
+the script such as `window`, `eval`, `myEval`, `whiteList_`, etc. Because
+advanced-compile renames many of these, we are no longer able to detect their usage.
+For example, an attacker could figure out what the `Terminal.myEval` function was
+renamed to, and enter a script that would call that function; this would not be
+detected by the 'safe subset' checking which is looking for `myEval`, not for whatever
+that method got renamed to.
 
 
 * @param {!HTMLInputElement} term_input  A textarea where user types input to evaluate
@@ -368,7 +371,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   this.changeKey_ = goog.events.listen(this.term_input_,
       goog.events.EventType.CHANGE, /*callback=*/this.inputCallback,
       /*capture=*/true, this);
-  /**  session history of commands entered.
+  /**  session history of scripts entered.
   * @type {!Array<string>}
   * @private
   */
@@ -378,29 +381,30 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @private
   */
   this.histIndex_ = -1;
-  /** Whether to print the expanded or unexpanded command.  Seeing the expanded
-  * command is useful for debugging, or for understanding how Terminal works.
+  /** Whether to print the expanded or unexpanded script.  Seeing the expanded
+  * script is useful for debugging, or for understanding how Terminal works.
   * @type {boolean}
   * @private
   */
   this.verbose_ = false;
-  /** Set of regular expressions to apply to each command to replace short names
+  /** Set of regular expressions to apply to each script to replace short names
   * with full expanded name. For example, `DoubleRect` is the short name that
   * expands to `myphysicslab.lab.util.DoubleRect`.
   * @type {!Array<!Terminal.regexPair>}
   * @private
   */
   this.regexs_ = [];
-  /** When recall() is executing commands, this flag is true.
+  /** While {@link #recall} is executing scripts, this flag is true.
   * @type {boolean}
   */
   this.recalling = false;
-  /** Contains results of last command. Can be referred to in Terminal as `result`.
+  /** Contains results of last script. Can be referred to in Terminal as `result`.
   * @type {*}
   * @private
   */
   this.result;
-  /** An object that command scripts can store properties into.
+  /** An object that scripts can store properties into.
+  * See [The z Object](#thezobject).
   * @type {!Object}
   */
   this.z = { };
@@ -449,25 +453,28 @@ if (!Util.ADVANCED) {
 */
 Terminal.regexPair;
 
-/** Add regular expression for transforming script commands before they are executed.
-* A typical usage is to make properties of an object available as a single
-* short name. For example to transform `rod` or `bob` into `app.rod` or `app.bob`
+/** Adds a regular expression rule for transforming scripts before they are executed.
 *
-*    terminal.addRegex('rod|bob', 'app');
-*
-* Another typical usage is to add namespace names to fully qualify a short name. For
-* example to transform `DoubleRect` into `myphysicslab.lab.util.DoubleRect`
+* One usage is to prepend the namespace to fully qualify a [short name](#shortnames).
+* For example, to transform `DoubleRect` into `myphysicslab.lab.util.DoubleRect`
 *
 *    terminal.addRegex('DoubleRect', `myphysicslab.lab.util');
 *
-* This adds the regex to the end of the list of regex's to execute, unless `opt_prepend`
-* is `true`. Will not add if the regex is already on the list.
-* @param {string} names set of names separated by | symbol
+* Another usage is to make properties of an object available as a single short name.
+* For example to transform `rod` or `bob` into `app.rod` or `app.bob`
+*
+*    terminal.addRegex('rod|bob', 'app');
+*
+* The regular expression rule is added to the end of the list of regex's to execute,
+* unless `opt_prepend` is `true`.
+*
+* @param {string} names set of names separated by `|` symbol
 * @param {string} prefix the string to prepend to each occurence of the names
 * @param {boolean=} opt_addToVars if `true`, then the set of names is added to the
-*     set of defined names returned by {@link #vars}; default is true
-* @param {boolean=} opt_prepend if `true`, then the regex is added to the front
-*     of the list of regex's to execute; default is false
+*     set of defined names returned by {@link #vars}; default is `true`
+* @param {boolean=} opt_prepend if `true`, then the regex rule is added to the front
+*     of the list of regex's to execute; default is `false`
+* @throws {!Error} if the regex rule already exists
 */
 Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend) {
   var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
@@ -498,12 +505,13 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
         this.regexs_.push(re);
       }
     } else {
-      throw new Error('variable already exists "'+names+'"');
+      throw new Error('regex rule already exists for "'+names+'"');
     }
   }
 };
 
 /** Adds the string to white list of allowed expressions.
+* See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} name string to add to white list
 */
 Terminal.prototype.addWhiteList = function(name) {
@@ -548,9 +556,9 @@ Terminal.prototype.checkVars = function(names) {
   });
 };
 
-/** Returns commands in current Terminal output text area, as array of strings,
+/** Returns command scripts in current Terminal output text area, as array of strings,
 * for use with {@link #remember}. Commands are any line in the output text area that
-* start with '> '. Each command is also trimmed of leading or trailing whitespace.
+* start with `> `. Each script is also trimmed of leading or trailing whitespace.
 * @return {!Array<string>}  array of command strings in current Terminal output
 */
 Terminal.prototype.commands = function() {
@@ -575,60 +583,63 @@ Terminal.prototype.destroy = function() {
   goog.events.unlistenByKey(this.changeKey_);
 };
 
-/** Executes the given command script and returns the result. If `output` is true, then
-saves the result, prints the result in the output area, scrolls the output so the most
-recent text is visible, clears the input area, remembers the command in the session
-history array.
+/** Executes the given script and returns the result.
 
-The command is expanded before execution with {@link #expand}. The command is split
+When `opt_output` is `true`: updates the `result` variable, prints the result in the
+output text area, scrolls the output so the most recent text is visible, clears the
+input text area, remembers the script in the [session history](#sessionhistory).
+
+When `opt_output` is `false`: the `result` variable is updated for
+successive scripts (separated by a semicolon) in the same script line, but after the
+script is finished executing the `result` variable is unchanged. The output text area
+and session history array are unchanged. This option allows for evaluating scripts that
+define a variable, for example in
+{@link myphysicslab.lab.model.ExpressionVariable ExpressionVariable}.
+
+The script is expanded before execution with {@link #expand}. The script is split
 into pieces separated by top-level semicolons (top-level means they are not enclosed by
 braces). Each fragment is first offered to the Parser installed with
 {@link #setParser}. If the Parser does not recognize the fragment, then the fragment is
 executed using JavaScript `eval`.
 
-Only a safe subset of JavaScript is allowed to be executed.
-See JavaScript: The Definitive Guide by Flanagan, section 11.1.2 'Subsets for Security'.
+Error handling: when `opt_userInput` is `true` we avoid throwing an error and only
+print the error to the output text area where the user will presumably see it. When
+`opt_userInput` is `false` we throw the error as usual (augmenting the message with the
+script that caused the error).
 
-When `opt_output` is false the `result` variable is updated for successive scripts
-(separated by a semicolon) in the same command line, but after the command is finished
-executing the `result` variable is unchanged.
+Only a [Safe Subset of JavaScript](#safesubsetofjavascript) is allowed to be executed.
 
-Error handling: when `opt_userInput` is true we avoid throwing an error and only print
-the error to the terminal where the user will presumably see it. When `opt_userInput` is
-false we throw the error message (augmenting the message with the command that caused
-the error).
-
-* @param {string} command a fragment of JavaScript to be executed
-* @param {boolean=} opt_output whether to output the result to the history window and
-*    add the command to history array; default is `true`
+* @param {string} script a fragment of JavaScript to be executed
+* @param {boolean=} opt_output whether to print the result to the output text area and
+*    add the script to session history; default is `true`
 * @param {boolean=} opt_userInput whether the script was input by user in Terminal
 *    command line interface; default is `false`
-* @return {*} the result of executing the command script
-* @throws {!Error} if an error occurs while executing the script and opt_userInput
+* @return {*} the result of executing the script
+* @throws {!Error} if an error occurs while executing the script and `opt_userInput`
 *    is false
 */
-Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
+Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
   var output = goog.isBoolean(opt_output) ? opt_output : true;
   var userInput = opt_userInput || false;
   if (userInput && !output) {
-    throw new Error(); // if user input the command then must have output==true
+    throw new Error(); // if user input the script then must have output==true
   }
-  command = command.trim();
-  if (command.match(/^\s*$/)) {
+  script = script.trim();
+  if (script.match(/^\s*$/)) {
     // blank line: don't enter into history
     return undefined;
   }
   // Replace unicode characters, example: \x61 = \u0061 = 'a'
   // This is so our blacklist checking can work (this defeats the hack of
   // spelling "window" like "win\u0064ow").
-  command = command.replace(/\\(x|u00)([0-9a-fA-F]{2})/g, function(v1, v2, v3) {
+  script = script.replace(/\\(x|u00)([0-9a-fA-F]{2})/g, function(v1, v2, v3) {
         return String.fromCharCode(Number('0x'+v3));
       });
   this.evalCalls_++; // number of simultaneous calls to eval() = depth of recursion
   if (output) {
     goog.asserts.assert(this.evalCalls_ <= 1);
-    // add command to session history
-    this.history_.unshift(command);
+    // add script to session history
+    this.history_.unshift(script);
     this.histIndex_ = -1;
   } else {
     // The afterEvalFn_ can call eval() when an ExpressionVariable is evaluated during
@@ -641,47 +652,47 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
   }
   var prefix = '> ';
   try {
-    this.vetBrackets(command);
-    // split the command into pieces at each semi-colon, evaluate one piece at a time
-    var cmds = ['', command];
+    this.vetBrackets(script);
+    // split the script into pieces at each semi-colon, evaluate one piece at a time
+    var cmds = ['', script];
     while (cmds = this.splitAtSemicolon(cmds[1]), cmds[0]) {
-      var script = cmds[0].trim();
-      if (script.length == 0) {
+      var cmd = cmds[0].trim();
+      if (cmd.length == 0) {
         // ignore blank lines
         continue;
       }
-      execute_script:
+      execute_cmd:
       {
         // print before evaluating & expanding so that it is clear what caused an error
         if (output) {
-          this.println(prefix + script);
+          this.println(prefix + cmd);
         }
         if (this.parser_ != null) {
-          // Let Parser evaluate the script before expanding with regex's.
+          // Let Parser evaluate the cmd before expanding with regex's.
           // For example: 'sim.gravity' is recognized by EasyScriptParser but
           // 'app.sim.gravity' is not.
           //
           // Script Safe Subset:
-          // Note that unexpanded `script` has NOT gone thru vetCommand, but it is only
+          // Note that unexpanded `cmd` has NOT gone thru vetCommand, but it is only
           // a string and cannot be eval'd by the parser. Even if parser is created via
           // script it cannot contain any way to eval a string, because the script was
           // vetted.
-          var parseResult = this.parser_.parse(script);
+          var parseResult = this.parser_.parse(cmd);
           if (parseResult !== undefined) {
             // the parser was successful
             this.result = parseResult;
-            break execute_script;
+            break execute_cmd;
           }
         }
-        var expScript = this.expand(script); // expanded script
+        var expScript = this.expand(cmd); // expanded cmd
         if (output && this.verbose_) {
           this.println(prefix + prefix + expScript);
         }
         this.result = this.myEval(expScript);
       }
     }
-    // don't show results when command ends with semi-colon, or undefined result
-    if (output && goog.isDef(this.result) && command.slice(-1) != ';') {
+    // don't show results when cmd ends with semi-colon, or undefined result
+    if (output && goog.isDef(this.result) && script.slice(-1) != ';') {
       this.println(String(this.result));
     }
     if (output && goog.isDef(this.afterEvalFn_)) {
@@ -696,7 +707,7 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
     }
     if (!userInput) {
       this.evalCalls_--;
-      ex.message += '\nScript: '+command;
+      ex.message += '\nScript: '+script;
       throw ex;
     }
   }
@@ -705,23 +716,22 @@ Terminal.prototype.eval = function(command, opt_output, opt_userInput) {
     this.scrollDown();
     return this.result;
   } else {
-    // restore this.result to previous value, but return result of this command
+    // restore this.result to previous value, but return result of this script
     var r = this.result;
     this.result = saveResult;
     return r;
   }
 };
 
-/** Returns the given Javascript command script expanded by the various regexps
-* (which were registered with {@link #addRegex}).
-* The expanded command has short-names like `DoubleRect` expanded to full path name
-* like `myphysicslab.lab.util.DoubleRect`. Doesn't expand words inside of quoted
-* strings.
-* @param {string} command a Javascript script to be executed
-* @return {string} the command expanded by registered regular expressions
+/** Returns the given Javascript script expanded by the various regular expression
+* rules which were registered with {@link #addRegex}. The expanded script has
+* [short names](#shortnames) like `DoubleRect` expanded to have full path name like
+* `myphysicslab.lab.util.DoubleRect`. Doesn't expand words inside of quoted strings.
+* @param {string} script a Javascript script to be executed
+* @return {string} the script expanded by registered regular expressions
 */
-Terminal.prototype.expand = function(command) {
-  var c = this.replaceVar(command);
+Terminal.prototype.expand = function(script) {
+  var c = this.replaceVar(script);
   var exp = ''; //result
   while (c) {
     // process non-quoted string at start of c
@@ -763,7 +773,8 @@ Terminal.prototype.focus = function() {
   this.term_input_.focus();
 };
 
-/** Forgets the stored script for the current page and browser.
+/** Removes any locally stored script for the current page and browser.
+See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
 Terminal.prototype.forget = function() {
@@ -774,7 +785,8 @@ Terminal.prototype.forget = function() {
 };
 
 /** Called when a key has been pressed.  Implements the `meta-K` command to clear
-* the output area, and the up/down arrow keys to scroll thru session command history.
+* the output area, and the up/down arrow keys to scroll through
+* [session history](#sessionhistory).
 * @param {!goog.events.KeyEvent} evt the event that caused this callback to fire
 */
 Terminal.prototype.handleKey = function(evt) {
@@ -855,9 +867,9 @@ Terminal.prototype.myEval = function(script) {
   }
 };
 
-/** Returns the identifying key to use for storing script for current web page in HTML5
-local storage.
-@return {string} the identifying key to use for storing script for current web page in
+/** Returns the identifying key to use for storing scripts for current web page in HTML5
+local storage. See [Script Storage](#scriptstorage).
+@return {string} the identifying key to use for storing scripts for current web page in
   HTML5 local storage.
 */
 Terminal.prototype.pageKey = function() {
@@ -877,17 +889,10 @@ Terminal.prototype.pageKey = function() {
 };
 
 /** Parses and executes the query portion of the current URL (the portion of the URL
-after a question mark) as a script. Here is an example of a
-URL with a query script:
+after a question mark) as a script. See [URL Query Script](#urlqueryscript).
 
-    https://www.myphysicslab.com/pendulum/pendulum-de.html?LENGTH=2;GRAVITY=3.2;
-    ANGLE=1.8;DRIVE_AMPLITUDE=0
-
-See {@link myphysicslab.lab.util.EasyScriptParser} for details about the syntax used
-in the script.
-
-Before executing the query script, this causes the Parser (if installed) to save the
-current settings via {@link Parser#saveStart}.
+Before executing the query script, this calls {@link Parser#saveStart} to save the
+current settings.
 * @return {boolean} returns true if there was a URL query script
 */
 Terminal.prototype.parseURL = function() {
@@ -913,6 +918,7 @@ Terminal.prototype.parseURL = function() {
 
 /** Parses and executes the query portion of the current URL via {@link #parseURL};
 or if there is no URL query then use {@link #recall} to load the stored script, if any.
+See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
 Terminal.prototype.parseURLorRecall = function() {
@@ -930,9 +936,9 @@ Terminal.prototype.println = function(text) {
 };
 
 /** Retrieve the stored script for the current page from HTML5 local storage. Executes
-the script unless requested to not execute.
-* @param {boolean=} opt_execute `true` (default) means execute the script; `false` means
-*    don't execute the script, only print it
+the script if `opt_execute` is `true`. See [Script Storage](#scriptstorage).
+* @param {boolean=} opt_execute `true` (default) means execute the script;
+*    `false` means don't execute the script, only print it in text output area
 * @return {undefined}
 */
 Terminal.prototype.recall = function(opt_execute) {
@@ -942,63 +948,64 @@ Terminal.prototype.recall = function(opt_execute) {
   if (goog.isDefAndNotNull(localStore)) {
     var s = /** @type {string} */(localStore.getItem(this.pageKey()));
     if (s) {
-      this.println('//start of stored commands');
+      this.println('//start of stored scripts');
       if (execute) {
         goog.array.forEach(s.split('\n'), function(t) { this.eval(t); },this);
       } else {
         goog.array.forEach(s.split('\n'), function(t) { this.println(t); },this);
       }
-      this.println('//end of stored commands');
+      this.println('//end of stored scripts');
     }
   }
   this.recalling = false;
 };
 
-/** Remember the given script to execute when this page is loaded in future. Note that
-each browser has a separate local storage, so this will only be remembered for the
-current browser and page.
+/** Stores the given script in local storage to execute when this page is loaded in
+future. Each browser and page has a separate local storage. See [Script
+Storage](#scriptstorage).
 
-If no script is provided then the set of Terminal commands in the output text area are
+If no script is provided then the set of Terminal scripts in the output text area are
 stored, as returned by {@link #commands}.
-* @param {string|!Array<string>|undefined} opt_command the script(s) to remember
+* @param {string|!Array<string>|undefined} opt_script the scripts to remember; or if
+*    `undefined`, then stores scripts returned by {@link #commands}
 * @return {undefined}
 */
-Terminal.prototype.remember = function(opt_command) {
-  var command = goog.isDef(opt_command) ? opt_command : this.commands();
-  if (goog.isArray(command)) {
-    command = command.join('\n');
+Terminal.prototype.remember = function(opt_script) {
+  var script = goog.isDef(opt_script) ? opt_script : this.commands();
+  if (goog.isArray(script)) {
+    script = script.join('\n');
   }
   var k = this.pageKey();
   // store the script under the current file name
   var localStore = window.localStorage;
   if (goog.isDefAndNotNull(localStore)) {
-    localStore.setItem(this.pageKey(), command);
+    localStore.setItem(this.pageKey(), script);
   }
 };
 
-/** Removes the 'var' at front of a command (if any) and adds regexp which mimics that
+/** Removes the 'var' at front of a script (if any) and adds regexp which mimics that
 JavaScript `var` statement. This helps make Terminal scripts more JavaScript-like, by
-hiding usage of the `z` object. For example, if the command is
+hiding usage of the `z` object. For example, if the script is
 
     var foo = 3;
 
 this will return just `foo = 3;` and add a regexp that replaces `foo` by `z.foo`.
-* @param {string} command a Javascript script to be executed
-* @return {string} the command with the `var` removed
+* @param {string} script a Javascript script to be executed
+* @return {string} the script with the `var` removed
 * @private
 */
-Terminal.prototype.replaceVar = function(command) {
-  var m = command.match(/^\s*var\s+(\w[\w_\d]*)(.*)/);
+Terminal.prototype.replaceVar = function(script) {
+  var m = script.match(/^\s*var\s+(\w[\w_\d]*)(.*)/);
   if (m) {
-    // suppose the command was 'var foo = 3;'
-    // Add a regexp that replaces 'foo' with 'z.foo', and remove 'var' from command
+    // suppose the script was 'var foo = 3;'
+    // Add a regexp that replaces 'foo' with 'z.foo', and remove 'var' from script
     goog.asserts.assert(m.length >= 3);
     var varName = m[1];
     // important to prepend because the regexp's are executed in order
     this.addRegex(varName, 'z', /*addToVars=*/true, /*prepend=*/true);
     return m[1] + m[2];
   }
-  return command;
+  return script;
 };
 
 /** Scroll the Terminal output text area to show last line.
@@ -1014,8 +1021,9 @@ Terminal.prototype.scrollDown = function() {
   this.term_input_.value = '';
 };
 
-/** Sets the function to execute after evaluating the user input, typically used to
-update a display such as a SimView or Graph.
+/** Sets the function to execute after evaluating the user input. Typically used to
+update a display such as a {@link myphysicslab.lab.view.SimView SimView} or
+{@link myphysicslab.lab.graph.Graph Graph}.
 * @param {function()=} afterEvalFn  function to execute after evaluating
 *     the user input; can be `undefined` to turn off this feature
 */
@@ -1034,10 +1042,10 @@ Terminal.prototype.setParser = function(parser) {
   }
 };
 
-/** Specifies whether to show the expanded or short names in the Terminal output text
-area. For example, `DoubleRect` is the short name that expands to
+/** Specifies whether to show expanded or [short names](#shortnames) in the Terminal
+output text area. For example, `DoubleRect` is the short name that expands to
 `myphysicslab.lab.util.DoubleRect`.
-* @param {boolean} expand `true` means show the expanded names in the Terminal output
+* @param {boolean} expand `true` means show expanded names in the Terminal output
 */
 Terminal.prototype.setVerbose = function(expand) {
   this. verbose_ = expand;
@@ -1089,10 +1097,11 @@ Terminal.prototype.splitAtSemicolon = function(text) {
   return [text.slice(0, i+1), text.slice(i+1)];
 };
 
-/** Adds the standard set of regular expressions to the given Terminal instance. These
-regular expressions replace "short names" with the full expression that is valid
-JavaScript for referring to the object. This defines short names for many classes and
-also utility functions like `prettyPrint`, `methodsOf`, `println` and `propertiesOf`.
+/** Adds the standard set of regular expression rules to the given Terminal instance.
+These regular expression rules replace [short names](#shortnames) with the full
+expression that is valid JavaScript for referring to the object. This defines short
+names for many classes and also utility functions like `prettyPrint`, `methodsOf`,
+`println` and `propertiesOf`.
 * @param {!Terminal} terminal the Terminal instance to which the regexp's will be added
 */
 Terminal.stdRegex = function(terminal) {
@@ -1152,6 +1161,7 @@ Terminal.stdRegex = function(terminal) {
 };
 
 /** Returns names of the variables that have been defined using {@link #addRegex}.
+* This is used as a "help" command for the user to know what variables are available.
 * @return {string}
 */
 Terminal.prototype.vars = function() {
@@ -1160,40 +1170,34 @@ Terminal.prototype.vars = function() {
   return v.join(', ');
 };
 
-/** Throws an error if the command contains prohibited usage of square brackets.
-Square brackets can be used to access properties by name, which is dangerous.
-For example: `this['white'+'List_']` would not be detected.
-Prohibit square brackets, except allow square brackets with numbers inside
-so that simple array indexing is allowed, and creating arrays of numbers is allowed.
-Note: a script can use Util.get() or set() for more complex expressions.
-* @param {string} command
+/** Throws an error if the script contains prohibited usage of square brackets.
+See [Safe Subset of JavaScript](#safesubsetofjavascript).
+* @param {string} script
 */
-Terminal.prototype.vetBrackets = function(command) {
+Terminal.prototype.vetBrackets = function(script) {
   //Allow numbers, spaces, and commas inside square brackets to make arrays of numbers.
   var goodRegexp = /^\[\s*[\d,\s.-]*\s*\]$/;
   var broadRegexp = /\[[^\]]*?\]/g;
-  var r = command.match(broadRegexp);
+  var r = script.match(broadRegexp);
   if (r != null) {
     for (var i=0, n=r.length; i<n; i++) {
       if (!goodRegexp.test(r[i])) {
-        throw new Error('prohibited usage of square brackets in command: '+command);
+        throw new Error('prohibited usage of square brackets in script: '+script);
       }
     }
   }
 };
 
-/** Throws an error if the command contains prohibited code.
-The goal is to allow the command to be executed if it contains a 'safe subset'
-of JavaScript. See JavaScript: The Definitive Guide by Flanagan, section 11.1.2
-'Subsets for Security'.
-* @param {string} command
+/** Throws an error if the script contains prohibited code.
+See [Safe Subset of JavaScript](#safesubsetofjavascript).
+* @param {string} script
 */
-Terminal.prototype.vetCommand = function(command) {
+Terminal.prototype.vetCommand = function(script) {
   // prohibit all window properties (which are globally accessible names),
   // except for those on whiteList_.
   for (var p in window) {
-    if (this.badCommand(command, p)) {
-      throw new Error('prohibited name: "' + p + '" found in command: ' + command);
+    if (this.badCommand(script, p)) {
+      throw new Error('prohibited name: "' + p + '" found in script: ' + script);
     }
   }
   // Prohibit JavaScript features that allow executing code and access to most
@@ -1203,8 +1207,8 @@ Terminal.prototype.vetCommand = function(command) {
   // We allow `setParser` because any Parser that is defined via script will have
   // been vetted.
   var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|parser_|defineNames|globalEval|window)\b/g;
-  if (blackList.test(command)) {
-    throw new Error('prohibited name in command: '+command);
+  if (blackList.test(script)) {
+    throw new Error('prohibited name in script: '+script);
   }
 };
 

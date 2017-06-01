@@ -1001,7 +1001,7 @@ faster: from roughly 3 seconds with simple-compile to 0.5 second with advanced-c
 The main disadvantage of advanced-compile is that we **cannot use JavaScript scripts**
 to customize a simulation at runtime. See
 [Customizing myPhysicsLab Simulations](Customizing.html) and
-[Advanced-compile is the Enemy of JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compileistheenemyofjavascript).
+[Advanced-compile disables JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compiledisablesjavascript).
 
 The myPhysicsLab `makefile` has a variable named `COMPILE_LEVEL` that determines which
 compilation level is used. `COMPILE_LEVEL` also determines the value of `BUILD_DIR` –
