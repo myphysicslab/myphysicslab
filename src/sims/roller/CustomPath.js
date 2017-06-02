@@ -14,17 +14,20 @@
 
 goog.provide('myphysicslab.sims.roller.CustomPath');
 
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
+var Terminal = myphysicslab.lab.util.Terminal;
 var Util = myphysicslab.lab.util.Util;
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** A path defined by custom equations. The equations are JavaScript string
 expressions where the parameter is `t`. There is an equation for both the `x` and `y`
-value.
+value. The equation is checked to conform to
+[Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript).
 
 NOTE: This class creates a global variable named `t`.
 
@@ -91,16 +94,26 @@ CustomPath.prototype.getYEquation = function() {
 /** Sets the parameteric X equation defining the path. A JavaScript expression where
 the parameter is `t`.
 * @param {string} value the parameteric X equation defining the path
+* @throws {!Error} if the equation fails checks for
+*    [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript)
 */
 CustomPath.prototype.setXEquation = function(value) {
+  value = Terminal.deUnicode(value);
+  Terminal.vetCommand(value, /*whiteList=*/['t']);
+  Terminal.vetBrackets(value);
   this.equationX_ = value;
 };
 
 /** Sets the parameteric Y equation defining the path. A JavaScript expression where
 the parameter is `t`.
 * @param {string} value the parameteric Y equation defining the path
+* @throws {!Error} if the equation fails checks for
+*    [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript)
 */
 CustomPath.prototype.setYEquation = function(value) {
+  value = Terminal.deUnicode(value);
+  Terminal.vetCommand(value,  /*whiteList=*/['t']);
+  Terminal.vetBrackets(value);
   this.equationY_ = value;
 };
 

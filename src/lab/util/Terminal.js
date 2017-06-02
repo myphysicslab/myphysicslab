@@ -528,13 +528,15 @@ Terminal.prototype.addWhiteList = function(name) {
 /** Returns true if command contains the specified name and the name is prohibited.
 * @param {string} command the command to test
 * @param {string} name a prohibited name (unless it is on the white list)
+* @param {!Array<string>} whiteList list of allowed commands
 * @return {boolean} true means found prohibited name in command, and name was not
 *      on the white list
 * @private
+* @static
 */
-Terminal.prototype.badCommand = function(command, name) {
-  for (var i=0, n=this.whiteList_.length; i<n; i++) {
-    if (name == this.whiteList_[i]) {
+Terminal.badCommand = function(command, name, whiteList) {
+  for (var i=0, n=whiteList.length; i<n; i++) {
+    if (name == whiteList[i]) {
       return false;
     }
   }
@@ -583,6 +585,20 @@ Terminal.prototype.destroy = function() {
   goog.events.unlistenByKey(this.changeKey_);
 };
 
+/** Replace unicode characters with the regular text. Example: `\x64` and `\u0064` are
+* replaced with `d`. This is so our blacklist checking can work (this defeats the hack
+* of spelling "window" like "win\u0064ow").
+* See [Safe Subset of JavaScript](#safesubsetofjavascript).
+* @param {string} s the string to modify
+* @return {string} the string with unicode characters replaced
+* @static
+*/
+Terminal.deUnicode = function(s) {
+  return s.replace(/\\(x|u00)([0-9a-fA-F]{2})/g, function(v1, v2, v3) {
+        return String.fromCharCode(Number('0x'+v3));
+      });
+};
+
 /** Executes the given script and returns the result.
 
 When `opt_output` is `true`: updates the `result` variable, prints the result in the
@@ -629,12 +645,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
     // blank line: don't enter into history
     return undefined;
   }
-  // Replace unicode characters, example: \x61 = \u0061 = 'a'
-  // This is so our blacklist checking can work (this defeats the hack of
-  // spelling "window" like "win\u0064ow").
-  script = script.replace(/\\(x|u00)([0-9a-fA-F]{2})/g, function(v1, v2, v3) {
-        return String.fromCharCode(Number('0x'+v3));
-      });
+  script = Terminal.deUnicode(script);
   this.evalCalls_++; // number of simultaneous calls to eval() = depth of recursion
   if (output) {
     goog.asserts.assert(this.evalCalls_ <= 1);
@@ -652,7 +663,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
   }
   var prefix = '> ';
   try {
-    this.vetBrackets(script);
+    Terminal.vetBrackets(script);
     // split the script into pieces at each semi-colon, evaluate one piece at a time
     var cmds = ['', script];
     while (cmds = this.splitAtSemicolon(cmds[1]), cmds[0]) {
@@ -745,7 +756,7 @@ Terminal.prototype.expand = function(script) {
           return cmd.replace(rp.regex, rp.replace);
         }, e);
       // add to result
-      this.vetCommand(e);
+      Terminal.vetCommand(e, this.whiteList_);
       exp += e;
     }
     // process quoted string at start of c
@@ -1173,8 +1184,10 @@ Terminal.prototype.vars = function() {
 /** Throws an error if the script contains prohibited usage of square brackets.
 See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} script
+* @throws {!Error} if the script contains prohibited code.
+* @static
 */
-Terminal.prototype.vetBrackets = function(script) {
+Terminal.vetBrackets = function(script) {
   //Allow numbers, spaces, and commas inside square brackets to make arrays of numbers.
   var goodRegexp = /^\[\s*[\d,\s.-]*\s*\]$/;
   var broadRegexp = /\[[^\]]*?\]/g;
@@ -1191,12 +1204,15 @@ Terminal.prototype.vetBrackets = function(script) {
 /** Throws an error if the script contains prohibited code.
 See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} script
+* @param {!Array<string>} whiteList list of allowed commands
+* @throws {!Error} if the script contains prohibited code.
+* @static
 */
-Terminal.prototype.vetCommand = function(script) {
+Terminal.vetCommand = function(script, whiteList) {
   // prohibit all window properties (which are globally accessible names),
   // except for those on whiteList_.
   for (var p in window) {
-    if (this.badCommand(script, p)) {
+    if (Terminal.badCommand(script, p, whiteList)) {
       throw new Error('prohibited name: "' + p + '" found in script: ' + script);
     }
   }
@@ -1206,7 +1222,7 @@ Terminal.prototype.vetCommand = function(script) {
   // structure of the Document.
   // We allow `setParser` because any Parser that is defined via script will have
   // been vetted.
-  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|parser_|defineNames|globalEval|window)\b/g;
+  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window)\b/g;
   if (blackList.test(script)) {
     throw new Error('prohibited name in script: '+script);
   }

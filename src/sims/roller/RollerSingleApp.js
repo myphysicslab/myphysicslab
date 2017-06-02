@@ -108,8 +108,6 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
       .setFillStyle('blue');
   this.displayList.add(this.ball1);
-  // allow the 't' variable to appear in expressions for X and Y equations
-  this.terminal.addWhiteList('t');
   /** @type {!CustomPath} */
   this.customPath_ = new CustomPath();
   /** @type {!Array<!ParametricPath>} **/
@@ -263,8 +261,6 @@ the parameter is `t`.
 */
 RollerSingleApp.prototype.setXEquation = function(value) {
   // test this by entering equation like: 'window'
-  this.terminal.vetBrackets(value);
-  this.terminal.vetCommand(value);
   var oldValue = this.getXEquation();
   try {
     // test this by entering equations like: '3/0' or 'Math.log(-t)'.
@@ -285,8 +281,6 @@ the parameter is `t`.
 * @param {string} value the parameteric Y equation defining the path
 */
 RollerSingleApp.prototype.setYEquation = function(value) {
-  this.terminal.vetBrackets(value);
-  this.terminal.vetCommand(value);
   var oldValue = this.getYEquation();
   try {
     this.customPath_.setYEquation(value);

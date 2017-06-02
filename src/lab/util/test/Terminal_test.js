@@ -104,6 +104,7 @@ var testTerminal2 = function() {
   assertThrows(function() { t.eval('"eval"(foo(window))', /*output=*/false); });
   assertThrows(function() { t.eval('z.a=1; window', /*output=*/false); });
   assertThrows(function() { t.eval('this["white"+"List_"]', /*output=*/false); });
+  assertThrows(function() { Terminal.vetBrackets('this["white"+"List_"]'); });
   assertThrows(function() { t.eval('this.myEval("foo")', /*output=*/false); });
   assertThrows(function() { t.eval('this.whiteList_.push("foo")', /*output=*/false); });
   // when words are in quotes they are OK
@@ -123,6 +124,7 @@ var testTerminal2 = function() {
       /**@type {Object}*/(t.eval('z.a=[2, 7]', /*output=*/false)));
   assertElementsEquals([-2, 1.7],
       /**@type {Object}*/(t.eval('[-2, 1.7]', /*output=*/false)));
+  assertNotThrows(function() { Terminal.vetBrackets('[-2, 1.7]'); });
   // test afterEval function; should only fire when output==true
   var r = 0;
   var afterFn = function() { r++; };
@@ -186,14 +188,25 @@ var testTerminal4 = function() {
   assertThrows(function(){ t.eval('window'); });
   assertThrows(function(){ t.eval('win\u0064ow'); });
   assertThrows(function(){ t.eval('win\x64ow'); });
-  assertThrows(function(){ t.eval('win\u0064\u004Fw'); });
-  assertThrows(function(){ t.eval('win\u0064\u004fw'); });
-  assertThrows(function(){ t.eval('win\u0064\x4Fw'); });
-  assertThrows(function(){ t.eval('win\u0064\x4fw'); });
+  assertThrows(function(){ t.eval('win\u0064\u006Fw'); });
+  assertThrows(function(){ t.eval('win\u0064\u006fw'); });
+  assertThrows(function(){ t.eval('win\u0064\x6Fw'); });
+  assertThrows(function(){ t.eval('win\u0064\x6fw'); });
   assertThrows(function(){ t.eval('foo;top'); });
   assertThrows(function(){ t.eval('alert("foo")'); });
   assertThrows(function(){ t.eval('foo;document'); });
   assertThrows(function(){ t.eval('goog.globalEval("foo")'); });
+  assertThrows(function(){ Terminal.vetCommand('window', []); });
+  assertEquals('window', Terminal.deUnicode('win\u0064ow'));
+  assertEquals('window', Terminal.deUnicode('win\x64ow'));
+  assertEquals('window', Terminal.deUnicode('win\u0064\u006Fw'));
+  assertEquals('window', Terminal.deUnicode('win\u0064\u006fw'));
+  assertEquals('window', Terminal.deUnicode('win\u0064\x6Fw'));
+  assertEquals('window', Terminal.deUnicode('win\u0064\x6fw'));
+  assertThrows(function(){ Terminal.vetCommand('foo;top', []); });
+  assertThrows(function(){ Terminal.vetCommand('alert("foo")', []); });
+  assertThrows(function(){ Terminal.vetCommand('foo;document', []); });
+  assertThrows(function(){ Terminal.vetCommand('goog.globalEval("foo")', []); });
   // these hacks were found by reddit
   // https://www.reddit.com/r/AskNetsec/comments/64erdg/is_my_javascript_physics_simulation_app_hackproof/
   assertThrows(function(){
