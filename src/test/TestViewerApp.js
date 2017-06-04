@@ -472,9 +472,9 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
     this.statusView,
     this.layout.simCanvas,
     this.layout.graphCanvas,
-    this.elasticity,
-    this.graph.getSubjects()
+    this.elasticity
   ];
+  subjects = goog.array.concat(subjects, this.graph.getSubjects());
 
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [ this.varsList ],
