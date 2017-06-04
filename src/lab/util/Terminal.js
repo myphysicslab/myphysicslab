@@ -202,8 +202,9 @@ we must substitute in the URL:
 See this
 [character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
 to learn which other characters must be percent-encoded. It might be necessary to
-percent-encode these other symbols:
+percent-encode other symbols such as:
 
+  + `%27` for `'`
   + `%28` for `(`
   + `%29` for `)`
 
@@ -258,7 +259,8 @@ See [Internationalization](Building.html#internationalizationi18n).
 <a name="thezobject"></a>
 The z Object
 --------------
-Strict mode prevents adding global variables when using the JavaScript `eval` command.
+[Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+prevents adding global variables when using the JavaScript `eval` command.
 To allow making variables that persist between commands, Terminal provides an object
 named `z` where properties can be added:
 
@@ -268,8 +270,8 @@ named `z` where properties can be added:
     1
 
 This `z` object is a property of Terminal; `z` is initially an object with no
-properties. We define a 'short name' regular expression so that referring to `z` is
-replaced by `terminal.z` when the command is executed.
+properties. We define a [short name](#shortnames) regular expression so that referring
+to `z` is replaced by `terminal.z` when the command is executed.
 
 
 Declaring a Variable
@@ -297,9 +299,9 @@ and the usage of the `var` keyword.
 
 In most apps this is accomplished by using {@link #addRegex} like this:
 
-    terminal.addRegex('terminal', myName);
+    terminal.addRegex('terminal', app);
 
-where `myName` is the global name of the app, which is usually just `app`. The purpose
+where `app` is the global variable containing the application. The purpose
 of the regex is to replace the word `terminal` with `app.terminal` which
 is a valid JavaScript reference.
 
@@ -314,7 +316,7 @@ When using [advanced-compile](Building.html#advancedvs.simplecompile) only EasyS
 can be executed in Terminal, not JavaScript code.
 
 Advanced compilation causes all class and method names to be minified to one or two
-character names, so scripts based on non-minified names will not work. Also, unused
+characters, so scripts based on non-minified names will not work. Also, unused
 code is eliminated, so desired features might be missing.
 
 However, names that are *exported* can be used in HTML scripts under
@@ -323,12 +325,12 @@ advanced-compile. For example, we export the `eval` method in
 `app.eval()` even under advanced-compile.
 See [Exporting Symbols](Building.html#exportingsymbols).
 
-Security considerations are another reason do disable JavaScript code under
-advanced-compile. The 'safe subset' strategy used here depends on detecting names in
-the script such as `window`, `eval`, `myEval`, `whiteList_`, etc. Because
-advanced-compile renames many of these, we are no longer able to detect their usage.
-For example, an attacker could figure out what the `Terminal.myEval` function was
-renamed to, and enter a script that would call that function; this would not be
+Security considerations are another reason to disable JavaScript code under
+advanced-compile. The [safe subset](#safesubsetofjavascript) strategy used here depends
+on detecting names in the script such as `window`, `eval`, `myEval`, `whiteList_`, etc.
+Because advanced-compile renames many of these, we are no longer able to detect their
+usage. For example, an attacker could figure out what the `Terminal.myEval` function
+was renamed to, and enter a script that would call that function; this would not be
 detected by the 'safe subset' checking which is looking for `myEval`, not for whatever
 that method got renamed to.
 

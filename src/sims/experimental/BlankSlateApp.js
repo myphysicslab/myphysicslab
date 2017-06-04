@@ -164,7 +164,6 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   this.timer = new Timer();
   var callback = goog.bind(function () {
       this.simCanvas.paint();
-      this.timer.fireAfter();
   }, this);
   this.timer.setCallBack(callback);
   this.timer.startFiring();

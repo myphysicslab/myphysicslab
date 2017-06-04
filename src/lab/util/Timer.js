@@ -22,121 +22,74 @@ goog.scope(function() {
 
 var NF3 = myphysicslab.lab.util.Util.NF3;
 var NF5 = myphysicslab.lab.util.Util.NF5;
+var NF7 = myphysicslab.lab.util.Util.NF7;
+var nf7 = myphysicslab.lab.util.Util.nf7;
 var NFE = myphysicslab.lab.util.Util.NFE;
 var Util = myphysicslab.lab.util.Util;
 
-/** Periodically executes a callback function; Timer is a fancier version of
-JavaScript's `setInterval()` function.
+/** Periodically executes a callback function.
 
+Timer uses JavaScript's `requestAnimationFrame` to repeatedly schedule the callback.
+On older browsers the `setTimeout` function is used.
 
-<a name="chainofcallbacks"></a>
-## Chain of Callbacks
+If the period is left at the default value of zero, then the callback fires at the
+rate determined by `requestAnimationFrame`, usually 60 frames per second.
 
-Timer has a single callback function which is intended to repeatedly execute or 'fire'.
-To keep the chain of callbacks going *each callback must reschedule itself* to
-execute again in future by calling {@link #fire}, {@link #fireAfter} or
-{@link #finishAt}.
+If the period is set to a slower frame rate than 60 fps then Timer skips firing the
+callback occasionally to achieve that slower rate of firing.
 
-Once the callback has been specified via {@link #setCallBack}, the chain of callbacks is
-started by calling {@link #startFiring}.
+See
+[BlankSlateApp](https://www.myphysicslab.com/develop/build/sims/experimental/BlankSlateApp-en.html)
+for example code using a Timer.
 
-Here is some example code showing how to use a Timer.
-
-    var r = PointMass.makeSquare(4);
-    var dr = new DisplayShape(r);
-    displayList.add(dr);
-    dr.strokeStyle = 'red';
-    var clock = new Clock();
-    var timer = new Timer();
-    var callback = function () {
-        r.setAngle(Math.sin(clock.getTime()));
-        simCanvas.paint();
-        timer.fireAfter();
-    };
-    timer.setCallBack(callback);
-    clock.resume();
-    timer.startFiring();
-
-You can try that code out by pasting it into the Terminal in the
-[BlankSlateApp example page](https://www.myphysicslab.com/develop/build/sims/experimental/BlankSlateApp-en.html).
-
-
-## Timing of Callbacks
-
-The method {@link #fireAfter} schedules the callback to run after a short delay.
-The method {@link #finishAt} schedules the callback to finish at
-a specified time. Both these methods take into account how late the current callback is
-and how long it took to execute in deciding when to schedule the callback to fire.
-
-Here is an example of how using the 'lateness of the current callback' can result in
-smoother animation: Suppose we want to draw a frame every 50 milliseconds, and on newer
-machines it takes essentially zero time to compute the next frame. Suppose that on older
-machines it takes 10 milliseconds to compute the next frame. If (at the conclusion of
-the callback) we simply schedule the next callback to happen in 50 milliseconds, then we
-achieve the desired frame rate on new machines, but on older machines, the frame period
-is a slower 60 milliseconds. If we consider the 'lateness' and ask for a delay of 40
-milliseconds on the older machines they would also achieve a 50 millisecond frame
-period.
-
-A similar story applies when the compute load varies over time on a machine. When the
-compute load is heavier, we need to shorten the delay between callbacks to maintain a
-given frame rate.
-
-The 'lateness' of the current callback is derived from {@link #getExpectedTime}.
-
-
+* @param {boolean=} opt_legacy turns on legacy mode, which uses the browser method
+*    `setTimeout` instead of `requestAnimationFrame`; default is `false`
 * @constructor
 * @final
 * @struct
 */
-myphysicslab.lab.util.Timer = function() {
+myphysicslab.lab.util.Timer = function(opt_legacy) {
+  /** Whether running under a modern or old browser.
+  * @type {boolean}
+  * @const
+  * @private
+  */
+  this.legacy_ = opt_legacy || !goog.isFunction(requestAnimationFrame);
   /** the ID used to cancel the callback
   * @type {number|undefined}
   * @private
   */
   this.timeoutID_ = undefined;
-  /** the callback function, it must reschedule itself to maintain 'chain of callbacks'
+  /** the callback function
   * @type {function()|null}
   * @private
   */
   this.callBack_ = null;
-  /** default period between callbacks, in seconds
+  /** the callback function, it must reschedule itself to maintain 'chain of callbacks'
+  * @type {function()}
+  * @private
+  */
+  this.timerCallback_ = goog.bind(this.timerCallback, this);
+  /** period between callbacks, in seconds
   * @type {number}
   * @private
   */
-  this.period_ = 0.033;
-  /** when next callBack is expected to fire, in system time; or NaN when unknown.
-  * @type {number}
-  * @private
-  */
-  this.expected_sys_ = NaN;
+  this.period_ = 0;
   /** Whether the Timer should be executing the callBacks.
   * @type {boolean}
   * @private
   */
   this.firing_ = false;
-  /**
-  * @type {boolean}
-  * @private
-  * @const
-  */
-  this.timerDebug_ = false;
-  /** when the callBack actually last fired, in system time; or NaN when unknown;
-  * for debugging only.
+  /** When last callback happened
   * @type {number}
   * @private
   */
-  this.actual_sys_ = Util.NaN;
-  /** when the last callBack fired, in system time; for debugging only.
+  this.fired_sys_ = Util.NaN;
+  /** How late the last callback was.
   * @type {number}
   * @private
   */
-  this.last_sys_ = Util.NaN;
-  /** when the callback was requested to fire, in system time; for debugging only.
-  * @type {number}
-  * @private
-  */
-  this.request_sys_ = Util.NaN;
+  this.delta_ = 0;
 };
 var Timer = myphysicslab.lab.util.Timer;
 
@@ -146,109 +99,49 @@ if (!Util.ADVANCED) {
     return 'Timer{period_: '+this.period_
         +', firing_: '+this.firing_
         +', timeoutID_: '+this.timeoutID_
+        +', fired_sys_: '+nf7(this.fired_sys_)
+        +', delta_: '+nf7(this.delta_)
         +'}';
   };
 };
 
-/**  Call this at the start of the callback function so the Timer knows
-when the callback happened.  This information (when the callback started) is used
-for debugging only.
-* @return {number} the current time as given by the system clock, in seconds
+/**
+* @return {undefined}
+* @private
 */
-Timer.prototype.callBackStarted = function() {
-  var nowTime = Util.systemTime();
-  this.actual_sys_ = nowTime;
-  return nowTime;
-};
-
-/** Schedules the callback to fire slightly before the specified time, so that the
-callback finishes executing at that time. Uses information about when the current
-callback was expected to execute, to determine the starting time. Does nothing if the
-callback is `null` or Timer is not firing. Uses JavaScript's `setTimeout()` function to
-do the scheduling.
-
-The finish time is in given in *system time*, see
-{@link Util#systemTime} for how system time is defined.
-
-@param {number} finishTimeSys the time when the next callback should finish execution, in system time seconds
-*/
-Timer.prototype.finishAt = function(finishTimeSys) {
-  if (!this.firing_ || goog.isNull(this.callBack_)) {
+Timer.prototype.timerCallback = function() {
+  if (this.callBack_ == null) {
     return;
   }
-  // The next callback should finish at finishTimeSys.
-  // Assume the next callback takes the same amount of elapsed time as this one,
-  // and will be late by same amount as this callback.
-  // (perhaps use a moving average for elapsed and late?)
-  // Let: elapsed = now - start
-  // Let: late = start - expected_start
-  // Then: elapsed + late = now - expected_start
-  // Next callback should start at
-  //     finishTime - (elapsed + late) = finishTime - (now - expected_start)
-  // Therefore delay till firing is
-  //     delay = finishTime - (now - expected_start) - now
-  //           = (finishTime - now) - (now - expected_start)
-  var now_secs = Util.systemTime();
-  var delay_secs = finishTimeSys - now_secs;
-  if (isFinite(this.expected_sys_)) {
-    var d = now_secs - this.expected_sys_;
-    // Only reduce, never increase the delay.
-    // We effectively regard early callbacks as merely 'on time'.
-    if (d > 0) {
-      delay_secs -= d;
-    }
+  var now = Util.systemTime();
+  var elapsed = now - (this.fired_sys_ - this.delta_);
+  if (elapsed >= this.period_) {
+    this.callBack_();
+    // adjust "last fired time" by how much this callback was late.
+    // https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe
+    this.fired_sys_ = now;
+    this.delta_ = this.period_ > 0 ? elapsed % this.period_ : 0;
+    /*console.log('FIRED now='+NF7(now)
+        +' elapsed='+NF7(elapsed)
+        +' fired_sys_='+NF7(this.fired_sys_)
+        +' delta_='+NF7(this.delta_)
+        +' period='+NF7(this.period_));
+    */
+  } else {
+    /*console.log('skip  now='+NF7(now)
+        +' elapsed='+NF7(elapsed)
+        +' fired_sys_='+NF7(this.fired_sys_)
+        +' delta_='+NF7(this.delta_)
+        +' period='+NF7(this.period_));
+    */
   }
-  delay_secs = delay_secs > 0 ? delay_secs : 0;
-  //console.log('finishAt delay_secs='+delay_secs+' expect='
-  //    +this.expected_sys_+' now='+now_secs);
-  this.expected_sys_ = now_secs + delay_secs;
-  if (Util.DEBUG && this.timerDebug_) {
-    var elapsed_secs = now_secs - this.actual_sys_;
-    goog.asserts.assert( isNaN(this.actual_sys_) || elapsed_secs >= 0,
-        'elapsed_secs<0' );
-    // Show actual start, actual last period, and next expected start
-    console.log(
-      ' START='+NF3(this.actual_sys_)
-      +' EXPECT='+NF3(this.expected_sys_)
-      +' PERIOD='+NF3(this.actual_sys_ - this.last_sys_)
-      +' ELAPSED='+NF3(elapsed_secs)
-      +' DELAY='+delay_secs
-      +' FINISH_AT='+NF3(finishTimeSys)
-      +' REQUEST='+NF3(this.request_sys_)
-      +' NOW='+NF3(now_secs)
-      +' BEHIND='+NF3(now_secs - this.request_sys_)
-      );
-    this.last_sys_ = this.actual_sys_;
-    this.actual_sys_ = Util.NaN;
+  if (this.legacy_) {
+    // when period is zero use 60 fps which is 1/60 = 0.016666 = 17 ms
+    var delay_ms = this.period_ > 0 ? Math.round(this.period_*1000) : 17;
+    this.timeoutID_ = setTimeout(this.timerCallback_, delay_ms);
+  } else {
+    this.timeoutID_ = requestAnimationFrame(this.timerCallback_);
   }
-  this.request_sys_ = finishTimeSys;
-  // important to convert to integer (otherwise unit tests fail when delay is
-  // slightly more than an integer)
-  var delay_ms = Math.round(delay_secs*1000);
-  this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
-};
-
-/** Schedules the callback to fire after the specified amount of time or the default
-period if no time is specified.
-Uses information about when the current callback was expected to
-execute, to determine the starting time. Does nothing if the callback is `null`. Uses
-JavaScript's `setTimeout()` function to do the scheduling.
-
-@param {number=} opt_delay the desired delay in seconds before next callback execution
-    in seconds; default is the period given by {@link #getPeriod}
-*/
-Timer.prototype.fireAfter = function(opt_delay) {
-  var delay = goog.isNumber(opt_delay) ? opt_delay : this.period_;
-  this.finishAt(Util.systemTime() + delay);
-};
-
-/** Expected time when the next callback should occur, in system time, in seconds. This
-tells how late the current callback is, which is used when scheduling the next callback.
-@return {number} expected time of next callback, in system time, in seconds, or NaN when
-    callback is not firing
-*/
-Timer.prototype.getExpectedTime = function() {
-  return this.expected_sys_;
 };
 
 /** Returns the default time period between callbacks in seconds of system clock
@@ -266,9 +159,8 @@ Timer.prototype.isFiring = function() {
   return this.firing_;
 };
 
-/** Sets the callback function to be executed periodically, and stops any current
-callbacks. This specifies the callback that {@link #fireAfter} and {@link #finishAt} will
-schedule.
+/** Sets the callback function to be executed periodically, and calls
+{@link #stopFiring} to stop the Timer and any previously scheduled callback.
 * @param {?function()} callBack the function to be called periodically; can be `null`
 */
 Timer.prototype.setCallBack = function(callBack) {
@@ -277,8 +169,10 @@ Timer.prototype.setCallBack = function(callBack) {
 };
 
 /** Sets the default time period between callback execution in seconds of system
-clock time.
-@param {number} period the number of seconds between successive callbacks
+clock time. A setting of zero means to use the default period which is usually 60
+frames per second.
+@param {number} period the number of seconds between successive callbacks, or zero
+    to use the default period (usually 60 frames per second).
 @throws {!Error} if period is negative
 */
 Timer.prototype.setPeriod = function(period) {
@@ -288,28 +182,32 @@ Timer.prototype.setPeriod = function(period) {
   this.period_ = period;
 };
 
-/** Starts the execution of the chain of callbacks.
+/** Immediately fires the callback and schedules the callback to fire repeatedly in
+the future.
 @return {undefined}
 */
 Timer.prototype.startFiring = function() {
   this.firing_ = true;
-  this.fireAfter();
+  this.delta_ = 0;
+  this.fired_sys_ = Util.systemTime() - this.period_ - 1E-7;
+  this.timerCallback();
 };
 
-/** Stops the execution of the chain of callbacks, by canceling the next scheduled
-callback.
+/** Stops the Timer from firing callbacks and cancels the next scheduled callback.
 @return {undefined}
 */
 Timer.prototype.stopFiring = function() {
   this.firing_ = false;
   if (goog.isDef(this.timeoutID_)) {
-    if (Util.DEBUG && this.timerDebug_) {
-      console.log('Timer.stop:clearTimeout '+this.toString());
+    if (this.legacy_) {
+      clearTimeout(this.timeoutID_);
+    } else {
+      cancelAnimationFrame(this.timeoutID_);
     }
-    clearTimeout(this.timeoutID_);
     this.timeoutID_ = undefined;
   }
-  this.expected_sys_ = NaN;
+  this.fired_sys_ = NaN;
+  this.delta_ = 0;
 };
 
 }); // goog.scope

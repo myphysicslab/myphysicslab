@@ -129,9 +129,6 @@ All the Parameters are broadcast when their values change.  In addition:
 + GenericEvent named `CLOCK_SET_TIME`, see {@link #setTime}
 
 
-@todo Do error handling or adapt in case where callBackStarted() is not
-called before the finishAt() method.  Add a test case for this.
-
 @todo Should be able to have clock time (and therefore simulation time) start at
 something other than zero.
 
@@ -420,7 +417,10 @@ Clock.prototype.scheduleTask = function(task) {
     // convert to system time to handle time rate other than 1.0
     var nowTime = this.clockToSystem(this.getTime());
     var taskTime = this.clockToSystem(task.getTime());
-    if (taskTime >= nowTime) {
+    // execute the task immediately if current time matches task time
+    if (!Util.veryDifferent(taskTime, nowTime)) {
+      task.execute();
+    } else if (taskTime > nowTime) {
       task.schedule(taskTime - nowTime);
     }
   }

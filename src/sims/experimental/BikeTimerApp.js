@@ -110,7 +110,6 @@ BikeTimerApp.makeApp = function(sound_url) {
       shouldBeep = true;
     }
     simCanvas.paint();
-    timer.fireAfter();
   });
 
   var resetButton = document.getElementById('reset_button');

@@ -128,6 +128,7 @@ java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.util.test.AbstractSubject_test \
 --entry_point=goog:myphysicslab.lab.util.test.AffineTransform_test \
 --entry_point=goog:myphysicslab.lab.util.test.CircularList_test \
+--entry_point=goog:myphysicslab.lab.util.test.Clock_test \
 --entry_point=goog:myphysicslab.lab.util.test.ConcreteMemoList_test \
 --entry_point=goog:myphysicslab.lab.util.test.DoubleMath_test \
 --entry_point=goog:myphysicslab.lab.util.test.DoubleRect_test \
@@ -138,7 +139,7 @@ java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.util.test.RandomLCG_test \
 --entry_point=goog:myphysicslab.lab.util.test.EasyScriptParser_test \
 --entry_point=goog:myphysicslab.lab.util.test.Terminal_test \
---entry_point=goog:myphysicslab.lab.util.test.TimerClock_test \
+--entry_point=goog:myphysicslab.lab.util.test.Timer_test \
 --entry_point=goog:myphysicslab.lab.util.test.Util_test \
 --entry_point=goog:myphysicslab.lab.util.test.Vector_test \
 --entry_point=goog:myphysicslab.lab.view.test.CoordMap_test \

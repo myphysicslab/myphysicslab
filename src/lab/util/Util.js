@@ -80,6 +80,17 @@ Util.MAX_INTEGER = Math.pow(2, 53);
 */
 Util.MIN_INTEGER = -Math.pow(2, 53);
 
+/** Whether testing with mock clock.
+* @type {boolean}
+*/
+Util.MOCK_CLOCK = false;
+
+/** Whether running under a modern browser that supports `performance.now()`;
+* @type {boolean}
+* @const
+*/
+Util.MODERN_CLOCK = goog.isObject(performance) && goog.isFunction(performance.now);
+
 /** Using this constant allows the compiler to rename and minify.
 * @type {number}
 * @const
@@ -340,14 +351,6 @@ Util.get = function(array, index) {
     throw new Error('index is not a number: '+index);
   }
   return array[index];
-};
-
-/** Returns the current time as given by the system clock, in seconds.
-Typically system time is a large number in the billions.
-* @return {number} the current time as given by the system clock, in seconds
-*/
-Util.systemTime = function() {
-  return goog.now()*1E-3;
 };
 
 /** Returns the length of hypotenuse of right triangle.
@@ -937,6 +940,18 @@ Util.setErrorHandler = function() {
 Util.setImagesDir = function(images_dir) {
   if (images_dir !== undefined) {
     Util.IMAGES_DIR = images_dir;
+  }
+};
+
+/** Returns the current time as given by the system clock, in seconds.
+* @return {number} the current time as given by the system clock, in seconds
+*/
+Util.systemTime = function() {
+  if (Util.MODERN_CLOCK && !Util.MOCK_CLOCK) {
+    // use high resolution time if available and not running tests with mock clock
+    return performance.now()*1E-3;
+  } else {
+    return goog.now()*1E-3;
   }
 };
 

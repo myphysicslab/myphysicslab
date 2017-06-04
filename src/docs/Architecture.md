@@ -589,8 +589,8 @@ _Key Points:_
 + It is possible to have multiple applications running on a single web page.
 
 When the web page loads, a script creates the application and starts a
-[Timer](myphysicslab.lab.util.Timer.html) running that drives the simulation. This
-section describes that start-up process.
+[callback Timer](myphysicslab.lab.util.Timer.html) running that drives the simulation.
+This section describes that start-up process.
 
 In myPhysicsLab the convention is to **use the same name** for the JavaScript
 application file and the start-up HTML file. For example, `DoublePendulumApp.html` and

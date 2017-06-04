@@ -63,18 +63,13 @@ How Simulation Advances with Clock
 SimRunner advances the Simulation state, keeping it in sync with the Clock time, and
 therefore we see the Simulation advancing in real time.  Here are the details:
 
-+ The Timer **callback** is set to be the SimRunner method `callback()`.
++ The {@link Timer} repeatedly executes the SimRunner's {@link #callback}.
+The callback continues being fired regardless of whether the Clock is paused,
+stepping, or running.
 
-+ The `callback()` method **reschedules itself** to run again by
-calling {@link Timer#finishAt} or {@link Timer#fireAfter} thus continuing the
-[chain of callbacks](myphysicslab.lab.util.Timer.html#chainofcallbacks).
-The callback reschedules itself regardless of whether the Clock is paused,
-stepping, or running (though it calculates the delay differently in those cases).
-
-+ When the Clock is **running or stepping**, `callback()` advances the
-Simulation up to (or just beyond) the current {@link Clock#getTime clock time} by
-calling {@link AdvanceStrategy#advance}. This keeps the
-Simulation in sync with the Clock.
++ When the Clock is **running or stepping**, `callback()` advances the Simulation up to
+(or just beyond) the current {@link Clock#getTime clock time} by calling
+{@link AdvanceStrategy#advance}. This keeps the Simulation in sync with the Clock.
 
 + **Stepping** forward by a single time step employs the special
 [step mode](myphysicslab.lab.util.Clock.html#stepmode) of Clock. When `callback()`
@@ -89,9 +84,8 @@ will **retard the clock time** when it is too far ahead of simulation time, by c
 problems by comparing these.
 
 + When the Clock is **paused** `callback()` still updates the LabCanvas, so any changes
-to objects will be seen. The callback chain continues to be rescheduled with
-{@link Timer#fireAfter}, but the Clock time is frozen. This allows the user to position
-objects while the simulation is paused.
+to objects will be seen. This allows the user to position objects while the simulation
+is paused.
 
 + The Timer period (the callback frequency) determines the **frame rate** of the
 simulation display, because a new frame is drawn each time the `callback()`
@@ -166,18 +160,7 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   * @type {number}
   * @private
   */
-  this.displayPeriod_ = 0.025;
-  /**
-  * @type {boolean}
-  * @private
-  * @const
-  */
-  this.debug_ = false;
-  /** time when last debug message was printed to console.
-  * @type {number}
-  * @private
-  */
-  this.lastDebug_ = Util.NEGATIVE_INFINITY;
+  this.displayPeriod_ = 0;
   /** Whether the Timer stops firing when the window is not active (when a blur
   * event occurs).
   * @type {boolean}
@@ -219,11 +202,6 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
   * @private
   */
   this.errorObservers_ = [];
-  /**
-  * @type {boolean}
-  * @private
-  */
-  this.debugTiming_ = false;
   this.addParameter(new ParameterNumber(this, SimRunner.en.TIME_STEP,
       SimRunner.i18n.TIME_STEP,
       goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this))
@@ -311,6 +289,7 @@ Memorizables after each time step.
 */
 SimRunner.prototype.advanceSims = function(strategy, targetTime) {
   var  simTime = strategy.getTime();
+  var n = 0;
   while (simTime < targetTime) {
     // the AdvanceStrategy is what actually calls `memorize`
     strategy.advance(this.timeStep_, /*memoList=*/this);
@@ -318,36 +297,27 @@ SimRunner.prototype.advanceSims = function(strategy, targetTime) {
     var lastSimTime = simTime;
     simTime = strategy.getTime();
     if (simTime - lastSimTime <= 1e-15) {
-      throw new Error('SimRunner time did not advance');
+      throw new Error('SimRunner: time did not advance');
     }
-    if (this.debugTiming_ && Util.DEBUG) {
-      var clockTime = this.clock_.getTime();
-      console.log(NF(strategy.getTime())
-        +' now='+NF(clockTime)
-        +' targetTime='+NF(targetTime)
-        +' timeStep='+NF(this.timeStep_)
-        );
+    // Avoid multiple timesteps so that each frame can draw.
+    // This makes the "trails" look continuous with no missing frames.
+    // Test: RollerSingleApp with trails, timestep and display_period = 0.025.
+    // Very small timesteps (like 0.001) still need to do multiple steps here.
+    if (targetTime - simTime < this.timeStep_) {
+      break;
     }
   }
 };
 
 /** Advances the Simulation AdvanceStrategy(s) to match the current Clock time and
 repaints the LabCanvas's. Calls `memorize` on the list of Memorizables after each time
-step. This is the callback function that is being run by the {@link Timer}. Reschedules
-itself to run again, to continue the chain of callbacks.
+step. This is the callback function that is being run by the {@link Timer}.
 * @return {undefined}
 * @private
 */
 SimRunner.prototype.callback = function() {
   try {
-    var nowSysTime = this.timer_.callBackStarted();
-    if (Util.DEBUG && this.debug_ && nowSysTime > this.lastDebug_ + 1) {
-      this.lastDebug_ = nowSysTime;
-      console.log(this.appName_+' time='+NF(Util.chopTime(nowSysTime)));
-    }
-    if (!this.clock_.isRunning() && !this.clock_.isStepping()) {
-      this.timer_.fireAfter(this.displayPeriod_);
-    } else {
+    if (this.clock_.isRunning() || this.clock_.isStepping()) {
       var clockTime = this.clock_.getTime();
       var simTime = this.advanceList_[0].getTime();
       // If clockTime is VERY far ahead or behind of simTime, assume simTime was
@@ -359,54 +329,19 @@ SimRunner.prototype.callback = function() {
         this.clock_.setRealTime(t);
         clockTime = t;
       }
-      var startTime = clockTime;
-      if (Util.DEBUG && this.debugTiming_) {
-        var expectedTime = this.clock_.systemToClock(this.timer_.getExpectedTime());
-        console.log(NF(simTime)
-            +' callback '
-            +' simTime='+NF(simTime)
-            +' clockTime='+NF(clockTime)
-            +' timeStep_='+NF(this.timeStep_)
-            +' expected='+NF(expectedTime)
-            +' stepMode='+this.clock_.isStepping()
-            +' running='+this.clock_.isRunning()
-            );
-          //  +' late='+NF(startTime - expectedTime)
-          //  +' sys='+NF(Util.chopTime(Util.systemTime()))
-      }
       // If sim reaches almost current clock time, that is good enough.
-      var targetTime = startTime - this.timeStep_/10;
+      var targetTime = clockTime;// - this.timeStep_/10;
       for (var i=0, n=this.advanceList_.length; i<n; i++) {
         this.advanceSims(this.advanceList_[i], targetTime);
       }
       if (this.clock_.isStepping()) {
-        // When stepping, just fire the next callback after displayPeriod time;
-        // don't care about elapsed time or getting behind the clock.
-        this.timer_.fireAfter(this.displayPeriod_);
         this.clock_.clearStepMode();
       } else {
         clockTime = this.clock_.getTime();
         simTime = this.advanceList_[0].getTime();
-        var limit = 20*this.timeStep_;
-        var retard = clockTime - simTime > limit;
-        if (this.debugTiming_ && Util.DEBUG) {
-          // elapsedTime = how long it took to calculate the frames
-          console.log(NF(simTime)
-            +(retard ? ' ### retard labTimer ': '')
-            +' now='+NF(clockTime)
-            +' behind='+NF(clockTime - simTime)
-            +' limit='+NF(limit)
-            +' elapsed='+NF(clockTime - startTime)
-            );
-        }
-        if (retard) {
-          // Retard the clock because we are too far behind.
+        if (clockTime - simTime > 20*this.timeStep_) {
+          // Retard the clock because simuliation is too far behind to catch up.
           this.clock_.setTime(simTime);
-          this.timer_.fireAfter(0);
-        } else {
-          // we want the next callback to finish at simTime + displayPeriod
-          var t = simTime + this.displayPeriod_*this.clock_.getTimeRate();
-          this.timer_.finishAt(this.clock_.clockToSystem(t));
         }
       }
     }
@@ -591,6 +526,8 @@ SimRunner.prototype.setAppName = function(name) {
 };
 
 /** Sets amount of time between displaying frames of the Simulation, in seconds.
+Can be set to zero, in which case the fastest possible frame rate will happen,
+which is usually 60 frames per second.
 @param {number} displayPeriod amount of time between displaying frames of the
     Simulation, in seconds.
 */

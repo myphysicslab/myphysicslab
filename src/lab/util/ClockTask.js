@@ -113,4 +113,11 @@ ClockTask.prototype.schedule = function(delay) {
   this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
 };
 
+/**
+@return {undefined}
+*/
+ClockTask.prototype.execute = function() {
+  this.callBack_();
+};
+
 }); // goog.scope
