@@ -100,7 +100,7 @@ var testTerminal2 = function() {
   // output_elem should be unchanged
   assertEquals(out, output_elem.value);
   // test that unsafe scripts are rejected
-  assertThrows(function() { t.eval('eval("window")', /*output=*/false); });
+  assertThrows(function() { t.eval('window', /*output=*/false); });
   assertThrows(function() { t.eval('"eval"(foo(window))', /*output=*/false); });
   assertThrows(function() { t.eval('z.a=1; window', /*output=*/false); });
   assertThrows(function() { t.eval('this["white"+"List_"]', /*output=*/false); });
@@ -109,7 +109,7 @@ var testTerminal2 = function() {
   assertThrows(function() { t.eval('this.whiteList_.push("foo")', /*output=*/false); });
   // when words are in quotes they are OK
   assertEquals('window', t.eval('"window"', /*output=*/false));
-  assertEquals('fooeval', t.eval('"foo"+"eval"', /*output=*/false));
+  assertEquals('foowhiteList_', t.eval('"foo"+"whiteList_"', /*output=*/false));
   assertEquals('Eval', t.eval('"myEval".slice(2,6)', /*output=*/false));
   assertEquals('whiteList_', t.eval('"whiteList_"', /*output=*/false));
   // output_elem should be unchanged
@@ -135,6 +135,12 @@ var testTerminal2 = function() {
   assertEquals(1, r);
   assertEquals(21, t.eval('7*3', /*output=*/true));
   assertEquals(2, r);
+  // we allow using eval because it is replaced by terminal.eval
+  assertEquals(4, t.eval('eval("2+2")', /*output=*/false));
+  // but unsafe scripts are still rejected
+  assertThrows(function() { t.eval('eval("window")', /*output=*/false); });
+  assertThrows(function() { t.eval('eval("win"+"dow")', /*output=*/false); });
+  assertThrows(function() { t.eval('eval("white"+"List_")', /*output=*/false); });
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal2', testTerminal2);
@@ -173,11 +179,13 @@ goog.exportProperty(window, 'testTerminal3', testTerminal3);
 var testTerminal4 = function() {
   var Util = myphysicslab.lab.util.Util;
   var Terminal = myphysicslab.lab.util.Terminal;
+
   if (Util.ADVANCED) {
-    // Terminal doesn't work under advanced-compile.
+    // Terminal.eval doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  var output_elem = /**@type {!HTMLInputElement}*/
+      (document.createElement('textarea'));
   var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
   input_elem.type = 'text';
   window.terminal = new Terminal(input_elem, output_elem);
@@ -196,6 +204,23 @@ var testTerminal4 = function() {
   assertThrows(function(){ t.eval('alert("foo")'); });
   assertThrows(function(){ t.eval('foo;document'); });
   assertThrows(function(){ t.eval('goog.globalEval("foo")'); });
+
+  // these hacks were found by reddit
+  // see https://www.reddit.com/r/AskNetsec/comments/64erdg/
+  // is_my_javascript_physics_simulation_app_hackproof/
+  assertThrows(function(){
+      t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'); });
+  assertThrows(function(){
+      t.eval('win\u0064ow.lo\u0063ation=\'https://www.reddit.com\''); });
+  delete window.terminal;
+};
+goog.exportProperty(window, 'testTerminal4', testTerminal4);
+
+var testTerminal5 = function() {
+  var Util = myphysicslab.lab.util.Util;
+  var Terminal = myphysicslab.lab.util.Terminal;
+  // static Terminal methods do work under advanced-compile
+  // test blacklist. These are variant spellings of "window".
   assertThrows(function(){ Terminal.vetCommand('window', []); });
   assertEquals('window', Terminal.deUnicode('win\u0064ow'));
   assertEquals('window', Terminal.deUnicode('win\x64ow'));
@@ -207,12 +232,31 @@ var testTerminal4 = function() {
   assertThrows(function(){ Terminal.vetCommand('alert("foo")', []); });
   assertThrows(function(){ Terminal.vetCommand('foo;document', []); });
   assertThrows(function(){ Terminal.vetCommand('goog.globalEval("foo")', []); });
-  // these hacks were found by reddit
-  // https://www.reddit.com/r/AskNetsec/comments/64erdg/is_my_javascript_physics_simulation_app_hackproof/
-  assertThrows(function(){
-      t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'); });
-  assertThrows(function(){
-      t.eval('win\u0064ow.lo\u0063ation=\'https://www.reddit.com\''); });
+  assertThrows(function(){ Terminal.vetCommand('eval("1+2")', [], /\beval\b/g); });
+};
+goog.exportProperty(window, 'testTerminal5', testTerminal5);
+
+
+var testTerminal6 = function() {
+  var Util = myphysicslab.lab.util.Util;
+  var Terminal = myphysicslab.lab.util.Terminal;
+  if (Util.ADVANCED) {
+    // Terminal doesn't work under advanced-compile.
+    return;
+  }
+  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  input_elem.type = 'text';
+  window.terminal = new Terminal(input_elem, output_elem);
+  var t = window.terminal;
+  Terminal.stdRegex(t);
+  // test recursion of Terminal.eval. The `result` variable should be preserved.
+  assertEquals(4, t.eval('2+2'));
+  assertEquals(4, t.eval('result'));
+  t.eval('var a');
+  assertEquals(3, t.eval('eval("1+1;a=result")+1'));
+  assertEquals(3, t.eval('result'));
+  assertEquals(2, t.eval('a'));
   delete window.terminal;
 };
-goog.exportProperty(window, 'testTerminal4', testTerminal4);
+goog.exportProperty(window, 'testTerminal6', testTerminal6);

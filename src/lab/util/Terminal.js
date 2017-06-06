@@ -405,6 +405,11 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @private
   */
   this.result;
+  /** Contains saved results when eval is being called recursively.
+  * @type {!Array}
+  * @private
+  */
+  this.resultStack_ = [];
   /** An object that scripts can store properties into.
   * See [The z Object](#thezobject).
   * @type {!Object}
@@ -434,6 +439,9 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @private
   */
   this.evalCalls_ = 0;
+  // allow scripts to call eval() but those calls are replaced by "terminal.eval"
+  // so that they go thru Terminal.eval() and are properly vetted for script safety.
+  this.addRegex('eval', 'terminal', false);
 };
 var Terminal = myphysicslab.lab.util.Terminal;
 
@@ -649,8 +657,14 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
   }
   script = Terminal.deUnicode(script);
   this.evalCalls_++; // number of simultaneous calls to eval() = depth of recursion
+  if (this.evalCalls_ > 1) {
+    // Recursive call to eval should never output text.
+    // This happens when a script calls 'eval'.
+    output = false;
+  }
   if (output) {
-    goog.asserts.assert(this.evalCalls_ <= 1);
+    goog.asserts.assert(this.evalCalls_ == 1);
+    goog.asserts.assert(this.resultStack_.length == 0);
     // add script to session history
     this.history_.unshift(script);
     this.histIndex_ = -1;
@@ -659,8 +673,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
     // modifyObjects.  This gives one level of recursion. Since output==false the result
     // is preserved.  Further recursion is not possible because you can't call eval()
     // from a Terminal script.
-    goog.asserts.assert(this.evalCalls_ <= 2);
-    var saveResult = this.result;
+    this.resultStack_.push(this.result);
     this.result = undefined;
   }
   var prefix = '> ';
@@ -716,7 +729,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
       this.result = undefined;
       this.println(ex);
     } else {
-      this.result = saveResult;
+      this.result = this.resultStack_.pop();
     }
     if (!userInput) {
       this.evalCalls_--;
@@ -731,7 +744,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
   } else {
     // restore this.result to previous value, but return result of this script
     var r = this.result;
-    this.result = saveResult;
+    this.result = this.resultStack_.pop();
     return r;
   }
 };
@@ -1050,7 +1063,7 @@ Terminal.prototype.setAfterEval = function(afterEvalFn) {
 Terminal.prototype.setParser = function(parser) {
   this.parser_ = parser;
   if (!Util.ADVANCED) {
-    parser.addCommand('vars', goog.bind(this.vars, this),
+    parser.addCommand('vars', goog.bind(function() {return String(this.vars());}, this),
         'lists available variables');
   }
 };
@@ -1116,6 +1129,7 @@ expression that is valid JavaScript for referring to the object. This defines sh
 names for many classes and also utility functions like `prettyPrint`, `methodsOf`,
 `println` and `propertiesOf`.
 * @param {!Terminal} terminal the Terminal instance to which the regexp's will be added
+* @static
 */
 Terminal.stdRegex = function(terminal) {
   // These regexp's look for words that are NOT preceded by a dot.
@@ -1126,7 +1140,7 @@ Terminal.stdRegex = function(terminal) {
   terminal.addRegex('methodsOf|propertiesOf|prettyPrint',
        'Util', /*addToVars=*/false);
   // replace 'println' with 'terminal.println'
-  terminal.addRegex('println|z',
+  terminal.addRegex('println|z|vars',
        'terminal', /*addToVars=*/false);
   terminal.addRegex('result',
        'terminal', /*addToVars=*/true);
@@ -1175,12 +1189,12 @@ Terminal.stdRegex = function(terminal) {
 
 /** Returns names of the variables that have been defined using {@link #addRegex}.
 * This is used as a "help" command for the user to know what variables are available.
-* @return {string}
+* @return {!Array<string>}
 */
 Terminal.prototype.vars = function() {
   var v = this.vars_.split('|');
   goog.array.sort(v);
-  return v.join(', ');
+  return v;
 };
 
 /** Throws an error if the script contains prohibited usage of square brackets.
@@ -1204,13 +1218,15 @@ Terminal.vetBrackets = function(script) {
 };
 
 /** Throws an error if the script contains prohibited code.
-See [Safe Subset of JavaScript](#safesubsetofjavascript).
+See [Safe Subset of JavaScript](#safesubsetofjavascript). Note that `eval` is not
+prohibited by default, but you can add a blackList regexp for it.
 * @param {string} script
 * @param {!Array<string>} whiteList list of allowed commands
+* @param {!RegExp=} opt_blackList additional prohibited commands
 * @throws {!Error} if the script contains prohibited code.
 * @static
 */
-Terminal.vetCommand = function(script, whiteList) {
+Terminal.vetCommand = function(script, whiteList, opt_blackList) {
   // prohibit all window properties (which are globally accessible names),
   // except for those on whiteList_.
   for (var p in window) {
@@ -1224,8 +1240,8 @@ Terminal.vetCommand = function(script, whiteList) {
   // structure of the Document.
   // We allow `setParser` because any Parser that is defined via script will have
   // been vetted.
-  var blackList = /\b(myEval|eval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window)\b/g;
-  if (blackList.test(script)) {
+  var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
+  if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
     throw new Error('prohibited name in script: '+script);
   }
 };

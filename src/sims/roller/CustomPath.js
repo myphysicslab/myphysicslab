@@ -99,7 +99,7 @@ the parameter is `t`.
 */
 CustomPath.prototype.setXEquation = function(value) {
   value = Terminal.deUnicode(value);
-  Terminal.vetCommand(value, /*whiteList=*/['t']);
+  Terminal.vetCommand(value, /*whiteList=*/['t'], /*blackList=*//\beval\b/g);
   Terminal.vetBrackets(value);
   this.equationX_ = value;
 };
@@ -112,7 +112,7 @@ the parameter is `t`.
 */
 CustomPath.prototype.setYEquation = function(value) {
   value = Terminal.deUnicode(value);
-  Terminal.vetCommand(value,  /*whiteList=*/['t']);
+  Terminal.vetCommand(value,  /*whiteList=*/['t'], /*blackList=*//\beval\b/g);
   Terminal.vetBrackets(value);
   this.equationY_ = value;
 };
