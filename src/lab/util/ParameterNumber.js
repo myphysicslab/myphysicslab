@@ -38,8 +38,10 @@ See [Internationalization](Building.html#internationalizationi18n) for informati
 about localized and language-independent strings.
 
 @param {!Subject} subject the Subject whose value this ParameterNumber represents
-@param {string} name the language-independent name of this Parameter; the English
-    name can be passed in here because it will be run thru {@link Util#toName}.
+@param {string} name the
+    [language-independent name](Building.html#languageindependentnames) of this
+    Parameter; the English name can be passed in here because it will be run thru
+    {@link Util#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): number} getter A function with no arguments that returns
     the value of this Parameter

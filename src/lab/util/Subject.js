@@ -38,11 +38,11 @@ should call {@link #broadcastParameter} at the end of the setter method.
 Language-Independent Names
 --------------------------
 
-To enable scripting, we need Parameters and SubjectEvents to
-have language independent names. Therefore `Parameter.getName()` and
-`SubjectEvent.getName()` return a language independent name which is derived from the
-English localized name by converting the English name to uppercase and replacing spaces
-and dashes by underscore.
+To enable scripting, we need Parameters and SubjectEvents to have
+[language independent names](Building.html#languageindependentnames). Therefore
+`Parameter.getName()` and `SubjectEvent.getName()` return a language independent name
+which is derived from the English localized name by converting the English name to
+uppercase and replacing spaces and dashes by underscore.
 
 You can use the function {@link myphysicslab.lab.util.Util#toName} to convert an
 English name to the language-independent name. Or use `SubjectEvent.nameEquals()` which

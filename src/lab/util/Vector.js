@@ -67,25 +67,25 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** The vector (1, 0, 0).
+/** The vector `(1, 0, 0)`.
 * @type {!Vector}
 * @const
 */
 Vector.EAST = new Vector(1, 0);
 
-/**  The vector (0, 1, 0).
+/**  The vector `(0, 1, 0)`.
 * @type {!Vector}
 * @const
 */
 Vector.NORTH = new Vector(0, 1);
 
-/** The vector (0, 0, 0).
+/** The vector `(0, 0, 0)`.
 * @type {!Vector}
 * @const
 */
 Vector.ORIGIN = new Vector(0, 0);
 
-/** The vector (0, -1, 0).
+/** The vector `(0, -1, 0)`.
 * @type {!Vector}
 * @const
 */
@@ -98,7 +98,7 @@ Vector.SOUTH = new Vector(0, -1);
 */
 Vector.TINY_POSITIVE = 1E-10;
 
-/** The vector (-1, 0, 0).
+/** The vector `(-1, 0, 0)`.
 * @type {!Vector}
 * @const
 */
@@ -126,9 +126,11 @@ Vector.prototype.add = function(vector) {
       this.y_ + vector.getY(), this.z_ + vector.getZ());
 };
 
-/** Returns the angle going from this vector to another vector
+/** Returns the angle going from this vector to another vector when both vectors are
+arranged so they start at the origin.
 @param {!GenericVector} vector the other vector
-@return {number} angle from this vector to other vector
+@return {number} angle from this vector to other vector in radians; positive means
+    counterclockwise.
 */
 Vector.prototype.angleTo = function(vector) {
   if (this.getZ() != 0 || vector.getZ() != 0) {
@@ -161,8 +163,8 @@ Vector.prototype.distanceTo = function(point) {
   return Math.sqrt(this.distanceSquaredTo(point));
 };
 
-/** Returns quotient of this Vector and given factor.
-@param {number} factor by which to divide this Vector
+/** Returns this Vector divided by the given factor.
+@param {number} factor factor by which to divide this Vector
 @return {!Vector} quotient of this vector and given factor
 @throws {!Error} if factor is less than {@link #TINY_POSITIVE}
 */
@@ -203,8 +205,7 @@ Vector.prototype.equals = function(vector)  {
 };
 
 /** Returns the angle `theta` from the conversion of rectangular coordinates
-`(x, y)` to polar coordinates `(r, theta)`. Uses the JavaScript function
-`Math.atan2`, see documentation there about special cases.
+`(x, y)` to polar coordinates `(r, theta)`.
 @return {number} the angle of this Vector in the `x-y` plane using mathematical
     angle convention in radians in range from `-pi` to `pi`.
 */
@@ -261,7 +262,7 @@ Vector.prototype.lengthSquared = function() {
 };
 
 /** Returns this Vector multiplied by the given factor.
-@param {number} factor by which to multiply this Vector
+@param {number} factor factor by which to multiply this Vector
 @return {!Vector} product of this Vector and given factor
 */
 Vector.prototype.multiply = function(factor) {

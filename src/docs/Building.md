@@ -37,7 +37,7 @@ Contents of this page:
 
 + [Internationalization (i18n)][]
     + [Localized Strings][]
-    + [Language Independent Strings][]
+    + [Language Independent Names][]
     + [How To Set Locale][]
     + [Use only ASCII in Source Code][]
     + [File Naming Convention][]
@@ -727,11 +727,11 @@ Code that refers to `SimRunner.i18n.TIME_STEP` will use the localized version of
 string in the current locale.
 
 
-## Language Independent Strings
+## Language Independent Names
 
-For scripting purposes it is often necessary to have a language independent string,
+For scripting purposes it is often necessary to have a language independent name,
 so that a script can work regardless of the current locale. A language independent
-string is **derived from the English version** of the string by running it through
+name is **derived from the English version** of the name by running it through
 the function
 [Util.toName()](myphysicslab.lab.util.Util.html#Util.toName)
 which turns the name into all caps and replaces spaces and dashes with underscores. For
@@ -753,7 +753,7 @@ converts the input argument string `'angle-1'` to the language independent form
     var angle = vars.getVariable('angle-1');
     angle.setValue(Math.PI/4);
 
-Other methods that convert an input string argument to a language independent version
+Other methods that *convert an input string argument to a language independent version*
 include:
 
 + [SimObject.nameEquals()](myphysicslab.lab.model.SimObject.html#nameEquals)
@@ -771,7 +771,8 @@ include:
 
 + [VarsList.getVariable()](myphysicslab.lab.model.VarsList.html#getVariable)
 
-Using the above methods helps avoid errors like the following from `RigidBodyRollerApp`:
+Using the above methods helps avoid errors like the following from
+`RigidBodyRollerApp`:
 
     if (this.path.getName() == CirclePath.en.NAME) {
 

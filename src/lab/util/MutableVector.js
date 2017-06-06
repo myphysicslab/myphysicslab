@@ -106,7 +106,7 @@ MutableVector.prototype.distanceTo = function(point) {
 };
 
 /** Divides this MutableVector by the given factor.
-@param {number} factor by which to divide this vector, must be greater than
+@param {number} factor factor by which to divide this vector, must be greater than
 {@link Vector.TINY_POSITIVE}
 @return {!MutableVector} this MutableVector for chaining
 @throws {!Error} if factor is less than {@link Vector.TINY_POSITIVE}
@@ -185,7 +185,7 @@ MutableVector.prototype.lengthSquared = function() {
 };
 
 /** Multiplies this MutableVector by the given factor.
-@param {number} factor by which to multiply this vector
+@param {number} factor factor by which to multiply this vector
 @return {!MutableVector} this MutableVector for chaining
 */
 MutableVector.prototype.multiply = function(factor) {

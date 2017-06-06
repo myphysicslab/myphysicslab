@@ -50,8 +50,10 @@ of the enum type `ExtraAccel`, not of type `string`.
 See [Enums](Building.html#enums) for more information.
 
 @param {!Subject} subject the Subject whose value this ParameterString represents
-@param {string} name the language-independent name of this Parameter; the English
-    name can be passed in here because it will be run thru {@link Util#toName}.
+@param {string} name the
+    [language-independent name](Building.html#languageindependentnames) of this
+    Parameter; the English name can be passed in here because it will be run thru
+    {@link Util#toName}.
 @param {string} localName the localized name of this Parameter
 @param {function(): string} getter A function with no arguments that returns
     the value of this Parameter

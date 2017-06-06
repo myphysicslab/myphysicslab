@@ -27,19 +27,24 @@ var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
 var Util = myphysicslab.lab.util.Util;
 
-/** An object in a Simulation which can be displayed. The purpose of SimObjects is
-two-fold:
+/** Represents an object in a Simulation. The purpose of a SimObject is two-fold:
 
-1. to give the **outside world a view** of what is going on in the Simulation.
+1. To give the outside world a view of what is going on in the Simulation.
 
-2. SimObjects are often used in a Simulation's internal calculations.
+2. A SimObject might be used in a Simulation's internal calculations.
 
-A set of SimObjects are usually stored in a {@link myphysicslab.lab.model.SimList}; the
-SimObjects represent the current state of the Simulation. For an ODESim the current
-state is dictated by the VarsList and the SimObjects reflect that state in their
-positions. The SimObjects give additional information that is not in the VarsList, such
-as size, shape, and mass of objects, or they can show forces or anchor objects.
-SimObjects only reflect the current state after the
+A set of SimObjects are stored in a {@link myphysicslab.lab.model.SimList SimList}. The
+SimObjects represent the current state of the Simulation.
+
+For an {@link myphysicslab.lab.model.ODESim ODESim} the current state is dictated by
+the variables in its {@link myphysicslab.lab.model.VarsList VarsList} and the
+SimObjects reflect that state in their positions and velocities.
+
+A SimObject can give additional information that is not in the VarsList, such as size,
+shape, and mass of objects. A SimObject can represent forces or anchor objects which
+are not available in the VarsList.
+
+SimObjects are updated to reflect the current state when the
 {@link myphysicslab.lab.model.Simulation#modifyObjects} method is called.
 
 See {@link myphysicslab.lab.view.DisplayObject} for a discussion of how SimObjects are
@@ -50,17 +55,13 @@ representing things like forces or collision impact, and set the time at which t
 should be removed from the simulation display.  Permanent SimObjects have infinite
 expiration time. See {@link #getExpireTime}.
 
-Although SimObject has the method {@link #getMass} defined on it, all SimObjects should
-return zero for their mass unless they implement the
-{@link myphysicslab.lab.model.MassObject} interface.
-
 * @interface
 * @extends {myphysicslab.lab.util.Printable}
 */
 myphysicslab.lab.model.SimObject = function() {};
 var SimObject = myphysicslab.lab.model.SimObject;
 
-/** Returns rectangle that contains this SimObject in world coordinates.
+/** Returns a rectangle that contains this SimObject in world coordinates.
 @return {!DoubleRect} rectangle that contains this SimObject in world coordinates
 */
 SimObject.prototype.getBoundsWorld;
@@ -68,16 +69,17 @@ SimObject.prototype.getBoundsWorld;
 /** Returns the expiration time, when this SimObject should be removed from the
 SimList. This is intended for temporary SimObjects that illustrate, for example,
 contact forces or collisions.
-@return {number} the expiration time, in time frame of the simulation clock
+@return {number} the expiration time, in time frame of the
+    {@link myphysicslab.lab.model.Simulation#getTime Simulation clock}
 */
 SimObject.prototype.getExpireTime;
 
 /** Name of this SimObject, either the language-independent name for scripting
 purposes or the localized name for display to user.
 
-The language-independent name should be the same as the English version but
-capitalized and with spaces and dashes replaced by underscore,
-see {@link Util#toName} and {@link #nameEquals}.
+The [language-independent name](Building.html#languageindependentnames) should be the
+same as the English version but capitalized and with spaces and dashes replaced by
+underscore, see {@link Util#toName}, {@link #nameEquals}.
 
 The name should give an idea of the role of the SimObject in the simulation. This
 allows us to to treat an object in a special way depending on its name. For example, we
@@ -94,8 +96,9 @@ SimObject.prototype.getName;
 */
 SimObject.prototype.isMassObject;
 
-/** Whether this SimObject has the given name, adjusting for the transformation to a
-language-independent form of the name, as is done by {@link Util#toName}.
+/** Whether this SimObject has the given name, adjusting for transformation to the
+[language-independent form](Building.html#languageindependentnames)
+of the name, as is done by {@link Util#toName}.
 @param {string} name the English or language-independent version of the name
 @return {boolean} whether this SimObject has the given name (adjusted to
     language-independent form)
@@ -105,7 +108,8 @@ SimObject.prototype.nameEquals;
 /** Sets the expiration time, when this SimObject should be removed from the SimList.
 This is intended for temporary SimObjects that illustrate, for example, contact forces
 or collisions.
-@param {number} time the expiration time, in time frame of the simulation clock
+@param {number} time the expiration time, in time frame of the
+    {@link myphysicslab.lab.model.Simulation#getTime Simulation clock}
 @return {!SimObject} this SimObject for chaining setters
 */
 SimObject.prototype.setExpireTime;
