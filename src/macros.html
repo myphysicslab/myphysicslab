@@ -235,10 +235,10 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
       if (menu) { menu.selectedIndex = #COMPILED_MENU_IDX; }\
     }, /*capturing=*/false);\
     window.addEventListener('blur', function(event){\
-      app.eval('FIRING=false;');\
+      app.eval('FIRING=false;', /*output=*/false);\
     }, /*capturing=*/false);\
     window.addEventListener('focus', function(event){\
-      app.eval('FIRING=true;');\
+      app.eval('FIRING=true;', /*output=*/false);\
     }, /*capturing=*/false);\
   }());\
 </script>

@@ -33,6 +33,7 @@ goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.Clock');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.EasyScriptParser');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -57,6 +58,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
+var Terminal = lab.util.Terminal;
 var Util = lab.util.Util;
 var VerticalLayout = sims.common.VerticalLayout;
 
@@ -82,6 +84,8 @@ myphysicslab.sims.springs.TerminalSpringApp = function(elem_ids) {
   Util.setErrorHandler();
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
+  /** @type {!Terminal} */
+  this.terminal = this.layout.terminal;
 };
 var TerminalSpringApp = myphysicslab.sims.springs.TerminalSpringApp;
 
@@ -93,7 +97,7 @@ var TerminalSpringApp = myphysicslab.sims.springs.TerminalSpringApp;
 TerminalSpringApp.prototype.defineNames = function(myName) {
   if (Util.ADVANCED)
     return;
-  var t = this.layout.terminal;
+  var t = this.terminal;
   t.addWhiteList(myName);
   t.addRegex('layout',
       myName);
@@ -109,10 +113,17 @@ TerminalSpringApp.prototype.defineNames = function(myName) {
 
 /**
 * @param {string} script
+* @param {boolean=} opt_output whether to print the result to the output text area and
+*    add the script to session history; default is `true`
+* @return {*}
 * @export
 */
-TerminalSpringApp.prototype.eval = function(script) {
-  this.layout.terminal.eval(script);
+TerminalSpringApp.prototype.eval = function(script, opt_output) {
+  try {
+    return this.terminal.eval(script, opt_output);
+  } catch(ex) {
+    alert(ex);
+  }
 };
 
 }); // goog.scope

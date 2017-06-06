@@ -822,12 +822,14 @@ TestViewerApp.prototype.prependControl = function(control) {
 
 /**
 * @param {string} script
+* @param {boolean=} opt_output whether to print the result to the output text area and
+*    add the script to session history; default is `true`
 * @return {*}
 * @export
 */
-TestViewerApp.prototype.eval = function(script) {
+TestViewerApp.prototype.eval = function(script, opt_output) {
   try {
-    return this.terminal.eval(script);
+    return this.terminal.eval(script, opt_output);
   } catch(ex) {
     alert(ex);
   }

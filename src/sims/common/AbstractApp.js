@@ -307,6 +307,8 @@ AbstractApp.prototype.defineNames = function(myName) {
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
+  this.terminal.addRegex('reset', 'simRun', /*addToVars=*/false, /*prepend=*/true);
+  this.terminal.addRegex('step', 'simRun', /*addToVars=*/false, /*prepend=*/true);
 };
 
 /** Creates the EasyScriptParser for this app. See explanation of
@@ -353,12 +355,14 @@ AbstractApp.prototype.addURLScriptButton = function() {
 
 /**
 * @param {string} script
+* @param {boolean=} opt_output whether to print the result to the output text area and
+*    add the script to session history; default is `true`
 * @return {*}
 * @export
 */
-AbstractApp.prototype.eval = function(script) {
+AbstractApp.prototype.eval = function(script, opt_output) {
   try {
-    return this.terminal.eval(script);
+    return this.terminal.eval(script, opt_output);
   } catch(ex) {
     alert(ex);
   }
@@ -382,8 +386,6 @@ AbstractApp.prototype.setup = function() {
 */
 AbstractApp.prototype.start = function() {
   this.simRun.startFiring();
-  //console.log(Util.prettyPrint(this.toString()));
-  //console.log(Util.prettyPrint(this.sim.toString()));
 };
 
 }); // goog.scope
