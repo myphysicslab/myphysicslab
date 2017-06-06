@@ -171,6 +171,13 @@ var testUtil = function() {
       Util.limitAngle(Math.PI-0.001 - 4*Math.PI), 1e-15);
   assertRoughlyEquals(-Math.PI+0.001,
       Util.limitAngle(-Math.PI+0.001 - 4*Math.PI), 1e-15);
+
+  assertTrue(Util.uniqueElements([1,2,3]));
+  assertFalse(Util.uniqueElements([1,2,3,2]));
+  assertTrue(Util.uniqueElements([1,2,3,2.1]));
+  assertTrue(Util.uniqueElements([1]));
+  assertTrue(Util.uniqueElements([]));
+
   // ensure that goog.asserts is working
   if (!Util.ADVANCED) {
     try {

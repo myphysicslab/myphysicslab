@@ -204,8 +204,8 @@ if (!Util.ADVANCED) {
         +', saveRealTime_secs_: '+NF5(this.saveRealTime_secs_)
         +', isRunning_: '+this.isRunning_
         +', stepMode_: '+this.stepMode_
-        +', clockStart_sys_secs_: '+NF5(Util.chopTime(this.clockStart_sys_secs_))
-        +', realStart_sys_secs_: '+NF5(Util.chopTime(this.realStart_sys_secs_))
+        +', clockStart_sys_secs_: '+NF5(this.clockStart_sys_secs_)
+        +', realStart_sys_secs_: '+NF5(this.realStart_sys_secs_)
         +', tasks_: ['+this.tasks_+']'
         + Clock.superClass_.toString.call(this);
   };

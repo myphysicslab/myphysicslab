@@ -124,9 +124,9 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
       this.timeIdx_ = i;
     }
   }
-  if (Util.DEBUG) {
-    Util.assertUnique(varNames);
-  };
+  if (!Util.uniqueElements(varNames)) {
+    throw new Error('duplicate variable names');
+  }
   /**
   * @type {!Array<!Variable>}
   * @private
@@ -270,6 +270,9 @@ if necessary.
 @private
 */
 VarsList.prototype.findOpenSlot_ = function(quantity) {
+  if (quantity < 0) {
+    throw new Error();
+  }
   var found = 0;
   var startIdx = -1;
   for (var i=0, n=this.varList_.length; i<n; i++) {
@@ -291,18 +294,17 @@ VarsList.prototype.findOpenSlot_ = function(quantity) {
     // Found a group of deleted variables at end of VarsList, but need more.
     // Expand to get full quantity.
     expand = quantity - found;
+    goog.asserts.assert(startIdx >= 0);
+    goog.asserts.assert(expand > 0);
   } else {
     // Did not find contiguous group of deleted variables of requested size.
     // Add space at end of current variables.
     startIdx = this.varList_.length;
     expand = quantity;
   }
-  var newVars = [];
   for (i=0; i<expand; i++) {
-    newVars.push(new ConcreteVariable(this, VarsList.DELETED,
-         VarsList.DELETED));
+    this.varList_.push(new ConcreteVariable(this, VarsList.DELETED, VarsList.DELETED));
   }
-  Util.extendArray(this.varList_, expand, newVars);
   return startIdx;
 };
 

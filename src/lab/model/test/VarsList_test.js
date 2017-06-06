@@ -215,5 +215,10 @@ var testVarsList2 = function() {
   assertEquals('BAZ', var2.getName());
   assertEquals('baz', var2.getName(/*localized=*/true));
   assertEquals(0, var2.getValue());
+
+  // variable names must be unique
+  assertThrows(function() {
+      new myphysicslab.lab.model.VarsList(['foo', 'foo'], ['foo', 'foo']);
+    });
 };
 goog.exportProperty(window, 'testVarsList2', testVarsList2);

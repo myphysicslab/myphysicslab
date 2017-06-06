@@ -42,8 +42,9 @@ var Util = myphysicslab.lab.util.Util;
 */
 Util.ADVANCED = false;
 
-/** Flag indicates whether to include debug code.
-* See the shell script `compile_js.sh` which sets this flag at compile time.
+/** Flag indicates whether to include debug code, must be true for assertions
+* to work. Can be set as a compiler option, see the shell script `compile_js.sh`.
+* See [Customizing The Build Process](Building.html#customizingthebuildprocess).
 * @define {boolean}
 */
 Util.DEBUG = false;
@@ -133,7 +134,8 @@ Util.VERSION = '2.0.0';
 /** Converts an array of numbers to string, with commas between each number.
 * @param {!(Array<number>|Float64Array)} r  the array to print
 * @param {function(number) : string=} nf  number format function to use
-* @param {string=} separator the text to insert between each value; default is ', '
+* @param {string=} separator the text to insert between each value; default is
+    a comma and space `, `
 * @return {string} the array of numbers converted to a string
 */
 Util.array2string = function(r, nf, separator) {
@@ -151,8 +153,8 @@ Util.array2string = function(r, nf, separator) {
 
 /** Converts an array of booleans to string, with commas between each boolean.
 * @param {!(Array<boolean>|Float64Array)} r  the array to print
-* @param {string=} trueString the string that indicates a true value
-* @param {string=} falseString the string that indicates a false value
+* @param {string=} trueString the string that indicates a true value; default `true`
+* @param {string=} falseString the string that indicates a false value; default `false`
 * @return {string} the array of booleans converted to a string
 */
 Util.arrayBool2string = function(r, trueString, falseString) {
@@ -167,37 +169,6 @@ Util.arrayBool2string = function(r, trueString, falseString) {
     }
   }
   return s;
-};
-
-/** Assert that all elements of the array are unique, that there are no duplicates.
-* Uses `goog.asserts` for the assertion.
-* @param {!Array<string>} arr the array to examine
-*/
-Util.assertUnique = function(arr) {
-  var len = arr.length;
-  if (len < 2)
-    return;
-  // make a copy so that we don't modify the passed-in array
-  /** @type {!Array<string>} */
-  var a = new Array(len);
-  for (var i=0; i<len; i++) {
-    a[i] = arr[i];
-  }
-  goog.array.sort(a);
-  var last = /** @type {string} */(a[0]);
-  for (i=1; i<len; i++) {
-    goog.asserts.assert(last != a[i], 'not unique: '+last);
-    last = a[i];
-  }
-};
-
-/** Removes digits above 1000 from the given number.  Used to make the system
-* clock time (a huge number in trillions) readable for debugging.
-* @param {number} time the time to chop
-* @return {number} the time with digits above 1000 removed
-*/
-Util.chopTime = function(time) {
-    return time - 1000*Math.floor(time/1000);
 };
 
 /** Returns a [CSS3 color string](https://www.w3.org/TR/css3-color/#rgb-color)
@@ -250,18 +221,6 @@ Util.createImage = function(url, width, opt_height) {
   return img;
 };
 
-/** Check that two numbers are equal within given tolerance, throw error if not.
-@param {number} arg1  the first number to compare
-@param {number} arg2  the second number to compare
-@param {number=} tolerance
-*/
-Util.checkEqual = function(arg1, arg2, tolerance) {
-  var tol = goog.isNumber(tolerance) ? tolerance : 0;
-  if (Math.abs(arg1 - arg2) > tol) {
-    throw new Error('unequal '+arg1+', '+arg2);
-  }
-};
-
 /** Returns text with specified number of characters removed from start or end of
 * string.
 * @param {string} text
@@ -277,71 +236,9 @@ Util.drop = function(text, n) {
   }
 };
 
-/** Adds `quantity` new entries at end of array, with each value initialized to the given value or array of values.
-* @param {!Array} array the array to be expanded
-* @param {number} quantity  number of new entries or if negative number to delete
-* @param {*} value  the value to assign to the new array entries, or array of values
-*/
-Util.extendArray = function(array, quantity, value) {
-  if (quantity == 0) {
-    return;
-  }
-  if (quantity < 0) {
-    throw new Error();
-  }
-  var startIdx = array.length;
-  array.length = startIdx + quantity;
-  if (goog.isArray(value)) {
-    if (value.length != quantity) {
-      throw new Error();
-    }
-    for (var i=startIdx, n=array.length; i<n; i++) {
-      array[i] = value[i - startIdx];
-    }
-  } else {
-    for (var i=startIdx, n=array.length; i<n; i++) {
-      array[i] = value;
-    }
-  }
-};
-
-/** Returns a new array which is an expanded copy of the given array. Adds `quantity`
-new entries at `position` location in the array. Negative quantity will delete array
-entries.
-* @param {!Array} array the array to be expanded
-* @param {number} position  where in array to place the new entries
-* @param {number} quantity  number of new entries or if negative number to delete
-* @param {*} value  the value to assign to the new array entries, or array of values
-* @return {!Array}  a new array which is an expanded copy of the given array.
-*/
-Util.expandArray = function(array, position, quantity, value) {
-  var n = array.length + quantity;
-  var a = new Array(n);
-  var i, len;
-  for (i=0, len=array.length; i<len; i++) {
-    if (i < position) {
-      a[i] = array[i];
-    } else if (i+quantity >= position) {
-      a[i+quantity] = array[i];
-    }
-  }
-  if (goog.isArray(value)) {
-    if (value.length != quantity) {
-      throw new Error();
-    }
-    for (i=0; i<quantity; i++) {
-      a[position+i] = value[i];
-    }
-  } else {
-    for (i=0; i<quantity; i++) {
-      a[position+i] = value;
-    }
-  }
-  return a;
-};
-
-/** Returns the specified element of an array. Useful in Terminal scripts
-where we prohibit square brackets with anything other than simple index numbers.
+/** Returns the specified element of an array. Useful in
+{@link myphysicslab.lab.util.Terminal} scripts where we prohibit square brackets
+that contain anything other than numbers. See {@link #set}.
 * @param {!Array} array the array to access
 * @param {number} index index of element
 * @return {*} the specified element of the array
@@ -458,8 +355,8 @@ Util.newNumberArray = function(n) {
 };
 
 /** Formats a number with 0 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 0 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 0 decimal places; or `null` or `undefined`
 */
 Util.NF0 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -469,8 +366,8 @@ Util.NF0 = function(num) {
 };
 
 /** Formats a number with 18 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 18 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 18 decimal places; or `null` or `undefined`
 */
 Util.NF18 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -480,8 +377,9 @@ Util.NF18 = function(num) {
 };
 
 /** Formats a number with 1 decimal place and a plus sign if positive.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 1 decimal place and a plus sign if positive
+* @param {?number=} num the number to format
+* @return {string} the number with 1 decimal place and a plus sign if positive;
+*    or `null` or `undefined`
 */
 Util.NF1S = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -491,8 +389,8 @@ Util.NF1S = function(num) {
 };
 
 /** Formats a number with 2 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 2 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 2 decimal places; or `null` or `undefined`
 */
 Util.NF2 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -502,8 +400,8 @@ Util.NF2 = function(num) {
 };
 
 /** Formats a number with 3 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 3 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 3 decimal places; or `null` or `undefined`
 */
 Util.NF3 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -513,8 +411,8 @@ Util.NF3 = function(num) {
 };
 
 /** Formats a number with 5 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 5 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 5 decimal places; or `null` or `undefined`
 */
 Util.NF5 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -525,8 +423,8 @@ Util.NF5 = function(num) {
 
 /** Formats a number with 5 decimal places, but if too small then switch
 * to exponential.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 5 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 5 decimal places; or `null` or `undefined`
 */
 Util.NF5E = function(num) {
   if (goog.isDefAndNotNull(num)) {
@@ -541,8 +439,8 @@ Util.NF5E = function(num) {
 };
 
 /** Formats a number with from zero to 5 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with zero to 5 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with zero to 5 decimal places; or `null` or `undefined`
 */
 Util.nf5 = function(num) {
   if (goog.isDefAndNotNull(num)) {
@@ -555,8 +453,8 @@ Util.nf5 = function(num) {
 };
 
 /** Formats a number with 7 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 7 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 7 decimal places; or `null` or `undefined`
 */
 Util.NF7 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -567,8 +465,8 @@ Util.NF7 = function(num) {
 
 /** Formats a number with 7 decimal places, but if too small then switch
 * to exponential.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 7 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 7 decimal places; or `null` or `undefined`
 */
 Util.NF7E = function(num) {
   if (goog.isDefAndNotNull(num)) {
@@ -583,8 +481,8 @@ Util.NF7E = function(num) {
 };
 
 /** Formats a number with from zero to 7 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with zero to 7 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with zero to 7 decimal places; or `null` or `undefined`
 */
 Util.nf7 = function(num) {
   if (goog.isDefAndNotNull(num)) {
@@ -597,8 +495,8 @@ Util.nf7 = function(num) {
 };
 
 /** Formats a number with 9 decimal places.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number with 9 decimal places
+* @param {?number=} num the number to format
+* @return {string} the number with 9 decimal places; or `null` or `undefined`
 */
 Util.NF9 = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -607,9 +505,9 @@ Util.NF9 = function(num) {
     return num === null ? 'null' : 'undefined';
 };
 
-/** Formats a number with exponential notation.
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number in exponential notation
+/** Formats a number with 7 digit exponential notation.
+* @param {?number=} num the number to format
+* @return {string} the number in 7 digit exponential notation; or `null` or `undefined`
 */
 Util.NFE = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -618,9 +516,9 @@ Util.NFE = function(num) {
     return num === null ? 'null' : 'undefined';
 };
 
-/** Formats a number with exponential notation
-* @param {?number=} num the number to format, null or undefined are OK
-* @return {string} the number in exponential notation
+/** Formats a number with 17 digit exponential notation.
+* @param {?number=} num the number to format
+* @return {string} the number in 17 digit exponential notation; or `null` or `undefined`
 */
 Util.NFSCI = function(num) {
   if (goog.isDefAndNotNull(num))
@@ -662,15 +560,16 @@ Util.numToHexChar2 = function(n) {
 };
 
 /** Formats the `toString` represention of an object to be more readable. Adds
-new lines and spaces so that each property of an object appears on a separate line, and
-is indented according to the 'level depth' of objects being formatted.
+newlines and spaces so that each property of an object appears on a separate line, and
+is indented according to the "level depth" of objects being formatted.
 
 Assumes that the object's `toString` is formatted according to Javascript conventions
 like this:
 
     ClassName{property1: value1, property2: value2}
 
-Semi-colons or commas are equivalent for separating properties.
+Semi-colons or commas are equivalent for separating properties. Assumes that arrays
+are formatted like standard JavaScript as `[object1, object2, object3]`.
 
 The `level` depth works as follows: Level 1 means that the each property of the
 object appears on a separate line preceded a single indent string. For example:
@@ -705,17 +604,19 @@ higher levels.
       property2: value2,
     }
 
-The 'property detection' is done by just looking for commas or semi-colons.
-A new level is begun whenever a brace '{' or bracket '[' is seen.
+The "property detection" is done by looking for commas or semi-colons.
+A new level is begun whenever an opening brace `{` or square bracket `[` is seen.
 Anything in quotes is ignored.  Works for arrays also.
 
 @todo  escaped quotes in strings should be ignored.
 
-* @param {string|!Object} input the string to reformat, typically this is the `toString`
-*     representation of an object
-* @param {number=} level how much nesting of the object to pay attention to; nesting
-*     occurs whenever braces '{' or brackets '[' are seen in the input string
-* @param {string=} indent amount to indent for each new level of nesting
+* @param {string|!Object} input the string to reformat. Typically this is the
+*     `toString` representation of an object.
+* @param {number=} level how much nesting of the object to pay attention to. Nesting
+*     occurs whenever opening braces `{` or brackets `[` are seen in the input string.
+*     Default is 2.
+* @param {string=} indent String to use for indenting each new level. Default is two
+*     spaces.
 * @return {string} the input string formatted to be more readable
 */
 Util.prettyPrint = function(input, level, indent) {
@@ -886,8 +787,9 @@ Util.propertiesOf = function(obj, showValues) {
   return s;
 };
 
-/** Sets the specified element of an array. Useful in Terminal scripts
-where we prohibit square brackets with anything other than simple index numbers.
+/** Sets the specified element of an array. Useful in
+{@link myphysicslab.lab.util.Terminal} scripts where we prohibit square brackets
+that contain anything other than numbers. See {@link #get}.
 * @param {!Array} array the array to access
 * @param {number} index index of element
 * @param {*} value
@@ -995,8 +897,9 @@ Util.testNumber = function(value) {
   return value;
 };
 
-/** Converts the text to the corresponding name identifier by changing to uppercase
-* and replacing spaces and dashes with underscores.
+/** Returns the
+* [language independent form](Building.html#languageindependentnames) of the given
+* string by changing to uppercase and replacing spaces and dashes with underscores.
 * @param {string} text
 * @return {string} the text upper-cased and with spaces and dashes replaced by
 *   underscores
@@ -1005,8 +908,34 @@ Util.toName = function(text) {
   return text.toUpperCase().replace(/[ -]/g, '_');
 };
 
+/** Whether all elements of the array are unique with no duplicates.
+* @param {!Array<string>} arr the array to examine
+* @return {boolean} Whether all elements of the array are unique with no duplicates.
+*/
+Util.uniqueElements = function(arr) {
+  var len = arr.length;
+  if (len > 1) {
+    // make a copy so that we don't modify the passed-in array
+    /** @type {!Array<string>} */
+    var a = new Array(len);
+    for (var i=0; i<len; i++) {
+      a[i] = arr[i];
+    }
+    goog.array.sort(a);
+    var last = /** @type {string} */(a[0]);
+    for (i=1; i<len; i++) {
+      if (last == a[i]) {
+        return false;
+      }
+      last = a[i];
+    }
+  }
+  return true;
+};
+
 /** Ensures the given text consists of only uppercase letters, numbers and underscore
-* and first character is a letter or underscore.
+* and first character is a letter or underscore. This is required for
+* [language independent names](Building.html#languageindependentnames).
 * @param {string} text
 * @return {string} the validated text
 * @throws {!Error} if text does not qualify as a name
@@ -1087,6 +1016,6 @@ Util.zeroArray = function(array) {
 * @type {function(?number=): string}
 * @const
 */
-Util.NF = Util.nf5;
+Util.NF = Util.nf5; // THIS MUST BE AT END OF FILE OTHERWISE THIS IS UNDEFINED
 
 }); // goog.scope
