@@ -233,6 +233,13 @@ var testTerminal5 = function() {
   assertThrows(function(){ Terminal.vetCommand('foo;document', []); });
   assertThrows(function(){ Terminal.vetCommand('goog.globalEval("foo")', []); });
   assertThrows(function(){ Terminal.vetCommand('eval("1+2")', [], /\beval\b/g); });
+  // test vetBrackets
+  assertThrows(function(){ Terminal.vetBrackets("terminal['white'+'List_']"); });
+  assertThrows(function(){ Terminal.vetBrackets("terminal[idx]"); });
+  assertNotThrows(function() {
+      Terminal.vetBrackets('var a = ["red", "green", "blue"]'); });
+  assertNotThrows(function() { Terminal.vetBrackets('a[2]'); });
+  assertThrows(function() { Terminal.vetBrackets('a[1+1]'); });
 };
 goog.exportProperty(window, 'testTerminal5', testTerminal5);
 
@@ -260,3 +267,43 @@ var testTerminal6 = function() {
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal6', testTerminal6);
+
+// test of vetBrackets: when square brackets are allowed or prohibited.
+var testTerminal7 = function() {
+  var Util = myphysicslab.lab.util.Util;
+  var Terminal = myphysicslab.lab.util.Terminal;
+  if (Util.ADVANCED) {
+    // Terminal doesn't work under advanced-compile.
+    return;
+  }
+  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  input_elem.type = 'text';
+  window.terminal = new Terminal(input_elem, output_elem);
+  var t = window.terminal;
+  Terminal.stdRegex(t);
+  // Property access with square brackets is prohibited,
+  // except for accessing array elements with explicit numbers.
+  assertThrows(function(){ t.eval("terminal['white'+'List_']"); });
+  assertEquals('whiteList_', t.eval("var idx = 'whiteList_'"));
+  assertThrows(function(){ t.eval("terminal[idx]"); });
+  //Array access can be done with non-negative integer numbers
+  assertElementsEquals(['red', 'green', 'blue'],
+      t.eval('var a = ["red", "green", "blue"]'));
+  assertEquals('blue', t.eval('a[2]'));
+  assertEquals('blue', t.eval('a[ 2]'));
+  assertEquals('blue', t.eval('a[2 ]'));
+  assertEquals('blue', t.eval('a[ 2 ]'));
+  assertEquals('blue', t.eval('a [ 2 ]'));
+  assertThrows(function(){ t.eval('a[2.1]'); });
+  assertThrows(function(){ t.eval('a[-1]'); });
+  assertThrows(function(){ t.eval('a[1,2]'); });
+  // Array access cannot be done with a variable or expression, but you can use the
+  // built-in functions Util.get and Util.set
+  assertThrows(function(){ t.eval('a[1+1]'); });
+  assertEquals('blue', t.eval('Util.get(a, 1+1)'));
+  assertEquals('orange', t.eval('Util.set(a, 1+1, "orange")'));
+  assertElementsEquals(['red', 'green', 'orange'], t.eval('a'));
+  delete window.terminal;
+};
+goog.exportProperty(window, 'testTerminal7', testTerminal7);

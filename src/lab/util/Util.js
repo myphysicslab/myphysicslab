@@ -792,14 +792,14 @@ Util.propertiesOf = function(obj, showValues) {
 that contain anything other than numbers. See {@link #get}.
 * @param {!Array} array the array to access
 * @param {number} index index of element
-* @param {*} value
-* @return {*} the specified element of the array
+* @param {*} value the value to set the element to
+* @return {*} the value that was set
 */
 Util.set = function(array, index, value) {
   if (!goog.isNumber(index)) {
     throw new Error('index is not a number: '+index);
   }
-  array[index] = value;
+  return array[index] = value;
 };
 
 /** Sets a global error handler function in `window.onerror` to alert user.

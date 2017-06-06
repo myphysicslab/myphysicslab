@@ -101,15 +101,36 @@ We prohibit access to:
 We allow usage of the JavaScript `eval` function, but it is mapped to the Terminal
 {@link #eval} which does the vetting of the script.
 
-Square-brackets are only allowed when they contain a list of numbers. This is to
-prevent accessing prohibited properties by manipulating strings, for example the
-following is not allowed:
+Property access with square brackets is prohibited, except for accessing array elements
+with non-negative integers. This is to prevent accessing prohibited properties by
+manipulating strings to fool the "safe subset" checking. For example the following is
+not allowed:
 
-    terminal['white'+'List_']
+    > terminal['white'+'List_']
+    Error: prohibited usage of square brackets in script: terminal['white'+'List_']
+    > var idx = 'whiteList_'
+    whiteList_
+    > terminal[idx]
+    Error: prohibited usage of square brackets in script: terminal[idx]
 
-Arrays of objects other than numbers can be made using `new Array()`. Array access can
-be done using the built-in functions {@link Util#get} and
-{@link Util#set}.
+Array access can be done only with a non-negative integer number:
+
+    > var a = ["red", "green", "blue"]
+    red,green,blue
+    > a[2]
+    blue
+
+Array access cannot be done with a variable or expression, but you can use the built-in
+functions {@link Util#get} and {@link Util#set}:
+
+    > a[1+1]
+    Error: prohibited usage of square brackets in script: a[1+1]
+    > Util.get(a, 1+1)
+    blue
+    > Util.set(a, 1+1, "orange")
+    orange
+    > a
+    red,green,orange
 
 
 <a name="shortnames"></a>
@@ -120,28 +141,38 @@ convert short names to their proper long expanded form.
 
 Most class names will have their equivalent short-name defined. For example you can type
 
-    new DoubleRect(0,0,1,1)
+    > new DoubleRect(0,0,1,1)
+    DoubleRect{left_: 0, bottom_: 0, right_: 1, top_: 1}
 
 instead of
 
-    new myphysicslab.lab.util.DoubleRect(0,0,1,1)
+    > new myphysicslab.lab.util.DoubleRect(0,0,1,1)
+    DoubleRect{left_: 0, bottom_: 0, right_: 1, top_: 1}
 
 Applications will typically make their key objects available with short-names.
 So instead of `app.sim` you can just type `sim`.
+You can see this at work by using {@link #setVerbose}:
+
+    > terminal.setVerbose(true)
+    > new Vector(2,3)
+    >> new myphysicslab.lab.util.Vector(2,3)
+    Vector{x: 2, y: 3}
+
+In verbose mode, the command is echoed a second time to show how it appears after
+{@link #expand expansion}. The terminal prompt symbol is doubled to distinguish
+the expanded version.
 
 Short-names are implemented by defining a set of regular expression replacement rules
 which are applied to the Terminal input string before it is executed.
 
-The methods {@link #addRegex} and {@link #expand} are how short-names are defined and
-used. Regular expression rules are registered with Terminal using `addRegex`. Then
-whenever a command is evaluated it is first expanded to the long form using `expand`.
+Regular expression rules are registered with Terminal using {@link #addRegex}. Then
+whenever a command is evaluated it is first expanded to the long form and vetted using
+{@link #expand}.
 
 {@link #stdRegex Terminal.stdRegex} defines a standard set of regular expressions for
 expanding myPhysicsLab class names (like `DoubleRect`) and for expanding a few function
 shortcuts like `methodsOf`, `propertiesOf` and `prettyPrint`. An application can add
 more shortcuts via {@link #addRegex}.
-
-To see the post-expansion names in the Terminal output, use {@link #setVerbose}.
 
 
 The Result Variable
@@ -167,13 +198,12 @@ Only semi-colons at the 'top level' of the script have this effect. Semi-colons 
 brackets or inside of a quoted string are ignored for command splitting.
 
 An unusual result of this policy is that **a semi-colon will end a comment**. Here we
-enter `// this is a comment; 2+2` which looks like a single comment, but it is
+enter `// comment; 2+2` which looks like a single comment, but it is
 interpreted as two separate scripts.
 
-    > // this is a comment;
+    > // comment;
     > 2+2
     4
-
 
 
 <a name="urlqueryscript"></a>
@@ -286,13 +316,21 @@ special way.
 When Terminal sees the `var` keyword at the start of a command, it changes the script
 to use the `z` object and defines a short-name. For example the command
 
-    var foo = 3;
+    > var foo = 3
+    3
 
-will become
+is translated to
 
-    z.foo = 3;
+    > z.foo = 3
+    3
 
 and thereafter every reference to `foo` will be changed to `z.foo` in later commands.
+You can see this at work by using {@link #setVerbose}:
+
+    > terminal.setVerbose(true)
+    > foo
+    >> app.terminal.z.foo
+    3
 
 
 The terminal Variable
@@ -426,8 +464,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @type {!Array<string>}
   * @private
   */
-  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal',
-      'find' ];
+  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal', 'find' ];
   /**
   * @type {?Parser}
   * @private
@@ -443,6 +480,11 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @private
   */
   this.evalCalls_ = 0;
+  /** The prompt to show before each user-input command.
+  * @type {string}
+  * @private
+  */
+  this.prompt_ = '> ';
   // Allow scripts to call eval() but those calls are replaced by "terminal.eval"
   // so that they go thru Terminal.eval() and are properly vetted for script safety.
   this.addRegex('eval', 'terminal', false);
@@ -683,7 +725,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
     this.resultStack_.push(this.result);
     this.result = undefined;
   }
-  var prefix = '> ';
+  var prompt = this.prompt_;
   try {
     Terminal.vetBrackets(script);
     // split the script into pieces at each semi-colon, evaluate one piece at a time
@@ -698,7 +740,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
       {
         // print before evaluating & expanding so that it is clear what caused an error
         if (output) {
-          this.println(prefix + cmd);
+          this.println(prompt + cmd);
         }
         if (this.parser_ != null) {
           // Let Parser evaluate the cmd before expanding with regex's.
@@ -717,7 +759,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
         }
         var expScript = this.expand(cmd); // expanded and vetted cmd
         if (output && this.verbose_) {
-          this.println(prefix + prefix + expScript);
+          this.println(prompt.trim() + prompt + expScript);
         }
         this.result = this.myEval(expScript);
       }
@@ -1074,9 +1116,17 @@ Terminal.prototype.setParser = function(parser) {
   }
 };
 
-/** Specifies whether to show expanded or [short names](#shortnames) in the Terminal
-output text area. For example, `DoubleRect` is the short name that expands to
-`myphysicslab.lab.util.DoubleRect`.
+/** Sets the prompt symbol shown before each command.
+* @param {string} prompt the prompt symbol to show before each command
+*/
+Terminal.prototype.setPrompt = function(prompt) {
+  this.prompt_ = String(prompt);
+};
+
+/** Specifies whether to show the expanded command in the Terminal output text area.
+In verbose mode, the command is echoed a second time to show how it appears after
+{@link #expand expansion}. The terminal prompt symbol is doubled to distinguish the
+expanded version.
 * @param {boolean} expand `true` means show expanded names in the Terminal output
 */
 Terminal.prototype.setVerbose = function(expand) {
@@ -1205,14 +1255,23 @@ Terminal.prototype.vars = function() {
 
 /** Throws an error if the script contains prohibited usage of square brackets.
 See [Safe Subset of JavaScript](#safesubsetofjavascript).
+
+This allows using square brackets to create an array containing anything (for example
+an array of strings), but prohibits expressions that look like a property access with
+square brackets -- except for the case of a non-negative integer inside the brackets
+which is an access of a numbered array property.
+
 * @param {string} script
 * @throws {!Error} if the script contains prohibited code.
 * @static
 */
 Terminal.vetBrackets = function(script) {
-  //Allow numbers, spaces, and commas inside square brackets to make arrays of numbers.
-  var goodRegexp = /^\[\s*[\d,\s.-]*\s*\]$/;
-  var broadRegexp = /\[[^\]]*?\]/g;
+  // Allow only non-negative integer inside square brackets (indicates array access).
+  var goodRegexp = /^\w\s*\[\s*\d*\s*\]$/;
+  // Only check when bracket is preceded by an identifier, which is a property access.
+  // This allows making an array with square brackets, or passing an array to a
+  // function, etc.
+  var broadRegexp = /\w\s*\[[^\]]*?\]/g;
   var r = script.match(broadRegexp);
   if (r != null) {
     for (var i=0, n=r.length; i<n; i++) {
