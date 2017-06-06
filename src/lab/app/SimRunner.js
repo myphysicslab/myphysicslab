@@ -494,7 +494,7 @@ SimRunner.prototype.removeMemo = function(memorizable) {
 /** Sets the Simulation to its initial conditions by calling
 {@link AdvanceStrategy#reset}, sets the Clock to match the simulation time (usually
 zero), and pauses the Clock. Broadcasts a {@link SimRunner.RESET} event.
-* @return {undefined}
+@return {number} the current time on the clock after resetting
 */
 SimRunner.prototype.reset = function() {
   goog.array.forEach(this.advanceList_, function(strategy) {
@@ -508,6 +508,7 @@ SimRunner.prototype.reset = function() {
   this.paintAll();
   this.timer_.startFiring(); // in case the timer was stopped.
   this.broadcast(new GenericEvent(this, SimRunner.RESET));
+  return this.clock_.getTime();
 };
 
 /** Resume the Clock, which therefore also resumes advancing the Simulation.
@@ -591,7 +592,7 @@ SimRunner.prototype.startFiring = function() {
 };
 
 /** Steps the Clock and Simulation forward by a single timestep.
-@return {undefined}
+@return {number} the current time on the clock after stepping
 */
 SimRunner.prototype.step = function() {
   //this.clock_.pause();
@@ -599,6 +600,7 @@ SimRunner.prototype.step = function() {
   var dt = this.advanceList_[0].getTime() + this.timeStep_ - this.clock_.getTime();
   this.clock_.step(dt);
   this.timer_.startFiring(); // in case the timer was stopped.
+  return this.clock_.getTime();
 };
 
 /** Stops the Timer from executing `callback()`, but only if the non-stop flag is

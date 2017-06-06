@@ -334,12 +334,10 @@ controlling the SimRunner
 CommonControls.makeEasyScript = function(subjects, dependent, simRun) {
   var easyScript = new EasyScriptParser(subjects, dependent);
   easyScript.addCommand('reset', function() {
-      simRun.reset();
-      return String(simRun.getClock().getTime());
+      return String(simRun.reset());
     }, 'sets simulation to initial conditions');
   easyScript.addCommand('step', function() {
-      simRun.step();
-      return String(simRun.getClock().getTime());
+      return String(simRun.step());
     }, 'advance simulation by a small time increment');
   return easyScript;
 };
