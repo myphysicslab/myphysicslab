@@ -27,6 +27,7 @@ goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.Subject');
+goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
@@ -53,6 +54,7 @@ var ParameterBoolean = lab.util.ParameterBoolean;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
+var Terminal = lab.util.Terminal;
 var ToggleControl = lab.controls.ToggleControl;
 var Util = lab.util.Util;
 var Vector = lab.util.Vector;
@@ -329,9 +331,10 @@ controlling the SimRunner
 *    change depending on another configuration parameter. Generally this is the
 *    VarsList of a simulation. These must also be included in `subjects`.
 * @param {!SimRunner} simRun the SimRunner to use for 'reset' and 'step' commands
+* @param {!Terminal} terminal the Terminal that executes scripts
 * @return {!EasyScriptParser}
 */
-CommonControls.makeEasyScript = function(subjects, dependent, simRun) {
+CommonControls.makeEasyScript = function(subjects, dependent, simRun, terminal) {
   var easyScript = new EasyScriptParser(subjects, dependent);
   easyScript.addCommand('reset', function() {
       return String(simRun.reset());
@@ -339,6 +342,7 @@ CommonControls.makeEasyScript = function(subjects, dependent, simRun) {
   easyScript.addCommand('step', function() {
       return String(simRun.step());
     }, 'advance simulation by a small time increment');
+  terminal.setParser(easyScript);
   return easyScript;
 };
 

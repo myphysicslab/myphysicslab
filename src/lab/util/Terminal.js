@@ -93,9 +93,13 @@ allowed. See the book *JavaScript: The Definitive Guide* by Flanagan, section 11
 function under
 [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
 
-We prohibit access to most global variables including the `window` object which defines
-global variables. We prohibit usage of the JavaScript `eval` function and prohibit
-access to certain methods and properties of Terminal.
+We prohibit access to:
++ most global variables including the `window` object which defines global variables.
++ certain methods and properties of Terminal.
++ properties and methods that access or change the structure of the HTML document.
+
+We allow usage of the JavaScript `eval` function, but it is mapped to the Terminal
+{@link #eval} which does the vetting of the script.
 
 Square-brackets are only allowed when they contain a list of numbers. This is to
 prevent accessing prohibited properties by manipulating strings, for example the
@@ -439,7 +443,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @private
   */
   this.evalCalls_ = 0;
-  // allow scripts to call eval() but those calls are replaced by "terminal.eval"
+  // Allow scripts to call eval() but those calls are replaced by "terminal.eval"
   // so that they go thru Terminal.eval() and are properly vetted for script safety.
   this.addRegex('eval', 'terminal', false);
 };
@@ -618,22 +622,25 @@ input text area, remembers the script in the [session history](#sessionhistory).
 When `opt_output` is `false`: the `result` variable is updated for
 successive scripts (separated by a semicolon) in the same script line, but after the
 script is finished executing the `result` variable is unchanged. The output text area
-and session history array are unchanged. This option allows for evaluating scripts that
+and session history array are unchanged.
+
+The `opt_output=false` option allows for evaluating scripts that
 define a variable, for example in
 {@link myphysicslab.lab.model.ExpressionVariable ExpressionVariable}.
+The ExpressionVariable script can be executed frequently without modifying the `result`
+seen by the user in Terminal.
 
-The script is expanded before execution with {@link #expand}. The script is split
-into pieces separated by top-level semicolons (top-level means they are not enclosed by
-braces). Each fragment is first offered to the Parser installed with
-{@link #setParser}. If the Parser does not recognize the fragment, then the fragment is
-executed using JavaScript `eval`.
+The script is split into pieces separated by top-level semicolons (top-level means they
+are not enclosed by braces). Each fragment is first offered to the Parser installed
+with {@link #setParser}. If the Parser does not recognize the fragment, then the
+fragment is expanded and vetted with {@link #expand} before being executed using
+JavaScript `eval`. The vetting ensures that only a
+[Safe Subset of JavaScript](#safesubsetofjavascript) is allowed to be executed.
 
 Error handling: when `opt_userInput` is `true` we avoid throwing an error and only
 print the error to the output text area where the user will presumably see it. When
 `opt_userInput` is `false` we throw the error as usual (augmenting the message with the
 script that caused the error).
-
-Only a [Safe Subset of JavaScript](#safesubsetofjavascript) is allowed to be executed.
 
 * @param {string} script a fragment of JavaScript to be executed
 * @param {boolean=} opt_output whether to print the result to the output text area and
@@ -670,9 +677,9 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
     this.histIndex_ = -1;
   } else {
     // The afterEvalFn_ can call eval() when an ExpressionVariable is evaluated during
-    // modifyObjects.  This gives one level of recursion. Since output==false the result
-    // is preserved.  Further recursion is not possible because you can't call eval()
-    // from a Terminal script.
+    // modifyObjects.  This gives one level of recursion. Since output==false the
+    // result is preserved.  Recursion can also happen by calling eval() in the script
+    // being executed here (eval is mapped to call Terminal.eval not JavaScript eval).
     this.resultStack_.push(this.result);
     this.result = undefined;
   }
@@ -700,9 +707,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
           //
           // Script Safe Subset:
           // Note that unexpanded `cmd` has NOT gone thru vetCommand, but it is only
-          // a string and cannot be eval'd by the parser. Even if parser is created via
-          // script it cannot contain any way to eval a string, because the script was
-          // vetted.
+          // a string and should not be eval'd by the parser.
           var parseResult = this.parser_.parse(cmd);
           if (parseResult !== undefined) {
             // the parser was successful
@@ -710,7 +715,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
             break execute_cmd;
           }
         }
-        var expScript = this.expand(cmd); // expanded cmd
+        var expScript = this.expand(cmd); // expanded and vetted cmd
         if (output && this.verbose_) {
           this.println(prefix + prefix + expScript);
         }
@@ -750,7 +755,8 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
 };
 
 /** Returns the given Javascript script expanded by the various regular expression
-* rules which were registered with {@link #addRegex}. The expanded script has
+* rules which were registered with {@link #addRegex} and vetted to not contain
+* any [unsafe JavaScript commands](#safesubsetofjavascript). The expanded script has
 * [short names](#shortnames) like `DoubleRect` expanded to have full path name like
 * `myphysicslab.lab.util.DoubleRect`. Doesn't expand words inside of quoted strings.
 * @param {string} script a Javascript script to be executed
@@ -1238,8 +1244,6 @@ Terminal.vetCommand = function(script, whiteList, opt_blackList) {
   // properties of Terminal.
   // Prohibit HTML Element and Node properties and methods that access parent or change
   // structure of the Document.
-  // We allow `setParser` because any Parser that is defined via script will have
-  // been vetted.
   var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
   if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
     throw new Error('prohibited name in script: '+script);

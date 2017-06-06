@@ -284,8 +284,7 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
   ];
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [ this.varsList ],
-       this.simRun);
-  this.terminal.setParser(this.easyScript);
+       this.simRun, this.terminal);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var SingleSpring2App = myphysicslab.sims.springs.SingleSpring2App;

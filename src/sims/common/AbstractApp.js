@@ -322,8 +322,7 @@ AbstractApp.prototype.makeEasyScript = function(opt_dependent) {
     dependent = goog.array.concat(dependent, opt_dependent);
   }
   this.easyScript = CommonControls.makeEasyScript(this.getSubjects(), dependent,
-      this.simRun);
-  this.terminal.setParser(this.easyScript);
+      this.simRun, this.terminal);
 };
 
 /** @inheritDoc */

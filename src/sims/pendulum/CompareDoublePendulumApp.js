@@ -499,8 +499,8 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   subjects = goog.array.concat(subjects, this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
   /** @type {!EasyScriptParser} */
-  this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun);
-  this.terminal.setParser(this.easyScript);
+  this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun,
+      this.terminal);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.graph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));

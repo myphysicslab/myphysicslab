@@ -478,8 +478,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
 
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [ this.varsList ],
-      this.simRun);
-  this.terminal.setParser(this.easyScript);
+      this.simRun, this.terminal);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var TestViewerApp = myphysicslab.test.TestViewerApp;
