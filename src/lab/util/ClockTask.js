@@ -52,14 +52,15 @@ See Clock section {@linkplain myphysicslab.lab.util.Clock#typesoftime Types of T
 about *clock time* and *system time*.
 
 * @param {number} time the clock time in seconds when the callBack should start
-* @param {function():*} callBack the function to execute at the given clock time
+* @param {?function()} callBack the function to execute at the given
+*     clock time
 * @constructor
 * @final
 * @struct
 */
 myphysicslab.lab.util.ClockTask = function(time, callBack) {
   /** the function to execute at the given clock time
-  * @type {function():*}
+  * @type {?function()}
   * @private
   */
   this.callBack_ = callBack;
@@ -96,6 +97,15 @@ ClockTask.prototype.cancel = function() {
   }
 };
 
+/** Execute the ClockTask's callback.
+@return {undefined}
+*/
+ClockTask.prototype.execute = function() {
+  if (goog.isFunction(this.callBack_)) {
+    this.callBack_();
+  }
+};
+
 /** Returns the clock time in seconds when the task should be executed.
 @return {number} the clock time in seconds when the task should be executed
 */
@@ -109,15 +119,17 @@ system time
 */
 ClockTask.prototype.schedule = function(delay) {
   this.cancel();
-  var delay_ms = Math.round(delay*1000);
-  this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
+  if (goog.isFunction(this.callBack_)) {
+    var delay_ms = Math.round(delay*1000);
+    this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
+  }
 };
 
-/**
-@return {undefined}
+/** Set the callback to execute.
+* @param {?function()} callBack the function to execute
 */
-ClockTask.prototype.execute = function() {
-  this.callBack_();
+ClockTask.prototype.setCallback = function(callBack) {
+  this.callBack_ = callBack;
 };
 
 }); // goog.scope
