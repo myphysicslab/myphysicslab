@@ -337,11 +337,17 @@ controlling the SimRunner
 CommonControls.makeEasyScript = function(subjects, dependent, simRun, terminal) {
   var easyScript = new EasyScriptParser(subjects, dependent);
   easyScript.addCommand('reset', function() {
-      return String(simRun.reset());
+      return simRun.reset();
     }, 'sets simulation to initial conditions');
   easyScript.addCommand('step', function() {
-      return String(simRun.step());
+      return simRun.step();
     }, 'advance simulation by a small time increment');
+  easyScript.addCommand('pause', function() {
+      return simRun.pause();
+    }, 'pause simulation');
+  easyScript.addCommand('resume', function() {
+      return simRun.resume();
+    }, 'resume simulation');
   terminal.setParser(easyScript);
   return easyScript;
 };
