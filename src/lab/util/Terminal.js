@@ -1196,7 +1196,7 @@ Terminal.stdRegex = function(terminal) {
   terminal.addRegex('methodsOf|propertiesOf|prettyPrint',
        'Util', /*addToVars=*/false);
   // replace 'println' with 'terminal.println'
-  terminal.addRegex('println|z|vars',
+  terminal.addRegex('println|z',
        'terminal', /*addToVars=*/false);
   terminal.addRegex('result',
        'terminal', /*addToVars=*/true);

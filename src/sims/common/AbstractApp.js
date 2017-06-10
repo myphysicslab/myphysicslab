@@ -307,8 +307,6 @@ AbstractApp.prototype.defineNames = function(myName) {
       myName);
   this.terminal.addRegex('simCanvas',
       myName+'.layout');
-  this.terminal.addRegex('reset', 'simRun', /*addToVars=*/false, /*prepend=*/true);
-  this.terminal.addRegex('step', 'simRun', /*addToVars=*/false, /*prepend=*/true);
 };
 
 /** Creates the EasyScriptParser for this app. See explanation of
