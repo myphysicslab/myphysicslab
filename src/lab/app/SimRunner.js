@@ -22,6 +22,7 @@ goog.require('goog.events.KeyEvent');
 goog.require('myphysicslab.lab.model.AdvanceStrategy');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.Clock');
+goog.require('myphysicslab.lab.util.ClockTask');
 goog.require('myphysicslab.lab.util.ConcreteMemoList');
 goog.require('myphysicslab.lab.util.ErrorObserver');
 goog.require('myphysicslab.lab.util.GenericEvent');
@@ -39,6 +40,7 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
 var Clock = myphysicslab.lab.util.Clock;
+var ClockTask = myphysicslab.lab.util.ClockTask;
 var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
@@ -461,10 +463,26 @@ SimRunner.prototype.paintAll = function() {
 };
 
 /** Pause the Clock, which therefore also pauses the Simulation.
-@return {undefined}
+@return {number} the current time on the Clock
 */
 SimRunner.prototype.pause = function() {
   this.clock_.pause();
+  return this.clock_.getTime();
+};
+
+/** Play the Simulation until the given time. Resumes the Clock, which therefore also
+resumes advancing the Simulation, and creates a ClockTask to stop the Clock.
+@param {number} pauseTime time when the Clock should be paused
+@return {number} the current time on the Clock
+*/
+SimRunner.prototype.playUntil = function(pauseTime) {
+  var pauseTask = new ClockTask(pauseTime, null);
+  pauseTask.setCallback(goog.bind(function() {
+      this.clock_.pause();
+      this.clock_.removeTask(pauseTask);
+    }, this));
+  this.clock_.addTask(pauseTask);
+  return this.resume();
 };
 
 /** Remove the LabCanvas from the list of LabCanvas's that need to be
@@ -494,9 +512,11 @@ SimRunner.prototype.removeMemo = function(memorizable) {
 /** Sets the Simulation to its initial conditions by calling
 {@link AdvanceStrategy#reset}, sets the Clock to match the simulation time (usually
 zero), and pauses the Clock. Broadcasts a {@link SimRunner.RESET} event.
-@return {number} the current time on the clock after resetting
+@return {number} the current time on the Clock after resetting
 */
 SimRunner.prototype.reset = function() {
+  this.timer_.startFiring(); // in case the timer was stopped.
+  this.clock_.pause();
   goog.array.forEach(this.advanceList_, function(strategy) {
     strategy.reset();
   });
@@ -504,19 +524,18 @@ SimRunner.prototype.reset = function() {
   var t = this.advanceList_[0].getTime();
   this.clock_.setTime(t);
   this.clock_.setRealTime(t);
-  this.clock_.pause();
   this.paintAll();
-  this.timer_.startFiring(); // in case the timer was stopped.
   this.broadcast(new GenericEvent(this, SimRunner.RESET));
   return this.clock_.getTime();
 };
 
 /** Resume the Clock, which therefore also resumes advancing the Simulation.
-@return {undefined}
+@return {number} the current time on the Clock
 */
 SimRunner.prototype.resume = function() {
-  this.clock_.resume();
   this.timer_.startFiring(); // in case the timer was stopped.
+  this.clock_.resume();
+  return this.clock_.getTime();
 };
 
 /** Set name of the application that created this SimRunner, for debugging.
