@@ -187,10 +187,12 @@ the future.
 @return {undefined}
 */
 Timer.prototype.startFiring = function() {
-  this.firing_ = true;
-  this.delta_ = 0;
-  this.fired_sys_ = Util.systemTime() - this.period_ - 1E-7;
-  this.timerCallback();
+  if (!this.firing_) {
+    this.firing_ = true;
+    this.delta_ = 0;
+    this.fired_sys_ = Util.systemTime() - this.period_ - 1E-7;
+    this.timerCallback();
+  }
 };
 
 /** Stops the Timer from firing callbacks and cancels the next scheduled callback.
