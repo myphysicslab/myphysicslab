@@ -800,16 +800,22 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
 * rules which were registered with {@link #addRegex} and vetted to not contain
 * any [unsafe JavaScript commands](#safesubsetofjavascript). The expanded script has
 * [short names](#shortnames) like `DoubleRect` expanded to have full path name like
-* `myphysicslab.lab.util.DoubleRect`. Doesn't expand words inside of quoted strings.
+* `myphysicslab.lab.util.DoubleRect`. Doesn't expand words inside of quoted strings
+* or regular expressions.
 * @param {string} script a Javascript script to be executed
 * @return {string} the script expanded by registered regular expressions
 */
 Terminal.prototype.expand = function(script) {
   var c = this.replaceVar(script);
   var exp = ''; //result
+  var count = 0;
   while (c) {
+    if (++count > 10000) {
+      // prevent infinite loop
+      throw new Error('Terminal.expand');
+    }
     // process non-quoted string at start of c
-    var a = c.match(/^[^'"]*/);
+    var a = c.match(/^[^'"/]+/);
     if (a !== null) {
       var e = a[0]; // the non-quoted string at start of c
       c = c.slice(e.length); // remove the non-quoted string from start of c
@@ -821,20 +827,62 @@ Terminal.prototype.expand = function(script) {
       // add to result
       Terminal.vetCommand(e, this.whiteList_);
       exp += e;
+      if (c.length == 0) {
+        break;
+      }
     }
-    // process quoted string at start of c
+    // A regular expression must be preceded by = or (
+    // If exp ends with = or (, then check for possible regexp.
+    if (exp.match(/.*[=(][ ]*$/)) {
+      // regexp for Matching Delimited Text. See comments below.
+      a = c.match(/^\/(\\\/|[^\\/])*\//);
+      if (a !== null) {
+        e = a[0]; // the regexp at start of c
+        c = c.slice(e.length); // remove the regexp from start of c
+        // add to result
+        exp += e;
+        continue;
+      }
+    }
+    // if first char is /, then failed to find a regexp, eat the / and continue
+    if (c.length > 0 && c[0] == '/') {
+      exp += '/';
+      c = c.slice(1);
+      continue;
+    }
+    // process double-quotes string at start of c
     // See p. 198 of Friedl, Mastering Regular Expressions, 2nd edition
     // the section called Matching Delimited Text.
-    // The regexp has two variants: single or double quotes; it allows escaped quotes
-    // in the string.
-    //   "   (      \\.      |        [^\\"]           ) *    "
-    // quote ( escaped-char  |  not-backslash-or-quote ) *  quote
-    a = c.match(/^("(\\.|[^\\"])*")|('(\\.|[^\\'])*')/);
+    // The regexp allows escaped quotes in the string.
+    //   "   (      \\.          |        [^\\"]           )*    "
+    // quote ( any-escaped-char  |  not-backslash-or-quote )*  quote
+    a = c.match(/^"(\\.|[^\\"])*"/);
     if (a !== null) {
       e = a[0]; // the quoted string at start of c
       c = c.slice(e.length); // remove the quoted string from start of c
       // add to result
       exp += e;
+      continue;
+    }
+    // if first char is ", then failed to find a quoted string, eat the " and continue
+    if (c.length > 0 && c[0] == '"') {
+      exp += '"';
+      c = c.slice(1);
+      continue;
+    }
+    // process single-quotes string at start of c
+    a = c.match(/^'(\\.|[^\\'])*'/);
+    if (a !== null) {
+      e = a[0]; // the quoted string at start of c
+      c = c.slice(e.length); // remove the quoted string from start of c
+      // add to result
+      exp += e;
+    }
+    // if first char is ', then failed to find a quoted string, eat the ' and continue
+    if (c.length > 0 && c[0] == '\'') {
+      exp += '\'';
+      c = c.slice(1);
+      continue;
     }
   }
   return exp;
@@ -1134,7 +1182,7 @@ Terminal.prototype.setVerbose = function(expand) {
 };
 
 /** Finds the section of text up to first top-level semi-colon (top-level means not
-enclosed in curly braces). Ignores anything in quotes.
+enclosed in curly braces). Ignores anything in quotes or regular expression.
 * @param {string} text The text to be split up.
 * @return {!Array<string>} array with two elements: array[0] = the section up to and
 *    including the first top-level semi-colon; array[1] = the remaining text.
@@ -1144,13 +1192,20 @@ Terminal.prototype.splitAtSemicolon = function(text) {
   var level = 0;
   var lastChar = '';
   var c = '';
+  var regexMode = false;
   var quoteMode = false;
   var quoteChar = '';
   var i, n;
   for (i=0, n=text.length; i<n; i++) {
     lastChar = c;
     c = text[i];
-    if (quoteMode) {
+    if (regexMode) {
+      // check for escaped slash inside a regex
+      if (c == '/' && lastChar != '\\') {
+        regexMode = false;
+      }
+      continue;
+    } else if (quoteMode) {
       // check for escaped quotes inside a string
       if (c == quoteChar && lastChar != '\\') {
         quoteMode = false;
@@ -1158,6 +1213,10 @@ Terminal.prototype.splitAtSemicolon = function(text) {
       }
       continue;
     } else {
+      if (c == '/') {
+        regexMode = true;
+        continue;
+      }
       if (c == '"' || c == '\'') {
         quoteMode = true;
         quoteChar = c;
@@ -1166,11 +1225,12 @@ Terminal.prototype.splitAtSemicolon = function(text) {
       if (level == 0 && c == ';') {
         break;
       }
-      if (c == '{') {
+      // ignore braces inside a regex
+      if (!regexMode && c == '{') {
         level++;
         continue;
       }
-      if (c == '}') {
+      if (!regexMode && c == '}') {
         level--;
         continue;
       }

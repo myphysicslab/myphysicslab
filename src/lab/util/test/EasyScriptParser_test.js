@@ -195,6 +195,7 @@ var testEasyScript1 = function() {
   assertEquals('OK', t.eval('how_are_you'));
   assertEquals('OK', t.eval('HOW_ARE_YOU'));
 
+  assertUndefined(easyScript.parse('"foo\'bar".match(/.*\'.*/)'));
   delete window.terminal;
 };
 goog.exportProperty(window, 'testEasyScript1', testEasyScript1);

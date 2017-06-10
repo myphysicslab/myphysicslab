@@ -310,3 +310,47 @@ var testTerminal7 = function() {
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal7', testTerminal7);
+
+// tests handling of regex and strings by Terminal.expand()
+// and Terminal.splitAtSemicolon().
+var testTerminal8 = function() {
+  var Util = myphysicslab.lab.util.Util;
+  var Terminal = myphysicslab.lab.util.Terminal;
+  if (Util.ADVANCED) {
+    // Terminal doesn't work under advanced-compile.
+    return;
+  }
+  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  input_elem.type = 'text';
+  window.terminal = new Terminal(input_elem, output_elem);
+  var t = window.terminal;
+  Terminal.stdRegex(t);
+  assertEquals(4, t.eval('2+2'));
+  assertEquals('> 2+2\n4\n', output_elem.value);
+  assertEquals('myphysicslab.lab.util.DoubleRect', t.expand('DoubleRect'));
+  // regex containing a semi-colon.
+  var txt = 'SIM_VARS.foo=1.00;';
+  var r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/SIM_VARS.*;/)'));
+  assertEquals(txt, r[0]);
+  // regex containing a quote
+  txt = 'foo\'bar';
+  r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/.*\'.*/)'));
+  assertEquals(txt, r[0]);
+  // expression looks like a regex but isn't a regex
+  assertRoughlyEquals(0.5, t.eval('(1/8) + (3/8)'), 0.00001);
+  // incomplete string gives "SyntaxError: Unexpected EOF" but the error message
+  // could vary in different browsers.
+  var err = String(assertThrows(function(){ t.eval('foo"bar'); }));
+  assertNotNull(err.match(/.*EOF.*/));
+  err = String(assertThrows(function(){ t.eval('\'incomplete string'); }));
+  assertNotNull(err.match(/.*EOF.*/));
+  // regex containing a slash
+  txt = 'foo/bar';
+  r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/.*\\/.*/)'));
+  assertEquals(txt, r[0]);
+  r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/.*[/].*/)'));
+  assertEquals(txt, r[0]);
+  delete window.terminal;
+};
+goog.exportProperty(window, 'testTerminal8', testTerminal8);
