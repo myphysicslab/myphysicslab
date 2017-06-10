@@ -221,6 +221,8 @@ var testTerminal5 = function() {
   var Terminal = myphysicslab.lab.util.Terminal;
   // static Terminal methods do work under advanced-compile
   // test blacklist. These are variant spellings of "window".
+  // to do: Possible closure compiler issue: had to move these static tests to a
+  //    separate test function to avoid compiler errors.
   assertThrows(function(){ Terminal.vetCommand('window', []); });
   assertEquals('window', Terminal.deUnicode('win\u0064ow'));
   assertEquals('window', Terminal.deUnicode('win\x64ow'));
@@ -289,7 +291,7 @@ var testTerminal7 = function() {
   assertThrows(function(){ t.eval("terminal[idx]"); });
   //Array access can be done with non-negative integer numbers
   assertElementsEquals(['red', 'green', 'blue'],
-      t.eval('var a = ["red", "green", "blue"]'));
+      /**@type {Object}*/(t.eval('var a = ["red", "green", "blue"]')));
   assertEquals('blue', t.eval('a[2]'));
   assertEquals('blue', t.eval('a[ 2]'));
   assertEquals('blue', t.eval('a[2 ]'));
@@ -303,7 +305,8 @@ var testTerminal7 = function() {
   assertThrows(function(){ t.eval('a[1+1]'); });
   assertEquals('blue', t.eval('Util.get(a, 1+1)'));
   assertEquals('orange', t.eval('Util.set(a, 1+1, "orange")'));
-  assertElementsEquals(['red', 'green', 'orange'], t.eval('a'));
+  assertElementsEquals(['red', 'green', 'orange'],
+      /**@type {Object}*/(t.eval('a')));
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal7', testTerminal7);
