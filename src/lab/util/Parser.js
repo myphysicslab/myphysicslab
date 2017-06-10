@@ -29,7 +29,7 @@ var Parser = myphysicslab.lab.util.Parser;
 {@link #parse} it will execute the given function. The function result is returned as
 the result of `parse`.
 * @param {string} commandName name of command
-* @param {function():string} commandFnc function to execute
+* @param {function()} commandFnc function to execute
 * @param {string} helpText description of the command for help text
 */
 Parser.prototype.addCommand;

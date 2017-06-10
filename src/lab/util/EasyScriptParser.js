@@ -284,7 +284,7 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, dependent) {
   */
   this.commandNames_ = [];
   /**
-  * @type {!Array<function():string>}
+  * @type {!Array<function()>}
   * @private
   */
   this.commandFns_ = [];
