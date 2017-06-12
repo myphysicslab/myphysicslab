@@ -337,8 +337,11 @@ var testTerminal8 = function() {
   txt = 'foo\'bar';
   r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/.*\'.*/)'));
   assertEquals(txt, r[0]);
-  // expression looks like a regex but isn't a regex
-  assertRoughlyEquals(0.5, t.eval('(1/8) + (3/8)'), 0.00001);
+  // expression looks like a regex with two slashes, but isn't a regex
+  assertRoughlyEquals(0.5, t.eval('(1/8) + (3/8)'), 1E-10);
+  assertRoughlyEquals(0.5, t.eval('(1\t/8)+ (3 /8)'), 1E-10);
+  assertRoughlyEquals(3/8, t.eval('(1/8);(3/8)'), 1E-10);
+  assertRoughlyEquals(3/8, t.eval('(1\t/8);(3 /8)'), 1E-10);
   // incomplete string gives "SyntaxError: Unexpected EOF" but the error message
   // could vary in different browsers.
   var err = String(assertThrows(function(){ t.eval('foo"bar'); }));

@@ -1190,6 +1190,7 @@ enclosed in curly braces). Ignores anything in quotes or regular expression.
 */
 Terminal.prototype.splitAtSemicolon = function(text) {
   var level = 0;
+  var lastNonSpace = '';
   var lastChar = '';
   var c = '';
   var regexMode = false;
@@ -1198,6 +1199,9 @@ Terminal.prototype.splitAtSemicolon = function(text) {
   var i, n;
   for (i=0, n=text.length; i<n; i++) {
     lastChar = c;
+    if (c != ' ' && c != '\t' && c != '\n') {
+      lastNonSpace = c;
+    }
     c = text[i];
     if (regexMode) {
       // check for escaped slash inside a regex
@@ -1213,7 +1217,8 @@ Terminal.prototype.splitAtSemicolon = function(text) {
       }
       continue;
     } else {
-      if (c == '/') {
+      // regexp must be preceded by = or (
+      if (c == '/' && lastNonSpace && (lastNonSpace == '=' || lastNonSpace == '(')) {
         regexMode = true;
         continue;
       }
@@ -1222,15 +1227,14 @@ Terminal.prototype.splitAtSemicolon = function(text) {
         quoteChar = c;
         continue;
       }
-      if (level == 0 && c == ';') {
+      if (c == ';' && level == 0) {
         break;
       }
-      // ignore braces inside a regex
-      if (!regexMode && c == '{') {
+      if (c == '{') {
         level++;
         continue;
       }
-      if (!regexMode && c == '}') {
+      if (c == '}') {
         level--;
         continue;
       }
