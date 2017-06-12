@@ -175,6 +175,21 @@ var testTerminal3 = function() {
   // declare a var a second time
   assertEquals(5, t.eval('var b=5'));
   assertEquals(30, t.eval('a*b'));
+
+  // slash star comments are removed, replaced with a space
+  t.setVerbose(true);
+  output_elem.value = '';
+  assertEquals(5, t.eval('var b =/* new Vector */5'));
+  assertEquals('> var b = 5\n'+
+      '>> terminal.z.b = 5\n'+
+      '5\n', output_elem.value);
+  // Should get "SyntaxError: Unexpected number '456'. Parse error."
+  // But the error message could vary in different browsers.
+  var err = String(assertThrows(function(){ t.eval('123/*foo*/456'); }));
+  assertNotNull(err.match(/.*SyntaxError.*/i));
+  t.setVerbose(false);
+  assertEquals(30, t.eval('5 * /* multi \n line comment*/ 6'));
+  assertEquals(30, t.eval('5 * \n 6'));
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal3', testTerminal3);
@@ -348,9 +363,9 @@ var testTerminal8 = function() {
   // incomplete string gives "SyntaxError: Unexpected EOF" but the error message
   // could vary in different browsers.
   var err = String(assertThrows(function(){ t.eval('foo"bar'); }));
-  assertNotNull(err.match(/.*EOF.*/));
+  assertNotNull(err.match(/.*EOF.*/i));
   err = String(assertThrows(function(){ t.eval('\'incomplete string'); }));
-  assertNotNull(err.match(/.*EOF.*/));
+  assertNotNull(err.match(/.*EOF.*/i));
   // regex containing a slash
   txt = 'foo/bar';
   r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/.*\\/.*/)'));

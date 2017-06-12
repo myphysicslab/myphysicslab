@@ -866,6 +866,7 @@ Terminal.prototype.expand = function(script) {
       c = c.slice(e.length); // remove the quoted string from start of c
       // add to result
       exp += e;
+      continue;
     }
     // if first char is ', then failed to find a quoted string, eat the ' and continue
     if (c.length > 0 && c[0] == '\'') {
@@ -1094,6 +1095,7 @@ Terminal.prototype.remember = function(opt_script) {
   }
 };
 
+
 /** Removes the 'var' at front of a script (if any) and adds regexp which mimics that
 JavaScript `var` statement. This helps make Terminal scripts more JavaScript-like, by
 hiding usage of the `z` object. For example, if the script is
@@ -1178,10 +1180,13 @@ enclosed in curly braces). Ignores anything in quotes or regular expression.
 * @private
 */
 Terminal.prototype.splitAtSemicolon = function(text) {
+  var front = ''; // frontmost statement
   var level = 0;
   var lastNonSpace = '';
   var lastChar = '';
+  var nextChar = ''
   var c = '';
+  var commentMode = false;
   var regexMode = false;
   var quoteMode = false;
   var quoteChar = '';
@@ -1191,45 +1196,57 @@ Terminal.prototype.splitAtSemicolon = function(text) {
     if (c != ' ' && c != '\t' && c != '\n') {
       lastNonSpace = c;
     }
+    nextChar = i+1 < n ? text[i+1] : '\0';
     c = text[i];
+    if (commentMode) {
+      if (c == '/' && lastChar == '*') {
+        commentMode = false;
+        front += ' ';  // add a space where the comment was
+      }
+      // don't add to front.
+      continue;
+    }
     if (regexMode) {
       // check for escaped slash inside a regex
       if (c == '/' && lastChar != '\\') {
         regexMode = false;
       }
-      continue;
     } else if (quoteMode) {
       // check for escaped quotes inside a string
       if (c == quoteChar && lastChar != '\\') {
         quoteMode = false;
         quoteChar = '';
       }
-      continue;
     } else {
-      // regexp must be preceded by = or (
-      if (c == '/' && lastNonSpace && (lastNonSpace == '=' || lastNonSpace == '(')) {
-        regexMode = true;
+      if (c == '*' && lastChar == '/') {
+        goog.asserts.assert(front.substr(-1) == '/');
+        front = front.slice(0,-1); // remove the slash from end
+        commentMode = true;
         continue;
+      }
+      // regexp: slash must be preceded by = or (, and not followed by *
+      if (c == '/' && nextChar != '*' &&
+          lastNonSpace && (lastNonSpace == '=' || lastNonSpace == '(')) {
+        regexMode = true;
       }
       if (c == '"' || c == '\'') {
         quoteMode = true;
         quoteChar = c;
-        continue;
       }
       if (c == ';' && level == 0) {
+        front += c;
         break;
       }
       if (c == '{') {
         level++;
-        continue;
       }
       if (c == '}') {
         level--;
-        continue;
       }
     }
+    front += c;
   }
-  return [text.slice(0, i+1), text.slice(i+1)];
+  return [front, text.slice(i+1)];
 };
 
 /** Adds the standard set of regular expression rules to the given Terminal instance.
