@@ -172,6 +172,9 @@ var testTerminal3 = function() {
   assertEquals(42, t.eval('var a=6; var b=7; a*b'));
   assertEquals(6, t.eval('a'));
   assertEquals(7, t.eval('b'));
+  // declare a var a second time
+  assertEquals(5, t.eval('var b=5'));
+  assertEquals(30, t.eval('a*b'));
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal3', testTerminal3);

@@ -530,7 +530,8 @@ Terminal.regexPair;
 *     set of defined names returned by {@link #vars}; default is `true`
 * @param {boolean=} opt_prepend if `true`, then the regex rule is added to the front
 *     of the list of regex's to execute; default is `false`
-* @throws {!Error} if the regex rule already exists
+* @return {boolean} whether the regex rule was added (return false if the regex rule
+*     already exists)
 */
 Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend) {
   var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
@@ -539,11 +540,13 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
       throw new Error();
     }
     if (addToVars) {
-      this.checkVars(names);
-      if (this.vars_.length > 0 && this.vars_[this.vars_.length-1] != '|') {
-        this.vars_ += '|';
-      }
-      this.vars_ += names;
+      var na = names.split('|');
+      var nb = this.vars_.split('|');
+      goog.array.forEach(na, function(nm) {
+        if (!goog.array.contains(nb, nm)) {
+          this.vars_ += '|' + names;
+        }
+      }, this);
     }
     // This regexp look for words that are NOT preceded by a dot.
     // Should NOT match within: new myphysicslab.lab.util.DoubleRect
@@ -560,10 +563,10 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
       } else {
         this.regexs_.push(re);
       }
-    } else {
-      throw new Error('regex rule already exists for "'+names+'"');
+      return true;
     }
   }
+  return false;
 };
 
 /** Adds the string to white list of allowed expressions.
@@ -598,20 +601,6 @@ Terminal.badCommand = function(command, name, whiteList) {
   }
   var re = new RegExp('\\b'+name+'\\b', 'g');
   return re.test(command);
-};
-
-/** Check whether the named variables already exist.
-* @param {string} names  list of variable names separated by '|'
-* @private
-*/
-Terminal.prototype.checkVars = function(names) {
-  var na = names.split('|');
-  var nb = this.vars_.split('|');
-  goog.array.forEach(na, function(nm) {
-    if (goog.array.contains(nb, nm)) {
-      throw new Error('variable already exists "'+nm+'"');
-    }
-  });
 };
 
 /** Returns command scripts in current Terminal output text area, as array of strings,
