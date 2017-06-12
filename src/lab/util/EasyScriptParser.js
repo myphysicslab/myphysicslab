@@ -359,9 +359,9 @@ Parameter name separated by a dot.
 *    no Parameter found
 * @throws {!Error} when only Parameter name is given, but multiple Subjects have that
 *    Parameter.
-* @private
 */
 EasyScriptParser.prototype.getParameter = function(fullName) {
+  fullName = Util.toName(fullName);
   var n = fullName.split('.');
   var subjectName, paramName;
   if (n.length == 1) {
@@ -385,6 +385,18 @@ EasyScriptParser.prototype.getParameter = function(fullName) {
     idx = goog.array.indexOf(this.allSubjParamNames_, fullName);
   }
   return idx > -1 ? this.allSubjects_[idx].getParameter(paramName) : null;
+};
+
+/** Returns the Subject with the given name.
+* @param {string} name name of Subject
+* @return {?Subject} the Subject corresponding to the given name, or `null` if
+*    no Subject found
+*/
+EasyScriptParser.prototype.getSubject = function(name) {
+  var subjectName = Util.toName(name);
+  return goog.array.find(this.subjects_, function(s) {
+      return s.getName() == subjectName;
+    });
 };
 
 /** Returns the "help" string which gives information on available commands.

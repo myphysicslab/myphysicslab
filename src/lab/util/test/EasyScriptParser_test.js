@@ -91,6 +91,22 @@ var testEasyScript1 = function() {
   assertEquals(2.2, easyScript.parse('variables.velocity;'));
   assertUndefined(easyScript.parse('foobar'));
 
+  // direct calls to EasyScriptParser.getSubject()
+  assertEquals(va , easyScript.getSubject('VARIABLES'));
+  assertEquals(simView1 , easyScript.getSubject('view1'));
+  assertEquals(simView2 , easyScript.getSubject('view2'));
+  assertNull(easyScript.getSubject('foobar'));
+
+  // direct calls to EasyScriptParser.getParameter()
+  assertEquals(va.getParameter('position'), easyScript.getParameter('position'));
+  assertEquals(va.getParameter('position'),
+      easyScript.getParameter('variables.position'));
+  assertNull(easyScript.getParameter('foobar'));
+  // throw when only Parameter name is given, but multiple Subjects have that Parameter
+  assertThrows(function() { easyScript.getParameter('width'); });
+  assertEquals(simView1.getParameter('width'), easyScript.getParameter('view1.width'));
+  assertEquals(simView2.getParameter('width'), easyScript.getParameter('view2.width'));
+
   // no changes, so script() should return empty string
   assertEquals('', easyScript.script());
   // script() ignores automatically computed variables
