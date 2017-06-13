@@ -48,7 +48,7 @@ var testTerminal1 = function() {
   output_elem.value = '';
   t.eval('z.a');
   assertEquals('> z.a\n1\n', output_elem.value);
-  // Test that semi-colons inside strings or braces don't break up the command
+  // Test that semicolons inside strings or braces don't break up the command
   assertTrue(t.eval('Util.toName("foo;")=="FOO;"'));
   assertEquals(6, t.eval('{1;2;3+3}'));
   assertEquals(3, t.eval('{1;{2;3}}'));
@@ -176,20 +176,55 @@ var testTerminal3 = function() {
   assertEquals(5, t.eval('var b=5'));
   assertEquals(30, t.eval('a*b'));
 
-  // slash star comments are removed, replaced with a space
   t.setVerbose(true);
   output_elem.value = '';
+  assertEquals(2, t.eval('1;2'));
+  assertEquals('> 1;\n'+
+      '>> 1;\n'+
+      '> 2\n'+
+      '>> 2\n'+
+      '2\n', output_elem.value);
+  // a comment ends at the newline, not at semicolon
+  output_elem.value = '';
+  assertEquals(2, t.eval('1//com;ment\n2'));
+  assertEquals('> 1//com;ment\n'+
+      '>> 1//com;ment\n'+
+      '> 2\n'+
+      '>> 2\n'+
+      '2\n', output_elem.value);
+
+  // regex rule expansion happens even inside of comments
+  output_elem.value = '';
   assertEquals(5, t.eval('var b =/* new Vector */5'));
-  assertEquals('> var b = 5\n'+
-      '>> terminal.z.b = 5\n'+
+  assertEquals('> var b =/* new Vector */5\n'+
+      '>> terminal.z.b =/* new myphysicslab.lab.util.Vector */5\n'+
       '5\n', output_elem.value);
+  // semicolon does not end a // comment
+  output_elem.value = '';
+  assertEquals(3, t.eval('3//5; new Vector(1,1)'));
+  assertEquals('> 3//5; new Vector(1,1)\n'+
+      '>> 3//5; new myphysicslab.lab.util.Vector(1,1)\n'+
+      '3\n', output_elem.value);
+  // a comment ends at the newline, not at semicolon
+  output_elem.value = '';
+  assertEquals(5, t.eval('3 //foo; new Vector(1,1)\n5'));
+  assertEquals('> 3 //foo; new Vector(1,1)\n'+
+      '>> 3 //terminal.z.foo; new myphysicslab.lab.util.Vector(1,1)\n'+
+      '> 5\n'+
+      '>> 5\n'+
+      '5\n', output_elem.value);
+
   // Should get "SyntaxError: Unexpected number '456'. Parse error."
   // But the error message could vary in different browsers.
   var err = String(assertThrows(function(){ t.eval('123/*foo*/456'); }));
   assertNotNull(err.match(/.*SyntaxError.*/i));
   t.setVerbose(false);
+
+  // test of comments and newlines in script
   assertEquals(30, t.eval('5 * /* multi \n line comment*/ 6'));
   assertEquals(30, t.eval('5 * \n 6'));
+  // Following is because of JavaScript's "optional semicolon" policy
+  assertEquals(6, t.eval('5 \n 6'));
   delete window.terminal;
 };
 goog.exportProperty(window, 'testTerminal3', testTerminal3);
@@ -347,7 +382,7 @@ var testTerminal8 = function() {
   assertEquals(4, t.eval('2+2'));
   assertEquals('> 2+2\n4\n', output_elem.value);
   assertEquals('myphysicslab.lab.util.DoubleRect', t.expand('DoubleRect'));
-  // regex containing a semi-colon.
+  // regex containing a semicolon.
   var txt = 'SIM_VARS.foo=1.00;';
   var r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/SIM_VARS.*;/)'));
   assertEquals(txt, r[0]);

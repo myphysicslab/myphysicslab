@@ -161,7 +161,7 @@ var testEasyScript1 = function() {
       easyScript.script());
   assertEquals(1, t.eval('position=1;'));
 
-  // Test that semi-colons inside brackets don't break up the command
+  // Test that semicolons inside brackets don't break up the command
   // This adds all the variables together.
   if (!Util.ADVANCED) {
     // Under advanced-compile there are many global variables being made
@@ -197,7 +197,7 @@ var testEasyScript1 = function() {
       +'VIEW1.SCALE_X_Y_TOGETHER=false;VIEW2.WIDTH=2;VIEW2.HEIGHT=2;',
       easyScript.script());
 
-  // Test that semi-colons inside strings don't break up the command
+  // Test that semicolons inside strings don't break up the command
   if (!Util.ADVANCED) {
     // Under advanced-compile there are many global variables being made
     // including 'z', and the Terminal parser prohibits scripts that reference

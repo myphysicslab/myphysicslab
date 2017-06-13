@@ -604,7 +604,7 @@ higher levels.
       property2: value2,
     }
 
-The "property detection" is done by looking for commas or semi-colons.
+The "property detection" is done by looking for commas or semicolons.
 A new level is begun whenever an opening brace `{` or square bracket `[` is seen.
 Anything in quotes is ignored.  Works for arrays also.
 

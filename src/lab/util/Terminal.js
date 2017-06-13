@@ -34,7 +34,7 @@ namespace pathnames of classes.
 
 After the script is executed the result is converted to text and displayed in the
 output text field. The output is not displayed if the result is `undefined` or the
-script ends with a semi-colon.
+script ends with a semicolon.
 
 See also [Customizing myPhysicsLab Software](Customizing.html).
 
@@ -191,19 +191,12 @@ Note that {@link #eval} has an argument called `output` which if set to `false`
 prevents `result` from being updated.
 
 
-Semi-colons End A Comment
+Caution About Comments
 -------------------------
-Scripts are processed by splitting them into smaller scripts delimited by a semi-colon.
-Only semi-colons at the 'top level' of the script have this effect. Semi-colons within
-brackets or inside of a quoted string are ignored for command splitting.
-
-An unusual result of this policy is that **a semi-colon will end a comment**. Here we
-enter `// comment; 2+2` which looks like a single comment, but it is
-interpreted as two separate scripts.
-
-    > // comment;
-    > 2+2
-    4
+If you paste a long series of scripts into the Terminal text input field, be aware that
+newlines are replaced by spaces. Therefore any double-slash style comments can cause
+trouble since they are no longer terminated by the now missing newline. If this is a
+problem, use slash-star style comments instead.
 
 
 <a name="urlqueryscript"></a>
@@ -688,12 +681,11 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
   if (userInput && !output) {
     throw new Error(); // if user input the script then must have output==true
   }
-  script = script.trim();
+  script = Terminal.deUnicode(script).trim();
   if (script.match(/^\s*$/)) {
     // blank line: don't enter into history
     return undefined;
   }
-  script = Terminal.deUnicode(script);
   this.evalCalls_++; // number of simultaneous calls to eval() = depth of recursion
   if (this.evalCalls_ > 1) {
     // Recursive call to eval should never output text.
@@ -717,7 +709,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
   var prompt = this.prompt_;
   try {
     Terminal.vetBrackets(script);
-    // split the script into pieces at each semi-colon, evaluate one piece at a time
+    // split the script into pieces at each semicolon, evaluate one piece at a time
     var cmds = ['', script];
     while (cmds = this.splitAtSemicolon(cmds[1]), cmds[0]) {
       var cmd = cmds[0].trim();
@@ -753,7 +745,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
         this.result = this.myEval(expScript);
       }
     }
-    // don't show results when cmd ends with semi-colon, or undefined result
+    // don't show results when cmd ends with semicolon, or undefined result
     if (output && goog.isDef(this.result) && script.slice(-1) != ';') {
       this.println(String(this.result));
     }
@@ -824,7 +816,8 @@ Terminal.prototype.expand = function(script) {
     // If exp ends with = or (, then check for possible regexp.
     if (exp.match(/.*[=(][ ]*$/)) {
       // regexp for Matching Delimited Text. See comments below.
-      a = c.match(/^\/(\\\/|[^\\/])*\//);
+      // Note that we exclude matching on /* or //
+      a = c.match(/^\/[^*/](\\\/|[^\\/])*\//);
       if (a !== null) {
         e = a[0]; // the regexp at start of c
         c = c.slice(e.length); // remove the regexp from start of c
@@ -971,8 +964,9 @@ Terminal.prototype.inputCallback = function(evt) {
 * @private
 */
 Terminal.prototype.myEval = function(script) {
+  'use strict';
   if (!Util.ADVANCED) {
-    return eval('"use strict"; '+script);
+    return eval(script);
   } else {
     this.println('JavaScript is disabled due to advanced compilation; try a simple-compiled version');
     return undefined;
@@ -1172,21 +1166,21 @@ Terminal.prototype.setVerbose = function(expand) {
   this. verbose_ = expand;
 };
 
-/** Finds the section of text up to first top-level semi-colon (top-level means not
-enclosed in curly braces). Ignores anything in quotes or regular expression.
+/** Finds the section of text up to first top-level semicolon (top-level means not
+enclosed in curly braces). Ignores semicolons in quotes or regular expression.
+Note however that top-level double-slash comments end at a new-line not semicolon.
 * @param {string} text The text to be split up.
 * @return {!Array<string>} array with two elements: array[0] = the section up to and
-*    including the first top-level semi-colon; array[1] = the remaining text.
+*    including the first top-level semicolon; array[1] = the remaining text.
 * @private
 */
 Terminal.prototype.splitAtSemicolon = function(text) {
-  var front = ''; // frontmost statement
   var level = 0;
   var lastNonSpace = '';
   var lastChar = '';
   var nextChar = ''
   var c = '';
-  var commentMode = false;
+  var commentMode = false; // double-slash comments only
   var regexMode = false;
   var quoteMode = false;
   var quoteChar = '';
@@ -1196,17 +1190,17 @@ Terminal.prototype.splitAtSemicolon = function(text) {
     if (c != ' ' && c != '\t' && c != '\n') {
       lastNonSpace = c;
     }
-    nextChar = i+1 < n ? text[i+1] : '\0';
     c = text[i];
+    nextChar = i+1 < n ? text[i+1] : '\0';
     if (commentMode) {
-      if (c == '/' && lastChar == '*') {
+      if (c == '\n') {
         commentMode = false;
-        front += ' ';  // add a space where the comment was
+        if (level == 0) {
+          // we found a complete top-level JavaScript statement
+          break;
+        }
       }
-      // don't add to front.
-      continue;
-    }
-    if (regexMode) {
+    } else if (regexMode) {
       // check for escaped slash inside a regex
       if (c == '/' && lastChar != '\\') {
         regexMode = false;
@@ -1218,35 +1212,28 @@ Terminal.prototype.splitAtSemicolon = function(text) {
         quoteChar = '';
       }
     } else {
-      if (c == '*' && lastChar == '/') {
-        goog.asserts.assert(front.substr(-1) == '/');
-        front = front.slice(0,-1); // remove the slash from end
-        commentMode = true;
-        continue;
-      }
-      // regexp: slash must be preceded by = or (, and not followed by *
-      if (c == '/' && nextChar != '*' &&
-          lastNonSpace && (lastNonSpace == '=' || lastNonSpace == '(')) {
-        regexMode = true;
-      }
-      if (c == '"' || c == '\'') {
+      if (c == '/') {
+        if (nextChar == '/') {
+          commentMode = true;
+        } else if (nextChar != '*' &&
+            lastNonSpace && (lastNonSpace == '=' || lastNonSpace == '(')) {
+          // regexp: slash must be preceded by = or (, and not followed by *
+          regexMode = true;
+        }
+      } else if (c == '"' || c == '\'') {
         quoteMode = true;
         quoteChar = c;
-      }
-      if (c == ';' && level == 0) {
-        front += c;
+      } else if (c == ';' && level == 0) {
+        // we found a complete top-level JavaScript statement
         break;
-      }
-      if (c == '{') {
+      } else if (c == '{') {
         level++;
-      }
-      if (c == '}') {
+      } else if (c == '}') {
         level--;
       }
     }
-    front += c;
   }
-  return [front, text.slice(i+1)];
+  return [text.slice(0, i+1), text.slice(i+1)];
 };
 
 /** Adds the standard set of regular expression rules to the given Terminal instance.

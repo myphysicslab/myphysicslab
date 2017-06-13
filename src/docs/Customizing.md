@@ -359,8 +359,8 @@ that are entered. In the output text area, commands are preceded by '> '.
 ## Terminal Utilities
 
 When you type a command into Terminal, it is executed and the result is displayed in
-the Terminal output text area. If the command ends with a semi-colon then the printing
-of the result is suppressed. Multiple commands separated by semi-colons or new lines
+the Terminal output text area. If the command ends with a semicolon then the printing
+of the result is suppressed. Multiple commands separated by semicolons or new lines
 can be given in one line.
 
 Some useful utilities available in Terminal:
