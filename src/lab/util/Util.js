@@ -247,10 +247,11 @@ that contain anything other than numbers. See {@link #set}.
 * @param {!Array} array the array to access
 * @param {number} index index of element
 * @return {*} the specified element of the array
+* @throws {!Error} if index is not a non-negative integer
 */
 Util.get = function(array, index) {
-  if (!goog.isNumber(index)) {
-    throw new Error('index is not a number: '+index);
+  if (!goog.isNumber(index) || index < 0 || index != Math.floor(index)) {
+    throw new Error('index is not a non-negative integer: '+index);
   }
   return array[index];
 };
@@ -799,10 +800,11 @@ that contain anything other than numbers. See {@link #get}.
 * @param {number} index index of element
 * @param {*} value the value to set the element to
 * @return {*} the value that was set
+* @throws {!Error} if index is not a non-negative integer
 */
 Util.set = function(array, index, value) {
-  if (!goog.isNumber(index)) {
-    throw new Error('index is not a number: '+index);
+  if (!goog.isNumber(index) || index < 0 || index != Math.floor(index)) {
+    throw new Error('index is not a non-negative integer: '+index);
   }
   return array[index] = value;
 };

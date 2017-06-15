@@ -74,13 +74,18 @@ one script which could be entered in
 The first three commands are EasyScript commands that set Parameter values; the last is
 a JavaScript command.
 
-In most applications the EasyScriptParser is available in the variable `easyScript` and
-you can use it to execute EasyScript from within JavaScript. Examples:
+In most simple-compiled applications EasyScriptParser is available in the variable
+`easyScript`, which you can use to execute EasyScript from within JavaScript. Here are
+examples that can be entered in
+[simple-compiled PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?SHOW_TERMINAL=true).
 
-    easyScript.parse('angle')+0.1
+    easyScript.parse('angle')
 
-    easyScript.parse('angle='+Math.PI/2);
+    easyScript.parse('angle='+Math.PI/2)
 
+    easyScript.getParameter('gravity').getValue()
+
+    easyScript.getParameter('gravity').setValue(2.5)
 
 
 <a name="safesubsetofjavascript"></a>

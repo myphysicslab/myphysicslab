@@ -178,16 +178,29 @@ var testUtil = function() {
   assertTrue(Util.uniqueElements([1]));
   assertTrue(Util.uniqueElements([]));
 
+  var a = ["red", "green", "blue"];
+  assertEquals(a[0], Util.get(a, 0));
+  assertEquals(a[1], Util.get(a, 1));
+  assertEquals(a[2], Util.get(a, 2));
+  assertEquals('orange', Util.set(a, 2, 'orange'));
+  assertEquals('orange', Util.get(a, 2));
+  assertThrows(function() { Util.set(a, -1, 'marooon'); });
+  assertThrows(function() { Util.set(a, 'foo', 'marooon'); });
+  assertThrows(function() { Util.set(a, 3.1, 'marooon'); });
+  assertThrows(function() { Util.get(a, -1); });
+  assertThrows(function() { Util.get(a, 'foo'); });
+  assertThrows(function() { Util.get(a, 3.1); });
+
   // ensure that goog.asserts is working
   if (!Util.ADVANCED) {
     try {
-      var a = 1;
+      var b = 1;
       goog.asserts.assert(1 == 0);
-      a = 2;
+      b = 2;
     } catch(e) {
       //asserts are working
     }
-    assertEquals(1, a);
+    assertEquals(1, b);
   }
 };
 goog.exportProperty(window, 'testUtil', testUtil);
