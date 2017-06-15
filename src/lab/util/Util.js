@@ -42,6 +42,11 @@ var Util = myphysicslab.lab.util.Util;
 */
 Util.ADVANCED = false;
 
+/** Date and time when the code was compiled.
+* @define {string}
+*/
+Util.COMPILE_TIME = '00/00/00';
+
 /** Flag indicates whether to include debug code, must be true for assertions
 * to work. Can be set as a compiler option, see the shell script `compile_js.sh`.
 * See [Customizing The Build Process](Building.html#customizingthebuildprocess).

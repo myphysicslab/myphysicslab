@@ -404,7 +404,8 @@ EasyScriptParser.prototype.getSubject = function(name) {
 */
 EasyScriptParser.prototype.help = function() {
   var s = 'myPhysicsLab version '+ Util.VERSION + ', '
-  s += (Util.ADVANCED ? 'advanced' : 'simple') + '-compiled.\n';
+  s += (Util.ADVANCED ? 'advanced' : 'simple') + '-compiled on '
+  s += Util.COMPILE_TIME+'.\n';
   s += 'Use the "values" command to see what can be set and the syntax.\n\n';
   s += 'command-K            clear Terminal window\n'
   s += 'arrow up/down        retrieve previous or next command\n'

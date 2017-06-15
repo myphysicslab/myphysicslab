@@ -206,6 +206,7 @@ java -jar "$CLOSURE_COMPILER" \
 --define=goog.LOCALE="'$locale'" \
 --define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
 --define=myphysicslab.lab.util.Util.DEBUG=$util_debug \
+--define=myphysicslab.lab.util.Util.COMPILE_TIME="`date +%F' '%T`" \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=$rootDir \
