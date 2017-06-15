@@ -188,15 +188,94 @@ an example Terminal session:
     16
 
 Note that {@link #eval} has an argument called `output` which if set to `false`
-prevents `result` from being updated.
+prevents `result` from being updated. When `output==false`, then `result` is is defined
+for commands in the same string, but that version of `result` is temporary and
+independent of the permanent `result` variable.
 
 
-Caution About Comments
--------------------------
-If you paste a long series of scripts into the Terminal text input field, be aware that
-newlines are replaced by spaces. Therefore any double-slash style comments can cause
-trouble since they are no longer terminated by the now missing newline. If this is a
-problem, use slash-star style comments instead.
+<a name="thezobject"></a>
+The z Object
+--------------
+[Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+prevents adding global variables when using the JavaScript `eval` command.
+To allow making variables that persist between commands, Terminal provides an object
+named `z` where properties can be added:
+
+    > z.a = 1
+    1
+    > z.a
+    1
+
+This `z` object is a property of Terminal; `z` is initially an object with no
+properties. We define a [short name](#shortnames) regular expression so that referring
+to `z` is replaced by `terminal.z` when the command is executed.
+
+
+Declaring a Variable
+--------------------
+To hide the usage of the `z` object, Terminal interprets the `var` keyword in a
+special way.
+
+When Terminal sees the `var` keyword at the start of a command, it changes the script
+to use the `z` object and defines a short-name. For example the command
+
+    > var foo = 3
+    3
+
+is translated to
+
+    > z.foo = 3
+    3
+
+and thereafter every reference to `foo` will be changed to `z.foo` in later commands.
+You can see this at work by using {@link #setVerbose}:
+
+    > terminal.setVerbose(true)
+    > foo
+    >> app.terminal.z.foo
+    3
+
+
+The terminal Variable
+---------------------
+Some features require that the name `terminal` is defined and resolves to the Terminal
+object. These features include the `z` variable, the `result` variable, and the usage
+of the `var` keyword.
+
+In most applications this is accomplished by using {@link #addRegex} something like
+this:
+
+    terminal.addRegex('terminal', 'app');
+
+where `app` is the global variable containing the application. The purpose of the regex
+is to replace the word `terminal` with `app.terminal` which is a valid JavaScript
+reference.
+
+(In unit tests of Terminal, we temporarily define a global variable named `terminal`.)
+
+
+Cautions About Newline Character
+-----------------------------------------
+When you paste a script into the Terminal text input field, be aware that *newlines are
+replaced by spaces*. For a multi-line script this can cause errors. To prevent problems:
+
++ Use explicit semicolons instead of relying on JavaScript's policy about optional
+    semicolons.
+
++ Use slash-star style comments instead of double-slash style comments (which are
+    terminated by a newline).
+
++ If for some reason you really need a newline in the script, use `\u000A` or `\x0A`.
+    These are replaced with the newline character before the script is evaluated.
+
++ Put the multi-line script in a
+    [start-up HTML page](Customizing.html#customizingthestart-uphtmlpage). You can
+    then call `Terminal.eval()` directly on a string that you create, and that
+    string can include newline characters.
+
+The tab character also cannot be input directly to the Terminal input field, because
+the browser interprets that to mean "move to the next field". You can use `\u0009` or
+`\x09` which are replaced by a tab character before the script is evaluated.
 
 
 <a name="urlqueryscript"></a>
@@ -263,84 +342,24 @@ the script storage feature.
 Script Storage
 --------------
 
-To allow storage of scripts in
+It is possible to store scripts in
 [HTML5 Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-use the methods {@link #remember}, {@link #recall}, and {@link #forget}. These allow
-a user to customize a simulation by remembering a specific script which is executed
-whenever the page loads on that user's machine.
+by using the methods {@link #remember}, {@link #recall}, and {@link #forget}. These
+will customize a simulation by remembering a specific script which is executed whenever
+the page loads on that user's machine.
 
-On startup most applications call {@link #parseURLorRecall} which calls `recall` unless
-there is a URL script which would take priority.
+On startup most applications call {@link #parseURLorRecall} which calls {@link #recall}
+unless there is a URL script which would take priority.
 
-If no script is explicitly supplied to `remember()`, then the scripts in the Terminal
-output window are saved, as returned by the method {@link #commands}. A user can edit
-the contents of the Terminal output window to change what is remembered. Commands are
-any line in the output text area that start with '> '.
+If no script is explicitly supplied to {@link #remember}, then the scripts in the
+Terminal output window are saved, as returned by the method {@link #commands}. A user
+can edit the contents of the Terminal output window to change what is remembered.
+Commands are any line in the output text area that start with '> '.
 
 The `remember()` method saves a script specific for the current page and browser.
 If you load the page under a different browser, or for a different locale, there will
 be a different stored script.
 See [Internationalization](Building.html#internationalizationi18n).
-
-
-<a name="thezobject"></a>
-The z Object
---------------
-[Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
-prevents adding global variables when using the JavaScript `eval` command.
-To allow making variables that persist between commands, Terminal provides an object
-named `z` where properties can be added:
-
-    > z.a = 1
-    1
-    > z.a
-    1
-
-This `z` object is a property of Terminal; `z` is initially an object with no
-properties. We define a [short name](#shortnames) regular expression so that referring
-to `z` is replaced by `terminal.z` when the command is executed.
-
-
-Declaring a Variable
---------------------
-To hide the usage of the `z` object, Terminal interprets the `var` keyword in a
-special way.
-
-When Terminal sees the `var` keyword at the start of a command, it changes the script
-to use the `z` object and defines a short-name. For example the command
-
-    > var foo = 3
-    3
-
-is translated to
-
-    > z.foo = 3
-    3
-
-and thereafter every reference to `foo` will be changed to `z.foo` in later commands.
-You can see this at work by using {@link #setVerbose}:
-
-    > terminal.setVerbose(true)
-    > foo
-    >> app.terminal.z.foo
-    3
-
-
-The terminal Variable
----------------------
-Some features require that the name `terminal` is defined and resolves to the
-Terminal object. These features include the `z` variable, the `result` variable,
-and the usage of the `var` keyword.
-
-In most apps this is accomplished by using {@link #addRegex} like this:
-
-    terminal.addRegex('terminal', app);
-
-where `app` is the global variable containing the application. The purpose
-of the regex is to replace the word `terminal` with `app.terminal` which
-is a valid JavaScript reference.
-
-(In unit tests of Terminal, we temporarily define a global variable named `terminal`.)
 
 
 <a name="advanced-compiledisablesjavascript"></a>
@@ -350,7 +369,7 @@ Advanced-compile disables JavaScript
 When using [advanced-compile](Building.html#advancedvs.simplecompile) only EasyScript
 can be executed in Terminal, not JavaScript code.
 
-Advanced compilation causes all class and method names to be minified to one or two
+Advanced compilation causes class and method names to be minified to one or two
 characters, so scripts based on non-minified names will not work. Also, unused
 code is eliminated, so desired features might be missing.
 
@@ -523,7 +542,7 @@ Terminal.regexPair;
 *     set of defined names returned by {@link #vars}; default is `true`
 * @param {boolean=} opt_prepend if `true`, then the regex rule is added to the front
 *     of the list of regex's to execute; default is `false`
-* @return {boolean} whether the regex rule was added (return false if the regex rule
+* @return {boolean} whether the regex rule was added (returns `false` if the regex rule
 *     already exists)
 */
 Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend) {
@@ -1011,9 +1030,11 @@ Terminal.prototype.parseURL = function() {
     var cmd = loc.slice(queryIdx+1);
     // decode the percent-encoded URL
     // See https://en.wikipedia.org/wiki/Percent-encoding
+    // encodeURIComponent('hello +(2+3*4)!/=?[];{}.<>:|^$_-~`@#')
+    // "hello%20%2B(2%2B3*4)!%2F%3D%3F%5B%5D%3B%7B%7D.%3C%3E%3A%7C%5E%24_-~%60%40%23"
     // To test: paste the following link into a browser address field:
     // (edit the address for your environment):
-    // file:///Users/erikn/Documents/Programming/jssimlab/build/sims/experimental/BlankSlateApp_en.html?println('hello +(2+3*4)!/=?[];{}.<>:|^$"_-~`@#')
+    // file:///Users/erikn/Documents/Programming/myphysicslab/debug/sims/experimental/BlankSlateApp-en.html?println('hello%20%2B(2%2B3*4)!%2F%3D%3F%5B%5D%3B%7B%7D.%3C%3E%3A%7C%5E%24_-~%60%40%23')
     // You should see in Terminal the string without percent encoding.
     cmd = decodeURIComponent(cmd);
     this.eval(cmd);
