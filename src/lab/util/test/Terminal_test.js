@@ -237,11 +237,7 @@ var testTerminal4 = function() {
     // Terminal.eval doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/
-      (document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
-  input_elem.type = 'text';
-  window.terminal = new Terminal(input_elem, output_elem);
+  window.terminal = new Terminal(null, null);
   var t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
@@ -306,10 +302,7 @@ var testTerminal6 = function() {
     // Terminal doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
-  input_elem.type = 'text';
-  window.terminal = new Terminal(input_elem, output_elem);
+  window.terminal = new Terminal(null, null);
   var t = window.terminal;
   Terminal.stdRegex(t);
   // test recursion of Terminal.eval. The `result` variable should be preserved.
@@ -331,10 +324,7 @@ var testTerminal7 = function() {
     // Terminal doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
-  input_elem.type = 'text';
-  window.terminal = new Terminal(input_elem, output_elem);
+  window.terminal = new Terminal(null, null);
   var t = window.terminal;
   Terminal.stdRegex(t);
   // Property access with square brackets is prohibited,
@@ -373,14 +363,10 @@ var testTerminal8 = function() {
     // Terminal doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
-  input_elem.type = 'text';
-  window.terminal = new Terminal(input_elem, output_elem);
+  window.terminal = new Terminal(null, null);
   var t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
-  assertEquals('> 2+2\n4\n', output_elem.value);
   assertEquals('myphysicslab.lab.util.DoubleRect', t.expand('DoubleRect'));
   // regex containing a semicolon.
   var txt = 'SIM_VARS.foo=1.00;';

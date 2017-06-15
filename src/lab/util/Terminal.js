@@ -389,25 +389,31 @@ detected by the 'safe subset' checking which is looking for `myEval`, not for wh
 that method got renamed to.
 
 
-* @param {!HTMLInputElement} term_input  A textarea where user types input to evaluate
-* @param {!HTMLInputElement} term_output  A textarea where results are shown
+* @param {?HTMLInputElement} term_input  A text input field where user can enter a
+*    script to evaluate, or `null`.
+* @param {?HTMLInputElement} term_output  A multi-line textarea where results are
+*    shown, or `null`
 * @constructor
 * @final
 * @struct
 */
 myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   /** terminal input, usually a text input field.
-  * @type {!HTMLInputElement}
+  * @type {?HTMLInputElement}
   * @private
   */
   this.term_input_ = term_input;
-  term_input.spellcheck = false;
+  if (term_input) {
+    term_input.spellcheck = false;
+  }
   /** terminal output, usually a textarea
-  * @type {!HTMLInputElement}
+  * @type {?HTMLInputElement}
   * @private
   */
   this.term_output_ = term_output;
-  term_output.spellcheck = false;
+  if (term_output) {
+    term_output.spellcheck = false;
+  }
   /** Function to execute after a script is executed.
   * @type {function()|undefined}
   * @private
@@ -417,16 +423,16 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   * @type {goog.events.Key}
   * @private
   */
-  this.keyDownKey_ = goog.events.listen(this.term_input_,
+  this.keyDownKey_ = this.term_input_ ? goog.events.listen(this.term_input_,
         goog.events.EventType.KEYDOWN,
-        /*callback=*/this.handleKey,  /*capture=*/false, this);
+        /*callback=*/this.handleKey,  /*capture=*/false, this) : NaN;
   /** key used for removing the listener
   * @type {goog.events.Key}
   * @private
   */
-  this.changeKey_ = goog.events.listen(this.term_input_,
+  this.changeKey_ = this.term_input_ ? goog.events.listen(this.term_input_,
       goog.events.EventType.CHANGE, /*callback=*/this.inputCallback,
-      /*capture=*/true, this);
+      /*capture=*/true, this): NaN;
   /**  session history of scripts entered.
   * @type {!Array<string>}
   * @private
@@ -621,17 +627,21 @@ Terminal.badCommand = function(command, name, whiteList) {
 * @return {!Array<string>}  array of command strings in current Terminal output
 */
 Terminal.prototype.commands = function() {
-  var t = this.term_output_.value;
-  t = t.split('\n');
-  // remove leading and trailing whitespace on each command
-  t = goog.array.map(t, function(e) { return e.trim(); });
-  // filter out non-commands, and the 'terminal.remember()' command
-  t = goog.array.filter(t, function(/** string */e) {
-    return e.length>2 && e.substr(0,2)== '> '
-        && !e.match(/^> (terminal|this).(remember|commands)\(\s*\);?$/);
-    });
-  t = goog.array.map(t, function(e) { return e.substr(2); });
-  return t;
+  if (this.term_output_) {
+    var t = this.term_output_.value;
+    t = t.split('\n');
+    // remove leading and trailing whitespace on each command
+    t = goog.array.map(t, function(e) { return e.trim(); });
+    // filter out non-commands, and the 'terminal.remember()' command
+    t = goog.array.filter(t, function(/** string */e) {
+      return e.length>2 && e.substr(0,2)== '> '
+          && !e.match(/^> (terminal|this).(remember|commands)\(\s*\);?$/);
+      });
+    t = goog.array.map(t, function(e) { return e.substr(2); });
+    return t;
+  } else {
+    return [];
+  }
 };
 
 /** Remove connections to other objects to facilitate garbage collection.
@@ -894,7 +904,9 @@ Terminal.prototype.expand = function(script) {
 * @return {undefined}
 */
 Terminal.prototype.focus = function() {
-  this.term_input_.focus();
+  if (this.term_input_) {
+    this.term_input_.focus();
+  }
 };
 
 /** Removes any locally stored script for the current page and browser.
@@ -914,44 +926,46 @@ Terminal.prototype.forget = function() {
 * @param {!goog.events.KeyEvent} evt the event that caused this callback to fire
 */
 Terminal.prototype.handleKey = function(evt) {
-  if (evt.metaKey && evt.keyCode==goog.events.KeyCodes.K) {
-    // cmd-K = clear all terminal output
-    this.term_output_.value = '';
-    evt.preventDefault();
-  } else if (evt.keyCode==goog.events.KeyCodes.UP ||
-        evt.keyCode==goog.events.KeyCodes.DOWN) {
-    // arrow up/down keys = get terminal session history
-    // save current contents of input to history if it is non-empty and was user-input
-    if (this.histIndex_ == -1 && this.term_input_.value != '') {
-      // add the current text to session history
-      this.history_.unshift(this.term_input_.value);
-      // pretend we were just displaying the first history item
-      this.histIndex_ = 0;
-    }
-    if (evt.keyCode==goog.events.KeyCodes.UP) {
-      if (this.histIndex_ < this.history_.length-1) {
-        // there is more session history available
-        this.histIndex_++;
-        this.term_input_.value = this.history_[this.histIndex_];
+  if (this.term_input_ && this.term_output_) {
+    if (evt.metaKey && evt.keyCode==goog.events.KeyCodes.K) {
+      // cmd-K = clear all terminal output
+      this.term_output_.value = '';
+      evt.preventDefault();
+    } else if (evt.keyCode==goog.events.KeyCodes.UP ||
+          evt.keyCode==goog.events.KeyCodes.DOWN) {
+      // arrow up/down keys = get terminal session history
+      // save current contents of input to history if it is non-empty and was user-input
+      if (this.histIndex_ == -1 && this.term_input_.value != '') {
+        // add the current text to session history
+        this.history_.unshift(this.term_input_.value);
+        // pretend we were just displaying the first history item
+        this.histIndex_ = 0;
       }
-    } else if (evt.keyCode==goog.events.KeyCodes.DOWN) {
-      if (this.histIndex_ > 0) {
-        // there is more session history available
-        this.histIndex_--;
-        this.term_input_.value = this.history_[this.histIndex_];
-      } else {
-        // last keydown should give empty text field
-        this.histIndex_ = -1;
-        this.term_input_.value = '';
+      if (evt.keyCode==goog.events.KeyCodes.UP) {
+        if (this.histIndex_ < this.history_.length-1) {
+          // there is more session history available
+          this.histIndex_++;
+          this.term_input_.value = this.history_[this.histIndex_];
+        }
+      } else if (evt.keyCode==goog.events.KeyCodes.DOWN) {
+        if (this.histIndex_ > 0) {
+          // there is more session history available
+          this.histIndex_--;
+          this.term_input_.value = this.history_[this.histIndex_];
+        } else {
+          // last keydown should give empty text field
+          this.histIndex_ = -1;
+          this.term_input_.value = '';
+        }
       }
+      evt.preventDefault();
+    } else if (evt.keyCode==goog.events.KeyCodes.ENTER) {
+      // This fixes a problem:
+      // When we change term_input to show a history text (with arrow keys), but then
+      // typing return key has no effect unless and until some character is typed
+      // that changes the text field (e.g. a space).
+      this.eval(this.term_input_.value, /*output=*/true, /*userInput=*/true);
     }
-    evt.preventDefault();
-  } else if (evt.keyCode==goog.events.KeyCodes.ENTER) {
-    // This fixes a problem:
-    // When we change term_input to show a history text (with arrow keys), but then
-    // typing return key has no effect unless and until some character is typed
-    // that changes the text field (e.g. a space).
-    this.eval(this.term_input_.value, /*output=*/true, /*userInput=*/true);
   }
 };
 
@@ -974,7 +988,9 @@ Terminal.prototype.hasRegex = function(q) {
 * @private
 */
 Terminal.prototype.inputCallback = function(evt) {
-  this.eval(this.term_input_.value, /*output=*/true, /*userInput=*/true);
+  if (this.term_input_) {
+    this.eval(this.term_input_.value, /*output=*/true, /*userInput=*/true);
+  }
 };
 
 /** Private version of eval, with no local variables that might confuse the script.
@@ -1058,8 +1074,10 @@ Terminal.prototype.parseURLorRecall = function() {
 * @param {string} text the text to print to the Terminal output text area
 */
 Terminal.prototype.println = function(text) {
-  this.term_output_.value += text+'\n';
-  this.scrollDown();
+  if (this.term_output_) {
+    this.term_output_.value += text+'\n';
+    this.scrollDown();
+  }
 };
 
 /** Retrieve the stored script for the current page from HTML5 local storage. Executes
@@ -1140,13 +1158,15 @@ Terminal.prototype.replaceVar = function(script) {
 * @return {undefined}
 */
 Terminal.prototype.scrollDown = function() {
-  // scroll down to show the last line
-  // scrollTop = number pixels that have scrolled off top edge of element
-  // offsetHeight = size of visible portion of element
-  // scrollHeight = overall height of element, in pixels
-  this.term_output_.scrollTop = this.term_output_.scrollHeight
-      - this.term_output_.offsetHeight;
-  this.term_input_.value = '';
+  if (this.term_input_ && this.term_output_) {
+    // scroll down to show the last line
+    // scrollTop = number pixels that have scrolled off top edge of element
+    // offsetHeight = size of visible portion of element
+    // scrollHeight = overall height of element, in pixels
+    this.term_output_.scrollTop = this.term_output_.scrollHeight
+        - this.term_output_.offsetHeight;
+    this.term_input_.value = '';
+  }
 };
 
 /** Sets the function to execute after evaluating the user input. Typically used to
