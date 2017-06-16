@@ -399,6 +399,13 @@ EasyScriptParser.prototype.getSubject = function(name) {
     });
 };
 
+/** Returns list of Subjects being parsed.
+* @return {!Array<!Subject>} the list of Subjects being parsed
+*/
+EasyScriptParser.prototype.getSubjects = function() {
+  return goog.array.clone(this.subjects_);
+};
+
 /** Returns the "help" string which gives information on available commands.
 * @return {string} the "help" string which gives information on available commands.
 */
