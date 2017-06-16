@@ -185,10 +185,8 @@ var testUtil = function() {
   assertEquals('orange', Util.set(a, 2, 'orange'));
   assertEquals('orange', Util.get(a, 2));
   assertThrows(function() { Util.set(a, -1, 'marooon'); });
-  assertThrows(function() { Util.set(a, 'foo', 'marooon'); });
   assertThrows(function() { Util.set(a, 3.1, 'marooon'); });
   assertThrows(function() { Util.get(a, -1); });
-  assertThrows(function() { Util.get(a, 'foo'); });
   assertThrows(function() { Util.get(a, 3.1); });
 
   // ensure that goog.asserts is working

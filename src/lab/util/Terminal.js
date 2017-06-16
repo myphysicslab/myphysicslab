@@ -510,7 +510,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   this.prompt_ = '> ';
   // Allow scripts to call eval() but those calls are replaced by "terminal.eval"
   // so that they go thru Terminal.eval() and are properly vetted for script safety.
-  this.addRegex('eval', 'terminal', false);
+  this.addRegex('eval', 'terminal', /*addToVars=*/false);
 };
 var Terminal = myphysicslab.lab.util.Terminal;
 
@@ -563,11 +563,11 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
       throw new Error();
     }
     if (addToVars) {
-      var na = names.split('|');
-      var nb = this.vars_.split('|');
-      goog.array.forEach(na, function(nm) {
-        if (!goog.array.contains(nb, nm)) {
-          this.vars_ += '|' + names;
+      var nms = names.split('|');
+      var vrs = this.vars_.split('|');
+      goog.array.forEach(nms, function(nm) {
+        if (!goog.array.contains(vrs, nm)) {
+          this.vars_ += (this.vars_.length > 0 ? '|' : '') + nm;
         }
       }, this);
     }
@@ -595,14 +595,15 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
 /** Adds the string to white list of allowed expressions.
 * See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} name string to add to white list
+* @param {boolean=} opt_addToVars if `true`, then the name is added to the
+*     set of defined names returned by {@link #vars}; default is `true`
 */
-Terminal.prototype.addWhiteList = function(name) {
+Terminal.prototype.addWhiteList = function(name, opt_addToVars) {
+  var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
   if (!goog.array.contains(this.whiteList_, name)) {
     this.whiteList_.push(name);
-    if (this.vars_.length == 0) {
-      this.vars_ = name;
-    } else {
-      this.vars_ += '|' + name;
+    if (addToVars) {
+      this.vars_ += (this.vars_.length > 0 ? '|' : '') + name;
     }
   }
 };
@@ -1348,7 +1349,7 @@ Terminal.stdRegex = function(terminal) {
 
 /** Returns names of the variables that have been defined using {@link #addRegex}.
 * This is used as a "help" command for the user to know what variables are available.
-* @return {!Array<string>}
+* @return {!Array<string>} names of defined variables, in alphabetic order
 */
 Terminal.prototype.vars = function() {
   var v = this.vars_.split('|');
