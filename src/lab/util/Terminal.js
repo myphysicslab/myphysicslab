@@ -302,7 +302,8 @@ or 'query URL'. Here is an
 The URL Query Script is executed at startup by calling {@link #parseURL} or
 {@link #parseURLorRecall}.  Most myPhysicsLab applications do this.
 
-Because of [URL percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding)
+Some websites will only accept user-supplied URLs that follow the strict guidelines of
+[URL percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding). Therefore
 we must substitute in the URL:
 
   + `%20` for space
@@ -312,12 +313,13 @@ we must substitute in the URL:
 
 See this
 [character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
-to learn which other characters must be percent-encoded. It might be necessary to
-percent-encode other symbols such as:
+to learn which other characters must be percent-encoded. You can use
+{@link Terminal.encodeURIComponent} which is a more stringent version of doing the character encoding; it percent-encodes other symbols such as:
 
   + `%27` for `'`
   + `%28` for `(`
   + `%29` for `)`
+  + `%3B` for `;`
 
 Here is an example of a URL query script using JavaScript in a simple-compiled
 application:
@@ -671,6 +673,21 @@ Terminal.deUnicode = function(s) {
         return String.fromCharCode(Number('0x'+v3));
       });
 };
+
+/** This is a more stringent version of
+[encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent)
+which adheres to [RFC 3986](https://tools.ietf.org/html/rfc3986) which reserves
+characters `!'()*`. Some websites (such as reddit) will not accept a user supplied URL
+that contains those characters.
+* @param {string} str the string to encode
+* @return {string} the encoded string
+* @static
+*/
+Terminal.encodeURIComponent = function(str) {
+  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+    return '%' + c.charCodeAt(0).toString(16);
+  });
+}
 
 /** Executes the given script and returns the result.
 
@@ -1054,9 +1071,11 @@ Terminal.prototype.parseURL = function() {
     // See https://en.wikipedia.org/wiki/Percent-encoding
     // encodeURIComponent('hello +(2+3*4)!/=?[];{}.<>:|^$_-~`@#')
     // "hello%20%2B(2%2B3*4)!%2F%3D%3F%5B%5D%3B%7B%7D.%3C%3E%3A%7C%5E%24_-~%60%40%23"
+    // Note that parens and ! are also reserved characters, so encode them as well:
+    // "hello%20%2B%282%2B3*4%29%21%2F%3D%3F%5B%5D%3B%7B%7D.%3C%3E%3A%7C%5E%24_-~%60%40%23"
     // To test: paste the following link into a browser address field:
     // (edit the address for your environment):
-    // file:///Users/erikn/Documents/Programming/myphysicslab/debug/sims/experimental/BlankSlateApp-en.html?println('hello%20%2B(2%2B3*4)!%2F%3D%3F%5B%5D%3B%7B%7D.%3C%3E%3A%7C%5E%24_-~%60%40%23')
+    // file:///Users/erikn/Documents/Programming/myphysicslab/debug/sims/experimental/BlankSlateApp-en.html?println('hello%20%2B%282%2B3*4%29%21%2F%3D%3F%5B%5D%3B%7B%7D.%3C%3E%3A%7C%5E%24_-~%60%40%23')
     // You should see in Terminal the string without percent encoding.
     cmd = decodeURIComponent(cmd);
     this.eval(cmd);

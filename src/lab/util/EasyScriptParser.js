@@ -197,6 +197,18 @@ The script follows a question mark in the URL, so it is called a 'query script' 
 A user can save or share this custom URL. When the URL is pasted into a
 browser, the scripts embedded in the URL will be executed.
 
+While the above URL will work, some websites will not accept it as a valid
+user-supplied URL. Therefore `scriptURL()`
+[percent-encodes](https://en.wikipedia.org/wiki/Percent-encoding) many symbols to
+ensure the URL is valid, see
+[Terminal URL Query Script](myphysicslab.lab.util.Terminal.html#urlqueryscript).
+Here is the
+[fully encoded version of the above URL](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html?DAMPING%3D0.1%3BGRAVITY%3D16%3BPENDULUMS%3D4%3BPENDULUM_LENGTH%3D4%3B),
+where the symbols `=` and `;` are encoded with `%3D` and `%3B` respectively:
+
+    https://www.myphysicslab.com/engine2D/newtons-cradle-en.html?DAMPING%3D0.1%3B
+    GRAVITY%3D16%3BPENDULUMS%3D4%3BPENDULUM_LENGTH%3D4%3B
+
 The application should call {@link Terminal#parseURL} in order to execute the query URL
 during application startup.
 
@@ -544,7 +556,7 @@ EasyScriptParser.prototype.saveStart = function() {
 *
 * + when a Parameter name is unique, we don't include the Subject name.
 *
-* @return {string}
+* @return {string} script that sets Parameters to current values
 */
 EasyScriptParser.prototype.script = function() {
   var ar = this.namesAndValues(false).split(';');
@@ -562,15 +574,18 @@ EasyScriptParser.prototype.script = function() {
 * their current values. The *query* part of the URL is the part following the
 * question mark. When pasted into a browser, the {@link Terminal#parseURL}
 * method can be used to extract the script from the URL query and execute it.
+* The script is [percent-encoded](https://en.wikipedia.org/wiki/Percent-encoding)
+* to ensure it forms a valid URL.
 *
 * See {@link #script} for details about how the script is created.
-* @return {string}
+* @return {string} percent-encoded URL query script that sets Parameters to current
+*    values
 */
 EasyScriptParser.prototype.scriptURL = function() {
   // get the current URL, but remove any URL query (= text after the '?' in URL)
   var u = window.location.href.replace(/\.html\?.*$/, '.html');
   // Add commands as a URL query, after '?'.
-  return u + '?' + this.script();
+  return u + '?' + Terminal.encodeURIComponent(this.script());
 };
 
 /** Removes quotes from start and end of a string, and replaces
