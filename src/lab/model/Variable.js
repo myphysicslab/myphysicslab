@@ -30,9 +30,11 @@ myphysicslab.lab.model.Variable = function() {};
 myphysicslab.lab.model.Variable.prototype.getBroadcast;
 
 /** Returns the sequence number of this Variable. The sequence number is incremented
-whenever a discontinuity occurs in the value of the variable. For example, when the
-variables are set back to initial conditions that is a discontinuous change. Then a
-graph knows to not draw a connecting line between the points with the discontinuity.
+whenever a discontinuity occurs in the value of the variable. See {@link #incrSequence}.
+
+For example, when the variables are set back to initial conditions that is a discontinuous
+change. Then a graph knows to not draw a connecting line between the points with the
+discontinuity.
 
 Another example of a discontinuity: if the value of an angle is kept within `0` to
 `2*Pi` (by just adding or subtracting `2*pi` to keep it in that range), when the angle

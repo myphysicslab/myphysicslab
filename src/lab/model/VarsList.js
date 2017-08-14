@@ -55,10 +55,10 @@ Observers whenever Variables are added or removed.
 
 ### Continuous vs. Discontinuous Changes
 
-A change to a variable is either continuous or discontinuous. This affects how a line
-graph of the variable is drawn: {@link myphysicslab.lab.graph.DisplayGraph}
+A change to a Variable is either continuous or discontinuous. This affects how a line
+graph of the Variable is drawn: {@link myphysicslab.lab.graph.DisplayGraph}
 doesn't draw a line at a point of discontinuity. A discontinuity is
-indicated by incrementing the sequence number.
+indicated by incrementing the {@link Variable#getSequence sequence number} of the Variable.
 
 It is important to note that {@link #setValue} and {@link #setValues} have an optional
 parameter `continuous` which determines whether the change of variable is continuous or
