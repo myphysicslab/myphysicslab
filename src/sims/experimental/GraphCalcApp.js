@@ -26,10 +26,12 @@ goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
+goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.ScreenRect');
 goog.require('myphysicslab.lab.view.SimView');
+goog.require('myphysicslab.lab.view.VerticalAlign');
 
 goog.scope(function() {
 
@@ -42,6 +44,7 @@ var DoubleRect = lab.util.DoubleRect;
 var GenericObserver = lab.util.GenericObserver;
 var GraphLine = lab.graph.GraphLine;
 var GraphPoint = lab.graph.GraphPoint;
+var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
 var NF5 = lab.util.Util.NF5;
@@ -52,6 +55,7 @@ var Terminal = lab.util.Terminal;
 var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
+var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** GraphCalcApp is a simple graphing calculator demonstration using myphysicslab.
 
@@ -148,6 +152,8 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
   * @private
   */
   this.axes = new DisplayAxes(this.simView.getCoordMap().screenToSimRect(screenrect));
+  this.axes.setXAxisAlignment(VerticalAlign.MIDDLE);
+  this.axes.setYAxisAlignment(HorizAlign.MIDDLE);
   this.simView.getDisplayList().add(this.axes);
   // inform displayGraph when the screen rect changes.
   new GenericObserver(this.simView, goog.bind(function(evt) {
