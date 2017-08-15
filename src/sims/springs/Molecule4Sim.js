@@ -327,7 +327,7 @@ myphysicslab.sims.springs.Molecule4Sim = function(nm, opt_name) {
     var spring = new SpringNonLinear(name,
       this.atoms_[this.msm_[i][0]], Vector.ORIGIN,
       this.atoms_[this.msm_[i][1]], Vector.ORIGIN,
-      /*restLength=*/3.0, /*stiffness=*/6.0);
+      /*restLength=*/3.0, /*stiffness=*/1.0);
     spring.setDamping(0);
     this.springs_.push(spring);
     this.getSimList().add(spring);
@@ -650,12 +650,18 @@ Molecule4Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
     var n = this.nm_*4;
     va.incrSequence(n, n+1, n+2);
     this.moveObjects(va.getValues());
+    // set all velocities to zero.
+    for (var i=0; i<this.nm_; i++) {
+      va.setValue(2 + i*4, 0);
+      va.setValue(3 + i*4, 0);
+    }
   }
 };
 
 /** @inheritDoc */
 Molecule4Sim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragAtom_ = -1;
+  this.saveInitialState();
 };
 
 /** @inheritDoc */
