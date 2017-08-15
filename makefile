@@ -206,6 +206,7 @@ marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).
 marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).html )
 molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App-$(loc).html )
 molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App-$(loc).html )
+molecule4: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule4App-$(loc).html )
 moveabledoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp-$(loc).html )
 moveablependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveablePendulumApp-$(loc).html )
 multiplecollision: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MultipleCollisionApp-$(loc).html )
@@ -297,6 +298,7 @@ sims/springs/Double2DSpringApp \
 sims/springs/DoubleSpringApp \
 sims/springs/Molecule1App \
 sims/springs/Molecule3App \
+sims/springs/Molecule4App \
 sims/springs/MultiSpringApp \
 sims/springs/SingleSpringApp \
 sims/springs/SingleSpring2App \
@@ -447,6 +449,9 @@ $(BUILD_DIR)/sims/springs/DoubleSpringApp*.js : src/sims/springs/DoubleSpringSim
 $(BUILD_DIR)/sims/springs/Molecule1App*.js : src/sims/springs/Molecule1Sim.js
 
 $(BUILD_DIR)/sims/springs/Molecule3App*.js : src/sims/springs/Molecule3Sim.js
+
+$(BUILD_DIR)/sims/springs/Molecule4App*.js : src/sims/springs/Molecule4Sim.js \
+src/sims/springs/SpringNonLinear.js
 
 $(BUILD_DIR)/sims/springs/SingleSpringApp_*.js : src/sims/springs/SingleSpringSim.js
 

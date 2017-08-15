@@ -69,7 +69,6 @@ start point in the direction of the second attachment point.
 *    behaves normally if the spring is in compression but disconnects
 *    from the second attachment point during extension.
 * @constructor
-* @final
 * @struct
 * @extends {AbstractSimObject}
 * @implements {ForceLaw}

@@ -51,6 +51,7 @@ sims/springs/Double2DSpringApp
 sims/springs/DoubleSpringApp
 sims/springs/Molecule1App
 sims/springs/Molecule3App
+sims/springs/Molecule4App
 sims/springs/MultiSpringApp
 sims/springs/SingleSpringApp
 sims/springs/SingleSpring2App
