@@ -64,6 +64,11 @@ goog.require('myphysicslab.sims.pde.StringSim');
 goog.require('myphysicslab.sims.pde.TrianglePulseShape');
 goog.require('myphysicslab.sims.pde.TriangleShape');
 
+goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
+goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
+
 goog.scope(function() {
 
 var lab = myphysicslab.lab;

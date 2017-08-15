@@ -73,6 +73,13 @@ goog.require('myphysicslab.test.RopeTest');
 goog.require('myphysicslab.test.SpeedTest');
 goog.require('myphysicslab.test.StraightStraightTest');
 
+goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
+goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
+goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
+
 goog.scope(function() {
 
 var lab = myphysicslab.lab;

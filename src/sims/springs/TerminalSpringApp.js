@@ -25,7 +25,6 @@ goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 goog.require('myphysicslab.lab.graph.DisplayAxes');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
-goog.require('myphysicslab.lab.model.ExpressionVariable');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimpleAdvance');
@@ -52,6 +51,14 @@ goog.require('myphysicslab.sims.springs.Molecule1Sim');
 goog.require('myphysicslab.sims.springs.Molecule3Sim');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 goog.require('myphysicslab.sims.springs.Spring2DSim');
+
+goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
+goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.GenericObserver'); // for usage in Terminal
+goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
 
 goog.scope(function() {
 

@@ -33,6 +33,14 @@ goog.require('myphysicslab.lab.view.ScreenRect');
 goog.require('myphysicslab.lab.view.SimView');
 goog.require('myphysicslab.lab.view.VerticalAlign');
 
+goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
+goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
+goog.require('myphysicslab.lab.util.GenericObserver'); // for usage in Terminal
+goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
+
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
