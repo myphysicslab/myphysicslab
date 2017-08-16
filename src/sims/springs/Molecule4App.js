@@ -67,6 +67,8 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
   this.numAtoms = numAtoms;
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new Molecule4Sim(this.numAtoms);
+  // cludge: this makes the potential energy not so large.
+  sim.setPotentialEnergy(5);
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);

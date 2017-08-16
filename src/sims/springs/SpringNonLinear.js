@@ -108,10 +108,9 @@ SpringNonLinear.prototype.calculateForces = function() {
 
 /** @inheritDoc */
 SpringNonLinear.prototype.getPotentialEnergy = function() {
-  // spring potential energy = 0.5*stiffness*(stretch^2)
-  //var stretch = this.getStretch();
-  //return 0.5 * this.stiffness_ * stretch * stretch;
-  return 0;
+  // spring potential energy is integral of force
+  var len = this.getLength();
+  return this.getStiffness() * (6 * Math.log(len) + 4/(len*len));
 };
 
 }); // goog.scope
