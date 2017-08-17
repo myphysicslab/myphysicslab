@@ -16,6 +16,7 @@ goog.provide('myphysicslab.sims.springs.Molecule4App');
 
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.FunctionVariable');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.sims.springs.SpringNonLinear');
 goog.require('myphysicslab.lab.util.DoubleRect');
@@ -39,6 +40,7 @@ var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
+var FunctionVariable = lab.model.FunctionVariable;
 var Molecule4Sim = sims.springs.Molecule4Sim;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
@@ -65,10 +67,10 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
   Util.setErrorHandler();
   /** @type {number} */
   this.numAtoms = numAtoms;
-  var simRect = new DoubleRect(-6, -6, 6, 6);
+  var simRect = new DoubleRect(-8, -8, 8, 8);
   var sim = new Molecule4Sim(this.numAtoms);
   // cludge: this makes the potential energy not so large.
-  sim.setPotentialEnergy(5);
+  sim.setPotentialEnergy(5 - 0.38559373);
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
@@ -102,6 +104,12 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
     this.atoms.push(atom);
     this.displayList.add(atom);
   }
+  // add variable for kinetic energy of atom 1
+  var va = sim.getVarsList();
+  var atom1 = sim.getSimList().getPointMass('atom1');
+  va.addVariable(new FunctionVariable(va, 'ke1', 'ke1', function() {
+    return atom1.getKineticEnergy();
+  }));
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */

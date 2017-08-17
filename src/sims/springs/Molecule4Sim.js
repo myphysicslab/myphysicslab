@@ -287,7 +287,7 @@ myphysicslab.sims.springs.Molecule4Sim = function(nm, opt_name) {
   * @type {!PointMass}
   * @private
   */
-  this.walls_ = PointMass.makeSquare(12, 'walls')
+  this.walls_ = PointMass.makeSquare(16, 'walls')
       .setMass(Util.POSITIVE_INFINITY);
   this.getSimList().add(this.walls_);
   /** Mass-SpringNonLinear-Mass matrix says how springs & masses are connected
