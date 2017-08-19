@@ -342,17 +342,20 @@ myphysicslab.sims.springs.Molecule4Sim = function(nm, opt_name) {
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.DAMPING,
       Molecule4Sim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.ELASTICITY,
       Molecule4Sim.i18n.ELASTICITY,
       goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
       .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.MASS,
       Molecule4Sim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this))
+      .setSignifDigits(5));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.MASS_SPECIAL,
       Molecule4Sim.i18n.MASS_SPECIAL,
-      goog.bind(this.getMassSpecial, this), goog.bind(this.setMassSpecial, this)));
+      goog.bind(this.getMassSpecial, this), goog.bind(this.setMassSpecial, this))
+      .setSignifDigits(5));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.LENGTH,
       Molecule4Sim.i18n.LENGTH,
       goog.bind(this.getLength, this), goog.bind(this.setLength, this)));

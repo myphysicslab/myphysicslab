@@ -14,6 +14,7 @@
 
 goog.provide('myphysicslab.sims.springs.Molecule4App');
 
+goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.FunctionVariable');
@@ -28,6 +29,8 @@ goog.require('myphysicslab.sims.common.AbstractApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.springs.Molecule4Sim');
+goog.require('myphysicslab.lab.app.SimRunner');
+goog.require('myphysicslab.lab.util.GenericObserver');
 
 goog.scope(function() {
 
@@ -44,10 +47,13 @@ var FunctionVariable = lab.model.FunctionVariable;
 var Molecule4Sim = sims.springs.Molecule4Sim;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
+var NumericControl = lab.controls.NumericControl;
 var SliderControl = lab.controls.SliderControl;
+var SimRunner = lab.app.SimRunner;
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var TabLayout = sims.common.TabLayout;
 var Util = lab.util.Util;
+var GenericObserver = lab.util.GenericObserver;
 
 /** Displays the {@link Molecule4Sim} simulation which is an experimental version of
 the Molecule3 simulation. This uses a non-linear spring force. Note that the spring
@@ -104,47 +110,76 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
     this.atoms.push(atom);
     this.displayList.add(atom);
   }
-  // add variable for kinetic energy of atom 1
+  // add variables for kinetic energy of atoms 1, 2, 3
   var va = sim.getVarsList();
+  var totalEnergy = sim.getEnergyInfo().getTotalEnergy();
   var atom1 = sim.getSimList().getPointMass('atom1');
   va.addVariable(new FunctionVariable(va, 'ke1', 'ke1', function() {
     return atom1.getKineticEnergy();
   }));
+  va.addVariable(new FunctionVariable(va, 'ke1 pct', 'ke1 pct', function() {
+    return 100*atom1.getKineticEnergy()/totalEnergy;
+  }));
+  var atom2 = sim.getSimList().getPointMass('atom2');
+  va.addVariable(new FunctionVariable(va, 'ke2', 'ke2', function() {
+    return atom2.getKineticEnergy();
+  }));
+  va.addVariable(new FunctionVariable(va, 'ke2 pct', 'ke2 pct', function() {
+    return 100*atom2.getKineticEnergy()/totalEnergy;
+  }));
+  if (numAtoms > 2) {
+    var atom3 = sim.getSimList().getPointMass('atom3');
+    va.addVariable(new FunctionVariable(va, 'ke3', 'ke3', function() {
+      return atom3.getKineticEnergy();
+    }));
+    va.addVariable(new FunctionVariable(va, 'ke3 pct', 'ke3 pct', function() {
+      return 100*atom3.getKineticEnergy()/totalEnergy;
+    }));
+  }
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
   var pn;
   pn = sim.getParameterNumber(Molecule4Sim.en.GRAVITY);
-  this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.DAMPING);
-  this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.ELASTICITY);
-  this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.MASS);
-  this.addControl(new SliderControl(pn, 0.2, 20.2, /*multiply=*/true));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.MASS_SPECIAL);
-  this.addControl(new SliderControl(pn, 0.2, 20.2, /*multiply=*/true));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.LENGTH);
-  this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.LENGTH_SPECIAL);
-  this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.STIFFNESS);
-  this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
+  this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.STIFFNESS_SPECIAL);
-  this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
+  this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
 
   this.makeEasyScript();
   this.addURLScriptButton();
+
+  // after clicking the "rewind" button, the timeGraph should go to time zero.
+  new GenericObserver(this.simRun, goog.bind(function(evt) {
+    if (evt.nameEquals(SimRunner.RESET)) {
+      var vw = this.timeGraph.view.getWidth();
+      this.timeGraph.view.setCenterX(vw/2);
+      this.timeGraph.autoScale.setActive(true);
+    }
+  }, this));
 };
 var Molecule4App = myphysicslab.sims.springs.Molecule4App;
 goog.inherits(Molecule4App, AbstractApp);

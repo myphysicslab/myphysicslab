@@ -432,7 +432,7 @@ SimView.prototype.panDown = function() {
 };
 
 /** Moves the center of the simulation rectangle (the 'camera') left by fraction
-{@link #panY}, which causes the image to move right.
+{@link #panX}, which causes the image to move right.
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
@@ -441,7 +441,7 @@ SimView.prototype.panLeft = function() {
 };
 
 /** Moves the center of the simulation rectangle (the 'camera') right by fraction
-{@link #panY}, which causes the image to move left.
+{@link #panX}, which causes the image to move left.
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */

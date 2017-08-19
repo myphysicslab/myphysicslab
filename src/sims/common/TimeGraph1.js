@@ -157,11 +157,11 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
 
   /** @type {!ParameterNumber} */
   var pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LIME));
+  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE1));
   pn = this.line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.RED));
+  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE2));
   pn = this.line3.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.BLUE));
+  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE3));
   pn = this.line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'X:'));
   pn = this.autoScale.getParameterNumber(AutoScale.en.TIME_WINDOW)
@@ -248,9 +248,9 @@ TimeGraph1.prototype.getSubjects = function() {
 
 /** Set of internationalized strings.
 @typedef {{
-  LIME: string,
-  RED: string,
-  BLUE: string
+  LINE1: string,
+  LINE2: string,
+  LINE3: string
   }}
 */
 TimeGraph1.i18n_strings;
@@ -259,9 +259,9 @@ TimeGraph1.i18n_strings;
 @type {TimeGraph1.i18n_strings}
 */
 TimeGraph1.en = {
-  LIME: 'lime',
-  RED: 'red',
-  BLUE: 'blue'
+  LINE1: 'line 1',
+  LINE2: 'line 2',
+  LINE3: 'line 3'
 };
 
 /**
@@ -269,9 +269,9 @@ TimeGraph1.en = {
 @type {TimeGraph1.i18n_strings}
 */
 TimeGraph1.de_strings = {
-  LIME: 'hell Gr\u00fcn',
-  RED: 'Rot',
-  BLUE: 'Blau'
+  LINE1: 'linie 1',
+  LINE2: 'linie 2',
+  LINE3: 'linie 3'
 };
 
 /** Set of internationalized strings.
