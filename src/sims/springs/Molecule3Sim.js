@@ -222,12 +222,19 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
   var va = new VarsList(this.makeVarNames(nm, /*localized=*/false),
       this.makeVarNames(nm, /*localized=*/true), this.getName()+'_VARS');
   this.setVarsList(va);
-  // the variables for x- and y- position and velocity are auto computed.
+  // variables other than time and x- and y- position and velocity are auto computed.
   var cv = goog.array.map(va.toArray(),
       function(v) {
         if (v.getName().match(/^(X|Y)_(POSITION|VELOCITY).*/)) {
-          v.setComputed(true);
+          v.setComputed(false);
+          return;
         }
+        if (v.getName() == VarsList.en.TIME) {
+          v.setComputed(false);
+          return;
+        }
+        // all other vars are auto computed
+        v.setComputed(true);
       });
   /** the atom being dragged, or -1 when no drag is happening
   * @type {number}
