@@ -407,7 +407,8 @@ Molecule4Sim.prototype.getClassName = function() {
 */
 Molecule4Sim.prototype.makeVarNames = function(nm, localized) {
   var names = [];
-  var n = nm*4 + 4;
+  // add energy and force variables, depends on number of atoms
+  var n = nm*4 + (this.nm_ > 2 ? 7 : 6);
   for (var i=0; i<n; i++) {
     names.push(this.getVariableName(i, localized));
   }
@@ -454,9 +455,15 @@ Molecule4Sim.prototype.getVariableName = function(idx, localized) {
       case 3:
         return localized ? VarsList.i18n.TIME :
             VarsList.en.TIME;
+      case 4:
+        return (localized ? Molecule4Sim.i18n.FORCE : Molecule4Sim.en.FORCE) + ' 1';
+      case 5:
+        return (localized ? Molecule4Sim.i18n.FORCE : Molecule4Sim.en.FORCE) + ' 2';
+      case 6:
+        return (localized ? Molecule4Sim.i18n.FORCE : Molecule4Sim.en.FORCE) + ' 3';
     }
   }
-  throw new Error();
+  throw new Error('unknown variable');
 };
 
 /** Returns Mass-SpringNonLinear-Mass matrix which says how springs & masses are connected.
@@ -593,6 +600,28 @@ Molecule4Sim.prototype.modifyObjects = function() {
   va.setValue(n, ei.getTranslational(), true);
   va.setValue(n+1, ei.getPotential(), true);
   va.setValue(n+2, ei.getTotalEnergy(), true);
+  var rate = new Array(vars.length);
+  // find magnitude of force on atom 1
+  this.evaluate(vars, rate, 0);
+  var m = this.atoms_[0].getMass();
+  // F = m a, we have accel, so multiply by mass
+  // vars: 0   1   2   3   4   5   6   7   8   9  10  11
+  //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
+  var fx = m * rate[2];
+  var fy = m * rate[3];
+  va.setValue(n+4, Math.sqrt(fx*fx + fy*fy), true);
+  // force on atom 2
+  m = this.atoms_[1].getMass();
+  fx = m * rate[6];
+  fy = m * rate[7];
+  va.setValue(n+5, Math.sqrt(fx*fx + fy*fy), true);
+  // force on atom 3
+  if (this.nm_ > 2) {
+    m = this.atoms_[2].getMass();
+    fx = m * rate[10];
+    fy = m * rate[11];
+    va.setValue(n+6, Math.sqrt(fx*fx + fy*fy), true);
+  }
 };
 
 /**
@@ -991,7 +1020,8 @@ Molecule4Sim.prototype.setStiffnessSpecial = function(value) {
   LENGTH: string,
   LENGTH_SPECIAL: string,
   STIFFNESS: string,
-  STIFFNESS_SPECIAL: string
+  STIFFNESS_SPECIAL: string,
+  FORCE: string
   }}
 */
 Molecule4Sim.i18n_strings;
@@ -1012,7 +1042,8 @@ Molecule4Sim.en = {
   LENGTH: 'spring length',
   LENGTH_SPECIAL: 'red spring length',
   STIFFNESS: 'spring stiffness',
-  STIFFNESS_SPECIAL: 'red spring stiffness'
+  STIFFNESS_SPECIAL: 'red spring stiffness',
+  FORCE: 'force'
 };
 
 /**
@@ -1032,7 +1063,8 @@ Molecule4Sim.de_strings = {
   LENGTH: 'Federl\u00e4nge',
   LENGTH_SPECIAL: 'rote Federl\u00e4nge',
   STIFFNESS: 'Federsteifheit',
-  STIFFNESS_SPECIAL: 'rote Federsteifheit'
+  STIFFNESS_SPECIAL: 'rote Federsteifheit',
+  FORCE: 'Kraft'
 };
 
 /** Set of internationalized strings.
