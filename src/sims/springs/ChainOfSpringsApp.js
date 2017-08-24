@@ -112,7 +112,7 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
   goog.array.forEach(this.simList.toArray(), function(obj) {
       this.addBody(obj);
     }, this);
-  // The update() method will make DisplayObjects in response to seeing
+  // The observe() method will make DisplayObjects in response to seeing
   // SimObjects being added to the SimList.
   this.simList.addObserver(this);
 

@@ -17,6 +17,8 @@ goog.provide('myphysicslab.sims.springs.Molecule3App');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.PointMass');
+goog.require('myphysicslab.lab.util.Observer');
+goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.ParameterNumber');
@@ -27,6 +29,7 @@ goog.require('myphysicslab.sims.common.AbstractApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.springs.Molecule3Sim');
+goog.require('myphysicslab.lab.model.SimList');
 
 goog.scope(function() {
 
@@ -40,8 +43,11 @@ var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
 var Molecule3Sim = sims.springs.Molecule3Sim;
+var Observer = lab.util.Observer;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
+var SimList = lab.model.SimList;
+var SimObject = lab.model.SimObject;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
@@ -55,6 +61,7 @@ var Util = lab.util.Util;
 * @param {number} numAtoms number of atoms to make, from 2 to 6
 * @constructor
 * @final
+* @implements {Observer}
 * @extends {AbstractApp}
 * @struct
 * @export
@@ -64,7 +71,7 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
   /** @type {number} */
   this.numAtoms = numAtoms;
   var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Molecule3Sim(this.numAtoms);
+  var sim = new Molecule3Sim();
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
@@ -77,27 +84,11 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
   this.protoSpecialSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#c00')
       .setColorExpanded('red').setThickness(3);
 
-  /** @type {!DisplayShape} */
-  this.walls = new DisplayShape(this.simList.getPointMass('walls'))
-      .setFillStyle('').setStrokeStyle('gray');
-  this.displayList.add(this.walls);
-  goog.array.forEach(this.simList.toArray(), function(simObj) {
-    if (simObj instanceof Spring) {
-      var s = /** @type {!Spring} */(simObj);
-      var proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
-          this.protoSpring;
-      this.displayList.add(new DisplaySpring(s, proto));
-    }
-  }, this);
-  /** @type {!Array<!DisplayShape>} */
-  this.atoms = [];
-  var cm = ['red', 'blue', 'magenta', 'orange', 'gray', 'green'];
-  for (var i=0; i<this.numAtoms; i++) {
-    var atom = new DisplayShape(this.simList.getPointMass('atom'+(i+1)))
-        .setFillStyle(cm[i]);
-    this.atoms.push(atom);
-    this.displayList.add(atom);
-  }
+  // The observe() method will make DisplayObjects in response to seeing SimObjects
+  // being added to the SimList.  Important that no SimObjects were added prior.
+  goog.asserts.assert(this.simList.length() == 0);
+  this.simList.addObserver(this);
+  sim.config(numAtoms);
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
@@ -141,8 +132,6 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Molecule3App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', atoms: '+this.atoms.length
-        +', walls: '+this.walls.toStringShort()
         + Molecule3App.superClass_.toString.call(this);
   };
 };
@@ -155,8 +144,58 @@ Molecule3App.prototype.getClassName = function() {
 /** @inheritDoc */
 Molecule3App.prototype.defineNames = function(myName) {
   Molecule3App.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('walls|atoms|protoSpecialSpring|protoSpring',
-      myName);
+  this.terminal.addRegex('protoSpecialSpring|protoSpring', myName);
+};
+
+/**
+@param {!SimObject} obj
+@private
+*/
+Molecule3App.prototype.addBody = function(obj) {
+  if (this.displayList.find(obj) != null) {
+    // we already have a DisplayObject for this SimObject, don't add a new one.
+    return;
+  }
+  if (obj instanceof PointMass) {
+    var pm = /** @type {!PointMass} */(obj);
+    if (pm.getName().match(/^WALL/)) {
+    var walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
+    this.displayList.add(walls);
+    } else {
+      var cm = 'black';
+      switch (pm.getName()) {
+        case 'ATOM1': cm = 'red'; break;
+        case 'ATOM2': cm = 'blue'; break;
+        case 'ATOM3': cm = 'magenta'; break;
+        case 'ATOM4': cm = 'orange'; break;
+        case 'ATOM5': cm = 'gray'; break;
+        case 'ATOM6': cm = 'green'; break;
+        default: throw new Error();
+      }
+      var atom = new DisplayShape(pm).setFillStyle(cm);
+      this.displayList.add(atom);
+    }
+  } else if (obj instanceof Spring) {
+    var s = /** @type {!Spring} */(obj);
+    var proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
+        this.protoSpring;
+    this.displayList.add(new DisplaySpring(s, proto));
+  }
+};
+
+/** @inheritDoc */
+Molecule3App.prototype.observe =  function(event) {
+  if (event.getSubject() == this.simList) {
+    var obj = /** @type {!SimObject} */ (event.getValue());
+    if (event.nameEquals(SimList.OBJECT_ADDED)) {
+      this.addBody(obj);
+    } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
+      var d = this.displayList.find(obj);
+      if (d != null) {
+        this.displayList.remove(d);
+      }
+    }
+  }
 };
 
 }); // goog.scope

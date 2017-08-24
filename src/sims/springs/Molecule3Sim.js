@@ -198,8 +198,6 @@ Equivalently, if there is just a slight downward force (e.g. spring almost
 offsetting gravity), then just a little velocity is enough to result in
 contact being broken.
 
-
-* @param {number} nm number of atoms in molecule, from 2 to 6
 * @param {string=} opt_name name of this as a Subject
 * @constructor
 * @final
@@ -209,33 +207,18 @@ contact being broken.
 * @implements {EnergySystem}
 * @implements {myphysicslab.lab.app.EventHandler}
 */
-myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
-  if (nm < 2 || nm > 6) {
-    throw new Error('number of atoms '+nm);
-  }
+myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
   AbstractODESim.call(this, opt_name);
   /** Number of atoms.
   * @type {number}
   * @private
   */
-  this.nm_ = nm;
-  var va = new VarsList(this.makeVarNames(nm, /*localized=*/false),
-      this.makeVarNames(nm, /*localized=*/true), this.getName()+'_VARS');
-  this.setVarsList(va);
-  // variables other than time and x- and y- position and velocity are auto computed.
-  var cv = goog.array.map(va.toArray(),
-      function(v) {
-        if (v.getName().match(/^(X|Y)_(POSITION|VELOCITY).*/)) {
-          v.setComputed(false);
-          return;
-        }
-        if (v.getName() == VarsList.en.TIME) {
-          v.setComputed(false);
-          return;
-        }
-        // all other vars are auto computed
-        v.setComputed(true);
-      });
+  this.numAtoms_ = 0;
+  // set up variables so that sim.getTime() can be called during setup.
+  this.getVarsList().addVariables(
+      this.makeVarNames(/*numBlocks=*/0, /*localized=*/false),
+      this.makeVarNames(/*numBlocks=*/0,  /*localized=*/true));
+
   /** the atom being dragged, or -1 when no drag is happening
   * @type {number}
   * @private
@@ -290,54 +273,34 @@ myphysicslab.sims.springs.Molecule3Sim = function(nm, opt_name) {
   */
   this.walls_ = PointMass.makeSquare(12, 'walls')
       .setMass(Util.POSITIVE_INFINITY);
-  this.getSimList().add(this.walls_);
   /** Mass-Spring-Mass matrix says how springs & masses are connected
   * each row corresponds to a spring, with indices of masses connected to that spring.
   * @type {!Array<!Array<number>>}
   * @private
   */
-  this.msm_ = Molecule3Sim.getMSM(nm);
+  this.msm_ = [];
   /** Special Group of springs. These are indices in springs_ array.
   * @type {!Array<number>}
   * @private
   */
-  this.sg_ = Molecule3Sim.getSG(nm);
+  this.sg_ = [];
   /** Non-Special Group of springs. These are indices in springs_ array.
   * @type {!Array<number>}
   * @private
   */
-  this.nsg_ = Molecule3Sim.getNSG(this.msm_.length, this.sg_);
+  this.nsg_ = [];
   /**
   * @type {!Array<!PointMass>}
   * @private
   */
   this.atoms_ = [];
-  for (var i=0; i<nm; i++) {
-    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
-    this.atoms_.push(atom);
-    this.getSimList().add(atom);
-  }
   /**
   * @type {!Array<!Spring>}
   * @private
   */
   this.springs_ = [];
-  for (i=0; i<this.msm_.length; i++) {
-    var special = goog.array.contains(this.sg_, i);
-    var name = (special ? 'special ' : '') + 'spring '+i;
-    var spring = new Spring(name,
-      this.atoms_[this.msm_[i][0]], Vector.ORIGIN,
-      this.atoms_[this.msm_[i][1]], Vector.ORIGIN,
-      /*restLength=*/3.0, /*stiffness=*/6.0);
-    spring.setDamping(0);
-    this.springs_.push(spring);
-    this.getSimList().add(spring);
-  }
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
-  this.initialConfig();
-  this.saveInitialState();
-  this.modifyObjects();
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.GRAVITY,
       Molecule3Sim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
@@ -379,7 +342,7 @@ if (!Util.ADVANCED) {
         +'gravity_: '+NF(this.gravity_)
         +', damping: '+NF(this.getDamping())
         +', elasticity_: '+NF(this.elasticity_)
-        +', number_of_atoms: '+this.nm_
+        +', number_of_atoms: '+this.numAtoms_
         +', walls_: '+this.walls_
         + Molecule3Sim.superClass_.toString.call(this);
   };
@@ -391,28 +354,29 @@ Molecule3Sim.prototype.getClassName = function() {
 };
 
 /**
-* @param {number} nm
-* @return {!Array<string>}
+* @param {number} numAtoms
 * @param {boolean} localized
+* @return {!Array<string>}
 * @private
 */
-Molecule3Sim.prototype.makeVarNames = function(nm, localized) {
+Molecule3Sim.prototype.makeVarNames = function(numAtoms, localized) {
   var names = [];
-  var n = nm*4 + 4;
+  var n = numAtoms*4 + 4;
   for (var i=0; i<n; i++) {
-    names.push(this.getVariableName(i, localized));
+    names.push(this.getVariableName(i, numAtoms, localized));
   }
   return names;
 };
 
 /**
 * @param {number} idx
-* @return {string}
+* @param {number} numAtoms
 * @param {boolean} localized
+* @return {string}
 * @private
 */
-Molecule3Sim.prototype.getVariableName = function(idx, localized) {
-  if (idx < this.nm_*4) {
+Molecule3Sim.prototype.getVariableName = function(idx, numAtoms, localized) {
+  if (idx < numAtoms*4) {
     // vars: 0   1   2   3   4   5   6   7   8   9  10  11  ...
     //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y ...
     var j = idx%4;
@@ -432,7 +396,7 @@ Molecule3Sim.prototype.getVariableName = function(idx, localized) {
             +' '+atom;
     }
   } else {
-    switch (idx - this.nm_*4) {
+    switch (idx - numAtoms*4) {
       case 0:
         return localized ? EnergySystem.i18n.KINETIC_ENERGY :
             EnergySystem.en.KINETIC_ENERGY;
@@ -452,12 +416,12 @@ Molecule3Sim.prototype.getVariableName = function(idx, localized) {
 
 /** Returns Mass-Spring-Mass matrix which says how springs & masses are connected.
 * Each row corresponds to a spring; with indices of masses connected to that spring.
-* @param {number} nm  number of atoms in molecule
+* @param {number} numAtoms  number of atoms in molecule
 * @return {!Array<!Array<number>>}
 * @private
 */
-Molecule3Sim.getMSM = function(nm) {
-  switch (nm) {
+Molecule3Sim.getMSM = function(numAtoms) {
+  switch (numAtoms) {
     case 2: return [[0,1]];
     case 3: return [[0,1],[1,2],[2,0]];
     case 4: return [[0,1],[1,2],[2,3],[3,0],[1,3],[0,2]];
@@ -470,12 +434,12 @@ Molecule3Sim.getMSM = function(nm) {
 };
 
 /** Returns Special Groups of springs, these are indices into msm[].
-* @param {number} nm  number of atoms in molecule
+* @param {number} numAtoms  number of atoms in molecule
 * @return {!Array<number>}
 * @private
 */
-Molecule3Sim.getSG = function(nm) {
-  switch (nm) {
+Molecule3Sim.getSG = function(numAtoms) {
+  switch (numAtoms) {
     case 2: return [];
     case 3: return [0];
     case 4: return [0,3,5];
@@ -501,6 +465,66 @@ Molecule3Sim.getNSG = function(num_springs, sg) {
   return nsg;
 };
 
+/** Set number of atoms and set simulation to initial state.
+* @param {number} numAtoms number of atoms to make
+* @return {undefined}
+*/
+Molecule3Sim.prototype.config = function(numAtoms)  {
+  if (numAtoms < 2 || numAtoms > 6) {
+    throw new Error('too many atoms '+numAtoms);
+  }
+  this.numAtoms_ = numAtoms;
+  this.getSimList().removeAll(this.atoms_);
+  goog.array.clear(this.atoms_);
+  this.getSimList().removeAll(this.springs_);
+  goog.array.clear(this.springs_);
+  this.getSimList().add(this.walls_);
+  var va = this.getVarsList();
+  va.deleteVariables(0, va.numVariables());
+  va.addVariables(this.makeVarNames(numAtoms, /*localized=*/false),
+      this.makeVarNames(numAtoms,  /*localized=*/true));
+  // variables other than time and x- and y- position and velocity are auto computed.
+  var cv = goog.array.map(va.toArray(),
+      function(v) {
+        if (v.getName().match(/^(X|Y)_(POSITION|VELOCITY).*/)) {
+          v.setComputed(false);
+          return;
+        }
+        if (v.getName() == VarsList.en.TIME) {
+          v.setComputed(false);
+          return;
+        }
+        // all other vars are auto computed
+        v.setComputed(true);
+      });
+  // Mass-Spring-Mass matrix says how springs & masses are connected
+  // each row corresponds to a spring, with indices of masses connected to that spring.
+  this.msm_ = Molecule3Sim.getMSM(numAtoms);
+  // Special Group of springs. These are indices in springs_ array.
+  this.sg_ = Molecule3Sim.getSG(numAtoms);
+  // Non-Special Group of springs. These are indices in springs_ array.
+  this.nsg_ = Molecule3Sim.getNSG(this.msm_.length, this.sg_);
+  for (var i=0; i<numAtoms; i++) {
+    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
+    this.atoms_.push(atom);
+    this.getSimList().add(atom);
+  }
+  for (i=0; i<this.msm_.length; i++) {
+    var special = goog.array.contains(this.sg_, i);
+    var name = (special ? 'special ' : '') + 'spring '+i;
+    var spring = new Spring(name,
+      this.atoms_[this.msm_[i][0]], Vector.ORIGIN,
+      this.atoms_[this.msm_[i][1]], Vector.ORIGIN,
+      /*restLength=*/3.0, /*stiffness=*/6.0);
+    spring.setDamping(0);
+    this.springs_.push(spring);
+    this.getSimList().add(spring);
+  }
+  this.initialConfig();
+  this.saveInitialState();
+  this.modifyObjects();
+};
+
 /** Sets initial position of atoms.
 * @return {undefined}
 * @private
@@ -511,7 +535,7 @@ Molecule3Sim.prototype.initialConfig = function()  {
   //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
   var r = 1.0; // radius
-  var n = this.atoms_.length;
+  var n = this.numAtoms_;
   for (var i=0; i<n; i++) {
     var rnd = 1.0 + 0.1 * this.random_.nextFloat();
     vars[0 + i*4] = r * Math.cos(rnd*i*2*Math.PI/n);
@@ -580,7 +604,7 @@ Molecule3Sim.prototype.modifyObjects = function() {
   var vars = va.getValues();
   this.moveObjects(vars);
   var ei = this.getEnergyInfo_(vars);
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   va.setValue(n, ei.getTranslational(), true);
   va.setValue(n+1, ei.getPotential(), true);
   va.setValue(n+2, ei.getTotalEnergy(), true);
@@ -648,7 +672,7 @@ Molecule3Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
     va.setValue(2 + idx, 0);
     va.setValue(3 + idx, 0);
     // derived energy variables are discontinuous
-    var n = this.nm_*4;
+    var n = this.numAtoms_*4;
     va.incrSequence(n, n+1, n+2);
     this.moveObjects(va.getValues());
   }
@@ -723,7 +747,7 @@ Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
     }
   }, this);
   // derived energy variables are discontinuous
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   va.incrSequence(n, n+1, n+2);
   return true;
 };
@@ -732,7 +756,7 @@ Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
 Molecule3Sim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
-  change[this.nm_*4+3] = 1; // time
+  change[this.numAtoms_*4+3] = 1; // time
   var walls = this.walls_.getBoundsWorld();
   goog.array.forEach(this.atoms_, function(atom, listIdx) {
     if (this.dragAtom_ == listIdx) {
@@ -801,7 +825,7 @@ Molecule3Sim.prototype.setGravity = function(value) {
   this.gravity_ = value;
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.GRAVITY);
 };
@@ -854,7 +878,7 @@ Molecule3Sim.prototype.setMass = function(value) {
   });
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n, n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.MASS);
 };
@@ -873,7 +897,7 @@ Molecule3Sim.prototype.setMassSpecial = function(value) {
   this.atoms_[0].setMass(value);
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n, n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.MASS_SPECIAL);
 };
@@ -894,7 +918,7 @@ Molecule3Sim.prototype.setLength = function(value) {
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.LENGTH);
 };
@@ -915,7 +939,7 @@ Molecule3Sim.prototype.setLengthSpecial = function(value) {
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.LENGTH_SPECIAL);
 };
@@ -936,7 +960,7 @@ Molecule3Sim.prototype.setStiffness = function(value) {
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.STIFFNESS);
 };
@@ -957,7 +981,7 @@ Molecule3Sim.prototype.setStiffnessSpecial = function(value) {
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  var n = this.numAtoms_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule3Sim.en.STIFFNESS_SPECIAL);
 };

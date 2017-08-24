@@ -260,10 +260,10 @@ ChoiceControlBase.prototype.setChoice = function(index) {
       } else if (index > n-1) {
         index = n-1;
       }
-      // set this.currentIndex_ first to prevent the update() coming here twice
+      // set this.currentIndex_ first to prevent the observe() coming here twice
       this.currentIndex_ = index;
       if (index > -1) {
-        // parameter.setValue() broadcasts which causes update() to be called here
+        // parameter.setValue() broadcasts which causes observe() to be called here
         this.setter_(this.values_[index]);
       }
     } catch(ex) {

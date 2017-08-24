@@ -109,7 +109,7 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('#6f6');
 
-  // The update() method will make DisplayObjects in response to seeing SimObjects
+  // The observe() method will make DisplayObjects in response to seeing SimObjects
   // being added to the SimList.  Important that no SimObjects were added prior.
   goog.asserts.assert(this.simList.length() == 0);
   this.simList.addObserver(this);

@@ -291,7 +291,7 @@ CollideSpringSim.prototype.getVariableName = function(idx, numBlocks, localized)
   throw new Error();
 };
 
-/** Set number of atoms and set simulation to initial state.
+/** Set number of blocks and set simulation to initial state.
 * @param {number} numBlocks number of moveable blocks to make
 * @param {number} startPosition starting position of blocks: 0 = middle, 1 = on-wall
 * @param {number} startGap gap between objects in starting position
