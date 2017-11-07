@@ -147,7 +147,7 @@ Note that "configuration" Parameters violate this concept of Parameter Independe
 which is why we specify the affected Subjects to be "dependent".
 
 
-<a name="dependentsubjects"></a>
+<a id="dependentsubjects"></a>
 Dependent Subjects
 -----------------
 A dependent Subject can be changed by a controlling "configuration" Parameter. The
@@ -180,7 +180,7 @@ The {@link #script} method ensures that dependent Subjects are modified at the e
 the script, so that those changes are not overridden by a configuration Parameter.
 
 
-<a name="easyscriptembeddedinurl"></a>
+<a id="easyscriptembeddedinurl"></a>
 EasyScript Embedded in URL
 --------------------------
 To save a customized version of a simulation, or share it with someone else, use

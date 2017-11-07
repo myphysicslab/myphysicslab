@@ -68,7 +68,7 @@ can be accomplished by changing the simulation rectangle of a LabView (which cha
 its CoordMap accordingly).
 
 
-<a name="focusview"></a>
+<a id="focusview"></a>
 ### Focus View
 
 The {@link #getFocusView focus view} is the LabView that the user expects to modify by

@@ -49,7 +49,7 @@ Perhaps the most useful command is `vars` which shows the list of variables that
 available.
 
 
-<a name="twotypesofscripts"></a>
+<a id="twotypesofscripts"></a>
 Two Types of Scripts
 --------------------
 
@@ -88,7 +88,7 @@ examples that can be entered in
     easyScript.getParameter('gravity').setValue(2.5)
 
 
-<a name="safesubsetofjavascript"></a>
+<a id="safesubsetofjavascript"></a>
 Safe Subset of JavaScript
 -------------------------
 
@@ -138,7 +138,7 @@ functions {@link Util#get} and {@link Util#set}:
     red,green,orange
 
 
-<a name="shortnames"></a>
+<a id="shortnames"></a>
 Short Names
 -----------
 To allow for shorter scripts, we define a variety of regular expressions which
@@ -198,7 +198,7 @@ for commands in the same string, but that version of `result` is temporary and
 independent of the permanent `result` variable.
 
 
-<a name="thezobject"></a>
+<a id="thezobject"></a>
 The z Object
 --------------
 [Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
@@ -283,7 +283,7 @@ the browser interprets that to mean "move to the next field". You can use `\u000
 `\x09` which are replaced by a tab character before the script is evaluated.
 
 
-<a name="urlqueryscript"></a>
+<a id="urlqueryscript"></a>
 URL Query Script
 ----------------
 
@@ -335,7 +335,7 @@ application:
 which contains the above code; you should also see the code in the Terminal output area.
 
 
-<a name="sessionhistory"></a>
+<a id="sessionhistory"></a>
 Session History
 ---------------
 The session history feature recalls previous input lines; these are accessed using the
@@ -345,7 +345,7 @@ This feature is only for the convenience of the Terminal user, and has no relati
 the script storage feature.
 
 
-<a name="scriptstorage"></a>
+<a id="scriptstorage"></a>
 Script Storage
 --------------
 
@@ -369,7 +369,7 @@ be a different stored script.
 See [Internationalization](Building.html#internationalizationi18n).
 
 
-<a name="advanced-compiledisablesjavascript"></a>
+<a id="advanced-compiledisablesjavascript"></a>
 Advanced-compile disables JavaScript
 ------------------------------------
 

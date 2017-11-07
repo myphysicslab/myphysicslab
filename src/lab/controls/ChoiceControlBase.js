@@ -56,7 +56,7 @@ should be localized (translated) strings.
 given to the setter function to change the target object.
 
 
-<a name="noselectionstate"></a>
+<a id="noselectionstate"></a>
 'No Selection' State
 --------------------
 A ChoiceControlBase can be in a state of 'no selection', which is indicated by index of

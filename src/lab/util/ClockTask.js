@@ -48,7 +48,7 @@ Example of a ClockTask that slows the time rate the Clock after 5 seconds:
     clock.addTask(task);
     sim.reset();
 
-See Clock section {@linkplain myphysicslab.lab.util.Clock#typesoftime Types of Time}
+See Clock section [Types of Time](myphysicslab.lab.util.Clock.html#typesoftime)
 about *clock time* and *system time*.
 
 * @param {number} time the clock time in seconds when the callBack should start

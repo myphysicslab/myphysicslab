@@ -49,7 +49,8 @@ the SimObject then it should return `false`.
     simulation coordinates of the LabView where `simObject` was found, or in the
     [focus view](myphysicslab.lab.view.LabCanvas.html#focusview) if `simObject` is
     `null`.
-@param {!Vector} offset distance from the initial object position
+@param {!Vector} offset distance from the initial object position (from
+    [DisplayObject#getPosition](myphysicslab.lab.view.DisplayObject.html#getPosition))
     to the mouse location at start of drag
 @param {?Vector} dragBody location of 'drag point' on the
     SimObject in body coordinates of the SimObject; this is where for example a spring
@@ -65,10 +66,8 @@ appropriate. Only called if {@link #startDrag} returned `true`. The
 SimObject being moved is passed in, along with the current mouse position, in
 simulation coordinates, and an offset calculated at the start of the drag.
 
-The offset is distance from initial object position (from
-{@link SimObject#getPosition}) to mouse position at start of drag. Setting the
-SimObject position to `(x - offsetX, y - offsetY)` will move the SimObject smoothly
-along with the mouse movement.
+Setting the SimObject position to `(x - offsetX, y - offsetY)` will move the SimObject
+smoothly along with the mouse movement.
 
 @param {?SimObject} simObject the SimObject being dragged, or
     `null` if no SimObject was found
@@ -76,7 +75,8 @@ along with the mouse movement.
     simulation coordinates of the LabView where `simObject` was found, or in the
     [focus view](myphysicslab.lab.view.LabCanvas.html#focusview) if `simObject` is
     `null`.
-@param {!Vector} offset distance from the initial object position
+@param {!Vector} offset distance from the initial object position (from
+    [DisplayObject#getPosition](myphysicslab.lab.view.DisplayObject.html#getPosition))
     to the mouse location at start of drag.
 @param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
 */

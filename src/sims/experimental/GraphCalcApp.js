@@ -38,7 +38,6 @@ goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Termi
 goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
 goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
 goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericObserver'); // for usage in Terminal
 goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
 
 goog.scope(function() {

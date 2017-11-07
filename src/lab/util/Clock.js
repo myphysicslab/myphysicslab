@@ -52,7 +52,7 @@ While a *unit of simulation time* can be interpreted to mean anything from
 a millisecond to a millenium, we use the Clock to advance the Simulation time along
 with real time as though each unit of time is equal to one second of real time.
 
-<a name="typesoftime"></a>
+<a id="typesoftime"></a>
 ## Types of Time
 
 There are several types of time considered here: system time, clock time, simulation
@@ -64,7 +64,7 @@ have a different meaning – see
 the other time measurements. For example, clock time and real time each have a "system
 start time" by which they are measured. System time is always running.
 
-<a name="clocktime"></a>
+<a id="clocktime"></a>
 + **Clock Time** is given by {@link #getTime}.
 Clock time advances at the current {@link #getTimeRate time rate} (multiple of system
 time). Clock time can be modified directly by calling {@link #setTime}. Clock time can
@@ -75,7 +75,7 @@ Simulation time is advanced by the client, usually to keep up with clock time. W
 performance problems occur, the clock time can be retarded via {@link #setTime} to
 match the current simulation time.
 
-<a name="realtime"></a>
+<a id="realtime"></a>
 + **Real Time** is given by {@link #getRealTime}. Closely related to clock time, real
 time is used to measure performance: how much the simulation time
 has slipped behind real time because the simulation couldn't compute
@@ -100,7 +100,7 @@ A typical use of ClockTask is to restart the simulation after a few seconds, whi
 makes the simulation repeatedly "loop" showing it's first few seconds.
 
 
-<a name="stepmode"></a>
+<a id="stepmode"></a>
 ## Step Mode
 
 The {@link #step} method puts the Clock into a special *step mode*. Clients should check

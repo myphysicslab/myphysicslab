@@ -104,14 +104,14 @@ can add this bit of CSS code:
 There are other such CSS options for other browsers.
 
 
-<a name="labviewpanning"></a>
+<a id="labviewpanning"></a>
 LabView Panning
 ------------
 When specified modifier keys are pressed (such as option key) then mouse drag events
 will directly pan the focus LabView instead of sending events to the EventHandler. An
 instance of {@link ViewPanner} is created to handle the LabView panning. Panning is
-accomplished by modifying the simulation rectangle of the LabView with {@link
-LabView#setSimRect}.
+accomplished by modifying the simulation rectangle of the LabView with
+{@link LabView#setSimRect}.
 
 If LabView panning is enabled, it only occurs when the specified combination of
 modifier keys are down during the mouse event, given in the `panModifier` parameter.
