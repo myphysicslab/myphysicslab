@@ -76,7 +76,7 @@ There are around 50 different simulations in the source code, each of which has
 has an example file which is mainly for development and testing.
 
 The example files are available online in two forms:
-[advanced-compiled](http://www.myphysicslab.com/develop/adv-build/index_en.html)
+[advanced-compiled](https://www.myphysicslab.com/develop/adv-build/index-en.html)
 which loads faster and
-[simple-compiled](http://www.myphysicslab.com/develop/build/index_en.html)
+[simple-compiled](https://www.myphysicslab.com/develop/build/index-en.html)
 which allows for more customization.
