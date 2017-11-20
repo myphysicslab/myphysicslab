@@ -131,6 +131,21 @@ all:
 # You can use sampleConfig.mk as a model when creating your own custom myConfig.mk.
 include myConfig.mk
 
+# Detect which operating system we are running under
+# From: https://stackoverflow.com/questions/714100/os-detecting-makefile
+ifeq ($(OS),Windows_NT)
+    detected_OS := Windows
+else
+    detected_OS := $(shell uname -s)
+endif
+
+# Different copy command for different operating systems
+# For MacOS (Darwin) we want -X to not copy extended attributes
+COPY_CMD := cp -va
+ifeq ($(detected_OS),Darwin)
+    COPY_CMD := cp -vaX
+endif
+
 # ?= is for conditional variables: only happens if variable not yet defined and
 # when used (lazy). Can be overridden via command line, environment variable, etc.
 
@@ -319,11 +334,11 @@ combo_names := sims/experimental/CollisionCombo
 
 bld_combos := $(addprefix $(BUILD_DIR)/,$(combo_names))
 
-# Copy .css files to build/sims/layout
+# Copy stylesheet.css to build/
 bld_css := $(BUILD_DIR)/stylesheet.css
 $(bld_css): $(BUILD_DIR)/%.css : src/%.css
 	@mkdir -v -p $(dir $@)
-	@cp -vaX $< $@
+	@$(COPY_CMD) $< $@
 
 # Copy images to build/images
 img_files := $(wildcard src/images/*.png src/images/*.gif src/images/*.jpg \
@@ -332,7 +347,7 @@ src/images/*.mp3)
 build_images := $(subst src/,$(BUILD_DIR)/,$(img_files))
 $(build_images): $(BUILD_DIR)/images/% : src/images/%
 	@mkdir -v -p $(dir $@)
-	@cp -vaX $< $@
+	@$(COPY_CMD) $< $@
 
 src_js := $(shell find src -name '*.js')
 lab_js := $(shell find src/lab -name '*.js')
@@ -577,7 +592,7 @@ $(index_files): $(BUILD_DIR)/index-%.html : src/index.html src/macros.html
 doc_css := $(subst src/docs/,docs/,$(wildcard src/docs/*.css))
 $(doc_css): docs/%.css : src/docs/%.css
 	@mkdir -v -p $(dir $@)
-	@cp -vaX $< $@
+	@$(COPY_CMD) $< $@
 
 # Copy all .svg files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
@@ -585,7 +600,7 @@ $(doc_css): docs/%.css : src/docs/%.css
 doc_svg := $(subst src/docs/,docs/,$(wildcard src/docs/*.svg))
 $(doc_svg): docs/%.svg : src/docs/%.svg
 	@mkdir -v -p $(dir $@)
-	@cp -vaX $< $@
+	@$(COPY_CMD) $< $@
 
 # Copy all .pdf files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
@@ -593,7 +608,7 @@ $(doc_svg): docs/%.svg : src/docs/%.svg
 doc_pdf := $(subst src/docs/,docs/,$(wildcard src/docs/*.pdf))
 $(doc_pdf): docs/%.pdf : src/docs/%.pdf
 	@mkdir -v -p $(dir $@)
-	@cp -vaX $< $@
+	@$(COPY_CMD) $< $@
 
 # Copy all .png files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
@@ -601,7 +616,7 @@ $(doc_pdf): docs/%.pdf : src/docs/%.pdf
 doc_png := $(subst src/docs/,docs/,$(wildcard src/docs/*.png))
 $(doc_png): docs/%.png : src/docs/%.png
 	@mkdir -v -p $(dir $@)
-	@cp -vaX $< $@
+	@$(COPY_CMD) $< $@
 
 # Markdown documentation .md files are transformed to .html files by multimarkdown
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
