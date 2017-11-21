@@ -700,7 +700,10 @@ Molecule4Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
 /** @inheritDoc */
 Molecule4Sim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragAtom_ = -1;
-  this.saveInitialState();
+  // modify initial conditions ONLY when changes happen at time zero
+  if (!Util.veryDifferent(this.getTime(), 0)) {
+    this.saveInitialState();
+  }
 };
 
 /** @inheritDoc */

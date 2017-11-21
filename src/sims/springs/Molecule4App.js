@@ -80,6 +80,9 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
   var advance = new CollisionAdvance(sim);
   AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
+  // The SpringNonLinear is very "stiff", and sim is unstable with default
+  // timestep=0.025, so set it to be smaller.
+  this.simRun.setTimeStep(0.01);
   this.layout.simCanvas.setBackground('black');
 
   /** @type {!DisplaySpring} */
