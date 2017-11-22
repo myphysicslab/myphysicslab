@@ -407,12 +407,12 @@ var testTerminal8 = function() {
   assertRoughlyEquals(0.5, t.eval('(1\t/8)+ (3 /8)'), 1E-10);
   assertRoughlyEquals(3/8, t.eval('(1/8);(3/8)'), 1E-10);
   assertRoughlyEquals(3/8, t.eval('(1\t/8);(3 /8)'), 1E-10);
-  // incomplete string gives "SyntaxError: Unexpected EOF" but the error message
-  // could vary in different browsers.
+  // incomplete string gives "SyntaxError: Unexpected EOF" in Safari.
+  // In Firefox and Chrome get "SyntaxError: unterminated string literal"
   var err = String(assertThrows(function(){ t.eval('foo"bar'); }));
-  assertNotNull(err.match(/.*EOF.*/i));
+  assertNotNull(err.match(/^SyntaxError.*/i));
   err = String(assertThrows(function(){ t.eval('\'incomplete string'); }));
-  assertNotNull(err.match(/.*EOF.*/i));
+  assertNotNull(err.match(/^SyntaxError.*/i));
   // regex containing a slash
   txt = 'foo/bar';
   r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/.*\\/.*/)'));
