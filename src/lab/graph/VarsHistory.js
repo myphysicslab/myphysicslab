@@ -123,7 +123,7 @@ VarsHistory.prototype.getVariables = function() {
 
 /** @inheritDoc */
 VarsHistory.prototype.memorize = function() {
-  var vars = this.variablesList_.getValues();
+  var vars = this.variablesList_.getValues(/*computed=*/true);
   var data = goog.array.map(this.varIndex_, function(idx) { return vars[idx]; });
   // only store if the new point is different from the last point
   var last = this.dataPoints_.getEndValue();

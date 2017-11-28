@@ -358,10 +358,19 @@ VarsList.prototype.getValue = function(index) {
 };
 
 /** Returns an array with the current value of each variable.
-@return {!Array<number>} an array with the current value of each variable
+@param {boolean=} computed whether to include computed variables,
+    see {@link Parameter#isComputed}; default is false.
+@return {!Array<number>} an array with the current value of each variable.
+    Computed variables have value of NaN unless requested.
 */
-VarsList.prototype.getValues = function() {
-  return goog.array.map(this.varList_, function(v) { return v.getValue(); });
+VarsList.prototype.getValues = function(computed) {
+  return goog.array.map(this.varList_, function(v) {
+    if (!computed && v.isComputed()) {
+      return NaN;
+    } else {
+      return v.getValue();
+    }
+  });
 };
 
 /** Returns the Variable object at the given index or with the given name
@@ -508,12 +517,12 @@ See {@link #incrSequence}.
 @param {boolean=} continuous `true` means this new value is continuous with
     previous values; `false` (the default) means the new value is discontinuous with
     previous values, so the sequence number for the variable is incremented
-@throws {!Error} if value is `NaN`
+@throws {!Error} if value is `NaN` for a non-computed variable
 */
 VarsList.prototype.setValue = function(index, value, continuous) {
   this.checkIndex_(index);
   var variable = this.varList_[index];
-  if (isNaN(value)) {
+  if (isNaN(value) && !variable.isComputed()) {
     throw new Error('cannot set variable '+variable.getName()+' to NaN');
   }
   if (continuous) {

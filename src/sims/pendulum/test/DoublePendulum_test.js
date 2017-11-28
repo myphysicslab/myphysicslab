@@ -190,7 +190,7 @@ var testDoublePendulum = function() {
     simpleAdv.advance(timeStep);
     time += timeStep;
     assertRoughlyEquals(time, sim.getTime(), tol);
-    var vars = sim.getVarsList().getValues();
+    var vars = sim.getVarsList().getValues(/*computed=*/true);
     // check expected values
     for (var j=0; j<4; j++) {
       assertRoughlyEquals(expect[i][j], vars[j], 2E-5);
@@ -198,7 +198,7 @@ var testDoublePendulum = function() {
     // check that energy is constant
     assertRoughlyEquals(1.0047901623242046, vars[8], 2E-5);
     //console.log('time='+Util.NF5(sim.getVarsList().getTime()));
-    //Util.printArray(sim.getVarsList().getValues());
+    //Util.printArray(sim.getVarsList().getValues(/*computed=*/true));
   }
 
   sim.setPotentialEnergy(99);

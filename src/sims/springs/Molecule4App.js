@@ -115,20 +115,19 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
   }
   // add variables for kinetic energy of atoms 1, 2, 3
   var va = sim.getVarsList();
-  var totalEnergy = sim.getEnergyInfo().getTotalEnergy();
   var atom1 = sim.getSimList().getPointMass('atom1');
   va.addVariable(new FunctionVariable(va, 'ke1', 'ke1', function() {
     return atom1.getKineticEnergy();
   }));
   va.addVariable(new FunctionVariable(va, 'ke1 pct', 'ke1 pct', function() {
-    return 100*atom1.getKineticEnergy()/totalEnergy;
+    return 100*atom1.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
   }));
   var atom2 = sim.getSimList().getPointMass('atom2');
   va.addVariable(new FunctionVariable(va, 'ke2', 'ke2', function() {
     return atom2.getKineticEnergy();
   }));
   va.addVariable(new FunctionVariable(va, 'ke2 pct', 'ke2 pct', function() {
-    return 100*atom2.getKineticEnergy()/totalEnergy;
+    return 100*atom2.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
   }));
   if (numAtoms > 2) {
     var atom3 = sim.getSimList().getPointMass('atom3');
@@ -136,7 +135,7 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
       return atom3.getKineticEnergy();
     }));
     va.addVariable(new FunctionVariable(va, 'ke3 pct', 'ke3 pct', function() {
-      return 100*atom3.getKineticEnergy()/totalEnergy;
+      return 100*atom3.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
     }));
   }
 

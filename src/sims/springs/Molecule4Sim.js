@@ -229,13 +229,13 @@ myphysicslab.sims.springs.Molecule4Sim = function(nm, opt_name) {
       this.makeVarNames(nm, /*localized=*/true), this.getName()+'_VARS');
   this.setVarsList(va);
   // variables other than time and x- and y- position and velocity are auto computed.
-  var cv = goog.array.map(va.toArray(),
+  goog.array.map(va.toArray(),
       function(v) {
         if (v.getName().match(/^(X|Y)_(POSITION|VELOCITY).*/)) {
           v.setComputed(false);
           return;
         }
-        if (v.getName() == VarsList.en.TIME) {
+        if (v.getName() == Util.toName(VarsList.en.TIME)) {
           v.setComputed(false);
           return;
         }

@@ -398,7 +398,7 @@ RigidBodySim.prototype.setSimRect = function(rect) {
 @return {string} string showing current variables of each RigidBody, for debugging.
 */
 RigidBodySim.prototype.formatVars = function() {
-  var v = this.varsList_.getValues();
+  var v = this.varsList_.getValues(/*computed=*/true);
   var s = goog.array.reduce(this.bods_,
     function(str, b) {
       return str + (str != '' ? '\n' : '') +

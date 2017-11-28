@@ -95,7 +95,7 @@ var testVarsList1 = function() {
   assertEquals(3, va.getVariable(1).getSequence());
   va.setValue(timeIdx, va.getTime() + 0.01, /*continuous=*/true);
   assertEquals(0, va.getVariable(timeIdx).getSequence());
-  var recentVars = va.getValues();
+  var recentVars = va.getValues(/*computed=*/true);
   var recentTime = va.getTime();
   assertEquals(0.01, recentTime);
   assertEquals(3.1, va.getValue(0));

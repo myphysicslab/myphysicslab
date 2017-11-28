@@ -449,7 +449,7 @@ Engine2DTestRig.checkResult = function(sim, expected, tolerance) {
   var idx = -1; // index of variable with error
   var maxDiff = 0; // difference of expected to actual
   /** @type {!Array<number>} */
-  var vars = sim.getVarsList().getValues();
+  var vars = sim.getVarsList().getValues(/*computed=*/true);
   goog.asserts.assert( vars.length >= expected.length );
   for (var i=0; i<expected.length; i++) {
     if (isNaN(expected[i]))
@@ -759,7 +759,7 @@ code.
 Engine2DTestRig.printVars = function(sim) {
   // @todo  fix this for when time is at the front of variable list.
   var X=0, VX=1, Y=2, VY=3, W=4, VW=5;
-  var vars = sim.getVarsList().getValues();
+  var vars = sim.getVarsList().getValues(/*computed=*/true);
   var numBods = sim.getBodies().length;
   for (var i=0; i<numBods; i++) {
     var idx = sim.getBody(i).getVarsIndex();
@@ -781,7 +781,7 @@ Engine2DTestRig.printVars = function(sim) {
 @private
 */
 Engine2DTestRig.printRigidBody = function(sim, index) {
-  var vars = sim.getVarsList().getValues();
+  var vars = sim.getVarsList().getValues(/*computed=*/true);
   var offset = index*6;
   // @todo  fix this for when time is at the front of variable list.
   var X=0, VX=1, Y=2, VY=3, W=4, VW=5;

@@ -490,7 +490,7 @@ Molecule3Sim.prototype.config = function(numAtoms)  {
           v.setComputed(false);
           return;
         }
-        if (v.getName() == VarsList.en.TIME) {
+        if (v.getName() == Util.toName(VarsList.en.TIME)) {
           v.setComputed(false);
           return;
         }
