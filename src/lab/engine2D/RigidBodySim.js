@@ -508,6 +508,7 @@ RigidBodySim.prototype.addBody = function(body) {
   });
 };
 
+
 /** Removes the Polygon from the simulation and SimList, and removes the corresponding
 variables from the VarsList.
 * @param {!Polygon} body Polygon to remove from the simulation
@@ -567,15 +568,16 @@ RigidBodySim.prototype.getBody = function(numOrName) {
 RigidBodySim.prototype.initializeFromBody = function(body) {
   body.eraseOldCoords();
   var idx = body.getVarsIndex();
-  if (idx > -1) {
-    var va = this.varsList_;
-    va.setValue(RigidBodySim.X_ + idx, body.getPosition().getX());
-    va.setValue(RigidBodySim.Y_ + idx, body.getPosition().getY());
-    va.setValue(RigidBodySim.W_ + idx, body.getAngle());
-    va.setValue(RigidBodySim.VX_ + idx, body.getVelocity().getX());
-    va.setValue(RigidBodySim.VY_ + idx, body.getVelocity().getY());
-    va.setValue(RigidBodySim.VW_ + idx, body.getAngularVelocity());
+  if (idx < 0) {
+    throw new Error("unknown body "+body);
   }
+  var va = this.varsList_;
+  va.setValue(RigidBodySim.X_ + idx, body.getPosition().getX());
+  va.setValue(RigidBodySim.Y_ + idx, body.getPosition().getY());
+  va.setValue(RigidBodySim.W_ + idx, body.getAngle());
+  va.setValue(RigidBodySim.VX_ + idx, body.getVelocity().getX());
+  va.setValue(RigidBodySim.VY_ + idx, body.getVelocity().getY());
+  va.setValue(RigidBodySim.VW_ + idx, body.getAngularVelocity());
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
 };
