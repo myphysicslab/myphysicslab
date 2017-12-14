@@ -538,7 +538,7 @@ RigidBodySim.prototype.getBodies = function() {
 *    (either the English or language-independent version of the name)
 * @return {!Polygon} the Polygon with the given name or at
 *    the given position in the list of Polygons
-* @throws exception if requesting a non-existing body.
+* @throws {!Error} if requesting a non-existing body.
 */
 RigidBodySim.prototype.getBody = function(numOrName) {
   /** @type {Polygon} */
@@ -564,6 +564,7 @@ RigidBodySim.prototype.getBody = function(numOrName) {
 * position and velocity to the simulation's VarsList).
 * @param {!Polygon} body the Polygon to use for updating
 *     the simulation variables
+* @throws {!Error} if the body is not recognized
 */
 RigidBodySim.prototype.initializeFromBody = function(body) {
   body.eraseOldCoords();
