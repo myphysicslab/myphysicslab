@@ -247,7 +247,7 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   * @type {number}
   * @private
   */
-  this.sliderValue_ = Number(this.slider_.value);
+  this.sliderValue_ = this.incrementToValue(Number(this.slider_.value));
   /** the text field showing the double value
   * @type {!HTMLInputElement}
   * @private
