@@ -362,68 +362,7 @@ Molecule5App.prototype.config = function() {
   // kluge: should set potential energy to zero once damping eliminates all movement
   // but we have no way to do that.
   this.sim_.setPotentialEnergy(5);
-
-  // add variables for kinetic energy of atoms 1, 2, 3
-  var sim = this.sim_;
-  var va = sim.getVarsList();
-  va.addVariable(new FunctionVariable(va, 'ke1', 'ke1', function() {
-    var atom1 = sim.getSimList().getPointMass('atom1');
-    return atom1.getKineticEnergy();
-  }));
-  va.addVariable(new FunctionVariable(va, 'ke1 pct', 'ke1 pct', function() {
-    var atom = sim.getSimList().getPointMass('atom1');
-    return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-  }));
-  if (this.numAtoms_ > 1) {
-    va.addVariable(new FunctionVariable(va, 'ke2', 'ke2', function() {
-      var atom = sim.getSimList().getPointMass('atom2');
-      return atom.getKineticEnergy();
-    }));
-    va.addVariable(new FunctionVariable(va, 'ke2 pct', 'ke2 pct', function() {
-      var atom = sim.getSimList().getPointMass('atom2');
-      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-    }));
-  }
-  if (this.numAtoms_ > 2) {
-    va.addVariable(new FunctionVariable(va, 'ke3', 'ke3', function() {
-      var atom = sim.getSimList().getPointMass('atom3');
-      return atom.getKineticEnergy();
-    }));
-    va.addVariable(new FunctionVariable(va, 'ke3 pct', 'ke3 pct', function() {
-      var atom = sim.getSimList().getPointMass('atom3');
-      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-    }));
-  }
-  if (this.numAtoms_ > 3) {
-    va.addVariable(new FunctionVariable(va, 'ke4', 'ke4', function() {
-      var atom = sim.getSimList().getPointMass('atom4');
-      return atom.getKineticEnergy();
-    }));
-    va.addVariable(new FunctionVariable(va, 'ke4 pct', 'ke4 pct', function() {
-      var atom = sim.getSimList().getPointMass('atom4');
-      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-    }));
-  }
-  if (this.numAtoms_ > 4) {
-    va.addVariable(new FunctionVariable(va, 'ke5', 'ke5', function() {
-      var atom = sim.getSimList().getPointMass('atom5');
-      return atom.getKineticEnergy();
-    }));
-    va.addVariable(new FunctionVariable(va, 'ke5 pct', 'ke5 pct', function() {
-      var atom = sim.getSimList().getPointMass('atom5');
-      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-    }));
-  }
-  if (this.numAtoms_ > 5) {
-    va.addVariable(new FunctionVariable(va, 'ke6', 'ke6', function() {
-      var atom = sim.getSimList().getPointMass('atom6');
-      return atom.getKineticEnergy();
-    }));
-    va.addVariable(new FunctionVariable(va, 'ke6 pct', 'ke6 pct', function() {
-      var atom = sim.getSimList().getPointMass('atom6');
-      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-    }));
-  }
+  this.addKEVars();
 
   if (this.easyScript) {
     this.easyScript.update();
@@ -431,6 +370,31 @@ Molecule5App.prototype.config = function() {
   this.broadcastAll();
 };
 
+
+/** add variables for kinetic energy of atoms 1, 2, 3, etc.
+* @return {undefined}
+* @private
+*/
+Molecule5App.prototype.addKEVars = function()  {
+  var sim = this.sim_;
+  var va = sim.getVarsList();
+  for (var i=1; i<=this.numAtoms_; i++) {
+    var nm = 'ke'+i;
+    va.addVariable(new FunctionVariable(va, nm, nm,
+      goog.bind(function(idx) {
+        var atom1 = sim.getSimList().getPointMass('atom'+idx);
+        return atom1.getKineticEnergy();
+      }, null, i)
+    ));
+    var nm2 = 'ke'+i+' pct';
+    va.addVariable(new FunctionVariable(va, nm2, nm2,
+      goog.bind(function(idx) {
+        var atom = sim.getSimList().getPointMass('atom'+idx);
+        return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+      }, null, i)
+    ));
+  }
+};
 
 /** Broadcast all parameters that can potentially be changed when number of atoms
 changes.
