@@ -20,6 +20,7 @@ goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.lab.model.FunctionVariable');
+goog.require('myphysicslab.lab.model.EnergySystem');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimObject');
@@ -56,6 +57,7 @@ var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DisplayText = lab.view.DisplayText;
 var DoubleRect = lab.util.DoubleRect;
+var EnergySystem = lab.model.EnergySystem;
 var FunctionVariable = lab.model.FunctionVariable;
 var GenericMemo = lab.util.GenericMemo;
 var GenericObserver = lab.util.GenericObserver;
@@ -160,7 +162,7 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   * @type {!DisplayText}
   * @private
   */
-  this.residualEnergy_ = new DisplayText('foobar', /*position=*/new Vector(2, 2));
+  this.residualEnergy_ = new DisplayText('', /*position=*/new Vector(2, 2));
   this.residualEnergy_.setFillStyle('gray');
   this.displayList.add(this.residualEnergy_);
 
@@ -282,7 +284,8 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
           return Math.max(prev, cur);
         }, /*initial value=*/0);
       if (this.residualEnergySamples_.length >= 100 &&  max < 1e-4) {
-        this.residualEnergy_.setText('residual energy '+Util.NF3(ei.getPotential()));
+        this.residualEnergy_.setText(EnergySystem.i18n.POTENTIAL_ENERGY+
+            ' '+Util.NF3(ei.getPotential()));
         this.residualEnergySet_ = true;
       }
     }
