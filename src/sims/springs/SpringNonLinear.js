@@ -65,8 +65,8 @@ To attach one end to a fixed point you can attach to an infinite mass MassObject
 */
 myphysicslab.sims.springs.SpringNonLinear = function(name, body1, attach1_body,
       body2, attach2_body, restLength, stiffness) {
-  Spring.call(this, name, body1, attach1_body, body2, attach2_body, restLength, stiffness,
-      /*compressOnly=*/false);
+  Spring.call(this, name, body1, attach1_body, body2, attach2_body, restLength,
+      stiffness, /*compressOnly=*/false);
 };
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 goog.inherits(SpringNonLinear, Spring);

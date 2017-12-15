@@ -15,17 +15,21 @@
 goog.provide('myphysicslab.sims.springs.Molecule5App');
 
 goog.require('myphysicslab.lab.app.SimRunner');
+goog.require('myphysicslab.lab.controls.CheckBoxControl');
 goog.require('myphysicslab.lab.controls.NumericControl');
 goog.require('myphysicslab.lab.controls.SliderControl');
 goog.require('myphysicslab.lab.model.CollisionAdvance');
+goog.require('myphysicslab.lab.model.FunctionVariable');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.SimList');
 goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.DoubleRect');
+goog.require('myphysicslab.lab.util.GenericMemo');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
+goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('myphysicslab.lab.util.Util');
@@ -36,6 +40,7 @@ goog.require('myphysicslab.sims.common.AbstractApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.springs.Molecule3Sim');
+goog.require('myphysicslab.sims.springs.SpringNonLinear');
 
 goog.scope(function() {
 
@@ -43,15 +48,19 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
+var CheckBoxControl = lab.controls.CheckBoxControl;
 var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
+var FunctionVariable = lab.model.FunctionVariable;
+var GenericMemo = lab.util.GenericMemo;
 var GenericObserver = lab.util.GenericObserver;
 var Molecule3Sim = sims.springs.Molecule3Sim;
 var NumericControl = lab.controls.NumericControl;
 var Observer = lab.util.Observer;
+var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var RandomLCG = lab.util.RandomLCG;
@@ -60,6 +69,7 @@ var SimObject = lab.model.SimObject;
 var SimRunner = lab.app.SimRunner;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
+var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var TabLayout = sims.common.TabLayout;
 var Util = lab.util.Util;
 var VarsList = lab.model.VarsList;
@@ -93,11 +103,8 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   this.layout.simCanvas.setBackground('black');
 
   /** @type {!DisplaySpring} */
-  this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
+  this.protoSpring = new DisplaySpring().setWidth(0.15).setColorCompressed('#0c0')
       .setColorExpanded('green').setThickness(3);
-  /** @type {!DisplaySpring} */
-  this.protoSpecialSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#c00')
-      .setColorExpanded('red').setThickness(3);
 
   // The observe() method will make DisplayObjects in response to seeing SimObjects
   // being added to the SimList.  Important that no SimObjects were added prior.
@@ -117,16 +124,26 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   * @private
   */
   this.msm_ = [];
-  /** Special Group of springs. These are indices in sim.getSprings() array.
-  * @type {!Array<number>}
+  /** Whether springs should be displayed.
+  * @type {boolean}
   * @private
   */
-  this.sg_ = [];
-  /** Non-Special Group of springs. These are indices in sim.getSprings() array.
-  * @type {!Array<number>}
+  this.showSprings_ = true;
+  /** Whether to create linear or non-linear springs
+  * @type {boolean}
   * @private
   */
-  this.nsg_ = [];
+  this.nonLinearSprings_ = true;
+  /** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
+  * @type {number}
+  * @private
+  */
+  this.ke_high_pct_ = 15;
+  /** whether to specially color atoms with high KE percentage.
+  * @type {boolean}
+  * @private
+  */
+  this.show_ke_high_ = true;
 
   /** @type {!ParameterNumber} */
   var pn;
@@ -145,6 +162,31 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
 
   pn = this.sim_.getParameterNumber(Molecule3Sim.en.ELASTICITY);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
+
+  /** @type {!ParameterBoolean} */
+  var pb;
+  this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.SHOW_SPRINGS,
+      Molecule5App.i18n.SHOW_SPRINGS,
+      goog.bind(this.getShowSprings, this),
+      goog.bind(this.setShowSprings, this)));
+  this.addControl(new CheckBoxControl(pb));
+
+  this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.NON_LINEAR_SPRINGS,
+      Molecule5App.i18n.NON_LINEAR_SPRINGS,
+      goog.bind(this.getNonLinearSprings, this),
+      goog.bind(this.setNonLinearSprings, this)));
+  this.addControl(new CheckBoxControl(pb));
+
+  this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.SHOW_KE_HIGH,
+      Molecule5App.i18n.SHOW_KE_HIGH,
+      goog.bind(this.getShowKEHigh, this),
+      goog.bind(this.setShowKEHigh, this)));
+  this.addControl(new CheckBoxControl(pb));
+
+  this.addParameter(pn = new ParameterNumber(this, Molecule5App.en.KE_HIGH_PCT,
+      Molecule5App.i18n.KE_HIGH_PCT,
+      goog.bind(this.getKEHighPct, this), goog.bind(this.setKEHighPct, this)));
+  this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
 
   this.addStandardControls();
 
@@ -179,6 +221,25 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
       this.timeGraph.autoScale.setActive(true);
     }
   }, this));
+
+  /** Causes atoms with high KE percentage (kinetic energy) to be brightly colored.
+  * @type {!GenericMemo}
+  * @private
+  */
+  this.ke_high_memo_ = new GenericMemo(goog.bind(function() {
+    goog.array.forEach(this.sim_.getAtoms(), function(atom, idx) {
+      var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
+      var ke_pct = ke_var.getValue();
+      var dispAtom = this.displayList.findShape(atom);
+      if (ke_pct > this.ke_high_pct_) {
+        dispAtom.setFillStyle('red');
+      } else {
+        dispAtom.setFillStyle('gray');
+      }
+    }, this);
+  }, this));
+  this.simRun.addMemo(this.ke_high_memo_);
+
 };
 var Molecule5App = myphysicslab.sims.springs.Molecule5App;
 goog.inherits(Molecule5App, AbstractApp);
@@ -230,9 +291,20 @@ Molecule5App.prototype.addBody = function(obj) {
       var atom = new DisplayShape(pm).setFillStyle(cm);
       this.displayList.add(atom);
     }
-  } else if (obj instanceof Spring) {
+  } else if (obj instanceof Spring || obj instanceof SpringNonLinear) {
     var s = /** @type {!Spring} */(obj);
     this.displayList.add(new DisplaySpring(s, this.protoSpring));
+  }
+};
+
+/**
+@param {!SimObject} obj
+@private
+*/
+Molecule5App.prototype.removeBody = function(obj) {
+  var dispObj = this.displayList.find(obj);
+  if (dispObj) {
+    this.displayList.remove(dispObj);
   }
 };
 
@@ -255,7 +327,7 @@ Molecule5App.prototype.observe =  function(event) {
 * @return {undefined}
 * @private
 */
-Molecule5App.prototype.config = function()  {
+Molecule5App.prototype.config = function() {
   var numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
     throw new Error('too many atoms '+numAtoms);
@@ -270,16 +342,89 @@ Molecule5App.prototype.config = function()  {
   }
   var atoms = this.sim_.getAtoms();
   for (i=0; i<this.msm_.length; i++) {
-    var spring = new Spring('spring '+i,
-      atoms[this.msm_[i][0]], Vector.ORIGIN,
-      atoms[this.msm_[i][1]], Vector.ORIGIN,
-      /*restLength=*/3.0, /*stiffness=*/6.0);
+    if (this.nonLinearSprings_) {
+      var spring = new SpringNonLinear('spring '+i,
+        atoms[this.msm_[i][0]], Vector.ORIGIN,
+        atoms[this.msm_[i][1]], Vector.ORIGIN,
+        /*restLength=*/3.0, /*stiffness=*/1.0);
+    } else {
+      var spring = new Spring('spring '+i,
+        atoms[this.msm_[i][0]], Vector.ORIGIN,
+        atoms[this.msm_[i][1]], Vector.ORIGIN,
+        /*restLength=*/3.0, /*stiffness=*/6.0);
+    }
     spring.setDamping(0);
     this.sim_.addSpring(spring);
   }
   this.initialPositions(numAtoms);
   this.sim_.saveInitialState();
   this.sim_.modifyObjects();
+  // kluge: should set potential energy to zero once damping eliminates all movement
+  // but we have no way to do that.
+  this.sim_.setPotentialEnergy(5);
+
+  // add variables for kinetic energy of atoms 1, 2, 3
+  var sim = this.sim_;
+  var va = sim.getVarsList();
+  va.addVariable(new FunctionVariable(va, 'ke1', 'ke1', function() {
+    var atom1 = sim.getSimList().getPointMass('atom1');
+    return atom1.getKineticEnergy();
+  }));
+  va.addVariable(new FunctionVariable(va, 'ke1 pct', 'ke1 pct', function() {
+    var atom = sim.getSimList().getPointMass('atom1');
+    return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+  }));
+  if (this.numAtoms_ > 1) {
+    va.addVariable(new FunctionVariable(va, 'ke2', 'ke2', function() {
+      var atom = sim.getSimList().getPointMass('atom2');
+      return atom.getKineticEnergy();
+    }));
+    va.addVariable(new FunctionVariable(va, 'ke2 pct', 'ke2 pct', function() {
+      var atom = sim.getSimList().getPointMass('atom2');
+      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+    }));
+  }
+  if (this.numAtoms_ > 2) {
+    va.addVariable(new FunctionVariable(va, 'ke3', 'ke3', function() {
+      var atom = sim.getSimList().getPointMass('atom3');
+      return atom.getKineticEnergy();
+    }));
+    va.addVariable(new FunctionVariable(va, 'ke3 pct', 'ke3 pct', function() {
+      var atom = sim.getSimList().getPointMass('atom3');
+      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+    }));
+  }
+  if (this.numAtoms_ > 3) {
+    va.addVariable(new FunctionVariable(va, 'ke4', 'ke4', function() {
+      var atom = sim.getSimList().getPointMass('atom4');
+      return atom.getKineticEnergy();
+    }));
+    va.addVariable(new FunctionVariable(va, 'ke4 pct', 'ke4 pct', function() {
+      var atom = sim.getSimList().getPointMass('atom4');
+      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+    }));
+  }
+  if (this.numAtoms_ > 4) {
+    va.addVariable(new FunctionVariable(va, 'ke5', 'ke5', function() {
+      var atom = sim.getSimList().getPointMass('atom5');
+      return atom.getKineticEnergy();
+    }));
+    va.addVariable(new FunctionVariable(va, 'ke5 pct', 'ke5 pct', function() {
+      var atom = sim.getSimList().getPointMass('atom5');
+      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+    }));
+  }
+  if (this.numAtoms_ > 5) {
+    va.addVariable(new FunctionVariable(va, 'ke6', 'ke6', function() {
+      var atom = sim.getSimList().getPointMass('atom6');
+      return atom.getKineticEnergy();
+    }));
+    va.addVariable(new FunctionVariable(va, 'ke6 pct', 'ke6 pct', function() {
+      var atom = sim.getSimList().getPointMass('atom6');
+      return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
+    }));
+  }
+
   if (this.easyScript) {
     this.easyScript.update();
   }
@@ -455,12 +600,105 @@ Molecule5App.prototype.setStiffness = function(index1, index2, value) {
   this.broadcastParameter(Molecule5App.en.STIFFNESS+' '+index1+'-'+index2);
 };
 
+/** Whether springs should be displayed.
+@return {boolean}
+*/
+Molecule5App.prototype.getShowSprings = function() {
+  return this.showSprings_;
+};
+
+/** Sets whether springs should be displayed.
+@param {boolean} value
+*/
+Molecule5App.prototype.setShowSprings = function(value) {
+  if (value != this.showSprings_) {
+    this.showSprings_ = value;
+    if (value) {
+      goog.array.forEach(this.sim_.getSprings(), function(spr) {
+        this.addBody(spr);
+      }, this);
+    } else {
+      goog.array.forEach(this.sim_.getSprings(), function(spr) {
+        this.removeBody(spr);
+      }, this);
+    }
+    this.broadcastParameter(Molecule5App.en.SHOW_SPRINGS);
+  }
+};
+
+/** Whether to create linear or non-linear springs
+@return {boolean}
+*/
+Molecule5App.prototype.getNonLinearSprings = function() {
+  return this.nonLinearSprings_;
+};
+
+/** Sets whether to create linear or non-linear springs/
+@param {boolean} value
+*/
+Molecule5App.prototype.setNonLinearSprings = function(value) {
+  if (this.nonLinearSprings_ != value) {
+    this.nonLinearSprings_ = value;
+    this.config();
+    this.broadcastParameter(Molecule5App.en.NON_LINEAR_SPRINGS);
+  }
+};
+
+/** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
+@return {number}
+*/
+Molecule5App.prototype.getKEHighPct = function() {
+  return this.ke_high_pct_;
+};
+
+/** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
+@param {number} value
+*/
+Molecule5App.prototype.setKEHighPct = function(value) {
+  if (this.ke_high_pct_ != value) {
+    this.ke_high_pct_ = value;
+    this.broadcastParameter(Molecule5App.en.KE_HIGH_PCT);
+  }
+};
+
+/** whether to specially color atoms with high KE percentage.
+@return {boolean}
+*/
+Molecule5App.prototype.getShowKEHigh = function() {
+  return this.show_ke_high_;
+};
+
+/** Sets whether to specially color atoms with high KE percentage.
+@param {boolean} value
+*/
+Molecule5App.prototype.setShowKEHigh = function(value) {
+  if (value != this.show_ke_high_) {
+    this.show_ke_high_ = value;
+    if (value) {
+      this.simRun.addMemo(this.ke_high_memo_);
+    } else {
+      this.simRun.removeMemo(this.ke_high_memo_);
+      goog.array.forEach(this.sim_.getAtoms(), function(atom) {
+        this.removeBody(atom);
+      }, this);
+      goog.array.forEach(this.sim_.getAtoms(), function(atom) {
+        this.addBody(atom);
+      }, this);
+    }
+    this.broadcastParameter(Molecule5App.en.SHOW_SPRINGS);
+  }
+};
+
 /** Set of internationalized strings.
 @typedef {{
   MASS: string,
   LENGTH: string,
   STIFFNESS: string,
-  NUM_ATOMS: string
+  NUM_ATOMS: string,
+  SHOW_SPRINGS: string,
+  NON_LINEAR_SPRINGS: string,
+  KE_HIGH_PCT: string,
+  SHOW_KE_HIGH: string
   }}
 */
 Molecule5App.i18n_strings;
@@ -472,7 +710,11 @@ Molecule5App.en = {
   MASS: 'mass',
   LENGTH: 'spring length',
   STIFFNESS: 'spring stiffness',
-  NUM_ATOMS: 'number of atoms'
+  NUM_ATOMS: 'number of atoms',
+  SHOW_SPRINGS: 'show springs',
+  NON_LINEAR_SPRINGS: 'non-linear springs',
+  KE_HIGH_PCT: 'KE high pct',
+  SHOW_KE_HIGH: 'show KE high pct'
 };
 
 /**
@@ -483,7 +725,11 @@ Molecule5App.de_strings = {
   MASS: 'Masse',
   LENGTH: 'Federl\u00e4nge',
   STIFFNESS: 'Federsteifheit',
-  NUM_ATOMS: 'zahl Masse'
+  NUM_ATOMS: 'zahl Masse',
+  SHOW_SPRINGS: 'zeige Federn',
+  NON_LINEAR_SPRINGS: 'nicht linear Federn',
+  KE_HIGH_PCT: 'KE hoch prozent',
+  SHOW_KE_HIGH: 'zeige KE hoch prozent'
 };
 
 /** Set of internationalized strings.
