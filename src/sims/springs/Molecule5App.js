@@ -36,6 +36,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
+goog.require('myphysicslab.lab.view.DisplayText');
 goog.require('myphysicslab.sims.common.AbstractApp');
 goog.require('myphysicslab.sims.common.CommonControls');
 goog.require('myphysicslab.sims.common.TabLayout');
@@ -53,6 +54,7 @@ var CollisionAdvance = lab.model.CollisionAdvance;
 var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
+var DisplayText = lab.view.DisplayText;
 var DoubleRect = lab.util.DoubleRect;
 var FunctionVariable = lab.model.FunctionVariable;
 var GenericMemo = lab.util.GenericMemo;
@@ -144,6 +146,23 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   * @private
   */
   this.show_ke_high_ = true;
+  /** array of recent kinetic energy samples.
+  * @type {!Array<number>}
+  * @private
+  */
+  this.residualEnergySamples_ = [];
+  /** whether residual energy has been calculated and displayed.
+  * @type {boolean}
+  * @private
+  */
+  this.residualEnergySet_ = false;
+  /** When kinetic energy is near zero, display current potential energy.
+  * @type {!DisplayText}
+  * @private
+  */
+  this.residualEnergy_ = new DisplayText('foobar', /*position=*/new Vector(2, 2));
+  this.residualEnergy_.setFillStyle('gray');
+  this.displayList.add(this.residualEnergy_);
 
   /** @type {!ParameterNumber} */
   var pn;
@@ -225,6 +244,7 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
       var vw = this.timeGraph.view.getWidth();
       this.timeGraph.view.setCenterX(vw/2);
       this.timeGraph.autoScale.setActive(true);
+      this.resetResidualEnergy();
     }
   }, this));
 
@@ -246,6 +266,28 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   }, this));
   this.simRun.addMemo(this.ke_high_memo_);
 
+  /** When kinetic energy is near zero, display current potential energy.
+  * @type {!GenericMemo}
+  * @private
+  */
+  this.residualEnergy_memo_ = new GenericMemo(goog.bind(function() {
+    if (!this.residualEnergySet_) {
+      var ei = this.sim_.getEnergyInfo();
+      this.residualEnergySamples_.push(ei.getTranslational());
+      if (this.residualEnergySamples_.length > 100) {
+        this.residualEnergySamples_.shift();
+      }
+      var max = goog.array.reduce(this.residualEnergySamples_,
+        function(prev, cur) {
+          return Math.max(prev, cur);
+        }, /*initial value=*/0);
+      if (this.residualEnergySamples_.length >= 100 &&  max < 1e-4) {
+        this.residualEnergy_.setText('residual energy '+Util.NF3(ei.getPotential()));
+        this.residualEnergySet_ = true;
+      }
+    }
+  }, this));
+  this.simRun.addMemo(this.residualEnergy_memo_);
 };
 var Molecule5App = myphysicslab.sims.springs.Molecule5App;
 goog.inherits(Molecule5App, AbstractApp);
@@ -321,10 +363,7 @@ Molecule5App.prototype.observe =  function(event) {
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
-      if (d != null) {
-        this.displayList.remove(d);
-      }
+      this.removeBody(obj);
     }
   }
 };
@@ -339,6 +378,7 @@ Molecule5App.prototype.config = function() {
     throw new Error('too many atoms '+numAtoms);
   }
   this.sim_.cleanSlate();
+  this.resetResidualEnergy();
   // Mass-Spring-Mass matrix says how springs & masses are connected
   // each row corresponds to a spring, with indices of masses connected to that spring.
   this.msm_ = Molecule5App.getMSM(numAtoms);
@@ -376,6 +416,15 @@ Molecule5App.prototype.config = function() {
   this.broadcastAll();
 };
 
+/**
+* @return {undefined}
+* @private
+*/
+Molecule5App.prototype.resetResidualEnergy = function() {
+  this.residualEnergySet_ = false;
+  this.residualEnergySamples_ = [];
+  this.residualEnergy_.setText('');
+};
 
 /** add variables for kinetic energy of atoms 1, 2, 3, etc.
 * @return {undefined}
