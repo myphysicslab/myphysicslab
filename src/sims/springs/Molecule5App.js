@@ -139,11 +139,6 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   * @private
   */
   this.nonLinearSprings_ = true;
-  /** initial potential energy
-  * @type {number}
-  * @private
-  */
-  this.initialPE_ = 5;
   /** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
   * @type {number}
   * @private
@@ -190,6 +185,9 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   pn = this.sim_.getParameterNumber(Molecule3Sim.en.ELASTICITY);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
 
+  pn = this.sim_.getParameterNumber(Molecule3Sim.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
+
   /** @type {!ParameterBoolean} */
   var pb;
   this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.SHOW_SPRINGS,
@@ -214,12 +212,6 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
       Molecule5App.i18n.KE_HIGH_PCT,
       goog.bind(this.getKEHighPct, this), goog.bind(this.setKEHighPct, this)));
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
-
-  this.addParameter(pn = new ParameterNumber(this, Molecule5App.en.INITIAL_PE,
-      Molecule5App.i18n.INITIAL_PE,
-      goog.bind(this.getInitialPE, this), goog.bind(this.setInitialPE, this)));
-  pn.setDecimalPlaces(5);
-  this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
 
@@ -421,7 +413,6 @@ Molecule5App.prototype.config = function() {
   this.initialPositions(numAtoms);
   this.sim_.saveInitialState();
   this.sim_.modifyObjects();
-  this.sim_.setPotentialEnergy(this.initialPE_);
   this.addKEVars();
 
   if (this.easyScript) {
@@ -722,24 +713,6 @@ Molecule5App.prototype.setShowKEHigh = function(value) {
   }
 };
 
-/** Returns initial potential energy.
-@return {number}
-*/
-Molecule5App.prototype.getInitialPE = function() {
-  return this.initialPE_;
-};
-
-/** Sets initial potential energy.
-@param {number} value
-*/
-Molecule5App.prototype.setInitialPE = function(value) {
-  if (this.initialPE_ != value) {
-    this.initialPE_ = value;
-    this.broadcastParameter(Molecule5App.en.INITIAL_PE);
-  }
-};
-
-
 /** Set of internationalized strings.
 @typedef {{
   MASS: string,
@@ -749,8 +722,7 @@ Molecule5App.prototype.setInitialPE = function(value) {
   SHOW_SPRINGS: string,
   NON_LINEAR_SPRINGS: string,
   KE_HIGH_PCT: string,
-  SHOW_KE_HIGH: string,
-  INITIAL_PE: string
+  SHOW_KE_HIGH: string
   }}
 */
 Molecule5App.i18n_strings;
@@ -766,8 +738,7 @@ Molecule5App.en = {
   SHOW_SPRINGS: 'show springs',
   NON_LINEAR_SPRINGS: 'non-linear springs',
   KE_HIGH_PCT: 'KE high pct',
-  SHOW_KE_HIGH: 'show KE high pct',
-  INITIAL_PE: 'initial PE'
+  SHOW_KE_HIGH: 'show KE high pct'
 };
 
 /**
@@ -782,8 +753,7 @@ Molecule5App.de_strings = {
   SHOW_SPRINGS: 'zeige Federn',
   NON_LINEAR_SPRINGS: 'nicht linear Federn',
   KE_HIGH_PCT: 'KE hoch prozent',
-  SHOW_KE_HIGH: 'zeige KE hoch prozent',
-  INITIAL_PE: 'anfangs PE'
+  SHOW_KE_HIGH: 'zeige KE hoch prozent'
 };
 
 /** Set of internationalized strings.

@@ -295,6 +295,11 @@ myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
       Molecule3Sim.i18n.ELASTICITY,
       goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
       .setSignifDigits(3).setUpperLimit(1));
+  this.addParameter(new ParameterNumber(this, Molecule3Sim.en.PE_OFFSET,
+      Molecule3Sim.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 var Molecule3Sim = myphysicslab.sims.springs.Molecule3Sim;
@@ -483,8 +488,8 @@ Molecule3Sim.prototype.getEnergyInfo_ = function(vars) {
 
 /** @inheritDoc */
 Molecule3Sim.prototype.setPotentialEnergy = function(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+  this.setPEOffset(0);
+  this.setPEOffset(value - this.getEnergyInfo().getPotential());
 };
 
 /** @inheritDoc */
@@ -756,13 +761,30 @@ Molecule3Sim.prototype.setElasticity = function(value) {
   this.broadcastParameter(Molecule3Sim.en.ELASTICITY);
 };
 
+/** Return potential energy offset; this amount is added to the reported potential
+* energy.
+@return {number} potential energy offset
+*/
+Molecule3Sim.prototype.getPEOffset = function() {
+  return this.potentialOffset_;
+};
+
+/** Set potential energy offset; this amount is added to the reported potential energy.
+@param {number} value potential energy offset
+*/
+Molecule3Sim.prototype.setPEOffset = function(value) {
+  this.potentialOffset_ = value;
+  this.broadcastParameter(Molecule3Sim.en.PE_OFFSET);
+};
+
 /** Set of internationalized strings.
 @typedef {{
   DAMPING: string,
   ELASTICITY: string,
   GRAVITY: string,
   POSITION: string,
-  VELOCITY: string
+  VELOCITY: string,
+  PE_OFFSET: string
   }}
 */
 Molecule3Sim.i18n_strings;
@@ -775,7 +797,8 @@ Molecule3Sim.en = {
   ELASTICITY: 'elasticity',
   GRAVITY: 'gravity',
   POSITION: 'position',
-  VELOCITY: 'velocity'
+  VELOCITY: 'velocity',
+  PE_OFFSET: 'PE offset'
 };
 
 /**
@@ -787,7 +810,8 @@ Molecule3Sim.de_strings = {
   ELASTICITY: 'Elastizit\u00e4t',
   GRAVITY: 'Gravitation',
   POSITION: 'Position',
-  VELOCITY: 'Geschwindigkeit'
+  VELOCITY: 'Geschwindigkeit',
+  PE_OFFSET: 'PE offset'
 };
 
 /** Set of internationalized strings.
