@@ -40,9 +40,9 @@ var Spring = myphysicslab.lab.model.Spring;
 var Util = myphysicslab.lab.util.Util;
 var Vector = myphysicslab.lab.util.Vector;
 
-/** Represents a non-linear spring attached between two {@link MassObject}s, generates a
-{@link Force} which depends on how the SpringNonLinear is stretched. Damping is proportional to
-the relative velocity of the two objects.
+/** Represents a non-linear spring attached between two {@link MassObject}s, generates
+a {@link Force} which depends on how the SpringNonLinear is stretched. Damping is
+proportional to the relative velocity of the two objects.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
 {@link myphysicslab.lab.engine2D.Scrim Scrim}.
@@ -67,6 +67,12 @@ myphysicslab.sims.springs.SpringNonLinear = function(name, body1, attach1_body,
       body2, attach2_body, restLength, stiffness) {
   Spring.call(this, name, body1, attach1_body, body2, attach2_body, restLength,
       stiffness, /*compressOnly=*/false);
+  var minLen = 2/Math.sqrt(3);
+  /** minimum potential energy
+  @type {number}
+  @const
+  */
+  this.minPE_ = (6 * Math.log(minLen) + 4/(minLen*minLen));
 };
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 goog.inherits(SpringNonLinear, Spring);
@@ -108,9 +114,18 @@ SpringNonLinear.prototype.calculateForces = function() {
 
 /** @inheritDoc */
 SpringNonLinear.prototype.getPotentialEnergy = function() {
+  // The graph of potential energy reaches a minimum where force is zero.
+  // Find the offset so that potential energy is zero when force is zero.
+  // force = 0 = -k (6/x - 8 x^-3)
+  // 6/x = 8 x^-3
+  // 6/8 = x^-2
+  // x^2 = 4/3
+  // x = sqrt(4/3) = 2/sqrt(3)
+  // offset is minPE_ = PE(2/sqrt(3))
+
   // spring potential energy is integral of force
   var len = this.getLength();
-  return this.getStiffness() * (6 * Math.log(len) + 4/(len*len));
+  return this.getStiffness() * (6 * Math.log(len) + 4/(len*len) - this.minPE_);
 };
 
 }); // goog.scope
