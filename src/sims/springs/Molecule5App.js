@@ -129,6 +129,11 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   * @private
   */
   this.msm_ = [];
+  /** Whether atom names should be displayed.
+  * @type {boolean}
+  * @private
+  */
+  this.showNames_ = false;
   /** Whether springs should be displayed.
   * @type {boolean}
   * @private
@@ -190,6 +195,12 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
 
   /** @type {!ParameterBoolean} */
   var pb;
+  this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.SHOW_NAMES,
+      Molecule5App.i18n.SHOW_NAMES,
+      goog.bind(this.getShowNames, this),
+      goog.bind(this.setShowNames, this)));
+  this.addControl(new CheckBoxControl(pb));
+
   this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.SHOW_SPRINGS,
       Molecule5App.i18n.SHOW_SPRINGS,
       goog.bind(this.getShowSprings, this),
@@ -624,6 +635,33 @@ Molecule5App.prototype.setStiffness = function(index1, index2, value) {
   this.broadcastParameter(Molecule5App.en.STIFFNESS+' '+index1+'-'+index2);
 };
 
+/** Whether names should be displayed.
+@return {boolean}
+*/
+Molecule5App.prototype.getShowNames = function() {
+  return this.showNames_;
+};
+
+/** Sets whether names should be displayed.
+@param {boolean} value
+*/
+Molecule5App.prototype.setShowNames = function(value) {
+  if (value != this.showNames_) {
+    this.showNames_ = value;
+    goog.array.forEach(this.sim_.getAtoms(), function(atom) {
+      var dispAtom = this.displayList.findShape(atom);
+      if (value) {
+        dispAtom.setNameFont('12pt sans-serif');
+        var bg = this.layout.simCanvas.getBackground();
+        dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
+      } else {
+        dispAtom.setNameFont('');
+      }
+    }, this);
+    this.broadcastParameter(Molecule5App.en.SHOW_NAMES);
+  }
+};
+
 /** Whether springs should be displayed.
 @return {boolean}
 */
@@ -722,7 +760,8 @@ Molecule5App.prototype.setShowKEHigh = function(value) {
   SHOW_SPRINGS: string,
   NON_LINEAR_SPRINGS: string,
   KE_HIGH_PCT: string,
-  SHOW_KE_HIGH: string
+  SHOW_KE_HIGH: string,
+  SHOW_NAMES: string
   }}
 */
 Molecule5App.i18n_strings;
@@ -738,7 +777,8 @@ Molecule5App.en = {
   SHOW_SPRINGS: 'show springs',
   NON_LINEAR_SPRINGS: 'non-linear springs',
   KE_HIGH_PCT: 'KE high pct',
-  SHOW_KE_HIGH: 'show KE high pct'
+  SHOW_KE_HIGH: 'show KE high pct',
+  SHOW_NAMES: 'show names'
 };
 
 /**
@@ -753,7 +793,8 @@ Molecule5App.de_strings = {
   SHOW_SPRINGS: 'zeige Federn',
   NON_LINEAR_SPRINGS: 'nicht linear Federn',
   KE_HIGH_PCT: 'KE hoch prozent',
-  SHOW_KE_HIGH: 'zeige KE hoch prozent'
+  SHOW_KE_HIGH: 'zeige KE hoch prozent',
+  SHOW_NAMES: 'zeige Namen'
 };
 
 /** Set of internationalized strings.

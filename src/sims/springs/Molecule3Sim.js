@@ -290,7 +290,8 @@ myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.DAMPING,
       Molecule3Sim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.ELASTICITY,
       Molecule3Sim.i18n.ELASTICITY,
       goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))

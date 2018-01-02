@@ -334,6 +334,8 @@ application:
 [Try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?simRun.pause();simRun.reset();sim.setGravity(5.0);statusView.getDisplayList().add(energyGraph);statusView.getDisplayList().add(displayClock);var%20va=sim.getVarsList();va.setValue(0,0.15545);va.setValue(1,-0.33548);va.setValue(2,-2.30681);va.setValue(3,2.68179);sim.saveInitialState();simRun.resume();layout.showTerminal(true);>)
 which contains the above code; you should also see the code in the Terminal output area.
 
+Here is an interactive tool for trying out
+[URL Encode/Decode](https://www.url-encode-decode.com).
 
 <a id="sessionhistory"></a>
 Session History

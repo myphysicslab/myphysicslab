@@ -317,7 +317,8 @@ LabCanvas.prototype.getAlpha = function() {
 };
 
 /** Returns the background color; either a CSS3 color value or the empty string. Empty
-string means that background is cleared to transparent black.
+string means that background is cleared to transparent black (which actually appears
+as a white background unless there is something already drawn underneath).
 * @return {string} the background color; either a CSS3 color value or the empty string
 */
 LabCanvas.prototype.getBackground = function() {
@@ -484,7 +485,8 @@ LabCanvas.prototype.setAlpha = function(value) {
 };
 
 /** Sets the background color; either a CSS3 color value or the empty string. Empty
-string means that background is cleared to transparent black.
+string means that background is cleared to transparent black (which actually appears
+as a white background unless there is something already drawn underneath).
 * @param {string} value the background color; either a CSS3 color value or the empty
 *    string
 */
