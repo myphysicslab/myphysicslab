@@ -207,24 +207,30 @@ contact being broken.
 */
 myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
   AbstractODESim.call(this, opt_name);
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   var var_names = [
       VarsList.en.TIME,
       EnergySystem.en.KINETIC_ENERGY,
       EnergySystem.en.POTENTIAL_ENERGY,
-      EnergySystem.en.TOTAL_ENERGY
+      EnergySystem.en.TOTAL_ENERGY,
+      Molecule3Sim.en.FORCE+'1',
+      Molecule3Sim.en.FORCE+'2',
+      Molecule3Sim.en.FORCE+'3'
   ];
   var i18n_names = [
       VarsList.i18n.TIME,
       EnergySystem.i18n.KINETIC_ENERGY,
       EnergySystem.i18n.POTENTIAL_ENERGY,
-      EnergySystem.i18n.TOTAL_ENERGY
+      EnergySystem.i18n.TOTAL_ENERGY,
+      Molecule3Sim.i18n.FORCE+'1',
+      Molecule3Sim.i18n.FORCE+'2',
+      Molecule3Sim.i18n.FORCE+'3'
   ];
   // set up variables so that sim.getTime() can be called during setup.
   this.getVarsList().addVariables(var_names, i18n_names);
   // energy variables are computed from other variables.
-  this.getVarsList().setComputed(1, 2, 3);
+  this.getVarsList().setComputed(1, 2, 3, 4, 5, 6);
 
   /** the atom being dragged, or -1 when no drag is happening
   * @type {number}
@@ -324,6 +330,13 @@ Molecule3Sim.prototype.getClassName = function() {
   return 'Molecule3Sim';
 };
 
+/** Index in variables of first atom.
+@type {number}
+@static
+@const
+*/
+Molecule3Sim.START_VAR = 7;
+
 /** Adds a {@link PointMass} to the simulation, and gets the initial conditions
 from that atom.
 * @param {!PointMass} atom the PointMass to add to the simulation
@@ -384,9 +397,9 @@ Molecule3Sim.prototype.initializeFromAtom = function(atom) {
   if (idx < 0) {
     throw new Error("atom not found: "+atom);
   }
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  idx = 4 + 4*idx;
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  idx = Molecule3Sim.START_VAR + 4*idx;
   var va = this.getVarsList();
   va.setValue(idx, atom.getPosition().getX());
   va.setValue(idx + 1, atom.getPosition().getY());
@@ -445,9 +458,10 @@ Molecule3Sim.prototype.cleanSlate = function() {
   var nv = this.getVarsList().numVariables();
   // set time to zero
   this.getVarsList().setValue(0, 0);
-  if (nv > 4) {
-    // delete all variables except: 0 = time, 1 = KE, 2 = PE, 3 = TE
-    this.getVarsList().deleteVariables(4, nv - 4);
+  if (nv > Molecule3Sim.START_VAR) {
+    // delete all variables except: 0 = time, 1 = KE, 2 = PE, 3 = TE, F1, F2, F3
+    this.getVarsList().deleteVariables(Molecule3Sim.START_VAR,
+        nv - Molecule3Sim.START_VAR);
   }
   this.getSimList().removeAll(this.atoms_);
   goog.array.clear(this.atoms_);
@@ -499,11 +513,38 @@ Molecule3Sim.prototype.modifyObjects = function() {
   var vars = va.getValues();
   this.moveObjects(vars);
   var ei = this.getEnergyInfo_(vars);
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   va.setValue(1, ei.getTranslational(), true);
   va.setValue(2, ei.getPotential(), true);
   va.setValue(3, ei.getTotalEnergy(), true);
+
+  // find magnitude of force on atoms
+  var rate = new Array(vars.length);
+  this.evaluate(vars, rate, 0);
+  var m = this.atoms_[0].getMass();
+  // F = m a, we have accel, so multiply by mass
+  var fx = m * rate[Molecule3Sim.START_VAR + 2];
+  var fy = m * rate[Molecule3Sim.START_VAR + 3];
+  va.setValue(4, Math.sqrt(fx*fx + fy*fy), true);
+  // force on atom 2
+  if (this.atoms_.length > 1) {
+    m = this.atoms_[1].getMass();
+    fx = m * rate[Molecule3Sim.START_VAR + 6];
+    fy = m * rate[Molecule3Sim.START_VAR + 7];
+    va.setValue(5, Math.sqrt(fx*fx + fy*fy), true);
+  } else {
+    va.setValue(5, 0, true);
+  }
+  // force on atom 3
+  if (this.atoms_.length > 2) {
+    m = this.atoms_[2].getMass();
+    fx = m * rate[Molecule3Sim.START_VAR + 10];
+    fy = m * rate[Molecule3Sim.START_VAR + 11];
+    va.setValue(6, Math.sqrt(fx*fx + fy*fy), true);
+  } else {
+    va.setValue(6, 0, true);
+  }
 };
 
 /**
@@ -511,10 +552,10 @@ Molecule3Sim.prototype.modifyObjects = function() {
 @private
 */
 Molecule3Sim.prototype.moveObjects = function(vars) {
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   goog.array.forEach(this.atoms_, function(atom, i) {
-    var idx = 4 + 4*i;
+    var idx = Molecule3Sim.START_VAR + 4*i;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
     atom.setVelocity(new Vector(vars[2 + idx], vars[3 + idx], 0));
   });
@@ -561,11 +602,11 @@ Molecule3Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
     if (y > walls.getTop() - h) {
       y = walls.getTop() - h - 0.0001;
     }
-    // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-    //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+    // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+    //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
     var va = this.getVarsList();
-    var idx = 4 + 4*this.dragAtom_;
-    va.setValue(idx, x);
+    var idx = Molecule3Sim.START_VAR + 4*this.dragAtom_;
+    va.setValue(0 + idx, x);
     va.setValue(1 + idx, y);
     va.setValue(2 + idx, 0);
     va.setValue(3 + idx, 0);
@@ -624,13 +665,13 @@ Molecule3Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
 
 /** @inheritDoc */
 Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   var va = this.getVarsList();
   var vars = va.getValues();
   goog.array.forEach(collisions, function(collision) {
     var c = /** @type {!MoleculeCollision} */(collision);
-    var idx = 4 + 4*goog.array.indexOf(this.atoms_, c.atom);
+    var idx = Molecule3Sim.START_VAR + 4*goog.array.indexOf(this.atoms_, c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:
@@ -658,13 +699,13 @@ Molecule3Sim.prototype.evaluate = function(vars, change, timeStep) {
   this.moveObjects(vars);
   change[0] = 1; // time
   var walls = this.walls_.getBoundsWorld();
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   goog.array.forEach(this.atoms_, function(atom, listIdx) {
     if (this.dragAtom_ == listIdx) {
       return;
     }
-    var idx = 4 + 4*listIdx;
+    var idx = Molecule3Sim.START_VAR + 4*listIdx;
     var vx = vars[idx+2];
     var vy = vars[idx+3];
     change[idx] = vx; // Ux' = Vx
@@ -726,8 +767,8 @@ Molecule3Sim.prototype.getGravity = function() {
 Molecule3Sim.prototype.setGravity = function(value) {
   this.gravity_ = value;
   // discontinuous change in energy for PE, TE
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   this.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(Molecule3Sim.en.GRAVITY);
 };
@@ -785,7 +826,8 @@ Molecule3Sim.prototype.setPEOffset = function(value) {
   GRAVITY: string,
   POSITION: string,
   VELOCITY: string,
-  PE_OFFSET: string
+  PE_OFFSET: string,
+  FORCE: string
   }}
 */
 Molecule3Sim.i18n_strings;
@@ -799,7 +841,8 @@ Molecule3Sim.en = {
   GRAVITY: 'gravity',
   POSITION: 'position',
   VELOCITY: 'velocity',
-  PE_OFFSET: 'PE offset'
+  PE_OFFSET: 'PE offset',
+  FORCE: 'force'
 };
 
 /**
@@ -812,7 +855,8 @@ Molecule3Sim.de_strings = {
   GRAVITY: 'Gravitation',
   POSITION: 'Position',
   VELOCITY: 'Geschwindigkeit',
-  PE_OFFSET: 'PE offset'
+  PE_OFFSET: 'PE offset',
+  FORCE: 'Kraft'
 };
 
 /** Set of internationalized strings.

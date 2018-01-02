@@ -519,12 +519,12 @@ Molecule5App.getMSM = function(numAtoms) {
 */
 Molecule5App.prototype.initialPositions = function(numAtoms)  {
   var vars = this.sim_.getVarsList().getValues();
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
   var r = 1.0; // radius
   for (var i=0; i<numAtoms; i++) {
-    var idx = 4 + 4*i;
+    var idx = Molecule3Sim.START_VAR + 4*i;
     var rnd = 1.0 + 0.1 * this.random_.nextFloat();
     vars[idx + 0] = r * Math.cos(rnd*i*2*Math.PI/numAtoms);
     vars[idx + 1] = r * Math.sin(rnd*i*2*Math.PI/numAtoms);
@@ -549,9 +549,9 @@ Molecule5App.prototype.setNumAtoms = function(value) {
   this.numAtoms_ = value;
   this.config();
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(1, 2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(1, 2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule5App.en.NUM_ATOMS);
 };
 
@@ -571,9 +571,9 @@ Molecule5App.prototype.getMass = function(index) {
 Molecule5App.prototype.setMass = function(index, value) {
   this.sim_.getAtoms()[index-1].setMass(value);
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(1, 2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(1, 2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule5App.en.MASS+' '+index);
 };
 
@@ -629,8 +629,8 @@ Molecule5App.prototype.setStiffness = function(index1, index2, value) {
   }
   spr.setStiffness(value);
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   this.sim_.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(Molecule5App.en.STIFFNESS+' '+index1+'-'+index2);
 };

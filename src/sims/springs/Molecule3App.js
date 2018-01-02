@@ -363,7 +363,7 @@ Molecule3App.prototype.initialPositions = function(numAtoms)  {
   // arrange all masses around a circle
   var r = 1.0; // radius
   for (var i=0; i<numAtoms; i++) {
-    var idx = 4 + 4*i;
+    var idx = Molecule3Sim.START_VAR + 4*i;
     var rnd = 1.0 + 0.1 * this.random_.nextFloat();
     vars[idx + 0] = r * Math.cos(rnd*i*2*Math.PI/numAtoms);
     vars[idx + 1] = r * Math.sin(rnd*i*2*Math.PI/numAtoms);
@@ -404,9 +404,9 @@ Molecule3App.prototype.setNumAtoms = function(value) {
   this.numAtoms_ = value;
   this.config();
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(1, 2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(1, 2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.NUM_ATOMS);
 };
 
@@ -427,9 +427,9 @@ Molecule3App.prototype.setMass = function(value) {
     }
   });
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(1, 2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(1, 2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.MASS);
 };
 
@@ -446,9 +446,9 @@ Molecule3App.prototype.getMassSpecial = function() {
 Molecule3App.prototype.setMassSpecial = function(value) {
   this.sim_.getAtoms()[0].setMass(value);
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(1, 2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(1, 2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.MASS_SPECIAL);
 };
 
@@ -468,9 +468,9 @@ Molecule3App.prototype.setLength = function(value) {
     this.sim_.getSprings()[this.nsg_[i]].setRestLength(value);
   }
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.LENGTH);
 };
 
@@ -490,9 +490,9 @@ Molecule3App.prototype.setLengthSpecial = function(value) {
     this.sim_.getSprings()[this.sg_[i]].setRestLength(value);
   }
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.LENGTH_SPECIAL);
 };
 
@@ -512,9 +512,9 @@ Molecule3App.prototype.setStiffness = function(value) {
     this.sim_.getSprings()[this.nsg_[i]].setStiffness(value);
   }
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.STIFFNESS);
 };
 
@@ -533,9 +533,9 @@ Molecule3App.prototype.setStiffnessSpecial = function(value) {
     this.sim_.getSprings()[this.sg_[i]].setStiffness(value);
   }
   // discontinuous change in energy
-  // vars: 0   1   2   3   4   5   6   7    8  9   10  11
-  //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
-  this.sim_.getVarsList().incrSequence(2, 3);
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  this.sim_.getVarsList().incrSequence(2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.STIFFNESS_SPECIAL);
 };
 
