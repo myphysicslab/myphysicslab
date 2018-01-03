@@ -248,8 +248,8 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
 
   this.config();
 
-  this.graph.line.setXVariable(4);
-  this.graph.line.setYVariable(5);
+  this.graph.line.setXVariable(Molecule3Sim.START_VAR);
+  this.graph.line.setYVariable(Molecule3Sim.START_VAR + 1);
   this.timeGraph.line1.setYVariable(1);
   this.timeGraph.line2.setYVariable(2);
 
