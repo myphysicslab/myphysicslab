@@ -747,7 +747,7 @@ Molecule5App.prototype.setShowKEHigh = function(value) {
         this.addBody(atom);
       }, this);
     }
-    this.broadcastParameter(Molecule5App.en.SHOW_SPRINGS);
+    this.broadcastParameter(Molecule5App.en.SHOW_KE_HIGH);
   }
 };
 
