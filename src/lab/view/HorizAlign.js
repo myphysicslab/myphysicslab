@@ -37,7 +37,9 @@ myphysicslab.lab.view.HorizAlign = {
   /** align right */
   RIGHT: 'RIGHT',
   /** full alignment */
-  FULL: 'FULL'
+  FULL: 'FULL',
+  /** align at a particular value (specified elsewhere) */
+  VALUE: 'VALUE'
 };
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 
@@ -48,7 +50,8 @@ HorizAlign.getChoices = function() {
   return [HorizAlign.i18n.LEFT,
       HorizAlign.i18n.MIDDLE,
       HorizAlign.i18n.RIGHT,
-      HorizAlign.i18n.FULL];
+      HorizAlign.i18n.FULL,
+      HorizAlign.i18n.VALUE];
 };
 
 /** Returns array containing all possible enum values.
@@ -59,7 +62,8 @@ HorizAlign.getValues = function() {
   return [HorizAlign.LEFT,
           HorizAlign.MIDDLE,
           HorizAlign.RIGHT,
-          HorizAlign.FULL];
+          HorizAlign.FULL,
+          HorizAlign.VALUE];
 };
 
 /** Converts a string to an enum.
@@ -82,7 +86,8 @@ HorizAlign.stringToEnum = function(value) {
   LEFT: string,
   MIDDLE: string,
   RIGHT: string,
-  FULL: string
+  FULL: string,
+  VALUE: string
   }}
 */
 HorizAlign.i18n_strings;
@@ -94,7 +99,8 @@ HorizAlign.en = {
   LEFT: 'left',
   MIDDLE: 'middle',
   RIGHT: 'right',
-  FULL: 'full'
+  FULL: 'full',
+  VALUE: 'value'
 };
 
 /**
@@ -105,7 +111,8 @@ HorizAlign.de_strings = {
   LEFT: 'links',
   MIDDLE: 'mitte',
   RIGHT: 'rechts',
-  FULL: 'voll'
+  FULL: 'voll',
+  VALUE: 'Wert'
 };
 
 /** Set of internationalized strings.

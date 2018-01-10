@@ -37,7 +37,9 @@ myphysicslab.lab.view.VerticalAlign = {
   /** align bottom */
   BOTTOM: 'BOTTOM',
   /** full alignment */
-  FULL: 'FULL'
+  FULL: 'FULL',
+  /** align at a particular value (specified elsewhere) */
+  VALUE: 'VALUE'
 };
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -48,7 +50,8 @@ VerticalAlign.getChoices = function() {
   return [VerticalAlign.i18n.TOP,
       VerticalAlign.i18n.MIDDLE,
       VerticalAlign.i18n.BOTTOM,
-      VerticalAlign.i18n.FULL];
+      VerticalAlign.i18n.FULL,
+      VerticalAlign.i18n.VALUE];
 };
 
 /** Returns array containing all possible enum values.
@@ -58,7 +61,8 @@ VerticalAlign.getValues = function() {
   return [VerticalAlign.TOP,
           VerticalAlign.MIDDLE,
           VerticalAlign.BOTTOM,
-          VerticalAlign.FULL];
+          VerticalAlign.FULL,
+          VerticalAlign.VALUE];
 };
 
 /** Converts a string to an enum.
@@ -81,7 +85,8 @@ VerticalAlign.stringToEnum = function(value) {
   TOP: string,
   MIDDLE: string,
   BOTTOM: string,
-  FULL: string
+  FULL: string,
+  VALUE: string
   }}
 */
 VerticalAlign.i18n_strings;
@@ -93,7 +98,8 @@ VerticalAlign.en = {
   TOP: 'top',
   MIDDLE: 'middle',
   BOTTOM: 'bottom',
-  FULL: 'full'
+  FULL: 'full',
+  VALUE: 'value'
 };
 
 /**
@@ -104,7 +110,8 @@ VerticalAlign.de_strings = {
   TOP: 'oben',
   MIDDLE: 'mitte',
   BOTTOM: 'unten',
-  FULL: 'voll'
+  FULL: 'voll',
+  VALUE: 'Wert'
 };
 
 /** Set of internationalized strings.

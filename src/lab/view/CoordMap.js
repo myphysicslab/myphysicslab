@@ -357,7 +357,7 @@ CoordMap.make = function(screenRect, simRect, horizAlign, verticalAlign, aspectR
           offset_x = (screen_width - ideal_width)/2; break;
         case HorizAlign.RIGHT:
           offset_x = screen_width - ideal_width; break;
-        default: throw new Error();
+        default: throw new Error('unsupported alignment '+horizAlign);
       }
     } else {
       // x is 'full justified':  simRect matches the screenRect on x axis
@@ -371,7 +371,7 @@ CoordMap.make = function(screenRect, simRect, horizAlign, verticalAlign, aspectR
           offset_y = (screen_height - ideal_height)/2; break;
         case VerticalAlign.TOP:
           offset_y = screen_height - ideal_height; break;
-        default: goog.asserts.fail();
+        default: throw new Error('unsupported alignment '+verticalAlign);
       }
     }
   }

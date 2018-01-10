@@ -29,6 +29,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var Util = myphysicslab.lab.util.Util;
+var NF = Util.NF;
 var Vector = myphysicslab.lab.util.Vector;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -43,6 +44,11 @@ are drawn using specified font and color, see {@link #setColor} and {@link #setF
 Options exist for drawing the vertical axis near the left, center, or right, and for
 drawing the horizontal axis near the top, center, or bottom of the screen. See
 {@link #setXAxisAlignment} and {@link #setYAxisAlignment}.
+
+You can set the axes alignment to go thru particular points, like the origin:
+
+    axes.setXAxisAlignment(VerticalAlign.VALUE, 0);
+    axes.setYAxisAlignment(HorizAlign.VALUE, 0);
 
 To keep the DisplayAxes in sync with a {@link myphysicslab.lab.view.LabView}, when
 doing for example pan/zoom of the LabView, you can arrange for {@link #setSimRect} to
@@ -91,16 +97,24 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
   * @type {number}
   */
   this.fontAscent = 12;
-  /** location of the horizontal axis, default value is BOTTOM
+  /** The number on vertical axis to align with when using VerticalAlign.VALUE
+  * @type {number}
+  */
+  this.horizAlignValue_ = 0;
+  /** location of the horizontal axis
   * @type {!VerticalAlign}
   * @private
   */
-  this.horizAxisAlignment_ = VerticalAlign.BOTTOM;
-  /** location of the vertical axis, default value is LEFT
+  this.horizAxisAlignment_ = VerticalAlign.VALUE;
+  /** The number on horizontal axis to align with when using HorizAlign.VALUE
+  * @type {number}
+  */
+  this.vertAlignValue_ = 0;
+  /** location of the vertical axis
   * @type {!HorizAlign}
   * @private
   */
-  this.vertAxisAlignment_ = HorizAlign.LEFT;
+  this.vertAxisAlignment_ = HorizAlign.VALUE;
   /**  Number of fractional decimal places to show.
   * @type {number}
   * @private
@@ -134,6 +148,8 @@ if (!Util.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', horizAxisAlignment_: '+this.horizAxisAlignment_
         +', vertAxisAlignment_: '+this.vertAxisAlignment_
+        +', this.horizAlignValue_: '+NF(this.horizAlignValue_)
+        +', this.vertAlignValue_: '+NF(this.vertAlignValue_)
         +', drawColor_: "'+this.drawColor_+'"'
         +', numFont_: "'+this.numFont_+'"'
         +', simRect_: '+this.simRect_
@@ -170,24 +186,48 @@ DisplayAxes.prototype.draw = function(context, map) {
   var sim_x2 = r.getRight();
   var sim_y1 = r.getBottom();
   var sim_y2 = r.getTop();
+  var sim_right = sim_x2 - 0.06*(sim_x2 - sim_x1);
+  var sim_left = sim_x1 + 0.01*(sim_x2 - sim_x1);
   switch (this.vertAxisAlignment_) {
+    case HorizAlign.VALUE:
+      // if the value is not visible, then use RIGHT or LEFT alignment
+      var sim_v = this.vertAlignValue_;
+      if (sim_v < sim_left) {
+        sim_v = sim_left;
+      } else if (sim_v > sim_right) {
+        sim_v = sim_right;
+      }
+      x0 = map.simToScreenX(sim_v);
+      break;
     case HorizAlign.RIGHT:
-      x0 = map.simToScreenX(sim_x2 - 0.05*(sim_x2 - sim_x1));
+      x0 = map.simToScreenX(sim_right);
       break;
     case HorizAlign.LEFT:
-      x0 = map.simToScreenX(sim_x1 + 0.05*(sim_x2 - sim_x1));
+      x0 = map.simToScreenX(sim_left);
       break;
     default:
       x0 = map.simToScreenX(r.getCenterX());
   }
 
+  var scr_top = map.simToScreenY(sim_y2);
+  var scr_bottom = map.simToScreenY(sim_y1);
+  var lineHeight = 10 + this.fontDescent + this.fontAscent;
   // leave room to draw the numbers below the horizontal axis
   switch (this.horizAxisAlignment_) {
+    case VerticalAlign.VALUE:
+      // if the value is not visible, then use TOP or BOTTOM alignment
+      y0 = map.simToScreenY(this.horizAlignValue_);
+      if (y0 < scr_top + lineHeight) {
+        y0 = scr_top + lineHeight;
+      } else if (y0 > scr_bottom - lineHeight) {
+        y0 = scr_bottom - lineHeight;
+      }
+      break;
     case VerticalAlign.TOP:
-      y0 = map.simToScreenY(sim_y2) + (10 + this.fontDescent + this.fontAscent);
+      y0 = scr_top + lineHeight;
       break;
     case VerticalAlign.BOTTOM:
-      y0 = map.simToScreenY(sim_y1) - (10 + this.fontDescent + this.fontAscent);
+      y0 = scr_bottom - lineHeight;
       break;
     default:
       y0 = map.simToScreenY(r.getCenterY());
@@ -484,23 +524,33 @@ DisplayAxes.prototype.setVerticalName = function(name) {
 };
 
 /** Sets the X-axis alignment: whether it should appear at bottom, top or middle of the
-simulation rectangle.
+simulation rectangle, or go thru a particular value of the Y-axis.
 @param {!VerticalAlign} alignment X-axis alignment option from {@link VerticalAlign}
+@param {number=} value number on vertical axis to align with when using
+     {@link VerticalAlign.VALUE}
 @return {!DisplayAxes} this object for chaining setters
 */
-DisplayAxes.prototype.setXAxisAlignment = function(alignment) {
+DisplayAxes.prototype.setXAxisAlignment = function(alignment, value) {
   this.horizAxisAlignment_ = alignment;
+  if (goog.isNumber(value)) {
+    this.horizAlignValue_ = value;
+  }
   this.needRedraw_ = true;
   return this;
 };
 
 /** Sets the Y-axis alignment: whether it should appear at left, right or middle of the
-simulation rectangle.
+simulation rectangle, or go thru a particular value of the X-axis.
 @param {!HorizAlign} alignment Y-axis alignment option from {@link HorizAlign}
+@param {number=} value number on horizontal axis to align with when using
+     {@link HorizAlign.VALUE}
 @return {!DisplayAxes} this object for chaining setters
 */
-DisplayAxes.prototype.setYAxisAlignment = function(alignment) {
+DisplayAxes.prototype.setYAxisAlignment = function(alignment, value) {
   this.vertAxisAlignment_ = alignment;
+  if (goog.isNumber(value)) {
+    this.vertAlignValue_ = value;
+  }
   this.needRedraw_ = true;
   return this;
 };
