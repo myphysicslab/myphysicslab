@@ -192,7 +192,7 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   this.statusList = this.statusView.getDisplayList();
   simCanvas.addView(this.statusView);
   /** @type {!DisplayAxes} */
-  this.axes = CommonControls.makeAxes(this.simView);
+  this.axes = CommonControls.makeAxes(this.simView, /*bottomLeft=*/true);
   /** @type {!SimRunner} */
   this.simRun = new SimRunner(advance);
   this.simRun.addCanvas(simCanvas);

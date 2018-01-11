@@ -180,15 +180,6 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
   this.graph.line.setYVariable(Molecule3Sim.START_VAR + 1);
   this.timeGraph.line1.setYVariable(1);
   this.timeGraph.line2.setYVariable(2);
-
-  // after clicking the "rewind" button, the timeGraph should go to time zero.
-  new GenericObserver(this.simRun, goog.bind(function(evt) {
-    if (evt.nameEquals(SimRunner.RESET)) {
-      var vw = this.timeGraph.view.getWidth();
-      this.timeGraph.view.setCenterX(vw/2);
-      this.timeGraph.autoScale.setActive(true);
-    }
-  }, this));
 };
 var Molecule3App = myphysicslab.sims.springs.Molecule3App;
 goog.inherits(Molecule3App, AbstractApp);

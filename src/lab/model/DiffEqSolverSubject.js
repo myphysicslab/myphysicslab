@@ -87,14 +87,17 @@ myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
   * @type {!Array<!DiffEqSolver>}
   * @private
   */
-  this.solvers_ = [ new EulersMethod(this.sim_),
-      new ModifiedEuler(this.sim_),
-      new RungeKutta(this.sim_)];
+  this.solvers_ = [];
+  this.solvers_.push(new EulersMethod(this.sim_));
+  this.solvers_.push(new ModifiedEuler(this.sim_));
+  this.solvers_.push(new RungeKutta(this.sim_));
   if (this.energySystem_ != null) {
-    this.solvers_.push(new AdaptiveStepSolver(this.sim_, this.energySystem_,
-        new ModifiedEuler(this.sim_)));
-    this.solvers_.push(new AdaptiveStepSolver(this.sim_, this.energySystem_,
-        new RungeKutta(this.sim_)));
+    var solver = new AdaptiveStepSolver(this.sim_, this.energySystem_,
+        new ModifiedEuler(this.sim_));
+    this.solvers_.push(solver);
+    solver = new AdaptiveStepSolver(this.sim_, this.energySystem_,
+        new RungeKutta(this.sim_));
+    this.solvers_.push(solver);
   };
   var choices = goog.array.map(this.solvers_, function(s) {
       return s.getName(/*localized=*/true);

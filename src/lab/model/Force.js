@@ -173,7 +173,7 @@ Force.prototype.getVector = function() {
 
 /** @inheritDoc */
 Force.prototype.similar = function(obj, opt_tolerance) {
-  if (!(obj instanceof this.constructor)) {
+  if (!(obj instanceof Force)) {
     return false;
   }
   // require same name: fixes thrust force not appearing when gravity is at same place

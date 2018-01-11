@@ -142,7 +142,7 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   * @type {!DisplayAxes}
   * @private
   */
-  this.axes = CommonControls.makeAxes(this.simView);
+  this.axes = CommonControls.makeAxes(this.simView, /*bottomLeft=*/true);
   this.simCanvas.paint();
   /**
   * @type {!SimController}

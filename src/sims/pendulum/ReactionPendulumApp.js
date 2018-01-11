@@ -328,7 +328,7 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/null);
   /** @type {!DisplayAxes} */
-  this.axes = CommonControls.makeAxes(this.simView);
+  this.axes = CommonControls.makeAxes(this.simView, /*bottomLeft=*/true);
   /** @type {!SimpleAdvance} */
   this.advance1 = new SimpleAdvance(this.sim1);
   /** @type {!SimpleAdvance} */

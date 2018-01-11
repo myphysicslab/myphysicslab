@@ -224,7 +224,8 @@ var testUtilCircularList2 = function() {
   var cList = new CircularList(1000);
   // Causes the index to start near the maximum integer.
   /** @type {!myphysicslab.lab.util.CircularList<!myphysicslab.lab.util.Vector>}*/(cList).causeMaxIntError();
-  var i, j;
+  var i;
+  var j=-1;
   var e = assertThrows(function() {
     for (i=0; i<3000; i++) {
       j = cList.store(new Vector(i*0.1, i*10));

@@ -195,6 +195,15 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
   // Use TIME_WINDOW control for changing horizontal axis, separately.
   this.view.setScaleTogether(false);
 
+  // after clicking the "rewind" button, the timeGraph should go to time zero.
+  new GenericObserver(simRun, goog.bind(function(evt) {
+    if (evt.nameEquals(SimRunner.RESET)) {
+      var vw = this.view.getWidth();
+      this.view.setCenterX(vw/2);
+      this.autoScale.setActive(true);
+    }
+  }, this));
+
   var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/goog.bind(function() {
         this.autoScale.setActive(true);

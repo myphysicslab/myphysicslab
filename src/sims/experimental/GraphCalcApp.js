@@ -137,6 +137,9 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
   * @private
   */
   this.simView = new SimView('graphView', this.simRect);
+  // use FULL alignment so that we can specify the exact extent of the graph.
+  this.simView.setHorizAlign(HorizAlign.FULL);
+  this.simView.setVerticalAlign(VerticalAlign.FULL);
   this.simCanvas.addView(this.simView);
   var screenrect = this.simView.getScreenRect();
   /**
@@ -159,8 +162,6 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
   * @private
   */
   this.axes = new DisplayAxes(this.simView.getCoordMap().screenToSimRect(screenrect));
-  this.axes.setXAxisAlignment(VerticalAlign.MIDDLE);
-  this.axes.setYAxisAlignment(HorizAlign.MIDDLE);
   this.simView.getDisplayList().add(this.axes);
   // inform displayGraph when the screen rect changes.
   new GenericObserver(this.simView, goog.bind(function(evt) {

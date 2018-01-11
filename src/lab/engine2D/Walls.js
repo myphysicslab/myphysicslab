@@ -67,10 +67,10 @@ Walls.make = function(sim, width, height, opt_thickness, opt_center) {
   var thickness = opt_thickness || 1;
   var i, j;
   var zel = 0;
-  /** @type {!Array<!RigidBody>} */
+  /** @type {!Array<!Polygon>} */
   var walls = [];
   for (i=0; i<4; i++) {
-    /** @type {?RigidBody} */
+    /** @type {?Polygon} */
     var bodyi = null;
     switch (i) {
       case 0:

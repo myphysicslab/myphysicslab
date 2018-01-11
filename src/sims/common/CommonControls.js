@@ -31,9 +31,11 @@ goog.require('myphysicslab.lab.util.Terminal');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.DisplayClock');
+goog.require('myphysicslab.lab.view.HorizAlign');
 goog.require('myphysicslab.lab.view.LabCanvas');
 goog.require('myphysicslab.lab.view.LabView');
 goog.require('myphysicslab.lab.view.SimView');
+goog.require('myphysicslab.lab.view.VerticalAlign');
 
 goog.scope(function() {
 
@@ -48,6 +50,7 @@ var EasyScriptParser = lab.util.EasyScriptParser;
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var GenericObserver = lab.util.GenericObserver;
 var GroupControl = lab.controls.GroupControl;
+var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
 var ParameterBoolean = lab.util.ParameterBoolean;
@@ -58,6 +61,7 @@ var Terminal = lab.util.Terminal;
 var ToggleControl = lab.controls.ToggleControl;
 var Util = lab.util.Util;
 var Vector = lab.util.Vector;
+var VerticalAlign = lab.view.VerticalAlign;
 
 /** A collection of static functions for making controls, used in several applications.
 CommonControls is a 'static' class, meaning it is not instantiated, instead it only a
@@ -76,11 +80,18 @@ var CommonControls = myphysicslab.sims.common.CommonControls;
 and makes a GenericObserver which resizes the axes whenever the SimView's simRect
 changes (for example because of pan-zoom controls).
 * @param {!SimView} simView the SimView to add axes to
+* @param {boolean=} bottomLeft_opt true means to align axes at bottom left.
+*        We usually want this for the simulation view.  For graphs we want the default
+*        which puts the axes thru the origin whenever possible.
 * @return {!DisplayAxes} the axes that were created
 */
-CommonControls.makeAxes = function(simView) {
+CommonControls.makeAxes = function(simView, bottomLeft_opt) {
   /** @type {!DisplayAxes} */
   var axes = new DisplayAxes(simView.getSimRect());
+  if (bottomLeft_opt) {
+    axes.setXAxisAlignment(VerticalAlign.BOTTOM);
+    axes.setYAxisAlignment(HorizAlign.LEFT);
+  }
   new GenericObserver(simView, function(evt) {
       if (evt.nameEquals(LabView.COORD_MAP_CHANGED)) {
         var r = simView.getCoordMap().screenToSimRect(simView.getScreenRect());

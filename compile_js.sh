@@ -237,7 +237,7 @@ java -jar "$CLOSURE_COMPILER" \
 --hide_warnings_for=`readlink closure-library` \
 --conformance_configs=`pwd`/conformance_config.textproto \
 --emit_use_strict \
---language_in=ECMASCRIPT5_STRICT \
+--language_in=ECMASCRIPT6_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
 --dependency_mode=STRICT \
 --warning_level=VERBOSE \

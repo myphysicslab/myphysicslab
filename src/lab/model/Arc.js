@@ -148,7 +148,7 @@ Arc.prototype.setStartAngle = function(angle) {
 
 /** @inheritDoc */
 Arc.prototype.similar = function(obj, opt_tolerance) {
-  if (!(obj instanceof this.constructor)) {
+  if (!(obj instanceof Arc)) {
     return false;
   }
   var arc = /** @type {!Arc} */ (obj);

@@ -150,7 +150,7 @@ Impulse.prototype.getVector = function() {
 
 /** @inheritDoc */
 Impulse.prototype.similar = function(obj, opt_tolerance) {
-  if (!(obj instanceof this.constructor)) {
+  if (!(obj instanceof Impulse)) {
     return false;
   }
   if (obj.getName() != this.getName()) {

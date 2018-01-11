@@ -331,7 +331,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.statusView = new SimView('status', new DoubleRect(-10, -10, 10, 10));
   simCanvas.addView(this.statusView);
   /** @type {!DisplayAxes} */
-  this.axes = CommonControls.makeAxes(this.simView);
+  this.axes = CommonControls.makeAxes(this.simView, /*bottomLeft=*/true);
   /** @type {!SimRunner} */
   this.simRun = new SimRunner(this.advance);
   this.simRun.setTimeStep(0.025);

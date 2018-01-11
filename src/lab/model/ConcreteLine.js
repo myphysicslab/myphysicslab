@@ -106,7 +106,7 @@ ConcreteLine.prototype.setStartPoint = function(loc) {
 
 /** @inheritDoc */
 ConcreteLine.prototype.similar = function(obj, opt_tolerance) {
-  if (!(obj instanceof this.constructor)) {
+  if (!(obj instanceof ConcreteLine)) {
     return false;
   }
   var ml = /** @type {!ConcreteLine}*/(obj);

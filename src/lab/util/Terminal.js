@@ -1028,7 +1028,10 @@ Terminal.prototype.myEval = function(script) {
   if (!Util.ADVANCED) {
     return eval(script);
   } else {
-    this.println('JavaScript is disabled due to advanced compilation; try a simple-compiled version');
+    var msg = 'JavaScript is disabled due to advanced compilation; try a simple-compiled version';
+    // Output to console.log helps when debugging UnitTest problems.
+    console.log(msg+': '+script);
+    this.println(msg);
     return undefined;
   }
 };

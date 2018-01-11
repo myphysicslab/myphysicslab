@@ -172,15 +172,17 @@ var testEasyScript1 = function() {
         'position=1;goog.array.reduce(z.va.toArray(), '
         +'function(r, v) { return r+v.getValue(); }, 0)'));
   }
-  var n1 = 'VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.WORK_FROM_DAMPING,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(',');
-  assertSameElements(n1, easyScript.names());
-  assertSameElements(n1,
-      /** @type {!Array<string>}*/(t.eval('var n=easyScript.names()')));
-  assertEquals(n1.length, t.eval('n.length'));
-  assertEquals('VARIABLES.POSITION',
-      String(t.eval('n.join(\' \').match(/VARIABLES\\.\\w+/)')));
-  assertEquals(8, t.eval('n.join(\' \').match(/VARIABLES\\.\\w+/g).length'));
-
+  var names1 = 'VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.WORK_FROM_DAMPING,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(',');
+  assertSameElements(names1, easyScript.names());
+  if (!Util.ADVANCED) {
+    // cannot eval JavaScript under advanced compile
+    assertSameElements(names1,
+        /** @type {!Array<string>}*/(t.eval('var names_=easyScript.names()')));
+    assertEquals(names1.length, t.eval('names_.length'));
+    assertEquals('VARIABLES.POSITION',
+        String(t.eval('names_.join(\' \').match(/VARIABLES\\.\\w+/)')));
+    assertEquals(8, t.eval('names_.join(\' \').match(/VARIABLES\\.\\w+/g).length'));
+  }
   // Delete a variable, it should no longer appear in script() or names()
   va.deleteVariables(2, 1);
   easyScript.update();

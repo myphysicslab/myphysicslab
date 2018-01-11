@@ -256,12 +256,9 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
   this.makeEasyScript();
   this.addURLScriptButton();
 
-  // after clicking the "rewind" button, the timeGraph should go to time zero.
+  // after clicking the "rewind" button, call resetResidualEnergy
   new GenericObserver(this.simRun, goog.bind(function(evt) {
     if (evt.nameEquals(SimRunner.RESET)) {
-      var vw = this.timeGraph.view.getWidth();
-      this.timeGraph.view.setCenterX(vw/2);
-      this.timeGraph.autoScale.setActive(true);
       this.resetResidualEnergy();
     }
   }, this));

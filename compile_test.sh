@@ -184,7 +184,7 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_warning=uselessCode \
 --jscomp_warning=visibility \
 --emit_use_strict \
---language_in=ECMASCRIPT5_STRICT \
+--language_in=ECMASCRIPT6_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
 --new_type_inf \
 --jscomp_warning=newCheckTypes \

@@ -307,7 +307,7 @@ PointMass.prototype.setWidth = function(width) {
 
 /** @inheritDoc */
 PointMass.prototype.similar = function(obj, opt_tolerance) {
-  if (!(obj instanceof this.constructor)) {
+  if (!(obj instanceof PointMass)) {
     return false;
   }
   var pm = /** @type {!PointMass} */ (obj);
