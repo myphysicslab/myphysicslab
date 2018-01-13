@@ -623,7 +623,7 @@ addRule();
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 	$year += 1900;
 	my $thismon = (split /,/, "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec")[$mon];
-	$date_string = "$thismon $mday $year";
+	$date_string = "$thismon $mday $year $hour:$min";
 	if ($debug > 9) { print STDERR "\$date_string=$date_string\n"; }
 }
 $rule = 's/#DATE_TIME\b#?/$date_string/g';
