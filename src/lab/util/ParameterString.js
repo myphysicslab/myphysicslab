@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ParameterString');
+goog.module('myphysicslab.lab.util.ParameterString');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Provides access to a string value of a {@link Subject}. See {@link Parameter} for
 more information.
@@ -49,6 +42,10 @@ This defines a special setter function because `setExtraAccel` takes an argument
 of the enum type `ExtraAccel`, not of type `string`.
 See [Enums](Building.html#enums) for more information.
 
+@implements {Parameter}
+*/
+class ParameterString {
+/**
 @param {!Subject} subject the Subject whose value this ParameterString represents
 @param {string} name the
     [language-independent name](Building.html#languageindependentnames) of this
@@ -63,13 +60,8 @@ See [Enums](Building.html#enums) for more information.
     the values (optional)
 @param {!Array<string>=} opt_values the language-independent strings that the parameter
     can be set to (optional) When specified, only these values are allowed.
-@constructor
-@final
-@struct
-@implements {Parameter}
 */
-myphysicslab.lab.util.ParameterString = function(subject, name, localName, getter,
-    setter, opt_choices, opt_values) {
+constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   /**
   @type {!Subject}
   @private
@@ -133,36 +125,33 @@ myphysicslab.lab.util.ParameterString = function(subject, name, localName, gette
     }
   }
 };
-var ParameterString = myphysicslab.lab.util.ParameterString;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ParameterString.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', isComputed_: '+this.isComputed_
-        +', subject_: '+this.subject_.toStringShort()
-        +', localName_: "'+this.localName_+'"'
-        +', suggestedLength_: '+this.suggestedLength_
-        +', maxLength_: '+this.maxLength_
-        +', choices_: ['+this.choices_+']'
-        +', values_: ['+this.values_+']'
-        +'}';
-  };
-
-  /** @override */
-  ParameterString.prototype.toStringShort = function() {
-    return 'ParameterString{name_: "'+this.name_+'"'
-        +', value: "'+this.getValue()+'"}';
-  };
+/** @override */
+toString() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', isComputed_: '+this.isComputed_
+      +', subject_: '+this.subject_.toStringShort()
+      +', localName_: "'+this.localName_+'"'
+      +', suggestedLength_: '+this.suggestedLength_
+      +', maxLength_: '+this.maxLength_
+      +', choices_: ['+this.choices_+']'
+      +', values_: ['+this.values_+']'
+      +'}';
 };
 
 /** @override */
-ParameterString.prototype.getAsString = function() {
+toStringShort() {
+  return Util.ADVANCED ? '' : 'ParameterString{name_: "'+this.name_+'"'
+      +', value: "'+this.getValue()+'"}';
+};
+
+/** @override */
+getAsString() {
   return this.getValue();
 };
 
 /** @override */
-ParameterString.prototype.getChoices = function() {
+getChoices() {
   return goog.array.clone(this.choices_);
 };
 
@@ -170,46 +159,46 @@ ParameterString.prototype.getChoices = function() {
 trying to set a string longer than this.
 @return {number} the maximum length of the string
 */
-ParameterString.prototype.getMaxLength = function() {
+getMaxLength() {
   return this.maxLength_;
 };
 
 /** @override */
-ParameterString.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
 /** @override */
-ParameterString.prototype.getSubject = function() {
+getSubject() {
   return this.subject_;
 };
 
 /** Returns the suggested length of string when making a user interface control.
 @return {number} the suggested length of string when making a control
 */
-ParameterString.prototype.getSuggestedLength = function() {
+getSuggestedLength() {
   return this.suggestedLength_;
 };
 
 /** Returns the value of this ParameterString.
 @return {string} the value of this ParameterString
 */
-ParameterString.prototype.getValue = function() {
+getValue() {
   return this.getter_();
 };
 
 /** @override */
-ParameterString.prototype.getValues = function() {
+getValues() {
   return goog.array.clone(this.values_);
 };
 
 /** @override */
-ParameterString.prototype.isComputed = function() {
+isComputed() {
   return this.isComputed_;
 };
 
 /** @override */
-ParameterString.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.name_ == Util.toName(name);
 };
 
@@ -219,7 +208,7 @@ See [Internationalization](Building.html#internationalizationi18n).
 @param {!Array<string>} values  the values corresponding to each choice
 @throws {!Error} if `values` is of different length than `choices`
 */
-ParameterString.prototype.setChoices = function(choices, values) {
+setChoices(choices, values) {
   this.setChoices_(choices, values);
   var evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
   this.subject_.broadcast(evt);
@@ -230,7 +219,7 @@ ParameterString.prototype.setChoices = function(choices, values) {
 @param {!Array<string>} values  the values corresponding to each choice
 @private
 */
-ParameterString.prototype.setChoices_ = function(choices, values) {
+setChoices_(choices, values) {
   this.choices_ = choices;
   if (values.length !== choices.length) {
     throw new Error('different lengths choices:'+choices+' values:'+values);
@@ -239,12 +228,12 @@ ParameterString.prototype.setChoices_ = function(choices, values) {
 };
 
 /** @override */
-ParameterString.prototype.setComputed = function(value) {
+setComputed(value) {
   this.isComputed_ = value;
 };
 
 /** @override */
-ParameterString.prototype.setFromString = function(value) {
+setFromString(value) {
   this.setValue(value);
 };
 
@@ -254,7 +243,7 @@ For example, a function to transform strings to uppercase.
     input passed to {@link #setValue}
 @return {!ParameterString} this Parameter for chaining setters
 */
-ParameterString.prototype.setInputFunction = function(inputFunction) {
+setInputFunction(inputFunction) {
   this.inputFunction_ = inputFunction;
   return this;
 };
@@ -266,7 +255,7 @@ trying to set a string longer than this.
 @throws {!Error} if the max length is less than length of current value of this
     Parameter.
 */
-ParameterString.prototype.setMaxLength = function(len) {
+setMaxLength(len) {
   if (len < this.getValue().length)
     throw new Error('too long');
   this.maxLength_ = len;
@@ -277,7 +266,7 @@ ParameterString.prototype.setMaxLength = function(len) {
 @param {number} len suggested length of string to show
 @return {!ParameterString} this Parameter for chaining setters
 */
-ParameterString.prototype.setSuggestedLength = function(len) {
+setSuggestedLength(len) {
   this.suggestedLength_ = len;
   return this;
 };
@@ -285,7 +274,7 @@ ParameterString.prototype.setSuggestedLength = function(len) {
 /** Sets the value of this ParameterString.
 @param {string} value the value to set this ParameterString to
 */
-ParameterString.prototype.setValue = function(value) {
+setValue(value) {
   if (this.inputFunction_ != null) {
     value = this.inputFunction_(value);
   }
@@ -306,4 +295,5 @@ ParameterString.prototype.setValue = function(value) {
   }
 };
 
-}); // goog.scope
+}
+exports = ParameterString;

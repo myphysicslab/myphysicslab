@@ -41,7 +41,7 @@ var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 var HistoryList = myphysicslab.lab.util.HistoryList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var ParameterString = myphysicslab.lab.util.ParameterString;
+const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 

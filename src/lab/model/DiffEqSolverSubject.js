@@ -36,7 +36,7 @@ var EulersMethod = myphysicslab.lab.model.EulersMethod;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;
-var ParameterString = myphysicslab.lab.util.ParameterString;
+const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

@@ -94,6 +94,7 @@ var testSingleSpring = function() {
     const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
     const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
     const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
+    const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
     if (event instanceof GenericEvent) {
       this.numEvents++;
       assertEquals(sim, event.getSubject());
@@ -107,7 +108,7 @@ var testSingleSpring = function() {
       assertEquals(sim, event.getSubject());
       var val = event.getValue();
       assertTrue(goog.isNumber(val));
-    } else if (event instanceof myphysicslab.lab.util.ParameterString) {
+    } else if (event instanceof ParameterString) {
       this.numStrings++;
       assertEquals(sim, event.getSubject());
       assertTrue(goog.isString(event.getValue()));

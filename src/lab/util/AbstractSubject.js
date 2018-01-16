@@ -29,7 +29,7 @@ const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var ParameterString = myphysicslab.lab.util.ParameterString;
+const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

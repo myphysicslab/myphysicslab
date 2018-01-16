@@ -76,6 +76,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = fun
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
+  const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
   if (event instanceof GenericEvent) {
     var LabCanvas = myphysicslab.lab.view.LabCanvas;
     this.numEvents++;
@@ -90,7 +91,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = fun
     this.numBooleans++;
   } else if (event instanceof ParameterNumber) {
     this.numDoubles++;
-  } else if (event instanceof myphysicslab.lab.util.ParameterString) {
+  } else if (event instanceof ParameterString) {
     this.numStrings++;
   }
 };
@@ -137,6 +138,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = f
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
+  const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
   if (event instanceof GenericEvent) {
     var LabView = myphysicslab.lab.view.LabView;
     this.numEvents++;
@@ -149,7 +151,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = f
     this.numBooleans++;
   } else if (event instanceof ParameterNumber) {
     this.numDoubles++;
-  } else if (event instanceof myphysicslab.lab.util.ParameterString) {
+  } else if (event instanceof ParameterString) {
     this.numStrings++;
   }
 };

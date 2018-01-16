@@ -41,7 +41,7 @@ var LabView = myphysicslab.lab.view.LabView;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var ParameterString = myphysicslab.lab.util.ParameterString;
+const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

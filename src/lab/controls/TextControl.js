@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var TextControlBase = myphysicslab.lab.controls.TextControlBase;
-var ParameterString = myphysicslab.lab.util.ParameterString;
+const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A user interface control for displaying and editing the value of a

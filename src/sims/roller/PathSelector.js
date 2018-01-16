@@ -28,7 +28,7 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var HasPath = myphysicslab.sims.roller.HasPath;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
-var ParameterString = myphysicslab.lab.util.ParameterString;
+const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
