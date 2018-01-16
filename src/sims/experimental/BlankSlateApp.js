@@ -205,7 +205,7 @@ BlankSlateApp.getElementById = function(elem_ids, elementId) {
   return e;
 };
 
-/** @inheritDoc */
+/** @override */
 BlankSlateApp.prototype.getClassName = function() {
   return 'BlankSlateApp';
 };

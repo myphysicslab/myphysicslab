@@ -100,7 +100,7 @@ myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_ima
 var ButtonControl = myphysicslab.lab.controls.ButtonControl;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ButtonControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', timeoutID_: '+this.timeoutID_
@@ -109,25 +109,25 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ButtonControl.prototype.toStringShort = function() {
     return 'ButtonControl{label_: "'+this.label_+'"}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 ButtonControl.prototype.disconnect = function() {
   goog.events.unlistenByKey(this.mouseDownKey_);
   goog.events.unlistenByKey(this.mouseUpKey_);
   goog.events.unlistenByKey(this.dragLeaveKey_);
 };
 
-/** @inheritDoc */
+/** @override */
 ButtonControl.prototype.getElement = function() {
   return this.button_;
 };
 
-/** @inheritDoc */
+/** @override */
 ButtonControl.prototype.getParameter = function() {
   return null;
 };
@@ -172,7 +172,7 @@ ButtonControl.prototype.setClickFunction = function(clickFunction) {
   this.clickFunction_ = clickFunction;
 };
 
-/** @inheritDoc */
+/** @override */
 ButtonControl.prototype.setEnabled = function(enabled) {
   this.button_.disabled = !enabled;
 };

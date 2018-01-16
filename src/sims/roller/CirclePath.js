@@ -56,24 +56,24 @@ var CirclePath = myphysicslab.sims.roller.CirclePath;
 goog.inherits(CirclePath, AbstractPath);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CirclePath.prototype.toString = function() {
     return CirclePath.superClass_.toString.call(this).slice(0, -1)
         + ', radius_: '+Util.NF(this.radius_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CirclePath.prototype.getClassName = function() {
   return 'CirclePath';
 };
 
-/** @inheritDoc */
+/** @override */
 CirclePath.prototype.x_func = function(t) {
   return this.radius_*Math.cos(t);
 };
 
-/** @inheritDoc */
+/** @override */
 CirclePath.prototype.y_func = function(t) {
   return this.radius_*Math.sin(t);
 };

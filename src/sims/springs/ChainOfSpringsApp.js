@@ -173,7 +173,7 @@ var ChainOfSpringsApp = sims.springs.ChainOfSpringsApp;
 goog.inherits(ChainOfSpringsApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ChainOfSpringsApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', numAtoms: '+this.numAtoms
@@ -182,7 +182,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsApp.prototype.getClassName = function() {
   return 'ChainOfSpringsApp';
 };
@@ -206,7 +206,7 @@ ChainOfSpringsApp.prototype.addBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());

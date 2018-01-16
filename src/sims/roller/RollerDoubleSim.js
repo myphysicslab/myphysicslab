@@ -187,7 +187,7 @@ var RollerDoubleSim = myphysicslab.sims.roller.RollerDoubleSim;
 goog.inherits(RollerDoubleSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RollerDoubleSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1_: '+this.ball1_
@@ -201,17 +201,17 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.getClassName = function() {
   return 'RollerDoubleSim';
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.getPath = function() {
   return this.path_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.setPath = function(path) {
   var simList = this.getSimList();
   var oldPath = this.path_;
@@ -233,7 +233,7 @@ RollerDoubleSim.prototype.setPath = function(path) {
   this.saveInitialState();
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -279,7 +279,7 @@ RollerDoubleSim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -302,13 +302,13 @@ RollerDoubleSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   if (simObject == this.ball1_) {
@@ -321,7 +321,7 @@ RollerDoubleSim.prototype.startDrag = function(simObject, location, offset, drag
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   if (this.path_ == null)
@@ -344,16 +344,16 @@ RollerDoubleSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 RollerDoubleSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   change[7] = 1; // time

@@ -143,7 +143,7 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
 var PathObserver = myphysicslab.sims.roller.PathObserver;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PathObserver.prototype.toString = function() {
     return 'PathObserver{'
       +'simList_: '+this.simList_.toStringShort()
@@ -155,7 +155,7 @@ if (!Util.ADVANCED) {
       +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   PathObserver.prototype.toStringShort = function() {
     return 'PathObserver{}';
   };
@@ -217,7 +217,7 @@ PathObserver.prototype.removePath = function(np) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 PathObserver.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList_) {
     var obj = /** @type {!SimObject} */ (event.getValue());

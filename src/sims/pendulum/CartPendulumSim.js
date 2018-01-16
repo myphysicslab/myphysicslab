@@ -229,7 +229,7 @@ var CartPendulumSim = myphysicslab.sims.pendulum.CartPendulumSim;
 goog.inherits(CartPendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CartPendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gravity_: '+Util.NF(this.gravity_)
@@ -245,7 +245,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.getClassName = function() {
   return 'CartPendulumSim';
 };
@@ -258,7 +258,7 @@ CartPendulumSim.prototype.initWork = function() {
   this.initialEnergy_ = this.getEnergyInfo().getTotalEnergy();
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -283,13 +283,13 @@ CartPendulumSim.prototype.getEnergyInfo_ = function(vars) {
        this.initialEnergy_);
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -332,7 +332,7 @@ CartPendulumSim.prototype.moveObjects = function(vars) {
   this.rod_.setEndPoint(this.pendulum_.getPosition());
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.cart_ || simObject == this.pendulum_) {
@@ -343,7 +343,7 @@ CartPendulumSim.prototype.startDrag = function(simObject, location, offset, drag
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -368,16 +368,16 @@ CartPendulumSim.prototype.mouseDrag = function(simObject, location, offset, mous
   this.initWork();
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.finishDrag = function(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

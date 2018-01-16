@@ -134,7 +134,7 @@ myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
 var CoordMap = myphysicslab.lab.view.CoordMap;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CoordMap.prototype.toString = function() {
     return 'CoordMap{screen_left_: '+Util.NF(this.screen_left_)
         +', screen_bottom_: '+Util.NF(this.screen_bottom_)

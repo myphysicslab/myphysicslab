@@ -91,31 +91,31 @@ myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff)
 var ToggleControl = myphysicslab.lab.controls.ToggleControl;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ToggleControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         + ', state_: '+this.state_
         + '}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ToggleControl.prototype.toStringShort = function() {
     return 'ToggleControl{parameter_: '+ this.parameter_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ToggleControl.prototype.disconnect = function() {
   this.parameter_.getSubject().removeObserver(this);
   goog.events.unlistenByKey(this.clickKey_);
 };
 
-/** @inheritDoc */
+/** @override */
 ToggleControl.prototype.getElement = function() {
   return this.button_;
 };
 
-/** @inheritDoc */
+/** @override */
 ToggleControl.prototype.getParameter = function() {
   return this.parameter_;
 };
@@ -136,7 +136,7 @@ ToggleControl.prototype.handleClick = function(event) {
   this.setState(!this.state_);
 };
 
-/** @inheritDoc */
+/** @override */
 ToggleControl.prototype.observe =  function(event) {
   // only update when this parameter has changed
   if (event == this.parameter_) {
@@ -145,7 +145,7 @@ ToggleControl.prototype.observe =  function(event) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ToggleControl.prototype.setEnabled = function(enabled) {
   this.button_.disabled = !enabled;
 };

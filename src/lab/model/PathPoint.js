@@ -212,17 +212,17 @@ PathPoint.prototype.getSlope = function() {
   return new Vector(this.slopeX, this.slopeY);
 };
 
-/** @inheritDoc */
+/** @override */
 PathPoint.prototype.getX = function() {
   return this.x;
 };
 
-/** @inheritDoc */
+/** @override */
 PathPoint.prototype.getY = function() {
   return this.y;
 };
 
-/** @inheritDoc */
+/** @override */
 PathPoint.prototype.getZ = function() {
   return 0;
 };

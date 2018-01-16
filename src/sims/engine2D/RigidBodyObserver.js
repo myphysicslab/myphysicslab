@@ -218,7 +218,7 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
 var RigidBodyObserver = myphysicslab.sims.engine2D.RigidBodyObserver;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidBodyObserver.prototype.toString = function() {
     return 'RigidBodyObserver{'
       +'ordering: "'+RigidBodyObserver.ordering+'"'
@@ -227,7 +227,7 @@ if (!Util.ADVANCED) {
       +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   RigidBodyObserver.prototype.toStringShort = function() {
     return 'RigidBodyObserver{}';
   };
@@ -357,7 +357,7 @@ RigidBodyObserver.prototype.removeBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyObserver.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList_) {
     var obj = /** @type {!SimObject} */ (event.getValue());

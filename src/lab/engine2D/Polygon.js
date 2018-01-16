@@ -360,7 +360,7 @@ var Polygon = myphysicslab.lab.engine2D.Polygon;
 goog.inherits(Polygon, AbstractMassObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Polygon.prototype.toString = function() {
     return Polygon.superClass_.toString.call(this).slice(0, -1)
         +', elasticity: ' +Util.NF(this.elasticity_)
@@ -373,7 +373,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getClassName = function() {
   return 'Polygon';
 };
@@ -499,7 +499,7 @@ Polygon.prototype.addEdge = function(edge) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.addNonCollide = function(bodies) {
   this.nonCollideBodies_ = goog.array.join(this.nonCollideBodies_, bodies);
   goog.array.removeDuplicates(this.nonCollideBodies_);
@@ -686,7 +686,7 @@ Polygon.prototype.closePath_ = function(v1, v2) {
   goog.array.remove(this.vertices_, v2);
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.createCanvasPath = function(context) {
   context.beginPath();
   // v0 = starting Vertex of the current path being examined
@@ -724,12 +724,12 @@ Polygon.prototype.createCanvasPath = function(context) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.doesNotCollide = function(body) {
   return goog.array.contains(this.nonCollideBodies_, body);
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.eraseOldCoords = function() {
   this.body_old_ = null;
 };
@@ -801,17 +801,17 @@ Polygon.prototype.finish = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getAccuracy = function() {
   return this.accuracy_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getBottomBody = function() {
   return this.bottom_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getCentroidBody = function() {
   if (this.centroid_body_ == null) {
     this.centroid_body_ = this.findCentroid();
@@ -820,12 +820,12 @@ Polygon.prototype.getCentroidBody = function() {
   return this.centroid_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getCentroidRadius = function() {
   return this.centroidRadius_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getDistanceTol = function() {
   return this.distanceTol_;
 };
@@ -846,17 +846,17 @@ Polygon.prototype.getEdges = function() {
   return goog.array.clone(this.edges_);
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getElasticity = function() {
   return this.elasticity_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getLeftBody = function() {
   return this.left_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getMinHeight = function() {
   //BUG WARNING:  Will be incorrect for Ball or Oval,
   //when the center of mass is not on one of the axes of the circle/ellipse.
@@ -931,12 +931,12 @@ Polygon.prototype.getMinHeight2 = function() {
   return this.minHeight_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getOldCoords = function() {
   return this.body_old_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getRightBody = function() {
   return this.right_body_;
 };
@@ -977,7 +977,7 @@ Polygon.prototype.getStartVertex = function() {
   return this.startVertex_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getTopBody = function() {
   return this.top_body_;
 };
@@ -1010,12 +1010,12 @@ Polygon.prototype.getVarName = function(index, localized) {
   return s;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getVarsIndex = function() {
   return this.varsIndex_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getVelocityTol = function() {
   return this.velocityTol_;
 };
@@ -1028,7 +1028,7 @@ Polygon.prototype.getVertexes_ = function() {
   return this.vertices_;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.getVerticesBody = function() {
   return goog.array.map(this.vertices_, function(v) { return v.locBody(); });
 };
@@ -1162,14 +1162,14 @@ Polygon.prototype.probablyPointInside = function(p_body) {
   return edge == null;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.removeNonCollide = function(bodies) {
   goog.array.removeAllIf(this.nonCollideBodies_, function(body, index, arr) {
     return goog.array.contains(bodies, body);
   });
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.saveOldCoords = function() {
   if (this.body_old_ == null) {
     this.body_old_ = this.body_old_save_;
@@ -1177,7 +1177,7 @@ Polygon.prototype.saveOldCoords = function() {
   this.body_old_.set(this.cm_body_, this.loc_world_, this.sinAngle_, this.cosAngle_);
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.setAccuracy = function(accuracy) {
   if (accuracy <= 0 || accuracy > 1) {
     throw new Error('accuracy must be between 0 and 1, is '+accuracy);
@@ -1219,12 +1219,12 @@ Polygon.prototype.setCentroid = function(centroid_body) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.setDistanceTol = function(value) {
   this.distanceTol_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.setElasticity = function(value) {
   this.elasticity_ = value;
 };
@@ -1253,7 +1253,7 @@ Polygon.prototype.setNonCollideEdge = function(nonCollideSet) {
   this.nonCollideSet_ = nonCollideSet;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.setPosition = function(loc_world, angle) {
   this.loc_world_ = Vector.clone(loc_world);
   if (goog.isDef(angle) && isFinite(angle) && this.angle_ != angle) {
@@ -1314,7 +1314,7 @@ Polygon.prototype.setVarsIndex = function(index) {
   this.varsIndex_ = index;
 };
 
-/** @inheritDoc */
+/** @override */
 Polygon.prototype.setVelocityTol = function(value) {
   this.velocityTol_ = value;
 };

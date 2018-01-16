@@ -50,37 +50,37 @@ var FunctionVariable = myphysicslab.lab.model.FunctionVariable;
 goog.inherits(FunctionVariable, ConcreteVariable);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   FunctionVariable.prototype.toString = function() {
     return FunctionVariable.superClass_.toString.call(this).slice(0, -1)
         + ', function_: '+this.function_+ '}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 FunctionVariable.prototype.getBroadcast = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 FunctionVariable.prototype.getClassName = function() {
   return 'FunctionVariable';
 };
 
-/** @inheritDoc */
+/** @override */
 FunctionVariable.prototype.getValue = function() {
   return this.function_();
 };
 
-/** @inheritDoc */
+/** @override */
 FunctionVariable.prototype.setBroadcast = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 FunctionVariable.prototype.setValue = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 FunctionVariable.prototype.setValueSmooth = function(value) {
 };
 

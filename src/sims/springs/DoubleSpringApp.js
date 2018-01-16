@@ -146,7 +146,7 @@ var DoubleSpringApp = myphysicslab.sims.springs.DoubleSpringApp;
 goog.inherits(DoubleSpringApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoubleSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', block1: '+this.block1.toStringShort()
@@ -160,12 +160,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringApp.prototype.getClassName = function() {
   return 'DoubleSpringApp';
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringApp.prototype.defineNames = function(myName) {
   DoubleSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('wall1|wall2|block1|block2|spring1|spring2|spring3'

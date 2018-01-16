@@ -95,7 +95,7 @@ var SimList = myphysicslab.lab.model.SimList;
 goog.inherits(SimList, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SimList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', tolerance_: '+Util.NF(this.tolerance_)
@@ -106,14 +106,14 @@ if (!Util.ADVANCED) {
         + ']' + SimList.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   SimList.prototype.toStringShort = function() {
     return SimList.superClass_.toStringShort.call(this).slice(0, -1)
         + ', length: '+this.elements_.length+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 SimList.prototype.getClassName = function() {
   return 'SimList';
 };

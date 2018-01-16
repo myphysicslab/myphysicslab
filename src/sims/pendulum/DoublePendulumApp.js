@@ -130,7 +130,7 @@ var DoublePendulumApp = sims.pendulum.DoublePendulumApp;
 goog.inherits(DoublePendulumApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoublePendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bob1: '+this.bob1.toStringShort()
@@ -141,12 +141,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumApp.prototype.getClassName = function() {
   return 'DoublePendulumApp';
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumApp.prototype.defineNames = function(myName) {
   DoublePendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod1|rod2|bob1|bob2',

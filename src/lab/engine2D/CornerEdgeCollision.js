@@ -83,7 +83,7 @@ var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 goog.inherits(CornerEdgeCollision, RigidBodyCollision);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CornerEdgeCollision.prototype.toString = function() {
     return CornerEdgeCollision.superClass_.toString.call(this).slice(0, -1)
         +', vertex-id: '+ this.vertex.getID()
@@ -95,12 +95,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.getClassName = function() {
   return 'CornerEdgeCollision';
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.checkConsistent = function() {
   CornerEdgeCollision.superClass_.checkConsistent.call(this);
   // both primary and normal edge always exist for non-joint
@@ -120,7 +120,7 @@ CornerEdgeCollision.prototype.checkConsistent = function() {
   goog.asserts.assert( this.normalEdge.isStraight() == !this.ballNormal );
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.getU2 = function() {
   if (this.u2_ != null) {
     return this.u2_; // cached value to speed up performance
@@ -139,7 +139,7 @@ CornerEdgeCollision.prototype.getU2 = function() {
   return this.getR2();
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.hasEdge = function(edge) {
   // if edge is null, then always returns false
   if (edge == null) {
@@ -149,12 +149,12 @@ CornerEdgeCollision.prototype.hasEdge = function(edge) {
     this.primaryEdge2 == edge;
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.hasVertex = function(v) {
   return v == this.vertex;
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.similarTo = function(c) {
   if (!c.hasBody(this.primaryBody) || !c.hasBody(this.normalBody)) {
     return false;
@@ -193,7 +193,7 @@ CornerEdgeCollision.prototype.similarTo = function(c) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 CornerEdgeCollision.prototype.updateCollision = function(time) {
   this.u2_ = null; // invalidate cached value
   // vertex/edge collision

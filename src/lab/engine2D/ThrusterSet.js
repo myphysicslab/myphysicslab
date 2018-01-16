@@ -83,7 +83,7 @@ myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) 
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ThrusterSet.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', thrusters: '+this.active_.length
@@ -94,7 +94,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ThrusterSet.prototype.toStringShort = function() {
     return 'ThrusterSet{rigidBody_: "'+this.rigidBody_.getName()+'"}';
   };
@@ -111,7 +111,7 @@ ThrusterSet.prototype.anyActive  = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 ThrusterSet.prototype.calculateForces  = function() {
   var forces = [];
   for (var k=0; k<this.active_.length; k++) {  // for each thruster
@@ -127,7 +127,7 @@ ThrusterSet.prototype.calculateForces  = function() {
   return forces;
 };
 
-/** @inheritDoc */
+/** @override */
 ThrusterSet.prototype.disconnect = function() {
 };
 
@@ -139,7 +139,7 @@ ThrusterSet.prototype.getActive  = function(index) {
   return this.active_[index];
 };
 
-/** @inheritDoc */
+/** @override */
 ThrusterSet.prototype.getBodies = function() {
   return [ this.rigidBody_ ];
 };
@@ -176,7 +176,7 @@ ThrusterSet.prototype.getMagnitude  = function() {
   return this.magnitude_;
 };
 
-/** @inheritDoc */
+/** @override */
 ThrusterSet.prototype.getPotentialEnergy  = function() {
   return 0;
 };

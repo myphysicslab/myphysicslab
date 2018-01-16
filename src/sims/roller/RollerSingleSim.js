@@ -181,7 +181,7 @@ var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
 goog.inherits(RollerSingleSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RollerSingleSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1_: '+this.ball1_
@@ -196,17 +196,17 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.getClassName = function() {
   return 'RollerSingleSim';
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.getPath = function() {
   return this.path_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.setPath = function(path) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
@@ -237,7 +237,7 @@ RollerSingleSim.prototype.setPath = function(path) {
   this.saveInitialState();
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.modifyObjects = function() {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
@@ -277,7 +277,7 @@ RollerSingleSim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -300,13 +300,13 @@ RollerSingleSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   if (simObject == this.ball1_) {
@@ -318,7 +318,7 @@ RollerSingleSim.prototype.startDrag = function(simObject, location, offset, drag
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   // 0  1    2   3  4   5   6   7     8        9
@@ -337,16 +337,16 @@ RollerSingleSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY

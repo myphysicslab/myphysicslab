@@ -248,7 +248,7 @@ var NumericalPath = myphysicslab.lab.model.NumericalPath;
 goog.inherits(NumericalPath, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   NumericalPath.prototype.toString = function() {
     return NumericalPath.superClass_.toString.call(this).slice(0, -1)
         +', length: ' + Util.NF5(this.getLength())
@@ -258,7 +258,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 NumericalPath.prototype.getClassName = function() {
   return 'NumericalPath';
 };
@@ -605,7 +605,7 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
   ppt.idx = k_int;
  }
 
-/** @inheritDoc */
+/** @override */
 NumericalPath.prototype.getBoundsWorld = function() {
   return this.bounds;
 };
@@ -619,7 +619,7 @@ NumericalPath.prototype.getFinishPValue = function() {
   return this.pvals[this.pvals.length-1];
 };
 
-/** @inheritDoc */
+/** @override */
 NumericalPath.prototype.getIterator = function (numPoints) {
   return new PointsIterator(this, numPoints);
 };
@@ -632,7 +632,7 @@ NumericalPath.prototype.getLength = function() {
   return this.getFinishPValue() - this.getStartPValue();
 };
 
-/** @inheritDoc */
+/** @override */
 NumericalPath.prototype.getSequence = function () {
   return 0; // never changes
 };
@@ -1342,7 +1342,7 @@ myphysicslab.lab.model.PointsIterator = function(path, numberOfPoints) {
 };
 var PointsIterator = myphysicslab.lab.model.PointsIterator;
 
-/** @inheritDoc */
+/** @override */
 PointsIterator.prototype.nextPoint = function(point) {
   var n = this.path_.getTableLength();
   if (this.idx_ >=  n-1) {

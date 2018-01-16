@@ -212,7 +212,7 @@ var DangleStickSim = myphysicslab.sims.springs.DangleStickSim;
 goog.inherits(DangleStickSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DangleStickSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gravity_: '+Util.NF(this.gravity_)
@@ -225,7 +225,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.getClassName = function() {
   return 'DangleStickSim';
 };
@@ -243,7 +243,7 @@ DangleStickSim.prototype.restState = function() {
   va.setValues(vars);
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -292,7 +292,7 @@ DangleStickSim.prototype.moveObjects = function(vars) {
   this.stick_.setEndPoint(this.bob2_.getPosition());
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.bob1_ || simObject == this.bob2_) {
@@ -303,7 +303,7 @@ DangleStickSim.prototype.startDrag = function(simObject, location, offset, dragB
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -332,16 +332,16 @@ DangleStickSim.prototype.mouseDrag = function(simObject, location, offset, mouse
   this.moveObjects(vars);
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.finishDrag = function(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickSim.prototype.evaluate = function(vars, change, timeStep) {
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
   Util.zeroArray(change);

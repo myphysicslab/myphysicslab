@@ -104,7 +104,7 @@ myphysicslab.lab.util.ParameterBoolean = function(subject, name, localName, gett
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ParameterBoolean.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', isComputed_: '+this.isComputed_
@@ -114,29 +114,29 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ParameterBoolean.prototype.toStringShort = function() {
     return 'ParameterBoolean{name_: "'+this.name_+'"'
         +', value: '+this.getValue()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.getAsString = function() {
   return this.getValue().toString();
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.getChoices = function() {
   return goog.array.clone(this.choices_);
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.getName = function(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.getSubject = function() {
   return this.subject_;
 };
@@ -148,17 +148,17 @@ ParameterBoolean.prototype.getValue = function() {
   return this.getter_();
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.getValues = function() {
   return goog.array.map(this.values_, function(v) { return v.toString(); });
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.isComputed = function() {
   return this.isComputed_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.nameEquals = function(name) {
   return this.name_ == Util.toName(name);
 };
@@ -187,12 +187,12 @@ ParameterBoolean.prototype.setChoices_ = function(choices, values) {
   this.values_ = values;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.setComputed = function(value) {
   this.isComputed_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterBoolean.prototype.setFromString = function(value) {
   this.setValue(value == 'true' || value == 'TRUE');
 };

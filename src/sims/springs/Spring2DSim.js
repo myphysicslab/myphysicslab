@@ -220,7 +220,7 @@ var Spring2DSim = myphysicslab.sims.springs.Spring2DSim;
 goog.inherits(Spring2DSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Spring2DSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gravity_: '+Util.NF(this.gravity_)
@@ -232,7 +232,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.getClassName = function() {
   return 'Spring2DSim';
 };
@@ -256,7 +256,7 @@ Spring2DSim.prototype.restState = function() {
   this.setPotentialEnergy(0);
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -276,13 +276,13 @@ Spring2DSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -307,7 +307,7 @@ Spring2DSim.prototype.moveObjects = function(vars) {
   this.anchor_.setPosition(new Vector(vars[8],  vars[9]));
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.bob_) {
@@ -319,7 +319,7 @@ Spring2DSim.prototype.startDrag = function(simObject, location, offset, dragBody
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
@@ -337,16 +337,16 @@ Spring2DSim.prototype.mouseDrag = function(simObject, location, offset, mouseEve
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.finishDrag = function(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DSim.prototype.evaluate = function(vars, change, timeStep) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY

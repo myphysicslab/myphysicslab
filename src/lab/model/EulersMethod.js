@@ -63,29 +63,29 @@ myphysicslab.lab.model.EulersMethod = function(ode) {
 var EulersMethod = myphysicslab.lab.model.EulersMethod;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EulersMethod.prototype.toString = function() {
     return this.toStringShort();
   };
 
-  /** @inheritDoc */
+  /** @override */
   EulersMethod.prototype.toStringShort = function() {
     return 'EulersMethod{ode_: '+this.ode_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 EulersMethod.prototype.getName = function(opt_localized) {
   return opt_localized ? EulersMethod.i18n.NAME :
       Util.toName(EulersMethod.en.NAME);
 };
 
-/** @inheritDoc */
+/** @override */
 EulersMethod.prototype.nameEquals = function(name) {
   return this.getName() == Util.toName(name);
 };
 
-/** @inheritDoc */
+/** @override */
 EulersMethod.prototype.step = function(stepSize) {
   var error, i;
   var va = this.ode_.getVarsList();

@@ -117,7 +117,7 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
 var DisplayGraph = myphysicslab.lab.graph.DisplayGraph;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
@@ -147,13 +147,13 @@ DisplayGraph.prototype.addGraphLine = function(graphLine) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.contains = function(p_world) {
   // ? this seems wrong, but need the CoordMap to convert screenRect to sim coords
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.draw = function(context, map) {
   if (this.screenRect_.isEmpty()) {
     if (Util.DEBUG) {
@@ -327,12 +327,12 @@ DisplayGraph.prototype.fullDraw = function(context, coordMap) {
   this.incrementalDraw(context, coordMap);
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.getMassObjects = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.getPosition = function() {
   //? what to return here ??? center of screenRect in sim coords?
   return Vector.ORIGIN;
@@ -347,7 +347,7 @@ DisplayGraph.prototype.getScreenRect = function() {
   return this.screenRect_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.getSimObjects = function() {
   return [];
 };
@@ -359,7 +359,7 @@ DisplayGraph.prototype.getUseBuffer = function() {
   return this.useBuffer_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.getZIndex = function() {
   return this.zIndex;
 };
@@ -383,7 +383,7 @@ DisplayGraph.prototype.incrementalDraw = function(context, coordMap) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.isDragable = function() {
   return false;
 };
@@ -411,11 +411,11 @@ DisplayGraph.prototype.reset = function() {
   this.needRedraw_ = true;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.setDragable = function(dragable) {
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.setPosition = function(position) {
   //throw new Error(); // unsupported
 };
@@ -441,7 +441,7 @@ DisplayGraph.prototype.setUseBuffer = function(value) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayGraph.prototype.setZIndex = function(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };

@@ -67,7 +67,7 @@ myphysicslab.lab.graph.GraphStyle = function(index, drawMode, color, lineWidth) 
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GraphStyle.prototype.toString = function() {
     return 'GraphStyle{index_: '+this.index_
         +', drawMode: '+this.drawMode

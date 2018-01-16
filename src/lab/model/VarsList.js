@@ -148,7 +148,7 @@ var VarsList = myphysicslab.lab.model.VarsList;
 goog.inherits(VarsList, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   VarsList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', timeIdx_: '+this.timeIdx_
@@ -158,19 +158,19 @@ if (!Util.ADVANCED) {
         + VarsList.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   VarsList.prototype.toStringShort = function() {
     var s = VarsList.superClass_.toStringShort.call(this);
     return s.slice(0, -1) +', numVars: '+this.varList_.length+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 VarsList.prototype.getClassName = function() {
   return 'VarsList';
 };
 
-/** @inheritDoc */
+/** @override */
 VarsList.prototype.addParameter = function(parameter) {
   throw new Error('addParameter not allowed on VarsList');
 };
@@ -312,7 +312,7 @@ VarsList.prototype.getHistory = function() {
   return this.history_;
 };
 
-/** @inheritDoc */
+/** @override */
 VarsList.prototype.getParameter = function(name) {
   name = Util.toName(name);
   var p = goog.array.find(this.varList_, function(p) {
@@ -324,7 +324,7 @@ VarsList.prototype.getParameter = function(name) {
   throw new Error('Parameter not found '+name);
 };
 
-/** @inheritDoc */
+/** @override */
 VarsList.prototype.getParameters = function() {
   return goog.array.clone(this.varList_);
 };

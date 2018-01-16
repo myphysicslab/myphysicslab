@@ -62,29 +62,29 @@ myphysicslab.lab.model.ModifiedEuler = function(ode) {
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ModifiedEuler.prototype.toString = function() {
     return this.toStringShort();
   };
 
-  /** @inheritDoc */
+  /** @override */
   ModifiedEuler.prototype.toStringShort = function() {
     return 'ModifiedEuler{ode_: '+this.ode_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ModifiedEuler.prototype.getName = function(opt_localized) {
   return opt_localized ? ModifiedEuler.i18n.NAME :
       Util.toName(ModifiedEuler.en.NAME);
 };
 
-/** @inheritDoc */
+/** @override */
 ModifiedEuler.prototype.nameEquals = function(name) {
   return this.getName() == Util.toName(name);
 };
 
-/** @inheritDoc */
+/** @override */
 ModifiedEuler.prototype.step = function(stepSize) {
   var error, i;
   var va = this.ode_.getVarsList();

@@ -386,7 +386,7 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidBodyCollision.prototype.toString = function() {
     return this.getClassName() + '{distance: '+Util.NF5E(this.distance)
         +', normalVelocity_: '+Util.NF5E(this.normalVelocity_)
@@ -415,7 +415,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.bilateral = function() {
   return this.joint;
 };
@@ -451,7 +451,7 @@ RigidBodyCollision.prototype.checkConsistent = function() {
   //}
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
   if (this.contact())
     return true;
@@ -472,7 +472,7 @@ RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.contact = function() {
   return this.joint || Math.abs(this.getNormalVelocity()) < this.velocityTol_ &&
     this.distance > 0 && this.distance < this.distanceTol_;
@@ -502,12 +502,12 @@ RigidBodyCollision.prototype.getConnector = function() {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.getDetectedTime = function() {
   return this.detectedTime_;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.getDistance = function() {
   return this.distance;
 };
@@ -522,7 +522,7 @@ RigidBodyCollision.prototype.getElasticity = function() {
   return this.elasticity_;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.getEstimatedTime = function() {
   return this.estimate_;
 };
@@ -545,7 +545,7 @@ RigidBodyCollision.prototype.getImpact2 = function() {
   return this.impact2;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.getImpulse = function() {
   return this.impulse;
 };
@@ -683,7 +683,7 @@ RigidBodyCollision.prototype.getU2 = function() {
   return this.getR2();
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.getVelocity = function() {
   return this.getNormalVelocity();
 };
@@ -716,7 +716,7 @@ RigidBodyCollision.prototype.hasVertex = function(v) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.illegalState = function() {
   if (this.joint) {
     return false;
@@ -724,7 +724,7 @@ RigidBodyCollision.prototype.illegalState = function() {
   return this.distance < 0;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.isColliding = function() {
   if (this.joint) {
     return false; // joints are never colliding
@@ -740,12 +740,12 @@ RigidBodyCollision.prototype.isColliding = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.isTouching = function() {
   return this.joint || this.distance < this.distanceTol_;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.needsHandling = function() {
   return this.mustHandle_;
 };
@@ -778,7 +778,7 @@ RigidBodyCollision.prototype.setDetectedTime = function(time) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyCollision.prototype.setNeedsHandling = function(needsHandling) {
   this.mustHandle_ = needsHandling;
 };

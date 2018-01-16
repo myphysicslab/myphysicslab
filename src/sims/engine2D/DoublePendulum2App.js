@@ -226,7 +226,7 @@ var DoublePendulum2App = sims.engine2D.DoublePendulum2App;
 goog.inherits(DoublePendulum2App, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoublePendulum2App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -235,12 +235,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulum2App.prototype.getClassName = function() {
   return 'DoublePendulum2App';
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulum2App.prototype.defineNames = function(myName) {
   DoublePendulum2App.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -249,7 +249,7 @@ DoublePendulum2App.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulum2App.prototype.getSubjects = function() {
   var subjects = DoublePendulum2App.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

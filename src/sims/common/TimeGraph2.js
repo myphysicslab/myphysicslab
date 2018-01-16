@@ -233,7 +233,7 @@ myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_contro
 var TimeGraph2 = myphysicslab.sims.common.TimeGraph2;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   TimeGraph2.prototype.toString = function() {
     return 'TimeGraph2{'
       +'canvas: '+this.canvas.toStringShort()
@@ -250,7 +250,7 @@ if (!Util.ADVANCED) {
       +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   TimeGraph2.prototype.toStringShort = function() {
     return 'TimeGraph2{}';
   };
@@ -268,7 +268,7 @@ TimeGraph2.prototype.addControl = function(control) {
   return control;
 };
 
-/** @inheritDoc */
+/** @override */
 TimeGraph2.prototype.getSubjects = function() {
   return [ this.line1, this.line2, this.view1, this.view2, this.autoScale1,
       this.autoScale2 ];

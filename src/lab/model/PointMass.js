@@ -88,7 +88,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 goog.inherits(PointMass, AbstractMassObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PointMass.prototype.toString = function() {
     return PointMass.superClass_.toString.call(this).slice(0, -1)
         +', shape_: ' + this.shape_
@@ -98,7 +98,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getClassName = function() {
   return 'PointMass';
 };
@@ -164,7 +164,7 @@ PointMass.makeRectangle = function(width, height, opt_name, opt_localName) {
   return p;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.createCanvasPath = function(context) {
   context.beginPath();
   var h = this.height_/2;
@@ -195,29 +195,29 @@ PointMass.prototype.createCanvasPath = function(context) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getBottomBody = function() {
   return -this.height_/2;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getCentroidBody = function() {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getCentroidRadius = function() {
   var w = this.width_/2;
   var h = this.height_/2;
   return Math.sqrt(w*w + h*h);
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getLeftBody = function() {
   return -this.width_/2;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getMinHeight = function() {
   if (isNaN(this.minHeight_)) {
     var cmx = this.cm_body_.getX();
@@ -240,7 +240,7 @@ PointMass.prototype.getMinHeight = function() {
   return this.minHeight_;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getRightBody = function() {
   return this.width_/2;
 };
@@ -252,12 +252,12 @@ PointMass.prototype.getShape = function() {
   return this.shape_;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getTopBody = function() {
   return this.height_/2;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.getVerticesBody = function() {
   var w = this.width_/2;
   var h = this.height_/2;
@@ -304,7 +304,7 @@ PointMass.prototype.setWidth = function(width) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 PointMass.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof PointMass)) {
     return false;

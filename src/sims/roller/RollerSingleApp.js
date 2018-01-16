@@ -179,7 +179,7 @@ var RollerSingleApp = myphysicslab.sims.roller.RollerSingleApp;
 goog.inherits(RollerSingleApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RollerSingleApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1: '+this.ball1.toStringShort()
@@ -189,12 +189,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleApp.prototype.getClassName = function() {
   return 'RollerSingleApp';
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleApp.prototype.defineNames = function(myName) {
   RollerSingleApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1|paths|pathSelect',
@@ -235,7 +235,7 @@ RollerSingleApp.prototype.setStartTValue = function(value) {
   this.broadcastParameter(RollerSingleApp.en.START_T_VALUE);
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleApp.prototype.getSubjects = function() {
   var subjects = RollerSingleApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.pathSelect, subjects);
@@ -295,7 +295,7 @@ RollerSingleApp.prototype.setYEquation = function(value) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RollerSingleApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.pathSelect) {
     this.easyScript.update();

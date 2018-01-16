@@ -283,7 +283,7 @@ var MoveableDoublePendulumSim = myphysicslab.sims.pendulum.MoveableDoublePendulu
 goog.inherits(MoveableDoublePendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   MoveableDoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', length1_: '+Util.NF(this.length1_)
@@ -302,7 +302,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.getClassName = function() {
   return 'MoveableDoublePendulumSim';
 };
@@ -346,7 +346,7 @@ MoveableDoublePendulumSim.prototype.setAnchorYVelocity = function() {
   va.setValue(8, value * Math.cos(this.frequency_ * this.getTime()));
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -376,13 +376,13 @@ MoveableDoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -455,7 +455,7 @@ MoveableDoublePendulumSim.prototype.getDragSpring = function() {
   return this.dragSpring_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.startDrag = function(simObject, location, offset,
     dragBody, mouseEvent) {
   if (simObject == this.anchor_) {
@@ -476,7 +476,7 @@ MoveableDoublePendulumSim.prototype.startDrag = function(simObject, location, of
   }
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
@@ -514,7 +514,7 @@ MoveableDoublePendulumSim.prototype.mouseDrag = function(simObject, location, of
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.finishDrag = function(simObject, location, offset) {
   this.pendulumDragging_ = false;
   if (this.springDragging_) {
@@ -523,12 +523,12 @@ MoveableDoublePendulumSim.prototype.finishDrag = function(simObject, location, o
   }
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed,
     keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 MoveableDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

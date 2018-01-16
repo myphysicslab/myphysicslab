@@ -164,7 +164,7 @@ var CollideSpringApp = myphysicslab.sims.springs.CollideSpringApp;
 goog.inherits(CollideSpringApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CollideSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', startGap: '+Util.NF(this.startGap)
@@ -174,12 +174,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringApp.prototype.getClassName = function() {
   return 'CollideSpringApp';
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringApp.prototype.defineNames = function(myName) {
   CollideSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('protoBlock|protoWall|protoSpring',
@@ -205,7 +205,7 @@ CollideSpringApp.prototype.addBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());

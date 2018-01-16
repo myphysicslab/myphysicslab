@@ -127,7 +127,7 @@ myphysicslab.lab.util.ParameterNumber = function(subject, name, localName, gette
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ParameterNumber.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', isComputed_: '+this.isComputed_
@@ -142,19 +142,19 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ParameterNumber.prototype.toStringShort = function() {
     return 'ParameterNumber{name_: "'+this.name_+'"'
         +', value: '+Util.NF(this.getValue())+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.getAsString = function() {
   return this.getValue().toString();
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.getChoices = function() {
   return goog.array.clone(this.choices_);
 };
@@ -174,7 +174,7 @@ ParameterNumber.prototype.getLowerLimit = function() {
   return this.lowerLimit_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.getName = function(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
@@ -187,7 +187,7 @@ ParameterNumber.prototype.getSignifDigits = function() {
   return this.signifDigits_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.getSubject = function() {
   return this.subject_;
 };
@@ -207,17 +207,17 @@ ParameterNumber.prototype.getValue = function() {
   return this.getter_();
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.getValues = function() {
   return goog.array.map(this.values_, function(v) { return v.toString(); });
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.isComputed = function() {
   return this.isComputed_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.nameEquals = function(name) {
   return this.name_ == Util.toName(name);
 };
@@ -247,7 +247,7 @@ ParameterNumber.prototype.setChoices_ = function(choices, values) {
   this.values_ = values;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.setComputed = function(value) {
   this.isComputed_ = value;
 };
@@ -261,7 +261,7 @@ ParameterNumber.prototype.setDecimalPlaces = function(decimals) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterNumber.prototype.setFromString = function(value) {
   var v = Number(value);
   if (isNaN(v)) {

@@ -203,7 +203,7 @@ var PendulumSpringApp = sims.engine2D.PendulumSpringApp;
 goog.inherits(PendulumSpringApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PendulumSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -224,12 +224,12 @@ PendulumSpringApp.prototype.addSpring = function(s) {
   this.simList.add(s);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSpringApp.prototype.getClassName = function() {
   return 'PendulumSpringApp';
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSpringApp.prototype.defineNames = function(myName) {
   PendulumSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw|graphLine|autoScale',
@@ -238,14 +238,14 @@ PendulumSpringApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSpringApp.prototype.getSubjects = function() {
   var subjects = PendulumSpringApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.gravityLaw, this.dampingLaw, this.graphLine,
        this.autoScale, subjects);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSpringApp.prototype.graphSetup = function(body) {
   var bodyIdx = this.mySim.getBody('block').getVarsIndex();
   this.graphLine.setXVariable(bodyIdx+0);

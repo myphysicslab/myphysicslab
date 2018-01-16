@@ -123,7 +123,7 @@ var DampingLaw = myphysicslab.lab.model.DampingLaw;
 goog.inherits(DampingLaw, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DampingLaw.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', rotateRatio: '+Util.NF5(this.rotateRatio_)
@@ -131,14 +131,14 @@ if (!Util.ADVANCED) {
         + DampingLaw.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   DampingLaw.prototype.toStringShort = function() {
     return DampingLaw.superClass_.toStringShort.call(this).slice(0, -1)
         +', damping: '+Util.NF5(this.damping_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DampingLaw.prototype.getClassName = function() {
   return 'DampingLaw';
 };
@@ -171,7 +171,7 @@ DampingLaw.prototype.addBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DampingLaw.prototype.calculateForces = function() {
   /** @type {!Array<!Force>} */
   var forces = [];
@@ -204,14 +204,14 @@ DampingLaw.prototype.connect = function(simList) {
   this.simList_ = simList;
 };
 
-/** @inheritDoc */
+/** @override */
 DampingLaw.prototype.disconnect = function() {
   if (this.simList_ != null) {
     this.simList_.removeObserver(this);
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DampingLaw.prototype.getBodies = function() {
   return goog.array.clone(this.bods_);
 };
@@ -223,7 +223,7 @@ DampingLaw.prototype.getDamping = function() {
   return this.damping_;
 };
 
-/** @inheritDoc */
+/** @override */
 DampingLaw.prototype.getPotentialEnergy = function() {
   return 0;
 };
@@ -236,7 +236,7 @@ DampingLaw.prototype.getRotateRatio = function() {
   return this.rotateRatio_;
 };
 
-/** @inheritDoc */
+/** @override */
 DampingLaw.prototype.observe =  function(event) {
   var obj;
   if (event.nameEquals(SimList.OBJECT_ADDED)) {

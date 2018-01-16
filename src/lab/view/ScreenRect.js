@@ -63,7 +63,7 @@ myphysicslab.lab.view.ScreenRect = function(left, top, width, height) {
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ScreenRect.prototype.toString = function() {
     return 'ScreenRect{left_: '+Util.NF(this.left_)
         +', top_: '+Util.NF(this.top_)

@@ -46,7 +46,7 @@ myphysicslab.lab.util.ConcreteMemoList = function() {
 var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ConcreteMemoList.prototype.toString = function() {
     return 'ConcreteMemoList{'
         +'memorizables_: ['
@@ -54,13 +54,13 @@ if (!Util.ADVANCED) {
         +']}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ConcreteMemoList.prototype.toStringShort = function() {
     return 'ConcreteMemoList{memorizables_.length: '+this.memorizables_.length+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteMemoList.prototype.addMemo = function(memorizable) {
   if (this.isMemorizing_) {
     throw new Error('addMemo during memorize');
@@ -70,12 +70,12 @@ ConcreteMemoList.prototype.addMemo = function(memorizable) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteMemoList.prototype.getMemos = function() {
   return goog.array.clone(this.memorizables_);
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteMemoList.prototype.memorize = function() {
   try {
     this.isMemorizing_ = true;
@@ -85,7 +85,7 @@ ConcreteMemoList.prototype.memorize = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteMemoList.prototype.removeMemo = function(memorizable) {
   if (this.isMemorizing_) {
     throw new Error('removeMemo during memorize');

@@ -153,7 +153,7 @@ var PendulumClockApp = sims.engine2D.PendulumClockApp;
 goog.inherits(PendulumClockApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PendulumClockApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -162,12 +162,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumClockApp.prototype.getClassName = function() {
   return 'PendulumClockApp';
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumClockApp.prototype.defineNames = function(myName) {
   PendulumClockApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -176,13 +176,13 @@ PendulumClockApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumClockApp.prototype.getSubjects = function() {
   var subjects = PendulumClockApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumClockApp.prototype.graphSetup = function(body) {
   body = this.mySim.getBody(PendulumClockConfig.en.ANCHOR);
   this.graph.line.setXVariable(body.getVarsIndex()+4);

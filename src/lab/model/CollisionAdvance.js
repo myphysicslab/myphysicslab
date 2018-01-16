@@ -228,7 +228,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   CollisionAdvance.prototype.toStringShort = function() {
     return 'CollisionAdvance{sim_: '+this.sim_.toStringShort()+'}';
   };
@@ -334,7 +334,7 @@ CollisionAdvance.prototype.addWayPoints = function(wayPoints) {
   this.wayPoints_ = goog.array.concat(this.wayPoints_, wayPoints);
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.advance = function(timeStep, opt_memoList) {
   if (timeStep < 1E-16) {
     this.sim_.modifyObjects();
@@ -799,7 +799,7 @@ CollisionAdvance.prototype.getCollisionTotals = function() {
   return this.collisionTotals_;
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.getDiffEqSolver = function() {
   return this.odeSolver_;
 };
@@ -811,12 +811,12 @@ CollisionAdvance.prototype.getJointSmallImpacts = function() {
   return this.jointSmallImpacts_;
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.getTime = function() {
   return this.sim_.getTime();
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.getTimeStep = function() {
   return this.timeStep_;
 };
@@ -1191,7 +1191,7 @@ CollisionAdvance.prototype.removeDistant = function(allowTiny) {
   return removed;
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.reset = function() {
   this.sim_.reset();
   this.collisionTotals_.reset();
@@ -1325,7 +1325,7 @@ CollisionAdvance.prototype.setDebugPaint = function(fn) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.setDiffEqSolver = function(diffEqSolver) {
   this.odeSolver_ = diffEqSolver;
 };
@@ -1337,7 +1337,7 @@ CollisionAdvance.prototype.setJointSmallImpacts = function(value) {
   this.jointSmallImpacts_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 CollisionAdvance.prototype.setTimeStep = function(timeStep) {
   this.timeStep_ = timeStep;
 };

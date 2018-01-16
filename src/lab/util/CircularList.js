@@ -159,7 +159,7 @@ myphysicslab.lab.util.CircularList = function(capacity) {
 var CircularList = myphysicslab.lab.util.CircularList;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CircularList.prototype.toString = function() {
     return 'CircularList{capacity_: '+this.capacity_
         +', size_: '+this.size_
@@ -185,7 +185,7 @@ CircularList.prototype.causeMaxIntError = function() {
   this.cycles_ = Math.floor(Util.MAX_INTEGER/this.capacity_) - 1;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.getEndIndex = function() {
   if (this.size_ == 0)
     return -1;
@@ -197,29 +197,29 @@ CircularList.prototype.getEndIndex = function() {
   return idx;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.getEndValue = function() {
   var idx = this.getEndIndex();
   return idx == -1 ? null : this.values_[this.indexToPointer(idx)];
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.getIterator = function(index) {
   return new CircularListIterator(this, index);
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.getSize = function() {
   return this.size_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.getStartIndex = function() {
   var idx = (this.size_ < this.capacity_) ? 0 : this.pointerToIndex(this.nextPtr_);
   return idx;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.getValue = function(index) {
   var i = this.indexToPointer(index);
   return this.values_[i];
@@ -256,14 +256,14 @@ CircularList.prototype.pointerToIndex = function(pointer) {
   return idx;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.reset = function() {
   this.nextPtr_ = this.size_ = 0;  // clear out the memory
   this.cycles_ = 0;
   this.lastPtr_ = -1;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularList.prototype.store = function(value) {
   this.lastPtr_ = this.nextPtr_;
   this.values_[this.nextPtr_] = value;
@@ -330,31 +330,31 @@ myphysicslab.lab.util.CircularListIterator = function(cList, startIndex) {
 };
 var CircularListIterator = myphysicslab.lab.util.CircularListIterator;
 
-/** @inheritDoc */
+/** @override */
 CircularListIterator.prototype.getIndex = function() {
   if (this.cList_.size_ == 0)
     throw new Error('no data');
   return this.index_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularListIterator.prototype.getValue = function() {
   if (this.cList_.size_ == 0)
     throw new Error('no data');
   return this.cList_.values_[this.pointer_];
 };
 
-/** @inheritDoc */
+/** @override */
 CircularListIterator.prototype.hasNext = function() {
   return this.first_ || this.index_ < this.cList_.getEndIndex();
 };
 
-/** @inheritDoc */
+/** @override */
 CircularListIterator.prototype.hasPrevious = function() {
   return this.first_ || this.index_ > this.cList_.getStartIndex();
 };
 
-/** @inheritDoc */
+/** @override */
 CircularListIterator.prototype.nextValue = function() {
   if (this.cList_.size_ === 0)
     throw new Error('no data');
@@ -371,7 +371,7 @@ CircularListIterator.prototype.nextValue = function() {
   return this.cList_.values_[this.pointer_];
 };
 
-/** @inheritDoc */
+/** @override */
 CircularListIterator.prototype.previousValue = function() {
   if (this.cList_.size_ === 0)
     throw new Error('no data');

@@ -154,7 +154,7 @@ var BrachistoApp = myphysicslab.sims.roller.BrachistoApp;
 goog.inherits(BrachistoApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   BrachistoApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
       +', brachistoObserver: '+this.brachistoObserver.toStringShort()
@@ -163,7 +163,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoApp.prototype.getClassName = function() {
   return 'BrachistoApp';
 };
@@ -201,7 +201,7 @@ BrachistoApp.prototype.setRepeatTime = function(value) {
   this.broadcastParameter(BrachistoApp.en.REPEAT_TIME);
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoApp.prototype.defineNames = function(myName) {
   BrachistoApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('brachistoObserver|paths',

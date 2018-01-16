@@ -52,30 +52,30 @@ var NumericControl = myphysicslab.lab.controls.NumericControl;
 goog.inherits(NumericControl, NumericControlBase);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   NumericControl.prototype.toString = function() {
     return NumericControl.superClass_.toString.call(this).slice(0, -1)
         + ', parameter_: '+this.parameter_.toStringShort()+'}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 NumericControl.prototype.disconnect = function() {
   NumericControl.superClass_.disconnect.call(this);
   this.parameter_.getSubject().removeObserver(this);
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControl.prototype.getClassName = function() {
   return 'NumericControl';
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControl.prototype.getParameter = function() {
   return this.parameter_;
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControl.prototype.observe =  function(event) {
   if (event == this.parameter_) {
     NumericControl.superClass_.observe.call(this, event);

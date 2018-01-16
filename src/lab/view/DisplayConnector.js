@@ -70,7 +70,7 @@ myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
 var DisplayConnector = myphysicslab.lab.view.DisplayConnector;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayConnector.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', radius: '+Util.NF5(this.getRadius())
@@ -80,19 +80,19 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayConnector.prototype.toStringShort = function() {
     return 'DisplayConnector{connector_: '+
         (this.connector_ != null ? this.connector_.toStringShort() : 'null')+'}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.contains = function(p_world) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.draw = function(context, map) {
   if (this.connector_ == null) {
     return;
@@ -110,7 +110,7 @@ DisplayConnector.prototype.draw = function(context, map) {
   context.restore();
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.isDragable = function() {
   return false;
 };
@@ -128,12 +128,12 @@ DisplayConnector.prototype.getColor = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.getMassObjects = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.getPosition = function() {
   return this.connector_ == null ? Vector.ORIGIN : this.connector_.getPosition1();
 };
@@ -151,12 +151,12 @@ DisplayConnector.prototype.getRadius = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.getSimObjects = function() {
   return this.connector_ == null ? [ ] : [ this.connector_ ];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -176,12 +176,12 @@ DisplayConnector.prototype.setColor = function(color) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.setDragable = function(dragable) {
   // do nothing, connectors cannot be moved
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.setPosition = function(position) {
   // do nothing, connectors cannot be moved
 };
@@ -195,7 +195,7 @@ DisplayConnector.prototype.setRadius = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayConnector.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

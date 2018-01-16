@@ -78,19 +78,19 @@ var LemniscatePath = myphysicslab.sims.roller.LemniscatePath;
 goog.inherits(LemniscatePath, AbstractPath);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   LemniscatePath.prototype.toString = function() {
     return LemniscatePath.superClass_.toString.call(this).slice(0, -1)
         + ', size: '+Util.NF(this.a_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 LemniscatePath.prototype.getClassName = function() {
   return 'LemniscatePath';
 };
 
-/** @inheritDoc */
+/** @override */
 LemniscatePath.prototype.x_func = function(t) {
   if (t<=Math.PI/4) {
     return this.a_ *Math.sqrt(2*Math.cos(2*t))*Math.cos(t);
@@ -102,7 +102,7 @@ LemniscatePath.prototype.x_func = function(t) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 LemniscatePath.prototype.y_func = function(t) {
   if (t<=Math.PI/4) {
     return this.a_*Math.sqrt(2*Math.cos(2*t))*Math.sin(t);

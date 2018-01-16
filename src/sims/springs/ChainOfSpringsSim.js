@@ -150,7 +150,7 @@ var ChainOfSpringsSim = myphysicslab.sims.springs.ChainOfSpringsSim;
 goog.inherits(ChainOfSpringsSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ChainOfSpringsSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', atoms: '+this.atoms_.length
@@ -166,7 +166,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.getClassName = function() {
   return 'ChainOfSpringsSim';
 };
@@ -329,7 +329,7 @@ ChainOfSpringsSim.prototype.straightLine = function()  {
   this.modifyObjects();
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -359,13 +359,13 @@ ChainOfSpringsSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -393,14 +393,14 @@ ChainOfSpringsSim.prototype.moveObjects = function(vars) {
   this.fixed2_.setPosition(new Vector(vars[6],  vars[7]));
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
   return this.dragAtom_ > -1 || simObject == this.fixed1_ || simObject == this.fixed2_;
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   var va = this.getVarsList();
@@ -427,16 +427,16 @@ ChainOfSpringsSim.prototype.mouseDrag = function(simObject, location, offset, mo
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragAtom_ = -1;
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 ChainOfSpringsSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...

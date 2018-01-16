@@ -132,7 +132,7 @@ var VectorGraphPendulumApp = sims.pendulum.VectorGraphPendulumApp;
 goog.inherits(VectorGraphPendulumApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   VectorGraphPendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bob: '+this.bob.toStringShort()
@@ -141,12 +141,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraphPendulumApp.prototype.getClassName = function() {
   return 'VectorGraphPendulumApp';
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraphPendulumApp.prototype.defineNames = function(myName) {
   VectorGraphPendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod|bob',

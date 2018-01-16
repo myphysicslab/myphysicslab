@@ -90,12 +90,12 @@ myphysicslab.lab.util.GenericMemo = function(func, opt_purpose) {
 var GenericMemo = myphysicslab.lab.util.GenericMemo;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GenericMemo.prototype.toString = function() {
     return this.toStringShort();
   };
 
-  /** @inheritDoc */
+  /** @override */
   GenericMemo.prototype.toStringShort = function() {
     return 'GenericMemo{'
         +(this.purpose_.length > 0 ? 'purpose_:"'+this.purpose_+'"' : '')
@@ -103,7 +103,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 GenericMemo.prototype.memorize = function() {
   this.function_();
 };

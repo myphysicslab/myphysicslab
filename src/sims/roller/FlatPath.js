@@ -45,17 +45,17 @@ myphysicslab.sims.roller.FlatPath = function(start, finish, name, localName) {
 var FlatPath = myphysicslab.sims.roller.FlatPath;
 goog.inherits(FlatPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 FlatPath.prototype.getClassName = function() {
   return 'FlatPath';
 };
 
-/** @inheritDoc */
+/** @override */
 FlatPath.prototype.x_func = function(t) {
   return t;
 };
 
-/** @inheritDoc */
+/** @override */
 FlatPath.prototype.y_func = function(t) {
   return 0;
 };

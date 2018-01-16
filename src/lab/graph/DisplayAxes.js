@@ -142,7 +142,7 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
 var DisplayAxes = myphysicslab.lab.graph.DisplayAxes;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayAxes.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', horizAxisAlignment_: '+this.horizAxisAlignment_
@@ -156,19 +156,19 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayAxes.prototype.toStringShort = function() {
     return 'DisplayAxes{horizName_: "'+this.horizName_
         +'", verticalName_: "'+this.verticalName_+'"}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.contains = function(point) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.draw = function(context, map) {
   //Draws both horizontal and vertical axes, getting the size of the axes from the
   //simulation rectangle
@@ -363,7 +363,7 @@ DisplayAxes.prototype.getHorizName = function() {
   return this.horizName_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.getMassObjects = function() {
   return [];
 };
@@ -412,12 +412,12 @@ DisplayAxes.getNiceStart = function(start, incr) {
   return Math.ceil(start/incr)*incr;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.getPosition = function() {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.getSimObjects = function() {
   return [];
 };
@@ -454,12 +454,12 @@ DisplayAxes.prototype.getYAxisAlignment = function() {
   return this.vertAxisAlignment_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.getZIndex = function() {
   return this.zIndex;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.isDragable = function() {
   return false;
 };
@@ -480,7 +480,7 @@ DisplayAxes.prototype.setColor = function(color) {
   this.needRedraw_ = true;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.setDragable = function(dragable) {
 };
 
@@ -500,7 +500,7 @@ DisplayAxes.prototype.setHorizName = function(name) {
   this.needRedraw_ = true;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.setPosition = function(position) {
 };
 
@@ -554,7 +554,7 @@ DisplayAxes.prototype.setYAxisAlignment = function(alignment, value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayAxes.prototype.setZIndex = function(zIndex) {
   if (goog.isDef(zIndex)) {
     this.zIndex = zIndex;

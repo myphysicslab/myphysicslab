@@ -56,7 +56,7 @@ myphysicslab.lab.engine2D.LocalCoords = function() {
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   LocalCoords.prototype.toString = function() {
     return 'LocalCoords{'
         +'loc_world_: '+this.loc_world_

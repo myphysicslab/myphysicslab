@@ -64,20 +64,20 @@ myphysicslab.lab.model.SimpleAdvance = function(sim, opt_diffEqSolver) {
 var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SimpleAdvance.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', odeSolver_: '+this.odeSolver_.toStringShort()
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   SimpleAdvance.prototype.toStringShort = function() {
     return 'SimpleAdvance{sim_: '+this.sim_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.advance = function(timeStep, opt_memoList) {
   this.sim_.getSimList().removeTemporary(this.sim_.getTime());
   var err = this.odeSolver_.step(timeStep);
@@ -90,32 +90,32 @@ SimpleAdvance.prototype.advance = function(timeStep, opt_memoList) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.getDiffEqSolver = function() {
   return this.odeSolver_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.getTime = function() {
   return this.sim_.getTime();
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.getTimeStep = function() {
   return this.timeStep_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.reset = function() {
   this.sim_.reset();
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.setDiffEqSolver = function(diffEqSolver) {
   this.odeSolver_ = diffEqSolver;
 };
 
-/** @inheritDoc */
+/** @override */
 SimpleAdvance.prototype.setTimeStep = function(timeStep) {
   this.timeStep_ = timeStep;
 };

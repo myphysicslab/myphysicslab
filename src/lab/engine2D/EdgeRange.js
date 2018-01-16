@@ -67,7 +67,7 @@ myphysicslab.lab.engine2D.EdgeRange = function(body, beginIdx, endIdx) {
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EdgeRange.prototype.toString = function() {
     return 'EdgeRange{beginIdx_: '+this.beginIdx_
         +', endIdx_: '+this.endIdx_
@@ -115,7 +115,7 @@ EdgeRange.fromPolygon = function(body) {
   return new EdgeRange(body, 0, body.getEdges().length-1);
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeRange.prototype.contains = function(edge) {
   if (edge.getBody() != this.body_) {
     return false;

@@ -96,7 +96,7 @@ myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplaySpring.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', width: '+Util.NF(this.getWidth())
@@ -108,7 +108,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplaySpring.prototype.toStringShort = function() {
     return 'DisplaySpring{spring_: '+
         (this.spring_ != null ? this.spring_.toStringShort() : 'null')+'}';
@@ -142,12 +142,12 @@ DisplaySpring.pathLength = 6.0;
 DisplaySpring.pathWidth = 0.5;
 
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.contains = function(p_world) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.draw = function(context, map) {
   if (this.spring_ == null) {
     return;
@@ -255,12 +255,12 @@ DisplaySpring.prototype.getDrawMode = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.getMassObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.getPosition = function() {
   // return midpoint of the line
   return this.spring_ == null ? Vector.ORIGIN :
@@ -275,7 +275,7 @@ DisplaySpring.prototype.getPrototype = function() {
   return this.proto_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.getSimObjects = function() {
   return this.spring_ == null ? [ ] : [ this.spring_ ];
 };
@@ -308,7 +308,7 @@ DisplaySpring.prototype.getWidth = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -319,7 +319,7 @@ DisplaySpring.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.isDragable = function() {
   return false;
 };
@@ -344,7 +344,7 @@ DisplaySpring.prototype.setColorExpanded = function(colorExpanded) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.setDragable = function(dragable) {
   // does nothing
 };
@@ -358,7 +358,7 @@ DisplaySpring.prototype.setDrawMode = function(drawMode) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.setPosition = function(position) {
   //throw new Error('unsupported operation');
 };
@@ -393,7 +393,7 @@ DisplaySpring.prototype.setWidth = function(width) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplaySpring.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

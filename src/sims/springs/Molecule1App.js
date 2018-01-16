@@ -118,7 +118,7 @@ var Molecule1App = myphysicslab.sims.springs.Molecule1App;
 goog.inherits(Molecule1App, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Molecule1App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', atom1: '+this.atom1.toStringShort()
@@ -129,12 +129,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1App.prototype.getClassName = function() {
   return 'Molecule1App';
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1App.prototype.defineNames = function(myName) {
   Molecule1App.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('walls|atom1|atom2|spring',

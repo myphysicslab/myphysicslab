@@ -138,12 +138,12 @@ AbstractEdge.prototype.distanceToPoint = function(p_body) {};
 /** @abstract */
 AbstractEdge.prototype.findVertexContact = function(v, p_body, distTol) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.forgetPosition = function() {
   this.centroid_world_ = null;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getBody = function() {
   return this.body_;
 };
@@ -154,12 +154,12 @@ AbstractEdge.prototype.getBottomBody = function() {};
 /** @abstract */
 AbstractEdge.prototype.getCenterOfCurvature = function(p_body) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getCentroidBody = function() {
   return this.centroid_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getCentroidRadius = function() {
   if (isNaN(this.centroidRadius_)) {
     // increase the max distance to account for the following problem:
@@ -172,7 +172,7 @@ AbstractEdge.prototype.getCentroidRadius = function() {
   return this.centroidRadius_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getCentroidWorld = function() {
   if (this.centroid_world_ == null) {
     this.centroid_world_ = this.body_.bodyToWorld(this.centroid_body_);
@@ -189,12 +189,12 @@ AbstractEdge.prototype.getClassName = function() {};
 /** @abstract */
 AbstractEdge.prototype.getCurvature = function(p_body) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getDecoratedVertexes = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getIndex = function() {
   if (this.index_ == -1) {
     this.index_ = goog.array.indexOf(this.body_.getEdges_(), this);
@@ -220,12 +220,12 @@ AbstractEdge.prototype.getRightBody = function() {};
 /** @abstract */
 AbstractEdge.prototype.getTopBody = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getVertex1 = function() {
   return this.v1_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.getVertex2 = function() {
   return this.v2_;
 };
@@ -239,7 +239,7 @@ AbstractEdge.prototype.improveAccuracyEdge = function(rbc, edge) {};
 /** @abstract */
 AbstractEdge.prototype.intersection = function(p1_body, p2_body) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.intersectionPossible = function(edge, swellage) {
   var c1 = this.getCentroidWorld();
   var c2 = edge.getCentroidWorld();
@@ -254,18 +254,18 @@ AbstractEdge.prototype.isStraight = function() {};
 /** @abstract */
 AbstractEdge.prototype.maxDistanceTo = function(p_body) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.pointOffset = function(p_body, length) {
   var n = this.getNormalBody(p_body);
   return p_body.add(n.multiply(length));
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.setCentroidRadius = function(value) {
   this.centroidRadius_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractEdge.prototype.setVertex2 = function(vertex) {
   this.v2_ = vertex;
 };

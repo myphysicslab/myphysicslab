@@ -113,7 +113,7 @@ var SingleSpringApp = myphysicslab.sims.springs.SingleSpringApp;
 goog.inherits(SingleSpringApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SingleSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', block: '+this.block.toStringShort()
@@ -122,12 +122,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringApp.prototype.getClassName = function() {
   return 'SingleSpringApp';
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringApp.prototype.defineNames = function(myName) {
   SingleSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('block|spring',

@@ -62,7 +62,7 @@ myphysicslab.lab.view.DrawingStyle = function(drawMode, color, lineWidth, opt_li
 var DrawingStyle = myphysicslab.lab.view.DrawingStyle;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DrawingStyle.prototype.toString = function() {
     return 'DrawingStyle{drawMode: '+this.drawMode
         +', color:"'+this.color+'"'

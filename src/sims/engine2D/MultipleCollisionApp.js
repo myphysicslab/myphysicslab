@@ -219,7 +219,7 @@ var MultipleCollisionApp = myphysicslab.sims.engine2D.MultipleCollisionApp;
 goog.inherits(MultipleCollisionApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   MultipleCollisionApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -232,7 +232,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 MultipleCollisionApp.prototype.getClassName = function() {
   return 'MultipleCollisionApp';
 };
@@ -246,7 +246,7 @@ MultipleCollisionApp.Shape = {
   CIRCLE: 'CIRCLE'
 };
 
-/** @inheritDoc */
+/** @override */
 MultipleCollisionApp.prototype.defineNames = function(myName) {
   MultipleCollisionApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
@@ -255,7 +255,7 @@ MultipleCollisionApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 MultipleCollisionApp.prototype.getSubjects = function() {
   var subjects = MultipleCollisionApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, subjects);

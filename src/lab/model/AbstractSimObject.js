@@ -53,13 +53,13 @@ myphysicslab.lab.model.AbstractSimObject = function(opt_name, opt_localName) {
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AbstractSimObject.prototype.toString = function() {
     return this.getClassName()+ '{name_: "' + this.getName() + '"'
         +', expireTime_: '+Util.NF(this.expireTime_)+'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   AbstractSimObject.prototype.toStringShort = function() {
     return this.getClassName() + '{name_: "' + this.getName() + '"}';
   };
@@ -79,33 +79,33 @@ AbstractSimObject.prototype.getBoundsWorld = function() {};
 */
 AbstractSimObject.prototype.getClassName = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractSimObject.prototype.getExpireTime = function() {
   return this.expireTime_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSimObject.prototype.getName = function(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSimObject.prototype.isMassObject = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSimObject.prototype.nameEquals = function(name) {
   return this.name_ == Util.toName(name);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSimObject.prototype.setExpireTime = function(time) {
   this.expireTime_ = time;
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSimObject.prototype.similar = function(obj, opt_tolerance) {
   return obj == this;
 };

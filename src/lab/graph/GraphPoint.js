@@ -48,7 +48,7 @@ myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
 var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GraphPoint.prototype.toString = function() {
     return 'GraphPoint{x: '+Util.NF(this.x)
         +', y: '+Util.NF(this.y)
@@ -67,17 +67,17 @@ GraphPoint.prototype.equals = function(other) {
       && this.seqY == other.seqY;
 };
 
-/** @inheritDoc */
+/** @override */
 GraphPoint.prototype.getX = function() {
   return this.x;
 };
 
-/** @inheritDoc */
+/** @override */
 GraphPoint.prototype.getY = function() {
   return this.y;
 };
 
-/** @inheritDoc */
+/** @override */
 GraphPoint.prototype.getZ = function() {
   return 0;
 };

@@ -118,7 +118,7 @@ var DangleStickApp = myphysicslab.sims.springs.DangleStickApp;
 goog.inherits(DangleStickApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DangleStickApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bob1: '+this.bob1.toStringShort()
@@ -129,12 +129,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickApp.prototype.getClassName = function() {
   return 'DangleStickApp';
 };
 
-/** @inheritDoc */
+/** @override */
 DangleStickApp.prototype.defineNames = function(myName) {
   DangleStickApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('stick|bob1|bob2|spring|protoMass',

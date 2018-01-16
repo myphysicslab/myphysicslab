@@ -217,7 +217,7 @@ var TimeGraph1 = myphysicslab.sims.common.TimeGraph1;
 goog.inherits(TimeGraph1, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   TimeGraph1.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', canvas: '+this.canvas.toStringShort()
@@ -233,7 +233,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 TimeGraph1.prototype.getClassName = function() {
   return 'TimeGraph1';
 };
@@ -250,7 +250,7 @@ TimeGraph1.prototype.addControl = function(control) {
   return control;
 };
 
-/** @inheritDoc */
+/** @override */
 TimeGraph1.prototype.getSubjects = function() {
   return [ this, this.line1, this.line2, this.line3, this.view, this.autoScale ];
 };

@@ -174,7 +174,7 @@ var ReactionPendulumSim = myphysicslab.sims.pendulum.ReactionPendulumSim;
 goog.inherits(ReactionPendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ReactionPendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gravity_: '+Util.NF(this.gravity_)
@@ -186,7 +186,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumSim.prototype.getClassName = function() {
   return 'ReactionPendulumSim';
 };
@@ -218,7 +218,7 @@ ReactionPendulumSim.prototype.config = function(length, radius, startAngle) {
   this.saveInitialState();
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -244,13 +244,13 @@ ReactionPendulumSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke, re);
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -276,7 +276,7 @@ ReactionPendulumSim.prototype.moveObjects = function(vars) {
   this.rod_.setEndPoint(this.bob_.getPosition());
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te

@@ -226,7 +226,7 @@ var AutoScale = myphysicslab.lab.graph.AutoScale;
 goog.inherits(AutoScale, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AutoScale.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', enabled_: '+this.enabled_
@@ -242,7 +242,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 AutoScale.prototype.getClassName = function() {
   return 'AutoScale';
 };
@@ -338,7 +338,7 @@ AutoScale.prototype.getTimeWindow = function() {
   return this.timeWindow_;
 };
 
-/** @inheritDoc */
+/** @override */
 AutoScale.prototype.memorize = function() {
   for (var i=0, n=this.graphLines_.length; i<n; i++) {
     var graphPts = this.graphLines_[i].getGraphPoints();
@@ -360,7 +360,7 @@ AutoScale.prototype.memorize = function() {
   this.rangeCheck_();
 };
 
-/** @inheritDoc */
+/** @override */
 AutoScale.prototype.observe =  function(event) {
   if (event.getSubject() == this.simView_) {
     if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {

@@ -266,7 +266,7 @@ var SimView = myphysicslab.lab.view.SimView;
 goog.inherits(SimView, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SimView.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', simRect_: '+this.simRect_
@@ -280,24 +280,24 @@ if (!Util.ADVANCED) {
         + SimView.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   SimView.prototype.toStringShort = function() {
     return SimView.superClass_.toStringShort.call(this).slice(0, -1)
         +', displayList_: '+this.displayList_.toStringShort() +'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.getClassName = function() {
   return 'SimView';
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.addMemo = function(memorizable) {
   this.memoList_.addMemo(memorizable);
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.gainFocus = function() {
 };
 
@@ -324,12 +324,12 @@ SimView.prototype.getCenterY = function() {
   return this.centerY_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.getCoordMap = function() {
   return this.coordMap_; // it is immutable, so OK to return it
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.getDisplayList = function() {
   return this.displayList_;
 };
@@ -351,7 +351,7 @@ SimView.prototype.getHorizAlign = function() {
   return this.horizAlign_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.getMemos = function() {
   return this.memoList_.getMemos();
 };
@@ -364,12 +364,12 @@ SimView.prototype.getScaleTogether = function() {
   return this.scaleTogether_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.getScreenRect = function() {
   return this.screenRect_; // it is immutable, so OK to return it
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.getSimRect = function() {
   return this.simRect_;
 };
@@ -390,11 +390,11 @@ SimView.prototype.getWidth = function() {
   return this.width_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.loseFocus = function() {
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.memorize = function() {
   this.memoList_.memorize();
 };
@@ -412,7 +412,7 @@ SimView.prototype.modifySimRect = function() {
   this.setSimRect(r);
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.paint = function(context) {
   context.save();
   context.globalAlpha = this.opaqueness;
@@ -470,7 +470,7 @@ SimView.prototype.realign = function() {
   this.ratio_ = this.height_/this.width_;
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.removeMemo = function(memorizable) {
   this.memoList_.removeMemo(memorizable);
 };
@@ -510,7 +510,7 @@ SimView.prototype.setCenterY = function(value) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.setCoordMap = function(map) {
   if (!CoordMap.isDuckType(map))
     throw new Error('not a CoordMap: '+map);
@@ -557,7 +557,7 @@ SimView.prototype.setScaleTogether = function(value) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.setScreenRect = function(screenRect) {
   if (!ScreenRect.isDuckType(screenRect))
     throw new Error('not a ScreenRect: '+screenRect);
@@ -571,7 +571,7 @@ SimView.prototype.setScreenRect = function(screenRect) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SimView.prototype.setSimRect = function(simRect) {
   if (!DoubleRect.isDuckType(simRect))
     throw new Error('not a DoubleRect: '+simRect);

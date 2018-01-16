@@ -130,7 +130,7 @@ var Double2DSpringApp = myphysicslab.sims.springs.Double2DSpringApp;
 goog.inherits(Double2DSpringApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Double2DSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bob1: '+this.bob1.toStringShort()
@@ -142,12 +142,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringApp.prototype.getClassName = function() {
   return 'Double2DSpringApp';
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringApp.prototype.defineNames = function(myName) {
   Double2DSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('topMass|bob1|bob2|spring1|spring2|protoBob|protoSpring',

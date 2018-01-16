@@ -55,7 +55,7 @@ myphysicslab.lab.util.GenericEvent = function(subject, name, value) {
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GenericEvent.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', subject_: '+this.subject_.toStringShort()
@@ -63,18 +63,18 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   GenericEvent.prototype.toStringShort = function() {
     return 'GenericEvent{name_:"'+this.name_+'"}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 GenericEvent.prototype.getName = function(opt_localized) {
   return this.name_;
 };
 
-/** @inheritDoc */
+/** @override */
 GenericEvent.prototype.getSubject = function() {
   return this.subject_;
 };
@@ -86,7 +86,7 @@ GenericEvent.prototype.getValue = function() {
   return this.value_;
 };
 
-/** @inheritDoc */
+/** @override */
 GenericEvent.prototype.nameEquals = function(name) {
   return this.name_ == Util.toName(name);
 };

@@ -77,7 +77,7 @@ myphysicslab.sims.springs.BlockCollision = function(leftBlock, rightBlock, time)
 var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   BlockCollision.prototype.toString = function() {
     return 'BlockCollision{'
         +'distance: '+Util.NF5(this.distance_)
@@ -92,12 +92,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.bilateral = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.closeEnough = function(allowTiny) {
   if (allowTiny) {
     return this.distance_ > 0 && this.distance_ < this.targetGap_ + this.accuracy_;
@@ -106,58 +106,58 @@ BlockCollision.prototype.closeEnough = function(allowTiny) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.contact = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.getDetectedTime = function() {
   return this.detectedTime_;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.getDistance = function() {
   return this.distance_;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.getEstimatedTime = function() {
   return Util.NaN; // don't bother
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.getImpulse = function() {
   return this.impulse;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.getVelocity = function() {
   // because these blocks only collide horizontally, we use only the x value
   return this.rightBlock_.getVelocity().subtract(this.leftBlock_.getVelocity()).getX();
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.illegalState = function() {
   return this.distance_ < 0;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.isColliding = function() {
   return this.distance_ < this.targetGap_ - this.accuracy_;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.isTouching = function() {
   return this.distance_ < 2*this.targetGap_;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.needsHandling = function() {
   return this.mustHandle_;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.setNeedsHandling = function(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
@@ -170,7 +170,7 @@ BlockCollision.prototype.similarTo = function(c) {
   return c.leftBlock_ == this.leftBlock_ && c.rightBlock_ == this.rightBlock_;
 };
 
-/** @inheritDoc */
+/** @override */
 BlockCollision.prototype.updateCollision = function(time) {
   this.distance_ = this.rightBlock_.getLeftWorld() - this.leftBlock_.getRightWorld();
 };

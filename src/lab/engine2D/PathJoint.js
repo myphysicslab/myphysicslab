@@ -102,7 +102,7 @@ var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 goog.inherits(PathJoint, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PathJoint.prototype.toString = function() {
     return PathJoint.superClass_.toString.call(this).slice(0, -1)
         +', body_:='+this.body_.toStringShort()
@@ -113,7 +113,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getClassName = function() {
   return 'PathJoint';
 };
@@ -123,7 +123,7 @@ PathJoint.prototype.getClassName = function() {
 */
 PathJoint.nextJointNum = 0;
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/true);
   this.updateCollision(c);
@@ -141,7 +141,7 @@ PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
   goog.array.insertAt(collisions, c, 0);
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.align = function() {
   // Move the body so the attach point is on the path.
   // Find current world position of attachment point.
@@ -160,22 +160,22 @@ PathJoint.prototype.getAttach1 = function() {
   return this.attach_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getBody1 = function() {
   return this.body_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getBody2 = function() {
   return Scrim.getScrim();
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.getPosition1(), this.getPosition2());
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getNormalDistance = function() {
   var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
@@ -199,17 +199,17 @@ PathJoint.prototype.getPathPoint = function() {
   return this.ppt_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getPosition1 = function() {
   return this.body_.bodyToWorld(this.attach_body_);
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.getPosition2 = function() {
   return this.getPosition1();
 };
 
-/** @inheritDoc */
+/** @override */
 PathJoint.prototype.updateCollision = function(c) {
   if (c.primaryBody != this.body_ || c.normalBody != Scrim.getScrim()) {
     throw new Error();

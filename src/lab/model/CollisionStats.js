@@ -74,7 +74,7 @@ myphysicslab.lab.model.CollisionStats = function() {
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CollisionStats.prototype.toString = function() {
     var s= 'CollisionStats{collisions: '+this.numCollisions;
     if (this.numCollisions > 0) {

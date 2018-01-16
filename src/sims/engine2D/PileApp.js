@@ -221,7 +221,7 @@ var PileApp = sims.engine2D.PileApp;
 goog.inherits(PileApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PileApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -230,12 +230,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 PileApp.prototype.getClassName = function() {
   return 'PileApp';
 };
 
-/** @inheritDoc */
+/** @override */
 PileApp.prototype.defineNames = function(myName) {
   PileApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -244,7 +244,7 @@ PileApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 PileApp.prototype.getSubjects = function() {
   var subjects = PileApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

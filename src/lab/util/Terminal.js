@@ -519,7 +519,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
 var Terminal = myphysicslab.lab.util.Terminal;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Terminal.prototype.toString = function() {
     return 'Terminal{history.length: '+this.history_.length
         +', regexs_.length: '+this.regexs_.length

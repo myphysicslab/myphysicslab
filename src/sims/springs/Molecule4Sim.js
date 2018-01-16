@@ -381,7 +381,7 @@ var Molecule4Sim = myphysicslab.sims.springs.Molecule4Sim;
 goog.inherits(Molecule4Sim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Molecule4Sim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +'gravity_: '+Util.NF(this.gravity_)
@@ -393,7 +393,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.getClassName = function() {
   return 'Molecule4Sim';
 };
@@ -551,7 +551,7 @@ Molecule4Sim.prototype.initialConfig = function()  {
   */
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -583,13 +583,13 @@ Molecule4Sim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -640,19 +640,19 @@ Molecule4Sim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.setDebugPaint = function(fn) {
   this.debugPaint_ = fn;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
   return this.dragAtom_ > -1;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   if (this.dragAtom_ > -1) {
     var atom = this.atoms_[this.dragAtom_];
@@ -696,7 +696,7 @@ Molecule4Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragAtom_ = -1;
   // modify initial conditions ONLY when changes happen at time zero
@@ -705,7 +705,7 @@ Molecule4Sim.prototype.finishDrag = function(simObject, location, offset) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
@@ -721,7 +721,7 @@ Molecule4Sim.prototype.addCollision = function(collisions, atom, side, time) {
   collisions.push(c);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
@@ -743,7 +743,7 @@ Molecule4Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
   }, this);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
@@ -774,7 +774,7 @@ Molecule4Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule4Sim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

@@ -88,7 +88,7 @@ var Impulse = myphysicslab.lab.model.Impulse;
 goog.inherits(Impulse, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Impulse.prototype.toString = function() {
     return Impulse.superClass_.toString.call(this).slice(0, -1)
         +', body: "'+this.body_.getName()+'"'
@@ -100,7 +100,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Impulse.prototype.getClassName = function() {
   return 'Impulse';
 };
@@ -112,17 +112,17 @@ Impulse.prototype.getBody = function() {
   return this.body_;
 };
 
-/** @inheritDoc */
+/** @override */
 Impulse.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.location_, this.getEndPoint());
 };
 
-/** @inheritDoc */
+/** @override */
 Impulse.prototype.getEndPoint = function() {
   return this.location_.add(this.direction_);
 };
 
-/** @inheritDoc */
+/** @override */
 Impulse.prototype.getStartPoint = function() {
   return this.location_;
 };
@@ -142,12 +142,12 @@ Impulse.prototype.getOffset = function() {
   return this.offset_;
 };
 
-/** @inheritDoc */
+/** @override */
 Impulse.prototype.getVector = function() {
   return this.direction_;
 };
 
-/** @inheritDoc */
+/** @override */
 Impulse.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof Impulse)) {
     return false;

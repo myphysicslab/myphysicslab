@@ -244,7 +244,7 @@ var GraphLine = myphysicslab.lab.graph.GraphLine;
 goog.inherits(GraphLine, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GraphLine.prototype.toString = function() {
     var s = this.toStringShort().slice(0, -1)
         +', drawColor_:"'+this.drawColor_+'"'
@@ -257,7 +257,7 @@ if (!Util.ADVANCED) {
     return s + GraphLine.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   GraphLine.prototype.toStringShort = function() {
     return GraphLine.superClass_.toStringShort.call(this).slice(0, -1)
         +', xVar: ' + Util.NF(this.xVar_)
@@ -266,7 +266,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 GraphLine.prototype.getClassName = function() {
   return 'GraphLine';
 };
@@ -425,7 +425,7 @@ GraphLine.prototype.getYVarName = function() {
       this.varsList_.getVariable(this.yVar_).getName(/*localized=*/true) : '';
 };
 
-/** @inheritDoc */
+/** @override */
 GraphLine.prototype.memorize = function() {
   if (this.xVar_ > -1 && this.yVar_ > -1) {
     var xVar = this.varsList_.getVariable(this.xVar_);
@@ -445,7 +445,7 @@ GraphLine.prototype.memorize = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 GraphLine.prototype.observe =  function(event) {
   if (event.getSubject() == this.varsList_) {
     if (event.nameEquals(VarsList.VARS_MODIFIED)) {

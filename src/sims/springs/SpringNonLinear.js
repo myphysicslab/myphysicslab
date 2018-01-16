@@ -76,12 +76,12 @@ myphysicslab.sims.springs.SpringNonLinear = function(name, body1, attach1_body,
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 goog.inherits(SpringNonLinear, Spring);
 
-/** @inheritDoc */
+/** @override */
 SpringNonLinear.prototype.getClassName = function() {
   return 'SpringNonLinear';
 };
 
-/** @inheritDoc */
+/** @override */
 SpringNonLinear.prototype.calculateForces = function() {
   var point1 = this.getStartPoint();
   var point2 = this.getEndPoint();
@@ -111,7 +111,7 @@ SpringNonLinear.prototype.calculateForces = function() {
         /*direction=*/f.multiply(-1), CoordType.WORLD) ];
 };
 
-/** @inheritDoc */
+/** @override */
 SpringNonLinear.prototype.getPotentialEnergy = function() {
   // The graph of potential energy reaches a minimum where force is zero.
   // Find the offset so that potential energy is zero when force is zero.

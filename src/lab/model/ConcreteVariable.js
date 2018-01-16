@@ -78,7 +78,7 @@ myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ConcreteVariable.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', isComputed_: '+this.isComputed_
@@ -87,7 +87,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ConcreteVariable.prototype.toStringShort = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'
         +', value_: '+Util.NF(this.getValue())+'}';
@@ -101,72 +101,72 @@ ConcreteVariable.prototype.getClassName = function() {
   return 'ConcreteVariable';
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getAsString = function() {
   return this.value_.toString();
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getBroadcast = function() {
   return this.doesBroadcast_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getChoices = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getName = function(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getSequence = function() {
   return this.seq_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getSubject = function() {
   return this.varsList_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getValue = function() {
   return this.value_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.getValues = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.incrSequence = function() {
   this.seq_++;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.isComputed = function() {
   return this.isComputed_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.nameEquals = function(name) {
   return this.name_ == Util.toName(name);
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.setBroadcast = function(value) {
   this.doesBroadcast_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.setComputed = function(value) {
   this.isComputed_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.setFromString = function(value) {
   var v = Number(value);
   if (isNaN(v)) {
@@ -175,7 +175,7 @@ ConcreteVariable.prototype.setFromString = function(value) {
   this.setValue(v);
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.setValue = function(value) {
   if (this.value_ != value) {
     this.value_ = value;
@@ -186,7 +186,7 @@ ConcreteVariable.prototype.setValue = function(value) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVariable.prototype.setValueSmooth = function(value) {
   this.value_ = value;
 };

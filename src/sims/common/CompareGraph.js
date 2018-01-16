@@ -197,7 +197,7 @@ var CompareGraph = myphysicslab.sims.common.CompareGraph;
 goog.inherits(CompareGraph, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CompareGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', line1: '+this.line1.toStringShort()
@@ -212,12 +212,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CompareGraph.prototype.getClassName = function() {
   return 'CompareGraph';
 };
 
-/** @inheritDoc */
+/** @override */
 CompareGraph.prototype.getSubjects = function() {
   return [ this, this.line1, this.line2, this.view, this.autoScale ];
 };

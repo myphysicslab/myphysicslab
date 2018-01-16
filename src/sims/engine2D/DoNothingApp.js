@@ -152,7 +152,7 @@ var DoNothingApp = sims.engine2D.DoNothingApp;
 goog.inherits(DoNothingApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoNothingApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -160,12 +160,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DoNothingApp.prototype.getClassName = function() {
   return 'DoNothingApp';
 };
 
-/** @inheritDoc */
+/** @override */
 DoNothingApp.prototype.defineNames = function(myName) {
   DoNothingApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
@@ -174,7 +174,7 @@ DoNothingApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 DoNothingApp.prototype.getSubjects = function() {
   var subjects = DoNothingApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, subjects);

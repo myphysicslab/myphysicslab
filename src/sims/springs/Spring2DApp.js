@@ -119,7 +119,7 @@ var Spring2DApp = myphysicslab.sims.springs.Spring2DApp;
 goog.inherits(Spring2DApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Spring2DApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bob: '+this.bob.toStringShort()
@@ -129,12 +129,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DApp.prototype.getClassName = function() {
   return 'Spring2DApp';
 };
 
-/** @inheritDoc */
+/** @override */
 Spring2DApp.prototype.defineNames = function(myName) {
   Spring2DApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('anchor|bob|spring',

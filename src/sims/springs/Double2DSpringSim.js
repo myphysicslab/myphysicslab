@@ -240,7 +240,7 @@ var Double2DSpringSim = myphysicslab.sims.springs.Double2DSpringSim;
 goog.inherits(Double2DSpringSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Double2DSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gravity_: '+Util.NF(this.gravity_)
@@ -254,7 +254,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.getClassName = function() {
   return 'Double2DSpringSim';
 };
@@ -291,7 +291,7 @@ Double2DSpringSim.prototype.restState = function() {
   this.setPotentialEnergy(0);
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -312,13 +312,13 @@ Double2DSpringSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -345,7 +345,7 @@ Double2DSpringSim.prototype.moveObjects = function(vars) {
   this.topMass_.setPosition(new Vector(vars[12],  vars[13]));
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragBlock_ = -1;
@@ -361,7 +361,7 @@ Double2DSpringSim.prototype.startDrag = function(simObject, location, offset, dr
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
@@ -387,16 +387,16 @@ Double2DSpringSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragBlock_ = -1;
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 Double2DSpringSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

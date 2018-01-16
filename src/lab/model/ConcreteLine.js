@@ -55,7 +55,7 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 goog.inherits(ConcreteLine, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ConcreteLine.prototype.toString = function() {
     return ConcreteLine.superClass_.toString.call(this).slice(0, -1)
         +', startPoint: '+this.getStartPoint()
@@ -64,27 +64,27 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteLine.prototype.getClassName = function() {
   return 'ConcreteLine';
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteLine.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.getStartPoint(), this.getEndPoint());
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteLine.prototype.getEndPoint = function() {
   return this.endPt_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteLine.prototype.getStartPoint = function() {
   return this.startPt_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteLine.prototype.getVector = function() {
   return this.getEndPoint().subtract(this.getStartPoint());
 };
@@ -103,7 +103,7 @@ ConcreteLine.prototype.setStartPoint = function(loc) {
   this.startPt_ = loc;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteLine.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof ConcreteLine)) {
     return false;

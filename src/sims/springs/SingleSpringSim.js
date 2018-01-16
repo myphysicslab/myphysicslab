@@ -207,7 +207,7 @@ var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
 goog.inherits(SingleSpringSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SingleSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', block_: '+this.block_
@@ -219,12 +219,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.getClassName = function() {
   return 'SingleSpringSim';
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.reset = function() {
   SingleSpringSim.superClass_.reset.call(this);
   this.initWork();
@@ -241,7 +241,7 @@ SingleSpringSim.prototype.initWork = function() {
   this.initialEnergy_ = this.getEnergyInfo().getTotalEnergy();
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -262,13 +262,13 @@ SingleSpringSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe, ke, NaN, work, this.initialEnergy_);
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -296,7 +296,7 @@ SingleSpringSim.prototype.moveObjects = function(vars) {
   this.block_.setVelocity(new Vector(vars[1], 0, 0));
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.block_) {
@@ -306,7 +306,7 @@ SingleSpringSim.prototype.startDrag = function(simObject, location, offset, drag
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
@@ -323,16 +323,16 @@ SingleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mous
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.finishDrag = function(simObject, location, offset) {
   this.isDragging = false;
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 SingleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te

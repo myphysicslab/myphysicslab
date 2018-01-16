@@ -130,7 +130,7 @@ var CartPendulumApp = sims.pendulum.CartPendulumApp;
 goog.inherits(CartPendulumApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CartPendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', cart: '+this.cart.toStringShort()
@@ -142,12 +142,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumApp.prototype.getClassName = function() {
   return 'CartPendulumApp';
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulumApp.prototype.defineNames = function(myName) {
   CartPendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod|cart|bob|spring|track',

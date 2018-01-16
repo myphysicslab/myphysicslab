@@ -65,7 +65,7 @@ var DisplayList = myphysicslab.lab.view.DisplayList;
 goog.inherits(DisplayList, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', drawables_: ['
@@ -75,14 +75,14 @@ if (!Util.ADVANCED) {
         + ']' + DisplayList.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayList.prototype.toStringShort = function() {
     return DisplayList.superClass_.toStringShort.call(this).slice(0, -1)
         +', drawables_.length: '+this.drawables_.length +'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayList.prototype.getClassName = function() {
   return 'DisplayList';
 };

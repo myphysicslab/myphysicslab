@@ -292,7 +292,7 @@ myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifi
 var SimController = myphysicslab.lab.app.SimController;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SimController.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', labCanvas_: '+this.labCanvas_.toStringShort()
@@ -304,7 +304,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   SimController.prototype.toStringShort = function() {
     return 'SimController{eventHandler_: '
         +(this.eventHandler_ != null ? this.eventHandler_.toStringShort() : 'null')
@@ -312,7 +312,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 SimController.prototype.notifyError = function(error) {
   // This turns off mouse dragging when an error occurs. For example, with ImpulseApp,
   // set elasticity to 0.8, drag a block into the wall, get the 'sim stuck' alert,

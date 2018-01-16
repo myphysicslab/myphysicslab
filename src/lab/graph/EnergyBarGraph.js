@@ -303,7 +303,7 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
 var EnergyBarGraph = myphysicslab.lab.graph.EnergyBarGraph;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EnergyBarGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', visibleRect: '+this.visibleRect_
@@ -326,7 +326,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   EnergyBarGraph.prototype.toStringShort = function() {
     return 'EnergyBarGraph{system: '+this.system_.toStringShort()+'}';
   };
@@ -360,12 +360,12 @@ EnergyBarGraph.RIGHT_MARGIN = 0;
 */
 EnergyBarGraph.TOP_MARGIN = 0;
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.contains = function(point) {
   return this.rect_.contains(point);
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.draw = function(context, map) {
   if (this.visibleRect_.isEmpty())
     return;
@@ -619,17 +619,17 @@ EnergyBarGraph.prototype.formatTotalEnergy = function(value, previous) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.getSimObjects = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.getMassObjects = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.getPosition = function() {
   return !this.rect_.isEmpty() ? this.rect_.getCenter() : new Vector(0, 0);
 };
@@ -643,12 +643,12 @@ EnergyBarGraph.prototype.getVisibleArea = function() {
   return this.visibleRect_;
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.getZIndex = function() {
   return this.zIndex;
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.isDragable = function() {
   return this.dragable_;
 };
@@ -860,12 +860,12 @@ EnergyBarGraph.prototype.resizeRect = function(height) {
   this.needResize_ = false;
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.setPosition = function(position) {
   if (!this.rect_.isEmpty()) {
     var h = this.rect_.getHeight()/2;
@@ -890,7 +890,7 @@ EnergyBarGraph.prototype.setVisibleArea = function(visibleArea) {
   this.needResize_ = true;
 };
 
-/** @inheritDoc */
+/** @override */
 EnergyBarGraph.prototype.setZIndex = function(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };

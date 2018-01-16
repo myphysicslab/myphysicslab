@@ -63,7 +63,7 @@ var CustomPath = myphysicslab.sims.roller.CustomPath;
 goog.inherits(CustomPath, AbstractPath);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CustomPath.prototype.toString = function() {
     return CustomPath.superClass_.toString.call(this).slice(0, -1)
       +', equationX_: "'+this.equationX_+'"'
@@ -72,7 +72,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CustomPath.prototype.getClassName = function() {
   return 'CustomPath';
 };
@@ -117,7 +117,7 @@ CustomPath.prototype.setYEquation = function(value) {
   this.equationY_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 CustomPath.prototype.x_func = function(t) {
   window['t'] = t;
   var r = eval('"use strict"; '+this.equationX_);
@@ -128,7 +128,7 @@ CustomPath.prototype.x_func = function(t) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CustomPath.prototype.y_func = function(t) {
   window['t'] = t;
   var r = eval('"use strict"; '+this.equationY_);

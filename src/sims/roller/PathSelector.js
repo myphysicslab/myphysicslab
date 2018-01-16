@@ -84,7 +84,7 @@ var PathSelector = myphysicslab.sims.roller.PathSelector;
 goog.inherits(PathSelector, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PathSelector.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', pathName: '+this.pathName_
@@ -93,14 +93,14 @@ if (!Util.ADVANCED) {
         + ']' + PathSelector.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   PathSelector.prototype.toStringShort = function() {
     return PathSelector.superClass_.toStringShort.call(this).slice(0, -1)
         +', hasPath: '+this.hasPath_.toStringShort() +'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 PathSelector.prototype.getClassName = function() {
   return 'PathSelector';
 };

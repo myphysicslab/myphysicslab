@@ -382,7 +382,7 @@ var TabLayout = myphysicslab.sims.common.TabLayout;
 goog.inherits(TabLayout, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   TabLayout.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', layout_: "'+this.layout_+'"'
@@ -400,7 +400,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 TabLayout.prototype.getClassName = function() {
   return 'TabLayout';
 };
@@ -585,7 +585,7 @@ TabLayout.prototype.getSimWidth = function() {
   return this.simWidth_;
 };
 
-/** @inheritDoc */
+/** @override */
 TabLayout.prototype.getSubjects = function() {
   return [ this, this.simCanvas, this.graphCanvas, this.timeGraphCanvas ];
 };

@@ -128,7 +128,7 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
 var DisplayClock = myphysicslab.lab.view.DisplayClock;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayClock.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', radius: '+Util.NF(this.radius_)
@@ -138,18 +138,18 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayClock.prototype.toStringShort = function() {
     return 'DisplayClock{'+'time: '+Util.NF(this.simTimeFn_())+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.contains = function(point) {
   return point.distanceTo(this.location_) <= this.radius_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.draw = function(context, map) {
   var center = map.simToScreen(this.location_);
   var r = map.simToScreenScaleX(this.radius_);
@@ -197,7 +197,7 @@ DisplayClock.prototype.drawHand = function(context, map, color, time, center) {
   context.stroke();
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.isDragable = function() {
   return this.dragable_;
 };
@@ -231,7 +231,7 @@ DisplayClock.prototype.getHandWidth = function() {
   return this.handWidth_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.getMassObjects = function() {
   return [];
 };
@@ -250,7 +250,7 @@ DisplayClock.prototype.getOutlineWidth = function() {
   return this.outlineWidth_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.getPosition = function() {
   return this.location_;
 };
@@ -262,7 +262,7 @@ DisplayClock.prototype.getRealColor = function() {
   return this.realColor_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.getSimObjects = function() {
   return [];
 };
@@ -274,12 +274,12 @@ DisplayClock.prototype.getTextColor = function() {
   return this.textColor_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.getZIndex = function() {
   return this.zIndex_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
@@ -339,7 +339,7 @@ DisplayClock.prototype.setOutlineWidth = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.setPosition = function(position) {
   this.location_ = position;
 };
@@ -362,7 +362,7 @@ DisplayClock.prototype.setTextColor = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayClock.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = goog.isDef(zIndex) ? zIndex : 0;
 };

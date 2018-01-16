@@ -194,7 +194,7 @@ var Joint = myphysicslab.lab.engine2D.Joint;
 goog.inherits(Joint, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Joint.prototype.toString = function() {
     return Joint.superClass_.toString.call(this).slice(0, -1)
         +', body1_: '+this.body1_.toStringShort()
@@ -208,7 +208,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getClassName = function() {
   return 'Joint';
 };
@@ -218,7 +218,7 @@ Joint.prototype.getClassName = function() {
 */
 Joint.nextJointNum = 0;
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.addCollision = function(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/true);
   this.updateCollision(c);
@@ -236,7 +236,7 @@ Joint.prototype.addCollision = function(collisions, time, accuracy) {
   goog.array.insertAt(collisions, c, 0);
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.align = function() {
   if (isFinite(this.body2_.getMass())) {
     this.body2_.alignTo(/*p_body=*/this.attach2_body_,
@@ -263,17 +263,17 @@ Joint.prototype.getAttach2 = function() {
   return this.attach2_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getBody1 = function() {
   return this.body1_;
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getBody2 = function() {
   return this.body2_;
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.getPosition1(), this.getPosition2());
 };
@@ -287,7 +287,7 @@ Joint.prototype.getNormal = function() {
   return this.normal_;
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getNormalDistance = function() {
   var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
@@ -313,17 +313,17 @@ Joint.prototype.getNormalWorld = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getPosition1 = function() {
   return this.body1_.bodyToWorld(this.attach1_body_);
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.getPosition2 = function() {
   return this.body2_.bodyToWorld(this.attach2_body_);
 };
 
-/** @inheritDoc */
+/** @override */
 Joint.prototype.updateCollision = function(c) {
   if (c.primaryBody != this.body1_ || c.normalBody != this.body2_)
     throw new Error();

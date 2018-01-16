@@ -52,25 +52,25 @@ var TextControl = myphysicslab.lab.controls.TextControl;
 goog.inherits(TextControl, TextControlBase);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   TextControl.prototype.toString = function() {
     return TextControl.superClass_.toString.call(this).slice(0, -1)
         + ', parameter_: '+this.parameter_.toStringShort()+'}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 TextControl.prototype.disconnect = function() {
   TextControl.superClass_.disconnect.call(this);
   this.parameter_.getSubject().removeObserver(this);
 };
 
-/** @inheritDoc */
+/** @override */
 TextControl.prototype.getClassName = function() {
   return 'TextControl';
 };
 
-/** @inheritDoc */
+/** @override */
 TextControl.prototype.getParameter = function() {
   return this.parameter_;
 };

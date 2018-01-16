@@ -53,17 +53,17 @@ BrachistoPaths.LinearPath = function() {
 var LinearPath = myphysicslab.sims.roller.BrachistoPaths.LinearPath;
 goog.inherits(LinearPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 LinearPath.prototype.getClassName = function() {
   return 'LinearPath';
 };
 
-/** @inheritDoc */
+/** @override */
 LinearPath.prototype.x_func = function(t) {
   return t;
 };
 
-/** @inheritDoc */
+/** @override */
 LinearPath.prototype.y_func = function(t) {
   return -(2.0/3.0)*t;
 };
@@ -84,12 +84,12 @@ BrachistoPaths.BrachistochronePath = function() {
 var BrachistochronePath = BrachistoPaths.BrachistochronePath;
 goog.inherits(BrachistochronePath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 BrachistochronePath.prototype.getClassName = function() {
   return 'BrachistochronePath';
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistochronePath.prototype.x_func = function(t) {
   if (t>2*Math.PI)
     t = 2*Math.PI; // goes up vertical beyond the end (so x is fixed)
@@ -98,7 +98,7 @@ BrachistochronePath.prototype.x_func = function(t) {
   return 1.00133*(t - Math.sin(t));
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistochronePath.prototype.y_func = function(t) {
   if (t>2*Math.PI)
     return t - 2*Math.PI;  // goes up vertical beyond the end
@@ -124,17 +124,17 @@ BrachistoPaths.ParabolaUpPath = function() {
 var ParabolaUpPath = BrachistoPaths.ParabolaUpPath;
 goog.inherits(ParabolaUpPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 ParabolaUpPath.prototype.getClassName = function() {
   return 'ParabolaUpPath';
 };
 
-/** @inheritDoc */
+/** @override */
 ParabolaUpPath.prototype.x_func = function(t) {
   return t;
 };
 
-/** @inheritDoc */
+/** @override */
 ParabolaUpPath.prototype.y_func = function(t) {
   return -2.0 + (2.0/9.0)*(t - 3.0)*(t - 3.0);  // parabola
   //return -2.0 - (2.0/27.0)*(t - 3.0)*(t-3.0)*(t-3.0);  // cubic
@@ -157,12 +157,12 @@ BrachistoPaths.Brachistochrone2Path = function() {
 var Brachistochrone2Path = BrachistoPaths.Brachistochrone2Path;
 goog.inherits(Brachistochrone2Path, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 Brachistochrone2Path.prototype.getClassName = function() {
   return 'Brachistochrone2Path';
 };
 
-/** @inheritDoc */
+/** @override */
 Brachistochrone2Path.prototype.x_func = function(t) {
   if (t>2*Math.PI)
     t = 2*Math.PI; // goes up vertical beyond the end (so x is fixed)
@@ -171,7 +171,7 @@ Brachistochrone2Path.prototype.x_func = function(t) {
   return 1.00133*(t - Math.sin(t));
 };
 
-/** @inheritDoc */
+/** @override */
 Brachistochrone2Path.prototype.y_func = function(t) {
   if (t>2*Math.PI)
     return t - 2*Math.PI;  // goes up vertical beyond the end
@@ -198,17 +198,17 @@ BrachistoPaths.ParabolaDownPath = function() {
 var ParabolaDownPath = BrachistoPaths.ParabolaDownPath;
 goog.inherits(ParabolaDownPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 ParabolaDownPath.prototype.getClassName = function() {
   return 'ParabolaDownPath';
 };
 
-/** @inheritDoc */
+/** @override */
 ParabolaDownPath.prototype.x_func = function(t) {
   return t;
 };
 
-/** @inheritDoc */
+/** @override */
 ParabolaDownPath.prototype.y_func = function(t) {
   return -0.1666667*(t+0.5)*(t+0.5) + 0.04166667;
 };
@@ -228,17 +228,17 @@ BrachistoPaths.CircleArcPath = function() {
 var CircleArcPath = BrachistoPaths.CircleArcPath;
 goog.inherits(CircleArcPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 CircleArcPath.prototype.getClassName = function() {
   return 'CircleArcPath';
 };
 
-/** @inheritDoc */
+/** @override */
 CircleArcPath.prototype.x_func = function(t) {
   return 3 + (13.0/4.0)*Math.cos(t);
 };
 
-/** @inheritDoc */
+/** @override */
 CircleArcPath.prototype.y_func = function(t) {
   return (13.0/4.0 - 2.0) + (13.0/4.0)*Math.sin(t);
 };

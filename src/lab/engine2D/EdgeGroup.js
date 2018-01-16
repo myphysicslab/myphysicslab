@@ -47,7 +47,7 @@ myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
 var EdgeGroup = myphysicslab.lab.engine2D.EdgeGroup;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EdgeGroup.prototype.toString = function() {
     return 'EdgeGroup{ranges_.length: '+this.ranges_.length+'}';
   };
@@ -62,7 +62,7 @@ EdgeGroup.prototype.add = function(edgeRange) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeGroup.prototype.contains = function(edge) {
   for (var i=0, len=this.ranges_.length; i<len; i++) {
     if (this.ranges_[i].contains(edge)) {

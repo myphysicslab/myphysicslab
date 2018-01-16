@@ -108,7 +108,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.addPath = function(context) {
   context.lineTo(this.v2_.locBodyX(), this.v2_.locBodyY());
 };
@@ -137,12 +137,12 @@ StraightEdge.prototype.checkVertexVertex = function(v, p_body, distTol) {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.chordError = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.distanceToEdge = function(edge) {
   if (edge instanceof StraightEdge) {
     // no edge-edge contact between straight edges;
@@ -153,7 +153,7 @@ StraightEdge.prototype.distanceToEdge = function(edge) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.distanceToLine = function(p_body) {
   var r;
   var pbx = p_body.getX();
@@ -187,7 +187,7 @@ StraightEdge.prototype.distanceToLine = function(p_body) {
   return r;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.distanceToPoint = function(p_body) {
   var pbx = p_body.getX();
   var pby = p_body.getY();
@@ -237,7 +237,7 @@ StraightEdge.prototype.distanceToPoint = function(p_body) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   // p_body = point in body coords
   var pbx = p_body.getX();
@@ -337,36 +337,36 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   return rbc;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getBottomBody = function() {
   var y1 = this.v1_.locBodyY();
   var y2 = this.v2_.locBodyY();
   return y1 < y2 ? y1 : y2;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getCenterOfCurvature = function(p_body) {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getClassName = function() {
   return 'StraightEdge';
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getCurvature = function(p_body) {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getLeftBody = function() {
   var x1 = this.v1_.locBodyX();
   var x2 = this.v2_.locBodyX();
   return x1 < x2 ? x1 : x2;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getNormalBody = function(p_body) {
   // (we ignore p_body, because normal is same at any point on a straight line)
   var x1 = this.v1_.locBodyX();
@@ -392,28 +392,28 @@ StraightEdge.prototype.getNormalBody = function(p_body) {
   return new Vector(nx, ny);
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getPointOnEdge = function(p_body) {
   var p = this.projectionOntoLine(p_body);
   var n = this.getNormalBody(p_body);
   return [p, n];
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getRightBody = function() {
   var x1 = this.v1_.locBodyX();
   var x2 = this.v2_.locBodyX();
   return x1 > x2 ? x1 : x2;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.getTopBody = function() {
   var y1 = this.v1_.locBodyY();
   var y2 = this.v2_.locBodyY();
   return y1 > y2 ? y1 : y2;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.highlight = function() {
   if (UtilEngine.debugEngine2D != null) {
     var p1 = this.body_.bodyToWorld(this.v1_.locBody());
@@ -422,7 +422,7 @@ StraightEdge.prototype.highlight = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
   if (edge instanceof StraightEdge) {
     // no collisions between straight edges;
@@ -436,7 +436,7 @@ StraightEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.intersection = function(p1_body, p2_body) {
   if (p1_body == p2_body) {
     return null;
@@ -447,7 +447,7 @@ StraightEdge.prototype.intersection = function(p1_body, p2_body) {
   return q == null ? null : [q];
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.intersectionPossible = function(edge, swellage) {
   if (edge instanceof StraightEdge) {
     // Because straight/straight edges never interact (instead they only interact with
@@ -461,7 +461,7 @@ StraightEdge.prototype.intersectionPossible = function(edge, swellage) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.isStraight = function() {
   return true;
 };
@@ -503,7 +503,7 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
   return rbc.contact() ? rbc : null;
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.maxDistanceTo = function(p_body) {
   var dist1 = this.v1_.locBody().distanceTo(p_body);
   var dist2 = this.v2_.locBody().distanceTo(p_body);
@@ -544,7 +544,7 @@ StraightEdge.prototype.projectionOntoLine = function(p_body) {
   return new Vector(qx, qy);
 };
 
-/** @inheritDoc */
+/** @override */
 StraightEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
     // no collisions or contacts between StraightEdges, only between vertex and

@@ -120,7 +120,7 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
 var BrachistoObserver = myphysicslab.sims.roller.BrachistoObserver;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   BrachistoObserver.prototype.toString = function() {
     return 'BrachistoObserver{'
       +'sim_: '+this.sim_.toStringShort()
@@ -132,7 +132,7 @@ if (!Util.ADVANCED) {
       +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   BrachistoObserver.prototype.toStringShort = function() {
     return 'BrachistoObserver{}';
   };
@@ -189,7 +189,7 @@ BrachistoObserver.prototype.getTextPosition = function() {
   return new Vector(r.getLeft() + 0.15*r.getWidth(), r.getTop() - 0.1*r.getHeight());
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoObserver.prototype.observe =  function(event) {
   //console.log('BrachistoObserver event='+event);
   if (event.getSubject() == this.sim_) {

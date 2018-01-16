@@ -309,19 +309,19 @@ var Molecule5App = myphysicslab.sims.springs.Molecule5App;
 goog.inherits(Molecule5App, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Molecule5App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         + Molecule5App.superClass_.toString.call(this);
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule5App.prototype.getClassName = function() {
   return 'Molecule5App';
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule5App.prototype.defineNames = function(myName) {
   Molecule5App.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('protoSpring', myName+'.');
@@ -372,7 +372,7 @@ Molecule5App.prototype.removeBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule5App.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());

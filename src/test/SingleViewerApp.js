@@ -85,14 +85,14 @@ var SingleViewerApp = myphysicslab.test.SingleViewerApp;
 goog.inherits(SingleViewerApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SingleViewerApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         + SingleViewerApp.superClass_.toString.call(this);
   };
 };
 
-/** @inheritDoc */
+/** @override */
 SingleViewerApp.prototype.getClassName = function() {
   return 'SingleViewerApp';
 };

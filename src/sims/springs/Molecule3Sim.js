@@ -312,7 +312,7 @@ var Molecule3Sim = myphysicslab.sims.springs.Molecule3Sim;
 goog.inherits(Molecule3Sim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Molecule3Sim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +'gravity_: '+Util.NF(this.gravity_)
@@ -324,7 +324,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.getClassName = function() {
   return 'Molecule3Sim';
 };
@@ -468,7 +468,7 @@ Molecule3Sim.prototype.cleanSlate = function() {
   goog.array.clear(this.springs_);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -500,13 +500,13 @@ Molecule3Sim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.setPotentialEnergy = function(value) {
   this.setPEOffset(0);
   this.setPEOffset(value - this.getEnergyInfo().getPotential());
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -563,19 +563,19 @@ Molecule3Sim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.setDebugPaint = function(fn) {
   this.debugPaint_ = fn;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
   return this.dragAtom_ > -1;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   if (this.dragAtom_ > -1) {
     var atom = this.atoms_[this.dragAtom_];
@@ -615,7 +615,7 @@ Molecule3Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragAtom_ = -1;
   // modify initial conditions, but only when changes happen at time zero
@@ -624,7 +624,7 @@ Molecule3Sim.prototype.finishDrag = function(simObject, location, offset) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
@@ -640,7 +640,7 @@ Molecule3Sim.prototype.addCollision = function(collisions, atom, side, time) {
   collisions.push(c);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
@@ -662,7 +662,7 @@ Molecule3Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
   }, this);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
@@ -692,7 +692,7 @@ Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule3Sim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

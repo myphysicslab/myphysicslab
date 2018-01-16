@@ -164,7 +164,7 @@ myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
 var RigidBodyEventHandler = myphysicslab.lab.app.RigidBodyEventHandler;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidBodyEventHandler.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', clock_: '+this.clock_.toStringShort()
@@ -174,7 +174,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   RigidBodyEventHandler.prototype.toStringShort = function() {
     return 'RigidBodyEventHandler{sim: '+this.sim_.toStringShort()+'}';
   };
@@ -197,7 +197,7 @@ RigidBodyEventHandler.prototype.setThrusters = function(thrusters, side) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyEventHandler.prototype.startDrag = function(simObject, location, offset,
     dragBody, mouseEvent) {
   this.optionKey_ = mouseEvent.altKey || mouseEvent.metaKey || mouseEvent.ctrlKey;
@@ -228,7 +228,7 @@ RigidBodyEventHandler.prototype.startDrag = function(simObject, location, offset
   return this.dragObj_ > -1;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyEventHandler.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   if (!this.clock_.isRunning() && this.dragObj_ > -1) {
@@ -249,7 +249,7 @@ RigidBodyEventHandler.prototype.mouseDrag = function(simObject, location, offset
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyEventHandler.prototype.finishDrag = function(simObject, location, offset) {
   if (1 == 0) {
     // demonstration of giving a onMouseUp action to a RigidBody.
@@ -279,7 +279,7 @@ RigidBodyEventHandler.prototype.resetDrag = function() {
   this.dragObj_ = -1;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyEventHandler.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
   //console.log('RBEH.handleKeyEvent keyCode:'+keyCode+'  pressed: '+pressed
   //  +' event:'+Util.propertiesOf(keyEvent, true));

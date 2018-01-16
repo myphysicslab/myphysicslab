@@ -156,7 +156,7 @@ var RollerFlightApp = myphysicslab.sims.roller.RollerFlightApp;
 goog.inherits(RollerFlightApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RollerFlightApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1: '+this.ball1.toStringShort()
@@ -168,12 +168,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightApp.prototype.getClassName = function() {
   return 'RollerFlightApp';
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightApp.prototype.defineNames = function(myName) {
   RollerFlightApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1|anchor|spring|path|displayPath',

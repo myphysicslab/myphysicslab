@@ -251,7 +251,7 @@ var MoveablePendulumSim = myphysicslab.sims.pendulum.MoveablePendulumSim;
 goog.inherits(MoveablePendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   MoveablePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', length_: '+Util.NF(this.length_)
@@ -267,7 +267,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.getClassName = function() {
   return 'MoveablePendulumSim';
 };
@@ -311,7 +311,7 @@ MoveablePendulumSim.prototype.setAnchorYVelocity = function() {
   va.setValue(6, value * Math.cos(this.frequency_ * this.getTime()));
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -333,13 +333,13 @@ MoveablePendulumSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -389,7 +389,7 @@ MoveablePendulumSim.prototype.getDragSpring = function() {
   return this.dragSpring_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.anchor_) {
@@ -410,7 +410,7 @@ MoveablePendulumSim.prototype.startDrag = function(simObject, location, offset, 
   }
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   // vars 0       1       2      3         4        5        6       7   8   9
@@ -441,7 +441,7 @@ MoveablePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.finishDrag = function(simObject, location, offset) {
   this.pendulumDragging_ = false;
   if (this.springDragging_) {
@@ -450,11 +450,11 @@ MoveablePendulumSim.prototype.finishDrag = function(simObject, location, offset)
   }
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 MoveablePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

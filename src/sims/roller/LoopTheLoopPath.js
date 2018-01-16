@@ -86,12 +86,12 @@ LoopTheLoopPath.xcenter = 0;
 */
 LoopTheLoopPath.yoffset = 1;
 
-/** @inheritDoc */
+/** @override */
 LoopTheLoopPath.prototype.getClassName = function() {
   return 'LoopTheLoopPath';
 };
 
-/** @inheritDoc */
+/** @override */
 LoopTheLoopPath.prototype.x_func = function(t) {
   if (t<0.5) {
     return t;
@@ -103,7 +103,7 @@ LoopTheLoopPath.prototype.x_func = function(t) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 LoopTheLoopPath.prototype.y_func = function(t) {
   if (t<0.5) {
     return (t+1)*(t+1) + LoopTheLoopPath.yoffset;

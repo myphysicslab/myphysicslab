@@ -186,7 +186,7 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
 var VerticalLayout = myphysicslab.sims.common.VerticalLayout;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   VerticalLayout.prototype.toString = function() {
     return 'VerticalLayout{'
       +'simCanvas: '+this.simCanvas.toStringShort()

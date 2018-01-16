@@ -240,7 +240,7 @@ var RigidDoublePendulumSim = myphysicslab.sims.pendulum.RigidDoublePendulumSim;
 goog.inherits(RigidDoublePendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidDoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gamma1_: '+Util.NF(this.gamma1_)
@@ -253,7 +253,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RigidDoublePendulumSim.prototype.getClassName = function() {
   return 'RigidDoublePendulumSim';
 };
@@ -377,7 +377,7 @@ RigidDoublePendulumSim.getGamma = function(pendulum, pivot) {
   return v.getAngle() - Math.PI/2;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidDoublePendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -399,13 +399,13 @@ RigidDoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke, re);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidDoublePendulumSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 RigidDoublePendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -444,7 +444,7 @@ RigidDoublePendulumSim.prototype.moveObjects = function(vars) {
       vars[1]*L1*sin_ph1 + vars[3]*R2*sin_th2), vars[3]);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   change[7] = 1; // time

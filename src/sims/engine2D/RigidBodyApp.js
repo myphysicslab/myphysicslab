@@ -158,7 +158,7 @@ var RigidBodyApp = sims.engine2D.RigidBodyApp;
 goog.inherits(RigidBodyApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidBodyApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -177,12 +177,12 @@ RigidBodyApp.prototype.addSpring = function(s) {
   this.simList.add(s);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyApp.prototype.getClassName = function() {
   return 'RigidBodyApp';
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyApp.prototype.defineNames = function(myName) {
   RigidBodyApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -191,7 +191,7 @@ RigidBodyApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyApp.prototype.getSubjects = function() {
   var subjects = RigidBodyApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

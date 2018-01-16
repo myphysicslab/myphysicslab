@@ -136,7 +136,7 @@ myphysicslab.lab.util.ParameterString = function(subject, name, localName, gette
 var ParameterString = myphysicslab.lab.util.ParameterString;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ParameterString.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', isComputed_: '+this.isComputed_
@@ -149,19 +149,19 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ParameterString.prototype.toStringShort = function() {
     return 'ParameterString{name_: "'+this.name_+'"'
         +', value: "'+this.getValue()+'"}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.getAsString = function() {
   return this.getValue();
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.getChoices = function() {
   return goog.array.clone(this.choices_);
 };
@@ -174,12 +174,12 @@ ParameterString.prototype.getMaxLength = function() {
   return this.maxLength_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.getName = function(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.getSubject = function() {
   return this.subject_;
 };
@@ -198,17 +198,17 @@ ParameterString.prototype.getValue = function() {
   return this.getter_();
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.getValues = function() {
   return goog.array.clone(this.values_);
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.isComputed = function() {
   return this.isComputed_;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.nameEquals = function(name) {
   return this.name_ == Util.toName(name);
 };
@@ -238,12 +238,12 @@ ParameterString.prototype.setChoices_ = function(choices, values) {
   this.values_ = values;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.setComputed = function(value) {
   this.isComputed_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 ParameterString.prototype.setFromString = function(value) {
   this.setValue(value);
 };

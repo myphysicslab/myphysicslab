@@ -239,7 +239,7 @@ var AbstractApp = sims.common.AbstractApp;
 goog.inherits(AbstractApp, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AbstractApp.prototype.toString = function() {
     return ', sim: '+this.sim.toStringShort()
       +', simList: '+this.simList.toStringShort()
@@ -329,7 +329,7 @@ AbstractApp.prototype.makeEasyScript = function(opt_dependent) {
       this.simRun, this.terminal);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractApp.prototype.getSubjects = function() {
   var subjects = [
     this,

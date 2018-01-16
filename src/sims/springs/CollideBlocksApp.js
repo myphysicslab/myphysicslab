@@ -129,7 +129,7 @@ var CollideBlocksApp = myphysicslab.sims.springs.CollideBlocksApp;
 goog.inherits(CollideBlocksApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CollideBlocksApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', block1: '+this.block1.toStringShort()
@@ -142,12 +142,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksApp.prototype.getClassName = function() {
   return 'CollideBlocksApp';
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksApp.prototype.defineNames = function(myName) {
   CollideBlocksApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('block1|block2|wallLeft|wallRight|spring1|spring2'

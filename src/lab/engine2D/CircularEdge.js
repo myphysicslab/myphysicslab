@@ -393,7 +393,7 @@ CircularEdge.make = function(body, vertex1, vertex2, radius, aboveRight, clockwi
       outsideIsOut);
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.addPath = function(context) {
   // We draw the path in DisplayShape after transforming coordinates to body
   // coordinates. See notes above about coordinates and angle conventions.
@@ -422,7 +422,7 @@ CircularEdge.prototype.bodyToEdge = function(p_body) {
   return p_body.subtract(this.center_body_);
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.chordError = function() {
   // form a triangle between two decorated Vertexes and the center.
   // angle between Vertexes is α
@@ -445,7 +445,7 @@ CircularEdge.prototype.depthOfArc = function() {
   return this.depth_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.distanceToEdge = function(edge) {
   if (edge instanceof StraightEdge) {
     var cw = this.body_.bodyToWorld(this.center_body_);  // Center World coords
@@ -470,14 +470,14 @@ CircularEdge.prototype.distanceToEdge = function(edge) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.distanceToLine = function(p_body) {
   //The extended line is taken to be the full circle for this Circular Edge.
   var p_edge = this.bodyToEdge(p_body);
   return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.distanceToPoint = function(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   if (this.isWithinArc(p_edge)) {
@@ -568,7 +568,7 @@ CircularEdge.findDepth = function(angle, radius) {
   return radius * Math.sqrt(d1*d1 + d2*d2);
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   // p_edge = point in edge coords
   var p_edge = this.bodyToEdge(p_body);
@@ -607,7 +607,7 @@ CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
   return rbc;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getBottomBody = function() {
   var angle = -Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
@@ -628,27 +628,27 @@ CircularEdge.prototype.getCenterBody = function() {
   return this.center_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getCenterOfCurvature = function(p_body) {
   return this.center_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getClassName = function() {
   return 'CircularEdge';
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getCurvature = function(p_body) {
   return (this.outsideIsOut_ ? 1 : -1)*this.radius_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getDecoratedVertexes = function() {
   return this.decoratedVertexes_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getLeftBody = function() {
   var angle = Math.PI;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
@@ -660,7 +660,7 @@ CircularEdge.prototype.getLeftBody = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getNormalBody = function(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   var h = p_edge.length();
@@ -671,7 +671,7 @@ CircularEdge.prototype.getNormalBody = function(p_body) {
   return p_edge.multiply(this.outsideIsOut_ ? 1/h : -1/h);
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getPointOnEdge = function(p_body) {
   var n = this.getNormalBody(p_body);
   var r = (this.outsideIsOut_ ? 1 : -1)* this.radius_;
@@ -687,7 +687,7 @@ CircularEdge.prototype.getRadius = function() {
   return this.radius_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getRightBody = function() {
   var angle = 0;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
@@ -699,7 +699,7 @@ CircularEdge.prototype.getRightBody = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.getTopBody = function() {
   var angle = Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
@@ -711,10 +711,10 @@ CircularEdge.prototype.getTopBody = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.highlight = function() {};
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
   if (edge instanceof StraightEdge) {
     CircleStraight.improveAccuracy(rbc, this, edge);
@@ -729,7 +729,7 @@ CircularEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.intersection = function(p1_body, p2_body) {
   if (p1_body == p2_body) {
     return null;
@@ -833,7 +833,7 @@ CircularEdge.prototype.intersection = function(p1_body, p2_body) {
   return [qb2];
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.isStraight = function() {
   return false;
 };
@@ -919,7 +919,7 @@ CircularEdge.prototype.isWithinReflectedArc2 = function(p_world) {
   return this.isWithinReflectedArc(this.bodyToEdge(this.body_.worldToBody(p_world)));
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.maxDistanceTo = function(p_body) {
   // @todo  This is a worst case, over-estimated distance (awful for concave arc),
   // this could be greatly improved by actually doing the calculation.
@@ -965,7 +965,7 @@ CircularEdge.prototype.outsideIsOut = function() {
   return this.outsideIsOut_;
 };
 
-/** @inheritDoc */
+/** @override */
 CircularEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
     if (Util.DEBUG) {

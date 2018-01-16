@@ -322,7 +322,7 @@ var Molecule1Sim = myphysicslab.sims.springs.Molecule1Sim;
 goog.inherits(Molecule1Sim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Molecule1Sim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', gravity_: '+Util.NF(this.gravity_)
@@ -336,12 +336,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.getClassName = function() {
   return 'Molecule1Sim';
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -364,13 +364,13 @@ Molecule1Sim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -399,12 +399,12 @@ Molecule1Sim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.setDebugPaint = function(fn) {
   this.debugPaint_ = fn;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.atom1_) {
@@ -418,7 +418,7 @@ Molecule1Sim.prototype.startDrag = function(simObject, location, offset, dragBod
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var p = location.subtract(offset);
@@ -458,13 +458,13 @@ Molecule1Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragAtom1_ = false;
   this.dragAtom2_ = false;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
@@ -480,7 +480,7 @@ Molecule1Sim.prototype.addCollision = function(collisions, atom, side, time) {
   collisions.push(c);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
@@ -502,7 +502,7 @@ Molecule1Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
   }, this);
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
@@ -532,7 +532,7 @@ Molecule1Sim.prototype.handleCollisions = function(collisions, opt_totals) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 Molecule1Sim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

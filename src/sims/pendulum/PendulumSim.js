@@ -281,7 +281,7 @@ var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;
 goog.inherits(PendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', length_: '+Util.NF(this.length_)
@@ -297,12 +297,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.getClassName = function() {
   return 'PendulumSim';
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -321,14 +321,14 @@ PendulumSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.setPotentialEnergy = function(value) {
   this.modifyObjects();
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -393,7 +393,7 @@ PendulumSim.prototype.moveObjects = function(vars) {
   this.drive_.setAngle(Math.PI*t/180.0);
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   // can't do 'live dragging' because everything is too connected!
@@ -406,7 +406,7 @@ PendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody
   }
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -422,7 +422,7 @@ PendulumSim.prototype.mouseDrag = function(simObject, location, offset, mouseEve
   }
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.finishDrag = function(simObject, location, offset) {
   if (this.isDragging_) {
     this.isDragging_ = false;
@@ -430,11 +430,11 @@ PendulumSim.prototype.finishDrag = function(simObject, location, offset) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 PendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te

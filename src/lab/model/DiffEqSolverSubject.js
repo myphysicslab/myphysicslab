@@ -113,7 +113,7 @@ var DiffEqSolverSubject = myphysicslab.lab.model.DiffEqSolverSubject;
 goog.inherits(DiffEqSolverSubject, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DiffEqSolverSubject.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', sim_: '+this.sim_.toStringShort()
@@ -127,7 +127,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DiffEqSolverSubject.prototype.getClassName = function() {
   return 'DiffEqSolverSubject';
 };

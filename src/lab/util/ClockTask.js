@@ -77,7 +77,7 @@ myphysicslab.lab.util.ClockTask = function(time, callBack) {
 var ClockTask = myphysicslab.lab.util.ClockTask;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ClockTask.prototype.toString = function() {
     return 'ClockTask{time_: '+Util.NF(this.time_)
         +', timeoutID_: '+this.timeoutID_

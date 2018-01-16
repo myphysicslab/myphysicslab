@@ -198,9 +198,9 @@ var testLabCanvas1 = function() {
     */
     this.at = AffineTransform.IDENTITY;
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.fillStyle = '';
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.rect = function(x, y, w, h) {
     // check that the rectangle being drawn matches expected rectangle
     var pt1 = this.at.transform(x, y);
@@ -214,11 +214,11 @@ var testLabCanvas1 = function() {
       assertRoughlyEquals(this.expectRect2.getY(), pt2.getY(), tol);
     }
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.strokeStyle = '';
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.lineWidth = 0;
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.moveTo = function(x, y) {
     var pt1 = this.at.transform(x, y);
     if (this.startPoint != null) {
@@ -227,27 +227,27 @@ var testLabCanvas1 = function() {
       assertRoughlyEquals(this.startPoint.getY(), pt1.getY(), tol);
     }
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.lineTo = function(x, y) {
     this.lastPoint = this.at.transform(x, y);
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.save = function() {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.restore = function() {
     this.at = AffineTransform.IDENTITY;
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.stroke = function() {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.beginPath = function() {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.clearRect = function(x, y, w, h) {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.setTransform = function(a, b, c, d, e, f) {
     this.at = new AffineTransform(a, b, c, d, e, f);
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.fill = function() {};
 
 
@@ -261,11 +261,11 @@ var testLabCanvas1 = function() {
      */
     this.mockContext_ = new MockContext();
   };
-  /** @inheritDoc */
+  /** @override */
   MockCanvas.prototype.width = 0;
-  /** @inheritDoc */
+  /** @override */
   MockCanvas.prototype.height = 0;
-  /** @inheritDoc */
+  /** @override */
   MockCanvas.prototype.getContext = function(type) {
     assertEquals('2d', type);
     return this.mockContext_;

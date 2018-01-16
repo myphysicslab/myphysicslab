@@ -89,7 +89,7 @@ myphysicslab.lab.util.Timer = function(opt_legacy) {
 var Timer = myphysicslab.lab.util.Timer;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Timer.prototype.toString = function() {
     return 'Timer{period_: '+this.period_
         +', firing_: '+this.firing_

@@ -49,17 +49,17 @@ myphysicslab.sims.roller.HumpPath = function(start, finish, name, localName) {
 var HumpPath = myphysicslab.sims.roller.HumpPath;
 goog.inherits(HumpPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 HumpPath.prototype.getClassName = function() {
   return 'HumpPath';
 };
 
-/** @inheritDoc */
+/** @override */
 HumpPath.prototype.x_func = function(t) {
   return t;
 };
 
-/** @inheritDoc */
+/** @override */
 HumpPath.prototype.y_func = function(t) {
   return 3 + t*t*(-7 + t*t)/6;
 };

@@ -75,7 +75,7 @@ var ElasticitySetter = myphysicslab.sims.engine2D.ElasticitySetter;
 goog.inherits(ElasticitySetter, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ElasticitySetter.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', sim: '+this.sim_.toStringShort()
@@ -83,7 +83,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ElasticitySetter.prototype.getClassName = function() {
   return 'ElasticitySetter';
 };
@@ -131,7 +131,7 @@ ElasticitySetter.prototype.setElasticity = function(value) {
   this.broadcastParameter(ElasticitySetter.en.ELASTICITY);
 };
 
-/** @inheritDoc */
+/** @override */
 ElasticitySetter.prototype.observe =  function(event) {
   if (event.getSubject() == this.sim_ && event.nameEquals(RigidBodySim.ELASTICITY_SET)) {
     var nowValue = this.getElasticity_();

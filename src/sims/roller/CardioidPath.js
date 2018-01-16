@@ -71,25 +71,25 @@ var CardioidPath = myphysicslab.sims.roller.CardioidPath;
 goog.inherits(CardioidPath, AbstractPath);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CardioidPath.prototype.toString = function() {
     return CardioidPath.superClass_.toString.call(this).slice(0, -1)
         + ', radius: '+Util.NF(this.a_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CardioidPath.prototype.getClassName = function() {
   return 'CardioidPath';
 };
 
-/** @inheritDoc */
+/** @override */
 CardioidPath.prototype.x_func = function(t) {
   var c = Math.cos(t);
   return this.a_ *Math.sin(t)*(1+c);
 };
 
-/** @inheritDoc */
+/** @override */
 CardioidPath.prototype.y_func = function(t) {
   var c = Math.cos(t);
   return -this.a_ *c*(1+c);

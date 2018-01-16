@@ -235,7 +235,7 @@ var DoubleSpringSim = myphysicslab.sims.springs.DoubleSpringSim;
 goog.inherits(DoubleSpringSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoubleSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', block1_: '+this.block1_
@@ -248,7 +248,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.getClassName = function() {
   return 'DoubleSpringSim';
 };
@@ -315,7 +315,7 @@ DoubleSpringSim.prototype.restState = function() {
   this.moveObjects(vars);
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -338,13 +338,13 @@ DoubleSpringSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -375,7 +375,7 @@ DoubleSpringSim.prototype.moveObjects = function(vars) {
   this.block2_.setVelocity(new Vector(vars[3], 0, 0));
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.block1_) {
@@ -389,7 +389,7 @@ DoubleSpringSim.prototype.startDrag = function(simObject, location, offset, drag
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   if (this.dragBlock_ >= 0 && this.dragBlock_ <= 1) {
@@ -408,16 +408,16 @@ DoubleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mous
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragBlock_ = -1;
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 DoubleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time

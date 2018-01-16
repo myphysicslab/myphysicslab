@@ -104,20 +104,20 @@ myphysicslab.lab.controls.CheckBoxControlBase = function(label, getter, setter, 
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CheckBoxControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         + ', state_: '+this.state_
         + '}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   CheckBoxControlBase.prototype.toStringShort = function() {
     return this.getClassName() + '{label_: "'+this.label_+'"}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControlBase.prototype.disconnect = function() {
   goog.events.unlistenByKey(this.changeKey_);
 };
@@ -129,12 +129,12 @@ CheckBoxControlBase.prototype.getClassName = function() {
   return 'CheckBoxControlBase';
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControlBase.prototype.getElement = function() {
   return this.topElement_;
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControlBase.prototype.getParameter = function() {
   return null;
 };
@@ -155,13 +155,13 @@ CheckBoxControlBase.prototype.handleClick = function(event) {
   this.setState(!this.getState());
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControlBase.prototype.observe =  function(event) {
   // Ensure that the correct value is displayed by the control.
   this.setState(this.getState());
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControlBase.prototype.setEnabled = function(enabled) {
   this.checkBox_.disabled = !enabled;
 };

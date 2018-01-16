@@ -164,7 +164,7 @@ var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
 goog.inherits(BrachistoSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   BrachistoSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', damping_: '+Util.NF(this.damping_)
@@ -175,7 +175,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.getClassName = function() {
   return 'BrachistoSim';
 };
@@ -286,7 +286,7 @@ BrachistoSim.prototype.setPathChoice = function(choice) {
   this.broadcast(new GenericEvent(this, BrachistoSim.PATH_CHOSEN, choice));
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -306,7 +306,7 @@ BrachistoSim.prototype.modifyObjects = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   // find the closest path to this point.
@@ -324,19 +324,19 @@ BrachistoSim.prototype.startDrag = function(simObject, location, offset, dragBod
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.finishDrag = function(simObject, location, offset) {
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 BrachistoSim.prototype.evaluate = function(vars, change, timeStep) {
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
   // time p0 v0 x0 y0 p1 v1 x1 y1 p2 v2 x2 y2 ...

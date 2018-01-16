@@ -115,7 +115,7 @@ var Force = myphysicslab.lab.model.Force;
 goog.inherits(Force, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Force.prototype.toString = function() {
     return Force.superClass_.toString.call(this).slice(0, -1)
         +', body: "'+this.body_.getName()+'"'
@@ -128,7 +128,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Force.prototype.getClassName = function() {
   return 'Force';
 };
@@ -141,17 +141,17 @@ Force.prototype.getBody = function() {
   return this.body_;
 };
 
-/** @inheritDoc */
+/** @override */
 Force.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.getStartPoint(), this.getEndPoint());
 };
 
-/** @inheritDoc */
+/** @override */
 Force.prototype.getEndPoint = function() {
   return this.getStartPoint().add(this.getVector());
 };
 
-/** @inheritDoc */
+/** @override */
 Force.prototype.getStartPoint = function() {
   return this.locationCoordType_==CoordType.BODY ?
           this.body_.bodyToWorld(this.location_) : this.location_;
@@ -164,13 +164,13 @@ Force.prototype.getTorque = function() {
   return this.torque_;
 };
 
-/** @inheritDoc */
+/** @override */
 Force.prototype.getVector = function() {
   return this.directionCoordType_==CoordType.BODY ?
           this.body_.rotateBodyToWorld(this.direction_) : this.direction_;
 };
 
-/** @inheritDoc */
+/** @override */
 Force.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof Force)) {
     return false;

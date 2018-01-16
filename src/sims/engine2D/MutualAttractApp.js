@@ -119,7 +119,7 @@ var MutualAttractApp = sims.engine2D.MutualAttractApp;
 goog.inherits(MutualAttractApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   MutualAttractApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -128,12 +128,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 MutualAttractApp.prototype.getClassName = function() {
   return 'MutualAttractApp';
 };
 
-/** @inheritDoc */
+/** @override */
 MutualAttractApp.prototype.defineNames = function(myName) {
   MutualAttractApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -142,7 +142,7 @@ MutualAttractApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 MutualAttractApp.prototype.getSubjects = function() {
   var subjects = MutualAttractApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

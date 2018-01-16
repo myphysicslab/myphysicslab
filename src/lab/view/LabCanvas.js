@@ -216,7 +216,7 @@ var LabCanvas = myphysicslab.lab.view.LabCanvas;
 goog.inherits(LabCanvas, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   LabCanvas.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', width: '+this.canvas_.width
@@ -232,7 +232,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 LabCanvas.prototype.getClassName = function() {
   return 'LabCanvas';
 };
@@ -267,7 +267,7 @@ LabCanvas.VIEW_ADDED = 'VIEW_ADDED';
 */
 LabCanvas.VIEW_REMOVED = 'VIEW_REMOVED';
 
-/** @inheritDoc */
+/** @override */
 LabCanvas.prototype.addMemo = function(memorizable) {
   this.memoList_.addMemo(memorizable);
 };
@@ -354,7 +354,7 @@ LabCanvas.prototype.getHeight = function() {
   return this.canvas_.height;
 };
 
-/** @inheritDoc */
+/** @override */
 LabCanvas.prototype.getMemos = function() {
   return this.memoList_.getMemos();
 };
@@ -382,7 +382,7 @@ LabCanvas.prototype.getWidth = function() {
   return this.canvas_.width;
 };
 
-/** @inheritDoc */
+/** @override */
 LabCanvas.prototype.memorize = function() {
   this.memoList_.memorize();
 };
@@ -443,7 +443,7 @@ LabCanvas.prototype.paint = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 LabCanvas.prototype.removeMemo = function(memorizable) {
   this.memoList_.removeMemo(memorizable);
 };

@@ -49,11 +49,11 @@ var testDisplayLine = function() {
     */
     this.lastPoint = null;
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.strokeStyle = '';
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.lineWidth = 0;
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.moveTo = function(x, y) {
     if (!goog.isNull(this.startPoint)) {
       // check that the rectangle being drawn matches expected rectangle
@@ -61,17 +61,17 @@ var testDisplayLine = function() {
       assertRoughlyEquals(this.startPoint.getY(), y, tol);
     }
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.lineTo = function(x, y) {
     this.lastPoint = new Vector(x, y);
   };
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.save = function() {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.restore = function() {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.stroke = function() {};
-  /** @inheritDoc */
+  /** @override */
   MockContext.prototype.beginPath = function() {};
 
   var mockContext = new MockContext();

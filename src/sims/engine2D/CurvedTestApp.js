@@ -136,7 +136,7 @@ var CurvedTestApp = sims.engine2D.CurvedTestApp;
 goog.inherits(CurvedTestApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CurvedTestApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -145,12 +145,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CurvedTestApp.prototype.getClassName = function() {
   return 'CurvedTestApp';
 };
 
-/** @inheritDoc */
+/** @override */
 CurvedTestApp.prototype.defineNames = function(myName) {
   CurvedTestApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -159,7 +159,7 @@ CurvedTestApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 CurvedTestApp.prototype.getSubjects = function() {
   var subjects = CurvedTestApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

@@ -198,7 +198,7 @@ var StandardGraph1 = myphysicslab.sims.common.StandardGraph1;
 goog.inherits(StandardGraph1, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   StandardGraph1.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', canvas: '+this.canvas.toStringShort()
@@ -212,12 +212,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 StandardGraph1.prototype.getClassName = function() {
   return 'StandardGraph1';
 };
 
-/** @inheritDoc */
+/** @override */
 StandardGraph1.prototype.getSubjects = function() {
   return [ this, this.line, this.view, this.autoScale ];
 };

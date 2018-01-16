@@ -320,7 +320,7 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
 var SliderControl = myphysicslab.lab.controls.SliderControl;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SliderControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', paramValue_: '+Util.NF(this.paramValue_)
@@ -338,7 +338,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   SliderControl.prototype.toStringShort = function() {
     return 'SliderControl{parameter: '+this.parameter_.toStringShort()+'}';
   };
@@ -375,7 +375,7 @@ SliderControl.prototype.decimalPlacesNeeded = function(x, sigDigits) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SliderControl.prototype.disconnect = function() {
   this.parameter_.getSubject().removeObserver(this);
   goog.events.unlistenByKey(this.sliderKey_);
@@ -441,12 +441,12 @@ SliderControl.prototype.getDecimalPlaces = function() {
   return this.decimalPlaces_;
 };
 
-/** @inheritDoc */
+/** @override */
 SliderControl.prototype.getElement = function() {
   return this.label_;
 };
 
-/** @inheritDoc */
+/** @override */
 SliderControl.prototype.getParameter = function() {
   return this.parameter_;
 };
@@ -494,7 +494,7 @@ SliderControl.magnitude = function(x) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SliderControl.prototype.observe =  function(event) {
   // only update when this parameter has changed
   if (event == this.parameter_) {
@@ -536,7 +536,7 @@ SliderControl.prototype.setDecimalPlaces = function(decimalPlaces) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 SliderControl.prototype.setEnabled = function(enabled) {
   this.textField_.disabled = !enabled;
 };

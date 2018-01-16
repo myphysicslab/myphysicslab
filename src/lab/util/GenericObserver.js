@@ -122,12 +122,12 @@ myphysicslab.lab.util.GenericObserver = function(subject, observeFn, opt_purpose
 var GenericObserver = myphysicslab.lab.util.GenericObserver;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GenericObserver.prototype.toString = function() {
     return this.toStringShort();
   };
 
-  /** @inheritDoc */
+  /** @override */
   GenericObserver.prototype.toStringShort = function() {
     return 'GenericObserver{subject_: '+this.subject_.toStringShort()
         +(this.purpose_.length > 0 ? ', purpose_:"'+this.purpose_+'"' : '')
@@ -140,7 +140,7 @@ GenericObserver.prototype.disconnect = function() {
   this.subject_.removeObserver(this);
 };
 
-/** @inheritDoc */
+/** @override */
 GenericObserver.prototype.observe =  function(event) {
   this.observeFn_(event);
 };

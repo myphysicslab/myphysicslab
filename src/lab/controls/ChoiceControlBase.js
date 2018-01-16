@@ -165,7 +165,7 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ChoiceControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', currentIndex_: '+this.currentIndex_
@@ -175,7 +175,7 @@ if (!Util.ADVANCED) {
         +'"}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   ChoiceControlBase.prototype.toStringShort = function() {
     return this.getClassName() + '{label_: "'+this.label_+'"}';
   };
@@ -193,7 +193,7 @@ ChoiceControlBase.prototype.buildSelectMenu = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControlBase.prototype.disconnect = function() {
   goog.events.unlistenByKey(this.changeKey_);
 };
@@ -213,12 +213,12 @@ ChoiceControlBase.prototype.getClassName = function() {
   return 'ChoiceControlBase';
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControlBase.prototype.getElement = function() {
   return this.topElement_;
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControlBase.prototype.getParameter = function() {
   return null;
 };
@@ -233,7 +233,7 @@ ChoiceControlBase.prototype.itemStateChanged = function(event) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControlBase.prototype.observe =  function(event) {
   // Ensure that the value displayed by the control matches the target value.
   var index = goog.array.indexOf(this.values_, this.getter_());
@@ -298,7 +298,7 @@ ChoiceControlBase.prototype.setChoices = function(choices, values) {
   this.selectMenu_.selectedIndex = this.currentIndex_;
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControlBase.prototype.setEnabled = function(enabled) {
   this.selectMenu_.disabled = !enabled;
 };

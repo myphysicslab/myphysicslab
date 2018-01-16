@@ -325,7 +325,7 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, dependent) {
 var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EasyScriptParser.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', subjects_: ['
@@ -333,13 +333,13 @@ if (!Util.ADVANCED) {
         +']}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   EasyScriptParser.prototype.toStringShort = function() {
     return 'EasyScriptParser{subjects_.length: '+this.subjects_.length+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 EasyScriptParser.prototype.addCommand = function(commandName, commandFnc, helpText) {
   this.commandNames_.push(commandName);
   this.commandFns_.push(commandFnc);
@@ -507,7 +507,7 @@ EasyScriptParser.prototype.namesAndValues = function(dependent, includeComputed,
   return s.length > 0 ? s.join(';') + ';' : '';
 };
 
-/** @inheritDoc */
+/** @override */
 EasyScriptParser.prototype.parse = function(script) {
   // remove trailing semicolon
   if (script.slice(-1) == ';') {
@@ -538,7 +538,7 @@ EasyScriptParser.prototype.parse = function(script) {
   return param.getValue();
 };
 
-/** @inheritDoc */
+/** @override */
 EasyScriptParser.prototype.saveStart = function() {
   this.initialNonDependent_ = this.namesAndValues(false).split(';');
   this.initialDependent_ = this.namesAndValues(true).split(';');

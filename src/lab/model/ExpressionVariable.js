@@ -71,38 +71,38 @@ var ExpressionVariable = myphysicslab.lab.model.ExpressionVariable;
 goog.inherits(ExpressionVariable, ConcreteVariable);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ExpressionVariable.prototype.toString = function() {
     return ExpressionVariable.superClass_.toString.call(this).slice(0, -1)
         + ', expression_: "'+this.expression_+'"'+ '}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ExpressionVariable.prototype.getBroadcast = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 ExpressionVariable.prototype.getClassName = function() {
   return 'ExpressionVariable';
 };
 
-/** @inheritDoc */
+/** @override */
 ExpressionVariable.prototype.getValue = function() {
   var r = this.terminal_.eval(this.expression_, /*output=*/false);
   return goog.isNumber(r) ? r : Number.NaN;
 };
 
-/** @inheritDoc */
+/** @override */
 ExpressionVariable.prototype.setBroadcast = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 ExpressionVariable.prototype.setValue = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 ExpressionVariable.prototype.setValueSmooth = function(value) {
 };
 

@@ -56,7 +56,7 @@ myphysicslab.lab.model.CollisionTotals = function() {
 var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CollisionTotals.prototype.toString = function() {
     return 'CollisionTotals{searches: '+this.searches_
         +', impulses: '+this.impulses_

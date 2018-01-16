@@ -82,7 +82,7 @@ myphysicslab.lab.view.DisplayRope = function(rope, proto) {
 var DisplayRope = myphysicslab.lab.view.DisplayRope;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayRope.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', colorTight: "'+this.getColorTight()+'"'
@@ -92,7 +92,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayRope.prototype.toStringShort = function() {
     return 'DisplayRope{rope_: '+
         (this.rope_ != null ? this.rope_.toStringShort() : 'null')+'}';
@@ -113,12 +113,12 @@ DisplayRope.pathLength = 6.0;
 */
 DisplayRope.pathWidth = 0.5;
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.contains = function(p_world) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.draw = function(context, map) {
   if (this.rope_ == null) {
     return;
@@ -222,19 +222,19 @@ DisplayRope.prototype.getColorTight = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.getMassObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.getPosition = function() {
   // return midpoint of the line
   return this.rope_ == null ? Vector.ORIGIN :
       this.rope_.getStartPoint().add(this.rope_.getEndPoint()).multiply(0.5);
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.getSimObjects = function() {
   return this.rope_ == null ? [ ] : [ this.rope_ ];
 };
@@ -253,7 +253,7 @@ DisplayRope.prototype.getThickness = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -264,7 +264,7 @@ DisplayRope.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.isDragable = function() {
   return false;
 };
@@ -287,12 +287,12 @@ DisplayRope.prototype.setColorTight = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.setDragable = function(dragable) {
   // does nothing
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.setPosition = function(position) {
   //throw new Error('unsupported operation');
 };
@@ -307,7 +307,7 @@ DisplayRope.prototype.setThickness = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayRope.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

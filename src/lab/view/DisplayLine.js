@@ -82,7 +82,7 @@ myphysicslab.lab.view.DisplayLine = function(line, proto) {
 var DisplayLine = myphysicslab.lab.view.DisplayLine;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayLine.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', thickness: '+Util.NF(this.getThickness())
@@ -93,18 +93,18 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayLine.prototype.toStringShort = function() {
     return 'DisplayLine{line_: '+this.line_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.contains = function(point) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.draw = function(context, map) {
   var thickness = this.getThickness();
   if (thickness > 0) {
@@ -156,18 +156,18 @@ DisplayLine.prototype.getLineDash = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.getMassObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.getPosition = function() {
   // return midpoint of the line
   return this.line_.getStartPoint().add(this.line_.getEndPoint()).multiply(0.5);
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.getSimObjects = function() {
   return [ this.line_ ];
 };
@@ -187,7 +187,7 @@ DisplayLine.prototype.getThickness = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -198,7 +198,7 @@ DisplayLine.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.isDragable = function() {
   return false;
 };
@@ -212,7 +212,7 @@ DisplayLine.prototype.setColor = function(color) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.setDragable = function(dragable) {
   // does nothing
 };
@@ -228,7 +228,7 @@ DisplayLine.prototype.setLineDash = function(lineDash) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.setPosition = function(position) {
 };
 
@@ -243,7 +243,7 @@ DisplayLine.prototype.setThickness = function(thickness) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayLine.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

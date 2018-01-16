@@ -222,7 +222,7 @@ var ChainApp = sims.engine2D.ChainApp;
 goog.inherits(ChainApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ChainApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -231,12 +231,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ChainApp.prototype.getClassName = function() {
   return 'ChainApp';
 };
 
-/** @inheritDoc */
+/** @override */
 ChainApp.prototype.defineNames = function(myName) {
   ChainApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -245,7 +245,7 @@ ChainApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 ChainApp.prototype.getSubjects = function() {
   var subjects = ChainApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

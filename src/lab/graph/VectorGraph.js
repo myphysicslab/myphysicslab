@@ -127,7 +127,7 @@ myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
 var VectorGraph = myphysicslab.lab.graph.VectorGraph;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   VectorGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
@@ -140,7 +140,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.contains = function(p_world) {
   // ? this seems wrong, but need the CoordMap to convert screenRect to sim coords
   return false;
@@ -158,7 +158,7 @@ The procedure is as follows:
 6. draw a short line with that slope at this point
 */
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.draw = function(context, map) {
   if (this.screenRect_.isEmpty()) {
     if (Util.DEBUG) {
@@ -262,12 +262,12 @@ VectorGraph.prototype.fullDraw = function(context, coordMap) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.getMassObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.getPosition = function() {
   //? what to return here ??? center of screenRect in sim coords?
   return Vector.ORIGIN;
@@ -282,22 +282,22 @@ VectorGraph.prototype.getScreenRect = function() {
   return this.screenRect_;
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.getSimObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.getZIndex = function() {
   return this.zIndex;
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.isDragable = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.observe =  function(event) {
   if (event.getSubject() == this.sim_) {
     // assume any change in sim modifies direction field, so redraw
@@ -305,11 +305,11 @@ VectorGraph.prototype.observe =  function(event) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.setDragable = function(dragable) {
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.setPosition = function(position) {
   //throw new Error(); // unsupported
 };
@@ -324,7 +324,7 @@ VectorGraph.prototype.setScreenRect = function(screenRect) {
   this.offScreen_ = null; // force reallocation of offscreen
 };
 
-/** @inheritDoc */
+/** @override */
 VectorGraph.prototype.setZIndex = function(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };

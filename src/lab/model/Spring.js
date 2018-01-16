@@ -122,7 +122,7 @@ var Spring = myphysicslab.lab.model.Spring;
 goog.inherits(Spring, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Spring.prototype.toString = function() {
     return Spring.superClass_.toString.call(this).slice(0, -1)
         +', body1_:"'+this.body1_.getName()+'"'
@@ -137,12 +137,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getClassName = function() {
   return 'Spring';
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.calculateForces = function() {
   var point1 = this.getStartPoint();
   var point2 = this.getEndPoint();
@@ -172,7 +172,7 @@ Spring.prototype.calculateForces = function() {
         /*direction=*/f.multiply(-1), CoordType.WORLD) ];
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.disconnect = function() {
 };
 
@@ -190,7 +190,7 @@ Spring.prototype.getAttach2 = function() {
   return this.attach2_;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getBodies = function() {
   return [ this.body1_, this.body2_ ];  // include the spring also?
 };
@@ -209,7 +209,7 @@ Spring.prototype.getBody2 = function() {
   return this.body2_;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.getStartPoint(), this.getEndPoint());
 };
@@ -222,7 +222,7 @@ Spring.prototype.getDamping = function() {
   return this.damping_;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getEndPoint = function() {
   if (this.attach2_ == null || this.body2_ == null)
     throw new Error();
@@ -253,7 +253,7 @@ Spring.prototype.getLength = function() {
   return this.getEndPoint().distanceTo(this.getStartPoint());
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getPotentialEnergy = function() {
   // spring potential energy = 0.5*stiffness*(stretch^2)
   var stretch = this.getStretch();
@@ -267,7 +267,7 @@ Spring.prototype.getRestLength = function() {
   return this.restLength_;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getStartPoint = function() {
   if (this.attach1_ == null || this.body1_ == null)
     throw new Error();
@@ -288,7 +288,7 @@ Spring.prototype.getStretch = function() {
   return this.getLength() - this.restLength_;
 };
 
-/** @inheritDoc */
+/** @override */
 Spring.prototype.getVector = function() {
   return this.getEndPoint().subtract(this.getStartPoint());
 };

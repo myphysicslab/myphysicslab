@@ -67,315 +67,315 @@ Scrim.getScrim = function() {
 };
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Scrim.prototype.toString = function() {
     return 'Scrim{}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   Scrim.prototype.toStringShort = function() {
     return 'Scrim{}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.addNonCollide = function(bodies) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.alignTo = function(p_body, p_world, opt_angle) {
   throw new Error();
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.bodyToWorld = function(p_body) {
   return Vector.clone(p_body);
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.bodyToWorldTransform = function() {
   return AffineTransform.IDENTITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.createCanvasPath = function(context) {
   // make an empty path
   context.beginPath();
   context.closePath();
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.doesNotCollide = function(body) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.eraseOldCoords = function() {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getAccuracy = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getAngle = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getAngularVelocity = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getBottomBody = function() {
   return Util.NEGATIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getBottomWorld = function() {
   return Util.NEGATIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getBoundsBody = function() {
   return new DoubleRect(this.getLeftBody(), this.getBottomBody(),
       this.getRightBody(), this.getTopBody());
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getBoundsWorld = function() {
   return this.getBoundsBody();
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getCenterOfMassBody = function() {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getCentroidBody = function() {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getCentroidRadius = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getCentroidWorld = function() {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getDistanceTol = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getDragPoints = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getElasticity = function() {
   return 1;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getExpireTime = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getHeight = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getKineticEnergy = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getLeftBody = function() {
   return Util.NEGATIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getLeftWorld = function() {
   return Util.NEGATIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getMass = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getName = function(opt_localized) {
   return 'SCRIM';
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getMinHeight = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getOldCoords = function() {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getPosition = function() {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getRightBody = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getRightWorld = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getTopBody = function() {
 return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getTopWorld = function() {
 return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getVarsIndex = function() {
   return -1;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getVelocity = function(p_body) {
   return Vector.ORIGIN;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getVelocityTol = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getVerticesBody = function() {
   return [];
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getWidth = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.getZeroEnergyLevel = function() {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.isMassObject = function() {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.momentAboutCM = function() {
   return Util.POSITIVE_INFINITY;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.momentum = function() {
   var r = new Array(3);
   r[0] = r[1] = r[2] = Util.POSITIVE_INFINITY;
   return r;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.nameEquals = function(name) {
   return this.getName() == Util.toName(name);
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.removeNonCollide = function(bodies) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.rotateBodyToWorld = function(v_body) {
   return Vector.clone(v_body);
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.rotateWorldToBody = function(v_world) {
   return Vector.clone(v_world);
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.rotationalEnergy = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.saveOldCoords = function() {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setAccuracy = function(accuracy) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setAngle = function(angle) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setAngularVelocity = function(angular_velocity) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setCenterOfMass = function(x_body, y_body) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setDistanceTol = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setDragPoints = function(dragPts) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setElasticity = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setExpireTime = function(time) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setMass = function(mass) {
   throw new Error();
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setMinHeight = function(minHeight) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setMomentAboutCM = function(moment) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setPosition = function(loc_world, angle) {
   if (loc_world.getX() != 0 || loc_world.getY() != 0) {
     throw new Error();
@@ -385,7 +385,7 @@ Scrim.prototype.setPosition = function(loc_world, angle) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setVelocity = function(velocity_world, angular_velocity) {
   if (velocity_world.getX() != 0 || velocity_world.getY() != 0) {
     throw new Error();
@@ -395,26 +395,26 @@ Scrim.prototype.setVelocity = function(velocity_world, angular_velocity) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setVelocityTol = function(value) {
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.setZeroEnergyLevel = function(zeroEnergyLevel) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.similar = function(obj, opt_tolerance) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.translationalEnergy = function() {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 Scrim.prototype.worldToBody = function(p_world) {
   return Vector.clone(p_world);
 };

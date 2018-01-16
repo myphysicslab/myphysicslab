@@ -136,20 +136,20 @@ myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, text
 var TextControlBase = myphysicslab.lab.controls.TextControlBase;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   TextControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', columns_: '+this.columns_
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   TextControlBase.prototype.toStringShort = function() {
     return this.getClassName() + '{label_: "'+this.label_+'"}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 TextControlBase.prototype.disconnect = function() {
   goog.events.unlistenByKey(this.changeKey_);
   goog.events.unlistenByKey(this.clickKey_);
@@ -200,12 +200,12 @@ TextControlBase.prototype.getColumns = function() {
   return this.columns_;
 };
 
-/** @inheritDoc */
+/** @override */
 TextControlBase.prototype.getElement = function() {
   return this.topElement_;
 };
 
-/** @inheritDoc */
+/** @override */
 TextControlBase.prototype.getParameter = function() {
   return null;
 };
@@ -218,7 +218,7 @@ TextControlBase.prototype.getValue = function() {
   return this.value_;
 };
 
-/** @inheritDoc */
+/** @override */
 TextControlBase.prototype.observe =  function(event) {
   // Ensures that the value displayed by the control matches the target value.
   this.setValue(this.getter_());
@@ -236,7 +236,7 @@ TextControlBase.prototype.setColumns = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 TextControlBase.prototype.setEnabled = function(enabled) {
   this.textField_.disabled = !enabled;
 };

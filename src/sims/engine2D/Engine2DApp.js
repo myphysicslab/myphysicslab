@@ -249,7 +249,7 @@ var Engine2DApp = myphysicslab.sims.engine2D.Engine2DApp;
 goog.inherits(Engine2DApp, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Engine2DApp.prototype.toString = function() {
     return ', sim: '+this.sim.toStringShort()
         +', elasticity: '+this.elasticity.toStringShort()
@@ -309,7 +309,7 @@ Engine2DApp.prototype.watchEnergyChange = function(parameter) {
   }, this), 'record discontinuous energy changes');
 };
 
-/** @inheritDoc */
+/** @override */
 Engine2DApp.prototype.getSubjects = function() {
   var subjects = [
     this,

@@ -115,7 +115,7 @@ myphysicslab.lab.util.RandomLCG = function (seed) {
 };
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.toString = function() {
   return 'RandomLCG{seed: '+this.seed_+'}';
 };
@@ -172,17 +172,17 @@ RandomLCG.checkSeed = function(seed) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.getModulus = function() {
   return RandomLCG.m;
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.getSeed = function() {
   return this.seed_;
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.nextFloat = function() {
   var x = this.nextInt_();
   if (RandomLCG.DEBUG_RANDOM) {
@@ -191,7 +191,7 @@ RandomLCG.prototype.nextFloat = function() {
   return x / (RandomLCG.m - 1);
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.nextInt = function() {
   var x = this.nextInt_();
   if (RandomLCG.DEBUG_RANDOM) {
@@ -215,7 +215,7 @@ RandomLCG.prototype.nextInt_ = function() {
   return this.seed_;
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.nextRange = function(n) {
   var x = this.nextRange_(n);
   if (RandomLCG.DEBUG_RANDOM) {
@@ -237,7 +237,7 @@ RandomLCG.prototype.nextRange_ = function(n) {
   return Math.floor(randomUnder1 * n);
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.randomInts = function(n) {
   var set = new Array(n);
   var src = new Array(n);
@@ -273,7 +273,7 @@ RandomLCG.prototype.randomInts = function(n) {
   return set;
 };
 
-/** @inheritDoc */
+/** @override */
 RandomLCG.prototype.setSeed = function(seed) {
   RandomLCG.checkSeed(seed);
   this.seed_ = seed;

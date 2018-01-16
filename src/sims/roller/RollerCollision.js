@@ -91,7 +91,7 @@ myphysicslab.sims.roller.RollerCollision = function(ball, path, time) {
 var RollerCollision = myphysicslab.sims.roller.RollerCollision;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RollerCollision.prototype.toString = function() {
     return 'RollerCollision{'
         +'distance='+Util.NF(this.distance_)
@@ -111,62 +111,62 @@ RollerCollision.prototype.getPathPoint = function() {
   return this.pathPoint_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.closeEnough = function(allowTiny) {
   return Math.abs(this.distance_) <= this.accuracy_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.isTouching = function() {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.isColliding = function() {
   return this.distance_ < -this.accuracy_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.getDistance = function() {
   return this.distance_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.getDetectedTime = function() {
   return this.detectedTime_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.getEstimatedTime = function() {
   return Util.NaN;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.bilateral = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.contact = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.illegalState = function() {
   return this.distance_ < -this.accuracy_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.setNeedsHandling = function(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.needsHandling = function() {
   return this.mustHandle_;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.updateCollision = function(time) {
   // Assume that the track does not loop.
   // Then if the ball is below the track there has been a collision.
@@ -180,12 +180,12 @@ RollerCollision.prototype.updateCollision = function(time) {
   this.velocity = this.ball_.getVelocity().dotProduct(normal);
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.getImpulse = function() {
   return this.impulse;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerCollision.prototype.getVelocity = function() {
   return this.velocity;
 };

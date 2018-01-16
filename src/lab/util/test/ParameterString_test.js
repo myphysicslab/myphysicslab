@@ -46,7 +46,7 @@ var testParameterString1 = function() {
 
   MockSubject2.FOONESS = 'fooness';
   MockSubject2.FOOBARNESS = 'foo-barness';
-  /** @inheritDoc */
+  /** @override */
   MockSubject2.prototype.getClassName = function() {
     return 'MockSubject2';
   };

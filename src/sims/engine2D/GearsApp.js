@@ -148,7 +148,7 @@ var GearsApp = sims.engine2D.GearsApp;
 goog.inherits(GearsApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GearsApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -157,12 +157,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 GearsApp.prototype.getClassName = function() {
   return 'GearsApp';
 };
 
-/** @inheritDoc */
+/** @override */
 GearsApp.prototype.defineNames = function(myName) {
   GearsApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -171,13 +171,13 @@ GearsApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 GearsApp.prototype.getSubjects = function() {
   var subjects = GearsApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
-/** @inheritDoc */
+/** @override */
 GearsApp.prototype.graphSetup = function(body) {
   body = this.mySim.getBody(GearsConfig.en.LEFT_GEAR);
   this.graph.line.setXVariable(body.getVarsIndex()+4); // angle

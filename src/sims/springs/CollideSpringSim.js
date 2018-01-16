@@ -203,7 +203,7 @@ var CollideSpringSim = myphysicslab.sims.springs.CollideSpringSim;
 goog.inherits(CollideSpringSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CollideSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', blocks: '+this.blocks_.length
@@ -218,7 +218,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.getClassName = function() {
   return 'CollideSpringSim';
 };
@@ -378,7 +378,7 @@ CollideSpringSim.prototype.config = function(numBlocks, startPosition, startGap)
   this.modifyObjects();
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -406,13 +406,13 @@ CollideSpringSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -438,7 +438,7 @@ CollideSpringSim.prototype.moveObjects = function(vars) {
   });
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragIdx_ = goog.array.indexOf(this.blocks_, simObject);
@@ -454,7 +454,7 @@ CollideSpringSim.prototype.startDrag = function(simObject, location, offset, dra
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   if (simObject == this.wall1_) {
@@ -466,7 +466,7 @@ CollideSpringSim.prototype.mouseDrag = function(simObject, location, offset, mou
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragIdx_ = -1;
   if (this.dragSpring_ != null) {
@@ -475,11 +475,11 @@ CollideSpringSim.prototype.finishDrag = function(simObject, location, offset) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 CollideSpringSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);

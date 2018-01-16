@@ -114,21 +114,21 @@ var GravityLaw = myphysicslab.lab.model.GravityLaw;
 goog.inherits(GravityLaw, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GravityLaw.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bodies: '+this.bods_.length
         + GravityLaw.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   GravityLaw.prototype.toStringShort = function() {
     return GravityLaw.superClass_.toStringShort.call(this).slice(0, -1)
         +', gravity: '+Util.NF5(this.gravity_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 GravityLaw.prototype.getClassName = function() {
   return 'GravityLaw';
 };
@@ -161,7 +161,7 @@ GravityLaw.prototype.addBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 GravityLaw.prototype.calculateForces = function() {
   var forces = [];
   /** @type {function(this:GravityLaw, !MassObject)} */
@@ -187,7 +187,7 @@ GravityLaw.prototype.connect = function(simList) {
   this.simList_ = simList;
 };
 
-/** @inheritDoc */
+/** @override */
 GravityLaw.prototype.disconnect = function() {
   if (this.simList_ != null) {
     this.simList_.removeObserver(this);
@@ -195,7 +195,7 @@ GravityLaw.prototype.disconnect = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 GravityLaw.prototype.getBodies = function() {
   return goog.array.clone(this.bods_);
 };
@@ -207,7 +207,7 @@ GravityLaw.prototype.getGravity = function() {
   return this.gravity_;
 };
 
-/** @inheritDoc */
+/** @override */
 GravityLaw.prototype.getPotentialEnergy = function() {
   var pe = 0;
   goog.array.forEach(this.bods_, function(body) {
@@ -235,7 +235,7 @@ GravityLaw.prototype.getZeroEnergyLevel = function() {
   return this.zeroEnergyLevel_;
 };
 
-/** @inheritDoc */
+/** @override */
 GravityLaw.prototype.observe =  function(event) {
   var obj = /** @type {!SimObject} */ (event.getValue());
   if (event.nameEquals(SimList.OBJECT_ADDED)) {

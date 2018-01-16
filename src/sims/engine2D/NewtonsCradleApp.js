@@ -141,7 +141,7 @@ var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
 goog.inherits(NewtonsCradleApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   NewtonsCradleApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -150,12 +150,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 NewtonsCradleApp.prototype.getClassName = function() {
   return 'NewtonsCradleApp';
 };
 
-/** @inheritDoc */
+/** @override */
 NewtonsCradleApp.prototype.defineNames = function(myName) {
   NewtonsCradleApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -164,13 +164,13 @@ NewtonsCradleApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 NewtonsCradleApp.prototype.getSubjects = function() {
   var subjects = NewtonsCradleApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
-/** @inheritDoc */
+/** @override */
 NewtonsCradleApp.prototype.graphSetup = function(body) {
   body = this.mySim.getBody('pendulum1');
   this.graph.line.setXVariable(body.getVarsIndex()+4); // angle

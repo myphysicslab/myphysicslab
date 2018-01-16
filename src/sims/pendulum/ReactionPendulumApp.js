@@ -528,7 +528,7 @@ var ReactionPendulumApp = myphysicslab.sims.pendulum.ReactionPendulumApp;
 goog.inherits(ReactionPendulumApp, myphysicslab.lab.util.AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ReactionPendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', sim1: '+this.sim1.toStringShort()
@@ -540,7 +540,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumApp.prototype.getClassName = function() {
   return 'ReactionPendulumApp';
 };
@@ -553,7 +553,7 @@ ReactionPendulumApp.prototype.addControl = function(control) {
   return this.layout.addControl(control);
 };
 
-/** @inheritDoc */
+/** @override */
 ReactionPendulumApp.prototype.observe =  function(event) {
   if (event.getSubject() == this.simList2) {
     var obj = /** @type {!SimObject} */ (event.getValue());

@@ -345,7 +345,7 @@ var StringApp = myphysicslab.sims.pde.StringApp;
 goog.inherits(StringApp, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   StringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', sim: '+this.sim.toStringShort()
@@ -360,7 +360,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 StringApp.prototype.getClassName = function() {
   return 'StringApp';
 };

@@ -84,7 +84,7 @@ myphysicslab.lab.util.AbstractSubject = function(name) {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AbstractSubject.prototype.toString = function() {
     // assumes that className and name are displayed by sub-class
     return ', parameters: ['
@@ -94,7 +94,7 @@ if (!Util.ADVANCED) {
         +']}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   AbstractSubject.prototype.toStringShort = function() {
     return this.getClassName() + '{name_: "' + this.getName() + '"}';
   };
@@ -106,7 +106,7 @@ if (!Util.ADVANCED) {
 */
 AbstractSubject.Command;
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.addObserver = function(observer) {
   /** @type {!AbstractSubject.Command} */
   var cmd = {
@@ -152,7 +152,7 @@ AbstractSubject.prototype.addParameter = function(parameter) {
   this.paramList_.push(parameter);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.broadcast = function(evt) {
   if (this.doBroadcast_) {
     this.isBroadcasting_ = true;
@@ -169,7 +169,7 @@ AbstractSubject.prototype.broadcast = function(evt) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.broadcastParameter = function(name) {
   var p = this.getParam(name);
   if (p == null) {
@@ -193,12 +193,12 @@ AbstractSubject.prototype.getBroadcast = function() {
 */
 AbstractSubject.prototype.getClassName = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getName = function() {
   return this.name_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getObservers = function() {
   return goog.array.clone(this.observers_);
 };
@@ -216,7 +216,7 @@ AbstractSubject.prototype.getParam = function(name) {
   });
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getParameter = function(name) {
   var p = this.getParam(name);
   if (p != null) {
@@ -225,7 +225,7 @@ AbstractSubject.prototype.getParameter = function(name) {
   throw new Error('Parameter not found '+name);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getParameterBoolean = function(name) {
   var p = this.getParam(name);
   if (p instanceof ParameterBoolean) {
@@ -234,7 +234,7 @@ AbstractSubject.prototype.getParameterBoolean = function(name) {
   throw new Error('ParameterBoolean not found '+name);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getParameterNumber = function(name) {
   var p = this.getParam(name);
   if (p instanceof ParameterNumber) {
@@ -243,7 +243,7 @@ AbstractSubject.prototype.getParameterNumber = function(name) {
   throw new Error('ParameterNumber not found '+name);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getParameterString = function(name) {
   var p = this.getParam(name);
   if (p instanceof ParameterString) {
@@ -252,12 +252,12 @@ AbstractSubject.prototype.getParameterString = function(name) {
   throw new Error('ParameterString not found '+name);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.getParameters = function() {
   return goog.array.clone(this.paramList_);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractSubject.prototype.removeObserver = function(observer) {
   /** @type {!AbstractSubject.Command} */
   var cmd = {

@@ -150,7 +150,7 @@ var ContactApp = sims.engine2D.ContactApp;
 goog.inherits(ContactApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ContactApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -159,12 +159,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ContactApp.prototype.getClassName = function() {
   return 'ContactApp';
 };
 
-/** @inheritDoc */
+/** @override */
 ContactApp.prototype.defineNames = function(myName) {
   ContactApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -173,7 +173,7 @@ ContactApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 ContactApp.prototype.getSubjects = function() {
   var subjects = ContactApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

@@ -269,7 +269,7 @@ var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 goog.inherits(RigidBodySim, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidBodySim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1) + this.toString_();
   };
@@ -290,7 +290,7 @@ if (!Util.ADVANCED) {
         + RigidBodySim.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   RigidBodySim.prototype.toStringShort = function() {
     return RigidBodySim.superClass_.toStringShort.call(this).slice(0, -1)
         +', bods_.length: ' + this.bods_.length + '}';
@@ -298,7 +298,7 @@ if (!Util.ADVANCED) {
 
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.getClassName = function() {
   return 'RigidBodySim';
 };
@@ -340,17 +340,17 @@ RigidBodySim.VW_ = 5;
 RigidBodySim.ELASTICITY_SET = 'ELASTICITY_SET';
 
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.getSimList = function() {
   return this.simList_;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.getVarsList = function() {
   return this.varsList_;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.getTime = function() {
   return this.varsList_.getTime();
 };
@@ -399,7 +399,7 @@ RigidBodySim.prototype.formatVars = function() {
   return s;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.reset = function() {
   if (this.initialState_ != null &&
       this.initialState_.length == this.varsList_.numVariables()) {
@@ -413,7 +413,7 @@ RigidBodySim.prototype.reset = function() {
   this.broadcast(new GenericEvent(this, Simulation.RESET));
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.saveInitialState = function() {
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
@@ -452,7 +452,7 @@ RigidBodySim.prototype.cleanSlate = function() {
   this.simRect_ = null;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.saveState = function() {
   this.recentState_ = this.varsList_.getValues();
   goog.array.forEach(this.bods_, function(b) {
@@ -460,7 +460,7 @@ RigidBodySim.prototype.saveState = function() {
   });
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.restoreState = function() {
   if (this.recentState_ != null) {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
@@ -575,7 +575,7 @@ RigidBodySim.prototype.initializeFromBody = function(body) {
   this.getVarsList().incrSequence(1, 2, 3);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.modifyObjects = function() {
   var va = this.varsList_;
   var vars = va.getValues();
@@ -643,7 +643,7 @@ RigidBodySim.prototype.getForceLaws = function() {
   return goog.array.clone(this.forceLaws_);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -675,7 +675,7 @@ RigidBodySim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, te, re);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
@@ -701,7 +701,7 @@ RigidBodySim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.evaluate = function(vars, change, timeStep) {
   this.moveObjects(vars);  // so that rigid body objects know their current state.
   goog.array.forEach(this.bods_, function(body) {
@@ -769,7 +769,7 @@ RigidBodySim.prototype.applyForce = function(change, force) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.debugLine = function(name, pa, pb, expireTime) {
   if (expireTime === undefined)
     expireTime = this.getTime();
@@ -778,7 +778,7 @@ RigidBodySim.prototype.debugLine = function(name, pa, pb, expireTime) {
   this.getSimList().add(v);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.debugCircle = function(name, center, radius, expireTime) {
   if (expireTime === undefined) {
     // when debugging, set expireTime = this.getTime() to have collisions
@@ -792,7 +792,7 @@ RigidBodySim.prototype.debugCircle = function(name, center, radius, expireTime) 
   this.getSimList().add(m);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodySim.prototype.myPrint = function(message, colors) {
   if (Util.DEBUG) {
     var args = goog.array.slice(arguments, 1);

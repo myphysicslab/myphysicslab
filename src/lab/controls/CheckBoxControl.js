@@ -51,30 +51,30 @@ var CheckBoxControl = myphysicslab.lab.controls.CheckBoxControl;
 goog.inherits(CheckBoxControl, CheckBoxControlBase);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CheckBoxControl.prototype.toString = function() {
     return CheckBoxControl.superClass_.toString.call(this).slice(0, -1)
         + ', parameter_: '+this.parameter_.toStringShort()+'}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControl.prototype.disconnect = function() {
   CheckBoxControl.superClass_.disconnect.call(this);
   this.parameter_.getSubject().removeObserver(this);
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControl.prototype.getClassName = function() {
   return 'CheckBoxControl';
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControl.prototype.getParameter = function() {
   return this.parameter_;
 };
 
-/** @inheritDoc */
+/** @override */
 CheckBoxControl.prototype.observe =  function(event) {
   // only update when this parameter has changed
   if (event == this.parameter_) {

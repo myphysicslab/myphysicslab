@@ -263,7 +263,7 @@ var StringSim = myphysicslab.sims.pde.StringSim;
 goog.inherits(StringSim, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   StringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
       +', density_: '+Util.NF(this.density_)
@@ -272,30 +272,30 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.getClassName = function() {
   return 'StringSim';
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.getSimList = function() {
   return this.simList_;
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.getTime = function() {
   return this.nowTime_;
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.modifyObjects = function() {
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.saveInitialState = function() {
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.reset = function() {
   this.nowTime_ = 0;
   this.initializeFromShape();
@@ -304,13 +304,13 @@ StringSim.prototype.reset = function() {
   this.broadcast(new GenericEvent(this, Simulation.RESET));
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   return simObject == this.block_;
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
   if (simObject == this.block_) {
     var p = location.subtract(offset);
@@ -318,11 +318,11 @@ StringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.finishDrag = function(simObject, location, offset) {
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
@@ -427,7 +427,7 @@ StringSim.prototype.advance = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.getEnergyInfo = function() {
   /** @type {!Array<number>} */
   var wNew;
@@ -464,7 +464,7 @@ StringSim.prototype.getEnergyInfo = function() {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 StringSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
@@ -648,17 +648,17 @@ myphysicslab.sims.pde.StringAdvance = function(sim) {
 var StringAdvance = myphysicslab.sims.pde.StringAdvance;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   StringAdvance.prototype.toString = function() {
     return this.toStringShort();
   };
 
-  /** @inheritDoc */
+  /** @override */
   StringAdvance.prototype.toStringShort = function() {
     return 'StringAdvance{sim_: '+this.sim_.toStringShort()+'}';
   };
 };
-/** @inheritDoc */
+/** @override */
 StringAdvance.prototype.advance = function(opt_timeStep, opt_memoList) {
   var timeStep = goog.isDef(opt_timeStep) ? opt_timeStep : this.getTimeStep();
   var startTime = this.getTime();
@@ -672,24 +672,24 @@ StringAdvance.prototype.advance = function(opt_timeStep, opt_memoList) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StringAdvance.prototype.getTime = function() {
   return this.sim_.getTime();
 };
 
-/** @inheritDoc */
+/** @override */
 StringAdvance.prototype.getTimeStep = function() {
   return this.sim_.getTimeStep();
 };
 
-/** @inheritDoc */
+/** @override */
 StringAdvance.prototype.setTimeStep = function(value) {
   if (this.sim_.getTimeStep() != value) {
     this.sim_.setTimeStep(value);
   }
 };
 
-/** @inheritDoc */
+/** @override */
 StringAdvance.prototype.reset = function() {
   this.sim_.reset();
 };
@@ -719,7 +719,7 @@ var StringPath = myphysicslab.sims.pde.StringPath;
 goog.inherits(StringPath, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   StringPath.prototype.toString = function() {
     return StringPath.superClass_.toString.call(this).slice(0, -1)
         +', sim: '+this.sim_.toStringShort()
@@ -727,12 +727,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 StringPath.prototype.getClassName = function() {
   return 'StringPath';
 };
 
-/** @inheritDoc */
+/** @override */
 StringPath.prototype.getBoundsWorld = function() {
   // height is just a guess! Should get this info from StringShape?
   var len = this.sim_.length_;
@@ -740,12 +740,12 @@ StringPath.prototype.getBoundsWorld = function() {
   return new DoubleRect(0, -height, len, height);
 };
 
-/** @inheritDoc */
+/** @override */
 StringPath.prototype.getIterator = function(numPoints) {
   return new StringIterator(this.sim_);
 };
 
-/** @inheritDoc */
+/** @override */
 StringPath.prototype.getSequence = function () {
   return this.sim_.getSequence();
 };
@@ -775,7 +775,7 @@ myphysicslab.sims.pde.StringIterator = function(sim) {
 };
 var StringIterator = myphysicslab.sims.pde.StringIterator;
 
-/** @inheritDoc */
+/** @override */
 StringIterator.prototype.nextPoint = function(point) {
   var n = this.sim_.getNumPoints();
   if (this.idx_ >=  n-1) {

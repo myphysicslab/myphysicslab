@@ -69,7 +69,7 @@ var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
 goog.inherits(EdgeEdgeCollision, RigidBodyCollision);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EdgeEdgeCollision.prototype.toString = function() {
     return EdgeEdgeCollision.superClass_.toString.call(this).slice(0, -1)
         +', primaryEdge: '+ this.primaryEdge.getIndex()
@@ -78,12 +78,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.getClassName = function() {
   return 'EdgeEdgeCollision';
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.checkConsistent = function() {
   EdgeEdgeCollision.superClass_.checkConsistent.call(this);
   // both primary and normal edge always exist for non-joint
@@ -93,7 +93,7 @@ EdgeEdgeCollision.prototype.checkConsistent = function() {
   goog.asserts.assert( this.normalEdge.isStraight() == !this.ballNormal );
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.getU1 = function() {
   if (this.u1_ != null) {
     return this.u1_; // cached value to speed up performance
@@ -109,7 +109,7 @@ EdgeEdgeCollision.prototype.getU1 = function() {
   return this.getR1();
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.getU2 = function() {
   if (this.u2_ != null) {
     return this.u2_; // cached value to speed up performance
@@ -127,7 +127,7 @@ EdgeEdgeCollision.prototype.getU2 = function() {
   return this.getR2();
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.hasEdge = function(edge) {
   // if edge is null, then always returns false
   if (edge == null) {
@@ -136,7 +136,7 @@ EdgeEdgeCollision.prototype.hasEdge = function(edge) {
   return edge == this.normalEdge || edge == this.primaryEdge;
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.similarTo = function(c) {
   if (!c.hasBody(this.primaryBody) || !c.hasBody(this.normalBody)) {
     return false;
@@ -167,7 +167,7 @@ EdgeEdgeCollision.prototype.similarTo = function(c) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 EdgeEdgeCollision.prototype.updateCollision = function(time) {
   this.u1_ = null; // invalidate cached value
   this.u2_ = null; // invalidate cached value

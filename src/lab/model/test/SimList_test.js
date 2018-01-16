@@ -58,7 +58,7 @@ var testSimList = function() {
     this.numSprings = 0;
   };
 
-  /** @inheritDoc */
+  /** @override */
   MockObserver1.prototype.observe =  function(event) {
     var obj = /** @type {!myphysicslab.lab.model.SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {

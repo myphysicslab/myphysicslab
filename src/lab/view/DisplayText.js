@@ -90,7 +90,7 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
 var DisplayText = myphysicslab.lab.view.DisplayText;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayText.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', location: '+this.location_
@@ -102,18 +102,18 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayText.prototype.toStringShort = function() {
     return 'DisplayText{text_: '+this.text_+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.contains = function(point) {
   return false; // could figure out bounds?
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.draw = function(context, map) {
   context.save()
   context.fillStyle = this.getFillStyle();
@@ -156,17 +156,17 @@ DisplayText.prototype.getFont = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.getMassObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.getPosition = function() {
   return this.location_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.getSimObjects = function() {
   return [ ];
 };
@@ -206,7 +206,7 @@ DisplayText.prototype.getText = function() {
   return this.text_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -217,12 +217,12 @@ DisplayText.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.isDragable = function() {
   return this.dragable_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
@@ -245,7 +245,7 @@ DisplayText.prototype.setFont = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.setPosition = function(position) {
   this.location_ = position;
 };
@@ -277,7 +277,7 @@ DisplayText.prototype.setTextBaseline = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayText.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

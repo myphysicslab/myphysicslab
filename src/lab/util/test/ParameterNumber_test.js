@@ -78,29 +78,29 @@ var testParameterNumber1 = function() {
   MockSubject1.prototype.setFooBarness = function(value) {
     this.fooBarness_ = value;
   };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getName = function() { return ''; };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.addObserver = function(observer) {};
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.removeObserver = function(observer) {};
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getObservers = function() { return []; };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getParameters = function() { return []; };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getParameter = function(name) { throw new Error(); };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getParameterBoolean = function(name) { throw new Error(); };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getParameterNumber = function(name) { throw new Error(); };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getParameterString = function(name) { throw new Error(); };
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.broadcastParameter = function(name) {};
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.broadcast = function(event) {};
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.toStringShort = function() { return 'MockSubject1'; };
   var mockSubj1 = new MockSubject1();
   assertEquals(0, mockSubj1.getFooness());
@@ -193,7 +193,7 @@ var testParameterNumber2 = function() {
 
   MockSubject2.FOONESS = 'fooness';
   MockSubject2.FOOBARNESS = 'foo-barness';
-  /** @inheritDoc */
+  /** @override */
   MockSubject2.prototype.getClassName = function() {
     return 'MockSubject2';
   };
@@ -286,7 +286,7 @@ var testParameterNumber3 = function() {
 
   MockSubject3.FOONESS = 'FOONESS';
   MockSubject3.FOOBARNESS = 'FOO_BARNESS';
-  /** @inheritDoc */
+  /** @override */
   MockSubject3.prototype.getClassName = function() {
     return 'MockSubject3';
   };
@@ -379,7 +379,7 @@ var testParameterNumber4 = function() {
   MockSubject2.FOONESS = 'FOONESS';
   MockSubject2.FOOBARNESS = 'FOO_BARNESS';
   MockSubject2.BAZ = 'BAZ';
-  /** @inheritDoc */
+  /** @override */
   MockSubject2.prototype.getClassName = function() {
     return 'MockSubject2';
   };

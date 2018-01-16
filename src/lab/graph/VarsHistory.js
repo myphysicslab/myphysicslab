@@ -90,7 +90,7 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
 var VarsHistory = myphysicslab.lab.graph.VarsHistory;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   VarsHistory.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', samples: '+this.dataPoints_.getSize()
@@ -98,7 +98,7 @@ if (!Util.ADVANCED) {
         +']}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   VarsHistory.prototype.toStringShort = function() {
     return 'VarsHistory{variablesList: '+this.variablesList_.toStringShort()+'}';
   };
@@ -119,7 +119,7 @@ VarsHistory.prototype.getVariables = function() {
   return goog.array.clone(this.varIndex_);
 };
 
-/** @inheritDoc */
+/** @override */
 VarsHistory.prototype.memorize = function() {
   var vars = this.variablesList_.getValues(/*computed=*/true);
   var data = goog.array.map(this.varIndex_, function(idx) { return vars[idx]; });

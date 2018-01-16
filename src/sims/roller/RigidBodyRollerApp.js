@@ -198,7 +198,7 @@ var RigidBodyRollerApp = myphysicslab.sims.roller.RigidBodyRollerApp;
 goog.inherits(RigidBodyRollerApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RigidBodyRollerApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', simList: '+this.simList.toStringShort()
@@ -211,12 +211,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyRollerApp.prototype.getClassName = function() {
   return 'RigidBodyRollerApp';
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyRollerApp.prototype.defineNames = function(myName) {
   RigidBodyRollerApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('block|paths|path|pathSelect|gravityLaw|dampingLaw',
@@ -229,13 +229,13 @@ RigidBodyRollerApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyRollerApp.prototype.getSubjects = function() {
   var subjects = RigidBodyRollerApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.pathSelect, this.gravityLaw, this.dampingLaw, subjects);
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyRollerApp.prototype.graphSetup = function(body) {
   this.graph.line.setXVariable(10); // 10 = path distance
   this.graph.line.setYVariable(1); // 1 = kinetic energy
@@ -335,12 +335,12 @@ RigidBodyRollerApp.prototype.config = function() {
   this.easyScript.update();
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyRollerApp.prototype.getPath = function() {
   return this.path;
 };
 
-/** @inheritDoc */
+/** @override */
 RigidBodyRollerApp.prototype.setPath = function(path) {
   this.path = path;
   this.config();

@@ -310,7 +310,7 @@ myphysicslab.lab.view.DisplayShape = function(massObject, proto) {
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayShape.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dragable_: '+this.dragable_
@@ -327,13 +327,13 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayShape.prototype.toStringShort = function() {
     return 'DisplayShape{massObject_: '+this.massObject_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.contains = function(p_world) {
   var p_body = this.massObject_.worldToBody(p_world);
   return this.massObject_.getBoundsBody().contains(p_body);
@@ -364,7 +364,7 @@ DisplayShape.darkColor = function(color) {
   return hsb[2] < 0.65 || hsb[1] > 0.57 && Math.abs(hsb[0] - 0.677) < 0.11;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.draw = function(context, map) {
   context.save();
   /** @type {!AffineTransform} */
@@ -611,7 +611,7 @@ DisplayShape.prototype.getImageDraw = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.getMassObjects = function() {
   return [ this.massObject_ ];
 };
@@ -657,7 +657,7 @@ DisplayShape.prototype.getNameRotate = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.getPosition = function() {
   return this.massObject_.getPosition();
 };
@@ -670,7 +670,7 @@ DisplayShape.prototype.getPrototype = function() {
   return this.proto_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.getSimObjects = function() {
   return [ this.massObject_ ];
 };
@@ -704,7 +704,7 @@ DisplayShape.prototype.getThickness = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -715,7 +715,7 @@ DisplayShape.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.isDragable = function() {
   return this.dragable_;
 };
@@ -731,7 +731,7 @@ DisplayShape.prototype.setBorderDash = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.setDragable = function(dragable) {
   this.dragable_ = dragable;
 };
@@ -843,7 +843,7 @@ DisplayShape.prototype.setNameRotate = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.setPosition = function(position) {
   this.massObject_.setPosition(position);
 };
@@ -879,7 +879,7 @@ DisplayShape.prototype.setThickness = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayShape.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

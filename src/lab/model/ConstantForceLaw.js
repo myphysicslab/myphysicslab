@@ -47,23 +47,23 @@ myphysicslab.lab.model.ConstantForceLaw = function(force) {
 var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ConstantForceLaw.prototype.toString = function() {
     return this.toStringShort();
   };
 
-  /** @inheritDoc */
+  /** @override */
   ConstantForceLaw.prototype.toStringShort = function() {
     return 'ConstantForceLaw{force='+this.force_+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ConstantForceLaw.prototype.getBodies = function() {
   return this.force_ != null ? [this.force_.getBody()] : [];
 };
 
-/** @inheritDoc */
+/** @override */
 ConstantForceLaw.prototype.calculateForces = function() {
   if (this.force_ != null)
     return [this.force_];
@@ -71,7 +71,7 @@ ConstantForceLaw.prototype.calculateForces = function() {
     return [];
 };
 
-/** @inheritDoc */
+/** @override */
 ConstantForceLaw.prototype.disconnect = function() {
 };
 
@@ -83,7 +83,7 @@ ConstantForceLaw.prototype.getForce = function() {
   return this.force_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConstantForceLaw.prototype.getPotentialEnergy = function() {
   return 0;
 };

@@ -248,7 +248,7 @@ var CollideBlocksSim = myphysicslab.sims.springs.CollideBlocksSim;
 goog.inherits(CollideBlocksSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CollideBlocksSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', block1_: '+this.block1_
@@ -261,12 +261,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.getClassName = function() {
   return 'CollideBlocksSim';
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -284,13 +284,13 @@ CollideBlocksSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -321,12 +321,12 @@ CollideBlocksSim.prototype.moveObjects = function(vars) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.setDebugPaint = function(fn) {
   this.debugPaint_ = fn;
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   if (simObject == this.block1_ || simObject == this.block2_) {
@@ -337,7 +337,7 @@ CollideBlocksSim.prototype.startDrag = function(simObject, location, offset, dra
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   // maintain gap between objects, to avoid stuck collision problems.
@@ -397,12 +397,12 @@ CollideBlocksSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(vars);
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.finishDrag = function(simObject, location, offset) {
   this.isDragging = false;
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
@@ -435,7 +435,7 @@ CollideBlocksSim.prototype.addCollision = function(collisions, leftBlock, rightB
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.findCollisions = function(collisions, vars, stepSize) {
   // Assumes only 3 possible collisions.
   this.moveObjects(vars);
@@ -445,7 +445,7 @@ CollideBlocksSim.prototype.findCollisions = function(collisions, vars, stepSize)
   this.addCollision(collisions, this.block2_, this.wallRight_, time);
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.handleCollisions = function(collisions, opt_totals) {
   var va = this.getVarsList();
   var seq0 = va.getVariable(0).getSequence();
@@ -483,7 +483,7 @@ CollideBlocksSim.prototype.handleCollisions = function(collisions, opt_totals) {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 CollideBlocksSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   change[4] = 1.0;  // time

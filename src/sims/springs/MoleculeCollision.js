@@ -85,7 +85,7 @@ myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   MoleculeCollision.prototype.toString = function() {
     return 'MoleculeCollision{'
         +'distance: '+Util.NF5(this.distance_)
@@ -126,7 +126,7 @@ MoleculeCollision.LEFT_WALL = 'left';
 MoleculeCollision.RIGHT_WALL = 'right';
 
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.closeEnough = function(allowTiny) {
   if (allowTiny) {
     return this.distance_ > 0 && this.distance_ < this.targetGap_ + this.accuracy_;
@@ -135,37 +135,37 @@ MoleculeCollision.prototype.closeEnough = function(allowTiny) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.bilateral = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.contact = function() {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.getDetectedTime = function() {
   return this.detectedTime_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.getDistance = function() {
   return this.distance_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.getEstimatedTime = function() {
   return Util.NaN; // don't bother
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.getImpulse = function() {
   return this.impulse;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.getVelocity = function() {
   var v = this.atom.getVelocity();
   // Returns the relative normal velocity between the two collision points.
@@ -184,32 +184,32 @@ MoleculeCollision.prototype.getVelocity = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.illegalState = function() {
   return this.distance_ < 0;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.isColliding = function() {
   return this.distance_ < this.targetGap_ - this.accuracy_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.isTouching = function() {
   return this.distance_ < 2*this.targetGap_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.needsHandling = function() {
   return this.mustHandle_;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.setNeedsHandling = function(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
 
-/** @inheritDoc */
+/** @override */
 MoleculeCollision.prototype.updateCollision = function(time) {
   var a = this.atom.getBoundsWorld();
   var w = this.wall.getBoundsWorld();

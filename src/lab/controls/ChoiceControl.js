@@ -88,30 +88,30 @@ var ChoiceControl = myphysicslab.lab.controls.ChoiceControl;
 goog.inherits(ChoiceControl, ChoiceControlBase);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ChoiceControl.prototype.toString = function() {
     return ChoiceControl.superClass_.toString.call(this).slice(0, -1)
         + ', parameter_: '+this.parameter_.toStringShort()+'}';
   };
 }
 
-/** @inheritDoc */
+/** @override */
 ChoiceControl.prototype.disconnect = function() {
   ChoiceControl.superClass_.disconnect.call(this);
   this.parameter_.getSubject().removeObserver(this);
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControl.prototype.getClassName = function() {
   return 'ChoiceControl';
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControl.prototype.getParameter = function() {
   return this.parameter_;
 };
 
-/** @inheritDoc */
+/** @override */
 ChoiceControl.prototype.observe =  function(event) {
   if (event.getValue() == this.parameter_
       && event.nameEquals(Parameter.CHOICES_MODIFIED)) {

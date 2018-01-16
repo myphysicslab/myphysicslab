@@ -362,7 +362,7 @@ var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 goog.inherits(ContactSim, ImpulseSim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc  */
+  /** @override  */
   ContactSim.prototype.toString_ = function() {
     return ', extra_accel_: '+this.extra_accel_
         +', extraAccelTimeStep_: '+Util.NF(this.extraAccelTimeStep_)
@@ -370,7 +370,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 ContactSim.prototype.getClassName = function() {
   return 'ContactSim';
 };
@@ -435,14 +435,14 @@ ContactSim.prototype.getExtraAccelTimeStep = function() {
   return this.extraAccelTimeStep_;
 };
 
-/** @inheritDoc */
+/** @override */
 ContactSim.prototype.cleanSlate = function() {
   ContactSim.superClass_.cleanSlate.call(this);
   this.connectors_ = [];
   this.computeForces_ = new ComputeForces('C',  this.simRNG_);
 };
 
-/** @inheritDoc */
+/** @override */
 ContactSim.prototype.reset = function() {
   // prevent the Simulation.RESET message being broadcast by sub-class
   var saveBroadcast = this.setBroadcast(false);
@@ -562,7 +562,7 @@ ContactSim.prototype.getNumContacts = function() {
   return this.numContacts_;
 };
 
-/** @inheritDoc */
+/** @override */
 ContactSim.prototype.evaluate = function(vars, change, timeStep) {
   var maxContacts = 0;
   // ===================== get external forces =====================
@@ -703,7 +703,7 @@ ContactSim.prototype.removeNonContacts = function(contactsFound) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ContactSim.prototype.findCollisions = function(collisions, vars, stepSize) {
   // Adds collisions or contacts from Connectors like Joint.
   var i, j, len;

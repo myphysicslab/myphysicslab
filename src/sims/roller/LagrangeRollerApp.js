@@ -105,7 +105,7 @@ var LagrangeRollerApp = sims.roller.LagrangeRollerApp;
 goog.inherits(LagrangeRollerApp, AbstractApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   LagrangeRollerApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1: '+this.ball1.toStringShort()
@@ -114,12 +114,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerApp.prototype.getClassName = function() {
   return 'LagrangeRollerApp';
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerApp.prototype.defineNames = function(myName) {
   LagrangeRollerApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1',

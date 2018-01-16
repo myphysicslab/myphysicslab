@@ -146,12 +146,12 @@ myphysicslab.sims.roller.SpiralPath = function() {
 var SpiralPath = myphysicslab.sims.roller.SpiralPath;
 goog.inherits(SpiralPath, AbstractPath);
 
-/** @inheritDoc */
+/** @override */
 SpiralPath.prototype.getClassName = function() {
   return 'SpiralPath';
 };
 
-/** @inheritDoc */
+/** @override */
 SpiralPath.prototype.x_func = function(t) {
   if (t < this.t1) { // upper arc
     return Math.cos(t + Math.PI/2) + this.arc1x;
@@ -172,7 +172,7 @@ SpiralPath.prototype.x_func = function(t) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SpiralPath.prototype.y_func = function(t) {
   if (t < this.t1) { // upper arc
     return Math.sin(t + Math.PI/2) + this.arc1y;

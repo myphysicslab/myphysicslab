@@ -129,7 +129,7 @@ var PathEndPoint = myphysicslab.lab.engine2D.PathEndPoint;
 goog.inherits(PathEndPoint, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PathEndPoint.prototype.toString = function() {
     return PathEndPoint.superClass_.toString.call(this).slice(0, -1)
         +', body_:='+this.body_.toStringShort()
@@ -141,12 +141,12 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getClassName = function() {
   return 'PathEndPoint';
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.addCollision = function(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/false);
   this.updateCollision(c);
@@ -180,7 +180,7 @@ PathEndPoint.prototype.addCollision = function(collisions, time, accuracy) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.align = function() {
 };
 
@@ -191,22 +191,22 @@ PathEndPoint.prototype.getAttach1 = function() {
   return this.attach_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getBody1 = function() {
   return this.body_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getBody2 = function() {
   return Scrim.getScrim();
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.location_, this.location_);
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getNormalDistance = function() {
   var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
@@ -221,17 +221,17 @@ PathEndPoint.prototype.getPath = function() {
   return this.path_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getPosition1 = function() {
   return this.location_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.getPosition2 = function() {
   return this.location_;
 };
 
-/** @inheritDoc */
+/** @override */
 PathEndPoint.prototype.updateCollision = function(c) {
   if (c.primaryBody != this.body_ || c.normalBody != Scrim.getScrim()) {
     throw new Error();

@@ -124,7 +124,7 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayPath.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', screenRect_: '+this.screenRect_
@@ -138,7 +138,7 @@ if (!Util.ADVANCED) {
         +']}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayPath.prototype.toStringShort = function() {
     return 'DisplayPath{paths_.length: '+this.paths_.length+'}';
   };
@@ -170,7 +170,7 @@ DisplayPath.prototype.addPath = function(path, opt_style) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.contains = function(p_world) {
   // ? this seems wrong, but need the CoordMap to convert screenRect to sim coords
   return false;
@@ -184,7 +184,7 @@ DisplayPath.prototype.containsPath = function(path) {
   return goog.array.contains(this.paths_, path);
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.draw = function(context, map) {
   var r = this.screenRect_;
   if (r.isEmpty()) {
@@ -323,7 +323,7 @@ DisplayPath.prototype.getDefaultStyle = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.getMassObjects = function() {
   return [ ];
 };
@@ -351,7 +351,7 @@ DisplayPath.prototype.getPath = function(arg) {
   throw new Error('DisplayPath did not find '+arg);
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.getPosition = function() {
   //? what to return here ??? center of screenRect in sim coords?
   return Vector.ORIGIN;
@@ -365,7 +365,7 @@ DisplayPath.prototype.getScreenRect = function() {
   return this.screenRect_;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.getSimObjects = function() {
   return goog.array.clone(this.paths_);
 };
@@ -394,7 +394,7 @@ DisplayPath.prototype.getUseBuffer = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -405,7 +405,7 @@ DisplayPath.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.isDragable = function() {
   return false;
 };
@@ -436,11 +436,11 @@ DisplayPath.prototype.setDefaultStyle = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.setDragable = function(dragable) {
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.setPosition = function(position) {
 };
 
@@ -479,7 +479,7 @@ DisplayPath.prototype.setUseBuffer = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayPath.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
 };

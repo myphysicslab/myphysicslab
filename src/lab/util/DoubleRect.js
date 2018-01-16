@@ -75,7 +75,7 @@ myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top) {
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoubleRect.prototype.toString = function() {
     return 'DoubleRect{left_: '+Util.NF(this.left_)
         +', bottom_: '+Util.NF(this.bottom_)

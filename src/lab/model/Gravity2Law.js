@@ -101,21 +101,21 @@ var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 goog.inherits(Gravity2Law, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Gravity2Law.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', bodies: '+this.bods_.length
         + Gravity2Law.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   Gravity2Law.prototype.toStringShort = function() {
     return Gravity2Law.superClass_.toStringShort.call(this).slice(0, -1)
         +', gravity: '+Util.NF5(this.gravity_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Gravity2Law.prototype.getClassName = function() {
   return 'Gravity2Law';
 };
@@ -148,7 +148,7 @@ Gravity2Law.prototype.addBody = function(obj) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Gravity2Law.prototype.calculateForces = function() {
   // Calculate the force between each pair of bodies.
   // Avoid duplicate calculations by only looking at the 'upper triangle' of the matrix:
@@ -195,14 +195,14 @@ Gravity2Law.prototype.connect = function(simList) {
   this.simList_ = simList;
 };
 
-/** @inheritDoc */
+/** @override */
 Gravity2Law.prototype.disconnect = function() {
   if (this.simList_ != null) {
     this.simList_.removeObserver(this);
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Gravity2Law.prototype.getBodies = function() {
   return goog.array.clone(this.bods_);
 };
@@ -285,7 +285,7 @@ Gravity2Law.prototype.getPotentialEnergy = function() {
   return pe;
 };
 
-/** @inheritDoc */
+/** @override */
 Gravity2Law.prototype.observe =  function(event) {
   var obj;
   if (event.nameEquals(SimList.OBJECT_ADDED)) {

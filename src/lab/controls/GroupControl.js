@@ -63,7 +63,7 @@ myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {
 var GroupControl = myphysicslab.lab.controls.GroupControl;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   GroupControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', controls_: ['
@@ -71,7 +71,7 @@ if (!Util.ADVANCED) {
         +']}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   GroupControl.prototype.toStringShort = function() {
     return 'GroupControl{name_: "'+this.name_+'"'
         +', controls_.length: '+this.controls_.length
@@ -79,7 +79,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 GroupControl.prototype.disconnect = function() {
   goog.array.forEach(this.controls_, function(c) { c.disconnect(); });
 };
@@ -91,17 +91,17 @@ GroupControl.prototype.getControls = function() {
   return goog.array.clone(this.controls_);
 };
 
-/** @inheritDoc */
+/** @override */
 GroupControl.prototype.getElement = function() {
   return this.topElement_;
 };
 
-/** @inheritDoc */
+/** @override */
 GroupControl.prototype.getParameter = function() {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 GroupControl.prototype.setEnabled = function(enabled) {
   goog.array.forEach(this.controls_, function(c) { c.setEnabled(enabled); });
 };

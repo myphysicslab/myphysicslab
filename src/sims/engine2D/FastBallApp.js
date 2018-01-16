@@ -78,14 +78,14 @@ var FastBallApp = sims.engine2D.FastBallApp;
 goog.inherits(FastBallApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   FastBallApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         + FastBallApp.superClass_.toString.call(this);
   };
 };
 
-/** @inheritDoc */
+/** @override */
 FastBallApp.prototype.getClassName = function() {
   return 'FastBallApp';
 };

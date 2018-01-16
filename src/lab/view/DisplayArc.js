@@ -81,7 +81,7 @@ myphysicslab.lab.view.DisplayArc = function(arc, proto) {
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DisplayArc.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', thickness: '+Util.NF(this.getThickness())
@@ -92,19 +92,19 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   DisplayArc.prototype.toStringShort = function() {
     return 'DisplayArc{arc_: '+
         (this.arc_ != null ? this.arc_.toStringShort() : 'null')+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.contains = function(point) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.draw = function(context, map) {
   if (this.arc_ == null) {
     return;
@@ -211,18 +211,18 @@ DisplayArc.prototype.getLineDash = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.getMassObjects = function() {
   return [ ];
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.getPosition = function() {
   // return midpoint of the line
   return this.arc_ == null ? Vector.ORIGIN : this.arc_.getCenter();
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.getSimObjects = function() {
   return this.arc_ == null ? [ ] : [ this.arc_ ];
 };
@@ -241,7 +241,7 @@ DisplayArc.prototype.getThickness = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.getZIndex = function() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
@@ -252,7 +252,7 @@ DisplayArc.prototype.getZIndex = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.isDragable = function() {
   return false;
 };
@@ -275,7 +275,7 @@ DisplayArc.prototype.setColor = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.setDragable = function(dragable) {
   // does nothing
 };
@@ -291,7 +291,7 @@ DisplayArc.prototype.setLineDash = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.setPosition = function(position) {
   // does nothing
 };
@@ -306,7 +306,7 @@ DisplayArc.prototype.setThickness = function(value) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 DisplayArc.prototype.setZIndex = function(value) {
   this.zIndex_ = value;
 };

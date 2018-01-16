@@ -192,7 +192,7 @@ var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 // little too wide in Chrome.
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   NumericControlBase.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', signifDigits_: '+this.signifDigits_
@@ -201,7 +201,7 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   NumericControlBase.prototype.toStringShort = function() {
     return this.getClassName() + '{label_: "'+this.label_+'"}';
   };
@@ -238,7 +238,7 @@ NumericControlBase.prototype.decimalPlacesNeeded = function(x, sigDigits) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControlBase.prototype.disconnect = function() {
   goog.events.unlistenByKey(this.changeKey_);
   goog.events.unlistenByKey(this.clickKey_);
@@ -300,12 +300,12 @@ NumericControlBase.prototype.getDecimalPlaces = function() {
   return this.decimalPlaces_;
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControlBase.prototype.getElement = function() {
   return this.topElement_;
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControlBase.prototype.getParameter = function() {
   return null;
 };
@@ -340,7 +340,7 @@ NumericControlBase.magnitude = function(x) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControlBase.prototype.observe =  function(event) {
   // Ensures that the value displayed by the control matches the target value.
   this.setValue(this.getter_());
@@ -362,7 +362,7 @@ NumericControlBase.prototype.setDecimalPlaces = function(decimalPlaces) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 NumericControlBase.prototype.setEnabled = function(enabled) {
   this.textField_.disabled = !enabled;
 };

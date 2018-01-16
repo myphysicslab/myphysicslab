@@ -217,7 +217,7 @@ var DoublePendulumSim = myphysicslab.sims.pendulum.DoublePendulumSim;
 goog.inherits(DoublePendulumSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   DoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', rod1Length_: '+Util.NF(this.rod1Length_)
@@ -231,7 +231,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.getClassName = function() {
   return 'DoublePendulumSim';
 };
@@ -252,7 +252,7 @@ DoublePendulumSim.prototype.restState = function() {
   this.setPotentialEnergy(0);
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -277,13 +277,13 @@ DoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -346,7 +346,7 @@ DoublePendulumSim.prototype.moveObjects = function(vars) {
   this.rod2_.setEndPoint(this.bob2_.getPosition());
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   // can't do 'live dragging' because everything is too connected!
@@ -358,7 +358,7 @@ DoublePendulumSim.prototype.startDrag = function(simObject, location, offset, dr
   }
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   //   0        1       2        3        4      5      6   7   8    9
@@ -380,16 +380,16 @@ DoublePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(vars);
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.finishDrag = function(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 DoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time

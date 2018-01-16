@@ -157,7 +157,7 @@ var CarSuspensionApp = myphysicslab.sims.engine2D.CarSuspensionApp;
 goog.inherits(CarSuspensionApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CarSuspensionApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -175,12 +175,12 @@ CarSuspensionApp.Formation = {
 };
 var Formation = CarSuspensionApp.Formation;
 
-/** @inheritDoc */
+/** @override */
 CarSuspensionApp.prototype.getClassName = function() {
   return 'CarSuspensionApp';
 };
 
-/** @inheritDoc */
+/** @override */
 CarSuspensionApp.prototype.defineNames = function(myName) {
   CarSuspensionApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw|gravityLaw|protoWheel',
@@ -189,7 +189,7 @@ CarSuspensionApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 CarSuspensionApp.prototype.getSubjects = function() {
   var subjects = CarSuspensionApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

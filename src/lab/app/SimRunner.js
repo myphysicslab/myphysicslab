@@ -224,7 +224,7 @@ var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   SimRunner.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', advanceList_: ['
@@ -241,7 +241,7 @@ if (!Util.ADVANCED) {
   };
 }
 
-/** @inheritDoc */
+/** @override */
 SimRunner.prototype.getClassName = function() {
   return 'SimRunner';
 };
@@ -269,7 +269,7 @@ SimRunner.prototype.addErrorObserver = function(errorObserver) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SimRunner.prototype.addMemo = function(memorizable) {
   this.memoList_.addMemo(memorizable);
 };
@@ -387,7 +387,7 @@ SimRunner.prototype.getFiring = function() {
   return this.timer_.isFiring();
 };
 
-/** @inheritDoc */
+/** @override */
 SimRunner.prototype.getMemos = function() {
   return this.memoList_.getMemos();
 };
@@ -431,12 +431,12 @@ SimRunner.prototype.handleException = function(error) {
   alert(SimRunner.i18n.STUCK + s);
 };
 
-/** @inheritDoc */
+/** @override */
 SimRunner.prototype.memorize = function() {
   this.memoList_.memorize();
 };
 
-/** @inheritDoc */
+/** @override */
 SimRunner.prototype.observe =  function(event) {
   if (event.getSubject() == this.clock_) {
     if (event.nameEquals(Clock.CLOCK_RESUME) || event.nameEquals(Clock.CLOCK_PAUSE)) {
@@ -502,7 +502,7 @@ SimRunner.prototype.removeErrorObserver = function(errorObserver) {
   goog.array.remove(this.errorObservers_, errorObserver);
 };
 
-/** @inheritDoc */
+/** @override */
 SimRunner.prototype.removeMemo = function(memorizable) {
   this.memoList_.removeMemo(memorizable);
 };

@@ -71,7 +71,7 @@ myphysicslab.sims.pde.StringShape = function(length, name, opt_localName) {
 var StringShape = myphysicslab.sims.pde.StringShape;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   StringShape.prototype.toString = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'
         +', length_: '+Util.NF(this.length_)
@@ -132,17 +132,17 @@ myphysicslab.sims.pde.FlatShape = function(length) {
 var FlatShape = myphysicslab.sims.pde.FlatShape;
 goog.inherits(FlatShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 FlatShape.prototype.getClassName = function() {
   return 'FlatShape';
 };
 
-/** @inheritDoc */
+/** @override */
 FlatShape.prototype.position = function(x) {
   return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 FlatShape.prototype.velocity = function(x) {
   return 0;
 };
@@ -170,18 +170,18 @@ myphysicslab.sims.pde.SquarePulseShape = function(length, pulseWidth) {
 var SquarePulseShape = myphysicslab.sims.pde.SquarePulseShape;
 goog.inherits(SquarePulseShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 SquarePulseShape.prototype.getClassName = function() {
   return 'SquarePulseShape';
 };
 
-/** @inheritDoc */
+/** @override */
 SquarePulseShape.prototype.position = function(x) {
   var middle = this.length_/2;
   return (x >= middle-this.w_ && x <= middle+this.w_) ? 0.1 : 0.0;
 };
 
-/** @inheritDoc */
+/** @override */
 SquarePulseShape.prototype.velocity = function(x) {
   return 0;
 };
@@ -208,12 +208,12 @@ myphysicslab.sims.pde.TrianglePulseShape = function(length) {
 var TrianglePulseShape = myphysicslab.sims.pde.TrianglePulseShape;
 goog.inherits(TrianglePulseShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 TrianglePulseShape.prototype.getClassName = function() {
   return 'TrianglePulseShape';
 };
 
-/** @inheritDoc */
+/** @override */
 TrianglePulseShape.prototype.position = function(x) {
   x = x - this.w_;
   if (x < -this.w_ || x > this.w_) {
@@ -223,7 +223,7 @@ TrianglePulseShape.prototype.position = function(x) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 TrianglePulseShape.prototype.velocity = function(x) {
   x = x - this.w_;
   if (x < -this.w_ || x > this.w_) {
@@ -255,12 +255,12 @@ myphysicslab.sims.pde.SinePulseShape = function(length) {
 var SinePulseShape = myphysicslab.sims.pde.SinePulseShape;
 goog.inherits(SinePulseShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 SinePulseShape.prototype.getClassName = function() {
   return 'SinePulseShape';
 };
 
-/** @inheritDoc */
+/** @override */
 SinePulseShape.prototype.position = function(x) {
   x = x - this.w_;
   if (x < -this.w_ || x > this.w_) {
@@ -270,7 +270,7 @@ SinePulseShape.prototype.position = function(x) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 SinePulseShape.prototype.velocity = function(x) {
   x = x - this.w_;
   if (x < -this.w_ || x > this.w_) {
@@ -301,12 +301,12 @@ myphysicslab.sims.pde.HalfSinePulseShape = function(length) {
 var HalfSinePulseShape = myphysicslab.sims.pde.HalfSinePulseShape;
 goog.inherits(HalfSinePulseShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 HalfSinePulseShape.prototype.getClassName = function() {
   return 'HalfSinePulseShape';
 };
 
-/** @inheritDoc */
+/** @override */
 HalfSinePulseShape.prototype.position = function(x) {
   if (x > this.w_)
     return 0;
@@ -314,7 +314,7 @@ HalfSinePulseShape.prototype.position = function(x) {
     return 0.05*Math.sin(Math.PI*x/this.w_);
 };
 
-/** @inheritDoc */
+/** @override */
 HalfSinePulseShape.prototype.velocity = function(x) {
   return 0;
 };
@@ -336,19 +336,19 @@ myphysicslab.sims.pde.MultiSineShape = function(length) {
 var MultiSineShape = myphysicslab.sims.pde.MultiSineShape;
 goog.inherits(MultiSineShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 MultiSineShape.prototype.getClassName = function() {
   return 'MultiSineShape';
 };
 
-/** @inheritDoc */
+/** @override */
 MultiSineShape.prototype.position = function(x) {
   return 0.1*(Math.sin(2*Math.PI*x/this.length_)
       + Math.sin(4*Math.PI*x/this.length_)
       + Math.sin(6*Math.PI*x/this.length_))/3;
 };
 
-/** @inheritDoc */
+/** @override */
 MultiSineShape.prototype.velocity = function(x) {
   return 0;
 };
@@ -369,17 +369,17 @@ myphysicslab.sims.pde.TriangleShape = function(length) {
 var TriangleShape = myphysicslab.sims.pde.TriangleShape;
 goog.inherits(TriangleShape, StringShape);
 
-/** @inheritDoc */
+/** @override */
 TriangleShape.prototype.getClassName = function() {
   return 'TriangleShape';
 };
 
-/** @inheritDoc */
+/** @override */
 TriangleShape.prototype.position = function(x) {
   return 0.2*(x < this.length_/2 ? x/this.length_ : 1 - x/this.length_);
 };
 
-/** @inheritDoc */
+/** @override */
 TriangleShape.prototype.velocity = function(x) {
   return 0;
 };

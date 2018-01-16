@@ -204,7 +204,7 @@ var CompareTimeGraph = myphysicslab.sims.common.CompareTimeGraph;
 goog.inherits(CompareTimeGraph, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CompareTimeGraph.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', canvas: '+this.canvas.toStringShort()
@@ -219,12 +219,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CompareTimeGraph.prototype.getClassName = function() {
   return 'CompareTimeGraph';
 };
 
-/** @inheritDoc */
+/** @override */
 CompareTimeGraph.prototype.getSubjects = function() {
   return [ this, this.line1, this.line2, this.view, this.autoScale ];
 };

@@ -321,7 +321,7 @@ var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 goog.inherits(ImpulseSim, RigidBodySim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc  */
+  /** @override  */
   ImpulseSim.prototype.toString_ = function() {
     return ', collisionHandling_: '+this.collisionHandling_
         + ', distanceTol_: '+Util.NF(this.distanceTol_)
@@ -333,7 +333,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.getClassName = function() {
   return 'ImpulseSim';
 };
@@ -376,7 +376,7 @@ ImpulseSim.SMALL_IMPULSE = 1E-4;
 */
 ImpulseSim.LOG10 = Math.log(10);
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.setDebugPaint = function(fn) {
   this.debugPaint_ = fn;
 };
@@ -496,7 +496,7 @@ ImpulseSim.prototype.setVelocityTol = function(value) {
   this.broadcastParameter(RigidBodySim.en.VELOCITY_TOL);
 };
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.setShowForces = function(value) {
   ImpulseSim.superClass_.setShowForces.call(this, value);
   // this is a hack: The goal is to be able to show collisions but not show forces.
@@ -520,7 +520,7 @@ ImpulseSim.prototype.setShowCollisions = function(value) {
   this.showCollisions_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.addBody = function(body) {
   ImpulseSim.superClass_.addBody.call(this, body);
   body.setDistanceTol(this.distanceTol_);
@@ -528,7 +528,7 @@ ImpulseSim.prototype.addBody = function(body) {
   body.setAccuracy(this.collisionAccuracy_);
 };
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.cleanSlate = function() {
   ImpulseSim.superClass_.cleanSlate.call(this);
   this.computeImpacts_ = new ComputeForces('I', this.simRNG_);
@@ -556,7 +556,7 @@ ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {
   }, this);
 };
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
   if (Util.DEBUG)
     this.checkInfiniteMassVelocity(vars);
@@ -797,7 +797,7 @@ ImpulseSim.prototype.makeCollisionMatrix = function(collisions) {
   return A;
 };
 
-/** @inheritDoc */
+/** @override */
 ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
   var rbcs = /** @type !Array<!RigidBodyCollision>*/(collisions);
   var energy = 0;  // for debugging

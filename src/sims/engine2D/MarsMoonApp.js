@@ -143,7 +143,7 @@ var MarsMoonApp = sims.engine2D.MarsMoonApp;
 goog.inherits(MarsMoonApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   MarsMoonApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -152,12 +152,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 MarsMoonApp.prototype.getClassName = function() {
   return 'MarsMoonApp';
 };
 
-/** @inheritDoc */
+/** @override */
 MarsMoonApp.prototype.defineNames = function(myName) {
   MarsMoonApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -166,13 +166,13 @@ MarsMoonApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 MarsMoonApp.prototype.getSubjects = function() {
   var subjects = MarsMoonApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
-/** @inheritDoc */
+/** @override */
 MarsMoonApp.prototype.graphSetup = function(body) {
   var idx = this.asteroid.getVarsIndex();
   this.graph.line.setXVariable(idx+0); // 'asteroid x position'

@@ -132,7 +132,7 @@ var CartPendulum2App = myphysicslab.sims.engine2D.CartPendulum2App;
 goog.inherits(CartPendulum2App, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   CartPendulum2App.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -141,12 +141,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulum2App.prototype.getClassName = function() {
   return 'CartPendulum2App';
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulum2App.prototype.defineNames = function(myName) {
   CartPendulum2App.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -155,7 +155,7 @@ CartPendulum2App.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulum2App.prototype.getSubjects = function() {
   var subjects = CartPendulum2App.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
@@ -312,7 +312,7 @@ CartPendulum2App.prototype.setStiffness = function(value) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 CartPendulum2App.prototype.graphSetup = function(body) {
   var cart = this.mySim.getBody('cart');
   var pendulum = this.mySim.getBody('pendulum');

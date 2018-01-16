@@ -134,7 +134,7 @@ var PolygonTestApp = sims.engine2D.PolygonTestApp;
 goog.inherits(PolygonTestApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   PolygonTestApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -143,12 +143,12 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 PolygonTestApp.prototype.getClassName = function() {
   return 'PolygonTestApp';
 };
 
-/** @inheritDoc */
+/** @override */
 PolygonTestApp.prototype.defineNames = function(myName) {
   PolygonTestApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
@@ -157,7 +157,7 @@ PolygonTestApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 PolygonTestApp.prototype.getSubjects = function() {
   var subjects = PolygonTestApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);

@@ -92,32 +92,32 @@ if (!Util.ADVANCED) {
 */
 ConcreteVertex.next_vertex_id = 1;
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.getID = function() {
   return this.id_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.isEndPoint = function() {
   return this.endPoint_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.locBody = function() {
   return this.loc_body_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.locBodyX = function() {
   return this.loc_body_.getX();
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.locBodyY = function() {
   return this.loc_body_.getY();
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.highlight = function() {
   if (this.edge_ != null && UtilEngine.debugEngine2D != null) {
     var w1 = this.edge_.getBody().bodyToWorld(this.loc_body_);
@@ -125,7 +125,7 @@ ConcreteVertex.prototype.highlight = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.getCurvature = function() {
   var r = Util.POSITIVE_INFINITY;
   if (this.edge_ != null) {
@@ -140,7 +140,7 @@ ConcreteVertex.prototype.getCurvature = function() {
   return r;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.getEdge1 = function() {
   if (this.edge_ != null) {
     return this.edge_;
@@ -149,7 +149,7 @@ ConcreteVertex.prototype.getEdge1 = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.getEdge2 = function() {
   if (this.edge2_ != null) {
     return this.edge2_;
@@ -160,12 +160,12 @@ ConcreteVertex.prototype.getEdge2 = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.safeGetEdge2 = function() {
   return this.edge2_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.setEdge1 = function(edge) {
   if (this.edge_ == null) {
     this.edge_ = edge;
@@ -174,7 +174,7 @@ ConcreteVertex.prototype.setEdge1 = function(edge) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConcreteVertex.prototype.setEdge2 = function(edge) {
   if (this.edge2_ == null) {
     this.edge2_ = edge;

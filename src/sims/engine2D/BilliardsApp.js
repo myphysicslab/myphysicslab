@@ -148,7 +148,7 @@ var BilliardsApp = myphysicslab.sims.engine2D.BilliardsApp;
 goog.inherits(BilliardsApp, Engine2DApp);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   BilliardsApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', dampingLaw: '+this.dampingLaw.toStringShort()
@@ -156,7 +156,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 BilliardsApp.prototype.getClassName = function() {
   return 'BilliardsApp';
 };
@@ -175,7 +175,7 @@ var Formation = BilliardsApp.Formation;
 */
 BilliardsApp.WALL_DISTANCE = 6;
 
-/** @inheritDoc */
+/** @override */
 BilliardsApp.prototype.defineNames = function(myName) {
   BilliardsApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
@@ -184,7 +184,7 @@ BilliardsApp.prototype.defineNames = function(myName) {
        'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
-/** @inheritDoc */
+/** @override */
 BilliardsApp.prototype.getSubjects = function() {
   var subjects = BilliardsApp.superClass_.getSubjects.call(this);
   return goog.array.concat(this.dampingLaw, subjects);

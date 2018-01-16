@@ -230,7 +230,7 @@ var LagrangeRollerSim = myphysicslab.sims.roller.LagrangeRollerSim;
 goog.inherits(LagrangeRollerSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   LagrangeRollerSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1_: '+this.ball1_
@@ -241,7 +241,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.getClassName = function() {
   return 'LagrangeRollerSim';
 };
@@ -253,7 +253,7 @@ LagrangeRollerSim.prototype.getPath = function() {
   return this.path_;
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.modifyObjects = function() {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
@@ -294,7 +294,7 @@ LagrangeRollerSim.prototype.moveObjects = function(vars) {
   this.ball1_.setVelocity(new Vector(vars[1], yp));
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -321,13 +321,13 @@ LagrangeRollerSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.startDrag = function(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.ball1_) {
@@ -337,7 +337,7 @@ LagrangeRollerSim.prototype.startDrag = function(simObject, location, offset, dr
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.mouseDrag = function(simObject, location, offset,
       mouseEvent) {
   var p = location.subtract(offset);
@@ -356,16 +356,16 @@ LagrangeRollerSim.prototype.mouseDrag = function(simObject, location, offset,
   }
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 LagrangeRollerSim.prototype.evaluate = function(vars, change, timeStep) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'

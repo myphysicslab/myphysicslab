@@ -102,7 +102,7 @@ myphysicslab.lab.model.AdaptiveStepSolver = function(diffEq, energySystem,
 var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AdaptiveStepSolver.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', odeSolver_: '+this.odeSolver_.toStringShort()
@@ -112,13 +112,13 @@ if (!Util.ADVANCED) {
         +'}';
   };
 
-  /** @inheritDoc */
+  /** @override */
   AdaptiveStepSolver.prototype.toStringShort = function() {
     return 'AdaptiveStepSolver{diffEq_: '+this.diffEq_.toStringShort()+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 AdaptiveStepSolver.prototype.getName = function(opt_localized) {
   if (opt_localized) {
     return AdaptiveStepSolver.i18n.NAME + '-'
@@ -129,7 +129,7 @@ AdaptiveStepSolver.prototype.getName = function(opt_localized) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 AdaptiveStepSolver.prototype.nameEquals = function(name) {
   return this.getName() == Util.toName(name);
 };
@@ -173,7 +173,7 @@ AdaptiveStepSolver.prototype.setTolerance = function(value) {
   this.tolerance_ = value;
 };
 
-/** @inheritDoc */
+/** @override */
 AdaptiveStepSolver.prototype.step = function(stepSize) {
   // save the vars in case we need to back up and start again
   this.diffEq_.saveState();

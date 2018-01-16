@@ -73,7 +73,7 @@ myphysicslab.lab.model.EnergyInfo = function(potential, translational,
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   EnergyInfo.prototype.toString = function() {
     return 'EnergyInfo{potential_: '+Util.NF(this.potential_)
         +', translational_: '+Util.NF(this.translational_)

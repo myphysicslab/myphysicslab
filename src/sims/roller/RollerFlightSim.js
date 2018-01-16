@@ -348,7 +348,7 @@ var RollerFlightSim = myphysicslab.sims.roller.RollerFlightSim;
 goog.inherits(RollerFlightSim, AbstractODESim);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   RollerFlightSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', ball1: '+this.ball1_
@@ -364,7 +364,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.getClassName = function() {
   return 'RollerFlightSim';
 };
@@ -390,7 +390,7 @@ RollerFlightSim.OFF_TRACK = 0;
 */
 RollerFlightSim.TRACK_VAR = 6;
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.modifyObjects = function() {
   var va = this.getVarsList();
   var vars = va.getValues();
@@ -420,7 +420,7 @@ RollerFlightSim.prototype.modifyObjects = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.setDebugPaint = function(fn) {
   this.debugPaint_ = fn;
 };
@@ -553,7 +553,7 @@ RollerFlightSim.prototype.jumpOffTrack = function(pathPoint1) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.getEnergyInfo = function() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
@@ -574,13 +574,13 @@ RollerFlightSim.prototype.getEnergyInfo_ = function(vars) {
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.setPotentialEnergy = function(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.startDrag = function(simObject, location, offset, dragBody,
     mouseEvent) {
   if (simObject == this.ball1_) {
@@ -618,7 +618,7 @@ RollerFlightSim.prototype.off_track_adjust = function(x) {
   return x;
 }
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.mouseDrag = function(simObject, location, offset,
     mouseEvent) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
@@ -659,16 +659,16 @@ RollerFlightSim.prototype.mouseDrag = function(simObject, location, offset,
   this.moveObjects(va.getValues());
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.finishDrag = function(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.evaluate = function(vars, change, timeStep) {
   Util.zeroArray(change);
   change[10] = 1; // time
@@ -747,7 +747,7 @@ RollerFlightSim.prototype.evaluate = function(vars, change, timeStep) {
   return null;
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.findCollisions = function(collisions, vars, stepSize) {
   this.moveObjects(vars);
   if (vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.OFF_TRACK) {
@@ -758,7 +758,7 @@ RollerFlightSim.prototype.findCollisions = function(collisions, vars, stepSize) 
   }
 };
 
-/** @inheritDoc */
+/** @override */
 RollerFlightSim.prototype.handleCollisions = function(collisions, opt_totals) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY

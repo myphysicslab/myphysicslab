@@ -193,7 +193,7 @@ var Clock = myphysicslab.lab.util.Clock;
 goog.inherits(Clock, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Clock.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', timeRate_: '+Util.NF5(this.timeRate_)
@@ -207,14 +207,14 @@ if (!Util.ADVANCED) {
         + Clock.superClass_.toString.call(this);
   };
 
-  /** @inheritDoc */
+  /** @override */
   Clock.prototype.toStringShort = function() {
     return Clock.superClass_.toStringShort.call(this).slice(0, -1)
         +', time: '+Util.NF5(this.getTime())+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Clock.prototype.getClassName = function() {
   return 'Clock';
 };

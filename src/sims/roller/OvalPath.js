@@ -95,19 +95,19 @@ var OvalPath = myphysicslab.sims.roller.OvalPath;
 goog.inherits(OvalPath, AbstractPath);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   OvalPath.prototype.toString = function() {
     return OvalPath.superClass_.toString.call(this).slice(0, -1)
         + ', straight: '+Util.NF(this.s_)+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 OvalPath.prototype.getClassName = function() {
   return 'OvalPath';
 };
 
-/** @inheritDoc */
+/** @override */
 OvalPath.prototype.x_func = function(t) {
   if (t<this.t1_)
     return Math.cos(t);
@@ -123,7 +123,7 @@ OvalPath.prototype.x_func = function(t) {
     return 0;
 };
 
-/** @inheritDoc */
+/** @override */
 OvalPath.prototype.y_func = function(t) {
   if (t<this.t1_)
     return this.s_+Math.sin(t);

@@ -55,19 +55,19 @@ var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 goog.inherits(ConnectorCollision, RigidBodyCollision);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ConnectorCollision.prototype.toString = function() {
     return ConnectorCollision.superClass_.toString.call(this).slice(0, -1)
         +', theConnector_='+this.theConnector_+'}';
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ConnectorCollision.prototype.getClassName = function() {
   return 'ConnectorCollision';
 };
 
-/** @inheritDoc */
+/** @override */
 ConnectorCollision.prototype.checkConsistent = function() {
   ConnectorCollision.superClass_.checkConsistent.call(this);
   goog.asserts.assert( this.impact2 != null );
@@ -78,17 +78,17 @@ ConnectorCollision.prototype.checkConsistent = function() {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 ConnectorCollision.prototype.getConnector = function() {
   return this.theConnector_;
 };
 
-/** @inheritDoc */
+/** @override */
 ConnectorCollision.prototype.similarTo = function(c) {
   return false;
 };
 
-/** @inheritDoc */
+/** @override */
 ConnectorCollision.prototype.updateCollision = function(time) {
   this.theConnector_.updateCollision(this);
   ConnectorCollision.superClass_.updateCollision.call(this, time);

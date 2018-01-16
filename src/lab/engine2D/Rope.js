@@ -132,7 +132,7 @@ var Rope = myphysicslab.lab.engine2D.Rope;
 goog.inherits(Rope, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Rope.prototype.toString = function() {
     return Rope.superClass_.toString.call(this).slice(0, -1)
         +', body1_:"'+this.body1_.getName()+'"'
@@ -145,7 +145,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getClassName = function() {
   return 'Rope';
 };
@@ -168,7 +168,7 @@ Rope.ROD = 2;
 */
 Rope.ropeNum = 0;
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.addCollision = function(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/this.rod_);
   this.updateCollision(c);
@@ -180,7 +180,7 @@ Rope.prototype.addCollision = function(collisions, time, accuracy) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.align = function() {
   // Find the angle between the attachment points, then set the distance
   // between the two attachment points to be rest-length apart.
@@ -201,22 +201,22 @@ Rope.prototype.align = function() {
   this.body2_.alignTo(/*p_body=*/this.attach2_body_, /*p_world=*/d2);
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getBody1 = function() {
   return this.body1_;
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getBody2 = function() {
   return this.body2_;
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getBoundsWorld = function() {
   return DoubleRect.make(this.getPosition1(), this.getPosition2());
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getEndPoint = function() {
   return this.body2_.bodyToWorld(this.attach2_body_);
 };
@@ -228,17 +228,17 @@ Rope.prototype.getLength = function() {
   return this.getEndPoint().distanceTo(this.getStartPoint());
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getNormalDistance = function() {
   return this.getLength();
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getPosition1 = function() {
   return this.body1_.bodyToWorld(this.attach1_body_);
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getPosition2 = function() {
   return this.body2_.bodyToWorld(this.attach2_body_);
 };
@@ -250,7 +250,7 @@ Rope.prototype.getRestLength = function() {
   return this.restLength_;
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getStartPoint = function() {
   return this.body1_.bodyToWorld(this.attach1_body_);
 };
@@ -262,7 +262,7 @@ Rope.prototype.getStretch = function() {
   return this.getLength() - this.restLength_;
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.getVector = function() {
   return this.getEndPoint().subtract(this.getStartPoint());
 };
@@ -276,7 +276,7 @@ Rope.prototype.isTight = function() {
       this.getLength() > this.restLength_ - this.distTol_;
 };
 
-/** @inheritDoc */
+/** @override */
 Rope.prototype.updateCollision = function(c) {
   if (c.primaryBody != this.body1_ || c.normalBody != this.body2_)
     throw new Error();

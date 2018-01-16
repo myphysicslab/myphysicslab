@@ -75,7 +75,7 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 goog.inherits(AbstractODESim, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AbstractODESim.prototype.toString = function() {
     return ', varsList_: '+this.varsList_.toStringShort()
         +', simList_: '+this.simList_.toStringShort()
@@ -86,12 +86,12 @@ if (!Util.ADVANCED) {
 /** @abstract */
 AbstractODESim.prototype.evaluate = function(vars, change, timeStep) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.getTime = function() {
   return this.varsList_.getTime();
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.getVarsList = function() {
   return this.varsList_;
 };
@@ -99,7 +99,7 @@ AbstractODESim.prototype.getVarsList = function() {
 /** @abstract */
 AbstractODESim.prototype.modifyObjects = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.reset = function() {
   if (this.initialState_ != null) {
     this.varsList_.setValues(this.initialState_);
@@ -109,25 +109,25 @@ AbstractODESim.prototype.reset = function() {
   this.broadcast(new GenericEvent(this, Simulation.RESET));
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.restoreState = function() {
   if (this.recentState_ != null) {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
   }
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.saveInitialState = function() {
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.saveState = function() {
   this.recentState_ = this.varsList_.getValues();
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractODESim.prototype.getSimList = function() {
   return this.simList_;
 };

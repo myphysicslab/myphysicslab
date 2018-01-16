@@ -56,7 +56,7 @@ var testAbstractSubject1 = function() {
   MockSubject1.FOONESS = 'FOONESS';
   MockSubject1.FOOBARNESS = 'FOO_BARNESS';
   MockSubject1.QUX = 'QUX';
-  /** @inheritDoc */
+  /** @override */
   MockSubject1.prototype.getClassName = function() {
     return 'MockSubject1';
   };

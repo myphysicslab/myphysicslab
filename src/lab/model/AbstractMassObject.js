@@ -110,7 +110,7 @@ var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
 goog.inherits(AbstractMassObject, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   AbstractMassObject.prototype.toString = function() {
     return AbstractMassObject.superClass_.toString.call(this).slice(0, -1)
         +', mass_: '+Util.NF(this.mass_)
@@ -125,7 +125,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.alignTo = function(p_body, p_world, opt_angle) {
   var angle = (opt_angle === undefined) ? this.angle_ : opt_angle;
   // vector from CM to target point
@@ -141,7 +141,7 @@ AbstractMassObject.prototype.alignTo = function(p_body, p_world, opt_angle) {
               p_world.getY() - (rx*sin + ry*cos)), angle);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.bodyToWorld = function(p_body) {
   var rx = p_body.getX() - this.cm_body_.getX();  // vector from cm to p_body
   var ry = p_body.getY() - this.cm_body_.getY();
@@ -150,7 +150,7 @@ AbstractMassObject.prototype.bodyToWorld = function(p_body) {
   return new Vector(vx, vy);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.bodyToWorldTransform = function() {
   // move to global sim position
   var at = new AffineTransform(1, 0, 0, 1, this.loc_world_.getX(),
@@ -162,12 +162,12 @@ AbstractMassObject.prototype.bodyToWorldTransform = function() {
 /** @abstract */
 AbstractMassObject.prototype.createCanvasPath = function(context) {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getAngle = function() {
   return this.angle_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getAngularVelocity = function() {
   return this.angular_velocity_;
 };
@@ -175,7 +175,7 @@ AbstractMassObject.prototype.getAngularVelocity = function() {
 /** @abstract */
 AbstractMassObject.prototype.getBottomBody = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getBottomWorld = function() {
   var min = Util.POSITIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
@@ -186,19 +186,19 @@ AbstractMassObject.prototype.getBottomWorld = function() {
   return min;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getBoundsBody = function() {
   return new DoubleRect(this.getLeftBody(), this.getBottomBody(),
       this.getRightBody(), this.getTopBody());
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getBoundsWorld = function() {
   return new DoubleRect(this.getLeftWorld(), this.getBottomWorld(),
       this.getRightWorld(), this.getTopWorld());
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getCenterOfMassBody = function() {
   return this.cm_body_;
 };
@@ -209,22 +209,22 @@ AbstractMassObject.prototype.getCentroidBody = function() {};
 /** @abstract */
 AbstractMassObject.prototype.getCentroidRadius = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getCentroidWorld = function() {
   return this.bodyToWorld(this.getCentroidBody());
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getDragPoints = function() {
   return goog.array.clone(this.dragPts_);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getHeight = function() {
   return this.getTopBody() - this.getBottomBody();
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getKineticEnergy = function() {
   return this.translationalEnergy() + this.rotationalEnergy();
 };
@@ -232,7 +232,7 @@ AbstractMassObject.prototype.getKineticEnergy = function() {
 /** @abstract */
 AbstractMassObject.prototype.getLeftBody = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getLeftWorld = function() {
   var min = Util.POSITIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
@@ -243,7 +243,7 @@ AbstractMassObject.prototype.getLeftWorld = function() {
   return min;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getMass = function() {
   return this.mass_;
 };
@@ -251,7 +251,7 @@ AbstractMassObject.prototype.getMass = function() {
 /** @abstract */
 AbstractMassObject.prototype.getMinHeight = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getPosition = function() {
   return this.loc_world_;
 };
@@ -259,7 +259,7 @@ AbstractMassObject.prototype.getPosition = function() {
 /** @abstract */
 AbstractMassObject.prototype.getRightBody = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getRightWorld = function() {
   var max = Util.NEGATIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
@@ -273,7 +273,7 @@ AbstractMassObject.prototype.getRightWorld = function() {
 /** @abstract */
 AbstractMassObject.prototype.getTopBody = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getTopWorld = function() {
   var max = Util.NEGATIVE_INFINITY;
   goog.array.forEach(this.getVerticesBody(), function(v) {
@@ -284,12 +284,12 @@ AbstractMassObject.prototype.getTopWorld = function() {
   return max;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getWidth = function() {
   return this.getRightBody() - this.getLeftBody();
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getVelocity = function(p_body) {
   if (goog.isDef(p_body)) {
     var r = this.rotateBodyToWorld(Vector.clone(p_body).subtract(this.cm_body_));
@@ -303,22 +303,22 @@ AbstractMassObject.prototype.getVelocity = function(p_body) {
 /** @abstract */
 AbstractMassObject.prototype.getVerticesBody = function() {};
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.getZeroEnergyLevel = function() {
   return this.zeroEnergyLevel_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.isMassObject = function() {
   return true;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.momentAboutCM = function() {
   return this.mass_*this.moment_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.momentum = function() {
   var result = new Array(3);
   result[0] = this.mass_*this.velocity_.getX();
@@ -329,29 +329,29 @@ AbstractMassObject.prototype.momentum = function() {
   return result;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.rotateBodyToWorld = function(v_body) {
   return Vector.clone(v_body).rotate(this.cosAngle_, this.sinAngle_);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.rotateWorldToBody = function(v_world) {
   // rotate by -angle
   // note that cos(-a) = cos(a) and sin(-a) = -sin(a).
   return Vector.clone(v_world).rotate(this.cosAngle_, -this.sinAngle_);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.rotationalEnergy = function() {
   return 0.5*this.momentAboutCM()*this.angular_velocity_*this.angular_velocity_;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setAngle = function(angle) {
   this.setPosition(this.loc_world_,  angle);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setAngularVelocity = function(angular_velocity) {
   if (!isFinite(angular_velocity)) {
     throw new Error('angular velocity must be finite '+angular_velocity);
@@ -359,19 +359,19 @@ AbstractMassObject.prototype.setAngularVelocity = function(angular_velocity) {
   this.angular_velocity_ = angular_velocity;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setCenterOfMass = function(x_body, y_body) {
   this.cm_body_ = new Vector(x_body, y_body);
   // NaN indicates that minimum height must be recalculated
   this.minHeight_ = Util.NaN;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setDragPoints = function(dragPts) {
   this.dragPts_ = goog.array.clone(dragPts);
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setMass = function(mass) {
   if (mass <= 0 || !goog.isNumber(mass)) {
     throw new Error('mass must be positive '+mass);
@@ -380,17 +380,17 @@ AbstractMassObject.prototype.setMass = function(mass) {
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setMinHeight = function(minHeight) {
   this.minHeight_ = minHeight;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setMomentAboutCM = function(moment) {
   this.moment_ = moment;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setPosition = function(loc_world, angle) {
   this.loc_world_ = Vector.clone(loc_world);
   if (goog.isDef(angle) && this.angle_ != angle) {
@@ -400,7 +400,7 @@ AbstractMassObject.prototype.setPosition = function(loc_world, angle) {
   }
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setVelocity = function(velocity_world, angular_velocity) {
   this.velocity_ = Vector.clone(velocity_world);
   if (goog.isDef(angular_velocity)) {
@@ -408,19 +408,19 @@ AbstractMassObject.prototype.setVelocity = function(velocity_world, angular_velo
   }
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.setZeroEnergyLevel = function(height) {
   this.zeroEnergyLevel_ = goog.isDef(height) ? height :
     this.loc_world_.getY();
   return this;
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.translationalEnergy = function() {
   return 0.5 * this.mass_ * this.velocity_.lengthSquared();
 };
 
-/** @inheritDoc */
+/** @override */
 AbstractMassObject.prototype.worldToBody = function(p_world) {
   // get the vector from cm (which is at x_world,y_world) to p_world
   var rx = p_world.getX() - this.loc_world_.getX();

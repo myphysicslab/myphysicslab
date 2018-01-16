@@ -66,7 +66,7 @@ var Arc = myphysicslab.lab.model.Arc;
 goog.inherits(Arc, AbstractSimObject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   Arc.prototype.toString = function() {
     return Arc.superClass_.toString.call(this).slice(0, -1)
         +', startAngle_: '+Util.NF(this.startAngle_)
@@ -77,7 +77,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 Arc.prototype.getClassName = function() {
   return 'Arc';
 };
@@ -89,7 +89,7 @@ Arc.prototype.getAngle = function() {
   return this.angle_;
 };
 
-/** @inheritDoc */
+/** @override */
 Arc.prototype.getBoundsWorld = function() {
   return DoubleRect.makeCentered(this.center_, this.radius_, this.radius_);
 };
@@ -145,7 +145,7 @@ Arc.prototype.setStartAngle = function(angle) {
   this.startAngle_ = angle;
 };
 
-/** @inheritDoc */
+/** @override */
 Arc.prototype.similar = function(obj, opt_tolerance) {
   if (!(obj instanceof Arc)) {
     return false;

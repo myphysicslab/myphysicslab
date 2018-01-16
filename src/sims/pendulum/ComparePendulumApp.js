@@ -402,7 +402,7 @@ var ComparePendulumApp = myphysicslab.sims.pendulum.ComparePendulumApp;
 goog.inherits(ComparePendulumApp, AbstractSubject);
 
 if (!Util.ADVANCED) {
-  /** @inheritDoc */
+  /** @override */
   ComparePendulumApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', sim1: '+this.sim1.toStringShort()
@@ -414,7 +414,7 @@ if (!Util.ADVANCED) {
   };
 };
 
-/** @inheritDoc */
+/** @override */
 ComparePendulumApp.prototype.getClassName = function() {
   return 'ComparePendulumApp';
 };
