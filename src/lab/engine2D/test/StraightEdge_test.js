@@ -26,7 +26,7 @@ var testStraightEdge1 = function() {
   var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
   var Polygon = myphysicslab.lab.engine2D.Polygon;
   var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
   var poly1 = new Polygon('test1');
   var vertex1 = new ConcreteVertex(new Vector(0, 0));

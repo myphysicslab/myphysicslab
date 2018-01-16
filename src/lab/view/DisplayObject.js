@@ -27,7 +27,7 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** An object that can be displayed in a {@link myphysicslab.lab.view.LabView}, often it
 is the visible representation of a {@link SimObject}.

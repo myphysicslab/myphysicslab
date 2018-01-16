@@ -26,7 +26,6 @@ goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.GenericObserver');
 goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.GenericVector');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.view.CoordMap');
 goog.require('myphysicslab.lab.view.DisplayShape');
@@ -103,7 +102,6 @@ var testSimView1 = function() {
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
   var GenericEvent = myphysicslab.lab.util.GenericEvent;
   var GenericObserver = myphysicslab.lab.util.GenericObserver;
-  var GenericVector = myphysicslab.lab.util.GenericVector;
   var HorizAlign = myphysicslab.lab.view.HorizAlign;
   var LabView = myphysicslab.lab.view.LabView;
   var MockObserver = myphysicslab.lab.view.test.SimView_test.MockObserver;
@@ -113,7 +111,7 @@ var testSimView1 = function() {
   var SimView = myphysicslab.lab.view.SimView;
   var Spring = myphysicslab.lab.model.Spring;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
   /**  mock 2D context of a canvas element
@@ -122,21 +120,21 @@ var testSimView1 = function() {
   */
   var MockContext = function() {
     /**  expected rectangle point 1
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {?Vector}
     */
     this.expectRect1 = null;
     /**  expected rectangle point 2
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {?Vector}
     */
     this.expectRect2 = null;
     /**  expected screen coords point
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {?Vector}
     */
     this.startPoint = null;
     /**  last point drawn to
-    * @type {!myphysicslab.lab.util.Vector}
+    * @type {!Vector}
     */
-    this.lastPoint = myphysicslab.lab.util.Vector.ORIGIN;
+    this.lastPoint = Vector.ORIGIN;
     /**
     * @type {!myphysicslab.lab.util.AffineTransform}
     */
@@ -213,19 +211,19 @@ var testSimView1 = function() {
   assertEquals('VIEW1', simView1.getName());
   var map = simView1.getCoordMap();
   var point1 = PointMass.makeSquare(1);
-  var v1 = new myphysicslab.lab.util.Vector(2.5, 0);
+  var v1 = new Vector(2.5, 0);
   point1.setPosition(v1);
   var shape1 = new DisplayShape(point1).setFillStyle('orange');
   var fixedPt = PointMass.makeSquare(1).setMass(Util.POSITIVE_INFINITY);
-  fixedPt.setPosition(new myphysicslab.lab.util.Vector(-1,  0));
+  fixedPt.setPosition(new Vector(-1,  0));
   var spring1 = new Spring('spring1',
-      fixedPt, myphysicslab.lab.util.Vector.ORIGIN,
-      point1, myphysicslab.lab.util.Vector.ORIGIN,
+      fixedPt, Vector.ORIGIN,
+      point1, Vector.ORIGIN,
       /*restLength=*/2, /*stiffness=*/12);
   var dspring1 = new DisplaySpring(spring1).setWidth(1.0)
       .setColorCompressed('red').setColorExpanded('green')
 
-  goog.asserts.assert(v1 instanceof myphysicslab.lab.util.Vector);
+  goog.asserts.assert(v1 instanceof Vector);
   displayList1.add(shape1);
   displayList1.add(dspring1);
   assertTrue(displayList1.contains(shape1));

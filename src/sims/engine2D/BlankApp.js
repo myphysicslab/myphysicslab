@@ -129,7 +129,7 @@ var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
 var ThrusterSet = lab.engine2D.ThrusterSet;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
 var Walls = lab.engine2D.Walls;
 

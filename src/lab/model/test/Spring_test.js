@@ -22,7 +22,8 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.MutableVector');
 
 var testSpring = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -85,7 +86,7 @@ var testSpring = function() {
   assertEquals(1, s1.getEndPoint().getY());
   assertRoughlyEquals(Math.sqrt(5), s1.getLength(), tol);
   // attach using a MutableVector for the body-coords attachment
-  var mv1 = new myphysicslab.lab.util.MutableVector(0, -1);
+  var mv1 = new MutableVector(0, -1);
   s1 = new Spring('spring1',
       p1, new Vector(0, -1),
       p2, mv1,
@@ -98,7 +99,7 @@ var testSpring = function() {
 goog.exportProperty(window, 'testSpring', testSpring);
 
 var testSpringCompressOnly = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
   var Util = goog.module.get('myphysicslab.lab.util.Util');

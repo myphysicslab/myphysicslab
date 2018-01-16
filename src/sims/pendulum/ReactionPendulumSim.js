@@ -50,7 +50,7 @@ var SimList = myphysicslab.lab.model.SimList;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Single pendulum done with reaction forces instead of the analytic equations of
 motion as in {@link myphysicslab.sims.pendulum.PendulumSim}. This is similar to how the

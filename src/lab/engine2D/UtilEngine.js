@@ -26,11 +26,11 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var MutableVector = myphysicslab.lab.util.MutableVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
+const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var Random = myphysicslab.lab.util.Random;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Provides utility methods for the physics engine.
 

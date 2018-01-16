@@ -61,7 +61,7 @@ var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = myphysicslab.lab.engine2D.Walls;
 
 /** Tests various configurations of Joints.

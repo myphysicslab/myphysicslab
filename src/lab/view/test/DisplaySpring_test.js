@@ -35,7 +35,7 @@ var testDisplaySpring = function() {
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
   var SimObject = myphysicslab.lab.model.SimObject;
 

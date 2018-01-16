@@ -28,11 +28,11 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** Provides the mapping between screen (canvas) coordinates and simulation coordinates;

@@ -52,7 +52,7 @@ var testNumericalPath1 = function() {
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var CirclePath = myphysicslab.sims.roller.CirclePath;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var r = 3;
   var path = new NumericalPath(new CirclePath(r));
   assertFalse(path.isMassObject());
@@ -195,7 +195,7 @@ var testNumericalPath2 = function() {
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var CustomPath = myphysicslab.sims.roller.CustomPath;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   /** @type {function(number):number} */
   var invsinh = function(x) { return Math.log(x + Math.sqrt(x*x + 1)); };
   var parabola = new CustomPath(/*start_t=*/-1, /*finish_t=*/1);
@@ -275,7 +275,7 @@ var testNumericalPath3 = function() {
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var OvalPath = myphysicslab.sims.roller.OvalPath;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var path = new NumericalPath(new OvalPath());
   var pp = new PathPoint(0, /*calculateRadius=*/true);
   // t = pi to 2+pi is straight down section
@@ -324,7 +324,7 @@ var testNumericalPath4 = function() {
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var FlatPath = myphysicslab.sims.roller.FlatPath;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var path = new NumericalPath(new FlatPath());
   var pp = new PathPoint(0, /*calculateRadius=*/true);
   // t = goes from -5 to 5

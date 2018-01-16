@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.ShapeType');
 
 var testPointMassAngle = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
   var PointMass = myphysicslab.lab.model.PointMass;
   var p1 = PointMass.makeOval(1, 2, 'point1');
@@ -65,7 +65,7 @@ var testPointMassAngle = function() {
 goog.exportProperty(window, 'testPointMassAngle', testPointMassAngle);
 
 var testPointMass = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
   var PointMass = myphysicslab.lab.model.PointMass;
   var p1 = PointMass.makeCircle(1, 'point1');
@@ -121,7 +121,7 @@ var testPointMass = function() {
 goog.exportProperty(window, 'testPointMass', testPointMass);
 
 var testPointMassSimilar = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var PointMass = myphysicslab.lab.model.PointMass;
   var ShapeType = myphysicslab.lab.model.ShapeType;
   var p1 = PointMass.makeCircle(1);

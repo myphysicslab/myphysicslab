@@ -27,13 +27,13 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Factory for making a set of four walls arranged in rectangle to form an enclosed
 space. See {@link Shapes#makeWall}.

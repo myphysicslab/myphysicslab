@@ -56,7 +56,7 @@ var DoubleRect = lab.util.DoubleRect;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var GenericEvent = lab.util.GenericEvent;
-var MutableVector = lab.util.MutableVector;
+const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimList = lab.model.SimList;
@@ -65,7 +65,7 @@ var Spring = lab.model.Spring;
 var StringShape = sims.pde.StringShape;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a string under tension which can have waves in 2D.  This is
 an unusual simulation from others in myPhysicsLab in that it uses a partial

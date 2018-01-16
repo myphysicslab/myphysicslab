@@ -81,7 +81,7 @@ var Spring = lab.model.Spring;
 var Terminal = lab.util.Terminal;
 var Timer = lab.util.Timer;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
 
 /** BlankSlateApp has a LabCanvas and Terminal, and let's you experiment building

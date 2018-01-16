@@ -29,7 +29,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** Draws linear horizontal and vertical axes within a given simulation coordinates

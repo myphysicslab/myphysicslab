@@ -23,7 +23,7 @@ goog.scope(function() {
 
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** An Edge of a Polygon has a start and finish Vertex and belongs to a particular
 Polygon. Vertex location is defined in body coordinates of the associated Polygon. An

@@ -59,7 +59,7 @@ var RigidBodySim = lab.engine2D.RigidBodySim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = lab.engine2D.Walls;
 
 /** Simulation of a table top billiards game with several balls bouncing against each

@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.model.ConcreteLine');
 
 var testConcreteLine = function() {
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
   var tol = 1E-15;
   var l0 = new ConcreteLine('line0');
@@ -56,7 +56,7 @@ var testConcreteLine = function() {
 goog.exportProperty(window, 'testConcreteLine', testConcreteLine);
 
 var testConcreteLineSimilar = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
   var l1 = new ConcreteLine('line1');
   l1.setStartPoint(new Vector(2, 0));

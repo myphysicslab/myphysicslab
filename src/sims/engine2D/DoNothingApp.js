@@ -67,7 +67,7 @@ var RotatingTestForce = sims.engine2D.RotatingTestForce;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of the Do Nothing Grinder, which consists of two shuttle
 blocks, each moving in its own groove, and a handle connects the shuttles. You can move

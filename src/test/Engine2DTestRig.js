@@ -287,6 +287,7 @@ Engine2DTestRig.startTests = function() {
   Engine2DTestRig.output = test_results;
   var d = new Date();
   Engine2DTestRig.myPrintln(d.toDateString()+' '+d.toTimeString());
+  Engine2DTestRig.myPrintln('compiled '+Util.COMPILE_TIME);
   Engine2DTestRig.myPrintln('machine = '+Engine2DTestRig.getMachineName());
   Engine2DTestRig.myPrintln('browser = '+Engine2DTestRig.getBrowserName());
   // global variable COMPILED is created by goog.base

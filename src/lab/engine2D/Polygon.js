@@ -47,17 +47,17 @@ var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Edge = myphysicslab.lab.engine2D.Edge;
 var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
-var GenericVector = myphysicslab.lab.util.GenericVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 var MassObject = myphysicslab.lab.model.MassObject;
-var MutableVector = myphysicslab.lab.util.MutableVector;
+const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** A RigidBody made of connected Edges and Vertexes.

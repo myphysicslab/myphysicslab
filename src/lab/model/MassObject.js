@@ -24,8 +24,8 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var Vector = myphysicslab.lab.util.Vector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** An object that has mass, position, velocity and a local coordinate system, and can
 potentially be dragged by the user.

@@ -50,7 +50,7 @@ var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
 var Subject = myphysicslab.lab.util.Subject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Observes the SimList of the BrachistoSim simulation, adding or removing
 DisplayObjects to represent the simulation. BrachistoObserver also listens for the

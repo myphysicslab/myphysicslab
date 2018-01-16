@@ -2162,7 +2162,7 @@ goog.exportProperty(window, 'testMatrix27_CF', testMatrix27_CF);
 */
 var testLinesIntersect = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   // p1 to p2 is horizontal edge
   var p1 = new Vector(3.5355339059327378, 0.5);
   var p2 = new Vector(-3.5355339059327378, 0.5);

@@ -33,7 +33,7 @@ var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays a bar graph of the various forms of energy (potential, kinetic, etc.) in an
 {@link EnergySystem}. The visible area must be set via

@@ -39,7 +39,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** 2-D spring simulation with gravity. An immoveable top anchor mass with a spring and
 moveable mass hanging below and swinging in 2D. The top anchor mass can however be

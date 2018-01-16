@@ -23,8 +23,8 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var Vector = myphysicslab.lab.util.Vector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Represents an object in a Simulation. The purpose of a SimObject is two-fold:

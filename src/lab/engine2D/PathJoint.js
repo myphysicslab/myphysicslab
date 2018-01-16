@@ -44,7 +44,7 @@ var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Represents a bilateral contact point between a {@link RigidBody} and a
 {@link NumericalPath}.

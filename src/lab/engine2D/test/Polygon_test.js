@@ -32,7 +32,7 @@ var testPolygon1 = function() {
   var Shapes = myphysicslab.lab.engine2D.Shapes;
   var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var Vertex = myphysicslab.lab.engine2D.Vertex;
 
   var p = new Polygon('polygon1');

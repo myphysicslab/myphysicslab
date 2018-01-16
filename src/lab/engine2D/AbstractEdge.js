@@ -25,7 +25,7 @@ goog.scope(function() {
 var Edge = myphysicslab.lab.engine2D.Edge;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** Abstract base class for {@link myphysicslab.lab.engine2D.Edge}.

@@ -24,7 +24,7 @@ goog.scope(function() {
 
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Collision = myphysicslab.lab.model.Collision;
 

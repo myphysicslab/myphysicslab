@@ -19,7 +19,8 @@ goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('goog.testing.jsunit');
 
 var testVector = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   var v1 = new Vector(2.1, 3.2);
   assertEquals(2.1, v1.getX());
   assertEquals(3.2, v1.getY());
@@ -27,7 +28,7 @@ var testVector = function() {
   assertRoughlyEquals(Math.sqrt(2), v2.length(), 1E-15);
   assertEquals(1.0, v2.getX());
   assertEquals(1.0, v2.getY());
-  assertTrue(v2.equals(new myphysicslab.lab.util.MutableVector(1, 1)));
+  assertTrue(v2.equals(new MutableVector(1, 1)));
   var v3 = v1.add(v2);
   assertEquals(3.1, v3.getX());
   assertEquals(4.2, v3.getY());
@@ -52,7 +53,7 @@ var testVector = function() {
 goog.exportProperty(window, 'testVector', testVector);
 
 var testVectorSimilar = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var v1 = new Vector(2, 3);
   var v2 = new Vector(2.01, 3.02);
   // see Util.veryDifferent: tolerance is multiplied by magnitude
@@ -63,7 +64,7 @@ var testVectorSimilar = function() {
 goog.exportProperty(window, 'testVectorSimilar', testVectorSimilar);
 
 var testVectorMath = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var v1 = new Vector(2, 3);
   var v2 = new Vector(1, 1);
   assertRoughlyEquals(5, v1.dotProduct(v2), 1E-15);

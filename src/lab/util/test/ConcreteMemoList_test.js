@@ -23,16 +23,12 @@ goog.require('goog.testing.jsunit');
 var testConcreteMemoList1 = function() {
   var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
   var GenericMemo = myphysicslab.lab.util.GenericMemo;
-  // Possible compiler bug here? Jan 10, 2018.
-  // Can't use the short-name MutableVector, because compiler thinks that
-  // vec1 and vec2 are of type myphysicslab.lab.util.GenericVector
-  // when doing vec1.setTo() later on.
-  //var MutableVector = myphysicslab.lab.util.MutableVector;
+  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   var Util = goog.module.get('myphysicslab.lab.util.Util');
-  var vec1 = new myphysicslab.lab.util.MutableVector(1, 1);
-  var memVec1 = myphysicslab.lab.util.MutableVector.clone(vec1);
-  var vec2 = new myphysicslab.lab.util.MutableVector(2, 2);
-  var memVec2 = myphysicslab.lab.util.MutableVector.clone(vec2);
+  var vec1 = new MutableVector(1, 1);
+  var memVec1 = MutableVector.clone(vec1);
+  var vec2 = new MutableVector(2, 2);
+  var memVec2 = MutableVector.clone(vec2);
   var mem1 = new GenericMemo(function(){ memVec1.setToVector(vec1); });
   var mem2 = new GenericMemo(function(){ memVec2.setToVector(vec2); });
   var memList1 = new ConcreteMemoList();

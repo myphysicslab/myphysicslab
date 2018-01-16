@@ -29,7 +29,7 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Joint = myphysicslab.lab.engine2D.Joint;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Utility functions for creating Joints.
 @constructor

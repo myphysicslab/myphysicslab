@@ -52,7 +52,7 @@ goog.require('goog.testing.jsunit');
         ^
 */
 var testUtilCircularList1 = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
   var CircularList = myphysicslab.lab.util.CircularList;
@@ -212,7 +212,7 @@ goog.exportProperty(window, 'testUtilCircularList1', testUtilCircularList1);
 
 
 var testUtilCircularList2 = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var CircularList = myphysicslab.lab.util.CircularList;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
   var HistoryList = myphysicslab.lab.util.HistoryList;
@@ -266,7 +266,7 @@ goog.exportProperty(window, 'testUtilCircularList2', testUtilCircularList2);
 
 // test iterating backwards: start at end, go to previous points.
 var testUtilCircularList3 = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var CircularList = myphysicslab.lab.util.CircularList;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
   var HistoryList = myphysicslab.lab.util.HistoryList;

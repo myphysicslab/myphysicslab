@@ -23,7 +23,7 @@ goog.scope(function() {
 
 var Connector = myphysicslab.lab.engine2D.Connector;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Shows the location of a {@link Connector} as a small colored circle.
 The {@link #radius} is specified in screen coordinates, so the size of the circle stays

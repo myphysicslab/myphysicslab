@@ -35,7 +35,7 @@ var MassObject = myphysicslab.lab.model.MassObject;
 var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link MassObject} with specified style such as color, border, etc.
 

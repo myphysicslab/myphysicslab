@@ -56,7 +56,7 @@ var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = lab.engine2D.Walls;
 
 /** Simulation of a cart moving on a horizontal track with a pendulum suspended from the

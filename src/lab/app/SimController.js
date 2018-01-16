@@ -42,7 +42,7 @@ var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var MouseTracker = myphysicslab.lab.app.MouseTracker;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var ViewPanner = myphysicslab.lab.app.ViewPanner;
 
 /** Handles mouse and keyboard events occurring in a LabCanvas; either forwards events

@@ -23,7 +23,7 @@ goog.scope(function() {
 
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A {@link myphysicslab.lab.model.SimObject} that represents a semi-circular arc.

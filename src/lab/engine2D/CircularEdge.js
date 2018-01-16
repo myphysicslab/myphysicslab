@@ -35,7 +35,7 @@ var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** A circular-arc Edge belonging to a Polygon.

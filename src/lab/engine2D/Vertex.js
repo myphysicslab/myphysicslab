@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** A Vertex is a point on an Edge in a Polygon, in body coordinates of the Polygon. A
 Vertex can be at the end-point of the Edge, or at a mid-point of the Edge. An end-point

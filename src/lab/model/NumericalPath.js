@@ -31,12 +31,12 @@ goog.scope(function() {
 
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var MutableVector = myphysicslab.lab.util.MutableVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
+const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** A numerical approximation of a {@link ParametricPath} providing various functions
 to find points based on distance along the path and also the slope, normal, and

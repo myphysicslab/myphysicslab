@@ -12,53 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.MutableVector');
+goog.module('myphysicslab.lab.util.MutableVector');
 
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var Util = goog.module.get('myphysicslab.lab.util.Util');
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var Vector = myphysicslab.lab.util.Vector;
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Mutable vector defines a point in 2D or 3D and can be altered after creation.
-
-* @param {number} x the X value of the vector
-* @param {number} y the Y value of the vector
-* @param {number=} opt_z the optional Z value of the vector (default is zero)
-* @constructor
-* @final
-* @struct
 * @implements {GenericVector}
 */
-myphysicslab.lab.util.MutableVector = function(x, y, opt_z) {
-  /**
-  * @type {number}
-  * @private
-  */
-  this.x_ = x;
-  /**
-  * @type {number}
-  * @private
-  */
-  this.y_ = y;
-  /**
-  * @type {number}
-  * @private
-  */
-  this.z_ = goog.isNumber(opt_z) ? opt_z : 0;
-};
-var MutableVector = myphysicslab.lab.util.MutableVector;
+class MutableVector {
 
-if (!Util.ADVANCED) {
-  MutableVector.prototype.toString = function() {
-    return 'MutableVector{x: '+Util.NF(this.x_)+', y: '+Util.NF(this.y_)
-        + (this.z_ != 0 ? ', z: '+Util.NF(this.z_) : '')
-        +'}';
-  };
+/**
+* @param {number} x the X value of the Vector
+* @param {number} y the Y value of the Vector
+* @param {number=} opt_z the Z value of the Vector (optional, zero is default value)
+*/
+constructor(x, y, opt_z) {
+  const z = goog.isNumber(opt_z) ? opt_z : 0;
+  /**
+  * @type {number}
+  * @private
+  */
+  this.x_ = Util.testNumber(x);
+  /**
+  * @type {number}
+  * @private
+  */
+  this.y_ = Util.testNumber(y);
+  /**
+  * @type {number}
+  * @private
+  */
+  this.z_ = Util.testNumber(z);
+};
+
+/** @override */
+toString() {
+  return 'MutableVector{x: '+Util.NF5(this.x_)+', y: '+Util.NF5(this.y_)
+      + (this.z_ != 0 ? ', z: '+Util.NF5(this.z_) : '')
+      +'}';
 };
 
 /** Returns a new MutableVector having the same values as the input GenericVector.
@@ -66,16 +59,15 @@ if (!Util.ADVANCED) {
 @return {!MutableVector} a new MutableVector with the same
     values as the input GenericVector
 */
-MutableVector.clone = function(v) {
+static clone(v) {
   return new MutableVector(v.getX(), v.getY(), v.getZ());
 };
-
 
 /** Adds the given GenericVector to this MutableVector.
 @param {!GenericVector} p vector to add
 @return {!MutableVector} this MutableVector for chaining
 */
-MutableVector.prototype.add = function(p) {
+add(p) {
   this.x_ += p.getX();
   this.y_ += p.getY();
   this.z_ += p.getZ();
@@ -88,7 +80,7 @@ multiplication, no square root.
 @param {!GenericVector} point vector to calculate distance to
 @return {number} distance squared between this point and the given point
 */
-MutableVector.prototype.distanceSquaredTo = function(point) {
+distanceSquaredTo(point) {
   var dx = this.x_ - point.getX();
   var dy = this.y_ - point.getY();
   var dz = this.z_ - point.getZ();
@@ -100,7 +92,7 @@ both as points in space. Computationally expensive because it involves as square
 @param {!GenericVector} point vector to calculate distance to
 @return {number} distance between this point and the given point
 */
-MutableVector.prototype.distanceTo = function(point) {
+distanceTo(point) {
   return Math.sqrt(this.distanceSquaredTo(point));
 };
 
@@ -110,7 +102,7 @@ MutableVector.prototype.distanceTo = function(point) {
 @return {!MutableVector} this MutableVector for chaining
 @throws {!Error} if factor is less than {@link Vector.TINY_POSITIVE}
 */
-MutableVector.prototype.divide = function(factor) {
+divide(factor) {
   if (factor === 1.0) {
     return this;
   } else if (factor < Vector.TINY_POSITIVE) {
@@ -128,7 +120,7 @@ values.
 @param {!GenericVector} vector  the object to compare to
 @return {boolean}  true iff the other object is a GenericVector with the same values.
 */
-MutableVector.prototype.equals = function(vector)  {
+equals(vector)  {
   if (goog.isNull(vector))
     return false;
   return vector.getX() === this.x_ &&
@@ -136,18 +128,18 @@ MutableVector.prototype.equals = function(vector)  {
          vector.getZ() === this.z_;
 };
 
-/** @inheritDoc */
-MutableVector.prototype.getX = function() {
+/** @override */
+getX() {
   return this.x_;
 };
 
-/** @inheritDoc */
-MutableVector.prototype.getY = function() {
+/** @override */
+getY() {
   return this.y_;
 };
 
-/** @inheritDoc */
-MutableVector.prototype.getZ = function() {
+/** @override */
+getZ() {
   return this.z_;
 };
 
@@ -155,7 +147,7 @@ MutableVector.prototype.getZ = function() {
 involves taking a square root.
 @return {number} length of this MutableVector
 */
-MutableVector.prototype.length = function() {
+length() {
   return Math.sqrt(this.lengthSquared());
 };
 
@@ -163,7 +155,7 @@ MutableVector.prototype.length = function() {
 which avoids the square root; returns sum of absolute value of each component `x, y, z`.
 @return {number} sum of absolute value of each component `x, y, z`.
 */
-MutableVector.prototype.lengthCheap = function() {
+lengthCheap() {
   var r = Math.abs(this.x_) + Math.abs(this.y_);
   if (this.z_ == 0.0)
     return r;
@@ -175,7 +167,7 @@ MutableVector.prototype.lengthCheap = function() {
 only uses multiplication, no square root.
 @return {number} length squared of this vector
 */
-MutableVector.prototype.lengthSquared = function() {
+lengthSquared() {
   if (this.z_ === 0.0) {
     return this.x_ * this.x_ + this.y_ * this.y_;
   } else {
@@ -187,7 +179,7 @@ MutableVector.prototype.lengthSquared = function() {
 @param {number} factor factor by which to multiply this vector
 @return {!MutableVector} this MutableVector for chaining
 */
-MutableVector.prototype.multiply = function(factor) {
+multiply(factor) {
   this.x_ *= factor;
   this.y_ *= factor;
   this.z_ *= factor;
@@ -199,7 +191,7 @@ MutableVector.prototype.multiply = function(factor) {
 @param {number=} opt_tolerance optional tolerance for equality test
 @return {boolean} true if the vectors are similar
 */
-MutableVector.prototype.nearEqual = function(vector, opt_tolerance) {
+nearEqual(vector, opt_tolerance) {
   if (Util.veryDifferent(this.x_, vector.getX(), opt_tolerance)) {
     return false;
   }
@@ -219,7 +211,7 @@ and the same direction.
 @throws {!Error} if this MutableVector has length less than
 {@link Vector.TINY_POSITIVE}
 */
-MutableVector.prototype.normalize = function() {
+normalize() {
   var len = this.length();
   if (len < Vector.TINY_POSITIVE) {
     throw new Error();
@@ -234,7 +226,7 @@ MutableVector.prototype.normalize = function() {
 * @param {number=} z the Z value of the vector, uses zero if not defined
 * @return {!MutableVector} this vector
 */
-MutableVector.prototype.setTo = function(x, y, z) {
+setTo(x, y, z) {
   this.x_ = x;
   this.y_ = y;
   this.z_ = z || 0;
@@ -245,7 +237,7 @@ MutableVector.prototype.setTo = function(x, y, z) {
 * @param {!GenericVector} p vector to copy from
 * @return {!MutableVector} this vector
 */
-MutableVector.prototype.setToVector = function(p) {
+setToVector(p) {
   this.x_ = p.getX();
   this.y_ = p.getY();
   this.z_ = p.getZ();
@@ -256,12 +248,12 @@ MutableVector.prototype.setToVector = function(p) {
 @param {!GenericVector} p vector to subtract
 @return {!MutableVector} difference of this vector and given vector
 */
-MutableVector.prototype.subtract = function(p) {
+subtract(p) {
   this.x_ -= p.getX();
   this.y_ -= p.getY();
   this.z_ -= p.getZ();
   return this;
 };
+}
 
-}); // goog.scope
-
+exports = MutableVector;

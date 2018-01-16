@@ -20,9 +20,9 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var GenericVector = myphysicslab.lab.util.GenericVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Specifies an immutable 2D affine transform.
 

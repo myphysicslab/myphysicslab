@@ -25,7 +25,7 @@ goog.scope(function() {
 var MassObject = myphysicslab.lab.model.MassObject;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Creates a ThrusterSet with six thrusters that apply force at two points on a
 Polygon. The first point is the body's drag point; the second point is at the

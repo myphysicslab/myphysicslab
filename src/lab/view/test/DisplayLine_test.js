@@ -32,7 +32,7 @@ var testDisplayLine = function() {
   var HorizAlign = myphysicslab.lab.view.HorizAlign;
   var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
   /**  mock 2D context of a canvas element

@@ -34,7 +34,7 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Rope connects two RigidBodys and limits the distance
 between the two attachment points on the bodies. A Rope can either be

@@ -60,7 +60,7 @@ var Subject = lab.util.Subject;
 var Terminal = lab.util.Terminal;
 var ToggleControl = lab.controls.ToggleControl;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
 
 /** A collection of static functions for making controls, used in several applications.

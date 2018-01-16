@@ -51,7 +51,7 @@ var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a double pendulum as two rigid bodies. This uses RigidBody's and
 Joint's, but only for geometry. This does not use the general physics engine

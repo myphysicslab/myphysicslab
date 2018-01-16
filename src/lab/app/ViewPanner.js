@@ -25,7 +25,7 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var LabView = myphysicslab.lab.view.LabView;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Pans (scrolls) a LabView to follow mouse movements.
 See [LabView Panning](myphysicslab.lab.app.SimController.html#labviewpanning)

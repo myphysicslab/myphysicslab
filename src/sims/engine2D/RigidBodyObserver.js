@@ -72,7 +72,7 @@ var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
 var Subject = lab.util.Subject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Automatically creates a {@link DisplayObject} for most types of {@link SimObject}
 when they are added to a {@link SimList}. Observes the SimList of a

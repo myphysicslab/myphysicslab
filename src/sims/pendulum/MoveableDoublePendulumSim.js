@@ -39,7 +39,7 @@ var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a double pendulum hanging from a moveable anchor point.
 

@@ -39,7 +39,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation showing 2 springs and 2 masses hanging below a moveable top anchor mass.
 The top anchor mass is moveable by the user, but is not influenced by the springs or

@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.util.GenericEvent');
 goog.require('myphysicslab.lab.util.Observer');
 
 var testSimList = function() {
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var PointMass = myphysicslab.lab.model.PointMass;
   var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
   var Spring = myphysicslab.lab.model.Spring;

@@ -31,7 +31,7 @@ var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Provides static functions to make Polygons of various shapes.
 

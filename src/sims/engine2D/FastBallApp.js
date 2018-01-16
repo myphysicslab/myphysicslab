@@ -38,7 +38,7 @@ var Engine2DApp = sims.engine2D.Engine2DApp;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = lab.engine2D.Walls;
 
 /** Demonstrates collision handling for fast moving object with very thin walls.

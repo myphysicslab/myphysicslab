@@ -50,7 +50,7 @@ var Polygon = lab.engine2D.Polygon;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of an asteroid orbiting a moon.
 

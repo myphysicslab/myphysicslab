@@ -43,7 +43,7 @@ var HistoryList = lab.util.HistoryList;
 var LabView = lab.view.LabView;
 var ScreenRect = lab.view.ScreenRect;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays one or more {@link GraphLine}. The GraphLines are drawn in the simulation
 coordinates of the containing {@link LabView}.

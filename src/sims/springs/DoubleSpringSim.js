@@ -42,7 +42,7 @@ var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of two blocks connected by springs. Movement is only along one dimension.
 No gravity force or damping force. The configuration is:

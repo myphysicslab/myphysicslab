@@ -29,11 +29,11 @@ goog.scope(function() {
 var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericVector = myphysicslab.lab.util.GenericVector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var MassObject = myphysicslab.lab.model.MassObject;
 var ShapeType = myphysicslab.lab.model.ShapeType;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** A simple point-like {@link MassObject}, it has mass, velocity, size and shape.
 Default mass is 1, default shape is circle with diameter of 1. Center of mass is at the

@@ -57,7 +57,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
   var SimView = myphysicslab.lab.view.SimView;
   var Timer = myphysicslab.lab.util.Timer;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
   Util.setErrorHandler();
   // create a canvas for displaying the view objects

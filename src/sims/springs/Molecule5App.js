@@ -77,7 +77,7 @@ var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link Molecule3Sim} simulation.
 

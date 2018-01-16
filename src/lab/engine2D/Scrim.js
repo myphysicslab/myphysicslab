@@ -26,7 +26,7 @@ var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** The fixed background to which objects can be attached with Springs, Joints or Ropes;
 it is an immutable singleton object. Access the singleton Scrim object via

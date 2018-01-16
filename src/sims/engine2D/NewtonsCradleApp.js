@@ -51,7 +51,7 @@ var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /**  The NewtonsCradleApp simulation shows six pendulums side-by-side, you
 lift one at the end and let it strike the others;  only the pendulum on the far side

@@ -40,7 +40,7 @@ var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** A Joint connects two RigidBodys by generating RigidBodyCollisions which are
 used to find contact forces or collision impulses so that the attachment points on the

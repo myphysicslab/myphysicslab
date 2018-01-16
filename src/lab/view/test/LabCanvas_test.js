@@ -169,7 +169,7 @@ var testLabCanvas1 = function() {
   var SimView = myphysicslab.lab.view.SimView;
   var Spring = myphysicslab.lab.model.Spring;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
   /**  mock 2D context of a canvas element

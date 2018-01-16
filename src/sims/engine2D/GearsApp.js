@@ -66,7 +66,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var RigidBody = lab.engine2D.RigidBody;
 var TabLayout = sims.common.TabLayout;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = lab.engine2D.Walls;
 
 /** Simulation of two interlocking gears. One of the gears has a constant turning

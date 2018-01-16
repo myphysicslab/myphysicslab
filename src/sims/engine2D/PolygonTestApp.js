@@ -62,7 +62,7 @@ var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = lab.engine2D.Walls;
 
 /** PolygonTestApp shows some unusual shapes such as hexagon, L-shape, hollow box with

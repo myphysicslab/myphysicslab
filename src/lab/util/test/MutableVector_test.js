@@ -19,8 +19,8 @@ goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('goog.testing.jsunit');
 
 var testMutableVector = function() {
-  var MutableVector = myphysicslab.lab.util.MutableVector;
-  var Vector = myphysicslab.lab.util.Vector;
+  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var v1 = new MutableVector(20, 30);
   assertEquals(20, v1.getX());
   assertEquals(30, v1.getY());
@@ -53,7 +53,7 @@ var testMutableVector = function() {
 goog.exportProperty(window, 'testMutableVector', testMutableVector);
 
 var testMutableVectorSimilar = function() {
-  var MutableVector = myphysicslab.lab.util.MutableVector;
+  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   var v1 = new MutableVector(2, 3, 4);
   var v2 = new MutableVector(2.01, 3.02, 4.015);
   assertTrue(v1.nearEqual(v2, 0.03));

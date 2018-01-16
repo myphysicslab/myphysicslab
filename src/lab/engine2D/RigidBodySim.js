@@ -72,7 +72,7 @@ var Simulation = lab.model.Simulation;
 var UtilEngine = lab.engine2D.UtilEngine;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of rigid body movement with external forces like gravity or springs, but
 no collisions or contact forces. RigidBodys will pass thru each other unless you use the

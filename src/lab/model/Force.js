@@ -28,7 +28,7 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A Force acts on a given {@link MassObject} at a defined location and with a defined

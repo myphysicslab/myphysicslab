@@ -43,14 +43,14 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
-var MutableVector = myphysicslab.lab.util.MutableVector;
+const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a 'molecule' made of 2 to 6 masses with springs between, moving freely
 in 2D, and bouncing against the four walls. This is an experimental version derived

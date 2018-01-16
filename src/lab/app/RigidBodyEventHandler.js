@@ -41,7 +41,7 @@ var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** User interface controller for {@link RigidBodySim}, provides mouse dragging of
 nearest moveable {@link RigidBody}, and keyboard thrust controls for one or two

@@ -29,7 +29,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var Spring = myphysicslab.lab.model.Spring;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link Spring}. Can show either a jagged or straight line,
 see {@link #drawMode}. Can have a different color when compressed or expanded,

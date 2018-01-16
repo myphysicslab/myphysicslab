@@ -29,7 +29,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var Line = myphysicslab.lab.model.Line;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link Line} as a colored line.
 

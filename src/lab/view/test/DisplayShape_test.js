@@ -36,7 +36,7 @@ var testDisplayShape = function() {
   var PointMass = myphysicslab.lab.model.PointMass;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
   var SimObject = myphysicslab.lab.model.SimObject;
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
   /**  mock 2D context of a canvas element

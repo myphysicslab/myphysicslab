@@ -12,26 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.GenericVector');
+goog.module('myphysicslab.lab.util.GenericVector');
 
 /** Represents a point or vector in 3D space. Functions that take a vector parameter
 should accept GenericVector so that many different types of vector can be provided.
-
 * @interface
 * */
-myphysicslab.lab.util.GenericVector = function() {};
-
+class GenericVector {
 /** Returns the X value of this GenericVector.
 * @return {number} the X value of this GenericVector
 */
-myphysicslab.lab.util.GenericVector.prototype.getX;
+getX() {}
 
 /** Returns the Y value of this GenericVector.
 * @return {number} the Y value of this GenericVector
 */
-myphysicslab.lab.util.GenericVector.prototype.getY;
+getY() {}
 
 /** Returns the Z value of this GenericVector.
 * @return {number} the Z value of this GenericVector
 */
-myphysicslab.lab.util.GenericVector.prototype.getZ;
+getZ() {}
+}
+exports = GenericVector;

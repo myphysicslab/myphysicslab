@@ -76,7 +76,7 @@ var PathJoint = lab.engine2D.PathJoint;
 var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
 var RungeKutta = lab.model.RungeKutta;
 var Shapes = lab.engine2D.Shapes;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Miscellaneous tests of engine2D physics engine.
 

@@ -19,8 +19,8 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var GenericVector = myphysicslab.lab.util.GenericVector;
-var Vector = myphysicslab.lab.util.Vector;
+const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** An interface that allows us to add a circle or line to the display from anywhere in
 the engine2D code. This interface solves some problems with circular dependencies. The

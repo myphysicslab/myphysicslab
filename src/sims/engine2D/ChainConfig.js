@@ -31,7 +31,7 @@ var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Makes chain of rigid bodies.
 * @constructor

@@ -131,7 +131,7 @@ var Subject = lab.util.Subject;
 var Terminal = lab.util.Terminal;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalLayout = sims.common.VerticalLayout;
 var WayPoint = lab.model.CollisionAdvance.WayPoint;
 

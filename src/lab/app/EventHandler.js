@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Printable');
 goog.scope(function() {
 
 var SimObject = myphysicslab.lab.model.SimObject;
-var Vector = myphysicslab.lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Handles mouse and keyboard events for a
 {@link myphysicslab.lab.model.Simulation Simulation}. Converts mouse or key events on a

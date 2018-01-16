@@ -60,7 +60,7 @@ var SimView = lab.view.SimView;
 var Terminal = lab.util.Terminal;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** GraphCalcApp is a simple graphing calculator demonstration using myphysicslab.

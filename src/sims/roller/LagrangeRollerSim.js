@@ -46,7 +46,7 @@ var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Rollercoaster simulation that uses Lagrangian method of finding equations of motion.
 The shape of the roller coaster path is defined by {@link HumpPath}.

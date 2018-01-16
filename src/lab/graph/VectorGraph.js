@@ -39,7 +39,7 @@ var ODESim = lab.model.ODESim;
 var ScreenRect = lab.view.ScreenRect;
 var Subject = lab.util.Subject;
 var Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vector = lab.util.Vector;
+const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Draws vectors showing the direction field of the differential equation. In a graph
 of Y vs. X, shows the value of the derivative dy/dx at various points on a grid, as a

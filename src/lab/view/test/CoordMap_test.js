@@ -29,7 +29,7 @@ var testCoordMap = function() {
   var HorizAlign = myphysicslab.lab.view.HorizAlign;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
   var Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Vector = myphysicslab.lab.util.Vector;
+  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
   var tol = 1E-13;
