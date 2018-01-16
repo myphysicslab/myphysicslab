@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('goog.testing.jsunit');
 
 var testParameterBoolean1 = function() {
-  var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
+  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 

@@ -79,6 +79,7 @@ myphysicslab.lab.util.test.Clock_test.MockObserver1 = function() {
 
 myphysicslab.lab.util.test.Clock_test.MockObserver1.prototype.observe =  function(event) {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   if (event instanceof GenericEvent) {
     var Clock = myphysicslab.lab.util.Clock;
     this.numEvents++;
@@ -93,7 +94,7 @@ myphysicslab.lab.util.test.Clock_test.MockObserver1.prototype.observe =  functio
     } else {
       fail('unknown event '+event.getName());
     }
-  } else if (event instanceof myphysicslab.lab.util.ParameterBoolean) {
+  } else if (ParameterBoolean) {
     this.numBooleans++;
     this.numEvents++;
   } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {

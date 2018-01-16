@@ -12,26 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ParameterBoolean');
+goog.module('myphysicslab.lab.util.ParameterBoolean');
 
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
 
 /** Provides access to a boolean value of a {@link Subject}. See {@link Parameter} for
 more information.
 
 See [Internationalization](Building.html#internationalizationi18n) for information
 about localized and language-independent strings.
-
+@implements {Parameter}
+*/
+class ParameterBoolean {
+/**
 @param {!Subject} subject the Subject whose value this ParameterBoolean represents
 @param {string} name the
     [language-independent name](Building.html#languageindependentnames) of this
@@ -46,13 +42,8 @@ about localized and language-independent strings.
     the values (optional)
 @param {!Array<boolean>=} opt_values the booleans corresponding to the choices that the
     parameter can be set to (optional)
-@constructor
-@final
-@struct
-@implements {Parameter}
 */
-myphysicslab.lab.util.ParameterBoolean = function(subject, name, localName, getter,
-    setter, opt_choices, opt_values) {
+constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   /**
   @type {!Subject}
   @private
@@ -101,65 +92,62 @@ myphysicslab.lab.util.ParameterBoolean = function(subject, name, localName, gett
     }
   }
 };
-var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ParameterBoolean.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', isComputed_: '+this.isComputed_
-        +', subject_: '+this.subject_.toStringShort()
-        +', localName_: "'+this.localName_+'"'
-        +', choices_: '+this.choices_
-        +'}';
-  };
-
-  /** @override */
-  ParameterBoolean.prototype.toStringShort = function() {
-    return 'ParameterBoolean{name_: "'+this.name_+'"'
-        +', value: '+this.getValue()+'}';
-  };
+/** @override */
+toString() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', isComputed_: '+this.isComputed_
+      +', subject_: '+this.subject_.toStringShort()
+      +', localName_: "'+this.localName_+'"'
+      +', choices_: '+this.choices_
+      +'}';
 };
 
 /** @override */
-ParameterBoolean.prototype.getAsString = function() {
+toStringShort() {
+  return Util.ADVANCED ? '' : 'ParameterBoolean{name_: "'+this.name_+'"'
+      +', value: '+this.getValue()+'}';
+};
+
+/** @override */
+getAsString() {
   return this.getValue().toString();
 };
 
 /** @override */
-ParameterBoolean.prototype.getChoices = function() {
+getChoices() {
   return goog.array.clone(this.choices_);
 };
 
 /** @override */
-ParameterBoolean.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
 /** @override */
-ParameterBoolean.prototype.getSubject = function() {
+getSubject() {
   return this.subject_;
 };
 
 /** Returns the value of this ParameterBoolean.
 @return {boolean} the value of this ParameterBoolean
 */
-ParameterBoolean.prototype.getValue = function() {
+getValue() {
   return this.getter_();
 };
 
 /** @override */
-ParameterBoolean.prototype.getValues = function() {
+getValues() {
   return goog.array.map(this.values_, function(v) { return v.toString(); });
 };
 
 /** @override */
-ParameterBoolean.prototype.isComputed = function() {
+isComputed() {
   return this.isComputed_;
 };
 
 /** @override */
-ParameterBoolean.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.name_ == Util.toName(name);
 };
 
@@ -168,7 +156,7 @@ ParameterBoolean.prototype.nameEquals = function(name) {
 @param {!Array<boolean>} values  the values corresponding to each choice
 @throws {!Error} if `values` is of different length than `choices`
 */
-ParameterBoolean.prototype.setChoices = function(choices, values) {
+setChoices(choices, values) {
   this.setChoices_(choices, values);
   var evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
   this.subject_.broadcast(evt);
@@ -179,7 +167,7 @@ ParameterBoolean.prototype.setChoices = function(choices, values) {
 @param {!Array<boolean>} values  the boolean values corresponding to each choice
 @private
 */
-ParameterBoolean.prototype.setChoices_ = function(choices, values) {
+setChoices_(choices, values) {
   this.choices_ = choices;
   if (values.length !== choices.length) {
     throw new Error('choices and values not same length');
@@ -188,19 +176,19 @@ ParameterBoolean.prototype.setChoices_ = function(choices, values) {
 };
 
 /** @override */
-ParameterBoolean.prototype.setComputed = function(value) {
+setComputed(value) {
   this.isComputed_ = value;
 };
 
 /** @override */
-ParameterBoolean.prototype.setFromString = function(value) {
+setFromString(value) {
   this.setValue(value == 'true' || value == 'TRUE');
 };
 
 /** Sets the value of this ParameterBoolean.
 @param {boolean} value the value to set this ParameterBoolean to
 */
-ParameterBoolean.prototype.setValue = function(value) {
+setValue(value) {
   if (!goog.isBoolean(value))
     throw new Error('non-boolean value: '+value);
   if (value !== this.getValue()) {
@@ -208,4 +196,5 @@ ParameterBoolean.prototype.setValue = function(value) {
   }
 };
 
-}); // goog.scope
+}
+exports = ParameterBoolean;

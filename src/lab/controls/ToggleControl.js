@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
+const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Creates and manages an HTMLButtonElement that toggles between two images; the

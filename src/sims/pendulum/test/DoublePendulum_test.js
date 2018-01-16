@@ -98,10 +98,11 @@ var testDoublePendulum = function() {
   };
   MockObserver1.prototype.observe =  function(event) {
     const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+    const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
     if (event instanceof GenericEvent) {
       this.numEvents++;
       assertEquals(sim, event.getSubject());
-    } else if (event instanceof myphysicslab.lab.util.ParameterBoolean) {
+    } else if (ParameterBoolean) {
       this.numBooleans++;
       assertEquals(sim, event.getSubject());
       var val = event.getValue();

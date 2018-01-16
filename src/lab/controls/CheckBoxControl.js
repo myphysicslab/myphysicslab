@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.controls.CheckBoxControlBase');
 
 goog.scope(function() {
 
-var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
+const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 

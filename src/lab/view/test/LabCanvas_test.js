@@ -74,6 +74,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver = function() {
 
 myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = function(event) {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   if (event instanceof GenericEvent) {
     var LabCanvas = myphysicslab.lab.view.LabCanvas;
     this.numEvents++;
@@ -84,7 +85,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = fun
     } else if (event.nameEquals(LabCanvas.VIEW_REMOVED)) {
       this.numViewRemovedEvents++;
     }
-  } else if (event instanceof myphysicslab.lab.util.ParameterBoolean) {
+  } else if (ParameterBoolean) {
     this.numBooleans++;
   } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {
     this.numDoubles++;
@@ -133,6 +134,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver = function() {
 
 myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = function(event) {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   if (event instanceof GenericEvent) {
     var LabView = myphysicslab.lab.view.LabView;
     this.numEvents++;
@@ -141,7 +143,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = f
     } else if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {
       this.numSimRectEvents++;
     }
-  } else if (event instanceof myphysicslab.lab.util.ParameterBoolean) {
+  } else if (ParameterBoolean) {
     this.numBooleans++;
   } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {
     this.numDoubles++;
