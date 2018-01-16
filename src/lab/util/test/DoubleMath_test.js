@@ -20,7 +20,7 @@ goog.require('goog.testing.jsunit');
 
 var testDoubleMath = function() {
   var n, s;
-  var DoubleMath = myphysicslab.lab.util.DoubleMath;
+  var DoubleMath = goog.module.get('myphysicslab.lab.util.DoubleMath');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   assertEquals(s = '3FF0000000000000', DoubleMath.numToHex(n = 1));
   assertEquals(n, DoubleMath.hexToNum(s));

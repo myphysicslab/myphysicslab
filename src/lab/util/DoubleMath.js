@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.DoubleMath');
+goog.module('myphysicslab.lab.util.DoubleMath');
 
 goog.require('goog.asserts');
-
-goog.scope(function() {
 
 /** Utility functions to convert a floating point double-precision number to/from its
 representation as a IEEE 754 binary number. The main functions defined here are
@@ -28,34 +26,20 @@ numerical computational algorithm.
 See [IEEE 754 double-precision binary floating-point format:
 binary64](http://en.wikipedia.org/wiki/Double-precision_floating-point_format)
 
-@constructor
-@final
-@struct
+*/
+class DoubleMath {
+/**
 @private
 */
-myphysicslab.lab.util.DoubleMath = function() {
+constructor() {
   throw new Error();
-};
-var DoubleMath = myphysicslab.lab.util.DoubleMath;
-
-/**  A handy flag for debugging.
-* @type {boolean}
-* @private
-*/
-DoubleMath.debug = false;
-
-/**
-* @type {string}
-* @const
-* @private
-*/
-DoubleMath.HEX_DIGITS = '0123456789ABCDEF';
+}
 
 /** Convert a string of binary 1's and 0's to equivalent hexadecimal number
 * @param {string} binary  string of 1's and 0's, length must be multiple of 4
 * @return {string}  hexadecimal equivalent
 */
-DoubleMath.binaryToHex = function(binary) {
+static binaryToHex(binary) {
   if (binary.length % 4 != 0) {
     throw new Error();
   }
@@ -76,7 +60,7 @@ DoubleMath.binaryToHex = function(binary) {
 * @param {string} s an IEEE 754 formatted string of 64 binary digits
 * @return {number} the equivalent floating-point number
 */
-DoubleMath.binaryToNum = function(s) {
+static binaryToNum(s) {
   var i;
   if (s.length != 64)
     throw new Error();
@@ -124,7 +108,7 @@ DoubleMath.binaryToNum = function(s) {
 * @param {string} hex hexadecimal number string
 * @return {string} equivalent binary number string
 */
-DoubleMath.hexToBinary = function(hex) {
+static hexToBinary(hex) {
   hex = hex.toUpperCase();
   var s = '';
   var i, j, k;
@@ -157,7 +141,7 @@ DoubleMath.hexToBinary = function(hex) {
 * @param {string} hex an IEEE 754 formatted string of 16 hexadecimal digits
 * @return {number} the equivalent floating-point number
 */
-DoubleMath.hexToNum = function(hex) {
+static hexToNum(hex) {
   if (hex.length != 16)
     throw new Error();
   var s = DoubleMath.hexToBinary(hex);
@@ -169,7 +153,7 @@ DoubleMath.hexToNum = function(hex) {
 * @param {?number=} num the number to format, null or undefined are OK
 * @return {string} the number in IEEE 754 hexadecimal format.
 */
-DoubleMath.NFHEX = function(num) {
+static NFHEX(num) {
   if (goog.isDefAndNotNull(num))
     return DoubleMath.numToHex(num);
   else
@@ -180,7 +164,7 @@ DoubleMath.NFHEX = function(num) {
 * @param {number} x the number to convert
 * @return {string}  the binary IEEE 754 string equivalent of x
 */
-DoubleMath.numToBinary = function(x) {
+static numToBinary(x) {
   //assumes it is not Infinity or NaN, for now... could fix this later
   if (isNaN(x)) {
     return '0' + DoubleMath.repeatChar('1', 12) + DoubleMath.repeatChar('0', 51);
@@ -246,7 +230,7 @@ DoubleMath.numToBinary = function(x) {
 * @param {number} size  length of string returned
 * @return {string} equivalent string of bits encoded as '0' and '1'
 */
-DoubleMath.numToBits = function(num, size) {
+static numToBits(num, size) {
   var s = '', bit;
   while (size--) {
     s = (bit = num % 2) + s;
@@ -260,7 +244,7 @@ DoubleMath.numToBits = function(num, size) {
 * @param {number} x the number to convert
 * @return {string}  the hexadecimal IEEE 754 string equivalent of x
 */
-DoubleMath.numToHex = function(x) {
+static numToHex(x) {
   return DoubleMath.binaryToHex(DoubleMath.numToBinary(x));
 };
 
@@ -269,7 +253,7 @@ DoubleMath.numToHex = function(x) {
 * @param {number} size  number of repetitions
 * @return {string} a string of repetitions of a given string
 */
-DoubleMath.repeatChar = function(str, size) {
+static repeatChar(str, size) {
   var s = '';
   while (size--) {
     s += str;
@@ -277,4 +261,19 @@ DoubleMath.repeatChar = function(str, size) {
   return s;
 };
 
-}); // goog.scope
+}
+
+/**  A handy flag for debugging.
+* @type {boolean}
+* @private
+*/
+DoubleMath.debug = false;
+
+/**
+* @type {string}
+* @const
+* @private
+*/
+DoubleMath.HEX_DIGITS = '0123456789ABCDEF';
+
+exports = DoubleMath;
