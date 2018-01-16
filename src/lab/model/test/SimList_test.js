@@ -32,7 +32,7 @@ var testSimList = function() {
   var Spring = myphysicslab.lab.model.Spring;
   var SimList = myphysicslab.lab.model.SimList;
   var SimObject = myphysicslab.lab.model.SimObject;
-  var Observer = myphysicslab.lab.util.Observer;
+  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   var ShapeType = myphysicslab.lab.model.ShapeType;
 
   /** observer that tracks the number of each type of SimObject in list

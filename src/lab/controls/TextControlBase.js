@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var Observer = myphysicslab.lab.util.Observer;
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A user interface control for displaying and editing the text value of an object.

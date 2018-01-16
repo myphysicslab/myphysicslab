@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Observer');
+goog.module('myphysicslab.lab.util.Observer');
 
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Subject');
-
-goog.scope(function() {
-
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
 
 /** An Observer is notified whenever something changes in a {@link Subject} it is
 observing. The change can be in the value of a Subject's
@@ -36,15 +32,15 @@ Implements the [Observer design pattern](http://en.wikipedia.org/wiki/Observer_p
 See {@link Subject} for more extensive documentation.
 
 @interface
-@extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.Observer = function() {};
+class Observer extends Printable {
 
 /** Notifies this Observer that a change has occurred in the Subject.
 @param {!myphysicslab.lab.util.SubjectEvent} event  contains information about
       what has changed in the Subject: typically either a one-time GenericEvent,
       or a change to the value of a Parameter
 */
-myphysicslab.lab.util.Observer.prototype.observe;
+observe(event) {}
 
-}); // goog.scope
+}
+exports = Observer;
