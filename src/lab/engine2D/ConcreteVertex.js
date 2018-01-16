@@ -23,9 +23,8 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Concrete implementation of Vertex interface.

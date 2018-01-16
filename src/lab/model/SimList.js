@@ -32,11 +32,10 @@ var Arc = lab.model.Arc;
 var ConcreteLine = lab.model.ConcreteLine;
 var AbstractSubject = lab.util.AbstractSubject;
 var GenericEvent = lab.util.GenericEvent;
-var NF = lab.util.Util.NF;
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** The list of SimObjects that represent the current state of a
 Simulation. For an ODESim the current state is dictated by its VarsList and the
@@ -99,7 +98,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   SimList.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', tolerance_: '+NF(this.tolerance_)
+        +', tolerance_: '+Util.NF(this.tolerance_)
         +', elements_: ['
         + goog.array.map(this.elements_, function(e, idx) {
             return idx+': '+e.toStringShort();

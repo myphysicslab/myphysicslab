@@ -31,14 +31,9 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Rope connects two RigidBodys and limits the distance
@@ -144,7 +139,7 @@ if (!Util.ADVANCED) {
         +', attach1_body: '+this.attach1_body_
         +', body2:"'+this.body2_.getName()+'"'
         +', attach2_body: '+this.attach2_body_
-        +', restLength_: '+NF(this.restLength_)
+        +', restLength_: '+Util.NF(this.restLength_)
         +', rod: '+this.rod_
         +'}';
   };

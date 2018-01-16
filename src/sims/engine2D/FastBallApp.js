@@ -37,7 +37,7 @@ var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 

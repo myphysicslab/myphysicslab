@@ -59,14 +59,6 @@ var Force = lab.model.Force;
 var ForceLaw = lab.model.ForceLaw;
 var GenericEvent = lab.util.GenericEvent;
 var GravityLaw = lab.model.GravityLaw;
-var NF = lab.util.Util.NF;
-var NF5 = lab.util.Util.NF5;
-var NF5E = lab.util.Util.NF5E;
-var NF7 = lab.util.Util.NF7;
-var NF7E = lab.util.Util.NF7E;
-var NF9 = lab.util.Util.NF9;
-var NFE = lab.util.Util.NFE;
-var NFSCI = lab.util.Util.NFSCI;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -78,7 +70,7 @@ var Scrim = lab.engine2D.Scrim;
 var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var UtilEngine = lab.engine2D.UtilEngine;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -288,7 +280,7 @@ if (!Util.ADVANCED) {
   */
   RigidBodySim.prototype.toString_ = function() {
     return ', showForces_: '+this.showForces_
-        + ', potentialOffset_: '+NF(this.potentialOffset_)
+        + ', potentialOffset_: '+Util.NF(this.potentialOffset_)
         + ', varsList_: '+ this.varsList_.toStringShort()
         + ', forceLaws_: ['
         + goog.array.map(this.forceLaws_, function(f) { return f.toStringShort();})
@@ -804,7 +796,7 @@ RigidBodySim.prototype.debugCircle = function(name, center, radius, expireTime) 
 RigidBodySim.prototype.myPrint = function(message, colors) {
   if (Util.DEBUG) {
     var args = goog.array.slice(arguments, 1);
-    args.unshift('%c'+NF7(this.getTime())+'%c '+message, 'color:green', 'color:black');
+    args.unshift('%c'+Util.NF7(this.getTime())+'%c '+message, 'color:green', 'color:black');
     console.log.apply(console, args);
   }
 };

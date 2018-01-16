@@ -38,14 +38,13 @@ var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var HumpPath = sims.roller.HumpPath;
-var NF = lab.util.Util.NF;
 var NumericalPath = lab.model.NumericalPath;
 var ParameterNumber = lab.util.ParameterNumber;
 var PathPoint = lab.model.PathPoint;
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -236,8 +235,8 @@ if (!Util.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', ball1_: '+this.ball1_
         +', path_: '+this.path_
-        +', gravity_: '+NF(this.gravity_)
-        +', lowestPoint_: '+NF(this.lowestPoint_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', lowestPoint_: '+Util.NF(this.lowestPoint_)
         + LagrangeRollerSim.superClass_.toString.call(this);
   };
 };

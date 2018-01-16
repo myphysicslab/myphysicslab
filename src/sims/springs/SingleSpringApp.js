@@ -48,7 +48,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SingleSpringSim = sims.springs.SingleSpringSim;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link SingleSpringSim} simulation.
 
@@ -131,7 +131,7 @@ SingleSpringApp.prototype.getClassName = function() {
 SingleSpringApp.prototype.defineNames = function(myName) {
   SingleSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('block|spring',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

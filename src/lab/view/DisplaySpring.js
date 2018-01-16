@@ -26,10 +26,9 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF = myphysicslab.lab.util.Util.NF;
 var Spring = myphysicslab.lab.model.Spring;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link Spring}. Can show either a jagged or straight line,
@@ -100,10 +99,10 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplaySpring.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', width: '+NF(this.getWidth())
+        +', width: '+Util.NF(this.getWidth())
         +', colorCompressed: "'+this.getColorCompressed()+'"'
         +', colorExpanded: "'+this.getColorExpanded()+'"'
-        +', thickness: '+NF(this.getThickness())
+        +', thickness: '+Util.NF(this.getThickness())
         +', drawMode: '+this.getDrawMode()
         +', zIndex: '+this.getZIndex()
         +'}';

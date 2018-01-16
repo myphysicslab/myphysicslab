@@ -35,11 +35,10 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Applies damping forces to a set of MassObjects. Damping is a friction force
@@ -127,7 +126,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DampingLaw.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', rotateRatio: '+NF5(this.rotateRatio_)
+        +', rotateRatio: '+Util.NF5(this.rotateRatio_)
         +', bodies: '+this.bods_.length
         + DampingLaw.superClass_.toString.call(this);
   };
@@ -135,7 +134,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DampingLaw.prototype.toStringShort = function() {
     return DampingLaw.superClass_.toStringShort.call(this).slice(0, -1)
-        +', damping: '+NF5(this.damping_)+'}';
+        +', damping: '+Util.NF5(this.damping_)+'}';
   };
 };
 

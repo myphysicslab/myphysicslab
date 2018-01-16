@@ -34,8 +34,7 @@ var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a spring attached between two {@link MassObject}s, generates a
@@ -130,9 +129,9 @@ if (!Util.ADVANCED) {
         +', attach1_: '+this.attach1_
         +', body2_:"'+this.body2_.getName()+'"'
         +', attach2_: '+this.attach2_
-        +', restLength_: '+NF(this.restLength_)
-        +', stiffness_: '+NF(this.stiffness_)
-        +', damping_: '+NF(this.damping_)
+        +', restLength_: '+Util.NF(this.restLength_)
+        +', stiffness_: '+Util.NF(this.stiffness_)
+        +', damping_: '+Util.NF(this.damping_)
         +', compressOnly_: '+this.compressOnly_
         +'}';
   };

@@ -75,7 +75,7 @@ var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -324,7 +324,7 @@ Molecule5App.prototype.getClassName = function() {
 /** @inheritDoc */
 Molecule5App.prototype.defineNames = function(myName) {
   Molecule5App.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('protoSpring', myName);
+  this.terminal.addRegex('protoSpring', myName+'.');
 };
 
 /**

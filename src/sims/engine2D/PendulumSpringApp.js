@@ -66,7 +66,7 @@ var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -233,9 +233,9 @@ PendulumSpringApp.prototype.getClassName = function() {
 PendulumSpringApp.prototype.defineNames = function(myName) {
   PendulumSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw|graphLine|autoScale',
-       myName);
+       myName+'.');
   this.terminal.addRegex('PendulumSpringApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

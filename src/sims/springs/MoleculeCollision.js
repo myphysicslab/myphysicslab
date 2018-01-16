@@ -20,10 +20,8 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
 var PointMass = myphysicslab.lab.model.PointMass;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Collision between an atom and a wall in
 {@link myphysicslab.sims.springs.Molecule1Sim Molecule1Sim} simulation.
@@ -90,11 +88,11 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   MoleculeCollision.prototype.toString = function() {
     return 'MoleculeCollision{'
-        +'distance: '+NF5(this.distance_)
-        +', targetGap: '+NF5(this.targetGap_)
-        +', accuracy: '+NF5(this.accuracy_)
-        +', detectedTime: '+NF7(this.detectedTime_)
-        +', impulse: '+NF5(this.impulse)
+        +'distance: '+Util.NF5(this.distance_)
+        +', targetGap: '+Util.NF5(this.targetGap_)
+        +', accuracy: '+Util.NF5(this.accuracy_)
+        +', detectedTime: '+Util.NF7(this.detectedTime_)
+        +', impulse: '+Util.NF5(this.impulse)
         +', mustHandle: '+this.mustHandle_
         +', atom: '+this.atom
         +', wall: '+this.wall

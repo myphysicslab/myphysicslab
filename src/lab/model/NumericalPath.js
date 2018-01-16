@@ -33,12 +33,9 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** A numerical approximation of a {@link ParametricPath} providing various functions
@@ -254,7 +251,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   NumericalPath.prototype.toString = function() {
     return NumericalPath.superClass_.toString.call(this).slice(0, -1)
-        +', length: ' + NF5(this.getLength())
+        +', length: ' + Util.NF5(this.getLength())
         +', closedLoop: '+this.closedLoop
         +', bounds: '+this.bounds
         +'}';
@@ -516,11 +513,11 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
     }
     if (ctr > 1000 && Util.DEBUG)
       console.log(ctr
-        +' y0='+NF5(y0)
-        +' y1='+NF5(y1)
-        +' y2='+NF5(y2)
-        +' p='+NF5(p)
-        +' d='+NF7(d)
+        +' y0='+Util.NF5(y0)
+        +' y1='+Util.NF5(y1)
+        +' y2='+Util.NF5(y2)
+        +' p='+Util.NF5(p)
+        +' d='+Util.NF7(d)
         +' dk='+dk_int
         +' k='+k_int
         );
@@ -561,8 +558,8 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
   } while (dk_int > 1 || d > 1E-6);
   if (0 == 1 && Util.DEBUG) {
     console.log('map exit '+ctr
-      +' p='+NF5(p)
-      +' d='+NF7(d)
+      +' p='+Util.NF5(p)
+      +' d='+Util.NF7(d)
       +' dk='+dk_int
       );
   }
@@ -577,18 +574,18 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
       // we passed from low p to high p over stitch point
       var diff = ((p - this.plen) - oldmodp);
       if (0 == 1)
-        console.log('low to high, diff='+NFE(diff)
-        +' (p-plen)='+NFE(p-this.plen)
-        +' oldmodp='+NFE(oldmodp)
+        console.log('low to high, diff='+Util.NFE(diff)
+        +' (p-plen)='+Util.NFE(p-this.plen)
+        +' oldmodp='+Util.NFE(oldmodp)
         );
       ppt.p = ppt.p + diff;
     } else if (p < this.plen/6 && oldmodp > 5*this.plen/6) {
       // we passed from high p to low p over stitch point
       var diff = ((p + this.plen) - oldmodp);
       if (0 == 1)
-        console.log('high to low, diff='+NFE(diff)
-        +' (p+plen)='+NFE(p+this.plen)
-        +' oldmodp='+NFE(oldmodp)
+        console.log('high to low, diff='+Util.NFE(diff)
+        +' (p+plen)='+Util.NFE(p+this.plen)
+        +' oldmodp='+Util.NFE(oldmodp)
         );
       ppt.p = ppt.p + diff;
     } else {
@@ -597,10 +594,10 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
     }
     if (0 == 1 && (p < 0.1 || p > this.plen - 0.1))
       console.log('near stitch, '
-        +' oldp='+NF7(oldp)
-        +' newp='+NF7(ppt.p)
-        +' oldmodp='+NF7(oldmodp)
-        +' newmodp='+NF7(p)
+        +' oldp='+Util.NF7(oldp)
+        +' newp='+Util.NF7(ppt.p)
+        +' oldmodp='+Util.NF7(oldmodp)
+        +' newmodp='+Util.NF7(p)
         );
   } else {
     ppt.p = p;
@@ -801,8 +798,8 @@ NumericalPath.prototype.linearSearch = function(p, k) {
   // so switch to binary search if pval is very far away
   if (Math.abs(this.pvals[j] - p) > this.plen/20) {
     if (true && Util.DEBUG)
-      console.log('use binary not linear search '+NF5(p)
-        +' '+NF5(this.pvals[j]));
+      console.log('use binary not linear search '+Util.NF5(p)
+        +' '+Util.NF5(this.pvals[j]));
     j = NumericalPath.binarySearch(this.pvals, p);
   } else {
     while (true) {
@@ -1093,9 +1090,9 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
     var k0 = k;
     ppt.idx = k = NumericalPath.binarySearch(this.pvals, nowP);
     if (0 == 1 && Util.DEBUG) {
-      var s = 'binarySearch needed '+k0+'->'+k+' p='+NF5(nowP);
+      var s = 'binarySearch needed '+k0+'->'+k+' p='+Util.NF5(nowP);
       if (k0 > -1 && k0 < this.tableLength_)
-        s += ' p['+k0+']='+NF5(this.pvals[k0]);
+        s += ' p['+k0+']='+Util.NF5(this.pvals[k0]);
       console.log(s);
     }
   }
@@ -1256,23 +1253,23 @@ if (Util.DEBUG) {
   * @private
   */
   NumericalPath.prototype.printPoint = function(i) {
-    var s = 'p='+NF5(this.pvals[i]);
+    var s = 'p='+Util.NF5(this.pvals[i]);
     if (0 == 1 && i > 0) {
-      s += ' dp='+NFE(this.pvals[i] - this.pvals[i-1]);
+      s += ' dp='+Util.NFE(this.pvals[i] - this.pvals[i-1]);
     }
     if (true) {
-      s += ' x='+NF5(this.xvals[i])
-      +' y='+NF5(this.yvals[i])
-      +' dx='+NF5(this.dxvals[i])
-      +' dy='+NF5(this.dyvals[i])
+      s += ' x='+Util.NF5(this.xvals[i])
+      +' y='+Util.NF5(this.yvals[i])
+      +' dx='+Util.NF5(this.dxvals[i])
+      +' dy='+Util.NF5(this.dyvals[i])
       ;
     }
     if (0 == 1) {
-      s += ' k='+NF5(this.dyvals[i]/this.dxvals[i])
-      +' nx='+NF5(this.nxVals[i])
-      +' ny='+NF5(this.nyVals[i])
-      +' nxp='+NF5(this.nxpVals[i])
-      +' nyp='+NF5(this.nypVals[i])
+      s += ' k='+Util.NF5(this.dyvals[i]/this.dxvals[i])
+      +' nx='+Util.NF5(this.nxVals[i])
+      +' ny='+Util.NF5(this.nyVals[i])
+      +' nxp='+Util.NF5(this.nxpVals[i])
+      +' nyp='+Util.NF5(this.nypVals[i])
       ;
     }
     console.log(s);

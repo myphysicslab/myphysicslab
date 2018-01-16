@@ -41,7 +41,6 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
@@ -49,7 +48,7 @@ var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -178,9 +177,9 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   ReactionPendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', gravity_: '+NF(this.gravity_)
-        +', damping_: '+NF(this.damping_)
-        +', length_: '+NF(this.length_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', length_: '+Util.NF(this.length_)
         +', rod_: '+this.rod_
         +', bob_: '+this.bob_
         + ReactionPendulumSim.superClass_.toString.call(this);

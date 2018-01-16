@@ -70,7 +70,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link ChainOfSpringsSim}.
 

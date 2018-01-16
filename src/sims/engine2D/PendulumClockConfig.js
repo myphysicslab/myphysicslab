@@ -39,7 +39,7 @@ var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Utility methods to make parts of a Pendulum Clock.

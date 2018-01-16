@@ -32,11 +32,9 @@ var CircleCircle = myphysicslab.lab.engine2D.CircleCircle;
 var CircleStraight = myphysicslab.lab.engine2D.CircleStraight;
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -282,11 +280,11 @@ if (!Util.ADVANCED) {
         +', outsideIsOut_: '+this.outsideIsOut_
         +', clockwise_: '+this.clockwise_
         +', center_body_: '+this.center_body_
-        +', radius_: '+NF5(this.radius_)
-        +', startAngle_: '+NF5(this.startAngle_)
-        +', finishAngle_: '+NF5(this.finishAngle_)
-        +', angle_low_: '+NF5(this.angle_low_)
-        +', angle_high_: '+NF5(this.angle_high_)
+        +', radius_: '+Util.NF5(this.radius_)
+        +', startAngle_: '+Util.NF5(this.startAngle_)
+        +', finishAngle_: '+Util.NF5(this.finishAngle_)
+        +', angle_low_: '+Util.NF5(this.angle_low_)
+        +', angle_high_: '+Util.NF5(this.angle_high_)
         +'}';
   };
 };
@@ -951,8 +949,8 @@ CircularEdge.prototype.nearestPointByAngle = function(p_body) {
     var angle_new = d1 < d2 ? this.angle_low_ : this.angle_high_;
     var qb2 = this.angleToBody(angle_new);
     if (0 == 1 && Util.DEBUG) {
-      console.log('nearestOldPointTo angle '+NF5(angle)+' became '
-          +NF5(angle_new)+' body '+p_body+' became '+qb2);
+      console.log('nearestOldPointTo angle '+Util.NF5(angle)+' became '
+          +Util.NF5(angle_new)+' body '+p_body+' became '+qb2);
     }
     return qb2;
   }

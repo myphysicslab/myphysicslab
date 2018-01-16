@@ -47,15 +47,13 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -366,7 +364,7 @@ CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
   var error = Util.POSITIVE_INFINITY;
   // Loop until error = 0, or equiv: distanceToHalfGap() = 0.001.
   while (Math.abs(error) > 1e-8) {
-    //console.log('dist='+NF7(dist)+' error='+NF7(error));
+    //console.log('dist='+Util.NF7(dist)+' error='+Util.NF7(error));
     // Collision testing looks at the current and previous positions of bodies,
     // therefore we must move the body each time.
     p2.setPosition(new Vector(0,  0),  angle);  // move to start position

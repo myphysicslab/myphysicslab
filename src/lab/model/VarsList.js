@@ -29,13 +29,10 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF5E = myphysicslab.lab.util.Util.NF5E;
 var Parameter = myphysicslab.lab.util.Parameter;
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 var Subject = myphysicslab.lab.util.Subject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Variable = myphysicslab.lab.model.Variable;
 
 /** A set of {@link Variable}s which represent the current state of a simulation.
@@ -157,7 +154,7 @@ if (!Util.ADVANCED) {
         +', timeIdx_: '+this.timeIdx_
         +', history_: '+this.history_
         + ', ' + goog.array.map(this.varList_, function(v, idx) {
-            return '('+idx+') '+ v.getName()+': '+NF5E(v.getValue()); })
+            return '('+idx+') '+ v.getName()+': '+Util.NF5E(v.getValue()); })
         + VarsList.superClass_.toString.call(this);
   };
 
@@ -436,7 +433,7 @@ VarsList.prototype.printOneHistory = function (idx) {
   var r = '';
   if (this.history_ && idx <= this.histArray_.length) {
     var v = this.histArray_[this.histArray_.length - idx];
-    r = '//time = '+NF5(v[v.length-1]);
+    r = '//time = '+Util.NF5(v[v.length-1]);
     for (var i=0, len=v.length-1; i<len; i++) {
       r += '\nsim.getVarsList().setValue('+i+', '+v[i]+');';
     }

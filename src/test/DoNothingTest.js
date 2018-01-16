@@ -44,14 +44,10 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Force = myphysicslab.lab.model.Force;
-var NF2 = myphysicslab.lab.util.Util.NF2;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /**

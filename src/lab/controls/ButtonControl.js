@@ -21,8 +21,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A button input element which executes a function when the button is pressed.
 Displays an image if provided, otherwise the text name is displayed. The image is
@@ -105,7 +104,7 @@ if (!Util.ADVANCED) {
   ButtonControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', timeoutID_: '+this.timeoutID_
-        +', repeatDelay: '+NF(this.repeatDelay)
+        +', repeatDelay: '+Util.NF(this.repeatDelay)
         +', repeatFirst: '+this.repeatFirst
         +'}';
   };

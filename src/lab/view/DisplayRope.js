@@ -26,10 +26,9 @@ goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF = myphysicslab.lab.util.Util.NF;
 var Rope = myphysicslab.lab.engine2D.Rope;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link Rope} by showing a straight line when the Rope is tight, or a
@@ -88,7 +87,7 @@ if (!Util.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', colorTight: "'+this.getColorTight()+'"'
         +', colorSlack: "'+this.getColorSlack()+'"'
-        +', thickness: '+NF(this.getThickness())
+        +', thickness: '+Util.NF(this.getThickness())
         +', zIndex: '+this.getZIndex()
         +'}';
   };

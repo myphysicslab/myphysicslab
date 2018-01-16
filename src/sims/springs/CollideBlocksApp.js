@@ -46,7 +46,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /**  CollideBlocksApp displays the CollideBlocksSim simulation.
@@ -152,7 +152,7 @@ CollideBlocksApp.prototype.defineNames = function(myName) {
   CollideBlocksApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('block1|block2|wallLeft|wallRight|spring1|spring2'
       +'|protoBlock|protoWall|protoSpring',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

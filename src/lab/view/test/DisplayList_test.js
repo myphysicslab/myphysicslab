@@ -26,7 +26,7 @@ var testDisplayList = function() {
   var DisplayList = myphysicslab.lab.view.DisplayList;
   var DisplayShape = myphysicslab.lab.view.DisplayShape;
   var PointMass = myphysicslab.lab.model.PointMass;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
 
   var displayList = new DisplayList('TEST');
   assertEquals('TEST', displayList.getName());

@@ -22,8 +22,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 goog.scope(function() {
 
 var Connector = myphysicslab.lab.engine2D.Connector;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Shows the location of a {@link Connector} as a small colored circle.
@@ -74,7 +73,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayConnector.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', radius: '+NF5(this.getRadius())
+        +', radius: '+Util.NF5(this.getRadius())
         +', color: "'+this.getColor()+'"'
         +', zIndex: '+this.getZIndex()
         +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')

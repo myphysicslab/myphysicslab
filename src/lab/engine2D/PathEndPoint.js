@@ -36,17 +36,12 @@ var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Generates a collision when the attachment point on a RigidBody moves past a certain
@@ -140,7 +135,7 @@ if (!Util.ADVANCED) {
         +', body_:='+this.body_.toStringShort()
         +', path_: '+this.path_.toStringShort()
         +', attach_body_: '+this.attach_body_
-        +', limit_: '+NF(this.limit_)
+        +', limit_: '+Util.NF(this.limit_)
         +', upperLimit_: '+this.upperLimit_
         +'}';
   };

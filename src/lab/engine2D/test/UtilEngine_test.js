@@ -78,7 +78,7 @@ var testNumericalBug1 = function() {
 var testRandomInts = function() {
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var i;
   // 2 arrays of random ints should be different
   var prng = new RandomLCG(6473275);
@@ -499,11 +499,9 @@ Checks that various contact ordering policies find a valid solution.
 */
 var testMatrix11_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix11_CF ***');
@@ -543,11 +541,11 @@ var testMatrix11_CF = function() {
     assertTrue( maxAccel < SMALL_ACCEL );
     var maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -654,11 +652,9 @@ between C/NC while driving a particular contact to zero.
 */
 var testMatrix12_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix12_CF ***');
@@ -707,11 +703,11 @@ var testMatrix12_CF = function() {
     assertTrue( maxAccel < SMALL_ACCEL );
     var maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -792,11 +788,9 @@ Update May 2013: all the solutions seem to be the maxForce = 7.60 now.
 */
 var testMatrix15_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix15_CF ***');
@@ -872,11 +866,11 @@ var testMatrix15_CF = function() {
       assertTrue( maxForce > 7.5 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -892,11 +886,9 @@ contact order does not find a lower force.
 */
 var testMatrix16_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix16_CF ***');
@@ -972,11 +964,11 @@ var testMatrix16_CF = function() {
       assertTrue( maxForce > 3.0 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -995,9 +987,7 @@ get many cases where maxForce is 54 or 179.
 */
 var testMatrix17_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
@@ -1083,11 +1073,11 @@ var testMatrix17_CF = function() {
       assertTrue( maxForce > 49 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1102,10 +1092,8 @@ that random contact order does not find a lower force.
 */
 var testMatrix18_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1181,11 +1169,11 @@ var testMatrix18_CF = function() {
       assertTrue( maxForce > 1.130 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1203,10 +1191,8 @@ of 135701.
 */
 var testMatrix19_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1290,11 +1276,11 @@ var testMatrix19_CF = function() {
       assertTrue( maxForce > 6.2 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1310,10 +1296,8 @@ that random contact order does not find a lower force.
 */
 var testMatrix20_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1389,11 +1373,11 @@ var testMatrix20_CF = function() {
       assertTrue( maxForce > 1.92 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1408,10 +1392,8 @@ that random contact order does not find a lower force.
 */
 var testMatrix21_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1496,11 +1478,11 @@ var testMatrix21_CF = function() {
       assertTrue( maxForce > 8.4 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1517,10 +1499,8 @@ maxForce=9.46, length = 24.00.
 */
 var testMatrix22_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1695,11 +1675,11 @@ var testMatrix22_CF = function() {
       default: assertTrue( maxForce > 9.4 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1712,10 +1692,8 @@ Max force is 16.588.
 */
 var testMatrix23_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1822,11 +1800,11 @@ var testMatrix23_CF = function() {
       default: assertTrue( maxForce > 16.5 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1842,10 +1820,8 @@ goog.exportProperty(window, 'testMatrix23_CF', testMatrix23_CF);
 */
 var testMatrix24_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1921,11 +1897,11 @@ var testMatrix24_CF = function() {
       default: assertTrue( maxForce > 15.4 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -1950,10 +1926,8 @@ allowing diagonal entries as small as 0.0016.
 */
 var testMatrix25_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2030,11 +2004,11 @@ var testMatrix25_CF = function() {
       assertTrue( maxForce > 2.63 );
     }
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -2048,10 +2022,8 @@ a singular matrix and not being able to get all contact accelerations to zero.
 */
 var testMatrix26_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2098,11 +2070,11 @@ var testMatrix26_CF = function() {
     assertTrue( maxAccel < SMALL_ACCEL );
     assertTrue( maxForce < 0.41 );
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
   }
@@ -2116,10 +2088,8 @@ see {@link myphysicslab.lab.engine2D.ComputeForces#checkLoop}.
 */
 var testMatrix27_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2175,11 +2145,11 @@ var testMatrix27_CF = function() {
     var maxAccel = ComputeForces.maxAccel(accel, joint, n);
     var maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
@@ -2220,10 +2190,8 @@ rely on that.
 */
 var testMatrix28_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var NF7 = myphysicslab.lab.util.Util.NF7;
-  var NFE = myphysicslab.lab.util.Util.NFE;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2289,11 +2257,11 @@ var testMatrix28_CF = function() {
     var maxAccel = ComputeForces.maxAccel(accel, joint, n);
     var maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
-      console.log(NF7(i*0.1)+' maxForce='+NF7(maxForce)
-        +' length='+NF7(UtilEngine.vectorLength(f))
-        +' maxAccel='+NFE(maxAccel)
+      console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
+        +' length='+Util.NF7(UtilEngine.vectorLength(f))
+        +' maxAccel='+Util.NFE(maxAccel)
         );
-      UtilEngine.printArray('f ', f, NF7);
+      UtilEngine.printArray('f ', f, Util.NF7);
       UtilEngine.printList('order', cf.order);
     }
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );

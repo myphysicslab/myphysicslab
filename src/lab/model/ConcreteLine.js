@@ -25,8 +25,7 @@ goog.scope(function() {
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Vector = myphysicslab.lab.util.Vector;
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A {@link myphysicslab.lab.model.Line} whose endpoints can be modified.
 

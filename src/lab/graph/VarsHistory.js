@@ -25,9 +25,7 @@ goog.scope(function() {
 
 var CircularList = myphysicslab.lab.util.CircularList;
 var HistoryList = myphysicslab.lab.util.HistoryList;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Collects data from a {@link VarsList},

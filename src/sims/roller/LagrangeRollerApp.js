@@ -44,7 +44,7 @@ var NumericControl = lab.controls.NumericControl;
 var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Shows the {@link LagrangeRollerSim} simulation.
@@ -123,7 +123,7 @@ LagrangeRollerApp.prototype.getClassName = function() {
 LagrangeRollerApp.prototype.defineNames = function(myName) {
   LagrangeRollerApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

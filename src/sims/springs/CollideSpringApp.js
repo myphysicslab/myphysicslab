@@ -48,7 +48,6 @@ var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 var DoubleRect = lab.util.DoubleRect;
-var NF = lab.util.Util.NF;
 var NumericControl = lab.controls.NumericControl;
 var Observer = lab.util.Observer;
 var ParameterBoolean = lab.util.ParameterBoolean;
@@ -60,7 +59,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link CollideSpringSim}.
 
@@ -168,9 +167,9 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   CollideSpringApp.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', startGap: '+NF(this.startGap)
-        +', numBlocks: '+NF(this.numBlocks)
-        +', startPosition: '+NF(this.startPosition)
+        +', startGap: '+Util.NF(this.startGap)
+        +', numBlocks: '+Util.NF(this.numBlocks)
+        +', startPosition: '+Util.NF(this.startPosition)
         + CollideSpringApp.superClass_.toString.call(this);
   };
 };
@@ -184,7 +183,7 @@ CollideSpringApp.prototype.getClassName = function() {
 CollideSpringApp.prototype.defineNames = function(myName) {
   CollideSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('protoBlock|protoWall|protoSpring',
-      myName);
+      myName+'.');
 };
 
 /**

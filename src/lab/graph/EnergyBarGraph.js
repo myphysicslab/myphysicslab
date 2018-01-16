@@ -30,11 +30,9 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.Util.NF;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a bar graph of the various forms of energy (potential, kinetic, etc.) in an
@@ -311,19 +309,19 @@ if (!Util.ADVANCED) {
         +', visibleRect: '+this.visibleRect_
         +', rect: '+this.rect_
         +', needRescale: '+this.needRescale_
-        +', leftEdge: '+NF(this.leftEdge_)
-        +', rightEdge: '+NF(this.rightEdge_)
-        +', graphOrigin: '+NF(this.graphOrigin_)
-        +', graphFactor: '+NF(this.graphFactor_)
-        +', minHistory: '+NF(this.minHistory())
-        +', minEnergy: '+NF(this.minEnergy_)
-        +', megaMinEnergy: '+NF(this.megaMinEnergy_)
+        +', leftEdge: '+Util.NF(this.leftEdge_)
+        +', rightEdge: '+Util.NF(this.rightEdge_)
+        +', graphOrigin: '+Util.NF(this.graphOrigin_)
+        +', graphFactor: '+Util.NF(this.graphFactor_)
+        +', minHistory: '+Util.NF(this.minHistory())
+        +', minEnergy: '+Util.NF(this.minEnergy_)
+        +', megaMinEnergy: '+Util.NF(this.megaMinEnergy_)
         +', megaMinEnergyLoc: '+Math.floor(this.graphOrigin_ + 0.5 +
               this.graphFactor_*this.megaMinEnergy_)
-        +', maxEnergy: '+NF(this.maxEnergy_)
-        +', megaMaxEnergy: '+NF(this.megaMaxEnergy_)
-        +', totalEnergy: '+NF(this.totalEnergy_)
-        +', time: '+NF(Util.systemTime()-this.lastTime_)
+        +', maxEnergy: '+Util.NF(this.maxEnergy_)
+        +', megaMaxEnergy: '+Util.NF(this.megaMaxEnergy_)
+        +', totalEnergy: '+Util.NF(this.totalEnergy_)
+        +', time: '+Util.NF(Util.systemTime()-this.lastTime_)
         +', zIndex: '+this.zIndex
         +'}';
   };
@@ -543,15 +541,15 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top, total) {
       context.fillText(s, x -textWidth/2, top+EnergyBarGraph.HEIGHT+graphAscent+3);
       scale += this.graphDelta_;
       if (this.debug_ && Util.DEBUG && ++loopCtr > 100) {
-        console.log('loop 1 x='+x+' s='+s+' scale='+NFE(scale)
-          +' total='+NFE(total)+' graphDelta='+NFE(this.graphDelta_)  );
+        console.log('loop 1 x='+x+' s='+s+' scale='+Util.NFE(scale)
+          +' total='+Util.NFE(total)+' graphDelta='+Util.NFE(this.graphDelta_)  );
       }
     } while (scale < total + this.graphDelta_ + 1E-16);
     if (this.debug_ && Util.DEBUG) {
-      console.log('megaMinEnergy='+NFE(this.megaMinEnergy_)
-        +' graphDelta='+NFE(this.graphDelta_)
-        +' graphFactor='+NFE(this.graphFactor_)
-        +' scale='+NFE(scale));
+      console.log('megaMinEnergy='+Util.NFE(this.megaMinEnergy_)
+        +' graphDelta='+Util.NFE(this.graphDelta_)
+        +' graphFactor='+Util.NFE(this.graphFactor_)
+        +' scale='+Util.NFE(scale));
     }
     // draw negative part of scale, from -graphDelta to megaMinEnergy
     if (this.megaMinEnergy_ < -1E-12) {
@@ -568,8 +566,8 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top, total) {
         context.fillText(s, x -textWidth/2, top+EnergyBarGraph.HEIGHT+graphAscent+3);
         scale -= this.graphDelta_;
         if (this.debug_ && Util.DEBUG) {
-          console.log('loop 2 x='+x+' s='+s+' scale='+NFE(scale)
-            +' megaMinEnergy='+NFE(this.megaMinEnergy_) );
+          console.log('loop 2 x='+x+' s='+s+' scale='+Util.NFE(scale)
+            +' megaMinEnergy='+Util.NFE(this.megaMinEnergy_) );
         }
       } while (scale > this.megaMinEnergy_ && x >= left);
     }

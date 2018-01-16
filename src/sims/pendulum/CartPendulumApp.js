@@ -51,7 +51,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays the {@link CartPendulumSim} simulation.
@@ -151,7 +151,7 @@ CartPendulumApp.prototype.getClassName = function() {
 CartPendulumApp.prototype.defineNames = function(myName) {
   CartPendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod|cart|bob|spring|track',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

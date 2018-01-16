@@ -22,9 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
-var NFE = myphysicslab.lab.util.Util.NFE;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Parameter = myphysicslab.lab.util.Parameter;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var Subject = myphysicslab.lab.util.Subject;
@@ -92,7 +90,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   ConcreteVariable.prototype.toStringShort = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'
-        +', value_: '+NF(this.getValue())+'}';
+        +', value_: '+Util.NF(this.getValue())+'}';
   };
 };
 

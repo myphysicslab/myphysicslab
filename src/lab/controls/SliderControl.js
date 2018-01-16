@@ -25,8 +25,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.scope(function() {
 
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Creates a "slider plus textbox" control that displays and modifies the given {@link
 ParameterNumber}. Consists of a label plus a slider and textbox which show the value of
@@ -168,8 +167,8 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   this.min_ = min;
   var lowerLimit = parameter.getLowerLimit();
   if (lowerLimit > min) {
-    throw new Error('lower limit on slider ='+NF(min)
-        +' is less than parameter lower limit ='+NF(lowerLimit));
+    throw new Error('lower limit on slider ='+Util.NF(min)
+        +' is less than parameter lower limit ='+Util.NF(lowerLimit));
   }
   /**
   * @type {number}
@@ -181,8 +180,8 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   }
   var upperLimit = parameter.getUpperLimit();
   if (upperLimit < max) {
-    throw new Error('upper limit on slider ='+NF(max)
-        +' is greater than parameter upper limit ='+NF(upperLimit));
+    throw new Error('upper limit on slider ='+Util.NF(max)
+        +' is greater than parameter upper limit ='+Util.NF(upperLimit));
   }
   /**
   * @type {number}
@@ -324,14 +323,14 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   SliderControl.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', paramValue_: '+NF(this.paramValue_)
-        +', sliderValue_: '+NF(this.sliderValue_)
+        +', paramValue_: '+Util.NF(this.paramValue_)
+        +', sliderValue_: '+Util.NF(this.sliderValue_)
         +', slider_.value: '+this.slider_.value
         +', textboxValue_: '+this.textboxValue_
-        +', min_: '+NF(this.min_)
-        +', max_: '+NF(this.max_)
+        +', min_: '+Util.NF(this.min_)
+        +', max_: '+Util.NF(this.max_)
         +', increments_: '+this.increments_
-        +', delta_: '+NF(this.delta_)
+        +', delta_: '+Util.NF(this.delta_)
         +', multiply_: '+this.multiply_
         +', signifDigits_: '+this.signifDigits_
         +', decimalPlaces_: '+this.decimalPlaces_

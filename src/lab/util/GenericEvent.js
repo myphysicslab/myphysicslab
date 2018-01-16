@@ -22,7 +22,7 @@ goog.scope(function() {
 
 var Subject = myphysicslab.lab.util.Subject;
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A simple implementation of a SubjectEvent, represents an event that
 has occurred in a Subject.

@@ -29,7 +29,7 @@ var AbstractSubject = lab.util.AbstractSubject;
 var Observer = lab.util.Observer;
 var ParameterNumber = lab.util.ParameterNumber;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Provides a ParameterNumber for setting the elasticity of all RigidBodys in an
 RigidBodySim.

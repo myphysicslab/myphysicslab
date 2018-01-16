@@ -36,12 +36,10 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Applies constant downward gravitational force to a set of MassObjects.
@@ -126,7 +124,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   GravityLaw.prototype.toStringShort = function() {
     return GravityLaw.superClass_.toStringShort.call(this).slice(0, -1)
-        +', gravity: '+NF5(this.gravity_)+'}';
+        +', gravity: '+Util.NF5(this.gravity_)+'}';
   };
 };
 
@@ -216,8 +214,8 @@ GravityLaw.prototype.getPotentialEnergy = function() {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       if (0 == 1 && Util.DEBUG) {
         console.log('body '+body.getName()
-          +' cmy='+NF(body.getPosition().getY())
-          +' zel='+NF(body.getZeroEnergyLevel())
+          +' cmy='+Util.NF(body.getPosition().getY())
+          +' zel='+Util.NF(body.getZeroEnergyLevel())
           );
       }
       var zel = body.getZeroEnergyLevel();

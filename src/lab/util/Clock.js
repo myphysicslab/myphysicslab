@@ -28,12 +28,9 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ClockTask = myphysicslab.lab.util.ClockTask;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF3 = myphysicslab.lab.util.Util.NF3;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Subject = myphysicslab.lab.util.Subject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Advances along with real time when active, and can execute tasks at appointed
 times. There are commands to pause, resume, and single-step the Clock, as well as set
@@ -199,13 +196,13 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Clock.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', timeRate_: '+NF5(this.timeRate_)
-        +', saveTime_secs_: '+NF5(this.saveTime_secs_)
-        +', saveRealTime_secs_: '+NF5(this.saveRealTime_secs_)
+        +', timeRate_: '+Util.NF5(this.timeRate_)
+        +', saveTime_secs_: '+Util.NF5(this.saveTime_secs_)
+        +', saveRealTime_secs_: '+Util.NF5(this.saveRealTime_secs_)
         +', isRunning_: '+this.isRunning_
         +', stepMode_: '+this.stepMode_
-        +', clockStart_sys_secs_: '+NF5(this.clockStart_sys_secs_)
-        +', realStart_sys_secs_: '+NF5(this.realStart_sys_secs_)
+        +', clockStart_sys_secs_: '+Util.NF5(this.clockStart_sys_secs_)
+        +', realStart_sys_secs_: '+Util.NF5(this.realStart_sys_secs_)
         +', tasks_: ['+this.tasks_+']'
         + Clock.superClass_.toString.call(this);
   };
@@ -213,7 +210,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Clock.prototype.toStringShort = function() {
     return Clock.superClass_.toStringShort.call(this).slice(0, -1)
-        +', time: '+NF5(this.getTime())+'}';
+        +', time: '+Util.NF5(this.getTime())+'}';
   };
 };
 
@@ -431,7 +428,7 @@ Clock.prototype.scheduleTask = function(task) {
 */
 Clock.prototype.setRealTime = function(time_secs) {
   if (Util.DEBUG && this.clockDebug_)
-    console.log('Clock.setRealTime '+NF5(time_secs));
+    console.log('Clock.setRealTime '+Util.NF5(time_secs));
   if (this.isRunning_) {
     this.realStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
   } else {
@@ -452,7 +449,7 @@ Clock.prototype.setTime = function(time_secs) {
     this.setTimePrivate(time_secs);
     if (Util.DEBUG && this.clockDebug_) {
       console.log('Clock.setTime('+time_secs+') getTime='+t
-          +' realTime='+NF5(this.getRealTime()));
+          +' realTime='+Util.NF5(this.getRealTime()));
     }
     this.broadcast(new GenericEvent(this, Clock.CLOCK_SET_TIME));
   }
@@ -510,7 +507,7 @@ Clock.prototype.step = function(timeStep) {
   this.saveRealTime_secs_ += timeStep;
   this.broadcast(new GenericEvent(this, Clock.CLOCK_STEP));
   if (Util.DEBUG && this.clockDebug_) {
-    console.log('Clock.step timeStep='+NFE(timeStep)+' '+this.toString());
+    console.log('Clock.step timeStep='+Util.NFE(timeStep)+' '+this.toString());
   }
   // execute tasks that should fire during this step
   this.executeTasks(startStepTime, timeStep);

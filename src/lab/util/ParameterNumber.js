@@ -22,9 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
-var NFE = myphysicslab.lab.util.Util.NFE;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Parameter = myphysicslab.lab.util.Parameter;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var Subject = myphysicslab.lab.util.Subject;
@@ -135,8 +133,8 @@ if (!Util.ADVANCED) {
         +', isComputed_: '+this.isComputed_
         +', subject_: '+this.subject_.toStringShort()
         +', localName_: "'+this.localName_+'"'
-        +', lowerLimit_: '+NF(this.lowerLimit_)
-        +', upperLimit_: '+NF(this.upperLimit_)
+        +', lowerLimit_: '+Util.NF(this.lowerLimit_)
+        +', upperLimit_: '+Util.NF(this.upperLimit_)
         +', decimalPlaces_: '+this.decimalPlaces_
         +', signifDigits_: '+this.signifDigits_
         +', choices_: ['+this.choices_+']'
@@ -147,7 +145,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   ParameterNumber.prototype.toStringShort = function() {
     return 'ParameterNumber{name_: "'+this.name_+'"'
-        +', value: '+NF(this.getValue())+'}';
+        +', value: '+Util.NF(this.getValue())+'}';
   };
 };
 

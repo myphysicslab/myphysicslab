@@ -51,13 +51,12 @@ var GenericVector = myphysicslab.lab.util.GenericVector;
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 var MassObject = myphysicslab.lab.model.MassObject;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.Util.NF;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -364,10 +363,10 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Polygon.prototype.toString = function() {
     return Polygon.superClass_.toString.call(this).slice(0, -1)
-        +', elasticity: ' +NF(this.elasticity_)
-        +', distanceTol_: '+NF(this.distanceTol_)
-        +', velocityTol_: '+NF(this.velocityTol_)
-        +', accuracy_:'+NF(this.accuracy_)
+        +', elasticity: ' +Util.NF(this.elasticity_)
+        +', distanceTol_: '+Util.NF(this.distanceTol_)
+        +', velocityTol_: '+Util.NF(this.velocityTol_)
+        +', accuracy_:'+Util.NF(this.accuracy_)
         +', varsIndex_: '+this.varsIndex_
         +', centroid_body_: '+this.centroid_body_
         +'}';
@@ -546,10 +545,10 @@ Polygon.prototype.calculateSize = function() {
       ymax = e.getTopBody();
   });
   if (1 == 0 && Util.DEBUG) {
-    console.log('Polygon size xmin='+NF(xmin)
-      +' xmax='+NF(xmax)
-      +' ymin='+NF(ymin)
-      +' ymax='+NF(ymax));
+    console.log('Polygon size xmin='+Util.NF(xmin)
+      +' xmax='+Util.NF(xmax)
+      +' ymin='+Util.NF(ymin)
+      +' ymax='+Util.NF(ymax));
   }
   this.left_body_ = xmin;
   this.right_body_ = xmax;
@@ -869,7 +868,7 @@ Polygon.prototype.getMinHeight = function() {
       function(e) {
         var d = e.distanceToPoint(this.cm_body_);
         if (1 == 0 && Util.DEBUG)
-          console.log('d='+NF(d)+' cm='+this.cm_body_+' '+e);
+          console.log('d='+Util.NF(d)+' cm='+this.cm_body_+' '+e);
         // Distance of infinity means the point is 'beyond' the Edge, ie.
         // not in the region perpendicular to the Edge.
         if (d == Util.POSITIVE_INFINITY)
@@ -1135,7 +1134,7 @@ if (Util.DEBUG) {
     goog.array.forEach(this.vertices_,
       function(v, k) {
         var d = v.locBody().distanceTo(vLast.locBody());
-        console.log('('+(k)+') '+v+' dist to prev vertex = '+NF(d));
+        console.log('('+(k)+') '+v+' dist to prev vertex = '+Util.NF(d));
         vLast = v;
       }
     );
@@ -1207,11 +1206,11 @@ Polygon.prototype.setCentroid = function(centroid_body) {
     // NOTE: there is a performance difference from doing this test!
     var ctrd = this.findCentroid();
     var c_dist = centroid_body.distanceTo(ctrd);
-    goog.asserts.assert(c_dist < 0.01, 'dist='+NF(c_dist)+' ctrd='+ctrd
+    goog.asserts.assert(c_dist < 0.01, 'dist='+Util.NF(c_dist)+' ctrd='+ctrd
         +' centroid_body='+centroid_body);
     if (0 == 1) {
       console.log('centroid '+centroid_body
-          +' dist to calculated centroid='+NF(centroid_body.distanceTo(ctrd)));
+          +' dist to calculated centroid='+Util.NF(centroid_body.distanceTo(ctrd)));
     }
   }
   // in case the centroid was set before all the edges were added

@@ -33,12 +33,11 @@ var Clock = myphysicslab.lab.util.Clock;
 var DisplayText = myphysicslab.lab.view.DisplayText;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
 var Timer = myphysicslab.lab.util.Timer;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Timer for Mark Neumann's bike ride record attempt.

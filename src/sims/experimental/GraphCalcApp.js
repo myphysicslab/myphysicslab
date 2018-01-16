@@ -54,12 +54,11 @@ var GraphPoint = lab.graph.GraphPoint;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
-var NF5 = lab.util.Util.NF5;
 var ScreenRect = lab.view.ScreenRect;
 var SimController = lab.app.SimController;
 var SimView = lab.view.SimView;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
@@ -272,7 +271,7 @@ GraphCalcApp.prototype.defineNames = function(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex( 'simCanvas|vars|terminal|graph|graphLine|axes|plot'
       +'|simCtrl|simView|x',
-      myName);
+      myName+'.');
 };
 
 /**

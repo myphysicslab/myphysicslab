@@ -31,10 +31,9 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -221,13 +220,13 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', rod1Length_: '+NF(this.rod1Length_)
-        +', rod2Length_: '+NF(this.rod2Length_)
+        +', rod1Length_: '+Util.NF(this.rod1Length_)
+        +', rod2Length_: '+Util.NF(this.rod2Length_)
         +', rod1_: '+this.rod1_
         +', rod2_: '+this.rod2_
         +', bob1_: '+this.bob1_
         +', bob2_: '+this.bob2_
-        +', gravity_: '+NF(this.gravity_)
+        +', gravity_: '+Util.NF(this.gravity_)
         + DoublePendulumSim.superClass_.toString.call(this);
   };
 };

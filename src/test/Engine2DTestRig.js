@@ -33,20 +33,11 @@ var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var Joint = myphysicslab.lab.engine2D.Joint;
-var NF1S = myphysicslab.lab.util.Util.NF1S;
-var NF2 = myphysicslab.lab.util.Util.NF2;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF5E = myphysicslab.lab.util.Util.NF5E;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var nf7 = myphysicslab.lab.util.Util.nf7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
-var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
 
 /** Static class that provides common test functions such as `runTest`.
@@ -194,8 +185,8 @@ Engine2DTestRig.getPerfLimit = function(expected) {
 * @return {string} string showing performance test results
 */
 Engine2DTestRig.perfResult = function(duration, expected) {
-  return 'time='+NF2(duration)+' expected='+NF2(expected)
-    +'  ('+(NF1S(100*duration/expected - 100))+'%)';
+  return 'time='+Util.NF2(duration)+' expected='+Util.NF2(expected)
+    +'  ('+(Util.NF1S(100*duration/expected - 100))+'%)';
 };
 
 /** Returns expected running time for a test by looking up the time in
@@ -467,7 +458,7 @@ Engine2DTestRig.checkResult = function(sim, expected, tolerance) {
     Engine2DTestRig.printVars(sim);
     var s = 'vars['+idx+']='+vars[idx]+' != '+expected[idx]
         +' with tolerance='+tolerance
-        +' diff='+NF5E(maxDiff);
+        +' diff='+Util.NF5E(maxDiff);
     Engine2DTestRig.reportTestResults(false, 'vars', s);
   }
   return passed;
@@ -522,8 +513,8 @@ Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, toleran
   expectedSearches = goog.isDef(expectedSearches) ? expectedSearches : 0;
   if (Util.DEBUG && Engine2DTestRig.debug) {
     console.log(
-      'Engine2DTestRig.runTest expectedEnergyDiff='+NFE(expectedEnergyDiff)
-      +' energyTol='+NFE(energyTol)
+      'Engine2DTestRig.runTest expectedEnergyDiff='+Util.NFE(expectedEnergyDiff)
+      +' energyTol='+Util.NFE(energyTol)
       +' expectedCollisions='+expectedCollisions);
     // show all the settings on the simulation.
     Engine2DTestRig.myPrintln(sim.toString());
@@ -577,7 +568,7 @@ Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, toleran
     }
 
     advance.advance(advance.getTimeStep());
-    //console.log(NF7(sim.getTime())
+    //console.log(Util.NF7(sim.getTime())
     //    +' Engine2DTestRig.runTest seed='+sim.getRandomSeed());
 
     // occasionally report collision statistics
@@ -607,11 +598,11 @@ Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, toleran
     var e2 = sim.getEnergyInfo().getTotalEnergy();
     var energyEqual = Math.abs(e2 - e1 - expectedEnergyDiff) < energyTol;
     if (!energyEqual) {
-      s = 'energy diff='+NF9(e2 - e1)
-          +', expected diff='+NF9(expectedEnergyDiff)
+      s = 'energy diff='+Util.NF9(e2 - e1)
+          +', expected diff='+Util.NF9(expectedEnergyDiff)
           +', energyTol='+energyTol
-          +', error='+NF9(e2-e1 - expectedEnergyDiff)
-          +', energy='+NF9(e2);
+          +', error='+Util.NF9(e2-e1 - expectedEnergyDiff)
+          +', energy='+Util.NF9(e2);
       Engine2DTestRig.reportTestResults(false, testType, s);
       passed = false;
     }
@@ -716,7 +707,7 @@ Engine2DTestRig.checkTightJoints = function(sim, tolerance) {
       var dist = joint.getNormalDistance();
       if (Math.abs(dist) > tolerance) {
         Engine2DTestRig.reportTestResults(false, 'joints', 'joint not tight, tolerance='
-            +NF9(tolerance)+' dist='+NF9(dist)+' joint='+joint);
+            +Util.NF9(tolerance)+' dist='+Util.NF9(dist)+' joint='+joint);
         // stop at first bad joint
         return;
       }
@@ -741,8 +732,8 @@ Engine2DTestRig.checkContactDistances = function(sim, tolerance) {
       var isClose = d < tolerance;
       if (!isClose) {
         Engine2DTestRig.reportTestResults(false, 'contact dist',
-          'contact is not close, distanceToHalfGap='+NFE(d)
-          +' tolerance='+NFE(tolerance)+' contact='+c);
+          'contact is not close, distanceToHalfGap='+Util.NFE(d)
+          +' tolerance='+Util.NFE(tolerance)+' contact='+c);
         // stop at first bad contact
         return;
       }
@@ -765,12 +756,12 @@ Engine2DTestRig.printVars = function(sim) {
     var idx = sim.getBody(i).getVarsIndex();
     Engine2DTestRig.myPrintln(
       'Engine2DTestRig.setBodyVars(sim, vars, '+i+', '
-      +nf7(vars[idx + X])+', '
-      +nf7(vars[idx + VX])+', '
-      +nf7(vars[idx + Y])+', '
-      +nf7(vars[idx + VY])+', '
-      +nf7(vars[idx + W])+', '
-      +nf7(vars[idx + VW])+');'
+      +Util.nf7(vars[idx + X])+', '
+      +Util.nf7(vars[idx + VX])+', '
+      +Util.nf7(vars[idx + Y])+', '
+      +Util.nf7(vars[idx + VY])+', '
+      +Util.nf7(vars[idx + W])+', '
+      +Util.nf7(vars[idx + VW])+');'
       );
   }
 };
@@ -785,14 +776,14 @@ Engine2DTestRig.printRigidBody = function(sim, index) {
   var offset = index*6;
   // @todo  fix this for when time is at the front of variable list.
   var X=0, VX=1, Y=2, VY=3, W=4, VW=5;
-  Engine2DTestRig.myPrintln(NF5(sim.getTime())+' '
-        +NF5(vars[offset + X])+' '
-        +NF5(vars[offset + VX])+' '
-        +NF5(vars[offset + Y])+' '
-        +NF5(vars[offset + VY])+' '
-        +NF5(vars[offset + W])+' '
-        +NF5(vars[offset + VW])+' '
-        +NF5(sim.getEnergyInfo().getTotalEnergy()));
+  Engine2DTestRig.myPrintln(Util.NF5(sim.getTime())+' '
+        +Util.NF5(vars[offset + X])+' '
+        +Util.NF5(vars[offset + VX])+' '
+        +Util.NF5(vars[offset + Y])+' '
+        +Util.NF5(vars[offset + VY])+' '
+        +Util.NF5(vars[offset + W])+' '
+        +Util.NF5(vars[offset + VW])+' '
+        +Util.NF5(sim.getEnergyInfo().getTotalEnergy()));
 };
 
 }); // goog.scope

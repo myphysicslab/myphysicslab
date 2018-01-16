@@ -25,8 +25,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Defines initial conditions of a string used in the
 {@link myphysicslab.sims.pde.StringSim} PDE simulation by specifying the initial displacement
@@ -75,7 +74,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringShape.prototype.toString = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'
-        +', length_: '+NF(this.length_)
+        +', length_: '+Util.NF(this.length_)
         +'}';
   };
 };

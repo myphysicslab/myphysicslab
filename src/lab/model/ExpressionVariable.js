@@ -23,7 +23,7 @@ goog.scope(function() {
 
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var Terminal = myphysicslab.lab.util.Terminal;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript

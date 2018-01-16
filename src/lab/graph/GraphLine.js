@@ -40,11 +40,9 @@ var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 var HistoryList = myphysicslab.lab.util.HistoryList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed
@@ -250,10 +248,10 @@ if (!Util.ADVANCED) {
   GraphLine.prototype.toString = function() {
     var s = this.toStringShort().slice(0, -1)
         +', drawColor_:"'+this.drawColor_+'"'
-        +', lineWidth_: '+NF(this.lineWidth_)
+        +', lineWidth_: '+Util.NF(this.lineWidth_)
         +', drawMode_: '+DrawingMode.enumToChoice(this.drawMode_)
         +', hotSpotColor_:"'+this.hotSpotColor_+'"'
-        +', styles_.length: '+NF(this.styles_.length)
+        +', styles_.length: '+Util.NF(this.styles_.length)
         +', varsList: '+this.varsList_.toStringShort()
         +', dataPoints_: '+this.dataPoints_;
     return s + GraphLine.superClass_.toString.call(this);
@@ -262,8 +260,8 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   GraphLine.prototype.toStringShort = function() {
     return GraphLine.superClass_.toStringShort.call(this).slice(0, -1)
-        +', xVar: ' + NF(this.xVar_)
-        + ', yVar: '+ NF(this.yVar_)
+        +', xVar: ' + Util.NF(this.xVar_)
+        + ', yVar: '+ Util.NF(this.yVar_)
         +'}';
   };
 };

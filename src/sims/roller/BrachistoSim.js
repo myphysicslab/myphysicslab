@@ -34,7 +34,6 @@ goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
@@ -44,7 +43,7 @@ var ShapeType = myphysicslab.lab.model.ShapeType;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -168,9 +167,9 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   BrachistoSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', damping_: '+NF(this.damping_)
-        +', gravity_: '+NF(this.gravity_)
-        +', mass_: '+NF(this.mass_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', mass_: '+Util.NF(this.mass_)
         +', paths: '+this.paths_.length
         + BrachistoSim.superClass_.toString.call(this);
   };

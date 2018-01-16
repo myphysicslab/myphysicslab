@@ -39,12 +39,11 @@ var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -208,11 +207,11 @@ if (!Util.ADVANCED) {
   CollideSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', blocks: '+this.blocks_.length
-        +', damping_: '+NF(this.damping_)
-        +', mass_: '+NF(this.mass_)
-        +', springDamping_: '+NF(this.springDamping_)
-        +', stiffness_: '+NF(this.stiffness_)
-        +', restLength_: '+NF(this.restLength_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', mass_: '+Util.NF(this.mass_)
+        +', springDamping_: '+Util.NF(this.springDamping_)
+        +', stiffness_: '+Util.NF(this.stiffness_)
+        +', restLength_: '+Util.NF(this.restLength_)
         +', wall1_: '+this.wall1_
         +', wall2_: '+this.wall2_
         + CollideSpringSim.superClass_.toString.call(this);

@@ -30,11 +30,10 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -214,8 +213,8 @@ if (!Util.ADVANCED) {
         +', block_: '+this.block_
         +', fixedPoint_: '+this.fixedPoint_
         +', spring_: '+this.spring_
-        +', damping_: '+NF(this.damping_)
-        +', initialEnergy_: '+NF(this.initialEnergy_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', initialEnergy_: '+Util.NF(this.initialEnergy_)
         + SingleSpringSim.superClass_.toString.call(this);
   };
 };

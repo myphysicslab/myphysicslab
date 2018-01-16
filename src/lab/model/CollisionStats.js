@@ -21,9 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var Collision = myphysicslab.lab.model.Collision;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Calculates statistics about a particular set of Collisions.
 
@@ -80,10 +78,10 @@ if (!Util.ADVANCED) {
   CollisionStats.prototype.toString = function() {
     var s= 'CollisionStats{collisions: '+this.numCollisions;
     if (this.numCollisions > 0) {
-      s += ', estTime: '+NF7(this.estTime)
-          +', detectedTime: '+NF7(this.detectedTime)
+      s += ', estTime: '+Util.NF7(this.estTime)
+          +', detectedTime: '+Util.NF7(this.detectedTime)
           +', needsHandling: '+this.numNeedsHandling
-          +', minDistance: '+NF7(this.minDistance)
+          +', minDistance: '+Util.NF7(this.minDistance)
           +', nonContact: '+this.numNonContact
           +', imminent: '+this.numImminent
           +', joints: '+this.numJoints

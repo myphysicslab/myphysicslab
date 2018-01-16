@@ -50,7 +50,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Simulation showing several objects experiencing mutual attraction from gravity.
@@ -137,9 +137,9 @@ MutualAttractApp.prototype.getClassName = function() {
 MutualAttractApp.prototype.defineNames = function(myName) {
   MutualAttractApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('MutualAttractApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

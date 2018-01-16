@@ -34,13 +34,12 @@ var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
 var DoubleRect = lab.util.DoubleRect;
 var JointUtil = lab.engine2D.JointUtil;
-var NF5 = lab.util.Util.NF5;
 var Polygon = lab.engine2D.Polygon;
 var Random = lab.util.Random;
 var RandomLCG = lab.util.RandomLCG;
 var RigidBody = lab.engine2D.RigidBody;
 var Shapes = lab.engine2D.Shapes;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 

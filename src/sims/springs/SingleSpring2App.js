@@ -110,7 +110,7 @@ var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
 var TimeGraph2 = sims.common.TimeGraph2;
 var ToggleControl = lab.controls.ToggleControl;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -332,11 +332,11 @@ SingleSpring2App.prototype.defineNames = function(myName) {
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun|varsList'
       +'|simView|statusView|timeGraph|easyScript|terminal|displayList',
-      myName);
+      myName+'.');
   this.terminal.addRegex('simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
   this.terminal.addRegex('block|spring',
-      myName);
+      myName+'.');
 };
 
 /** Add the control to the set of simulation controls.

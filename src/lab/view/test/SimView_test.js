@@ -112,7 +112,7 @@ var testSimView1 = function() {
   var SimObject = myphysicslab.lab.model.SimObject;
   var SimView = myphysicslab.lab.view.SimView;
   var Spring = myphysicslab.lab.model.Spring;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var Vector = myphysicslab.lab.util.Vector;
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 

@@ -49,14 +49,12 @@ var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var LabView = myphysicslab.lab.view.LabView;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 
@@ -275,8 +273,8 @@ if (!Util.ADVANCED) {
         +', screenRect_: '+this.screenRect_
         +', horizAlign_: '+this.horizAlign_
         +', verticalAlign_: '+this.verticalAlign_
-        +', aspectRatio_: '+NF5(this.aspectRatio_)
-        +', opaqueness: '+NF5(this.opaqueness)
+        +', aspectRatio_: '+Util.NF5(this.aspectRatio_)
+        +', opaqueness: '+Util.NF5(this.opaqueness)
         +', coordMap_: '+this.coordMap_
         +', memoList_: '+this.memoList_
         + SimView.superClass_.toString.call(this);

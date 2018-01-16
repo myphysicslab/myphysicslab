@@ -64,7 +64,7 @@ var ParameterString = lab.util.ParameterString;
 var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Simulates a pendulum clock with a pendulum attached to an anchor that
@@ -171,9 +171,9 @@ PendulumClockApp.prototype.getClassName = function() {
 PendulumClockApp.prototype.defineNames = function(myName) {
   PendulumClockApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('PendulumClockApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

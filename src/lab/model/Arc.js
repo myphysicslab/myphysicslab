@@ -24,8 +24,7 @@ goog.scope(function() {
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var Vector = myphysicslab.lab.util.Vector;
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A {@link myphysicslab.lab.model.SimObject} that represents a semi-circular arc.
 
@@ -70,9 +69,9 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Arc.prototype.toString = function() {
     return Arc.superClass_.toString.call(this).slice(0, -1)
-        +', startAngle_: '+NF(this.startAngle_)
-        +', angle_: '+NF(this.angle_)
-        +', radius_: '+NF(this.radius_)
+        +', startAngle_: '+Util.NF(this.startAngle_)
+        +', angle_: '+Util.NF(this.angle_)
+        +', radius_: '+Util.NF(this.radius_)
         +', center_: '+this.center_
         +'}';
   };

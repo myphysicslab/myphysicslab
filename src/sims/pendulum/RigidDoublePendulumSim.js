@@ -42,7 +42,6 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var Joint = myphysicslab.lab.engine2D.Joint;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
@@ -50,7 +49,7 @@ var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -244,12 +243,12 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidDoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', gamma1_: '+NF(this.gamma1_)
-        +', gamma2_: '+NF(this.gamma2_)
+        +', gamma1_: '+Util.NF(this.gamma1_)
+        +', gamma2_: '+Util.NF(this.gamma2_)
         +', pendulum1_: '+this.pendulum1_
         +', pendulum2_: '+this.pendulum2_
-        +', gravity_: '+NF(this.gravity_)
-        +', potentialOffset_: '+NF(this.potentialOffset_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', potentialOffset_: '+Util.NF(this.potentialOffset_)
         + RigidDoublePendulumSim.superClass_.toString.call(this);
   };
 };

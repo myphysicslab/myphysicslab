@@ -24,7 +24,7 @@ goog.scope(function() {
 var Observer = myphysicslab.lab.util.Observer;
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 var Subject = myphysicslab.lab.util.Subject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Observes a Subject; when the Subject broadcasts a SubjectEvent then this executes a
 specified function.

@@ -31,11 +31,10 @@ goog.scope(function() {
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.Util.NF;
 var MassObject = myphysicslab.lab.model.MassObject;
 var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link MassObject} with specified style such as color, border, etc.
@@ -317,12 +316,12 @@ if (!Util.ADVANCED) {
         +', dragable_: '+this.dragable_
         +', fillStyle: "'+this.getFillStyle()+'"'
         +', strokeStyle: "'+this.getStrokeStyle()+'"'
-        +', thickness: '+NF(this.getThickness())
+        +', thickness: '+Util.NF(this.getThickness())
         +', drawDragPoints: '+this.getDrawDragPoints()
         +', drawCenterOfMass: '+this.getDrawCenterOfMass()
         +', nameFont: "'+this.getNameFont()+'"'
         +', nameColor: "'+this.getNameColor()+'"'
-        +', nameRotate: '+NF(this.getNameRotate())
+        +', nameRotate: '+Util.NF(this.getNameRotate())
         +', zIndex: '+this.getZIndex()
         +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
         +'}';

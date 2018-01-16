@@ -37,18 +37,13 @@ var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a bilateral contact point between a {@link RigidBody} and a
@@ -137,11 +132,11 @@ PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
     UtilEngine.debugEngine2D.myPrint('joint collision '+c);
     // show the normal vector at the joint
     UtilEngine.debugEngine2D.debugLine('normal', c.impact1, c.impact1.add(c.normal));
-    UtilEngine.debugEngine2D.myPrint('joint dist='+NFE(c.distance)
-      +' normalVelocity='+NFE(c.getNormalVelocity())+' '+c);
+    UtilEngine.debugEngine2D.myPrint('joint dist='+Util.NFE(c.distance)
+      +' normalVelocity='+Util.NFE(c.getNormalVelocity())+' '+c);
     if (Math.abs(c.distance) > 1E-12)
       UtilEngine.debugEngine2D.myPrint('joint '+this.getName()
-        +' is loose dist='+NFE(c.distance)+' '+c);
+        +' is loose dist='+Util.NFE(c.distance)+' '+c);
   }
   goog.array.insertAt(collisions, c, 0);
 };

@@ -25,8 +25,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.scope(function() {
 
 var Observer = myphysicslab.lab.util.Observer;
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A text input element for displaying and editing the numeric value of a target
 object.

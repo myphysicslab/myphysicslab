@@ -21,8 +21,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Specifies an immutable 2D affine transform.
@@ -104,12 +103,12 @@ var AffineTransform = myphysicslab.lab.util.AffineTransform;
 
 if (!Util.ADVANCED) {
   AffineTransform.prototype.toString = function() {
-    return 'AffineTransform{m11_: '+NF(this.m11_)
-        +', m12_: '+NF(this.m12_)
-        +', m21_: '+NF(this.m21_)
-        +', m22_: '+NF(this.m22_)
-        +', dx_: '+NF(this.dx_)
-        +', dy_: '+NF(this.dy_)
+    return 'AffineTransform{m11_: '+Util.NF(this.m11_)
+        +', m12_: '+Util.NF(this.m12_)
+        +', m21_: '+Util.NF(this.m21_)
+        +', m22_: '+Util.NF(this.m22_)
+        +', dx_: '+Util.NF(this.dx_)
+        +', dy_: '+Util.NF(this.dy_)
         +'}';
   };
 };

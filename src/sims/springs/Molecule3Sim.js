@@ -43,11 +43,10 @@ var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -316,9 +315,9 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Molecule3Sim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +'gravity_: '+NF(this.gravity_)
-        +', damping: '+NF(this.getDamping())
-        +', elasticity_: '+NF(this.elasticity_)
+        +'gravity_: '+Util.NF(this.gravity_)
+        +', damping: '+Util.NF(this.getDamping())
+        +', elasticity_: '+Util.NF(this.elasticity_)
         +', number_of_atoms: '+this.atoms_.length
         +', walls_: '+this.walls_
         + Molecule3Sim.superClass_.toString.call(this);

@@ -41,12 +41,11 @@ var DoubleRect = lab.util.DoubleRect;
 var DrawingMode = lab.view.DrawingMode;
 var DrawingStyle = lab.view.DrawingStyle;
 var MutableVector = lab.util.MutableVector;
-var NF = lab.util.Util.NF;
 var Path = lab.model.Path;
 var PathPoint = lab.model.PathPoint;
 var ScreenRect = lab.view.ScreenRect;
 var SimObject = lab.model.SimObject;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays one or more {@link Path}s within a specified screen rectangle in the

@@ -20,8 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -56,8 +55,8 @@ var MutableVector = myphysicslab.lab.util.MutableVector;
 
 if (!Util.ADVANCED) {
   MutableVector.prototype.toString = function() {
-    return 'MutableVector{x: '+NF(this.x_)+', y: '+NF(this.y_)
-        + (this.z_ != 0 ? ', z: '+NF(this.z_) : '')
+    return 'MutableVector{x: '+Util.NF(this.x_)+', y: '+Util.NF(this.y_)
+        + (this.z_ != 0 ? ', z: '+Util.NF(this.z_) : '')
         +'}';
   };
 };

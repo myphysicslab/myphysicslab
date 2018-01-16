@@ -19,9 +19,8 @@ goog.require('myphysicslab.lab.model.ParametricPath');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
-var NF = myphysicslab.lab.util.Util.NF;
 
 /** An abstract base class for a ParametricPath.
 
@@ -74,8 +73,8 @@ if (!Util.ADVANCED) {
   AbstractPath.prototype.toString = function() {
     return this.getClassName()+'{name_: "'+this.name_+'"'
       +', localName_: "'+this.localName_+'"'
-      +', startTValue_: '+NF(this.startTValue_)
-      +', finishTValue_: '+NF(this.finishTValue_)
+      +', startTValue_: '+Util.NF(this.startTValue_)
+      +', finishTValue_: '+Util.NF(this.finishTValue_)
       +', closedLoop_: '+this.closedLoop_
       +'}';
   };

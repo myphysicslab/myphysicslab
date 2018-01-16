@@ -57,7 +57,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -184,9 +184,9 @@ CarSuspensionApp.prototype.getClassName = function() {
 CarSuspensionApp.prototype.defineNames = function(myName) {
   CarSuspensionApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw|gravityLaw|protoWheel',
-      myName);
+      myName+'.');
   this.terminal.addRegex('CarSuspensionApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

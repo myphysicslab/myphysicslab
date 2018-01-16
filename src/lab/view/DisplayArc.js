@@ -25,9 +25,8 @@ goog.scope(function() {
 
 var Arc = myphysicslab.lab.model.Arc;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF = myphysicslab.lab.util.Util.NF;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays a {@link myphysicslab.lab.model.Arc}.
@@ -85,8 +84,8 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayArc.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', thickness: '+NF(this.getThickness())
-        +', arrowHeadLength: '+NF(this.getArrowHeadLength())
+        +', thickness: '+Util.NF(this.getThickness())
+        +', arrowHeadLength: '+Util.NF(this.getArrowHeadLength())
         +', color: "'+this.getColor()+'"'
         +', lineDash: ['+this.getLineDash()+']'
         +', zIndex: '+this.getZIndex()

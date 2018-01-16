@@ -23,9 +23,8 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 goog.scope(function() {
 
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Displays text. Can set display attributes {@link #font}, {@link #fillStyle},

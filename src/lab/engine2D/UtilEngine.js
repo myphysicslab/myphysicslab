@@ -28,13 +28,8 @@ goog.scope(function() {
 var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var MutableVector = myphysicslab.lab.util.MutableVector;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF5E = myphysicslab.lab.util.Util.NF5E;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF7E = myphysicslab.lab.util.Util.NF7E;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var Random = myphysicslab.lab.util.Random;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Provides utility methods for the physics engine.
@@ -301,16 +296,16 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
     goog.asserts.assert(v[1] <= v[2]);
     counter++;
     if (UtilEngine.debugSimplex_) {
-      console.log('iteration '+counter+' max dist '+NF5(md));
+      console.log('iteration '+counter+' max dist '+Util.NF5(md));
       // this shows the progress of the algorithm:  values and point locations
       for (i= 0; i<3; i++)
-        console.log(i+'. '+NF5(v[i])+' at '+p[i]);
+        console.log(i+'. '+Util.NF5(v[i])+' at '+p[i]);
     }
     if (counter > 10000) {
       if (UtilEngine.debugSimplex_) {
         var c = UtilEngine.colinearity(p);
-        console.log('FAILURE colinearity = '+NF5(c)+
-          ' value='+NF5(v[0]));
+        console.log('FAILURE colinearity = '+Util.NF5(c)+
+          ' value='+Util.NF5(v[0]));
       }
       info[0] = counter;
       info[1] = 1;  // 1 = failure
@@ -326,7 +321,7 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
     r.setToVector(m).multiply(2).subtract(p[2]);
     var vr = f(r);  // vr = f(R) = value of function at R
     if (UtilEngine.debugSimplex_)
-      console.log('Reflection '+NF5(vr)+' at '+r);
+      console.log('Reflection '+Util.NF5(vr)+' at '+r);
     if (vr < v[1]) {
       if (vr >= v[0]) {
         if (UtilEngine.debugSimplex_)
@@ -344,7 +339,7 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
       e.setToVector(r).multiply(2).subtract(m);
       var ve = f(e); // er = f(E) = value of function at E
       if (UtilEngine.debugSimplex_)
-        console.log('Expansion '+NF5(ve)+' at '+e);
+        console.log('Expansion '+Util.NF5(ve)+' at '+e);
       if (ve < vr) {
         if (UtilEngine.debugSimplex_)
           console.log('Expansion best (better than reflection) ');
@@ -368,14 +363,14 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
     c1.setToVector(p[2]).add(m).divide(2);
     var vc1 = f(c1);
     if (UtilEngine.debugSimplex_)
-      console.log('Contraction1 '+NF5(vc1)+' at '+c1);
+      console.log('Contraction1 '+Util.NF5(vc1)+' at '+c1);
     // Find other (reflected) contracted point at C = M + (M - W)/2 = (3/2) M - W/2
     // (This second contraction point seems to reduce iterations by 5 or so.)
     t.setToVector(p[2].divide(2)); // = W/2
     c2.setToVector(m).multiply(1.5).subtract(t);  // = 1.5*M - W/2
     var vc2 = f(c2);
     if (UtilEngine.debugSimplex_)
-      console.log('Contraction2 '+NF5(vc2)+' at '+c2);
+      console.log('Contraction2 '+Util.NF5(vc2)+' at '+c2);
     // if the contracted point is better than W, then use it
     if (vc1 < v[2] && vc1 < vc2) {
       if (UtilEngine.debugSimplex_)
@@ -408,9 +403,9 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
     v[1] = f(p[1]);
     v[2] = f(p[2]);
     if (UtilEngine.debugSimplex_)
-      console.log('Reduction1 '+NF5(v[1])+' at '+p[1]);
+      console.log('Reduction1 '+Util.NF5(v[1])+' at '+p[1]);
     if (UtilEngine.debugSimplex_)
-      console.log('Reduction2 '+NF5(v[2])+' at '+p[2]);
+      console.log('Reduction2 '+Util.NF5(v[2])+' at '+p[2]);
     // sort the points
     if (v[0] > v[1])
       UtilEngine.swapPointValue(v, p, 0, 1);
@@ -437,7 +432,7 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
 * @return {string} the array formatted as a string
 */
 UtilEngine.formatArray = function(r, opt_start, opt_n, opt_nf) {
-  var nf = opt_nf || NF5E;
+  var nf = opt_nf || Util.NF5E;
   var start = opt_start || 0;
   if (start >= r.length) {
     throw new Error();
@@ -645,7 +640,7 @@ UtilEngine.minValue = function(r, n) {
 */
 UtilEngine.printArray = function(s, r, nf, opt_n) {
   if (Util.DEBUG) {
-    nf = nf || NF7E;
+    nf = nf || Util.NF7E;
     opt_n = opt_n || r.length;
     for (var i=0; i<opt_n; i++) {
       s += ' ['+i+']='+nf(r[i]);
@@ -662,7 +657,7 @@ UtilEngine.printArray = function(s, r, nf, opt_n) {
 */
 UtilEngine.printArray2 = function(s, r, nf, opt_n) {
   if (Util.DEBUG) {
-    nf = nf || NF7E;
+    nf = nf || Util.NF7E;
     opt_n = opt_n || r.length;
     s += ' ';
     for (var i=0; i<opt_n; i++) {
@@ -723,7 +718,7 @@ UtilEngine.printArrayIndices = function(s, r, n) {
 */
 UtilEngine.printArrayPermutation = function(s, r, ncol, nf, opt_n) {
   if (Util.DEBUG) {
-    nf = nf || NF7;
+    nf = nf || Util.NF7;
     opt_n = opt_n || r.length;
     for (var i=0; i<opt_n; i++)
       s += nf(r[ncol[i]]) + ', ';
@@ -752,7 +747,7 @@ UtilEngine.printList = function(s, list) {
 */
 UtilEngine.printMatrix2 = function(s, m, nf, n) {
   if (Util.DEBUG) {
-    nf = nf || NF7E;
+    nf = nf || Util.NF7E;
     n = n || m.length;
     console.log(s);
     for (var i=0; i<n; i++)
@@ -913,7 +908,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
       if (Util.DEBUG) {
         console.log('no unique solution, because row '+i
             +' is zero; n='+n);
-        UtilEngine.printMatrix2('A', A, NF7, n);
+        UtilEngine.printMatrix2('A', A, Util.NF7, n);
       }
       return i;
     }
@@ -946,7 +941,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
       if (Math.abs(A[nrow[p]][ncol[c]]) < zero_tol) {
         if (debug && Util.DEBUG) {
           console.log('largest scaled entry in column '+c+' is small: '
-              +NFE(A[nrow[p]][ncol[c]]));
+              +Util.NFE(A[nrow[p]][ncol[c]]));
         }
         if (columnSwaps >= (n-1 - c)) {
           if (debug && Util.DEBUG)
@@ -979,7 +974,7 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
           A[nrow[j]][ncol[k]] -= m*A[nrow[r]][ncol[k]];
       }
       if (debug && Util.DEBUG)
-        UtilEngine.printMatrixPermutation('A '+n, A, nrow, ncol, NFE, n);
+        UtilEngine.printMatrixPermutation('A '+n, A, nrow, ncol, Util.NFE, n);
       r++;  // only increment row when successful.
       columnSwaps = 0;
       break;
@@ -997,14 +992,14 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
       if (Math.abs(A[nrow[i]][n]) > ZERO_TOL2) {
         if (0 == 1 && Util.DEBUG) {
           console.log('b vector not in column space ['+nrow[i]+'] '
-              +NFE(A[nrow[i]][n]));
-          UtilEngine.printMatrixPermutation('A', A, nrow, ncol, NF7, n);
+              +Util.NFE(A[nrow[i]][n]));
+          UtilEngine.printMatrixPermutation('A', A, nrow, ncol, Util.NF7, n);
         }
         return nrow[i];
       } else if (0 == 1 && Util.DEBUG) {
         if (Math.abs(A[nrow[i]][n]) > 1E-7)
           console.log('matrix is singular and last b-value ['+nrow[i]+'] '
-              +NFE(A[nrow[i]][n]));
+              +Util.NFE(A[nrow[i]][n]));
         else
           console.log('matrix is singular');
       }
@@ -1026,19 +1021,19 @@ UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
       c = lmost;
       if (debug && Util.DEBUG)
         console.log('move left in row  r = '+r+' to c='+c
-            +' A[r,c]='+NFE(A[nrow[r]][ncol[c]]));
+            +' A[r,c]='+Util.NFE(A[nrow[r]][ncol[c]]));
     }
     // if there is a zero at A[r,c], then move up a row
     if (Math.abs(A[nrow[r]][ncol[c]]) < zero_tol) {
       if (debug && Util.DEBUG)
         console.log('zero on diagonal move up a row r='+r+' c='+c
-            +' A[r,c]='+NFE(A[nrow[r]][ncol[c]]));
+            +' A[r,c]='+Util.NFE(A[nrow[r]][ncol[c]]));
       r--;
       continue;
     }
     // we now have the left-most non-zero entry A[r,c] with c >= r
     if (debug && Util.DEBUG)
-      console.log('r='+r+' c='+c+' A[r,c]='+NFE(A[nrow[r]][ncol[c]]));
+      console.log('r='+r+' c='+c+' A[r,c]='+Util.NFE(A[nrow[r]][ncol[c]]));
     // if underdetermined, set some of the x[i] to 0
     // 'underdetermined' means that we have more than one free variable in this
     // equation for example a single equation with 2 unknowns.
@@ -1099,8 +1094,8 @@ UtilEngine.matrixIsSingular = function(Acc, n, nrow, tolerance) {
   var condition = max/min;
   var r = Math.abs(min) < tolerance;
   if (0 == 1 && (r || Math.abs(min) < 1.0) && Util.DEBUG)
-    console.log('diagonal min='+NFE(min)+' max='+NF5(max)
-         +' condition='+NFE(condition)+' singular='+r);
+    console.log('diagonal min='+Util.NFE(min)+' max='+Util.NF5(max)
+         +' condition='+Util.NFE(condition)+' singular='+r);
   return r;
 };
 

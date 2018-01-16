@@ -31,7 +31,7 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var MemoList = myphysicslab.lab.util.MemoList;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** A visual representation of a Simulation which can be displayed in a

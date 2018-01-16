@@ -129,7 +129,7 @@ var SimView = lab.view.SimView;
 var StandardGraph1 = sims.common.StandardGraph1;
 var Subject = lab.util.Subject;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 var VerticalLayout = sims.common.VerticalLayout;
@@ -516,11 +516,11 @@ TestViewerApp.prototype.defineNames = function(myName) {
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
       +'|simView|statusView|terminal|varsList|displayList',
-      myName);
+      myName+'.');
   this.terminal.addRegex('simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
   this.terminal.addRegex('gravityLaw|dampingLaw|easyScript|elasticity',
-       myName);
+       myName+'.');
 };
 
 /** Returns index of current group within group menu

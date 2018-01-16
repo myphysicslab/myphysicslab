@@ -29,7 +29,7 @@ var Parameter = myphysicslab.lab.util.Parameter;
 var Subject = myphysicslab.lab.util.Subject;
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
 var Terminal = myphysicslab.lab.util.Terminal;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Executes EasyScript commands which get or set {@link Parameter} values
 for a specified set of {@link Subject}s. Also executes some single word commands such

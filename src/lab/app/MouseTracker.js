@@ -32,7 +32,7 @@ var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Processes mouse events to either (1) directly move a {@link DisplayObject} or (2)

@@ -17,8 +17,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Provides information about an
 {@link myphysicslab.lab.model.EnergySystem EnergySystem}, such as potential and
@@ -76,11 +75,11 @@ var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   EnergyInfo.prototype.toString = function() {
-    return 'EnergyInfo{potential_: '+NF(this.potential_)
-        +', translational_: '+NF(this.translational_)
-        +', rotational_: '+NF(this.rotational_)
-        +', workDone_: '+NF(this.workDone_)
-        +', initialEnergy_: '+NF(this.initialEnergy_)
+    return 'EnergyInfo{potential_: '+Util.NF(this.potential_)
+        +', translational_: '+Util.NF(this.translational_)
+        +', rotational_: '+Util.NF(this.rotational_)
+        +', workDone_: '+Util.NF(this.workDone_)
+        +', initialEnergy_: '+Util.NF(this.initialEnergy_)
         +'}';
   };
 };

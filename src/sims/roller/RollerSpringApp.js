@@ -75,7 +75,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Creates the {@link RollerSingleSim} simulation with a spring.
 
@@ -184,7 +184,7 @@ RollerSpringApp.prototype.getClassName = function() {
 RollerSpringApp.prototype.defineNames = function(myName) {
   RollerSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1|anchor|spring|paths|pathSelect',
-      myName);
+      myName+'.');
 };
 
 /** @inheritDoc */

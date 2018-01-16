@@ -47,12 +47,10 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF7 = myphysicslab.lab.util.Util.NF7;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Timer = myphysicslab.lab.util.Timer;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Uses an {@link AdvanceStrategy} to advance the
 {@link myphysicslab.lab.model.Simulation Simulation} state; the process is driven by a
@@ -233,8 +231,8 @@ if (!Util.ADVANCED) {
         + goog.array.map(this.advanceList_, function(a) { return a.toStringShort(); })
         +'], clock_: '+this.clock_.toStringShort()
         +', timer_: '+this.timer_
-        +', timeStep_: '+NF(this.timeStep_)
-        +', displayPeriod_: '+NF(this.displayPeriod_)
+        +', timeStep_: '+Util.NF(this.timeStep_)
+        +', displayPeriod_: '+Util.NF(this.displayPeriod_)
         +', nonStop_: '+this.nonStop_
         +', canvasList_: ['
         + goog.array.map(this.canvasList_, function(a) { return a.toStringShort(); })

@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.util.GenericMemo'); // in case user wants to use 
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Parser = myphysicslab.lab.util.Parser;
 
 /** Executes scripts and provides a command line user interface with separate text
@@ -514,7 +514,7 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   this.prompt_ = '> ';
   // Allow scripts to call eval() but those calls are replaced by "terminal.eval"
   // so that they go thru Terminal.eval() and are properly vetted for script safety.
-  this.addRegex('eval', 'terminal', /*addToVars=*/false);
+  this.addRegex('eval', 'terminal.', /*addToVars=*/false);
 };
 var Terminal = myphysicslab.lab.util.Terminal;
 
@@ -541,12 +541,12 @@ Terminal.regexPair;
 * One usage is to prepend the namespace to fully qualify a [short name](#shortnames).
 * For example, to transform `DoubleRect` into `myphysicslab.lab.util.DoubleRect`
 *
-*    terminal.addRegex('DoubleRect', `myphysicslab.lab.util');
+*    terminal.addRegex('DoubleRect', `myphysicslab.lab.util.');
 *
 * Another usage is to make properties of an object available as a single short name.
 * For example to transform `rod` or `bob` into `app.rod` or `app.bob`
 *
-*    terminal.addRegex('rod|bob', 'app');
+*    terminal.addRegex('rod|bob', 'app.');
 *
 * The regular expression rule is added to the end of the list of regex's to execute,
 * unless `opt_prepend` is `true`.
@@ -575,14 +575,16 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
         }
       }, this);
     }
-    // This regexp look for words that are NOT preceded by a dot.
+    // This regexp look for words that are NOT preceded by a dot or dollar sign.
+    // (^|[^\w.$]) means:  either start of line, or a not-word-or-dot-or-$ character.
     // Should NOT match within: new myphysicslab.lab.util.DoubleRect
     // SHOULD match within: new DoubleRect
-    // (^|[^\w.]) means:  either start of line, or a not-word-or-dot character.
+    // Should NOT match within: module$exports$myphysicslab$lab$util$Util
+    // SHOULD match within: Util.toName
     /** @type {!Terminal.regexPair} */
     var re = {
-      regex: new RegExp('(^|[^\\w.])('+names+')\\b', 'g'),
-      replace: '$1'+prefix+'.$2'
+      regex: new RegExp('(^|[^\\w.$])('+names+')\\b', 'g'),
+      replace: '$1'+prefix+'$2'
     };
     if (!this.hasRegex(re)) {
       if (opt_prepend) {
@@ -1178,7 +1180,7 @@ Terminal.prototype.replaceVar = function(script) {
     goog.asserts.assert(m.length >= 3);
     var varName = m[1];
     // important to prepend because the regexp's are executed in order
-    this.addRegex(varName, 'z', /*addToVars=*/true, /*prepend=*/true);
+    this.addRegex(varName, 'z.', /*addToVars=*/true, /*prepend=*/true);
     return m[1] + m[2];
   }
   return script;
@@ -1322,52 +1324,56 @@ Terminal.stdRegex = function(terminal) {
   // (^|[^\w.]) means:  either start of line, or a not-word-or-dot character.
 
   terminal.addRegex('methodsOf|propertiesOf|prettyPrint',
-       'Util', /*addToVars=*/false);
+       'Util.', /*addToVars=*/false);
   // replace 'println' with 'terminal.println'
   terminal.addRegex('println|z',
-       'terminal', /*addToVars=*/false);
+       'terminal.', /*addToVars=*/false);
   terminal.addRegex('result',
-       'terminal', /*addToVars=*/true);
+       'terminal.', /*addToVars=*/true);
   // ** DO NOT WRAP OR BREAK THESE LONG LINES **
   // See http://stackoverflow.com/questions/12317049/
   // how-to-split-a-long-regular-expression-into-multiple-lines-in-javascript
   // (The alternative is create a new RegExp from a set of concatenated strings).
   terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask|DoubleRect'
       +'|GenericEvent|GenericObserver|GenericMemo|ParameterBoolean|ParameterNumber'
-      +'|ParameterString|RandomLCG|EasyScriptParser|Terminal|Timer|Util|Vector',
-      'myphysicslab.lab.util', /*addToVars=*/false);
+      +'|ParameterString|RandomLCG|EasyScriptParser|Terminal|Timer|Vector',
+      'myphysicslab.lab.util.', /*addToVars=*/false);
+
+  // note: $$ represent $ in regexp replace string.
+  terminal.addRegex('Util',
+      'module$$exports$$myphysicslab$$lab$$util$$', /*addToVars=*/false);
 
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',
-      'myphysicslab.lab.util.Util', /*addToVars=*/false);
+      'Util.', /*addToVars=*/false);
 
   terminal.addRegex('CollisionAdvance|CoordType|EulersMethod|ExpressionVariable'
       +'|FunctionVariable|MassObject|ModifiedEuler|ConcreteLine|NumericalPath'
       +'|PointMass|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
-      'myphysicslab.lab.model', /*addToVars=*/false);
+      'myphysicslab.lab.model.', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'
       +'|DrawingMode|DrawingStyle|EnergyBarGraph|HorizAlign|LabCanvas|LabView'
       +'|ScreenRect|SimView|VerticalAlign',
-       'myphysicslab.lab.view', /*addToVars=*/false);
+       'myphysicslab.lab.view.', /*addToVars=*/false);
 
   terminal.addRegex('CircularEdge|CollisionHandling|ContactSim|DampingLaw'
        +'|EdgeRange|ExtraAccel|GravityLaw|Gravity2Law|ImpulseSim|Joint'
        +'|Polygon|RigidBodyCollision|RigidBodySim|Rope|Scrim|Shapes|StraightEdge'
        +'|ThrusterSet|Vertex|Walls',
-       'myphysicslab.lab.engine2D', /*addToVars=*/false);
+       'myphysicslab.lab.engine2D.', /*addToVars=*/false);
 
   terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine'
        +'|GraphStyle|DisplayAxes|VarsHistory',
-       'myphysicslab.lab.graph', /*addToVars=*/false);
+       'myphysicslab.lab.graph.', /*addToVars=*/false);
 
   terminal.addRegex('EventHandler|MouseTracker|RigidBodyEventHandler'
        +'|SimController|SimRunner|ViewPanner',
-       'myphysicslab.lab.app', /*addToVars=*/false);
+       'myphysicslab.lab.app.', /*addToVars=*/false);
 
   terminal.addRegex('ButtonControl|CheckBoxControl|ChoiceControl'
        +'|NumericControl|SliderControl|ToggleControl',
-       'myphysicslab.lab.controls', /*addToVars=*/false);
+       'myphysicslab.lab.controls.', /*addToVars=*/false);
 
 };
 

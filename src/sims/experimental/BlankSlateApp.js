@@ -72,7 +72,6 @@ var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var GenericObserver = lab.util.GenericObserver;
 var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
-var NF5 = lab.util.Util.NF5;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var PointMass = lab.model.PointMass;
 var ScreenRect = lab.view.ScreenRect;
@@ -81,7 +80,7 @@ var SimView = lab.view.SimView;
 var Spring = lab.model.Spring;
 var Terminal = lab.util.Terminal;
 var Timer = lab.util.Timer;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -221,7 +220,7 @@ BlankSlateApp.prototype.defineNames = function(myName) {
     return;
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('simCanvas|terminal|axes|simCtrl|simView|displayList',
-      myName);
+      myName+'.');
 };
 
 /**

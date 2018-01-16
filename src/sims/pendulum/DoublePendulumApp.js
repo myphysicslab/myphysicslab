@@ -46,7 +46,7 @@ var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays the {@link DoublePendulumSim} simulation.
@@ -150,7 +150,7 @@ DoublePendulumApp.prototype.getClassName = function() {
 DoublePendulumApp.prototype.defineNames = function(myName) {
   DoublePendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod1|rod2|bob1|bob2',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

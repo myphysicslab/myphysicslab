@@ -113,7 +113,7 @@ var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Runs two chaotic pendulum simulations simultaneously with the same settings except
@@ -431,9 +431,9 @@ ComparePendulumApp.prototype.defineNames = function(myName) {
   this.terminal.addRegex('advance1|advance2|axes|clock|displayClock|displayList'
       +'|energyGraph|graph|layout|sim1|sim2|simCtrl|simList|simList2'
       +'|simRect|simRun|simView|statusView|timeGraph|easyScript|terminal',
-      myName);
+      myName+'.');
   this.terminal.addRegex('simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
 };
 
 /** Add the control to the set of simulation controls.

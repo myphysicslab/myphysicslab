@@ -22,14 +22,8 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
-var nf5 = Util.nf5;
-var NF5 = Util.NF5;
-var NF5E = Util.NF5E;
-var NF7 = Util.NF7;
-var NFE = Util.NFE;
-var NFSCI = Util.NFSCI;
 var Vector = myphysicslab.lab.util.Vector;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Collision = myphysicslab.lab.model.Collision;
@@ -394,28 +388,28 @@ var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   RigidBodyCollision.prototype.toString = function() {
-    return this.getClassName() + '{distance: '+NF5E(this.distance)
-        +', normalVelocity_: '+NF5E(this.normalVelocity_)
+    return this.getClassName() + '{distance: '+Util.NF5E(this.distance)
+        +', normalVelocity_: '+Util.NF5E(this.normalVelocity_)
         +', body: "'+this.primaryBody.getName()+'"'
         +', normalBody: "'+this.normalBody.getName()+'"'
         +', impact1: '+this.impact1
         +', contact: '+this.contact()
         +', joint: '+this.joint
-        +', elasticity_: ' +nf5(this.elasticity_)
-        +', targetGap_: '+NF5E(this.targetGap_)
-        +', accuracy_: '+NF7(this.accuracy_)
+        +', elasticity_: ' +Util.nf5(this.elasticity_)
+        +', targetGap_: '+Util.NF5E(this.targetGap_)
+        +', accuracy_: '+Util.NF7(this.accuracy_)
         +', mustHandle_: '+this.mustHandle_
         +', impact2: '+(this.impact2 != null ? this.impact2 : 'null')
         +', normal: '+this.normal
         +', ballObject: '+this.ballObject
         +', ballNormal: '+this.ballNormal
-        +', estimate_: '+NF7(this.estimate_)
-        +', detectedTime_: '+NF7(this.detectedTime_)
-        +', detectedDistance_: '+NF5E(this.detectedDistance_)
-        +', detectedVelocity_: '+NF5E(this.detectedVelocity_)
-        +', impulse: '+NF5E(this.impulse)
-        +', force: '+NF5E(this.force)
-        +', updateTime_: '+NF7(this.updateTime_)
+        +', estimate_: '+Util.NF7(this.estimate_)
+        +', detectedTime_: '+Util.NF7(this.detectedTime_)
+        +', detectedDistance_: '+Util.NF5E(this.detectedDistance_)
+        +', detectedVelocity_: '+Util.NF5E(this.detectedVelocity_)
+        +', impulse: '+Util.NF5E(this.impulse)
+        +', force: '+Util.NF5E(this.force)
+        +', updateTime_: '+Util.NF7(this.updateTime_)
         +', creator: '+this.creator
         +'}';
   };
@@ -780,7 +774,7 @@ RigidBodyCollision.prototype.setDetectedTime = function(time) {
       this.estimate_ = time + (this.targetGap_ - this.distance) / nv;
     }
     if (0 == 1 && Util.DEBUG)
-      console.log(NF5(time)+' setDetectedTime '+this.toString());
+      console.log(Util.NF5(time)+' setDetectedTime '+this.toString());
   }
 };
 
@@ -876,8 +870,8 @@ RigidBodyCollision.prototype.updateEstimatedTime = function(time, doUpdate) {
   var h = t2 - t1;
   if (h <= 1E-12) {
     if (0 == 1)
-      console.log(NF7(time)+' CANNOT UPDATE ESTIMATE '
-        +' t1='+NF7(t1)+' t2='+NF7(t2)
+      console.log(Util.NF7(time)+' CANNOT UPDATE ESTIMATE '
+        +' t1='+Util.NF7(t1)+' t2='+Util.NF7(t2)
         +' '+this.toString());
     return;
   }
@@ -907,11 +901,11 @@ RigidBodyCollision.prototype.updateEstimatedTime = function(time, doUpdate) {
       }
     }
     if (0 == 1 && Util.DEBUG) {
-      console.log(NF7(time)+' UPDATE ESTIMATE '+didUpdate
-      +' old='+NF7(oldEstimate)
-      +' targetGap='+NF5E(this.targetGap_)
-      +' e1='+NF7(e1)
-      +' e2='+NF7(e2)
+      console.log(Util.NF7(time)+' UPDATE ESTIMATE '+didUpdate
+      +' old='+Util.NF7(oldEstimate)
+      +' targetGap='+Util.NF5E(this.targetGap_)
+      +' e1='+Util.NF7(e1)
+      +' e2='+Util.NF7(e2)
       +' '+this.toString());
     }
   }

@@ -28,8 +28,7 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
-var Util = myphysicslab.lab.util.Util;
-var NF = Util.NF;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -148,8 +147,8 @@ if (!Util.ADVANCED) {
     return this.toStringShort().slice(0, -1)
         +', horizAxisAlignment_: '+this.horizAxisAlignment_
         +', vertAxisAlignment_: '+this.vertAxisAlignment_
-        +', this.horizAlignValue_: '+NF(this.horizAlignValue_)
-        +', this.vertAlignValue_: '+NF(this.vertAlignValue_)
+        +', this.horizAlignValue_: '+Util.NF(this.horizAlignValue_)
+        +', this.vertAlignValue_: '+Util.NF(this.vertAlignValue_)
         +', drawColor_: "'+this.drawColor_+'"'
         +', numFont_: "'+this.numFont_+'"'
         +', simRect_: '+this.simRect_

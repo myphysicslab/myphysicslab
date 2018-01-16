@@ -59,7 +59,7 @@ var SixThrusters = sims.engine2D.SixThrusters;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /**  RigidBodyApp demonstrates using RigidBodySim (instead of the usual ContactSim) with
@@ -186,9 +186,9 @@ RigidBodyApp.prototype.getClassName = function() {
 RigidBodyApp.prototype.defineNames = function(myName) {
   RigidBodyApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('RigidBodyApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

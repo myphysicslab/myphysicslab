@@ -58,7 +58,7 @@ var Polygon = lab.engine2D.Polygon;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -175,14 +175,13 @@ var Formation = BilliardsApp.Formation;
 */
 BilliardsApp.WALL_DISTANCE = 6;
 
-
 /** @inheritDoc */
 BilliardsApp.prototype.defineNames = function(myName) {
   BilliardsApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('BilliardsApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

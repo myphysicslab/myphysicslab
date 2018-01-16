@@ -33,8 +33,6 @@ goog.scope(function() {
 var Clock = myphysicslab.lab.util.Clock;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var KeyCodes = goog.events.KeyCodes;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var PointMass = myphysicslab.lab.model.PointMass;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
@@ -42,7 +40,7 @@ var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** User interface controller for {@link RigidBodySim}, provides mouse dragging of
@@ -172,7 +170,7 @@ if (!Util.ADVANCED) {
         +', clock_: '+this.clock_.toStringShort()
         +', thrustRight_: '+this.thrustRight_
         +', thrustLeft_: '+this.thrustLeft_
-        +', dragStiffness_: '+NF(this.dragStiffness_)
+        +', dragStiffness_: '+Util.NF(this.dragStiffness_)
         +'}';
   };
 

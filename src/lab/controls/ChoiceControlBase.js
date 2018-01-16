@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.scope(function() {
 
 var Observer = myphysicslab.lab.util.Observer;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A pop-up menu which which synchronizes with a target object's string value by
 executing specified `getter` and `setter` functions.

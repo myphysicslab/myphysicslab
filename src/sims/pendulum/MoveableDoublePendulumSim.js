@@ -34,11 +34,10 @@ var AbstractODESim = lab.model.AbstractODESim;
 var ConcreteLine = lab.model.ConcreteLine;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
-var NF = lab.util.Util.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -287,14 +286,14 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   MoveableDoublePendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', length1_: '+NF(this.length1_)
-        +', length2_: '+NF(this.length2_)
-        +', gravity_: '+NF(this.gravity_)
-        +', damping_: '+NF(this.damping_)
-        +', frequency_: '+NF(this.frequency_)
-        +', amplitude_: '+NF(this.amplitude_)
-        +', anchorDamping_: '+NF(this.anchorDamping_)
-        +', springStiffness_: '+NF(this.springStiffness_)
+        +', length1_: '+Util.NF(this.length1_)
+        +', length2_: '+Util.NF(this.length2_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', frequency_: '+Util.NF(this.frequency_)
+        +', amplitude_: '+Util.NF(this.amplitude_)
+        +', anchorDamping_: '+Util.NF(this.anchorDamping_)
+        +', springStiffness_: '+Util.NF(this.springStiffness_)
         +', running_: '+this.running_
         +', anchor_: '+this.anchor_
         +', bob1_: '+this.bob1_

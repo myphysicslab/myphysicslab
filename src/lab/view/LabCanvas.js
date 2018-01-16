@@ -40,11 +40,10 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var LabView = myphysicslab.lab.view.LabView;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into
 the canvas. The LabViews are drawn overlapping so that the last LabView appears on
@@ -223,7 +222,7 @@ if (!Util.ADVANCED) {
         +', width: '+this.canvas_.width
         +', height: '+this.canvas_.height
         +', background_: "'+this.background_+'"'
-        +', alpha_: '+NF5(this.alpha_)
+        +', alpha_: '+Util.NF5(this.alpha_)
         +', focusView_: '
         + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
         +', labViews_: ['

@@ -29,8 +29,7 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
 var Vector = myphysicslab.lab.util.Vector;
-var Util = myphysicslab.lab.util.Util;
-var NF5E = myphysicslab.lab.util.Util.NF5E;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A Force acts on a given {@link MassObject} at a defined location and with a defined
 direction and magnitude.
@@ -124,7 +123,7 @@ if (!Util.ADVANCED) {
         +', direction: '+this.direction_
         +', locationCoordType: '+this.locationCoordType_
         +', directionCoordType: '+this.directionCoordType_
-        +', torque: '+NF5E(this.torque_)
+        +', torque: '+Util.NF5E(this.torque_)
         +'}';
   };
 };

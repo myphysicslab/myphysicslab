@@ -49,7 +49,7 @@ var ParameterString = lab.util.ParameterString;
 var Polygon = lab.engine2D.Polygon;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Simulation of an asteroid orbiting a moon.
@@ -161,9 +161,9 @@ MarsMoonApp.prototype.getClassName = function() {
 MarsMoonApp.prototype.defineNames = function(myName) {
   MarsMoonApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('MarsMoonApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

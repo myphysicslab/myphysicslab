@@ -30,9 +30,8 @@ var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericVector = myphysicslab.lab.util.GenericVector;
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
-var NF = myphysicslab.lab.util.Util.NF;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
@@ -137,12 +136,12 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   CoordMap.prototype.toString = function() {
-    return 'CoordMap{screen_left_: '+NF(this.screen_left_)
-        +', screen_bottom_: '+NF(this.screen_bottom_)
-        +', sim_left_: '+NF(this.sim_left_)
-        +', sim_bottom_: '+NF(this.sim_bottom_)
-        +', pixels_per_unit_x_: '+NF(this.pixel_per_unit_x_)
-        +', pixels_per_unit_y_: '+NF(this.pixel_per_unit_y_)
+    return 'CoordMap{screen_left_: '+Util.NF(this.screen_left_)
+        +', screen_bottom_: '+Util.NF(this.screen_bottom_)
+        +', sim_left_: '+Util.NF(this.sim_left_)
+        +', sim_bottom_: '+Util.NF(this.sim_bottom_)
+        +', pixels_per_unit_x_: '+Util.NF(this.pixel_per_unit_x_)
+        +', pixels_per_unit_y_: '+Util.NF(this.pixel_per_unit_y_)
         + (this.transform_ != null) ? ', transform: '+this.transform_ : ''
         +'}';
   };

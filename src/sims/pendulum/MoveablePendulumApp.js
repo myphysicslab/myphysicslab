@@ -55,7 +55,7 @@ var SimRunner = lab.app.SimRunner;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link MoveablePendulumSim} simulation.
 
@@ -166,7 +166,7 @@ MoveablePendulumApp.prototype.getClassName = function() {
 MoveablePendulumApp.prototype.defineNames = function(myName) {
   MoveablePendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod|anchor|bob',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

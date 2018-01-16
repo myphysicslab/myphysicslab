@@ -76,7 +76,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
 var TextControl = lab.controls.TextControl;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Creates the RollerSingleSim simulation with no spring.
@@ -198,7 +198,7 @@ RollerSingleApp.prototype.getClassName = function() {
 RollerSingleApp.prototype.defineNames = function(myName) {
   RollerSingleApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1|paths|pathSelect',
-      myName);
+      myName+'.');
 };
 
 /** The ending value for `t` in the parameteric equation defining the path.

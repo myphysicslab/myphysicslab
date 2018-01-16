@@ -39,7 +39,6 @@ var Collision = myphysicslab.lab.model.Collision;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PathPoint = myphysicslab.lab.model.PathPoint;
@@ -47,7 +46,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 var RollerCollision = myphysicslab.sims.roller.RollerCollision;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -356,11 +355,11 @@ if (!Util.ADVANCED) {
         +', anchor: '+this.anchor_
         +', spring: '+this.spring_
         +', path: '+this.path_
-        +', damping: '+NF(this.damping_)
-        +', gravity: '+NF(this.gravity_)
-        +', stickiness: '+NF(this.stickiness_)
-        +', elasticity: '+NF(this.elasticity_)
-        +', lowestPoint: '+NF(this.lowestPoint_)
+        +', damping: '+Util.NF(this.damping_)
+        +', gravity: '+Util.NF(this.gravity_)
+        +', stickiness: '+Util.NF(this.stickiness_)
+        +', elasticity: '+Util.NF(this.elasticity_)
+        +', lowestPoint: '+Util.NF(this.lowestPoint_)
         + RollerFlightSim.superClass_.toString.call(this);
   };
 };

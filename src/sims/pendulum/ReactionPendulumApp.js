@@ -111,7 +111,7 @@ var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays the reaction forces pendulum simulation {@link ReactionPendulumSim} and
@@ -696,9 +696,9 @@ ReactionPendulumApp.prototype.defineNames = function(myName) {
   this.terminal.addRegex('advance2|advance1|axes|clock|displayList'
       +'|displayClock|energyGraph|graph|layout|easyScript|sim2|sim1'
       +'|simCtrl|simList2|simList1|simRun|simView|statusView|terminal|timeGraph',
-      myName);
+      myName+'.');
   this.terminal.addRegex('simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
 };
 
 /**

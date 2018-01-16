@@ -41,10 +41,8 @@ var GraphPoint = lab.graph.GraphPoint;
 var GraphStyle = lab.graph.GraphStyle;
 var HistoryList = lab.util.HistoryList;
 var LabView = lab.view.LabView;
-var NF = lab.util.Util.NF;
-var NF5 = lab.util.Util.NF5;
 var ScreenRect = lab.view.ScreenRect;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays one or more {@link GraphLine}. The GraphLines are drawn in the simulation

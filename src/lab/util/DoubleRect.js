@@ -20,8 +20,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /**  An immutable rectangle whose boundaries are stored with double floating
@@ -78,10 +77,10 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   DoubleRect.prototype.toString = function() {
-    return 'DoubleRect{left_: '+NF(this.left_)
-        +', bottom_: '+NF(this.bottom_)
-        +', right_: '+NF(this.right_)
-        +', top_: '+NF(this.top_)
+    return 'DoubleRect{left_: '+Util.NF(this.left_)
+        +', bottom_: '+Util.NF(this.bottom_)
+        +', right_: '+Util.NF(this.right_)
+        +', top_: '+Util.NF(this.top_)
         +'}';
   };
 };

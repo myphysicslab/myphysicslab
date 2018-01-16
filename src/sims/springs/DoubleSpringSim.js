@@ -35,15 +35,12 @@ var sims = myphysicslab.sims;
 var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
-var NF = lab.util.Util.NF;
-var NF5 = lab.util.Util.NF5;
-var NF7 = lab.util.Util.NF7;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -244,8 +241,8 @@ if (!Util.ADVANCED) {
         +', block1_: '+this.block1_
         +', block2_: '+this.block2_
         +', spring1_: '+this.spring1_
-        +', damping_: '+NF(this.damping_)
-        +', stiffness_: '+NF(this.stiffness_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', stiffness_: '+Util.NF(this.stiffness_)
         +', thirdSpring_: '+this.thirdSpring_
         + DoubleSpringSim.superClass_.toString.call(this);
   };

@@ -19,10 +19,7 @@ goog.require('goog.testing.jsunit');
 goog.require('goog.asserts');
 
 var testUtil = function() {
-  var Util = myphysicslab.lab.util.Util;
-  var NF5 = myphysicslab.lab.util.Util.NF5;
-  var nf5 = myphysicslab.lab.util.Util.nf5;
-  var nf7 = myphysicslab.lab.util.Util.nf7;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
 
   // the default tolerance is 1E-14, so large and small numbers should differ
   // at about the 14th decimal place

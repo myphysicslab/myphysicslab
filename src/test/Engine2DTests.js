@@ -40,7 +40,7 @@ var PileTest = myphysicslab.test.PileTest;
 var RopeTest = myphysicslab.test.RopeTest;
 var SpeedTest = myphysicslab.test.SpeedTest;
 var StraightStraightTest = myphysicslab.test.StraightStraightTest;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link Engine2DTestRig}.

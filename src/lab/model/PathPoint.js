@@ -21,10 +21,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Represents a point along a {@link myphysicslab.lab.model.NumericalPath}, used for
@@ -116,22 +113,22 @@ var PathPoint = myphysicslab.lab.model.PathPoint;
 if (!Util.ADVANCED) {
   PathPoint.prototype.toString = function() {
     return 'PathPoint{'
-        +'p='+NF(this.p)
-        +' x='+NF(this.x)
-        +' y='+NF(this.y)
-        +' slope='+NF(this.slope)
-        +' radius='+NF(this.radius)
+        +'p='+Util.NF(this.p)
+        +' x='+Util.NF(this.x)
+        +' y='+Util.NF(this.y)
+        +' slope='+Util.NF(this.slope)
+        +' radius='+Util.NF(this.radius)
         +' radius_flag='+this.radius_flag
         +' direction='+this.direction
         +' index='+this.idx
-        +' normalX='+NF(this.normalX)
-        +' normalY='+NF(this.normalY)
-        +' normalXdp='+NF(this.normalXdp)
-        +' normalYdp='+NF(this.normalYdp)
-        +' slopeX='+NF(this.slopeX)
-        +' slopeY='+NF(this.slopeY)
-        +' dxdp='+NF(this.dxdp)
-        +' dydp='+NF(this.dydp)
+        +' normalX='+Util.NF(this.normalX)
+        +' normalY='+Util.NF(this.normalY)
+        +' normalXdp='+Util.NF(this.normalXdp)
+        +' normalYdp='+Util.NF(this.normalYdp)
+        +' slopeX='+Util.NF(this.slopeX)
+        +' slopeY='+Util.NF(this.slopeY)
+        +' dxdp='+Util.NF(this.dxdp)
+        +' dydp='+Util.NF(this.dydp)
         +'}';
   };
 };

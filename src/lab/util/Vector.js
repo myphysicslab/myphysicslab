@@ -19,10 +19,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NFSCI = myphysicslab.lab.util.Util.NFSCI;
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
-var NFE = myphysicslab.lab.util.Util.NFE;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var GenericVector = myphysicslab.lab.util.GenericVector;
 
 /** An immutable vector in 3D space; after creation it cannot be altered.
@@ -61,8 +58,8 @@ var Vector = myphysicslab.lab.util.Vector;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   Vector.prototype.toString = function() {
-    return 'Vector{x: '+NF(this.x_)+', y: '+NF(this.y_)
-        + (this.z_ != 0 ? ', z: '+NF(this.z_) : '')
+    return 'Vector{x: '+Util.NF(this.x_)+', y: '+Util.NF(this.y_)
+        + (this.z_ != 0 ? ', z: '+Util.NF(this.z_) : '')
         +'}';
   };
 };
@@ -172,7 +169,7 @@ Vector.prototype.divide = function(factor) {
   if (factor === 1.0) {
     return this;
   } else if (factor < Vector.TINY_POSITIVE) {
-    throw new Error('Vector.divide by near zero factor '+NFE(factor));
+    throw new Error('Vector.divide by near zero factor '+Util.NFE(factor));
   } else {
     return new Vector(this.x_ / factor,
           this.y_ / factor,  this.z_ / factor);

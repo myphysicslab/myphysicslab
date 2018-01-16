@@ -30,11 +30,10 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -216,8 +215,8 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DangleStickSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', gravity_: '+NF(this.gravity_)
-        +', stickLength_: '+NF(this.stickLength_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', stickLength_: '+Util.NF(this.stickLength_)
         +', spring_: '+this.spring_
         +', stick_: '+this.stick_
         +', bob1_: '+this.bob1_

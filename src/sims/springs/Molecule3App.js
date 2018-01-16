@@ -59,7 +59,7 @@ var SimRunner = lab.app.SimRunner;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -200,7 +200,7 @@ Molecule3App.prototype.getClassName = function() {
 /** @inheritDoc */
 Molecule3App.prototype.defineNames = function(myName) {
   Molecule3App.superClass_.defineNames.call(this, myName);
-  this.terminal.addRegex('protoSpecialSpring|protoSpring', myName);
+  this.terminal.addRegex('protoSpecialSpring|protoSpring', myName+'.');
 };
 
 /**

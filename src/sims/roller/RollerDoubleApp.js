@@ -76,7 +76,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Creates the RollerDoubleSim simulation
@@ -190,7 +190,7 @@ RollerDoubleApp.prototype.getClassName = function() {
 RollerDoubleApp.prototype.defineNames = function(myName) {
   RollerDoubleApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1|ball2|spring|paths|pathSelect',
-      myName);
+      myName+'.');
 };
 
 /** @inheritDoc */

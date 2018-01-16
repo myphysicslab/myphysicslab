@@ -21,9 +21,8 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var GenericVector = myphysicslab.lab.util.GenericVector;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
-var NF = myphysicslab.lab.util.Util.NF;
 
 /** Remembers the local coordinate system of a
 * {@link myphysicslab.lab.model.MassObject}. Used during collision checking to
@@ -62,8 +61,8 @@ if (!Util.ADVANCED) {
     return 'LocalCoords{'
         +'loc_world_: '+this.loc_world_
         +', cm_body_: '+this.cm_body_
-        +', sinAngle_: '+NF(this.sinAngle_)
-        +', cosAngle_: '+NF(this.cosAngle_)
+        +', sinAngle_: '+Util.NF(this.sinAngle_)
+        +', cosAngle_: '+Util.NF(this.cosAngle_)
         +'}';
   };
 };

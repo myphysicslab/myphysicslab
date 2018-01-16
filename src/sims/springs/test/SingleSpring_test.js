@@ -33,7 +33,7 @@ goog.require('myphysicslab.sims.springs.SingleSpringSim');
 var testSingleSpring = function() {
   var SimObject = myphysicslab.lab.model.SimObject;
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
-  var Util = myphysicslab.lab.util.Util;
+  var Util = goog.module.get('myphysicslab.lab.util.Util');
   var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
   var i;
   var tol = 1E-15;

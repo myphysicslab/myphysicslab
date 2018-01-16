@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Specifies a set of Edges in a Polygon. The Edges must be contiguous in the list of
 Edges in the Polygon. Edges are specified by their index in the list of Edges of the

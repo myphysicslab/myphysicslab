@@ -38,13 +38,11 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var GraphLine = myphysicslab.lab.graph.GraphLine;
 var LabView = myphysicslab.lab.view.LabView;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var SimView = myphysicslab.lab.view.SimView;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Watches the {@link VarsList} of one or more {@link GraphLine} to calculate the
@@ -234,9 +232,9 @@ if (!Util.ADVANCED) {
         +', enabled_: '+this.enabled_
         +', isActive_: '+this.isActive_
         +', axis_: '+this.axis_
-        +', extraMargin: '+NF(this.extraMargin)
-        +', minSize: '+NF(this.minSize)
-        +', timeWindow_: '+NF(this.timeWindow_)
+        +', extraMargin: '+Util.NF(this.extraMargin)
+        +', minSize: '+Util.NF(this.minSize)
+        +', timeWindow_: '+Util.NF(this.timeWindow_)
         +', simView_: '+this.simView_.toStringShort()
         +', graphLines_: ['
         + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })

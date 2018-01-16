@@ -66,7 +66,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalLayout = sims.common.VerticalLayout;
 
 /** Shows a simulation from the `springs` namespace by executing commands in Terminal.
@@ -107,15 +107,15 @@ TerminalSpringApp.prototype.defineNames = function(myName) {
   var t = this.terminal;
   t.addWhiteList(myName);
   t.addRegex('layout',
-      myName);
+      myName+'.');
   t.addRegex('terminal|simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
   t.addRegex('ChainOfSpringsSim|CollideBlocksSim|CollideSpringSim'
       +'|DangleStickSim|Double2DSpringSim|DoubleSpringSim|Molecule1Sim'
       +'|Molecule3Sim|SingleSpringSim|Spring2DSim',
-      'myphysicslab.sims.springs', /*addToVars=*/false);
+      'myphysicslab.sims.springs.', /*addToVars=*/false);
   t.addRegex('CommonControls',
-      'myphysicslab.sims.common', /*addToVars=*/false);
+      'myphysicslab.sims.common.', /*addToVars=*/false);
 };
 
 /**

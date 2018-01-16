@@ -23,10 +23,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 goog.scope(function() {
 
 var Collision = myphysicslab.lab.model.Collision;
-var Util = myphysicslab.lab.util.Util;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
@@ -97,11 +94,11 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   RollerCollision.prototype.toString = function() {
     return 'RollerCollision{'
-        +'distance='+NF(this.distance_)
-        +', accuracy='+NF(this.accuracy_)
-        +', detectedTime='+NF(this.detectedTime_)
-        +', impulse: '+NF5(this.impulse)
-        +', velocity: '+NF5(this.velocity)
+        +'distance='+Util.NF(this.distance_)
+        +', accuracy='+Util.NF(this.accuracy_)
+        +', detectedTime='+Util.NF(this.detectedTime_)
+        +', impulse: '+Util.NF5(this.impulse)
+        +', velocity: '+Util.NF5(this.velocity)
         +', position='+this.ball_.getPosition()
         +'}';
   };

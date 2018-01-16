@@ -20,10 +20,8 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Base class that provides common methods for SimObjects.
 
@@ -58,7 +56,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractSimObject.prototype.toString = function() {
     return this.getClassName()+ '{name_: "' + this.getName() + '"'
-        +', expireTime_: '+NF(this.expireTime_)+'}';
+        +', expireTime_: '+Util.NF(this.expireTime_)+'}';
   };
 
   /** @inheritDoc */

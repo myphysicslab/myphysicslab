@@ -50,7 +50,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /**  The NewtonsCradleApp simulation shows six pendulums side-by-side, you
@@ -159,9 +159,9 @@ NewtonsCradleApp.prototype.getClassName = function() {
 NewtonsCradleApp.prototype.defineNames = function(myName) {
   NewtonsCradleApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('NewtonsCradleApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

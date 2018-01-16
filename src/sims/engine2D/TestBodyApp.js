@@ -63,7 +63,7 @@ var Scrim = lab.engine2D.Scrim;
 var Shapes = lab.engine2D.Shapes;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -157,9 +157,9 @@ TestBodyApp.prototype.getClassName = function() {
 TestBodyApp.prototype.defineNames = function(myName) {
   TestBodyApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw|block|spring',
-       myName);
+       myName+'.');
   this.terminal.addRegex('TestBodyApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

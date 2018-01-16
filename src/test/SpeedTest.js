@@ -44,11 +44,9 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 

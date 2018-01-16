@@ -49,7 +49,7 @@ var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link PendulumSim} simulation.
 
@@ -135,7 +135,7 @@ PendulumApp.prototype.getClassName = function() {
 PendulumApp.prototype.defineNames = function(myName) {
   PendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod|drive|bob',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

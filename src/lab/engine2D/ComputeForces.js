@@ -23,17 +23,9 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF18 = myphysicslab.lab.util.Util.NF18;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
-var NF0 = myphysicslab.lab.util.Util.NF0;
-var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var Random = myphysicslab.lab.util.Random;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
-
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Computes forces at contact points between RigidBodys, or impulses at collision
 points between RigidBodys. The {@link #compute_forces} method is an implementation of
@@ -668,7 +660,7 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
     }
   }
   if (Util.DEBUG && 0 == 1) {
-    UtilEngine.printArray2(NF7(time)+' ComputeForces order ', this.order, NF0);
+    UtilEngine.printArray2(Util.NF7(time)+' ComputeForces order ', this.order, Util.NF0);
   }
   if (Util.DEBUG && this.debugCF && solved > 0) {
     if (solved > 0) {
@@ -735,9 +727,9 @@ ComputeForces.prototype.checkLoop = function(d) {
         var accelOld = this.accels[i];
         var accelMin = UtilEngine.minValue(this.accels);
         this.print('num states='+this.states.length
-          +' now accel='+NFE(ComputeForces.sumAccelSquare(this.a, this.joint, this.n))
-          +' prev accel='+NFE(accelOld)
-          +' min accel='+NFE(accelMin)
+          +' now accel='+Util.NFE(ComputeForces.sumAccelSquare(this.a, this.joint, this.n))
+          +' prev accel='+Util.NFE(accelOld)
+          +' min accel='+Util.NFE(accelMin)
           );
         UtilEngine.printList('state', state);
         console.log('checkLoop detected same state');
@@ -987,17 +979,17 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
       if ((this.C[i] || this.joint[i]) && Math.abs(this.a[i]) > this.SMALL_POSITIVE) {
         //this.specialCase = true;
         this.print('=======  accel s/b zero a['+i+']='
-              +NFE(this.a[i])+' tol='+NFE(this.SMALL_POSITIVE));
+              +Util.NFE(this.a[i])+' tol='+Util.NFE(this.SMALL_POSITIVE));
       }
       if ((this.NC[i] && !this.joint[i]) && this.a[i] < -this.SMALL_POSITIVE) {
         //this.specialCase = true;
         this.print('========  accel s/b non-negative a['+i+']='
-              +NFE(this.a[i])+' tol='+NFE(-this.SMALL_POSITIVE));
+              +Util.NFE(this.a[i])+' tol='+Util.NFE(-this.SMALL_POSITIVE));
       }
       if (this.NC[i] && Math.abs(this.f[i]) > this.SMALL_POSITIVE) {
         //this.specialCase = true;
         this.print('========  force s/b zero at NC f['+i+']='
-              +NFE(this.f[i])+' tol='+NFE(this.SMALL_POSITIVE));
+              +Util.NFE(this.f[i])+' tol='+Util.NFE(this.SMALL_POSITIVE));
       }
     }
     if (0 == 1 && Util.DEBUG) {
@@ -1006,8 +998,8 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
       var minAccel2 = UtilEngine.minValue(accel);
       //goog.asserts.assert(Math.abs(minAccel) < 2E-8);
       var minAccel = UtilEngine.minValue(this.a, this.n);
-      this.print('min accel = '+NFE(minAccel)
-          +' min accel2 = '+NFE(minAccel2)
+      this.print('min accel = '+Util.NFE(minAccel)
+          +' min accel2 = '+Util.NFE(minAccel2)
       );
       this.printEverything('checkAccel', true);
     }
@@ -1025,9 +1017,9 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
   }
   if (!ComputeForces.checkForceAccel(tolerance, this.f, this.a, this.joint)) {
     if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
-      this.print('checkForceAccel FAILED with tolerance='+NFE(tolerance));
-      UtilEngine.printArray('force', this.f, NFE, this.n);
-      UtilEngine.printArray('accel', this.a, NFE, this.n);
+      this.print('checkForceAccel FAILED with tolerance='+Util.NFE(tolerance));
+      UtilEngine.printArray('force', this.f, Util.NFE, this.n);
+      UtilEngine.printArray('accel', this.a, Util.NFE, this.n);
     }
     return false;
   }
@@ -1058,8 +1050,8 @@ ComputeForces.checkForceAccel = function(tolerance, force, accel, joint) {
         r = false;
         if (Util.DEBUG) {
           console.log('checkForceAccel i='+i
-              +' accel[i]='+NFE(accel[i])
-              +' force[i]='+NFE(force[i]));
+              +' accel[i]='+Util.NFE(accel[i])
+              +' force[i]='+Util.NFE(force[i]));
         }
       }
     } else {
@@ -1067,8 +1059,8 @@ ComputeForces.checkForceAccel = function(tolerance, force, accel, joint) {
         r = false;
         if (Util.DEBUG) {
           console.log('checkForceAccel i='+i
-              +' accel[i]='+NFE(accel[i])
-              +' force[i]='+NFE(force[i]));
+              +' accel[i]='+Util.NFE(accel[i])
+              +' force[i]='+Util.NFE(force[i]));
         }
       }
     }
@@ -1177,7 +1169,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
   goog.asserts.assert(!this.C[d]);
   goog.asserts.assert(!this.NC[d]);
   if (this.debugCF && Util.DEBUG)
-    this.print('drive_to_zero d='+d+' a['+d+']='+NFE(this.a[d])
+    this.print('drive_to_zero d='+d+' a['+d+']='+Util.NFE(this.a[d])
       +' joint='+this.joint[d]+' N='+this.n);
   // First deal with cases where we don't have to do anything at all
   // (no changes to forces needed) because a[d] is already at zero.
@@ -1198,15 +1190,15 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       // defer d because adding d to C would make Acc+d matrix singular.
       if (Util.DEBUG && (this.debugCF)) {
         this.print('SINGULAR MATRIX(1) DEFER d='+d
-              +' f[d]='+NFE(this.f[d])
-              +' a[d]='+NFE(this.a[d])
+              +' f[d]='+Util.NFE(this.f[d])
+              +' a[d]='+Util.NFE(this.a[d])
               );
       }
       return d;
     } else if (Util.DEBUG && (this.debugCF) && singular && this.R[d]) {
       // we won't defer d because we previously rejected it.
       this.print('SINGULAR MATRIX(1) IN REJECTS d='+d
-            +' a[d]='+NFE(this.a[d])
+            +' a[d]='+Util.NFE(this.a[d])
             );
     }
   }
@@ -1236,11 +1228,11 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       for (i=0; i<this.n; i++) {
         // check that delta_a[i] = 0 for all members of C
         if (this.C[i] && Math.abs(this.delta_a[i])> this.SMALL_POSITIVE) {
-          this.print('should be zero '+' delta_a['+i+']='+NFE(this.delta_a[i]));
+          this.print('should be zero '+' delta_a['+i+']='+Util.NFE(this.delta_a[i]));
         }
         // check that delta_f[i] is reasonable size;  defer if not??
         if (this.C[i] && Math.abs(this.delta_f[i]) > 1E6) {
-          this.print('very large force '+' delta_f['+i+']='+NFE(this.delta_f[i]));
+          this.print('very large force '+' delta_f['+i+']='+Util.NFE(this.delta_f[i]));
         }
       }
     }
@@ -1253,7 +1245,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
       // maxStep found a huge step, or cannot figure what to do.
       if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
         if (j > -1)
-          this.print('HUGE STEP j='+j+' d='+d+' stepSize='+NFE(this.stepSize));
+          this.print('HUGE STEP j='+j+' d='+d+' stepSize='+Util.NFE(this.stepSize));
         else
           this.print('maxStep:  no step possible d='+d);
       }
@@ -1292,8 +1284,8 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // potentially as an infinite loop.
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.print('FLIP-FLOP DEFER j='+j
-            +' f[j]='+NFE(this.f[j])
-            +' a[j]='+NFE(this.a[j])
+            +' f[j]='+Util.NFE(this.f[j])
+            +' a[j]='+Util.NFE(this.a[j])
             +' while driving d='+d+' N='+this.n);
         }
         // defer solving this contact by adding to rejects, then continue on
@@ -1333,7 +1325,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // we will defer j because it would make Acc+d+j singular
         if ((this.debugCF) && Util.DEBUG) {
           this.print('SINGULAR MATRIX(2) DEFER NC j='+j
-            +' f[j]='+NFE(this.f[j])+' a[j]='+NFE(this.a[j])
+            +' f[j]='+Util.NFE(this.f[j])+' a[j]='+Util.NFE(this.a[j])
             );
         }
         this.C[j] = false;
@@ -1345,7 +1337,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // (This case doesn't seem to happen, and it is unclear what to do here.)
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
-                +' a[j]='+NFE(this.a[j])
+                +' a[j]='+Util.NFE(this.a[j])
                 );
         }
       }
@@ -1369,7 +1361,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // Instead of moving to NC, move this to the set of untreated contacts
         // so that we can drive it to zero again.
         if (Math.abs(this.f[j])> 10*this.SMALL_POSITIVE) {
-          var s = 'moving C to NC but f[j]='+ NFE(this.f[j]);
+          var s = 'moving C to NC but f[j]='+ Util.NFE(this.f[j]);
           if (Util.DEBUG)
             this.printEverything(s);
           else
@@ -1395,7 +1387,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         // so that we can drive it to zero again.
         // ??? SHOULD WE ADD THIS TO REJECTS???
         if (Math.abs(this.a[j])> 10*this.SMALL_POSITIVE)
-          this.print('WARNING moving NC to C but a[j]='+NFE(this.a[j]));
+          this.print('WARNING moving NC to C but a[j]='+Util.NFE(this.a[j]));
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.printContact(' redo NC', false, j, d, loopCtr);
         }
@@ -1430,7 +1422,7 @@ ComputeForces.prototype.drive_to_zero = function(d) {
         || (Math.abs(this.f[d]) <= this.SMALL_POSITIVE && this.NC[d]) );
   if (this.debugCF && Util.DEBUG) {
     this.print('drive_to_zero finish d='+d
-      +' a['+d+']='+NFE(this.a[d]));
+      +' a['+d+']='+Util.NFE(this.a[d]));
     this.printEverything('drive_to_zero finish');
   }
   return -1;
@@ -1529,17 +1521,17 @@ ComputeForces.prototype.fdirection = function(d) {
           break;
         } else {
           if ((true || this.WARNINGS || this.debugCF) && Util.DEBUG) {
-            this.print(' %%% maxtrix solve error = '+NFE(maxError)
-              +' not within accel tol='+NFE(accelTolerance)
-              +' using solve tol='+NFE(tolerance)
+            this.print(' %%% maxtrix solve error = '+Util.NFE(maxError)
+              +' not within accel tol='+Util.NFE(accelTolerance)
+              +' using solve tol='+Util.NFE(tolerance)
               +' d='+d);
             if (0 == 1) {
               // Because we have the 'assert false' below, print everything
               // for debugging.
-              UtilEngine.printMatrix2('bMatrix '+c+'x'+c, this.bMatrix, NF18, c);
-              UtilEngine.printMatrix2('Acc '+c+'x'+c, Acc, NF18, c);
-              UtilEngine.printArray2('v1 ', this.v1, NF18, c);
-              UtilEngine.printArray2('x ', x, NF18, c);
+              UtilEngine.printMatrix2('bMatrix '+c+'x'+c, this.bMatrix, Util.NF18, c);
+              UtilEngine.printMatrix2('Acc '+c+'x'+c, Acc, Util.NF18, c);
+              UtilEngine.printArray2('v1 ', this.v1, Util.NF18, c);
+              UtilEngine.printArray2('x ', x, Util.NF18, c);
               this.printEverything('matrix solve error', true);
             }
           }
@@ -1554,11 +1546,11 @@ ComputeForces.prototype.fdirection = function(d) {
           ComputeForces.copyMatrix(c, c+1, this.bMatrix, Acc);
           if ((this.WARNINGS || this.debugCF) && Util.DEBUG)
             this.print('fdirection retry with tolerance '
-                    +NFE(tolerance)+' d='+d);
+                    +Util.NFE(tolerance)+' d='+d);
           if (tolerance < 1E-17) {
             if ((this.WARNINGS || this.debugCF) && Util.DEBUG)
               this.print('fdirection fail:  tolerance reduced to '
-                +NFE(tolerance)+' d='+d);
+                +Util.NFE(tolerance)+' d='+d);
             break;
           }
         }
@@ -1632,7 +1624,7 @@ ComputeForces.prototype.maxStep = function(d) {
   }
   if (this.debugCF && Util.DEBUG) {
     this.print('maxStep start with d='+d+' j='+j
-        +' s='+NFE(s));
+        +' s='+Util.NFE(s));
     //this.printEverything('maxStep start');
   }
   // When sign = 1, we are increasing the negative a[d] to zero.
@@ -1654,14 +1646,14 @@ ComputeForces.prototype.maxStep = function(d) {
         }
         if (this.debugCF && Util.DEBUG) {
           this.print('opposite step(1) i='+i
-            +' '+NFE(sPrime)
-            +' delta_f[i]='+NFE(this.delta_f[i])
-            +' f[i]='+NFE(this.f[i]));
+            +' '+Util.NFE(sPrime)
+            +' delta_f[i]='+Util.NFE(this.delta_f[i])
+            +' f[i]='+Util.NFE(this.f[i]));
         }
         sPrime = 0;
       }
       if (this.debugCF && Util.DEBUG) {
-        this.print('C['+i+'] sPrime='+NFE(sPrime));
+        this.print('C['+i+'] sPrime='+Util.NFE(sPrime));
       }
       if (sPrime*sign < s*sign) {
         // if smaller step, then adopt it as our current winner
@@ -1687,14 +1679,14 @@ ComputeForces.prototype.maxStep = function(d) {
         }
         if (this.debugCF && Util.DEBUG) {
           this.print('opposite step(2) i='+i
-            +' sPrime='+NFE(sPrime)
-            +' delta_a[i]='+NFE(this.delta_a[i])
-            +' a[i]='+NFE(this.a[i]));
+            +' sPrime='+Util.NFE(sPrime)
+            +' delta_a[i]='+Util.NFE(this.delta_a[i])
+            +' a[i]='+Util.NFE(this.a[i]));
         }
         sPrime = 0;
       }
       if (this.debugCF && Util.DEBUG) {
-        this.print('NC['+i+'] sPrime='+NFE(sPrime));
+        this.print('NC['+i+'] sPrime='+Util.NFE(sPrime));
       }
       if (sPrime*sign < s*sign) {
         s = sPrime;
@@ -1703,7 +1695,7 @@ ComputeForces.prototype.maxStep = function(d) {
     }
   }
   if (this.debugCF && Util.DEBUG) {
-    this.print('maxStep end with j='+j+' d='+d+' s='+NFE(s));
+    this.print('maxStep end with j='+j+' d='+d+' s='+Util.NFE(s));
   }
   this.stepSize = s;
   return j;
@@ -1755,7 +1747,7 @@ ComputeForces.prototype.wouldBeSingular1 = function(d) {
     var ncol = new Array(c+1);
     for (i=0; i<c+1; i++)
       ncol[i] = i;
-    UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, NF7, c);
+    UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, Util.NF7, c);
   }
   return isSingular;
 }
@@ -1808,7 +1800,7 @@ ComputeForces.prototype.wouldBeSingular2 = function(d, e) {
     var ncol = new Array(c+1);
     for (i=0; i<c+1; i++)
       ncol[i] = i;
-    UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, NF7, c);
+    UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, Util.NF7, c);
   }
   return isSingular;
 }
@@ -1823,11 +1815,11 @@ ComputeForces.prototype.printEverything = function(s, printMatrix) {
     printMatrix = printMatrix || false;
     this.print('printEverything '+s);
     console.log('seed='+this.pRNG.getSeed());
-    UtilEngine.printArray('f', this.f, NFE, this.n);
-    UtilEngine.printArray('a', this.a, NFSCI, this.n);
-    UtilEngine.printArray('delta_f', this.delta_f, NFE, this.n);
-    //UtilEngine.printArray('delta_f[C]', this.delta_f, this.n, this.C, NFE);
-    UtilEngine.printArray('delta_a', this.delta_a, NFE, this.n);
+    UtilEngine.printArray('f', this.f, Util.NFE, this.n);
+    UtilEngine.printArray('a', this.a, Util.NFSCI, this.n);
+    UtilEngine.printArray('delta_f', this.delta_f, Util.NFE, this.n);
+    //UtilEngine.printArray('delta_f[C]', this.delta_f, this.n, this.C, Util.NFE);
+    UtilEngine.printArray('delta_a', this.delta_a, Util.NFE, this.n);
     UtilEngine.printArrayIndices('joint', this.joint, this.n);
     UtilEngine.printArrayIndices('C', this.C, this.n);
     UtilEngine.printArrayIndices('NC', this.NC, this.n);
@@ -1841,8 +1833,8 @@ ComputeForces.prototype.printEverything = function(s, printMatrix) {
       UtilEngine.printArrayIndices('not treated', p, this.n);
     }
     if (printMatrix) {
-      UtilEngine.printMatrix2('A '+this.A.length+'x'+this.A[0].length, this.A, NFSCI);
-      UtilEngine.printArray('b', this.b, NFSCI, this.n);
+      UtilEngine.printMatrix2('A '+this.A.length+'x'+this.A[0].length, this.A, Util.NFSCI);
+      UtilEngine.printArray('b', this.b, Util.NFSCI, this.n);
     }
   }
 }
@@ -1857,17 +1849,17 @@ ComputeForces.prototype.printEverything = function(s, printMatrix) {
 */
 ComputeForces.prototype.printContact = function(s, allInfo, j, d, loopCtr) {
   if (Util.DEBUG) {
-    s = s+' j='+j+' N='+this.n+' step='+NFE(this.stepSize);
+    s = s+' j='+j+' N='+this.n+' step='+Util.NFE(this.stepSize);
     if (allInfo || this.C[j])
         s += ' C['+j+']='+this.C[j]
-          +' f['+j+']='+NFE(this.f[j])
-          +' delta_f['+j+']='+NFE(this.delta_f[j]);
+          +' f['+j+']='+Util.NFE(this.f[j])
+          +' delta_f['+j+']='+Util.NFE(this.delta_f[j]);
     if (allInfo || this.NC[j])
         s += ' NC['+j+']='+this.NC[j]
-          +' a['+j+']='+NFE(this.a[j])
-          +' delta_a['+j+']='+NFE(this.delta_a[j]);
+          +' a['+j+']='+Util.NFE(this.a[j])
+          +' delta_a['+j+']='+Util.NFE(this.delta_a[j]);
     if (d >=0)
-      s += ' d='+d+' a[d]='+NFE(this.a[d]);
+      s += ' d='+d+' a[d]='+Util.NFE(this.a[d]);
     if (loopCtr >= 0)
       s += ' loopCtr='+loopCtr;
     this.print(s);
@@ -1929,7 +1921,7 @@ ComputeForces.copyArray = function(n, r, dest) {
 */
 ComputeForces.prototype.print = function(s) {
   if (Util.DEBUG) {
-    console.log(this.name_+' '+NF7(this.time)+' '+s);
+    console.log(this.name_+' '+Util.NF7(this.time)+' '+s);
   }
 }
 

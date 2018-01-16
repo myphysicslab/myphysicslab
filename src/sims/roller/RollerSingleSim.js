@@ -34,14 +34,13 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 var PointMass = myphysicslab.lab.model.PointMass;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -190,9 +189,9 @@ if (!Util.ADVANCED) {
         +', spring_: '+this.spring_
         +', path_: '+this.path_
         +', hasSpring_: '+this.hasSpring_
-        +', damping_: '+NF(this.damping_)
-        +', gravity_: '+NF(this.gravity_)
-        +', lowestPoint_: '+NF(this.lowestPoint_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', lowestPoint_: '+Util.NF(this.lowestPoint_)
         + RollerSingleSim.superClass_.toString.call(this);
   };
 };

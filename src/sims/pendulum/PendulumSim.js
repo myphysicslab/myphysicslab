@@ -39,11 +39,10 @@ var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -285,11 +284,11 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   PendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', length_: '+NF(this.length_)
-        +', gravity_: '+NF(this.gravity_)
-        +', damping_: '+NF(this.damping_)
-        +', frequency_: '+NF(this.frequency_)
-        +', amplitude_: '+NF(this.amplitude_)
+        +', length_: '+Util.NF(this.length_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', damping_: '+Util.NF(this.damping_)
+        +', frequency_: '+Util.NF(this.frequency_)
+        +', amplitude_: '+Util.NF(this.amplitude_)
         +', limitAngle_: '+this.limitAngle_
         +', pivot_: '+this.pivot_
         +', rod_: '+this.rod_

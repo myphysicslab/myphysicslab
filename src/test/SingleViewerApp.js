@@ -46,7 +46,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** SingleViewerApp is hard-coded to run a single test for debugging, similar to
 TestViewerApp but without the menus to select tests.

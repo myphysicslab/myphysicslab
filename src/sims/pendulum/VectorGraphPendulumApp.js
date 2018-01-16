@@ -53,7 +53,7 @@ var PointMass = lab.model.PointMass;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var VectorGraph = lab.graph.VectorGraph;
 
@@ -150,7 +150,7 @@ VectorGraphPendulumApp.prototype.getClassName = function() {
 VectorGraphPendulumApp.prototype.defineNames = function(myName) {
   VectorGraphPendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('rod|bob',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

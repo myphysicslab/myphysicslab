@@ -28,11 +28,10 @@ goog.scope(function() {
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var CoordType = myphysicslab.lab.model.CoordType;
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Utility methods for making toothed gears, and setting forces on them.

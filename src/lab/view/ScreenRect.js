@@ -18,8 +18,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF = myphysicslab.lab.util.Util.NF;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** An immutable rectangle corresponding to screen coordinates where the
 vertical coordinates increase downwards.
@@ -66,10 +65,10 @@ var ScreenRect = myphysicslab.lab.view.ScreenRect;
 if (!Util.ADVANCED) {
   /** @inheritDoc */
   ScreenRect.prototype.toString = function() {
-    return 'ScreenRect{left_: '+NF(this.left_)
-        +', top_: '+NF(this.top_)
-        +', width_: '+NF(this.width_)
-        +', height_: '+NF(this.height_)
+    return 'ScreenRect{left_: '+Util.NF(this.left_)
+        +', top_: '+Util.NF(this.top_)
+        +', width_: '+Util.NF(this.width_)
+        +', height_: '+Util.NF(this.height_)
         +'}';
   };
 };

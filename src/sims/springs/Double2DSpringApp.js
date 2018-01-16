@@ -50,7 +50,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Double2DSpringSim} simulation.
 
@@ -151,7 +151,7 @@ Double2DSpringApp.prototype.getClassName = function() {
 Double2DSpringApp.prototype.defineNames = function(myName) {
   Double2DSpringApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('topMass|bob1|bob2|spring1|spring2|protoBob|protoSpring',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

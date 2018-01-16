@@ -23,9 +23,8 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -112,7 +111,7 @@ if (!Util.ADVANCED) {
         +', v1_: '+this.v1_.toStringShort()
         +', v2_: '+this.v2_.toStringShort()
         +', centroid_body_: '+this.centroid_body_
-        +', centroidRadius_: '+NF5(this.centroidRadius_)
+        +', centroidRadius_: '+Util.NF5(this.centroidRadius_)
   };
 
   AbstractEdge.prototype.toStringShort = function() {

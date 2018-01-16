@@ -27,9 +27,8 @@ goog.scope(function() {
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var NF = myphysicslab.lab.util.Util.NF;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Draws a clock with two 'second hands': one tracks the simulation time, the other
@@ -132,8 +131,8 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   DisplayClock.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', radius: '+NF(this.radius_)
-        +', period: '+NF(this.period_)
+        +', radius: '+Util.NF(this.radius_)
+        +', period: '+Util.NF(this.period_)
         +', location_: '+this.location_
         +', zIndex: '+this.zIndex_
         +'}';
@@ -141,7 +140,7 @@ if (!Util.ADVANCED) {
 
   /** @inheritDoc */
   DisplayClock.prototype.toStringShort = function() {
-    return 'DisplayClock{'+'time: '+NF(this.simTimeFn_())+'}';
+    return 'DisplayClock{'+'time: '+Util.NF(this.simTimeFn_())+'}';
   };
 };
 

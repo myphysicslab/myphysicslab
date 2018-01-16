@@ -28,8 +28,7 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF5E = myphysicslab.lab.util.Util.NF5E;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** An Impulse is a sudden change in momentum, it acts on a given {@link MassObject}
@@ -93,7 +92,7 @@ if (!Util.ADVANCED) {
   Impulse.prototype.toString = function() {
     return Impulse.superClass_.toString.call(this).slice(0, -1)
         +', body: "'+this.body_.getName()+'"'
-        +', magnitude_: '+NF5E(this.magnitude_)
+        +', magnitude_: '+Util.NF5E(this.magnitude_)
         +', location_: '+this.location_
         +', direction_: '+this.direction_
         +', offset_: '+this.offset_

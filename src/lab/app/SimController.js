@@ -41,7 +41,7 @@ var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var MouseTracker = myphysicslab.lab.app.MouseTracker;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var ViewPanner = myphysicslab.lab.app.ViewPanner;
 

@@ -155,9 +155,9 @@ java -jar "$CLOSURE_COMPILER" \
 --compilation_level=$comp_level \
 --define=goog.DEBUG=true \
 --define=goog.LOCALE="'$locale'" \
---define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
---define=myphysicslab.lab.util.Util.DEBUG=$util_debug \
---define=myphysicslab.lab.util.Util.COMPILE_TIME="`date +%F' '%T`" \
+--define=module\$exports\$myphysicslab\$lab\$util\$Util.ADVANCED=$advanced \
+--define=module\$exports\$myphysicslab\$lab\$util\$Util.DEBUG=$util_debug \
+--define=module\$exports\$myphysicslab\$lab\$util\$Util.COMPILE_TIME="`date +%F' '%T`" \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=src/ \

@@ -66,7 +66,7 @@ var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RotatingTestForce = sims.engine2D.RotatingTestForce;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Simulation of the Do Nothing Grinder, which consists of two shuttle
@@ -169,9 +169,9 @@ DoNothingApp.prototype.getClassName = function() {
 DoNothingApp.prototype.defineNames = function(myName) {
   DoNothingApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('DoNothingApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */
@@ -284,9 +284,9 @@ DoNothingApp.setup = function(sim, tightFit) {
   var p1 = s1.getPosition();
   var p2 = s2.getPosition();
   var handleLength = p1.distanceTo(p2);
-  //console.log('p1 to p2 '+NF5(p1.distanceTo(p2)));
+  //console.log('p1 to p2 '+Util.NF5(p1.distanceTo(p2)));
   var a = Math.atan(-p1.getY()/p2.getX());
-  //console.log('a '+NF5(a));
+  //console.log('a '+Util.NF5(a));
   handle.setAngle(-Math.PI/2 + a);
   JointUtil.attachRigidBody(sim,
     s1,  /*attach point on s1, body coords=*/new Vector(0, 0),

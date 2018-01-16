@@ -51,7 +51,7 @@ var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var Spring2DSim = sims.springs.Spring2DSim;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Spring2DSim} simulation.
 
@@ -138,7 +138,7 @@ Spring2DApp.prototype.getClassName = function() {
 Spring2DApp.prototype.defineNames = function(myName) {
   Spring2DApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('anchor|bob|spring',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

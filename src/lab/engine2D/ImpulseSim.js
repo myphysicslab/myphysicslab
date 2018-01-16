@@ -42,7 +42,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CollisionTotals = lab.model.CollisionTotals;
@@ -50,16 +50,6 @@ var ComputeForces = lab.engine2D.ComputeForces;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 var GenericEvent = lab.util.GenericEvent;
 var Impulse = lab.model.Impulse;
-var NF = Util.NF;
-var NF5 = Util.NF5;
-var nf5 = Util.nf5;
-var NF5E = Util.NF5E;
-var NF7 = Util.NF7;
-var nf7 = Util.nf7;
-var NF7E = Util.NF7E;
-var NF9 = Util.NF9;
-var NFE = Util.NFE;
-var NFSCI = Util.NFSCI;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -334,9 +324,9 @@ if (!Util.ADVANCED) {
   /** @inheritDoc  */
   ImpulseSim.prototype.toString_ = function() {
     return ', collisionHandling_: '+this.collisionHandling_
-        + ', distanceTol_: '+NF(this.distanceTol_)
-        + ', velocityTol_: '+NF(this.velocityTol_)
-        + ', collisionAccuracy_: '+NF(this.collisionAccuracy_)
+        + ', distanceTol_: '+Util.NF(this.distanceTol_)
+        + ', velocityTol_: '+Util.NF(this.velocityTol_)
+        + ', collisionAccuracy_: '+Util.NF(this.collisionAccuracy_)
         + ', showCollisions_: '+this.showCollisions_
         + ', simRNG_: '+this.simRNG_
         + ImpulseSim.superClass_.toString_.call(this);
@@ -620,9 +610,9 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
           continue loop2;
       } else {
         if (1 == 0 && Util.DEBUG) {
-          this.myPrint('velocity ' +NF5(bod1.getVelocity().lengthCheap()
-              + bod2.getVelocity().lengthCheap())+ ' >  speed limit = '+NF5(speed_limit)
-              +' step='+NF5(stepSize));
+          this.myPrint('velocity ' +Util.NF5(bod1.getVelocity().lengthCheap()
+              + bod2.getVelocity().lengthCheap())+ ' >  speed limit = '+Util.NF5(speed_limit)
+              +' step='+Util.NF5(stepSize));
         }
       }
       var rbcs = /** @type {!Array<!RigidBodyCollision>} */(collisions);
@@ -643,8 +633,8 @@ ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
   */
   //var time = this.getTime() + stepSize;  // alternative way to get time
   if (1 == 0 && Util.DEBUG && collisions.length > 0) {
-    console.log(NF7(time)+' findCollisions stepSize='
-            +NF7(stepSize)+' collisions '+collisions.length);
+    console.log(Util.NF7(time)+' findCollisions stepSize='
+            +Util.NF7(stepSize)+' collisions '+collisions.length);
   }
 };
 
@@ -851,8 +841,8 @@ ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
   }
   if (0 == 1 && Util.DEBUG) {
     var energy2 = this.getEnergyInfo().getTotalEnergy();
-    this.myPrint('handleCollisions energy change '+ NFE(energy2 - energy)
-          +' total energy '+NF9(energy2));
+    this.myPrint('handleCollisions energy change '+ Util.NFE(energy2 - energy)
+          +' total energy '+Util.NF9(energy2));
   }
   return impulse;
 };
@@ -878,7 +868,7 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
     var ck = collisions[k];
     b[k] = ck.getNormalVelocity();
     if (0 == 1 && Util.DEBUG)
-      this.myPrint('handle collision['+k+']='+NF5(b[k])+' '+ck);
+      this.myPrint('handle collision['+k+']='+Util.NF5(b[k])+' '+ck);
     // Normal collisions have elasticity;
     // joints and contacts have zero elasticity.
     e[k] = ck.contact() ? 1 : 1 + ck.getElasticity();
@@ -899,12 +889,12 @@ ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_tot
     accel = UtilEngine.vectorAdd(accel, b);
     var tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j, accel, joint)) {
-      throw new Error(Util.DEBUG ? (NF7(this.getTime())
+      throw new Error(Util.DEBUG ? (Util.NF7(this.getTime())
           +' compute_impulses failed error='+error
-          +' with tol='+NFE(tol)) : '');
+          +' with tol='+Util.NFE(tol)) : '');
     } else {
       this.myPrint('warning: compute_impulses failed error='+error
-          +' but is within tol='+NFE(tol));
+          +' but is within tol='+Util.NFE(tol));
     }
   }
 
@@ -1101,7 +1091,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       loopPanic = loopPanic + PANIC_LIMIT;
       if (Util.DEBUG) {
         console.log('loopPanic! loopCtr='+loopCtr
-            +' small_velocity='+NF5(small_velocity));
+            +' small_velocity='+Util.NF5(small_velocity));
       }
     }
     if (Util.DEBUG && loopCtr > LOOP_LIMIT) {
@@ -1113,7 +1103,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
         goog.array.forEach(collisions, function(c, i) {
           console.log('c['+(i)+'] '+c);
         }, this);
-        UtilEngine.printArray('nv ',nv, NFE);
+        UtilEngine.printArray('nv ',nv, Util.NFE);
       }
     }
     // Randomly pick a collision (larger than small_velocity) to handle.
@@ -1121,7 +1111,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
     focus = this.hcs_focus(debugHCS, small_velocity, loopCtr, joint, b);
     if (debugHCS && Util.DEBUG && focus > -1) {
       // THIS IS AN EXCELLENT PLACE TO SEE WHAT IS GOING ON
-      console.log('focus='+focus+' loopCtr='+loopCtr+' b['+focus+']='+NF7E(b[focus]));
+      console.log('focus='+focus+' loopCtr='+loopCtr+' b['+focus+']='+Util.NF7E(b[focus]));
     }
     if (focus == -1 && !lastPass) {
       // no 'final pass'
@@ -1139,7 +1129,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
   if (Util.DEBUG && debugHCS) {
     // THIS SHOWS THE LARGEST VELOCITY AT END OF THE PROCESS
     console.log('focus= -1 loopCtr='+loopCtr
-      +' max b='+NF7E(ImpulseSim.largestVelocity(joint, b)));
+      +' max b='+Util.NF7E(ImpulseSim.largestVelocity(joint, b)));
   }
   if (Util.DEBUG && debugHCS) {
     for (i=0; i<n; i++) {
@@ -1155,8 +1145,8 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       // print velocity before the impulses are applied
       if (j2[i] > ImpulseSim.TINY_IMPULSE || c.joint) {
         console.log('before impulse '
-          +' j['+i+']='+NF9(j2[i])
-          +' v='+NF9(c.getNormalVelocity())
+          +' j['+i+']='+Util.NF9(j2[i])
+          +' v='+Util.NF9(c.getNormalVelocity())
           +' n='+n);
       }
     }
@@ -1172,7 +1162,7 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
     // apply calculated impulse, changing simulation state
     this.applyCollisionImpulse(c, j2[i]);
     if (Util.DEBUG && debugHCS) {
-      console.log('impulse j2['+i+'] = '+NFE(j2[i]));
+      console.log('impulse j2['+i+'] = '+Util.NFE(j2[i]));
     }
   }
   if (nonJoint && impulse) {
@@ -1187,8 +1177,8 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
       var c = collisions[i];
       if (j2[i]  > ImpulseSim.TINY_IMPULSE || c.joint) {
         console.log('after impulse '
-            +' j['+i+']='+NF9(j2[i])
-            +' v='+NF9(c.getNormalVelocity())
+            +' j['+i+']='+Util.NF9(j2[i])
+            +' v='+Util.NF9(c.getNormalVelocity())
             +' n='+n
             +' '+c);
       }
@@ -1196,13 +1186,13 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
   }
   if (Util.DEBUG && loopCtr > 100 + 2*n*Math.log(n+1)) {
     // PRINT WARNING WHEN TOO MANY LOOPS HAVE HAPPENED
-    console.log('%c %s %c %s', 'color:red', NF7(this.getTime()),
+    console.log('%c %s %c %s', 'color:red', Util.NF7(this.getTime()),
       'color:black', 'handleCollisions many loops: n='+n
-      +' loopCtr='+loopCtr+' small_velocity='+NF5(small_velocity));
+      +' loopCtr='+loopCtr+' small_velocity='+Util.NF5(small_velocity));
   }
   if (Util.DEBUG && debugHCS) {
     console.log('handleCollisions end  impulse='+impulse+' loopCtr='+loopCtr
-      +' small_velocity='+NF5(small_velocity));
+      +' small_velocity='+Util.NF5(small_velocity));
   }
   return impulse;
 };
@@ -1292,8 +1282,8 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
   var n = b.length;
   if (Util.DEBUG && debugHCS) {
     console.log('focus='+focus+' loopCtr='+loopCtr);
-    UtilEngine.printArray('b ',b, nf7);
-    UtilEngine.printArray('e ',e, nf7);
+    UtilEngine.printArray('b ',b, Util.nf7);
+    UtilEngine.printArray('e ',e, Util.nf7);
   }
 
   var set = Util.newBooleanArray(n);
@@ -1387,9 +1377,9 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     // Print the A matrix and b vector for further analysis.
     // This prints the data needed as input to compute_forces, so that
     // you can try it again as a standalone test, see UtilityTest.
-    UtilEngine.printArray2('b', b, NFSCI);
+    UtilEngine.printArray2('b', b, Util.NFSCI);
     UtilEngine.printList('joint', joint);
-    UtilEngine.printMatrix2('A '+A.length+'x'+A[0].length, A, NFSCI);
+    UtilEngine.printMatrix2('A '+A.length+'x'+A[0].length, A, Util.NFSCI);
   }
   if (error != -1) {
     // check on how bad the solution is.
@@ -1397,16 +1387,16 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
     accel = UtilEngine.vectorAdd(accel, b1);
     var tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j1, accel, joint1)) {
-      throw new Error(Util.DEBUG ? (NF7(this.getTime())
+      throw new Error(Util.DEBUG ? (Util.NF7(this.getTime())
           +' compute_impulses failed error='+error
-          +' with tolerance='+NFE(tol)) : '');
+          +' with tolerance='+Util.NFE(tol)) : '');
     } else if (Util.DEBUG) {
       console.log('warning: compute_impulses failed error='+error
-              +' but is within tolerance='+NFE(tol));
+              +' but is within tolerance='+Util.NFE(tol));
     }
   }
   if (1 == 0 && Util.DEBUG) {
-    console.log(' max impulse '+NFE(UtilEngine.maxSize(j1))  );
+    console.log(' max impulse '+Util.NFE(UtilEngine.maxSize(j1))  );
   }
   // update the cumulative impulse j2
   for (i=0; i<n1; i++) {
@@ -1421,9 +1411,9 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
   }
   if (Util.DEBUG && debugHCS) {
     UtilEngine.printArray('idx2', idx2, Util.NF0);
-    UtilEngine.printArray('j1', j1, nf7);
-    UtilEngine.printArray('j2', j2, nf7);
-    UtilEngine.printArray('b ',b, nf7);
+    UtilEngine.printArray('j1', j1, Util.nf7);
+    UtilEngine.printArray('j2', j2, Util.nf7);
+    UtilEngine.printArray('b ',b, Util.nf7);
   }
   // showVelo = show collision velocities visually (not currently working)
   var showVelo = false;
@@ -1478,12 +1468,12 @@ ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
   this.applyImpulse(new Impulse('IMPULSE2', cd.normalBody, -j, i2, cd.normal, cd.getR2()));
   if (0 == 1 && Util.DEBUG) {
     // this is for looking at small impulses
-    this.myPrint('impulse='+NFE(j)+' dist='+NFE(cd.distance)
-        +' velocity='+NFE(cd.getNormalVelocity()));
+    this.myPrint('impulse='+Util.NFE(j)+' dist='+Util.NFE(cd.distance)
+        +' velocity='+Util.NFE(cd.getNormalVelocity()));
   }
   if (ImpulseSim.DEBUG_IMPULSE && Util.DEBUG) {
     if (j > 1e-16)
-      this.myPrint('impulse='+NF9(j)+' '+cd);
+      this.myPrint('impulse='+Util.NF9(j)+' '+cd);
   }
 };
 

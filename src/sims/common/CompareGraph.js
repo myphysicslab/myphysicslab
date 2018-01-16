@@ -76,7 +76,7 @@ var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalAlign = lab.view.VerticalAlign;
 
 /** Creates a graph showing two GraphLines corresponding to two Simulations, where the

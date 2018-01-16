@@ -29,11 +29,10 @@ goog.scope(function() {
 var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
 var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 

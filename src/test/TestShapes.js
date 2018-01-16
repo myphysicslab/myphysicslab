@@ -27,11 +27,10 @@ goog.scope(function() {
 
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /**  This class consists exclusively of static methods that create RigidBodys.

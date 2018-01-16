@@ -101,7 +101,7 @@ var Shapes = lab.engine2D.Shapes;
 var Simulation = lab.model.Simulation;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Demonstrates a RigidBody connected to various 'roller coaster' paths by a PathJoint.
@@ -220,13 +220,13 @@ RigidBodyRollerApp.prototype.getClassName = function() {
 RigidBodyRollerApp.prototype.defineNames = function(myName) {
   RigidBodyRollerApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('block|paths|path|pathSelect|gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
   this.terminal.addRegex('RigidBodyRollerApp|CardioidPath|CirclePath'
        +'|FlatPath|HumpPath|LemniscatePath|LoopTheLoopPath|OvalPath'
        +'|PathObserver|PathSelector|HasPath|SpiralPath',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

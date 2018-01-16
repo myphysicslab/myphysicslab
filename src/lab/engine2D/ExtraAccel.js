@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Specifies the calculation done by {@link myphysicslab.lab.engine2D.ContactSim} to
 determine the extra acceleration added to eliminate small amount of residual velocity

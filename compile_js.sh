@@ -137,22 +137,23 @@ fi
 # see:  https://code.google.com/p/closure-compiler/wiki/Warnings
 #
 # The myphysicslab.lab.util.Util.ADVANCED flag should be set 'true' when
-# ADVANCED_OPTIMIZATIONS is used.  (This disables the command line Terminal.)
+# ADVANCED_OPTIMIZATIONS is used.
 #
 # It is possible to use Terminal for interactive debugging under advanced compile by
-# leaving ADVANCED = false. In that case the Terminal is available, and all the
+# leaving ADVANCED = false. In that case all the
 # toString() methods are defined, but most other names are minified.
 # Use goog.exportSymbol to make certain variables (e.g. sim, timer, labCanvas, etc.)
 # available under advanced compile (for debugging via Terminal).
 #
-# to debug advanced compiled code see "Closure: The Definitive Guide" by Bolin Chap. 16
-# --debug
-# prevents names being obfuscated
-# --formatting=PRETTY_PRINT
-# maintains line breaks similar to original code, making it easier to read.
-# --formatting=PRINT_INPUT_DELIMITER
-# adds a comment for every new input file processed,
+# To debug compiled code use the following flags,
+# and see Chapter 16 of "Closure: The Definitive Guide" by Bolin.
+# --debug prevents names being minimized and obfuscated
+# --formatting=PRETTY_PRINT maintains line breaks similar to original code
+# --formatting=PRINT_INPUT_DELIMITER adds a comment for every new input file processed,
 # so you can tell what file the compiled code is from.
+# --debug \
+# --formatting=PRETTY_PRINT \
+# --formatting=PRINT_INPUT_DELIMITER \
 #
 # compilation_levels: WHITESPACE_ONLY, SIMPLE, ADVANCED
 # --version  displays compiler version to stdout and quit
@@ -204,9 +205,9 @@ java -jar "$CLOSURE_COMPILER" \
 --compilation_level=$comp_level \
 --define=goog.DEBUG=$goog_debug \
 --define=goog.LOCALE="'$locale'" \
---define=myphysicslab.lab.util.Util.ADVANCED=$advanced \
---define=myphysicslab.lab.util.Util.DEBUG=$util_debug \
---define=myphysicslab.lab.util.Util.COMPILE_TIME="`date +%F' '%T`" \
+--define=module\$exports\$myphysicslab\$lab\$util\$Util.ADVANCED=$advanced \
+--define=module\$exports\$myphysicslab\$lab\$util\$Util.DEBUG=$util_debug \
+--define=module\$exports\$myphysicslab\$lab\$util\$Util.COMPILE_TIME="`date +%F' '%T`" \
 --generate_exports \
 --js=`readlink closure-library` \
 --js=$rootDir \

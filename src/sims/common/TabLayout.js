@@ -36,13 +36,12 @@ var lab = myphysicslab.lab;
 var AbstractSubject = lab.util.AbstractSubject;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
-var NF = lab.util.Util.NF;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** TabLayout is a tab-based layout for showing a simulation, graph, controls.
 TabLayout implements specific ways to present the application on the web page, in this
@@ -387,9 +386,9 @@ if (!Util.ADVANCED) {
   TabLayout.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', layout_: "'+this.layout_+'"'
-        +', simWidth_: '+NF(this.simWidth_)
-        +', graphWidth_: '+NF(this.graphWidth_)
-        +', timeGraphWidth_: '+NF(this.timeGraphWidth_)
+        +', simWidth_: '+Util.NF(this.simWidth_)
+        +', graphWidth_: '+Util.NF(this.graphWidth_)
+        +', timeGraphWidth_: '+Util.NF(this.timeGraphWidth_)
         +', simCanvas: '+this.simCanvas.toStringShort()
         +', graphCanvas: '+this.graphCanvas.toStringShort()
         +', timeGraphCanvas: '+this.timeGraphCanvas.toStringShort()

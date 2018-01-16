@@ -27,9 +27,8 @@ goog.scope(function() {
 var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
-var NF = myphysicslab.lab.util.Util.NF;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Contains a set of thrust forces operating on a particular RigidBody; each thruster
@@ -88,7 +87,7 @@ if (!Util.ADVANCED) {
   ThrusterSet.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
         +', thrusters: '+this.active_.length
-        +', magnitude: '+NF(this.magnitude_)
+        +', magnitude: '+Util.NF(this.magnitude_)
         +', locations_body: '+this.locations_body_
         +', directions_body: '+this.directions_body_
         +', active:['+this.active_+']'

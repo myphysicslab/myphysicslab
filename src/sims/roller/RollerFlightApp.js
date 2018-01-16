@@ -58,7 +58,7 @@ var PointMass = lab.model.PointMass;
 var RollerFlightSim = sims.roller.RollerFlightSim;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Creates the RollerFlightSim simulation
@@ -177,7 +177,7 @@ RollerFlightApp.prototype.getClassName = function() {
 RollerFlightApp.prototype.defineNames = function(myName) {
   RollerFlightApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('ball1|anchor|spring|path|displayPath',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

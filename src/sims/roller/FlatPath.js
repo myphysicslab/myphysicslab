@@ -19,7 +19,7 @@ goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** A horizontal flat path.

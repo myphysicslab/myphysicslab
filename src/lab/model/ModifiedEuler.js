@@ -22,7 +22,7 @@ goog.scope(function() {
 
 var ODESim = myphysicslab.lab.model.ODESim;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Modified Euler method for solving ordinary differential equations
 expressed as a {@link ODESim}; operates by using the

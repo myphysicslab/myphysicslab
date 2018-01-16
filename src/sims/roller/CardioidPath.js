@@ -19,9 +19,8 @@ goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
-var NF = myphysicslab.lab.util.Util.NF;
 
 /** ParametricPath that represents a cardiod, which is a vaguely heart shaped
 figure. Currently set to not be a closed curve, with end points at the point (at the
@@ -75,7 +74,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   CardioidPath.prototype.toString = function() {
     return CardioidPath.superClass_.toString.call(this).slice(0, -1)
-        + ', radius: '+NF(this.a_)+'}';
+        + ', radius: '+Util.NF(this.a_)+'}';
   };
 };
 

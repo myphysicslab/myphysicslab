@@ -35,12 +35,10 @@ var sims = myphysicslab.sims;
 var CoordMap = lab.view.CoordMap;
 var GenericEvent = lab.util.GenericEvent;
 var LabView = lab.view.LabView;
-var NF = lab.util.Util.NF;
-var NF5 = lab.util.Util.NF5;
 var ODESim = lab.model.ODESim;
 var ScreenRect = lab.view.ScreenRect;
 var Subject = lab.util.Subject;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Draws vectors showing the direction field of the differential equation. In a graph

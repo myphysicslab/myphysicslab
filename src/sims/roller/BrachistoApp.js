@@ -51,7 +51,7 @@ var ParametricPath = lab.model.ParametricPath;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SimRunner = lab.app.SimRunner;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays the {@link BrachistoSim} simulation which shows a ball sliding down various
@@ -205,7 +205,7 @@ BrachistoApp.prototype.setRepeatTime = function(value) {
 BrachistoApp.prototype.defineNames = function(myName) {
   BrachistoApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('brachistoObserver|paths',
-      myName);
+      myName+'.');
 };
 
 BrachistoApp.prototype.setup = function() {

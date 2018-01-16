@@ -19,9 +19,8 @@ goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
-var NF = myphysicslab.lab.util.Util.NF;
 
 /** A path like an oval racetrack with vertical sections. The straight
 sections are vertical, so it is a good test for handling infinite slope situations.
@@ -99,7 +98,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   OvalPath.prototype.toString = function() {
     return OvalPath.superClass_.toString.call(this).slice(0, -1)
-        + ', straight: '+NF(this.s_)+'}';
+        + ', straight: '+Util.NF(this.s_)+'}';
   };
 };
 

@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.scope(function() {
 
 var Observer = myphysicslab.lab.util.Observer;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A checkbox input element which synchronizes with a target boolean value by
 executing specified `getter` and `setter` functions.

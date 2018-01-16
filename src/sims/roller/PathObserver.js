@@ -35,14 +35,13 @@ var DisplayPath = myphysicslab.lab.view.DisplayPath;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var GenericObserver = myphysicslab.lab.util.GenericObserver;
 var LabView = myphysicslab.lab.view.LabView;
-var NF = myphysicslab.lab.util.Util.NF;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var Observer = myphysicslab.lab.util.Observer;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
 var Subject = myphysicslab.lab.util.Subject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Automatically creates a DisplayPath when a NumericalPath is added to a SimList.
@@ -149,7 +148,7 @@ if (!Util.ADVANCED) {
     return 'PathObserver{'
       +'simList_: '+this.simList_.toStringShort()
       +', simView_: '+this.simView_.toStringShort()
-      +', expansionFactor: '+NF(this.expansionFactor_)
+      +', expansionFactor: '+Util.NF(this.expansionFactor_)
       +', displayList_: '+this.displayList_.toStringShort()
       +', protoDisplayPath: '+(this.protoDisplayPath ?
            this.protoDisplayPath.toStringShort() : 'undefined')

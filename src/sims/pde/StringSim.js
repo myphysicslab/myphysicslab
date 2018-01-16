@@ -57,14 +57,13 @@ var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
 var GenericEvent = lab.util.GenericEvent;
 var MutableVector = lab.util.MutableVector;
-var NF = lab.util.Util.NF;
 var ParameterNumber = lab.util.ParameterNumber;
 var PointMass = lab.model.PointMass;
 var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var Spring = lab.model.Spring;
 var StringShape = sims.pde.StringShape;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var Vector = lab.util.Vector;
 
@@ -267,7 +266,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   StringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-      +', density_: '+NF(this.density_)
+      +', density_: '+Util.NF(this.density_)
       +', tension_: '+this.tension_
       + StringSim.superClass_.toString.call(this);
   };

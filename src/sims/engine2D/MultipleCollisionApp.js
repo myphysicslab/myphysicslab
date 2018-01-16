@@ -53,7 +53,6 @@ var DampingLaw = lab.model.DampingLaw;
 var DoubleRect = lab.util.DoubleRect;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var JointUtil = lab.engine2D.JointUtil;
-var NF = lab.util.Util.NF;
 var NumericControl = lab.controls.NumericControl;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
@@ -61,7 +60,7 @@ var Polygon = lab.engine2D.Polygon;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var Walls = lab.engine2D.Walls;
 
@@ -226,9 +225,9 @@ if (!Util.ADVANCED) {
         +', dampingLaw: '+this.dampingLaw.toStringShort()
         +', formation: '+this.formation
         +', shape: '+this.shape
-        +', angle: '+NF(this.angle)
-        +', offset: '+NF(this.offset)
-        +', speed: '+NF(this.speed)
+        +', angle: '+Util.NF(this.angle)
+        +', offset: '+Util.NF(this.offset)
+        +', speed: '+Util.NF(this.speed)
         + MultipleCollisionApp.superClass_.toString.call(this);
   };
 };
@@ -251,9 +250,9 @@ MultipleCollisionApp.Shape = {
 MultipleCollisionApp.prototype.defineNames = function(myName) {
   MultipleCollisionApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('MultipleCollisionApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

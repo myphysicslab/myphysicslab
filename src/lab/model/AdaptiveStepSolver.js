@@ -23,12 +23,8 @@ goog.scope(function() {
 
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var ODESim = myphysicslab.lab.model.ODESim;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Experimental differential equation solver which reduces step size as
 needed to ensure that energy stays constant over every time step. Uses Decorator design
@@ -112,7 +108,7 @@ if (!Util.ADVANCED) {
         +', odeSolver_: '+this.odeSolver_.toStringShort()
         +', energySystem_: '+this.energySystem_.toStringShort()
         +', secondDiff_: '+this.secondDiff_
-        +', tolerance_: '+NFE(this.tolerance_)
+        +', tolerance_: '+Util.NFE(this.tolerance_)
         +'}';
   };
 
@@ -232,12 +228,12 @@ AdaptiveStepSolver.prototype.step = function(stepSize) {
     }
     if (0 == 1 && Util.DEBUG) {
       if (!this.secondDiff_ || !firstTime) {
-        console.log(NF7(startTime)
-          +' value='+NF9(value)
-          +' d_t='+NF9(d_t)
-          +' nowDiff='+NF9(energyDiff)
-          +' lastDiff='+NF9(lastEnergyDiff)
-          +' finishEnergy='+NF7(finishEnergy)
+        console.log(Util.NF7(startTime)
+          +' value='+Util.NF9(value)
+          +' d_t='+Util.NF9(d_t)
+          +' nowDiff='+Util.NF9(energyDiff)
+          +' lastDiff='+Util.NF9(lastEnergyDiff)
+          +' finishEnergy='+Util.NF7(finishEnergy)
           );
       }
     }

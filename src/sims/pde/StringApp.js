@@ -95,7 +95,6 @@ var GenericMemo = lab.util.GenericMemo;
 var GenericObserver = lab.util.GenericObserver;
 var HorizAlign = lab.view.HorizAlign;
 var LabControl = lab.controls.LabControl;
-var NF5 = lab.util.Util.NF5;
 var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterString = lab.util.ParameterString;
@@ -111,7 +110,7 @@ var StringShape = sims.pde.StringShape;
 var StringSim = sims.pde.StringSim;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -249,7 +248,7 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
     this.sim.modifyObjects();
     var s = this.sim.getStability();
     if (this.stability != s) {
-      this.stabilityText.setText('stability = '+NF5(s));
+      this.stabilityText.setText('stability = '+Util.NF5(s));
       this.stability = s;
       this.stabilityText.setFillStyle(s < 1 ? 'rgb(160,160,160)' : 'red');
     }
@@ -400,9 +399,9 @@ StringApp.prototype.defineNames = function(myName) {
   this.terminal.addRegex('advance|axes|block|blockMass|clock|displayClock|energyGraph'
       +'|path|displayPath|displayList'
       +'|layout|sim|simCtrl|simList|simRun|simView|statusView|terminal|easyScript',
-      myName);
+      myName+'.');
   this.terminal.addRegex('simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
 };
 
 /** Add the control to the set of simulation controls.

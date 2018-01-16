@@ -51,7 +51,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link DangleStickSim} simulation.
 
@@ -138,7 +138,7 @@ DangleStickApp.prototype.getClassName = function() {
 DangleStickApp.prototype.defineNames = function(myName) {
   DangleStickApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('stick|bob1|bob2|spring|protoMass',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

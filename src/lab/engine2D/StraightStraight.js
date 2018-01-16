@@ -24,12 +24,10 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Provides static functions for handling interactions between two

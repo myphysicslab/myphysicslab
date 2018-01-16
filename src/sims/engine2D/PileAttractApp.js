@@ -66,7 +66,7 @@ var RandomLCG = lab.util.RandomLCG;
 var Shapes = lab.engine2D.Shapes;
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 var WayPoint = lab.model.CollisionAdvance.WayPoint;
 
@@ -179,9 +179,9 @@ PileAttractApp.prototype.getClassName = function() {
 PileAttractApp.prototype.defineNames = function(myName) {
   PileAttractApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
-       myName);
+       myName+'.');
   this.terminal.addRegex('PileConfig|PileAttractApp|Engine2DApp',
-       'myphysicslab.sims.engine2D', /*addToVars=*/false);
+       'myphysicslab.sims.engine2D.', /*addToVars=*/false);
 };
 
 /** @inheritDoc */

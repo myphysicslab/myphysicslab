@@ -28,9 +28,7 @@ var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Abstract class which implements most of the {@link MassObject} methods.
@@ -115,14 +113,14 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   AbstractMassObject.prototype.toString = function() {
     return AbstractMassObject.superClass_.toString.call(this).slice(0, -1)
-        +', mass_: '+NF(this.mass_)
+        +', mass_: '+Util.NF(this.mass_)
         +', loc_world_: '+this.loc_world_
         +', angle_: '+this.angle_
         +', velocity_: '+this.velocity_
-        +', angular_velocity_: '+NF(this.angular_velocity_)
+        +', angular_velocity_: '+Util.NF(this.angular_velocity_)
         +', cm_body_: '+this.cm_body_
-        +', zeroEnergyLevel_: '+NF(this.zeroEnergyLevel_)
-        +', moment_: '+NF(this.moment_)
+        +', zeroEnergyLevel_: '+Util.NF(this.zeroEnergyLevel_)
+        +', moment_: '+Util.NF(this.moment_)
         +'}';
   };
 };

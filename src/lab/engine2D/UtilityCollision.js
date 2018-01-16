@@ -29,12 +29,10 @@ goog.scope(function() {
 
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var Edge = myphysicslab.lab.engine2D.Edge;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 
@@ -732,8 +730,8 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
         if (Util.DEBUG && debugPenetration) {
           console.log('!!!!! no intersection found  !!!!!');
           console.log('v_body='+v_body+' v_body_old='+v_body_old);
-          console.log('v_body.x='+NFSCI(v_body.getX()));
-          console.log('v_body_old.x='+NFSCI(v_body_old.getX()));
+          console.log('v_body.x='+Util.NFSCI(v_body.getX()));
+          console.log('v_body_old.x='+Util.NFSCI(v_body_old.getX()));
           console.log('e1='+e1);
         }
         // There is no collision of vertex2 with this edge e1; next check for contact

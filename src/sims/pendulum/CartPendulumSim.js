@@ -34,11 +34,10 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -233,10 +232,10 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   CartPendulumSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', gravity_: '+NF(this.gravity_)
-        +', dampingCart_: '+NF(this.dampingCart_)
-        +', dampingPendulum_: '+NF(this.dampingPendulum_)
-        +', length_: '+NF(this.length_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', dampingCart_: '+Util.NF(this.dampingCart_)
+        +', dampingPendulum_: '+Util.NF(this.dampingPendulum_)
+        +', length_: '+Util.NF(this.length_)
         +', cart_: '+this.cart_
         +', pendulum_: '+this.pendulum_
         +', spring_: '+this.spring_

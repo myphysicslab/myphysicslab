@@ -45,7 +45,7 @@ var PointMass = lab.model.PointMass;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Molecule1Sim} simulation.
 
@@ -138,7 +138,7 @@ Molecule1App.prototype.getClassName = function() {
 Molecule1App.prototype.defineNames = function(myName) {
   Molecule1App.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('walls|atom1|atom2|spring',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

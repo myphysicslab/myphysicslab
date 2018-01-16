@@ -50,7 +50,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var Simulation = lab.model.Simulation;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Displays the {@link RigidDoublePendulumSim} simulation.
@@ -142,7 +142,7 @@ RigidDoublePendulumApp.prototype.getClassName = function() {
 RigidDoublePendulumApp.prototype.defineNames = function(myName) {
   RigidDoublePendulumApp.superClass_.defineNames.call(this, myName);
   this.terminal.addRegex('joint0|joint1|bob1|bob0|protoBob',
-      myName);
+      myName+'.');
 };
 
 }); // goog.scope

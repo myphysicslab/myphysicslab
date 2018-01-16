@@ -72,7 +72,7 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var SubjectList = lab.util.SubjectList;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var VerticalAlign = lab.view.VerticalAlign;
 

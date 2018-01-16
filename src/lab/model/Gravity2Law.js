@@ -36,13 +36,11 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var MassObject = myphysicslab.lab.model.MassObject;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
 var Observer = myphysicslab.lab.util.Observer;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 
 /** Applies gravitational force between each pair of objects proportional to the
@@ -113,7 +111,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Gravity2Law.prototype.toStringShort = function() {
     return Gravity2Law.superClass_.toStringShort.call(this).slice(0, -1)
-        +', gravity: '+NF5(this.gravity_)+'}';
+        +', gravity: '+Util.NF5(this.gravity_)+'}';
   };
 };
 

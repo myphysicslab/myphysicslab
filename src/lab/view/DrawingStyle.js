@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Specifies drawing style including: whether to draw dots or lines; color; thickness;
 line dash.

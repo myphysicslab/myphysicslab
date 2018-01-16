@@ -49,6 +49,7 @@ Contents of this page:
 + [Programming Details][]
     + [Macros in HTML Files][]
     + [Advanced vs. Simple Compile][]
+    + [Debugging Compiled Code][]
     + [Debugging (running uncompiled)][]
     + [Global Variable Usage][]
     + [Global Namespace Path][]
@@ -1025,6 +1026,16 @@ See the following pages for more information about Closure Compiler:
 
 + [Advanced Compilation and Externs](https://developers.google.com/closure/compiler/docs/api-tutorial3)
     explains problems to watch for with advanced compilation
+
+## Debugging Compiled Code
+
+If you need to debug compiled code, be aware of the following compiler flags that
+format the compiled code to be more readable.
+
++ `--debug` prevents names being minimized and obfuscated
++ `--formatting=PRETTY_PRINT` maintains line breaks similar to original code
++ `--formatting=PRINT_INPUT_DELIMITER` adds a comment for every new input file
+    processed, so you can tell what file the compiled code is from.
 
 
 ## Debugging (running uncompiled)

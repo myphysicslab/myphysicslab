@@ -34,11 +34,10 @@ var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
-var NF = myphysicslab.lab.util.Util.NF;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 var Vector = myphysicslab.lab.util.Vector;
 
@@ -244,8 +243,8 @@ if (!Util.ADVANCED) {
   /** @inheritDoc */
   Double2DSpringSim.prototype.toString = function() {
     return this.toStringShort().slice(0, -1)
-        +', gravity_: '+NF(this.gravity_)
-        +', damping_: '+NF(this.damping_)
+        +', gravity_: '+Util.NF(this.gravity_)
+        +', damping_: '+Util.NF(this.damping_)
         +', bob1_: '+this.bob1_
         +', bob2_: '+this.bob2_
         +', spring1_: '+this.spring1_

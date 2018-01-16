@@ -126,7 +126,7 @@ var SimView = lab.view.SimView;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = lab.util.Vector;
 
 /** Compares two double pendulum simulations that are run simultaneously: the
@@ -547,9 +547,9 @@ CompareDoublePendulumApp.prototype.defineNames = function(myName) {
       +'|energyGraph1|energyGraph2|graph|layout|sim1|sim2|simCtrl|simList'
       +'|simRect|simRun|simView|statusView|timeGraph|easyScript'
       +'|displayList|bob0|bob1|joint0|joint1|terminal|rbo',
-      myName);
+      myName+'.');
   this.terminal.addRegex('simCanvas',
-      myName+'.layout');
+      myName+'.layout.');
 };
 
 /** Add the control to the set of simulation controls.

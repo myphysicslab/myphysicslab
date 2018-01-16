@@ -32,16 +32,9 @@ var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
 var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF5E = myphysicslab.lab.util.Util.NF5E;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF7E = myphysicslab.lab.util.Util.NF7E;
-var NFE = myphysicslab.lab.util.Util.NFE;
-var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Handles collisions by backing up in time with binary search algorithm. For better
 performance uses collision time estimates and handles imminent collisions.
@@ -594,7 +587,7 @@ CollisionAdvance.prototype.do_advance_sim = function(stepSize) {
   // ===================== save current state =====================
   this.sim_.saveState();
   if (Util.DEBUG && stepSize <= 1E-15) {
-    this.myPrint('*** WARNING tiny time step = '+NFE(stepSize));
+    this.myPrint('*** WARNING tiny time step = '+Util.NFE(stepSize));
   }
   this.print(WayPoint.ADVANCE_SIM_START);
   // ===================== step the ODE forward =====================
@@ -883,7 +876,7 @@ CollisionAdvance.prototype.myPrint = function(message, colors) {
   // It primarily exists so it can be annotated with `...` for the Compiler,
   // we get the CSS strings from `arguments`.
   var args = goog.array.slice(arguments, 1);
-  args.unshift('%c'+NF7(this.sim_.getTime())+'%c '+message, 'color:blue', 'color:black');
+  args.unshift('%c'+Util.NF7(this.sim_.getTime())+'%c '+message, 'color:blue', 'color:black');
   console.log.apply(console, args);
 };
 
@@ -908,10 +901,10 @@ CollisionAdvance.prototype.print = function(wayPoint) {
       break;
 
     case WayPoint.ADVANCE_SIM_START:
-      this.myPrint('ADVANCE_SIM_START: step(' + NF7(this.currentStep_)+') to '
-          + NF7(this.sim_.getTime() + this.currentStep_)
+      this.myPrint('ADVANCE_SIM_START: step(' + Util.NF7(this.currentStep_)+') to '
+          + Util.NF7(this.sim_.getTime() + this.currentStep_)
           +' binarySearch='+this.binarySearch_
-          +' nextEstimate='+NF7(this.nextEstimate_)
+          +' nextEstimate='+Util.NF7(this.nextEstimate_)
           +' stuckCount='+this.stuckCount_
           );
       break;
@@ -921,7 +914,7 @@ CollisionAdvance.prototype.print = function(wayPoint) {
           return c.isColliding();
         });
       this.myPrint('ADVANCE_SIM_FAIL couldnt advance to '
-          +NF7(this.sim_.getTime() + this.currentStep_)
+          +Util.NF7(this.sim_.getTime() + this.currentStep_)
           +' odeSolver.step found '+ccount+' colliding'
           +' among '+this.collisions_.length+' collisions'
           );
@@ -932,7 +925,7 @@ CollisionAdvance.prototype.print = function(wayPoint) {
           return c.isColliding();
         });
       if (ccount > 0) {
-        this.myPrint('ADVANCE_SIM_COLLIDING advanced by '+NF7(this.currentStep_)
+        this.myPrint('ADVANCE_SIM_COLLIDING advanced by '+Util.NF7(this.currentStep_)
             +' but found '+ccount+' colliding'
             +' binarySearch='+this.binarySearch_);
       }
@@ -973,14 +966,14 @@ CollisionAdvance.prototype.print = function(wayPoint) {
 
     case WayPoint.HANDLE_COLLISION_SUCCESS:
       this.myPrint('HANDLE_COLLISION_SUCCESS'
-          +' max impulse='+NF5E(this.maxImpulse(this.collisions_))
-          +' min velocity='+NF7E(this.minVelocity(this.collisions_)));
+          +' max impulse='+Util.NF5E(this.maxImpulse(this.collisions_))
+          +' min velocity='+Util.NF7E(this.minVelocity(this.collisions_)));
       this.printCollisions2('HANDLE_COLLISION_SUCCESS', 1E-3);
       break;
 
     case WayPoint.HANDLE_COLLISION_FAIL:
       this.myPrint('%cHANDLE_COLLISION_FAIL%c '
-          +' detectedTime_='+NF7(this.detectedTime_)
+          +' detectedTime_='+Util.NF7(this.detectedTime_)
           +' stuckCount='+this.stuckCount_
           ,'background:#f9c', 'color:black');
       this.printCollisions('HANDLE_COLLISION_FAIL', true);
@@ -988,8 +981,8 @@ CollisionAdvance.prototype.print = function(wayPoint) {
 
     case WayPoint.ADVANCED_NO_BACKUP:
       this.myPrint('ADVANCED_NO_BACKUP'
-          +' nextEstimate='+NF7(this.nextEstimate_)
-          +' currentStep='+NF7E(this.currentStep_)
+          +' nextEstimate='+Util.NF7(this.nextEstimate_)
+          +' currentStep='+Util.NF7E(this.currentStep_)
           +' imminent='+this.stats_.numImminent
           +' non-collisions='+(this.collisions_.length - this.stats_.numImminent));
       break;
@@ -1005,8 +998,8 @@ CollisionAdvance.prototype.print = function(wayPoint) {
     case WayPoint.SMALL_IMPACTS:
       this.myPrint('SMALL_IMPACTS'
           +' num collisions='+this.collisions_.length
-          +' max impulse='+NF5E(this.maxImpulse(this.collisions_))
-          +' min velocity='+NF7E(this.minVelocity(this.collisions_)));
+          +' max impulse='+Util.NF5E(this.maxImpulse(this.collisions_))
+          +' min velocity='+Util.NF7E(this.minVelocity(this.collisions_)));
       //this.myPrint(Util.arrayBool2string(this.jointFlags(this.collisions_)));
       //this.myPrint(Util.array2string(this.allVelocities(this.collisions_)));
       break;
@@ -1019,8 +1012,8 @@ CollisionAdvance.prototype.print = function(wayPoint) {
 
     case WayPoint.NEXT_STEP_ESTIMATE:
       this.myPrint('NEXT_STEP_ESTIMATE'
-          +' nextEstimate_='+NF7(this.nextEstimate_)
-          +' currentStep_='+NF7E(this.currentStep_)
+          +' nextEstimate_='+Util.NF7(this.nextEstimate_)
+          +' currentStep_='+Util.NF7E(this.currentStep_)
           +' numNeedsHandling='+this.stats_.numNeedsHandling
           +' stuckCount='+this.stuckCount_
       );
@@ -1028,8 +1021,8 @@ CollisionAdvance.prototype.print = function(wayPoint) {
 
     case WayPoint.NEXT_STEP_BINARY:
       this.myPrint('%cNEXT_STEP_BINARY'
-          +' currentStep_='+NF7E(this.currentStep_)
-          +'%c detectedTime_='+NF7(this.detectedTime_)
+          +' currentStep_='+Util.NF7E(this.currentStep_)
+          +'%c detectedTime_='+Util.NF7(this.detectedTime_)
           +' binarySteps_='+this.binarySteps_
           +' numNeedsHandling='+this.stats_.numNeedsHandling
           +' stuckCount_='+this.stuckCount_
@@ -1038,9 +1031,9 @@ CollisionAdvance.prototype.print = function(wayPoint) {
 
     case WayPoint.NEXT_STEP_FULL:
       this.myPrint('NEXT_STEP_FULL'
-          +' currentStep_='+NF7E(this.currentStep_)
-          +' totalTimeStep_='+NF7(this.totalTimeStep_)
-          +' timeAdvanced_='+NF7(this.timeAdvanced_)
+          +' currentStep_='+Util.NF7E(this.currentStep_)
+          +' totalTimeStep_='+Util.NF7(this.totalTimeStep_)
+          +' timeAdvanced_='+Util.NF7(this.timeAdvanced_)
           +' stuckCount_='+this.stuckCount_
       );
       break;
@@ -1048,27 +1041,27 @@ CollisionAdvance.prototype.print = function(wayPoint) {
     case WayPoint.MAYBE_STUCK:
       this.myPrint('%cMAYBE_STUCK%c turning on binary search '
           +' stuckCount_='+this.stuckCount_
-          +' nextEstimate_='+NF7(this.nextEstimate_)
+          +' nextEstimate_='+Util.NF7(this.nextEstimate_)
           ,'background:#f9c', 'color:black');
       break;
 
     case WayPoint.ESTIMATE_IN_PAST:
       this.myPrint('%cESTIMATE_IN_PAST%c turning on binary search '
-          +' nextEstimate_='+NF7(this.nextEstimate_)
+          +' nextEstimate_='+Util.NF7(this.nextEstimate_)
           +' needsHandling='+this.stats_.numNeedsHandling
           ,'background:#f9c', 'color:black');
       break;
 
     case WayPoint.ESTIMATE_FAILED:
       this.myPrint('%cESTIMATE_FAILED%c turning on binary search '
-          +' nextEstimate_='+NF7(this.nextEstimate_)
+          +' nextEstimate_='+Util.NF7(this.nextEstimate_)
           +' needsHandling='+this.stats_.numNeedsHandling
           ,'background:#f9c', 'color:black');
       break;
 
     case WayPoint.NO_ESTIMATE:
       this.myPrint('%cNO_ESTIMATE%c turning on binary search '
-          +' nextEstimate_='+NF7(this.nextEstimate_)
+          +' nextEstimate_='+Util.NF7(this.nextEstimate_)
           +' needsHandling='+this.stats_.numNeedsHandling
           ,'background:#f9c', 'color:black');
       break;
@@ -1118,7 +1111,7 @@ CollisionAdvance.printCollision = function(time, msg, c) {
       style = 'background:#cf3'; // bright green
     }
   }
-  console.log('%c'+NF7(time)+'%c '+msg+' %c'+c,
+  console.log('%c'+Util.NF7(time)+'%c '+msg+' %c'+c,
      'color:blue', 'color:black', style);
 };
 

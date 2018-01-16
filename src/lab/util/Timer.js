@@ -20,12 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var NF3 = myphysicslab.lab.util.Util.NF3;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var nf7 = myphysicslab.lab.util.Util.nf7;
-var NFE = myphysicslab.lab.util.Util.NFE;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Periodically executes a callback function.
 
@@ -99,8 +94,8 @@ if (!Util.ADVANCED) {
     return 'Timer{period_: '+this.period_
         +', firing_: '+this.firing_
         +', timeoutID_: '+this.timeoutID_
-        +', fired_sys_: '+nf7(this.fired_sys_)
-        +', delta_: '+nf7(this.delta_)
+        +', fired_sys_: '+Util.nf7(this.fired_sys_)
+        +', delta_: '+Util.nf7(this.delta_)
         +'}';
   };
 };
@@ -121,18 +116,18 @@ Timer.prototype.timerCallback = function() {
     // https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe
     this.fired_sys_ = now;
     this.delta_ = this.period_ > 0 ? elapsed % this.period_ : 0;
-    /*console.log('FIRED now='+NF7(now)
-        +' elapsed='+NF7(elapsed)
-        +' fired_sys_='+NF7(this.fired_sys_)
-        +' delta_='+NF7(this.delta_)
-        +' period='+NF7(this.period_));
+    /*console.log('FIRED now='+Util.NF7(now)
+        +' elapsed='+Util.NF7(elapsed)
+        +' fired_sys_='+Util.NF7(this.fired_sys_)
+        +' delta_='+Util.NF7(this.delta_)
+        +' period='+Util.NF7(this.period_));
     */
   } else {
-    /*console.log('skip  now='+NF7(now)
-        +' elapsed='+NF7(elapsed)
-        +' fired_sys_='+NF7(this.fired_sys_)
-        +' delta_='+NF7(this.delta_)
-        +' period='+NF7(this.period_));
+    /*console.log('skip  now='+Util.NF7(now)
+        +' elapsed='+Util.NF7(elapsed)
+        +' fired_sys_='+Util.NF7(this.fired_sys_)
+        +' delta_='+Util.NF7(this.delta_)
+        +' period='+Util.NF7(this.period_));
     */
   }
   if (this.legacy_) {

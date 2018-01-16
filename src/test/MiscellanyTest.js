@@ -48,7 +48,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
-var Util = lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 var AdaptiveStepSolver = lab.model.AdaptiveStepSolver;
 var ChainConfig = sims.engine2D.ChainConfig;
@@ -70,11 +70,6 @@ var GravityLaw = lab.model.GravityLaw;
 var HumpPath = sims.roller.HumpPath;
 var JointUtil = lab.engine2D.JointUtil;
 var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
-var NF1S = Util.NF1S;
-var NF2 = Util.NF2;
-var NF5 = Util.NF5;
-var NF7 = Util.NF7;
-var NFE = Util.NFE;
 var NumericalPath = lab.model.NumericalPath;
 var PathEndPoint = lab.engine2D.PathEndPoint;
 var PathJoint = lab.engine2D.PathJoint;
@@ -526,9 +521,9 @@ MiscellanyTest.three_body_spin_test3A = function() {
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
        /*expectedCollisions=*/-1);
   if (0 == 1 && Util.DEBUG) {
-    console.log('start energy '+NF7(startEnergy)
+    console.log('start energy '+Util.NF7(startEnergy)
       +' ending energy '
-      +NF7(sim.getEnergyInfo().getTotalEnergy()));
+      +Util.NF7(sim.getEnergyInfo().getTotalEnergy()));
   }
   Engine2DTestRig.checkTightJoints(sim, 0.00001);
 };
@@ -562,9 +557,9 @@ MiscellanyTest.three_body_spin_test3B = function() {
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
        /*expectedCollisions=*/-1);
   if (0 == 1 && Util.DEBUG) {
-    console.log('start energy '+NF7(startEnergy)
+    console.log('start energy '+Util.NF7(startEnergy)
       +' ending energy '
-      +NF7(sim.getEnergyInfo().getTotalEnergy()));
+      +Util.NF7(sim.getEnergyInfo().getTotalEnergy()));
   }
   Engine2DTestRig.checkTightJoints(sim, 0.00001);
 };
@@ -594,9 +589,9 @@ MiscellanyTest.three_body_spin_test4A = function() {
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   if (0 == 1 && Util.DEBUG) {
-    console.log('start energy '+NF7(startEnergy)
+    console.log('start energy '+Util.NF7(startEnergy)
       +' ending energy '
-      +NF7(sim.getEnergyInfo().getTotalEnergy()));
+      +Util.NF7(sim.getEnergyInfo().getTotalEnergy()));
   }
   Engine2DTestRig.checkTightJoints(sim, 0.00001);
 };
@@ -628,9 +623,9 @@ MiscellanyTest.three_body_spin_test4B = function() {
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   if (0 == 1 && Util.DEBUG) {
-    console.log('start energy '+NF7(startEnergy)
+    console.log('start energy '+Util.NF7(startEnergy)
       +' ending energy '
-      +NF7(sim.getEnergyInfo().getTotalEnergy()));
+      +Util.NF7(sim.getEnergyInfo().getTotalEnergy()));
   }
   Engine2DTestRig.checkTightJoints(sim, 0.00001);
 };

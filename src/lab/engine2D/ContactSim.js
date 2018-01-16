@@ -45,12 +45,6 @@ var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var Force = myphysicslab.lab.model.Force;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
-var NF = myphysicslab.lab.util.Util.NF;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NF7 = myphysicslab.lab.util.Util.NF7;
-var NF9 = myphysicslab.lab.util.Util.NF9;
-var NFE = myphysicslab.lab.util.Util.NFE;
-var NFSCI = myphysicslab.lab.util.Util.NFSCI;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
@@ -61,7 +55,7 @@ var SimList = myphysicslab.lab.model.SimList;
 var Simulation = myphysicslab.lab.model.Simulation;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Physics engine for rigid bodies with contact forces to allow resting contact. The
 contact forces prevent the bodies from interpenetrating when they are in resting
@@ -371,7 +365,7 @@ if (!Util.ADVANCED) {
   /** @inheritDoc  */
   ContactSim.prototype.toString_ = function() {
     return ', extra_accel_: '+this.extra_accel_
-        +', extraAccelTimeStep_: '+NF(this.extraAccelTimeStep_)
+        +', extraAccelTimeStep_: '+Util.NF(this.extraAccelTimeStep_)
         + ContactSim.superClass_.toString_.call(this)
   };
 }
@@ -642,7 +636,7 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
     // demonstrates that we have duplicate code for finding the A matrix
     /** @type {!Array<!Float64Array>} */
     var A2 = this.makeCollisionMatrix(subset);
-    this.myPrint('diff='+NFE(ContactSim.matrixDiff(A, A2)));
+    this.myPrint('diff='+Util.NFE(ContactSim.matrixDiff(A, A2)));
   }
   /** @type {!Array<number>} */
   var b = this.calculate_b_vector(subset, change, vars);
@@ -945,12 +939,12 @@ ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
     }
     b[i] += extrab;
     if (0 == 1 && Util.DEBUG && Math.abs(extrab) > 1E-10) {
-      this.myPrint('EXTRAB '+ NFE(extrab)
-          +' normVel='+NF7(c.getNormalVelocity())
-          +' dist='+NF5(c.distance)
+      this.myPrint('EXTRAB '+ Util.NFE(extrab)
+          +' normVel='+Util.NF7(c.getNormalVelocity())
+          +' dist='+Util.NF5(c.distance)
           +' body='+c.primaryBody.getName()
           +' normalBody='+c.normalBody.getName()
-          +' extraAccelTimeStep='+NF5(this.extraAccelTimeStep_)
+          +' extraAccelTimeStep='+Util.NF5(this.extraAccelTimeStep_)
           );
     }
     var vx1 = fixedObj ? 0 : vars[RigidBodySim.VX_+obj];
@@ -1102,7 +1096,7 @@ fixed body cannot move. We could let those forces thru if desired.
 */
 ContactSim.prototype.applyContactForce = function(c, f, change) {
   if (0 == 1 && Util.DEBUG) {
-    this.myPrint('contact force '+NF5(f)+' '+c);
+    this.myPrint('contact force '+Util.NF5(f)+' '+c);
   }
   c.force = f;
   if (f==0) {
@@ -1153,12 +1147,12 @@ ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
     if (Util.DEBUG) {
       console.log(this.varsList_.printHistory());
     }
-    throw new Error(NF7(this.getTime())
+    throw new Error(Util.NF7(this.getTime())
         +' compute_forces failed error='+error
-        +' with tol='+NFE(tol));
+        +' with tol='+Util.NFE(tol));
   } else if (error != -1 && Util.DEBUG) {
     this.myPrint('warning: compute_forces failed error='+error
-        +' but is within tol='+NFE(tol));
+        +' but is within tol='+Util.NFE(tol));
   }
 };
 
@@ -1198,11 +1192,11 @@ if (Util.DEBUG) {
   ContactSim.prototype.printContactInfo = function(subset, b, vars) {
     // print all the collisions currently being treated
     for (var i=0, len=subset.length; i<len; i++) {
-      this.myPrint('b['+i+']='+NF7(b[i])+' '+subset[i],'background:#ffc',
+      this.myPrint('b['+i+']='+Util.NF7(b[i])+' '+subset[i],'background:#ffc',
         'color:black');
     }
     // print all vars
-    UtilEngine.printArray(NF7(this.getTime())+' vars', vars);
+    UtilEngine.printArray(Util.NF7(this.getTime())+' vars', vars);
     // print energy info
     this.myPrint(this.getEnergyInfo().toString());
   };
@@ -1223,19 +1217,19 @@ if (Util.DEBUG) {
     var lastMaxForce = UtilEngine.maxSize(this.forceHistory_);
     var limitForce = (lastMaxForce > 0.5) ? 2.5*lastMaxForce : 80;
     if (maxForce > 1 && maxForce > limitForce) {
-      this.myPrint('==== maxForce increased from '+NF5(lastMaxForce)
-          +' to '+NF5(maxForce));
+      this.myPrint('==== maxForce increased from '+Util.NF5(lastMaxForce)
+          +' to '+Util.NF5(maxForce));
       for (var i=0, len=subset.length; i<len; i++) {
         this.myPrint('c['+i+']='+subset[i]);
       }
       console.log(this.formatVars());
-      UtilEngine.printArray(NF7(this.getTime())+' f', f);
+      UtilEngine.printArray(Util.NF7(this.getTime())+' f', f);
       // Print the A matrix and b vector for further analysis.
       // This prints the data needed as input to compute_forces, so that
       // you can try it again as a standalone test, see UtilityTest.
-      UtilEngine.printArray2('b', b, NFSCI);
+      UtilEngine.printArray2('b', b, Util.NFSCI);
       UtilEngine.printList('joint', joint);
-      UtilEngine.printMatrix2('A '+A.length+'vars'+A[0].length, A, NFSCI);
+      UtilEngine.printMatrix2('A '+A.length+'vars'+A[0].length, A, Util.NFSCI);
     }
     this.addForceHistory(maxForce);
   };
@@ -1260,7 +1254,7 @@ if (Util.DEBUG) {
       // print all contact distances
       var s = 'contact dist ';
       for (var i=0, len=contacts.length; i<len; i++) {
-        s += ' '+NF7(contacts[i].distance);
+        s += ' '+Util.NF7(contacts[i].distance);
       }
       this.myPrint(s);
     }

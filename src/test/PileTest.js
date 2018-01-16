@@ -45,17 +45,13 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 var GravityLaw = myphysicslab.lab.model.GravityLaw;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
-var NF1S = myphysicslab.lab.util.Util.NF1S;
-var NF2 = myphysicslab.lab.util.Util.NF2;
-var NF5 = myphysicslab.lab.util.Util.NF5;
-var NFE = myphysicslab.lab.util.Util.NFE;
 var PileConfig = myphysicslab.sims.engine2D.PileConfig;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var Util = myphysicslab.lab.util.Util;
+var Util = goog.module.get('myphysicslab.lab.util.Util');
 var Vector = myphysicslab.lab.util.Vector;
 var Walls = myphysicslab.lab.engine2D.Walls;
 
@@ -773,9 +769,9 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
     num_blocks++;
     var realTime = PileTest.add_block_and_run(sim, advance, simTime, square);
     Engine2DTestRig.myPrintln('num_bodies='+num_blocks
-        +' time='+NF2(realTime)
-        +' limit='+NF2(LIMIT_TIME)
-        +' totalTime='+NF5(Util.systemTime() - startTime)
+        +' time='+Util.NF2(realTime)
+        +' limit='+Util.NF2(LIMIT_TIME)
+        +' totalTime='+Util.NF5(Util.systemTime() - startTime)
         +' contacts='+sim.getNumContacts()
         );
     if (realTime > LIMIT_TIME) {
@@ -819,7 +815,7 @@ PileTest.additive_pile_square_test = function(expectedBlocks) {
   var totalTime = Util.systemTime() - startTime;
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
-        +' totalTime='+NF5(totalTime);
+        +' totalTime='+Util.NF5(totalTime);
   Engine2DTestRig.myPrintln('additive_pile_square_test '+s);
   Engine2DTestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
 };
@@ -836,7 +832,7 @@ PileTest.additive_pile_circle_test = function(expectedBlocks) {
   var totalTime = Util.systemTime() - startTime;
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
-        +' totalTime='+NF5(totalTime);
+        +' totalTime='+Util.NF5(totalTime);
   Engine2DTestRig.myPrintln('additive_pile_circle_test '+s);
   Engine2DTestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
 };
