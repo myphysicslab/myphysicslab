@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ParameterNumber');
+goog.module('myphysicslab.lab.util.ParameterNumber');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
 
 /** Provides access to a numeric value of a {@link Subject}. Has options for setting
 number of significant digits to show, and upper/lower limit on value. Default is 3
@@ -34,7 +27,10 @@ See {@link Parameter} for more information.
 
 See [Internationalization](Building.html#internationalizationi18n) for information
 about localized and language-independent strings.
-
+@implements {Parameter}
+*/
+class ParameterNumber {
+/**
 @param {!Subject} subject the Subject whose value this ParameterNumber represents
 @param {string} name the
     [language-independent name](Building.html#languageindependentnames) of this
@@ -49,13 +45,8 @@ about localized and language-independent strings.
     the values (optional)
 @param {!Array<number>=} opt_values the numbers corresponding to the choices that the
     parameter can be set to (optional). When specified, only these values are allowed.
-@constructor
-@final
-@struct
-@implements {Parameter}
 */
-myphysicslab.lab.util.ParameterNumber = function(subject, name, localName, getter,
-    setter, opt_choices, opt_values) {
+constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   /** the Subject which provides notification of changes in this Parameter
   @type {!Subject}
   @private
@@ -124,45 +115,42 @@ myphysicslab.lab.util.ParameterNumber = function(subject, name, localName, gette
     }
   }
 };
-var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ParameterNumber.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', isComputed_: '+this.isComputed_
-        +', subject_: '+this.subject_.toStringShort()
-        +', localName_: "'+this.localName_+'"'
-        +', lowerLimit_: '+Util.NF(this.lowerLimit_)
-        +', upperLimit_: '+Util.NF(this.upperLimit_)
-        +', decimalPlaces_: '+this.decimalPlaces_
-        +', signifDigits_: '+this.signifDigits_
-        +', choices_: ['+this.choices_+']'
-        +', values_: ['+this.values_+']'
-        +'}';
-  };
-
-  /** @override */
-  ParameterNumber.prototype.toStringShort = function() {
-    return 'ParameterNumber{name_: "'+this.name_+'"'
-        +', value: '+Util.NF(this.getValue())+'}';
-  };
+/** @override */
+toString() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', isComputed_: '+this.isComputed_
+      +', subject_: '+this.subject_.toStringShort()
+      +', localName_: "'+this.localName_+'"'
+      +', lowerLimit_: '+Util.NF(this.lowerLimit_)
+      +', upperLimit_: '+Util.NF(this.upperLimit_)
+      +', decimalPlaces_: '+this.decimalPlaces_
+      +', signifDigits_: '+this.signifDigits_
+      +', choices_: ['+this.choices_+']'
+      +', values_: ['+this.values_+']'
+      +'}';
 };
 
 /** @override */
-ParameterNumber.prototype.getAsString = function() {
+toStringShort() {
+  return Util.ADVANCED ? '' : 'ParameterNumber{name_: "'+this.name_+'"'
+      +', value: '+Util.NF(this.getValue())+'}';
+};
+
+/** @override */
+getAsString() {
   return this.getValue().toString();
 };
 
 /** @override */
-ParameterNumber.prototype.getChoices = function() {
+getChoices() {
   return goog.array.clone(this.choices_);
 };
 
 /** Returns the suggested number of decimal places to show or –1 if variable.
 @return {number} suggested number of decimal places to show or –1 if variable
 */
-ParameterNumber.prototype.getDecimalPlaces = function() {
+getDecimalPlaces() {
   return this.decimalPlaces_;
 };
 
@@ -170,12 +158,12 @@ ParameterNumber.prototype.getDecimalPlaces = function() {
 {@link #setValue} will throw an Error in that case.
 @return {number} the lower limit of the Parameter value
 */
-ParameterNumber.prototype.getLowerLimit = function() {
+getLowerLimit() {
   return this.lowerLimit_;
 };
 
 /** @override */
-ParameterNumber.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
@@ -183,12 +171,12 @@ ParameterNumber.prototype.getName = function(opt_localized) {
 {@link #setSignifDigits}.
 @return {number} suggested number of significant digits to show
 */
-ParameterNumber.prototype.getSignifDigits = function() {
+getSignifDigits() {
   return this.signifDigits_;
 };
 
 /** @override */
-ParameterNumber.prototype.getSubject = function() {
+getSubject() {
   return this.subject_;
 };
 
@@ -196,29 +184,29 @@ ParameterNumber.prototype.getSubject = function() {
 this, {@link #setValue} will throw an Error in that case.
 @return {number} the upper limit of the Parameter value
 */
-ParameterNumber.prototype.getUpperLimit = function() {
+getUpperLimit() {
   return this.upperLimit_;
 };
 
 /** Returns the value of this ParameterNumber.
 @return {number} the value of this ParameterNumber
 */
-ParameterNumber.prototype.getValue = function() {
+getValue() {
   return this.getter_();
 };
 
 /** @override */
-ParameterNumber.prototype.getValues = function() {
+getValues() {
   return goog.array.map(this.values_, function(v) { return v.toString(); });
 };
 
 /** @override */
-ParameterNumber.prototype.isComputed = function() {
+isComputed() {
   return this.isComputed_;
 };
 
 /** @override */
-ParameterNumber.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.name_ == Util.toName(name);
 };
 
@@ -228,7 +216,7 @@ See [Internationalization](Building.html#internationalizationi18n).
 @param {!Array<number>} values  the values corresponding to each choice
 @throws {!Error} if `values` is of different length than `choices`
 */
-ParameterNumber.prototype.setChoices = function(choices, values) {
+setChoices(choices, values) {
   this.setChoices_(choices, values);
   var evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
   this.subject_.broadcast(evt);
@@ -239,7 +227,7 @@ ParameterNumber.prototype.setChoices = function(choices, values) {
 @param {!Array<number>} values  the values corresponding to each choice
 @private
 */
-ParameterNumber.prototype.setChoices_ = function(choices, values) {
+setChoices_(choices, values) {
   if (values.length !== choices.length) {
     throw new Error('choices and values not same length');
   }
@@ -248,7 +236,7 @@ ParameterNumber.prototype.setChoices_ = function(choices, values) {
 };
 
 /** @override */
-ParameterNumber.prototype.setComputed = function(value) {
+setComputed(value) {
   this.isComputed_ = value;
 };
 
@@ -256,13 +244,13 @@ ParameterNumber.prototype.setComputed = function(value) {
 @param {number} decimals suggested number of decimal places to show, or –1 if variable
 @return {!ParameterNumber} this Parameter for chaining setters
 */
-ParameterNumber.prototype.setDecimalPlaces = function(decimals) {
+setDecimalPlaces(decimals) {
   this.decimalPlaces_ = decimals;
   return this;
 };
 
 /** @override */
-ParameterNumber.prototype.setFromString = function(value) {
+setFromString(value) {
   var v = Number(value);
   if (isNaN(v)) {
     throw new Error('not a number: '+value);
@@ -277,7 +265,7 @@ ParameterNumber.prototype.setFromString = function(value) {
 @throws {!Error} if the value is currently less than the lower limit, or the lower limit
     is not a number
 */
-ParameterNumber.prototype.setLowerLimit = function(lowerLimit) {
+setLowerLimit(lowerLimit) {
   if (lowerLimit > this.getValue() || lowerLimit > this.upperLimit_)
     throw new Error('out of range: '+lowerLimit+' value='+this.getValue()
         +' upper='+this.upperLimit_);
@@ -291,7 +279,7 @@ show numbers as: 12345, 1234, 123, 12.3, 1.23, 0.123, 0.0123, 0.00123.
 @param {number} signifDigits suggested number of significant digits to show
 @return {!ParameterNumber} this Parameter for chaining setters
 */
-ParameterNumber.prototype.setSignifDigits = function(signifDigits) {
+setSignifDigits(signifDigits) {
   this.signifDigits_ = signifDigits;
   return this;
 };
@@ -304,7 +292,7 @@ ParameterNumber.prototype.setSignifDigits = function(signifDigits) {
 @throws {!Error} if the value is currently greater than the upper limit, or the upper
     limit is not a number
 */
-ParameterNumber.prototype.setUpperLimit = function(upperLimit) {
+setUpperLimit(upperLimit) {
   if (upperLimit < this.getValue() || upperLimit < this.lowerLimit_)
     throw new Error('out of range: '+upperLimit+' value='+this.getValue()
         +' lower='+this.lowerLimit_);
@@ -315,7 +303,7 @@ ParameterNumber.prototype.setUpperLimit = function(upperLimit) {
 /** Sets the value of this ParameterNumber.
 @param {number} value the value to set this ParameterNumber to
 */
-ParameterNumber.prototype.setValue = function(value) {
+setValue(value) {
   if (!goog.isNumber(value)) {
     throw new Error('not a number: '+value);
   }
@@ -334,4 +322,5 @@ ParameterNumber.prototype.setValue = function(value) {
   }
 };
 
-}); // goog.scope
+}
+exports = ParameterNumber;

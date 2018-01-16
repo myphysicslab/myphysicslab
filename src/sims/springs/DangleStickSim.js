@@ -30,7 +30,7 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
-var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
 const Util = goog.module.get('myphysicslab.lab.util.Util');

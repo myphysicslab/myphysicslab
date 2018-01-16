@@ -75,6 +75,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver = function() {
 myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = function(event) {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   if (event instanceof GenericEvent) {
     var LabCanvas = myphysicslab.lab.view.LabCanvas;
     this.numEvents++;
@@ -85,9 +86,9 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = fun
     } else if (event.nameEquals(LabCanvas.VIEW_REMOVED)) {
       this.numViewRemovedEvents++;
     }
-  } else if (ParameterBoolean) {
+  } else if (event instanceof ParameterBoolean) {
     this.numBooleans++;
-  } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {
+  } else if (event instanceof ParameterNumber) {
     this.numDoubles++;
   } else if (event instanceof myphysicslab.lab.util.ParameterString) {
     this.numStrings++;
@@ -135,6 +136,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver = function() {
 myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = function(event) {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   if (event instanceof GenericEvent) {
     var LabView = myphysicslab.lab.view.LabView;
     this.numEvents++;
@@ -143,9 +145,9 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = f
     } else if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {
       this.numSimRectEvents++;
     }
-  } else if (ParameterBoolean) {
+  } else if (event instanceof ParameterBoolean) {
     this.numBooleans++;
-  } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {
+  } else if (event instanceof ParameterNumber) {
     this.numDoubles++;
   } else if (event instanceof myphysicslab.lab.util.ParameterString) {
     this.numStrings++;

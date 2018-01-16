@@ -27,7 +27,7 @@ var lab = myphysicslab.lab;
 
 var AbstractSubject = lab.util.AbstractSubject;
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-var ParameterNumber = lab.util.ParameterNumber;
+const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var RigidBodySim = lab.engine2D.RigidBodySim;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

@@ -73,6 +73,7 @@ myphysicslab.lab.view.test.SimView_test.MockObserver = function() {
 myphysicslab.lab.view.test.SimView_test.MockObserver.prototype.observe = function(event) {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   if (event instanceof GenericEvent) {
     var LabView = myphysicslab.lab.view.LabView;
     this.numEvents++;
@@ -81,9 +82,9 @@ myphysicslab.lab.view.test.SimView_test.MockObserver.prototype.observe = functio
     } else if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {
       this.numSimRectEvents++;
     }
-  } else if (ParameterBoolean) {
+  } else if (event instanceof ParameterBoolean) {
     this.numBooleans++;
-  } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {
+  } else if (event instanceof ParameterNumber) {
     this.numDoubles++;
   } else if (event instanceof myphysicslab.lab.util.ParameterString) {
     this.numStrings++;

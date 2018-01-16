@@ -24,7 +24,7 @@ goog.require('goog.testing.jsunit');
 
 
 var testParameterNumber1 = function() {
-  var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   /**
   @constructor
@@ -170,7 +170,7 @@ goog.exportProperty(window, 'testParameterNumber1', testParameterNumber1);
 
 
 var testParameterNumber2 = function() {
-  var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   /**
   @constructor
@@ -263,7 +263,7 @@ var testParameterNumber2 = function() {
 goog.exportProperty(window, 'testParameterNumber2', testParameterNumber2);
 
 var testParameterNumber3 = function() {
-  var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   /**
   @constructor
@@ -350,7 +350,7 @@ goog.exportProperty(window, 'testParameterNumber3', testParameterNumber3);
 
 // ParameterNumber with array of choices and values
 var testParameterNumber4 = function() {
-  var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   /**
   @constructor

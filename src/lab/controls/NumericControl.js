@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
-var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A text input element for displaying and editing the numeric value of a{@link ParameterNumber}.

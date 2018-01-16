@@ -48,7 +48,7 @@ var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var MemoList = myphysicslab.lab.util.MemoList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var Timer = myphysicslab.lab.util.Timer;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

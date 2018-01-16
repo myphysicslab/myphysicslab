@@ -93,15 +93,16 @@ var testSingleSpring = function() {
   MockObserver1.prototype.observe =  function(event) {
     const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
     const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
+    const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
     if (event instanceof GenericEvent) {
       this.numEvents++;
       assertEquals(sim, event.getSubject());
-    } else if (ParameterBoolean) {
+    } else if (event instanceof ParameterBoolean) {
       this.numBooleans++;
       assertEquals(sim, event.getSubject());
       var val = event.getValue();
       assertTrue(goog.isBoolean(val));
-    } else if (event instanceof myphysicslab.lab.util.ParameterNumber) {
+    } else if (event instanceof ParameterNumber) {
       this.numDoubles++;
       assertEquals(sim, event.getSubject());
       var val = event.getValue();

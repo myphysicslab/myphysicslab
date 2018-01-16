@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
+const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Creates a "slider plus textbox" control that displays and modifies the given {@link
