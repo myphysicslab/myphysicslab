@@ -33,7 +33,7 @@ const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var Variable = myphysicslab.lab.model.Variable;
+const Variable = goog.module.get('myphysicslab.lab.model.Variable');
 
 /** A set of {@link Variable}s which represent the current state of a simulation.
 Variables are numbered from `0` to `n-1` where `n` is the number of Variables.
