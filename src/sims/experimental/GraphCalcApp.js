@@ -47,7 +47,7 @@ var sims = myphysicslab.sims;
 
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayGraph = lab.graph.DisplayGraph;
-var DoubleRect = lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphLine = lab.graph.GraphLine;
 var GraphPoint = lab.graph.GraphPoint;

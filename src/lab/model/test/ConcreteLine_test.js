@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.model.ConcreteLine');
 
 var testConcreteLine = function() {
-  var DoubleRect = myphysicslab.lab.util.DoubleRect;
+  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
   var tol = 1E-15;

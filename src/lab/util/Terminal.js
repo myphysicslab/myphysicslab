@@ -1334,12 +1334,12 @@ Terminal.stdRegex = function(terminal) {
   // See http://stackoverflow.com/questions/12317049/
   // how-to-split-a-long-regular-expression-into-multiple-lines-in-javascript
   // (The alternative is create a new RegExp from a set of concatenated strings).
-  terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask|DoubleRect'
+  terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask'
       +'|GenericMemo|RandomLCG|EasyScriptParser|Terminal|Timer',
       'myphysicslab.lab.util.', /*addToVars=*/false);
 
   // note: $$ represent $ in regexp replace string.
-  terminal.addRegex('GenericEvent|GenericObserver'
+  terminal.addRegex('DoubleRect|GenericEvent|GenericObserver'
       +'|MutableVector|ParameterBoolean|ParameterNumber|ParameterString|Util|Vector',
       'module$$exports$$myphysicslab$$lab$$util$$', /*addToVars=*/false);
 

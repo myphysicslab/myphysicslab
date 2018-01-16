@@ -28,7 +28,7 @@ goog.scope(function() {
 
 var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var MassObject = myphysicslab.lab.model.MassObject;
 var ShapeType = myphysicslab.lab.model.ShapeType;

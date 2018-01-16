@@ -27,7 +27,7 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;

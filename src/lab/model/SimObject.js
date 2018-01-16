@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Util = goog.module.get('myphysicslab.lab.util.Util');

@@ -20,7 +20,7 @@ goog.require('goog.testing.jsunit');
 
 var testDoubleRect = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var DoubleRect = myphysicslab.lab.util.DoubleRect;
+  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 
   var r1 = new DoubleRect(/*left=*/-5, /*bottom=*/-6, /*right=*/5, /*top=*/6);
   assertEquals(-5, r1.getLeft());

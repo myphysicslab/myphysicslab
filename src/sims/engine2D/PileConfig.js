@@ -32,7 +32,7 @@ var lab = myphysicslab.lab;
 
 var ContactSim = lab.engine2D.ContactSim;
 var CoordType = lab.model.CoordType;
-var DoubleRect = lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var JointUtil = lab.engine2D.JointUtil;
 var Polygon = lab.engine2D.Polygon;
 var Random = lab.util.Random;

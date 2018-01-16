@@ -27,7 +27,7 @@ goog.scope(function() {
 
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayList = myphysicslab.lab.view.DisplayList;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var HorizAlign = myphysicslab.lab.view.HorizAlign;
 var MemoList = myphysicslab.lab.util.MemoList;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;

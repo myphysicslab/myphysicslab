@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');

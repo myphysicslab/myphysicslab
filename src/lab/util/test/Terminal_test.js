@@ -35,10 +35,11 @@ var testTerminal1 = function() {
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   assertEquals('> 2+2\n4\n', output_elem.value);
-  assertEquals('myphysicslab.lab.util.DoubleRect', t.expand('DoubleRect'));
+  assertEquals('module$exports$myphysicslab$lab$util$DoubleRect',
+      t.expand('DoubleRect'));
   // test that expand() ignores quoted strings containing escaped quotes
   var txt = 'replace this DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
-  var exp = 'replace this myphysicslab.lab.util.DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
+  var exp = 'replace this module$exports$myphysicslab$lab$util$DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
   assertEquals(exp, t.expand(txt));
   txt = " this Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
   exp = " this module$exports$myphysicslab$lab$util$Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
@@ -393,7 +394,8 @@ var testTerminal8 = function() {
   var t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
-  assertEquals('myphysicslab.lab.util.DoubleRect', t.expand('DoubleRect'));
+  assertEquals('module$exports$myphysicslab$lab$util$DoubleRect',
+      t.expand('DoubleRect'));
   // regex containing a semicolon.
   var txt = 'SIM_VARS.foo=1.00;';
   var r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/SIM_VARS.*;/)'));

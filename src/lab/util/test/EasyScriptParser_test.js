@@ -32,7 +32,7 @@ var testEasyScript1 = function() {
   var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
   var VarsList = myphysicslab.lab.model.VarsList;
   var SimView = myphysicslab.lab.view.SimView;
-  var DoubleRect = myphysicslab.lab.util.DoubleRect;
+  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
   // Make several Subjects for EasyScriptParser to operate on:
   // a VarsList, and two SimViews.

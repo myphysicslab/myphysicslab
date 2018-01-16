@@ -35,7 +35,7 @@ goog.scope(function() {
 
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;

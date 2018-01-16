@@ -31,7 +31,7 @@ goog.scope(function() {
 
 var Clock = myphysicslab.lab.util.Clock;
 var DisplayText = myphysicslab.lab.view.DisplayText;
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 var SimObject = myphysicslab.lab.model.SimObject;

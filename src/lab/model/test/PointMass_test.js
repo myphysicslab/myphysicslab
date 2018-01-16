@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.ShapeType');
 
 var testPointMassAngle = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var DoubleRect = myphysicslab.lab.util.DoubleRect;
+  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   var PointMass = myphysicslab.lab.model.PointMass;
   var p1 = PointMass.makeOval(1, 2, 'point1');
   // set PointMass at an angle of 45 degrees clockwise
@@ -66,7 +66,7 @@ goog.exportProperty(window, 'testPointMassAngle', testPointMassAngle);
 
 var testPointMass = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var DoubleRect = myphysicslab.lab.util.DoubleRect;
+  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   var PointMass = myphysicslab.lab.model.PointMass;
   var p1 = PointMass.makeCircle(1, 'point1');
   // instanceof works for class inheritance, but not for interfaces

@@ -12,16 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
+goog.module('myphysicslab.lab.util.DoubleRect');
 
-goog.scope(function() {
-
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  An immutable rectangle whose boundaries are stored with double floating
 point precision.
@@ -34,17 +29,16 @@ canvas where vertical coordinates increase downwards.
 
 @todo consider making a mutable version, and providing methods that work on that;
 see [Immutables by Mark Davis](http://macchiato.com/columns/Durable2.html)
-
+*/
+class DoubleRect {
+/**
 @param {number} left left side of DoubleRect, must be less than right
 @param {number} bottom bottom of DoubleRect, must be less than top
 @param {number} right right side of DoubleRect
 @param {number} top top of DoubleRect
 @throws {!Error} when left > right or bottom > top
-@constructor
-@final
-@struct
 */
-myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top) {
+constructor(left, bottom, right, top) {
   /**
   * @type {number}
   * @private
@@ -72,30 +66,21 @@ myphysicslab.lab.util.DoubleRect = function(left, bottom, right, top) {
     throw new Error('DoubleRect: bottom > top '+bottom+' > '+top);
   }
 };
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DoubleRect.prototype.toString = function() {
-    return 'DoubleRect{left_: '+Util.NF(this.left_)
-        +', bottom_: '+Util.NF(this.bottom_)
-        +', right_: '+Util.NF(this.right_)
-        +', top_: '+Util.NF(this.top_)
-        +'}';
-  };
+/** @override */
+toString() {
+  return Util.ADVANCED ? '' : 'DoubleRect{left_: '+Util.NF(this.left_)
+      +', bottom_: '+Util.NF(this.bottom_)
+      +', right_: '+Util.NF(this.right_)
+      +', top_: '+Util.NF(this.top_)
+      +'}';
 };
-
-/** The empty rectangle (0, 0, 0, 0).
-* @type {!DoubleRect}
-* @const
-*/
-DoubleRect.EMPTY_RECT = new DoubleRect(0, 0, 0, 0);
 
 /** Returns a copy of the given DoubleRect.
 @param {!DoubleRect} rect the DoubleRect to copy
 @return {!DoubleRect} a copy of the given DoubleRect
 */
-DoubleRect.clone = function(rect) {
+static clone(rect) {
   return new DoubleRect(rect.getLeft(), rect.getBottom(), rect.getRight(),
       rect.getTop());
 };
@@ -105,7 +90,7 @@ DoubleRect.clone = function(rect) {
 * @param {*} obj the object of interest
 * @return {boolean} true if the object is likely a DoubleRect
 */
-DoubleRect.isDuckType = function(obj) {
+static isDuckType(obj) {
   if (obj instanceof DoubleRect) {
     return true;
   }
@@ -125,7 +110,7 @@ DoubleRect.isDuckType = function(obj) {
 @param {!GenericVector} point2
 @return {!DoubleRect} a DoubleRect spanning the two given points
 */
-DoubleRect.make = function(point1, point2) {
+static make(point1, point2) {
   var left = Math.min(point1.getX(), point2.getX());
   var right = Math.max(point1.getX(), point2.getX());
   var bottom = Math.min(point1.getY(), point2.getY());
@@ -140,7 +125,7 @@ DoubleRect.make = function(point1, point2) {
 @return {!DoubleRect} a DoubleRect centered at the given point
     with given height and width
 */
-DoubleRect.makeCentered = function(center, width, height) {
+static makeCentered(center, width, height) {
   var x = center.getX();
   var y = center.getY();
   return new DoubleRect(x - width/2, y - height/2, x + width/2, y + height/2);
@@ -152,7 +137,7 @@ DoubleRect.makeCentered = function(center, width, height) {
 @return {!DoubleRect} a DoubleRect centered at the given point
     with given size
 */
-DoubleRect.makeCentered2 = function(center, size) {
+static makeCentered2(center, size) {
   var x = center.getX();
   var y = center.getY();
   var w = size.getX();
@@ -164,7 +149,7 @@ DoubleRect.makeCentered2 = function(center, size) {
 @param {!GenericVector} point  the point to test
 @return {boolean} `true` if the point is within this rectangle, or exactly on an edge
 */
-DoubleRect.prototype.contains = function(point) {
+contains(point) {
   return point.getX() >= this.left_ &&
          point.getX() <= this.right_ &&
          point.getY() >= this.bottom_ &&
@@ -175,7 +160,7 @@ DoubleRect.prototype.contains = function(point) {
 @param {*} obj the object to compare to
 @return {boolean} `true` if the object is a DoubleRect with the same coordinates.
 */
-DoubleRect.prototype.equals = function(obj) {
+equals(obj) {
   if (obj === this)
     return true;
   if (obj instanceof DoubleRect) {
@@ -195,7 +180,7 @@ dimension.
 * @return {!DoubleRect} a DoubleRect with same center as this
 *    DoubleRect, but expanded or contracted
 */
-DoubleRect.prototype.expand = function(marginX, marginY) {
+expand(marginX, marginY) {
   marginY = (marginY === undefined) ? marginX : marginY;
   return new DoubleRect(this.getLeft() - marginX, this.getBottom() - marginY,
       this.getRight() + marginX, this.getTop() + marginX);
@@ -204,63 +189,63 @@ DoubleRect.prototype.expand = function(marginX, marginY) {
 /** Returns the smallest vertical coordinate of this DoubleRect
 * @return {number} smallest vertical coordinate  of this DoubleRect
 */
-DoubleRect.prototype.getBottom = function() {
+getBottom() {
   return this.bottom_;
 };
 
 /** Returns the center of this DoubleRect.
 * @return {!Vector} center of this DoubleRect
 */
-DoubleRect.prototype.getCenter = function() {
+getCenter() {
   return new Vector(this.getCenterX(), this.getCenterY());
 };
 
 /** Returns the horizontal coordinate of center of this DoubleRect.
 * @return {number} horizontal coordinate of center of this DoubleRect
 */
-DoubleRect.prototype.getCenterX = function() {
+getCenterX() {
   return (this.left_ + this.right_)/2.0;
 };
 
 /** Returns the vertical coordinate of center of this DoubleRect.
 * @return {number} vertical coordinate of center of this DoubleRect
 */
-DoubleRect.prototype.getCenterY = function() {
+getCenterY() {
   return (this.bottom_ + this.top_)/2.0;
 };
 
 /** Returns the vertical height of this DoubleRect
 * @return {number} vertical height of this DoubleRect
 */
-DoubleRect.prototype.getHeight = function() {
+getHeight() {
   return this.top_ - this.bottom_;
 };
 
 /** Returns the smallest horizontal coordinate of this DoubleRect
 * @return {number} smallest horizontal coordinate of this DoubleRect
 */
-DoubleRect.prototype.getLeft = function() {
+getLeft() {
   return this.left_;
 };
 
 /** Returns the largest horizontal coordinate of this DoubleRect
 * @return {number} largest horizontal coordinate of this DoubleRect
 */
-DoubleRect.prototype.getRight = function() {
+getRight() {
   return this.right_;
 };
 
 /** Returns the largest vertical coordinate of this DoubleRect
 * @return {number} largest vertical coordinate of this DoubleRect
 */
-DoubleRect.prototype.getTop = function() {
+getTop() {
   return this.top_;
 };
 
 /** Returns the horizontal width of this DoubleRect
 * @return {number} horizontal width of this DoubleRect
 */
-DoubleRect.prototype.getWidth = function() {
+getWidth() {
   return this.right_ - this.left_;
 };
 
@@ -271,7 +256,7 @@ DoubleRect.prototype.getWidth = function() {
 * @return {boolean} `true` if width or height of this DoubleRect are zero (within given
 *     tolerance)
 */
-DoubleRect.prototype.isEmpty = function(opt_tolerance) {
+isEmpty(opt_tolerance) {
   var tol = opt_tolerance || 1E-16;
   return this.getWidth() < tol || this.getHeight() < tol;
 };
@@ -282,7 +267,7 @@ DoubleRect.prototype.isEmpty = function(opt_tolerance) {
 * @return {boolean} true if the line between the two points might be visible in the
 *    rectangle
 */
-DoubleRect.prototype.maybeVisible = function(p1, p2) {
+maybeVisible(p1, p2) {
   // if either point is inside the rect, then line is visible
   if (this.contains(p1) || this.contains(p2)) {
     return true;
@@ -320,7 +305,7 @@ magnitude of the numbers being compared.
 * @param {number=} opt_tolerance optional tolerance for equality test
 * @return {boolean} true` if this DoubleRect is nearly equal to another DoubleRect
 */
-DoubleRect.prototype.nearEqual = function(rect, opt_tolerance) {
+nearEqual(rect, opt_tolerance) {
   if (Util.veryDifferent(this.left_, rect.getLeft(), opt_tolerance)) {
     return false;
   }
@@ -346,7 +331,7 @@ expansion factor in x and y dimensions.
 * @return {!DoubleRect} a DoubleRect with same center as this
 *    DoubleRect, but expanded or contracted
 */
-DoubleRect.prototype.scale = function(factorX, factorY) {
+scale(factorX, factorY) {
   factorY = (factorY === undefined) ? factorX : factorY;
   var x0 = this.getCenterX();
   var y0 = this.getCenterY();
@@ -364,7 +349,7 @@ DoubleRect.prototype.scale = function(factorX, factorY) {
     given amount
 @throws {!Error} when `x` is a number and `y` is not defined
 */
-DoubleRect.prototype.translate = function(x, y) {
+translate(x, y) {
   var x1, y1;
   if (goog.isNumber(x)) {
     x1 = x;
@@ -386,7 +371,7 @@ DoubleRect.prototype.translate = function(x, y) {
     with
 @return {!DoubleRect} the union of this and the other rectangle
 */
-DoubleRect.prototype.union = function(rect) {
+union(rect) {
   return new DoubleRect(
       Math.min(this.left_, rect.getLeft()),
       Math.min(this.bottom_, rect.getBottom()),
@@ -399,7 +384,7 @@ DoubleRect.prototype.union = function(rect) {
 @param {!GenericVector} point the point to form the union with
 @return {!DoubleRect} the union of this rectangle and the point
 */
-DoubleRect.prototype.unionPoint = function(point) {
+unionPoint(point) {
   return new DoubleRect(
       Math.min(this.left_, point.getX()),
       Math.min(this.bottom_, point.getY()),
@@ -408,4 +393,12 @@ DoubleRect.prototype.unionPoint = function(point) {
       );
 };
 
-});  // goog.scope
+}
+
+/** The empty rectangle (0, 0, 0, 0).
+* @type {!DoubleRect}
+* @const
+*/
+DoubleRect.EMPTY_RECT = new DoubleRect(0, 0, 0, 0);
+
+exports = DoubleRect;

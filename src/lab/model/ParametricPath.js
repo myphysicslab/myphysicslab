@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var DoubleRect = myphysicslab.lab.util.DoubleRect;
+const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Defines a 2D path with a parametric function `f(t) = (x(t), y(t))`.  For example, a circle of radius 3 with center at the origin is defined by
