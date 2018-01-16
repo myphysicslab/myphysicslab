@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Parameter');
+goog.module('myphysicslab.lab.util.Parameter');
 
-goog.require('myphysicslab.lab.util.SubjectEvent');
-
-goog.scope(function() {
-
-const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
+const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
 
 /** Provides access to a value of a {@link myphysicslab.lab.util.Subject Subject} and
 meta-data such as name, a set of possible values and more. Part of the
@@ -88,37 +84,27 @@ the name {@link #CHOICES_MODIFIED}. Then any control that is displaying the
 available choices can update its display.
 
 @interface
-@extends {SubjectEvent}
 */
-myphysicslab.lab.util.Parameter = function() {};
-var Parameter = myphysicslab.lab.util.Parameter;
-
-/** Name of event signifying that the set of values and choices returned by
-{@link #getValues} and {@link #getChoices} has been modified: choices may have been added or
-removed, or the name of choices changed.
-@type {string}
-@const
-*/
-Parameter.CHOICES_MODIFIED = 'CHOICES_MODIFIED';
+class Parameter extends SubjectEvent {
 
 /** Returns the value of this Parameter in string form.
 @return {string} the value of this Parameter in string form
 */
-Parameter.prototype.getAsString;
+getAsString() {}
 
 /** Returns the localized strings corresponding to the possible values from
 {@link #getValues}. See [Internationalization](Building.html#internationalizationi18n).
 @return {!Array<string>} the localized strings corresponding to the
     possible values
 */
-Parameter.prototype.getChoices;
+getChoices() {}
 
 /** Returns the set of values corresponding to {@link #getChoices} that this Parameter
 can be set to.
 @return {!Array<string>} set of values that this Parameter can be set to, in string
 form.
 */
-Parameter.prototype.getValues;
+getValues() {}
 
 /** Returns whether the value is being automatically computed; setting the value of
 * this Parameter has no effect.
@@ -128,18 +114,28 @@ Parameter.prototype.getValues;
 * SimView is under control of an {@link myphysicslab.lab.graph.AutoScale AutoScale}.
 * @return {boolean} whether the value is being automatically computed
 */
-Parameter.prototype.isComputed;
+isComputed() {}
 
 /** Sets whether the value is being automatically computed. See {@link #isComputed}.
 @param {boolean} value whether the value is being automatically computed.
 */
-Parameter.prototype.setComputed;
+setComputed(value) {}
 
 /** Sets the value of this Parameter after converting the given string to the
 appropriate type (boolean, number or string).
 @param {string} value the value to set this Parameter to, in string form
 @throws {!Error} if the string cannot be converted to the needed type
 */
-Parameter.prototype.setFromString;
+setFromString(value) {}
 
-}); // goog.scope
+}
+
+/** Name of event signifying that the set of values and choices returned by
+{@link #getValues} and {@link #getChoices} has been modified: choices may have been added or
+removed, or the name of choices changed.
+@type {string}
+@const
+*/
+Parameter.CHOICES_MODIFIED = 'CHOICES_MODIFIED';
+
+exports = Parameter;

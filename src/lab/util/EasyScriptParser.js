@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Parameter = myphysicslab.lab.util.Parameter;
+const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
 var Terminal = myphysicslab.lab.util.Terminal;

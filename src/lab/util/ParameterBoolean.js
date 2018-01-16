@@ -23,7 +23,7 @@ goog.scope(function() {
 
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var Parameter = myphysicslab.lab.util.Parameter;
+const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 
 /** Provides access to a boolean value of a {@link Subject}. See {@link Parameter} for

@@ -29,7 +29,7 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var Parameter = myphysicslab.lab.util.Parameter;
+const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
