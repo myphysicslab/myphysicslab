@@ -44,7 +44,7 @@ var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

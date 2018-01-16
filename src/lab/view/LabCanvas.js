@@ -43,7 +43,7 @@ var Memorizable = myphysicslab.lab.util.Memorizable;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into
 the canvas. The LabViews are drawn overlapping so that the last LabView appears on

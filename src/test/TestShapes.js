@@ -30,7 +30,7 @@ var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /**  This class consists exclusively of static methods that create RigidBodys.

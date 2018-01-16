@@ -26,7 +26,7 @@ var testCircularEdge1 = function() {
   var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
   var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
   var Polygon = myphysicslab.lab.engine2D.Polygon;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var vec2 = new Vector(2, 0);
   var vertex2 = new ConcreteVertex(vec2, /*endPoint=*/true);

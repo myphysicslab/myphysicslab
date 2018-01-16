@@ -31,8 +31,8 @@ var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var Parameter = myphysicslab.lab.util.Parameter;
 var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
-var Subject = myphysicslab.lab.util.Subject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var Variable = myphysicslab.lab.model.Variable;
 
 /** A set of {@link Variable}s which represent the current state of a simulation.

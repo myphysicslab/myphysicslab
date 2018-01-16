@@ -50,7 +50,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var Simulation = lab.model.Simulation;
 var SliderControl = lab.controls.SliderControl;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link RigidDoublePendulumSim} simulation.

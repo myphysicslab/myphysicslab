@@ -42,7 +42,7 @@ var HistoryList = myphysicslab.lab.util.HistoryList;
 var Memorizable = myphysicslab.lab.util.Memorizable;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed

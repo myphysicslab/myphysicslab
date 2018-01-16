@@ -43,7 +43,7 @@ var ShapeType = myphysicslab.lab.model.ShapeType;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

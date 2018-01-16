@@ -66,11 +66,10 @@ var NumericControl = lab.controls.NumericControl;
 var ParameterBoolean = lab.util.ParameterBoolean;
 var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
-var Printable = lab.util.Printable;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var SubjectList = lab.util.SubjectList;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 var VerticalAlign = lab.view.VerticalAlign;
 
@@ -97,7 +96,7 @@ One of the axes are placed on the right, and the other is on the left.
 *   overall app
 * @constructor
 * @final
-* @implements {Printable}
+* @implements {myphysicslab.lab.util.Printable}
 * @implements {SubjectList}
 * @struct
 */

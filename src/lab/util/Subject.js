@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Subject');
+goog.module('myphysicslab.lab.util.Subject');
 
-goog.require('myphysicslab.lab.util.Printable');
-
-goog.scope(function() {
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** A Subject notifies its {@link myphysicslab.lab.util.Observer Observers} when
 something changes in the Subject. This can be a change in the value of a
@@ -80,17 +78,15 @@ NumericControl only knows about the ParameterNumber and that it has a Subject wh
 will provide notification of changes.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.Subject = function() {};
-var Subject = myphysicslab.lab.util.Subject;
+class Subject extends Printable {
 
 /** Adds the given Observer to the Subject's list of Observers, so that the Observer
 will be notified of changes in this Subject. An Observer may call `Subject.addObserver`
 during its `observe` method.
 @param {!myphysicslab.lab.util.Observer} observer the Observer to add
 */
-Subject.prototype.addObserver;
+addObserver(observer) {}
 
 /** Notifies all Observers that the Subject has changed by calling
 {@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
@@ -99,7 +95,7 @@ An Observer may call `Subject.addObserver` or `Subject.removeObserver` during it
 @param {!myphysicslab.lab.util.SubjectEvent} evt a SubjectEvent with information
     relating to the change
 */
-Subject.prototype.broadcast;
+broadcast(evt) {}
 
 /** Notifies all Observers that the Parameter with the given `name` has changed by
 calling {@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
@@ -107,31 +103,31 @@ calling {@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
     that has changed
 @throws {!Error} if there is no Parameter with the given name
 */
-Subject.prototype.broadcastParameter;
+broadcastParameter(name) {}
 
 /** Return the language-independent name of this Subject for scripting purposes.
 @return {string} name the language-independent name of this Subject
 */
-Subject.prototype.getName;
+getName() {}
 
 /** Returns a copy of the list of Observers of this Subject.
 @return {!Array<!myphysicslab.lab.util.Observer>} a copy of the list of Observers of
     this Subject.
 */
-Subject.prototype.getObservers;
+getObservers() {}
 
 /** Returns the Parameter with the given name.
 @param {string} name the language-independent or English name of the Parameter
 @return {!myphysicslab.lab.util.Parameter} the Parameter with the given name
 @throws {!Error} if there is no Parameter with the given name
 */
-Subject.prototype.getParameter;
+getParameter(name) {}
 
 /** Returns a copy of the list of this Subject's available Parameters.
 @return {!Array<!myphysicslab.lab.util.Parameter>} a copy of the list of
         available Parameters for this Subject
 */
-Subject.prototype.getParameters;
+getParameters() {}
 
 /** Returns the ParameterBoolean with the given name.
 @param {string} name the language-independent or English name of the ParameterBoolean
@@ -139,7 +135,7 @@ Subject.prototype.getParameters;
     the given name
 @throws {!Error} if there is no ParameterBoolean with the given name
 */
-Subject.prototype.getParameterBoolean;
+getParameterBoolean(name) {}
 
 /** Returns the ParameterNumber with the given name.
 @param {string} name the language-independent or English name of the ParameterNumber
@@ -147,7 +143,7 @@ Subject.prototype.getParameterBoolean;
     the given name
 @throws {!Error} if there is no ParameterNumber with the given name
 */
-Subject.prototype.getParameterNumber;
+getParameterNumber(name) {}
 
 /** Returns the ParameterString with the given name.
 @param {string} name the language-independent or English name of the ParameterString
@@ -155,13 +151,13 @@ Subject.prototype.getParameterNumber;
     the given name
 @throws {!Error} if there is no ParameterString with the given name
 */
-Subject.prototype.getParameterString;
+getParameterString(name) {}
 
 /** Removes the Observer from the Subject's list of Observers. An Observer may
 call `Subject.removeObserver` during its `observe` method.
 @param {!myphysicslab.lab.util.Observer} observer the Observer to
         detach from list of Observers
 */
-Subject.prototype.removeObserver;
-
-}); // goog.scope
+removeObserver(observer) {}
+}
+exports = Subject;

@@ -110,7 +110,7 @@ var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
 var TimeGraph2 = sims.common.TimeGraph2;
 var ToggleControl = lab.controls.ToggleControl;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

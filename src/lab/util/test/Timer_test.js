@@ -23,7 +23,7 @@ goog.require('goog.testing.jsunit');
 
 // Use default period of zero = 60 fps (frame per second) with legacy Timer.
 var testTimer1 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 
@@ -66,7 +66,7 @@ goog.exportProperty(window, 'testTimer1', testTimer1);
 // Set period for 33.33 fps with non-legacy Timer.
 // We get 50 fps for requestAnimationFrame (legacy=false) with mockClock.
 var testTimer2 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 
@@ -100,7 +100,7 @@ goog.exportProperty(window, 'testTimer2', testTimer2);
 
 // Set period for frame per second = 30 with legacy Timer.
 var testTimer3 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 
@@ -135,7 +135,7 @@ goog.exportProperty(window, 'testTimer3', testTimer3);
 // Set period for frame per second = 25 with non-legacy Timer.
 // We get 50 fps for requestAnimationFrame (legacy=false) with mockClock.
 var testTimer4 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 
@@ -170,7 +170,7 @@ goog.exportProperty(window, 'testTimer4', testTimer4);
 // Use default period of zero with non-legacy Timer.
 // We get 50 fps for requestAnimationFrame (legacy=false) with mockClock.
 var testTimer5 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 
@@ -204,7 +204,7 @@ goog.exportProperty(window, 'testTimer5', testTimer5);
 
 // set period to 40 fps with legacy Timer
 var testTimer6 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 
@@ -238,7 +238,7 @@ goog.exportProperty(window, 'testTimer6', testTimer6);
 
 // set period to 40 fps, with non-legacy Timer
 var testTimer7 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Timer = myphysicslab.lab.util.Timer;
   var tol = 1E-14;
 

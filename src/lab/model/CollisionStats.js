@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var Collision = myphysicslab.lab.model.Collision;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Calculates statistics about a particular set of Collisions.
 

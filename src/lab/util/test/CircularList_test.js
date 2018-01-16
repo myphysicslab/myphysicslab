@@ -56,7 +56,7 @@ var testUtilCircularList1 = function() {
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
   var CircularList = myphysicslab.lab.util.CircularList;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
   var cList = new CircularList(10);
   var i, j;
@@ -214,7 +214,7 @@ goog.exportProperty(window, 'testUtilCircularList1', testUtilCircularList1);
 var testUtilCircularList2 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var CircularList = myphysicslab.lab.util.CircularList;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
 
@@ -268,7 +268,7 @@ goog.exportProperty(window, 'testUtilCircularList2', testUtilCircularList2);
 var testUtilCircularList3 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var CircularList = myphysicslab.lab.util.CircularList;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var HistoryList = myphysicslab.lab.util.HistoryList;
   var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
   /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/

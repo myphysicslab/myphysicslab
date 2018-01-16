@@ -32,7 +32,7 @@ var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Vertex = myphysicslab.lab.engine2D.Vertex;
 

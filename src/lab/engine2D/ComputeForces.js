@@ -25,7 +25,7 @@ goog.scope(function() {
 
 var Random = myphysicslab.lab.util.Random;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Computes forces at contact points between RigidBodys, or impulses at collision
 points between RigidBodys. The {@link #compute_forces} method is an implementation of

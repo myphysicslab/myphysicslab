@@ -21,7 +21,7 @@ goog.require('myphysicslab.sims.roller.AbstractPath');
 goog.scope(function() {
 
 var Terminal = myphysicslab.lab.util.Terminal;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** A path defined by custom equations. The equations are JavaScript string

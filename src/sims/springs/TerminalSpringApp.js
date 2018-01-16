@@ -66,7 +66,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var Terminal = lab.util.Terminal;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalLayout = sims.common.VerticalLayout;
 
 /** Shows a simulation from the `springs` namespace by executing commands in Terminal.

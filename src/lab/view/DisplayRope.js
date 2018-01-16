@@ -28,7 +28,7 @@ var AffineTransform = myphysicslab.lab.util.AffineTransform;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var Rope = myphysicslab.lab.engine2D.Rope;
 var SimObject = myphysicslab.lab.model.SimObject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link Rope} by showing a straight line when the Rope is tight, or a

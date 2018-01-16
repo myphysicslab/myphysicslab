@@ -64,7 +64,7 @@ var ParameterString = lab.util.ParameterString;
 var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulates a pendulum clock with a pendulum attached to an anchor that

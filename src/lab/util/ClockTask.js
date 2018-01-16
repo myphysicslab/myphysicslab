@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Holds a callback function to be executed at a specified time; used with
 {@link myphysicslab.lab.util.Clock}. ClockTasks are scheduled as a side effect of Clock

@@ -49,7 +49,7 @@ var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

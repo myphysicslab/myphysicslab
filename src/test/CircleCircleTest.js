@@ -50,7 +50,7 @@ var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TestShapes = myphysicslab.test.TestShapes;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = myphysicslab.lab.engine2D.Walls;
 

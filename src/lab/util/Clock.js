@@ -29,8 +29,8 @@ var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var ClockTask = myphysicslab.lab.util.ClockTask;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
-var Subject = myphysicslab.lab.util.Subject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Advances along with real time when active, and can execute tasks at appointed
 times. There are commands to pause, resume, and single-step the Clock, as well as set

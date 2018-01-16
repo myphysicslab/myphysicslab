@@ -35,7 +35,7 @@ var GenericEvent = lab.util.GenericEvent;
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** The list of SimObjects that represent the current state of a
 Simulation. For an ODESim the current state is dictated by its VarsList and the

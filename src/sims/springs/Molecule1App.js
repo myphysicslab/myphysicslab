@@ -45,7 +45,7 @@ var PointMass = lab.model.PointMass;
 var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Molecule1Sim} simulation.
 

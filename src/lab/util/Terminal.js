@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.util.GenericMemo'); // in case user wants to use 
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var Parser = myphysicslab.lab.util.Parser;
 
 /** Executes scripts and provides a command line user interface with separate text

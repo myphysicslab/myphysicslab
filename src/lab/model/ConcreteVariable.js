@@ -22,10 +22,10 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var Parameter = myphysicslab.lab.util.Parameter;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
-var Subject = myphysicslab.lab.util.Subject;
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 
 /** Represents a variable in a {@link myphysicslab.lab.model.VarsList}.
 

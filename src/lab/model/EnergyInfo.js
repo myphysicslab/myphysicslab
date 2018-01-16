@@ -17,7 +17,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Provides information about an
 {@link myphysicslab.lab.model.EnergySystem EnergySystem}, such as potential and

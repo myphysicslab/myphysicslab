@@ -36,7 +36,7 @@ var ForceLaw = myphysicslab.lab.model.ForceLaw;
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var MassObject = myphysicslab.lab.model.MassObject;
 var Spring = myphysicslab.lab.model.Spring;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Represents a non-linear spring attached between two {@link MassObject}s, generates

@@ -52,7 +52,7 @@ var SliderControl = lab.controls.SliderControl;
 var SimRunner = lab.app.SimRunner;
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var GenericObserver = lab.util.GenericObserver;
 
 /** Displays the {@link Molecule4Sim} simulation which is an experimental version of

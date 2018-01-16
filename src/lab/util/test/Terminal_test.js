@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('goog.testing.jsunit');
 
 var testTerminal1 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
@@ -80,7 +80,7 @@ var testTerminal1 = function() {
 goog.exportProperty(window, 'testTerminal1', testTerminal1);
 
 var testTerminal2 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
   if (Util.ADVANCED) {
@@ -166,7 +166,7 @@ var testTerminal2 = function() {
 goog.exportProperty(window, 'testTerminal2', testTerminal2);
 
 var testTerminal3 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
@@ -256,7 +256,7 @@ var testTerminal3 = function() {
 goog.exportProperty(window, 'testTerminal3', testTerminal3);
 
 var testTerminal4 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
 
   if (Util.ADVANCED) {
@@ -292,7 +292,7 @@ var testTerminal4 = function() {
 goog.exportProperty(window, 'testTerminal4', testTerminal4);
 
 var testTerminal5 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   // static Terminal methods do work under advanced-compile
   // test blacklist. These are variant spellings of "window".
@@ -322,7 +322,7 @@ goog.exportProperty(window, 'testTerminal5', testTerminal5);
 
 
 var testTerminal6 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
@@ -344,7 +344,7 @@ goog.exportProperty(window, 'testTerminal6', testTerminal6);
 
 // test of vetBrackets: when square brackets are allowed or prohibited.
 var testTerminal7 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
@@ -383,7 +383,7 @@ goog.exportProperty(window, 'testTerminal7', testTerminal7);
 // tests handling of regex and strings by Terminal.expand()
 // and Terminal.splitAtSemicolon().
 var testTerminal8 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Terminal = myphysicslab.lab.util.Terminal;
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.

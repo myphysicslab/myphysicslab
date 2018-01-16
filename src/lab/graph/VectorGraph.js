@@ -38,7 +38,7 @@ var LabView = lab.view.LabView;
 var ODESim = lab.model.ODESim;
 var ScreenRect = lab.view.ScreenRect;
 var Subject = lab.util.Subject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Draws vectors showing the direction field of the differential equation. In a graph

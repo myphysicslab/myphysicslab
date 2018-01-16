@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Subject');
 
 goog.scope(function() {
 
-var Subject = myphysicslab.lab.util.Subject;
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 
 /** An Observer is notified whenever something changes in a {@link Subject} it is
 observing. The change can be in the value of a Subject's

@@ -80,7 +80,7 @@ var SimView = lab.view.SimView;
 var Spring = lab.model.Spring;
 var Terminal = lab.util.Terminal;
 var Timer = lab.util.Timer;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
 

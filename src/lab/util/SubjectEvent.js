@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Provides information about an event that has happened to a
 {@link myphysicslab.lab.util.Subject Subject}. A SubjectEvent has a name, a value,

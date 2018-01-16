@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Defines initial conditions of a string used in the
 {@link myphysicslab.sims.pde.StringSim} PDE simulation by specifying the initial displacement

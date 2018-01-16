@@ -26,7 +26,7 @@ var testSpring = function() {
   const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var tol = 1E-15;
   var p1 = PointMass.makeCircle(1, 'point1').setMass(2);
   p1.setPosition(new Vector(0,  1));
@@ -102,7 +102,7 @@ var testSpringCompressOnly = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var tol = 1E-15;
   var p1 = PointMass.makeCircle(1, 'point1').setMass(2);
   p1.setPosition(new Vector(1,  1));

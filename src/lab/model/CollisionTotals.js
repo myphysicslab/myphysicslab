@@ -17,7 +17,7 @@ goog.provide('myphysicslab.lab.model.CollisionTotals');
 goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Keeps long term statistics about collision handling, for testing, debugging,
 and performance measurement.

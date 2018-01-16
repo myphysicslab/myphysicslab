@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.GenericVector');
 goog.scope(function() {
 
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A point in a 2D graph, with indication of when discontinuity occurs in a sequence
 * of points.  See {@link myphysicslab.lab.graph.GraphLine}.

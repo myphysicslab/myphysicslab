@@ -76,7 +76,7 @@ var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
 var TextControl = lab.controls.TextControl;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Creates the RollerSingleSim simulation with no spring.

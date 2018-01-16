@@ -24,7 +24,7 @@ goog.scope(function() {
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var ODESim = myphysicslab.lab.model.ODESim;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Experimental differential equation solver which reduces step size as
 needed to ensure that energy stays constant over every time step. Uses Decorator design

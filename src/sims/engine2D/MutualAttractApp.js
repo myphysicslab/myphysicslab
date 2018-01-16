@@ -50,7 +50,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var Shapes = lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation showing several objects experiencing mutual attraction from gravity.

@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var Memorizable = myphysicslab.lab.util.Memorizable;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A generic {@link Memorizable} object that calls a JavaScript function.
 

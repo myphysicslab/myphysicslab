@@ -48,7 +48,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 var AdaptiveStepSolver = lab.model.AdaptiveStepSolver;
 var ChainConfig = sims.engine2D.ChainConfig;

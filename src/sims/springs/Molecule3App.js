@@ -59,7 +59,7 @@ var SimRunner = lab.app.SimRunner;
 var SliderControl = lab.controls.SliderControl;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

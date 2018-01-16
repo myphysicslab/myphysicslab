@@ -40,8 +40,8 @@ var Observer = myphysicslab.lab.util.Observer;
 var SimList = myphysicslab.lab.model.SimList;
 var SimObject = myphysicslab.lab.model.SimObject;
 var SimView = myphysicslab.lab.view.SimView;
-var Subject = myphysicslab.lab.util.Subject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Automatically creates a DisplayPath when a NumericalPath is added to a SimList.

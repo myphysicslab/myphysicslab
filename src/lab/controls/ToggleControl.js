@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.scope(function() {
 
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Creates and manages an HTMLButtonElement that toggles between two images; the
 state is connected to a ParameterBoolean. The image is assigned classname `icon` for

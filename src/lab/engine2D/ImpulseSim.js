@@ -42,7 +42,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var lab = myphysicslab.lab;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CollisionTotals = lab.model.CollisionTotals;

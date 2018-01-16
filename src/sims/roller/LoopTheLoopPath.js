@@ -19,7 +19,7 @@ goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** Loop-the-loop curve, like a roller coaster that has a loop in it where

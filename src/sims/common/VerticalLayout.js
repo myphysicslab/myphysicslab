@@ -28,7 +28,7 @@ var sims = myphysicslab.sims;
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 var Terminal = lab.util.Terminal;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** VerticalLayout creates a SimView and a command line Terminal a command line Terminal
 for interactive scripting; also an area to show a graph, and an area to put controls.

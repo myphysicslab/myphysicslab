@@ -20,9 +20,9 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Subject = myphysicslab.lab.util.Subject;
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A simple implementation of a SubjectEvent, represents an event that
 has occurred in a Subject.

@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A button input element which executes a function when the button is pressed.
 Displays an image if provided, otherwise the text name is displayed. The image is

@@ -63,7 +63,7 @@ var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var Spring = lab.model.Spring;
 var StringShape = sims.pde.StringShape;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

@@ -38,7 +38,7 @@ var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;
 var ParameterString = myphysicslab.lab.util.ParameterString;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Makes available several {@link DiffEqSolver}s for advancing
 an ODESim simulation. Creates a ParameterString for changing which DiffEqSolver to use.

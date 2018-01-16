@@ -32,7 +32,7 @@ var DoubleRect = myphysicslab.lab.util.DoubleRect;
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var MassObject = myphysicslab.lab.model.MassObject;
 var ShapeType = myphysicslab.lab.model.ShapeType;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** A simple point-like {@link MassObject}, it has mass, velocity, size and shape.

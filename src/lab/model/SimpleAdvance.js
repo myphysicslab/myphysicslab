@@ -28,7 +28,7 @@ var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Advances an {@link ODESim} in a single step without doing any collision handling.
 

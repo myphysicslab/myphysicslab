@@ -168,7 +168,7 @@ var testLabCanvas1 = function() {
   var SimObject = myphysicslab.lab.model.SimObject;
   var SimView = myphysicslab.lab.view.SimView;
   var Spring = myphysicslab.lab.model.Spring;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 

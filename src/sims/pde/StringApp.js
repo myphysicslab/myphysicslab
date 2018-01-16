@@ -110,7 +110,7 @@ var StringShape = sims.pde.StringShape;
 var StringSim = sims.pde.StringSim;
 var TabLayout = sims.common.TabLayout;
 var Terminal = lab.util.Terminal;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
 

@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.controls.CheckBoxControlBase');
 goog.scope(function() {
 
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 
 /** A checkbox input element that is synchronized with a {@link ParameterBoolean}.

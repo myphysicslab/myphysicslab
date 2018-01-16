@@ -36,7 +36,7 @@ position.  Run simulation for short time, compare to expected results (which wer
 obtained by running the simulation previously).  Check that energy stays constant.
 */
 var testRoller1 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
   var PathPoint = myphysicslab.lab.model.PathPoint;
   var CirclePath = myphysicslab.sims.roller.CirclePath;

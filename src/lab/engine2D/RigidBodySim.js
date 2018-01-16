@@ -64,13 +64,12 @@ var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var PointMass = lab.model.PointMass;
 var Polygon = lab.engine2D.Polygon;
-var Printable = lab.util.Printable;
 var RigidBody = lab.engine2D.RigidBody;
 var Scrim = lab.engine2D.Scrim;
 var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var UtilEngine = lab.engine2D.UtilEngine;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = lab.model.VarsList;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

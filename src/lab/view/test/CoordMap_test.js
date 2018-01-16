@@ -28,7 +28,7 @@ var testCoordMap = function() {
   var DoubleRect = myphysicslab.lab.util.DoubleRect;
   var HorizAlign = myphysicslab.lab.view.HorizAlign;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 

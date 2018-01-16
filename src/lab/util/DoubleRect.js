@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /**  An immutable rectangle whose boundaries are stored with double floating

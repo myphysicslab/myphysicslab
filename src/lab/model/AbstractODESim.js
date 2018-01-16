@@ -31,8 +31,8 @@ var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var GenericEvent = myphysicslab.lab.util.GenericEvent;
 var SimList = myphysicslab.lab.model.SimList;
 var Simulation = myphysicslab.lab.model.Simulation;
-var Subject = myphysicslab.lab.util.Subject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
 /** Abstract base class for {@link myphysicslab.lab.model.ODESim}.

@@ -23,7 +23,7 @@ goog.scope(function() {
 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
 var Parameter = myphysicslab.lab.util.Parameter;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A pop-up menu which synchronizes its state with the {@link Parameter} of a
 {@link myphysicslab.lab.util.Subject Subject}.

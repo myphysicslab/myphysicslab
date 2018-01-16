@@ -56,7 +56,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
   var Spring = myphysicslab.lab.model.Spring;
   var SimView = myphysicslab.lab.view.SimView;
   var Timer = myphysicslab.lab.util.Timer;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
   Util.setErrorHandler();

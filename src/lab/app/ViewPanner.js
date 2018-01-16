@@ -24,7 +24,7 @@ goog.scope(function() {
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var LabView = myphysicslab.lab.view.LabView;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Pans (scrolls) a LabView to follow mouse movements.

@@ -22,7 +22,7 @@ goog.scope(function() {
 
 var ODESim = myphysicslab.lab.model.ODESim;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Runge-Kutta method for solving ordinary differential equations
 expressed as a {@link ODESim}; operates by using the

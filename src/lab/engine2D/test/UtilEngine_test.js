@@ -78,7 +78,7 @@ var testNumericalBug1 = function() {
 var testRandomInts = function() {
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var i;
   // 2 arrays of random ints should be different
   var prng = new RandomLCG(6473275);
@@ -501,7 +501,7 @@ var testMatrix11_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix11_CF ***');
@@ -654,7 +654,7 @@ var testMatrix12_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix12_CF ***');
@@ -790,7 +790,7 @@ var testMatrix15_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix15_CF ***');
@@ -888,7 +888,7 @@ var testMatrix16_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix16_CF ***');
@@ -987,7 +987,7 @@ get many cases where maxForce is 54 or 179.
 */
 var testMatrix17_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
@@ -1093,7 +1093,7 @@ that random contact order does not find a lower force.
 var testMatrix18_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1192,7 +1192,7 @@ of 135701.
 var testMatrix19_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1297,7 +1297,7 @@ that random contact order does not find a lower force.
 var testMatrix20_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1393,7 +1393,7 @@ that random contact order does not find a lower force.
 var testMatrix21_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1500,7 +1500,7 @@ maxForce=9.46, length = 24.00.
 var testMatrix22_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1693,7 +1693,7 @@ Max force is 16.588.
 var testMatrix23_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1821,7 +1821,7 @@ goog.exportProperty(window, 'testMatrix23_CF', testMatrix23_CF);
 var testMatrix24_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -1927,7 +1927,7 @@ allowing diagonal entries as small as 0.0016.
 var testMatrix25_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2023,7 +2023,7 @@ a singular matrix and not being able to get all contact accelerations to zero.
 var testMatrix26_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2089,7 +2089,7 @@ see {@link myphysicslab.lab.engine2D.ComputeForces#checkLoop}.
 var testMatrix27_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)
@@ -2191,7 +2191,7 @@ rely on that.
 var testMatrix28_CF = function() {
   var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
   var RandomLCG = myphysicslab.lab.util.RandomLCG;
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
   var VERBOSE = false;
   if (VERBOSE)

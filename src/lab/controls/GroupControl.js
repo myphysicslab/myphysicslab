@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 goog.scope(function() {
 
 var LabControl = myphysicslab.lab.controls.LabControl;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A group of LabControls which implements the LabControl interface.
 

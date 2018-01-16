@@ -30,8 +30,8 @@ var Parameter = myphysicslab.lab.util.Parameter;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var ParameterString = myphysicslab.lab.util.ParameterString;
-var Subject = myphysicslab.lab.util.Subject;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Implementation of {@link Subject} interface.
 

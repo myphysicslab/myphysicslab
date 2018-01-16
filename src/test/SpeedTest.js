@@ -46,7 +46,7 @@ var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var Walls = myphysicslab.lab.engine2D.Walls;
 

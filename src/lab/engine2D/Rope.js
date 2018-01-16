@@ -33,7 +33,7 @@ var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Rope connects two RigidBodys and limits the distance

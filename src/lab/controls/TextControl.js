@@ -22,7 +22,7 @@ goog.scope(function() {
 
 var TextControlBase = myphysicslab.lab.controls.TextControlBase;
 var ParameterString = myphysicslab.lab.util.ParameterString;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A user interface control for displaying and editing the value of a
 {@link ParameterString}.

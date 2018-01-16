@@ -47,7 +47,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var RigidBodySim = lab.engine2D.RigidBodySim;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** StuckTestApp runs a simulation that is guaranteed to become 'stuck', at which point
 we should get an error dialog and be able to restart the simulation. This is mainly

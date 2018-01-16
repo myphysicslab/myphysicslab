@@ -35,7 +35,7 @@ const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** A numerical approximation of a {@link ParametricPath} providing various functions

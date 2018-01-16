@@ -101,7 +101,7 @@ var Shapes = lab.engine2D.Shapes;
 var Simulation = lab.model.Simulation;
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Demonstrates a RigidBody connected to various 'roller coaster' paths by a PathJoint.

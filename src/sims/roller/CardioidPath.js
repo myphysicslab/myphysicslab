@@ -19,7 +19,7 @@ goog.require('myphysicslab.sims.roller.AbstractPath');
 
 goog.scope(function() {
 
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
 /** ParametricPath that represents a cardiod, which is a vaguely heart shaped

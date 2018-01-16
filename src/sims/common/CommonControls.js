@@ -59,7 +59,7 @@ var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 var Terminal = lab.util.Terminal;
 var ToggleControl = lab.controls.ToggleControl;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
 

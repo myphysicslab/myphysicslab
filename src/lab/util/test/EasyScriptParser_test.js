@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('goog.testing.jsunit');
 
 var testEasyScript1 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
   var Terminal = myphysicslab.lab.util.Terminal;
   var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
@@ -229,7 +229,7 @@ var testEasyScript1 = function() {
 goog.exportProperty(window, 'testEasyScript1', testEasyScript1);
 
 var testEasyScript2 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
 
   // Test the EasyScriptParser.unquote() function:

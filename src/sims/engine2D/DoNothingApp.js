@@ -66,7 +66,7 @@ var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
 var RotatingTestForce = sims.engine2D.RotatingTestForce;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of the Do Nothing Grinder, which consists of two shuttle

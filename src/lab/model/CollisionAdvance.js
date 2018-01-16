@@ -34,7 +34,7 @@ var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Handles collisions by backing up in time with binary search algorithm. For better
 performance uses collision time estimates and handles imminent collisions.

@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 goog.scope(function() {
 
 var Connector = myphysicslab.lab.engine2D.Connector;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Shows the location of a {@link Connector} as a small colored circle.

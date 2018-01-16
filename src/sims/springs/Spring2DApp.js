@@ -51,7 +51,7 @@ var SliderControl = lab.controls.SliderControl;
 var Spring = myphysicslab.lab.model.Spring;
 var Spring2DSim = sims.springs.Spring2DSim;
 var TabLayout = sims.common.TabLayout;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Spring2DSim} simulation.
 

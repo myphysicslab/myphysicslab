@@ -40,7 +40,7 @@ var PileTest = myphysicslab.test.PileTest;
 var RopeTest = myphysicslab.test.RopeTest;
 var SpeedTest = myphysicslab.test.SpeedTest;
 var StraightStraightTest = myphysicslab.test.StraightStraightTest;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Runs performance tests of the rigid body physics engine. See
 [2D Physics Engine Overview](Engine2D.html). Each test has an expected time, if it

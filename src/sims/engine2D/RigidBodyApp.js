@@ -59,7 +59,7 @@ var SixThrusters = sims.engine2D.SixThrusters;
 var Spring = lab.model.Spring;
 var TabLayout = sims.common.TabLayout;
 var ThrusterSet = lab.engine2D.ThrusterSet;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /**  RigidBodyApp demonstrates using RigidBodySim (instead of the usual ContactSim) with

@@ -47,7 +47,7 @@ var Force = myphysicslab.lab.model.Force;
 var RandomLCG = myphysicslab.lab.util.RandomLCG;
 var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /**

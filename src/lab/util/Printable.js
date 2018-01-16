@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Printable');
+goog.module('myphysicslab.lab.util.Printable');
 
 /** An object that has a minimal string representation via its {@link #toStringShort}
 method.
@@ -24,11 +24,9 @@ This is mainly needed to avoid infinite loops, such as when an object prints a
 This can also make printing an *array of Printable objects* more practical because we
 only print minimal identity information, rather than the full `toString` representation
 which would have too much information and be unreadable.
-
 * @interface
 */
-myphysicslab.lab.util.Printable = function() {};
-
+class Printable {
 /** Returns a minimal string representation of this object, usually giving just identity
 information like the class name and name of the object.
 
@@ -41,4 +39,6 @@ this:
 
 @return {string} a minimal string representation of this object.
 */
-myphysicslab.lab.util.Printable.prototype.toStringShort;
+toStringShort() {}
+}
+exports = Printable;

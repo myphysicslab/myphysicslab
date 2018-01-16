@@ -159,7 +159,7 @@ stage    system     clock    real    expect  period  events  fired  running?  fi
         0.430        0.255   0.280   0.470     40     15      7      n        y
 */
 var testClock1 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Clock = myphysicslab.lab.util.Clock;
   var tol = 1E-14;
 
@@ -455,7 +455,7 @@ stage     system     clock    real    expect  period  events  fired  rate
 */
 // tests changing time rateClock
 var testClock2 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Clock = myphysicslab.lab.util.Clock;
   var tol = 1E-14;
 
@@ -628,7 +628,7 @@ goog.exportProperty(window, 'testClock2', testClock2);
 
 // test that ClockTasks are executed at proper times.
 var testClock3 = function() {
-  var Util = goog.module.get('myphysicslab.lab.util.Util');
+  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Clock = myphysicslab.lab.util.Clock;
   var ClockTask = myphysicslab.lab.util.ClockTask;
   var tol = 1E-3;

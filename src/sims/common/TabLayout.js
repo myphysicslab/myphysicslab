@@ -41,7 +41,7 @@ var ParameterNumber = lab.util.ParameterNumber;
 var ParameterString = lab.util.ParameterString;
 var SubjectList = lab.util.SubjectList;
 var Terminal = lab.util.Terminal;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** TabLayout is a tab-based layout for showing a simulation, graph, controls.
 TabLayout implements specific ways to present the application on the web page, in this

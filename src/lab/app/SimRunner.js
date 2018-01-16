@@ -50,7 +50,7 @@ var Memorizable = myphysicslab.lab.util.Memorizable;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;
 var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
 var Timer = myphysicslab.lab.util.Timer;
-var Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Uses an {@link AdvanceStrategy} to advance the
 {@link myphysicslab.lab.model.Simulation Simulation} state; the process is driven by a
