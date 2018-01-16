@@ -48,7 +48,7 @@ constructor(subject, name, value) {
 
 /** @override */
 toString() {
-  return this.toStringShort().slice(0, -1)
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', subject_: '+this.subject_.toStringShort()
       +', value_: '+this.value_
       +'}';
@@ -56,7 +56,7 @@ toString() {
 
 /** @override */
 toStringShort() {
-  return 'GenericEvent{name_:"'+this.name_+'"}';
+  return Util.ADVANCED ? '' : 'GenericEvent{name_:"'+this.name_+'"}';
 };
 
 /** @override */

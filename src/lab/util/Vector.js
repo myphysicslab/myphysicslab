@@ -50,7 +50,8 @@ constructor(x, y, opt_z) {
 
 /** @override */
 toString() {
-  return 'Vector{x: '+Util.NF5(this.x_)+', y: '+Util.NF5(this.y_)
+  return Util.ADVANCED ? '' : 'Vector{x: '+Util.NF5(this.x_)
+      +', y: '+Util.NF5(this.y_)
       + (this.z_ != 0 ? ', z: '+Util.NF5(this.z_) : '')
       +'}';
 };
