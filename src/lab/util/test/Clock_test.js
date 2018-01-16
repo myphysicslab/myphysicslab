@@ -78,7 +78,8 @@ myphysicslab.lab.util.test.Clock_test.MockObserver1 = function() {
 };
 
 myphysicslab.lab.util.test.Clock_test.MockObserver1.prototype.observe =  function(event) {
-  if (event instanceof myphysicslab.lab.util.GenericEvent) {
+  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+  if (event instanceof GenericEvent) {
     var Clock = myphysicslab.lab.util.Clock;
     this.numEvents++;
     if (event.nameEquals(Clock.CLOCK_PAUSE)) {

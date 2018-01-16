@@ -41,7 +41,7 @@ var testTerminal1 = function() {
   var exp = 'replace this myphysicslab.lab.util.DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
   assertEquals(exp, t.expand(txt));
   txt = " this Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
-  exp = " this myphysicslab.lab.util.Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
+  exp = " this module$exports$myphysicslab$lab$util$Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
   assertEquals(exp, t.expand(txt));
   // test storing a variable in the Terminal's 'z' object
   t.eval('z.a = 1;');
@@ -223,19 +223,19 @@ var testTerminal3 = function() {
   output_elem.value = '';
   assertEquals(5, t.eval('var b =/* new Vector */5'));
   assertEquals('> var b =/* new Vector */5\n'+
-      '>> terminal.z.b =/* new myphysicslab.lab.util.Vector */5\n'+
+      '>> terminal.z.b =/* new module$exports$myphysicslab$lab$util$Vector */5\n'+
       '5\n', output_elem.value);
   // semicolon does not end a // comment
   output_elem.value = '';
   assertEquals(3, t.eval('3//5; new Vector(1,1)'));
   assertEquals('> 3//5; new Vector(1,1)\n'+
-      '>> 3//5; new myphysicslab.lab.util.Vector(1,1)\n'+
+      '>> 3//5; new module$exports$myphysicslab$lab$util$Vector(1,1)\n'+
       '3\n', output_elem.value);
   // a comment ends at the newline, not at semicolon
   output_elem.value = '';
   assertEquals(5, t.eval('3 //foo; new Vector(1,1)\n5'));
   assertEquals('> 3 //foo; new Vector(1,1)\n'+
-      '>> 3 //terminal.z.foo; new myphysicslab.lab.util.Vector(1,1)\n'+
+      '>> 3 //terminal.z.foo; new module$exports$myphysicslab$lab$util$Vector(1,1)\n'+
       '> 5\n'+
       '>> 5\n'+
       '5\n', output_elem.value);

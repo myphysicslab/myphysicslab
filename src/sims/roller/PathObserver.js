@@ -33,7 +33,7 @@ goog.scope(function() {
 var DisplayList = myphysicslab.lab.view.DisplayList;
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericObserver = myphysicslab.lab.util.GenericObserver;
+const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var LabView = myphysicslab.lab.view.LabView;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');

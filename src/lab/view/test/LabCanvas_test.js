@@ -73,7 +73,8 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver = function() {
 };
 
 myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = function(event) {
-  if (event instanceof myphysicslab.lab.util.GenericEvent) {
+  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+  if (event instanceof GenericEvent) {
     var LabCanvas = myphysicslab.lab.view.LabCanvas;
     this.numEvents++;
     if (event.nameEquals(LabCanvas.VIEW_LIST_MODIFIED)) {
@@ -131,7 +132,8 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver = function() {
 };
 
 myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.observe = function(event) {
-  if (event instanceof myphysicslab.lab.util.GenericEvent) {
+  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+  if (event instanceof GenericEvent) {
     var LabView = myphysicslab.lab.view.LabView;
     this.numEvents++;
     if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {

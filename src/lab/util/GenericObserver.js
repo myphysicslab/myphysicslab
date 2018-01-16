@@ -12,19 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.GenericObserver');
+goog.module('myphysicslab.lab.util.GenericObserver');
 
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.SubjectEvent');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Observes a Subject; when the Subject broadcasts a SubjectEvent then this executes a
 specified function.
@@ -88,17 +81,16 @@ which use  {@link myphysicslab.lab.engine2D.ContactSim}, or
 which contains the above code running in simple-compiled ContactApp. That link also
 sets `EXTRA_ACCEL=none` so you will see the gap distance color vary periodically.
 
-
+@implements {Observer}
+*/
+class GenericObserver {
+/**
 @param {!Subject} subject  the Subject to observe
 @param {function(!SubjectEvent)} observeFn  function to execute when a SubjectEvent is
     broadcast by Subject
 @param {string=} opt_purpose Describes what this Observer does, for debugging
-@implements {Observer}
-@constructor
-@final
-@struct
 */
-myphysicslab.lab.util.GenericObserver = function(subject, observeFn, opt_purpose) {
+constructor(subject, observeFn, opt_purpose) {
   /** Describes what this Observer does, for debugging
   * @type {string}
   * @private
@@ -118,31 +110,32 @@ myphysicslab.lab.util.GenericObserver = function(subject, observeFn, opt_purpose
   * @const
   */
   this.observeFn_ = observeFn;
-};
-var GenericObserver = myphysicslab.lab.util.GenericObserver;
+}
 
-if (!Util.ADVANCED) {
-  /** @override */
-  GenericObserver.prototype.toString = function() {
-    return this.toStringShort();
-  };
-
-  /** @override */
-  GenericObserver.prototype.toStringShort = function() {
-    return 'GenericObserver{subject_: '+this.subject_.toStringShort()
-        +(this.purpose_.length > 0 ? ', purpose_:"'+this.purpose_+'"' : '')
-        +'}';
-  };
+/** @override */
+toString() {
+  return this.toStringShort();
 };
 
-/** Disconnects this GenericObserver from the Subject. */
-GenericObserver.prototype.disconnect = function() {
+/** @override */
+toStringShort() {
+  return Util.ADVANCED ? '' :
+      'GenericObserver{subject_: '+this.subject_.toStringShort()
+      +(this.purpose_.length > 0 ? ', purpose_:"'+this.purpose_+'"' : '')
+      +'}';
+};
+
+/** Disconnects this GenericObserver from the Subject.
+@return {undefined}
+*/
+disconnect() {
   this.subject_.removeObserver(this);
 };
 
 /** @override */
-GenericObserver.prototype.observe =  function(event) {
+observe(event) {
   this.observeFn_(event);
 };
 
-});  // goog.scope
+}
+exports = GenericObserver;

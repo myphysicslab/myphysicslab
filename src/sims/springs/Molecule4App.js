@@ -53,7 +53,7 @@ var SimRunner = lab.app.SimRunner;
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var GenericObserver = lab.util.GenericObserver;
+const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 
 /** Displays the {@link Molecule4Sim} simulation which is an experimental version of
 the Molecule3 simulation. This uses a non-linear spring force. Note that the spring
