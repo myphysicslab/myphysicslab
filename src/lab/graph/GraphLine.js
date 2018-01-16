@@ -35,7 +35,7 @@ goog.scope(function() {
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var CircularList = myphysicslab.lab.util.CircularList;
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
-var GenericEvent = myphysicslab.lab.util.GenericEvent;
+const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 var HistoryList = myphysicslab.lab.util.HistoryList;

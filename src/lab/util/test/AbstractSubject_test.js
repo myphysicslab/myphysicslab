@@ -28,7 +28,7 @@ var testAbstractSubject1 = function() {
   var ParameterNumber = myphysicslab.lab.util.ParameterNumber;
   var ParameterString = myphysicslab.lab.util.ParameterString;
   var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
-  var GenericEvent = myphysicslab.lab.util.GenericEvent;
+  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   /**
   @constructor
   @extends {myphysicslab.lab.util.AbstractSubject}

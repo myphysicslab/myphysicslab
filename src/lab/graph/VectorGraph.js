@@ -33,7 +33,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var CoordMap = lab.view.CoordMap;
-var GenericEvent = lab.util.GenericEvent;
+const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var LabView = lab.view.LabView;
 var ODESim = lab.model.ODESim;
 var ScreenRect = lab.view.ScreenRect;

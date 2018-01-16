@@ -35,7 +35,7 @@ goog.scope(function() {
 
 var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
-var GenericEvent = myphysicslab.lab.util.GenericEvent;
+const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var GraphLine = myphysicslab.lab.graph.GraphLine;
 var LabView = myphysicslab.lab.view.LabView;
 var ParameterBoolean = myphysicslab.lab.util.ParameterBoolean;

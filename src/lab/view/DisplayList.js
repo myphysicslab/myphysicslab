@@ -35,7 +35,7 @@ var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
-var GenericEvent = myphysicslab.lab.util.GenericEvent;
+const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var SimObject = myphysicslab.lab.model.SimObject;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
