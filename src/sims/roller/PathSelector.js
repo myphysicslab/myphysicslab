@@ -25,7 +25,7 @@ goog.require('myphysicslab.sims.roller.HasPath');
 
 goog.scope(function() {
 
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var HasPath = myphysicslab.sims.roller.HasPath;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');

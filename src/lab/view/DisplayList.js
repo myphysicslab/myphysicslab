@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.util.Memorizable');
 
 goog.scope(function() {
 
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;

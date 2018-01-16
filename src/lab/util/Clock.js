@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var ClockTask = myphysicslab.lab.util.ClockTask;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');

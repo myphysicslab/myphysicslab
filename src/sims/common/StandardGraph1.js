@@ -51,7 +51,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AutoScale = lab.graph.AutoScale;
 var ButtonControl = lab.controls.ButtonControl;
 var CheckBoxControl = lab.controls.CheckBoxControl;

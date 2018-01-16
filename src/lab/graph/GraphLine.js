@@ -32,7 +32,7 @@ goog.require('myphysicslab.lab.view.DrawingMode');
 
 goog.scope(function() {
 
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var CircularList = myphysicslab.lab.util.CircularList;
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');

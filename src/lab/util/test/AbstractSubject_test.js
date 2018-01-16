@@ -27,7 +27,7 @@ var testAbstractSubject1 = function() {
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-  var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   /**
   @constructor

@@ -48,7 +48,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var ConcreteLine = lab.model.ConcreteLine;
 var DampingLaw = lab.model.DampingLaw;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;

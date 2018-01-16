@@ -33,7 +33,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var LabCanvas = lab.view.LabCanvas;
 var LabControl = lab.controls.LabControl;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');

@@ -25,7 +25,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var RigidBodySim = lab.engine2D.RigidBodySim;

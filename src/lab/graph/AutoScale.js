@@ -33,7 +33,7 @@ goog.require('myphysicslab.lab.view.SimView');
 
 goog.scope(function() {
 
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var DoubleRect = myphysicslab.lab.util.DoubleRect;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var GraphLine = myphysicslab.lab.graph.GraphLine;

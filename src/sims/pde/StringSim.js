@@ -49,7 +49,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractSimObject = lab.model.AbstractSimObject;
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AdvanceStrategy = lab.model.AdvanceStrategy;
 var ConcreteLine = lab.model.ConcreteLine;
 var DoubleRect = lab.util.DoubleRect;

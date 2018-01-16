@@ -24,84 +24,86 @@ goog.require('goog.testing.jsunit');
 
 
 var testParameterNumber1 = function() {
+  const Subject = goog.module.get('myphysicslab.lab.util.Subject');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   /**
-  @constructor
-  @implements {myphysicslab.lab.util.Subject}
+  @implements {Subject}
   */
-  var MockSubject1 = function() {
+  class MockSubject1 {
+    constructor() {
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooness_ = 0;
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooBarness_ = 0;
+      /**
+      * @type {string}
+      * @private
+      */
+      this.symbol_ = '';
+      /**
+      * @type {?myphysicslab.lab.util.Terminal}
+      * @private
+      */
+      this.terminal_ = null;
+    };
     /**
-    * @type {number}
-    * @private
+    @return {number}
     */
-    this.fooness_ = 0;
+    getFooness() {
+      return this.fooness_;
+    };
     /**
-    * @type {number}
-    * @private
+    @param {number} value
     */
-    this.fooBarness_ = 0;
+    setFooness(value) {
+      this.fooness_ = value;
+    };
     /**
-    * @type {string}
-    * @private
+    @return {number}
     */
-    this.symbol_ = '';
+    getFooBarness() {
+      return this.fooBarness_;
+    };
     /**
-    * @type {?myphysicslab.lab.util.Terminal}
-    * @private
+    @param {number} value
     */
-    this.terminal_ = null;
-  };
+    setFooBarness(value) {
+      this.fooBarness_ = value;
+    };
+    /** @override */
+    getName() { return ''; };
+    /** @override */
+    addObserver(observer) {};
+    /** @override */
+    removeObserver(observer) {};
+    /** @override */
+    getObservers() { return []; };
+    /** @override */
+    getParameters() { return []; };
+    /** @override */
+    getParameter(name) { throw new Error(); };
+    /** @override */
+    getParameterBoolean(name) { throw new Error(); };
+    /** @override */
+    getParameterNumber(name) { throw new Error(); };
+    /** @override */
+    getParameterString(name) { throw new Error(); };
+    /** @override */
+    broadcastParameter(name) {};
+    /** @override */
+    broadcast(event) {};
+    /** @override */
+    toStringShort() { return 'MockSubject1'; };
+  }
   MockSubject1.FOONESS = 'FOONESS';
   MockSubject1.FOOBARNESS = 'FOO_BARNESS';
-  /**
-  @return {number}
-  */
-  MockSubject1.prototype.getFooness = function() {
-    return this.fooness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject1.prototype.setFooness = function(value) {
-    this.fooness_ = value;
-  };
-  /**
-  @return {number}
-  */
-  MockSubject1.prototype.getFooBarness = function() {
-    return this.fooBarness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject1.prototype.setFooBarness = function(value) {
-    this.fooBarness_ = value;
-  };
-  /** @override */
-  MockSubject1.prototype.getName = function() { return ''; };
-  /** @override */
-  MockSubject1.prototype.addObserver = function(observer) {};
-  /** @override */
-  MockSubject1.prototype.removeObserver = function(observer) {};
-  /** @override */
-  MockSubject1.prototype.getObservers = function() { return []; };
-  /** @override */
-  MockSubject1.prototype.getParameters = function() { return []; };
-  /** @override */
-  MockSubject1.prototype.getParameter = function(name) { throw new Error(); };
-  /** @override */
-  MockSubject1.prototype.getParameterBoolean = function(name) { throw new Error(); };
-  /** @override */
-  MockSubject1.prototype.getParameterNumber = function(name) { throw new Error(); };
-  /** @override */
-  MockSubject1.prototype.getParameterString = function(name) { throw new Error(); };
-  /** @override */
-  MockSubject1.prototype.broadcastParameter = function(name) {};
-  /** @override */
-  MockSubject1.prototype.broadcast = function(event) {};
-  /** @override */
-  MockSubject1.prototype.toStringShort = function() { return 'MockSubject1'; };
   var mockSubj1 = new MockSubject1();
   assertEquals(0, mockSubj1.getFooness());
   assertEquals(0, mockSubj1.getFooBarness());
@@ -170,57 +172,56 @@ goog.exportProperty(window, 'testParameterNumber1', testParameterNumber1);
 
 
 var testParameterNumber2 = function() {
+  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  /**
-  @constructor
-  @extends {myphysicslab.lab.util.AbstractSubject}
-  */
-  var MockSubject2 = function() {
-    myphysicslab.lab.util.AbstractSubject.call(this, 'MOCK');
+  class MockSubject2 extends AbstractSubject {
+    constructor() {
+      super('MOCK');
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooness_ = 0;
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooBarness_ = 0;
+    };
+    /** @override */
+    getClassName() {
+      return 'MockSubject2';
+    };
     /**
-    * @type {number}
-    * @private
+    @return {number}
     */
-    this.fooness_ = 0;
+    getFooness() {
+      return this.fooness_;
+    };
     /**
-    * @type {number}
-    * @private
+    @param {number} value
     */
-    this.fooBarness_ = 0;
-  };
-  goog.inherits(MockSubject2, myphysicslab.lab.util.AbstractSubject);
-
+    setFooness(value) {
+      this.fooness_ = value;
+    };
+    /**
+    @return {number}
+    */
+    getFooBarness() {
+      return this.fooBarness_;
+    };
+    /**
+    @param {number} value
+    */
+    setFooBarness(value) {
+      this.fooBarness_ = value;
+    };
+  }
+  /** @type {string} */
   MockSubject2.FOONESS = 'fooness';
+  /** @type {string} */
   MockSubject2.FOOBARNESS = 'foo-barness';
-  /** @override */
-  MockSubject2.prototype.getClassName = function() {
-    return 'MockSubject2';
-  };
-  /**
-  @return {number}
-  */
-  MockSubject2.prototype.getFooness = function() {
-    return this.fooness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject2.prototype.setFooness = function(value) {
-    this.fooness_ = value;
-  };
-  /**
-  @return {number}
-  */
-  MockSubject2.prototype.getFooBarness = function() {
-    return this.fooBarness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject2.prototype.setFooBarness = function(value) {
-    this.fooBarness_ = value;
-  };
   /** @type {!MockSubject2} */
   var mockSubj2 = new MockSubject2();
   assertEquals(0, mockSubj2.getFooness());
@@ -263,57 +264,54 @@ var testParameterNumber2 = function() {
 goog.exportProperty(window, 'testParameterNumber2', testParameterNumber2);
 
 var testParameterNumber3 = function() {
+  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  /**
-  @constructor
-  @extends {myphysicslab.lab.util.AbstractSubject}
-  */
-  var MockSubject3 = function() {
-    myphysicslab.lab.util.AbstractSubject.call(this, 'MOCK');
+  class MockSubject3 extends AbstractSubject {
+    constructor() {
+      super('MOCK');
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooness_ = 0;
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooBarness_ = 0;
+    };
+    /** @override */
+    getClassName() {
+      return 'MockSubject3';
+    };
     /**
-    * @type {number}
-    * @private
+    @return {number}
     */
-    this.fooness_ = 0;
+    getFooness() {
+      return this.fooness_;
+    };
     /**
-    * @type {number}
-    * @private
+    @param {number} value
     */
-    this.fooBarness_ = 0;
-  };
-  goog.inherits(MockSubject3, myphysicslab.lab.util.AbstractSubject);
-
+    setFooness(value) {
+      this.fooness_ = value;
+    };
+    /**
+    @return {number}
+    */
+    getFooBarness() {
+      return this.fooBarness_;
+    };
+    /**
+    @param {number} value
+    */
+    setFooBarness(value) {
+      this.fooBarness_ = value;
+    };
+  }
   MockSubject3.FOONESS = 'FOONESS';
   MockSubject3.FOOBARNESS = 'FOO_BARNESS';
-  /** @override */
-  MockSubject3.prototype.getClassName = function() {
-    return 'MockSubject3';
-  };
-  /**
-  @return {number}
-  */
-  MockSubject3.prototype.getFooness = function() {
-    return this.fooness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject3.prototype.setFooness = function(value) {
-    this.fooness_ = value;
-  };
-  /**
-  @return {number}
-  */
-  MockSubject3.prototype.getFooBarness = function() {
-    return this.fooBarness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject3.prototype.setFooBarness = function(value) {
-    this.fooBarness_ = value;
-  };
   var mockSubj3 = new MockSubject3();
   assertEquals(0, mockSubj3.getFooness());
   assertEquals(0, mockSubj3.getFooBarness());
@@ -350,75 +348,72 @@ goog.exportProperty(window, 'testParameterNumber3', testParameterNumber3);
 
 // ParameterNumber with array of choices and values
 var testParameterNumber4 = function() {
+  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  /**
-  @constructor
-  @extends {myphysicslab.lab.util.AbstractSubject}
-  */
-  var MockSubject2 = function() {
-    myphysicslab.lab.util.AbstractSubject.call(this, 'MOCK');
+  class MockSubject2 extends AbstractSubject {
+    constructor() {
+      super('MOCK');
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooness_ = 0.1;
+      /**
+      * @type {number}
+      * @private
+      */
+      this.fooBarness_ = 1000000;
+      /**
+      * @type {number}
+      * @private
+      */
+      this.baz_ = 0;
+    };
+    /** @override */
+    getClassName() {
+      return 'MockSubject2';
+    };
     /**
-    * @type {number}
-    * @private
+    @return {number}
     */
-    this.fooness_ = 0.1;
+    getFooness() {
+      return this.fooness_;
+    };
     /**
-    * @type {number}
-    * @private
+    @param {number} value
     */
-    this.fooBarness_ = 1000000;
+    setFooness(value) {
+      this.fooness_ = value;
+    };
     /**
-    * @type {number}
-    * @private
+    @return {number}
     */
-    this.baz_ = 0;
-  };
-  goog.inherits(MockSubject2, myphysicslab.lab.util.AbstractSubject);
-
+    getFooBarness() {
+      return this.fooBarness_;
+    };
+    /**
+    @param {number} value
+    */
+    setFooBarness(value) {
+      this.fooBarness_ = value;
+    };
+    /**
+    @return {number}
+    */
+    getBaz() {
+      return this.baz_;
+    };
+    /**
+    @param {number} value
+    */
+    setBaz(value) {
+      this.baz_ = value;
+    };
+  }
   MockSubject2.FOONESS = 'FOONESS';
   MockSubject2.FOOBARNESS = 'FOO_BARNESS';
   MockSubject2.BAZ = 'BAZ';
-  /** @override */
-  MockSubject2.prototype.getClassName = function() {
-    return 'MockSubject2';
-  };
-  /**
-  @return {number}
-  */
-  MockSubject2.prototype.getFooness = function() {
-    return this.fooness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject2.prototype.setFooness = function(value) {
-    this.fooness_ = value;
-  };
-  /**
-  @return {number}
-  */
-  MockSubject2.prototype.getFooBarness = function() {
-    return this.fooBarness_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject2.prototype.setFooBarness = function(value) {
-    this.fooBarness_ = value;
-  };
-  /**
-  @return {number}
-  */
-  MockSubject2.prototype.getBaz = function() {
-    return this.baz_;
-  };
-  /**
-  @param {number} value
-  */
-  MockSubject2.prototype.setBaz = function(value) {
-    this.baz_ = value;
-  };
   /** @type {!MockSubject2} */
   var mockSubj2 = new MockSubject2();
 

@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;

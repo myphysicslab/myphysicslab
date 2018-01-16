@@ -30,7 +30,7 @@ var lab = myphysicslab.lab;
 
 var Arc = lab.model.Arc;
 var ConcreteLine = lab.model.ConcreteLine;
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;

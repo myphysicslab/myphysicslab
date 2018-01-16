@@ -41,7 +41,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var AbstractSubject = lab.util.AbstractSubject;
+const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var ButtonControl = lab.controls.ButtonControl;
 var ChoiceControlBase = lab.controls.ChoiceControlBase;
 var DisplayAxes = lab.graph.DisplayAxes;

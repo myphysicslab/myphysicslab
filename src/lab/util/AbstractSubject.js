@@ -12,36 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.AbstractSubject');
+goog.module('myphysicslab.lab.util.AbstractSubject');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Subject');
-
-goog.scope(function() {
-
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Implementation of {@link Subject} interface.
 
-@param {string=} name
-@constructor
-@struct
 @implements {Subject}
 @abstract
 */
-myphysicslab.lab.util.AbstractSubject = function(name) {
+class AbstractSubject {
+/**
+@param {string=} name
+*/
+constructor(name) {
   /* This implementation makes some direct calls on itself, so it is not
   * appropriate for a [decorator class](http://en.wikipedia.org/wiki/Decorator_pattern)
   * that needs to override methods of this class. If a class calls a method on itself,
@@ -81,33 +72,25 @@ myphysicslab.lab.util.AbstractSubject = function(name) {
   */
   this.commandList_ = [];
 };
-var AbstractSubject = myphysicslab.lab.util.AbstractSubject;
-
-if (!Util.ADVANCED) {
-  /** @override */
-  AbstractSubject.prototype.toString = function() {
-    // assumes that className and name are displayed by sub-class
-    return ', parameters: ['
-        + goog.array.map(this.paramList_, function(p) { return p.toStringShort(); })
-        +'], observers: ['
-        + goog.array.map(this.observers_, function(p) { return p.toStringShort(); })
-        +']}';
-  };
-
-  /** @override */
-  AbstractSubject.prototype.toStringShort = function() {
-    return this.getClassName() + '{name_: "' + this.getName() + '"}';
-  };
-};
-
-/** A delayed command to add (`action=true`) or remove (`action=false`) an Observer.
-* @typedef {{action: boolean, observer: !Observer}}
-* @private
-*/
-AbstractSubject.Command;
 
 /** @override */
-AbstractSubject.prototype.addObserver = function(observer) {
+toString() {
+  // assumes that className and name are displayed by sub-class
+  return Util.ADVANCED ? '' : ', parameters: ['
+      + goog.array.map(this.paramList_, function(p) { return p.toStringShort(); })
+      +'], observers: ['
+      + goog.array.map(this.observers_, function(p) { return p.toStringShort(); })
+      +']}';
+};
+
+/** @override */
+toStringShort() {
+  return Util.ADVANCED ? '' : this.getClassName()
+      + '{name_: "' + this.getName() + '"}';
+};
+
+/** @override */
+addObserver(observer) {
   /** @type {!AbstractSubject.Command} */
   var cmd = {
     action: true,
@@ -123,7 +106,7 @@ AbstractSubject.prototype.addObserver = function(observer) {
 * @return {undefined}
 * @private
 */
-AbstractSubject.prototype.doCommands = function() {
+doCommands() {
   if (!this.isBroadcasting_) {
     for (var i=0, len=this.commandList_.length; i<len; i++) {
       var cmd = this.commandList_[i];
@@ -143,7 +126,7 @@ AbstractSubject.prototype.doCommands = function() {
 @throws {!Error} if a Parameter with the same name already exists.
 @param {!Parameter} parameter the Parameter to add
 */
-AbstractSubject.prototype.addParameter = function(parameter) {
+addParameter(parameter) {
   var name = parameter.getName();
   var p = this.getParam(name);
   if (p != null) {
@@ -153,7 +136,7 @@ AbstractSubject.prototype.addParameter = function(parameter) {
 };
 
 /** @override */
-AbstractSubject.prototype.broadcast = function(evt) {
+broadcast(evt) {
   if (this.doBroadcast_) {
     this.isBroadcasting_ = true;
     try {
@@ -170,7 +153,7 @@ AbstractSubject.prototype.broadcast = function(evt) {
 };
 
 /** @override */
-AbstractSubject.prototype.broadcastParameter = function(name) {
+broadcastParameter(name) {
   var p = this.getParam(name);
   if (p == null) {
     throw new Error('unknown Parameter '+name);
@@ -183,7 +166,7 @@ See {@link #setBroadcast}.
 @return {boolean} whether broadcasting is enabled for this Subject
 @protected
 */
-AbstractSubject.prototype.getBroadcast = function() {
+getBroadcast() {
   return this.doBroadcast_;
 };
 
@@ -191,15 +174,15 @@ AbstractSubject.prototype.getBroadcast = function() {
 * @return {string} name of class of this object.
 * @abstract
 */
-AbstractSubject.prototype.getClassName = function() {};
+getClassName() {};
 
 /** @override */
-AbstractSubject.prototype.getName = function() {
+getName() {
   return this.name_;
 };
 
 /** @override */
-AbstractSubject.prototype.getObservers = function() {
+getObservers() {
   return goog.array.clone(this.observers_);
 };
 
@@ -209,7 +192,7 @@ AbstractSubject.prototype.getObservers = function() {
     null if not found
 * @private
 */
-AbstractSubject.prototype.getParam = function(name) {
+getParam(name) {
   name = Util.toName(name);
   return goog.array.find(this.paramList_, function(p) {
     return p.getName() == name;
@@ -217,7 +200,7 @@ AbstractSubject.prototype.getParam = function(name) {
 };
 
 /** @override */
-AbstractSubject.prototype.getParameter = function(name) {
+getParameter(name) {
   var p = this.getParam(name);
   if (p != null) {
     return p;
@@ -226,7 +209,7 @@ AbstractSubject.prototype.getParameter = function(name) {
 };
 
 /** @override */
-AbstractSubject.prototype.getParameterBoolean = function(name) {
+getParameterBoolean(name) {
   var p = this.getParam(name);
   if (p instanceof ParameterBoolean) {
     return p;
@@ -235,7 +218,7 @@ AbstractSubject.prototype.getParameterBoolean = function(name) {
 };
 
 /** @override */
-AbstractSubject.prototype.getParameterNumber = function(name) {
+getParameterNumber(name) {
   var p = this.getParam(name);
   if (p instanceof ParameterNumber) {
     return p;
@@ -244,7 +227,7 @@ AbstractSubject.prototype.getParameterNumber = function(name) {
 };
 
 /** @override */
-AbstractSubject.prototype.getParameterString = function(name) {
+getParameterString(name) {
   var p = this.getParam(name);
   if (p instanceof ParameterString) {
     return p;
@@ -253,12 +236,12 @@ AbstractSubject.prototype.getParameterString = function(name) {
 };
 
 /** @override */
-AbstractSubject.prototype.getParameters = function() {
+getParameters() {
   return goog.array.clone(this.paramList_);
 };
 
 /** @override */
-AbstractSubject.prototype.removeObserver = function(observer) {
+removeObserver(observer) {
   /** @type {!AbstractSubject.Command} */
   var cmd = {
     action: false,
@@ -271,7 +254,7 @@ AbstractSubject.prototype.removeObserver = function(observer) {
 /** Removes the Parameter from the list of this Subject's available Parameters.
 @param {!Parameter} parameter the Parameter to remove
 */
-AbstractSubject.prototype.removeParameter = function(parameter) {
+removeParameter(parameter) {
   goog.array.remove(this.paramList_, parameter);
 };
 
@@ -284,10 +267,18 @@ completed.
 @return {boolean} the previous value
 @protected
 */
-AbstractSubject.prototype.setBroadcast = function(value) {
+setBroadcast(value) {
   var saveBroadcast = this.doBroadcast_;
   this.doBroadcast_ = value;
   return saveBroadcast;
 };
 
-}); // goog.scope
+}
+
+/** A delayed command to add (`action=true`) or remove (`action=false`) an Observer.
+* @typedef {{action: boolean, observer: !Observer}}
+* @private
+*/
+AbstractSubject.Command;
+
+exports = AbstractSubject;
