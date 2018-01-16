@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
+const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

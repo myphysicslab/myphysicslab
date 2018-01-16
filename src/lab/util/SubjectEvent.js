@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.SubjectEvent');
+goog.module('myphysicslab.lab.util.SubjectEvent');
 
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Provides information about an event that has happened to a
 {@link myphysicslab.lab.util.Subject Subject}. A SubjectEvent has a name, a value,
@@ -28,10 +24,8 @@ and can identify which Subject broadcast the event.
 See {@link myphysicslab.lab.util.Subject} for more extensive documentation.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.SubjectEvent = function() {};
-var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
+class SubjectEvent extends Printable {
 
 /** Name of this SubjectEvent, either the language-independent name for scripting
 purposes or the localized name for display to user.
@@ -44,18 +38,18 @@ underscore, see {@link Util#toName} and {@link #nameEquals}.
     default is `false` which means return the language independent name.
 @return {string} name of this object
 */
-SubjectEvent.prototype.getName;
+getName(opt_localized) {}
 
 /** Returns the Subject to which this SubjectEvent refers.
 @return {!myphysicslab.lab.util.Subject} the Subject to which this SubjectEvent refers.
 */
-SubjectEvent.prototype.getSubject;
+getSubject() {}
 
 /** Returns the value of this SubjectEvent, or `undefined` if there is no assigned
 value.
 @return {*} the value of this SubjectEvent
 */
-SubjectEvent.prototype.getValue;
+getValue() {}
 
 /** Whether this SubjectEvent has the given name, adjusting for the transformation to a
 [language-independent form]((Building.html#languageindependentnames) of the name, as is
@@ -65,6 +59,7 @@ done by {@link Util#toName}.
 @return {boolean} whether this SubjectEvent has the given name (adjusted to
     language-independent form)
 */
-SubjectEvent.prototype.nameEquals;
+nameEquals(name) {}
 
-}); // goog.scope
+}
+exports = SubjectEvent;

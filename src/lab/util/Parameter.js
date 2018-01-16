@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.util.SubjectEvent');
 
 goog.scope(function() {
 
-var SubjectEvent = myphysicslab.lab.util.SubjectEvent;
+const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
 
 /** Provides access to a value of a {@link myphysicslab.lab.util.Subject Subject} and
 meta-data such as name, a set of possible values and more. Part of the
