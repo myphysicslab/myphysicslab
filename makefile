@@ -172,6 +172,9 @@ ifndef BUILD_DIR
         BUILD_DIR := $(ADV_BUILD_DIR)
     else
         ifeq "$(COMPILE_LEVEL)" "debug"
+            $(warning The ability to run uncompiled is NOT WORKING in the latest)
+            $(warning myphysicslab source code.)
+            $(warning See https://github.com/google/closure-compiler/issues/2786)
             BUILD_DIR := $(DEBUG_BUILD_DIR)
         endif
     endif
