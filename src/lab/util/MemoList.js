@@ -18,7 +18,7 @@ goog.require('myphysicslab.lab.util.Memorizable');
 
 goog.scope(function() {
 
-var Memorizable = myphysicslab.lab.util.Memorizable;
+const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 
 /** A {@link Memorizable} object that keeps a list of other Memorizable objects and
 frequently tells them to `memorize` simulation data. The `memorize` method is meant to

@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var MemoList = myphysicslab.lab.util.MemoList;
-var Memorizable = myphysicslab.lab.util.Memorizable;
+const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Concrete implementation of {@link MemoList}.

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Memorizable');
+goog.module('myphysicslab.lab.util.Memorizable');
 
-goog.require('myphysicslab.lab.util.Printable');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** An object that memorizes simulation data or performs some other function that needs
 to happen regularly. The `memorize` method is meant to be called after each simulation
@@ -23,12 +23,13 @@ See {@link myphysicslab.lab.util.MemoList} for how to add a Memorizable
 object so that it will be called frequently.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.Memorizable = function() {};
+class Memorizable extends Printable {
 
 /** Memorize the current simulation data, or do some other function that should happen
 regularly after each simulation time step.
 @return {undefined}
 */
-myphysicslab.lab.util.Memorizable.prototype.memorize;
+memorize() {}
+}
+exports = Memorizable;
