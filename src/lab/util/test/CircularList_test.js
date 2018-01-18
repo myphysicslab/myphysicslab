@@ -53,7 +53,7 @@ goog.require('goog.testing.jsunit');
 */
 var testUtilCircularList1 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var HistoryList = myphysicslab.lab.util.HistoryList;
+  const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
   const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
   var CircularList = myphysicslab.lab.util.CircularList;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -215,7 +215,7 @@ var testUtilCircularList2 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var CircularList = myphysicslab.lab.util.CircularList;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var HistoryList = myphysicslab.lab.util.HistoryList;
+  const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
   const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
 
   // Test that CircularList will throw the MAX_INT_ERROR when the index number
@@ -269,7 +269,7 @@ var testUtilCircularList3 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var CircularList = myphysicslab.lab.util.CircularList;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var HistoryList = myphysicslab.lab.util.HistoryList;
+  const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
   const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
   /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
   var cList = new myphysicslab.lab.util.CircularList(100);

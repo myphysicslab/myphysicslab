@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.HistoryIterator');
+goog.module('myphysicslab.lab.util.HistoryList');
 
-goog.scope(function() {
-
-const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
+const HistoryIterator = goog.require('myphysicslab.lab.util.HistoryIterator');
 
 /** An ordered list of values that can be added to but not altered; older values might
 be forgotten. Each value has a unique unchanging index in the HistoryList, but a
@@ -37,8 +34,7 @@ See [Closure Compiler Generic Types](https://github.com/google/closure-compiler/
 * @interface
 * @template T
 */
-myphysicslab.lab.util.HistoryList = function() {};
-var HistoryList = myphysicslab.lab.util.HistoryList;
+class HistoryList {
 
 /** Returns the index of the ending value in this HistoryList. The ending value is
 the newest value in this HistoryList.
@@ -46,14 +42,14 @@ the newest value in this HistoryList.
     has been stored
 @throws {!Error} when the index number exceeds the maximum representable integer
 */
-HistoryList.prototype.getEndIndex;
+getEndIndex() {}
 
 /** Returns the last value stored in this HistoryList, or `null` if this HistoryList is
 empty.
 @return {?T} the last value stored in this HistoryList, or `null` if this
     HistoryList is empty
 */
-HistoryList.prototype.getEndValue;
+getEndValue() {}
 
 /** Returns a {@link HistoryIterator} which begins at the given index in this
 HistoryList.
@@ -62,39 +58,40 @@ HistoryList.
 @return {!HistoryIterator<T>} a HistoryIterator which begins at the given index in this
     HistoryList.
 */
-HistoryList.prototype.getIterator;
+getIterator(index) {}
 
 /** Returns the number of points currently stored in this HistoryList (which is less
 than or equal to the capacity of this HistoryList).
 @return {number} the number of points currently stored in this HistoryList
 */
-HistoryList.prototype.getSize;
+getSize() {}
 
 /** Returns the index of the starting value in this HistoryList. The starting value is
 the oldest value in this HistoryList.
 @return {number} the index of the starting value in this HistoryList
 @throws {!Error} when the index number exceeds the maximum representable integer
 */
-HistoryList.prototype.getStartIndex;
+getStartIndex() {}
 
 /** Returns the value stored at the given index in this HistoryList.
 @param {number} index  the index of the point of interest
 @return {T} the value stored at the given index
 @throws {!Error} if the index is out of range
 */
-HistoryList.prototype.getValue;
+getValue(index) {}
 
 /** Clears out the memory of this HistoryList, so that there are no values stored.
 The capacity of this HistoryList is unchanged.
 @return {undefined}
 */
-HistoryList.prototype.reset;
+reset() {}
 
 /** Stores the given value into this HistoryList.
 @param {T} value the value to store
 @return {number} index within HistoryList where the value was stored
 @throws {!Error} when the index number exceeds the maximum representable integer
 */
-HistoryList.prototype.store;
+store(value) {}
 
-}); // goog.scope
+}
+exports = HistoryList;

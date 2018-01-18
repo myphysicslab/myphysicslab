@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var HistoryList = myphysicslab.lab.util.HistoryList;
+const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
 const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
