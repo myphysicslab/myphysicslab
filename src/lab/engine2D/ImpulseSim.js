@@ -54,7 +54,8 @@ const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var Polygon = lab.engine2D.Polygon;
-var Random = lab.util.Random;
+const Random = goog.module.get('myphysicslab.lab.util.Random');
+const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 var RigidBody = lab.engine2D.RigidBody;
 var RigidBodyCollision = lab.engine2D.RigidBodyCollision;
 var RigidBodySim = lab.engine2D.RigidBodySim;
@@ -259,7 +260,7 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
   * @type {!Random}
   * @protected
   */
-  this.simRNG_ = new myphysicslab.lab.util.RandomLCG(0);
+  this.simRNG_ = new RandomLCG(0);
   /** 'I' for ImpulseSim
   * @type {!ComputeForces}
   * @private

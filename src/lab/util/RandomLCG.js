@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.RandomLCG');
+goog.module('myphysicslab.lab.util.RandomLCG');
 
-goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+goog.require('goog.asserts');
+const Random = goog.require('myphysicslab.lab.util.Random');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Pseudo-random number generator using a Linear Congruential Generator (LCG).
 
@@ -96,15 +93,14 @@ change much between invocations.
 
     new RandomLCG(goog.now()).nextFloat();
 
-
+* @implements {Random}
+*/
+class RandomLCG {
+/**
 * @param {number} seed starting seed number should be an integer from 0 to `m-1`;
 *    otherwise it is manipulated to be in that range.
-* @constructor
-* @final
-* @struct
-* @implements {myphysicslab.lab.util.Random}
 */
-myphysicslab.lab.util.RandomLCG = function (seed) {
+constructor(seed) {
   // Ensure seed is an integer between 0 and modulus.
   seed = Math.floor(Math.abs(seed)) % RandomLCG.m;
   /**
@@ -116,12 +112,137 @@ myphysicslab.lab.util.RandomLCG = function (seed) {
   // ensure that maximum number made during the algorithm < 2^53
   goog.asserts.assert((RandomLCG.m - 1) * RandomLCG.a + RandomLCG.c < Math.pow(2, 53));
 };
-var RandomLCG = myphysicslab.lab.util.RandomLCG;
 
 /** @override */
-RandomLCG.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'RandomLCG{seed: '+this.seed_+'}';
 };
+
+/** Ensure seed is integer between 0 (inclusive) and modulus (exclusive)
+* @param {number} seed
+* @private
+*/
+static checkSeed(seed) {
+  var err = 'random seed must be '
+  if (seed < 0) {
+    throw new Error(err + '0 or greater '+seed);
+  }
+  if (seed >= RandomLCG.m) {
+    throw new Error(err + 'less than '+RandomLCG.m+' was '+seed);
+  }
+  if (seed != Math.floor(seed)) {
+    throw new Error(err + 'an integer '+seed);
+  }
+};
+
+/** @override */
+getModulus() {
+  return RandomLCG.m;
+};
+
+/** @override */
+getSeed() {
+  return this.seed_;
+};
+
+/** @override */
+nextFloat() {
+  var x = this.nextInt_();
+  if (RandomLCG.DEBUG_RANDOM) {
+    console.log(' '+x);
+  }
+  return x / (RandomLCG.m - 1);
+};
+
+/** @override */
+nextInt() {
+  var x = this.nextInt_();
+  if (RandomLCG.DEBUG_RANDOM) {
+    console.log(' '+x);
+  }
+  return x;
+};
+
+/**
+@return {number} next the pseudo-random number
+@private
+*/
+nextInt_() {
+  var r = this.seed_ * RandomLCG.a + RandomLCG.c;
+  var m = RandomLCG.m;
+  this.seed_ = r - Math.floor(r/m)*m;
+  RandomLCG.checkSeed(this.seed_);
+  if (RandomLCG.DEBUG_RANDOM_DEEP) {
+    var err = new Error();
+  }
+  return this.seed_;
+};
+
+/** @override */
+nextRange(n) {
+  var x = this.nextRange_(n);
+  if (RandomLCG.DEBUG_RANDOM) {
+    console.log(' '+x);
+  }
+  return x;
+};
+
+/** Returns random integer in range 0 (inclusive) to n (exclusive).
+@param {number} n the limit of the range
+@return {number} random integer in range 0 (inclusive) to n (exclusive)
+@private
+*/
+nextRange_(n) {
+  if (n <= 0)
+    throw new Error('n must be positive');
+  // We don't use modulu because of weak randomness in lower bits.
+  var randomUnder1 = this.nextInt_() / RandomLCG.m;
+  return Math.floor(randomUnder1 * n);
+};
+
+/** @override */
+randomInts(n) {
+  var set = new Array(n);
+  var src = new Array(n);
+  for (var i=0; i<n; i++) {
+    set[i] = -1;
+    src[i] = i;
+  }
+  var m = n;
+  var setCount = 0;
+  // move numbers from src to set, in random sequence
+  do {
+    var k = this.nextRange_(m--);
+    // find the k'th number in src
+    var srcCount = 0;
+    for (var j=0; j<n; j++) {
+      if (src[j]<0)
+        continue;
+      if (srcCount++ == k) {
+        set[setCount++] = src[j];
+        src[j] = -1;
+        break;
+      }
+    }
+  } while (set[n-1]<0);
+  // for debugging:  report the set of numbers found
+  if (RandomLCG.DEBUG_RANDOM) {
+    var s = '';
+    for (i=0; i<set.length; i++) {
+      s += ' '+set[i];
+    }
+    console.log(s);
+  }
+  return set;
+};
+
+/** @override */
+setSeed(seed) {
+  RandomLCG.checkSeed(seed);
+  this.seed_ = seed;
+};
+
+}
 
 /**
 * @type {boolean}
@@ -158,128 +279,4 @@ RandomLCG.a = 1664525;
 */
 RandomLCG.c = 1013904223;
 
-/** Ensure seed is integer between 0 (inclusive) and modulus (exclusive)
-* @param {number} seed
-* @private
-*/
-RandomLCG.checkSeed = function(seed) {
-  var err = 'random seed must be '
-  if (seed < 0) {
-    throw new Error(err + '0 or greater '+seed);
-  }
-  if (seed >= RandomLCG.m) {
-    throw new Error(err + 'less than '+RandomLCG.m+' was '+seed);
-  }
-  if (seed != Math.floor(seed)) {
-    throw new Error(err + 'an integer '+seed);
-  }
-};
-
-/** @override */
-RandomLCG.prototype.getModulus = function() {
-  return RandomLCG.m;
-};
-
-/** @override */
-RandomLCG.prototype.getSeed = function() {
-  return this.seed_;
-};
-
-/** @override */
-RandomLCG.prototype.nextFloat = function() {
-  var x = this.nextInt_();
-  if (RandomLCG.DEBUG_RANDOM) {
-    console.log(' '+x);
-  }
-  return x / (RandomLCG.m - 1);
-};
-
-/** @override */
-RandomLCG.prototype.nextInt = function() {
-  var x = this.nextInt_();
-  if (RandomLCG.DEBUG_RANDOM) {
-    console.log(' '+x);
-  }
-  return x;
-};
-
-/**
-@return {number} next the pseudo-random number
-@private
-*/
-RandomLCG.prototype.nextInt_ = function() {
-  var r = this.seed_ * RandomLCG.a + RandomLCG.c;
-  var m = RandomLCG.m;
-  this.seed_ = r - Math.floor(r/m)*m;
-  RandomLCG.checkSeed(this.seed_);
-  if (RandomLCG.DEBUG_RANDOM_DEEP) {
-    var err = new Error();
-  }
-  return this.seed_;
-};
-
-/** @override */
-RandomLCG.prototype.nextRange = function(n) {
-  var x = this.nextRange_(n);
-  if (RandomLCG.DEBUG_RANDOM) {
-    console.log(' '+x);
-  }
-  return x;
-};
-
-/** Returns random integer in range 0 (inclusive) to n (exclusive).
-@param {number} n the limit of the range
-@return {number} random integer in range 0 (inclusive) to n (exclusive)
-@private
-*/
-RandomLCG.prototype.nextRange_ = function(n) {
-  if (n <= 0)
-    throw new Error('n must be positive');
-  // We don't use modulu because of weak randomness in lower bits.
-  var randomUnder1 = this.nextInt_() / RandomLCG.m;
-  return Math.floor(randomUnder1 * n);
-};
-
-/** @override */
-RandomLCG.prototype.randomInts = function(n) {
-  var set = new Array(n);
-  var src = new Array(n);
-  for (var i=0; i<n; i++) {
-    set[i] = -1;
-    src[i] = i;
-  }
-  var m = n;
-  var setCount = 0;
-  // move numbers from src to set, in random sequence
-  do {
-    var k = this.nextRange_(m--);
-    // find the k'th number in src
-    var srcCount = 0;
-    for (var j=0; j<n; j++) {
-      if (src[j]<0)
-        continue;
-      if (srcCount++ == k) {
-        set[setCount++] = src[j];
-        src[j] = -1;
-        break;
-      }
-    }
-  } while (set[n-1]<0);
-  // for debugging:  report the set of numbers found
-  if (RandomLCG.DEBUG_RANDOM) {
-    var s = '';
-    for (i=0; i<set.length; i++) {
-      s += ' '+set[i];
-    }
-    console.log(s);
-  }
-  return set;
-};
-
-/** @override */
-RandomLCG.prototype.setSeed = function(seed) {
-  RandomLCG.checkSeed(seed);
-  this.seed_ = seed;
-};
-
-}); // goog.scope
+exports = RandomLCG;

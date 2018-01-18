@@ -12,47 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Random');
-
-goog.scope(function() {
+goog.module('myphysicslab.lab.util.Random');
 
 /** Pseudo-random number generator.
 * @interface
 */
-myphysicslab.lab.util.Random = function() {};
-var Random = myphysicslab.lab.util.Random;
+class Random {
 
 /** Returns the modulus of the random number generator.
 @return {number} the modulus of the random number generator
 */
-Random.prototype.getModulus;
+getModulus() {}
 
 /** Returns the seed of the random number generator.
 @return {number} the seed of the random number generator
 */
-Random.prototype.getSeed;
+getSeed() {}
 
 /** Returns random floating point number in range `[0,1]`.
 @return {number} random floating point number in range `[0,1]`
 */
-Random.prototype.nextFloat;
+nextFloat() {}
 
 /** Returns next random integer in range 0 (inclusive) to modulus (exclusive).
 @return {number} next the pseudo-random number
 */
-Random.prototype.nextInt;
+nextInt() {}
 
 /** Returns random integer in range 0 (inclusive) to n (exclusive).
 @param {number} n the limit of the range
 @return {number} random integer in range 0 (inclusive) to n (exclusive)
 */
-Random.prototype.nextRange;
+nextRange(n) {}
 
 /** Returns an array of integers from 0 to `n-1`, in random order.
 @param {number} n the size of the array to create
 @return {!Array<number>} an array of integers from 0 to `n-1`, in random order.
 */
-Random.prototype.randomInts;
+randomInts(n) {}
 
 /** Sets the seed of the random number generator; must be an integer between 0
 (inclusive) and modulus (exclusive).
@@ -60,7 +57,7 @@ Random.prototype.randomInts;
 @throws {!Error} if seed is not an integer between 0 (inclusive) and modulus
     (exclusive).
 */
-Random.prototype.setSeed;
+setSeed(seed) {}
 
-}); // goog.scope
-
+}
+exports = Random;

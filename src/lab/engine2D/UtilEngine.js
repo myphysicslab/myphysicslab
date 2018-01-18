@@ -28,7 +28,7 @@ goog.scope(function() {
 var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-var Random = myphysicslab.lab.util.Random;
+const Random = goog.module.get('myphysicslab.lab.util.Random');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
