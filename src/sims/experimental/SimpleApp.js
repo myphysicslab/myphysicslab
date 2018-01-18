@@ -55,7 +55,7 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
   var PointMass = myphysicslab.lab.model.PointMass;
   var Spring = myphysicslab.lab.model.Spring;
   var SimView = myphysicslab.lab.view.SimView;
-  var Timer = myphysicslab.lab.util.Timer;
+  const Timer = goog.module.get('myphysicslab.lab.util.Timer');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

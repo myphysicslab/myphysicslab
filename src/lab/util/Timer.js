@@ -12,15 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Timer');
+goog.module('myphysicslab.lab.util.Timer');
 
 goog.require('goog.asserts');
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Periodically executes a callback function.
 
@@ -36,14 +32,13 @@ callback occasionally to achieve that slower rate of firing.
 See
 [BlankSlateApp](https://www.myphysicslab.com/develop/build/sims/experimental/BlankSlateApp-en.html)
 for example code using a Timer.
-
+*/
+class Timer {
+/**
 * @param {boolean=} opt_legacy turns on legacy mode, which uses the browser method
 *    `setTimeout` instead of `requestAnimationFrame`; default is `false`
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.util.Timer = function(opt_legacy) {
+constructor(opt_legacy) {
   /** Whether running under a modern or old browser.
   * @type {boolean}
   * @const
@@ -86,10 +81,9 @@ myphysicslab.lab.util.Timer = function(opt_legacy) {
   */
   this.delta_ = 0;
 };
-var Timer = myphysicslab.lab.util.Timer;
 
 /** @override */
-Timer.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'Timer{period_: '+this.period_
       +', firing_: '+this.firing_
       +', timeoutID_: '+this.timeoutID_
@@ -102,7 +96,7 @@ Timer.prototype.toString = function() {
 * @return {undefined}
 * @private
 */
-Timer.prototype.timerCallback = function() {
+timerCallback() {
   if (this.callBack_ == null) {
     return;
   }
@@ -141,14 +135,14 @@ Timer.prototype.timerCallback = function() {
 time.
 @return {number} the number of seconds between successive callbacks
 */
-Timer.prototype.getPeriod = function() {
+getPeriod() {
   return this.period_;
 };
 
 /** Whether the chain of callbacks is firing (executing)
 @return {boolean}
 */
-Timer.prototype.isFiring = function() {
+isFiring() {
   return this.firing_;
 };
 
@@ -156,7 +150,7 @@ Timer.prototype.isFiring = function() {
 {@link #stopFiring} to stop the Timer and any previously scheduled callback.
 * @param {?function()} callBack the function to be called periodically; can be `null`
 */
-Timer.prototype.setCallBack = function(callBack) {
+setCallBack(callBack) {
   this.stopFiring();
   this.callBack_ = callBack;
 };
@@ -168,7 +162,7 @@ frames per second.
     to use the default period (usually 60 frames per second).
 @throws {!Error} if period is negative
 */
-Timer.prototype.setPeriod = function(period) {
+setPeriod(period) {
   if (period < 0) {
     throw new Error();
   }
@@ -179,7 +173,7 @@ Timer.prototype.setPeriod = function(period) {
 the future.
 @return {undefined}
 */
-Timer.prototype.startFiring = function() {
+startFiring() {
   if (!this.firing_) {
     this.firing_ = true;
     this.delta_ = 0;
@@ -191,7 +185,7 @@ Timer.prototype.startFiring = function() {
 /** Stops the Timer from firing callbacks and cancels the next scheduled callback.
 @return {undefined}
 */
-Timer.prototype.stopFiring = function() {
+stopFiring() {
   this.firing_ = false;
   if (goog.isDef(this.timeoutID_)) {
     if (this.legacy_) {
@@ -205,4 +199,5 @@ Timer.prototype.stopFiring = function() {
   this.delta_ = 0;
 };
 
-}); // goog.scope
+}
+exports = Timer;

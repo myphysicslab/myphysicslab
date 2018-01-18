@@ -49,7 +49,7 @@ const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var Timer = myphysicslab.lab.util.Timer;
+const Timer = goog.module.get('myphysicslab.lab.util.Timer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Uses an {@link AdvanceStrategy} to advance the
