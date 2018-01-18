@@ -27,7 +27,7 @@ goog.require('goog.testing.jsunit');
 
 var testEasyScript1 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
+  const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
   const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
   var VarsList = myphysicslab.lab.model.VarsList;
@@ -230,7 +230,7 @@ goog.exportProperty(window, 'testEasyScript1', testEasyScript1);
 
 var testEasyScript2 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
+  const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
 
   // Test the EasyScriptParser.unquote() function:
   assertEquals('', EasyScriptParser.unquote("''"));

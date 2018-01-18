@@ -83,7 +83,7 @@ goog.exportProperty(window, 'testTerminal1', testTerminal1);
 var testTerminal2 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-  var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
+  const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;

@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.EasyScriptParser');
+goog.module('myphysicslab.lab.util.EasyScriptParser');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Parser');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.SubjectEvent');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const Parser = goog.require('myphysicslab.lab.util.Parser');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Executes EasyScript commands which get or set {@link Parameter} values
 for a specified set of {@link Subject}s. Also executes some single word commands such
@@ -212,16 +204,16 @@ where the symbols `=` and `;` are encoded with `%3D` and `%3B` respectively:
 The application should call {@link Terminal#parseURL} in order to execute the query URL
 during application startup.
 
+* @implements {Parser}
+*/
+class EasyScriptParser {
+/**
 * @param {!Array<!Subject>} subjects list of Subject's to gather Parameters from.
 * @param {!Array<!Subject>=} dependent those Subject's whose set of Parameters and
 *    initial values can change depending on a "configuration" Parameter. Typically
 *    this is the VarsList of a simulation.
-* @constructor
-* @final
-* @struct
-* @implements {myphysicslab.lab.util.Parser}
 */
-myphysicslab.lab.util.EasyScriptParser = function(subjects, dependent) {
+constructor(subjects, dependent) {
   EasyScriptParser.checkUniqueNames(subjects);
   /* The order of subjects can be significant when generating a script
   * because the Parameters are processed in the order of the Subjects in this list.
@@ -322,10 +314,9 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, dependent) {
       }, this), 'prints this help text');
   this.update();
 };
-var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
 
 /** @override */
-EasyScriptParser.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', subjects_: ['
       + goog.array.map(this.subjects_, function(s) { return s.toStringShort(); })
@@ -333,13 +324,13 @@ EasyScriptParser.prototype.toString = function() {
 };
 
 /** @override */
-EasyScriptParser.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'EasyScriptParser{subjects_.length: '+this.subjects_.length+'}';
 };
 
 /** @override */
-EasyScriptParser.prototype.addCommand = function(commandName, commandFnc, helpText) {
+addCommand(commandName, commandFnc, helpText) {
   this.commandNames_.push(commandName);
   this.commandFns_.push(commandFnc);
   this.commandHelp_.push(helpText);
@@ -349,7 +340,7 @@ EasyScriptParser.prototype.addCommand = function(commandName, commandFnc, helpTe
 * @param {!Array<!Subject>} subjects
 * @private
 */
-EasyScriptParser.checkUniqueNames = function(subjects) {
+static checkUniqueNames(subjects) {
   /** @type !Array<string> */
   var names = [];
   goog.array.forEach(subjects, function(subj) {
@@ -371,7 +362,7 @@ Parameter name separated by a dot.
 * @throws {!Error} when only Parameter name is given, but multiple Subjects have that
 *    Parameter.
 */
-EasyScriptParser.prototype.getParameter = function(fullName) {
+getParameter(fullName) {
   fullName = Util.toName(fullName);
   var n = fullName.split('.');
   var subjectName, paramName;
@@ -403,7 +394,7 @@ EasyScriptParser.prototype.getParameter = function(fullName) {
 * @return {?Subject} the Subject corresponding to the given name, or `null` if
 *    no Subject found
 */
-EasyScriptParser.prototype.getSubject = function(name) {
+getSubject(name) {
   var subjectName = Util.toName(name);
   return goog.array.find(this.subjects_, function(s) {
       return s.getName() == subjectName;
@@ -413,14 +404,14 @@ EasyScriptParser.prototype.getSubject = function(name) {
 /** Returns list of Subjects being parsed.
 * @return {!Array<!Subject>} the list of Subjects being parsed
 */
-EasyScriptParser.prototype.getSubjects = function() {
+getSubjects() {
   return goog.array.clone(this.subjects_);
 };
 
 /** Returns the "help" string which gives information on available commands.
 * @return {string} the "help" string which gives information on available commands.
 */
-EasyScriptParser.prototype.help = function() {
+help() {
   var s = 'myPhysicsLab version '+ Util.VERSION + ', '
   s += (Util.ADVANCED ? 'advanced' : 'simple') + '-compiled on '
   s += Util.COMPILE_TIME+'.\n';
@@ -450,7 +441,7 @@ EasyScriptParser.prototype.help = function() {
 * @return {!Array<string>} the set of Parameter names that can be
 *    set by this EasyScriptParser
 */
-EasyScriptParser.prototype.names = function() {
+names() {
   return goog.array.clone(this.allSubjParamNames_);
 };
 
@@ -471,7 +462,7 @@ that are being automatically computed, unless `includeComputed` is `true`.
 * @return {string} a script which sets Parameters to their current values
 * @private
 */
-EasyScriptParser.prototype.namesAndValues = function(dependent, includeComputed, fullName) {
+namesAndValues(dependent, includeComputed, fullName) {
   dependent = dependent == true;
   var allParams = goog.array.map(this.allSubjects_,
       function(s, idx) { return s.getParameter(this.allParamNames_[idx]); }, this);
@@ -507,7 +498,7 @@ EasyScriptParser.prototype.namesAndValues = function(dependent, includeComputed,
 };
 
 /** @override */
-EasyScriptParser.prototype.parse = function(script) {
+parse(script) {
   // remove trailing semicolon
   if (script.slice(-1) == ';') {
     script = script.slice(0, script.length-1);
@@ -538,7 +529,7 @@ EasyScriptParser.prototype.parse = function(script) {
 };
 
 /** @override */
-EasyScriptParser.prototype.saveStart = function() {
+saveStart() {
   this.initialNonDependent_ = this.namesAndValues(false).split(';');
   this.initialDependent_ = this.namesAndValues(true).split(';');
 };
@@ -557,7 +548,7 @@ EasyScriptParser.prototype.saveStart = function() {
 *
 * @return {string} script that sets Parameters to current values
 */
-EasyScriptParser.prototype.script = function() {
+script() {
   var ar = this.namesAndValues(false).split(';');
   ar = goog.array.concat(ar, this.namesAndValues(true).split(';'));
   var initSettings = goog.array.concat(this.initialNonDependent_,
@@ -580,7 +571,7 @@ EasyScriptParser.prototype.script = function() {
 * @return {string} percent-encoded URL query script that sets Parameters to current
 *    values
 */
-EasyScriptParser.prototype.scriptURL = function() {
+scriptURL() {
   // get the current URL, but remove any URL query (= text after the '?' in URL)
   var u = window.location.href.replace(/\.html\?.*$/, '.html');
   // Add commands as a URL query, after '?'.
@@ -593,7 +584,7 @@ with the corresponding character.
 * @param {string} text
 * @return {string}
 */
-EasyScriptParser.unquote = function(text) {
+static unquote(text) {
   if (text.length < 2) {
     return text;
   }
@@ -647,7 +638,7 @@ EasyScriptParser.unquote = function(text) {
 *
 * @return {undefined}
 */
-EasyScriptParser.prototype.update =  function() {
+update() {
   var params = goog.array.reduce(this.subjects_,
       function(/** !Array<!Parameter>*/result, subj) {
         // filter out params with name 'DELETED'
@@ -681,9 +672,10 @@ EasyScriptParser.prototype.update =  function() {
 * @return {string} the set of Parameter names that can be
 *    set by this EasyScriptParser and their current values
 */
-EasyScriptParser.prototype.values = function() {
+values() {
   return this.namesAndValues(false, true, true) + this.namesAndValues(true, true, true);
 };
+}
 
 /** Set of internationalized strings.
 @typedef {{
@@ -720,4 +712,4 @@ EasyScriptParser.i18n = goog.LOCALE === 'de' ?
     EasyScriptParser.de_strings :
     EasyScriptParser.en;
 
-});  // goog.scope
+exports = EasyScriptParser;
