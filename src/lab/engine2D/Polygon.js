@@ -40,7 +40,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
-var AffineTransform = myphysicslab.lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;

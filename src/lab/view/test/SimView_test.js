@@ -98,7 +98,7 @@ myphysicslab.lab.view.test.SimView_test.MockObserver.prototype.toStringShort = f
 
 var testSimView1 = function() {
   var tol = 1E-14;
-  var AffineTransform = myphysicslab.lab.util.AffineTransform;
+  const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
   const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
   var CoordMap = myphysicslab.lab.view.CoordMap;
   var DisplayShape = myphysicslab.lab.view.DisplayShape;

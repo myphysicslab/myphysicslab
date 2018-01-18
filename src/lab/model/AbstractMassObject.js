@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
-var AffineTransform = myphysicslab.lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var MassObject = myphysicslab.lab.model.MassObject;
 const Util = goog.module.get('myphysicslab.lab.util.Util');

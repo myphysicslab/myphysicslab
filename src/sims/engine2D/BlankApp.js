@@ -76,7 +76,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AffineTransform = lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var Arc = lab.model.Arc;
 var AutoScale = lab.graph.AutoScale;
 var CircularEdge = lab.engine2D.CircularEdge;

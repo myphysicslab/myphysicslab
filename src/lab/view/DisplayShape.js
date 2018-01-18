@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
-var AffineTransform = myphysicslab.lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var MassObject = myphysicslab.lab.model.MassObject;

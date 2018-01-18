@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.AffineTransform');
 var testAffineTransform = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-  var AffineTransform = myphysicslab.lab.util.AffineTransform;
+  const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 
   var tol = 1E-13;
   // identity

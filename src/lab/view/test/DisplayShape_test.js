@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 
 var testDisplayShape = function() {
   var tol = 1E-14;
-  var AffineTransform = myphysicslab.lab.util.AffineTransform;
+  const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
   var CoordMap = myphysicslab.lab.view.CoordMap;
   var DisplayShape = myphysicslab.lab.view.DisplayShape;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');

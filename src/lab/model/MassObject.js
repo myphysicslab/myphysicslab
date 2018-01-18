@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var AffineTransform = myphysicslab.lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');

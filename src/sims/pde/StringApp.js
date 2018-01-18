@@ -75,7 +75,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var AffineTransform = lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');

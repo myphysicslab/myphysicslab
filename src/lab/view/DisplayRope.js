@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
-var AffineTransform = myphysicslab.lab.util.AffineTransform;
+const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var Rope = myphysicslab.lab.engine2D.Rope;
 var SimObject = myphysicslab.lab.model.SimObject;
