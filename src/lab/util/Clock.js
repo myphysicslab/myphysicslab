@@ -190,12 +190,12 @@ toString() {
       +', clockStart_sys_secs_: '+Util.NF5(this.clockStart_sys_secs_)
       +', realStart_sys_secs_: '+Util.NF5(this.realStart_sys_secs_)
       +', tasks_: ['+this.tasks_+']'
-      + Clock.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
 toStringShort() {
-  return Util.ADVANCED ? '' : Clock.superClass_.toStringShort.call(this).slice(0, -1)
+  return Util.ADVANCED ? '' : super.toStringShort().slice(0, -1)
       +', time: '+Util.NF5(this.getTime())+'}';
 };
 
