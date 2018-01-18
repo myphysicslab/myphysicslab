@@ -203,20 +203,18 @@ myphysicslab.sims.common.CompareTimeGraph = function(line1, line2, graphCanvas,
 var CompareTimeGraph = myphysicslab.sims.common.CompareTimeGraph;
 goog.inherits(CompareTimeGraph, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CompareTimeGraph.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', canvas: '+this.canvas.toStringShort()
-        +', view: '+this.view.toStringShort()
-        +', line1: '+this.line1.toStringShort()
-        +', line2: '+this.line2.toStringShort()
-        +', axes: '+this.axes.toStringShort()
-        +', autoScale: '+this.autoScale.toStringShort()
-        +', displayGraph: '+this.displayGraph.toStringShort()
-        +', graphCtrl: '+this.graphCtrl.toStringShort()
-        + CompareTimeGraph.superClass_.toString.call(this);
-  };
+/** @override */
+CompareTimeGraph.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', canvas: '+this.canvas.toStringShort()
+      +', view: '+this.view.toStringShort()
+      +', line1: '+this.line1.toStringShort()
+      +', line2: '+this.line2.toStringShort()
+      +', axes: '+this.axes.toStringShort()
+      +', autoScale: '+this.autoScale.toStringShort()
+      +', displayGraph: '+this.displayGraph.toStringShort()
+      +', graphCtrl: '+this.graphCtrl.toStringShort()
+      + CompareTimeGraph.superClass_.toString.call(this);
 };
 
 /** @override */

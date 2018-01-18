@@ -247,18 +247,16 @@ myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
 var CollideBlocksSim = myphysicslab.sims.springs.CollideBlocksSim;
 goog.inherits(CollideBlocksSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CollideBlocksSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', block1_: '+this.block1_
-        +', block2_: '+this.block2_
-        +', wallLeft_: '+this.wallLeft_
-        +', wallRight_: '+this.wallRight_
-        +', spring1_: '+this.spring1_
-        +', spring2_: '+this.spring2_
-        + CollideBlocksSim.superClass_.toString.call(this);
-  };
+/** @override */
+CollideBlocksSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', block1_: '+this.block1_
+      +', block2_: '+this.block2_
+      +', wallLeft_: '+this.wallLeft_
+      +', wallRight_: '+this.wallRight_
+      +', spring1_: '+this.spring1_
+      +', spring2_: '+this.spring2_
+      + CollideBlocksSim.superClass_.toString.call(this);
 };
 
 /** @override */

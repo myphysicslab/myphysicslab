@@ -282,24 +282,22 @@ myphysicslab.sims.pendulum.MoveableDoublePendulumSim = function(opt_name) {
 var MoveableDoublePendulumSim = myphysicslab.sims.pendulum.MoveableDoublePendulumSim;
 goog.inherits(MoveableDoublePendulumSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MoveableDoublePendulumSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', length1_: '+Util.NF(this.length1_)
-        +', length2_: '+Util.NF(this.length2_)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', frequency_: '+Util.NF(this.frequency_)
-        +', amplitude_: '+Util.NF(this.amplitude_)
-        +', anchorDamping_: '+Util.NF(this.anchorDamping_)
-        +', springStiffness_: '+Util.NF(this.springStiffness_)
-        +', running_: '+this.running_
-        +', anchor_: '+this.anchor_
-        +', bob1_: '+this.bob1_
-        +', bob2_: '+this.bob2_
-        + MoveableDoublePendulumSim.superClass_.toString.call(this);
-  };
+/** @override */
+MoveableDoublePendulumSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', length1_: '+Util.NF(this.length1_)
+      +', length2_: '+Util.NF(this.length2_)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', frequency_: '+Util.NF(this.frequency_)
+      +', amplitude_: '+Util.NF(this.amplitude_)
+      +', anchorDamping_: '+Util.NF(this.anchorDamping_)
+      +', springStiffness_: '+Util.NF(this.springStiffness_)
+      +', running_: '+this.running_
+      +', anchor_: '+this.anchor_
+      +', bob1_: '+this.bob1_
+      +', bob2_: '+this.bob2_
+      + MoveableDoublePendulumSim.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -129,17 +129,15 @@ sims.pendulum.CartPendulumApp = function(elem_ids) {
 var CartPendulumApp = sims.pendulum.CartPendulumApp;
 goog.inherits(CartPendulumApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CartPendulumApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', cart: '+this.cart.toStringShort()
-        +', bob: '+this.bob.toStringShort()
-        +', rod: '+this.rod.toStringShort()
-        +', spring: '+this.spring.toStringShort()
-        +', track: '+this.track.toStringShort()
-        + CartPendulumApp.superClass_.toString.call(this);
-  };
+/** @override */
+CartPendulumApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', cart: '+this.cart.toStringShort()
+      +', bob: '+this.bob.toStringShort()
+      +', rod: '+this.rod.toStringShort()
+      +', spring: '+this.spring.toStringShort()
+      +', track: '+this.track.toStringShort()
+      + CartPendulumApp.superClass_.toString.call(this);
 };
 
 /** @override */

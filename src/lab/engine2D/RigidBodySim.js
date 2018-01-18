@@ -267,34 +267,32 @@ myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 goog.inherits(RigidBodySim, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidBodySim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1) + this.toString_();
-  };
+/** @override */
+RigidBodySim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1) + this.toString_();
+};
 
-  /**
-  * @return {string}
-  * @protected
-  */
-  RigidBodySim.prototype.toString_ = function() {
-    return ', showForces_: '+this.showForces_
-        + ', potentialOffset_: '+Util.NF(this.potentialOffset_)
-        + ', varsList_: '+ this.varsList_.toStringShort()
-        + ', forceLaws_: ['
-        + goog.array.map(this.forceLaws_, function(f) { return f.toStringShort();})
-        + '], bods_: ['
-        + goog.array.map(this.bods_, function(b) { return b.toStringShort();})
-        + ']'
-        + RigidBodySim.superClass_.toString.call(this);
-  };
+/**
+* @return {string}
+* @protected
+*/
+RigidBodySim.prototype.toString_ = function() {
+  return Util.ADVANCED ? '' : ', showForces_: '+this.showForces_
+      + ', potentialOffset_: '+Util.NF(this.potentialOffset_)
+      + ', varsList_: '+ this.varsList_.toStringShort()
+      + ', forceLaws_: ['
+      + goog.array.map(this.forceLaws_, function(f) { return f.toStringShort();})
+      + '], bods_: ['
+      + goog.array.map(this.bods_, function(b) { return b.toStringShort();})
+      + ']'
+      + RigidBodySim.superClass_.toString.call(this);
+};
 
-  /** @override */
-  RigidBodySim.prototype.toStringShort = function() {
-    return RigidBodySim.superClass_.toStringShort.call(this).slice(0, -1)
-        +', bods_.length: ' + this.bods_.length + '}';
-  };
-
+/** @override */
+RigidBodySim.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      RigidBodySim.superClass_.toStringShort.call(this).slice(0, -1)
+      +', bods_.length: ' + this.bods_.length + '}';
 };
 
 /** @override */

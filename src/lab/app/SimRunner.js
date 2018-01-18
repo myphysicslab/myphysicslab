@@ -223,23 +223,21 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
 var SimRunner = myphysicslab.lab.app.SimRunner;
 goog.inherits(SimRunner, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SimRunner.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', advanceList_: ['
-        + goog.array.map(this.advanceList_, function(a) { return a.toStringShort(); })
-        +'], clock_: '+this.clock_.toStringShort()
-        +', timer_: '+this.timer_
-        +', timeStep_: '+Util.NF(this.timeStep_)
-        +', displayPeriod_: '+Util.NF(this.displayPeriod_)
-        +', nonStop_: '+this.nonStop_
-        +', canvasList_: ['
-        + goog.array.map(this.canvasList_, function(a) { return a.toStringShort(); })
-        +'], memoList_: '+this.memoList_
-        + SimRunner.superClass_.toString.call(this);
-  };
-}
+/** @override */
+SimRunner.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', advanceList_: ['
+      + goog.array.map(this.advanceList_, function(a) { return a.toStringShort(); })
+      +'], clock_: '+this.clock_.toStringShort()
+      +', timer_: '+this.timer_
+      +', timeStep_: '+Util.NF(this.timeStep_)
+      +', displayPeriod_: '+Util.NF(this.displayPeriod_)
+      +', nonStop_: '+this.nonStop_
+      +', canvasList_: ['
+      + goog.array.map(this.canvasList_, function(a) { return a.toStringShort(); })
+      +'], memoList_: '+this.memoList_
+      + SimRunner.superClass_.toString.call(this);
+};
 
 /** @override */
 SimRunner.prototype.getClassName = function() {

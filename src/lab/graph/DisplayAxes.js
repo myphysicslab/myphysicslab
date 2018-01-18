@@ -141,26 +141,24 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
 };
 var DisplayAxes = myphysicslab.lab.graph.DisplayAxes;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayAxes.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', horizAxisAlignment_: '+this.horizAxisAlignment_
-        +', vertAxisAlignment_: '+this.vertAxisAlignment_
-        +', this.horizAlignValue_: '+Util.NF(this.horizAlignValue_)
-        +', this.vertAlignValue_: '+Util.NF(this.vertAlignValue_)
-        +', drawColor_: "'+this.drawColor_+'"'
-        +', numFont_: "'+this.numFont_+'"'
-        +', simRect_: '+this.simRect_
-        +', zIndex: '+this.zIndex
-        +'}';
-  };
+/** @override */
+DisplayAxes.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', horizAxisAlignment_: '+this.horizAxisAlignment_
+      +', vertAxisAlignment_: '+this.vertAxisAlignment_
+      +', this.horizAlignValue_: '+Util.NF(this.horizAlignValue_)
+      +', this.vertAlignValue_: '+Util.NF(this.vertAlignValue_)
+      +', drawColor_: "'+this.drawColor_+'"'
+      +', numFont_: "'+this.numFont_+'"'
+      +', simRect_: '+this.simRect_
+      +', zIndex: '+this.zIndex
+      +'}';
+};
 
-  /** @override */
-  DisplayAxes.prototype.toStringShort = function() {
-    return 'DisplayAxes{horizName_: "'+this.horizName_
-        +'", verticalName_: "'+this.verticalName_+'"}';
-  };
+/** @override */
+DisplayAxes.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayAxes{horizName_: "'+this.horizName_
+      +'", verticalName_: "'+this.verticalName_+'"}';
 };
 
 /** @override */

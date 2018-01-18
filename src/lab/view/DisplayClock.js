@@ -127,21 +127,20 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
 };
 var DisplayClock = myphysicslab.lab.view.DisplayClock;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayClock.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', radius: '+Util.NF(this.radius_)
-        +', period: '+Util.NF(this.period_)
-        +', location_: '+this.location_
-        +', zIndex: '+this.zIndex_
-        +'}';
-  };
+/** @override */
+DisplayClock.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', radius: '+Util.NF(this.radius_)
+      +', period: '+Util.NF(this.period_)
+      +', location_: '+this.location_
+      +', zIndex: '+this.zIndex_
+      +'}';
+};
 
-  /** @override */
-  DisplayClock.prototype.toStringShort = function() {
-    return 'DisplayClock{'+'time: '+Util.NF(this.simTimeFn_())+'}';
-  };
+/** @override */
+DisplayClock.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'DisplayClock{'+'time: '+Util.NF(this.simTimeFn_())+'}';
 };
 
 /** @override */

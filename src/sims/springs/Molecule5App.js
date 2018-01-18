@@ -308,12 +308,10 @@ myphysicslab.sims.springs.Molecule5App = function(elem_ids, numAtoms) {
 var Molecule5App = myphysicslab.sims.springs.Molecule5App;
 goog.inherits(Molecule5App, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Molecule5App.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + Molecule5App.superClass_.toString.call(this);
-  };
+/** @override */
+Molecule5App.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + Molecule5App.superClass_.toString.call(this);
 };
 
 /** @override */

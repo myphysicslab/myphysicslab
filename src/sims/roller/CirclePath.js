@@ -55,12 +55,10 @@ myphysicslab.sims.roller.CirclePath = function(radius, start, finish,
 var CirclePath = myphysicslab.sims.roller.CirclePath;
 goog.inherits(CirclePath, AbstractPath);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CirclePath.prototype.toString = function() {
-    return CirclePath.superClass_.toString.call(this).slice(0, -1)
-        + ', radius_: '+Util.NF(this.radius_)+'}';
-  };
+/** @override */
+CirclePath.prototype.toString = function() {
+  return Util.ADVANCED ? '' : CirclePath.superClass_.toString.call(this).slice(0, -1)
+      + ', radius_: '+Util.NF(this.radius_)+'}';
 };
 
 /** @override */

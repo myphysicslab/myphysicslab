@@ -164,22 +164,20 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
 
 var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ChoiceControlBase.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', currentIndex_: '+this.currentIndex_
-        +', choices.length: '+this.choices.length
-        +', selected: "'+(this.currentIndex_ > -1 ?
-          this.choices[this.currentIndex_] : '(none)')
-        +'"}';
-  };
+/** @override */
+ChoiceControlBase.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', currentIndex_: '+this.currentIndex_
+      +', choices.length: '+this.choices.length
+      +', selected: "'+(this.currentIndex_ > -1 ?
+        this.choices[this.currentIndex_] : '(none)')
+      +'"}';
+};
 
-  /** @override */
-  ChoiceControlBase.prototype.toStringShort = function() {
-    return this.getClassName() + '{label_: "'+this.label_+'"}';
-  };
-}
+/** @override */
+ChoiceControlBase.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
+};
 
 /**
 * @return {undefined}

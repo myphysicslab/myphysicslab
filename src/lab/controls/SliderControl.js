@@ -319,30 +319,29 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
 };
 var SliderControl = myphysicslab.lab.controls.SliderControl;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SliderControl.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', paramValue_: '+Util.NF(this.paramValue_)
-        +', sliderValue_: '+Util.NF(this.sliderValue_)
-        +', slider_.value: '+this.slider_.value
-        +', textboxValue_: '+this.textboxValue_
-        +', min_: '+Util.NF(this.min_)
-        +', max_: '+Util.NF(this.max_)
-        +', increments_: '+this.increments_
-        +', delta_: '+Util.NF(this.delta_)
-        +', multiply_: '+this.multiply_
-        +', signifDigits_: '+this.signifDigits_
-        +', decimalPlaces_: '+this.decimalPlaces_
-        +', columns_: '+this.columns_
-        +'}';
-  };
+/** @override */
+SliderControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', paramValue_: '+Util.NF(this.paramValue_)
+      +', sliderValue_: '+Util.NF(this.sliderValue_)
+      +', slider_.value: '+this.slider_.value
+      +', textboxValue_: '+this.textboxValue_
+      +', min_: '+Util.NF(this.min_)
+      +', max_: '+Util.NF(this.max_)
+      +', increments_: '+this.increments_
+      +', delta_: '+Util.NF(this.delta_)
+      +', multiply_: '+this.multiply_
+      +', signifDigits_: '+this.signifDigits_
+      +', decimalPlaces_: '+this.decimalPlaces_
+      +', columns_: '+this.columns_
+      +'}';
+};
 
-  /** @override */
-  SliderControl.prototype.toStringShort = function() {
-    return 'SliderControl{parameter: '+this.parameter_.toStringShort()+'}';
-  };
-}
+/** @override */
+SliderControl.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'SliderControl{parameter: '+this.parameter_.toStringShort()+'}';
+};
 
 /** Returns the number of columns needed to show the number `x`
 with the given number of significant digits.

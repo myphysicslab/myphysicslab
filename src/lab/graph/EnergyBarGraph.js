@@ -302,34 +302,33 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
 };
 var EnergyBarGraph = myphysicslab.lab.graph.EnergyBarGraph;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EnergyBarGraph.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', visibleRect: '+this.visibleRect_
-        +', rect: '+this.rect_
-        +', needRescale: '+this.needRescale_
-        +', leftEdge: '+Util.NF(this.leftEdge_)
-        +', rightEdge: '+Util.NF(this.rightEdge_)
-        +', graphOrigin: '+Util.NF(this.graphOrigin_)
-        +', graphFactor: '+Util.NF(this.graphFactor_)
-        +', minHistory: '+Util.NF(this.minHistory())
-        +', minEnergy: '+Util.NF(this.minEnergy_)
-        +', megaMinEnergy: '+Util.NF(this.megaMinEnergy_)
-        +', megaMinEnergyLoc: '+Math.floor(this.graphOrigin_ + 0.5 +
-              this.graphFactor_*this.megaMinEnergy_)
-        +', maxEnergy: '+Util.NF(this.maxEnergy_)
-        +', megaMaxEnergy: '+Util.NF(this.megaMaxEnergy_)
-        +', totalEnergy: '+Util.NF(this.totalEnergy_)
-        +', time: '+Util.NF(Util.systemTime()-this.lastTime_)
-        +', zIndex: '+this.zIndex
-        +'}';
-  };
+/** @override */
+EnergyBarGraph.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', visibleRect: '+this.visibleRect_
+      +', rect: '+this.rect_
+      +', needRescale: '+this.needRescale_
+      +', leftEdge: '+Util.NF(this.leftEdge_)
+      +', rightEdge: '+Util.NF(this.rightEdge_)
+      +', graphOrigin: '+Util.NF(this.graphOrigin_)
+      +', graphFactor: '+Util.NF(this.graphFactor_)
+      +', minHistory: '+Util.NF(this.minHistory())
+      +', minEnergy: '+Util.NF(this.minEnergy_)
+      +', megaMinEnergy: '+Util.NF(this.megaMinEnergy_)
+      +', megaMinEnergyLoc: '+Math.floor(this.graphOrigin_ + 0.5 +
+            this.graphFactor_*this.megaMinEnergy_)
+      +', maxEnergy: '+Util.NF(this.maxEnergy_)
+      +', megaMaxEnergy: '+Util.NF(this.megaMaxEnergy_)
+      +', totalEnergy: '+Util.NF(this.totalEnergy_)
+      +', time: '+Util.NF(Util.systemTime()-this.lastTime_)
+      +', zIndex: '+this.zIndex
+      +'}';
+};
 
-  /** @override */
-  EnergyBarGraph.prototype.toStringShort = function() {
-    return 'EnergyBarGraph{system: '+this.system_.toStringShort()+'}';
-  };
+/** @override */
+EnergyBarGraph.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'EnergyBarGraph{system: '+this.system_.toStringShort()+'}';
 };
 
 /**

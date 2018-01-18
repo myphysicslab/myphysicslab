@@ -62,22 +62,20 @@ myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {
 };
 var GroupControl = myphysicslab.lab.controls.GroupControl;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  GroupControl.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', controls_: ['
-        + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
-        +']}';
-  };
+/** @override */
+GroupControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', controls_: ['
+      + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
+      +']}';
+};
 
-  /** @override */
-  GroupControl.prototype.toStringShort = function() {
-    return 'GroupControl{name_: "'+this.name_+'"'
-        +', controls_.length: '+this.controls_.length
-        +'}';
-  };
-}
+/** @override */
+GroupControl.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'GroupControl{name_: "'+this.name_+'"'
+      +', controls_.length: '+this.controls_.length
+      +'}';
+};
 
 /** @override */
 GroupControl.prototype.disconnect = function() {

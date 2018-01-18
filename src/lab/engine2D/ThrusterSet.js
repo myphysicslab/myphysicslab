@@ -82,22 +82,21 @@ myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) 
 };
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ThrusterSet.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', thrusters: '+this.active_.length
-        +', magnitude: '+Util.NF(this.magnitude_)
-        +', locations_body: '+this.locations_body_
-        +', directions_body: '+this.directions_body_
-        +', active:['+this.active_+']'
-        +'}';
-  };
+/** @override */
+ThrusterSet.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', thrusters: '+this.active_.length
+      +', magnitude: '+Util.NF(this.magnitude_)
+      +', locations_body: '+this.locations_body_
+      +', directions_body: '+this.directions_body_
+      +', active:['+this.active_+']'
+      +'}';
+};
 
-  /** @override */
-  ThrusterSet.prototype.toStringShort = function() {
-    return 'ThrusterSet{rigidBody_: "'+this.rigidBody_.getName()+'"}';
-  };
+/** @override */
+ThrusterSet.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'ThrusterSet{rigidBody_: "'+this.rigidBody_.getName()+'"}';
 };
 
 /**  Returns true if any thrusters in the ThrusterSet are firing.

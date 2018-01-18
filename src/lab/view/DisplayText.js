@@ -89,23 +89,21 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
 };
 var DisplayText = myphysicslab.lab.view.DisplayText;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayText.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', location: '+this.location_
-        +', font: '+this.getFont()
-        +', fillStyle: "'+this.getFillStyle()+'"'
-        +', textAlign: '+this.getTextAlign()
-        +', textBaseline: '+this.getTextBaseline()
-        +', zIndex: '+this.getZIndex()
-        +'}';
-  };
+/** @override */
+DisplayText.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', location: '+this.location_
+      +', font: '+this.getFont()
+      +', fillStyle: "'+this.getFillStyle()+'"'
+      +', textAlign: '+this.getTextAlign()
+      +', textBaseline: '+this.getTextBaseline()
+      +', zIndex: '+this.getZIndex()
+      +'}';
+};
 
-  /** @override */
-  DisplayText.prototype.toStringShort = function() {
-    return 'DisplayText{text_: '+this.text_+'}';
-  };
+/** @override */
+DisplayText.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayText{text_: '+this.text_+'}';
 };
 
 /** @override */

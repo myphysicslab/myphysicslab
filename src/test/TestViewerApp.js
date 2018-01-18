@@ -491,12 +491,10 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
 var TestViewerApp = myphysicslab.test.TestViewerApp;
 goog.inherits(TestViewerApp, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  TestViewerApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + TestViewerApp.superClass_.toString.call(this);
-  };
+/** @override */
+TestViewerApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + TestViewerApp.superClass_.toString.call(this);
 };
 
 /** @override */

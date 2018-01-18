@@ -290,31 +290,29 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
 var SingleSpring2App = myphysicslab.sims.springs.SingleSpring2App;
 goog.inherits(SingleSpring2App, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SingleSpring2App.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', block: '+this.block.toStringShort()
-        +', spring: '+this.spring.toStringShort()
-        +', sim: '+this.sim.toStringShort()
-        +', simList: '+this.simList.toStringShort()
-        +', simCtrl: '+this.simCtrl.toStringShort()
-        +', advance: '+this.advance
-        +', simRect: '+this.simRect
-        +', simView: '+this.simView.toStringShort()
-        +', statusView: '+this.statusView.toStringShort()
-        +', axes: '+this.axes.toStringShort()
-        +', simRun: '+this.simRun.toStringShort()
-        +', clock: '+this.clock.toStringShort()
-        +', energyGraph: '+this.energyGraph.toStringShort()
-        +', displayClock: '+this.displayClock.toStringShort()
-        +', easyScript: '+this.easyScript.toStringShort()
-        +', graph: '+this.graph
-        +', timeGraph: '+this.timeGraph
-        +', layout: '+this.layout
-        +', terminal: '+this.terminal
-        + SingleSpring2App.superClass_.toString.call(this);
-  };
+/** @override */
+SingleSpring2App.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', block: '+this.block.toStringShort()
+      +', spring: '+this.spring.toStringShort()
+      +', sim: '+this.sim.toStringShort()
+      +', simList: '+this.simList.toStringShort()
+      +', simCtrl: '+this.simCtrl.toStringShort()
+      +', advance: '+this.advance
+      +', simRect: '+this.simRect
+      +', simView: '+this.simView.toStringShort()
+      +', statusView: '+this.statusView.toStringShort()
+      +', axes: '+this.axes.toStringShort()
+      +', simRun: '+this.simRun.toStringShort()
+      +', clock: '+this.clock.toStringShort()
+      +', energyGraph: '+this.energyGraph.toStringShort()
+      +', displayClock: '+this.displayClock.toStringShort()
+      +', easyScript: '+this.easyScript.toStringShort()
+      +', graph: '+this.graph
+      +', timeGraph: '+this.timeGraph
+      +', layout: '+this.layout
+      +', terminal: '+this.terminal
+      + SingleSpring2App.superClass_.toString.call(this);
 };
 
 /** @override */

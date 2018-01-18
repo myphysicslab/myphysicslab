@@ -248,31 +248,29 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
 var Engine2DApp = myphysicslab.sims.engine2D.Engine2DApp;
 goog.inherits(Engine2DApp, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Engine2DApp.prototype.toString = function() {
-    return ', sim: '+this.sim.toStringShort()
-        +', elasticity: '+this.elasticity.toStringShort()
-        +', simList: '+this.simList.toStringShort()
-        +', simCtrl: '+this.simCtrl.toStringShort()
-        +', advance: '+this.advance
-        +', simRect: '+this.simRect
-        +', simView: '+this.simView.toStringShort()
-        +', statusView: '+this.statusView.toStringShort()
-        +', axes: '+this.axes.toStringShort()
-        +', simRun: '+this.simRun.toStringShort()
-        +', clock: '+this.clock.toStringShort()
-        +', displayClock: '+this.displayClock.toStringShort()
-        +', energyGraph: '+this.energyGraph.toStringShort()
-        +', rbeh: '+this.rbeh
-        +', rbo: '+this.rbo
-        +', graph: '+this.graph
-        +', timeGraph: '+this.timeGraph
-        +', layout: '+this.layout
-        +', easyScript: '+this.easyScript.toStringShort()
-        +', terminal: '+this.terminal
-        + Engine2DApp.superClass_.toString.call(this);
-  };
+/** @override */
+Engine2DApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : ', sim: '+this.sim.toStringShort()
+      +', elasticity: '+this.elasticity.toStringShort()
+      +', simList: '+this.simList.toStringShort()
+      +', simCtrl: '+this.simCtrl.toStringShort()
+      +', advance: '+this.advance
+      +', simRect: '+this.simRect
+      +', simView: '+this.simView.toStringShort()
+      +', statusView: '+this.statusView.toStringShort()
+      +', axes: '+this.axes.toStringShort()
+      +', simRun: '+this.simRun.toStringShort()
+      +', clock: '+this.clock.toStringShort()
+      +', displayClock: '+this.displayClock.toStringShort()
+      +', energyGraph: '+this.energyGraph.toStringShort()
+      +', rbeh: '+this.rbeh
+      +', rbo: '+this.rbo
+      +', graph: '+this.graph
+      +', timeGraph: '+this.timeGraph
+      +', layout: '+this.layout
+      +', easyScript: '+this.easyScript.toStringShort()
+      +', terminal: '+this.terminal
+      + Engine2DApp.superClass_.toString.call(this);
 };
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced

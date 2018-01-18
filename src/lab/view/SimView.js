@@ -265,26 +265,25 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
 var SimView = myphysicslab.lab.view.SimView;
 goog.inherits(SimView, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SimView.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', simRect_: '+this.simRect_
-        +', screenRect_: '+this.screenRect_
-        +', horizAlign_: '+this.horizAlign_
-        +', verticalAlign_: '+this.verticalAlign_
-        +', aspectRatio_: '+Util.NF5(this.aspectRatio_)
-        +', opaqueness: '+Util.NF5(this.opaqueness)
-        +', coordMap_: '+this.coordMap_
-        +', memoList_: '+this.memoList_
-        + SimView.superClass_.toString.call(this);
-  };
+/** @override */
+SimView.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', simRect_: '+this.simRect_
+      +', screenRect_: '+this.screenRect_
+      +', horizAlign_: '+this.horizAlign_
+      +', verticalAlign_: '+this.verticalAlign_
+      +', aspectRatio_: '+Util.NF5(this.aspectRatio_)
+      +', opaqueness: '+Util.NF5(this.opaqueness)
+      +', coordMap_: '+this.coordMap_
+      +', memoList_: '+this.memoList_
+      + SimView.superClass_.toString.call(this);
+};
 
-  /** @override */
-  SimView.prototype.toStringShort = function() {
-    return SimView.superClass_.toStringShort.call(this).slice(0, -1)
-        +', displayList_: '+this.displayList_.toStringShort() +'}';
-  };
+/** @override */
+SimView.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      SimView.superClass_.toStringShort.call(this).slice(0, -1)
+      +', displayList_: '+this.displayList_.toStringShort() +'}';
 };
 
 /** @override */

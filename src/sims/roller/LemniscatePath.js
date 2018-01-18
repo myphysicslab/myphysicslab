@@ -77,12 +77,11 @@ myphysicslab.sims.roller.LemniscatePath = function(size, start, finish,
 var LemniscatePath = myphysicslab.sims.roller.LemniscatePath;
 goog.inherits(LemniscatePath, AbstractPath);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  LemniscatePath.prototype.toString = function() {
-    return LemniscatePath.superClass_.toString.call(this).slice(0, -1)
-        + ', size: '+Util.NF(this.a_)+'}';
-  };
+/** @override */
+LemniscatePath.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      LemniscatePath.superClass_.toString.call(this).slice(0, -1)
+      + ', size: '+Util.NF(this.a_)+'}';
 };
 
 /** @override */

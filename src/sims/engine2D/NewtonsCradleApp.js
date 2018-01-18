@@ -140,14 +140,12 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
 var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
 goog.inherits(NewtonsCradleApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  NewtonsCradleApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + NewtonsCradleApp.superClass_.toString.call(this);
-  };
+/** @override */
+NewtonsCradleApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + NewtonsCradleApp.superClass_.toString.call(this);
 };
 
 /** @override */

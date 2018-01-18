@@ -121,16 +121,14 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
 var RigidDoublePendulumApp = sims.pendulum.RigidDoublePendulumApp;
 goog.inherits(RigidDoublePendulumApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidDoublePendulumApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', bob0: '+this.bob0.toStringShort()
-        +', bob1: '+this.bob1.toStringShort()
-        +', joint0: '+this.joint0.toStringShort()
-        +', joint1: '+this.joint1.toStringShort()
-        + RigidDoublePendulumApp.superClass_.toString.call(this);
-  };
+/** @override */
+RigidDoublePendulumApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', bob0: '+this.bob0.toStringShort()
+      +', bob1: '+this.bob1.toStringShort()
+      +', joint0: '+this.joint0.toStringShort()
+      +', joint1: '+this.joint1.toStringShort()
+      + RigidDoublePendulumApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -103,19 +103,17 @@ myphysicslab.lab.controls.CheckBoxControlBase = function(label, getter, setter, 
 
 var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CheckBoxControlBase.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + ', state_: '+this.state_
-        + '}';
-  };
+/** @override */
+CheckBoxControlBase.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + ', state_: '+this.state_
+      + '}';
+};
 
-  /** @override */
-  CheckBoxControlBase.prototype.toStringShort = function() {
-    return this.getClassName() + '{label_: "'+this.label_+'"}';
-  };
-}
+/** @override */
+CheckBoxControlBase.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
+};
 
 /** @override */
 CheckBoxControlBase.prototype.disconnect = function() {

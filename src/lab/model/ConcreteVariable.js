@@ -77,21 +77,19 @@ myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
 };
 var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ConcreteVariable.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', isComputed_: '+this.isComputed_
-        +', localName_: "'+this.localName_+'"'
-        +', varsList_: '+this.varsList_.toStringShort()
-        +'}';
-  };
+/** @override */
+ConcreteVariable.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', isComputed_: '+this.isComputed_
+      +', localName_: "'+this.localName_+'"'
+      +', varsList_: '+this.varsList_.toStringShort()
+      +'}';
+};
 
-  /** @override */
-  ConcreteVariable.prototype.toStringShort = function() {
-    return this.getClassName()+'{name_: "'+this.name_+'"'
-        +', value_: '+Util.NF(this.getValue())+'}';
-  };
+/** @override */
+ConcreteVariable.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : this.getClassName()+'{name_: "'+this.name_+'"'
+      +', value_: '+Util.NF(this.getValue())+'}';
 };
 
 /** Returns name of class of this object.

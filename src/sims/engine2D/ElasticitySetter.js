@@ -74,13 +74,11 @@ myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
 var ElasticitySetter = myphysicslab.sims.engine2D.ElasticitySetter;
 goog.inherits(ElasticitySetter, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ElasticitySetter.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', sim: '+this.sim_.toStringShort()
-        + ElasticitySetter.superClass_.toString.call(this);
-  };
+/** @override */
+ElasticitySetter.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', sim: '+this.sim_.toStringShort()
+      + ElasticitySetter.superClass_.toString.call(this);
 };
 
 /** @override */

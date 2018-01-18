@@ -15,8 +15,11 @@
 goog.provide('myphysicslab.lab.util.RandomLCG');
 
 goog.require('myphysicslab.lab.util.Random');
+goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
+
+const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Pseudo-random number generator using a Linear Congruential Generator (LCG).
 
@@ -117,7 +120,7 @@ var RandomLCG = myphysicslab.lab.util.RandomLCG;
 
 /** @override */
 RandomLCG.prototype.toString = function() {
-  return 'RandomLCG{seed: '+this.seed_+'}';
+  return Util.ADVANCED ? '' : 'RandomLCG{seed: '+this.seed_+'}';
 };
 
 /**

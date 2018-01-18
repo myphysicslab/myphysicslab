@@ -225,14 +225,12 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
 var DoublePendulum2App = sims.engine2D.DoublePendulum2App;
 goog.inherits(DoublePendulum2App, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DoublePendulum2App.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + DoublePendulum2App.superClass_.toString.call(this);
-  };
+/** @override */
+DoublePendulum2App.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + DoublePendulum2App.superClass_.toString.call(this);
 };
 
 /** @override */

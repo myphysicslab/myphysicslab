@@ -100,12 +100,10 @@ myphysicslab.lab.engine2D.StraightEdge = function(body, vertex1, vertex2, outsid
 var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
 goog.inherits(StraightEdge, AbstractEdge);
 
-if (!Util.ADVANCED) {
-  StraightEdge.prototype.toString = function() {
-    return StraightEdge.superClass_.toString.call(this)
-        +', outsideIsUp_: '+this.outsideIsUp_
-        +'}';
-  };
+StraightEdge.prototype.toString = function() {
+  return Util.ADVANCED ? '' : StraightEdge.superClass_.toString.call(this)
+      +', outsideIsUp_: '+this.outsideIsUp_
+      +'}';
 };
 
 /** @override */

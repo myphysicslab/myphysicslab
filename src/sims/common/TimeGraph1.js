@@ -216,21 +216,19 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
 var TimeGraph1 = myphysicslab.sims.common.TimeGraph1;
 goog.inherits(TimeGraph1, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  TimeGraph1.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', canvas: '+this.canvas.toStringShort()
-        +', view: '+this.view.toStringShort()
-        +', line1: '+this.line1.toStringShort()
-        +', line2: '+this.line2.toStringShort()
-        +', line3: '+this.line3.toStringShort()
-        +', axes: '+this.axes.toStringShort()
-        +', autoScale: '+this.autoScale.toStringShort()
-        +', displayGraph: '+this.displayGraph.toStringShort()
-        +', graphCtrl: '+this.graphCtrl.toStringShort()
-        + TimeGraph1.superClass_.toString.call(this);
-  };
+/** @override */
+TimeGraph1.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', canvas: '+this.canvas.toStringShort()
+      +', view: '+this.view.toStringShort()
+      +', line1: '+this.line1.toStringShort()
+      +', line2: '+this.line2.toStringShort()
+      +', line3: '+this.line3.toStringShort()
+      +', axes: '+this.axes.toStringShort()
+      +', autoScale: '+this.autoScale.toStringShort()
+      +', displayGraph: '+this.displayGraph.toStringShort()
+      +', graphCtrl: '+this.graphCtrl.toStringShort()
+      + TimeGraph1.superClass_.toString.call(this);
 };
 
 /** @override */

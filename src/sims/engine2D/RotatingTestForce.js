@@ -73,16 +73,14 @@ myphysicslab.sims.engine2D.RotatingTestForce = function(sim, body, location_body
 };
 var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RotatingTestForce.prototype.toString = function() {
-    return 'RotatingTestForce{body: "'+this.body_.getName()+'"}';
-  };
+/** @override */
+RotatingTestForce.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'RotatingTestForce{body: "'+this.body_.getName()+'"}';
+};
 
-  /** @override */
-  RotatingTestForce.prototype.toStringShort = function() {
-    return 'RotatingTestForce{body: "'+this.body_.getName()+'"}';
-  };
+/** @override */
+RotatingTestForce.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'RotatingTestForce{body: "'+this.body_.getName()+'"}';
 };
 
 /** @override */

@@ -62,14 +62,12 @@ myphysicslab.sims.roller.CustomPath = function(start_t, finish_t, name, localNam
 var CustomPath = myphysicslab.sims.roller.CustomPath;
 goog.inherits(CustomPath, AbstractPath);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CustomPath.prototype.toString = function() {
-    return CustomPath.superClass_.toString.call(this).slice(0, -1)
-      +', equationX_: "'+this.equationX_+'"'
-      +', equationY_: "'+this.equationY_+'"'
-      +'}';
-  };
+/** @override */
+CustomPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' : CustomPath.superClass_.toString.call(this).slice(0, -1)
+    +', equationX_: "'+this.equationX_+'"'
+    +', equationY_: "'+this.equationY_+'"'
+    +'}';
 };
 
 /** @override */

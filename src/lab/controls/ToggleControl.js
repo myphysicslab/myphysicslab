@@ -90,18 +90,17 @@ myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff)
 };
 var ToggleControl = myphysicslab.lab.controls.ToggleControl;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ToggleControl.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + ', state_: '+this.state_
-        + '}';
-  };
+/** @override */
+ToggleControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + ', state_: '+this.state_
+      + '}';
+};
 
-  /** @override */
-  ToggleControl.prototype.toStringShort = function() {
-    return 'ToggleControl{parameter_: '+ this.parameter_.toStringShort()+'}';
-  };
+/** @override */
+ToggleControl.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'ToggleControl{parameter_: '+
+      this.parameter_.toStringShort()+'}';
 };
 
 /** @override */

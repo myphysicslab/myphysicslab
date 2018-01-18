@@ -70,12 +70,11 @@ myphysicslab.sims.roller.CardioidPath = function(radius, start, finish,
 var CardioidPath = myphysicslab.sims.roller.CardioidPath;
 goog.inherits(CardioidPath, AbstractPath);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CardioidPath.prototype.toString = function() {
-    return CardioidPath.superClass_.toString.call(this).slice(0, -1)
-        + ', radius: '+Util.NF(this.a_)+'}';
-  };
+/** @override */
+CardioidPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      CardioidPath.superClass_.toString.call(this).slice(0, -1)
+      + ', radius: '+Util.NF(this.a_)+'}';
 };
 
 /** @override */

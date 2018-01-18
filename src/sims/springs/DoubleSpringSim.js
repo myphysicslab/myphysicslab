@@ -234,18 +234,16 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
 var DoubleSpringSim = myphysicslab.sims.springs.DoubleSpringSim;
 goog.inherits(DoubleSpringSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DoubleSpringSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', block1_: '+this.block1_
-        +', block2_: '+this.block2_
-        +', spring1_: '+this.spring1_
-        +', damping_: '+Util.NF(this.damping_)
-        +', stiffness_: '+Util.NF(this.stiffness_)
-        +', thirdSpring_: '+this.thirdSpring_
-        + DoubleSpringSim.superClass_.toString.call(this);
-  };
+/** @override */
+DoubleSpringSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', block1_: '+this.block1_
+      +', block2_: '+this.block2_
+      +', spring1_: '+this.spring1_
+      +', damping_: '+Util.NF(this.damping_)
+      +', stiffness_: '+Util.NF(this.stiffness_)
+      +', thirdSpring_: '+this.thirdSpring_
+      + DoubleSpringSim.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -160,14 +160,12 @@ sims.engine2D.PileAttractApp = function(elem_ids) {
 var PileAttractApp = sims.engine2D.PileAttractApp;
 goog.inherits(PileAttractApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PileAttractApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + PileAttractApp.superClass_.toString.call(this);
-  };
+/** @override */
+PileAttractApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + PileAttractApp.superClass_.toString.call(this);
 };
 
 /** @override */

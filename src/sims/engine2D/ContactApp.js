@@ -149,14 +149,12 @@ sims.engine2D.ContactApp = function(elem_ids) {
 var ContactApp = sims.engine2D.ContactApp;
 goog.inherits(ContactApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ContactApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + ContactApp.superClass_.toString.call(this);
-  };
+/** @override */
+ContactApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + ContactApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -221,14 +221,12 @@ sims.engine2D.ChainApp = function(elem_ids) {
 var ChainApp = sims.engine2D.ChainApp;
 goog.inherits(ChainApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ChainApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + ChainApp.superClass_.toString.call(this);
-  };
+/** @override */
+ChainApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + ChainApp.superClass_.toString.call(this);
 };
 
 /** @override */

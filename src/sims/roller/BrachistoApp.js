@@ -153,14 +153,12 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
 var BrachistoApp = myphysicslab.sims.roller.BrachistoApp;
 goog.inherits(BrachistoApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  BrachistoApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-      +', brachistoObserver: '+this.brachistoObserver.toStringShort()
-      +', paths: [ '+this.paths+' ]'
-      + BrachistoApp.superClass_.toString.call(this);
-  };
+/** @override */
+BrachistoApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+    +', brachistoObserver: '+this.brachistoObserver.toStringShort()
+    +', paths: [ '+this.paths+' ]'
+    + BrachistoApp.superClass_.toString.call(this);
 };
 
 /** @override */

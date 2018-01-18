@@ -162,17 +162,15 @@ myphysicslab.sims.roller.RollerSpringApp = function(elem_ids) {
 var RollerSpringApp = myphysicslab.sims.roller.RollerSpringApp;
 goog.inherits(RollerSpringApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RollerSpringApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', anchor: '+this.anchor.toStringShort()
-        +', ball1: '+this.ball1.toStringShort()
-        +', spring: '+this.spring.toStringShort()
-        +', pathSelect: '+this.pathSelect.toStringShort()
-        +', paths: [ '+this.paths+' ]'
-        + RollerSpringApp.superClass_.toString.call(this);
-  };
+/** @override */
+RollerSpringApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', anchor: '+this.anchor.toStringShort()
+      +', ball1: '+this.ball1.toStringShort()
+      +', spring: '+this.spring.toStringShort()
+      +', pathSelect: '+this.pathSelect.toStringShort()
+      +', paths: [ '+this.paths+' ]'
+      + RollerSpringApp.superClass_.toString.call(this);
 };
 
 /** @override */

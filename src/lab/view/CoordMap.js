@@ -133,18 +133,16 @@ myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
 };
 var CoordMap = myphysicslab.lab.view.CoordMap;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CoordMap.prototype.toString = function() {
-    return 'CoordMap{screen_left_: '+Util.NF(this.screen_left_)
-        +', screen_bottom_: '+Util.NF(this.screen_bottom_)
-        +', sim_left_: '+Util.NF(this.sim_left_)
-        +', sim_bottom_: '+Util.NF(this.sim_bottom_)
-        +', pixels_per_unit_x_: '+Util.NF(this.pixel_per_unit_x_)
-        +', pixels_per_unit_y_: '+Util.NF(this.pixel_per_unit_y_)
-        + (this.transform_ != null) ? ', transform: '+this.transform_ : ''
-        +'}';
-  };
+/** @override */
+CoordMap.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'CoordMap{screen_left_: '+Util.NF(this.screen_left_)
+      +', screen_bottom_: '+Util.NF(this.screen_bottom_)
+      +', sim_left_: '+Util.NF(this.sim_left_)
+      +', sim_bottom_: '+Util.NF(this.sim_bottom_)
+      +', pixels_per_unit_x_: '+Util.NF(this.pixel_per_unit_x_)
+      +', pixels_per_unit_y_: '+Util.NF(this.pixel_per_unit_y_)
+      + (this.transform_ != null) ? ', transform: '+this.transform_ : ''
+      +'}';
 };
 
 /**

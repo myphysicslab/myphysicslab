@@ -74,13 +74,11 @@ myphysicslab.lab.model.AbstractODESim = function(opt_name, opt_simList, opt_vars
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 goog.inherits(AbstractODESim, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AbstractODESim.prototype.toString = function() {
-    return ', varsList_: '+this.varsList_.toStringShort()
-        +', simList_: '+this.simList_.toStringShort()
-        + AbstractODESim.superClass_.toString.call(this);
-  };
+/** @override */
+AbstractODESim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : ', varsList_: '+this.varsList_.toStringShort()
+      +', simList_: '+this.simList_.toStringShort()
+      + AbstractODESim.superClass_.toString.call(this);
 };
 
 /** @abstract */

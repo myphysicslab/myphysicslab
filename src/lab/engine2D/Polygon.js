@@ -359,18 +359,17 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 goog.inherits(Polygon, AbstractMassObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Polygon.prototype.toString = function() {
-    return Polygon.superClass_.toString.call(this).slice(0, -1)
-        +', elasticity: ' +Util.NF(this.elasticity_)
-        +', distanceTol_: '+Util.NF(this.distanceTol_)
-        +', velocityTol_: '+Util.NF(this.velocityTol_)
-        +', accuracy_:'+Util.NF(this.accuracy_)
-        +', varsIndex_: '+this.varsIndex_
-        +', centroid_body_: '+this.centroid_body_
-        +'}';
-  };
+/** @override */
+Polygon.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      Polygon.superClass_.toString.call(this).slice(0, -1)
+      +', elasticity: ' +Util.NF(this.elasticity_)
+      +', distanceTol_: '+Util.NF(this.distanceTol_)
+      +', velocityTol_: '+Util.NF(this.velocityTol_)
+      +', accuracy_:'+Util.NF(this.accuracy_)
+      +', varsIndex_: '+this.varsIndex_
+      +', centroid_body_: '+this.centroid_body_
+      +'}';
 };
 
 /** @override */

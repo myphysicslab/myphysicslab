@@ -61,16 +61,14 @@ myphysicslab.lab.view.DrawingStyle = function(drawMode, color, lineWidth, opt_li
 };
 var DrawingStyle = myphysicslab.lab.view.DrawingStyle;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DrawingStyle.prototype.toString = function() {
-    return 'DrawingStyle{drawMode: '+this.drawMode
-        +', color:"'+this.color+'"'
-        +', lineWidth: '+this.lineWidth
-        +', lineDash: ['
-        + Util.array2string(this.lineDash, Util.NF0)
-        +']}';
-  };
+/** @override */
+DrawingStyle.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'DrawingStyle{drawMode: '+this.drawMode
+      +', color:"'+this.color+'"'
+      +', lineWidth: '+this.lineWidth
+      +', lineDash: ['
+      + Util.array2string(this.lineDash, Util.NF0)
+      +']}';
 };
 
 /** Returns a DrawingStyle for drawing dots with the given color and dot size.

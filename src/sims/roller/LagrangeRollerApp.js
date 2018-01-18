@@ -104,14 +104,12 @@ sims.roller.LagrangeRollerApp = function(elem_ids) {
 var LagrangeRollerApp = sims.roller.LagrangeRollerApp;
 goog.inherits(LagrangeRollerApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  LagrangeRollerApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', ball1: '+this.ball1.toStringShort()
-        +', displayPath: '+this.displayPath.toStringShort()
-        + LagrangeRollerApp.superClass_.toString.call(this);
-  };
+/** @override */
+LagrangeRollerApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', ball1: '+this.ball1.toStringShort()
+      +', displayPath: '+this.displayPath.toStringShort()
+      + LagrangeRollerApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -117,16 +117,14 @@ myphysicslab.sims.springs.DangleStickApp = function(elem_ids) {
 var DangleStickApp = myphysicslab.sims.springs.DangleStickApp;
 goog.inherits(DangleStickApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DangleStickApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', bob1: '+this.bob1.toStringShort()
-        +', bob2: '+this.bob2.toStringShort()
-        +', stick: '+this.stick.toStringShort()
-        +', spring: '+this.spring.toStringShort()
-        + DangleStickApp.superClass_.toString.call(this);
-  };
+/** @override */
+DangleStickApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', bob1: '+this.bob1.toStringShort()
+      +', bob2: '+this.bob2.toStringShort()
+      +', stick: '+this.stick.toStringShort()
+      +', spring: '+this.spring.toStringShort()
+      + DangleStickApp.superClass_.toString.call(this);
 };
 
 /** @override */

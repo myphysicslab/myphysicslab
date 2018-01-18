@@ -87,15 +87,13 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
 var PointMass = myphysicslab.lab.model.PointMass;
 goog.inherits(PointMass, AbstractMassObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PointMass.prototype.toString = function() {
-    return PointMass.superClass_.toString.call(this).slice(0, -1)
-        +', shape_: ' + this.shape_
-        +', width_: ' + Util.NF(this.width_)
-        +', height_: '+ Util.NF(this.height_)
-        +'}';
-  };
+/** @override */
+PointMass.prototype.toString = function() {
+  return Util.ADVANCED ? '' : PointMass.superClass_.toString.call(this).slice(0, -1)
+      +', shape_: ' + this.shape_
+      +', width_: ' + Util.NF(this.width_)
+      +', height_: '+ Util.NF(this.height_)
+      +'}';
 };
 
 /** @override */

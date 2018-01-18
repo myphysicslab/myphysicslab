@@ -112,24 +112,22 @@ myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
 var DiffEqSolverSubject = myphysicslab.lab.model.DiffEqSolverSubject;
 goog.inherits(DiffEqSolverSubject, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DiffEqSolverSubject.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', sim_: '+this.sim_.toStringShort()
-        +', energySystem_: '+(this.energySystem_ == null ? 'null'
-            : this.energySystem_.toStringShort())
-        +', advanceStrategy_: '+this.advanceStrategy_
-        +', solvers_: [ '
-        + goog.array.map(this.solvers_, function(s) { return s.toStringShort(); })
-        +']'
-        + DiffEqSolverSubject.superClass_.toString.call(this);
-  };
+/** @override */
+DiffEqSolverSubject.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', sim_: '+this.sim_.toStringShort()
+      +', energySystem_: '+(this.energySystem_ == null ? 'null'
+          : this.energySystem_.toStringShort())
+      +', advanceStrategy_: '+this.advanceStrategy_
+      +', solvers_: [ '
+      + goog.array.map(this.solvers_, function(s) { return s.toStringShort(); })
+      +']'
+      + DiffEqSolverSubject.superClass_.toString.call(this);
 };
 
 /** @override */
 DiffEqSolverSubject.prototype.getClassName = function() {
-  return 'DiffEqSolverSubject';
+  return Util.ADVANCED ? '' : 'DiffEqSolverSubject';
 };
 
 /** Returns the language-independent name of the current DiffEqSolver

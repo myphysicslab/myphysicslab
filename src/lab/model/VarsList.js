@@ -147,22 +147,21 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
 var VarsList = myphysicslab.lab.model.VarsList;
 goog.inherits(VarsList, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  VarsList.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', timeIdx_: '+this.timeIdx_
-        +', history_: '+this.history_
-        + ', ' + goog.array.map(this.varList_, function(v, idx) {
-            return '('+idx+') '+ v.getName()+': '+Util.NF5E(v.getValue()); })
-        + VarsList.superClass_.toString.call(this);
-  };
+/** @override */
+VarsList.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', timeIdx_: '+this.timeIdx_
+      +', history_: '+this.history_
+      + ', ' + goog.array.map(this.varList_, function(v, idx) {
+          return '('+idx+') '+ v.getName()+': '+Util.NF5E(v.getValue()); })
+      + VarsList.superClass_.toString.call(this);
+};
 
-  /** @override */
-  VarsList.prototype.toStringShort = function() {
-    var s = VarsList.superClass_.toStringShort.call(this);
-    return s.slice(0, -1) +', numVars: '+this.varList_.length+'}';
-  };
+/** @override */
+VarsList.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      VarsList.superClass_.toStringShort.call(this).slice(0, -1)
+      +', numVars: '+this.varList_.length+'}';
 };
 
 /** @override */

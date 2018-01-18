@@ -90,18 +90,16 @@ myphysicslab.sims.roller.RollerCollision = function(ball, path, time) {
 
 var RollerCollision = myphysicslab.sims.roller.RollerCollision;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RollerCollision.prototype.toString = function() {
-    return 'RollerCollision{'
-        +'distance='+Util.NF(this.distance_)
-        +', accuracy='+Util.NF(this.accuracy_)
-        +', detectedTime='+Util.NF(this.detectedTime_)
-        +', impulse: '+Util.NF5(this.impulse)
-        +', velocity: '+Util.NF5(this.velocity)
-        +', position='+this.ball_.getPosition()
-        +'}';
-  };
+/** @override */
+RollerCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'RollerCollision{'
+      +'distance='+Util.NF(this.distance_)
+      +', accuracy='+Util.NF(this.accuracy_)
+      +', detectedTime='+Util.NF(this.detectedTime_)
+      +', impulse: '+Util.NF5(this.impulse)
+      +', velocity: '+Util.NF5(this.velocity)
+      +', position='+this.ball_.getPosition()
+      +'}';
 };
 
 /**

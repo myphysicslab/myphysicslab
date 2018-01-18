@@ -66,14 +66,12 @@ myphysicslab.lab.engine2D.EdgeRange = function(body, beginIdx, endIdx) {
 };
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EdgeRange.prototype.toString = function() {
-    return 'EdgeRange{beginIdx_: '+this.beginIdx_
-        +', endIdx_: '+this.endIdx_
-        +', body_: '+this.body_.toStringShort()
-        +'}';
-  };
+/** @override */
+EdgeRange.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'EdgeRange{beginIdx_: '+this.beginIdx_
+      +', endIdx_: '+this.endIdx_
+      +', body_: '+this.body_.toStringShort()
+      +'}';
 };
 
 /** Creates an EdgeRange by finding all the set of all Edges connected to a given Edge.

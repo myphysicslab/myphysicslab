@@ -262,14 +262,12 @@ myphysicslab.sims.pde.StringSim = function(shape, opt_simList) {
 var StringSim = myphysicslab.sims.pde.StringSim;
 goog.inherits(StringSim, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StringSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-      +', density_: '+Util.NF(this.density_)
-      +', tension_: '+this.tension_
-      + StringSim.superClass_.toString.call(this);
-  };
+/** @override */
+StringSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+    +', density_: '+Util.NF(this.density_)
+    +', tension_: '+this.tension_
+    + StringSim.superClass_.toString.call(this);
 };
 
 /** @override */
@@ -647,17 +645,16 @@ myphysicslab.sims.pde.StringAdvance = function(sim) {
 };
 var StringAdvance = myphysicslab.sims.pde.StringAdvance;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StringAdvance.prototype.toString = function() {
-    return this.toStringShort();
-  };
-
-  /** @override */
-  StringAdvance.prototype.toStringShort = function() {
-    return 'StringAdvance{sim_: '+this.sim_.toStringShort()+'}';
-  };
+/** @override */
+StringAdvance.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort();
 };
+
+/** @override */
+StringAdvance.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'StringAdvance{sim_: '+this.sim_.toStringShort()+'}';
+};
+
 /** @override */
 StringAdvance.prototype.advance = function(opt_timeStep, opt_memoList) {
   var timeStep = goog.isDef(opt_timeStep) ? opt_timeStep : this.getTimeStep();
@@ -718,13 +715,11 @@ myphysicslab.sims.pde.StringPath = function(sim) {
 var StringPath = myphysicslab.sims.pde.StringPath;
 goog.inherits(StringPath, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StringPath.prototype.toString = function() {
-    return StringPath.superClass_.toString.call(this).slice(0, -1)
-        +', sim: '+this.sim_.toStringShort()
-        +'}';
-  };
+/** @override */
+StringPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' : StringPath.superClass_.toString.call(this).slice(0, -1)
+      +', sim: '+this.sim_.toStringShort()
+      +'}';
 };
 
 /** @override */

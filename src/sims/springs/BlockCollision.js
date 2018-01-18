@@ -76,20 +76,18 @@ myphysicslab.sims.springs.BlockCollision = function(leftBlock, rightBlock, time)
 };
 var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  BlockCollision.prototype.toString = function() {
-    return 'BlockCollision{'
-        +'distance: '+Util.NF5(this.distance_)
-        +', targetGap: '+Util.NF5(this.targetGap_)
-        +', accuracy: '+Util.NF5(this.accuracy_)
-        +', detectedTime: '+Util.NF7(this.detectedTime_)
-        +', impulse: '+Util.NF5(this.impulse)
-        +', mustHandle: '+this.mustHandle_
-        +', leftBlock: '+this.leftBlock_
-        +', rightBlock: '+this.rightBlock_
-        +'}';
-  };
+/** @override */
+BlockCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'BlockCollision{'
+      +'distance: '+Util.NF5(this.distance_)
+      +', targetGap: '+Util.NF5(this.targetGap_)
+      +', accuracy: '+Util.NF5(this.accuracy_)
+      +', detectedTime: '+Util.NF7(this.detectedTime_)
+      +', impulse: '+Util.NF5(this.impulse)
+      +', mustHandle: '+this.mustHandle_
+      +', leftBlock: '+this.leftBlock_
+      +', rightBlock: '+this.rightBlock_
+      +'}';
 };
 
 /** @override */

@@ -126,18 +126,16 @@ myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
 };
 var VectorGraph = myphysicslab.lab.graph.VectorGraph;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  VectorGraph.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', screenRect_: '+this.screenRect_
-        +', zIndex: '+this.zIndex
-        +'}';
-  };
+/** @override */
+VectorGraph.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', screenRect_: '+this.screenRect_
+      +', zIndex: '+this.zIndex
+      +'}';
+};
 
-  VectorGraph.prototype.toStringShort = function() {
-    return 'VectorGraph{sim_: '+this.sim_.toStringShort()+'}';
-  };
+VectorGraph.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'VectorGraph{sim_: '+this.sim_.toStringShort()+'}';
 };
 
 /** @override */

@@ -211,18 +211,16 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
 var DangleStickSim = myphysicslab.sims.springs.DangleStickSim;
 goog.inherits(DangleStickSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DangleStickSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', stickLength_: '+Util.NF(this.stickLength_)
-        +', spring_: '+this.spring_
-        +', stick_: '+this.stick_
-        +', bob1_: '+this.bob1_
-        +', bob2_: '+this.bob2_
-        + DangleStickSim.superClass_.toString.call(this);
-  };
+/** @override */
+DangleStickSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', stickLength_: '+Util.NF(this.stickLength_)
+      +', spring_: '+this.spring_
+      +', stick_: '+this.stick_
+      +', bob1_: '+this.bob1_
+      +', bob2_: '+this.bob2_
+      + DangleStickSim.superClass_.toString.call(this);
 };
 
 /** @override */

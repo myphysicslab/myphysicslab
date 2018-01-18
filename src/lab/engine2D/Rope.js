@@ -131,18 +131,16 @@ myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, l
 var Rope = myphysicslab.lab.engine2D.Rope;
 goog.inherits(Rope, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Rope.prototype.toString = function() {
-    return Rope.superClass_.toString.call(this).slice(0, -1)
-        +', body1_:"'+this.body1_.getName()+'"'
-        +', attach1_body: '+this.attach1_body_
-        +', body2:"'+this.body2_.getName()+'"'
-        +', attach2_body: '+this.attach2_body_
-        +', restLength_: '+Util.NF(this.restLength_)
-        +', rod: '+this.rod_
-        +'}';
-  };
+/** @override */
+Rope.prototype.toString = function() {
+  return Util.ADVANCED ? '' : Rope.superClass_.toString.call(this).slice(0, -1)
+      +', body1_:"'+this.body1_.getName()+'"'
+      +', attach1_body: '+this.attach1_body_
+      +', body2:"'+this.body2_.getName()+'"'
+      +', attach2_body: '+this.attach2_body_
+      +', restLength_: '+Util.NF(this.restLength_)
+      +', rod: '+this.rod_
+      +'}';
 };
 
 /** @override */

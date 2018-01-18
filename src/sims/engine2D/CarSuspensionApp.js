@@ -156,14 +156,12 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
 var CarSuspensionApp = myphysicslab.sims.engine2D.CarSuspensionApp;
 goog.inherits(CarSuspensionApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CarSuspensionApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + CarSuspensionApp.superClass_.toString.call(this);
-  };
+/** @override */
+CarSuspensionApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + CarSuspensionApp.superClass_.toString.call(this);
 };
 
 /**

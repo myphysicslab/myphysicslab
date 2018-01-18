@@ -344,20 +344,18 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
 var StringApp = myphysicslab.sims.pde.StringApp;
 goog.inherits(StringApp, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StringApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', sim: '+this.sim.toStringShort()
-        +', simRun: '+this.simRun.toStringShort()
-        +', simView: '+this.simView.toStringShort()
-        +', statusView: '+this.statusView.toStringShort()
-        +', terminal: '+this.terminal
-        +', path: '+this.path
-        +', displayPath: '+this.displayPath
-        +', shapes: [ '+this.shapes + ']'
-        + StringApp.superClass_.toString.call(this);
-  };
+/** @override */
+StringApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', sim: '+this.sim.toStringShort()
+      +', simRun: '+this.simRun.toStringShort()
+      +', simView: '+this.simView.toStringShort()
+      +', statusView: '+this.statusView.toStringShort()
+      +', terminal: '+this.terminal
+      +', path: '+this.path
+      +', displayPath: '+this.displayPath
+      +', shapes: [ '+this.shapes + ']'
+      + StringApp.superClass_.toString.call(this);
 };
 
 /** @override */

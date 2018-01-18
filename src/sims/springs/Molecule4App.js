@@ -178,14 +178,12 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
 var Molecule4App = myphysicslab.sims.springs.Molecule4App;
 goog.inherits(Molecule4App, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Molecule4App.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', atoms: '+this.atoms.length
-        +', walls: '+this.walls.toStringShort()
-        + Molecule4App.superClass_.toString.call(this);
-  };
+/** @override */
+Molecule4App.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', atoms: '+this.atoms.length
+      +', walls: '+this.walls.toStringShort()
+      + Molecule4App.superClass_.toString.call(this);
 };
 
 /** @override */

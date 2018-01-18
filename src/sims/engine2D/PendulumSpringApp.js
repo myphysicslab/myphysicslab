@@ -202,16 +202,14 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
 var PendulumSpringApp = sims.engine2D.PendulumSpringApp;
 goog.inherits(PendulumSpringApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PendulumSpringApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        +', graphLine: '+this.graphLine.toStringShort()
-        +', autoScale: '+this.autoScale.toStringShort()
-        + PendulumSpringApp.superClass_.toString.call(this);
-  };
+/** @override */
+PendulumSpringApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      +', graphLine: '+this.graphLine.toStringShort()
+      +', autoScale: '+this.autoScale.toStringShort()
+      + PendulumSpringApp.superClass_.toString.call(this);
 };
 
 /**

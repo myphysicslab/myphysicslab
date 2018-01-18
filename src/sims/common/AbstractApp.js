@@ -238,29 +238,27 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
 var AbstractApp = sims.common.AbstractApp;
 goog.inherits(AbstractApp, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AbstractApp.prototype.toString = function() {
-    return ', sim: '+this.sim.toStringShort()
-      +', simList: '+this.simList.toStringShort()
-      +', simCtrl: '+this.simCtrl.toStringShort()
-      +', advance: '+this.advance
-      +', simRect: '+this.simRect
-      +', simView: '+this.simView.toStringShort()
-      +', statusView: '+this.statusView.toStringShort()
-      +', axes: '+this.axes.toStringShort()
-      +', simRun: '+this.simRun.toStringShort()
-      +', clock: '+this.clock.toStringShort()
-      +', energyGraph: '+(this.energyGraph == null ? 'null' :
-          this.energyGraph.toStringShort())
-      +', displayClock: '+this.displayClock.toStringShort()
-      +', graph: '+this.graph.toStringShort()
-      +', timeGraph: '+this.timeGraph.toStringShort()
-      +', layout: '+this.layout.toStringShort()
-      +', easyScript: '+this.easyScript.toStringShort()
-      +', terminal: '+this.terminal
-      + AbstractApp.superClass_.toString.call(this);
-  };
+/** @override */
+AbstractApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : ', sim: '+this.sim.toStringShort()
+    +', simList: '+this.simList.toStringShort()
+    +', simCtrl: '+this.simCtrl.toStringShort()
+    +', advance: '+this.advance
+    +', simRect: '+this.simRect
+    +', simView: '+this.simView.toStringShort()
+    +', statusView: '+this.statusView.toStringShort()
+    +', axes: '+this.axes.toStringShort()
+    +', simRun: '+this.simRun.toStringShort()
+    +', clock: '+this.clock.toStringShort()
+    +', energyGraph: '+(this.energyGraph == null ? 'null' :
+        this.energyGraph.toStringShort())
+    +', displayClock: '+this.displayClock.toStringShort()
+    +', graph: '+this.graph.toStringShort()
+    +', timeGraph: '+this.timeGraph.toStringShort()
+    +', layout: '+this.layout.toStringShort()
+    +', easyScript: '+this.easyScript.toStringShort()
+    +', terminal: '+this.terminal
+    + AbstractApp.superClass_.toString.call(this);
 };
 
 /** Add the control to the set of simulation controls.

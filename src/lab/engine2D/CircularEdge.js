@@ -274,19 +274,17 @@ myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center
 var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
 goog.inherits(CircularEdge, AbstractEdge);
 
-if (!Util.ADVANCED) {
-  CircularEdge.prototype.toString = function() {
-    return CircularEdge.superClass_.toString.call(this)
-        +', outsideIsOut_: '+this.outsideIsOut_
-        +', clockwise_: '+this.clockwise_
-        +', center_body_: '+this.center_body_
-        +', radius_: '+Util.NF5(this.radius_)
-        +', startAngle_: '+Util.NF5(this.startAngle_)
-        +', finishAngle_: '+Util.NF5(this.finishAngle_)
-        +', angle_low_: '+Util.NF5(this.angle_low_)
-        +', angle_high_: '+Util.NF5(this.angle_high_)
-        +'}';
-  };
+CircularEdge.prototype.toString = function() {
+  return Util.ADVANCED ? '' : CircularEdge.superClass_.toString.call(this)
+      +', outsideIsOut_: '+this.outsideIsOut_
+      +', clockwise_: '+this.clockwise_
+      +', center_body_: '+this.center_body_
+      +', radius_: '+Util.NF5(this.radius_)
+      +', startAngle_: '+Util.NF5(this.startAngle_)
+      +', finishAngle_: '+Util.NF5(this.finishAngle_)
+      +', angle_low_: '+Util.NF5(this.angle_low_)
+      +', angle_high_: '+Util.NF5(this.angle_high_)
+      +'}';
 };
 
 /**

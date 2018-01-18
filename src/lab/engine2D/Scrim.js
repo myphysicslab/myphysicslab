@@ -66,16 +66,14 @@ Scrim.getScrim = function() {
   return Scrim.singleton;
 };
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Scrim.prototype.toString = function() {
-    return 'Scrim{}';
-  };
+/** @override */
+Scrim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'Scrim{}';
+};
 
-  /** @override */
-  Scrim.prototype.toStringShort = function() {
-    return 'Scrim{}';
-  };
+/** @override */
+Scrim.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'Scrim{}';
 };
 
 /** @override */

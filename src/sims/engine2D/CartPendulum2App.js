@@ -131,14 +131,12 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
 var CartPendulum2App = myphysicslab.sims.engine2D.CartPendulum2App;
 goog.inherits(CartPendulum2App, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CartPendulum2App.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + CartPendulum2App.superClass_.toString.call(this);
-  };
+/** @override */
+CartPendulum2App.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + CartPendulum2App.superClass_.toString.call(this);
 };
 
 /** @override */

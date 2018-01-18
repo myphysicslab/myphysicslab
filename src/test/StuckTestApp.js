@@ -92,12 +92,10 @@ myphysicslab.test.StuckTestApp = function(elem_ids) {
 var StuckTestApp = myphysicslab.test.StuckTestApp;
 goog.inherits(StuckTestApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StuckTestApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + StuckTestApp.superClass_.toString.call(this);
-  };
+/** @override */
+StuckTestApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + StuckTestApp.superClass_.toString.call(this);
 };
 
 /** @override */

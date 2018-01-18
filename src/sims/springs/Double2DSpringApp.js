@@ -129,17 +129,15 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
 var Double2DSpringApp = myphysicslab.sims.springs.Double2DSpringApp;
 goog.inherits(Double2DSpringApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Double2DSpringApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', bob1: '+this.bob1.toStringShort()
-        +', bob2: '+this.bob2.toStringShort()
-        +', spring1: '+this.spring1.toStringShort()
-        +', spring2: '+this.spring2.toStringShort()
-        +', topMass: '+this.topMass.toStringShort()
-        + Double2DSpringApp.superClass_.toString.call(this);
-  };
+/** @override */
+Double2DSpringApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', bob1: '+this.bob1.toStringShort()
+      +', bob2: '+this.bob2.toStringShort()
+      +', spring1: '+this.spring1.toStringShort()
+      +', spring2: '+this.spring2.toStringShort()
+      +', topMass: '+this.topMass.toStringShort()
+      + Double2DSpringApp.superClass_.toString.call(this);
 };
 
 /** @override */

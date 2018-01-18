@@ -88,16 +88,14 @@ myphysicslab.lab.util.Timer = function(opt_legacy) {
 };
 var Timer = myphysicslab.lab.util.Timer;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Timer.prototype.toString = function() {
-    return 'Timer{period_: '+this.period_
-        +', firing_: '+this.firing_
-        +', timeoutID_: '+this.timeoutID_
-        +', fired_sys_: '+Util.nf7(this.fired_sys_)
-        +', delta_: '+Util.nf7(this.delta_)
-        +'}';
-  };
+/** @override */
+Timer.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'Timer{period_: '+this.period_
+      +', firing_: '+this.firing_
+      +', timeoutID_: '+this.timeoutID_
+      +', fired_sys_: '+Util.nf7(this.fired_sys_)
+      +', delta_: '+Util.nf7(this.delta_)
+      +'}';
 };
 
 /**

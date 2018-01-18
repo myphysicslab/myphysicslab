@@ -206,17 +206,15 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
 var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
 goog.inherits(SingleSpringSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SingleSpringSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', block_: '+this.block_
-        +', fixedPoint_: '+this.fixedPoint_
-        +', spring_: '+this.spring_
-        +', damping_: '+Util.NF(this.damping_)
-        +', initialEnergy_: '+Util.NF(this.initialEnergy_)
-        + SingleSpringSim.superClass_.toString.call(this);
-  };
+/** @override */
+SingleSpringSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', block_: '+this.block_
+      +', fixedPoint_: '+this.fixedPoint_
+      +', spring_: '+this.spring_
+      +', damping_: '+Util.NF(this.damping_)
+      +', initialEnergy_: '+Util.NF(this.initialEnergy_)
+      + SingleSpringSim.superClass_.toString.call(this);
 };
 
 /** @override */

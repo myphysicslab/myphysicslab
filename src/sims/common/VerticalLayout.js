@@ -185,16 +185,14 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
 };
 var VerticalLayout = myphysicslab.sims.common.VerticalLayout;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  VerticalLayout.prototype.toString = function() {
-    return 'VerticalLayout{'
-      +'simCanvas: '+this.simCanvas.toStringShort()
-      +', graphCanvas: '+this.graphCanvas.toStringShort()
-      +', terminal: '+this.terminal
-      +', controls: '+this.controls_.length
-      +'}';
-  };
+/** @override */
+VerticalLayout.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'VerticalLayout{'
+    +'simCanvas: '+this.simCanvas.toStringShort()
+    +', graphCanvas: '+this.graphCanvas.toStringShort()
+    +', terminal: '+this.terminal
+    +', controls: '+this.controls_.length
+    +'}';
 };
 
 /**  Names of HTML div, form, and input element's to search for by using

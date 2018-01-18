@@ -121,20 +121,18 @@ myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
 var Spring = myphysicslab.lab.model.Spring;
 goog.inherits(Spring, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Spring.prototype.toString = function() {
-    return Spring.superClass_.toString.call(this).slice(0, -1)
-        +', body1_:"'+this.body1_.getName()+'"'
-        +', attach1_: '+this.attach1_
-        +', body2_:"'+this.body2_.getName()+'"'
-        +', attach2_: '+this.attach2_
-        +', restLength_: '+Util.NF(this.restLength_)
-        +', stiffness_: '+Util.NF(this.stiffness_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', compressOnly_: '+this.compressOnly_
-        +'}';
-  };
+/** @override */
+Spring.prototype.toString = function() {
+  return Util.ADVANCED ? '' : Spring.superClass_.toString.call(this).slice(0, -1)
+      +', body1_:"'+this.body1_.getName()+'"'
+      +', attach1_: '+this.attach1_
+      +', body2_:"'+this.body2_.getName()+'"'
+      +', attach2_: '+this.attach2_
+      +', restLength_: '+Util.NF(this.restLength_)
+      +', stiffness_: '+Util.NF(this.stiffness_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', compressOnly_: '+this.compressOnly_
+      +'}';
 };
 
 /** @override */

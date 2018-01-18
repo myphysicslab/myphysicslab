@@ -218,18 +218,16 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
 var MultipleCollisionApp = myphysicslab.sims.engine2D.MultipleCollisionApp;
 goog.inherits(MultipleCollisionApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MultipleCollisionApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', formation: '+this.formation
-        +', shape: '+this.shape
-        +', angle: '+Util.NF(this.angle)
-        +', offset: '+Util.NF(this.offset)
-        +', speed: '+Util.NF(this.speed)
-        + MultipleCollisionApp.superClass_.toString.call(this);
-  };
+/** @override */
+MultipleCollisionApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', formation: '+this.formation
+      +', shape: '+this.shape
+      +', angle: '+Util.NF(this.angle)
+      +', offset: '+Util.NF(this.offset)
+      +', speed: '+Util.NF(this.speed)
+      + MultipleCollisionApp.superClass_.toString.call(this);
 };
 
 /** @override */

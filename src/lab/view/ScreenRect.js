@@ -62,15 +62,13 @@ myphysicslab.lab.view.ScreenRect = function(left, top, width, height) {
 };
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ScreenRect.prototype.toString = function() {
-    return 'ScreenRect{left_: '+Util.NF(this.left_)
-        +', top_: '+Util.NF(this.top_)
-        +', width_: '+Util.NF(this.width_)
-        +', height_: '+Util.NF(this.height_)
-        +'}';
-  };
+/** @override */
+ScreenRect.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'ScreenRect{left_: '+Util.NF(this.left_)
+      +', top_: '+Util.NF(this.top_)
+      +', width_: '+Util.NF(this.width_)
+      +', height_: '+Util.NF(this.height_)
+      +'}';
 };
 
 /** An empty ScreenRect located at the origin.

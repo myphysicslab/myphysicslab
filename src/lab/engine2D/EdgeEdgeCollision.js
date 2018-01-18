@@ -68,14 +68,13 @@ myphysicslab.lab.engine2D.EdgeEdgeCollision = function(primaryEdge, normalEdge) 
 var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
 goog.inherits(EdgeEdgeCollision, RigidBodyCollision);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EdgeEdgeCollision.prototype.toString = function() {
-    return EdgeEdgeCollision.superClass_.toString.call(this).slice(0, -1)
-        +', primaryEdge: '+ this.primaryEdge.getIndex()
-        +', normalEdge: '+ this.normalEdge.getIndex()
-        +'}';
-  };
+/** @override */
+EdgeEdgeCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      EdgeEdgeCollision.superClass_.toString.call(this).slice(0, -1)
+      +', primaryEdge: '+ this.primaryEdge.getIndex()
+      +', normalEdge: '+ this.normalEdge.getIndex()
+      +'}';
 };
 
 /** @override */

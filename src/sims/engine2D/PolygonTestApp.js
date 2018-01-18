@@ -133,14 +133,12 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
 var PolygonTestApp = sims.engine2D.PolygonTestApp;
 goog.inherits(PolygonTestApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PolygonTestApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + PolygonTestApp.superClass_.toString.call(this);
-  };
+/** @override */
+PolygonTestApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + PolygonTestApp.superClass_.toString.call(this);
 };
 
 /** @override */

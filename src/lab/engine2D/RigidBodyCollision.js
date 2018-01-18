@@ -385,34 +385,33 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
 };
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidBodyCollision.prototype.toString = function() {
-    return this.getClassName() + '{distance: '+Util.NF5E(this.distance)
-        +', normalVelocity_: '+Util.NF5E(this.normalVelocity_)
-        +', body: "'+this.primaryBody.getName()+'"'
-        +', normalBody: "'+this.normalBody.getName()+'"'
-        +', impact1: '+this.impact1
-        +', contact: '+this.contact()
-        +', joint: '+this.joint
-        +', elasticity_: ' +Util.nf5(this.elasticity_)
-        +', targetGap_: '+Util.NF5E(this.targetGap_)
-        +', accuracy_: '+Util.NF7(this.accuracy_)
-        +', mustHandle_: '+this.mustHandle_
-        +', impact2: '+(this.impact2 != null ? this.impact2 : 'null')
-        +', normal: '+this.normal
-        +', ballObject: '+this.ballObject
-        +', ballNormal: '+this.ballNormal
-        +', estimate_: '+Util.NF7(this.estimate_)
-        +', detectedTime_: '+Util.NF7(this.detectedTime_)
-        +', detectedDistance_: '+Util.NF5E(this.detectedDistance_)
-        +', detectedVelocity_: '+Util.NF5E(this.detectedVelocity_)
-        +', impulse: '+Util.NF5E(this.impulse)
-        +', force: '+Util.NF5E(this.force)
-        +', updateTime_: '+Util.NF7(this.updateTime_)
-        +', creator: '+this.creator
-        +'}';
-  };
+/** @override */
+RigidBodyCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+     this.getClassName() + '{distance: '+Util.NF5E(this.distance)
+      +', normalVelocity_: '+Util.NF5E(this.normalVelocity_)
+      +', body: "'+this.primaryBody.getName()+'"'
+      +', normalBody: "'+this.normalBody.getName()+'"'
+      +', impact1: '+this.impact1
+      +', contact: '+this.contact()
+      +', joint: '+this.joint
+      +', elasticity_: ' +Util.nf5(this.elasticity_)
+      +', targetGap_: '+Util.NF5E(this.targetGap_)
+      +', accuracy_: '+Util.NF7(this.accuracy_)
+      +', mustHandle_: '+this.mustHandle_
+      +', impact2: '+(this.impact2 != null ? this.impact2 : 'null')
+      +', normal: '+this.normal
+      +', ballObject: '+this.ballObject
+      +', ballNormal: '+this.ballNormal
+      +', estimate_: '+Util.NF7(this.estimate_)
+      +', detectedTime_: '+Util.NF7(this.detectedTime_)
+      +', detectedDistance_: '+Util.NF5E(this.detectedDistance_)
+      +', detectedVelocity_: '+Util.NF5E(this.detectedVelocity_)
+      +', impulse: '+Util.NF5E(this.impulse)
+      +', force: '+Util.NF5E(this.force)
+      +', updateTime_: '+Util.NF7(this.updateTime_)
+      +', creator: '+this.creator
+      +'}';
 };
 
 /** @override */

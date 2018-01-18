@@ -47,15 +47,13 @@ myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
 };
 var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  GraphPoint.prototype.toString = function() {
-    return 'GraphPoint{x: '+Util.NF(this.x)
-        +', y: '+Util.NF(this.y)
-        +', seqX: '+Util.NF(this.seqX)
-        +', seqY: '+Util.NF(this.seqY)
-        +'}';
-  };
+/** @override */
+GraphPoint.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'GraphPoint{x: '+Util.NF(this.x)
+      +', y: '+Util.NF(this.y)
+      +', seqX: '+Util.NF(this.seqX)
+      +', seqY: '+Util.NF(this.seqY)
+      +'}';
 };
 
 /** Returns whether this GraphPoint is identical to another GraphPoint

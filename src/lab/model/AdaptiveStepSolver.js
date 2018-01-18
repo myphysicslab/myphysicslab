@@ -101,21 +101,20 @@ myphysicslab.lab.model.AdaptiveStepSolver = function(diffEq, energySystem,
 };
 var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AdaptiveStepSolver.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', odeSolver_: '+this.odeSolver_.toStringShort()
-        +', energySystem_: '+this.energySystem_.toStringShort()
-        +', secondDiff_: '+this.secondDiff_
-        +', tolerance_: '+Util.NFE(this.tolerance_)
-        +'}';
-  };
+/** @override */
+AdaptiveStepSolver.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', odeSolver_: '+this.odeSolver_.toStringShort()
+      +', energySystem_: '+this.energySystem_.toStringShort()
+      +', secondDiff_: '+this.secondDiff_
+      +', tolerance_: '+Util.NFE(this.tolerance_)
+      +'}';
+};
 
-  /** @override */
-  AdaptiveStepSolver.prototype.toStringShort = function() {
-    return 'AdaptiveStepSolver{diffEq_: '+this.diffEq_.toStringShort()+'}';
-  };
+/** @override */
+AdaptiveStepSolver.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+       'AdaptiveStepSolver{diffEq_: '+this.diffEq_.toStringShort()+'}';
 };
 
 /** @override */

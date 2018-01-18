@@ -73,9 +73,11 @@ myphysicslab.lab.model.CollisionStats = function() {
 };
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CollisionStats.prototype.toString = function() {
+/** @override */
+CollisionStats.prototype.toString = function() {
+  if (Util.ADVANCED) {
+    return '';
+  } else {
     var s= 'CollisionStats{collisions: '+this.numCollisions;
     if (this.numCollisions > 0) {
       s += ', estTime: '+Util.NF7(this.estTime)
@@ -88,7 +90,7 @@ if (!Util.ADVANCED) {
           +', contacts: '+this.numContacts;
     }
     return s+'}';
-  };
+  }
 };
 
 /** Resets statistics to start from zero.

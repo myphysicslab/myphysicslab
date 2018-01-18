@@ -49,12 +49,11 @@ myphysicslab.lab.model.FunctionVariable = function(varsList, name, localName, fn
 var FunctionVariable = myphysicslab.lab.model.FunctionVariable;
 goog.inherits(FunctionVariable, ConcreteVariable);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  FunctionVariable.prototype.toString = function() {
-    return FunctionVariable.superClass_.toString.call(this).slice(0, -1)
-        + ', function_: '+this.function_+ '}';
-  };
+/** @override */
+FunctionVariable.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      FunctionVariable.superClass_.toString.call(this).slice(0, -1)
+      + ', function_: '+this.function_+ '}';
 };
 
 /** @override */

@@ -109,20 +109,19 @@ myphysicslab.lab.model.AbstractMassObject = function(opt_name, opt_localName) {
 var AbstractMassObject = myphysicslab.lab.model.AbstractMassObject;
 goog.inherits(AbstractMassObject, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AbstractMassObject.prototype.toString = function() {
-    return AbstractMassObject.superClass_.toString.call(this).slice(0, -1)
-        +', mass_: '+Util.NF(this.mass_)
-        +', loc_world_: '+this.loc_world_
-        +', angle_: '+this.angle_
-        +', velocity_: '+this.velocity_
-        +', angular_velocity_: '+Util.NF(this.angular_velocity_)
-        +', cm_body_: '+this.cm_body_
-        +', zeroEnergyLevel_: '+Util.NF(this.zeroEnergyLevel_)
-        +', moment_: '+Util.NF(this.moment_)
-        +'}';
-  };
+/** @override */
+AbstractMassObject.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      AbstractMassObject.superClass_.toString.call(this).slice(0, -1)
+      +', mass_: '+Util.NF(this.mass_)
+      +', loc_world_: '+this.loc_world_
+      +', angle_: '+this.angle_
+      +', velocity_: '+this.velocity_
+      +', angular_velocity_: '+Util.NF(this.angular_velocity_)
+      +', cm_body_: '+this.cm_body_
+      +', zeroEnergyLevel_: '+Util.NF(this.zeroEnergyLevel_)
+      +', moment_: '+Util.NF(this.moment_)
+      +'}';
 };
 
 /** @override */

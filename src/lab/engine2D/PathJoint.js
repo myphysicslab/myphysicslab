@@ -101,17 +101,16 @@ myphysicslab.lab.engine2D.PathJoint = function(path, body, attach_body) {
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 goog.inherits(PathJoint, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PathJoint.prototype.toString = function() {
-    return PathJoint.superClass_.toString.call(this).slice(0, -1)
-        +', body_:='+this.body_.toStringShort()
-        +', path_: '+this.path_.toStringShort()
-        +', attach_body_: '+this.attach_body_
-        +', ppt_: '+this.ppt_
-        +'}';
-  };
-}
+/** @override */
+PathJoint.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      PathJoint.superClass_.toString.call(this).slice(0, -1)
+      +', body_:='+this.body_.toStringShort()
+      +', path_: '+this.path_.toStringShort()
+      +', attach_body_: '+this.attach_body_
+      +', ppt_: '+this.ppt_
+      +'}';
+};
 
 /** @override */
 PathJoint.prototype.getClassName = function() {

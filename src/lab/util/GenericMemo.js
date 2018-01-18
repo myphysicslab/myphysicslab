@@ -89,18 +89,16 @@ myphysicslab.lab.util.GenericMemo = function(func, opt_purpose) {
 };
 var GenericMemo = myphysicslab.lab.util.GenericMemo;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  GenericMemo.prototype.toString = function() {
-    return this.toStringShort();
-  };
+/** @override */
+GenericMemo.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort();
+};
 
-  /** @override */
-  GenericMemo.prototype.toStringShort = function() {
-    return 'GenericMemo{'
-        +(this.purpose_.length > 0 ? 'purpose_:"'+this.purpose_+'"' : '')
-        +'}';
-  };
+/** @override */
+GenericMemo.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'GenericMemo{'
+      +(this.purpose_.length > 0 ? 'purpose_:"'+this.purpose_+'"' : '')
+      +'}';
 };
 
 /** @override */

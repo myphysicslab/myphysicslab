@@ -178,15 +178,13 @@ myphysicslab.sims.roller.RollerSingleApp = function(elem_ids) {
 var RollerSingleApp = myphysicslab.sims.roller.RollerSingleApp;
 goog.inherits(RollerSingleApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RollerSingleApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', ball1: '+this.ball1.toStringShort()
-        +', pathSelect: '+this.pathSelect.toStringShort()
-        +', paths: [ '+this.paths+' ]'
-        + RollerSingleApp.superClass_.toString.call(this);
-  };
+/** @override */
+RollerSingleApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', ball1: '+this.ball1.toStringShort()
+      +', pathSelect: '+this.pathSelect.toStringShort()
+      +', paths: [ '+this.paths+' ]'
+      + RollerSingleApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -202,20 +202,18 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
 var CollideSpringSim = myphysicslab.sims.springs.CollideSpringSim;
 goog.inherits(CollideSpringSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CollideSpringSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', blocks: '+this.blocks_.length
-        +', damping_: '+Util.NF(this.damping_)
-        +', mass_: '+Util.NF(this.mass_)
-        +', springDamping_: '+Util.NF(this.springDamping_)
-        +', stiffness_: '+Util.NF(this.stiffness_)
-        +', restLength_: '+Util.NF(this.restLength_)
-        +', wall1_: '+this.wall1_
-        +', wall2_: '+this.wall2_
-        + CollideSpringSim.superClass_.toString.call(this);
-  };
+/** @override */
+CollideSpringSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', blocks: '+this.blocks_.length
+      +', damping_: '+Util.NF(this.damping_)
+      +', mass_: '+Util.NF(this.mass_)
+      +', springDamping_: '+Util.NF(this.springDamping_)
+      +', stiffness_: '+Util.NF(this.stiffness_)
+      +', restLength_: '+Util.NF(this.restLength_)
+      +', wall1_: '+this.wall1_
+      +', wall2_: '+this.wall2_
+      + CollideSpringSim.superClass_.toString.call(this);
 };
 
 /** @override */

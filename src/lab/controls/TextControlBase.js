@@ -135,19 +135,17 @@ myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, text
 };
 var TextControlBase = myphysicslab.lab.controls.TextControlBase;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  TextControlBase.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', columns_: '+this.columns_
-        +'}';
-  };
+/** @override */
+TextControlBase.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', columns_: '+this.columns_
+      +'}';
+};
 
-  /** @override */
-  TextControlBase.prototype.toStringShort = function() {
-    return this.getClassName() + '{label_: "'+this.label_+'"}';
-  };
-}
+/** @override */
+TextControlBase.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
+};
 
 /** @override */
 TextControlBase.prototype.disconnect = function() {

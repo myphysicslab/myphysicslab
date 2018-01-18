@@ -196,20 +196,18 @@ myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
 var CompareGraph = myphysicslab.sims.common.CompareGraph;
 goog.inherits(CompareGraph, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CompareGraph.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', line1: '+this.line1.toStringShort()
-        +', line2: '+this.line2.toStringShort()
-        +', canvas: '+this.canvas.toStringShort()
-        +', view: '+this.view.toStringShort()
-        +', axes: '+this.axes.toStringShort()
-        +', autoScale: '+this.autoScale.toStringShort()
-        +', displayGraph: '+this.displayGraph.toStringShort()
-        +', graphCtrl: '+this.graphCtrl.toStringShort()
-        + CompareGraph.superClass_.toString.call(this);
-  };
+/** @override */
+CompareGraph.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', line1: '+this.line1.toStringShort()
+      +', line2: '+this.line2.toStringShort()
+      +', canvas: '+this.canvas.toStringShort()
+      +', view: '+this.view.toStringShort()
+      +', axes: '+this.axes.toStringShort()
+      +', autoScale: '+this.autoScale.toStringShort()
+      +', displayGraph: '+this.displayGraph.toStringShort()
+      +', graphCtrl: '+this.graphCtrl.toStringShort()
+      + CompareGraph.superClass_.toString.call(this);
 };
 
 /** @override */

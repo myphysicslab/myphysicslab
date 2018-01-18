@@ -173,17 +173,15 @@ myphysicslab.sims.pendulum.ReactionPendulumSim = function(length, radius, startA
 var ReactionPendulumSim = myphysicslab.sims.pendulum.ReactionPendulumSim;
 goog.inherits(ReactionPendulumSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ReactionPendulumSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', length_: '+Util.NF(this.length_)
-        +', rod_: '+this.rod_
-        +', bob_: '+this.bob_
-        + ReactionPendulumSim.superClass_.toString.call(this);
-  };
+/** @override */
+ReactionPendulumSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', length_: '+Util.NF(this.length_)
+      +', rod_: '+this.rod_
+      +', bob_: '+this.bob_
+      + ReactionPendulumSim.superClass_.toString.call(this);
 };
 
 /** @override */

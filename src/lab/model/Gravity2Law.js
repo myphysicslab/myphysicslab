@@ -100,19 +100,18 @@ myphysicslab.lab.model.Gravity2Law = function(gravity, opt_simList) {
 var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
 goog.inherits(Gravity2Law, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Gravity2Law.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', bodies: '+this.bods_.length
-        + Gravity2Law.superClass_.toString.call(this);
-  };
+/** @override */
+Gravity2Law.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', bodies: '+this.bods_.length
+      + Gravity2Law.superClass_.toString.call(this);
+};
 
-  /** @override */
-  Gravity2Law.prototype.toStringShort = function() {
-    return Gravity2Law.superClass_.toStringShort.call(this).slice(0, -1)
-        +', gravity: '+Util.NF5(this.gravity_)+'}';
-  };
+/** @override */
+Gravity2Law.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      Gravity2Law.superClass_.toStringShort.call(this).slice(0, -1)
+      +', gravity: '+Util.NF5(this.gravity_)+'}';
 };
 
 /** @override */

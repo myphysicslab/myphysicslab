@@ -151,13 +151,11 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
 var DoNothingApp = sims.engine2D.DoNothingApp;
 goog.inherits(DoNothingApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DoNothingApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        + DoNothingApp.superClass_.toString.call(this);
-  };
+/** @override */
+DoNothingApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      + DoNothingApp.superClass_.toString.call(this);
 };
 
 /** @override */

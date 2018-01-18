@@ -172,14 +172,12 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
 var ChainOfSpringsApp = sims.springs.ChainOfSpringsApp;
 goog.inherits(ChainOfSpringsApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ChainOfSpringsApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', numAtoms: '+this.numAtoms
-        +', attachRight: '+this.attachRight
-        + ChainOfSpringsApp.superClass_.toString.call(this);
-  };
+/** @override */
+ChainOfSpringsApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', numAtoms: '+this.numAtoms
+      +', attachRight: '+this.attachRight
+      + ChainOfSpringsApp.superClass_.toString.call(this);
 };
 
 /** @override */

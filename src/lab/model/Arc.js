@@ -65,16 +65,15 @@ myphysicslab.lab.model.Arc = function(name, startAngle, radius, center) {
 var Arc = myphysicslab.lab.model.Arc;
 goog.inherits(Arc, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Arc.prototype.toString = function() {
-    return Arc.superClass_.toString.call(this).slice(0, -1)
-        +', startAngle_: '+Util.NF(this.startAngle_)
-        +', angle_: '+Util.NF(this.angle_)
-        +', radius_: '+Util.NF(this.radius_)
-        +', center_: '+this.center_
-        +'}';
-  };
+/** @override */
+Arc.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      Arc.superClass_.toString.call(this).slice(0, -1)
+      +', startAngle_: '+Util.NF(this.startAngle_)
+      +', angle_: '+Util.NF(this.angle_)
+      +', radius_: '+Util.NF(this.radius_)
+      +', center_: '+this.center_
+      +'}';
 };
 
 /** @override */

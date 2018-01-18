@@ -163,15 +163,13 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
 var CollideSpringApp = myphysicslab.sims.springs.CollideSpringApp;
 goog.inherits(CollideSpringApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CollideSpringApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', startGap: '+Util.NF(this.startGap)
-        +', numBlocks: '+Util.NF(this.numBlocks)
-        +', startPosition: '+Util.NF(this.startPosition)
-        + CollideSpringApp.superClass_.toString.call(this);
-  };
+/** @override */
+CollideSpringApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', startGap: '+Util.NF(this.startGap)
+      +', numBlocks: '+Util.NF(this.numBlocks)
+      +', startPosition: '+Util.NF(this.startPosition)
+      + CollideSpringApp.superClass_.toString.call(this);
 };
 
 /** @override */

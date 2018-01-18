@@ -217,20 +217,18 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
 };
 var RigidBodyObserver = myphysicslab.sims.engine2D.RigidBodyObserver;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidBodyObserver.prototype.toString = function() {
-    return 'RigidBodyObserver{'
-      +'ordering: "'+RigidBodyObserver.ordering+'"'
-      +', simList_: '+this.simList_.toStringShort()
-      +', displayList_: '+this.displayList_.toStringShort()
-      +'}';
-  };
+/** @override */
+RigidBodyObserver.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'RigidBodyObserver{'
+    +'ordering: "'+RigidBodyObserver.ordering+'"'
+    +', simList_: '+this.simList_.toStringShort()
+    +', displayList_: '+this.displayList_.toStringShort()
+    +'}';
+};
 
-  /** @override */
-  RigidBodyObserver.prototype.toStringShort = function() {
-    return 'RigidBodyObserver{}';
-  };
+/** @override */
+RigidBodyObserver.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'RigidBodyObserver{}';
 };
 
 /**

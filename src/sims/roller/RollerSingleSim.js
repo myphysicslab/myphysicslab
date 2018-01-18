@@ -180,20 +180,18 @@ myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
 var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
 goog.inherits(RollerSingleSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RollerSingleSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', ball1_: '+this.ball1_
-        +', anchor_: '+this.anchor_
-        +', spring_: '+this.spring_
-        +', path_: '+this.path_
-        +', hasSpring_: '+this.hasSpring_
-        +', damping_: '+Util.NF(this.damping_)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', lowestPoint_: '+Util.NF(this.lowestPoint_)
-        + RollerSingleSim.superClass_.toString.call(this);
-  };
+/** @override */
+RollerSingleSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', ball1_: '+this.ball1_
+      +', anchor_: '+this.anchor_
+      +', spring_: '+this.spring_
+      +', path_: '+this.path_
+      +', hasSpring_: '+this.hasSpring_
+      +', damping_: '+Util.NF(this.damping_)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', lowestPoint_: '+Util.NF(this.lowestPoint_)
+      + RollerSingleSim.superClass_.toString.call(this);
 };
 
 /** @override */

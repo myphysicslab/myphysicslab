@@ -45,19 +45,18 @@ myphysicslab.lab.util.ConcreteMemoList = function() {
 };
 var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ConcreteMemoList.prototype.toString = function() {
-    return 'ConcreteMemoList{'
-        +'memorizables_: ['
-        + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
-        +']}';
-  };
+/** @override */
+ConcreteMemoList.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'ConcreteMemoList{'
+      +'memorizables_: ['
+      + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
+      +']}';
+};
 
-  /** @override */
-  ConcreteMemoList.prototype.toStringShort = function() {
-    return 'ConcreteMemoList{memorizables_.length: '+this.memorizables_.length+'}';
-  };
+/** @override */
+ConcreteMemoList.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'ConcreteMemoList{memorizables_.length: '+this.memorizables_.length+'}';
 };
 
 /** @override */

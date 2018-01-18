@@ -347,21 +347,19 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
 var RollerFlightSim = myphysicslab.sims.roller.RollerFlightSim;
 goog.inherits(RollerFlightSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RollerFlightSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', ball1: '+this.ball1_
-        +', anchor: '+this.anchor_
-        +', spring: '+this.spring_
-        +', path: '+this.path_
-        +', damping: '+Util.NF(this.damping_)
-        +', gravity: '+Util.NF(this.gravity_)
-        +', stickiness: '+Util.NF(this.stickiness_)
-        +', elasticity: '+Util.NF(this.elasticity_)
-        +', lowestPoint: '+Util.NF(this.lowestPoint_)
-        + RollerFlightSim.superClass_.toString.call(this);
-  };
+/** @override */
+RollerFlightSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', ball1: '+this.ball1_
+      +', anchor: '+this.anchor_
+      +', spring: '+this.spring_
+      +', path: '+this.path_
+      +', damping: '+Util.NF(this.damping_)
+      +', gravity: '+Util.NF(this.gravity_)
+      +', stickiness: '+Util.NF(this.stickiness_)
+      +', elasticity: '+Util.NF(this.elasticity_)
+      +', lowestPoint: '+Util.NF(this.lowestPoint_)
+      + RollerFlightSim.superClass_.toString.call(this);
 };
 
 /** @override */

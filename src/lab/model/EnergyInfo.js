@@ -72,16 +72,14 @@ myphysicslab.lab.model.EnergyInfo = function(potential, translational,
 };
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EnergyInfo.prototype.toString = function() {
-    return 'EnergyInfo{potential_: '+Util.NF(this.potential_)
-        +', translational_: '+Util.NF(this.translational_)
-        +', rotational_: '+Util.NF(this.rotational_)
-        +', workDone_: '+Util.NF(this.workDone_)
-        +', initialEnergy_: '+Util.NF(this.initialEnergy_)
-        +'}';
-  };
+/** @override */
+EnergyInfo.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'EnergyInfo{potential_: '+Util.NF(this.potential_)
+      +', translational_: '+Util.NF(this.translational_)
+      +', rotational_: '+Util.NF(this.rotational_)
+      +', workDone_: '+Util.NF(this.workDone_)
+      +', initialEnergy_: '+Util.NF(this.initialEnergy_)
+      +'}';
 };
 
 /** Returns the initial energy of the system, or NaN if not defined

@@ -239,19 +239,17 @@ myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
 var Double2DSpringSim = myphysicslab.sims.springs.Double2DSpringSim;
 goog.inherits(Double2DSpringSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Double2DSpringSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', bob1_: '+this.bob1_
-        +', bob2_: '+this.bob2_
-        +', spring1_: '+this.spring1_
-        +', spring2_: '+this.spring2_
-        +', topMass_: '+this.topMass_
-        + Double2DSpringSim.superClass_.toString.call(this);
-  };
+/** @override */
+Double2DSpringSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', bob1_: '+this.bob1_
+      +', bob2_: '+this.bob2_
+      +', spring1_: '+this.spring1_
+      +', spring2_: '+this.spring2_
+      +', topMass_: '+this.topMass_
+      + Double2DSpringSim.superClass_.toString.call(this);
 };
 
 /** @override */

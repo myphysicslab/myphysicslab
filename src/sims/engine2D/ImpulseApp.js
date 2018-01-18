@@ -138,14 +138,12 @@ sims.engine2D.ImpulseApp = function(elem_ids) {
 var ImpulseApp = sims.engine2D.ImpulseApp;
 goog.inherits(ImpulseApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ImpulseApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + ImpulseApp.superClass_.toString.call(this);
-  };
+/** @override */
+ImpulseApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + ImpulseApp.superClass_.toString.call(this);
 };
 
 /** @override */

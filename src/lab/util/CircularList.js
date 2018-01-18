@@ -158,16 +158,14 @@ myphysicslab.lab.util.CircularList = function(capacity) {
 };
 var CircularList = myphysicslab.lab.util.CircularList;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CircularList.prototype.toString = function() {
-    return 'CircularList{capacity_: '+this.capacity_
-        +', size_: '+this.size_
-        +', cycles_: '+this.cycles_
-        +', nextPtr_: '+this.nextPtr_
-        +', lastPtr_: '+this.lastPtr_
-        +'}';
-  };
+/** @override */
+CircularList.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'CircularList{capacity_: '+this.capacity_
+      +', size_: '+this.size_
+      +', cycles_: '+this.cycles_
+      +', nextPtr_: '+this.nextPtr_
+      +', lastPtr_: '+this.lastPtr_
+      +'}';
 };
 
 /**

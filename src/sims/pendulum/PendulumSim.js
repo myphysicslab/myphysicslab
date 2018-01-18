@@ -280,21 +280,19 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
 var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;
 goog.inherits(PendulumSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PendulumSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', length_: '+Util.NF(this.length_)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', frequency_: '+Util.NF(this.frequency_)
-        +', amplitude_: '+Util.NF(this.amplitude_)
-        +', limitAngle_: '+this.limitAngle_
-        +', pivot_: '+this.pivot_
-        +', rod_: '+this.rod_
-        +', bob_: '+this.bob_
-        + PendulumSim.superClass_.toString.call(this);
-  };
+/** @override */
+PendulumSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', length_: '+Util.NF(this.length_)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', frequency_: '+Util.NF(this.frequency_)
+      +', amplitude_: '+Util.NF(this.amplitude_)
+      +', limitAngle_: '+this.limitAngle_
+      +', pivot_: '+this.pivot_
+      +', rod_: '+this.rod_
+      +', bob_: '+this.bob_
+      + PendulumSim.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -72,16 +72,14 @@ myphysicslab.lab.model.RungeKutta = function(ode) {
 };
 var RungeKutta = myphysicslab.lab.model.RungeKutta;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RungeKutta.prototype.toString = function() {
-    return this.toStringShort();
-  };
+/** @override */
+RungeKutta.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort();
+};
 
-  /** @override */
-  RungeKutta.prototype.toStringShort = function() {
-    return 'RungeKutta{ode_: '+this.ode_.toStringShort()+'}';
-  };
+/** @override */
+RungeKutta.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'RungeKutta{ode_: '+this.ode_.toStringShort()+'}';
 };
 
 /** @override */

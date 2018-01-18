@@ -94,23 +94,22 @@ myphysicslab.lab.model.SimList = function() {
 var SimList = myphysicslab.lab.model.SimList;
 goog.inherits(SimList, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SimList.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', tolerance_: '+Util.NF(this.tolerance_)
-        +', elements_: ['
-        + goog.array.map(this.elements_, function(e, idx) {
-            return idx+': '+e.toStringShort();
-          })
-        + ']' + SimList.superClass_.toString.call(this);
-  };
+/** @override */
+SimList.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', tolerance_: '+Util.NF(this.tolerance_)
+      +', elements_: ['
+      + goog.array.map(this.elements_, function(e, idx) {
+          return idx+': '+e.toStringShort();
+        })
+      + ']' + SimList.superClass_.toString.call(this);
+};
 
-  /** @override */
-  SimList.prototype.toStringShort = function() {
-    return SimList.superClass_.toStringShort.call(this).slice(0, -1)
-        + ', length: '+this.elements_.length+'}';
-  };
+/** @override */
+SimList.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      SimList.superClass_.toStringShort.call(this).slice(0, -1)
+      + ', length: '+this.elements_.length+'}';
 };
 
 /** @override */

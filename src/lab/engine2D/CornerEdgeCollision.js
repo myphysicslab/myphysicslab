@@ -82,17 +82,16 @@ myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 goog.inherits(CornerEdgeCollision, RigidBodyCollision);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CornerEdgeCollision.prototype.toString = function() {
-    return CornerEdgeCollision.superClass_.toString.call(this).slice(0, -1)
-        +', vertex-id: '+ this.vertex.getID()
-        +', primaryEdge-idx: '+ this.primaryEdge.getIndex()
-        +', primaryEdge2-idx: '+ (this.primaryEdge2 != null ?
-            this.primaryEdge2.getIndex() : 'null')
-        + ', normalEdge-idx: '+ this.normalEdge.getIndex()
-        + '}';
-  };
+/** @override */
+CornerEdgeCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      CornerEdgeCollision.superClass_.toString.call(this).slice(0, -1)
+      +', vertex-id: '+ this.vertex.getID()
+      +', primaryEdge-idx: '+ this.primaryEdge.getIndex()
+      +', primaryEdge2-idx: '+ (this.primaryEdge2 != null ?
+          this.primaryEdge2.getIndex() : 'null')
+      + ', normalEdge-idx: '+ this.normalEdge.getIndex()
+      + '}';
 };
 
 /** @override */

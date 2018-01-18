@@ -309,28 +309,27 @@ myphysicslab.lab.view.DisplayShape = function(massObject, proto) {
 };
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayShape.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dragable_: '+this.dragable_
-        +', fillStyle: "'+this.getFillStyle()+'"'
-        +', strokeStyle: "'+this.getStrokeStyle()+'"'
-        +', thickness: '+Util.NF(this.getThickness())
-        +', drawDragPoints: '+this.getDrawDragPoints()
-        +', drawCenterOfMass: '+this.getDrawCenterOfMass()
-        +', nameFont: "'+this.getNameFont()+'"'
-        +', nameColor: "'+this.getNameColor()+'"'
-        +', nameRotate: '+Util.NF(this.getNameRotate())
-        +', zIndex: '+this.getZIndex()
-        +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
-        +'}';
-  };
+/** @override */
+DisplayShape.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dragable_: '+this.dragable_
+      +', fillStyle: "'+this.getFillStyle()+'"'
+      +', strokeStyle: "'+this.getStrokeStyle()+'"'
+      +', thickness: '+Util.NF(this.getThickness())
+      +', drawDragPoints: '+this.getDrawDragPoints()
+      +', drawCenterOfMass: '+this.getDrawCenterOfMass()
+      +', nameFont: "'+this.getNameFont()+'"'
+      +', nameColor: "'+this.getNameColor()+'"'
+      +', nameRotate: '+Util.NF(this.getNameRotate())
+      +', zIndex: '+this.getZIndex()
+      +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
+      +'}';
+};
 
-  /** @override */
-  DisplayShape.prototype.toStringShort = function() {
-    return 'DisplayShape{massObject_: '+this.massObject_.toStringShort()+'}';
-  };
+/** @override */
+DisplayShape.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'DisplayShape{massObject_: '+this.massObject_.toStringShort()+'}';
 };
 
 /** @override */

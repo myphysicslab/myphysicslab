@@ -361,14 +361,12 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 goog.inherits(ContactSim, ImpulseSim);
 
-if (!Util.ADVANCED) {
-  /** @override  */
-  ContactSim.prototype.toString_ = function() {
-    return ', extra_accel_: '+this.extra_accel_
-        +', extraAccelTimeStep_: '+Util.NF(this.extraAccelTimeStep_)
-        + ContactSim.superClass_.toString_.call(this)
-  };
-}
+/** @override  */
+ContactSim.prototype.toString_ = function() {
+  return Util.ADVANCED ? '' : ', extra_accel_: '+this.extra_accel_
+      +', extraAccelTimeStep_: '+Util.NF(this.extraAccelTimeStep_)
+      + ContactSim.superClass_.toString_.call(this)
+};
 
 /** @override */
 ContactSim.prototype.getClassName = function() {

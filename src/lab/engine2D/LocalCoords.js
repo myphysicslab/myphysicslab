@@ -55,16 +55,14 @@ myphysicslab.lab.engine2D.LocalCoords = function() {
 };
 var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  LocalCoords.prototype.toString = function() {
-    return 'LocalCoords{'
-        +'loc_world_: '+this.loc_world_
-        +', cm_body_: '+this.cm_body_
-        +', sinAngle_: '+Util.NF(this.sinAngle_)
-        +', cosAngle_: '+Util.NF(this.cosAngle_)
-        +'}';
-  };
+/** @override */
+LocalCoords.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'LocalCoords{'
+      +'loc_world_: '+this.loc_world_
+      +', cm_body_: '+this.cm_body_
+      +', sinAngle_: '+Util.NF(this.sinAngle_)
+      +', cosAngle_: '+Util.NF(this.cosAngle_)
+      +'}';
 };
 
 /** Returns the world coordinates of the given body coordinates point, based on current

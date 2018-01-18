@@ -118,14 +118,12 @@ sims.engine2D.MutualAttractApp = function(elem_ids) {
 var MutualAttractApp = sims.engine2D.MutualAttractApp;
 goog.inherits(MutualAttractApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MutualAttractApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + MutualAttractApp.superClass_.toString.call(this);
-  };
+/** @override */
+MutualAttractApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + MutualAttractApp.superClass_.toString.call(this);
 };
 
 /** @override */

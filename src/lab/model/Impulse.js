@@ -87,17 +87,16 @@ myphysicslab.lab.model.Impulse = function(name, body, magnitude, location, direc
 var Impulse = myphysicslab.lab.model.Impulse;
 goog.inherits(Impulse, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Impulse.prototype.toString = function() {
-    return Impulse.superClass_.toString.call(this).slice(0, -1)
-        +', body: "'+this.body_.getName()+'"'
-        +', magnitude_: '+Util.NF5E(this.magnitude_)
-        +', location_: '+this.location_
-        +', direction_: '+this.direction_
-        +', offset_: '+this.offset_
-        +'}';
-  };
+/** @override */
+Impulse.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      Impulse.superClass_.toString.call(this).slice(0, -1)
+      +', body: "'+this.body_.getName()+'"'
+      +', magnitude_: '+Util.NF5E(this.magnitude_)
+      +', location_: '+this.location_
+      +', direction_: '+this.direction_
+      +', offset_: '+this.offset_
+      +'}';
 };
 
 /** @override */

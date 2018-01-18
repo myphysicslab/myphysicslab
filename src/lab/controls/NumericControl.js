@@ -51,13 +51,12 @@ myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
 var NumericControl = myphysicslab.lab.controls.NumericControl;
 goog.inherits(NumericControl, NumericControlBase);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  NumericControl.prototype.toString = function() {
-    return NumericControl.superClass_.toString.call(this).slice(0, -1)
-        + ', parameter_: '+this.parameter_.toStringShort()+'}';
-  };
-}
+/** @override */
+NumericControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      NumericControl.superClass_.toString.call(this).slice(0, -1)
+      + ', parameter_: '+this.parameter_.toStringShort()+'}';
+};
 
 /** @override */
 NumericControl.prototype.disconnect = function() {

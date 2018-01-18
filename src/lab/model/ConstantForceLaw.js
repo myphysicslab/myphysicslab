@@ -46,16 +46,14 @@ myphysicslab.lab.model.ConstantForceLaw = function(force) {
 };
 var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ConstantForceLaw.prototype.toString = function() {
-    return this.toStringShort();
-  };
+/** @override */
+ConstantForceLaw.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort();
+};
 
-  /** @override */
-  ConstantForceLaw.prototype.toStringShort = function() {
-    return 'ConstantForceLaw{force='+this.force_+'}';
-  };
+/** @override */
+ConstantForceLaw.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'ConstantForceLaw{force='+this.force_+'}';
 };
 
 /** @override */

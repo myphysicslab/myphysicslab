@@ -81,22 +81,20 @@ myphysicslab.lab.view.DisplayRope = function(rope, proto) {
 };
 var DisplayRope = myphysicslab.lab.view.DisplayRope;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayRope.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', colorTight: "'+this.getColorTight()+'"'
-        +', colorSlack: "'+this.getColorSlack()+'"'
-        +', thickness: '+Util.NF(this.getThickness())
-        +', zIndex: '+this.getZIndex()
-        +'}';
-  };
+/** @override */
+DisplayRope.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', colorTight: "'+this.getColorTight()+'"'
+      +', colorSlack: "'+this.getColorSlack()+'"'
+      +', thickness: '+Util.NF(this.getThickness())
+      +', zIndex: '+this.getZIndex()
+      +'}';
+};
 
-  /** @override */
-  DisplayRope.prototype.toStringShort = function() {
-    return 'DisplayRope{rope_: '+
-        (this.rope_ != null ? this.rope_.toStringShort() : 'null')+'}';
-  };
+/** @override */
+DisplayRope.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayRope{rope_: '+
+      (this.rope_ != null ? this.rope_.toStringShort() : 'null')+'}';
 };
 
 /**  the fixed length of the un-transformed path

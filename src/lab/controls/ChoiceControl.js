@@ -87,13 +87,12 @@ myphysicslab.lab.controls.ChoiceControl = function(parameter, opt_label, opt_cho
 var ChoiceControl = myphysicslab.lab.controls.ChoiceControl;
 goog.inherits(ChoiceControl, ChoiceControlBase);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ChoiceControl.prototype.toString = function() {
-    return ChoiceControl.superClass_.toString.call(this).slice(0, -1)
-        + ', parameter_: '+this.parameter_.toStringShort()+'}';
-  };
-}
+/** @override */
+ChoiceControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      ChoiceControl.superClass_.toString.call(this).slice(0, -1)
+      + ', parameter_: '+this.parameter_.toStringShort()+'}';
+};
 
 /** @override */
 ChoiceControl.prototype.disconnect = function() {

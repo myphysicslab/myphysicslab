@@ -516,17 +516,15 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
 var CompareDoublePendulumApp = myphysicslab.sims.pendulum.CompareDoublePendulumApp;
 goog.inherits(CompareDoublePendulumApp, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CompareDoublePendulumApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', sim1: '+this.sim1.toStringShort()
-        +', sim2: '+this.sim2.toStringShort()
-        +', terminal: '+this.terminal
-        +', graph: '+this.graph
-        +', timeGraph: '+this.timeGraph
-        + CompareDoublePendulumApp.superClass_.toString.call(this);
-  };
+/** @override */
+CompareDoublePendulumApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', sim1: '+this.sim1.toStringShort()
+      +', sim2: '+this.sim2.toStringShort()
+      +', terminal: '+this.terminal
+      +', graph: '+this.graph
+      +', timeGraph: '+this.timeGraph
+      + CompareDoublePendulumApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -159,12 +159,10 @@ myphysicslab.sims.engine2D.BlankApp = function(elem_ids) {
 var BlankApp = myphysicslab.sims.engine2D.BlankApp;
 goog.inherits(BlankApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  BlankApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + BlankApp.superClass_.toString.call(this);
-  };
+/** @override */
+BlankApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + BlankApp.superClass_.toString.call(this);
 };
 
 /** @override */

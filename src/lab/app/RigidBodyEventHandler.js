@@ -163,21 +163,20 @@ myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
 
 var RigidBodyEventHandler = myphysicslab.lab.app.RigidBodyEventHandler;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidBodyEventHandler.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', clock_: '+this.clock_.toStringShort()
-        +', thrustRight_: '+this.thrustRight_
-        +', thrustLeft_: '+this.thrustLeft_
-        +', dragStiffness_: '+Util.NF(this.dragStiffness_)
-        +'}';
-  };
+/** @override */
+RigidBodyEventHandler.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', clock_: '+this.clock_.toStringShort()
+      +', thrustRight_: '+this.thrustRight_
+      +', thrustLeft_: '+this.thrustLeft_
+      +', dragStiffness_: '+Util.NF(this.dragStiffness_)
+      +'}';
+};
 
-  /** @override */
-  RigidBodyEventHandler.prototype.toStringShort = function() {
-    return 'RigidBodyEventHandler{sim: '+this.sim_.toStringShort()+'}';
-  };
+/** @override */
+RigidBodyEventHandler.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'RigidBodyEventHandler{sim: '+this.sim_.toStringShort()+'}';
 };
 
 /** Set the given ThrusterSet to be activated by keyboard thrust controls.

@@ -146,15 +146,13 @@ sims.pendulum.MoveablePendulumApp = function(elem_ids) {
 var MoveablePendulumApp = sims.pendulum.MoveablePendulumApp;
 goog.inherits(MoveablePendulumApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MoveablePendulumApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', anchor: '+this.anchor.toStringShort()
-        +', bob: '+this.bob.toStringShort()
-        +', rod: '+this.rod.toStringShort()
-        + MoveablePendulumApp.superClass_.toString.call(this);
-  };
+/** @override */
+MoveablePendulumApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', anchor: '+this.anchor.toStringShort()
+      +', bob: '+this.bob.toStringShort()
+      +', rod: '+this.rod.toStringShort()
+      + MoveablePendulumApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -192,26 +192,24 @@ myphysicslab.lab.util.Clock = function(opt_name) {
 var Clock = myphysicslab.lab.util.Clock;
 goog.inherits(Clock, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Clock.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', timeRate_: '+Util.NF5(this.timeRate_)
-        +', saveTime_secs_: '+Util.NF5(this.saveTime_secs_)
-        +', saveRealTime_secs_: '+Util.NF5(this.saveRealTime_secs_)
-        +', isRunning_: '+this.isRunning_
-        +', stepMode_: '+this.stepMode_
-        +', clockStart_sys_secs_: '+Util.NF5(this.clockStart_sys_secs_)
-        +', realStart_sys_secs_: '+Util.NF5(this.realStart_sys_secs_)
-        +', tasks_: ['+this.tasks_+']'
-        + Clock.superClass_.toString.call(this);
-  };
+/** @override */
+Clock.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', timeRate_: '+Util.NF5(this.timeRate_)
+      +', saveTime_secs_: '+Util.NF5(this.saveTime_secs_)
+      +', saveRealTime_secs_: '+Util.NF5(this.saveRealTime_secs_)
+      +', isRunning_: '+this.isRunning_
+      +', stepMode_: '+this.stepMode_
+      +', clockStart_sys_secs_: '+Util.NF5(this.clockStart_sys_secs_)
+      +', realStart_sys_secs_: '+Util.NF5(this.realStart_sys_secs_)
+      +', tasks_: ['+this.tasks_+']'
+      + Clock.superClass_.toString.call(this);
+};
 
-  /** @override */
-  Clock.prototype.toStringShort = function() {
-    return Clock.superClass_.toStringShort.call(this).slice(0, -1)
-        +', time: '+Util.NF5(this.getTime())+'}';
-  };
+/** @override */
+Clock.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : Clock.superClass_.toStringShort.call(this).slice(0, -1)
+      +', time: '+Util.NF5(this.getTime())+'}';
 };
 
 /** @override */

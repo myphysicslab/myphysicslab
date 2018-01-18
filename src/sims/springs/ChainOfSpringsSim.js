@@ -149,21 +149,19 @@ myphysicslab.sims.springs.ChainOfSpringsSim = function(opt_name) {
 var ChainOfSpringsSim = myphysicslab.sims.springs.ChainOfSpringsSim;
 goog.inherits(ChainOfSpringsSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ChainOfSpringsSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', atoms: '+this.atoms_.length
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', mass_: '+Util.NF(this.mass_)
-        +', springDamping_: '+Util.NF(this.springDamping_)
-        +', stiffness_: '+Util.NF(this.stiffness_)
-        +', restLength_: '+Util.NF(this.restLength_)
-        +', fixed1_: '+this.fixed1_
-        +', fixed2_: '+this.fixed2_
-        + ChainOfSpringsSim.superClass_.toString.call(this);
-  };
+/** @override */
+ChainOfSpringsSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', atoms: '+this.atoms_.length
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', mass_: '+Util.NF(this.mass_)
+      +', springDamping_: '+Util.NF(this.springDamping_)
+      +', stiffness_: '+Util.NF(this.stiffness_)
+      +', restLength_: '+Util.NF(this.restLength_)
+      +', fixed1_: '+this.fixed1_
+      +', fixed2_: '+this.fixed2_
+      + ChainOfSpringsSim.superClass_.toString.call(this);
 };
 
 /** @override */

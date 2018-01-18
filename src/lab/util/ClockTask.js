@@ -76,14 +76,12 @@ myphysicslab.lab.util.ClockTask = function(time, callBack) {
 };
 var ClockTask = myphysicslab.lab.util.ClockTask;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ClockTask.prototype.toString = function() {
-    return 'ClockTask{time_: '+Util.NF(this.time_)
-        +', timeoutID_: '+this.timeoutID_
-        +', callBack_: '+this.callBack_
-        +'}';
-  };
+/** @override */
+ClockTask.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'ClockTask{time_: '+Util.NF(this.time_)
+      +', timeoutID_: '+this.timeoutID_
+      +', callBack_: '+this.callBack_
+      +'}';
 };
 
 /** Cancels the scheduled execution of this task.

@@ -324,19 +324,18 @@ myphysicslab.lab.util.EasyScriptParser = function(subjects, dependent) {
 };
 var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EasyScriptParser.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', subjects_: ['
-        + goog.array.map(this.subjects_, function(s) { return s.toStringShort(); })
-        +']}';
-  };
+/** @override */
+EasyScriptParser.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', subjects_: ['
+      + goog.array.map(this.subjects_, function(s) { return s.toStringShort(); })
+      +']}';
+};
 
-  /** @override */
-  EasyScriptParser.prototype.toStringShort = function() {
-    return 'EasyScriptParser{subjects_.length: '+this.subjects_.length+'}';
-  };
+/** @override */
+EasyScriptParser.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'EasyScriptParser{subjects_.length: '+this.subjects_.length+'}';
 };
 
 /** @override */

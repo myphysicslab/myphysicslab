@@ -63,18 +63,16 @@ myphysicslab.lab.model.SimpleAdvance = function(sim, opt_diffEqSolver) {
 };
 var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SimpleAdvance.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', odeSolver_: '+this.odeSolver_.toStringShort()
-        +'}';
-  };
+/** @override */
+SimpleAdvance.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', odeSolver_: '+this.odeSolver_.toStringShort()
+      +'}';
+};
 
-  /** @override */
-  SimpleAdvance.prototype.toStringShort = function() {
-    return 'SimpleAdvance{sim_: '+this.sim_.toStringShort()+'}';
-  };
+/** @override */
+SimpleAdvance.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'SimpleAdvance{sim_: '+this.sim_.toStringShort()+'}';
 };
 
 /** @override */

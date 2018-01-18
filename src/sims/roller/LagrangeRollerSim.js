@@ -229,16 +229,14 @@ myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
 var LagrangeRollerSim = myphysicslab.sims.roller.LagrangeRollerSim;
 goog.inherits(LagrangeRollerSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  LagrangeRollerSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', ball1_: '+this.ball1_
-        +', path_: '+this.path_
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', lowestPoint_: '+Util.NF(this.lowestPoint_)
-        + LagrangeRollerSim.superClass_.toString.call(this);
-  };
+/** @override */
+LagrangeRollerSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', ball1_: '+this.ball1_
+      +', path_: '+this.path_
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', lowestPoint_: '+Util.NF(this.lowestPoint_)
+      + LagrangeRollerSim.superClass_.toString.call(this);
 };
 
 /** @override */

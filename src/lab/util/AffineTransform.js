@@ -101,16 +101,14 @@ myphysicslab.lab.util.AffineTransform = function(m11, m12, m21, m22, dx, dy) {
 };
 var AffineTransform = myphysicslab.lab.util.AffineTransform;
 
-if (!Util.ADVANCED) {
-  AffineTransform.prototype.toString = function() {
-    return 'AffineTransform{m11_: '+Util.NF(this.m11_)
-        +', m12_: '+Util.NF(this.m12_)
-        +', m21_: '+Util.NF(this.m21_)
-        +', m22_: '+Util.NF(this.m22_)
-        +', dx_: '+Util.NF(this.dx_)
-        +', dy_: '+Util.NF(this.dy_)
-        +'}';
-  };
+AffineTransform.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'AffineTransform{m11_: '+Util.NF(this.m11_)
+      +', m12_: '+Util.NF(this.m12_)
+      +', m21_: '+Util.NF(this.m21_)
+      +', m22_: '+Util.NF(this.m22_)
+      +', dx_: '+Util.NF(this.dx_)
+      +', dy_: '+Util.NF(this.dy_)
+      +'}';
 };
 
 /** The identity AffineTransform, which leaves a point unchanged when it is applied.

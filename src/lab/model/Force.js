@@ -114,18 +114,16 @@ myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
 var Force = myphysicslab.lab.model.Force;
 goog.inherits(Force, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Force.prototype.toString = function() {
-    return Force.superClass_.toString.call(this).slice(0, -1)
-        +', body: "'+this.body_.getName()+'"'
-        +', location: '+this.location_
-        +', direction: '+this.direction_
-        +', locationCoordType: '+this.locationCoordType_
-        +', directionCoordType: '+this.directionCoordType_
-        +', torque: '+Util.NF5E(this.torque_)
-        +'}';
-  };
+/** @override */
+Force.prototype.toString = function() {
+  return Util.ADVANCED ? '' : Force.superClass_.toString.call(this).slice(0, -1)
+      +', body: "'+this.body_.getName()+'"'
+      +', location: '+this.location_
+      +', direction: '+this.direction_
+      +', locationCoordType: '+this.locationCoordType_
+      +', directionCoordType: '+this.directionCoordType_
+      +', torque: '+Util.NF5E(this.torque_)
+      +'}';
 };
 
 /** @override */

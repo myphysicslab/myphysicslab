@@ -80,23 +80,21 @@ myphysicslab.lab.view.DisplayArc = function(arc, proto) {
 };
 var DisplayArc = myphysicslab.lab.view.DisplayArc;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayArc.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', thickness: '+Util.NF(this.getThickness())
-        +', arrowHeadLength: '+Util.NF(this.getArrowHeadLength())
-        +', color: "'+this.getColor()+'"'
-        +', lineDash: ['+this.getLineDash()+']'
-        +', zIndex: '+this.getZIndex()
-        +'}';
-  };
+/** @override */
+DisplayArc.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', thickness: '+Util.NF(this.getThickness())
+      +', arrowHeadLength: '+Util.NF(this.getArrowHeadLength())
+      +', color: "'+this.getColor()+'"'
+      +', lineDash: ['+this.getLineDash()+']'
+      +', zIndex: '+this.getZIndex()
+      +'}';
+};
 
-  /** @override */
-  DisplayArc.prototype.toStringShort = function() {
-    return 'DisplayArc{arc_: '+
-        (this.arc_ != null ? this.arc_.toStringShort() : 'null')+'}';
-  };
+/** @override */
+DisplayArc.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayArc{arc_: '+
+      (this.arc_ != null ? this.arc_.toStringShort() : 'null')+'}';
 };
 
 /** @override */

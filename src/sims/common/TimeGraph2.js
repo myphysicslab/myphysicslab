@@ -231,28 +231,26 @@ myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_contro
 };
 var TimeGraph2 = myphysicslab.sims.common.TimeGraph2;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  TimeGraph2.prototype.toString = function() {
-    return 'TimeGraph2{'
-      +'canvas: '+this.canvas.toStringShort()
-      +', view1: '+this.view1.toStringShort()
-      +', view2: '+this.view2.toStringShort()
-      +', line1: '+this.line1.toStringShort()
-      +', line2: '+this.line2.toStringShort()
-      +', axes1: '+this.axes1.toStringShort()
-      +', axes2: '+this.axes2.toStringShort()
-      +', autoScale1: '+this.autoScale1.toStringShort()
-      +', autoScale2: '+this.autoScale2.toStringShort()
-      +', displayGraph1: '+this.displayGraph1.toStringShort()
-      +', displayGraph2: '+this.displayGraph2.toStringShort()
-      +'}';
-  };
+/** @override */
+TimeGraph2.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'TimeGraph2{'
+    +'canvas: '+this.canvas.toStringShort()
+    +', view1: '+this.view1.toStringShort()
+    +', view2: '+this.view2.toStringShort()
+    +', line1: '+this.line1.toStringShort()
+    +', line2: '+this.line2.toStringShort()
+    +', axes1: '+this.axes1.toStringShort()
+    +', axes2: '+this.axes2.toStringShort()
+    +', autoScale1: '+this.autoScale1.toStringShort()
+    +', autoScale2: '+this.autoScale2.toStringShort()
+    +', displayGraph1: '+this.displayGraph1.toStringShort()
+    +', displayGraph2: '+this.displayGraph2.toStringShort()
+    +'}';
+};
 
-  /** @override */
-  TimeGraph2.prototype.toStringShort = function() {
-    return 'TimeGraph2{}';
-  };
+/** @override */
+TimeGraph2.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'TimeGraph2{}';
 };
 
 /** Add the control to the set of simulation controls.

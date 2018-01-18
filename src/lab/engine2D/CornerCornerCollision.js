@@ -56,14 +56,13 @@ myphysicslab.lab.engine2D.CornerCornerCollision = function(vertex, normalVertex)
 var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
 goog.inherits(CornerCornerCollision, RigidBodyCollision);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CornerCornerCollision.prototype.toString = function() {
-    return CornerCornerCollision.superClass_.toString.call(this).slice(0, -1)
-        +', vertex-ID: '+ this.vertex.getID()
-        +', normalVertex-ID: '+ this.normalVertex.getID()
-        + '}';
-  };
+/** @override */
+CornerCornerCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      CornerCornerCollision.superClass_.toString.call(this).slice(0, -1)
+      +', vertex-ID: '+ this.vertex.getID()
+      +', normalVertex-ID: '+ this.normalVertex.getID()
+      + '}';
 };
 
 /** @override */

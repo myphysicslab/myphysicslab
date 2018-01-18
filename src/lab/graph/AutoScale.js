@@ -225,21 +225,19 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
 var AutoScale = myphysicslab.lab.graph.AutoScale;
 goog.inherits(AutoScale, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AutoScale.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', enabled_: '+this.enabled_
-        +', isActive_: '+this.isActive_
-        +', axis_: '+this.axis_
-        +', extraMargin: '+Util.NF(this.extraMargin)
-        +', minSize: '+Util.NF(this.minSize)
-        +', timeWindow_: '+Util.NF(this.timeWindow_)
-        +', simView_: '+this.simView_.toStringShort()
-        +', graphLines_: ['
-        + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
-        + ']' + AutoScale.superClass_.toString.call(this);
-  };
+/** @override */
+AutoScale.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', enabled_: '+this.enabled_
+      +', isActive_: '+this.isActive_
+      +', axis_: '+this.axis_
+      +', extraMargin: '+Util.NF(this.extraMargin)
+      +', minSize: '+Util.NF(this.minSize)
+      +', timeWindow_: '+Util.NF(this.timeWindow_)
+      +', simView_: '+this.simView_.toStringShort()
+      +', graphLines_: ['
+      + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
+      + ']' + AutoScale.superClass_.toString.call(this);
 };
 
 /** @override */

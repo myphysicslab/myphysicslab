@@ -95,24 +95,22 @@ myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
 };
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplaySpring.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', width: '+Util.NF(this.getWidth())
-        +', colorCompressed: "'+this.getColorCompressed()+'"'
-        +', colorExpanded: "'+this.getColorExpanded()+'"'
-        +', thickness: '+Util.NF(this.getThickness())
-        +', drawMode: '+this.getDrawMode()
-        +', zIndex: '+this.getZIndex()
-        +'}';
-  };
+/** @override */
+DisplaySpring.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', width: '+Util.NF(this.getWidth())
+      +', colorCompressed: "'+this.getColorCompressed()+'"'
+      +', colorExpanded: "'+this.getColorExpanded()+'"'
+      +', thickness: '+Util.NF(this.getThickness())
+      +', drawMode: '+this.getDrawMode()
+      +', zIndex: '+this.getZIndex()
+      +'}';
+};
 
-  /** @override */
-  DisplaySpring.prototype.toStringShort = function() {
-    return 'DisplaySpring{spring_: '+
-        (this.spring_ != null ? this.spring_.toStringShort() : 'null')+'}';
-  };
+/** @override */
+DisplaySpring.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplaySpring{spring_: '+
+      (this.spring_ != null ? this.spring_.toStringShort() : 'null')+'}';
 };
 
 /** Drawing mode constant indicating jagged line.

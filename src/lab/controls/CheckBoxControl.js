@@ -50,13 +50,12 @@ myphysicslab.lab.controls.CheckBoxControl = function(parameter, checkBox) {
 var CheckBoxControl = myphysicslab.lab.controls.CheckBoxControl;
 goog.inherits(CheckBoxControl, CheckBoxControlBase);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CheckBoxControl.prototype.toString = function() {
-    return CheckBoxControl.superClass_.toString.call(this).slice(0, -1)
-        + ', parameter_: '+this.parameter_.toStringShort()+'}';
-  };
-}
+/** @override */
+CheckBoxControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      CheckBoxControl.superClass_.toString.call(this).slice(0, -1)
+      + ', parameter_: '+this.parameter_.toStringShort()+'}';
+};
 
 /** @override */
 CheckBoxControl.prototype.disconnect = function() {

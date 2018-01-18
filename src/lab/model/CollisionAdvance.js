@@ -220,19 +220,18 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
 };
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 
-if (!Util.ADVANCED) {
-  CollisionAdvance.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', odeSolver_: '+this.odeSolver_.toStringShort()
-        +', jointSmallImpacts_: '+this.jointSmallImpacts_
-        +'}';
-  };
+CollisionAdvance.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', odeSolver_: '+this.odeSolver_.toStringShort()
+      +', jointSmallImpacts_: '+this.jointSmallImpacts_
+      +'}';
+};
 
-  /** @override */
-  CollisionAdvance.prototype.toStringShort = function() {
-    return 'CollisionAdvance{sim_: '+this.sim_.toStringShort()+'}';
-  };
-}
+/** @override */
+CollisionAdvance.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'CollisionAdvance{sim_: '+this.sim_.toStringShort()+'}';
+};
 
 /** The maximum number of times to go thru the loop in `advance()` without a successful
 step that advances the simulation time; when this limit is exceeded then `advance()`

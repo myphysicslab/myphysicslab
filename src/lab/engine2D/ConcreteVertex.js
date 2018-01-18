@@ -69,21 +69,19 @@ myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_ed
 };
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 
-if (!Util.ADVANCED) {
-  ConcreteVertex.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', id_: '+this.id_
-        +', endPoint_: '+this.endPoint_
-        +', body.name: '+ (this.edge_ == null ? 'null' :
-            '"' + this.edge_.getBody().getName() + '"')
-        +', edge_.index: '+(this.edge_ == null ? '-1' : this.edge_.getIndex())
-        +', edge2_.index: '+(this.edge2_ == null ? '-1' : this.edge2_.getIndex())
-        +'}';
-  };
+ConcreteVertex.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', id_: '+this.id_
+      +', endPoint_: '+this.endPoint_
+      +', body.name: '+ (this.edge_ == null ? 'null' :
+          '"' + this.edge_.getBody().getName() + '"')
+      +', edge_.index: '+(this.edge_ == null ? '-1' : this.edge_.getIndex())
+      +', edge2_.index: '+(this.edge2_ == null ? '-1' : this.edge2_.getIndex())
+      +'}';
+};
 
-  ConcreteVertex.prototype.toStringShort = function() {
-    return 'ConcreteVertex{loc_body_: '+this.loc_body_+'}';
-  }
+ConcreteVertex.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'ConcreteVertex{loc_body_: '+this.loc_body_+'}';
 };
 
 /** for debugging:  next vertex id number

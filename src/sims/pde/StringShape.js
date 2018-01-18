@@ -70,13 +70,11 @@ myphysicslab.sims.pde.StringShape = function(length, name, opt_localName) {
 };
 var StringShape = myphysicslab.sims.pde.StringShape;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StringShape.prototype.toString = function() {
-    return this.getClassName()+'{name_: "'+this.name_+'"'
-        +', length_: '+Util.NF(this.length_)
-        +'}';
-  };
+/** @override */
+StringShape.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.getClassName()+'{name_: "'+this.name_+'"'
+      +', length_: '+Util.NF(this.length_)
+      +'}';
 };
 
 /** Returns name of class of this object.

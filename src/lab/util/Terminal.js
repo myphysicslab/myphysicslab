@@ -518,15 +518,13 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
 };
 var Terminal = myphysicslab.lab.util.Terminal;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Terminal.prototype.toString = function() {
-    return 'Terminal{history.length: '+this.history_.length
-        +', regexs_.length: '+this.regexs_.length
-        +', verbose_: '+this.verbose_
-        +', parser_: '+(this.parser_ != null ? this.parser_.toStringShort() : 'null')
-        +'}';
-  };
+/** @override */
+Terminal.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'Terminal{history.length: '+this.history_.length
+      +', regexs_.length: '+this.regexs_.length
+      +', verbose_: '+this.verbose_
+      +', parser_: '+(this.parser_ != null ? this.parser_.toStringShort() : 'null')
+      +'}';
 };
 
 /**  A regular expression and the replacement string expression to be used in a

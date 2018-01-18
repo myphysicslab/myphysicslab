@@ -54,14 +54,13 @@ myphysicslab.lab.model.ConcreteLine = function(name, startPt, endPt) {
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 goog.inherits(ConcreteLine, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ConcreteLine.prototype.toString = function() {
-    return ConcreteLine.superClass_.toString.call(this).slice(0, -1)
-        +', startPoint: '+this.getStartPoint()
-        +', endPoint: '+this.getEndPoint()
-        +'}';
-  };
+/** @override */
+ConcreteLine.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      ConcreteLine.superClass_.toString.call(this).slice(0, -1)
+      +', startPoint: '+this.getStartPoint()
+      +', endPoint: '+this.getEndPoint()
+      +'}';
 };
 
 /** @override */

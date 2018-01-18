@@ -123,25 +123,23 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
 };
 var DisplayPath = myphysicslab.lab.view.DisplayPath;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayPath.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', screenRect_: '+this.screenRect_
-        +', zIndex: '+this.zIndex_
-        +', useBuffer_: '+this.useBuffer_
-        +', defaultStyle: '+this.defaultStyle_
-        +', paths_: ['
-        + goog.array.map(this.paths_, function(p, idx) {
-            return idx+': '+p.toString();
-          })
-        +']}';
-  };
+/** @override */
+DisplayPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', screenRect_: '+this.screenRect_
+      +', zIndex: '+this.zIndex_
+      +', useBuffer_: '+this.useBuffer_
+      +', defaultStyle: '+this.defaultStyle_
+      +', paths_: ['
+      + goog.array.map(this.paths_, function(p, idx) {
+          return idx+': '+p.toString();
+        })
+      +']}';
+};
 
-  /** @override */
-  DisplayPath.prototype.toStringShort = function() {
-    return 'DisplayPath{paths_.length: '+this.paths_.length+'}';
-  };
+/** @override */
+DisplayPath.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayPath{paths_.length: '+this.paths_.length+'}';
 };
 
 /**

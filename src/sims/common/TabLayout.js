@@ -381,24 +381,22 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
 var TabLayout = myphysicslab.sims.common.TabLayout;
 goog.inherits(TabLayout, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  TabLayout.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', layout_: "'+this.layout_+'"'
-        +', simWidth_: '+Util.NF(this.simWidth_)
-        +', graphWidth_: '+Util.NF(this.graphWidth_)
-        +', timeGraphWidth_: '+Util.NF(this.timeGraphWidth_)
-        +', simCanvas: '+this.simCanvas.toStringShort()
-        +', graphCanvas: '+this.graphCanvas.toStringShort()
-        +', timeGraphCanvas: '+this.timeGraphCanvas.toStringShort()
-        +', terminal: '+this.terminal
-        +', controls_: ['
-        + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
-        +']'
-        + TabLayout.superClass_.toString.call(this);
-  };
-}
+/** @override */
+TabLayout.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', layout_: "'+this.layout_+'"'
+      +', simWidth_: '+Util.NF(this.simWidth_)
+      +', graphWidth_: '+Util.NF(this.graphWidth_)
+      +', timeGraphWidth_: '+Util.NF(this.timeGraphWidth_)
+      +', simCanvas: '+this.simCanvas.toStringShort()
+      +', graphCanvas: '+this.graphCanvas.toStringShort()
+      +', timeGraphCanvas: '+this.timeGraphCanvas.toStringShort()
+      +', terminal: '+this.terminal
+      +', controls_: ['
+      + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
+      +']'
+      + TabLayout.superClass_.toString.call(this);
+};
 
 /** @override */
 TabLayout.prototype.getClassName = function() {

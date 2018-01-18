@@ -52,17 +52,17 @@ myphysicslab.lab.model.AbstractSimObject = function(opt_name, opt_localName) {
 };
 var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AbstractSimObject.prototype.toString = function() {
-    return this.getClassName()+ '{name_: "' + this.getName() + '"'
-        +', expireTime_: '+Util.NF(this.expireTime_)+'}';
-  };
+/** @override */
+AbstractSimObject.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      this.getClassName()+ '{name_: "' + this.getName() + '"'
+      +', expireTime_: '+Util.NF(this.expireTime_)+'}';
+};
 
-  /** @override */
-  AbstractSimObject.prototype.toStringShort = function() {
-    return this.getClassName() + '{name_: "' + this.getName() + '"}';
-  };
+/** @override */
+AbstractSimObject.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      this.getClassName() + '{name_: "' + this.getName() + '"}';
 };
 
 /** Counter used for naming SimObjects.

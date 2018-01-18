@@ -81,22 +81,20 @@ myphysicslab.lab.view.DisplayLine = function(line, proto) {
 };
 var DisplayLine = myphysicslab.lab.view.DisplayLine;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayLine.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', thickness: '+Util.NF(this.getThickness())
-        +', color: "'+this.getColor()+'"'
-        +', lineDash: ['+this.getLineDash()+']'
-        +', zIndex: '+this.getZIndex()
-        +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
-        +'}';
-  };
+/** @override */
+DisplayLine.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', thickness: '+Util.NF(this.getThickness())
+      +', color: "'+this.getColor()+'"'
+      +', lineDash: ['+this.getLineDash()+']'
+      +', zIndex: '+this.getZIndex()
+      +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
+      +'}';
+};
 
-  /** @override */
-  DisplayLine.prototype.toStringShort = function() {
-    return 'DisplayLine{line_: '+this.line_.toStringShort()+'}';
-  };
+/** @override */
+DisplayLine.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayLine{line_: '+this.line_.toStringShort()+'}';
 };
 
 /** @override */

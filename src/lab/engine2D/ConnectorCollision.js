@@ -54,12 +54,11 @@ myphysicslab.lab.engine2D.ConnectorCollision = function(body, normalBody, theCon
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 goog.inherits(ConnectorCollision, RigidBodyCollision);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ConnectorCollision.prototype.toString = function() {
-    return ConnectorCollision.superClass_.toString.call(this).slice(0, -1)
-        +', theConnector_='+this.theConnector_+'}';
-  };
+/** @override */
+ConnectorCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      ConnectorCollision.superClass_.toString.call(this).slice(0, -1)
+      +', theConnector_='+this.theConnector_+'}';
 };
 
 /** @override */

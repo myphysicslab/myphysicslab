@@ -142,23 +142,21 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
 };
 var PathObserver = myphysicslab.sims.roller.PathObserver;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PathObserver.prototype.toString = function() {
-    return 'PathObserver{'
-      +'simList_: '+this.simList_.toStringShort()
-      +', simView_: '+this.simView_.toStringShort()
-      +', expansionFactor: '+Util.NF(this.expansionFactor_)
-      +', displayList_: '+this.displayList_.toStringShort()
-      +', protoDisplayPath: '+(this.protoDisplayPath ?
-           this.protoDisplayPath.toStringShort() : 'undefined')
-      +'}';
-  };
+/** @override */
+PathObserver.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'PathObserver{'
+    +'simList_: '+this.simList_.toStringShort()
+    +', simView_: '+this.simView_.toStringShort()
+    +', expansionFactor: '+Util.NF(this.expansionFactor_)
+    +', displayList_: '+this.displayList_.toStringShort()
+    +', protoDisplayPath: '+(this.protoDisplayPath ?
+         this.protoDisplayPath.toStringShort() : 'undefined')
+    +'}';
+};
 
-  /** @override */
-  PathObserver.prototype.toStringShort = function() {
-    return 'PathObserver{}';
-  };
+/** @override */
+PathObserver.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'PathObserver{}';
 };
 
 /**

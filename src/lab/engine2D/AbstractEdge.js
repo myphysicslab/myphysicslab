@@ -105,19 +105,18 @@ var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
 */
 AbstractEdge.TINY_POSITIVE = 1E-10;
 
-if (!Util.ADVANCED) {
-  AbstractEdge.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', v1_: '+this.v1_.toStringShort()
-        +', v2_: '+this.v2_.toStringShort()
-        +', centroid_body_: '+this.centroid_body_
-        +', centroidRadius_: '+Util.NF5(this.centroidRadius_)
-  };
+AbstractEdge.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', v1_: '+this.v1_.toStringShort()
+      +', v2_: '+this.v2_.toStringShort()
+      +', centroid_body_: '+this.centroid_body_
+      +', centroidRadius_: '+Util.NF5(this.centroidRadius_)
+};
 
-  AbstractEdge.prototype.toStringShort = function() {
-    return this.getClassName()+'{body_.name: "'+this.body_.getName()
-        +'", index_: '+this.getIndex()+'}';
-  };
+AbstractEdge.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : this.getClassName()
+      +'{body_.name: "'+this.body_.getName()
+      +'", index_: '+this.getIndex()+'}';
 };
 
 /** @abstract */

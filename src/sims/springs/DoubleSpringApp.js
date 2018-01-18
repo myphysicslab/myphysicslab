@@ -145,19 +145,17 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
 var DoubleSpringApp = myphysicslab.sims.springs.DoubleSpringApp;
 goog.inherits(DoubleSpringApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DoubleSpringApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', block1: '+this.block1.toStringShort()
-        +', block2: '+this.block2.toStringShort()
-        +', spring1: '+this.spring1.toStringShort()
-        +', spring2: '+this.spring2.toStringShort()
-        +', spring3: '+this.spring3.toStringShort()
-        +', wall1: '+this.wall1.toStringShort()
-        +', wall2: '+this.wall2.toStringShort()
-        + DoubleSpringApp.superClass_.toString.call(this);
-  };
+/** @override */
+DoubleSpringApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', block1: '+this.block1.toStringShort()
+      +', block2: '+this.block2.toStringShort()
+      +', spring1: '+this.spring1.toStringShort()
+      +', spring2: '+this.spring2.toStringShort()
+      +', spring3: '+this.spring3.toStringShort()
+      +', wall1: '+this.wall1.toStringShort()
+      +', wall2: '+this.wall2.toStringShort()
+      + DoubleSpringApp.superClass_.toString.call(this);
 };
 
 /** @override */

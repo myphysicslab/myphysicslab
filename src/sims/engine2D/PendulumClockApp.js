@@ -152,14 +152,12 @@ sims.engine2D.PendulumClockApp = function(elem_ids) {
 var PendulumClockApp = sims.engine2D.PendulumClockApp;
 goog.inherits(PendulumClockApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PendulumClockApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + PendulumClockApp.superClass_.toString.call(this);
-  };
+/** @override */
+PendulumClockApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + PendulumClockApp.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -157,14 +157,12 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
 var RigidBodyApp = sims.engine2D.RigidBodyApp;
 goog.inherits(RigidBodyApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidBodyApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + RigidBodyApp.superClass_.toString.call(this);
-  };
+/** @override */
+RigidBodyApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + RigidBodyApp.superClass_.toString.call(this);
 };
 
 /**

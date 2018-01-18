@@ -243,27 +243,27 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
 var GraphLine = myphysicslab.lab.graph.GraphLine;
 goog.inherits(GraphLine, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  GraphLine.prototype.toString = function() {
-    var s = this.toStringShort().slice(0, -1)
-        +', drawColor_:"'+this.drawColor_+'"'
-        +', lineWidth_: '+Util.NF(this.lineWidth_)
-        +', drawMode_: '+DrawingMode.enumToChoice(this.drawMode_)
-        +', hotSpotColor_:"'+this.hotSpotColor_+'"'
-        +', styles_.length: '+Util.NF(this.styles_.length)
-        +', varsList: '+this.varsList_.toStringShort()
-        +', dataPoints_: '+this.dataPoints_;
-    return s + GraphLine.superClass_.toString.call(this);
-  };
+/** @override */
+GraphLine.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      this.toStringShort().slice(0, -1)
+      +', drawColor_:"'+this.drawColor_+'"'
+      +', lineWidth_: '+Util.NF(this.lineWidth_)
+      +', drawMode_: '+DrawingMode.enumToChoice(this.drawMode_)
+      +', hotSpotColor_:"'+this.hotSpotColor_+'"'
+      +', styles_.length: '+Util.NF(this.styles_.length)
+      +', varsList: '+this.varsList_.toStringShort()
+      +', dataPoints_: '+this.dataPoints_
+      + GraphLine.superClass_.toString.call(this);
+};
 
-  /** @override */
-  GraphLine.prototype.toStringShort = function() {
-    return GraphLine.superClass_.toStringShort.call(this).slice(0, -1)
-        +', xVar: ' + Util.NF(this.xVar_)
-        + ', yVar: '+ Util.NF(this.yVar_)
-        +'}';
-  };
+/** @override */
+GraphLine.prototype.toStringShort = function() {
+  return  Util.ADVANCED ? '' :
+      GraphLine.superClass_.toStringShort.call(this).slice(0, -1)
+      +', xVar: ' + Util.NF(this.xVar_)
+      + ', yVar: '+ Util.NF(this.yVar_)
+      +'}';
 };
 
 /** @override */

@@ -55,16 +55,14 @@ myphysicslab.lab.model.CollisionTotals = function() {
 };
 var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CollisionTotals.prototype.toString = function() {
-    return 'CollisionTotals{searches: '+this.searches_
-        +', impulses: '+this.impulses_
-        +', collisions: '+this.collisions_
-        +', steps: '+this.steps_
-        +', backups: '+this.backups_
-        +'}';
-  };
+/** @override */
+CollisionTotals.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'CollisionTotals{searches: '+this.searches_
+      +', impulses: '+this.impulses_
+      +', collisions: '+this.collisions_
+      +', steps: '+this.steps_
+      +', backups: '+this.backups_
+      +'}';
 };
 
 /** Adds to number of times that the simulation state was restored to an earlier state

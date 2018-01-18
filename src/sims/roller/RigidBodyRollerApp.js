@@ -197,18 +197,16 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
 var RigidBodyRollerApp = myphysicslab.sims.roller.RigidBodyRollerApp;
 goog.inherits(RigidBodyRollerApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidBodyRollerApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', simList: '+this.simList.toStringShort()
-        +', simView: '+this.simView.toStringShort()
-        +', statusView: '+this.statusView.toStringShort()
-        +', pathSelect: '+this.pathSelect
-        +', pathObserver: '+this.pathObserver
-        +', paths: [ '+this.paths+' ]'
-        + RigidBodyRollerApp.superClass_.toString.call(this);
-  };
+/** @override */
+RigidBodyRollerApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', simList: '+this.simList.toStringShort()
+      +', simView: '+this.simView.toStringShort()
+      +', statusView: '+this.statusView.toStringShort()
+      +', pathSelect: '+this.pathSelect
+      +', pathObserver: '+this.pathObserver
+      +', paths: [ '+this.paths+' ]'
+      + RigidBodyRollerApp.superClass_.toString.call(this);
 };
 
 /** @override */

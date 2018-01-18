@@ -46,11 +46,9 @@ myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
 };
 var EdgeGroup = myphysicslab.lab.engine2D.EdgeGroup;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EdgeGroup.prototype.toString = function() {
-    return 'EdgeGroup{ranges_.length: '+this.ranges_.length+'}';
-  };
+/** @override */
+EdgeGroup.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'EdgeGroup{ranges_.length: '+this.ranges_.length+'}';
 };
 
 /** Add the EdgeRange to this EdgeGroup.

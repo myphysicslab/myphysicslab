@@ -193,20 +193,18 @@ myphysicslab.lab.engine2D.Joint = function(rigidBody1, attach1_body,
 var Joint = myphysicslab.lab.engine2D.Joint;
 goog.inherits(Joint, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Joint.prototype.toString = function() {
-    return Joint.superClass_.toString.call(this).slice(0, -1)
-        +', body1_: '+this.body1_.toStringShort()
-        +', attach1_body_: '+this.attach1_body_
-        +', body2_: '+this.body2_.toStringShort()
-        +', attach2_body_: '+this.attach2_body_
-        +', normalType_: '+this.normalType_
-        +', normal_: '+this.normal_
-        +', normalDistance: '+Util.NF7(this.getNormalDistance())
-        +'}';
-  };
-}
+/** @override */
+Joint.prototype.toString = function() {
+  return Util.ADVANCED ? '' : Joint.superClass_.toString.call(this).slice(0, -1)
+      +', body1_: '+this.body1_.toStringShort()
+      +', attach1_body_: '+this.attach1_body_
+      +', body2_: '+this.body2_.toStringShort()
+      +', attach2_body_: '+this.attach2_body_
+      +', normalType_: '+this.normalType_
+      +', normal_: '+this.normal_
+      +', normalDistance: '+Util.NF7(this.getNormalDistance())
+      +'}';
+};
 
 /** @override */
 Joint.prototype.getClassName = function() {

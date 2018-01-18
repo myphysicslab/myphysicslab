@@ -61,16 +61,14 @@ myphysicslab.lab.model.ModifiedEuler = function(ode) {
 };
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ModifiedEuler.prototype.toString = function() {
-    return this.toStringShort();
-  };
+/** @override */
+ModifiedEuler.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort();
+};
 
-  /** @override */
-  ModifiedEuler.prototype.toStringShort = function() {
-    return 'ModifiedEuler{ode_: '+this.ode_.toStringShort()+'}';
-  };
+/** @override */
+ModifiedEuler.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'ModifiedEuler{ode_: '+this.ode_.toStringShort()+'}';
 };
 
 /** @override */

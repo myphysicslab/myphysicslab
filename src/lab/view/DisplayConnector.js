@@ -69,23 +69,21 @@ myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
 };
 var DisplayConnector = myphysicslab.lab.view.DisplayConnector;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayConnector.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', radius: '+Util.NF5(this.getRadius())
-        +', color: "'+this.getColor()+'"'
-        +', zIndex: '+this.getZIndex()
-        +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
-        +'}';
-  };
+/** @override */
+DisplayConnector.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', radius: '+Util.NF5(this.getRadius())
+      +', color: "'+this.getColor()+'"'
+      +', zIndex: '+this.getZIndex()
+      +', proto: '+(this.proto_ != null ? this.proto_.toStringShort() : 'null')
+      +'}';
+};
 
-  /** @override */
-  DisplayConnector.prototype.toStringShort = function() {
-    return 'DisplayConnector{connector_: '+
-        (this.connector_ != null ? this.connector_.toStringShort() : 'null')+'}';
-  };
-}
+/** @override */
+DisplayConnector.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'DisplayConnector{connector_: '+
+      (this.connector_ != null ? this.connector_.toStringShort() : 'null')+'}';
+};
 
 /** @override */
 DisplayConnector.prototype.contains = function(p_world) {

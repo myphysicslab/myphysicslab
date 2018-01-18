@@ -147,14 +147,12 @@ sims.engine2D.GearsApp = function(elem_ids) {
 var GearsApp = sims.engine2D.GearsApp;
 goog.inherits(GearsApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  GearsApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + GearsApp.superClass_.toString.call(this);
-  };
+/** @override */
+GearsApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + GearsApp.superClass_.toString.call(this);
 };
 
 /** @override */

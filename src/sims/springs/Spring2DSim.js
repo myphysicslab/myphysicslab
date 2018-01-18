@@ -219,17 +219,15 @@ myphysicslab.sims.springs.Spring2DSim = function(opt_name) {
 var Spring2DSim = myphysicslab.sims.springs.Spring2DSim;
 goog.inherits(Spring2DSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Spring2DSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', spring_: '+this.spring_
-        +', bob_: '+this.bob_
-        +', anchor_: '+this.anchor_
-        + Spring2DSim.superClass_.toString.call(this);
-  };
+/** @override */
+Spring2DSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', spring_: '+this.spring_
+      +', bob_: '+this.bob_
+      +', anchor_: '+this.anchor_
+      + Spring2DSim.superClass_.toString.call(this);
 };
 
 /** @override */

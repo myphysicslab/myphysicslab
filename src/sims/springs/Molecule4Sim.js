@@ -380,17 +380,15 @@ myphysicslab.sims.springs.Molecule4Sim = function(nm, opt_name) {
 var Molecule4Sim = myphysicslab.sims.springs.Molecule4Sim;
 goog.inherits(Molecule4Sim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Molecule4Sim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +'gravity_: '+Util.NF(this.gravity_)
-        +', damping: '+Util.NF(this.getDamping())
-        +', elasticity_: '+Util.NF(this.elasticity_)
-        +', number_of_atoms: '+this.nm_
-        +', walls_: '+this.walls_
-        + Molecule4Sim.superClass_.toString.call(this);
-  };
+/** @override */
+Molecule4Sim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +'gravity_: '+Util.NF(this.gravity_)
+      +', damping: '+Util.NF(this.getDamping())
+      +', elasticity_: '+Util.NF(this.elasticity_)
+      +', number_of_atoms: '+this.nm_
+      +', walls_: '+this.walls_
+      + Molecule4Sim.superClass_.toString.call(this);
 };
 
 /** @override */

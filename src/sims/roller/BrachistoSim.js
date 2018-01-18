@@ -163,16 +163,14 @@ myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
 var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
 goog.inherits(BrachistoSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  BrachistoSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', damping_: '+Util.NF(this.damping_)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', mass_: '+Util.NF(this.mass_)
-        +', paths: '+this.paths_.length
-        + BrachistoSim.superClass_.toString.call(this);
-  };
+/** @override */
+BrachistoSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', damping_: '+Util.NF(this.damping_)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', mass_: '+Util.NF(this.mass_)
+      +', paths: '+this.paths_.length
+      + BrachistoSim.superClass_.toString.call(this);
 };
 
 /** @override */

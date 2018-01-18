@@ -110,27 +110,25 @@ myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
 };
 var PathPoint = myphysicslab.lab.model.PathPoint;
 
-if (!Util.ADVANCED) {
-  PathPoint.prototype.toString = function() {
-    return 'PathPoint{'
-        +'p='+Util.NF(this.p)
-        +' x='+Util.NF(this.x)
-        +' y='+Util.NF(this.y)
-        +' slope='+Util.NF(this.slope)
-        +' radius='+Util.NF(this.radius)
-        +' radius_flag='+this.radius_flag
-        +' direction='+this.direction
-        +' index='+this.idx
-        +' normalX='+Util.NF(this.normalX)
-        +' normalY='+Util.NF(this.normalY)
-        +' normalXdp='+Util.NF(this.normalXdp)
-        +' normalYdp='+Util.NF(this.normalYdp)
-        +' slopeX='+Util.NF(this.slopeX)
-        +' slopeY='+Util.NF(this.slopeY)
-        +' dxdp='+Util.NF(this.dxdp)
-        +' dydp='+Util.NF(this.dydp)
-        +'}';
-  };
+PathPoint.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'PathPoint{'
+      +'p='+Util.NF(this.p)
+      +' x='+Util.NF(this.x)
+      +' y='+Util.NF(this.y)
+      +' slope='+Util.NF(this.slope)
+      +' radius='+Util.NF(this.radius)
+      +' radius_flag='+this.radius_flag
+      +' direction='+this.direction
+      +' index='+this.idx
+      +' normalX='+Util.NF(this.normalX)
+      +' normalY='+Util.NF(this.normalY)
+      +' normalXdp='+Util.NF(this.normalXdp)
+      +' normalYdp='+Util.NF(this.normalYdp)
+      +' slopeX='+Util.NF(this.slopeX)
+      +' slopeY='+Util.NF(this.slopeY)
+      +' dxdp='+Util.NF(this.dxdp)
+      +' dydp='+Util.NF(this.dydp)
+      +'}';
 };
 
 /** Copies all fields of the given PathPoint.

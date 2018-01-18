@@ -77,12 +77,10 @@ sims.engine2D.FastBallApp = function(elem_ids) {
 var FastBallApp = sims.engine2D.FastBallApp;
 goog.inherits(FastBallApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  FastBallApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        + FastBallApp.superClass_.toString.call(this);
-  };
+/** @override */
+FastBallApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      + FastBallApp.superClass_.toString.call(this);
 };
 
 /** @override */

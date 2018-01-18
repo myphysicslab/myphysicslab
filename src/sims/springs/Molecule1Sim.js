@@ -321,19 +321,17 @@ myphysicslab.sims.springs.Molecule1Sim = function(opt_name) {
 var Molecule1Sim = myphysicslab.sims.springs.Molecule1Sim;
 goog.inherits(Molecule1Sim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  Molecule1Sim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping: '+Util.NF(this.getDamping())
-        +', elasticity_: '+Util.NF(this.elasticity_)
-        +', spring_: '+this.spring_
-        +', atom1_: '+this.atom1_
-        +', atom2_: '+this.atom2_
-        +', walls_: '+this.walls_
-        + Molecule1Sim.superClass_.toString.call(this);
-  };
+/** @override */
+Molecule1Sim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping: '+Util.NF(this.getDamping())
+      +', elasticity_: '+Util.NF(this.elasticity_)
+      +', spring_: '+this.spring_
+      +', atom1_: '+this.atom1_
+      +', atom2_: '+this.atom2_
+      +', walls_: '+this.walls_
+      + Molecule1Sim.superClass_.toString.call(this);
 };
 
 /** @override */

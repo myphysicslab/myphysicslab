@@ -114,7 +114,7 @@ constructor(subject, observeFn, opt_purpose) {
 
 /** @override */
 toString() {
-  return this.toStringShort();
+  return Util.ADVANCED ? '' : this.toStringShort();
 };
 
 /** @override */

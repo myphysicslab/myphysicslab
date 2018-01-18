@@ -70,12 +70,11 @@ myphysicslab.lab.model.ExpressionVariable = function(varsList, name, localName,
 var ExpressionVariable = myphysicslab.lab.model.ExpressionVariable;
 goog.inherits(ExpressionVariable, ConcreteVariable);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ExpressionVariable.prototype.toString = function() {
-    return ExpressionVariable.superClass_.toString.call(this).slice(0, -1)
-        + ', expression_: "'+this.expression_+'"'+ '}';
-  };
+/** @override */
+ExpressionVariable.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      ExpressionVariable.superClass_.toString.call(this).slice(0, -1)
+      + ', expression_: "'+this.expression_+'"'+ '}';
 };
 
 /** @override */

@@ -94,12 +94,10 @@ myphysicslab.sims.roller.OvalPath = function(straight, name, localName) {
 var OvalPath = myphysicslab.sims.roller.OvalPath;
 goog.inherits(OvalPath, AbstractPath);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  OvalPath.prototype.toString = function() {
-    return OvalPath.superClass_.toString.call(this).slice(0, -1)
-        + ', straight: '+Util.NF(this.s_)+'}';
-  };
+/** @override */
+OvalPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' : OvalPath.superClass_.toString.call(this).slice(0, -1)
+      + ', straight: '+Util.NF(this.s_)+'}';
 };
 
 /** @override */

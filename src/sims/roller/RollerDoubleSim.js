@@ -186,19 +186,17 @@ myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
 var RollerDoubleSim = myphysicslab.sims.roller.RollerDoubleSim;
 goog.inherits(RollerDoubleSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RollerDoubleSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', ball1_: '+this.ball1_
-        +', ball2_: '+this.ball2_
-        +', spring_: '+this.spring_
-        +', path_: '+this.path_
-        +', damping_: '+Util.NF(this.damping_)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', lowestPoint_: '+Util.NF(this.lowestPoint_)
-        + RollerDoubleSim.superClass_.toString.call(this);
-  };
+/** @override */
+RollerDoubleSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', ball1_: '+this.ball1_
+      +', ball2_: '+this.ball2_
+      +', spring_: '+this.spring_
+      +', path_: '+this.path_
+      +', damping_: '+Util.NF(this.damping_)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', lowestPoint_: '+Util.NF(this.lowestPoint_)
+      + RollerDoubleSim.superClass_.toString.call(this);
 };
 
 /** @override */

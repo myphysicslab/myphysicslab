@@ -191,21 +191,19 @@ var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 // the input fields by one, so it now looks OK under Safari, but is a
 // little too wide in Chrome.
 
-if (!Util.ADVANCED) {
-  /** @override */
-  NumericControlBase.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', signifDigits_: '+this.signifDigits_
-        +', decimalPlaces_: '+this.decimalPlaces_
-        +', columns_: '+this.columns_
-        +'}';
-  };
+/** @override */
+NumericControlBase.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', signifDigits_: '+this.signifDigits_
+      +', decimalPlaces_: '+this.decimalPlaces_
+      +', columns_: '+this.columns_
+      +'}';
+};
 
-  /** @override */
-  NumericControlBase.prototype.toStringShort = function() {
-    return this.getClassName() + '{label_: "'+this.label_+'"}';
-  };
-}
+/** @override */
+NumericControlBase.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
+};
 
 /** Returns the number of columns needed to show the number with the given number of
 significant digits.

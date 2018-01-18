@@ -122,20 +122,19 @@ myphysicslab.lab.model.DampingLaw = function(damping, rotateRatio, opt_simList) 
 var DampingLaw = myphysicslab.lab.model.DampingLaw;
 goog.inherits(DampingLaw, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DampingLaw.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', rotateRatio: '+Util.NF5(this.rotateRatio_)
-        +', bodies: '+this.bods_.length
-        + DampingLaw.superClass_.toString.call(this);
-  };
+/** @override */
+DampingLaw.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', rotateRatio: '+Util.NF5(this.rotateRatio_)
+      +', bodies: '+this.bods_.length
+      + DampingLaw.superClass_.toString.call(this);
+};
 
-  /** @override */
-  DampingLaw.prototype.toStringShort = function() {
-    return DampingLaw.superClass_.toStringShort.call(this).slice(0, -1)
-        +', damping: '+Util.NF5(this.damping_)+'}';
-  };
+/** @override */
+DampingLaw.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      DampingLaw.superClass_.toStringShort.call(this).slice(0, -1)
+      +', damping: '+Util.NF5(this.damping_)+'}';
 };
 
 /** @override */

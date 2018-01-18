@@ -228,21 +228,19 @@ myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
 var CartPendulumSim = myphysicslab.sims.pendulum.CartPendulumSim;
 goog.inherits(CartPendulumSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  CartPendulumSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', dampingCart_: '+Util.NF(this.dampingCart_)
-        +', dampingPendulum_: '+Util.NF(this.dampingPendulum_)
-        +', length_: '+Util.NF(this.length_)
-        +', cart_: '+this.cart_
-        +', pendulum_: '+this.pendulum_
-        +', spring_: '+this.spring_
-        +', rod_: '+this.rod_
-        +', fixedPoint_: '+this.fixedPoint_
-        + CartPendulumSim.superClass_.toString.call(this);
-  };
+/** @override */
+CartPendulumSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', dampingCart_: '+Util.NF(this.dampingCart_)
+      +', dampingPendulum_: '+Util.NF(this.dampingPendulum_)
+      +', length_: '+Util.NF(this.length_)
+      +', cart_: '+this.cart_
+      +', pendulum_: '+this.pendulum_
+      +', spring_: '+this.spring_
+      +', rod_: '+this.rod_
+      +', fixedPoint_: '+this.fixedPoint_
+      + CartPendulumSim.superClass_.toString.call(this);
 };
 
 /** @override */

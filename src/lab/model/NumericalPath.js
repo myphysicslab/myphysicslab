@@ -247,15 +247,14 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 goog.inherits(NumericalPath, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  NumericalPath.prototype.toString = function() {
-    return NumericalPath.superClass_.toString.call(this).slice(0, -1)
-        +', length: ' + Util.NF5(this.getLength())
-        +', closedLoop: '+this.closedLoop
-        +', bounds: '+this.bounds
-        +'}';
-  };
+/** @override */
+NumericalPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      NumericalPath.superClass_.toString.call(this).slice(0, -1)
+      +', length: ' + Util.NF5(this.getLength())
+      +', closedLoop: '+this.closedLoop
+      +', bounds: '+this.bounds
+      +'}';
 };
 
 /** @override */

@@ -116,21 +116,20 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
 };
 var DisplayGraph = myphysicslab.lab.graph.DisplayGraph;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayGraph.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', screenRect_: '+this.screenRect_
-        +', useBuffer_: '+this.useBuffer_
-        +', zIndex: '+this.zIndex
-        +', graphLines_: ['
-        + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
-        +']}';
-  };
+/** @override */
+DisplayGraph.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', screenRect_: '+this.screenRect_
+      +', useBuffer_: '+this.useBuffer_
+      +', zIndex: '+this.zIndex
+      +', graphLines_: ['
+      + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
+      +']}';
+};
 
-  DisplayGraph.prototype.toStringShort = function() {
-    return 'DisplayGraph{graphLines_.length: '+this.graphLines_.length+'}';
-  };
+DisplayGraph.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      'DisplayGraph{graphLines_.length: '+this.graphLines_.length+'}';
 };
 
 /** Add a GraphLine to be displayed.

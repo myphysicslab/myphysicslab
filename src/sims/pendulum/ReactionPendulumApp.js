@@ -525,19 +525,17 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
 var ReactionPendulumApp = myphysicslab.sims.pendulum.ReactionPendulumApp;
-goog.inherits(ReactionPendulumApp, myphysicslab.lab.util.AbstractSubject);
+goog.inherits(ReactionPendulumApp, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ReactionPendulumApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', sim1: '+this.sim1.toStringShort()
-        +', sim2: '+this.sim2.toStringShort()
-        +', terminal: '+this.terminal
-        +', graph: '+this.graph
-        +', timeGraph: '+this.timeGraph
-        + ReactionPendulumApp.superClass_.toString.call(this);
-  };
+/** @override */
+ReactionPendulumApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', sim1: '+this.sim1.toStringShort()
+      +', sim2: '+this.sim2.toStringShort()
+      +', terminal: '+this.terminal
+      +', graph: '+this.graph
+      +', timeGraph: '+this.timeGraph
+      + ReactionPendulumApp.superClass_.toString.call(this);
 };
 
 /** @override */

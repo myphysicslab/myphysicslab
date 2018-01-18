@@ -239,18 +239,16 @@ myphysicslab.sims.pendulum.RigidDoublePendulumSim = function(parts, opt_name,
 var RigidDoublePendulumSim = myphysicslab.sims.pendulum.RigidDoublePendulumSim;
 goog.inherits(RigidDoublePendulumSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  RigidDoublePendulumSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', gamma1_: '+Util.NF(this.gamma1_)
-        +', gamma2_: '+Util.NF(this.gamma2_)
-        +', pendulum1_: '+this.pendulum1_
-        +', pendulum2_: '+this.pendulum2_
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', potentialOffset_: '+Util.NF(this.potentialOffset_)
-        + RigidDoublePendulumSim.superClass_.toString.call(this);
-  };
+/** @override */
+RigidDoublePendulumSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', gamma1_: '+Util.NF(this.gamma1_)
+      +', gamma2_: '+Util.NF(this.gamma2_)
+      +', pendulum1_: '+this.pendulum1_
+      +', pendulum2_: '+this.pendulum2_
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
+      + RigidDoublePendulumSim.superClass_.toString.call(this);
 };
 
 /** @override */

@@ -220,14 +220,12 @@ sims.engine2D.PileApp = function(elem_ids) {
 var PileApp = sims.engine2D.PileApp;
 goog.inherits(PileApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PileApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + PileApp.superClass_.toString.call(this);
-  };
+/** @override */
+PileApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + PileApp.superClass_.toString.call(this);
 };
 
 /** @override */

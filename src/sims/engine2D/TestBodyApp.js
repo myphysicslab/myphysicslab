@@ -134,15 +134,13 @@ myphysicslab.sims.engine2D.TestBodyApp = function(elem_ids) {
 var TestBodyApp = myphysicslab.sims.engine2D.TestBodyApp;
 goog.inherits(TestBodyApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  TestBodyApp.prototype.toString = function() {
-      return this.toStringShort().slice(0, -1)
-          +', dampingLaw: '+this.dampingLaw.toStringShort()
-          +', gravityLaw: '+this.gravityLaw.toStringShort()
-          + TestBodyApp.superClass_.toString.call(this);
-  };
-}
+/** @override */
+TestBodyApp.prototype.toString = function() {
+    return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+        +', dampingLaw: '+this.dampingLaw.toStringShort()
+        +', gravityLaw: '+this.gravityLaw.toStringShort()
+        + TestBodyApp.superClass_.toString.call(this);
+};
 
 /** @override */
 TestBodyApp.prototype.getClassName = function() {

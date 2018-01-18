@@ -64,22 +64,21 @@ myphysicslab.lab.view.DisplayList = function(opt_name) {
 var DisplayList = myphysicslab.lab.view.DisplayList;
 goog.inherits(DisplayList, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  DisplayList.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', drawables_: ['
-        + goog.array.map(this.drawables_, function(d, idx) {
-            return idx+': '+d.toStringShort();
-          })
-        + ']' + DisplayList.superClass_.toString.call(this);
-  };
+/** @override */
+DisplayList.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', drawables_: ['
+      + goog.array.map(this.drawables_, function(d, idx) {
+          return idx+': '+d.toStringShort();
+        })
+      + ']' + DisplayList.superClass_.toString.call(this);
+};
 
-  /** @override */
-  DisplayList.prototype.toStringShort = function() {
-    return DisplayList.superClass_.toStringShort.call(this).slice(0, -1)
-        +', drawables_.length: '+this.drawables_.length +'}';
-  };
+/** @override */
+DisplayList.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      DisplayList.superClass_.toStringShort.call(this).slice(0, -1)
+      +', drawables_.length: '+this.drawables_.length +'}';
 };
 
 /** @override */

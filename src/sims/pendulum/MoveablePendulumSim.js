@@ -250,21 +250,19 @@ myphysicslab.sims.pendulum.MoveablePendulumSim = function(opt_name) {
 var MoveablePendulumSim = myphysicslab.sims.pendulum.MoveablePendulumSim;
 goog.inherits(MoveablePendulumSim, AbstractODESim);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MoveablePendulumSim.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', length_: '+Util.NF(this.length_)
-        +', gravity_: '+Util.NF(this.gravity_)
-        +', damping_: '+Util.NF(this.damping_)
-        +', frequency_: '+Util.NF(this.frequency_)
-        +', amplitude_: '+Util.NF(this.amplitude_)
-        +', anchorDamping_: '+Util.NF(this.anchorDamping_)
-        +', springStiffness_: '+Util.NF(this.springStiffness_)
-        +', anchor_: '+this.anchor_
-        +', bob_: '+this.bob_
-        + MoveablePendulumSim.superClass_.toString.call(this);
-  };
+/** @override */
+MoveablePendulumSim.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', length_: '+Util.NF(this.length_)
+      +', gravity_: '+Util.NF(this.gravity_)
+      +', damping_: '+Util.NF(this.damping_)
+      +', frequency_: '+Util.NF(this.frequency_)
+      +', amplitude_: '+Util.NF(this.amplitude_)
+      +', anchorDamping_: '+Util.NF(this.anchorDamping_)
+      +', springStiffness_: '+Util.NF(this.springStiffness_)
+      +', anchor_: '+this.anchor_
+      +', bob_: '+this.bob_
+      + MoveablePendulumSim.superClass_.toString.call(this);
 };
 
 /** @override */

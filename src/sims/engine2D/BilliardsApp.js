@@ -147,13 +147,11 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
 var BilliardsApp = myphysicslab.sims.engine2D.BilliardsApp;
 goog.inherits(BilliardsApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  BilliardsApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        + BilliardsApp.superClass_.toString.call(this);
-  };
+/** @override */
+BilliardsApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      + BilliardsApp.superClass_.toString.call(this);
 };
 
 /** @override */

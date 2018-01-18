@@ -197,19 +197,17 @@ myphysicslab.sims.common.StandardGraph1 = function(varsList, graphCanvas, div_co
 var StandardGraph1 = myphysicslab.sims.common.StandardGraph1;
 goog.inherits(StandardGraph1, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  StandardGraph1.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', canvas: '+this.canvas.toStringShort()
-        +', view: '+this.view.toStringShort()
-        +', line: '+this.line.toStringShort()
-        +', axes: '+this.axes.toStringShort()
-        +', autoScale: '+this.autoScale.toStringShort()
-        +', displayGraph: '+this.displayGraph.toStringShort()
-        +', graphCtrl: '+this.graphCtrl.toStringShort()
-        + StandardGraph1.superClass_.toString.call(this);
-  };
+/** @override */
+StandardGraph1.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', canvas: '+this.canvas.toStringShort()
+      +', view: '+this.view.toStringShort()
+      +', line: '+this.line.toStringShort()
+      +', axes: '+this.axes.toStringShort()
+      +', autoScale: '+this.autoScale.toStringShort()
+      +', displayGraph: '+this.displayGraph.toStringShort()
+      +', graphCtrl: '+this.graphCtrl.toStringShort()
+      + StandardGraph1.superClass_.toString.call(this);
 };
 
 /** @override */

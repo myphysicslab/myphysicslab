@@ -215,21 +215,19 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 goog.inherits(LabCanvas, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  LabCanvas.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', width: '+this.canvas_.width
-        +', height: '+this.canvas_.height
-        +', background_: "'+this.background_+'"'
-        +', alpha_: '+Util.NF5(this.alpha_)
-        +', focusView_: '
-        + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
-        +', labViews_: ['
-        + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
-        +'], memoList_: '+this.memoList_
-        + LabCanvas.superClass_.toString.call(this);
-  };
+/** @override */
+LabCanvas.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', width: '+this.canvas_.width
+      +', height: '+this.canvas_.height
+      +', background_: "'+this.background_+'"'
+      +', alpha_: '+Util.NF5(this.alpha_)
+      +', focusView_: '
+      + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
+      +', labViews_: ['
+      + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
+      +'], memoList_: '+this.memoList_
+      + LabCanvas.superClass_.toString.call(this);
 };
 
 /** @override */

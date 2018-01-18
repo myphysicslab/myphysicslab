@@ -84,21 +84,19 @@ myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
 };
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MoleculeCollision.prototype.toString = function() {
-    return 'MoleculeCollision{'
-        +'distance: '+Util.NF5(this.distance_)
-        +', targetGap: '+Util.NF5(this.targetGap_)
-        +', accuracy: '+Util.NF5(this.accuracy_)
-        +', detectedTime: '+Util.NF7(this.detectedTime_)
-        +', impulse: '+Util.NF5(this.impulse)
-        +', mustHandle: '+this.mustHandle_
-        +', atom: '+this.atom
-        +', wall: '+this.wall
-        +', side: '+this.side
-        +'}';
-  };
+/** @override */
+MoleculeCollision.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'MoleculeCollision{'
+      +'distance: '+Util.NF5(this.distance_)
+      +', targetGap: '+Util.NF5(this.targetGap_)
+      +', accuracy: '+Util.NF5(this.accuracy_)
+      +', detectedTime: '+Util.NF7(this.detectedTime_)
+      +', impulse: '+Util.NF5(this.impulse)
+      +', mustHandle: '+this.mustHandle_
+      +', atom: '+this.atom
+      +', wall: '+this.wall
+      +', side: '+this.side
+      +'}';
 };
 
 /**

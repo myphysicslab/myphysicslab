@@ -89,19 +89,18 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
 };
 var VarsHistory = myphysicslab.lab.graph.VarsHistory;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  VarsHistory.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', samples: '+this.dataPoints_.getSize()
-        +', varIndex_: ['+Util.array2string(this.varIndex_, Util.NF0)
-        +']}';
-  };
+/** @override */
+VarsHistory.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', samples: '+this.dataPoints_.getSize()
+      +', varIndex_: ['+Util.array2string(this.varIndex_, Util.NF0)
+      +']}';
+};
 
-  /** @override */
-  VarsHistory.prototype.toStringShort = function() {
-    return 'VarsHistory{variablesList: '+this.variablesList_.toStringShort()+'}';
-  };
+/** @override */
+VarsHistory.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+       'VarsHistory{variablesList: '+this.variablesList_.toStringShort()+'}';
 };
 
 /** Returns the HistoryList of data points.

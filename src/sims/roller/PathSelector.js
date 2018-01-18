@@ -83,21 +83,20 @@ myphysicslab.sims.roller.PathSelector = function(hasPath, paths) {
 var PathSelector = myphysicslab.sims.roller.PathSelector;
 goog.inherits(PathSelector, AbstractSubject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PathSelector.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', pathName: '+this.pathName_
-        +', paths: ['
-        + goog.array.map(this.paths_, function(p) {return p.getName();})
-        + ']' + PathSelector.superClass_.toString.call(this);
-  };
+/** @override */
+PathSelector.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', pathName: '+this.pathName_
+      +', paths: ['
+      + goog.array.map(this.paths_, function(p) {return p.getName();})
+      + ']' + PathSelector.superClass_.toString.call(this);
+};
 
-  /** @override */
-  PathSelector.prototype.toStringShort = function() {
-    return PathSelector.superClass_.toStringShort.call(this).slice(0, -1)
-        +', hasPath: '+this.hasPath_.toStringShort() +'}';
-  };
+/** @override */
+PathSelector.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' :
+      PathSelector.superClass_.toStringShort.call(this).slice(0, -1)
+      +', hasPath: '+this.hasPath_.toStringShort() +'}';
 };
 
 /** @override */

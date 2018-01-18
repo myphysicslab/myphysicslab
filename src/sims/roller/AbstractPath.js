@@ -68,16 +68,14 @@ myphysicslab.sims.roller.AbstractPath = function(name, localName, startTValue,
 };
 var AbstractPath = myphysicslab.sims.roller.AbstractPath;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  AbstractPath.prototype.toString = function() {
-    return this.getClassName()+'{name_: "'+this.name_+'"'
-      +', localName_: "'+this.localName_+'"'
-      +', startTValue_: '+Util.NF(this.startTValue_)
-      +', finishTValue_: '+Util.NF(this.finishTValue_)
-      +', closedLoop_: '+this.closedLoop_
-      +'}';
-  };
+/** @override */
+AbstractPath.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.getClassName()+'{name_: "'+this.name_+'"'
+    +', localName_: "'+this.localName_+'"'
+    +', startTValue_: '+Util.NF(this.startTValue_)
+    +', finishTValue_: '+Util.NF(this.finishTValue_)
+    +', closedLoop_: '+this.closedLoop_
+    +'}';
 };
 
 /** @abstract */

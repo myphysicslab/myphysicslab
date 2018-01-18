@@ -119,23 +119,21 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
 };
 var BrachistoObserver = myphysicslab.sims.roller.BrachistoObserver;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  BrachistoObserver.prototype.toString = function() {
-    return 'BrachistoObserver{'
-      +'sim_: '+this.sim_.toStringShort()
-      +', simList_: '+this.simList_.toStringShort()
-      +', simView_: '+this.simView_.toStringShort()
-      +', displayList_: '+this.displayList_.toStringShort()
-      +', statusView_: '+this.statusView_.toStringShort()
-      +', displayPath_: '+this.displayPath_.toStringShort()
-      +'}';
-  };
+/** @override */
+BrachistoObserver.prototype.toString = function() {
+  return Util.ADVANCED ? '' : 'BrachistoObserver{'
+    +'sim_: '+this.sim_.toStringShort()
+    +', simList_: '+this.simList_.toStringShort()
+    +', simView_: '+this.simView_.toStringShort()
+    +', displayList_: '+this.displayList_.toStringShort()
+    +', statusView_: '+this.statusView_.toStringShort()
+    +', displayPath_: '+this.displayPath_.toStringShort()
+    +'}';
+};
 
-  /** @override */
-  BrachistoObserver.prototype.toStringShort = function() {
-    return 'BrachistoObserver{}';
-  };
+/** @override */
+BrachistoObserver.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'BrachistoObserver{}';
 };
 
 /** Creates DisplayObjects for the SimObjects, and add to SimView.

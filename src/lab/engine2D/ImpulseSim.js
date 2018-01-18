@@ -320,17 +320,15 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 goog.inherits(ImpulseSim, RigidBodySim);
 
-if (!Util.ADVANCED) {
-  /** @override  */
-  ImpulseSim.prototype.toString_ = function() {
-    return ', collisionHandling_: '+this.collisionHandling_
-        + ', distanceTol_: '+Util.NF(this.distanceTol_)
-        + ', velocityTol_: '+Util.NF(this.velocityTol_)
-        + ', collisionAccuracy_: '+Util.NF(this.collisionAccuracy_)
-        + ', showCollisions_: '+this.showCollisions_
-        + ', simRNG_: '+this.simRNG_
-        + ImpulseSim.superClass_.toString_.call(this);
-  };
+/** @override  */
+ImpulseSim.prototype.toString_ = function() {
+  return Util.ADVANCED ? '' : ', collisionHandling_: '+this.collisionHandling_
+      + ', distanceTol_: '+Util.NF(this.distanceTol_)
+      + ', velocityTol_: '+Util.NF(this.velocityTol_)
+      + ', collisionAccuracy_: '+Util.NF(this.collisionAccuracy_)
+      + ', showCollisions_: '+this.showCollisions_
+      + ', simRNG_: '+this.simRNG_
+      + ImpulseSim.superClass_.toString_.call(this);
 };
 
 /** @override */

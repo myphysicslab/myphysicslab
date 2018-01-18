@@ -128,18 +128,17 @@ myphysicslab.lab.engine2D.PathEndPoint = function(name, path, body, attach_body,
 var PathEndPoint = myphysicslab.lab.engine2D.PathEndPoint;
 goog.inherits(PathEndPoint, AbstractSimObject);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  PathEndPoint.prototype.toString = function() {
-    return PathEndPoint.superClass_.toString.call(this).slice(0, -1)
-        +', body_:='+this.body_.toStringShort()
-        +', path_: '+this.path_.toStringShort()
-        +', attach_body_: '+this.attach_body_
-        +', limit_: '+Util.NF(this.limit_)
-        +', upperLimit_: '+this.upperLimit_
-        +'}';
-  };
-}
+/** @override */
+PathEndPoint.prototype.toString = function() {
+  return Util.ADVANCED ? '' :
+      PathEndPoint.superClass_.toString.call(this).slice(0, -1)
+      +', body_:='+this.body_.toStringShort()
+      +', path_: '+this.path_.toStringShort()
+      +', attach_body_: '+this.attach_body_
+      +', limit_: '+Util.NF(this.limit_)
+      +', upperLimit_: '+this.upperLimit_
+      +'}';
+};
 
 /** @override */
 PathEndPoint.prototype.getClassName = function() {

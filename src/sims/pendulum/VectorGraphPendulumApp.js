@@ -131,14 +131,12 @@ sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
 var VectorGraphPendulumApp = sims.pendulum.VectorGraphPendulumApp;
 goog.inherits(VectorGraphPendulumApp, AbstractApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  VectorGraphPendulumApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', bob: '+this.bob.toStringShort()
-        +', rod: '+this.rod.toStringShort()
-        + VectorGraphPendulumApp.superClass_.toString.call(this);
-  };
+/** @override */
+VectorGraphPendulumApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', bob: '+this.bob.toStringShort()
+      +', rod: '+this.rod.toStringShort()
+      + VectorGraphPendulumApp.superClass_.toString.call(this);
 };
 
 /** @override */

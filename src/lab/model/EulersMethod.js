@@ -62,16 +62,14 @@ myphysicslab.lab.model.EulersMethod = function(ode) {
 };
 var EulersMethod = myphysicslab.lab.model.EulersMethod;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  EulersMethod.prototype.toString = function() {
-    return this.toStringShort();
-  };
+/** @override */
+EulersMethod.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort();
+};
 
-  /** @override */
-  EulersMethod.prototype.toStringShort = function() {
-    return 'EulersMethod{ode_: '+this.ode_.toStringShort()+'}';
-  };
+/** @override */
+EulersMethod.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'EulersMethod{ode_: '+this.ode_.toStringShort()+'}';
 };
 
 /** @override */

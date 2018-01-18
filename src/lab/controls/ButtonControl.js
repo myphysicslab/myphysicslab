@@ -99,21 +99,19 @@ myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_ima
 };
 var ButtonControl = myphysicslab.lab.controls.ButtonControl;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  ButtonControl.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', timeoutID_: '+this.timeoutID_
-        +', repeatDelay: '+Util.NF(this.repeatDelay)
-        +', repeatFirst: '+this.repeatFirst
-        +'}';
-  };
+/** @override */
+ButtonControl.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', timeoutID_: '+this.timeoutID_
+      +', repeatDelay: '+Util.NF(this.repeatDelay)
+      +', repeatFirst: '+this.repeatFirst
+      +'}';
+};
 
-  /** @override */
-  ButtonControl.prototype.toStringShort = function() {
-    return 'ButtonControl{label_: "'+this.label_+'"}';
-  };
-}
+/** @override */
+ButtonControl.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'ButtonControl{label_: "'+this.label_+'"}';
+};
 
 /** @override */
 ButtonControl.prototype.disconnect = function() {

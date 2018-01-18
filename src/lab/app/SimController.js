@@ -291,26 +291,24 @@ myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifi
 };
 var SimController = myphysicslab.lab.app.SimController;
 
-if (!Util.ADVANCED) {
-  /** @override */
-  SimController.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', labCanvas_: '+this.labCanvas_.toStringShort()
-        +', enablePanning_: '+this.enablePanning_
-        +', panControl_: '+this.panControl_
-        +', panMeta_: '+this.panMeta_
-        +', panShift_: '+this.panShift_
-        +', panAlt_: '+this.panAlt_
-        +'}';
-  };
+/** @override */
+SimController.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', labCanvas_: '+this.labCanvas_.toStringShort()
+      +', enablePanning_: '+this.enablePanning_
+      +', panControl_: '+this.panControl_
+      +', panMeta_: '+this.panMeta_
+      +', panShift_: '+this.panShift_
+      +', panAlt_: '+this.panAlt_
+      +'}';
+};
 
-  /** @override */
-  SimController.prototype.toStringShort = function() {
-    return 'SimController{eventHandler_: '
-        +(this.eventHandler_ != null ? this.eventHandler_.toStringShort() : 'null')
-        +'}';
-  };
-}
+/** @override */
+SimController.prototype.toStringShort = function() {
+  return Util.ADVANCED ? '' : 'SimController{eventHandler_: '
+      +(this.eventHandler_ != null ? this.eventHandler_.toStringShort() : 'null')
+      +'}';
+};
 
 /** @override */
 SimController.prototype.notifyError = function(error) {

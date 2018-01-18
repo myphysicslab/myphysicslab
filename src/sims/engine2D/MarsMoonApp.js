@@ -142,14 +142,12 @@ sims.engine2D.MarsMoonApp = function(elem_ids) {
 var MarsMoonApp = sims.engine2D.MarsMoonApp;
 goog.inherits(MarsMoonApp, Engine2DApp);
 
-if (!Util.ADVANCED) {
-  /** @override */
-  MarsMoonApp.prototype.toString = function() {
-    return this.toStringShort().slice(0, -1)
-        +', dampingLaw: '+this.dampingLaw.toStringShort()
-        +', gravityLaw: '+this.gravityLaw.toStringShort()
-        + MarsMoonApp.superClass_.toString.call(this);
-  };
+/** @override */
+MarsMoonApp.prototype.toString = function() {
+  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', dampingLaw: '+this.dampingLaw.toStringShort()
+      +', gravityLaw: '+this.gravityLaw.toStringShort()
+      + MarsMoonApp.superClass_.toString.call(this);
 };
 
 /** @override */
