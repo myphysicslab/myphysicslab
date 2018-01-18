@@ -12,19 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.CircularList');
-goog.provide('myphysicslab.lab.util.CircularListIterator');
+goog.module('myphysicslab.lab.util.CircularList');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.HistoryIterator');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
+const HistoryIterator = goog.require('myphysicslab.lab.util.HistoryIterator');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A circular list of values, where the next value added overwrites the oldest
 value. The list is filled in until full, then it overwrites earlier entries in the list.
@@ -108,14 +101,14 @@ Then we wrap around and start writing to the beginning again.
           ^
 
 
-* @param {number=} capacity  the capacity of the list; default is 3000
 * @template T
 * @implements HistoryList<T>
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.util.CircularList = function(capacity) {
+class CircularList {
+/**
+* @param {number=} capacity  the capacity of the list; default is 3000
+*/
+constructor(capacity) {
   /** capacity of the list, maximum size
   * @type {number}
   * @private
@@ -156,10 +149,9 @@ myphysicslab.lab.util.CircularList = function(capacity) {
   */
   this.lastValue_ = null;
 };
-var CircularList = myphysicslab.lab.util.CircularList;
 
 /** @override */
-CircularList.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'CircularList{capacity_: '+this.capacity_
       +', size_: '+this.size_
       +', cycles_: '+this.cycles_
@@ -168,23 +160,17 @@ CircularList.prototype.toString = function() {
       +'}';
 };
 
-/**
-* @type {string}
-* @const
-*/
-CircularList.MAX_INDEX_ERROR = 'exceeded max int';
-
 /** Causes the MAX_INDEX_ERROR exception to occur in near future by setting
 * the number of cycles to be near the maximum allowed, for testing.
 * @return {undefined}
 */
-CircularList.prototype.causeMaxIntError = function() {
+causeMaxIntError() {
   this.size_ = this.capacity_;
   this.cycles_ = Math.floor(Util.MAX_INTEGER/this.capacity_) - 1;
 };
 
 /** @override */
-CircularList.prototype.getEndIndex = function() {
+getEndIndex() {
   if (this.size_ == 0)
     return -1;
   var idx;
@@ -196,29 +182,29 @@ CircularList.prototype.getEndIndex = function() {
 };
 
 /** @override */
-CircularList.prototype.getEndValue = function() {
+getEndValue() {
   var idx = this.getEndIndex();
   return idx == -1 ? null : this.values_[this.indexToPointer(idx)];
 };
 
 /** @override */
-CircularList.prototype.getIterator = function(index) {
+getIterator(index) {
   return new CircularListIterator(this, index);
 };
 
 /** @override */
-CircularList.prototype.getSize = function() {
+getSize() {
   return this.size_;
 };
 
 /** @override */
-CircularList.prototype.getStartIndex = function() {
+getStartIndex() {
   var idx = (this.size_ < this.capacity_) ? 0 : this.pointerToIndex(this.nextPtr_);
   return idx;
 };
 
 /** @override */
-CircularList.prototype.getValue = function(index) {
+getValue(index) {
   var i = this.indexToPointer(index);
   return this.values_[i];
 };
@@ -229,7 +215,7 @@ Pointer and index are the same until the list fills and 'wraps around'.
 * @return {number} the pointer to the corresponding point in the list
 * @private
 */
-CircularList.prototype.indexToPointer = function(index) {
+indexToPointer(index) {
   if (this.size_ < this.capacity_)
     return index;
   var p = index % this.capacity_;
@@ -244,7 +230,7 @@ Pointer and index are the same until the list fills and 'wraps around'.
 * @return {number} the index number of this point including cycles
 * @private
 */
-CircularList.prototype.pointerToIndex = function(pointer) {
+pointerToIndex(pointer) {
   if (this.size_ < this.capacity_)
     return pointer;
   var idx = pointer +
@@ -255,14 +241,14 @@ CircularList.prototype.pointerToIndex = function(pointer) {
 };
 
 /** @override */
-CircularList.prototype.reset = function() {
+reset() {
   this.nextPtr_ = this.size_ = 0;  // clear out the memory
   this.cycles_ = 0;
   this.lastPtr_ = -1;
 };
 
 /** @override */
-CircularList.prototype.store = function(value) {
+store(value) {
   this.lastPtr_ = this.nextPtr_;
   this.values_[this.nextPtr_] = value;
   this.nextPtr_++;
@@ -274,6 +260,14 @@ CircularList.prototype.store = function(value) {
   }
   return this.pointerToIndex(this.lastPtr_);
 };
+}
+
+/**
+* @type {string}
+* @const
+*/
+CircularList.MAX_INDEX_ERROR = 'exceeded max int';
+
 
 /** Provides access to items in a {@link CircularList}.
 Call {@link #nextValue} to get to the first item.
@@ -285,17 +279,17 @@ iteration.
 Note about private variables:  with Google Closure Compiler, a variable marked
 private can be accessed from any code in the file where it is defined.
 
-@param {!CircularList<T>} cList the CircularList to iterate over
-@param {number=} startIndex  the index to start the iteration at; undefined or -1 will
-    start at oldest entry
-@constructor
-@final
-@struct
 @template T
 @implements {HistoryIterator<T>}
 @private
 */
-myphysicslab.lab.util.CircularListIterator = function(cList, startIndex) {
+class CircularListIterator {
+/**
+@param {!CircularList<T>} cList the CircularList to iterate over
+@param {number=} startIndex  the index to start the iteration at; undefined or -1 will
+    start at oldest entry
+*/
+constructor(cList, startIndex) {
   /**  Flag indicates we are at start of the iteration.
   * @type {boolean}
   * @private
@@ -326,34 +320,33 @@ myphysicslab.lab.util.CircularListIterator = function(cList, startIndex) {
   */
   this.pointer_ = cList.indexToPointer(startIndex);
 };
-var CircularListIterator = myphysicslab.lab.util.CircularListIterator;
 
 /** @override */
-CircularListIterator.prototype.getIndex = function() {
+getIndex() {
   if (this.cList_.size_ == 0)
     throw new Error('no data');
   return this.index_;
 };
 
 /** @override */
-CircularListIterator.prototype.getValue = function() {
+getValue() {
   if (this.cList_.size_ == 0)
     throw new Error('no data');
   return this.cList_.values_[this.pointer_];
 };
 
 /** @override */
-CircularListIterator.prototype.hasNext = function() {
+hasNext() {
   return this.first_ || this.index_ < this.cList_.getEndIndex();
 };
 
 /** @override */
-CircularListIterator.prototype.hasPrevious = function() {
+hasPrevious() {
   return this.first_ || this.index_ > this.cList_.getStartIndex();
 };
 
 /** @override */
-CircularListIterator.prototype.nextValue = function() {
+nextValue() {
   if (this.cList_.size_ === 0)
     throw new Error('no data');
   if (this.first_) {
@@ -370,7 +363,7 @@ CircularListIterator.prototype.nextValue = function() {
 };
 
 /** @override */
-CircularListIterator.prototype.previousValue = function() {
+previousValue() {
   if (this.cList_.size_ === 0)
     throw new Error('no data');
   if (this.first_) {
@@ -386,4 +379,5 @@ CircularListIterator.prototype.previousValue = function() {
   return this.cList_.values_[this.pointer_];
 };
 
-}); // goog.scope
+}
+exports = CircularList;

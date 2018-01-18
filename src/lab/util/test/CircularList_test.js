@@ -55,16 +55,16 @@ var testUtilCircularList1 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
   const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
-  var CircularList = myphysicslab.lab.util.CircularList;
+  const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
+  /** @type {!HistoryList<!Vector>}*/
   var cList = new CircularList(10);
   var i, j;
   assertEquals(0, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(-1, cList.getEndIndex());
   assertNull(cList.getEndValue());
-  /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/
+  /** @type {!HistoryIterator<!Vector>}*/
   var cIter = cList.getIterator();
   // no data yet, should throw exception
   assertFalse(cIter.hasNext());
@@ -132,7 +132,7 @@ var testUtilCircularList1 = function() {
     assertTrue(endValue.equals(new Vector(0.9, 10.9)));
 
   // iterate over the filled list and check values, indices 0 to 9
-  cIter = /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/(cList.getIterator());
+  cIter = /** @type {!HistoryIterator<!Vector>}*/(cList.getIterator());
   i = -1;
   while (cIter.hasNext()) {
     i++;
@@ -155,7 +155,7 @@ var testUtilCircularList1 = function() {
   assertEquals(10, cList.getEndIndex());
 
   // iterate over the list and check values, indices 1 to 10
-  cIter = /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/(cList.getIterator());
+  cIter = /** @type {!HistoryIterator<!Vector>}*/(cList.getIterator());
   i = 0;
   while (cIter.hasNext()) {
     i++;
@@ -176,7 +176,7 @@ var testUtilCircularList1 = function() {
   assertEquals(19, cList.getEndIndex());
 
   // iterate over the list and check values, indices 10 to 19
-  cIter = /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/(cList.getIterator());
+  cIter = /** @type {!HistoryIterator<!Vector>}*/(cList.getIterator());
   i = 9;
   while (cIter.hasNext()) {
     i++;
@@ -213,17 +213,17 @@ goog.exportProperty(window, 'testUtilCircularList1', testUtilCircularList1);
 
 var testUtilCircularList2 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var CircularList = myphysicslab.lab.util.CircularList;
+  const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
   const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
 
   // Test that CircularList will throw the MAX_INT_ERROR when the index number
   // exceeds the maximum representable integer.
-  /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
+  /** @type {!HistoryList<!Vector>}*/
   var cList = new CircularList(1000);
   // Causes the index to start near the maximum integer.
-  /** @type {!myphysicslab.lab.util.CircularList<!myphysicslab.lab.util.Vector>}*/(cList).causeMaxIntError();
+  /** @type {!CircularList<!Vector>}*/(cList).causeMaxIntError();
   var i;
   var j=-1;
   var e = assertThrows(function() {
@@ -249,7 +249,7 @@ var testUtilCircularList2 = function() {
   assertEquals(2999, cList.getEndIndex());
 
   // test starting in middle of the list
-  /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/
+  /** @type {!HistoryIterator<!Vector>}*/
   var cIter = cList.getIterator(2500);
   i = 2499;
   while (cIter.hasNext()) {
@@ -267,12 +267,12 @@ goog.exportProperty(window, 'testUtilCircularList2', testUtilCircularList2);
 // test iterating backwards: start at end, go to previous points.
 var testUtilCircularList3 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var CircularList = myphysicslab.lab.util.CircularList;
+  const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
   const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
-  /** @type {!myphysicslab.lab.util.HistoryList<!myphysicslab.lab.util.Vector>}*/
-  var cList = new myphysicslab.lab.util.CircularList(100);
+  /** @type {!HistoryList<!Vector>}*/
+  var cList = new CircularList(100);
   var i, j, vec;
   for (i=0; i<90; i++) {
     j = cList.store(new Vector(i*0.1, i*10));
@@ -282,7 +282,7 @@ var testUtilCircularList3 = function() {
   assertEquals(89, j);
   assertEquals(0, cList.getStartIndex());
   assertEquals(89, cList.getEndIndex());
-  /** @type {!myphysicslab.lab.util.HistoryIterator<!myphysicslab.lab.util.Vector>}*/
+  /** @type {!HistoryIterator<!Vector>}*/
   var cIter = cList.getIterator(cList.getEndIndex());
   i = 90;
   while (cIter.hasPrevious()) {

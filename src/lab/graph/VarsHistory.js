@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var CircularList = myphysicslab.lab.util.CircularList;
+const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
 const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
