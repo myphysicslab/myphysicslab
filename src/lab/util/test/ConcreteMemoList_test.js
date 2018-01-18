@@ -22,7 +22,7 @@ goog.require('goog.testing.jsunit');
 
 var testConcreteMemoList1 = function() {
   const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
-  var GenericMemo = myphysicslab.lab.util.GenericMemo;
+  const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
   const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var vec1 = new MutableVector(1, 1);

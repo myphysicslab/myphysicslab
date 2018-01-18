@@ -77,13 +77,14 @@ var DrawingStyle = lab.view.DrawingStyle;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 var FlatPath = sims.roller.FlatPath;
 var FunctionVariable = lab.model.FunctionVariable;
-var GenericMemo = lab.util.GenericMemo;
+const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GravityLaw = lab.model.GravityLaw;
 var HasPath = sims.roller.HasPath;
 var HumpPath = sims.roller.HumpPath;
 var LemniscatePath = sims.roller.LemniscatePath;
 var LoopTheLoopPath = sims.roller.LoopTheLoopPath;
+const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 var NumericalPath = lab.model.NumericalPath;
 var NumericControl = lab.controls.NumericControl;
 var OvalPath = sims.roller.OvalPath;
@@ -140,7 +141,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
       this.simList);
   /** @type {!GravityLaw} */
   this.gravityLaw = new GravityLaw(3, this.simList);
-  /** @type {?lab.util.Memorizable} */
+  /** @type {?Memorizable} */
   this.pathAction = null;
   /** @type {!Array<!ParametricPath>} **/
   this.paths = [

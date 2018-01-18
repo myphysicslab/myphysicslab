@@ -22,8 +22,6 @@ goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.Observer');
 goog.require('myphysicslab.lab.util.ParameterBoolean');
 goog.require('myphysicslab.lab.util.ParameterNumber');
 goog.require('myphysicslab.lab.util.ParameterString');
@@ -38,6 +36,8 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var GraphLine = myphysicslab.lab.graph.GraphLine;
 var LabView = myphysicslab.lab.view.LabView;
+const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
@@ -108,8 +108,8 @@ range rectangle is the value of the event.
 * @final
 * @struct
 * @extends {AbstractSubject}
-* @implements {myphysicslab.lab.util.Memorizable}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Memorizable}
+* @implements {Observer}
 */
 myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
   AbstractSubject.call(this, name);

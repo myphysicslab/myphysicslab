@@ -26,7 +26,6 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.view.DisplaySpring');
 goog.require('myphysicslab.lab.util.MemoList');
-goog.require('myphysicslab.lab.util.Memorizable');
 
 goog.scope(function() {
 

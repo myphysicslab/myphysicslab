@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.GenericMemo');
+goog.module('myphysicslab.lab.util.GenericMemo');
 
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A generic {@link Memorizable} object that calls a JavaScript function.
 
@@ -65,15 +60,14 @@ This script can be entered as Terminal commands in
 Try this [query script](<https://www.myphysicslab.com/develop/build/sims/engine2D/CartPendulum2App-en.html?var%20spring=simList.get('spring1');var%20dispSpring=displayList.findSpring(spring);var%20memo=new%20GenericMemo(function(){var%20stretch=Math.max(Math.min(spring.getStretch(),1),-1);if(stretch%3C0){dispSpring.setColorCompressed(Util.colorString3(-stretch,0,0));}else{dispSpring.setColorExpanded(Util.colorString3(0,stretch,0));}});simRun.addMemo(memo);layout.showTerminal(true);>)
 which contains the above code.
 
-
-@param {function()} func  function to execute
-@param {string=} opt_purpose Describes what this GenericMemo does, for debugging
-@constructor
-@final
-@struct
 @implements {Memorizable}
 */
-myphysicslab.lab.util.GenericMemo = function(func, opt_purpose) {
+class GenericMemo {
+/**
+@param {function()} func  function to execute
+@param {string=} opt_purpose Describes what this GenericMemo does, for debugging
+*/
+constructor(func, opt_purpose) {
   /**
   * @type {function()}
   * @private
@@ -87,23 +81,23 @@ myphysicslab.lab.util.GenericMemo = function(func, opt_purpose) {
   */
   this.purpose_ = Util.ADVANCED ? '' : (opt_purpose || '');
 };
-var GenericMemo = myphysicslab.lab.util.GenericMemo;
 
 /** @override */
-GenericMemo.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort();
 };
 
 /** @override */
-GenericMemo.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'GenericMemo{'
       +(this.purpose_.length > 0 ? 'purpose_:"'+this.purpose_+'"' : '')
       +'}';
 };
 
 /** @override */
-GenericMemo.prototype.memorize = function() {
+memorize() {
   this.function_();
 };
 
-});  // goog.scope
+}
+exports = GenericMemo;

@@ -18,13 +18,13 @@ goog.require('goog.array');
 goog.require('myphysicslab.lab.model.VarsList');
 goog.require('myphysicslab.lab.util.CircularList');
 goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.Memorizable');
 goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
 const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
 const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
+const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
 
@@ -58,7 +58,7 @@ variables are sampled or the order of the variables within each sample see
 
 * @param {!VarsList} variablesList the VarsList to gather data from
 * @param {number=} opt_capacity number of data samples to store
-* @implements {myphysicslab.lab.util.Memorizable}
+* @implements {Memorizable}
 * @constructor
 * @final
 * @struct
