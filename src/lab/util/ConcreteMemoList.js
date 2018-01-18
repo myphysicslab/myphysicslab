@@ -12,26 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ConcreteMemoList');
+goog.module('myphysicslab.lab.util.ConcreteMemoList');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.MemoList');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const MemoList = goog.require('myphysicslab.lab.util.MemoList');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Concrete implementation of {@link MemoList}.
-* @constructor
-* @final
-* @struct
 * @implements {MemoList}
 */
-myphysicslab.lab.util.ConcreteMemoList = function() {
+class ConcreteMemoList {
+constructor() {
   /**
   * @type {!Array<!Memorizable>}
   * @private
@@ -43,10 +35,9 @@ myphysicslab.lab.util.ConcreteMemoList = function() {
   */
   this.isMemorizing_ = false;
 };
-var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 
 /** @override */
-ConcreteMemoList.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'ConcreteMemoList{'
       +'memorizables_: ['
       + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
@@ -54,13 +45,13 @@ ConcreteMemoList.prototype.toString = function() {
 };
 
 /** @override */
-ConcreteMemoList.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'ConcreteMemoList{memorizables_.length: '+this.memorizables_.length+'}';
 };
 
 /** @override */
-ConcreteMemoList.prototype.addMemo = function(memorizable) {
+addMemo(memorizable) {
   if (this.isMemorizing_) {
     throw new Error('addMemo during memorize');
   }
@@ -70,12 +61,12 @@ ConcreteMemoList.prototype.addMemo = function(memorizable) {
 };
 
 /** @override */
-ConcreteMemoList.prototype.getMemos = function() {
+getMemos() {
   return goog.array.clone(this.memorizables_);
 };
 
 /** @override */
-ConcreteMemoList.prototype.memorize = function() {
+memorize() {
   try {
     this.isMemorizing_ = true;
     goog.array.forEach(this.memorizables_, function(c) { c.memorize(); });
@@ -85,11 +76,12 @@ ConcreteMemoList.prototype.memorize = function() {
 };
 
 /** @override */
-ConcreteMemoList.prototype.removeMemo = function(memorizable) {
+removeMemo(memorizable) {
   if (this.isMemorizing_) {
     throw new Error('removeMemo during memorize');
   }
   goog.array.remove(this.memorizables_, memorizable);
 };
 
-}); // goog.scope
+}
+exports = ConcreteMemoList;

@@ -39,7 +39,7 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
+const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayList = myphysicslab.lab.view.DisplayList;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
