@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var HistoryList = myphysicslab.lab.util.HistoryList;
-var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
+const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A circular list of values, where the next value added overwrites the oldest

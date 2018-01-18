@@ -17,7 +17,7 @@ goog.require('myphysicslab.lab.util.HistoryIterator');
 
 goog.scope(function() {
 
-var HistoryIterator = myphysicslab.lab.util.HistoryIterator;
+const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
 
 /** An ordered list of values that can be added to but not altered; older values might
 be forgotten. Each value has a unique unchanging index in the HistoryList, but a
