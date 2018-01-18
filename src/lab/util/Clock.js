@@ -12,25 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Clock');
+goog.module('myphysicslab.lab.util.Clock');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.ClockTask');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Advances along with real time when active, and can execute tasks at appointed
 times. There are commands to pause, resume, and single-step the Clock, as well as set
@@ -129,13 +120,13 @@ All the Parameters are broadcast when their values change.  In addition:
 @todo Should be able to have clock time (and therefore simulation time) start at
 something other than zero.
 
-* @param {string=} opt_name name of this Clock.
-* @constructor
-* @final
-* @struct
 * @extends {AbstractSubject}
 */
-myphysicslab.lab.util.Clock = function(opt_name) {
+class Clock {
+/**
+* @param {string=} opt_name name of this Clock.
+*/
+constructor(opt_name) {
   AbstractSubject.call(this, opt_name || 'CLOCK');
   /** when 'zero clock time' occurs, in system time, in seconds
   * @type {number}
@@ -189,11 +180,9 @@ myphysicslab.lab.util.Clock = function(opt_name) {
       goog.bind(this.getTimeRate, this),
       goog.bind(this.setTimeRate, this)));
 };
-var Clock = myphysicslab.lab.util.Clock;
-goog.inherits(Clock, AbstractSubject);
 
 /** @override */
-Clock.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', timeRate_: '+Util.NF5(this.timeRate_)
       +', saveTime_secs_: '+Util.NF5(this.saveTime_secs_)
@@ -207,15 +196,295 @@ Clock.prototype.toString = function() {
 };
 
 /** @override */
-Clock.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : Clock.superClass_.toStringShort.call(this).slice(0, -1)
       +', time: '+Util.NF5(this.getTime())+'}';
 };
 
 /** @override */
-Clock.prototype.getClassName = function() {
+getClassName() {
   return 'Clock';
 };
+
+/** Adds a ClockTask to the list of tasks which will be run, and schedules it to be run
+if its time is now or in the future. The time to run the task is specified in the
+ClockTask.
+@param {!ClockTask} task the ClockTask to add to list of tasks to be run
+*/
+addTask(task) {
+  if (!goog.array.contains(this.tasks_, task)) {
+    this.tasks_.push(task);
+    this.scheduleTask(task);
+  }
+};
+
+/**
+@return {undefined}
+@private
+*/
+cancelAllTasks() {
+  goog.array.forEach(this.tasks_, function(task) { task.cancel(); });
+};
+
+/** Called during [step mode](#stepmode), this indicates that the client has advanced
+the Simulation to match the clock time.
+@return {undefined}
+*/
+clearStepMode() {
+  this.stepMode_ = false;
+};
+
+/** Converts clock time to system time. System time is defined by
+{@link Util#systemTime}.
+@param {number} clockTime in seconds
+@return {number} system time equivalent of clockTime
+*/
+clockToSystem(clockTime) {
+  return clockTime/this.timeRate_ + this.clockStart_sys_secs_;
+};
+
+/** Schedules tasks for immediate execution that are in the given range of time from
+`startTime` to `startTime + timeStep`.
+@param {number} startTime
+@param {number} timeStep
+@private
+*/
+executeTasks(startTime, timeStep) {
+  goog.array.forEach(this.tasks_, function(task) {
+    if (task.getTime() >= startTime && task.getTime() <= startTime + timeStep) {
+      task.schedule(0);
+    }
+  });
+};
+
+/** Returns the [real time](#realtime) in seconds which is in the same time scale as
+the clock time; used for checking simulation performance. Like clock time, real time
+starts at zero time; is paused when the Clock is paused; and runs at the same rate as
+clock time.
+
+When a simulation cannot keep up with real time the Clock is **retarded** by client
+code calling {@link #setTime} to set clock time to an earlier time. In contrast, the
+real time is unaffected by `setTime`; therefore the difference between real time
+and clock time tells us how far behind real time the simulation is.
+
+When the simulation is reset, the clock is typically set to time zero. In that case
+the real time should be set to match clock time by using {@link #setRealTime}.
+@return {number} current real time in seconds
+*/
+getRealTime() {
+  if (this.isRunning_) {
+    return (Util.systemTime() - this.realStart_sys_secs_)*this.timeRate_;
+  } else {
+    return this.saveRealTime_secs_;
+  }
+};
+
+/** Returns array of ClockTasks that are scheduled to run.
+@return {!Array<!ClockTask>} array of ClockTasks that are scheduled to run
+*/
+getTasks() {
+  return goog.array.clone(this.tasks_);
+};
+
+/** Returns the [clock time](#clocktime) in seconds. When the Clock
+{@link #isRunning is running}, the clock time advances along with system time at
+whatever {@link #getTimeRate time rate} is specified.
+@return {number} the clock time in seconds
+*/
+getTime() {
+  if (this.isRunning_) {
+    return (Util.systemTime() - this.clockStart_sys_secs_)*this.timeRate_;
+  } else {
+    return this.saveTime_secs_;
+  }
+};
+
+/** Returns the rate at which clock time passes compared to system time; a value of 2
+makes clock time pass twice as fast as system time; a value of 0.5 makes clock time pass
+half as fast as system time.
+* @return {number} the rate at which clock time passes compared to system time
+*/
+getTimeRate() {
+  return this.timeRate_;
+};
+
+/** Whether the clock time and real time are advancing.
+@return {boolean} `true` when clock time and real time are advancing
+*/
+isRunning() {
+  return this.isRunning_;
+};
+
+/** Returns `true` when in [step mode](#stepmode) which means that clock time has
+advanced even though the Clock is paused. The client should update the Simulation to
+match the new clock time, and call {@link #clearStepMode} to indicate that the
+Simulation has advanced.
+@return {boolean} `true` when in *step mode*
+*/
+isStepping() {
+  return this.stepMode_;
+};
+
+/** Pauses clock time and real time. Cancels all ClockTasks. Broadcasts a
+{@link #CLOCK_PAUSE} event.
+@return {undefined}
+*/
+pause() {
+  this.clearStepMode();
+  if (this.isRunning_) {
+    this.saveTime_secs_ = this.getTime();
+    this.saveRealTime_secs_ = this.getRealTime();
+    this.cancelAllTasks();
+    this.isRunning_ = false;
+    this.broadcast(new GenericEvent(this, Clock.CLOCK_PAUSE));
+    if (Util.DEBUG && this.clockDebug_)
+      console.log('Clock.pause '+this.toString());
+  }
+};
+
+/** Removes the ClockTask from the list of tasks to be run, and cancels the task.
+@param {!ClockTask} task the ClockTask to remove
+*/
+removeTask(task) {
+  goog.array.remove(this.tasks_, task);
+  task.cancel();
+};
+
+/** Resumes increasing clock time and real time. Schedules all ClockTasks that
+should run at or after the current clock time. Broadcasts a {@link #CLOCK_RESUME} event.
+@return {undefined}
+*/
+resume() {
+  this.clearStepMode();
+  if (!this.isRunning_) {
+    this.isRunning_ = true;
+    this.setTimePrivate(this.saveTime_secs_);
+    this.setRealTime(this.saveRealTime_secs_);
+    if (Util.DEBUG && this.clockDebug_) {
+      console.log('Clock.resume '+this.toString());
+    }
+    this.broadcast(new GenericEvent(this, Clock.CLOCK_RESUME));
+  }
+};
+
+/**
+@param {!ClockTask} task
+@private
+*/
+scheduleTask(task) {
+  task.cancel();
+  if (this.isRunning_) {
+    // convert to system time to handle time rate other than 1.0
+    var nowTime = this.clockToSystem(this.getTime());
+    var taskTime = this.clockToSystem(task.getTime());
+    // execute the task immediately if current time matches task time
+    if (!Util.veryDifferent(taskTime, nowTime)) {
+      task.execute();
+    } else if (taskTime > nowTime) {
+      task.schedule(taskTime - nowTime);
+    }
+  }
+};
+
+/** Sets the real time to the given time in seconds. See {@link #getRealTime}.
+@param {number} time_secs the time to set
+*/
+setRealTime(time_secs) {
+  if (Util.DEBUG && this.clockDebug_)
+    console.log('Clock.setRealTime '+Util.NF5(time_secs));
+  if (this.isRunning_) {
+    this.realStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
+  } else {
+    this.saveRealTime_secs_ = time_secs;
+  }
+};
+
+/** Sets the [clock time](#clocktime), in seconds. Also schedules all ClockTasks that
+should run at or after the given time. Broadcasts a {@link #CLOCK_SET_TIME} event.
+@param {number} time_secs the time in seconds to set this Clock to
+*/
+setTime(time_secs) {
+  // Ignore when we are close to the requested time; this prevents needless
+  // CLOCK_SET_TIME events. Because system clock usually has millisecond resolution
+  // we use 0.001 for the threshold to set the time.
+  var t = this.getTime();
+  if (Util.veryDifferent(t, time_secs, 0.001)) {
+    this.setTimePrivate(time_secs);
+    if (Util.DEBUG && this.clockDebug_) {
+      console.log('Clock.setTime('+time_secs+') getTime='+t
+          +' realTime='+Util.NF5(this.getRealTime()));
+    }
+    this.broadcast(new GenericEvent(this, Clock.CLOCK_SET_TIME));
+  }
+};
+
+/**
+@param {number} time_secs
+@private
+*/
+setTimePrivate(time_secs) {
+  if (this.isRunning_) {
+    this.clockStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
+    // schedule all ClockTasks
+    goog.array.forEach(this.tasks_, goog.bind(this.scheduleTask, this));
+  } else {
+    this.saveTime_secs_ = time_secs;
+  }
+};
+
+/** Sets the rate at which clock time passes compared to system time. A value of 2 makes
+clock time pass twice as fast as system time; a value of 0.5 makes clock time pass half
+as fast as system time. Broadcasts the {@link #TIME_RATE} Parameter if it changes.
+@param {number} rate the rate at which clock time passes compared to system time
+*/
+setTimeRate(rate) {
+  if (Util.veryDifferent(this.timeRate_, rate)) {
+    var t = this.getTime();
+    var sysT = this.getRealTime();
+    this.timeRate_ = rate;
+    this.setTimePrivate(t);
+    this.setRealTime(sysT);
+    var diff = Math.abs(t - this.getTime());
+    goog.asserts.assert(diff < 2E-3, 'time diff='+diff);
+    diff = Math.abs(sysT - this.getRealTime());
+    goog.asserts.assert(diff < 2E-3, 'realTime diff='+diff);
+    this.broadcastParameter(Clock.en.TIME_RATE);
+  };
+};
+
+/** Performs a single step forward in time; puts the Clock into [step mode](#stepmode);
+advances the clock time and real time by the specified time step; pauses the clock; and
+broadcasts a {@link #CLOCK_STEP} event.
+
+When the client sees that {@link #isStepping} is `true`, it should advance the
+Simulation to match the current clock time, and then call {@link #clearStepMode}.
+
+@param {number} timeStep  amount of time to advance the clock in seconds
+*/
+step(timeStep) {
+  this.pause();
+  this.stepMode_ = true;
+  goog.asserts.assertNumber(timeStep);
+  var startStepTime = this.saveTime_secs_;
+  this.saveTime_secs_ += timeStep;
+  this.saveRealTime_secs_ += timeStep;
+  this.broadcast(new GenericEvent(this, Clock.CLOCK_STEP));
+  if (Util.DEBUG && this.clockDebug_) {
+    console.log('Clock.step timeStep='+Util.NFE(timeStep)+' '+this.toString());
+  }
+  // execute tasks that should fire during this step
+  this.executeTasks(startStepTime, timeStep);
+};
+
+/** Converts system time to clock time. System time is defined by
+{@link Util#systemTime}.
+@param {number} systemTime in seconds
+@return {number} clock time equivalent of systemTime
+*/
+systemToClock(systemTime) {
+  return (systemTime - this.clockStart_sys_secs_)*this.timeRate_;
+};
+}
 
 /**  Name of the GenericEvent fired when the Clock is paused, see {@link #pause}.
 * @type {string}
@@ -240,285 +509,6 @@ Clock.CLOCK_SET_TIME ='CLOCK_SET_TIME';
 * @const
 */
 Clock.CLOCK_STEP ='CLOCK_STEP';
-
-/** Adds a ClockTask to the list of tasks which will be run, and schedules it to be run
-if its time is now or in the future. The time to run the task is specified in the
-ClockTask.
-@param {!ClockTask} task the ClockTask to add to list of tasks to be run
-*/
-Clock.prototype.addTask = function(task) {
-  if (!goog.array.contains(this.tasks_, task)) {
-    this.tasks_.push(task);
-    this.scheduleTask(task);
-  }
-};
-
-/**
-@return {undefined}
-@private
-*/
-Clock.prototype.cancelAllTasks = function() {
-  goog.array.forEach(this.tasks_, function(task) { task.cancel(); });
-};
-
-/** Called during [step mode](#stepmode), this indicates that the client has advanced
-the Simulation to match the clock time.
-@return {undefined}
-*/
-Clock.prototype.clearStepMode = function() {
-  this.stepMode_ = false;
-};
-
-/** Converts clock time to system time. System time is defined by
-{@link Util#systemTime}.
-@param {number} clockTime in seconds
-@return {number} system time equivalent of clockTime
-*/
-Clock.prototype.clockToSystem = function(clockTime) {
-  return clockTime/this.timeRate_ + this.clockStart_sys_secs_;
-};
-
-/** Schedules tasks for immediate execution that are in the given range of time from
-`startTime` to `startTime + timeStep`.
-@param {number} startTime
-@param {number} timeStep
-@private
-*/
-Clock.prototype.executeTasks = function(startTime, timeStep) {
-  goog.array.forEach(this.tasks_, function(task) {
-    if (task.getTime() >= startTime && task.getTime() <= startTime + timeStep) {
-      task.schedule(0);
-    }
-  });
-};
-
-/** Returns the [real time](#realtime) in seconds which is in the same time scale as
-the clock time; used for checking simulation performance. Like clock time, real time
-starts at zero time; is paused when the Clock is paused; and runs at the same rate as
-clock time.
-
-When a simulation cannot keep up with real time the Clock is **retarded** by client
-code calling {@link #setTime} to set clock time to an earlier time. In contrast, the
-real time is unaffected by `setTime`; therefore the difference between real time
-and clock time tells us how far behind real time the simulation is.
-
-When the simulation is reset, the clock is typically set to time zero. In that case
-the real time should be set to match clock time by using {@link #setRealTime}.
-@return {number} current real time in seconds
-*/
-Clock.prototype.getRealTime = function() {
-  if (this.isRunning_) {
-    return (Util.systemTime() - this.realStart_sys_secs_)*this.timeRate_;
-  } else {
-    return this.saveRealTime_secs_;
-  }
-};
-
-/** Returns array of ClockTasks that are scheduled to run.
-@return {!Array<!ClockTask>} array of ClockTasks that are scheduled to run
-*/
-Clock.prototype.getTasks = function() {
-  return goog.array.clone(this.tasks_);
-};
-
-/** Returns the [clock time](#clocktime) in seconds. When the Clock
-{@link #isRunning is running}, the clock time advances along with system time at
-whatever {@link #getTimeRate time rate} is specified.
-@return {number} the clock time in seconds
-*/
-Clock.prototype.getTime = function() {
-  if (this.isRunning_) {
-    return (Util.systemTime() - this.clockStart_sys_secs_)*this.timeRate_;
-  } else {
-    return this.saveTime_secs_;
-  }
-};
-
-/** Returns the rate at which clock time passes compared to system time; a value of 2
-makes clock time pass twice as fast as system time; a value of 0.5 makes clock time pass
-half as fast as system time.
-* @return {number} the rate at which clock time passes compared to system time
-*/
-Clock.prototype.getTimeRate = function() {
-  return this.timeRate_;
-};
-
-/** Whether the clock time and real time are advancing.
-@return {boolean} `true` when clock time and real time are advancing
-*/
-Clock.prototype.isRunning = function() {
-  return this.isRunning_;
-};
-
-/** Returns `true` when in [step mode](#stepmode) which means that clock time has
-advanced even though the Clock is paused. The client should update the Simulation to
-match the new clock time, and call {@link #clearStepMode} to indicate that the
-Simulation has advanced.
-@return {boolean} `true` when in *step mode*
-*/
-Clock.prototype.isStepping = function() {
-  return this.stepMode_;
-};
-
-/** Pauses clock time and real time. Cancels all ClockTasks. Broadcasts a
-{@link #CLOCK_PAUSE} event.
-@return {undefined}
-*/
-Clock.prototype.pause = function() {
-  this.clearStepMode();
-  if (this.isRunning_) {
-    this.saveTime_secs_ = this.getTime();
-    this.saveRealTime_secs_ = this.getRealTime();
-    this.cancelAllTasks();
-    this.isRunning_ = false;
-    this.broadcast(new GenericEvent(this, Clock.CLOCK_PAUSE));
-    if (Util.DEBUG && this.clockDebug_)
-      console.log('Clock.pause '+this.toString());
-  }
-};
-
-/** Removes the ClockTask from the list of tasks to be run, and cancels the task.
-@param {!ClockTask} task the ClockTask to remove
-*/
-Clock.prototype.removeTask = function(task) {
-  goog.array.remove(this.tasks_, task);
-  task.cancel();
-};
-
-/** Resumes increasing clock time and real time. Schedules all ClockTasks that
-should run at or after the current clock time. Broadcasts a {@link #CLOCK_RESUME} event.
-@return {undefined}
-*/
-Clock.prototype.resume = function() {
-  this.clearStepMode();
-  if (!this.isRunning_) {
-    this.isRunning_ = true;
-    this.setTimePrivate(this.saveTime_secs_);
-    this.setRealTime(this.saveRealTime_secs_);
-    if (Util.DEBUG && this.clockDebug_) {
-      console.log('Clock.resume '+this.toString());
-    }
-    this.broadcast(new GenericEvent(this, Clock.CLOCK_RESUME));
-  }
-};
-
-/**
-@param {!ClockTask} task
-@private
-*/
-Clock.prototype.scheduleTask = function(task) {
-  task.cancel();
-  if (this.isRunning_) {
-    // convert to system time to handle time rate other than 1.0
-    var nowTime = this.clockToSystem(this.getTime());
-    var taskTime = this.clockToSystem(task.getTime());
-    // execute the task immediately if current time matches task time
-    if (!Util.veryDifferent(taskTime, nowTime)) {
-      task.execute();
-    } else if (taskTime > nowTime) {
-      task.schedule(taskTime - nowTime);
-    }
-  }
-};
-
-/** Sets the real time to the given time in seconds. See {@link #getRealTime}.
-@param {number} time_secs the time to set
-*/
-Clock.prototype.setRealTime = function(time_secs) {
-  if (Util.DEBUG && this.clockDebug_)
-    console.log('Clock.setRealTime '+Util.NF5(time_secs));
-  if (this.isRunning_) {
-    this.realStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
-  } else {
-    this.saveRealTime_secs_ = time_secs;
-  }
-};
-
-/** Sets the [clock time](#clocktime), in seconds. Also schedules all ClockTasks that
-should run at or after the given time. Broadcasts a {@link #CLOCK_SET_TIME} event.
-@param {number} time_secs the time in seconds to set this Clock to
-*/
-Clock.prototype.setTime = function(time_secs) {
-  // Ignore when we are close to the requested time; this prevents needless
-  // CLOCK_SET_TIME events. Because system clock usually has millisecond resolution
-  // we use 0.001 for the threshold to set the time.
-  var t = this.getTime();
-  if (Util.veryDifferent(t, time_secs, 0.001)) {
-    this.setTimePrivate(time_secs);
-    if (Util.DEBUG && this.clockDebug_) {
-      console.log('Clock.setTime('+time_secs+') getTime='+t
-          +' realTime='+Util.NF5(this.getRealTime()));
-    }
-    this.broadcast(new GenericEvent(this, Clock.CLOCK_SET_TIME));
-  }
-};
-
-/**
-@param {number} time_secs
-@private
-*/
-Clock.prototype.setTimePrivate = function(time_secs) {
-  if (this.isRunning_) {
-    this.clockStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
-    // schedule all ClockTasks
-    goog.array.forEach(this.tasks_, goog.bind(this.scheduleTask, this));
-  } else {
-    this.saveTime_secs_ = time_secs;
-  }
-};
-
-/** Sets the rate at which clock time passes compared to system time. A value of 2 makes
-clock time pass twice as fast as system time; a value of 0.5 makes clock time pass half
-as fast as system time. Broadcasts the {@link #TIME_RATE} Parameter if it changes.
-@param {number} rate the rate at which clock time passes compared to system time
-*/
-Clock.prototype.setTimeRate = function(rate) {
-  if (Util.veryDifferent(this.timeRate_, rate)) {
-    var t = this.getTime();
-    var sysT = this.getRealTime();
-    this.timeRate_ = rate;
-    this.setTimePrivate(t);
-    this.setRealTime(sysT);
-    var diff = Math.abs(t - this.getTime());
-    goog.asserts.assert(diff < 2E-3, 'time diff='+diff);
-    diff = Math.abs(sysT - this.getRealTime());
-    goog.asserts.assert(diff < 2E-3, 'realTime diff='+diff);
-    this.broadcastParameter(Clock.en.TIME_RATE);
-  };
-};
-
-/** Performs a single step forward in time; puts the Clock into [step mode](#stepmode);
-advances the clock time and real time by the specified time step; pauses the clock; and
-broadcasts a {@link #CLOCK_STEP} event.
-
-When the client sees that {@link #isStepping} is `true`, it should advance the
-Simulation to match the current clock time, and then call {@link #clearStepMode}.
-
-@param {number} timeStep  amount of time to advance the clock in seconds
-*/
-Clock.prototype.step = function(timeStep) {
-  this.pause();
-  this.stepMode_ = true;
-  goog.asserts.assertNumber(timeStep);
-  var startStepTime = this.saveTime_secs_;
-  this.saveTime_secs_ += timeStep;
-  this.saveRealTime_secs_ += timeStep;
-  this.broadcast(new GenericEvent(this, Clock.CLOCK_STEP));
-  if (Util.DEBUG && this.clockDebug_) {
-    console.log('Clock.step timeStep='+Util.NFE(timeStep)+' '+this.toString());
-  }
-  // execute tasks that should fire during this step
-  this.executeTasks(startStepTime, timeStep);
-};
-
-/** Converts system time to clock time. System time is defined by
-{@link Util#systemTime}.
-@param {number} systemTime in seconds
-@return {number} clock time equivalent of systemTime
-*/
-Clock.prototype.systemToClock = function(systemTime) {
-  return (systemTime - this.clockStart_sys_secs_)*this.timeRate_;
-};
 
 /** Set of internationalized strings.
 @typedef {{
@@ -548,4 +538,4 @@ Clock.de_strings = {
 Clock.i18n = goog.LOCALE === 'de' ? Clock.de_strings :
     Clock.en;
 
-}); // goog.scope
+exports = Clock;

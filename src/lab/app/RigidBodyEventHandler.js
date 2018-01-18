@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var Clock = myphysicslab.lab.util.Clock;
+const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var KeyCodes = goog.events.KeyCodes;
 var PointMass = myphysicslab.lab.model.PointMass;

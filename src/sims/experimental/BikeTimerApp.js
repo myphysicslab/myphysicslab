@@ -29,7 +29,7 @@ goog.require('myphysicslab.lab.view.SimView');
 
 goog.scope(function() {
 
-var Clock = myphysicslab.lab.util.Clock;
+const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 var DisplayText = myphysicslab.lab.view.DisplayText;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var LabCanvas = myphysicslab.lab.view.LabCanvas;

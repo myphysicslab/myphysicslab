@@ -83,7 +83,7 @@ myphysicslab.lab.util.test.Clock_test.MockObserver1.prototype.observe =  functio
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
   if (event instanceof GenericEvent) {
-    var Clock = myphysicslab.lab.util.Clock;
+    const Clock = goog.module.get('myphysicslab.lab.util.Clock');
     this.numEvents++;
     if (event.nameEquals(Clock.CLOCK_PAUSE)) {
       this.numPauseEvents++;
@@ -164,7 +164,7 @@ stage    system     clock    real    expect  period  events  fired  running?  fi
 */
 var testClock1 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Clock = myphysicslab.lab.util.Clock;
+  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
   var tol = 1E-14;
 
   var mockClock = new goog.testing.MockClock();
@@ -460,7 +460,7 @@ stage     system     clock    real    expect  period  events  fired  rate
 // tests changing time rateClock
 var testClock2 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Clock = myphysicslab.lab.util.Clock;
+  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
   var tol = 1E-14;
 
   var mockClock = new goog.testing.MockClock();
@@ -633,7 +633,7 @@ goog.exportProperty(window, 'testClock2', testClock2);
 // test that ClockTasks are executed at proper times.
 var testClock3 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var Clock = myphysicslab.lab.util.Clock;
+  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
   const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
   var tol = 1E-3;
 

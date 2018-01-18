@@ -39,7 +39,7 @@ goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
-var Clock = myphysicslab.lab.util.Clock;
+const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
 var ConcreteMemoList = myphysicslab.lab.util.ConcreteMemoList;
 var ErrorObserver = myphysicslab.lab.util.ErrorObserver;
