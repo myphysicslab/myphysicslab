@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ClockTask');
+goog.module('myphysicslab.lab.util.ClockTask');
 
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Holds a callback function to be executed at a specified time; used with
 {@link myphysicslab.lab.util.Clock}. ClockTasks are scheduled as a side effect of Clock
@@ -49,15 +45,14 @@ Example of a ClockTask that slows the time rate the Clock after 5 seconds:
 
 See Clock section [Types of Time](myphysicslab.lab.util.Clock.html#typesoftime)
 about *clock time* and *system time*.
-
+*/
+class ClockTask {
+/**
 * @param {number} time the clock time in seconds when the callBack should start
 * @param {?function()} callBack the function to execute at the given
 *     clock time
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.util.ClockTask = function(time, callBack) {
+constructor(time, callBack) {
   /** the function to execute at the given clock time
   * @type {?function()}
   * @private
@@ -74,10 +69,9 @@ myphysicslab.lab.util.ClockTask = function(time, callBack) {
   */
   this.timeoutID_ = NaN;
 };
-var ClockTask = myphysicslab.lab.util.ClockTask;
 
 /** @override */
-ClockTask.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'ClockTask{time_: '+Util.NF(this.time_)
       +', timeoutID_: '+this.timeoutID_
       +', callBack_: '+this.callBack_
@@ -87,7 +81,7 @@ ClockTask.prototype.toString = function() {
 /** Cancels the scheduled execution of this task.
 @return {undefined}
 */
-ClockTask.prototype.cancel = function() {
+cancel() {
   if (isFinite(this.timeoutID_)) {
     clearTimeout(this.timeoutID_);
     this.timeoutID_ = NaN;
@@ -97,7 +91,7 @@ ClockTask.prototype.cancel = function() {
 /** Execute the ClockTask's callback.
 @return {undefined}
 */
-ClockTask.prototype.execute = function() {
+execute() {
   if (goog.isFunction(this.callBack_)) {
     this.callBack_();
   }
@@ -106,7 +100,7 @@ ClockTask.prototype.execute = function() {
 /** Returns the clock time in seconds when the task should be executed.
 @return {number} the clock time in seconds when the task should be executed
 */
-ClockTask.prototype.getTime = function() {
+getTime() {
   return this.time_;
 };
 
@@ -114,7 +108,7 @@ ClockTask.prototype.getTime = function() {
 system time
 @param {number} delay time delay till execution in seconds of system time
 */
-ClockTask.prototype.schedule = function(delay) {
+schedule(delay) {
   this.cancel();
   if (goog.isFunction(this.callBack_)) {
     var delay_ms = Math.round(delay*1000);
@@ -125,8 +119,9 @@ ClockTask.prototype.schedule = function(delay) {
 /** Set the callback to execute.
 * @param {?function()} callBack the function to execute
 */
-ClockTask.prototype.setCallback = function(callBack) {
+setCallback(callBack) {
   this.callBack_ = callBack;
 };
 
-}); // goog.scope
+}
+exports = ClockTask;

@@ -634,7 +634,7 @@ goog.exportProperty(window, 'testClock2', testClock2);
 var testClock3 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var Clock = myphysicslab.lab.util.Clock;
-  var ClockTask = myphysicslab.lab.util.ClockTask;
+  const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
   var tol = 1E-3;
 
   var mockClock = new goog.testing.MockClock();
