@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.MemoList');
+goog.module('myphysicslab.lab.util.MemoList');
 
-goog.require('myphysicslab.lab.util.Memorizable');
-
-goog.scope(function() {
-
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
 
 /** A {@link Memorizable} object that keeps a list of other Memorizable objects and
 frequently tells them to `memorize` simulation data. The `memorize` method is meant to
@@ -45,27 +41,26 @@ Memorizable objects contained in the LabView, such as a
 {@link myphysicslab.lab.graph.GraphLine}.
 
 * @interface
-* @extends {myphysicslab.lab.util.Memorizable}
 */
-myphysicslab.lab.util.MemoList = function() {};
-var MemoList = myphysicslab.lab.util.MemoList;
+class MemoList extends Memorizable {
 
 /** Adds an object to the list of Memorizable objects. These object's `memorize`
 methods will be called from this object's `memorize` method.
 @param {!Memorizable} memorizable object to add to the list of Memorizable objects
 @throws {!Error} if called during the `memorize` method.
 */
-MemoList.prototype.addMemo;
+addMemo(memorizable) {}
 
 /** Returns the list of Memorizable objects stored in this MemoList.
 @return {!Array<!Memorizable>} the list of Memorizable objects
 */
-MemoList.prototype.getMemos;
+getMemos() {}
 
 /** Removes an object from the list of Memorizable objects.
 @param {!Memorizable} memorizable object to remove from the list of Memorizable objects
 @throws {!Error} if called during the `memorize` method.
 */
-MemoList.prototype.removeMemo;
+removeMemo(memorizable) {}
 
-}); // goog.scope
+}
+exports = MemoList;

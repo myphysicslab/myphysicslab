@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var MemoList = myphysicslab.lab.util.MemoList;
+const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
