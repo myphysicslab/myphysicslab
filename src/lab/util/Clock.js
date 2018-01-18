@@ -119,15 +119,13 @@ All the Parameters are broadcast when their values change.  In addition:
 
 @todo Should be able to have clock time (and therefore simulation time) start at
 something other than zero.
-
-* @extends {AbstractSubject}
 */
-class Clock {
+class Clock extends AbstractSubject {
 /**
 * @param {string=} opt_name name of this Clock.
 */
 constructor(opt_name) {
-  AbstractSubject.call(this, opt_name || 'CLOCK');
+  super(opt_name || 'CLOCK');
   /** when 'zero clock time' occurs, in system time, in seconds
   * @type {number}
   * @private
