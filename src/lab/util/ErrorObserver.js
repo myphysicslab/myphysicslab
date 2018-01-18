@@ -12,21 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.ErrorObserver');
+goog.module('myphysicslab.lab.util.ErrorObserver');
 
-goog.require('myphysicslab.lab.util.Printable');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** An object that is notified when an error occurs.
 
 See {@link myphysicslab.lab.app.SimRunner#addErrorObserver}.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.ErrorObserver = function() {};
+class ErrorObserver extends Printable {
 
 /** This method is called when an error occurs.
 * @param {*} error the error that caused the exception
 * @return {undefined}
 */
-myphysicslab.lab.util.ErrorObserver.prototype.notifyError;
+notifyError(error) {}
+
+}
+exports = ErrorObserver;
