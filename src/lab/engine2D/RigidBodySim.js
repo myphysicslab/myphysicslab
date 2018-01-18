@@ -416,7 +416,7 @@ RigidBodySim.prototype.saveInitialState = function() {
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
 };
 
-/** Removes all RigidBodys, ForceLaws, SpecialVariables, and clears the SimList. This is
+/** Removes all RigidBodys, ForceLaws, most Variables, and clears the SimList. This is
 used in applications to build a new configuration of RigidBodys. This should give
 essentially the same state that you would get from making a new RigidBodySim, except for
 parameters that have been changed.
@@ -433,7 +433,7 @@ RigidBodySim.prototype.cleanSlate = function() {
   this.clearForceLaws();
   // Don't make a new VarsList, because there are various controls and graphs
   // observing the current VarsList.  Instead, resize it for zero bodies.
-  // Note this will delete any SpecialVariables that have been added to the end
+  // Note this will delete any Variables that have been added to the end
   // of the VarsList.
   var nv = this.varsList_.numVariables();
   if (nv > 4) {

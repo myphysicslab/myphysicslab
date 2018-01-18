@@ -12,32 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ConcreteVariable');
+goog.module('myphysicslab.lab.model.ConcreteVariable');
 
-goog.require('myphysicslab.lab.model.Variable');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Variable = goog.require('myphysicslab.lab.model.Variable');
 
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-
-/** Represents a variable in a {@link myphysicslab.lab.model.VarsList}.
-
+/** Represents a Variable in a {@link myphysicslab.lab.model.VarsList}.
+@implements {Variable}
+*/
+class ConcreteVariable {
+/**
 @param {!Subject} varsList the VarsList which contains this Variable
 @param {string} name the name of this Variable; this will be underscorized so the
     English name can be passed in here. See {@link Util#toName}.
 @param {string} localName the localized name of this Variable
-@constructor
-@struct
-@implements {myphysicslab.lab.model.Variable}
 */
-myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
+constructor(varsList, name, localName) {
   /** the VarsList which contains this Variable
   @type {!Subject}
   @private
@@ -75,10 +68,9 @@ myphysicslab.lab.model.ConcreteVariable = function(varsList, name, localName) {
   */
   this.doesBroadcast_ = false;
 };
-var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
 
 /** @override */
-ConcreteVariable.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', isComputed_: '+this.isComputed_
       +', localName_: "'+this.localName_+'"'
@@ -87,7 +79,7 @@ ConcreteVariable.prototype.toString = function() {
 };
 
 /** @override */
-ConcreteVariable.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : this.getClassName()+'{name_: "'+this.name_+'"'
       +', value_: '+Util.NF(this.getValue())+'}';
 };
@@ -95,77 +87,77 @@ ConcreteVariable.prototype.toStringShort = function() {
 /** Returns name of class of this object.
 * @return {string} name of class of this object.
 */
-ConcreteVariable.prototype.getClassName = function() {
+getClassName() {
   return 'ConcreteVariable';
 };
 
 /** @override */
-ConcreteVariable.prototype.getAsString = function() {
+getAsString() {
   return this.value_.toString();
 };
 
 /** @override */
-ConcreteVariable.prototype.getBroadcast = function() {
+getBroadcast() {
   return this.doesBroadcast_;
 };
 
 /** @override */
-ConcreteVariable.prototype.getChoices = function() {
+getChoices() {
   return [];
 };
 
 /** @override */
-ConcreteVariable.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? this.localName_ : this.name_;
 };
 
 /** @override */
-ConcreteVariable.prototype.getSequence = function() {
+getSequence() {
   return this.seq_;
 };
 
 /** @override */
-ConcreteVariable.prototype.getSubject = function() {
+getSubject() {
   return this.varsList_;
 };
 
 /** @override */
-ConcreteVariable.prototype.getValue = function() {
+getValue() {
   return this.value_;
 };
 
 /** @override */
-ConcreteVariable.prototype.getValues = function() {
+getValues() {
   return [];
 };
 
 /** @override */
-ConcreteVariable.prototype.incrSequence = function() {
+incrSequence() {
   this.seq_++;
 };
 
 /** @override */
-ConcreteVariable.prototype.isComputed = function() {
+isComputed() {
   return this.isComputed_;
 };
 
 /** @override */
-ConcreteVariable.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.name_ == Util.toName(name);
 };
 
 /** @override */
-ConcreteVariable.prototype.setBroadcast = function(value) {
+setBroadcast(value) {
   this.doesBroadcast_ = value;
 };
 
 /** @override */
-ConcreteVariable.prototype.setComputed = function(value) {
+setComputed(value) {
   this.isComputed_ = value;
 };
 
 /** @override */
-ConcreteVariable.prototype.setFromString = function(value) {
+setFromString(value) {
   var v = Number(value);
   if (isNaN(v)) {
     throw new Error('not a number: '+value+' (ConcreteVariable)');
@@ -174,7 +166,7 @@ ConcreteVariable.prototype.setFromString = function(value) {
 };
 
 /** @override */
-ConcreteVariable.prototype.setValue = function(value) {
+setValue(value) {
   if (this.value_ != value) {
     this.value_ = value;
     this.seq_++;
@@ -185,8 +177,9 @@ ConcreteVariable.prototype.setValue = function(value) {
 };
 
 /** @override */
-ConcreteVariable.prototype.setValueSmooth = function(value) {
+setValueSmooth(value) {
   this.value_ = value;
 };
 
-}); // goog.scope
+}
+exports = ConcreteVariable;

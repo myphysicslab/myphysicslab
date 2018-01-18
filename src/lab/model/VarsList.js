@@ -27,10 +27,9 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
+const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-var SpecialVariable = myphysicslab.lab.model.SpecialVariable;
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Variable = goog.module.get('myphysicslab.lab.model.Variable');
@@ -200,7 +199,7 @@ VarsList.prototype.addVariable = function(variable) {
      underscorized so the English name can be passed in here.
      See {@link Util#toName}.
 @param {!Array<string>} localNames localized names of variables
-@return {number} index index of first Variable that was added
+@return {number} index index of first ConcreteVariable that was added
 @throws {!Error} if any of the variable names is 'DELETED', or array of names is empty
 */
 VarsList.prototype.addVariables = function(names, localNames) {

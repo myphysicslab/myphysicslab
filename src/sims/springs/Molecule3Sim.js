@@ -450,7 +450,7 @@ Molecule3Sim.prototype.setWalls = function(walls) {
 Molecule3Sim.prototype.cleanSlate = function() {
   // Don't make a new VarsList, because there are various controls and graphs
   // observing the current VarsList.  Instead, resize it for zero bodies.
-  // Note this will delete any SpecialVariables that have been added to the end
+  // Note this will delete any Variables that have been added to the end
   // of the VarsList.
   var nv = this.getVarsList().numVariables();
   // set time to zero

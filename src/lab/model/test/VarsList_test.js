@@ -166,6 +166,7 @@ goog.exportProperty(window, 'testVarsList1', testVarsList1);
 // test variations on constructor.
 // @todo  exercise each of these more.
 var testVarsList2 = function() {
+  const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
   // no variables
   var va = new myphysicslab.lab.model.VarsList([], []);
   assertEquals(0, va.numVariables());
@@ -205,7 +206,7 @@ var testVarsList2 = function() {
   assertEquals(0, var1.getValue());
 
   // add a variable
-  va.addVariable(new myphysicslab.lab.model.ConcreteVariable(va, 'baz', 'baz'));
+  va.addVariable(new ConcreteVariable(va, 'baz', 'baz'));
   assertEquals(3, va.numVariables());
   assertEquals('BAZ', va.getVariable(2).getName());
   assertEquals('baz', va.getVariable(2).getName(/*localized=*/true));

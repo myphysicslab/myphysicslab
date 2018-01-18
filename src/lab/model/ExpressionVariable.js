@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
+const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VarsList = myphysicslab.lab.model.VarsList;
