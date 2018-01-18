@@ -28,7 +28,7 @@ goog.scope(function() {
 const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const SubjectEvent = goog.module.get('myphysicslab.lab.util.SubjectEvent');
-var Terminal = myphysicslab.lab.util.Terminal;
+const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Executes EasyScript commands which get or set {@link Parameter} values

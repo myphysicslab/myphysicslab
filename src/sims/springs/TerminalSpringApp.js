@@ -65,7 +65,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var Terminal = lab.util.Terminal;
+const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalLayout = sims.common.VerticalLayout;
 

@@ -40,7 +40,7 @@ const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var SubjectList = lab.util.SubjectList;
-var Terminal = lab.util.Terminal;
+const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** TabLayout is a tab-based layout for showing a simulation, graph, controls.

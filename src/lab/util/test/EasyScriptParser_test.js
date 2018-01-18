@@ -28,7 +28,7 @@ goog.require('goog.testing.jsunit');
 var testEasyScript1 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var EasyScriptParser = myphysicslab.lab.util.EasyScriptParser;
-  var Terminal = myphysicslab.lab.util.Terminal;
+  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   var ConcreteVariable = myphysicslab.lab.model.ConcreteVariable;
   var VarsList = myphysicslab.lab.model.VarsList;
   var SimView = myphysicslab.lab.view.SimView;

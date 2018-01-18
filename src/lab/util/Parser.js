@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Parser');
+goog.module('myphysicslab.lab.util.Parser');
 
-goog.require('myphysicslab.lab.util.Printable');
-
-goog.scope(function() {
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** Executes a script.
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.Parser = function() {};
-var Parser = myphysicslab.lab.util.Parser;
+class Parser extends Printable {
 
 /** Adds a single-word command to this Parser. When the Parser sees this command during
 {@link #parse} it will execute the given function. The function result is returned as
@@ -32,7 +28,7 @@ the result of `parse`.
 * @param {function()} commandFnc function to execute
 * @param {string} helpText description of the command for help text
 */
-Parser.prototype.addCommand;
+addCommand(commandName, commandFnc, helpText) {}
 
 /** Interprets and executes a script.
 * @param {string} script the script to parse and execute
@@ -40,13 +36,14 @@ Parser.prototype.addCommand;
 *     the allowed syntax
 * @throws {!Error} if executing the script causes an error
 */
-Parser.prototype.parse;
+parse(script) {}
 
 /** Saves current application and simulation state to compare against when generating a
 script later on. This helps shorten the script by not including settings that are
 unchanged.
 * @return {undefined}
 */
-Parser.prototype.saveStart;
+saveStart() {}
 
-}); // goog.scope
+}
+exports = Parser;

@@ -12,20 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.Terminal');
+goog.module('myphysicslab.lab.util.Terminal');
 
 goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.events.KeyEvent');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Parser');
-goog.require('myphysicslab.lab.util.GenericMemo'); // in case user wants to use it.
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var Parser = myphysicslab.lab.util.Parser;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Parser = goog.require('myphysicslab.lab.util.Parser');
+// GenericMemo is required only in case user wants to use it in Terminal.
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 
 /** Executes scripts and provides a command line user interface with separate text
 fields for input and output. Executes EasyScript or JavaScript. The JavaScript is a
@@ -397,16 +393,15 @@ was renamed to, and enter a script that would call that function; this would not
 detected by the 'safe subset' checking which is looking for `myEval`, not for whatever
 that method got renamed to.
 
-
+*/
+class Terminal {
+/**
 * @param {?HTMLInputElement} term_input  A text input field where user can enter a
 *    script to evaluate, or `null`.
 * @param {?HTMLInputElement} term_output  A multi-line textarea where results are
 *    shown, or `null`
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.util.Terminal = function(term_input, term_output) {
+constructor(term_input, term_output) {
   /** terminal input, usually a text input field.
   * @type {?HTMLInputElement}
   * @private
@@ -516,23 +511,15 @@ myphysicslab.lab.util.Terminal = function(term_input, term_output) {
   // so that they go thru Terminal.eval() and are properly vetted for script safety.
   this.addRegex('eval', 'terminal.', /*addToVars=*/false);
 };
-var Terminal = myphysicslab.lab.util.Terminal;
 
 /** @override */
-Terminal.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'Terminal{history.length: '+this.history_.length
       +', regexs_.length: '+this.regexs_.length
       +', verbose_: '+this.verbose_
       +', parser_: '+(this.parser_ != null ? this.parser_.toStringShort() : 'null')
       +'}';
 };
-
-/**  A regular expression and the replacement string expression to be used in a
-* `String.replace()` command.
-* @typedef {{regex: !RegExp, replace: string}}
-* @private
-*/
-Terminal.regexPair;
 
 /** Adds a regular expression rule for transforming scripts before they are executed.
 *
@@ -558,7 +545,7 @@ Terminal.regexPair;
 * @return {boolean} whether the regex rule was added (returns `false` if the regex rule
 *     already exists)
 */
-Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend) {
+addRegex(names, prefix, opt_addToVars, opt_prepend) {
   var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
   if (!Util.ADVANCED) {
     if (names.length == 0) {
@@ -602,7 +589,7 @@ Terminal.prototype.addRegex = function(names, prefix, opt_addToVars, opt_prepend
 * @param {boolean=} opt_addToVars if `true`, then the name is added to the
 *     set of defined names returned by {@link #vars}; default is `true`
 */
-Terminal.prototype.addWhiteList = function(name, opt_addToVars) {
+addWhiteList(name, opt_addToVars) {
   var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
   if (!goog.array.contains(this.whiteList_, name)) {
     this.whiteList_.push(name);
@@ -619,9 +606,8 @@ Terminal.prototype.addWhiteList = function(name, opt_addToVars) {
 * @return {boolean} true means found prohibited name in command, and name was not
 *      on the white list
 * @private
-* @static
 */
-Terminal.badCommand = function(command, name, whiteList) {
+static badCommand(command, name, whiteList) {
   for (var i=0, n=whiteList.length; i<n; i++) {
     if (name == whiteList[i]) {
       return false;
@@ -636,7 +622,7 @@ Terminal.badCommand = function(command, name, whiteList) {
 * start with `> `. Each script is also trimmed of leading or trailing whitespace.
 * @return {!Array<string>}  array of command strings in current Terminal output
 */
-Terminal.prototype.commands = function() {
+commands() {
   if (this.term_output_) {
     var t = this.term_output_.value;
     t = t.split('\n');
@@ -657,7 +643,7 @@ Terminal.prototype.commands = function() {
 /** Remove connections to other objects to facilitate garbage collection.
 * @return {undefined}
 */
-Terminal.prototype.destroy = function() {
+destroy() {
   goog.events.unlistenByKey(this.keyDownKey_);
   goog.events.unlistenByKey(this.changeKey_);
 };
@@ -668,9 +654,8 @@ Terminal.prototype.destroy = function() {
 * See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} s the string to modify
 * @return {string} the string with unicode characters replaced
-* @static
 */
-Terminal.deUnicode = function(s) {
+static deUnicode(s) {
   return s.replace(/\\(x|u00)([0-9a-fA-F]{2})/g, function(v1, v2, v3) {
         return String.fromCharCode(Number('0x'+v3));
       });
@@ -683,9 +668,8 @@ characters `!'()*`. Some websites (such as reddit) will not accept a user suppli
 that contains those characters.
 * @param {string} str the string to encode
 * @return {string} the encoded string
-* @static
 */
-Terminal.encodeURIComponent = function(str) {
+static encodeURIComponent(str) {
   return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
     return '%' + c.charCodeAt(0).toString(16);
   });
@@ -729,7 +713,7 @@ script that caused the error).
 * @throws {!Error} if an error occurs while executing the script and `opt_userInput`
 *    is false
 */
-Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
+eval(script, opt_output, opt_userInput) {
   var output = goog.isBoolean(opt_output) ? opt_output : true;
   var userInput = opt_userInput || false;
   if (userInput && !output) {
@@ -840,7 +824,7 @@ Terminal.prototype.eval = function(script, opt_output, opt_userInput) {
 * @param {string} script a Javascript script to be executed
 * @return {string} the script expanded by registered regular expressions
 */
-Terminal.prototype.expand = function(script) {
+expand(script) {
   var c = this.replaceVar(script);
   var exp = ''; //result
   var count = 0;
@@ -928,7 +912,7 @@ Terminal.prototype.expand = function(script) {
 /** Sets user keyboard focus to input text area.
 * @return {undefined}
 */
-Terminal.prototype.focus = function() {
+focus() {
   if (this.term_input_) {
     this.term_input_.focus();
   }
@@ -938,7 +922,7 @@ Terminal.prototype.focus = function() {
 See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
-Terminal.prototype.forget = function() {
+forget() {
   var localStore = window.localStorage;
   if (goog.isDefAndNotNull(localStore)) {
     localStore.removeItem(this.pageKey());
@@ -950,7 +934,7 @@ Terminal.prototype.forget = function() {
 * [session history](#sessionhistory).
 * @param {!goog.events.KeyEvent} evt the event that caused this callback to fire
 */
-Terminal.prototype.handleKey = function(evt) {
+handleKey(evt) {
   if (this.term_input_ && this.term_output_) {
     if (evt.metaKey && evt.keyCode==goog.events.KeyCodes.K) {
       // cmd-K = clear all terminal output
@@ -999,7 +983,7 @@ Terminal.prototype.handleKey = function(evt) {
 * @return {boolean} true if q is already on the list of regex's to execute.
 * @private
 */
-Terminal.prototype.hasRegex = function(q) {
+hasRegex(q) {
   var regex = q.regex.toString();
   var replace = q.replace;
   return goog.array.some(this.regexs_,
@@ -1012,7 +996,7 @@ Terminal.prototype.hasRegex = function(q) {
 * @param {!goog.events.Event} evt the event that caused this callback to fire
 * @private
 */
-Terminal.prototype.inputCallback = function(evt) {
+inputCallback(evt) {
   if (this.term_input_) {
     this.eval(this.term_input_.value, /*output=*/true, /*userInput=*/true);
   }
@@ -1023,7 +1007,7 @@ Terminal.prototype.inputCallback = function(evt) {
 * @return {*}
 * @private
 */
-Terminal.prototype.myEval = function(script) {
+myEval(script) {
   'use strict';
   if (!Util.ADVANCED) {
     return eval(script);
@@ -1041,7 +1025,7 @@ local storage. See [Script Storage](#scriptstorage).
 @return {string} the identifying key to use for storing scripts for current web page in
   HTML5 local storage.
 */
-Terminal.prototype.pageKey = function() {
+pageKey() {
   // This is the name of the html file, and therefore includes a locale suffix,
   // so that each language has a separate script stored.
   // For example:
@@ -1064,7 +1048,7 @@ Before executing the query script, this calls {@link Parser#saveStart} to save t
 current settings.
 * @return {boolean} returns true if there was a URL query script
 */
-Terminal.prototype.parseURL = function() {
+parseURL() {
   if (this.parser_ != null) {
     this.parser_.saveStart();
   }
@@ -1094,7 +1078,7 @@ or if there is no URL query then use {@link #recall} to load the stored script, 
 See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
-Terminal.prototype.parseURLorRecall = function() {
+parseURLorRecall() {
   if (!this.parseURL()) {
     this.recall();
   }
@@ -1103,7 +1087,7 @@ Terminal.prototype.parseURLorRecall = function() {
 /** Print the given text to the Terminal output text area, followed by a newline.
 * @param {string} text the text to print to the Terminal output text area
 */
-Terminal.prototype.println = function(text) {
+println(text) {
   if (this.term_output_) {
     this.term_output_.value += text+'\n';
     this.scrollDown();
@@ -1116,7 +1100,7 @@ the script if `opt_execute` is `true`. See [Script Storage](#scriptstorage).
 *    `false` means don't execute the script, only print it in text output area
 * @return {undefined}
 */
-Terminal.prototype.recall = function(opt_execute) {
+recall(opt_execute) {
   var execute = goog.isBoolean(opt_execute) ? opt_execute : true;
   this.recalling = true;
   var localStore = window.localStorage;
@@ -1145,7 +1129,7 @@ stored, as returned by {@link #commands}.
 *    `undefined`, then stores scripts returned by {@link #commands}
 * @return {undefined}
 */
-Terminal.prototype.remember = function(opt_script) {
+remember(opt_script) {
   var script = goog.isDef(opt_script) ? opt_script : this.commands();
   if (goog.isArray(script)) {
     script = script.join('\n');
@@ -1158,7 +1142,6 @@ Terminal.prototype.remember = function(opt_script) {
   }
 };
 
-
 /** Removes the 'var' at front of a script (if any) and adds regexp which mimics that
 JavaScript `var` statement. This helps make Terminal scripts more JavaScript-like, by
 hiding usage of the `z` object. For example, if the script is
@@ -1170,7 +1153,7 @@ this will return just `foo = 3;` and add a regexp that replaces `foo` by `z.foo`
 * @return {string} the script with the `var` removed
 * @private
 */
-Terminal.prototype.replaceVar = function(script) {
+replaceVar(script) {
   var m = script.match(/^\s*var\s+(\w[\w_\d]*)(.*)/);
   if (m) {
     // suppose the script was 'var foo = 3;'
@@ -1187,7 +1170,7 @@ Terminal.prototype.replaceVar = function(script) {
 /** Scroll the Terminal output text area to show last line.
 * @return {undefined}
 */
-Terminal.prototype.scrollDown = function() {
+scrollDown() {
   if (this.term_input_ && this.term_output_) {
     // scroll down to show the last line
     // scrollTop = number pixels that have scrolled off top edge of element
@@ -1205,14 +1188,14 @@ update a display such as a {@link myphysicslab.lab.view.SimView SimView} or
 * @param {function()=} afterEvalFn  function to execute after evaluating
 *     the user input; can be `undefined` to turn off this feature
 */
-Terminal.prototype.setAfterEval = function(afterEvalFn) {
+setAfterEval(afterEvalFn) {
   this.afterEvalFn_ = afterEvalFn;
 };
 
 /** Installs the Parser used to parse scripts during {@link #eval}.
 * @param {!Parser} parser the Parser to install.
 */
-Terminal.prototype.setParser = function(parser) {
+setParser(parser) {
   this.parser_ = parser;
   if (!Util.ADVANCED) {
     parser.addCommand('vars', goog.bind(function() {return String(this.vars());}, this),
@@ -1223,7 +1206,7 @@ Terminal.prototype.setParser = function(parser) {
 /** Sets the prompt symbol shown before each command.
 * @param {string} prompt the prompt symbol to show before each command
 */
-Terminal.prototype.setPrompt = function(prompt) {
+setPrompt(prompt) {
   this.prompt_ = String(prompt);
 };
 
@@ -1233,7 +1216,7 @@ In verbose mode, the command is echoed a second time to show how it appears afte
 expanded version.
 * @param {boolean} expand `true` means show expanded names in the Terminal output
 */
-Terminal.prototype.setVerbose = function(expand) {
+setVerbose(expand) {
   this. verbose_ = expand;
 };
 
@@ -1245,7 +1228,7 @@ Note however that top-level double-slash comments end at a new-line not semicolo
 *    including the first top-level semicolon; array[1] = the remaining text.
 * @private
 */
-Terminal.prototype.splitAtSemicolon = function(text) {
+splitAtSemicolon(text) {
   var level = 0;
   var lastNonSpace = '';
   var lastChar = '';
@@ -1313,9 +1296,8 @@ expression that is valid JavaScript for referring to the object. This defines sh
 names for many classes and also utility functions like `prettyPrint`, `methodsOf`,
 `println` and `propertiesOf`.
 * @param {!Terminal} terminal the Terminal instance to which the regexp's will be added
-* @static
 */
-Terminal.stdRegex = function(terminal) {
+static stdRegex(terminal) {
   // These regexp's look for words that are NOT preceded by a dot.
   // Should NOT match within: new myphysicslab.lab.util.DoubleRect
   // SHOULD match within: new DoubleRect
@@ -1332,13 +1314,13 @@ Terminal.stdRegex = function(terminal) {
   // See http://stackoverflow.com/questions/12317049/
   // how-to-split-a-long-regular-expression-into-multiple-lines-in-javascript
   // (The alternative is create a new RegExp from a set of concatenated strings).
-  terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask'
-      +'|GenericMemo|RandomLCG|EasyScriptParser|Terminal|Timer',
+  terminal.addRegex('RandomLCG|EasyScriptParser|Timer',
       'myphysicslab.lab.util.', /*addToVars=*/false);
 
   // note: $$ represent $ in regexp replace string.
-  terminal.addRegex('DoubleRect|GenericEvent|GenericObserver'
-      +'|MutableVector|ParameterBoolean|ParameterNumber|ParameterString|Util|Vector',
+  terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask'
+      +'|DoubleRect|GenericEvent|GenericMemo|GenericObserver'
+      +'|MutableVector|ParameterBoolean|ParameterNumber|ParameterString|Terminal|Util|Vector',
       'module$$exports$$myphysicslab$$lab$$util$$', /*addToVars=*/false);
 
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',
@@ -1379,7 +1361,7 @@ Terminal.stdRegex = function(terminal) {
 * This is used as a "help" command for the user to know what variables are available.
 * @return {!Array<string>} names of defined variables, in alphabetic order
 */
-Terminal.prototype.vars = function() {
+vars() {
   var v = this.vars_.split('|');
   goog.array.sort(v);
   return v;
@@ -1395,9 +1377,8 @@ which is an access of a numbered array property.
 
 * @param {string} script
 * @throws {!Error} if the script contains prohibited code.
-* @static
 */
-Terminal.vetBrackets = function(script) {
+static vetBrackets(script) {
   // Allow only non-negative integer inside square brackets (indicates array access).
   var goodRegexp = /^\w\s*\[\s*\d*\s*\]$/;
   // Only check when bracket is preceded by an identifier, which is a property access.
@@ -1421,9 +1402,8 @@ prohibited by default, but you can add a blackList regexp for it.
 * @param {!Array<string>} whiteList list of allowed commands
 * @param {!RegExp=} opt_blackList additional prohibited commands
 * @throws {!Error} if the script contains prohibited code.
-* @static
 */
-Terminal.vetCommand = function(script, whiteList, opt_blackList) {
+static vetCommand(script, whiteList, opt_blackList) {
   // prohibit all window properties (which are globally accessible names),
   // except for those on whiteList_.
   for (var p in window) {
@@ -1440,6 +1420,15 @@ Terminal.vetCommand = function(script, whiteList, opt_blackList) {
     throw new Error('prohibited name in script: '+script);
   }
 };
+
+}
+
+/**  A regular expression and the replacement string expression to be used in a
+* `String.replace()` command.
+* @typedef {{regex: !RegExp, replace: string}}
+* @private
+*/
+Terminal.regexPair;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -1473,4 +1462,4 @@ Terminal.i18n = goog.LOCALE === 'de' ?
     Terminal.de_strings :
     Terminal.en;
 
-});  // goog.scope
+exports = Terminal;
