@@ -12,22 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.SubjectList');
+goog.module('myphysicslab.lab.util.SubjectList');
 
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Subject');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
 
 /** Provides a list of {@link myphysicslab.lab.util.Subject Subjects} contained
 in this object. Used when creating an
 {@link myphysicslab.lab.util.EasyScriptParser EasyScriptParser}.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.util.SubjectList = function() {};
+class SubjectList extends Printable {
 
 /** Returns list of Subjects contained in this object, possibly including this object
 itself.
 @return {!Array<!myphysicslab.lab.util.Subject>} the Subjects contained in this object
 */
-myphysicslab.lab.util.SubjectList.prototype.getSubjects;
+getSubjects() {}
+}
+exports = SubjectList;

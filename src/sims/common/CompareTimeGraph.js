@@ -72,7 +72,7 @@ var SimController = lab.app.SimController;
 var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
-var SubjectList = lab.util.SubjectList;
+const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
