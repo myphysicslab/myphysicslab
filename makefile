@@ -226,6 +226,7 @@ molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App-$(loc)
 molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App-$(loc).html )
 molecule4: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule4App-$(loc).html )
 molecule5: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule5App-$(loc).html )
+molecule6: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule6App-$(loc).html )
 moveabledoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp-$(loc).html )
 moveablependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveablePendulumApp-$(loc).html )
 multiplecollision: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MultipleCollisionApp-$(loc).html )
@@ -319,6 +320,7 @@ sims/springs/Molecule1App \
 sims/springs/Molecule3App \
 sims/springs/Molecule4App \
 sims/springs/Molecule5App \
+sims/springs/Molecule6App \
 sims/springs/MultiSpringApp \
 sims/springs/SingleSpringApp \
 sims/springs/SingleSpring2App \
@@ -475,6 +477,9 @@ src/sims/springs/SpringNonLinear.js
 
 $(BUILD_DIR)/sims/springs/Molecule5App*.js : src/sims/springs/Molecule3Sim.js \
 src/sims/springs/SpringNonLinear.js
+
+$(BUILD_DIR)/sims/springs/Molecule6App*.js : src/sims/springs/Molecule3Sim.js \
+src/sims/springs/SpringNonLinear2.js
 
 $(BUILD_DIR)/sims/springs/SingleSpringApp_*.js : src/sims/springs/SingleSpringSim.js
 
