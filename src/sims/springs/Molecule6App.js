@@ -101,6 +101,7 @@ myphysicslab.sims.springs.Molecule6App = function(elem_ids, numAtoms) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
   /** @type {!Molecule3Sim} */
   this.sim_ = new Molecule3Sim();
+  this.sim_.setDamping(0);
   var advance = new CollisionAdvance(this.sim_);
   AbstractApp.call(this, elem_ids, simRect, this.sim_, advance,
       /*eventHandler=*/this.sim_, /*energySystem=*/this.sim_);
