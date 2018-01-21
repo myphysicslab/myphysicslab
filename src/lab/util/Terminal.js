@@ -1324,11 +1324,11 @@ static stdRegex(terminal) {
       'Util.', /*addToVars=*/false);
 
   terminal.addRegex('CollisionAdvance|CoordType|EulersMethod|ExpressionVariable'
-      +'|FunctionVariable|MassObject|ModifiedEuler|ConcreteLine|NumericalPath'
+      +'|MassObject|ModifiedEuler|ConcreteLine|NumericalPath'
       +'|PointMass|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring',
       'myphysicslab.lab.model.', /*addToVars=*/false);
 
-  terminal.addRegex('ConcreteVariable|VarsList',
+  terminal.addRegex('ConcreteVariable|FunctionVariable|VarsList',
       'module$$exports$$myphysicslab$$lab$$model$$', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'

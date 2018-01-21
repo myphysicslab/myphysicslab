@@ -12,34 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.FunctionVariable');
+goog.module('myphysicslab.lab.model.FunctionVariable');
 
-goog.require('myphysicslab.lab.model.ConcreteVariable');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
+const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
 function. Works only in
 [simple-compiled](Building.html#advancedvs.simplecompile) apps.
-
-@param {!VarsList} varsList the VarsList which contains this Variable
-@param {string} name the name of this Variable; this will be underscorized so the
-    English name can be passed in here. See {@link Util#toName}.
-@param {string} localName the localized name of this Variable
-* @param {function():number} fnc function that returns a value
-* @constructor
-* @final
-* @struct
-* @extends {ConcreteVariable}
 */
-myphysicslab.lab.model.FunctionVariable = function(varsList, name, localName, fnc) {
-  ConcreteVariable.call(this, varsList, name, localName);
+class FunctionVariable extends ConcreteVariable {
+/**
+* @param {!VarsList} varsList the VarsList which contains this Variable
+* @param {string} name the name of this Variable; this will be underscorized so the
+*     English name can be passed in here. See {@link Util#toName}.
+* @param {string} localName the localized name of this Variable
+* @param {function():number} fnc function that returns a value
+*/
+constructor(varsList, name, localName, fnc) {
+  super(varsList, name, localName);
   /**
   * @type {function():number}
   * @private
@@ -47,41 +39,40 @@ myphysicslab.lab.model.FunctionVariable = function(varsList, name, localName, fn
   this.function_ = fnc;
   this.setComputed(true);
 };
-var FunctionVariable = myphysicslab.lab.model.FunctionVariable;
-goog.inherits(FunctionVariable, ConcreteVariable);
 
 /** @override */
-FunctionVariable.prototype.toString = function() {
-  return Util.ADVANCED ? '' :
-      FunctionVariable.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       + ', function_: '+this.function_+ '}';
 };
 
 /** @override */
-FunctionVariable.prototype.getBroadcast = function() {
+getBroadcast() {
   return false;
 };
 
 /** @override */
-FunctionVariable.prototype.getClassName = function() {
+getClassName() {
   return 'FunctionVariable';
 };
 
 /** @override */
-FunctionVariable.prototype.getValue = function() {
+getValue() {
   return this.function_();
 };
 
 /** @override */
-FunctionVariable.prototype.setBroadcast = function(value) {
+setBroadcast(value) {
 };
 
 /** @override */
-FunctionVariable.prototype.setValue = function(value) {
+setValue(value) {
 };
 
 /** @override */
-FunctionVariable.prototype.setValueSmooth = function(value) {
+setValueSmooth(value) {
 };
 
-}); // goog.scope
+} // end class
+
+exports = FunctionVariable;

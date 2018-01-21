@@ -12,19 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ExpressionVariable');
+goog.module('myphysicslab.lab.model.ExpressionVariable');
 
-goog.require('myphysicslab.lab.model.ConcreteVariable');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
+const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
 expression which is evaluated at runtime. Works only in
@@ -39,8 +32,9 @@ An example of using ExpressionVariable is in
         this.terminal, 'Math.sin(sim.getTime());'));
 
 The variable can then be displayed in a graph.
-
-
+*/
+class ExpressionVariable extends ConcreteVariable {
+/**
 * @param {!VarsList} varsList the VarsList which contains this Variable
 * @param {string} name the name of this Variable; this will be underscorized so the
 *     English name can be passed in here. See {@link Util#toName}.
@@ -48,14 +42,9 @@ The variable can then be displayed in a graph.
 * @param {!Terminal} terminal the Terminal object used for evaluating the script
 * @param {string} script the JavaScript expression to evaluate that will provide the
 *     variable's value
-* @constructor
-* @final
-* @struct
-* @extends {ConcreteVariable}
 */
-myphysicslab.lab.model.ExpressionVariable = function(varsList, name, localName,
-    terminal, script) {
-  ConcreteVariable.call(this, varsList, name, localName);
+constructor(varsList, name, localName, terminal, script) {
+  super(varsList, name, localName);
   /**
   * @type {!Terminal}
   * @private
@@ -68,42 +57,41 @@ myphysicslab.lab.model.ExpressionVariable = function(varsList, name, localName,
   this.expression_ = script;
   this.setComputed(true);
 };
-var ExpressionVariable = myphysicslab.lab.model.ExpressionVariable;
-goog.inherits(ExpressionVariable, ConcreteVariable);
 
 /** @override */
-ExpressionVariable.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
       ExpressionVariable.superClass_.toString.call(this).slice(0, -1)
       + ', expression_: "'+this.expression_+'"'+ '}';
 };
 
 /** @override */
-ExpressionVariable.prototype.getBroadcast = function() {
+getBroadcast() {
   return false;
 };
 
 /** @override */
-ExpressionVariable.prototype.getClassName = function() {
+getClassName() {
   return 'ExpressionVariable';
 };
 
 /** @override */
-ExpressionVariable.prototype.getValue = function() {
+getValue() {
   var r = this.terminal_.eval(this.expression_, /*output=*/false);
   return goog.isNumber(r) ? r : Number.NaN;
 };
 
 /** @override */
-ExpressionVariable.prototype.setBroadcast = function(value) {
+setBroadcast(value) {
 };
 
 /** @override */
-ExpressionVariable.prototype.setValue = function(value) {
+setValue(value) {
 };
 
 /** @override */
-ExpressionVariable.prototype.setValueSmooth = function(value) {
+setValueSmooth(value) {
 };
 
-}); // goog.scope
+} // end class
+exports = ExpressionVariable;
