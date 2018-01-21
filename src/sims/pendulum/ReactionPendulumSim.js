@@ -49,7 +49,7 @@ var Shapes = myphysicslab.lab.engine2D.Shapes;
 var SimList = myphysicslab.lab.model.SimList;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Single pendulum done with reaction forces instead of the analytic equations of

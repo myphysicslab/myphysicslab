@@ -64,7 +64,7 @@ var Simulation = lab.model.Simulation;
 var Spring = lab.model.Spring;
 var StringShape = sims.pde.StringShape;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a string under tension which can have waves in 2D.  This is

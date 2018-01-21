@@ -38,7 +38,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** 2-D spring simulation with gravity. An immoveable top anchor mass with a spring and

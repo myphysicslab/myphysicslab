@@ -38,7 +38,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 var PointMass = lab.model.PointMass;
 var Spring = lab.model.Spring;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a pendulum hanging from a moveable anchor point.

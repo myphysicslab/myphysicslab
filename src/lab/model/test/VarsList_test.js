@@ -18,9 +18,9 @@ goog.require('goog.testing.jsunit');
 goog.require('goog.array');
 goog.require('myphysicslab.lab.model.ConcreteVariable');
 goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.Observer');
 
 var testVarsList1 = function() {
+  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
   var i, n;
   var var_names = [
     'position',
@@ -42,7 +42,7 @@ var testVarsList1 = function() {
     'Federenergie',
     'gesamte Energie'
   ];
-  var va = new myphysicslab.lab.model.VarsList(var_names, i18n_names);
+  var va = new VarsList(var_names, i18n_names);
 
   var timeIdx = va.timeIndex();
   assertEquals(3, timeIdx);
@@ -166,13 +166,14 @@ goog.exportProperty(window, 'testVarsList1', testVarsList1);
 // test variations on constructor.
 // @todo  exercise each of these more.
 var testVarsList2 = function() {
+  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
   const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
   // no variables
-  var va = new myphysicslab.lab.model.VarsList([], []);
+  var va = new VarsList([], []);
   assertEquals(0, va.numVariables());
   assertEquals(-1, va.timeIndex());
   // 1 variable
-  va = new myphysicslab.lab.model.VarsList(['foo'], ['foo']);
+  va = new VarsList(['foo'], ['foo']);
   assertEquals(1, va.numVariables());
   assertEquals(-1, va.timeIndex());
   assertEquals('FOO', va.getVariable(0).getName());
@@ -185,7 +186,7 @@ var testVarsList2 = function() {
   assertEquals(0, var0.getValue());
 
   // 2 variables, with names
-  va = new myphysicslab.lab.model.VarsList(['foo', 'bar'], ['foo', 'bar']);
+  va = new VarsList(['foo', 'bar'], ['foo', 'bar']);
   assertEquals(2, va.numVariables());
   assertEquals(-1, va.timeIndex());
   assertEquals('FOO', va.getVariable(0).getName());
@@ -219,7 +220,7 @@ var testVarsList2 = function() {
 
   // variable names must be unique
   assertThrows(function() {
-      new myphysicslab.lab.model.VarsList(['foo', 'foo'], ['foo', 'foo']);
+      new VarsList(['foo', 'foo'], ['foo', 'foo']);
     });
 };
 goog.exportProperty(window, 'testVarsList2', testVarsList2);

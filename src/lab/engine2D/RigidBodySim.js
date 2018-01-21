@@ -70,7 +70,7 @@ var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
 var UtilEngine = lab.engine2D.UtilEngine;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of rigid body movement with external forces like gravity or springs, but

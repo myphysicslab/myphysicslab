@@ -22,10 +22,11 @@ goog.scope(function() {
 
 const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
-function.
+function. Works only in
+[simple-compiled](Building.html#advancedvs.simplecompile) apps.
 
 @param {!VarsList} varsList the VarsList which contains this Variable
 @param {string} name the name of this Variable; this will be underscorized so the

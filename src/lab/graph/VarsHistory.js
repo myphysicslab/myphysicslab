@@ -26,7 +26,7 @@ const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
 const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
 /** Collects data from a {@link VarsList},
 storing it in a {@link HistoryList}. Each entry in

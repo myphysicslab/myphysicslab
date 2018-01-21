@@ -24,10 +24,11 @@ goog.scope(function() {
 const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
 /** A {@link myphysicslab.lab.model.Variable} whose value is defined by a JavaScript
-expression which is evaluated at runtime.
+expression which is evaluated at runtime. Works only in
+[simple-compiled](Building.html#advancedvs.simplecompile) apps.
 
 An example of using ExpressionVariable is in
 {@link myphysicslab.sims.springs.SingleSpringApp}. This adds a variable whose value is

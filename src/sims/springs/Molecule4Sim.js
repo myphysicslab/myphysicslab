@@ -49,7 +49,7 @@ var PointMass = myphysicslab.lab.model.PointMass;
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a 'molecule' made of 2 to 6 masses with springs between, moving freely

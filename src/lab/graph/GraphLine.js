@@ -43,7 +43,7 @@ const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
 /** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed
 of {@link GraphPoint}s. The variables that this GraphLine is tracking are selected via

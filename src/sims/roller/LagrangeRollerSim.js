@@ -45,7 +45,7 @@ var PointMass = lab.model.PointMass;
 var SimObject = lab.model.SimObject;
 var Spring = lab.model.Spring;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Rollercoaster simulation that uses Lagrangian method of finding equations of motion.

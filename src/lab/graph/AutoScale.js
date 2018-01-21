@@ -43,7 +43,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var SimView = myphysicslab.lab.view.SimView;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
 /** Watches the {@link VarsList} of one or more {@link GraphLine} to calculate the
 range rectangle that encloses the points on the graphs, and sets accordingly the

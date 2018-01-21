@@ -33,7 +33,7 @@ var SimList = myphysicslab.lab.model.SimList;
 var Simulation = myphysicslab.lab.model.Simulation;
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
 /** Abstract base class for {@link myphysicslab.lab.model.ODESim}.
 

@@ -70,7 +70,7 @@ var SimRunner = lab.app.SimRunner;
 var SimView = lab.view.SimView;
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 var VerticalAlign = lab.view.VerticalAlign;
 
 /** Creates two independent graphs which have a common horizontal time axis, but the

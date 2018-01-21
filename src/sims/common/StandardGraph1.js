@@ -80,7 +80,7 @@ var Subject = lab.util.Subject;
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 var VerticalAlign = lab.view.VerticalAlign;
 
 /** Creates a graph with a single GraphLine. Creates a single SimView and DisplayGraph

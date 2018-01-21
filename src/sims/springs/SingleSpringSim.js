@@ -34,7 +34,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 var PointMass = myphysicslab.lab.model.PointMass;
 var Spring = myphysicslab.lab.model.Spring;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = myphysicslab.lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Simulation of a spring-mass system.  One end of the spring is fixed, the other end

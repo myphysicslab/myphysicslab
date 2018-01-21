@@ -40,7 +40,7 @@ var testRigidBodySim1 = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var Vertex = myphysicslab.lab.engine2D.Vertex;
   var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
-  var VarsList = myphysicslab.lab.model.VarsList;
+  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
   var i;
   var tol = 1E-15;

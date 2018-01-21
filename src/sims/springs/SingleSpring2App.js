@@ -111,7 +111,7 @@ const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 var TimeGraph2 = sims.common.TimeGraph2;
 var ToggleControl = lab.controls.ToggleControl;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** SingleSpring2App displays the {@link SingleSpringSim} simulation.

@@ -675,7 +675,8 @@ static encodeURIComponent(str) {
   });
 }
 
-/** Executes the given script and returns the result.
+/** Executes the given script and returns the result. Advanced compilation disables
+general JavaScript evaluation, but allows the Parser (such as EasyScriptParser).
 
 When `opt_output` is `true`: updates the `result` variable, prints the result in the
 output text area, scrolls the output so the most recent text is visible, clears the
@@ -1003,6 +1004,7 @@ inputCallback(evt) {
 };
 
 /** Private version of eval, with no local variables that might confuse the script.
+Under advanced compilation this does not do the eval, it only prints an error message.
 * @param {string} script
 * @return {*}
 * @private
@@ -1323,8 +1325,11 @@ static stdRegex(terminal) {
 
   terminal.addRegex('CollisionAdvance|CoordType|EulersMethod|ExpressionVariable'
       +'|FunctionVariable|MassObject|ModifiedEuler|ConcreteLine|NumericalPath'
-      +'|PointMass|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
+      +'|PointMass|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring',
       'myphysicslab.lab.model.', /*addToVars=*/false);
+
+  terminal.addRegex('ConcreteVariable|VarsList',
+      'module$$exports$$myphysicslab$$lab$$model$$', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'

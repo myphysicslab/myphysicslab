@@ -12,27 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.VarsList');
+goog.module('myphysicslab.lab.model.VarsList');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.ConcreteVariable');
-goog.require('myphysicslab.lab.model.Variable');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Variable = goog.module.get('myphysicslab.lab.model.Variable');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Variable = goog.require('myphysicslab.lab.model.Variable');
 
 /** A set of {@link Variable}s which represent the current state of a simulation.
 Variables are numbered from `0` to `n-1` where `n` is the number of Variables.
@@ -85,21 +75,20 @@ index of other existing variables.
 
 + GenericEvent name {@link VarsList.VARS_MODIFIED}
 
+*/
+class VarsList extends AbstractSubject {
+/**
 * @param {!Array<string>} varNames  array of language-independent variable names;
      these will be underscorized so the English names can be passed in here.
      See {@link Util#toName}.
 * @param {!Array<string>} localNames  array of localized variable names
 * @param {string=} opt_name name of this VarsList
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 * @throws {!Error} if varNames and localNames are different lengths, or contain
 *     anything other than strings, or have duplicate values
 */
-myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
+constructor(varNames, localNames, opt_name) {
   var name = goog.isDef(opt_name) ? opt_name : 'VARIABLES';
-  AbstractSubject.call(this, name);
+  super(name);
   /**  Index of time variable, or -1 if there is no time variable.
   * @type {number}
   * @private
@@ -143,33 +132,30 @@ myphysicslab.lab.model.VarsList = function(varNames, localNames, opt_name) {
   */
   this.histArray_ = [];
 };
-var VarsList = myphysicslab.lab.model.VarsList;
-goog.inherits(VarsList, AbstractSubject);
 
 /** @override */
-VarsList.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', timeIdx_: '+this.timeIdx_
       +', history_: '+this.history_
       + ', ' + goog.array.map(this.varList_, function(v, idx) {
           return '('+idx+') '+ v.getName()+': '+Util.NF5E(v.getValue()); })
-      + VarsList.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-VarsList.prototype.toStringShort = function() {
-  return Util.ADVANCED ? '' :
-      VarsList.superClass_.toStringShort.call(this).slice(0, -1)
+toStringShort() {
+  return Util.ADVANCED ? '' : super.toStringShort().slice(0, -1)
       +', numVars: '+this.varList_.length+'}';
 };
 
 /** @override */
-VarsList.prototype.getClassName = function() {
+getClassName() {
   return 'VarsList';
 };
 
 /** @override */
-VarsList.prototype.addParameter = function(parameter) {
+addParameter(parameter) {
   throw new Error('addParameter not allowed on VarsList');
 };
 
@@ -178,7 +164,7 @@ VarsList.prototype.addParameter = function(parameter) {
 @return {number} the index number of the variable
 @throws {!Error} if name if the Variable is 'DELETED'
 */
-VarsList.prototype.addVariable = function(variable) {
+addVariable(variable) {
   var name = variable.getName();
   if (name == VarsList.DELETED) {
     throw new Error('variable cannot be named "'+VarsList.DELETED+'"');
@@ -202,7 +188,7 @@ VarsList.prototype.addVariable = function(variable) {
 @return {number} index index of first ConcreteVariable that was added
 @throws {!Error} if any of the variable names is 'DELETED', or array of names is empty
 */
-VarsList.prototype.addVariables = function(names, localNames) {
+addVariables(names, localNames) {
   var howMany = names.length;
   if (howMany == 0) {
     throw new Error();
@@ -231,7 +217,7 @@ VarsList.prototype.addVariables = function(names, localNames) {
 * @param {number} index
 * @private
 */
-VarsList.prototype.checkIndex_ = function(index) {
+checkIndex_(index) {
   if (index < 0 || index >= this.varList_.length) {
     throw new Error('bad variable index='+index+'; numVars='+this.varList_.length);
   }
@@ -244,7 +230,7 @@ should not be used.
 @param {number} index index of first variable to delete
 @param {number} howMany number of variables to delete
 */
-VarsList.prototype.deleteVariables = function(index, howMany) {
+deleteVariables(index, howMany) {
   if (howMany == 0) {
     return;
   }
@@ -264,7 +250,7 @@ if necessary.
 @return {number} index of first variable
 @private
 */
-VarsList.prototype.findOpenSlot_ = function(quantity) {
+findOpenSlot_(quantity) {
   if (quantity < 0) {
     throw new Error();
   }
@@ -306,12 +292,12 @@ VarsList.prototype.findOpenSlot_ = function(quantity) {
 /** Whether recent history is being stored, see {@link #saveHistory}.
 @return {boolean} true if recent history is being stored
 */
-VarsList.prototype.getHistory = function() {
+getHistory() {
   return this.history_;
 };
 
 /** @override */
-VarsList.prototype.getParameter = function(name) {
+getParameter(name) {
   name = Util.toName(name);
   var p = goog.array.find(this.varList_, function(p) {
     return p.getName() == name;
@@ -323,7 +309,7 @@ VarsList.prototype.getParameter = function(name) {
 };
 
 /** @override */
-VarsList.prototype.getParameters = function() {
+getParameters() {
   return goog.array.clone(this.varList_);
 };
 
@@ -336,7 +322,7 @@ See [About Units Of Measurement](Architecture.html#aboutunitsofmeasurement).
 @return {number} the current simulation time
 @throws {!Error} if there is no time variable
 */
-VarsList.prototype.getTime = function() {
+getTime() {
   if (this.timeIdx_ < 0) {
     throw new Error('no time variable');
   }
@@ -347,7 +333,7 @@ VarsList.prototype.getTime = function() {
 @param {number} index the index of the variable of interest
 @return {number} the current value of the variable of interest
 */
-VarsList.prototype.getValue = function(index) {
+getValue(index) {
   this.checkIndex_(index);
   return this.varList_[index].getValue();
 };
@@ -358,7 +344,7 @@ VarsList.prototype.getValue = function(index) {
 @return {!Array<number>} an array with the current value of each variable.
     Computed variables have value of NaN unless requested.
 */
-VarsList.prototype.getValues = function(computed) {
+getValues(computed) {
   return goog.array.map(this.varList_, function(v) {
     if (!computed && v.isComputed()) {
       return NaN;
@@ -373,7 +359,7 @@ VarsList.prototype.getValues = function(computed) {
     English or language independent version of the name
 @return {!Variable} the Variable object at the given index or with the given name
 */
-VarsList.prototype.getVariable = function(id) {
+getVariable(id) {
   var index;
   if (goog.isNumber(id)) {
     index = id;
@@ -398,7 +384,7 @@ graph to prevent drawing a line between points that have a discontinuity. See
 @param {...number} indexes  the indexes of the variables;
     if no index given then all variable's sequence numbers are incremented
 */
-VarsList.prototype.incrSequence = function(indexes) {
+incrSequence(indexes) {
   if (arguments.length == 0) {
     // increment sequence number on all variables
     for (var i=0, n=this.varList_.length; i<n; i++) {
@@ -418,7 +404,7 @@ VarsList.prototype.incrSequence = function(indexes) {
 variables (which are not being used and should be ignored).
 @return {number} the number of variables in this VarsList
 */
-VarsList.prototype.numVariables = function() {
+numVariables() {
   return this.varList_.length;
 };
 
@@ -427,7 +413,7 @@ VarsList.prototype.numVariables = function() {
 @return {string}
 @private
 */
-VarsList.prototype.printOneHistory = function (idx) {
+printOneHistory(idx) {
   var r = '';
   if (this.history_ && idx <= this.histArray_.length) {
     var v = this.histArray_[this.histArray_.length - idx];
@@ -446,7 +432,7 @@ the snapshot previous to the most recent, etc. See {@link #saveHistory}.
     if no index is specified, then prints a selected set of recent histories.
 @return {string} the history variables formatted as code to recreate the situation
 */
-VarsList.prototype.printHistory = function(index) {
+printHistory(index) {
   if (goog.isNumber(index)) {
     return this.printOneHistory(index);
   } else {
@@ -462,7 +448,7 @@ VarsList.prototype.printHistory = function(index) {
 reproduce an error condition. See {@link #printHistory}.
 @return {undefined}
 */
-VarsList.prototype.saveHistory = function() {
+saveHistory() {
   if (this.history_) {
     var v = this.getValues();
     v.push(this.getTime());
@@ -478,7 +464,7 @@ VarsList.prototype.saveHistory = function() {
 See {@link Parameter#isComputed}.
 @param {...number} indexes  the indexes of the variables
 */
-VarsList.prototype.setComputed = function(indexes) {
+setComputed(indexes) {
   for (var i = 0, n=arguments.length; i < n; i++) {
     var idx = arguments[i];
     this.checkIndex_(idx);
@@ -489,7 +475,7 @@ VarsList.prototype.setComputed = function(indexes) {
 /** Sets whether to store recent history, see {@link #saveHistory}.
 @param {boolean} value true means recent history should be stored
 */
-VarsList.prototype.setHistory = function(value) {
+setHistory(value) {
   this.history_ = value;
 };
 
@@ -499,7 +485,7 @@ Measurement](Architecture.html#aboutunitsofmeasurement).
 @param {number} time the current simulation time.
 @throws {!Error} if there is no time variable
 */
-VarsList.prototype.setTime = function(time) {
+setTime(time) {
   this.setValue(this.timeIdx_, time);
 };
 
@@ -514,7 +500,7 @@ See {@link #incrSequence}.
     previous values, so the sequence number for the variable is incremented
 @throws {!Error} if value is `NaN` for a non-computed variable
 */
-VarsList.prototype.setValue = function(index, value, continuous) {
+setValue(index, value, continuous) {
   this.checkIndex_(index);
   var variable = this.varList_[index];
   if (isNaN(value) && !variable.isComputed()) {
@@ -538,7 +524,7 @@ See {@link #incrSequence}.
     previous values, so the sequence number for the variable is incremented
 @throws {!Error} if length of `vars` exceeds length of VarsList
 */
-VarsList.prototype.setValues = function(vars, continuous) {
+setValues(vars, continuous) {
   // NOTE: vars.length can be less than this.varList_.length
   var N = this.varList_.length;
   var n = vars.length;
@@ -555,7 +541,7 @@ VarsList.prototype.setValues = function(vars, continuous) {
 /** Returns the index of the time variable, or -1 if there is no time variable.
 @return {number} the index of the time variable, or -1 if there is no time variable
 */
-VarsList.prototype.timeIndex = function() {
+timeIndex() {
   return this.timeIdx_;
 };
 
@@ -564,9 +550,11 @@ ordering.
 @return {!Array<!Variable>} the set of Variable objects in this VarsList,
     in their correct ordering.
 */
-VarsList.prototype.toArray = function() {
+toArray() {
   return goog.array.clone(this.varList_);
 };
+
+} // end class
 
 /** Name of event signifying that the set of variables has been modified: variables may
 have been added or removed, or the name of variables changed.
@@ -587,7 +575,6 @@ VarsList.DELETED = 'DELETED';
 * @const
 */
 VarsList.TIME = 'TIME';
-
 
 /** Set of internationalized strings.
 @typedef {{
@@ -617,4 +604,4 @@ VarsList.de_strings = {
 VarsList.i18n = goog.LOCALE === 'de' ? VarsList.de_strings :
     VarsList.en;
 
-}); // goog.scope
+exports = VarsList;

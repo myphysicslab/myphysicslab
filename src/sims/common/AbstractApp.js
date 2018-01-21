@@ -107,7 +107,7 @@ const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 var TimeGraph1 = sims.common.TimeGraph1;
 var ToggleControl = lab.controls.ToggleControl;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VarsList = lab.model.VarsList;
+const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Abstract base class that creates the standard set of views, graphs and controls
