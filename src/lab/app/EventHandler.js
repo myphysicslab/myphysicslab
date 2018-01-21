@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Handles mouse and keyboard events for a

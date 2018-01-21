@@ -26,7 +26,7 @@ goog.scope(function() {
 var CoordMap = myphysicslab.lab.view.CoordMap;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var MassObject = myphysicslab.lab.model.MassObject;
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** An object that can be displayed in a {@link myphysicslab.lab.view.LabView}, often it

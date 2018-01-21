@@ -37,7 +37,7 @@ var testDisplaySpring = function() {
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
-  var SimObject = myphysicslab.lab.model.SimObject;
+  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 
   /**  mock 2D context of a canvas element
   @constructor

@@ -31,7 +31,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

@@ -35,7 +35,7 @@ var testDisplayShape = function() {
   var HorizAlign = myphysicslab.lab.view.HorizAlign;
   var PointMass = myphysicslab.lab.model.PointMass;
   var ScreenRect = myphysicslab.lab.view.ScreenRect;
-  var SimObject = myphysicslab.lab.model.SimObject;
+  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 

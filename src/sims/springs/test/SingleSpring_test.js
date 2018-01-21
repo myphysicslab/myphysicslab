@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 var testSingleSpring = function() {
-  var SimObject = myphysicslab.lab.model.SimObject;
+  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;

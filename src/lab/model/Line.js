@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Represents a directed line segment from starting point to ending point.

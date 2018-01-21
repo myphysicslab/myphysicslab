@@ -25,7 +25,7 @@ goog.scope(function() {
 
 var Arc = myphysicslab.lab.model.Arc;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

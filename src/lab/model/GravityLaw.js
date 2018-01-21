@@ -38,7 +38,7 @@ var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var MassObject = myphysicslab.lab.model.MassObject;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var SimList = myphysicslab.lab.model.SimList;
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

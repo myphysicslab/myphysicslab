@@ -31,7 +31,7 @@ var testSimList = function() {
   var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
   var Spring = myphysicslab.lab.model.Spring;
   var SimList = myphysicslab.lab.model.SimList;
-  var SimObject = myphysicslab.lab.model.SimObject;
+  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   var ShapeType = myphysicslab.lab.model.ShapeType;
 

@@ -44,7 +44,7 @@ const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var Path = lab.model.Path;
 var PathPoint = lab.model.PathPoint;
 var ScreenRect = lab.view.ScreenRect;
-var SimObject = lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

@@ -19,6 +19,7 @@ goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.model.PointMass');
 goog.require('myphysicslab.lab.model.ShapeType');
+goog.require('myphysicslab.lab.model.SimObject');
 
 var testPointMassAngle = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
@@ -65,6 +66,7 @@ var testPointMassAngle = function() {
 goog.exportProperty(window, 'testPointMassAngle', testPointMassAngle);
 
 var testPointMass = function() {
+  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   var PointMass = myphysicslab.lab.model.PointMass;
@@ -72,7 +74,7 @@ var testPointMass = function() {
   // instanceof works for class inheritance, but not for interfaces
   assertTrue(p1 instanceof PointMass);
   assertTrue(p1 instanceof myphysicslab.lab.model.AbstractSimObject);
-  assertFalse(p1 instanceof myphysicslab.lab.model.SimObject);
+  assertFalse(p1 instanceof SimObject);
   assertFalse(p1 instanceof myphysicslab.lab.model.MassObject);
   assertTrue(p1.isMassObject());
   assertEquals('POINT1', p1.getName());

@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.SimObject');
+goog.module('myphysicslab.lab.model.SimObject');
 
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Represents an object in a Simulation. The purpose of a SimObject is two-fold:
 
@@ -56,15 +49,13 @@ should be removed from the simulation display.  Permanent SimObjects have infini
 expiration time. See {@link #getExpireTime}.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.model.SimObject = function() {};
-var SimObject = myphysicslab.lab.model.SimObject;
+class SimObject extends Printable {
 
 /** Returns a rectangle that contains this SimObject in world coordinates.
 @return {!DoubleRect} rectangle that contains this SimObject in world coordinates
 */
-SimObject.prototype.getBoundsWorld;
+getBoundsWorld() {}
 
 /** Returns the expiration time, when this SimObject should be removed from the
 SimList. This is intended for temporary SimObjects that illustrate, for example,
@@ -72,7 +63,7 @@ contact forces or collisions.
 @return {number} the expiration time, in time frame of the
     {@link myphysicslab.lab.model.Simulation#getTime Simulation clock}
 */
-SimObject.prototype.getExpireTime;
+getExpireTime() {}
 
 /** Name of this SimObject, either the language-independent name for scripting
 purposes or the localized name for display to user.
@@ -89,12 +80,12 @@ SimObject.
     default is `false` which means return the language independent name.
 @return {string} name of this SimObject
 */
-SimObject.prototype.getName;
+getName(opt_localized) {}
 
 /** Whether this implements the {@link myphysicslab.lab.model.MassObject} interface.
 @return {boolean} Whether this implements the MassObject interface.
 */
-SimObject.prototype.isMassObject;
+isMassObject() {}
 
 /** Whether this SimObject has the given name, adjusting for transformation to the
 [language-independent form](Building.html#languageindependentnames)
@@ -103,7 +94,7 @@ of the name, as is done by {@link Util#toName}.
 @return {boolean} whether this SimObject has the given name (adjusted to
     language-independent form)
 */
-SimObject.prototype.nameEquals;
+nameEquals(name) {}
 
 /** Sets the expiration time, when this SimObject should be removed from the SimList.
 This is intended for temporary SimObjects that illustrate, for example, contact forces
@@ -112,7 +103,7 @@ or collisions.
     {@link myphysicslab.lab.model.Simulation#getTime Simulation clock}
 @return {!SimObject} this SimObject for chaining setters
 */
-SimObject.prototype.setExpireTime;
+setExpireTime(time) {}
 
 /** Returns true if the given SimObject is similar to this SimObject for display
 purposes. SimObjects are similar when they are the same type and nearly the same size
@@ -122,6 +113,7 @@ to the display. See {@link myphysicslab.lab.model.SimList#getSimilar}.
 @param {number=} opt_tolerance the amount the object components can differ by
 @return {boolean} true if this SimObject is similar to `obj` for display purposes
 */
-SimObject.prototype.similar;
+similar(obj, opt_tolerance) {}
 
-}); // goog.scope
+} // end class
+exports = SimObject;

@@ -27,7 +27,7 @@ goog.scope(function() {
 const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var Spring = myphysicslab.lab.model.Spring;
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

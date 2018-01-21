@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.pendulum.DoublePendulumSim');
 
 var testDoublePendulum = function() {
-  var SimObject = myphysicslab.lab.model.SimObject;
+  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;

@@ -35,7 +35,7 @@ var DisplayObject = myphysicslab.lab.view.DisplayObject;
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A set of {@link DisplayObject}s, which show the state of the simulation. A

@@ -53,7 +53,7 @@ const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
-var SimObject = myphysicslab.lab.model.SimObject;
+const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
