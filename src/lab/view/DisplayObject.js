@@ -25,7 +25,7 @@ goog.scope(function() {
 
 var CoordMap = myphysicslab.lab.view.CoordMap;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var MassObject = myphysicslab.lab.model.MassObject;
+const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

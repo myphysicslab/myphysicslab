@@ -31,7 +31,7 @@ goog.scope(function() {
 const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var MassObject = myphysicslab.lab.model.MassObject;
+const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 var PointMass = myphysicslab.lab.model.PointMass;
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');

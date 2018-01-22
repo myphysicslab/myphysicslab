@@ -33,7 +33,7 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-var MassObject = myphysicslab.lab.model.MassObject;
+const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

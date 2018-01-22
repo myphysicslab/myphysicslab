@@ -66,6 +66,7 @@ var testPointMassAngle = function() {
 goog.exportProperty(window, 'testPointMassAngle', testPointMassAngle);
 
 var testPointMass = function() {
+  const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -75,7 +76,7 @@ var testPointMass = function() {
   assertTrue(p1 instanceof PointMass);
   assertTrue(p1 instanceof myphysicslab.lab.model.AbstractSimObject);
   assertFalse(p1 instanceof SimObject);
-  assertFalse(p1 instanceof myphysicslab.lab.model.MassObject);
+  assertFalse(p1 instanceof MassObject);
   assertTrue(p1.isMassObject());
   assertEquals('POINT1', p1.getName());
   assertTrue(p1.nameEquals('point1'));

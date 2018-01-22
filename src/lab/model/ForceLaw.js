@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Printable');
 goog.scope(function() {
 
 var Force = myphysicslab.lab.model.Force;
-var MassObject = myphysicslab.lab.model.MassObject;
+const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 
 /** Calculates {@link Force}s on {@link MassObject}s, for example gravity, damping,
 spring force, etc.
