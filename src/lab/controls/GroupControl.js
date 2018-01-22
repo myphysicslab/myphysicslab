@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.GroupControl');
+goog.module('myphysicslab.lab.controls.GroupControl');
 
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.controls.LabControl');
-
-goog.scope(function() {
-
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A group of LabControls which implements the LabControl interface.
 
@@ -34,16 +29,16 @@ Another usage is to insert a `<br>` element to break up long lines of controls i
 logical groups. The GroupControl has the `<br>` as its top element and an empty list of
 other controls.
 
+* @implements {LabControl}
+*/
+class GroupControl {
+/**
 * @param {string} name  name of the group
 * @param {!Element} topElement the top element that contains all the controls
 * @param {!Array<!LabControl>} controls the set of controls contained in this
 *     GroupControl, can be empty
-* @constructor
-* @final
-* @implements {LabControl}
-* @struct
 */
-myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {
+constructor(name, topElement, controls) {
   /** the name of the button
   * @type {string}
   * @private
@@ -60,10 +55,9 @@ myphysicslab.lab.controls.GroupControl = function(name, topElement, controls) {
   */
   this.controls_ = controls;
 };
-var GroupControl = myphysicslab.lab.controls.GroupControl;
 
 /** @override */
-GroupControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', controls_: ['
       + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
@@ -71,37 +65,38 @@ GroupControl.prototype.toString = function() {
 };
 
 /** @override */
-GroupControl.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'GroupControl{name_: "'+this.name_+'"'
       +', controls_.length: '+this.controls_.length
       +'}';
 };
 
 /** @override */
-GroupControl.prototype.disconnect = function() {
+disconnect() {
   goog.array.forEach(this.controls_, function(c) { c.disconnect(); });
 };
 
 /** Returns the set of controls in this GroupControl.
 * @return {!Array<LabControl>} the set of controls in this GroupControl.
 */
-GroupControl.prototype.getControls = function() {
+getControls() {
   return goog.array.clone(this.controls_);
 };
 
 /** @override */
-GroupControl.prototype.getElement = function() {
+getElement() {
   return this.topElement_;
 };
 
 /** @override */
-GroupControl.prototype.getParameter = function() {
+getParameter() {
   return null;
 };
 
 /** @override */
-GroupControl.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   goog.array.forEach(this.controls_, function(c) { c.setEnabled(enabled); });
 };
 
-}); // goog.scope
+} //end class
+exports = GroupControl;
