@@ -29,15 +29,15 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
+const AdaptiveStepSolver = goog.module.get('myphysicslab.lab.model.AdaptiveStepSolver');
 const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-var EulersMethod = myphysicslab.lab.model.EulersMethod;
+const EulersMethod = goog.module.get('myphysicslab.lab.model.EulersMethod');
 const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var RungeKutta = myphysicslab.lab.model.RungeKutta;
+const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Makes available several {@link DiffEqSolver}s for advancing

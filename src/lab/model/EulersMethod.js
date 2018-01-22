@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.EulersMethod');
+goog.module('myphysicslab.lab.model.EulersMethod');
 
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Euler's method for solving ordinary differential equations
 expressed as a {@link ODESim}; operates by using the
@@ -32,13 +26,13 @@ Note that *Euler's method is not numerically stable*, it is provided for educati
 purposes only.  See {@link myphysicslab.lab.model.ModifiedEuler} for a numerically
 stable version of Euler's method.
 
-* @param {!ODESim} ode the set of differential equations to solve
-* @constructor
-* @final
-* @struct
 * @implements {DiffEqSolver}
 */
-myphysicslab.lab.model.EulersMethod = function(ode) {
+class EulersMethod {
+/**
+* @param {!ODESim} ode the set of differential equations to solve
+*/
+constructor(ode) {
   /**  the set of differential equations to solve.
   * @type {!ODESim}
   * @private
@@ -60,31 +54,30 @@ myphysicslab.lab.model.EulersMethod = function(ode) {
   */
   this.k2_ = [];
 };
-var EulersMethod = myphysicslab.lab.model.EulersMethod;
 
 /** @override */
-EulersMethod.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort();
 };
 
 /** @override */
-EulersMethod.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'EulersMethod{ode_: '+this.ode_.toStringShort()+'}';
 };
 
 /** @override */
-EulersMethod.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? EulersMethod.i18n.NAME :
       Util.toName(EulersMethod.en.NAME);
 };
 
 /** @override */
-EulersMethod.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.getName() == Util.toName(name);
 };
 
 /** @override */
-EulersMethod.prototype.step = function(stepSize) {
+step(stepSize) {
   var error, i;
   var va = this.ode_.getVarsList();
   var vars = va.getValues();
@@ -109,6 +102,8 @@ EulersMethod.prototype.step = function(stepSize) {
   va.setValues(vars, /*continuous=*/true);
   return null;
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -138,4 +133,4 @@ EulersMethod.de_strings = {
 EulersMethod.i18n = goog.LOCALE === 'de' ? EulersMethod.de_strings :
     EulersMethod.en;
 
-}); // goog.scope
+exports = EulersMethod;

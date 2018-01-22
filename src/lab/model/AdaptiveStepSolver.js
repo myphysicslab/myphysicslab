@@ -12,19 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.AdaptiveStepSolver');
+goog.module('myphysicslab.lab.model.AdaptiveStepSolver');
 
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Experimental differential equation solver which reduces step size as
 needed to ensure that energy stays constant over every time step. Uses Decorator design
@@ -42,7 +35,6 @@ energy for the overall step becomes small.
 + For a non-constant energy system, we look at the change in energy during the
 overall step; we reduce the step size until this change in energy stabilizes.
 
-
 @todo Probably a better approach is to use a method like Runge Kutta Fehlberg
 which modifies the step size based on error estimates for the diff eqns.
 
@@ -53,16 +45,15 @@ classes, like `modifyObjects, saveState, restoreState`. Note that the
 current CollisionSim interface has several of these methods, so there is
 an argument to extend ODESim in this way.
 
+* @implements {DiffEqSolver}
+*/
+class AdaptiveStepSolver {
+/**
 * @param {!ODESim} diffEq the ODESim that defines the differential equation to solve
 * @param {!EnergySystem} energySystem gives information about energy in the ODESim
 * @param {!DiffEqSolver} diffEqSolver the DiffEqSolver to use with various step sizes.
-* @constructor
-* @final
-* @struct
-* @implements {DiffEqSolver}
 */
-myphysicslab.lab.model.AdaptiveStepSolver = function(diffEq, energySystem,
-      diffEqSolver) {
+constructor(diffEq, energySystem, diffEqSolver) {
   /**
   * @type {!ODESim}
   * @private
@@ -99,10 +90,9 @@ myphysicslab.lab.model.AdaptiveStepSolver = function(diffEq, energySystem,
   */
   this.tolerance_ = 1E-6;
 };
-var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 
 /** @override */
-AdaptiveStepSolver.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', odeSolver_: '+this.odeSolver_.toStringShort()
       +', energySystem_: '+this.energySystem_.toStringShort()
@@ -112,13 +102,13 @@ AdaptiveStepSolver.prototype.toString = function() {
 };
 
 /** @override */
-AdaptiveStepSolver.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
        'AdaptiveStepSolver{diffEq_: '+this.diffEq_.toStringShort()+'}';
 };
 
 /** @override */
-AdaptiveStepSolver.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   if (opt_localized) {
     return AdaptiveStepSolver.i18n.NAME + '-'
         + this.odeSolver_.getName(/*localized=*/true);
@@ -129,7 +119,7 @@ AdaptiveStepSolver.prototype.getName = function(opt_localized) {
 };
 
 /** @override */
-AdaptiveStepSolver.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.getName() == Util.toName(name);
 };
 
@@ -138,7 +128,7 @@ size. See {@link #setSecondDiff}.
 @return {boolean} whether to use change in change in energy as the
     criteria for accuracy
 */
-AdaptiveStepSolver.prototype.getSecondDiff = function() {
+getSecondDiff() {
   return this.secondDiff_;
 };
 
@@ -146,7 +136,7 @@ AdaptiveStepSolver.prototype.getSecondDiff = function() {
 Default is 1E-6.
 @return {number} the tolerance value for deciding if sufficient accuracy has been achieved
 */
-AdaptiveStepSolver.prototype.getTolerance = function() {
+getTolerance() {
   return this.tolerance_;
 };
 
@@ -159,7 +149,7 @@ the step size until the change in the change in energy becomes small.
 @param {boolean} value  true means use *change in change in energy* (second derivative)
     as the criteria for accuracy
 */
-AdaptiveStepSolver.prototype.setSecondDiff = function(value) {
+setSecondDiff(value) {
   this.secondDiff_ = value;
 };
 
@@ -168,12 +158,12 @@ Default is 1E-6.
 @param {number} value the tolerance value for deciding if sufficient accuracy
     has been achieved
 */
-AdaptiveStepSolver.prototype.setTolerance = function(value) {
+setTolerance(value) {
   this.tolerance_ = value;
 };
 
 /** @override */
-AdaptiveStepSolver.prototype.step = function(stepSize) {
+step(stepSize) {
   // save the vars in case we need to back up and start again
   this.diffEq_.saveState();
   var startTime = this.diffEq_.getTime();
@@ -243,6 +233,8 @@ AdaptiveStepSolver.prototype.step = function(stepSize) {
   return null;
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   NAME: string
@@ -271,4 +263,4 @@ AdaptiveStepSolver.de_strings = {
 AdaptiveStepSolver.i18n = goog.LOCALE === 'de' ? AdaptiveStepSolver.de_strings :
     AdaptiveStepSolver.en;
 
-}); // goog.scope
+exports = AdaptiveStepSolver;

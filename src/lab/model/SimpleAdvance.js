@@ -27,7 +27,7 @@ const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-var RungeKutta = myphysicslab.lab.model.RungeKutta;
+const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Advances an {@link ODESim} in a single step without doing any collision handling.

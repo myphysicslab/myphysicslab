@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.RungeKutta');
+goog.module('myphysicslab.lab.model.RungeKutta');
 
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Runge-Kutta method for solving ordinary differential equations
 expressed as a {@link ODESim}; operates by using the
@@ -32,13 +26,13 @@ This is the most numerically accurate DiffEqSolver provided in myPhysicsLab. See
 [Runge-Kutta Algorithm](http://www.myphysicslab.com/runge_kutta.html) for an
 explanation of the algorithm.
 
-* @param {!ODESim} ode the set of differential equations to solve
-* @constructor
-* @final
-* @struct
 * @implements {DiffEqSolver}
 */
-myphysicslab.lab.model.RungeKutta = function(ode) {
+class RungeKutta {
+/**
+* @param {!ODESim} ode the set of differential equations to solve
+*/
+constructor(ode) {
   /**  the set of differential equations to solve.
   * @type {!ODESim}
   * @private
@@ -70,31 +64,30 @@ myphysicslab.lab.model.RungeKutta = function(ode) {
   */
   this.k4_ = [];
 };
-var RungeKutta = myphysicslab.lab.model.RungeKutta;
 
 /** @override */
-RungeKutta.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort();
 };
 
 /** @override */
-RungeKutta.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'RungeKutta{ode_: '+this.ode_.toStringShort()+'}';
 };
 
 /** @override */
-RungeKutta.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? RungeKutta.i18n.NAME :
       Util.toName(RungeKutta.en.NAME);
 };
 
 /** @override */
-RungeKutta.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.getName() == Util.toName(name);
 };
 
 /** @override */
-RungeKutta.prototype.step = function(stepSize) {
+step(stepSize) {
   var error, i;
   var va = this.ode_.getVarsList();
   var vars = va.getValues();
@@ -154,6 +147,8 @@ RungeKutta.prototype.step = function(stepSize) {
   return null;
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   NAME: string
@@ -182,4 +177,4 @@ RungeKutta.de_strings = {
 RungeKutta.i18n = goog.LOCALE === 'de' ? RungeKutta.de_strings :
     RungeKutta.en;
 
-}); // goog.scope
+exports = RungeKutta;

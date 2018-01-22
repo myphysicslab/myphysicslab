@@ -50,7 +50,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
-var AdaptiveStepSolver = lab.model.AdaptiveStepSolver;
+const AdaptiveStepSolver = goog.module.get('myphysicslab.lab.model.AdaptiveStepSolver');
 var ChainConfig = sims.engine2D.ChainConfig;
 var CirclePath = myphysicslab.sims.roller.CirclePath;
 var CollisionAdvance = lab.model.CollisionAdvance;
@@ -74,7 +74,7 @@ const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 var PathEndPoint = lab.engine2D.PathEndPoint;
 var PathJoint = lab.engine2D.PathJoint;
 var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
-var RungeKutta = lab.model.RungeKutta;
+const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 var Shapes = lab.engine2D.Shapes;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
