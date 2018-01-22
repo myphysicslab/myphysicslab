@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.model.ParametricPath');
 goog.scope(function() {
 
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var ParametricPath = myphysicslab.lab.model.ParametricPath;
+const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
 
 /** An abstract base class for a ParametricPath.
 

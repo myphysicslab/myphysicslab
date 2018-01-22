@@ -29,7 +29,7 @@ const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject')
 var HasPath = myphysicslab.sims.roller.HasPath;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var ParametricPath = myphysicslab.lab.model.ParametricPath;
+const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Provides a {@link HasPath} (such as roller coaster simulation) with a choice of

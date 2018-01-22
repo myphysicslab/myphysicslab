@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ParametricPath');
+goog.module('myphysicslab.lab.model.ParametricPath');
 
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Defines a 2D path with a parametric function `f(t) = (x(t), y(t))`.  For example, a circle of radius 3 with center at the origin is defined by
 
@@ -32,13 +27,12 @@ of the path.
 
 @interface
 */
-myphysicslab.lab.model.ParametricPath = function() {};
-var ParametricPath = myphysicslab.lab.model.ParametricPath;
+class ParametricPath {
 
 /** The ending value for `t` in the parameteric equation defining the path.
 * @return {number} ending value for `t`
 */
-ParametricPath.prototype.getFinishTValue;
+getFinishTValue() {}
 
 /** Name of this object, either the language-independent name for scripting
 purposes or the localized name for display to user.
@@ -51,17 +45,17 @@ see {@link Util#toName} and {@link #nameEquals}.
     default is `false` which means return the language independent name.
 @return {string} name of this object
 */
-ParametricPath.prototype.getName;
+getName(opt_localized) {}
 
 /** The starting value for `t` in the parameteric equation defining the path.
 * @return {number} starting value for `t`
 */
-ParametricPath.prototype.getStartTValue;
+getStartTValue() {}
 
 /** Whether the path is a closed loop, ending at the same point it starts.
 * @return {boolean} whether the path is a closed loop
 */
-ParametricPath.prototype.isClosedLoop;
+isClosedLoop() {}
 
 /** Whether this ParametricPath has the given name, adjusting for the transformation to
 a language-independent form of the name, as is done by {@link Util#toName}.
@@ -69,18 +63,19 @@ a language-independent form of the name, as is done by {@link Util#toName}.
 @return {boolean} whether this ParametricPath has the given name (adjusted to
     language-independent form)
 */
-ParametricPath.prototype.nameEquals;
+nameEquals(name) {}
 
 /** Returns the `x` value for the given value of `t` in the parametric equation.
 * @param {number} t the value of `t` in the parametric equation
 * @return {number} the `x` value for the given value of `t`
 */
-ParametricPath.prototype.x_func;
+x_func(t) {}
 
 /** Returns the `y` value for the given value of `t` in the parametric equation.
 * @param {number} t the value of `t` in the parametric equation
 * @return {number} the `y` value for the given value of `t`
 */
-ParametricPath.prototype.y_func;
+y_func(t) {}
 
-}); // goog.scope
+} //end class
+exports = ParametricPath;
