@@ -12,33 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.EnergySystem');
+goog.module('myphysicslab.lab.model.EnergySystem');
 
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.util.Printable');
-
-goog.scope(function() {
-
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** An object that provides information about its energy state. See {@link EnergyInfo}.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.model.EnergySystem = function() {};
-var EnergySystem = myphysicslab.lab.model.EnergySystem;
+class EnergySystem extends Printable {
 
 /** Returns the current EnergyInfo for this system.
 * @return {!EnergyInfo} an EnergyInfo object representing
 *    the current energy of this system.
 */
-EnergySystem.prototype.getEnergyInfo;
+getEnergyInfo() {}
 
 /** Sets the current potential energy of this system.
 * @param {number} value the current potential energy of this system
 */
-EnergySystem.prototype.setPotentialEnergy;
+setPotentialEnergy(value) {}
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -83,4 +79,4 @@ EnergySystem.de_strings = {
 EnergySystem.i18n = goog.LOCALE === 'de' ? EnergySystem.de_strings :
     EnergySystem.en;
 
-}); // goog.scope
+exports = EnergySystem;

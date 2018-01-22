@@ -31,7 +31,7 @@ goog.scope(function() {
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AdaptiveStepSolver = myphysicslab.lab.model.AdaptiveStepSolver;
 var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
-var EnergySystem = myphysicslab.lab.model.EnergySystem;
+const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
 var EulersMethod = myphysicslab.lab.model.EulersMethod;
 var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;

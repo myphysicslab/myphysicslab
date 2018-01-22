@@ -33,7 +33,7 @@ goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-var EnergySystem = myphysicslab.lab.model.EnergySystem;
+const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
 var EventHandler = myphysicslab.lab.app.EventHandler;
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
