@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.NumericControlBase');
+goog.module('myphysicslab.lab.controls.NumericControlBase');
 
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.controls.LabControl');
 
-goog.scope(function() {
-
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A text input element for displaying and editing the numeric value of a target
 object.
@@ -74,18 +69,18 @@ far bigger than we want. It should instead either switch to exponential, or have
 maximum limit on the number of decimals shown.  Or a limit on total number of digits
 shown, switching to exponential when needed.
 
-
+* @implements {LabControl}
+* @implements {Observer}
+*/
+class NumericControlBase {
+/**
 * @param {string} label the text shown in a label next to the number input field
 * @param {function():number} getter function that returns the current target value
 * @param {function(number)} setter function to change the target value
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
 *     a text field is created.
-* @constructor
-* @struct
-* @implements {LabControl}
-* @implements {Observer}
 */
-myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, textField) {
+constructor(label, getter, setter, textField) {
   /** the name shown in a label next to the textField
   * @type {string}
   * @private
@@ -185,7 +180,6 @@ myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, t
   this.firstClick_ = false;
   this.formatTextField();
 };
-var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 
 // HISTORY: Oct 13 2014. The NumericControlBase input fields are too small
 // under Safari browser, but OK under Chrome. I've bumped up the 'size' of
@@ -193,7 +187,7 @@ var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
 // little too wide in Chrome.
 
 /** @override */
-NumericControlBase.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', signifDigits_: '+this.signifDigits_
       +', decimalPlaces_: '+this.decimalPlaces_
@@ -202,7 +196,7 @@ NumericControlBase.prototype.toString = function() {
 };
 
 /** @override */
-NumericControlBase.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
 };
 
@@ -213,7 +207,7 @@ significant digits.
 @return {number} the number of columns needed
 @private
 */
-NumericControlBase.prototype.columnsNeeded = function(x, sigDigits) {
+columnsNeeded(x, sigDigits) {
   var mag = NumericControlBase.magnitude(x);
   return 2 + this.decimalPlacesNeeded(x, sigDigits) + (mag > 0 ? mag : 0);
 };
@@ -225,7 +219,7 @@ with the given number of significant digits.
 @return {number} the number of fractional decimal places needed
 @private
 */
-NumericControlBase.prototype.decimalPlacesNeeded = function(x, sigDigits) {
+decimalPlacesNeeded(x, sigDigits) {
   if (this.decimalPlaces_ > -1) {
     return this.decimalPlaces_;
   } else {
@@ -238,7 +232,7 @@ NumericControlBase.prototype.decimalPlacesNeeded = function(x, sigDigits) {
 };
 
 /** @override */
-NumericControlBase.prototype.disconnect = function() {
+disconnect() {
   goog.events.unlistenByKey(this.changeKey_);
   goog.events.unlistenByKey(this.clickKey_);
   goog.events.unlistenByKey(this.focusKey_);
@@ -248,7 +242,7 @@ NumericControlBase.prototype.disconnect = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-NumericControlBase.prototype.doClick = function(event) {
+doClick(event) {
   if (this.firstClick_) {
     // first click after gaining focus should select entire field
     this.textField_.select();
@@ -260,7 +254,7 @@ NumericControlBase.prototype.doClick = function(event) {
 * @return {undefined}
 * @private
 */
-NumericControlBase.prototype.formatTextField = function() {
+formatTextField() {
   var dec = this.decimalPlacesNeeded(this.value_, this.signifDigits_);
   var col = this.columnsNeeded(this.value_, this.signifDigits_);
   if (Util.DEBUG && 0 == 1) {
@@ -279,14 +273,14 @@ NumericControlBase.prototype.formatTextField = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-NumericControlBase.prototype.gainFocus = function(event) {
+gainFocus(event) {
   this.firstClick_ = true;
 };
 
 /** Returns name of class of this object.
 * @return {string} name of class of this object.
 */
-NumericControlBase.prototype.getClassName = function() {
+getClassName() {
   return 'NumericControlBase';
 };
 
@@ -295,17 +289,17 @@ the number, or –1 when in *variable decimal places mode*.
 @return {number} the fixed number of fractional decimal places to show when formatting
     the number, or –1 when in *variable decimal places mode*.
 */
-NumericControlBase.prototype.getDecimalPlaces = function() {
+getDecimalPlaces() {
   return this.decimalPlaces_;
 };
 
 /** @override */
-NumericControlBase.prototype.getElement = function() {
+getElement() {
   return this.topElement_;
 };
 
 /** @override */
-NumericControlBase.prototype.getParameter = function() {
+getParameter() {
   return null;
 };
 
@@ -313,7 +307,7 @@ NumericControlBase.prototype.getParameter = function() {
 has an effect in *variable decimal places mode*, see {@link #getDecimalPlaces}.
 @return {number} the number of significant digits to show when formatting the number
 */
-NumericControlBase.prototype.getSignifDigits = function() {
+getSignifDigits() {
   return this.signifDigits_;
 };
 
@@ -321,7 +315,7 @@ NumericControlBase.prototype.getSignifDigits = function() {
 {@link #observe} is being called). The displayed value may be different due to rounding.
 @return {number} the value of this control
 */
-NumericControlBase.prototype.getValue = function() {
+getValue() {
   return this.value_;
 };
 
@@ -330,7 +324,7 @@ NumericControlBase.prototype.getValue = function() {
 * @return {number}
 * @private
 */
-NumericControlBase.magnitude = function(x) {
+static magnitude(x) {
   if (Math.abs(x) < 1E-15) {
     // fix for displaying zero.
     return 0;
@@ -340,7 +334,7 @@ NumericControlBase.magnitude = function(x) {
 };
 
 /** @override */
-NumericControlBase.prototype.observe =  function(event) {
+observe(event) {
   // Ensures that the value displayed by the control matches the target value.
   this.setValue(this.getter_());
 };
@@ -353,7 +347,7 @@ See {@link #setSignifDigits}.
     formatting the number, or –1 to have variable number of fractional decimal places.
 @return {!NumericControlBase} this object for chaining setters
 */
-NumericControlBase.prototype.setDecimalPlaces = function(decimalPlaces) {
+setDecimalPlaces(decimalPlaces) {
   if (this.decimalPlaces_ != decimalPlaces) {
     this.decimalPlaces_ = decimalPlaces > -1 ? decimalPlaces : -1;
     this.formatTextField();
@@ -362,7 +356,7 @@ NumericControlBase.prototype.setDecimalPlaces = function(decimalPlaces) {
 };
 
 /** @override */
-NumericControlBase.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   this.textField_.disabled = !enabled;
 };
 
@@ -372,7 +366,7 @@ has an effect in *variable decimal places mode*, see {@link #setDecimalPlaces}.
     formatting the number
 @return {!NumericControlBase} this object for chaining setters
 */
-NumericControlBase.prototype.setSignifDigits = function(signifDigits) {
+setSignifDigits(signifDigits) {
   if (this.signifDigits_ != signifDigits) {
     this.signifDigits_ = signifDigits;
     this.formatTextField();
@@ -383,7 +377,7 @@ NumericControlBase.prototype.setSignifDigits = function(signifDigits) {
 /** Changes the value shown by this control, and sets the target to this value.
 @param {number} value  the new value
 */
-NumericControlBase.prototype.setValue = function(value) {
+setValue(value) {
   if (value != this.value_) {
     if (Util.DEBUG && 0 == 1) {
       console.log('NumericControlBase.setValue value='+value+' vs '+this.value_);
@@ -409,7 +403,7 @@ NumericControlBase.prototype.setValue = function(value) {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-NumericControlBase.prototype.validate = function(event) {
+validate(event) {
   // trim whitespace from start and end of string
   var nowValue = this.textField_.value.replace(/^\s*|\s*$/g, '');
   // Compare the current and previous text value of the field.
@@ -426,4 +420,5 @@ NumericControlBase.prototype.validate = function(event) {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = NumericControlBase;

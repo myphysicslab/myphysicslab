@@ -12,30 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.NumericControl');
+goog.module('myphysicslab.lab.controls.NumericControl');
 
-goog.require('myphysicslab.lab.controls.NumericControlBase');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var NumericControlBase = myphysicslab.lab.controls.NumericControlBase;
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const NumericControlBase = goog.require('myphysicslab.lab.controls.NumericControlBase');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A text input element for displaying and editing the numeric value of a{@link ParameterNumber}.
 
+*/
+class NumericControl extends NumericControlBase {
+/**
 * @param {!ParameterNumber} parameter the ParameterNumber to display and edit
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
 *     a text field is created.
-* @constructor
-* @final
-* @struct
-* @extends {NumericControlBase}
 */
-myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
-  NumericControlBase.call(this, parameter.getName(/*localized=*/true),
+constructor(parameter, textField) {
+  super(parameter.getName(/*localized=*/true),
       goog.bind(parameter.getValue, parameter),
       goog.bind(parameter.setValue, parameter),
       textField);
@@ -48,39 +41,38 @@ myphysicslab.lab.controls.NumericControl = function(parameter, textField) {
   this.setDecimalPlaces(parameter.getDecimalPlaces());
   this.parameter_.getSubject().addObserver(this);
 };
-var NumericControl = myphysicslab.lab.controls.NumericControl;
-goog.inherits(NumericControl, NumericControlBase);
 
 /** @override */
-NumericControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      NumericControl.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       + ', parameter_: '+this.parameter_.toStringShort()+'}';
 };
 
 /** @override */
-NumericControl.prototype.disconnect = function() {
-  NumericControl.superClass_.disconnect.call(this);
+disconnect() {
+  super.disconnect();
   this.parameter_.getSubject().removeObserver(this);
 };
 
 /** @override */
-NumericControl.prototype.getClassName = function() {
+getClassName() {
   return 'NumericControl';
 };
 
 /** @override */
-NumericControl.prototype.getParameter = function() {
+getParameter() {
   return this.parameter_;
 };
 
 /** @override */
-NumericControl.prototype.observe =  function(event) {
+observe(event) {
   if (event == this.parameter_) {
-    NumericControl.superClass_.observe.call(this, event);
+    super.observe(event);
     this.setSignifDigits(this.parameter_.getSignifDigits());
     this.setDecimalPlaces(this.parameter_.getDecimalPlaces());
   }
 };
 
-}); // goog.scope
+} //end class
+exports = NumericControl;
