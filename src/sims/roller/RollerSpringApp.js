@@ -73,7 +73,7 @@ const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 var RollerSingleSim = sims.roller.RollerSingleSim;
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SpiralPath = sims.roller.SpiralPath;
-var Spring = lab.model.Spring;
+const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

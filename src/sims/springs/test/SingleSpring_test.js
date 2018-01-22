@@ -35,6 +35,7 @@ var testSingleSpring = function() {
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
+  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
   var i;
@@ -48,7 +49,7 @@ var testSingleSpring = function() {
   var block = simList.getPointMass('block');
   assertTrue(block instanceof PointMass);
   var spring = simList.getSpring('spring');
-  assertTrue(spring instanceof myphysicslab.lab.model.Spring);
+  assertTrue(spring instanceof Spring);
 
   // confirm parameters exist
   var dampingParam = sim.getParameterNumber(SingleSpringSim.en.DAMPING);

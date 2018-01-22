@@ -34,7 +34,7 @@ const Force = goog.module.get('myphysicslab.lab.model.Force');
 const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-var Spring = myphysicslab.lab.model.Spring;
+const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

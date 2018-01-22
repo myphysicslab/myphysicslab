@@ -12,31 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Spring');
+goog.module('myphysicslab.lab.model.Spring');
 
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.Line');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Line = goog.module.get('myphysicslab.lab.model.Line');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Line = goog.require('myphysicslab.lab.model.Line');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Represents a spring attached between two {@link MassObject}s, generates a
 {@link Force} which depends on how the Spring is stretched. Damping is proportional to
@@ -54,6 +41,11 @@ length) but it temporarily disconnects from the second attachment point during e
 is at the first attachment point on `body1`, but the end point is rest-length away from
 start point in the direction of the second attachment point.
 
+* @implements {ForceLaw}
+* @implements {Line}
+*/
+class Spring extends AbstractSimObject {
+/**
 * @param {string} name language-independent name of this object
 * @param {!MassObject} body1 body to attach to start point of the
 *    Spring
@@ -68,15 +60,10 @@ start point in the direction of the second attachment point.
 * @param {boolean=} compressOnly Sets the spring to 'compress only mode' which
 *    behaves normally if the spring is in compression but disconnects
 *    from the second attachment point during extension.
-* @constructor
-* @struct
-* @extends {AbstractSimObject}
-* @implements {ForceLaw}
-* @implements {Line}
 */
-myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
+constructor(name, body1, attach1_body,
       body2, attach2_body, restLength, stiffness, compressOnly) {
-  AbstractSimObject.call(this, name);
+  super(name);
   /** body to attach point1 to
   * @type {!MassObject}
   * @private
@@ -119,12 +106,10 @@ myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
   */
   this.compressOnly_ = compressOnly || false;
 };
-var Spring = myphysicslab.lab.model.Spring;
-goog.inherits(Spring, AbstractSimObject);
 
 /** @override */
-Spring.prototype.toString = function() {
-  return Util.ADVANCED ? '' : Spring.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       +', body1_:"'+this.body1_.getName()+'"'
       +', attach1_: '+this.attach1_
       +', body2_:"'+this.body2_.getName()+'"'
@@ -137,12 +122,12 @@ Spring.prototype.toString = function() {
 };
 
 /** @override */
-Spring.prototype.getClassName = function() {
+getClassName() {
   return 'Spring';
 };
 
 /** @override */
-Spring.prototype.calculateForces = function() {
+calculateForces() {
   var point1 = this.getStartPoint();
   var point2 = this.getEndPoint();
   var v = point2.subtract(point1);
@@ -172,44 +157,44 @@ Spring.prototype.calculateForces = function() {
 };
 
 /** @override */
-Spring.prototype.disconnect = function() {
+disconnect() {
 };
 
 /** Returns attachment point for body 1, in body coordinates of body 1.
 @return {!Vector} attachment point for body 1, in body coordinates of body 1.
 */
-Spring.prototype.getAttach1 = function() {
+getAttach1() {
   return this.attach1_;
 };
 
 /** Returns attachment point for body 2, in body coordinates of body 2.
 @return {!Vector} attachment point for body 2, in body coordinates of body 2.
 */
-Spring.prototype.getAttach2 = function() {
+getAttach2() {
   return this.attach2_;
 };
 
 /** @override */
-Spring.prototype.getBodies = function() {
+getBodies() {
   return [ this.body1_, this.body2_ ];  // include the spring also?
 };
 
 /** Returns the RigidBody that start point of the spring is attached to.
 @return {!MassObject} the RigidBody that start point of the spring is attached to.
 */
-Spring.prototype.getBody1 = function() {
+getBody1() {
   return this.body1_;
 };
 
 /** Returns the RigidBody that end point of the spring is attached to.
 @return {!MassObject} the RigidBody that end point of the spring is attached to.
 */
-Spring.prototype.getBody2 = function() {
+getBody2() {
   return this.body2_;
 };
 
 /** @override */
-Spring.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.getStartPoint(), this.getEndPoint());
 };
 
@@ -217,12 +202,12 @@ Spring.prototype.getBoundsWorld = function() {
 relative velocity of the two points.
 @return {number} amount of damping for this spring
 */
-Spring.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** @override */
-Spring.prototype.getEndPoint = function() {
+getEndPoint() {
   if (this.attach2_ == null || this.body2_ == null)
     throw new Error();
   var p2 = this.body2_.bodyToWorld(this.attach2_);
@@ -248,12 +233,12 @@ Spring.prototype.getEndPoint = function() {
 /** Returns the distance between start and end points of this spring
 @return {number} the distance between start and end points of this spring
 */
-Spring.prototype.getLength = function() {
+getLength() {
   return this.getEndPoint().distanceTo(this.getStartPoint());
 };
 
 /** @override */
-Spring.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   // spring potential energy = 0.5*stiffness*(stretch^2)
   var stretch = this.getStretch();
   return 0.5 * this.stiffness_ * stretch * stretch;
@@ -262,12 +247,12 @@ Spring.prototype.getPotentialEnergy = function() {
 /** Returns the length of this spring when no force is applied.
 @return {number} rest length of this spring
 */
-Spring.prototype.getRestLength = function() {
+getRestLength() {
   return this.restLength_;
 };
 
 /** @override */
-Spring.prototype.getStartPoint = function() {
+getStartPoint() {
   if (this.attach1_ == null || this.body1_ == null)
     throw new Error();
   return this.body1_.bodyToWorld(this.attach1_) ;
@@ -276,19 +261,19 @@ Spring.prototype.getStartPoint = function() {
 /** Returns stiffness of this spring.
 @return {number} stiffness of this spring.
 */
-Spring.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness_;
 };
 
 /** Positive stretch means the spring is expanded, negative stretch means compressed.
 @return {number} the amount that this line is stretched from its rest length
 */
-Spring.prototype.getStretch = function() {
+getStretch() {
   return this.getLength() - this.restLength_;
 };
 
 /** @override */
-Spring.prototype.getVector = function() {
+getVector() {
   return this.getEndPoint().subtract(this.getStartPoint());
 };
 
@@ -297,7 +282,7 @@ velocity of the two points.
 @param {number} damping the value of damping for this spring
 @return {!Spring} this Spring to allow chaining of setters
 */
-Spring.prototype.setDamping = function(damping) {
+setDamping(damping) {
   this.damping_ = damping
   return this;
 };
@@ -306,7 +291,7 @@ Spring.prototype.setDamping = function(damping) {
 When length of spring is the rest length, then no force is applied at either end.
 @param {number} value the rest length of this spring
 */
-Spring.prototype.setRestLength = function(value) {
+setRestLength(value) {
   this.restLength_ = value;
 };
 
@@ -314,9 +299,10 @@ Spring.prototype.setRestLength = function(value) {
 @param {number} stiffness the stiffness of this spring
 @return {!Spring} this Spring to allow chaining of setters
 */
-Spring.prototype.setStiffness = function(stiffness) {
+setStiffness(stiffness) {
   this.stiffness_ = stiffness;
   return this;
 };
 
-}); // goog.scope
+} //end class
+exports = Spring;

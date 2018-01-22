@@ -34,7 +34,7 @@ const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject')
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-var Spring = lab.model.Spring;
+const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** The list of SimObjects that represent the current state of a

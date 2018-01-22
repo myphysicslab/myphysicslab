@@ -46,7 +46,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 var SimpleAdvance = lab.model.SimpleAdvance;
 var SingleSpringSim = sims.springs.SingleSpringSim;
-var Spring = lab.model.Spring;
+const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
