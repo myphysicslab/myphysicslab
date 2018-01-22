@@ -31,6 +31,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 var testSingleSpring = function() {
+  const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
   const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
@@ -40,9 +41,9 @@ var testSingleSpring = function() {
   var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
   var i;
   var tol = 1E-15;
-  var sim = new myphysicslab.sims.springs.SingleSpringSim();
+  var sim = new SingleSpringSim();
   var simList = sim.getSimList();
-  var solvr = new myphysicslab.lab.model.ModifiedEuler(sim);
+  var solvr = new ModifiedEuler(sim);
   var simpleAdv = new SimpleAdvance(sim, solvr);
 
   // confirm block and spring exist

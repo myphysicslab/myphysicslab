@@ -37,14 +37,16 @@ obtained by running the simulation previously).  Check that energy stays constan
 */
 var testRoller1 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
+  const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
   var CirclePath = myphysicslab.sims.roller.CirclePath;
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
+  var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
 
-  var sim = new myphysicslab.sims.roller.RollerSingleSim();
+  var sim = new RollerSingleSim();
   var simList = sim.getSimList();
-  var solvr = new myphysicslab.lab.model.ModifiedEuler(sim);
+  var solvr = new ModifiedEuler(sim);
   var simpleAdv = new SimpleAdvance(sim, solvr);
   var path = new NumericalPath(new CirclePath(3.0));
   sim.setPath(path);

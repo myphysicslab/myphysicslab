@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ModifiedEuler');
+goog.module('myphysicslab.lab.model.ModifiedEuler');
 
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Modified Euler method for solving ordinary differential equations
 expressed as a {@link ODESim}; operates by using the
@@ -31,13 +25,13 @@ differential equations to advance the variables by a small time step.
 This is a numerically stable version of the numerically unstable
 {@link myphysicslab.lab.model.EulersMethod}.
 
-* @param {!ODESim} ode the set of differential equations to solve
-* @constructor
-* @final
-* @struct
 * @implements {DiffEqSolver}
 */
-myphysicslab.lab.model.ModifiedEuler = function(ode) {
+class ModifiedEuler {
+/**
+* @param {!ODESim} ode the set of differential equations to solve
+*/
+constructor(ode) {
   /**  the set of differential equations to solve.
   * @type {!ODESim}
   * @private
@@ -59,31 +53,30 @@ myphysicslab.lab.model.ModifiedEuler = function(ode) {
   */
   this.k2_ = [];
 };
-var ModifiedEuler = myphysicslab.lab.model.ModifiedEuler;
 
 /** @override */
-ModifiedEuler.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort();
 };
 
 /** @override */
-ModifiedEuler.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'ModifiedEuler{ode_: '+this.ode_.toStringShort()+'}';
 };
 
 /** @override */
-ModifiedEuler.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return opt_localized ? ModifiedEuler.i18n.NAME :
       Util.toName(ModifiedEuler.en.NAME);
 };
 
 /** @override */
-ModifiedEuler.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.getName() == Util.toName(name);
 };
 
 /** @override */
-ModifiedEuler.prototype.step = function(stepSize) {
+step(stepSize) {
   var error, i;
   var va = this.ode_.getVarsList();
   var vars = va.getValues();
@@ -119,6 +112,8 @@ ModifiedEuler.prototype.step = function(stepSize) {
   return null;
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   NAME: string
@@ -147,4 +142,4 @@ ModifiedEuler.de_strings = {
 ModifiedEuler.i18n = goog.LOCALE === 'de' ? ModifiedEuler.de_strings :
     ModifiedEuler.en;
 
-}); // goog.scope
+exports = ModifiedEuler;
