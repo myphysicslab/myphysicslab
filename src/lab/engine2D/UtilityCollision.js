@@ -29,7 +29,7 @@ goog.scope(function() {
 
 var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
 var Edge = myphysicslab.lab.engine2D.Edge;
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 const Util = goog.module.get('myphysicslab.lab.util.Util');

@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.RigidBody');
+goog.module('myphysicslab.lab.engine2D.RigidBody');
 
-goog.require('myphysicslab.lab.model.MassObject');
-
-goog.scope(function() {
-
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
 
 /** A 2D rigid body with a specified geometry that can experience collisions and contact
 forces. A RigidBody handles the geometry calculations for intersections and
@@ -32,7 +29,6 @@ there is a Joint between two RigidBodys. See {@link #addNonCollide} and
 The Polygon class has a way of specifying a subset of Edges which do not collide with
 another Polygon. See {@link myphysicslab.lab.engine2D.Polygon#setNonCollideEdge}.
 
-
 @todo  how is initialize() method used?  It is not private anymore!!!
 
 @todo  getLocalCenterOfMass() should not exist; only used in DisplayShape.
@@ -43,31 +39,28 @@ another Polygon. See {@link myphysicslab.lab.engine2D.Polygon#setNonCollideEdge}
 methods of Polygon; do they need to be methods on RigidBody?
 
 * @interface
-* @extends {myphysicslab.lab.model.MassObject}
 */
-myphysicslab.lab.engine2D.RigidBody = function() {};
-
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+class RigidBody extends MassObject {
 
 /** Adds to set of RigidBodys that do not collide with this body.
 No collisions or contacts are generated between this body and the given bodies.
 See {@link #doesNotCollide}.
 @param {!Array<!RigidBody>} bodies array of RigidBodys that should not be collided with
 */
-RigidBody.prototype.addNonCollide;
+addNonCollide(bodies) {}
 
 /** Returns true if this body does not collide with the given body. See
 {@link #addNonCollide}.
 @param {!RigidBody} body the RigidBody of interest
 @return {boolean} true if this body does not collide with the given body
 */
-RigidBody.prototype.doesNotCollide;
+doesNotCollide(body) {}
 
 /** Erases any recently saved local coordinate system. See {@link #saveOldCoords},
 {@link #getOldCoords}.
 * @return {undefined}
 */
-RigidBody.prototype.eraseOldCoords;
+eraseOldCoords() {}
 
 /** Returns the collision distance accuracy, a fraction between zero and one; when the
 collision distance is within `accuracy * targetGap` of the target gap distance, then
@@ -75,7 +68,7 @@ the collision is considered close enough to handle (apply an impulse).
 @return {number} the collision accuracy, a fraction between 0 (exclusive) and 1
 (inclusive)
 */
-RigidBody.prototype.getAccuracy;
+getAccuracy() {}
 
 /** Returns distance tolerance used to determine if this RigidBody is in contact with
 another RigidBody.
@@ -83,7 +76,7 @@ another RigidBody.
 @return {number} distance tolerance used to determine if this RigidBody is in contact
     with another RigidBody
 */
-RigidBody.prototype.getDistanceTol;
+getDistanceTol() {}
 
 /** Returns the elasticity used when calculating collisions; a value of 1.0 means
 perfect elasticity where the kinetic energy after collision is the same as before
@@ -91,13 +84,13 @@ perfect elasticity where the kinetic energy after collision is the same as befor
 uses the lesser elasticity value of the two bodies involved.
 * @return {number} elasticity used when calculating collisions, a number from 0 to 1.
 */
-RigidBody.prototype.getElasticity;
+getElasticity() {}
 
 /** Returns the recently saved local coordinate system. See {@link #saveOldCoords}.
 * @return {?myphysicslab.lab.engine2D.LocalCoords} the recently saved local coordinate
 *     system.
 */
-RigidBody.prototype.getOldCoords;
+getOldCoords() {}
 
 /** Returns the index into the {@link myphysicslab.lab.model.VarsList VarsList} for
 this RigidBody. The VarsList contains 6 values for each RigidBody,
@@ -112,7 +105,7 @@ this RigidBody. The VarsList contains 6 values for each RigidBody,
 @return {number} the index of the x-position in the VarsList for this body;
     or -1 if this body is not in the VarsList.
 */
-RigidBody.prototype.getVarsIndex;
+getVarsIndex() {}
 
 /** Returns velocity tolerance used to determine if this RigidBody is in contact with
 another RigidBody.
@@ -129,13 +122,13 @@ involved in the collision.
 @return {number} velocity tolerance used to determine if this RigidBody is in contact
     with another RigidBody
 */
-RigidBody.prototype.getVelocityTol;
+getVelocityTol() {}
 
 /** Removes from set of RigidBodys that do not collide with this body.
 @param {!Array<!RigidBody>} bodies array of RigidBodys that
     should be collided with
 */
-RigidBody.prototype.removeNonCollide;
+removeNonCollide(bodies) {}
 
 /** Makes an internal copy of the geometry of this RigidBody, which is used
 for future collision checking.  This copy is a record of the last location
@@ -147,7 +140,7 @@ the small fast object you can see that it has passed through the narrow object.
 See {@link #getOldCoords}, {@link #eraseOldCoords}.
 @return {undefined}
 */
-RigidBody.prototype.saveOldCoords;
+saveOldCoords() {}
 
 /** Sets the collision distance accuracy, a fraction between zero and one; when the
 collision distance is within `accuracy * targetGap` of the target gap distance, then
@@ -155,14 +148,14 @@ the collision is considered close enough to handle (apply an impulse).
 * @param {number} value how close in distance to be in order to handle a collision
 * @throws {!Error} if value is out of the range 0 to 1, or is exactly zero
 */
-RigidBody.prototype.setAccuracy;
+setAccuracy(value) {}
 
 /** Sets distance tolerance to use to determine if this RigidBody is in contact with
 another RigidBody.
 @param {number} value distance tolerance to use to determine if this RigidBody is in
   contact with another RigidBody
 */
-RigidBody.prototype.setDistanceTol;
+setDistanceTol(value) {}
 
 /** Sets the elasticity used when calculating collisions; a value of 1.0 means perfect
 elasticity where the kinetic energy after collision is the same as before (extremely
@@ -171,13 +164,14 @@ lesser elasticity value of the two bodies involved.
 * @param {number} value elasticity used when calculating collisions,
 *    a number from 0 to 1.
 */
-RigidBody.prototype.setElasticity;
+setElasticity(value) {}
 
 /** Sets velocity tolerance to use to determine if this RigidBody is in contact with
 another RigidBody
 @param {number} value velocity tolerance to use to determine if this RigidBody is in
   contact with another RigidBody
 */
-RigidBody.prototype.setVelocityTol;
+setVelocityTol(value) {}
 
-}); // goog.scope
+} //end class
+exports = RigidBody;

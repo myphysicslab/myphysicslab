@@ -25,7 +25,7 @@ goog.scope(function() {
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const Collision = goog.module.get('myphysicslab.lab.model.Collision');
 
 /** RigidBodyCollision holds data related to a collision or resting contact between two

@@ -29,7 +29,7 @@ goog.scope(function() {
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 var Polygon = myphysicslab.lab.engine2D.Polygon;
-var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
