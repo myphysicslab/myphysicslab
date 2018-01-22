@@ -12,38 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.ToggleControl');
+goog.module('myphysicslab.lab.controls.ToggleControl');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.controls.LabControl');
 
-goog.scope(function() {
-
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Creates and manages an HTMLButtonElement that toggles between two images; the
 state is connected to a ParameterBoolean. The image is assigned classname `icon` for
 CSS scripting.
 
-* @param {!ParameterBoolean} parameter  the ParameterBoolean to connect to
-* @param {!HTMLImageElement} imageOn the HTMLImageElement to show for the 'on' state
-* @param {!HTMLImageElement} imageOff the HTMLImageElement to show for the 'off' state
-* @constructor
-* @final
-* @struct
 * @implements {LabControl}
 * @implements {Observer}
 */
-myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff) {
+class ToggleControl {
+/**
+* @param {!ParameterBoolean} parameter  the ParameterBoolean to connect to
+* @param {!HTMLImageElement} imageOn the HTMLImageElement to show for the 'on' state
+* @param {!HTMLImageElement} imageOff the HTMLImageElement to show for the 'off' state
+*/
+constructor(parameter, imageOn, imageOff) {
   /**
   * @type {!ParameterBoolean}
   * @private
@@ -90,34 +84,33 @@ myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff)
       /*callback=*/this.handleClick, /*capture=*/true, this);
   this.parameter_.getSubject().addObserver(this);
 };
-var ToggleControl = myphysicslab.lab.controls.ToggleControl;
 
 /** @override */
-ToggleControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       + ', state_: '+this.state_
       + '}';
 };
 
 /** @override */
-ToggleControl.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'ToggleControl{parameter_: '+
       this.parameter_.toStringShort()+'}';
 };
 
 /** @override */
-ToggleControl.prototype.disconnect = function() {
+disconnect() {
   this.parameter_.getSubject().removeObserver(this);
   goog.events.unlistenByKey(this.clickKey_);
 };
 
 /** @override */
-ToggleControl.prototype.getElement = function() {
+getElement() {
   return this.button_;
 };
 
 /** @override */
-ToggleControl.prototype.getParameter = function() {
+getParameter() {
   return this.parameter_;
 };
 
@@ -125,7 +118,7 @@ ToggleControl.prototype.getParameter = function() {
 {@link #observe} is being called).
 @return {boolean} the state of this control, `true` means 'on'
 */
-ToggleControl.prototype.getState = function() {
+getState() {
   return this.state_;
 };
 
@@ -133,12 +126,12 @@ ToggleControl.prototype.getState = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-ToggleControl.prototype.handleClick = function(event) {
+handleClick(event) {
   this.setState(!this.state_);
 };
 
 /** @override */
-ToggleControl.prototype.observe =  function(event) {
+observe(event) {
   // only update when this parameter has changed
   if (event == this.parameter_) {
     // Ensure that the value displayed by the control matches the Parameter value
@@ -147,14 +140,14 @@ ToggleControl.prototype.observe =  function(event) {
 };
 
 /** @override */
-ToggleControl.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   this.button_.disabled = !enabled;
 };
 
 /** Sets the state of the control, and modifies the ParameterBoolean to match.
 * @param {boolean} newState the new state of the control, `true` means 'on'
 */
-ToggleControl.prototype.setState = function(newState) {
+setState(newState) {
   if (this.state_ != newState) {
     this.parameter_.setValue(newState);
     this.state_ = newState;
@@ -165,5 +158,5 @@ ToggleControl.prototype.setState = function(newState) {
   }
 };
 
-
-}); // goog.scope
+} //end class
+exports = ToggleControl;
