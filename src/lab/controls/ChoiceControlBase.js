@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.ChoiceControlBase');
+goog.module('myphysicslab.lab.controls.ChoiceControlBase');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.controls.LabControl');
 
-goog.scope(function() {
-
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A pop-up menu which which synchronizes with a target object's string value by
 executing specified `getter` and `setter` functions.
@@ -45,7 +40,6 @@ The menu is initially set to show the the target's current value, as given by th
 When a menu item is selected, the target is modified by calling the `setter` with the
 value corresponding to the selected choice.
 
-
 Choices and Values
 ------------------
 ChoiceControlBase has two (same-length) arrays:
@@ -55,7 +49,6 @@ should be localized (translated) strings.
 
 + The array of **values** are strings that correspond to each choice. The value is
 given to the setter function to change the target object.
-
 
 <a id="noselectionstate"></a>
 'No Selection' State
@@ -69,7 +62,6 @@ When moving into a state of 'no selection', no notification is given via the
 specified `setter` function. When moving out of the 'no selection' state, the `setter`
 is called as normal.
 
-
 Updating The Control
 --------------------
 To keep the control in sync with the target object, call the {@link #observe} method
@@ -77,7 +69,11 @@ whenever a change in the value of the target object occurs. If the target
 object is a {@link myphysicslab.lab.util.Subject} then you can add this control as an
 Observer of the Subject.
 
-
+* @implements {LabControl}
+* @implements {Observer}
+*/
+class ChoiceControlBase {
+/**
 * @param {!Array<string>} choices an array of localized strings giving the names
    of the menu items.
 * @param {!Array<string>} values array of values corresponding to the choices, in
@@ -89,13 +85,8 @@ Observer of the Subject.
     be the given string value
 * @param {?string=} opt_label the text label to show besides this choice; if `null` or
     `undefined` or empty string then no label is made.
-* @constructor
-* @struct
-* @implements {LabControl}
-* @implements {Observer}
 */
-myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, setter,
-      opt_label) {
+constructor(choices, values, getter, setter, opt_label) {
   /**
   * @type {function():string}
   * @private
@@ -163,10 +154,8 @@ myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, 
       /*callback=*/this.itemStateChanged, /*capture=*/true, this);
 };
 
-var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
-
 /** @override */
-ChoiceControlBase.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', currentIndex_: '+this.currentIndex_
       +', choices.length: '+this.choices.length
@@ -176,7 +165,7 @@ ChoiceControlBase.prototype.toString = function() {
 };
 
 /** @override */
-ChoiceControlBase.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
 };
 
@@ -184,7 +173,7 @@ ChoiceControlBase.prototype.toStringShort = function() {
 * @return {undefined}
 * @private
 */
-ChoiceControlBase.prototype.buildSelectMenu = function() {
+buildSelectMenu() {
   // remove any existing options from list
   this.selectMenu_.options.length = 0;
   for (var i=0, len=this.choices.length; i<len; i++) {
@@ -193,7 +182,7 @@ ChoiceControlBase.prototype.buildSelectMenu = function() {
 };
 
 /** @override */
-ChoiceControlBase.prototype.disconnect = function() {
+disconnect() {
   goog.events.unlistenByKey(this.changeKey_);
 };
 
@@ -201,24 +190,24 @@ ChoiceControlBase.prototype.disconnect = function() {
 first item has index zero. See {@link #setChoice}.
 * @return {number} the index of the currently selected choice, or -1 if no item selected
 */
-ChoiceControlBase.prototype.getChoice = function() {
+getChoice() {
   return this.currentIndex_;
 };
 
 /** Returns name of class of this object.
 * @return {string} name of class of this object.
 */
-ChoiceControlBase.prototype.getClassName = function() {
+getClassName() {
   return 'ChoiceControlBase';
 };
 
 /** @override */
-ChoiceControlBase.prototype.getElement = function() {
+getElement() {
   return this.topElement_;
 };
 
 /** @override */
-ChoiceControlBase.prototype.getParameter = function() {
+getParameter() {
   return null;
 };
 
@@ -226,14 +215,14 @@ ChoiceControlBase.prototype.getParameter = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-ChoiceControlBase.prototype.itemStateChanged = function(event) {
+itemStateChanged(event) {
   if (this.selectMenu_.selectedIndex !== this.currentIndex_) {
     this.setChoice(this.selectMenu_.selectedIndex);
   }
 };
 
 /** @override */
-ChoiceControlBase.prototype.observe =  function(event) {
+observe(event) {
   // Ensure that the value displayed by the control matches the target value.
   var index = goog.array.indexOf(this.values_, this.getter_());
   this.setChoice(index);
@@ -246,7 +235,7 @@ to enter the
 @param {number} index the index of the chosen item within array of choices,
     where the first item has index zero and -1 means no item is selected
 */
-ChoiceControlBase.prototype.setChoice = function(index) {
+setChoice(index) {
   if (this.currentIndex_ !== index) {
     var n = this.selectMenu_.options.length;
     if (this.values_.length != n) {
@@ -286,7 +275,7 @@ state. The `setter` function is not called.
 @param {!Array<string>} values  the new set of values that correspond to the choices
 @throws {!Error} if choices and values have different length
 */
-ChoiceControlBase.prototype.setChoices = function(choices, values) {
+setChoices(choices, values) {
   if (choices.length != values.length) {
     throw new Error();
   }
@@ -298,8 +287,9 @@ ChoiceControlBase.prototype.setChoices = function(choices, values) {
 };
 
 /** @override */
-ChoiceControlBase.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   this.selectMenu_.disabled = !enabled;
 };
 
-}); // goog.scope
+} //end class
+exports = ChoiceControlBase;

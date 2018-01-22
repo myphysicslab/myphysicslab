@@ -87,7 +87,7 @@ var sims = myphysicslab.sims;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-var ChoiceControl = lab.controls.ChoiceControl;
+const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CollisionHandling = lab.engine2D.CollisionHandling;
@@ -96,7 +96,6 @@ const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLa
 var ContactSim = lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 const DiffEqSolverSubject = goog.module.get('myphysicslab.lab.model.DiffEqSolverSubject');
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
@@ -318,7 +317,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   /** @type {!CollisionAdvance} */
   this.advance = new CollisionAdvance(this.sim);
   this.advance.setJointSmallImpacts(true);
-  this.advance.setDebugLevel(DebugLevel.OPTIMAL);
+  this.advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   //this.advance.addWayPoints([WayPoint.NEXT_STEP_ESTIMATE, WayPoint.NEXT_STEP_BINARY]);
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-6, -6, 6, 6);

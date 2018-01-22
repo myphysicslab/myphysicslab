@@ -38,7 +38,6 @@ var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
 
 /** Static class that provides common test functions such as `runTest`.
 
@@ -557,7 +556,7 @@ Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, toleran
       // turn on debugging at a particular time
       var destTime = advance.getTime() + advance.getTimeStep();
       advance.setDebugLevel(destTime > 2.5251 && destTime < 2.551 ?
-          DebugLevel.LOW : DebugLevel.HIGH);
+          CollisionAdvance.DebugLevel.LOW : CollisionAdvance.DebugLevel.HIGH);
     }
     if (Engine2DTestRig.debug) {
       if (Engine2DTestRig.PRINT_ALL_VARS) {

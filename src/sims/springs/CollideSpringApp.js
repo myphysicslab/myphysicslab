@@ -42,7 +42,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
-var ChoiceControl = lab.controls.ChoiceControl;
+const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 var CollideSpringSim = sims.springs.CollideSpringSim;
 var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;

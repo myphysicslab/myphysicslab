@@ -12,18 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.ChoiceControl');
+goog.module('myphysicslab.lab.controls.ChoiceControl');
 
-goog.require('myphysicslab.lab.controls.ChoiceControlBase');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var ChoiceControlBase = myphysicslab.lab.controls.ChoiceControlBase;
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const ChoiceControlBase = goog.require('myphysicslab.lab.controls.ChoiceControlBase');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A pop-up menu which synchronizes its state with the {@link Parameter} of a
 {@link myphysicslab.lab.util.Subject Subject}.
@@ -45,7 +38,6 @@ choices and values of the Parameter are used, see {@link Parameter#getChoices} a
 If the choices and values *are* specified as arguments to the constructor, those will
 override the choices and values of the Parameter.
 
-
 How to Represent an Enum
 ------------------------
 See {@link myphysicslab.lab.util.ParameterString} for information about how to set up a
@@ -53,7 +45,9 @@ ParameterString that represents a string enum. See
 {@link myphysicslab.lab.util.ParameterNumber} for how to set up a ParameterNumber that
 represents a numeric enum.
 
-
+*/
+class ChoiceControl extends ChoiceControlBase {
+/**
 @param {!Parameter} parameter the parameter to modify
 @param {?string=} opt_label the text label to show besides this choice, or `null` or
     empty string for no label.  If `undefined`, then the Parameter's name is used.
@@ -61,57 +55,50 @@ represents a numeric enum.
     of the menu items; if not specified, then the Parameter's choices are used.
 @param {!Array<string>=} opt_values array of values corresponding to the choices;
     if not specified, then the Parameter's values are used.
-@constructor
-@final
-@struct
-@extends {ChoiceControlBase}
 */
-myphysicslab.lab.controls.ChoiceControl = function(parameter, opt_label, opt_choices,
+constructor(parameter, opt_label, opt_choices,
     opt_values) {
+  var choices = opt_choices !== undefined ? opt_choices : parameter.getChoices();
+  var values = opt_values !== undefined ? opt_values : parameter.getValues();
+  var label = opt_label !== undefined ?
+      opt_label : parameter.getName(/*localized=*/true);
+  super(choices, values,
+      goog.bind(parameter.getAsString, parameter),
+      goog.bind(parameter.setFromString, parameter),
+      label);
   /**
   * @type {!Parameter}
   * @private
   */
   this.parameter_ = parameter;
-  var choices = opt_choices !== undefined ? opt_choices : parameter.getChoices();
-  var values = opt_values !== undefined ? opt_values : parameter.getValues();
-  var label = opt_label !== undefined ?
-      opt_label : parameter.getName(/*localized=*/true);
-  ChoiceControlBase.call(this, choices, values,
-      goog.bind(parameter.getAsString, parameter),
-      goog.bind(parameter.setFromString, parameter),
-      label);
   this.parameter_.getSubject().addObserver(this);
 };
 
-var ChoiceControl = myphysicslab.lab.controls.ChoiceControl;
-goog.inherits(ChoiceControl, ChoiceControlBase);
-
 /** @override */
-ChoiceControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      ChoiceControl.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       + ', parameter_: '+this.parameter_.toStringShort()+'}';
 };
 
 /** @override */
-ChoiceControl.prototype.disconnect = function() {
-  ChoiceControl.superClass_.disconnect.call(this);
+disconnect() {
+  super.disconnect();
   this.parameter_.getSubject().removeObserver(this);
 };
 
 /** @override */
-ChoiceControl.prototype.getClassName = function() {
+getClassName() {
   return 'ChoiceControl';
 };
 
 /** @override */
-ChoiceControl.prototype.getParameter = function() {
+getParameter() {
   return this.parameter_;
 };
 
 /** @override */
-ChoiceControl.prototype.observe =  function(event) {
+observe(event) {
   if (event.getValue() == this.parameter_
       && event.nameEquals(Parameter.CHOICES_MODIFIED)) {
     // For performance reasons: delay rebuilding the menu for cases when many changes
@@ -126,7 +113,7 @@ ChoiceControl.prototype.observe =  function(event) {
     setTimeout(goog.bind(this.rebuildMenu, this), 50);
   } else if (event == this.parameter_) {
     // only update when this parameter has changed
-    ChoiceControl.superClass_.observe.call(this, event);
+    super.observe(event);
   }
 };
 
@@ -134,7 +121,7 @@ ChoiceControl.prototype.observe =  function(event) {
 * @return {undefined}
 * @private
 */
-ChoiceControl.prototype.rebuildMenu = function() {
+rebuildMenu() {
   var newChoices = this.parameter_.getChoices();
   // Does the current menu match the current set of choices?  If so, do nothing.
   if (!goog.array.equals(this.choices, newChoices)) {
@@ -142,4 +129,5 @@ ChoiceControl.prototype.rebuildMenu = function() {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = ChoiceControl;

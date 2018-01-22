@@ -51,7 +51,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 var CardioidPath = sims.roller.CardioidPath;
-var ChoiceControl = lab.controls.ChoiceControl;
+const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 var CirclePath = sims.roller.CirclePath;
 var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;

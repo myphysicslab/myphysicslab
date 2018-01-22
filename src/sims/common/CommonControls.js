@@ -43,7 +43,7 @@ var lab = myphysicslab.lab;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-var ChoiceControlBase = lab.controls.ChoiceControlBase;
+const ChoiceControlBase = goog.module.get('myphysicslab.lab.controls.ChoiceControlBase');
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');

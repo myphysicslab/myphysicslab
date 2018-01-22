@@ -48,7 +48,7 @@ var sims = myphysicslab.sims;
 
 const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-var ChoiceControl = lab.controls.ChoiceControl;
+const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
