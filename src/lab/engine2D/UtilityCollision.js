@@ -12,94 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.UtilityCollision');
+goog.module('myphysicslab.lab.engine2D.UtilityCollision');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const CornerEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.CornerEdgeCollision');
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** Provides utility methods for calculating collision information.
 
-@constructor
-@final
-@struct
 @private
 */
-myphysicslab.lab.engine2D.UtilityCollision = function() {
+class UtilityCollision {
+constructor() {
   throw new Error();
 };
-
-var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-
-// track frequency of various events for performance tuning
-/** number of times that an edge-edge collision test occurred
-* @type {number}
-* @package
-*/
-UtilityCollision.edgeEdgeCollisionTests = 0;
-
-/** Number of times that special normal was requested when it was already calculated.
-* @type {number}
-* @package
-*/
-UtilityCollision.specialNormalHits = 0;
-
-/** Number of times that special normal was requested when it was not yet calculated.
-* @type {number}
-* @package
-*/
-UtilityCollision.specialNormalMisses = 0;
-
-/** Number of times the `specialNormal` was rotated to world coords.
-* @type {number}
-* @package
-*/
-UtilityCollision.specialNormalRotate = 0;
-
-/** number of times that `testCollisionVertex` was called.
-* @type {number}
-* @package
-*/
-UtilityCollision.vertexBodyCollisionTests = 0;
-
-/** true means don't generate contacts from midpoint Vertexes.
-* @type {boolean}
-* @const
-* @private
-*/
-UtilityCollision.DISABLE_MIDPOINT_VERTEX_CONTACT = true;
-
-/** disables all edge/edge contacts and collisions.
-* @type {boolean}
-* @const
-* @package
-*/
-UtilityCollision.DISABLE_EDGE_EDGE = false;
-
-/** highlight edges and Vertexes being tested for collisions or contacts
-* @type {boolean}
-* @const
-* @package
-*/
-UtilityCollision.HIGHLIGHT_COLLISION_TESTING = false;
 
 /** Adds the given collision only if it there is not already a deeper collision
 between the same bodies and same edges very close by. This helps prevent having
@@ -148,7 +82,7 @@ Joints are a special case, they should always be added, never removed.
 @return {boolean} true if the collision was added
 @package
 */
-UtilityCollision.addCollision = function(collisions, c2) {
+static addCollision(collisions, c2) {
   if (c2==null) {
     throw new Error();
   }
@@ -227,7 +161,7 @@ UtilityCollision.addCollision = function(collisions, c2) {
 @param {number} time current simulation time
 @package
 */
-UtilityCollision.checkVertexes = function(collisions, body1, body2, time) {
+static checkVertexes(collisions, body1, body2, time) {
   // get centroid of body1 in body coords of body2.
   var c = body2.worldToBody(body1.getCentroidWorld());
   var specialNormal = body1.getSpecialNormalWorld();
@@ -315,7 +249,7 @@ intersection of the two bodies. The bounding rectangle can be increased in size 
 @return {boolean} false if there can be no intersection between the two bodies.
 @package
 */
-UtilityCollision.intersectionPossible = function(body1, body2, swellage) {
+static intersectionPossible(body1, body2, swellage) {
   if (body1.getSpecialNormalWorld() != null) {
     return UtilityCollision.intersectionPossibleSpecial(body1, body2, swellage);
   } else if (body2.getSpecialNormalWorld() != null) {
@@ -340,7 +274,7 @@ distance that is normal to the edge.
 @return {boolean} false if there can be no intersection between the two bodies.
 @package
 */
-UtilityCollision.intersectionPossibleSpecial = function(poly1, poly2, swellage) {
+static intersectionPossibleSpecial(poly1, poly2, swellage) {
   var specialNormal = poly1.getSpecialNormalWorld();
   if (specialNormal == null)
     throw new Error();
@@ -363,8 +297,7 @@ UtilityCollision.intersectionPossibleSpecial = function(poly1, poly2, swellage) 
 @param {number} time current simulation time
 @private
 */
-UtilityCollision.makeCollision = function(collisions, edge, vertex, e_body, p_body,
-     time) {
+static makeCollision(collisions, edge, vertex, e_body, p_body, time) {
   var c = new CornerEdgeCollision(vertex, edge);
   var v_edge = vertex.getEdge1();
   if (v_edge == null) {
@@ -404,7 +337,7 @@ UtilityCollision.makeCollision = function(collisions, edge, vertex, e_body, p_bo
 occurred.
 * @return {undefined}
 */
-UtilityCollision.printCollisionStatistics = function() {
+static printCollisionStatistics() {
   var s = '';
   if (UtilityCollision.vertexBodyCollisionTests > 0)
     s += 'vertex/body collisions: ' + UtilityCollision.vertexBodyCollisionTests;
@@ -435,7 +368,7 @@ collision via neighboring connected collisions.
     such that all the collisions in the set are connected by moveable bodies
 @package
 */
-UtilityCollision.subsetCollisions1 = function(superset) {
+static subsetCollisions1(superset) {
   var i, len;
   /** @type {!RigidBodyCollision} */
   var c;
@@ -513,8 +446,7 @@ collision via neighboring connected collisions.
     bodies of the starting collision.
 @package
 */
-UtilityCollision.subsetCollisions2 = function(superset, startC, hybrid, v,
-      minVelocity) {
+static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
   var i, len;
   /** @type {!RigidBodyCollision} */
   var c;
@@ -616,10 +548,10 @@ yet again when making the collision record).
 @param {number} time current simulation time
 @private
 */
-UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_body,
-    v_body_old, travelDist, time) {
-  if (Util.DEBUG)
+static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, travelDist, time) {
+  if (Util.DEBUG) {
     UtilityCollision.vertexBodyCollisionTests++;
+  }
   var edge2 = vertex2.getEdge1();
   if (edge2 == null) {
     throw new Error(Util.DEBUG ? 'vertex2 has no edge: '+vertex2 : '');
@@ -837,4 +769,58 @@ UtilityCollision.testCollisionVertex = function(collisions, body1, vertex2, v_bo
   }
 };
 
-}); // goog.scope
+} //end class
+
+// track frequency of various events for performance tuning
+/** number of times that an edge-edge collision test occurred
+* @type {number}
+* @package
+*/
+UtilityCollision.edgeEdgeCollisionTests = 0;
+
+/** Number of times that special normal was requested when it was already calculated.
+* @type {number}
+* @package
+*/
+UtilityCollision.specialNormalHits = 0;
+
+/** Number of times that special normal was requested when it was not yet calculated.
+* @type {number}
+* @package
+*/
+UtilityCollision.specialNormalMisses = 0;
+
+/** Number of times the `specialNormal` was rotated to world coords.
+* @type {number}
+* @package
+*/
+UtilityCollision.specialNormalRotate = 0;
+
+/** number of times that `testCollisionVertex` was called.
+* @type {number}
+* @package
+*/
+UtilityCollision.vertexBodyCollisionTests = 0;
+
+/** true means don't generate contacts from midpoint Vertexes.
+* @type {boolean}
+* @const
+* @private
+*/
+UtilityCollision.DISABLE_MIDPOINT_VERTEX_CONTACT = true;
+
+/** disables all edge/edge contacts and collisions.
+* @type {boolean}
+* @const
+* @package
+*/
+UtilityCollision.DISABLE_EDGE_EDGE = false;
+
+/** highlight edges and Vertexes being tested for collisions or contacts
+* @type {boolean}
+* @const
+* @package
+*/
+UtilityCollision.HIGHLIGHT_COLLISION_TESTING = false;
+
+exports = UtilityCollision;

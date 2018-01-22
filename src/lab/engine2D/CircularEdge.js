@@ -12,31 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.CircularEdge');
+goog.module('myphysicslab.lab.engine2D.CircularEdge');
 
-goog.require('myphysicslab.lab.engine2D.AbstractEdge');
-goog.require('myphysicslab.lab.engine2D.CircleCircle');
-goog.require('myphysicslab.lab.engine2D.CircleStraight');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
-var CircleCircle = myphysicslab.lab.engine2D.CircleCircle;
-var CircleStraight = myphysicslab.lab.engine2D.CircleStraight;
+const AbstractEdge = goog.require('myphysicslab.lab.engine2D.AbstractEdge');
+const CircleCircle = goog.require('myphysicslab.lab.engine2D.CircleCircle');
+const CircleStraight = goog.require('myphysicslab.lab.engine2D.CircleStraight');
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
-const CornerEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.CornerEdgeCollision');
-var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
+const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** A circular-arc Edge belonging to a Polygon.
 
@@ -65,14 +52,12 @@ Vertexes is kept and there is a single Vertex and single Edge forming the circle
 See {@link Vertex} for information about why mid-point
 Vertexes are created on a CircularEdge and how they are used for collision checking.
 
-
 ### Edge Coordinates
 
 In addition to world and body coordinates, CircularEdge also has 'edge coordinates'
 which takes body coordinates but shifts the origin to be the center of the circle that
 defines this Edge. For CircularEdge there is no change in angle between edge and body
 coords (unlike with an oval edge).
-
 
 ### About Coordinates and Angles
 
@@ -98,7 +83,6 @@ the *math convention for angles* shown in this table.
         6       |           -pi/2       |           +pi/2
 </pre>
 
-
 ### Details About Coordinates and Drawing
 
 The *'y increases up'* convention interacts with drawing in Javascript via
@@ -123,6 +107,9 @@ vertically, both of these cancel, and we can use regular 'math' angles with
 In contrast to `canvas.arc()`, the Javascript `Math.atan2()` function uses standard math
 coordinates.
 
+*/
+class CircularEdge extends AbstractEdge {
+/**
 * @param {!myphysicslab.lab.engine2D.Polygon} body Edge will be added to this
   Polygon
 * @param {!Vertex} vertex1 Edge starts at this Vertex, given
@@ -136,18 +123,14 @@ coordinates.
   considered the outside of the Polygon, so the edge is convex. `False` indicates a
   concave edge.
 * @param {number=} opt_spacing the distance between 'decorated' mid-point Vertexes.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractEdge}
 * @throws {!Error} if the Vertexes are not equidistant from the center within
   {@link #TINY_POSITIVE} tolerance
 * @throws {!Error} if `vertex1` is already connected to a 'next' Edge
 * @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
-myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center_body,
+constructor(body, vertex1, vertex2, center_body,
     clockwise, outsideIsOut, opt_spacing) {
-  AbstractEdge.call(this, body, vertex1, vertex2);
+  super(body, vertex1, vertex2);
   /** position of the center, in body coords
   * @type {!Vector}
   * @private
@@ -271,11 +254,8 @@ myphysicslab.lab.engine2D.CircularEdge = function(body, vertex1, vertex2, center
       CircularEdge.SMALL_POSITIVE;
 };
 
-var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
-goog.inherits(CircularEdge, AbstractEdge);
-
-CircularEdge.prototype.toString = function() {
-  return Util.ADVANCED ? '' : CircularEdge.superClass_.toString.call(this)
+toString() {
+  return Util.ADVANCED ? '' : super.toString()
       +', outsideIsOut_: '+this.outsideIsOut_
       +', clockwise_: '+this.clockwise_
       +', center_body_: '+this.center_body_
@@ -286,19 +266,6 @@ CircularEdge.prototype.toString = function() {
       +', angle_high_: '+Util.NF5(this.angle_high_)
       +'}';
 };
-
-/**
-* @type {number}
-* @const
-*/
-CircularEdge.TINY_POSITIVE = 1E-10;
-
-/**
-* @type {number}
-* @private
-* @const
-*/
-CircularEdge.SMALL_POSITIVE = 1E-6;
 
 /**  Creates a CircularEdge between the given Vertexes with the given radius,
 calculating the position of the center, and adds the edge to the given RigidBody.
@@ -330,8 +297,7 @@ left of the line.
 * @throws {!Error} if `vertex1` is already connected to a 'next' Edge
 * @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
-CircularEdge.make = function(body, vertex1, vertex2, radius, aboveRight, clockwise,
-      outsideIsOut) {
+static make(body, vertex1, vertex2, radius, aboveRight, clockwise, outsideIsOut) {
   // find center
   var cx, cy;
   // find midpoint of line between vertex1 and vertex2
@@ -392,7 +358,7 @@ CircularEdge.make = function(body, vertex1, vertex2, radius, aboveRight, clockwi
 };
 
 /** @override */
-CircularEdge.prototype.addPath = function(context) {
+addPath(context) {
   // We draw the path in DisplayShape after transforming coordinates to body
   // coordinates. See notes above about coordinates and angle conventions.
   // Basically this is a 'double-negative'
@@ -407,7 +373,7 @@ coordinates.
 * @param {number} angle  in edge coords
 * @return {!Vector} location on this CircularEdge in body coords
 */
-CircularEdge.prototype.angleToBody = function(angle) {
+angleToBody(angle) {
   return this.edgeToBody(
       new Vector(this.radius_*Math.cos(angle), this.radius_*Math.sin(angle)));
 };
@@ -416,12 +382,12 @@ CircularEdge.prototype.angleToBody = function(angle) {
 * @param {!Vector} p_body a point in body coordinates
 * @return {!Vector} the same point in edge coordinates
 */
-CircularEdge.prototype.bodyToEdge = function(p_body) {
+bodyToEdge(p_body) {
   return p_body.subtract(this.center_body_);
 };
 
 /** @override */
-CircularEdge.prototype.chordError = function() {
+chordError() {
   // form a triangle between two decorated Vertexes and the center.
   // angle between Vertexes is α
   // Length of chord is approx α r.
@@ -439,12 +405,12 @@ this curved Edge. Depth of arc is used to limit how far a penetration can be and
 be regarded as a collision.
 @return {number} the thickest distance between arc and line connecting arc ends
 */
-CircularEdge.prototype.depthOfArc = function() {
+depthOfArc() {
   return this.depth_;
 };
 
 /** @override */
-CircularEdge.prototype.distanceToEdge = function(edge) {
+distanceToEdge(edge) {
   if (edge instanceof StraightEdge) {
     var cw = this.body_.bodyToWorld(this.center_body_);  // Center World coords
     var cb = edge.getBody().worldToBody(cw);  // Center Body coords
@@ -469,14 +435,14 @@ CircularEdge.prototype.distanceToEdge = function(edge) {
 };
 
 /** @override */
-CircularEdge.prototype.distanceToLine = function(p_body) {
+distanceToLine(p_body) {
   //The extended line is taken to be the full circle for this Circular Edge.
   var p_edge = this.bodyToEdge(p_body);
   return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
 };
 
 /** @override */
-CircularEdge.prototype.distanceToPoint = function(p_body) {
+distanceToPoint(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   if (this.isWithinArc(p_edge)) {
     return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
@@ -489,7 +455,7 @@ CircularEdge.prototype.distanceToPoint = function(p_body) {
 * @param {!Vector} p_edge a point in edge coordinates
 * @return {!Vector} the same point in body coordinates
 */
-CircularEdge.prototype.edgeToBody = function(p_edge) {
+edgeToBody(p_edge) {
   return p_edge.add(this.center_body_);
 };
 
@@ -497,7 +463,7 @@ CircularEdge.prototype.edgeToBody = function(p_edge) {
 * @param {!Vector} p_edge a point in edge coordinates
 * @return {!Vector} the same point in world coordinates
 */
-CircularEdge.prototype.edgeToWorld = function(p_edge) {
+edgeToWorld(p_edge) {
   return this.body_.bodyToWorld(p_edge.add(this.center_body_));
 };
 
@@ -510,7 +476,7 @@ the arc is within that pair of angles.
   within that pair of angles.
 * @private
 */
-CircularEdge.findAngleLowHigh = function(startAngle, finishAngle, clockwise) {
+static findAngleLowHigh(startAngle, finishAngle, clockwise) {
   var angle_low, angle_high;
     // for future convenience, find angle_low, angle_high
   if (Math.abs(startAngle - finishAngle) < CircularEdge.TINY_POSITIVE) {
@@ -560,14 +526,14 @@ arc ends.
 * @return {number} maximum distance between arc and line connecting arc ends
 * @private
 */
-CircularEdge.findDepth = function(angle, radius) {
+static findDepth(angle, radius) {
   var d1 = Math.sin(angle/2) - Math.sin(angle)/2;
   var d2 = Math.cos(angle/2) - (1 + Math.cos(angle))/2;
   return radius * Math.sqrt(d1*d1 + d2*d2);
 };
 
 /** @override */
-CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
+findVertexContact(v, p_body, distTol) {
   // p_edge = point in edge coords
   var p_edge = this.bodyToEdge(p_body);
   // is p_edge is beyond endpoints of this edge segment?
@@ -606,7 +572,7 @@ CircularEdge.prototype.findVertexContact = function(v, p_body, distTol) {
 };
 
 /** @override */
-CircularEdge.prototype.getBottomBody = function() {
+getBottomBody() {
   var angle = -Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
@@ -622,32 +588,32 @@ body coordinates.
 @return {!Vector} center of this circular arc, in body
   coordinates
 */
-CircularEdge.prototype.getCenterBody = function() {
+getCenterBody() {
   return this.center_body_;
 };
 
 /** @override */
-CircularEdge.prototype.getCenterOfCurvature = function(p_body) {
+getCenterOfCurvature(p_body) {
   return this.center_body_;
 };
 
 /** @override */
-CircularEdge.prototype.getClassName = function() {
+getClassName() {
   return 'CircularEdge';
 };
 
 /** @override */
-CircularEdge.prototype.getCurvature = function(p_body) {
+getCurvature(p_body) {
   return (this.outsideIsOut_ ? 1 : -1)*this.radius_;
 };
 
 /** @override */
-CircularEdge.prototype.getDecoratedVertexes = function() {
+getDecoratedVertexes() {
   return this.decoratedVertexes_;
 };
 
 /** @override */
-CircularEdge.prototype.getLeftBody = function() {
+getLeftBody() {
   var angle = Math.PI;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
@@ -659,7 +625,7 @@ CircularEdge.prototype.getLeftBody = function() {
 };
 
 /** @override */
-CircularEdge.prototype.getNormalBody = function(p_body) {
+getNormalBody(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   var h = p_edge.length();
   if (h < CircularEdge.TINY_POSITIVE) {
@@ -670,7 +636,7 @@ CircularEdge.prototype.getNormalBody = function(p_body) {
 };
 
 /** @override */
-CircularEdge.prototype.getPointOnEdge = function(p_body) {
+getPointOnEdge(p_body) {
   var n = this.getNormalBody(p_body);
   var r = (this.outsideIsOut_ ? 1 : -1)* this.radius_;
   var p = this.edgeToBody(n.multiply(r));
@@ -681,12 +647,12 @@ CircularEdge.prototype.getPointOnEdge = function(p_body) {
 returns negative for concave edge.
 @return {number} radius of the edge
 */
-CircularEdge.prototype.getRadius = function() {
+getRadius() {
   return this.radius_;
 };
 
 /** @override */
-CircularEdge.prototype.getRightBody = function() {
+getRightBody() {
   var angle = 0;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
@@ -698,7 +664,7 @@ CircularEdge.prototype.getRightBody = function() {
 };
 
 /** @override */
-CircularEdge.prototype.getTopBody = function() {
+getTopBody() {
   var angle = Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
@@ -710,10 +676,10 @@ CircularEdge.prototype.getTopBody = function() {
 };
 
 /** @override */
-CircularEdge.prototype.highlight = function() {};
+highlight() {};
 
 /** @override */
-CircularEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
+improveAccuracyEdge(rbc, edge) {
   if (edge instanceof StraightEdge) {
     CircleStraight.improveAccuracy(rbc, this, edge);
   } else if (edge instanceof CircularEdge) {
@@ -728,7 +694,7 @@ CircularEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
 };
 
 /** @override */
-CircularEdge.prototype.intersection = function(p1_body, p2_body) {
+intersection(p1_body, p2_body) {
   if (p1_body == p2_body) {
     return null;
   }
@@ -832,7 +798,7 @@ CircularEdge.prototype.intersection = function(p1_body, p2_body) {
 };
 
 /** @override */
-CircularEdge.prototype.isStraight = function() {
+isStraight() {
   return false;
 };
 
@@ -844,7 +810,7 @@ coordinates.
 @return {boolean} true if the given point is within this arc.
 @private
 */
-CircularEdge.isWithinArc = function(p_edge, angleLow, angleHigh) {
+static isWithinArc(p_edge, angleLow, angleHigh) {
   goog.asserts.assert(!isNaN(p_edge.getX()));
   goog.asserts.assert(!isNaN(p_edge.getY()));
   var angle = p_edge.getAngle();
@@ -860,7 +826,7 @@ from the origin to the point, compares this angle to the angle range of this arc
     coordinates.
 @return {boolean} true if the given point is within this arc.
 */
-CircularEdge.prototype.isWithinArc = function(p_edge) {
+isWithinArc(p_edge) {
   if (this.completeCircle_) {
     return true;
   }
@@ -873,7 +839,7 @@ from the origin to the point, compares this angle to the angle range of this arc
     coordinates.
 @return {boolean} true if the given point is within this arc.
 */
-CircularEdge.prototype.isWithinArc2 = function(p_world) {
+isWithinArc2(p_world) {
   if (this.completeCircle_) {
     return true;
   }
@@ -894,7 +860,7 @@ Examples of reflected arcs:
     coordinates.
 @return {boolean} true if the given point is within the reflected arc.
 */
-CircularEdge.prototype.isWithinReflectedArc = function(p_edge) {
+isWithinReflectedArc(p_edge) {
   if (p_edge==null) {
     return false;
   }
@@ -913,12 +879,12 @@ coordinates.
     coordinates.
 @return {boolean} true if the given point is within the reflected arc.
 */
-CircularEdge.prototype.isWithinReflectedArc2 = function(p_world) {
+isWithinReflectedArc2(p_world) {
   return this.isWithinReflectedArc(this.bodyToEdge(this.body_.worldToBody(p_world)));
 };
 
 /** @override */
-CircularEdge.prototype.maxDistanceTo = function(p_body) {
+maxDistanceTo(p_body) {
   // @todo  This is a worst case, over-estimated distance (awful for concave arc),
   // this could be greatly improved by actually doing the calculation.
   return this.center_body_.distanceTo(p_body) + this.radius_;
@@ -933,7 +899,7 @@ CircularEdge.prototype.maxDistanceTo = function(p_body) {
 @return {!Vector} the nearest point (by angle) on this arc to the
     given point, in body coordinates
 */
-CircularEdge.prototype.nearestPointByAngle = function(p_body) {
+nearestPointByAngle(p_body) {
   var angle = this.bodyToEdge(p_body).getAngle();
   var angle2 = angle + (angle < this.angle_low_ ? 2*Math.PI : 0);
   if (this.angle_low_ <= angle2 && angle2 <= this.angle_high_) {
@@ -959,12 +925,12 @@ meaning the edge is convex. Returns `false` for a concave edge.
 @return {boolean} `true` means the region outside of the circle is outside of the
 object.
 */
-CircularEdge.prototype.outsideIsOut = function() {
+outsideIsOut() {
   return this.outsideIsOut_;
 };
 
 /** @override */
-CircularEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
+testCollisionEdge(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
     if (Util.DEBUG) {
       UtilityCollision.edgeEdgeCollisionTests++;
@@ -980,4 +946,19 @@ CircularEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {number}
+* @const
+*/
+CircularEdge.TINY_POSITIVE = 1E-10;
+
+/**
+* @type {number}
+* @private
+* @const
+*/
+CircularEdge.SMALL_POSITIVE = 1E-6;
+
+exports = CircularEdge;

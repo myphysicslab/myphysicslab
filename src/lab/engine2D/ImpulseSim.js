@@ -62,7 +62,7 @@ const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyC
 var RigidBodySim = lab.engine2D.RigidBodySim;
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-var UtilityCollision = lab.engine2D.UtilityCollision;
+const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
 
 /** Simulation of RigidBody movement with collisions. ImpulseSim adds methods for
 collision detection and collision handling to the super-class RigidBodySim.

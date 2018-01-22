@@ -12,21 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.AbstractEdge');
+goog.module('myphysicslab.lab.engine2D.AbstractEdge');
 
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** Abstract base class for {@link myphysicslab.lab.engine2D.Edge}.
 
@@ -46,16 +38,17 @@ const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
         So: we could make Edge know far less about RigidBody, which would
         be a good thing in terms of object-oriented design principles.
 
+* @abstract
+* @implements {Edge}
+*/
+class AbstractEdge {
+/**
 * @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon this Edge belongs to
 * @param {!Vertex} vertex1 the previous vertex, in body
   coords; matches the next (second) vertex of the previous edge
 * @param {!Vertex} vertex2 the next vertex, in body coords
-* @constructor
-* @abstract
-* @struct
-* @implements {Edge}
 */
-myphysicslab.lab.engine2D.AbstractEdge = function(body, vertex1, vertex2) {
+constructor(body, vertex1, vertex2) {
   /** the previous vertex, in body coords; matches the next (second) vertex of the
   previous edge
   * @type {!Vertex}
@@ -96,16 +89,7 @@ myphysicslab.lab.engine2D.AbstractEdge = function(body, vertex1, vertex2) {
   this.index_ = -1;
 };
 
-var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
-
-/**
-@const
-@type {number}
-@protected
-*/
-AbstractEdge.TINY_POSITIVE = 1E-10;
-
-AbstractEdge.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', v1_: '+this.v1_.toStringShort()
       +', v2_: '+this.v2_.toStringShort()
@@ -113,53 +97,53 @@ AbstractEdge.prototype.toString = function() {
       +', centroidRadius_: '+Util.NF5(this.centroidRadius_)
 };
 
-AbstractEdge.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : this.getClassName()
       +'{body_.name: "'+this.body_.getName()
       +'", index_: '+this.getIndex()+'}';
 };
 
 /** @abstract */
-AbstractEdge.prototype.addPath = function(context) {};
+addPath(context) {};
 
 /** @abstract */
-AbstractEdge.prototype.chordError = function() {};
+chordError() {};
 
 /** @abstract */
-AbstractEdge.prototype.distanceToEdge = function(edge) {};
+distanceToEdge(edge) {};
 
 /** @abstract */
-AbstractEdge.prototype.distanceToLine = function(p_body) {};
+distanceToLine(p_body) {};
 
 /** @abstract */
-AbstractEdge.prototype.distanceToPoint = function(p_body) {};
+distanceToPoint(p_body) {};
 
 /** @abstract */
-AbstractEdge.prototype.findVertexContact = function(v, p_body, distTol) {};
+findVertexContact(v, p_body, distTol) {};
 
 /** @override */
-AbstractEdge.prototype.forgetPosition = function() {
+forgetPosition() {
   this.centroid_world_ = null;
 };
 
 /** @override */
-AbstractEdge.prototype.getBody = function() {
+getBody() {
   return this.body_;
 };
 
 /** @abstract */
-AbstractEdge.prototype.getBottomBody = function() {};
+getBottomBody() {};
 
 /** @abstract */
-AbstractEdge.prototype.getCenterOfCurvature = function(p_body) {};
+getCenterOfCurvature(p_body) {};
 
 /** @override */
-AbstractEdge.prototype.getCentroidBody = function() {
+getCentroidBody() {
   return this.centroid_body_;
 };
 
 /** @override */
-AbstractEdge.prototype.getCentroidRadius = function() {
+getCentroidRadius() {
   if (isNaN(this.centroidRadius_)) {
     // increase the max distance to account for the following problem:
     // Suppose two blocks, each same sized squares collide straight on;
@@ -172,7 +156,7 @@ AbstractEdge.prototype.getCentroidRadius = function() {
 };
 
 /** @override */
-AbstractEdge.prototype.getCentroidWorld = function() {
+getCentroidWorld() {
   if (this.centroid_world_ == null) {
     this.centroid_world_ = this.body_.bodyToWorld(this.centroid_body_);
   }
@@ -183,18 +167,18 @@ AbstractEdge.prototype.getCentroidWorld = function() {
 * @return {string} name of class of this object.
 * @abstract
 */
-AbstractEdge.prototype.getClassName = function() {};
+getClassName() {};
 
 /** @abstract */
-AbstractEdge.prototype.getCurvature = function(p_body) {};
+getCurvature(p_body) {};
 
 /** @override */
-AbstractEdge.prototype.getDecoratedVertexes = function() {
+getDecoratedVertexes() {
   return [];
 };
 
 /** @override */
-AbstractEdge.prototype.getIndex = function() {
+getIndex() {
   if (this.index_ == -1) {
     this.index_ = goog.array.indexOf(this.body_.getEdges_(), this);
     if (this.index_ == -1) {
@@ -205,41 +189,41 @@ AbstractEdge.prototype.getIndex = function() {
 };
 
 /** @abstract */
-AbstractEdge.prototype.getLeftBody = function() {};
+getLeftBody() {};
 
 /** @abstract */
-AbstractEdge.prototype.getNormalBody = function(p_body) {};
+getNormalBody(p_body) {};
 
 /** @abstract */
-AbstractEdge.prototype.getPointOnEdge = function(p_body) {};
+getPointOnEdge(p_body) {};
 
 /** @abstract */
-AbstractEdge.prototype.getRightBody = function() {};
+getRightBody() {};
 
 /** @abstract */
-AbstractEdge.prototype.getTopBody = function() {};
+getTopBody() {};
 
 /** @override */
-AbstractEdge.prototype.getVertex1 = function() {
+getVertex1() {
   return this.v1_;
 };
 
 /** @override */
-AbstractEdge.prototype.getVertex2 = function() {
+getVertex2() {
   return this.v2_;
 };
 
 /** @abstract */
-AbstractEdge.prototype.highlight = function() {};
+highlight() {};
 
 /** @abstract */
-AbstractEdge.prototype.improveAccuracyEdge = function(rbc, edge) {};
+improveAccuracyEdge(rbc, edge) {};
 
 /** @abstract */
-AbstractEdge.prototype.intersection = function(p1_body, p2_body) {};
+intersection(p1_body, p2_body) {};
 
 /** @override */
-AbstractEdge.prototype.intersectionPossible = function(edge, swellage) {
+intersectionPossible(edge, swellage) {
   var c1 = this.getCentroidWorld();
   var c2 = edge.getCentroidWorld();
   var dist = c1.subtract(c2).lengthSquared();
@@ -248,28 +232,37 @@ AbstractEdge.prototype.intersectionPossible = function(edge, swellage) {
 };
 
 /** @abstract */
-AbstractEdge.prototype.isStraight = function() {};
+isStraight() {};
 
 /** @abstract */
-AbstractEdge.prototype.maxDistanceTo = function(p_body) {};
+maxDistanceTo(p_body) {};
 
 /** @override */
-AbstractEdge.prototype.pointOffset = function(p_body, length) {
+pointOffset(p_body, length) {
   var n = this.getNormalBody(p_body);
   return p_body.add(n.multiply(length));
 };
 
 /** @override */
-AbstractEdge.prototype.setCentroidRadius = function(value) {
+setCentroidRadius(value) {
   this.centroidRadius_ = value;
 };
 
 /** @override */
-AbstractEdge.prototype.setVertex2 = function(vertex) {
+setVertex2(vertex) {
   this.v2_ = vertex;
 };
 
 /** @abstract */
-AbstractEdge.prototype.testCollisionEdge = function(collisions, edge, time) {};
+testCollisionEdge(collisions, edge, time) {};
 
-}); // goog.scope
+} //end class
+
+/**
+@const
+@type {number}
+@protected
+*/
+AbstractEdge.TINY_POSITIVE = 1E-10;
+
+exports = AbstractEdge;

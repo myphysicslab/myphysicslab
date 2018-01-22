@@ -12,23 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.CircleStraight');
+goog.module('myphysicslab.lab.engine2D.CircleStraight');
 
-goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const EdgeEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const EdgeEdgeCollision = goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Provides static functions for handling interactions between
 {@link myphysicslab.lab.engine2D.CircularEdge CircularEdge} and
@@ -38,16 +29,14 @@ const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 the edge-edge collision if not both the new and old impact points are within the arc of
 the circle.
 
-@constructor
-@final
-@struct
 @private
 */
-myphysicslab.lab.engine2D.CircleStraight = function() {
+class CircleStraight {
+/**
+*/
+constructor() {
   throw new Error();
 };
-
-var CircleStraight = myphysicslab.lab.engine2D.CircleStraight;
 
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
 positions and velocities of the RigidBodys.
@@ -55,7 +44,7 @@ positions and velocities of the RigidBodys.
 * @param {!myphysicslab.lab.engine2D.CircularEdge} circle
 * @param {!myphysicslab.lab.engine2D.StraightEdge} straight
 */
-CircleStraight.improveAccuracy = function(rbc, circle, straight) {
+static improveAccuracy(rbc, circle, straight) {
   var circleBody = circle.getBody();
   var straightBody = straight.getBody();
   goog.asserts.assert( rbc.getPrimaryBody() == circleBody);
@@ -110,7 +99,7 @@ CircleStraight.improveAccuracy = function(rbc, circle, straight) {
 * @param {!myphysicslab.lab.engine2D.CircularEdge} circle
 @param {number} time current simulation time
 */
-CircleStraight.testCollision = function(collisions, straight, circle, time) {
+static testCollision(collisions, straight, circle, time) {
   if (UtilityCollision.DISABLE_EDGE_EDGE)
     return;
   if (!circle.outsideIsOut()) {
@@ -238,7 +227,7 @@ CircleStraight.testCollision = function(collisions, straight, circle, time) {
 * @param {number} time current simulation time
 * @private
 */
-CircleStraight.addCollision = function(contact, collisions, straight, circle, dist,
+static addCollision(contact, collisions, straight, circle, dist,
      pw, pb, time) {
   var rbc = new EdgeEdgeCollision(circle, straight);
   goog.asserts.assert( circle.outsideIsOut() );
@@ -260,4 +249,5 @@ CircleStraight.addCollision = function(contact, collisions, straight, circle, di
   UtilityCollision.addCollision(collisions, rbc);
 };
 
-}); // goog.scope
+} //end class
+exports = CircleStraight;

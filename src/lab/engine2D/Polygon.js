@@ -41,7 +41,7 @@ goog.scope(function() {
 
 const AbstractMassObject = goog.module.get('myphysicslab.lab.model.AbstractMassObject');
 const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
+const CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 const DebugEngine2D = goog.module.get('myphysicslab.lab.engine2D.DebugEngine2D');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -53,9 +53,9 @@ const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
+const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
 const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
+const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');

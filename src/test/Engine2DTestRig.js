@@ -36,7 +36,7 @@ var Joint = myphysicslab.lab.engine2D.Joint;
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
-var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
+const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Static class that provides common test functions such as `runTest`.

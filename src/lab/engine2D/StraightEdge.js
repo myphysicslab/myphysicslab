@@ -12,29 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.StraightEdge');
+goog.module('myphysicslab.lab.engine2D.StraightEdge');
 
-goog.require('myphysicslab.lab.engine2D.AbstractEdge');
-goog.require('myphysicslab.lab.engine2D.CornerCornerCollision');
-goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var AbstractEdge = myphysicslab.lab.engine2D.AbstractEdge;
-const CornerCornerCollision = goog.module.get('myphysicslab.lab.engine2D.CornerCornerCollision');
-const CornerEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.CornerEdgeCollision');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const AbstractEdge = goog.require('myphysicslab.lab.engine2D.AbstractEdge');
+const CornerCornerCollision = goog.require('myphysicslab.lab.engine2D.CornerCornerCollision');
+const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** A straight Edge belonging to a Polygon. A StraightEdge is defined by
 its two endpoint Vertexes, which are in body coordinates, plus it knows which side of
@@ -73,21 +61,20 @@ the Edge is outside of the body.
     y = 1/sqrt(1 + k^2)
     x = -k/sqrt(1 + k^2)
 
+*/
+class StraightEdge extends AbstractEdge {
+/**
 * @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon this Edge is a part of
 * @param {!Vertex} vertex1 the previous Vertex, in body coords
 * @param {!Vertex} vertex2 the next Vertex, in body coords
 * @param {boolean} outsideIsUp `true` means the region above the Edge is outside of the
   Polygon (when viewed in body coordinates); for vertical Edge `true` means region right
   of Edge is outside.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractEdge}
 * @throws {!Error} if `vertex1` is already connected to a 'next' Edge
 * @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
-myphysicslab.lab.engine2D.StraightEdge = function(body, vertex1, vertex2, outsideIsUp) {
-  AbstractEdge.call(this, body, vertex1, vertex2);
+constructor(body, vertex1, vertex2, outsideIsUp) {
+  super(body, vertex1, vertex2);
   /**
   * @type {boolean}
   * @private
@@ -97,17 +84,14 @@ myphysicslab.lab.engine2D.StraightEdge = function(body, vertex1, vertex2, outsid
   vertex2.setEdge1(this);
 };
 
-var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
-goog.inherits(StraightEdge, AbstractEdge);
-
-StraightEdge.prototype.toString = function() {
-  return Util.ADVANCED ? '' : StraightEdge.superClass_.toString.call(this)
+toString() {
+  return Util.ADVANCED ? '' : super.toString()
       +', outsideIsUp_: '+this.outsideIsUp_
       +'}';
 };
 
 /** @override */
-StraightEdge.prototype.addPath = function(context) {
+addPath(context) {
   context.lineTo(this.v2_.locBodyX(), this.v2_.locBodyY());
 };
 
@@ -118,7 +102,7 @@ StraightEdge.prototype.addPath = function(context) {
 * @return {?RigidBodyCollision}
 * @private
 */
-StraightEdge.prototype.checkVertexVertex = function(v, p_body, distTol) {
+checkVertexVertex(v, p_body, distTol) {
   var dist = this.v1_.locBody().distanceTo(p_body);
   // The distance between the vertexes must be large enough to be a valid normal
   // vector. When they are very close together then the normal direction is random.
@@ -136,12 +120,12 @@ StraightEdge.prototype.checkVertexVertex = function(v, p_body, distTol) {
 };
 
 /** @override */
-StraightEdge.prototype.chordError = function() {
+chordError() {
   return 0;
 };
 
 /** @override */
-StraightEdge.prototype.distanceToEdge = function(edge) {
+distanceToEdge(edge) {
   if (edge instanceof StraightEdge) {
     // no edge-edge contact between straight edges;
     // these are handled by corner-edge contacts. See Polygon.checkCollision.
@@ -152,7 +136,7 @@ StraightEdge.prototype.distanceToEdge = function(edge) {
 };
 
 /** @override */
-StraightEdge.prototype.distanceToLine = function(p_body) {
+distanceToLine(p_body) {
   var r;
   var pbx = p_body.getX();
   var pby = p_body.getY();
@@ -186,7 +170,7 @@ StraightEdge.prototype.distanceToLine = function(p_body) {
 };
 
 /** @override */
-StraightEdge.prototype.distanceToPoint = function(p_body) {
+distanceToPoint(p_body) {
   var pbx = p_body.getX();
   var pby = p_body.getY();
   var x1 = this.v1_.locBodyX();
@@ -236,7 +220,7 @@ StraightEdge.prototype.distanceToPoint = function(p_body) {
 };
 
 /** @override */
-StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
+findVertexContact(v, p_body, distTol) {
   // p_body = point in body coords
   var pbx = p_body.getX();
   var pby = p_body.getY();
@@ -336,36 +320,36 @@ StraightEdge.prototype.findVertexContact = function(v, p_body, distTol) {
 };
 
 /** @override */
-StraightEdge.prototype.getBottomBody = function() {
+getBottomBody() {
   var y1 = this.v1_.locBodyY();
   var y2 = this.v2_.locBodyY();
   return y1 < y2 ? y1 : y2;
 };
 
 /** @override */
-StraightEdge.prototype.getCenterOfCurvature = function(p_body) {
+getCenterOfCurvature(p_body) {
   return null;
 };
 
 /** @override */
-StraightEdge.prototype.getClassName = function() {
+getClassName() {
   return 'StraightEdge';
 };
 
 /** @override */
-StraightEdge.prototype.getCurvature = function(p_body) {
+getCurvature(p_body) {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-StraightEdge.prototype.getLeftBody = function() {
+getLeftBody() {
   var x1 = this.v1_.locBodyX();
   var x2 = this.v2_.locBodyX();
   return x1 < x2 ? x1 : x2;
 };
 
 /** @override */
-StraightEdge.prototype.getNormalBody = function(p_body) {
+getNormalBody(p_body) {
   // (we ignore p_body, because normal is same at any point on a straight line)
   var x1 = this.v1_.locBodyX();
   var x2 = this.v2_.locBodyX();
@@ -391,28 +375,28 @@ StraightEdge.prototype.getNormalBody = function(p_body) {
 };
 
 /** @override */
-StraightEdge.prototype.getPointOnEdge = function(p_body) {
+getPointOnEdge(p_body) {
   var p = this.projectionOntoLine(p_body);
   var n = this.getNormalBody(p_body);
   return [p, n];
 };
 
 /** @override */
-StraightEdge.prototype.getRightBody = function() {
+getRightBody() {
   var x1 = this.v1_.locBodyX();
   var x2 = this.v2_.locBodyX();
   return x1 > x2 ? x1 : x2;
 };
 
 /** @override */
-StraightEdge.prototype.getTopBody = function() {
+getTopBody() {
   var y1 = this.v1_.locBodyY();
   var y2 = this.v2_.locBodyY();
   return y1 > y2 ? y1 : y2;
 };
 
 /** @override */
-StraightEdge.prototype.highlight = function() {
+highlight() {
   if (UtilEngine.debugEngine2D != null) {
     var p1 = this.body_.bodyToWorld(this.v1_.locBody());
     var p2 = this.body_.bodyToWorld(this.v2_.locBody());
@@ -421,7 +405,7 @@ StraightEdge.prototype.highlight = function() {
 };
 
 /** @override */
-StraightEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
+improveAccuracyEdge(rbc, edge) {
   if (edge instanceof StraightEdge) {
     // no collisions between straight edges;
     /*if (rbc.getNormalBody() == edge.getBody()) {
@@ -435,7 +419,7 @@ StraightEdge.prototype.improveAccuracyEdge = function(rbc, edge) {
 };
 
 /** @override */
-StraightEdge.prototype.intersection = function(p1_body, p2_body) {
+intersection(p1_body, p2_body) {
   if (p1_body == p2_body) {
     return null;
   }
@@ -446,7 +430,7 @@ StraightEdge.prototype.intersection = function(p1_body, p2_body) {
 };
 
 /** @override */
-StraightEdge.prototype.intersectionPossible = function(edge, swellage) {
+intersectionPossible(edge, swellage) {
   if (edge instanceof StraightEdge) {
     // Because straight/straight edges never interact (instead they only interact with
     // Vertexes) we can avoid some testing and get a performance gain by returning false
@@ -455,12 +439,12 @@ StraightEdge.prototype.intersectionPossible = function(edge, swellage) {
   } else {
     // is this type cast because of NTI?
     return /** @type {boolean} */(
-      StraightEdge.superClass_.intersectionPossible.call(this, edge, swellage));
+      super.intersectionPossible(edge, swellage));
   }
 };
 
 /** @override */
-StraightEdge.prototype.isStraight = function() {
+isStraight() {
   return true;
 };
 
@@ -472,7 +456,7 @@ StraightEdge.prototype.isStraight = function() {
 * @return {?RigidBodyCollision}
 * @private
 */
-StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
+makeVertexVertex(myV, otherV, p_body, dist) {
   goog.asserts.assert( myV.getEdge1() == this || myV.getEdge2() == this );
   var rbc = new CornerCornerCollision(otherV, myV);
   rbc.distance = dist;
@@ -502,7 +486,7 @@ StraightEdge.prototype.makeVertexVertex = function(myV, otherV, p_body, dist) {
 };
 
 /** @override */
-StraightEdge.prototype.maxDistanceTo = function(p_body) {
+maxDistanceTo(p_body) {
   var dist1 = this.v1_.locBody().distanceTo(p_body);
   var dist2 = this.v2_.locBody().distanceTo(p_body);
   return dist1 > dist2 ? dist1 : dist2;
@@ -523,7 +507,7 @@ This is the point on this line where a perpendicular would cross the given point
 * @return {!Vector} the projection of the given point onto the
 *    extended line of this Edge
 */
-StraightEdge.prototype.projectionOntoLine = function(p_body) {
+projectionOntoLine(p_body) {
   var pbx = p_body.getX();
   var pby = p_body.getY();
   var x1 = this.v1_.locBodyX();
@@ -543,7 +527,7 @@ StraightEdge.prototype.projectionOntoLine = function(p_body) {
 };
 
 /** @override */
-StraightEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
+testCollisionEdge(collisions, edge, time) {
   if (edge instanceof StraightEdge) {
     // no collisions or contacts between StraightEdges, only between vertex and
     // StraightEdge.
@@ -554,4 +538,5 @@ StraightEdge.prototype.testCollisionEdge = function(collisions, edge, time) {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = StraightEdge;

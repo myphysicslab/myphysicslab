@@ -12,35 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.CircleCircle');
+goog.module('myphysicslab.lab.engine2D.CircleCircle');
 
-goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const EdgeEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const EdgeEdgeCollision = goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  Provides static functions for handling interactions between two
 {@link myphysicslab.lab.engine2D.CircularEdge CircularEdges}.
 
-@constructor
-@final
-@struct
 @private
 */
-myphysicslab.lab.engine2D.CircleCircle = function() {
+class CircleCircle {
+/**
+*/
+constructor() {
   throw new Error();
 };
-
-var CircleCircle = myphysicslab.lab.engine2D.CircleCircle;
 
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
 * positions and velocities of the RigidBodys.
@@ -48,7 +38,7 @@ var CircleCircle = myphysicslab.lab.engine2D.CircleCircle;
 * @param {!myphysicslab.lab.engine2D.CircularEdge} other
 * @param {!myphysicslab.lab.engine2D.CircularEdge} normalCircle
 */
-CircleCircle.improveAccuracy = function(rbc, other, normalCircle) {
+static improveAccuracy(rbc, other, normalCircle) {
   var otherBody = other.getBody();
   var normalBody = normalCircle.getBody();
   goog.asserts.assert( rbc.getPrimaryBody() == otherBody);
@@ -143,7 +133,7 @@ Edge/Edge calculation.
 * @param {!myphysicslab.lab.engine2D.CircularEdge} other
 * @param {number} time current simulation time
 */
-CircleCircle.testCollision = function(collisions, self, other, time) {
+static testCollision(collisions, self, other, time) {
   var distance, len;
   if (UtilityCollision.DISABLE_EDGE_EDGE)
     return;
@@ -242,7 +232,7 @@ CircleCircle.testCollision = function(collisions, self, other, time) {
 * @param {number} time current simulation time
 * @private
 */
-CircleCircle.addCollision = function(contact, collisions, self, other, distance, len, coe, time) {
+static addCollision(contact, collisions, self, other, distance, len, coe, time) {
   var rbc = new EdgeEdgeCollision(other, self);
   rbc.distance = distance;
   rbc.ballNormal = true;
@@ -271,4 +261,5 @@ CircleCircle.addCollision = function(contact, collisions, self, other, distance,
   UtilityCollision.addCollision(collisions, rbc);
 };
 
-}); // goog.scope
+} //end class
+exports = CircleCircle;
