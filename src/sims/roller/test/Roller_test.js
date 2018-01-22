@@ -41,7 +41,7 @@ var testRoller1 = function() {
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
   var CirclePath = myphysicslab.sims.roller.CirclePath;
-  var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
+  const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
   var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
 
   var sim = new RollerSingleSim();

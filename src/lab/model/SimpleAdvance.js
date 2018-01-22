@@ -12,23 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.SimpleAdvance');
+goog.module('myphysicslab.lab.model.SimpleAdvance');
 
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.model.ODEAdvance');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Advances an {@link ODESim} in a single step without doing any collision handling.
 
@@ -36,15 +27,15 @@ The {@link #advance} method calls {@link DiffEqSolver#step} to advance the Simul
 state, and then {@link myphysicslab.lab.model.Simulation#modifyObjects} to update the
 state of the {@link myphysicslab.lab.model.SimObject}s.
 
+* @implements {ODEAdvance}
+*/
+class SimpleAdvance {
+/**
 * @param {!ODESim} sim the Simulation to advance thru time
 * @param {!DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to
 *     use for advancing the simulation; default is RungeKutta.
-* @constructor
-* @final
-* @struct
-* @implements {ODEAdvance}
 */
-myphysicslab.lab.model.SimpleAdvance = function(sim, opt_diffEqSolver) {
+constructor(sim, opt_diffEqSolver) {
   /**
   * @type {!ODESim}
   * @private
@@ -61,22 +52,21 @@ myphysicslab.lab.model.SimpleAdvance = function(sim, opt_diffEqSolver) {
   */
   this.timeStep_ = 0.025;
 };
-var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
 
 /** @override */
-SimpleAdvance.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', odeSolver_: '+this.odeSolver_.toStringShort()
       +'}';
 };
 
 /** @override */
-SimpleAdvance.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'SimpleAdvance{sim_: '+this.sim_.toStringShort()+'}';
 };
 
 /** @override */
-SimpleAdvance.prototype.advance = function(timeStep, opt_memoList) {
+advance(timeStep, opt_memoList) {
   this.sim_.getSimList().removeTemporary(this.sim_.getTime());
   var err = this.odeSolver_.step(timeStep);
   if (err != null) {
@@ -89,33 +79,34 @@ SimpleAdvance.prototype.advance = function(timeStep, opt_memoList) {
 };
 
 /** @override */
-SimpleAdvance.prototype.getDiffEqSolver = function() {
+getDiffEqSolver() {
   return this.odeSolver_;
 };
 
 /** @override */
-SimpleAdvance.prototype.getTime = function() {
+getTime() {
   return this.sim_.getTime();
 };
 
 /** @override */
-SimpleAdvance.prototype.getTimeStep = function() {
+getTimeStep() {
   return this.timeStep_;
 };
 
 /** @override */
-SimpleAdvance.prototype.reset = function() {
+reset() {
   this.sim_.reset();
 };
 
 /** @override */
-SimpleAdvance.prototype.setDiffEqSolver = function(diffEqSolver) {
+setDiffEqSolver(diffEqSolver) {
   this.odeSolver_ = diffEqSolver;
 };
 
 /** @override */
-SimpleAdvance.prototype.setTimeStep = function(timeStep) {
+setTimeStep(timeStep) {
   this.timeStep_ = timeStep;
 };
 
-}); // goog.scope
+} //end class
+exports = SimpleAdvance;
