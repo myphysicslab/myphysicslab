@@ -12,33 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.DiffEqSolverSubject');
+goog.module('myphysicslab.lab.model.DiffEqSolverSubject');
 
-goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.EulersMethod');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-goog.require('myphysicslab.lab.model.ODEAdvance');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AdaptiveStepSolver = goog.module.get('myphysicslab.lab.model.AdaptiveStepSolver');
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EulersMethod = goog.module.get('myphysicslab.lab.model.EulersMethod');
-const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
-const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AdaptiveStepSolver = goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EulersMethod = goog.require('myphysicslab.lab.model.EulersMethod');
+const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
+const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Makes available several {@link DiffEqSolver}s for advancing
 an ODESim simulation. Creates a ParameterString for changing which DiffEqSolver to use.
@@ -54,20 +40,18 @@ Parameters Created
 
 + ParameterString named `DIFF_EQ_SOLVER`, see {@link #setDiffEqSolver}
 
+*/
+class DiffEqSolverSubject extends AbstractSubject {
+/**
 * @param {!ODESim} sim the simulation of interest
 * @param {?EnergySystem} energySystem the EnergySystem (usually same as `sim`),
     can be `null`
 * @param {!ODEAdvance} advanceStrategy the AdvanceStrategy being used to advance the
     simulation in time
 * @param {string=} opt_name name of this DiffEqSolverSubject.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 */
-myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
-     advanceStrategy, opt_name) {
-  AbstractSubject.call(this, opt_name || 'DIFF_EQ_SUBJECT');
+constructor(sim, energySystem, advanceStrategy, opt_name) {
+  super(opt_name || 'DIFF_EQ_SUBJECT');
   /**
   * @type {!ODESim}
   * @private
@@ -109,11 +93,9 @@ myphysicslab.lab.model.DiffEqSolverSubject = function(sim, energySystem,
         goog.bind(this.getDiffEqSolver, this), goog.bind(this.setDiffEqSolver, this),
         choices, values));
 };
-var DiffEqSolverSubject = myphysicslab.lab.model.DiffEqSolverSubject;
-goog.inherits(DiffEqSolverSubject, AbstractSubject);
 
 /** @override */
-DiffEqSolverSubject.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', sim_: '+this.sim_.toStringShort()
       +', energySystem_: '+(this.energySystem_ == null ? 'null'
@@ -122,25 +104,25 @@ DiffEqSolverSubject.prototype.toString = function() {
       +', solvers_: [ '
       + goog.array.map(this.solvers_, function(s) { return s.toStringShort(); })
       +']'
-      + DiffEqSolverSubject.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DiffEqSolverSubject.prototype.getClassName = function() {
+getClassName() {
   return Util.ADVANCED ? '' : 'DiffEqSolverSubject';
 };
 
 /** Returns the language-independent name of the current DiffEqSolver
 * @return {string} the language-independent name of the current DiffEqSolver
 */
-DiffEqSolverSubject.prototype.getDiffEqSolver = function() {
+getDiffEqSolver() {
   return this.advanceStrategy_.getDiffEqSolver().getName();
 };
 
 /** Sets which DiffEqSolver to use.
 * @param {string} value the language-independent name of the DiffEqSolver to use
 */
-DiffEqSolverSubject.prototype.setDiffEqSolver = function(value) {
+setDiffEqSolver(value) {
   if (!this.advanceStrategy_.getDiffEqSolver().nameEquals(value)) {
     var solver = goog.array.find(this.solvers_, function(s) {
         return s.nameEquals(value);
@@ -153,6 +135,8 @@ DiffEqSolverSubject.prototype.setDiffEqSolver = function(value) {
     }
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -182,4 +166,4 @@ DiffEqSolverSubject.de_strings = {
 DiffEqSolverSubject.i18n = goog.LOCALE === 'de' ? DiffEqSolverSubject.de_strings :
     DiffEqSolverSubject.en;
 
-}); // goog.scope
+exports = DiffEqSolverSubject;
