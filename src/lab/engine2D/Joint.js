@@ -12,35 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Joint');
+goog.module('myphysicslab.lab.engine2D.Joint');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const ConnectorCollision = goog.module.get('myphysicslab.lab.engine2D.ConnectorCollision');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const ConnectorCollision = goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A Joint connects two RigidBodys by generating RigidBodyCollisions which are
 used to find contact forces or collision impulses so that the attachment points on the
@@ -88,7 +74,6 @@ Another name for a joint is a *bilateral contact point* meaning that it can both
 and pull. This is different from ordinary contact points between bodies which can only
 push against each other.
 
-
 ### Specifying a Joint's Normal Vector
 
 When specifying a normal, we also specify the {@link CoordType},
@@ -116,7 +101,6 @@ simulation variables. The method
 {@link myphysicslab.lab.engine2D.ContactSim#alignConnectors} does the `initializeFromBody` step
 automatically.
 
-
 ### Implementation Note: Separate Impact Points
 
 Each side of the Joint has its own impact point and `R` vector; these are `impact,
@@ -136,6 +120,10 @@ body2? It is confusing now because the 'body coords normal' is attached to body2
 exists, otherwise it is attached to body1. This probably is because of how
 RigidBodyCollision follows this policy.
 
+* @implements {Connector}
+*/
+class Joint extends AbstractSimObject {
+/**
 @param {!RigidBody} rigidBody1 the first body of the Joint
 @param {!Vector} attach1_body the attachment point on the first
     body in body coordinates
@@ -147,15 +135,10 @@ RigidBodyCollision follows this policy.
     from {@link CoordType}
 @param {!Vector} normal this Joint's normal vector in body
     (for `rigidBody2`) or world coordinates
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {Connector}
 */
-myphysicslab.lab.engine2D.Joint = function(rigidBody1, attach1_body,
+constructor(rigidBody1, attach1_body,
       rigidBody2, attach2_body, normalType, normal) {
-  AbstractSimObject.call(this, 'JOINT'+(Joint.nextJointNum++));
+  super('JOINT'+(Joint.nextJointNum++));
   /** first body of the joint
   * @type {!RigidBody}
   * @private
@@ -190,12 +173,10 @@ myphysicslab.lab.engine2D.Joint = function(rigidBody1, attach1_body,
   */
   this.normalType_ = normalType;
 };
-var Joint = myphysicslab.lab.engine2D.Joint;
-goog.inherits(Joint, AbstractSimObject);
 
 /** @override */
-Joint.prototype.toString = function() {
-  return Util.ADVANCED ? '' : Joint.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       +', body1_: '+this.body1_.toStringShort()
       +', attach1_body_: '+this.attach1_body_
       +', body2_: '+this.body2_.toStringShort()
@@ -207,17 +188,12 @@ Joint.prototype.toString = function() {
 };
 
 /** @override */
-Joint.prototype.getClassName = function() {
+getClassName() {
   return 'Joint';
 };
 
-/**
-* @type {number}
-*/
-Joint.nextJointNum = 0;
-
 /** @override */
-Joint.prototype.addCollision = function(collisions, time, accuracy) {
+addCollision(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/true);
   this.updateCollision(c);
   c.setDetectedTime(time);
@@ -235,7 +211,7 @@ Joint.prototype.addCollision = function(collisions, time, accuracy) {
 };
 
 /** @override */
-Joint.prototype.align = function() {
+align() {
   if (isFinite(this.body2_.getMass())) {
     this.body2_.alignTo(/*p_body=*/this.attach2_body_,
         /*p_world=*/this.body1_.bodyToWorld(this.attach1_body_));
@@ -249,7 +225,7 @@ Joint.prototype.align = function() {
 @return {!Vector} the attachment point on the first body in body
     coordinates
 */
-Joint.prototype.getAttach1 = function() {
+getAttach1() {
   return this.attach1_body_;
 };
 
@@ -257,22 +233,22 @@ Joint.prototype.getAttach1 = function() {
 @return {!Vector} the attachment point on the second body in body
     coordinates
 */
-Joint.prototype.getAttach2 = function() {
+getAttach2() {
   return this.attach2_body_;
 };
 
 /** @override */
-Joint.prototype.getBody1 = function() {
+getBody1() {
   return this.body1_;
 };
 
 /** @override */
-Joint.prototype.getBody2 = function() {
+getBody2() {
   return this.body2_;
 };
 
 /** @override */
-Joint.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.getPosition1(), this.getPosition2());
 };
 
@@ -281,12 +257,12 @@ to `getNormalType`.  If in body coordinates it is relative to body2.
 @return {!Vector} this Joint's normal vector, in body or world
     coordinates
 */
-Joint.prototype.getNormal = function() {
+getNormal() {
   return this.normal_;
 };
 
 /** @override */
-Joint.prototype.getNormalDistance = function() {
+getNormalDistance() {
   var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
   return collisions[0].getDistance();
@@ -296,14 +272,14 @@ Joint.prototype.getNormalDistance = function() {
 * @return {!CoordType} whether the normal returned by `getNormal`
     is in body or world coordinates.
 */
-Joint.prototype.getNormalType = function() {
+getNormalType() {
   return this.normalType_;
 };
 
 /** Returns this Joint's unit normal vector in world coordinates.
 @return {!Vector} this Joint's normal vector, in world coordinates
 */
-Joint.prototype.getNormalWorld = function() {
+getNormalWorld() {
   if (this.normalType_==CoordType.WORLD) {
     return this.normal_;
   } else {
@@ -312,17 +288,17 @@ Joint.prototype.getNormalWorld = function() {
 };
 
 /** @override */
-Joint.prototype.getPosition1 = function() {
+getPosition1() {
   return this.body1_.bodyToWorld(this.attach1_body_);
 };
 
 /** @override */
-Joint.prototype.getPosition2 = function() {
+getPosition2() {
   return this.body2_.bodyToWorld(this.attach2_body_);
 };
 
 /** @override */
-Joint.prototype.updateCollision = function(c) {
+updateCollision(c) {
   if (c.primaryBody != this.body1_ || c.normalBody != this.body2_)
     throw new Error();
   if (c.getConnector() != this)
@@ -341,4 +317,11 @@ Joint.prototype.updateCollision = function(c) {
   c.creator = 'Joint';
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {number}
+*/
+Joint.nextJointNum = 0;
+
+exports = Joint;
