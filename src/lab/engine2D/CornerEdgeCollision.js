@@ -12,41 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.CornerEdgeCollision');
+goog.module('myphysicslab.lab.engine2D.CornerEdgeCollision');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** A RigidBodyCollision between a corner Vertex and an Edge.
 
-* @param {!Vertex} vertex the Vertex on the primary body
-* @param {!Edge} normalEdge the Edge on the normal body, which defines the normal vector for the collision.
-* @constructor
-* @final
-* @struct
-* @extends {RigidBodyCollision}
 */
-myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
+class CornerEdgeCollision extends RigidBodyCollision {
+/**
+* @param {!Vertex} vertex the Vertex on the primary body
+* @param {!Edge} normalEdge the Edge on the normal body, which defines the normal
+*     vector for the collision.
+*/
+constructor(vertex, normalEdge) {
   var v_edge = vertex.getEdge1();
   if (v_edge == null) {
     throw new Error('CornerEdgeCollision: null edge; vertex='+vertex);
   }
-  RigidBodyCollision.call(this, v_edge.getBody(), normalEdge.getBody(),
-      /*joint=*/false);
+  super(v_edge.getBody(), normalEdge.getBody(), /*joint=*/false);
   /** vertex of primary body, between primaryEdge and primaryEdge2
   * @type {!Vertex}
   * @private
@@ -79,13 +70,11 @@ myphysicslab.lab.engine2D.CornerEdgeCollision = function(vertex, normalEdge) {
   // even when radius1 is finite.
   this.ballObject = false;
 };
-var CornerEdgeCollision = myphysicslab.lab.engine2D.CornerEdgeCollision;
-goog.inherits(CornerEdgeCollision, RigidBodyCollision);
 
 /** @override */
-CornerEdgeCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      CornerEdgeCollision.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', vertex-id: '+ this.vertex.getID()
       +', primaryEdge-idx: '+ this.primaryEdge.getIndex()
       +', primaryEdge2-idx: '+ (this.primaryEdge2 != null ?
@@ -95,13 +84,13 @@ CornerEdgeCollision.prototype.toString = function() {
 };
 
 /** @override */
-CornerEdgeCollision.prototype.getClassName = function() {
+getClassName() {
   return 'CornerEdgeCollision';
 };
 
 /** @override */
-CornerEdgeCollision.prototype.checkConsistent = function() {
-  CornerEdgeCollision.superClass_.checkConsistent.call(this);
+checkConsistent() {
+  super.checkConsistent();
   // both primary and normal edge always exist for non-joint
   goog.asserts.assert( this.primaryEdge != null );
   // vertex/edge collision.
@@ -120,7 +109,7 @@ CornerEdgeCollision.prototype.checkConsistent = function() {
 };
 
 /** @override */
-CornerEdgeCollision.prototype.getU2 = function() {
+getU2() {
   if (this.u2_ != null) {
     return this.u2_; // cached value to speed up performance
   }
@@ -139,7 +128,7 @@ CornerEdgeCollision.prototype.getU2 = function() {
 };
 
 /** @override */
-CornerEdgeCollision.prototype.hasEdge = function(edge) {
+hasEdge(edge) {
   // if edge is null, then always returns false
   if (edge == null) {
     return false;
@@ -149,12 +138,12 @@ CornerEdgeCollision.prototype.hasEdge = function(edge) {
 };
 
 /** @override */
-CornerEdgeCollision.prototype.hasVertex = function(v) {
+hasVertex(v) {
   return v == this.vertex;
 };
 
 /** @override */
-CornerEdgeCollision.prototype.similarTo = function(c) {
+similarTo(c) {
   if (!c.hasBody(this.primaryBody) || !c.hasBody(this.normalBody)) {
     return false;
   }
@@ -193,7 +182,7 @@ CornerEdgeCollision.prototype.similarTo = function(c) {
 };
 
 /** @override */
-CornerEdgeCollision.prototype.updateCollision = function(time) {
+updateCollision(time) {
   this.u2_ = null; // invalidate cached value
   // vertex/edge collision
   var pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
@@ -208,7 +197,8 @@ CornerEdgeCollision.prototype.updateCollision = function(time) {
   this.impact1 = this.normalBody.bodyToWorld(pn[0]);
   this.normal = this.normalBody.rotateBodyToWorld(pn[1]);
   this.distance = this.normalEdge.distanceToLine(pnb);
-  CornerEdgeCollision.superClass_.updateCollision.call(this, time);
+  super.updateCollision(time);
 };
 
-}); // goog.scope
+} //end class
+exports = CornerEdgeCollision;

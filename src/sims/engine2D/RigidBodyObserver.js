@@ -47,7 +47,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var Connector = lab.engine2D.Connector;
+const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
 var DisplayConnector = lab.view.DisplayConnector;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayList = lab.view.DisplayList;

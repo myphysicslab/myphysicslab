@@ -12,36 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.CornerCornerCollision');
+goog.module('myphysicslab.lab.engine2D.CornerCornerCollision');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** A RigidBodyCollision between two corners.
 
+*/
+class CornerCornerCollision extends RigidBodyCollision {
+/**
 * @param {!Vertex} vertex
 * @param {!Vertex} normalVertex
-* @constructor
-* @final
-* @struct
-* @extends {RigidBodyCollision}
 */
-myphysicslab.lab.engine2D.CornerCornerCollision = function(vertex, normalVertex) {
+constructor(vertex, normalVertex) {
   var v_edge = vertex.getEdge1();
   var nv_edge = normalVertex.getEdge1();
   if (v_edge == null || nv_edge == null) {
     throw new Error("CornerCornerCollision: null edge; vertex="+vertex
       +"; normalVertex="+normalVertex);
   }
-  RigidBodyCollision.call(this, v_edge.getBody(), nv_edge.getBody(), /*joint=*/false);
+  super(v_edge.getBody(), nv_edge.getBody(), /*joint=*/false);
   /** the vertex of the primary object
   * @type {!Vertex}
   * @private
@@ -53,36 +47,34 @@ myphysicslab.lab.engine2D.CornerCornerCollision = function(vertex, normalVertex)
   */
   this.normalVertex = normalVertex;
 };
-var CornerCornerCollision = myphysicslab.lab.engine2D.CornerCornerCollision;
-goog.inherits(CornerCornerCollision, RigidBodyCollision);
 
 /** @override */
-CornerCornerCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      CornerCornerCollision.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', vertex-ID: '+ this.vertex.getID()
       +', normalVertex-ID: '+ this.normalVertex.getID()
       + '}';
 };
 
 /** @override */
-CornerCornerCollision.prototype.getClassName = function() {
+getClassName() {
   return 'CornerCornerCollision';
 };
 
 /** @override */
-CornerCornerCollision.prototype.checkConsistent = function() {
-  CornerCornerCollision.superClass_.checkConsistent.call(this);
+checkConsistent() {
+  super.checkConsistent();
   goog.asserts.assert( this.normalVertex != null );
 };
 
 /** @override */
-CornerCornerCollision.prototype.hasVertex = function(v) {
+hasVertex(v) {
   return v == this.vertex || v == this.normalVertex;
 };
 
 /** @override */
-CornerCornerCollision.prototype.similarTo = function(c) {
+similarTo(c) {
   if (!c.hasBody(this.primaryBody) || !c.hasBody(this.normalBody)) {
     return false;
   }
@@ -94,7 +86,7 @@ CornerCornerCollision.prototype.similarTo = function(c) {
 };
 
 /** @override */
-CornerCornerCollision.prototype.updateCollision = function(time) {
+updateCollision(time) {
   goog.asserts.assert( this.normalVertex != null );
   var pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
   var pnb = this.normalBody.worldToBody(pbw);
@@ -109,7 +101,8 @@ CornerCornerCollision.prototype.updateCollision = function(time) {
     throw new Error();
   }
   this.normal = this.normalBody.rotateBodyToWorld(nv);
-  CornerCornerCollision.superClass_.updateCollision.call(this, time);
+  super.updateCollision(time);
 };
 
-}); // goog.scope
+} //end class
+exports = CornerCornerCollision;

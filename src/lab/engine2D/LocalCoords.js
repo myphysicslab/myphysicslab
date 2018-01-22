@@ -12,26 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.LocalCoords');
+goog.module('myphysicslab.lab.engine2D.LocalCoords');
 
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Remembers the local coordinate system of a
 * {@link myphysicslab.lab.model.MassObject}. Used during collision checking to
 * compare previous and current locations of objects.
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.engine2D.LocalCoords = function() {
+class LocalCoords {
+constructor() {
   /** center of mass in body coordinates
   * @type {!Vector}
   * @protected
@@ -53,10 +45,9 @@ myphysicslab.lab.engine2D.LocalCoords = function() {
   */
   this.cosAngle_ = 1.0;
 };
-var LocalCoords = myphysicslab.lab.engine2D.LocalCoords;
 
 /** @override */
-LocalCoords.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'LocalCoords{'
       +'loc_world_: '+this.loc_world_
       +', cm_body_: '+this.cm_body_
@@ -70,7 +61,7 @@ position of the object.
 @param {!GenericVector} p_body  the point, in body coordinates
 @return {!Vector} the point in world coordinates
 */
-LocalCoords.prototype.bodyToWorld = function(p_body) {
+bodyToWorld(p_body) {
   var rx = p_body.getX() - this.cm_body_.getX();  // vector from cm to p_body
   var ry = p_body.getY() - this.cm_body_.getY();
   var vx = this.loc_world_.getX() + (rx*this.cosAngle_ - ry*this.sinAngle_);
@@ -84,7 +75,7 @@ LocalCoords.prototype.bodyToWorld = function(p_body) {
 * @param {number} sinAngle sine of angle of rotation about center of mass
 * @param {number} cosAngle cosine of angle of rotation about center of mass
 */
-LocalCoords.prototype.set = function(cm_body, loc_world, sinAngle, cosAngle) {
+set(cm_body, loc_world, sinAngle, cosAngle) {
   this.cm_body_ = cm_body;
   this.loc_world_ = loc_world;
   this.sinAngle_ = sinAngle;
@@ -96,7 +87,7 @@ position of the object.
 @param {!GenericVector} p_world  the point, in world coordinates
 @return {!Vector} the point in body coordinates
 */
-LocalCoords.prototype.worldToBody = function(p_world) {
+worldToBody(p_world) {
   // get the vector from cm (which is at x_world,y_world) to p_world
   var rx = p_world.getX() - this.loc_world_.getX();
   var ry = p_world.getY() - this.loc_world_.getY();
@@ -108,4 +99,5 @@ LocalCoords.prototype.worldToBody = function(p_world) {
   return new Vector(vx, vy);
 };
 
-}); // goog.scope
+} //end class
+exports = LocalCoords;

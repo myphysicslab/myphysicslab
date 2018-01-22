@@ -33,8 +33,8 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-var Connector = myphysicslab.lab.engine2D.Connector;
-var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
+const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
+const ConnectorCollision = goog.module.get('myphysicslab.lab.engine2D.ConnectorCollision');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');

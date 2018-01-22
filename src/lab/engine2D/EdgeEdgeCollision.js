@@ -12,35 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.EdgeEdgeCollision');
+goog.module('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A RigidBodyCollision between two Edges.
-
+*/
+class EdgeEdgeCollision extends RigidBodyCollision {
+/**
 * @param {!Edge} primaryEdge the first Edge of the collision
 * @param {!Edge} normalEdge the second Edge of the collision, which determines the
 *     normal vector
-* @constructor
-* @final
-* @struct
-* @extends {RigidBodyCollision}
 */
-myphysicslab.lab.engine2D.EdgeEdgeCollision = function(primaryEdge, normalEdge) {
-  RigidBodyCollision.call(this, primaryEdge.getBody(), normalEdge.getBody(),
+constructor(primaryEdge, normalEdge) {
+  super(primaryEdge.getBody(), normalEdge.getBody(),
       /*joint=*/false);
   /** edge of primary object
   * @type {!Edge}
@@ -65,26 +56,24 @@ myphysicslab.lab.engine2D.EdgeEdgeCollision = function(primaryEdge, normalEdge) 
   */
   this.u2_ = null;
 };
-var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
-goog.inherits(EdgeEdgeCollision, RigidBodyCollision);
 
 /** @override */
-EdgeEdgeCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      EdgeEdgeCollision.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', primaryEdge: '+ this.primaryEdge.getIndex()
       +', normalEdge: '+ this.normalEdge.getIndex()
       +'}';
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.getClassName = function() {
+getClassName() {
   return 'EdgeEdgeCollision';
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.checkConsistent = function() {
-  EdgeEdgeCollision.superClass_.checkConsistent.call(this);
+checkConsistent() {
+  super.checkConsistent();
   // both primary and normal edge always exist for non-joint
   goog.asserts.assert( this.primaryEdge != null );
   goog.asserts.assert( this.primaryEdge.isStraight() == !this.ballObject );
@@ -93,7 +82,7 @@ EdgeEdgeCollision.prototype.checkConsistent = function() {
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.getU1 = function() {
+getU1() {
   if (this.u1_ != null) {
     return this.u1_; // cached value to speed up performance
   }
@@ -109,7 +98,7 @@ EdgeEdgeCollision.prototype.getU1 = function() {
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.getU2 = function() {
+getU2() {
   if (this.u2_ != null) {
     return this.u2_; // cached value to speed up performance
   }
@@ -127,7 +116,7 @@ EdgeEdgeCollision.prototype.getU2 = function() {
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.hasEdge = function(edge) {
+hasEdge(edge) {
   // if edge is null, then always returns false
   if (edge == null) {
     return false;
@@ -136,7 +125,7 @@ EdgeEdgeCollision.prototype.hasEdge = function(edge) {
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.similarTo = function(c) {
+similarTo(c) {
   if (!c.hasBody(this.primaryBody) || !c.hasBody(this.normalBody)) {
     return false;
   }
@@ -167,11 +156,12 @@ EdgeEdgeCollision.prototype.similarTo = function(c) {
 };
 
 /** @override */
-EdgeEdgeCollision.prototype.updateCollision = function(time) {
+updateCollision(time) {
   this.u1_ = null; // invalidate cached value
   this.u2_ = null; // invalidate cached value
   this.primaryEdge.improveAccuracyEdge(this, this.normalEdge);
-  EdgeEdgeCollision.superClass_.updateCollision.call(this, time);
+  super.updateCollision(time);
 };
 
-}); // goog.scope
+} //end class
+exports = EdgeEdgeCollision;

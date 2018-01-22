@@ -39,7 +39,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
-var Connector = myphysicslab.lab.engine2D.Connector;
+const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 const Force = goog.module.get('myphysicslab.lab.model.Force');

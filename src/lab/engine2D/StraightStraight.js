@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var EdgeEdgeCollision = myphysicslab.lab.engine2D.EdgeEdgeCollision;
+const EdgeEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
 const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;

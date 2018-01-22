@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.RigidBody');
 
+const LocalCoords = goog.require('myphysicslab.lab.engine2D.LocalCoords');
 const MassObject = goog.require('myphysicslab.lab.model.MassObject');
 
 /** A 2D rigid body with a specified geometry that can experience collisions and contact
@@ -87,8 +88,7 @@ uses the lesser elasticity value of the two bodies involved.
 getElasticity() {}
 
 /** Returns the recently saved local coordinate system. See {@link #saveOldCoords}.
-* @return {?myphysicslab.lab.engine2D.LocalCoords} the recently saved local coordinate
-*     system.
+* @return {?LocalCoords} the recently saved local coordinate system.
 */
 getOldCoords() {}
 
