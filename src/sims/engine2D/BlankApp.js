@@ -77,7 +77,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-var Arc = lab.model.Arc;
+const Arc = goog.module.get('myphysicslab.lab.model.Arc');
 var AutoScale = lab.graph.AutoScale;
 var CircularEdge = lab.engine2D.CircularEdge;
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');

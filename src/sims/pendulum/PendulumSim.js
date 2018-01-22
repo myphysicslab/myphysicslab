@@ -33,11 +33,10 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
-var Arc = lab.model.Arc;
+const Arc = goog.module.get('myphysicslab.lab.model.Arc');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-var EventHandler = myphysicslab.lab.app.EventHandler;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');

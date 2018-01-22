@@ -69,7 +69,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var Arc = myphysicslab.lab.model.Arc;
+const Arc = goog.module.get('myphysicslab.lab.model.Arc');
 var AutoScale = lab.graph.AutoScale;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;

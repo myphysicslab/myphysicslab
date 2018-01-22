@@ -28,7 +28,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var Arc = lab.model.Arc;
+const Arc = goog.module.get('myphysicslab.lab.model.Arc');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');

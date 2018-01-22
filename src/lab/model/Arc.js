@@ -12,34 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Arc');
+goog.module('myphysicslab.lab.model.Arc');
 
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A {@link myphysicslab.lab.model.SimObject} that represents a semi-circular arc.
-
+*/
+class Arc extends AbstractSimObject {
+/**
 * @param {string} name name of this SimObject
 * @param {number} startAngle  starting position of arc, in radians where zero
 *     corresponds to 3 o'clock, `pi/2` corresponds to 12 o'clock.
 * @param {number} radius  radius of arc, in simulation coords
 * @param {!Vector} center  center of arc, in simulation coords
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
 */
-myphysicslab.lab.model.Arc = function(name, startAngle, radius, center) {
-  AbstractSimObject.call(this, name);
+constructor(name, startAngle, radius, center) {
+  super(name);
   /** Starting position of arc, in radians where zero
   * corresponds to 3 o'clock, `pi/2` corresponds to 12 o'clock.
   * @type {number}
@@ -62,13 +53,11 @@ myphysicslab.lab.model.Arc = function(name, startAngle, radius, center) {
   */
   this.center_ = center;
 };
-var Arc = myphysicslab.lab.model.Arc;
-goog.inherits(Arc, AbstractSimObject);
 
 /** @override */
-Arc.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      Arc.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', startAngle_: '+Util.NF(this.startAngle_)
       +', angle_: '+Util.NF(this.angle_)
       +', radius_: '+Util.NF(this.radius_)
@@ -77,33 +66,33 @@ Arc.prototype.toString = function() {
 };
 
 /** @override */
-Arc.prototype.getClassName = function() {
+getClassName() {
   return 'Arc';
 };
 
 /** Returns angle in radians, where positive is counter-clockwise.
 @return {number} angle in radians, where positive is counter-clockwise
 */
-Arc.prototype.getAngle = function() {
+getAngle() {
   return this.angle_;
 };
 
 /** @override */
-Arc.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.makeCentered(this.center_, this.radius_, this.radius_);
 };
 
 /** Returns center of arc, in simulation coords.
 @return {!Vector} center of arc, in simulation coords
 */
-Arc.prototype.getCenter = function() {
+getCenter() {
   return this.center_;
 };
 
 /** Returns radius of arc, in simulation coords.
 @return {number} radius of arc, in simulation coords
 */
-Arc.prototype.getRadius = function() {
+getRadius() {
   return this.radius_;
 };
 
@@ -111,28 +100,28 @@ Arc.prototype.getRadius = function() {
 `pi/2` corresponds to 12 o'clock.
 @return {number} starting angle in radians
 */
-Arc.prototype.getStartAngle = function() {
+getStartAngle() {
   return this.startAngle_;
 };
 
 /** Sets angle in radians, where positive is counter-clockwise.
 @param {number} angle angle in radians, where positive is counter-clockwise.
 */
-Arc.prototype.setAngle = function(angle) {
+setAngle(angle) {
   this.angle_ = angle;
 };
 
 /** Sets center of arc, in simulation coords.
 @param {!Vector} center center of arc, in simulation coords.
 */
-Arc.prototype.setCenter = function(center) {
+setCenter(center) {
   this.center_ = center;
 };
 
 /** Sets radius of arc, in simulation coords.
 @param {number} radius radius of arc, in simulation coords.
 */
-Arc.prototype.setRadius = function(radius) {
+setRadius(radius) {
   this.radius_ = radius;
 };
 
@@ -140,12 +129,12 @@ Arc.prototype.setRadius = function(radius) {
 `pi/2` corresponds to 12 o'clock.
 @param {number} angle starting angle in radians
 */
-Arc.prototype.setStartAngle = function(angle) {
+setStartAngle(angle) {
   this.startAngle_ = angle;
 };
 
 /** @override */
-Arc.prototype.similar = function(obj, opt_tolerance) {
+similar(obj, opt_tolerance) {
   if (!(obj instanceof Arc)) {
     return false;
   }
@@ -162,4 +151,5 @@ Arc.prototype.similar = function(obj, opt_tolerance) {
   return arc.getCenter().nearEqual(this.center_, opt_tolerance);
 };
 
-}); // goog.scope
+} //end class
+exports = Arc;

@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 
 goog.scope(function() {
 
-var Arc = myphysicslab.lab.model.Arc;
+const Arc = goog.module.get('myphysicslab.lab.model.Arc');
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
