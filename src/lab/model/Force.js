@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Force');
+goog.module('myphysicslab.lab.model.Force');
 
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.Line');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Line = goog.module.get('myphysicslab.lab.model.Line');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Line = goog.require('myphysicslab.lab.model.Line');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A Force acts on a given {@link MassObject} at a defined location and with a defined
 direction and magnitude.
@@ -49,9 +39,12 @@ acceleration like this:
 
     angular_acceleration += torque / RigidBody.momentAboutCM()
 
-
 @todo move contactDistance and distanceTol to a sub-class called ContactForce?
 
+* @implements {Line}
+*/
+class Force extends AbstractSimObject {
+/**
 @param {string} name  string indicating the type of force, e.g. 'gravity'
 @param {!MassObject} body the MassObject that the Force is
     applied to
@@ -64,15 +57,9 @@ acceleration like this:
 @param {!CoordType} directionCoordType whether the direction is
     in body or world coords, from {@link CoordType}.
 @param {number=} opt_torque torque to change angular acceleration of body
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {Line}
 */
-myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
-    direction, directionCoordType, opt_torque) {
-  AbstractSimObject.call(this, name);
+constructor(name, body, location, locationCoordType, direction, directionCoordType, opt_torque) {
+  super(name);
   /** which body the force is applied to
   * @type {!MassObject}
   * @private
@@ -112,12 +99,10 @@ myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
   */
   this.torque_ = opt_torque===undefined ? 0 : opt_torque;
 };
-var Force = myphysicslab.lab.model.Force;
-goog.inherits(Force, AbstractSimObject);
 
 /** @override */
-Force.prototype.toString = function() {
-  return Util.ADVANCED ? '' : Force.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       +', body: "'+this.body_.getName()+'"'
       +', location: '+this.location_
       +', direction: '+this.direction_
@@ -128,7 +113,7 @@ Force.prototype.toString = function() {
 };
 
 /** @override */
-Force.prototype.getClassName = function() {
+getClassName() {
   return 'Force';
 };
 
@@ -136,22 +121,22 @@ Force.prototype.getClassName = function() {
 * @return {!MassObject} The MassObject to which this
     force is applied
 */
-Force.prototype.getBody = function() {
+getBody() {
   return this.body_;
 };
 
 /** @override */
-Force.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.getStartPoint(), this.getEndPoint());
 };
 
 /** @override */
-Force.prototype.getEndPoint = function() {
+getEndPoint() {
   return this.getStartPoint().add(this.getVector());
 };
 
 /** @override */
-Force.prototype.getStartPoint = function() {
+getStartPoint() {
   return this.locationCoordType_==CoordType.BODY ?
           this.body_.bodyToWorld(this.location_) : this.location_;
 };
@@ -159,18 +144,18 @@ Force.prototype.getStartPoint = function() {
 /** Returns the torque which affects the angular acceleration.
 @return {number} the torque which affects the angular acceleration.
 */
-Force.prototype.getTorque = function() {
+getTorque() {
   return this.torque_;
 };
 
 /** @override */
-Force.prototype.getVector = function() {
+getVector() {
   return this.directionCoordType_==CoordType.BODY ?
           this.body_.rotateBodyToWorld(this.direction_) : this.direction_;
 };
 
 /** @override */
-Force.prototype.similar = function(obj, opt_tolerance) {
+similar(obj, opt_tolerance) {
   if (!(obj instanceof Force)) {
     return false;
   }
@@ -185,4 +170,5 @@ Force.prototype.similar = function(obj, opt_tolerance) {
   return this.getVector().nearEqual(f.getVector(), opt_tolerance);
 };
 
-}); // goog.scope
+} //end class
+exports = Force;

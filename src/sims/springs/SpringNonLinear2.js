@@ -30,7 +30,7 @@ goog.scope(function() {
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var Force = myphysicslab.lab.model.Force;
+const Force = goog.module.get('myphysicslab.lab.model.Force');
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');

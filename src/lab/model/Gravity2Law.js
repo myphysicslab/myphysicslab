@@ -33,7 +33,7 @@ goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-var Force = myphysicslab.lab.model.Force;
+const Force = goog.module.get('myphysicslab.lab.model.Force');
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
