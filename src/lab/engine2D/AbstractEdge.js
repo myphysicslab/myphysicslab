@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var Edge = myphysicslab.lab.engine2D.Edge;
+const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
