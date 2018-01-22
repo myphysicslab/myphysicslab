@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 const Force = goog.module.get('myphysicslab.lab.model.Force');
-var ForceLaw = myphysicslab.lab.model.ForceLaw;
+const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A ForceLaw that applies a single constant Force. The Force can be set to `null`, in
