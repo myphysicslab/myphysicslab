@@ -66,6 +66,7 @@ var testPointMassAngle = function() {
 goog.exportProperty(window, 'testPointMassAngle', testPointMassAngle);
 
 var testPointMass = function() {
+  const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
   const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
@@ -74,7 +75,7 @@ var testPointMass = function() {
   var p1 = PointMass.makeCircle(1, 'point1');
   // instanceof works for class inheritance, but not for interfaces
   assertTrue(p1 instanceof PointMass);
-  assertTrue(p1 instanceof myphysicslab.lab.model.AbstractSimObject);
+  assertTrue(p1 instanceof AbstractSimObject);
   assertFalse(p1 instanceof SimObject);
   assertFalse(p1 instanceof MassObject);
   assertTrue(p1.isMassObject());

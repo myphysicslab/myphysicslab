@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
+const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Util = goog.module.get('myphysicslab.lab.util.Util');

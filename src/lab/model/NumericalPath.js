@@ -29,7 +29,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
+const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');

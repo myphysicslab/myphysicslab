@@ -32,7 +32,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var AbstractSimObject = myphysicslab.lab.model.AbstractSimObject;
+const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 var CoordType = myphysicslab.lab.model.CoordType;

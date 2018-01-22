@@ -48,7 +48,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractSimObject = lab.model.AbstractSimObject;
+const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AdvanceStrategy = lab.model.AdvanceStrategy;
 var ConcreteLine = lab.model.ConcreteLine;
