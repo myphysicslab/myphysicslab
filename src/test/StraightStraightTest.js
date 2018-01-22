@@ -39,7 +39,7 @@ goog.scope(function() {
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
-var DampingLaw = myphysicslab.lab.model.DampingLaw;
+const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;

@@ -50,7 +50,7 @@ var lab = myphysicslab.lab;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var DampingLaw = lab.model.DampingLaw;
+const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');

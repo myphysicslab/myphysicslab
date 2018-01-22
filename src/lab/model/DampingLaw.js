@@ -12,35 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.DampingLaw');
+goog.module('myphysicslab.lab.model.DampingLaw');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Applies damping forces to a set of MassObjects. Damping is a friction force
 like air resistance, or the surface friction of objects sliding on a table.
@@ -71,23 +57,21 @@ Parameters Created
 
 + ParameterNumber named `ROTATE_RATIO`, see {@link #setRotateRatio}
 
-
+@implements {ForceLaw}
+@implements {Observer}
+*/
+class DampingLaw extends AbstractSubject {
+/**
 @param {number} damping translational damping factor
 @param {number=} rotateRatio the ratio used to calculate rotational damping, as
     a fraction of translational damping
 @param {!SimList=} opt_simList optional SimList to observe for
    when objects are added; also adds all existing bodies on that SimList.
-@constructor
-@final
-@struct
-@extends {AbstractSubject}
-@implements {ForceLaw}
-@implements {Observer}
 */
-myphysicslab.lab.model.DampingLaw = function(damping, rotateRatio, opt_simList) {
+constructor(damping, rotateRatio, opt_simList) {
   var id = DampingLaw.NAME_ID++;
   var nm = 'DAMPING_LAW' + (id > 0 ? '_'+id : '');
-  AbstractSubject.call(this, nm);
+  super(nm);
   /**
   * @type {number}
   * @private
@@ -120,39 +104,33 @@ myphysicslab.lab.model.DampingLaw = function(damping, rotateRatio, opt_simList) 
       goog.bind(this.getRotateRatio, this), goog.bind(this.setRotateRatio, this))
       .setSignifDigits(3));
 };
-var DampingLaw = myphysicslab.lab.model.DampingLaw;
-goog.inherits(DampingLaw, AbstractSubject);
 
 /** @override */
-DampingLaw.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', rotateRatio: '+Util.NF5(this.rotateRatio_)
       +', bodies: '+this.bods_.length
-      + DampingLaw.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DampingLaw.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      DampingLaw.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', damping: '+Util.NF5(this.damping_)+'}';
 };
 
 /** @override */
-DampingLaw.prototype.getClassName = function() {
+getClassName() {
   return 'DampingLaw';
 };
-/**
-* @type {number}
-*/
-DampingLaw.NAME_ID = 0;
 
 /** Adds all the SimObjects to list of objects that DampingLaw applies forces to,
 * but only those with mass.
 * @param {!Array<!SimObject>} bodies set of SimObjects to
   possibly add
 */
-DampingLaw.prototype.addBodies = function(bodies) {
+addBodies(bodies) {
   goog.array.forEach(bodies, goog.bind(this.addBody, this));
 };
 
@@ -160,7 +138,7 @@ DampingLaw.prototype.addBodies = function(bodies) {
 * if it has positive finite mass.
 * @param {!SimObject} obj the SimObject to possibly add
 */
-DampingLaw.prototype.addBody = function(obj) {
+addBody(obj) {
   if (!obj.isMassObject() || goog.array.contains(this.bods_, obj)) {
     return;
   }
@@ -172,7 +150,7 @@ DampingLaw.prototype.addBody = function(obj) {
 };
 
 /** @override */
-DampingLaw.prototype.calculateForces = function() {
+calculateForces() {
   /** @type {!Array<!Force>} */
   var forces = [];
   if (this.damping_ == 0) {
@@ -198,33 +176,33 @@ DampingLaw.prototype.calculateForces = function() {
 SimList.
 * @param {!SimList} simList  the SimList to connect with
 */
-DampingLaw.prototype.connect = function(simList) {
+connect(simList) {
   this.addBodies(simList.toArray());
   simList.addObserver(this);
   this.simList_ = simList;
 };
 
 /** @override */
-DampingLaw.prototype.disconnect = function() {
+disconnect() {
   if (this.simList_ != null) {
     this.simList_.removeObserver(this);
   }
 };
 
 /** @override */
-DampingLaw.prototype.getBodies = function() {
+getBodies() {
   return goog.array.clone(this.bods_);
 };
 
 /** Returns the strength of the damping force.
 * @return {number} the strength of the damping force.
 */
-DampingLaw.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** @override */
-DampingLaw.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   return 0;
 };
 
@@ -232,12 +210,12 @@ DampingLaw.prototype.getPotentialEnergy = function() {
 translational damping.
 * @return {number} ratio used to calculate rotational damping
 */
-DampingLaw.prototype.getRotateRatio = function() {
+getRotateRatio() {
   return this.rotateRatio_;
 };
 
 /** @override */
-DampingLaw.prototype.observe =  function(event) {
+observe(event) {
   var obj;
   if (event.nameEquals(SimList.OBJECT_ADDED)) {
     obj = /** @type {!SimObject} */ (event.getValue());
@@ -252,7 +230,7 @@ DampingLaw.prototype.observe =  function(event) {
 /** Sets the strength of the damping force.
 * @param {number} value strength of the damping force
 */
-DampingLaw.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(DampingLaw.en.DAMPING);
 };
@@ -261,10 +239,17 @@ DampingLaw.prototype.setDamping = function(value) {
 damping.
 * @param {number} value ratio used to calculate rotational damping
 */
-DampingLaw.prototype.setRotateRatio = function(value) {
+setRotateRatio(value) {
   this.rotateRatio_ = value;
   this.broadcastParameter(DampingLaw.en.ROTATE_RATIO);
 };
+
+} //end class
+
+/**
+* @type {number}
+*/
+DampingLaw.NAME_ID = 0;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -297,4 +282,4 @@ DampingLaw.de_strings = {
 DampingLaw.i18n = goog.LOCALE === 'de' ? DampingLaw.de_strings :
     DampingLaw.en;
 
-}); // goog.scope
+exports = DampingLaw;
