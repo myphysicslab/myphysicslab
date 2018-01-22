@@ -12,31 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.TextControl');
+goog.module('myphysicslab.lab.controls.TextControl');
 
-goog.require('myphysicslab.lab.controls.TextControlBase');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var TextControlBase = myphysicslab.lab.controls.TextControlBase;
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const TextControlBase = goog.require('myphysicslab.lab.controls.TextControlBase');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A user interface control for displaying and editing the value of a
 {@link ParameterString}.
 
+*/
+class TextControl extends TextControlBase {
+/**
 * @param {!ParameterString} parameter the ParameterString to display and edit
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
 *     a text field is created.
-* @constructor
-* @final
-* @struct
-* @extends {TextControlBase}
 */
-myphysicslab.lab.controls.TextControl = function(parameter, textField) {
-  TextControlBase.call(this, parameter.getName(/*localized=*/true),
+constructor(parameter, textField) {
+  super(parameter.getName(/*localized=*/true),
       goog.bind(parameter.getValue, parameter),
       goog.bind(parameter.setValue, parameter),
       textField);
@@ -48,30 +41,29 @@ myphysicslab.lab.controls.TextControl = function(parameter, textField) {
   this.setColumns(this.parameter_.getSuggestedLength());
   this.parameter_.getSubject().addObserver(this);
 };
-var TextControl = myphysicslab.lab.controls.TextControl;
-goog.inherits(TextControl, TextControlBase);
 
 /** @override */
-TextControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      TextControl.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       + ', parameter_: '+this.parameter_.toStringShort()+'}';
 };
 
 /** @override */
-TextControl.prototype.disconnect = function() {
-  TextControl.superClass_.disconnect.call(this);
+disconnect() {
+  super.disconnect();
   this.parameter_.getSubject().removeObserver(this);
 };
 
 /** @override */
-TextControl.prototype.getClassName = function() {
+getClassName() {
   return 'TextControl';
 };
 
 /** @override */
-TextControl.prototype.getParameter = function() {
+getParameter() {
   return this.parameter_;
 };
 
-}); // goog.scope
+} //end class
+exports = TextControl;

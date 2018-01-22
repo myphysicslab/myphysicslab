@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.TextControlBase');
+goog.module('myphysicslab.lab.controls.TextControlBase');
 
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.controls.LabControl');
 
-goog.scope(function() {
-
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A user interface control for displaying and editing the text value of an object.
 Synchronizes with the target object's string value by executing specified `getter` and
@@ -36,17 +31,18 @@ edit the text.
 Because this is an {@link Observer}, you can connect it to a Subject; when the Subject
 broadcasts events, this will update the value it displays.
 
+* @implements {LabControl}
+* @implements {Observer}
+*/
+class TextControlBase {
+/**
 * @param {string} label the text shown in a label next to the text input area
 * @param {function():string} getter function that returns the target value
 * @param {function(string)} setter function to change the target value
 * @param {!HTMLInputElement=} textField  the text field to use; if not provided, then
 *     a text input field is created.
-* @constructor
-* @struct
-* @implements {LabControl}
-* @implements {Observer}
 */
-myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, textField) {
+constructor(label, getter, setter, textField) {
   /** the name shown in a label next to the textField
   * @type {string}
   * @private
@@ -134,22 +130,21 @@ myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, text
   this.firstClick_ = false;
   this.formatTextField();
 };
-var TextControlBase = myphysicslab.lab.controls.TextControlBase;
 
 /** @override */
-TextControlBase.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', columns_: '+this.columns_
       +'}';
 };
 
 /** @override */
-TextControlBase.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : this.getClassName() + '{label_: "'+this.label_+'"}';
 };
 
 /** @override */
-TextControlBase.prototype.disconnect = function() {
+disconnect() {
   goog.events.unlistenByKey(this.changeKey_);
   goog.events.unlistenByKey(this.clickKey_);
   goog.events.unlistenByKey(this.focusKey_);
@@ -159,7 +154,7 @@ TextControlBase.prototype.disconnect = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-TextControlBase.prototype.doClick = function(event) {
+doClick(event) {
   if (this.firstClick_) {
     // first click after gaining focus should select entire field
     this.textField_.select();
@@ -171,7 +166,7 @@ TextControlBase.prototype.doClick = function(event) {
 * @return {undefined}
 * @private
 */
-TextControlBase.prototype.formatTextField = function() {
+formatTextField() {
   this.lastValue_ = this.value_;
   this.textField_.value = this.value_;
   this.textField_.size =this.columns_;
@@ -181,31 +176,31 @@ TextControlBase.prototype.formatTextField = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-TextControlBase.prototype.gainFocus = function(event) {
+gainFocus(event) {
   this.firstClick_ = true;
 };
 
 /** Returns name of class of this object.
 * @return {string} name of class of this object.
 */
-TextControlBase.prototype.getClassName = function() {
+getClassName() {
   return 'TextControlBase';
 };
 
 /** Returns width of the text input field (number of characters).
 @return {number} the width of the text input field.
 */
-TextControlBase.prototype.getColumns = function() {
+getColumns() {
   return this.columns_;
 };
 
 /** @override */
-TextControlBase.prototype.getElement = function() {
+getElement() {
   return this.topElement_;
 };
 
 /** @override */
-TextControlBase.prototype.getParameter = function() {
+getParameter() {
   return null;
 };
 
@@ -213,12 +208,12 @@ TextControlBase.prototype.getParameter = function() {
 {@link #observe} is being called).
 @return {string} the value of this control
 */
-TextControlBase.prototype.getValue = function() {
+getValue() {
   return this.value_;
 };
 
 /** @override */
-TextControlBase.prototype.observe =  function(event) {
+observe(event) {
   // Ensures that the value displayed by the control matches the target value.
   this.setValue(this.getter_());
 };
@@ -227,7 +222,7 @@ TextControlBase.prototype.observe =  function(event) {
 @param {number} value the width of the text input field
 @return {!TextControlBase} this object for chaining setters
 */
-TextControlBase.prototype.setColumns = function(value) {
+setColumns(value) {
   if (this.columns_ != value) {
     this.columns_ = value;
     this.formatTextField();
@@ -236,7 +231,7 @@ TextControlBase.prototype.setColumns = function(value) {
 };
 
 /** @override */
-TextControlBase.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   this.textField_.disabled = !enabled;
 };
 
@@ -244,7 +239,7 @@ TextControlBase.prototype.setEnabled = function(enabled) {
 @throws {!Error} if value is not a string
 @param {string} value  the new value
 */
-TextControlBase.prototype.setValue = function(value) {
+setValue(value) {
   if (value != this.value_) {
     if (Util.DEBUG && 0 == 1) {
       console.log('TextControlBase.setValue value='+value+' vs '+this.value_);
@@ -270,7 +265,7 @@ TextControlBase.prototype.setValue = function(value) {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-TextControlBase.prototype.validate = function(event) {
+validate(event) {
   // trim whitespace from start and end of string
   var nowValue = this.textField_.value.replace(/^\s*|\s*$/g, '');
   // Compare the current and previous text value of the field.
@@ -287,4 +282,5 @@ TextControlBase.prototype.validate = function(event) {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = TextControlBase;

@@ -75,7 +75,7 @@ var RollerSingleSim = sims.roller.RollerSingleSim;
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 var SpiralPath = sims.roller.SpiralPath;
 var TabLayout = sims.common.TabLayout;
-var TextControl = lab.controls.TextControl;
+const TextControl = goog.module.get('myphysicslab.lab.controls.TextControl');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
