@@ -28,7 +28,7 @@ goog.scope(function() {
 
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var ScreenRect = myphysicslab.lab.view.ScreenRect;
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');

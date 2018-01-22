@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 goog.require('myphysicslab.lab.model.EnergyInfo');
 
 var testEnergyInfo1 = function() {
-  var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+  const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
   var e1 = new EnergyInfo();
   assertEquals(0, e1.getPotential());
   assertEquals(0, e1.getTranslational());

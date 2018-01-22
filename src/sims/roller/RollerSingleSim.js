@@ -32,7 +32,7 @@ goog.require('myphysicslab.sims.roller.HasPath');
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
-var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');

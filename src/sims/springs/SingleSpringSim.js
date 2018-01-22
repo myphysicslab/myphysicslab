@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
-var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');

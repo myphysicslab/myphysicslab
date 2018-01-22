@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
-var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 
 /** An object that provides information about its energy state. See {@link EnergyInfo}.
 

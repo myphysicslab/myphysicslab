@@ -38,7 +38,7 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');

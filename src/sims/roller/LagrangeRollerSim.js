@@ -35,7 +35,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractODESim = lab.model.AbstractODESim;
-var EnergyInfo = lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 var EnergySystem = lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var HumpPath = sims.roller.HumpPath;

@@ -37,7 +37,7 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var Collision = myphysicslab.lab.model.Collision;
 var CollisionSim = myphysicslab.lab.model.CollisionSim;
-var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
+const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
