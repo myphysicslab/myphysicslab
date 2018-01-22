@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.util.MutableVector');
 var testSpring = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-  var PointMass = myphysicslab.lab.model.PointMass;
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var Spring = myphysicslab.lab.model.Spring;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var tol = 1E-15;
@@ -100,7 +100,7 @@ goog.exportProperty(window, 'testSpring', testSpring);
 
 var testSpringCompressOnly = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var PointMass = myphysicslab.lab.model.PointMass;
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var Spring = myphysicslab.lab.model.Spring;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var tol = 1E-15;

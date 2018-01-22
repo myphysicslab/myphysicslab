@@ -12,28 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.PointMass');
+goog.module('myphysicslab.lab.model.PointMass');
 
-goog.require('myphysicslab.lab.model.AbstractMassObject');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.ShapeType');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AbstractMassObject = goog.module.get('myphysicslab.lab.model.AbstractMassObject');
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-var ShapeType = myphysicslab.lab.model.ShapeType;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractMassObject = goog.require('myphysicslab.lab.model.AbstractMassObject');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A simple point-like {@link MassObject}, it has mass, velocity, size and shape.
 Default mass is 1, default shape is circle with diameter of 1. Center of mass is at the
@@ -48,15 +36,13 @@ shape is oval, this will attempt to draw an oval using
 but not all browsers implement that method as of 2016. A circle is drawn
 instead for those browsers without the `ellipse` function; the circle has diameter
 being the lesser of width or height of this object.
-
+*/
+class PointMass extends AbstractMassObject {
+/**
 * @param {string=} opt_name name of this PointMass for scripting (language independent)
 * @param {string=} opt_localName localized name of this PointMass, for display to user
-* @constructor
-* @final
-* @struct
-* @extends {AbstractMassObject}
 */
-myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
+constructor(opt_name, opt_localName) {
   var name, localName;
   if (!goog.isDef(opt_name) || opt_name == '') {
     var id = PointMass.ID++;
@@ -66,7 +52,7 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
     name = opt_name;
     localName = opt_localName ? opt_localName : name;
   }
-  AbstractMassObject.call(this, name, localName);
+  super(name, localName);
   this.mass_ = 1;
   /**
   * @type {!ShapeType}
@@ -84,12 +70,10 @@ myphysicslab.lab.model.PointMass = function(opt_name, opt_localName) {
   */
   this.height_ = 1;
 };
-var PointMass = myphysicslab.lab.model.PointMass;
-goog.inherits(PointMass, AbstractMassObject);
 
 /** @override */
-PointMass.prototype.toString = function() {
-  return Util.ADVANCED ? '' : PointMass.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       +', shape_: ' + this.shape_
       +', width_: ' + Util.NF(this.width_)
       +', height_: '+ Util.NF(this.height_)
@@ -97,14 +81,9 @@ PointMass.prototype.toString = function() {
 };
 
 /** @override */
-PointMass.prototype.getClassName = function() {
+getClassName() {
   return 'PointMass';
 };
-
-/** Counter used for naming PointMass.
-* @type {number}
-*/
-PointMass.ID = 1;
 
 /**
 * @param {number} diameter
@@ -112,7 +91,7 @@ PointMass.ID = 1;
 * @param {string=} opt_localName  localized name of the PointMass
 * @return {!PointMass}
 */
-PointMass.makeCircle = function(diameter, opt_name, opt_localName) {
+static makeCircle(diameter, opt_name, opt_localName) {
   var p = new PointMass(opt_name, opt_localName);
   p.setWidth(diameter);
   p.setHeight(diameter);
@@ -126,7 +105,7 @@ PointMass.makeCircle = function(diameter, opt_name, opt_localName) {
 * @param {string=} opt_localName  localized name of the PointMass
 * @return {!PointMass}
 */
-PointMass.makeOval = function(width, height, opt_name, opt_localName) {
+static makeOval(width, height, opt_name, opt_localName) {
   var p = new PointMass(opt_name, opt_localName);
   p.setWidth(width);
   p.setHeight(height);
@@ -139,7 +118,7 @@ PointMass.makeOval = function(width, height, opt_name, opt_localName) {
 * @param {string=} opt_localName  localized name of the PointMass
 * @return {!PointMass}
 */
-PointMass.makeSquare = function(width, opt_name, opt_localName) {
+static makeSquare(width, opt_name, opt_localName) {
   var p = new PointMass(opt_name, opt_localName);
   p.setWidth(width);
   p.setHeight(width);
@@ -154,7 +133,7 @@ PointMass.makeSquare = function(width, opt_name, opt_localName) {
 * @param {string=} opt_localName  localized name of the PointMass
 * @return {!PointMass}
 */
-PointMass.makeRectangle = function(width, height, opt_name, opt_localName) {
+static makeRectangle(width, height, opt_name, opt_localName) {
   var p = new PointMass(opt_name, opt_localName);
   p.setWidth(width);
   p.setHeight(height);
@@ -163,7 +142,7 @@ PointMass.makeRectangle = function(width, height, opt_name, opt_localName) {
 };
 
 /** @override */
-PointMass.prototype.createCanvasPath = function(context) {
+createCanvasPath(context) {
   context.beginPath();
   var h = this.height_/2;
   var w = this.width_/2;
@@ -194,29 +173,29 @@ PointMass.prototype.createCanvasPath = function(context) {
 };
 
 /** @override */
-PointMass.prototype.getBottomBody = function() {
+getBottomBody() {
   return -this.height_/2;
 };
 
 /** @override */
-PointMass.prototype.getCentroidBody = function() {
+getCentroidBody() {
   return Vector.ORIGIN;
 };
 
 /** @override */
-PointMass.prototype.getCentroidRadius = function() {
+getCentroidRadius() {
   var w = this.width_/2;
   var h = this.height_/2;
   return Math.sqrt(w*w + h*h);
 };
 
 /** @override */
-PointMass.prototype.getLeftBody = function() {
+getLeftBody() {
   return -this.width_/2;
 };
 
 /** @override */
-PointMass.prototype.getMinHeight = function() {
+getMinHeight() {
   if (isNaN(this.minHeight_)) {
     var cmx = this.cm_body_.getX();
     var cmy = this.cm_body_.getY();
@@ -239,24 +218,24 @@ PointMass.prototype.getMinHeight = function() {
 };
 
 /** @override */
-PointMass.prototype.getRightBody = function() {
+getRightBody() {
   return this.width_/2;
 };
 
 /** Returns the shape of this PointMass.
 @return {!ShapeType} the shape of this PointMass, from {@link ShapeType}
 */
-PointMass.prototype.getShape = function() {
+getShape() {
   return this.shape_;
 };
 
 /** @override */
-PointMass.prototype.getTopBody = function() {
+getTopBody() {
   return this.height_/2;
 };
 
 /** @override */
-PointMass.prototype.getVerticesBody = function() {
+getVerticesBody() {
   var w = this.width_/2;
   var h = this.height_/2;
   return [new Vector(-w, -h), new Vector(w, -h), new Vector(w, h), new Vector(-w, h)];
@@ -266,7 +245,7 @@ PointMass.prototype.getVerticesBody = function() {
 * @param {number} height height of this object.
 * @return {!PointMass} this object for chaining setters
 */
-PointMass.prototype.setHeight = function(height) {
+setHeight(height) {
   this.height_ = height;
   return this;
 };
@@ -275,7 +254,7 @@ PointMass.prototype.setHeight = function(height) {
 @param {number} mass the mass of this PointMass
 @return {!PointMass} this object for chaining setters
 */
-PointMass.prototype.setMass = function(mass) {
+setMass(mass) {
   if (mass < 0 || !goog.isNumber(mass)) {
     throw new Error('mass must be non-negative '+mass);
   }
@@ -287,23 +266,22 @@ PointMass.prototype.setMass = function(mass) {
 * @param {!ShapeType} shape the shape of this PointMass, from {@link ShapeType}
 * @return {!PointMass} this object for chaining setters
 */
-PointMass.prototype.setShape = function(shape) {
+setShape(shape) {
   this.shape_ = shape;
   return this;
 };
-
 
 /** Sets width of this object.
 * @param {number} width width of this object.
 * @return {!PointMass} this object for chaining setters
 */
-PointMass.prototype.setWidth = function(width) {
+setWidth(width) {
   this.width_ = width;
   return this;
 };
 
 /** @override */
-PointMass.prototype.similar = function(obj, opt_tolerance) {
+similar(obj, opt_tolerance) {
   if (!(obj instanceof PointMass)) {
     return false;
   }
@@ -321,6 +299,14 @@ PointMass.prototype.similar = function(obj, opt_tolerance) {
   }
   return true;
 };
+
+} //end class
+
+/** Counter used for naming PointMass.
+* @type {number}
+*/
+PointMass.ID = 1;
+
 
 /** Set of internationalized strings.
 @typedef {{
@@ -350,4 +336,4 @@ PointMass.de_strings = {
 PointMass.i18n = goog.LOCALE === 'de' ? PointMass.de_strings :
     PointMass.en;
 
-}); // goog.scope
+exports = PointMass;

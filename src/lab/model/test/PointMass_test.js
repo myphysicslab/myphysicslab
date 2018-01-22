@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 var testPointMassAngle = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  var PointMass = myphysicslab.lab.model.PointMass;
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var p1 = PointMass.makeOval(1, 2, 'point1');
   // set PointMass at an angle of 45 degrees clockwise
   p1.setAngle(-Math.PI/4);
@@ -71,7 +71,7 @@ var testPointMass = function() {
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  var PointMass = myphysicslab.lab.model.PointMass;
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var p1 = PointMass.makeCircle(1, 'point1');
   // instanceof works for class inheritance, but not for interfaces
   assertTrue(p1 instanceof PointMass);
@@ -126,8 +126,8 @@ goog.exportProperty(window, 'testPointMass', testPointMass);
 
 var testPointMassSimilar = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var PointMass = myphysicslab.lab.model.PointMass;
-  var ShapeType = myphysicslab.lab.model.ShapeType;
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
+  const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
   var p1 = PointMass.makeCircle(1);
   p1.setPosition(new Vector(2,  -2));
   assertTrue(p1.similar(p1));
@@ -158,7 +158,8 @@ goog.exportProperty(window, 'testPointMassSimilar', testPointMassSimilar);
 * @suppress {checkTypes}
 */
 var testPointMassThrows = function() {
-  var p1 = new myphysicslab.lab.model.PointMass('point1', 0);
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
+  var p1 = new PointMass('point1', 0);
   assertThrows(function() {p1.setPosition(3);} );
   assertThrows(function() {p1.setPosition(null);} );
   assertThrows(function() {p1.setPosition('0');} );

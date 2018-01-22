@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var PointMass = myphysicslab.lab.model.PointMass;
+const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Horizontal collision between two PointMass's.

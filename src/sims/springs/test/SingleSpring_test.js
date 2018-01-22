@@ -31,6 +31,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 var testSingleSpring = function() {
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -44,7 +45,7 @@ var testSingleSpring = function() {
 
   // confirm block and spring exist
   var block = simList.getPointMass('block');
-  assertTrue(block instanceof myphysicslab.lab.model.PointMass);
+  assertTrue(block instanceof PointMass);
   var spring = simList.getSpring('spring');
   assertTrue(spring instanceof myphysicslab.lab.model.Spring);
 

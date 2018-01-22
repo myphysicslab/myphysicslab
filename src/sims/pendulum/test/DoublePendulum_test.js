@@ -31,6 +31,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.pendulum.DoublePendulumSim');
 
 var testDoublePendulum = function() {
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -44,9 +45,9 @@ var testDoublePendulum = function() {
 
   // confirm rods and masses exist
   var bob1 = simList.getPointMass('bob1');
-  assertTrue(bob1 instanceof myphysicslab.lab.model.PointMass);
+  assertTrue(bob1 instanceof PointMass);
   var bob2 = simList.getPointMass('bob2');
-  assertTrue(bob2 instanceof myphysicslab.lab.model.PointMass);
+  assertTrue(bob2 instanceof PointMass);
   var rod1 = simList.getConcreteLine('rod1');
   assertTrue(rod1 instanceof myphysicslab.lab.model.ConcreteLine);
   var rod2 = simList.getConcreteLine('rod2');

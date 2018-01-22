@@ -25,7 +25,7 @@ var testDisplayList = function() {
   var tol = 1E-14;
   var DisplayList = myphysicslab.lab.view.DisplayList;
   var DisplayShape = myphysicslab.lab.view.DisplayShape;
-  var PointMass = myphysicslab.lab.model.PointMass;
+  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
 
   var displayList = new DisplayList('TEST');

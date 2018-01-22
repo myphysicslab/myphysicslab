@@ -33,7 +33,7 @@ goog.scope(function() {
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var KeyCodes = goog.events.KeyCodes;
-var PointMass = myphysicslab.lab.model.PointMass;
+const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;

@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ShapeType');
+goog.module('myphysicslab.lab.model.ShapeType');
 
 /** Enum that specifies the shape of a {@link myphysicslab.lab.model.PointMass}.
 * @readonly
 * @enum {number}
 */
-myphysicslab.lab.model.ShapeType = {
+const ShapeType = {
   /** Rectangle shape */
   RECTANGLE: 1,
   /** Oval shape */
   OVAL: 2
 };
+exports = ShapeType;
