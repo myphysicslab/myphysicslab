@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.PathIterator');
+goog.module('myphysicslab.lab.model.PathIterator');
 
-goog.require('myphysicslab.lab.util.MutableVector');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
 
 /** An iterator over points in a {@link myphysicslab.lab.model.Path}.
 @interface
 */
-myphysicslab.lab.model.PathIterator = function() {};
+class PathIterator {
 
 /** Sets the given MutableVector to the location of the next point on the path.
 * @param {!myphysicslab.lab.util.MutableVector} point the MutableVector where the
 *   location is stored.
 * @return {boolean} true if a next point was found
 */
-myphysicslab.lab.model.PathIterator.prototype.nextPoint;
+nextPoint(point) {}
+
+} // end class
+exports = PathIterator;

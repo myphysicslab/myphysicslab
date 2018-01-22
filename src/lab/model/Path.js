@@ -12,25 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Path');
+goog.module('myphysicslab.lab.model.Path');
 
-goog.require('myphysicslab.lab.model.PathIterator');
-goog.require('myphysicslab.lab.model.SimObject');
+const PathIterator = goog.require('myphysicslab.lab.model.PathIterator');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 
 /** A set of connected points that form a line.
 
 * @interface
-* @extends {myphysicslab.lab.model.SimObject}
 */
-myphysicslab.lab.model.Path = function() {};
+class Path extends SimObject {
 
 /** Returns an iterator over points in the Path.
 * @param {number} numPoints desired number of points
-* @return {!myphysicslab.lab.model.PathIterator} an iterator over points in the Path.
+* @return {!PathIterator} an iterator over points in the Path.
 */
-myphysicslab.lab.model.Path.prototype.getIterator;
+getIterator(numPoints) {}
 
 /** Returns a sequence number which changes when the Path changes.
 * @return {number} sequence number which indicates when Path changes
 */
-myphysicslab.lab.model.Path.prototype.getSequence;
+getSequence() {}
+
+} // end class
+exports = Path;

@@ -21,9 +21,6 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 * @interface
 */
 class Line extends SimObject {
-constructor() {
-  super();
-};
 
 /** Returns ending point of this line in world coords.
 @return {!Vector} ending point of this line in world coords.

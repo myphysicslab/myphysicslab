@@ -59,10 +59,6 @@ and {@link myphysicslab.lab.model.EnergyInfo}.
 */
 class MassObject extends SimObject {
 
-constructor() {
-  super();
-};
-
 /** Moves this body so that a certain point on this body is aligned to the given world
 coordinates location; optionally sets the angle of this body by rotating around the
 center of mass `angle` radians counter-clockwise from the body coordinates
