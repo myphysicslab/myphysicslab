@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ODESim');
+goog.module('myphysicslab.lab.model.ODESim');
 
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.model.VarsList');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** A Simulation based on ordinary differential equations. Contains an array of
 variables given by {@link #getVarsList} which holds the simulation state and an
@@ -32,9 +32,8 @@ advanced by the DiffEqSolver like any other variable. The time variable always h
 rate of change of exactly 1.0, which is specified in the `evaluate` method.
 
 * @interface
-* @extends {myphysicslab.lab.model.Simulation}
 */
-myphysicslab.lab.model.ODESim = function() {};
+class ODESim extends Simulation {
 
 /** Defines the differential equations of this ODESim; for an input set of variables,
 returns the current rate of change for each variable (the first derivative of each
@@ -56,18 +55,18 @@ used when finding collisions, see for example
 @return {?Object} `null` if the evaluation succeeds, otherwise an object relating to the
     error that occurred. The `change` array contains the output results.
 */
-myphysicslab.lab.model.ODESim.prototype.evaluate;
+evaluate(vars, change, timeStep) {}
 
 /** Returns the VarsList that represents the current state of this Simulation.
-@return {!myphysicslab.lab.model.VarsList} the VarsList that represents the current
+@return {!VarsList} the VarsList that represents the current
     state of this Simulation
 */
-myphysicslab.lab.model.ODESim.prototype.getVarsList;
+getVarsList() {}
 
 /** Restores the Simulation state that was saved with {@link #saveState}.
 @return {undefined}
 */
-myphysicslab.lab.model.ODESim.prototype.restoreState;
+restoreState() {}
 
 /** Saves the current state of the Simulation, so that we can back up to this state
 later on. The state is defined mainly by the set of Simulation variables, see
@@ -76,4 +75,7 @@ collision detection as the *before collision* state, see
 {@link myphysicslab.lab.model.CollisionSim#findCollisions}.
 @return {undefined}
 */
-myphysicslab.lab.model.ODESim.prototype.saveState;
+saveState() {}
+
+} // end class
+exports = ODESim;

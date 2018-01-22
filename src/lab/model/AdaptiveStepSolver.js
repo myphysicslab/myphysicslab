@@ -23,7 +23,7 @@ goog.scope(function() {
 
 const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-var ODESim = myphysicslab.lab.model.ODESim;
+const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Experimental differential equation solver which reduces step size as

@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var ODESim = myphysicslab.lab.model.ODESim;
+const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
 const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

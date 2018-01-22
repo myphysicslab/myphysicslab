@@ -22,7 +22,7 @@ goog.scope(function() {
 
 var Collision = myphysicslab.lab.model.Collision;
 var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
-var ODESim = myphysicslab.lab.model.ODESim;
+const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
 
 /** An ODESim simulation that detects and handles collisions between objects.
 
