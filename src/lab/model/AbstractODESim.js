@@ -12,43 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.AbstractODESim');
+goog.module('myphysicslab.lab.model.AbstractODESim');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** Abstract base class for {@link myphysicslab.lab.model.ODESim}.
 
+* @abstract
+* @implements {ODESim}
+*/
+class AbstractODESim extends AbstractSubject {
+/**
 * @param {string=} opt_name name of this ODESim as a Subject
 * @param {!SimList=} opt_simList SimList to use (optional)
 * @param {!VarsList=} opt_varsList VarsList to use (optional)
-* @constructor
-* @abstract
-* @struct
-* @implements {ODESim}
-* @extends {AbstractSubject}
 */
-myphysicslab.lab.model.AbstractODESim = function(opt_name, opt_simList, opt_varsList) {
-  AbstractSubject.call(this, opt_name || 'SIM');
+constructor(opt_name, opt_simList, opt_varsList) {
+  super(opt_name || 'SIM');
   /**
   * @type {!SimList}
   * @private
@@ -72,34 +61,32 @@ myphysicslab.lab.model.AbstractODESim = function(opt_name, opt_simList, opt_vars
   */
   this.recentState_ = null;
 };
-var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
-goog.inherits(AbstractODESim, AbstractSubject);
 
 /** @override */
-AbstractODESim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : ', varsList_: '+this.varsList_.toStringShort()
       +', simList_: '+this.simList_.toStringShort()
-      + AbstractODESim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @abstract */
-AbstractODESim.prototype.evaluate = function(vars, change, timeStep) {};
+evaluate(vars, change, timeStep) {};
 
 /** @override */
-AbstractODESim.prototype.getTime = function() {
+getTime() {
   return this.varsList_.getTime();
 };
 
 /** @override */
-AbstractODESim.prototype.getVarsList = function() {
+getVarsList() {
   return this.varsList_;
 };
 
 /** @abstract */
-AbstractODESim.prototype.modifyObjects = function() {};
+modifyObjects() {};
 
 /** @override */
-AbstractODESim.prototype.reset = function() {
+reset() {
   if (this.initialState_ != null) {
     this.varsList_.setValues(this.initialState_);
   }
@@ -109,25 +96,25 @@ AbstractODESim.prototype.reset = function() {
 };
 
 /** @override */
-AbstractODESim.prototype.restoreState = function() {
+restoreState() {
   if (this.recentState_ != null) {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
   }
 };
 
 /** @override */
-AbstractODESim.prototype.saveInitialState = function() {
+saveInitialState() {
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
 };
 
 /** @override */
-AbstractODESim.prototype.saveState = function() {
+saveState() {
   this.recentState_ = this.varsList_.getValues();
 };
 
 /** @override */
-AbstractODESim.prototype.getSimList = function() {
+getSimList() {
   return this.simList_;
 };
 
@@ -135,8 +122,9 @@ AbstractODESim.prototype.getSimList = function() {
 @param {!VarsList} varsList the VarsList to use in this simulation
 @protected
 */
-AbstractODESim.prototype.setVarsList = function(varsList) {
+setVarsList(varsList) {
   this.varsList_ = varsList;
 };
 
-}); // goog.scope
+} //end class
+exports = AbstractODESim;

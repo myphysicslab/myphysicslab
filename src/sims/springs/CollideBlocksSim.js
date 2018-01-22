@@ -32,7 +32,7 @@ goog.require('myphysicslab.sims.springs.BlockCollision');
 
 goog.scope(function() {
 
-var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
 var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 var Collision = myphysicslab.lab.model.Collision;
 var CollisionSim = myphysicslab.lab.model.CollisionSim;

@@ -32,7 +32,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractODESim = lab.model.AbstractODESim;
+const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
 var EventHandler = myphysicslab.lab.app.EventHandler;

@@ -36,7 +36,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');

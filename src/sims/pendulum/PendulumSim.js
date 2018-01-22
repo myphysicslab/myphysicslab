@@ -32,7 +32,7 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
 const Arc = goog.module.get('myphysicslab.lab.model.Arc');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');

@@ -34,7 +34,7 @@ goog.require('myphysicslab.sims.roller.RollerCollision');
 
 goog.scope(function() {
 
-var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
 var Collision = myphysicslab.lab.model.Collision;
 var CollisionSim = myphysicslab.lab.model.CollisionSim;
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
