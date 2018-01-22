@@ -12,16 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Simulation');
+goog.module('myphysicslab.lab.model.Simulation');
 
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Subject');
-
-goog.scope(function() {
-
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
 
 /**  The mathematical model of a simulation.
 
@@ -46,10 +41,39 @@ that initial state with {@link #reset}. The current time is saved with the initi
 state.
 
 * @interface
-* @extends {myphysicslab.lab.util.Subject}
 */
-myphysicslab.lab.model.Simulation = function() {};
-var Simulation = myphysicslab.lab.model.Simulation;
+class Simulation extends Subject {
+
+/** Returns the list of {@link SimObject}s that represent this Simulation.
+@return {!SimList} the list of SimObjects that represent this simulation
+*/
+getSimList() {}
+
+/** Returns the current Simulation time.
+@return {number} the current Simulation time.
+@throws {!Error} if there is no time variable for the simulation
+*/
+getTime() {}
+
+/** Updates the SimObjects to match the current internal state of the Simulation.
+@return {undefined}
+*/
+modifyObjects() {}
+
+/** Sets the Simulation back to its initial conditions, see {@link #saveInitialState},
+and calls {@link #modifyObjects}. Broadcasts event named {@link #RESET}.
+@return {undefined}
+*/
+reset() {}
+
+/** Saves the current variables and time as the initial state, so that this initial
+state can be restored with {@link #reset}.
+Broadcasts event named {@link #INITIAL_STATE_SAVED}.
+@return {undefined}
+*/
+saveInitialState() {}
+
+} //end class
 
 /**  Name of event broadcast when the Simulation state is reset to initial conditions.
 * @type {string}
@@ -63,33 +87,4 @@ Simulation.RESET = 'RESET';
 */
 Simulation.INITIAL_STATE_SAVED = 'INITIAL_STATE_SAVED';
 
-/** Returns the list of {@link SimObject}s that represent this Simulation.
-@return {!SimList} the list of SimObjects that represent this simulation
-*/
-Simulation.prototype.getSimList;
-
-/** Returns the current Simulation time.
-@return {number} the current Simulation time.
-@throws {!Error} if there is no time variable for the simulation
-*/
-Simulation.prototype.getTime;
-
-/** Updates the SimObjects to match the current internal state of the Simulation.
-@return {undefined}
-*/
-Simulation.prototype.modifyObjects;
-
-/** Sets the Simulation back to its initial conditions, see {@link #saveInitialState},
-and calls {@link #modifyObjects}. Broadcasts event named {@link #RESET}.
-@return {undefined}
-*/
-Simulation.prototype.reset;
-
-/** Saves the current variables and time as the initial state, so that this initial
-state can be restored with {@link #reset}.
-Broadcasts event named {@link #INITIAL_STATE_SAVED}.
-@return {undefined}
-*/
-Simulation.prototype.saveInitialState;
-
-}); // goog.scope
+exports = Simulation;
