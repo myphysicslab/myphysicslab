@@ -25,7 +25,7 @@ goog.scope(function() {
 
 const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
+const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
 const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 const Util = goog.module.get('myphysicslab.lab.util.Util');

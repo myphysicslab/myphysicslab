@@ -32,7 +32,7 @@ var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var CollisionStats = myphysicslab.lab.model.CollisionStats;
 var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
+const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

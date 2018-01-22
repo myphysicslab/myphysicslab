@@ -38,7 +38,7 @@ goog.require('myphysicslab.lab.view.LabCanvas');
 goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
+const AdvanceStrategy = goog.module.get('myphysicslab.lab.model.AdvanceStrategy');
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
 const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');

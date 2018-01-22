@@ -50,7 +50,7 @@ var sims = myphysicslab.sims;
 
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var AdvanceStrategy = lab.model.AdvanceStrategy;
+const AdvanceStrategy = goog.module.get('myphysicslab.lab.model.AdvanceStrategy');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');

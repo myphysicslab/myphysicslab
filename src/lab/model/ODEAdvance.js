@@ -12,33 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ODEAdvance');
+goog.module('myphysicslab.lab.model.ODEAdvance');
 
-goog.require('myphysicslab.lab.model.AdvanceStrategy');
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-
-goog.scope(function() {
-
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
+const AdvanceStrategy = goog.require('myphysicslab.lab.model.AdvanceStrategy');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
 
 /** An AdvanceStrategy for advancing an {@link myphysicslab.lab.model.ODESim}
 thru time.
 
 * @interface
-* @extends {myphysicslab.lab.model.AdvanceStrategy}
 */
-myphysicslab.lab.model.ODEAdvance = function() {};
-var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
+class ODEAdvance extends AdvanceStrategy {
 
 /** Returns the DiffEqSolver used to solve the differential equations
 @return {!DiffEqSolver} the DiffEqSolver used to solve the differential equations
 */
-ODEAdvance.prototype.getDiffEqSolver;
+getDiffEqSolver() {}
 
 /** Sets the DiffEqSolver used to solve the differential equations
 @param {!DiffEqSolver} diffEqSolver the DiffEqSolver used to solve the differential
     equations of this simulation.
 */
-ODEAdvance.prototype.setDiffEqSolver;
+setDiffEqSolver(diffEqSolver) {}
 
-}); // goog.scope
+} //end class
+exports = ODEAdvance;

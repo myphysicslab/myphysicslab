@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.AdvanceStrategy');
+goog.module('myphysicslab.lab.model.AdvanceStrategy');
 
-goog.require('myphysicslab.lab.util.MemoList');
-goog.require('myphysicslab.lab.util.Printable');
-
-goog.scope(function() {
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** Advances the state of a Simulation thru time. This follows the [strategy design
 pattern](https://en.wikipedia.org/wiki/Strategy_pattern): a Simulation can be fitted
@@ -25,11 +22,8 @@ with any of several possible AdvanceStrategys. This gives flexibility in choosin
 algorithm to use for advancing the Simulation.
 
 * @interface
-* @extends myphysicslab.lab.util.Printable
 */
-myphysicslab.lab.model.AdvanceStrategy = function() {};
-
-var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
+class AdvanceStrategy extends Printable {
 
 /** Advances the Simulation state by the specified amount of time.
 @param {number} timeStep  the amount of time to advance in seconds
@@ -37,26 +31,26 @@ var AdvanceStrategy = myphysicslab.lab.model.AdvanceStrategy;
     whenever the simulation state is advanced
 @throws {!Error} when unable to advance the simulation
 */
-AdvanceStrategy.prototype.advance;
+advance(timeStep, opt_memoList) {}
 
 /** Returns the current simulation time.  There are no explicit units for the time, so
 you can regard a time unit as seconds or years as desired. See
 [About Units Of Measurement](Architecture.html#aboutunitsofmeasurement).
 @return {number} the current simulation time.
 */
-AdvanceStrategy.prototype.getTime;
+getTime() {}
 
 /** Returns the default time step, the small increment of time by which
 to advance the simulation's state.
 @return {number} the default time step, in seconds.
 */
-AdvanceStrategy.prototype.getTimeStep;
+getTimeStep() {}
 
 /** Sets the simulation back to its initial conditions, and sets the simulation time
 to the starting time.
 @return {undefined}
 */
-AdvanceStrategy.prototype.reset;
+reset() {}
 
 /** Sets the default time step, the small increment of time by which to
 advance the simulation's state.
@@ -66,6 +60,7 @@ The reason for storing the time step in AdvanceStrategy is so that
 This is a convenient way for a test to make known the time step to use.
 @param {number} timeStep the default time step, in seconds.
 */
-AdvanceStrategy.prototype.setTimeStep;
+setTimeStep(timeStep) {}
 
-}); // goog.scope
+} //end class
+exports = AdvanceStrategy;
