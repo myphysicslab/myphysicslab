@@ -29,11 +29,11 @@ goog.require('myphysicslab.sims.engine2D.GearsConfig');
 
 goog.scope(function() {
 
-var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
+const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
+const EdgeRange = goog.module.get('myphysicslab.lab.engine2D.EdgeRange');
 var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 var Polygon = myphysicslab.lab.engine2D.Polygon;

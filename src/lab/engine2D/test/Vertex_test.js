@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 var testVertex1 = function() {
-  var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
+  const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var vec1 = new Vector(2, 1);
   var vertex1 = new ConcreteVertex(vec1, /*endPoint=*/true);

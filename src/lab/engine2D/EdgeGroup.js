@@ -12,30 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.EdgeGroup');
+goog.module('myphysicslab.lab.engine2D.EdgeGroup');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.engine2D.EdgeRange');
-goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
-var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const EdgeRange = goog.require('myphysicslab.lab.engine2D.EdgeRange');
+const EdgeSet = goog.require('myphysicslab.lab.engine2D.EdgeSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s in multiple Polygons.
 Edges are specified by {@link EdgeRange}s.
 
-* @param {!EdgeRange=} opt_edgeRange  the EdgeRange to
-    start with (optional)
-* @constructor
-* @final
-* @struct
 * @implements {EdgeSet}
 */
-myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
+class EdgeGroup {
+/**
+* @param {!EdgeRange=} opt_edgeRange  the EdgeRange to start with (optional)
+*/
+constructor(opt_edgeRange) {
   /**
   * @type {!Array<!EdgeRange>}
   * @private
@@ -45,24 +39,23 @@ myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
     this.ranges_.push(opt_edgeRange);
   }
 };
-var EdgeGroup = myphysicslab.lab.engine2D.EdgeGroup;
 
 /** @override */
-EdgeGroup.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'EdgeGroup{ranges_.length: '+this.ranges_.length+'}';
 };
 
 /** Add the EdgeRange to this EdgeGroup.
 * @param {!EdgeRange} edgeRange  the EdgeRange to add
 */
-EdgeGroup.prototype.add = function(edgeRange) {
+add(edgeRange) {
   if (!goog.array.contains(this.ranges_, edgeRange)) {
     this.ranges_.push(edgeRange);
   }
 };
 
 /** @override */
-EdgeGroup.prototype.contains = function(edge) {
+contains(edge) {
   for (var i=0, len=this.ranges_.length; i<len; i++) {
     if (this.ranges_[i].contains(edge)) {
       return true;
@@ -74,8 +67,9 @@ EdgeGroup.prototype.contains = function(edge) {
 /** Remove the EdgeRange from this EdgeGroup.
 * @param {!EdgeRange} edgeRange  the EdgeRange to remove
 */
-EdgeGroup.prototype.remove = function(edgeRange) {
+remove(edgeRange) {
   goog.array.remove(this.ranges_, edgeRange);
 };
 
-}); // goog.scope
+} //end class
+exports = EdgeGroup;

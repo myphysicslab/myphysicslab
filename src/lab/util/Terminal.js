@@ -1323,14 +1323,11 @@ static stdRegex(terminal) {
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',
       'Util.', /*addToVars=*/false);
 
-  terminal.addRegex('CollisionAdvance|EulersMethod'
-      +'|ModifiedEuler|NumericalPath'
-      +'|RungeKutta|SimList|SimpleAdvance|Spring',
-      'myphysicslab.lab.model.', /*addToVars=*/false);
-
-  terminal.addRegex('ConcreteVariable|ConcreteLine|ConstantForceLaw'
-      +'|CoordType|ExpressionVariable|Force|FunctionVariable'
-      +'|MassObject|PointMass|ShapeType|VarsList',
+  terminal.addRegex('CollisionAdvance|ConcreteVariable|ConcreteLine|ConstantForceLaw'
+      +'|CoordType|DampingLaw|EulersMethod|ExpressionVariable|Force|FunctionVariable'
+      +'|GravityLaw|Gravity2Law'
+      +'|MassObject|ModifiedEuler|NumericalPath|PointMass'
+      +'|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
       'module$$exports$$myphysicslab$$lab$$model$$', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
@@ -1339,11 +1336,17 @@ static stdRegex(terminal) {
       +'|ScreenRect|SimView|VerticalAlign',
        'myphysicslab.lab.view.', /*addToVars=*/false);
 
-  terminal.addRegex('CircularEdge|CollisionHandling|ContactSim|DampingLaw'
-       +'|EdgeRange|ExtraAccel|GravityLaw|Gravity2Law|ImpulseSim|Joint'
-       +'|Polygon|RigidBodyCollision|RigidBodySim|Rope|Scrim|Shapes|StraightEdge'
-       +'|ThrusterSet|Vertex|Walls',
+  terminal.addRegex('CollisionHandling|ContactSim'
+       +'|ExtraAccel|ImpulseSim|Joint'
+       +'|Polygon|RigidBodySim|Rope|Scrim|Shapes'
+       +'|ThrusterSet|Walls',
        'myphysicslab.lab.engine2D.', /*addToVars=*/false);
+
+  terminal.addRegex('CircularEdge'
+       +'|EdgeRange'
+       +'|RigidBodyCollision|StraightEdge'
+       +'|Vertex',
+       'module$$exports$$myphysicslab$$lab$$engine2D$$', /*addToVars=*/false);
 
   terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine'
        +'|GraphStyle|DisplayAxes|VarsHistory',

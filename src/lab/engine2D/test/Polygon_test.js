@@ -26,14 +26,14 @@ goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 var testPolygon1 = function() {
-  var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
+  var ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
   var Polygon = myphysicslab.lab.engine2D.Polygon;
-  var RigidBody = myphysicslab.lab.engine2D.RigidBody;
+  var RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
   var Shapes = myphysicslab.lab.engine2D.Shapes;
-  var StraightEdge = myphysicslab.lab.engine2D.StraightEdge;
+  var StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var Vertex = myphysicslab.lab.engine2D.Vertex;
+  var Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
 
   var p = new Polygon('polygon1');
   var w = 0.5;

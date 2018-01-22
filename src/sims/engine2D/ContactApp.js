@@ -42,7 +42,7 @@ var sims = myphysicslab.sims;
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
-var ConcreteVertex = lab.engine2D.ConcreteVertex;
+const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
 var ContactSim = lab.engine2D.ContactSim;
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');

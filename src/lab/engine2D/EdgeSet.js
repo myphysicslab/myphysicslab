@@ -12,16 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.EdgeSet');
+goog.module('myphysicslab.lab.engine2D.EdgeSet');
+
+var Edge = goog.require('myphysicslab.lab.engine2D.Edge');
 
 /** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s of a
 {@link myphysicslab.lab.engine2D.Polygon}.
 * @interface
 */
-myphysicslab.lab.engine2D.EdgeSet = function() {};
+class EdgeSet {
 
 /** Whether this EdgeSet contains the specified Edge.
-@param {!myphysicslab.lab.engine2D.Edge} edge the Edge to look for
+@param {!Edge} edge the Edge to look for
 @return {boolean} true if this EdgeSet contains the specified Edge
 */
-myphysicslab.lab.engine2D.EdgeSet.prototype.contains;
+contains(edge) {}
+
+} // end class
+exports = EdgeSet;

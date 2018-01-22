@@ -23,8 +23,8 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 var testCircularEdge1 = function() {
-  var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
-  var CircularEdge = myphysicslab.lab.engine2D.CircularEdge;
+  var ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
+  var CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
   var Polygon = myphysicslab.lab.engine2D.Polygon;
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');

@@ -12,35 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.ConcreteVertex');
+goog.module('myphysicslab.lab.engine2D.ConcreteVertex');
 
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** Concrete implementation of Vertex interface.
 *
+* @implements {Vertex}
+*/
+class ConcreteVertex {
+/**
 * @param {!Vector} v_body location of this Vertex in body coords
 *    of the Polygon it belongs to
 * @param {boolean=} opt_endPoint whether this is the endpoint of an edge, default is
 *    `true`
 * @param {?Edge=} opt_edge previous edge (optional)
-* @constructor
-* @final
-* @struct
-* @implements {Vertex}
 */
-myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_edge) {
+constructor(v_body, opt_endPoint, opt_edge) {
   /** location in body coordinates of the RigidBody that this Vertex belongs to
   * @type {!Vector}
   * @private
@@ -68,9 +60,8 @@ myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_ed
   */
   this.id_ = ConcreteVertex.next_vertex_id++;
 };
-var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 
-ConcreteVertex.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', id_: '+this.id_
       +', endPoint_: '+this.endPoint_
@@ -81,43 +72,37 @@ ConcreteVertex.prototype.toString = function() {
       +'}';
 };
 
-ConcreteVertex.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'ConcreteVertex{loc_body_: '+this.loc_body_+'}';
 };
 
-/** for debugging:  next vertex id number
-* @type {number}
-* @private
-*/
-ConcreteVertex.next_vertex_id = 1;
-
 /** @override */
-ConcreteVertex.prototype.getID = function() {
+getID() {
   return this.id_;
 };
 
 /** @override */
-ConcreteVertex.prototype.isEndPoint = function() {
+isEndPoint() {
   return this.endPoint_;
 };
 
 /** @override */
-ConcreteVertex.prototype.locBody = function() {
+locBody() {
   return this.loc_body_;
 };
 
 /** @override */
-ConcreteVertex.prototype.locBodyX = function() {
+locBodyX() {
   return this.loc_body_.getX();
 };
 
 /** @override */
-ConcreteVertex.prototype.locBodyY = function() {
+locBodyY() {
   return this.loc_body_.getY();
 };
 
 /** @override */
-ConcreteVertex.prototype.highlight = function() {
+highlight() {
   if (this.edge_ != null && UtilEngine.debugEngine2D != null) {
     var w1 = this.edge_.getBody().bodyToWorld(this.loc_body_);
     UtilEngine.debugEngine2D.debugCircle('dot', w1, 0.06);
@@ -125,7 +110,7 @@ ConcreteVertex.prototype.highlight = function() {
 };
 
 /** @override */
-ConcreteVertex.prototype.getCurvature = function() {
+getCurvature() {
   var r = Util.POSITIVE_INFINITY;
   if (this.edge_ != null) {
     r = this.edge_.getCurvature(this.loc_body_);
@@ -140,7 +125,7 @@ ConcreteVertex.prototype.getCurvature = function() {
 };
 
 /** @override */
-ConcreteVertex.prototype.getEdge1 = function() {
+getEdge1() {
   if (this.edge_ != null) {
     return this.edge_;
   } else {
@@ -149,7 +134,7 @@ ConcreteVertex.prototype.getEdge1 = function() {
 };
 
 /** @override */
-ConcreteVertex.prototype.getEdge2 = function() {
+getEdge2() {
   if (this.edge2_ != null) {
     return this.edge2_;
   } else if (this.edge_ != null) {
@@ -160,12 +145,12 @@ ConcreteVertex.prototype.getEdge2 = function() {
 };
 
 /** @override */
-ConcreteVertex.prototype.safeGetEdge2 = function() {
+safeGetEdge2() {
   return this.edge2_;
 };
 
 /** @override */
-ConcreteVertex.prototype.setEdge1 = function(edge) {
+setEdge1(edge) {
   if (this.edge_ == null) {
     this.edge_ = edge;
   } else {
@@ -174,7 +159,7 @@ ConcreteVertex.prototype.setEdge1 = function(edge) {
 };
 
 /** @override */
-ConcreteVertex.prototype.setEdge2 = function(edge) {
+setEdge2(edge) {
   if (this.edge2_ == null) {
     this.edge2_ = edge;
   } else {
@@ -182,4 +167,12 @@ ConcreteVertex.prototype.setEdge2 = function(edge) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/** for debugging:  next vertex id number
+* @type {number}
+* @private
+*/
+ConcreteVertex.next_vertex_id = 1;
+
+exports = ConcreteVertex;

@@ -12,32 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.EdgeRange');
+goog.module('myphysicslab.lab.engine2D.EdgeRange');
 
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const EdgeSet = goog.require('myphysicslab.lab.engine2D.EdgeSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Specifies a set of Edges in a Polygon. The Edges must be contiguous in the list of
 Edges in the Polygon. Edges are specified by their index in the list of Edges of the
 Polygon, see {@link myphysicslab.lab.engine2D.Polygon}.
 
+* @implements {EdgeSet}
+*/
+class EdgeRange {
+/**
 * @param {!myphysicslab.lab.engine2D.Polygon} body  the Polygon the Edges belong to
 * @param {number} beginIdx  the index of the first Edge within the list of Edges
 *    in the Polygon
 * @param {number} endIdx  the index of the last Edge within the list of Edges
 *    in the Polygon
-* @constructor
-* @final
-* @struct
-* @implements {EdgeSet}
 */
-myphysicslab.lab.engine2D.EdgeRange = function(body, beginIdx, endIdx) {
+constructor(body, beginIdx, endIdx) {
   if (endIdx < beginIdx) {
     throw new Error();
   }
@@ -65,10 +59,9 @@ myphysicslab.lab.engine2D.EdgeRange = function(body, beginIdx, endIdx) {
   this.endIdx_ = endIdx;
 
 };
-var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 
 /** @override */
-EdgeRange.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'EdgeRange{beginIdx_: '+this.beginIdx_
       +', endIdx_: '+this.endIdx_
       +', body_: '+this.body_.toStringShort()
@@ -89,7 +82,7 @@ Assumption: Edges in set are contiguous in the Polygon's list of Edges.
 * @return {!EdgeRange} an EdgeRange representing all Edges connected to
 *     the starting Edge
 */
-EdgeRange.fromEdge = function(edge) {
+static fromEdge(edge) {
   var beginIdx = edge.getIndex();
   while (true) {
     // Find Edge in the set with the smallest index.
@@ -110,12 +103,12 @@ EdgeRange.fromEdge = function(edge) {
 * @param {!myphysicslab.lab.engine2D.Polygon} body  the Polygon of interest
 * @return {!EdgeRange} an EdgeRange representing all Edges contained in the Polygon
 */
-EdgeRange.fromPolygon = function(body) {
+static fromPolygon(body) {
   return new EdgeRange(body, 0, body.getEdges().length-1);
 };
 
 /** @override */
-EdgeRange.prototype.contains = function(edge) {
+contains(edge) {
   if (edge.getBody() != this.body_) {
     return false;
   }
@@ -123,4 +116,5 @@ EdgeRange.prototype.contains = function(edge) {
   return idx >= this.beginIdx_ && idx <= this.endIdx_;
 };
 
-}); // goog.scope
+} //end class
+exports = EdgeRange;

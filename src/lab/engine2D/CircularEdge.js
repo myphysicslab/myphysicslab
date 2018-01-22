@@ -17,7 +17,7 @@ goog.module('myphysicslab.lab.engine2D.CircularEdge');
 const AbstractEdge = goog.require('myphysicslab.lab.engine2D.AbstractEdge');
 const CircleCircle = goog.require('myphysicslab.lab.engine2D.CircleCircle');
 const CircleStraight = goog.require('myphysicslab.lab.engine2D.CircleStraight');
-var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
 const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
 const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');

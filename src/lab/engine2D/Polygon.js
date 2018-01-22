@@ -42,11 +42,11 @@ goog.scope(function() {
 const AbstractMassObject = goog.module.get('myphysicslab.lab.model.AbstractMassObject');
 const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 const CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
-var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
+const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
 const DebugEngine2D = goog.module.get('myphysicslab.lab.engine2D.DebugEngine2D');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
+const EdgeSet = goog.module.get('myphysicslab.lab.engine2D.EdgeSet');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const LocalCoords = goog.module.get('myphysicslab.lab.engine2D.LocalCoords');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
