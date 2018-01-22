@@ -12,31 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.PathPoint');
+goog.module('myphysicslab.lab.model.PathPoint');
 
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Represents a point along a {@link myphysicslab.lab.model.NumericalPath}, used for
 input and output of NumericalPath methods. Instance properties are public to avoid
 having numerous getter and setter methods.
 
+* @implements {GenericVector}
+*/
+class PathPoint {
+/**
 * @param {number=} p distance along path, measured in arc length
 * @param {boolean=} calculateRadius whether to calculate radius of curvature,
 *    default is `false`
-* @constructor
-* @final
-* @struct
-* @implements {GenericVector}
 */
-myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
+constructor(p, calculateRadius) {
   /** horizontal location of the point
   * @type {number}
   */
@@ -108,9 +102,8 @@ myphysicslab.lab.model.PathPoint = function(p, calculateRadius) {
   */
   this.dydp = 0;
 };
-var PathPoint = myphysicslab.lab.model.PathPoint;
 
-PathPoint.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'PathPoint{'
       +'p='+Util.NF(this.p)
       +' x='+Util.NF(this.x)
@@ -134,7 +127,7 @@ PathPoint.prototype.toString = function() {
 /** Copies all fields of the given PathPoint.
 * @param {!PathPoint} ppt
 */
-PathPoint.prototype.copyFrom = function(ppt) {
+copyFrom(ppt) {
   this.x = ppt.x;
   this.y = ppt.y;
   this.p = ppt.p;
@@ -171,7 +164,7 @@ PathPoint. The normal line passes thru this PathPoint's {@link #getPosition loca
 * @return {number} distance from the given location to the line along the normal from
     this PathPoint
 */
-PathPoint.prototype.distanceToNormalLine = function(point) {
+distanceToNormalLine(point) {
   //console.log('PathPoint.distanceToNormalLine '+this.toString());
   var err = Math.abs(this.normalX*this.normalX + this.normalY*this.normalY - 1);
   goog.asserts.assert( err < 1E-15);
@@ -190,14 +183,14 @@ PathPoint.prototype.distanceToNormalLine = function(point) {
 /** Returns the perpendicular normal unit vector at this point.
 * @return {!Vector} perpendicular normal unit vector at the point
 */
-PathPoint.prototype.getNormal = function() {
+getNormal() {
   return new Vector(this.normalX, this.normalY);
 };
 
 /** Returns location of this point in space.
 * @return {!Vector} location of the point in space
 */
-PathPoint.prototype.getPosition = function() {
+getPosition() {
   return new Vector(this.x, this.y);
 };
 
@@ -206,23 +199,24 @@ PathPoint.prototype.getPosition = function() {
 * @return {!Vector} a unit vector tangent to curve at this point,
 *    in direction of increasing `p`
 */
-PathPoint.prototype.getSlope = function() {
+getSlope() {
   return new Vector(this.slopeX, this.slopeY);
 };
 
 /** @override */
-PathPoint.prototype.getX = function() {
+getX() {
   return this.x;
 };
 
 /** @override */
-PathPoint.prototype.getY = function() {
+getY() {
   return this.y;
 };
 
 /** @override */
-PathPoint.prototype.getZ = function() {
+getZ() {
   return 0;
 };
 
-}); // goog.scope
+} //end class
+exports = PathPoint;

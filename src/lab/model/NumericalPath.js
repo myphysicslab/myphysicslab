@@ -36,7 +36,7 @@ const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
 const Path = goog.module.get('myphysicslab.lab.model.Path');
 const PathIterator = goog.module.get('myphysicslab.lab.model.PathIterator');
-var PathPoint = myphysicslab.lab.model.PathPoint;
+const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

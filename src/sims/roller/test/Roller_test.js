@@ -38,7 +38,7 @@ obtained by running the simulation previously).  Check that energy stays constan
 var testRoller1 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var NumericalPath = myphysicslab.lab.model.NumericalPath;
-  var PathPoint = myphysicslab.lab.model.PathPoint;
+  const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
   var CirclePath = myphysicslab.sims.roller.CirclePath;
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
 

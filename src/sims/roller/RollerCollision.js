@@ -25,7 +25,7 @@ goog.scope(function() {
 var Collision = myphysicslab.lab.model.Collision;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
-var PathPoint = myphysicslab.lab.model.PathPoint;
+const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 
 /** Collision used by RollerFlightSim.
