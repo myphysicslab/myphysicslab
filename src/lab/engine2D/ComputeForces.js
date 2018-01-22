@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 const Random = goog.module.get('myphysicslab.lab.util.Random');
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
+const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Computes forces at contact points between RigidBodys, or impulses at collision

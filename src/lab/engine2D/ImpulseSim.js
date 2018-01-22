@@ -48,7 +48,7 @@ var CollisionHandling = lab.engine2D.CollisionHandling;
 const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
 const CollisionTotals = goog.module.get('myphysicslab.lab.model.CollisionTotals');
 var ComputeForces = lab.engine2D.ComputeForces;
-var DebugEngine2D = lab.engine2D.DebugEngine2D;
+const DebugEngine2D = goog.module.get('myphysicslab.lab.engine2D.DebugEngine2D');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const Impulse = goog.module.get('myphysicslab.lab.model.Impulse');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
@@ -61,7 +61,7 @@ const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
 var RigidBodySim = lab.engine2D.RigidBodySim;
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-var UtilEngine = lab.engine2D.UtilEngine;
+const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
 var UtilityCollision = lab.engine2D.UtilityCollision;
 
 /** Simulation of RigidBody movement with collisions. ImpulseSim adds methods for

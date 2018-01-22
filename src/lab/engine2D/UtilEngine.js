@@ -12,25 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.UtilEngine');
+goog.module('myphysicslab.lab.engine2D.UtilEngine');
 
 goog.require('goog.asserts');
 goog.require('goog.vec.Float64Array');
-goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const Random = goog.module.get('myphysicslab.lab.util.Random');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const DebugEngine2D = goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const Random = goog.require('myphysicslab.lab.util.Random');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Provides utility methods for the physics engine.
 
@@ -44,67 +36,19 @@ const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 @todo some methods/functions here are not currently being used, so either delete
     them or move to some other namespace.
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.lab.engine2D.UtilEngine = function() {
+class UtilEngine {
+constructor() {
   throw new Error();
 };
-
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
-
-/** Contains the most recently created RigidBodySim, ***for debugging only***. Provides
-a shortcut to make lines and circles from anywhere in the engine2D code.
-* @type {?DebugEngine2D}
-*/
-UtilEngine.debugEngine2D = null;
-
-/**
-* @type {number}
-* @const
-*/
-UtilEngine.SMALL_POSITIVE = 1E-10;
-
-/**
-* @type {number}
-* @const
-*/
-UtilEngine.SMALL_NEGATIVE = -1E-10;
-
-/**
-* @type {number}
-* @const
-*/
-UtilEngine.TOLERANCE = 1E-10;
-
-/**
-* @type {number}
-* @const
-*/
-UtilEngine.MATRIX_SOLVE_ZERO_TOL = 1E-10;
-
-/**
-* @type {boolean}
-* @const
-*/
-UtilEngine.MATRIX_SOLVE_DEBUG = false;
 
 /**
 * @param {number} x
 * @return {number} x squared
 */
-UtilEngine.square = function(x) {
+static square(x) {
   return x*x;
 };
-
-/**
-* @type {boolean}
-* @private
-* @const
-*/
-UtilEngine.debugSimplex_ = false;
 
 /**  Returns a new matrix which is the square matrix A with column b appended.
 * @param {!Array<!Float64Array>} A
@@ -112,7 +56,7 @@ UtilEngine.debugSimplex_ = false;
 * @return {!Array<!Float64Array>} a new matrix which is the square matrix A
 *     with column b appended.
 */
-UtilEngine.addColumnToMatrix = function(A, b) {
+static addColumnToMatrix(A, b) {
   var i, j;
   var n = A.length;
   if (b.length != n)
@@ -129,7 +73,7 @@ UtilEngine.addColumnToMatrix = function(A, b) {
 /** Checks that all numbers in an array are numbers, not NaN.
 * @param {!Array<number>} x
 */
-UtilEngine.checkArrayNaN = function(x) {
+static checkArrayNaN(x) {
   if (Util.DEBUG) {
     var isOK = true;
     for (var i=0, len=x.length; i<len; i++)
@@ -146,7 +90,7 @@ UtilEngine.checkArrayNaN = function(x) {
 * @return {number}
 * @private
 */
-UtilEngine.colinearity = function(p) {
+static colinearity(p) {
   goog.asserts.assert(p.length == 3);
   // find dot product of two lines
   var v1 = Vector.clone(p[1]).subtract(p[0]).normalize();
@@ -162,7 +106,7 @@ UtilEngine.colinearity = function(p) {
 * @param {number} n
 * @return {number}
 */
-UtilEngine.countBoolean = function(set, n) {
+static countBoolean(set, n) {
   var c = 0;  // number of elements in set
   for (var i=0; i < n; i++)
     if (set[i]) c++;
@@ -183,7 +127,7 @@ qy = p1y + k (qx - p1x)
 * @return {number} distance from the point `p2` to the line formed by erecting a normal
 *    at point `p1`
 */
-UtilEngine.distanceToLine = function(p1, n, p2) {
+static distanceToLine(p1, n, p2) {
   var r;
   if (Math.abs(n.getX()) < Vector.TINY_POSITIVE) { // vertical line
     r = Math.abs(p2.getX() - p1.getX());
@@ -249,7 +193,6 @@ UPDATE: turned off the test for value reaching zero;
 now successful completion only depends on the
 distance between points becoming small.
 
-
 @param {!Array<!MutableVector>} p  the starting 3 points for the search
 @param {function(!GenericVector): number} f  the objective function to minimize,
         a function of two values contained in the GenericVector.
@@ -261,7 +204,7 @@ distance between points becoming small.
         where 1 means failure, 0 means success.
 @return {!Vector} the two values where the minimum was found
 */
-UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
+static findMinimumSimplex(p, f, tolerance, info) {
   var i;
   if (info.length < 2)
     throw new Error(Util.DEBUG ? 'info array length < 2' : '');
@@ -431,7 +374,7 @@ UtilEngine.findMinimumSimplex = function(p, f, tolerance, info) {
 * @param {function(number) : string=} opt_nf  number format function to use
 * @return {string} the array formatted as a string
 */
-UtilEngine.formatArray = function(r, opt_start, opt_n, opt_nf) {
+static formatArray(r, opt_start, opt_n, opt_nf) {
   var nf = opt_nf || Util.NF5E;
   var start = opt_start || 0;
   if (start >= r.length) {
@@ -467,7 +410,7 @@ See {@link myphysicslab.test.StraightStraightTest#acute_corners_setup}.
 @return {?Vector} the intersection point, or `null` if the line
     segments do not intersect
 */
-UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
+static linesIntersect(p1, p2, p3, p4) {
   var xi, yi, k1, k2;
   var x1 = p1.getX();
   var y1 = p1.getY();
@@ -588,7 +531,7 @@ UtilEngine.linesIntersect = function(p1, p2, p3, p4) {
 * @return {number}
 * @private
 */
-UtilEngine.maxDistance = function(p) {
+static maxDistance(p) {
   goog.asserts.assert(p.length == 3);
   var dist = p[0].distanceSquaredTo(p[1]);
   var d = p[0].distanceSquaredTo(p[2]);
@@ -605,7 +548,7 @@ UtilEngine.maxDistance = function(p) {
 * @param {number=} n length of list (optional)
 * @return {number} the absolute value of the largest entry in the vector
 */
-UtilEngine.maxSize = function(r, n) {
+static maxSize(r, n) {
   var max = 0;
   n = n || r.length;
   for (var i=0; i<n; i++) {
@@ -621,7 +564,7 @@ UtilEngine.maxSize = function(r, n) {
 * @param {number=} n length of list (optional)
 * @return {number} the minimum value of the vector
 */
-UtilEngine.minValue = function(r, n) {
+static minValue(r, n) {
   var min = Util.POSITIVE_INFINITY;
   n = n || r.length;
   for (var i=0; i<n; i++) {
@@ -638,7 +581,7 @@ UtilEngine.minValue = function(r, n) {
 * @param {function(number) : string=} nf  number format function to use
 * @param {number=} opt_n  length of array
 */
-UtilEngine.printArray = function(s, r, nf, opt_n) {
+static printArray(s, r, nf, opt_n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7E;
     opt_n = opt_n || r.length;
@@ -655,7 +598,7 @@ UtilEngine.printArray = function(s, r, nf, opt_n) {
 * @param {function(number) : string=} nf  number format function to use
 * @param {number=} opt_n  length of array
 */
-UtilEngine.printArray2 = function(s, r, nf, opt_n) {
+static printArray2(s, r, nf, opt_n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7E;
     opt_n = opt_n || r.length;
@@ -672,7 +615,7 @@ UtilEngine.printArray2 = function(s, r, nf, opt_n) {
 * @param {!Float64Array} r  the array to print
 * @param {string} delim  delimiter between entries
 */
-UtilEngine.printArray3 = function(s, r, delim) {
+static printArray3(s, r, delim) {
   if (Util.DEBUG) {
     for (var i=0, len=r.length; i<len; i++) {
       /** @type {string} */
@@ -698,7 +641,7 @@ UtilEngine.printArray3 = function(s, r, delim) {
 * @param {!Array<boolean>} r array to print
 * @param {number} n length of array
 */
-UtilEngine.printArrayIndices = function(s, r, n) {
+static printArrayIndices(s, r, n) {
   if (Util.DEBUG) {
     s += ' [';
     for (var i=0; i<n; i++)
@@ -716,7 +659,7 @@ UtilEngine.printArrayIndices = function(s, r, n) {
 * @param {function(number) : string=} nf  number format function to use
 * @param {number=} opt_n  length of array
 */
-UtilEngine.printArrayPermutation = function(s, r, ncol, nf, opt_n) {
+static printArrayPermutation(s, r, ncol, nf, opt_n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7;
     opt_n = opt_n || r.length;
@@ -730,7 +673,7 @@ UtilEngine.printArrayPermutation = function(s, r, ncol, nf, opt_n) {
 * @param {string} s
 * @param {!Array} list
 */
-UtilEngine.printList = function(s, list) {
+static printList(s, list) {
   s += ' [';
   for (var i=0, len=list.length; i<len; i++) {
     s += list[i].toString()+', ';
@@ -745,7 +688,7 @@ UtilEngine.printList = function(s, list) {
 * @param {function(number) : string=} nf  number format function to use
 * @param {number=} n  number of rows of matrix
 */
-UtilEngine.printMatrix2 = function(s, m, nf, n) {
+static printMatrix2(s, m, nf, n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7E;
     n = n || m.length;
@@ -762,7 +705,7 @@ UtilEngine.printMatrix2 = function(s, m, nf, n) {
 * @param {!Array<!Float64Array>} m  the matrix to print
 * @param {!Array<number>} nrow  the row permutation vector
 */
-UtilEngine.printMatrix3 = function(s, m, nrow) {
+static printMatrix3(s, m, nrow) {
   if (Util.DEBUG) {
     console.log(s);
     for (var i=0, len=m.length; i<len; i++) {
@@ -779,7 +722,7 @@ UtilEngine.printMatrix3 = function(s, m, nrow) {
 * @param {function(number) : string=} nf  number format function to use
 * @param {number=} n  number of rows of matrix
 */
-UtilEngine.printMatrixPermutation = function(s, m, nrow, ncol, nf, n) {
+static printMatrixPermutation(s, m, nrow, ncol, nf, n) {
   if (Util.DEBUG) {
     console.log(s);
     n = n || m.length;
@@ -795,7 +738,7 @@ UtilEngine.printMatrixPermutation = function(s, m, nrow, ncol, nf, n) {
 * @param {!Array<number>=} opt_b  optional vector to subtrct
 * @return {!Array<number>} result is A . x - b
 */
-UtilEngine.matrixMultiply = function(A, x, opt_b) {
+static matrixMultiply(A, x, opt_b) {
   var n = x.length;
   goog.asserts.assert(A.length >= n);
   goog.asserts.assert(A[0].length >= n);
@@ -820,7 +763,7 @@ UtilEngine.matrixMultiply = function(A, x, opt_b) {
 @param {!Array<number>} b the b-vector of equation A x = b
 @return {number} the maximum value of |A . x - b|
 */
-UtilEngine.matrixSolveError = function(A, x, b) {
+static matrixSolveError(A, x, b) {
   var r = UtilEngine.matrixMultiply(A, x, b);
   return r[UtilEngine.maxIndex(r)];
 };
@@ -833,7 +776,7 @@ UtilEngine.matrixSolveError = function(A, x, b) {
 @param {number=} zero_tol  small positive number, anything smaller is regarded as zero
 @return {number} -1 if successful, or row number where error occurs
 */
-UtilEngine.matrixSolve4 = function(A, x, b, zero_tol) {
+static matrixSolve4(A, x, b, zero_tol) {
   zero_tol = (zero_tol === undefined) ? UtilEngine.MATRIX_SOLVE_ZERO_TOL : zero_tol;
   var M = UtilEngine.addColumnToMatrix(A, b);
   /** @type {!Array<number>}*/
@@ -875,7 +818,7 @@ format???
 @param {!Array<number>} nrow  where the row permutation vector will be stored
 @return {number} -1 if successful, or row number where error occurs
 */
-UtilEngine.matrixSolve3 = function(A, x, zero_tol, nrow) {
+static matrixSolve3(A, x, zero_tol, nrow) {
   /** @type {number}
   * @const
   */
@@ -1080,7 +1023,7 @@ and `L` has all 1's on its diagonal.
 @param {number} tolerance  small positive number, anything smaller is regarded as zero
 @return {boolean} true if the given upper triangular matrix is singular
 */
-UtilEngine.matrixIsSingular = function(Acc, n, nrow, tolerance) {
+static matrixIsSingular(Acc, n, nrow, tolerance) {
   var min = Util.POSITIVE_INFINITY;
   var max = 0;
   for (var i=0; i<n; i++) {
@@ -1103,7 +1046,7 @@ UtilEngine.matrixIsSingular = function(Acc, n, nrow, tolerance) {
 @param {!Array<number>} r vector to examine
 @return {number} the index of the largest entry in the vector
 */
-UtilEngine.maxIndex = function(r) {
+static maxIndex(r) {
   var max = 0;
   var j = -1;
   for (var i=0, len=r.length; i<len; i++) {
@@ -1173,7 +1116,7 @@ used for detecting when a point is in contact.
 * @return {number} a distance such that when points are within this distance then they
 *    are considered to be the same contact point.
 */
-UtilEngine.nearness = function(r1, r2, distTol) {
+static nearness(r1, r2, distTol) {
   if (r1 == Util.NaN || r2 == Util.NaN)
     throw new Error();
   var r = -1;
@@ -1209,7 +1152,7 @@ UtilEngine.nearness = function(r1, r2, distTol) {
 * @param {number=} m  number of columns.  If omitted, then make an n x n matrix.
 * @return {!Array<!Float64Array>}
 */
-UtilEngine.newEmptyMatrix = function(n, m) {
+static newEmptyMatrix(n, m) {
   m = m || n;
   /** @type {!Array<!Float64Array>}*/
   var a = new Array(n);
@@ -1229,7 +1172,7 @@ UtilEngine.newEmptyMatrix = function(n, m) {
 * @return {!Array<!Float64Array>} a new square n x n matrix, filled with values from
 *     array a.
 */
-UtilEngine.newMatrixFromArray = function(n, a) {
+static newMatrixFromArray(n, a) {
   if (a.length < n*n)
     throw new Error();
   var M = UtilEngine.newEmptyMatrix(n);
@@ -1255,7 +1198,7 @@ UtilEngine.newMatrixFromArray = function(n, a) {
 * @return {!Array<!Float64Array>} a new square n x n matrix, filled with values from
 *     array a.
 */
-UtilEngine.newMatrixFromArray2 = function(n, a) {
+static newMatrixFromArray2(n, a) {
   if (a.length < n*(n+1))
     throw new Error('a.length='+a.length+' n='+n);
   var M = UtilEngine.newEmptyMatrix(n);
@@ -1277,7 +1220,7 @@ UtilEngine.newMatrixFromArray2 = function(n, a) {
 * @param {number} j
 * @private
 */
-UtilEngine.swapPointValue = function(v, p, i, j) {
+static swapPointValue(v, p, i, j) {
   var d = v[i];
   v[i] = v[j];
   v[j] = d;
@@ -1291,7 +1234,7 @@ UtilEngine.swapPointValue = function(v, p, i, j) {
 * @param {!Array<number>} u
 * @return {!Array<number>}  new vector containing sum: v + u
 */
-UtilEngine.vectorAdd = function(v, u) {
+static vectorAdd(v, u) {
   var n = v.length;
   goog.asserts.assert(u.length == n);
   var r = new Array(n);
@@ -1305,11 +1248,56 @@ UtilEngine.vectorAdd = function(v, u) {
 * @param {!Array<number>} p the vector of interest
 * @return {number} the length of the vector
 */
-UtilEngine.vectorLength = function(p) {
+static vectorLength(p) {
   var sum = 0;
   for (var i=0, len=p.length; i<len; i++)
     sum += p[i]*p[i];
   return Math.sqrt(sum);
 };
 
-}); // goog.scope
+} //end class
+
+/** Contains the most recently created RigidBodySim, ***for debugging only***. Provides
+a shortcut to make lines and circles from anywhere in the engine2D code.
+* @type {?DebugEngine2D}
+*/
+UtilEngine.debugEngine2D = null;
+
+/**
+* @type {number}
+* @const
+*/
+UtilEngine.SMALL_POSITIVE = 1E-10;
+
+/**
+* @type {number}
+* @const
+*/
+UtilEngine.SMALL_NEGATIVE = -1E-10;
+
+/**
+* @type {number}
+* @const
+*/
+UtilEngine.TOLERANCE = 1E-10;
+
+/**
+* @type {number}
+* @const
+*/
+UtilEngine.MATRIX_SOLVE_ZERO_TOL = 1E-10;
+
+/**
+* @type {boolean}
+* @const
+*/
+UtilEngine.MATRIX_SOLVE_DEBUG = false;
+
+/**
+* @type {boolean}
+* @private
+* @const
+*/
+UtilEngine.debugSimplex_ = false;
+
+exports = UtilEngine;

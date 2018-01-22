@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.DebugEngine2D');
+goog.module('myphysicslab.lab.engine2D.DebugEngine2D');
 
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** An interface that allows us to add a circle or line to the display from anywhere in
 the engine2D code. This interface solves some problems with circular dependencies. The
@@ -34,16 +29,7 @@ add code there that looks for objects with particular names, and apply desired c
 
 * @interface
 */
-myphysicslab.lab.engine2D.DebugEngine2D = function() {};
-var DebugEngine2D = myphysicslab.lab.engine2D.DebugEngine2D;
-
-/** Proximity testing means we avoid expensive collision testing when bodies are so far
-apart there is no way they can collide. For debugging, you can turn off the proximity
-testing and then collision testing always happens even when objects are far apart.
-* @type {boolean}
-* @const
-*/
-DebugEngine2D.PROXIMITY_TEST = true;
+class DebugEngine2D {
 
 /** Creates a PointMass which is displayed as a circle, and adds it to the
 SimList, for debugging only.
@@ -55,7 +41,7 @@ removed right away during the next call to advance().
 * @param {number=} expireTime the time when the DisplayObject will be removed;
 *    the default expireTime is 'now'.
 */
-DebugEngine2D.prototype.debugCircle;
+debugCircle(name, center, radius, expireTime) {}
 
 /** Creates a ConcreteLine and adds it to the SimList, for debugging only.
 The expiration time on temporary SimObjects is set to 'now', so that they are
@@ -66,12 +52,12 @@ removed right away during the next call to advance().
 * @param {number=} expireTime the time when the DisplayObject will be removed;
 *    the default expireTime is 'now'.
 */
-DebugEngine2D.prototype.debugLine;
+debugLine(name, pa, pb, expireTime) {}
 
 /** Returns the current simulation time.
 * @return {number} the current simulation time
 */
-DebugEngine2D.prototype.getTime;
+getTime() {}
 
 /** Prints the message to console, preceded by the current simulation time. Draws the
 time in green, the message in black; you can change colors in the message by adding more
@@ -81,6 +67,16 @@ time in green, the message in black; you can change colors in the message by add
 * @param {...string} colors CSS color or background strings, to change the color in the
 *     message at points in the message marked by the string '%c'
 */
-DebugEngine2D.prototype.myPrint;
+myPrint(message, colors) {}
 
-}); // goog.scope
+} //end class
+
+/** Proximity testing means we avoid expensive collision testing when bodies are so far
+apart there is no way they can collide. For debugging, you can turn off the proximity
+testing and then collision testing always happens even when objects are far apart.
+* @type {boolean}
+* @const
+*/
+DebugEngine2D.PROXIMITY_TEST = true;
+
+exports = DebugEngine2D;

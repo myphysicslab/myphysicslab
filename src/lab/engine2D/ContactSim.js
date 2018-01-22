@@ -53,7 +53,7 @@ var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Scrim = myphysicslab.lab.engine2D.Scrim;
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
+const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

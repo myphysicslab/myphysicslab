@@ -26,7 +26,7 @@ goog.scope(function() {
 
 const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
+const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
