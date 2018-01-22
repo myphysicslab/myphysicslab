@@ -1122,11 +1122,11 @@ Polygon.prototype.nonCollideEdge = function(edge) {
   }
 };
 
-if (Util.DEBUG) {
-  /** Prints all edges and Vertexes to console for debugging.
-  * @return {undefined}
-  */
-  Polygon.prototype.printAll = function() {
+/** Prints all edges and Vertexes to console for debugging.
+* @return {undefined}
+*/
+Polygon.prototype.printAll = function() {
+  if (Util.DEBUG) {
     console.log(this.toString());
     /** @type {!Vertex} */
     var vLast = this.vertices_[this.vertices_.length - 1];

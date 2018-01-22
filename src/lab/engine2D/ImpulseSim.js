@@ -1197,19 +1197,19 @@ ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_t
   return impulse;
 };
 
-if (Util.DEBUG) {
-  /** Returns size of 'largest' velocity among the set of velocities.  Here 'largest'
-  means either:
+/** Returns size of 'largest' velocity among the set of velocities.  Here 'largest'
+means either:
 
-  1. most negative, for regular collisions; or
-  2. largest in absolute value, for joints
+1. most negative, for regular collisions; or
+2. largest in absolute value, for joints
 
-  @param {!Array<boolean>} joint which contacts are joints
-  @param {!Array<number>} b normal velocity at each contact
-  @return {number} size of largest velocity
-  @private
-  */
-  ImpulseSim.largestVelocity = function(joint, b) {
+@param {!Array<boolean>} joint which contacts are joints
+@param {!Array<number>} b normal velocity at each contact
+@return {number} size of largest velocity
+@private
+*/
+ImpulseSim.largestVelocity = function(joint, b) {
+  if (Util.DEBUG) {
     var i;
     var n = b.length;
     var max = 0;

@@ -1237,23 +1237,25 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
   goog.asserts.assert(ppt.p == saveP);  // ensure that p value is not changed
 };
 
-if (Util.DEBUG) {
-  /** print the table for debugging.
-  * @return {undefined}
-  * @private
-  */
-  NumericalPath.prototype.printTable = function() {
+/** print the table for debugging.
+* @return {undefined}
+* @private
+*/
+NumericalPath.prototype.printTable = function() {
+  if (Util.DEBUG) {
     for (var i=0; i<this.tableLength_; i++) {
       this.printPoint(i);
     }
-  };
+  }
+};
 
-  /**
-  * @param {number} i
-  * @return {undefined}
-  * @private
-  */
-  NumericalPath.prototype.printPoint = function(i) {
+/**
+* @param {number} i
+* @return {undefined}
+* @private
+*/
+NumericalPath.prototype.printPoint = function(i) {
+  if (Util.DEBUG) {
     var s = 'p='+Util.NF5(this.pvals[i]);
     if (0 == 1 && i > 0) {
       s += ' dp='+Util.NFE(this.pvals[i] - this.pvals[i-1]);
@@ -1274,7 +1276,7 @@ if (Util.DEBUG) {
       ;
     }
     console.log(s);
-  };
+  }
 };
 
 /** Returns the distance between 3 neighboring p-values in the table at the k-th

@@ -1154,14 +1154,14 @@ ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
   }
 };
 
-if (Util.DEBUG) {
-  /**
-  * @param {!Array<!Float64Array>} A1
-  * @param {!Array<!Float64Array>} A2
-  * @return {number}
-  * @private
-  */
-  ContactSim.matrixDiff = function(A1, A2) {
+/**
+* @param {!Array<!Float64Array>} A1
+* @param {!Array<!Float64Array>} A2
+* @return {number}
+* @private
+*/
+ContactSim.matrixDiff = function(A1, A2) {
+  if (Util.DEBUG) {
     /** @type {number} */
     var s = 0;
     for (var i=0, len=A1.length; i<len; i++) {
@@ -1179,15 +1179,17 @@ if (Util.DEBUG) {
       }
     }
     return s;
-  };
+  }
+};
 
-  /**
-  * @param {!Array<!RigidBodyCollision>} subset
-  * @param {!Array<number>} b
-  * @param {!Array<number>} vars
-  * @private
-  */
-  ContactSim.prototype.printContactInfo = function(subset, b, vars) {
+/**
+* @param {!Array<!RigidBodyCollision>} subset
+* @param {!Array<number>} b
+* @param {!Array<number>} vars
+* @private
+*/
+ContactSim.prototype.printContactInfo = function(subset, b, vars) {
+  if (Util.DEBUG) {
     // print all the collisions currently being treated
     for (var i=0, len=subset.length; i<len; i++) {
       this.myPrint('b['+i+']='+Util.NF7(b[i])+' '+subset[i],'background:#ffc',
@@ -1197,18 +1199,20 @@ if (Util.DEBUG) {
     UtilEngine.printArray(Util.NF7(this.getTime())+' vars', vars);
     // print energy info
     this.myPrint(this.getEnergyInfo().toString());
-  };
+  }
+};
 
-  /**
-  * @param {!Array<!RigidBodyCollision>} subset
-  * @param {!Array<!Float64Array>} A
-  * @param {!Array<number>} f
-  * @param {!Array<number>} b
-  * @param {!Array<boolean>} joint
-  * @param {!Array<number>} vars
-  * @private
-  */
-  ContactSim.prototype.printForceInfo = function(subset, A, f, b, joint, vars) {
+/**
+* @param {!Array<!RigidBodyCollision>} subset
+* @param {!Array<!Float64Array>} A
+* @param {!Array<number>} f
+* @param {!Array<number>} b
+* @param {!Array<boolean>} joint
+* @param {!Array<number>} vars
+* @private
+*/
+ContactSim.prototype.printForceInfo = function(subset, A, f, b, joint, vars) {
+  if (Util.DEBUG) {
     // if the largest force suddenly is much larger than previously,
     // then print out debug information.
     var maxForce = UtilEngine.maxSize(f);
@@ -1230,39 +1234,43 @@ if (Util.DEBUG) {
       UtilEngine.printMatrix2('A '+A.length+'vars'+A[0].length, A, Util.NFSCI);
     }
     this.addForceHistory(maxForce);
-  };
+  }
+};
 
-  /**
-  * @param {number} f
-  * @private
-  */
-  ContactSim.prototype.addForceHistory = function(f) {
+/**
+* @param {number} f
+* @private
+*/
+ContactSim.prototype.addForceHistory = function(f) {
+  if (Util.DEBUG) {
     if (this.forceHistoryIndex_ >= this.forceHistory_.length)
       this.forceHistoryIndex_ = 0;
     this.forceHistory_[this.forceHistoryIndex_] = f;
     this.forceHistoryIndex_++;
   };
+};
 
-  /**
-  * @param {!Array<!RigidBodyCollision>} contacts
-  * @private
-  */
-  ContactSim.prototype.printContactDistances = function(contacts) {
-    if (Util.DEBUG) {
-      // print all contact distances
-      var s = 'contact dist ';
-      for (var i=0, len=contacts.length; i<len; i++) {
-        s += ' '+Util.NF7(contacts[i].distance);
-      }
-      this.myPrint(s);
+/**
+* @param {!Array<!RigidBodyCollision>} contacts
+* @private
+*/
+ContactSim.prototype.printContactDistances = function(contacts) {
+  if (Util.DEBUG) {
+    // print all contact distances
+    var s = 'contact dist ';
+    for (var i=0, len=contacts.length; i<len; i++) {
+      s += ' '+Util.NF7(contacts[i].distance);
     }
-  };
+    this.myPrint(s);
+  }
+};
 
-  /**
-  * @return {undefined}
-  * @private
-  */
-  ContactSim.prototype.printNumContacts = function() {
+/**
+* @return {undefined}
+* @private
+*/
+ContactSim.prototype.printNumContacts = function() {
+  if (Util.DEBUG) {
     if (ContactSim.SHOW_NUM_CONTACTS) {
       var t = this.getTime();
       if (t - this.debugPrintTime_ > 2.0 || t < this.debugPrintTime_) {
