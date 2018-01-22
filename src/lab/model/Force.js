@@ -26,6 +26,7 @@ goog.scope(function() {
 
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 var CoordType = myphysicslab.lab.model.CoordType;
+const Line = goog.module.get('myphysicslab.lab.model.Line');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
@@ -67,7 +68,7 @@ acceleration like this:
 * @final
 * @struct
 * @extends {AbstractSimObject}
-* @implements {myphysicslab.lab.model.Line}
+* @implements {Line}
 */
 myphysicslab.lab.model.Force = function(name, body, location, locationCoordType,
     direction, directionCoordType, opt_torque) {

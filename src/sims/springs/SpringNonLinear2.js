@@ -19,7 +19,6 @@ goog.require('myphysicslab.lab.model.CoordType');
 goog.require('myphysicslab.lab.model.Force');
 goog.require('myphysicslab.lab.model.ForceLaw');
 goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.Line');
 goog.require('myphysicslab.lab.model.Spring');
 goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('myphysicslab.lab.util.GenericVector');

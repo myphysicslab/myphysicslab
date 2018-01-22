@@ -12,36 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Line');
+goog.module('myphysicslab.lab.model.Line');
 
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Represents a directed line segment from starting point to ending point.
 * @interface
-* @extends {SimObject}
 */
-myphysicslab.lab.model.Line = function() {};
-var Line = myphysicslab.lab.model.Line;
+class Line extends SimObject {
+constructor() {
+  super();
+};
 
 /** Returns ending point of this line in world coords.
 @return {!Vector} ending point of this line in world coords.
 */
-Line.prototype.getEndPoint;
+getEndPoint() {}
 
 /** Returns starting point of this line in world coords
 @return {!Vector} starting point of this line in world coords.
 */
-Line.prototype.getStartPoint;
+getStartPoint() {}
 
 /** Returns the Vector from starting point to ending point.
 @return {!Vector} the Vector from starting point to ending point.
 */
-Line.prototype.getVector;
+getVector() {}
 
-}); // goog.scope
+} //end class
+exports = Line;

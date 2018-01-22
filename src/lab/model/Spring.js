@@ -33,6 +33,7 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
+const Line = goog.module.get('myphysicslab.lab.model.Line');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
@@ -71,7 +72,7 @@ start point in the direction of the second attachment point.
 * @struct
 * @extends {AbstractSimObject}
 * @implements {ForceLaw}
-* @implements {myphysicslab.lab.model.Line}
+* @implements {Line}
 */
 myphysicslab.lab.model.Spring = function(name, body1, attach1_body,
       body2, attach2_body, restLength, stiffness, compressOnly) {

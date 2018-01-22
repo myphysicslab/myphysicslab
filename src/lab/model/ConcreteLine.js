@@ -24,6 +24,7 @@ goog.scope(function() {
 
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
+const Line = goog.module.get('myphysicslab.lab.model.Line');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

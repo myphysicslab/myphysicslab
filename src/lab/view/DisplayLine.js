@@ -26,7 +26,7 @@ goog.scope(function() {
 
 var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
-var Line = myphysicslab.lab.model.Line;
+const Line = goog.module.get('myphysicslab.lab.model.Line');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');

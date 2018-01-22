@@ -31,6 +31,7 @@ const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObj
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
+const Line = goog.module.get('myphysicslab.lab.model.Line');
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -77,7 +78,7 @@ maintaining the angle between them if possible.
 * @struct
 * @extends {AbstractSimObject}
 * @implements {Connector}
-* @implements {myphysicslab.lab.model.Line}
+* @implements {Line}
 */
 myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, length,
       ropeType) {
