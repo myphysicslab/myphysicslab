@@ -26,7 +26,7 @@ var Edge = myphysicslab.lab.engine2D.Edge;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Vertex = myphysicslab.lab.engine2D.Vertex;
+const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
 
 /** Concrete implementation of Vertex interface.
 *

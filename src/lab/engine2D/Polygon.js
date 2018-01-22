@@ -58,7 +58,7 @@ var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 var UtilityCollision = myphysicslab.lab.engine2D.UtilityCollision;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Vertex = myphysicslab.lab.engine2D.Vertex;
+const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
 
 /** A RigidBody made of connected Edges and Vertexes.
 

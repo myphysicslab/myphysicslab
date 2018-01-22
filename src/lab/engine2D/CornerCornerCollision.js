@@ -23,7 +23,7 @@ goog.scope(function() {
 
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var Vertex = myphysicslab.lab.engine2D.Vertex;
+const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
 
 /** A RigidBodyCollision between two corners.
 

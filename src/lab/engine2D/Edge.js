@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var Vertex = myphysicslab.lab.engine2D.Vertex;
+const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** An Edge of a Polygon has a start and finish Vertex and belongs to a particular

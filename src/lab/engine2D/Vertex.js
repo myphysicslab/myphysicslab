@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Vertex');
+goog.module('myphysicslab.lab.engine2D.Vertex');
 
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Printable');
-
-goog.scope(function() {
-
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A Vertex is a point on an Edge in a Polygon, in body coordinates of the Polygon. A
 Vertex can be at the end-point of the Edge, or at a mid-point of the Edge. An end-point
@@ -69,10 +65,8 @@ collisions, and will therefore supersede any decorated Vertex/Edge collisions or
 contacts. The Edge/Edge collision gives better accuracy.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.engine2D.Vertex = function() {};
-var Vertex = myphysicslab.lab.engine2D.Vertex;
+class Vertex extends Printable {
 
 /** Returns the radius of curvature of the Edge at the Vertex's location. If the
 Vertex is between two Edges, returns the radius of curvature with smaller absolute
@@ -80,72 +74,73 @@ value. Negative curvature means the Edge is concave at that point.
 @return {number} radius of curvature of Edge at the Vertex, negative means
 concave
 */
-Vertex.prototype.getCurvature;
+getCurvature() {}
 
 /** Returns the 'previous' Edge that this Vertex is connected to.
 @return {!myphysicslab.lab.engine2D.Edge} the 'previous' Edge that this Vertex is
     connected to.
 @throws {!Error} if edge1 not yet set for this Vertex
 */
-Vertex.prototype.getEdge1;
+getEdge1() {}
 
 /** Returns the 'next' Edge that this Vertex is connected to.
 @return {!myphysicslab.lab.engine2D.Edge} the 'next' Edge that this Vertex is
     connected to.
 @throws {!Error} if edge2 not yet set for this Vertex
 */
-Vertex.prototype.getEdge2;
+getEdge2() {}
 
 /** Returns an identity number unique for each Vertex, for debugging.
 @return {number} an identity number unique for each Vertex, for debugging.
 */
-Vertex.prototype.getID;
+getID() {}
 
 /** Highlights this Vertex for debugging purposes.
 @return {undefined}
 */
-Vertex.prototype.highlight;
+highlight() {}
 
 /** Returns true if this is a Vertex at the end of an Edge; returns false if this is
 a 'decorated mid-point' Vertex.
 @return {boolean} true if this is a Vertex at the end of an Edge; returns false if this
     is a 'decorated mid-point' Vertex.
 */
-Vertex.prototype.isEndPoint;
+isEndPoint() {}
 
 /** Returns the location of this Vertex in body coords of its Polygon.
 @return {!Vector} location of this Vertex in body coords of its Polygon
 */
-Vertex.prototype.locBody;
+locBody() {}
 
 /** Returns the horizontal location of this Vertex in body coords of its Polygon.
 @return {number} location of this Vertex in body coords of its Polygon
 */
-Vertex.prototype.locBodyX;
+locBodyX() {}
 
 /** Returns the vertical location of this Vertex in body coords of its Polygon.
 @return {number} location of this Vertex in body coords of its Polygon
 */
-Vertex.prototype.locBodyY;
+locBodyY() {}
 
 /** Returns the next edge, or null if not yet assigned.
 @return {?myphysicslab.lab.engine2D.Edge} edge the next edge, or `null` if not yet
     assigned.
 */
-Vertex.prototype.safeGetEdge2;
+safeGetEdge2() {}
 
 /** Sets the 'previous' Edge that this Vertex is connected to.
 @param {!myphysicslab.lab.engine2D.Edge} edge the 'previous' Edge that this Vertex is
     connected to.
 @throws {!Error} if this Vertex was already connected to a previous Edge
 */
-Vertex.prototype.setEdge1;
+setEdge1(edge) {}
 
 /** Sets the 'next' Edge that this Vertex is connected to.
 @param {!myphysicslab.lab.engine2D.Edge} edge the 'next' Edge that this Vertex is
     connected to
 @throws {!Error} if this Vertex was already connected to a next Edge
 */
-Vertex.prototype.setEdge2;
+setEdge2(edge) {}
 
-}); // goog.scope
+} //end class
+exports = Vertex;
