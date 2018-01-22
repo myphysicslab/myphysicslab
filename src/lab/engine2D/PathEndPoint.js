@@ -40,7 +40,7 @@ const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var Scrim = myphysicslab.lab.engine2D.Scrim;
+const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

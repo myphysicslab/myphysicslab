@@ -12,21 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Scrim');
+goog.module('myphysicslab.lab.engine2D.Scrim');
 
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** The fixed background to which objects can be attached with Springs, Joints or Ropes;
 it is an immutable singleton object. Access the singleton Scrim object via
@@ -43,338 +35,330 @@ detection phases of the physics engine. It can however appear in a
 Scrim is never on the list of bodies in {@link myphysicslab.lab.engine2D.RigidBodySim},
 only Polygons are on that list.
 
-* @constructor
-* @final
-* @struct
 * @implements {RigidBody}
-* @private
 */
-myphysicslab.lab.engine2D.Scrim = function() {};
-
-var Scrim = myphysicslab.lab.engine2D.Scrim;
-
+class Scrim {
 /**
-* @type {!Scrim}
 * @private
 */
-Scrim.singleton = new Scrim();
+constructor() {};
 
 /** Returns the singleton instance of Scrim.
 * @return {!Scrim} the singleton instance of Scrim
 */
-Scrim.getScrim = function() {
+static getScrim() {
   return Scrim.singleton;
 };
 
 /** @override */
-Scrim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'Scrim{}';
 };
 
 /** @override */
-Scrim.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'Scrim{}';
 };
 
 /** @override */
-Scrim.prototype.addNonCollide = function(bodies) {
+addNonCollide(bodies) {
 };
 
 /** @override */
-Scrim.prototype.alignTo = function(p_body, p_world, opt_angle) {
+alignTo(p_body, p_world, opt_angle) {
   throw new Error();
 };
 
 /** @override */
-Scrim.prototype.bodyToWorld = function(p_body) {
+bodyToWorld(p_body) {
   return Vector.clone(p_body);
 };
 
 /** @override */
-Scrim.prototype.bodyToWorldTransform = function() {
+bodyToWorldTransform() {
   return AffineTransform.IDENTITY;
 };
 
 /** @override */
-Scrim.prototype.createCanvasPath = function(context) {
+createCanvasPath(context) {
   // make an empty path
   context.beginPath();
   context.closePath();
 };
 
 /** @override */
-Scrim.prototype.doesNotCollide = function(body) {
+doesNotCollide(body) {
   return true;
 };
 
 /** @override */
-Scrim.prototype.eraseOldCoords = function() {
+eraseOldCoords() {
 };
 
 /** @override */
-Scrim.prototype.getAccuracy = function() {
+getAccuracy() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.getAngle = function() {
+getAngle() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.getAngularVelocity = function() {
+getAngularVelocity() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.getBottomBody = function() {
+getBottomBody() {
   return Util.NEGATIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getBottomWorld = function() {
+getBottomWorld() {
   return Util.NEGATIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getBoundsBody = function() {
+getBoundsBody() {
   return new DoubleRect(this.getLeftBody(), this.getBottomBody(),
       this.getRightBody(), this.getTopBody());
 };
 
 /** @override */
-Scrim.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return this.getBoundsBody();
 };
 
 /** @override */
-Scrim.prototype.getCenterOfMassBody = function() {
+getCenterOfMassBody() {
   return Vector.ORIGIN;
 };
 
 /** @override */
-Scrim.prototype.getCentroidBody = function() {
+getCentroidBody() {
   return Vector.ORIGIN;
 };
 
 /** @override */
-Scrim.prototype.getCentroidRadius = function() {
+getCentroidRadius() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getCentroidWorld = function() {
+getCentroidWorld() {
   return Vector.ORIGIN;
 };
 
 /** @override */
-Scrim.prototype.getDistanceTol = function() {
+getDistanceTol() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.getDragPoints = function() {
+getDragPoints() {
   return [];
 };
 
 /** @override */
-Scrim.prototype.getElasticity = function() {
+getElasticity() {
   return 1;
 };
 
 /** @override */
-Scrim.prototype.getExpireTime = function() {
+getExpireTime() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getHeight = function() {
+getHeight() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getKineticEnergy = function() {
+getKineticEnergy() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.getLeftBody = function() {
+getLeftBody() {
   return Util.NEGATIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getLeftWorld = function() {
+getLeftWorld() {
   return Util.NEGATIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getMass = function() {
+getMass() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getName = function(opt_localized) {
+getName(opt_localized) {
   return 'SCRIM';
 };
 
 /** @override */
-Scrim.prototype.getMinHeight = function() {
+getMinHeight() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getOldCoords = function() {
+getOldCoords() {
   return null;
 };
 
 /** @override */
-Scrim.prototype.getPosition = function() {
+getPosition() {
   return Vector.ORIGIN;
 };
 
 /** @override */
-Scrim.prototype.getRightBody = function() {
+getRightBody() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getRightWorld = function() {
+getRightWorld() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getTopBody = function() {
+getTopBody() {
 return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getTopWorld = function() {
+getTopWorld() {
 return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getVarsIndex = function() {
+getVarsIndex() {
   return -1;
 };
 
 /** @override */
-Scrim.prototype.getVelocity = function(p_body) {
+getVelocity(p_body) {
   return Vector.ORIGIN;
 };
 
 /** @override */
-Scrim.prototype.getVelocityTol = function() {
+getVelocityTol() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.getVerticesBody = function() {
+getVerticesBody() {
   return [];
 };
 
 /** @override */
-Scrim.prototype.getWidth = function() {
+getWidth() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.getZeroEnergyLevel = function() {
+getZeroEnergyLevel() {
   return null;
 };
 
 /** @override */
-Scrim.prototype.isMassObject = function() {
+isMassObject() {
   return true;
 };
 
 /** @override */
-Scrim.prototype.momentAboutCM = function() {
+momentAboutCM() {
   return Util.POSITIVE_INFINITY;
 };
 
 /** @override */
-Scrim.prototype.momentum = function() {
+momentum() {
   var r = new Array(3);
   r[0] = r[1] = r[2] = Util.POSITIVE_INFINITY;
   return r;
 };
 
 /** @override */
-Scrim.prototype.nameEquals = function(name) {
+nameEquals(name) {
   return this.getName() == Util.toName(name);
 };
 
 /** @override */
-Scrim.prototype.removeNonCollide = function(bodies) {
+removeNonCollide(bodies) {
 };
 
 /** @override */
-Scrim.prototype.rotateBodyToWorld = function(v_body) {
+rotateBodyToWorld(v_body) {
   return Vector.clone(v_body);
 };
 
 /** @override */
-Scrim.prototype.rotateWorldToBody = function(v_world) {
+rotateWorldToBody(v_world) {
   return Vector.clone(v_world);
 };
 
 /** @override */
-Scrim.prototype.rotationalEnergy = function() {
+rotationalEnergy() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.saveOldCoords = function() {
+saveOldCoords() {
 };
 
 /** @override */
-Scrim.prototype.setAccuracy = function(accuracy) {
+setAccuracy(accuracy) {
 };
 
 /** @override */
-Scrim.prototype.setAngle = function(angle) {
+setAngle(angle) {
 };
 
 /** @override */
-Scrim.prototype.setAngularVelocity = function(angular_velocity) {
+setAngularVelocity(angular_velocity) {
 };
 
 /** @override */
-Scrim.prototype.setCenterOfMass = function(x_body, y_body) {
+setCenterOfMass(x_body, y_body) {
 };
 
 /** @override */
-Scrim.prototype.setDistanceTol = function(value) {
+setDistanceTol(value) {
 };
 
 /** @override */
-Scrim.prototype.setDragPoints = function(dragPts) {
+setDragPoints(dragPts) {
 };
 
 /** @override */
-Scrim.prototype.setElasticity = function(value) {
+setElasticity(value) {
 };
 
 /** @override */
-Scrim.prototype.setExpireTime = function(time) {
+setExpireTime(time) {
   return this;
 };
 
 /** @override */
-Scrim.prototype.setMass = function(mass) {
+setMass(mass) {
   throw new Error();
 };
 
 /** @override */
-Scrim.prototype.setMinHeight = function(minHeight) {
+setMinHeight(minHeight) {
 };
 
 /** @override */
-Scrim.prototype.setMomentAboutCM = function(moment) {
+setMomentAboutCM(moment) {
 };
 
 /** @override */
-Scrim.prototype.setPosition = function(loc_world, angle) {
+setPosition(loc_world, angle) {
   if (loc_world.getX() != 0 || loc_world.getY() != 0) {
     throw new Error();
   }
@@ -384,7 +368,7 @@ Scrim.prototype.setPosition = function(loc_world, angle) {
 };
 
 /** @override */
-Scrim.prototype.setVelocity = function(velocity_world, angular_velocity) {
+setVelocity(velocity_world, angular_velocity) {
   if (velocity_world.getX() != 0 || velocity_world.getY() != 0) {
     throw new Error();
   }
@@ -394,27 +378,35 @@ Scrim.prototype.setVelocity = function(velocity_world, angular_velocity) {
 };
 
 /** @override */
-Scrim.prototype.setVelocityTol = function(value) {
+setVelocityTol(value) {
 };
 
 /** @override */
-Scrim.prototype.setZeroEnergyLevel = function(zeroEnergyLevel) {
+setZeroEnergyLevel(zeroEnergyLevel) {
   return this;
 };
 
 /** @override */
-Scrim.prototype.similar = function(obj, opt_tolerance) {
+similar(obj, opt_tolerance) {
   return false;
 };
 
 /** @override */
-Scrim.prototype.translationalEnergy = function() {
+translationalEnergy() {
   return 0;
 };
 
 /** @override */
-Scrim.prototype.worldToBody = function(p_world) {
+worldToBody(p_world) {
   return Vector.clone(p_world);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {!Scrim}
+* @private
+*/
+Scrim.singleton = new Scrim();
+
+exports = Scrim;
