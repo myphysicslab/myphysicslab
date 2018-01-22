@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.ButtonControl');
+goog.module('myphysicslab.lab.controls.ButtonControl');
 
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.controls.LabControl');
-
-goog.scope(function() {
-
-var LabControl = myphysicslab.lab.controls.LabControl;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A button input element which executes a function when the button is pressed.
 Displays an image if provided, otherwise the text name is displayed. The image is
@@ -31,16 +26,16 @@ assigned classname `icon` for CSS scripting.
 Can be configured so the function is executed repeatedly when the button is held down.
 See {@link #repeatDelay} and {@link #repeatFirst}.
 
+* @implements {LabControl}
+*/
+class ButtonControl {
+/**
 * @param {string} label name of the button
 * @param {!function()} clickFunction the function to execute when button is clicked
 * @param {!Node=} opt_image the image to show in the button;  if undefined then
 *     the name is displayed as text.
-* @constructor
-* @final
-* @implements {LabControl}
-* @struct
 */
-myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_image) {
+constructor(label, clickFunction, opt_image) {
   /** the name of the button
   * @type {string}
   * @private
@@ -98,10 +93,9 @@ myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_ima
   */
   this.repeatFirst = 2;
 };
-var ButtonControl = myphysicslab.lab.controls.ButtonControl;
 
 /** @override */
-ButtonControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', timeoutID_: '+this.timeoutID_
       +', repeatDelay: '+Util.NF(this.repeatDelay)
@@ -110,24 +104,24 @@ ButtonControl.prototype.toString = function() {
 };
 
 /** @override */
-ButtonControl.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'ButtonControl{label_: "'+this.label_+'"}';
 };
 
 /** @override */
-ButtonControl.prototype.disconnect = function() {
+disconnect() {
   goog.events.unlistenByKey(this.mouseDownKey_);
   goog.events.unlistenByKey(this.mouseUpKey_);
   goog.events.unlistenByKey(this.dragLeaveKey_);
 };
 
 /** @override */
-ButtonControl.prototype.getElement = function() {
+getElement() {
   return this.button_;
 };
 
 /** @override */
-ButtonControl.prototype.getParameter = function() {
+getParameter() {
   return null;
 };
 
@@ -135,7 +129,7 @@ ButtonControl.prototype.getParameter = function() {
 * @param {!goog.events.Event} evt the event that caused this callback to fire
 * @private
 */
-ButtonControl.prototype.handleClick = function(evt) {
+handleClick(evt) {
   this.holdClick();
 };
 
@@ -143,7 +137,7 @@ ButtonControl.prototype.handleClick = function(evt) {
 * @param {!goog.events.Event} evt the event that caused this callback to fire
 * @private
 */
-ButtonControl.prototype.handleMouseUp = function(evt) {
+handleMouseUp(evt) {
   if (goog.isDef(this.timeoutID_)) {
     clearTimeout(this.timeoutID_);
     this.timeoutID_ = undefined;
@@ -154,7 +148,7 @@ ButtonControl.prototype.handleMouseUp = function(evt) {
 * @return {undefined}
 * @private
 */
-ButtonControl.prototype.holdClick = function() {
+holdClick() {
   this.clickFunction_();
   if (this.repeatDelay > 0) {
     // make the first delay longer to avoid unwanted held-button repeats.
@@ -167,13 +161,14 @@ ButtonControl.prototype.holdClick = function() {
 /** Set a function to call when the button is clicked.
 * @param {function()} clickFunction the function to call when the button is clicked
 */
-ButtonControl.prototype.setClickFunction = function(clickFunction) {
+setClickFunction(clickFunction) {
   this.clickFunction_ = clickFunction;
 };
 
 /** @override */
-ButtonControl.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   this.button_.disabled = !enabled;
 };
 
-}); // goog.scope
+} //end class
+exports = ButtonControl;

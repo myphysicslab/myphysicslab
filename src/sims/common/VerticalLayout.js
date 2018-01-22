@@ -26,7 +26,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var LabCanvas = lab.view.LabCanvas;
-var LabControl = lab.controls.LabControl;
+const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

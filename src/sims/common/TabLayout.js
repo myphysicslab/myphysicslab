@@ -35,7 +35,7 @@ var lab = myphysicslab.lab;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var LabCanvas = lab.view.LabCanvas;
-var LabControl = lab.controls.LabControl;
+const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');

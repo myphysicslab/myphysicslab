@@ -46,7 +46,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
-var ButtonControl = lab.controls.ButtonControl;
+const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 var ChainOfSpringsSim = sims.springs.ChainOfSpringsSim;
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;

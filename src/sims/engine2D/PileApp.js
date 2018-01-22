@@ -45,7 +45,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var ButtonControl = lab.controls.ButtonControl;
+const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');

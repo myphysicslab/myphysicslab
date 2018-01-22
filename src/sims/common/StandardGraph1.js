@@ -53,7 +53,7 @@ var sims = myphysicslab.sims;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AutoScale = lab.graph.AutoScale;
-var ButtonControl = lab.controls.ButtonControl;
+const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = sims.common.CommonControls;
@@ -67,7 +67,7 @@ var GraphColor = lab.graph.GraphColor;
 var GraphLine = lab.graph.GraphLine;
 var HorizAlign = lab.view.HorizAlign;
 var LabCanvas = lab.view.LabCanvas;
-var LabControl = lab.controls.LabControl;
+const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 var LabView = lab.view.LabView;
 var NumericControl = lab.controls.NumericControl;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');

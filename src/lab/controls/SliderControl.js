@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
-var LabControl = myphysicslab.lab.controls.LabControl;
+const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Util = goog.module.get('myphysicslab.lab.util.Util');

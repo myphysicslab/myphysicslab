@@ -36,7 +36,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
-var ButtonControl = myphysicslab.lab.controls.ButtonControl;
+const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 var CommonControls = sims.common.CommonControls;
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var DisplayLine = lab.view.DisplayLine;
