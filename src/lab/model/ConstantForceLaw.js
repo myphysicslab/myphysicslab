@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ConstantForceLaw');
+goog.module('myphysicslab.lab.model.ConstantForceLaw');
 
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A ForceLaw that applies a single constant Force. The Force can be set to `null`, in
 which case this ForceLaw does nothing.
@@ -31,38 +25,37 @@ which case this ForceLaw does nothing.
 @todo  Be able to specify a RigidBody and location on the RigidBody,
            see for example RotatingTestForce
 
-* @param {?Force} force the constant Force to apply, or `null`
-* @constructor
-* @final
-* @struct
 * @implements {ForceLaw}
 */
-myphysicslab.lab.model.ConstantForceLaw = function(force) {
+class ConstantForceLaw {
+/**
+* @param {?Force} force the constant Force to apply, or `null`
+*/
+constructor(force) {
   /**
   * @type {?Force}
   * @private
   */
   this.force_ = force;
 };
-var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 
 /** @override */
-ConstantForceLaw.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort();
 };
 
 /** @override */
-ConstantForceLaw.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'ConstantForceLaw{force='+this.force_+'}';
 };
 
 /** @override */
-ConstantForceLaw.prototype.getBodies = function() {
+getBodies() {
   return this.force_ != null ? [this.force_.getBody()] : [];
 };
 
 /** @override */
-ConstantForceLaw.prototype.calculateForces = function() {
+calculateForces() {
   if (this.force_ != null)
     return [this.force_];
   else
@@ -70,27 +63,28 @@ ConstantForceLaw.prototype.calculateForces = function() {
 };
 
 /** @override */
-ConstantForceLaw.prototype.disconnect = function() {
+disconnect() {
 };
 
 /** Returns the constant Force that this ForceLaw applies or `null` if there is no
 Force.
 @return {?Force} the constant Force that this ForceLaw applies or `null`
 */
-ConstantForceLaw.prototype.getForce = function() {
+getForce() {
   return this.force_;
 };
 
 /** @override */
-ConstantForceLaw.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   return 0;
 };
 
 /** Sets the constant Force that this ForceLaw applies
 @param {?Force} force the constant Force that this ForceLaw should apply, or `null`
 */
-ConstantForceLaw.prototype.setForce = function(force) {
+setForce(force) {
   this.force_ = force;
 };
 
-}); // goog.scope
+} //end class
+exports = ConstantForceLaw;
