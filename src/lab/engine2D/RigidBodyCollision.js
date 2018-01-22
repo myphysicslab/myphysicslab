@@ -12,21 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.RigidBodyCollision');
+goog.module('myphysicslab.lab.engine2D.RigidBodyCollision');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
 
 /** RigidBodyCollision holds data related to a collision or resting contact between two
 RigidBodys.  The data includes:
@@ -52,7 +45,6 @@ make dozens of getter/setter methods for those fields.
 
 See explanations at [2D Physics Engine Overview](Engine2D.html).
 
-
 ## Terminology
 
 <img src="RigidBodyCollision.svg">
@@ -76,7 +68,6 @@ The ***R vector*** goes from the center of mass to the ***impact point***, on th
 primary body. Similarly, the ***R2 vector*** is on the normal body from its center of
 mass to the impact point.
 
-
 ## Distance of Collision
 
 The point of collision, or 'impact point', is where the two bodies are touching or
@@ -94,7 +85,6 @@ direction of the normal vector.  Mathematically we can define the distance as fo
 
 If distance is positive there is a gap between the objects. If distance is negative,
 then the objects are interpenetrating.
-
 
 ## Target Gap
 
@@ -135,7 +125,6 @@ Any contact exists in one of these zones, depending on its distance
 
 I also have some diagrams from around May 16, 2016 that makes the above very clear.
 
-
 ## Update State After Backing Up In Time
 
 The collision handling scheme used by {@link myphysicslab.lab.model.CollisionAdvance}
@@ -153,7 +142,6 @@ post-collision state, before the backup in time occurred. This is needed because
 RigidBodyCollisions might otherwise indicate that they do not need to be handled: they
 have negative distance (penetrating) in the post-collision state, but positive distance
 (non-penetrating) in the pre-collision state.
-
 
 ## The U Vector
 
@@ -176,7 +164,6 @@ move apart.
 
 See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik Neumann
 for modifications to contact forces when curved edges are involved.
-
 
 <a id="equivalenceofusingroruvector"></a>
 ## Equivalence of Using R or U Vector For Normal Velocity
@@ -218,18 +205,19 @@ the two bodies). Wait, also things like ballObject, ballNormal.
 they are only stored in the RBC for convenience to avoid re-calculating. (would it be
 better to do that calculating in one place?)
 
+* @abstract
+* @implements {Collision}
+*/
+class RigidBodyCollision {
+/**
 * @param {!RigidBody} body the 'primary' body which typically has a Vertex or Edge
     involved in the collision
 * @param {!RigidBody} normalBody the 'normal' body which typically has an Edge
     involved in the collision that defines the normal vector for the collision
 * @param {boolean} joint whether this is a bilateral constraint which can both
     push and pull.
-* @constructor
-* @abstract
-* @struct
-* @implements {Collision}
 */
-myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint) {
+constructor(body, normalBody, joint) {
   /** 'primary' object whose corner or edge is colliding
   * @type {!RigidBody}
   * @package
@@ -383,10 +371,9 @@ myphysicslab.lab.engine2D.RigidBodyCollision = function(body, normalBody, joint)
   */
   this.force = Util.NaN;
 };
-var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
 
 /** @override */
-RigidBodyCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
      this.getClassName() + '{distance: '+Util.NF5E(this.distance)
       +', normalVelocity_: '+Util.NF5E(this.normalVelocity_)
@@ -415,7 +402,7 @@ RigidBodyCollision.prototype.toString = function() {
 };
 
 /** @override */
-RigidBodyCollision.prototype.bilateral = function() {
+bilateral() {
   return this.joint;
 };
 
@@ -424,7 +411,7 @@ and obey policy.
 * @return {undefined}
 * @package
 */
-RigidBodyCollision.prototype.checkConsistent = function() {
+checkConsistent() {
   goog.asserts.assert(isFinite(this.accuracy_));
   goog.asserts.assert(isFinite(this.detectedTime_));
   goog.asserts.assert(isFinite(this.detectedDistance_));
@@ -451,7 +438,7 @@ RigidBodyCollision.prototype.checkConsistent = function() {
 };
 
 /** @override */
-RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
+closeEnough(allowTiny) {
   if (this.contact())
     return true;
   if (allowTiny) {
@@ -472,7 +459,7 @@ RigidBodyCollision.prototype.closeEnough = function(allowTiny) {
 };
 
 /** @override */
-RigidBodyCollision.prototype.contact = function() {
+contact() {
   return this.joint || Math.abs(this.getNormalVelocity()) < this.velocityTol_ &&
     this.distance > 0 && this.distance < this.distanceTol_;
 };
@@ -481,7 +468,7 @@ RigidBodyCollision.prototype.contact = function() {
 when the distance is 'half gap', which is when this returns zero.
 @return {number} distance to the target 'half gap' distance.
 */
-RigidBodyCollision.prototype.distanceToHalfGap = function() {
+distanceToHalfGap() {
   return this.distance - this.targetGap_;
 };
 
@@ -489,7 +476,7 @@ RigidBodyCollision.prototype.distanceToHalfGap = function() {
 * @return {string} name of class of this object.
 * @abstract
 */
-RigidBodyCollision.prototype.getClassName = function() {};
+getClassName() {};
 
 /** Returns the Connector that generated this collision, or null if this collision
 * was not generated by a Connector.
@@ -497,17 +484,17 @@ RigidBodyCollision.prototype.getClassName = function() {};
 *     collision, or null
 * @package
 */
-RigidBodyCollision.prototype.getConnector = function() {
+getConnector() {
   return null;
 };
 
 /** @override */
-RigidBodyCollision.prototype.getDetectedTime = function() {
+getDetectedTime() {
   return this.detectedTime_;
 };
 
 /** @override */
-RigidBodyCollision.prototype.getDistance = function() {
+getDistance() {
   return this.distance;
 };
 
@@ -517,12 +504,12 @@ perfect elasticity where the kinetic energy after collision is the same as befor
 uses the lesser elasticity value of the two bodies involved.
 * @return {number} elasticity used when calculating collisions, a number from 0 to 1.
 */
-RigidBodyCollision.prototype.getElasticity = function() {
+getElasticity() {
   return this.elasticity_;
 };
 
 /** @override */
-RigidBodyCollision.prototype.getEstimatedTime = function() {
+getEstimatedTime() {
   return this.estimate_;
 };
 
@@ -530,7 +517,7 @@ RigidBodyCollision.prototype.getEstimatedTime = function() {
 * @return {!Vector} point of impact on the primary body, in global coords
 * @package
 */
-RigidBodyCollision.prototype.getImpact1 = function() {
+getImpact1() {
   return this.impact1;
 };
 
@@ -540,12 +527,12 @@ needed for Rope because the impact points are far apart. Often null when only
 * @return {?Vector} point of impact on normal body, in global coords, or null
 * @package
 */
-RigidBodyCollision.prototype.getImpact2 = function() {
+getImpact2() {
   return this.impact2;
 };
 
 /** @override */
-RigidBodyCollision.prototype.getImpulse = function() {
+getImpulse() {
   return this.impulse;
 };
 
@@ -555,7 +542,7 @@ RigidBodyCollision.prototype.getImpulse = function() {
 *    at the point of contact.
 * @package
 */
-RigidBodyCollision.prototype.getLateralVelocity = function() {
+getLateralVelocity() {
   // the perpendicular vector to normal is:  (-normal.getY(), normal.getX())
   // or (normal.getY(), -normal.getX())
   var perp = new Vector(-this.normal.getY(), this.normal.getX());
@@ -568,7 +555,7 @@ RigidBodyCollision.prototype.getLateralVelocity = function() {
 * @return {!RigidBody} the normal body involved in the collision
 * @package
 */
-RigidBodyCollision.prototype.getNormalBody = function() {
+getNormalBody() {
   return this.normalBody;
 };
 
@@ -579,7 +566,7 @@ positive velocity means they are moving apart.
 * @return {number} relative normal velocity between the two bodies
 *    at the point of contact.
 */
-RigidBodyCollision.prototype.getNormalVelocity = function() {
+getNormalVelocity() {
   if (isNaN(this.normalVelocity_)) {
     this.normalVelocity_ = this.normal.dotProduct(this.getRelativeVelocity());
     goog.asserts.assert(!isNaN(this.normalVelocity_));
@@ -592,7 +579,7 @@ RigidBodyCollision.prototype.getNormalVelocity = function() {
 * @return {!Vector} vector from center of mass of primary body to point of impact,
 * in world coords
 */
-RigidBodyCollision.prototype.getR1 = function() {
+getR1() {
   return this.impact1.subtract(this.primaryBody.getPosition());
 };
 
@@ -601,7 +588,7 @@ RigidBodyCollision.prototype.getR1 = function() {
 * @return {!Vector} vector from center of mass of normal body to point of impact,
 * in world coords
 */
-RigidBodyCollision.prototype.getR2 = function() {
+getR2() {
   var impact = this.impact2 ? this.impact2 : this.impact1;
   return impact.subtract(this.normalBody.getPosition());
 };
@@ -612,7 +599,7 @@ RigidBodyCollision.prototype.getR2 = function() {
 * @return {!RigidBody} the primary body involved in the collision
 * @package
 */
-RigidBodyCollision.prototype.getPrimaryBody = function() {
+getPrimaryBody() {
   return this.primaryBody;
 };
 
@@ -635,7 +622,7 @@ distance at all.
 * @return {!Vector} the velocity vector of this collision
 * @package
 */
-RigidBodyCollision.prototype.getRelativeVelocity = function() {
+getRelativeVelocity() {
   var vax = 0;
   var vay = 0;
   var vbx = 0;
@@ -668,7 +655,7 @@ RigidBodyCollision.prototype.getRelativeVelocity = function() {
 * @return {!Vector} vector from center of mass of primary body to either point
 * of impact or to center of circular edge in world coords
 */
-RigidBodyCollision.prototype.getU1 = function() {
+getU1() {
   return this.getR1();
 };
 
@@ -678,12 +665,12 @@ RigidBodyCollision.prototype.getU1 = function() {
 * @return {!Vector} vector from center of mass of normal body to either point
 * of impact or to center of circular edge, in world coords
 */
-RigidBodyCollision.prototype.getU2 = function() {
+getU2() {
   return this.getR2();
 };
 
 /** @override */
-RigidBodyCollision.prototype.getVelocity = function() {
+getVelocity() {
   return this.getNormalVelocity();
 };
 
@@ -692,7 +679,7 @@ RigidBodyCollision.prototype.getVelocity = function() {
 * @return {boolean} whether collision involves the given RigidBody
 * @package
 */
-RigidBodyCollision.prototype.hasBody = function(body) {
+hasBody(body) {
   return this.primaryBody == body || this.normalBody == body;
 };
 
@@ -702,7 +689,7 @@ RigidBodyCollision.prototype.hasBody = function(body) {
 * @return {boolean} whether collision involves the given Edge
 * @package
 */
-RigidBodyCollision.prototype.hasEdge = function(edge) {
+hasEdge(edge) {
   return false;
 };
 
@@ -711,12 +698,12 @@ RigidBodyCollision.prototype.hasEdge = function(edge) {
 * @return {boolean} whether collision involves the given Vertex
 * @package
 */
-RigidBodyCollision.prototype.hasVertex = function(v) {
+hasVertex(v) {
   return false;
 };
 
 /** @override */
-RigidBodyCollision.prototype.illegalState = function() {
+illegalState() {
   if (this.joint) {
     return false;
   }
@@ -724,7 +711,7 @@ RigidBodyCollision.prototype.illegalState = function() {
 };
 
 /** @override */
-RigidBodyCollision.prototype.isColliding = function() {
+isColliding() {
   if (this.joint) {
     return false; // joints are never colliding
   }
@@ -740,12 +727,12 @@ RigidBodyCollision.prototype.isColliding = function() {
 };
 
 /** @override */
-RigidBodyCollision.prototype.isTouching = function() {
+isTouching() {
   return this.joint || this.distance < this.distanceTol_;
 };
 
 /** @override */
-RigidBodyCollision.prototype.needsHandling = function() {
+needsHandling() {
   return this.mustHandle_;
 };
 
@@ -756,7 +743,7 @@ collision occurred.
 @throws {!Error} if the detected time has been previously set
 @package
 */
-RigidBodyCollision.prototype.setDetectedTime = function(time) {
+setDetectedTime(time) {
   if (isFinite(this.detectedTime_)) {
     throw new Error('detectedTime_ already set '+this);
   }
@@ -778,7 +765,7 @@ RigidBodyCollision.prototype.setDetectedTime = function(time) {
 };
 
 /** @override */
-RigidBodyCollision.prototype.setNeedsHandling = function(needsHandling) {
+setNeedsHandling(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
 
@@ -789,7 +776,7 @@ mechanisms, and this is used when deciding which collision of those to keep.
 * @return {boolean} true if the two collisions are possibly the same collision
 * @abstract
 */
-RigidBodyCollision.prototype.similarTo = function(c) {};
+similarTo(c) {};
 
 /** Updates the information in the collision to reflect current position and velocity of
 bodies. Changes the impact point to be the nearest point between the bodies (as long as
@@ -811,7 +798,7 @@ by for example {@link myphysicslab.lab.engine2D.RigidBodySim#modifyObjects}.
 @param {number} time  the current simulation time
 @package
 */
-RigidBodyCollision.prototype.updateCollision = function(time) {
+updateCollision(time) {
   if (!isFinite(this.distance))
     throw new Error('distance is NaN '+this);
   this.normalVelocity_ = Util.NaN; // invalidate cached value
@@ -860,7 +847,7 @@ RigidBodyCollision.prototype.updateCollision = function(time) {
 * @param {boolean} doUpdate
 * @private
 */
-RigidBodyCollision.prototype.updateEstimatedTime = function(time, doUpdate) {
+updateEstimatedTime(time, doUpdate) {
   var t1 = time;
   var t2 = this.detectedTime_;
   var d1 = this.distance;
@@ -910,4 +897,5 @@ RigidBodyCollision.prototype.updateEstimatedTime = function(time, doUpdate) {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = RigidBodyCollision;

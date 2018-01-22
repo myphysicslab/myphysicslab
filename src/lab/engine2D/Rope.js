@@ -33,7 +33,7 @@ var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const Line = goog.module.get('myphysicslab.lab.model.Line');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var RigidBodyCollision = myphysicslab.lab.engine2D.RigidBodyCollision;
+const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
