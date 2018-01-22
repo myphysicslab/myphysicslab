@@ -43,7 +43,7 @@ var sims = myphysicslab.sims;
 
 var CommonControls = sims.common.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;
-var CoordType = lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var DampingLaw = lab.model.DampingLaw;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;

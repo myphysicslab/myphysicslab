@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const Line = goog.module.get('myphysicslab.lab.model.Line');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');

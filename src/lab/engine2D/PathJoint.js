@@ -35,7 +35,7 @@ goog.scope(function() {
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 var PathPoint = myphysicslab.lab.model.PathPoint;

@@ -38,7 +38,7 @@ var sims = myphysicslab.sims;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
 var Joint = myphysicslab.lab.engine2D.Joint;

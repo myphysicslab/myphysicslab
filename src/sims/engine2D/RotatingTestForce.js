@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.util.Vector');
 
 goog.scope(function() {
 
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;

@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;

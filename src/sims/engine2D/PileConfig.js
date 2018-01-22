@@ -31,7 +31,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var ContactSim = lab.engine2D.ContactSim;
-var CoordType = lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var JointUtil = lab.engine2D.JointUtil;
 var Polygon = lab.engine2D.Polygon;

@@ -32,7 +32,7 @@ goog.scope(function() {
 
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ConnectorCollision = myphysicslab.lab.engine2D.ConnectorCollision;
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;

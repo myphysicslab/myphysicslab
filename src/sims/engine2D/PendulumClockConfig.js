@@ -31,7 +31,7 @@ goog.scope(function() {
 
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var Edge = myphysicslab.lab.engine2D.Edge;
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
 var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;

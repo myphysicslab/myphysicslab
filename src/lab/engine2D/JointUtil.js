@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var Joint = myphysicslab.lab.engine2D.Joint;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
 var Scrim = myphysicslab.lab.engine2D.Scrim;

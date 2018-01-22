@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.CoordType');
+goog.module('myphysicslab.lab.model.CoordType');
 
 /** Enum that specifies whether a {@link myphysicslab.lab.util.Vector} is
 in body or world coordinates. See [Body Coordinates](Engine2D.html#bodycoordinates)
@@ -21,9 +21,10 @@ in 2D Physics Engine Overview and {@link myphysicslab.lab.model.MassObject}.
 * @readonly
 * @enum {number}
 */
-myphysicslab.lab.model.CoordType = {
+const CoordType = {
   /** Specifies that a Vector is in body coordinates */
   BODY: 0,
   /** Specifies that a Vector is in world coordinates */
   WORLD: 1
 };
+exports = CoordType;

@@ -1142,6 +1142,10 @@ needed for [Performance Tests][].
 
 ## Global Namespace Path
 
+**NOTE: THIS IS ALL CHANGING AS OF JAN 2018... CONVERTING TO USE GOOG.MODULE**
+See https://github.com/google/closure-library/wiki/goog.module:-an-ES6-module-like-alternative-to-goog.provide
+
+
 Each object must be accessible from the global namespace, otherwise it is garbage
 collected. Conversely, to free an object we simply erase any references to it that are
 visible from the global namespace. In JavaScript, global variables are properties of

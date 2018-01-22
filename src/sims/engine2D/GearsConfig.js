@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var ConcreteVertex = myphysicslab.lab.engine2D.ConcreteVertex;
-var CoordType = myphysicslab.lab.model.CoordType;
+const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var Edge = myphysicslab.lab.engine2D.Edge;
 var Polygon = myphysicslab.lab.engine2D.Polygon;
 var RigidBody = myphysicslab.lab.engine2D.RigidBody;
