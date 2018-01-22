@@ -44,7 +44,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var ChainConfig = sims.engine2D.ChainConfig;
-var CheckBoxControl = lab.controls.CheckBoxControl;
+const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;

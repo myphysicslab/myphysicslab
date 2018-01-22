@@ -86,7 +86,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var CheckBoxControl = lab.controls.CheckBoxControl;
+const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 var ChoiceControl = lab.controls.ChoiceControl;
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');

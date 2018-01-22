@@ -58,7 +58,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var CheckBoxControl = lab.controls.CheckBoxControl;
+const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 var CommonControls = sims.common.CommonControls;
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;

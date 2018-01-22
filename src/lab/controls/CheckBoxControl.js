@@ -12,31 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.CheckBoxControl');
+goog.module('myphysicslab.lab.controls.CheckBoxControl');
 
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.controls.CheckBoxControlBase');
-
-goog.scope(function() {
-
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var CheckBoxControlBase = myphysicslab.lab.controls.CheckBoxControlBase;
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const CheckBoxControlBase = goog.require('myphysicslab.lab.controls.CheckBoxControlBase');
 
 /** A checkbox input element that is synchronized with a {@link ParameterBoolean}.
 
+*/
+class CheckBoxControl extends CheckBoxControlBase {
+/**
 * @param {!myphysicslab.lab.util.ParameterBoolean} parameter  the ParameterBoolean to
 *     synchronize with
 * @param {!HTMLInputElement=} checkBox  the check box to use; if not provided, then
 *     a check box is created.
-* @constructor
-* @final
-* @struct
-* @extends {CheckBoxControlBase}
 */
-myphysicslab.lab.controls.CheckBoxControl = function(parameter, checkBox) {
-  CheckBoxControlBase.call(this, parameter.getName(/*localized=*/true),
+constructor(parameter, checkBox) {
+  super(parameter.getName(/*localized=*/true),
       goog.bind(parameter.getValue, parameter),
       goog.bind(parameter.setValue, parameter),
       checkBox);
@@ -47,38 +40,37 @@ myphysicslab.lab.controls.CheckBoxControl = function(parameter, checkBox) {
   this.parameter_ = parameter;
   this.parameter_.getSubject().addObserver(this);
 };
-var CheckBoxControl = myphysicslab.lab.controls.CheckBoxControl;
-goog.inherits(CheckBoxControl, CheckBoxControlBase);
 
 /** @override */
-CheckBoxControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      CheckBoxControl.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       + ', parameter_: '+this.parameter_.toStringShort()+'}';
 };
 
 /** @override */
-CheckBoxControl.prototype.disconnect = function() {
-  CheckBoxControl.superClass_.disconnect.call(this);
+disconnect() {
+  super.disconnect();
   this.parameter_.getSubject().removeObserver(this);
 };
 
 /** @override */
-CheckBoxControl.prototype.getClassName = function() {
+getClassName() {
   return 'CheckBoxControl';
 };
 
 /** @override */
-CheckBoxControl.prototype.getParameter = function() {
+getParameter() {
   return this.parameter_;
 };
 
 /** @override */
-CheckBoxControl.prototype.observe =  function(event) {
+observe(event) {
   // only update when this parameter has changed
   if (event == this.parameter_) {
-    CheckBoxControl.superClass_.observe.call(this, event);
+    super.observe(event);
   }
 };
 
-}); // goog.scope
+} //end class
+exports = CheckBoxControl;

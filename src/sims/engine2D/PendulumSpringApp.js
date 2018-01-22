@@ -46,7 +46,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var AutoScale = lab.graph.AutoScale;
-var CheckBoxControl = lab.controls.CheckBoxControl;
+const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 var ChoiceControl = lab.controls.ChoiceControl;
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;

@@ -46,7 +46,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-var CheckBoxControl = lab.controls.CheckBoxControl;
+const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 var ChoiceControl = lab.controls.ChoiceControl;
 const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');

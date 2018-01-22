@@ -40,7 +40,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-var CheckBoxControl = lab.controls.CheckBoxControl;
+const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 var ChoiceControl = lab.controls.ChoiceControl;
 var CommonControls = sims.common.CommonControls;
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
