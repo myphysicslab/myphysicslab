@@ -1161,9 +1161,9 @@ ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
 * @private
 */
 ContactSim.matrixDiff = function(A1, A2) {
+  /** @type {number} */
+  var s = 0;
   if (Util.DEBUG) {
-    /** @type {number} */
-    var s = 0;
     for (var i=0, len=A1.length; i<len; i++) {
       for (var j=0, len2=A1[i].length; j<len2; j++) {
         var t = A1[i][j] - A2[i][j];
@@ -1178,8 +1178,8 @@ ContactSim.matrixDiff = function(A1, A2) {
         }
       }
     }
-    return s;
   }
+  return s;
 };
 
 /**

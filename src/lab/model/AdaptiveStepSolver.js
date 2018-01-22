@@ -21,7 +21,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
+const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
 var ODESim = myphysicslab.lab.model.ODESim;
 const Util = goog.module.get('myphysicslab.lab.util.Util');

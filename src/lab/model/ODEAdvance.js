@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.model.DiffEqSolver');
 
 goog.scope(function() {
 
-var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
+const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 
 /** An AdvanceStrategy for advancing an {@link myphysicslab.lab.model.ODESim}
 thru time.

@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var DiffEqSolver = myphysicslab.lab.model.DiffEqSolver;
+const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var ODEAdvance = myphysicslab.lab.model.ODEAdvance;
 var ODESim = myphysicslab.lab.model.ODESim;

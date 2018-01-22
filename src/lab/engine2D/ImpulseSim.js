@@ -1209,10 +1209,10 @@ means either:
 @private
 */
 ImpulseSim.largestVelocity = function(joint, b) {
+  var max = 0;
   if (Util.DEBUG) {
     var i;
     var n = b.length;
-    var max = 0;
     for (i=0; i<n; i++) {
       if (joint[i]) {
         if (Math.abs(b[i]) > max) {
@@ -1224,8 +1224,8 @@ ImpulseSim.largestVelocity = function(joint, b) {
         }
       }
     }
-    return max;
-  };
+  }
+  return max;
 };
 
 /** Pick a collision to focus on, either randomly or the 'biggest'.

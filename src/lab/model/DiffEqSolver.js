@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.DiffEqSolver');
+goog.module('myphysicslab.lab.model.DiffEqSolver');
 
-goog.require('myphysicslab.lab.util.Printable');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** Solves an ordinary differential equation expressed as an
 {@link myphysicslab.lab.model.ODESim ODESim} by advancing it in small time increments.
@@ -22,9 +22,8 @@ The differential equation is specified by the ODESim's
 {@link myphysicslab.lab.model.ODESim#evaluate evaluate()} method.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.model.DiffEqSolver = function() {};
+class DiffEqSolver extends Printable {
 
 /** Name of this object, either the language-independent name for scripting
 purposes or the localized name for display to user.
@@ -37,7 +36,7 @@ see {@link myphysicslab.lab.util.Util#toName} and {@link #nameEquals}.
     default is `false` which means return the language independent name.
 @return {string} name of this object
 */
-myphysicslab.lab.model.DiffEqSolver.prototype.getName;
+getName(opt_localized) {}
 
 /** Whether this DiffEqSolver has the given name, adjusting for the transformation to a
 language-independent form of the name, as is done by
@@ -46,7 +45,7 @@ language-independent form of the name, as is done by
 @return {boolean} whether this DiffEqSolver has the given name (adjusted to
     language-independent form)
 */
-myphysicslab.lab.model.DiffEqSolver.prototype.nameEquals;
+nameEquals(name) {}
 
 /** Advances the associated ODESim by the given small time increment, which results in
 modifiying the state variables of the ODESim. Modifies the variables array obtained from
@@ -56,4 +55,7 @@ from {@link myphysicslab.lab.model.ODESim#evaluate}.
 @return {?Object}  null if the step succeeds, otherwise an Object
 relating to the error that occurred
 */
-myphysicslab.lab.model.DiffEqSolver.prototype.step;
+step(stepSize) {}
+
+} // end class
+exports = DiffEqSolver;
