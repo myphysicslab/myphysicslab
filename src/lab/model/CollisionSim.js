@@ -12,26 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.CollisionSim');
+goog.module('myphysicslab.lab.model.CollisionSim');
 
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.CollisionTotals');
-goog.require('myphysicslab.lab.model.ODESim');
-
-goog.scope(function() {
-
-var Collision = myphysicslab.lab.model.Collision;
-var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const CollisionTotals = goog.require('myphysicslab.lab.model.CollisionTotals');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
 
 /** An ODESim simulation that detects and handles collisions between objects.
 
 * @interface
-* @extends {ODESim}
 */
-myphysicslab.lab.model.CollisionSim = function() {};
-
-var CollisionSim = myphysicslab.lab.model.CollisionSim;
+class CollisionSim extends ODESim {
 
 /** Finds collisions based on the passed in state variables. Can rely on
 {@link ODESim#modifyObjects} having been called prior, with this
@@ -46,7 +37,7 @@ that are duplicates of those already on the list.
 @param {!Array<number>} vars  the current array of state variables
 @param {number} stepSize the size of the current time step, in seconds
 */
-CollisionSim.prototype.findCollisions;
+findCollisions(collisions, vars, stepSize) {}
 
 /** Adjusts the simulation state based on the given Collisions.
 For example, this might reverse the velocities of objects colliding against a wall.
@@ -63,12 +54,13 @@ before handling Collisions.
 @return {boolean} true if was able to handle the collision, changing state of
     simulation.
 */
-CollisionSim.prototype.handleCollisions;
+handleCollisions(collisions, opt_totals) {}
 
 /** For debugging, specify a function that will paint canvases, so that you can see the
 simulation while stepping thru with debugger.
 * @param {?function():undefined} fn function that will paint canvases
 */
-CollisionSim.prototype.setDebugPaint;
+setDebugPaint(fn) {}
 
-}); // goog.scope
+} //end class
+exports = CollisionSim;

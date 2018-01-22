@@ -28,8 +28,8 @@ goog.require('myphysicslab.test.ExpectedPerf');
 
 goog.scope(function() {
 
-var Collision = myphysicslab.lab.model.Collision;
-var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
+const Collision = goog.module.get('myphysicslab.lab.model.Collision');
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var Connector = myphysicslab.lab.engine2D.Connector;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var Joint = myphysicslab.lab.engine2D.Joint;

@@ -35,7 +35,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var ChoiceControl = lab.controls.ChoiceControl;
-var CollisionAdvance = lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;

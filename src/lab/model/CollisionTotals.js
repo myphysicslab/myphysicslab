@@ -12,21 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.CollisionTotals');
+goog.module('myphysicslab.lab.model.CollisionTotals');
 
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Keeps long term statistics about collision handling, for testing, debugging,
 and performance measurement.
-
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.model.CollisionTotals = function() {
+class CollisionTotals {
+constructor() {
   /** number of times we had to do a binary search for collision
   * @type {number}
   * @private
@@ -53,10 +47,9 @@ myphysicslab.lab.model.CollisionTotals = function() {
   */
   this.backups_ = 0;
 };
-var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
 
 /** @override */
-CollisionTotals.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'CollisionTotals{searches: '+this.searches_
       +', impulses: '+this.impulses_
       +', collisions: '+this.collisions_
@@ -70,21 +63,21 @@ because a collision was detected.
 * @param {number} backups additional number of times that simulation was backed
     up in time.
 */
-CollisionTotals.prototype.addBackups = function(backups) {
+addBackups(backups) {
   this.backups_ += backups;
 };
 
 /** Adds to number of collisions handled.
 * @param {number} collisions additional number of collisions handled
 */
-CollisionTotals.prototype.addCollisions = function(collisions) {
+addCollisions(collisions) {
   this.collisions_ += collisions;
 };
 
 /** Adds to number of impulses applied.
 * @param {number} impulses additional number of impulses applied
 */
-CollisionTotals.prototype.addImpulses = function(impulses) {
+addImpulses(impulses) {
   this.impulses_ += impulses;
 };
 
@@ -93,7 +86,7 @@ A binary search occurs when we don't have an accurate estimate of the time
 that a collision occurs.
 * @param {number} searches additional number of binary searches completed
 */
-CollisionTotals.prototype.addSearches = function(searches) {
+addSearches(searches) {
   this.searches_ += searches;
 };
 
@@ -101,7 +94,7 @@ CollisionTotals.prototype.addSearches = function(searches) {
 * @param {number} steps additional number of times that the DiffEqSolver
     stepped the simulation forward.
 */
-CollisionTotals.prototype.addSteps = function(steps) {
+addSteps(steps) {
   this.steps_ += steps;
 };
 
@@ -109,14 +102,14 @@ CollisionTotals.prototype.addSteps = function(steps) {
 an earlier state because a collision was detected.
 @return {number} total number of times simulation state was moved back in time
 */
-CollisionTotals.prototype.getBackups = function() {
+getBackups() {
   return this.backups_;
 };
 
 /** Returns total cumulative number of collisions that have been handled.
 @return {number} number of collisions handled
 */
-CollisionTotals.prototype.getCollisions = function() {
+getCollisions() {
   return this.collisions_;
 };
 
@@ -125,7 +118,7 @@ larger than the number of collisions when the collision handling applies several
 impulses as collisions ricochet back and forth during a single collision event.
 @return {number} number of impulses applied
 */
-CollisionTotals.prototype.getImpulses = function() {
+getImpulses() {
   return this.impulses_;
 };
 
@@ -134,21 +127,21 @@ A binary search occurs when we don't have an accurate estimate of the time
 that a collision occurs.
 @return {number} number of collision searches done
 */
-CollisionTotals.prototype.getSearches = function() {
+getSearches() {
   return this.searches_;
 };
 
 /** Returns total cumulative number of DiffEqSolver steps that have been done.
 @return {number} total number of DiffEqSolver steps done.
 */
-CollisionTotals.prototype.getSteps = function() {
+getSteps() {
   return this.steps_;
 };
 
 /** Resets the various collision statistics to zero.
 * @return {undefined}
 */
-CollisionTotals.prototype.reset = function() {
+reset() {
   this.impulses_ = 0;
   this.collisions_ = 0;
   this.steps_ = 0;
@@ -156,4 +149,5 @@ CollisionTotals.prototype.reset = function() {
   this.backups_ = 0;
 };
 
-}); // goog.scope
+} //end class
+exports = CollisionTotals;

@@ -36,7 +36,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 var CollideBlocksSim = sims.springs.CollideBlocksSim;
-var CollisionAdvance = lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;

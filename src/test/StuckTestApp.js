@@ -36,7 +36,7 @@ var sims = myphysicslab.sims;
 
 var ChoiceControl = lab.controls.ChoiceControl;
 var CircleStraightTest = myphysicslab.test.CircleStraightTest;
-var CollisionAdvance = lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');

@@ -40,7 +40,7 @@ goog.require('myphysicslab.lab.model.DampingLaw');
 goog.scope(function() {
 
 var DampingLaw = myphysicslab.lab.model.DampingLaw;
-var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;

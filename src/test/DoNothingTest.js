@@ -33,7 +33,7 @@ goog.require('myphysicslab.test.Engine2DTestRig');
 
 goog.scope(function() {
 
-var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ConstantForceLaw = myphysicslab.lab.model.ConstantForceLaw;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;

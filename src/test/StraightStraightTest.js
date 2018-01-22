@@ -36,7 +36,7 @@ goog.require('myphysicslab.test.TestShapes');
 
 goog.scope(function() {
 
-var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var DampingLaw = myphysicslab.lab.model.DampingLaw;

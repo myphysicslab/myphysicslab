@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var Collision = myphysicslab.lab.model.Collision;
+const Collision = goog.module.get('myphysicslab.lab.model.Collision');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

@@ -42,7 +42,7 @@ var sims = myphysicslab.sims;
 
 var CheckBoxControl = lab.controls.CheckBoxControl;
 var ChoiceControl = lab.controls.ChoiceControl;
-var CollisionAdvance = lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');

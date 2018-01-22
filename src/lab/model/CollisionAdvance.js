@@ -12,29 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.CollisionAdvance');
+goog.module('myphysicslab.lab.model.CollisionAdvance');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.ODEAdvance');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.CollisionSim');
-goog.require('myphysicslab.lab.model.CollisionStats');
-goog.require('myphysicslab.lab.model.CollisionTotals');
-goog.require('myphysicslab.lab.model.DiffEqSolver');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var Collision = myphysicslab.lab.model.Collision;
-var CollisionSim = myphysicslab.lab.model.CollisionSim;
-var CollisionStats = myphysicslab.lab.model.CollisionStats;
-var CollisionTotals = myphysicslab.lab.model.CollisionTotals;
-const DiffEqSolver = goog.module.get('myphysicslab.lab.model.DiffEqSolver');
-const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
+const CollisionStats = goog.require('myphysicslab.lab.model.CollisionStats');
+const CollisionTotals = goog.require('myphysicslab.lab.model.CollisionTotals');
+const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
+const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Handles collisions by backing up in time with binary search algorithm. For better
 performance uses collision time estimates and handles imminent collisions.
@@ -60,15 +49,15 @@ WayPoints.
 See [Observing The Collision Handling Process](Engine2D.html#observingthecollisionhandlingprocess)
 in 2D Physics Engine Overview, and {@link CollisionAdvance.DebugLevel}.
 
+* @implements {ODEAdvance}
+*/
+class CollisionAdvance {
+/**
 * @param {!CollisionSim} sim the CollisionSim to advance in time
 * @param {!DiffEqSolver=} opt_diffEqSolver the DiffEqSolver to use, default is
 *     RungeKutta
-* @constructor
-* @final
-* @struct
-* @implements {ODEAdvance}
 */
-myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
+constructor(sim, opt_diffEqSolver) {
   /**
   * @type {!CollisionSim}
   * @private
@@ -218,9 +207,8 @@ myphysicslab.lab.model.CollisionAdvance = function(sim, opt_diffEqSolver) {
   */
   this.collisionCounter_ = 0;
 };
-var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 
-CollisionAdvance.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', odeSolver_: '+this.odeSolver_.toStringShort()
       +', jointSmallImpacts_: '+this.jointSmallImpacts_
@@ -228,113 +216,22 @@ CollisionAdvance.prototype.toString = function() {
 };
 
 /** @override */
-CollisionAdvance.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'CollisionAdvance{sim_: '+this.sim_.toStringShort()+'}';
 };
-
-/** The maximum number of times to go thru the loop in `advance()` without a successful
-step that advances the simulation time; when this limit is exceeded then `advance()`
-returns `false` to indicate it was unable to advance the simulation.
-* @type {number}
-* @const
-* @private
-*/
-CollisionAdvance.MAX_STUCK_COUNT = 30;
-
-/** Enum that specifies pre-defined groups of debug messages to show.
-* @readonly
-* @enum {number}
-*/
-CollisionAdvance.DebugLevel = {
-  /** no debug messages */
-  NONE: 0,
-  /** low debug level: shows brief summary of number of collisions handled */
-  LOW: 1,
-  /** medium debug level: shows all collisions that are handled */
-  MEDIUM: 2,
-  /** optimal debug level: best for understanding how collisions are handled */
-  OPTIMAL: 3,
-  /** high debug level: shows full set of debug messages */
-  HIGH: 4,
-  /** custom debug level: shows a customized set of debug messages */
-  CUSTOM: 5
-};
-
-/** Enum that specifies debugging 'way points' for {@link CollisionAdvance}. A WayPoint
-is a step of the AdvanceStrategy process where debug info can be printed.
-* @readonly
-* @enum {number}
-*/
-CollisionAdvance.WayPoint = {
-  /** at start of advance method */
-  START: 0,
-  /** when advanced without backup */
-  ADVANCED_NO_BACKUP: 1,
-  /** at finish of advance method */
-  FINISH: 2,
-  /** when starting to advance the simulation a step */
-  ADVANCE_SIM_START: 3,
-  /** when trying to advance the simulation a step fails */
-  ADVANCE_SIM_FAIL: 4,
-  /** when advancing the simulation advances a step, but there are collisions */
-  ADVANCE_SIM_COLLIDING: 5,
-  /** when finished advancing the simulation a step */
-  ADVANCE_SIM_FINISH: 6,
-  /** when starting to backup after a collision detected. */
-  POST_COLLISION: 7,
-  /** when finished backup after a collision detected. */
-  PRE_COLLISION: 8,
-  /** when starting to handle collisions. */
-  HANDLE_COLLISION_START: 9,
-  /** when removing distant-in-time collisions */
-  HANDLE_REMOVE_DISTANT: 10,
-  /** when successfully handled collisions. */
-  HANDLE_COLLISION_SUCCESS: 11,
-  /** when unable to handle collisions. */
-  HANDLE_COLLISION_FAIL: 12,
-  /** when starting to handle small impacts */
-  SMALL_IMPACTS_START: 13,
-  /** when finished handling small impacts */
-  SMALL_IMPACTS_FINISH: 14,
-  /** when failed to find collision during binary search */
-  BINARY_SEARCH_FAIL: 15,
-  /** when estimating time of next step */
-  NEXT_STEP_ESTIMATE: 16,
-  /** when calculating next step during binary search. */
-  NEXT_STEP_BINARY: 17,
-  /** when stuck, unable to advance. */
-  STUCK: 18,
-  /** at finish, show summary of collisions handled */
-  SUMMARY: 19,
-  /** when handling collisions, show list of collisions to handle */
-  COLLISIONS_TO_HANDLE: 20,
-  /** small impacts summary */
-  SMALL_IMPACTS: 21,
-  /** when no estimate or binary search, then take full step */
-  NEXT_STEP_FULL: 22,
-  /** when estimate of collision time is in the past, switch to binary search */
-  ESTIMATE_IN_PAST: 23,
-  /** when there are collisions that need handling, but no estimate of collision time,
-  * switch to binary search */
-  NO_ESTIMATE: 24,
-  /** We had an estimate for collision time, but didn't find a collision */
-  ESTIMATE_FAILED: 25,
-  /** When we back up many times in a row without advancing, we may be stuck. */
-  MAYBE_STUCK: 26
-};
-var WayPoint = CollisionAdvance.WayPoint;
 
 /** Adds a group of WayPoints to show debug messages to the existing set of WayPoints.
 * @param {!Array<!CollisionAdvance.WayPoint>} wayPoints  array
 * of WayPoints to add
 */
-CollisionAdvance.prototype.addWayPoints = function(wayPoints) {
+addWayPoints(wayPoints) {
   this.wayPoints_ = goog.array.concat(this.wayPoints_, wayPoints);
 };
 
 /** @override */
-CollisionAdvance.prototype.advance = function(timeStep, opt_memoList) {
+advance(timeStep, opt_memoList) {
+  var WayPoint = CollisionAdvance.WayPoint;
   if (timeStep < 1E-16) {
     this.sim_.modifyObjects();
     return true;
@@ -488,7 +385,7 @@ CollisionAdvance.prototype.advance = function(timeStep, opt_memoList) {
 * @return {!Array<number>} minimum velocities
 * @private
 */
-CollisionAdvance.prototype.allVelocities = function(collisions) {
+allVelocities(collisions) {
   return goog.array.map(collisions, function(c, index, array) {
     return c.getVelocity();
   });
@@ -498,7 +395,8 @@ CollisionAdvance.prototype.allVelocities = function(collisions) {
 * @param {boolean} didBackup
 * @private
 */
-CollisionAdvance.prototype.calc_next_step = function(didBackup) {
+calc_next_step(didBackup) {
+  var WayPoint = CollisionAdvance.WayPoint;
   // assumes that stats are up-to-date
   this.nextEstimate_ = this.stats_.estTime;
   if (!this.binarySearch_) {
@@ -555,7 +453,7 @@ collisions
 @return {undefined}
 @private
 */
-CollisionAdvance.prototype.checkNoneCollide = function() {
+checkNoneCollide() {
   if (Util.DEBUG) {
     var numIllegal = 0;
     goog.array.forEach(this.collisions_, function(c) {
@@ -580,7 +478,8 @@ CollisionAdvance.prototype.checkNoneCollide = function() {
 * @return {boolean}
 * @private
 */
-CollisionAdvance.prototype.do_advance_sim = function(stepSize) {
+do_advance_sim(stepSize) {
+  var WayPoint = CollisionAdvance.WayPoint;
   goog.asserts.assert(!isNaN(stepSize) && isFinite(stepSize));
   this.collisions_ = [];
   // ===================== save current state =====================
@@ -664,7 +563,8 @@ always in a legal state.
 * @return {undefined}
 * @private
 */
-CollisionAdvance.prototype.do_backup = function(stepSize) {
+do_backup(stepSize) {
+  var WayPoint = CollisionAdvance.WayPoint;
   this.print(WayPoint.POST_COLLISION);
   this.sim_.restoreState();
   this.sim_.modifyObjects();
@@ -707,7 +607,8 @@ CollisionAdvance.prototype.do_backup = function(stepSize) {
 * @return {boolean}
 * @private
 */
-CollisionAdvance.prototype.do_handle_collision = function(numClose) {
+do_handle_collision(numClose) {
+  var WayPoint = CollisionAdvance.WayPoint;
   this.print(WayPoint.HANDLE_COLLISION_START);
   this.print(WayPoint.COLLISIONS_TO_HANDLE);
   if (this.sim_.handleCollisions(this.collisions_, this.collisionTotals_)) {
@@ -747,7 +648,8 @@ CollisionAdvance.prototype.do_handle_collision = function(numClose) {
 * @return {undefined}
 * @private
 */
-CollisionAdvance.prototype.do_small_impacts = function() {
+do_small_impacts() {
+  var WayPoint = CollisionAdvance.WayPoint;
   // EXPERIMENT OCT 2011:  Disable this entirely, because we are now
   // dealing with negative velocity at contacts by increasing acceleration.
   // See ContactSim.calculate_b_vector.
@@ -794,29 +696,29 @@ CollisionAdvance.prototype.do_small_impacts = function() {
 @return {!CollisionTotals} the CollisionTotals object giving
     collision statistics.
 */
-CollisionAdvance.prototype.getCollisionTotals = function() {
+getCollisionTotals() {
   return this.collisionTotals_;
 };
 
 /** @override */
-CollisionAdvance.prototype.getDiffEqSolver = function() {
+getDiffEqSolver() {
   return this.odeSolver_;
 };
 
 /** Whether to apply small impacts to joints to keep them aligned.
 * @return {boolean} `true` means apply small impacts to joints
 */
-CollisionAdvance.prototype.getJointSmallImpacts = function() {
+getJointSmallImpacts() {
   return this.jointSmallImpacts_;
 };
 
 /** @override */
-CollisionAdvance.prototype.getTime = function() {
+getTime() {
   return this.sim_.getTime();
 };
 
 /** @override */
-CollisionAdvance.prototype.getTimeStep = function() {
+getTimeStep() {
   return this.timeStep_;
 };
 
@@ -824,7 +726,7 @@ CollisionAdvance.prototype.getTimeStep = function() {
 * @return {!Array<!CollisionAdvance.WayPoint>} the group of
 *     WayPoints to show debug messages at.
 */
-CollisionAdvance.prototype.getWayPoints = function() {
+getWayPoints() {
   return goog.array.clone(this.wayPoints_);
 };
 
@@ -833,7 +735,7 @@ CollisionAdvance.prototype.getWayPoints = function() {
 * @return {!Array<boolean>} joint flags
 * @private
 */
-CollisionAdvance.prototype.jointFlags = function(collisions) {
+jointFlags(collisions) {
   return goog.array.map(collisions, function(c, index, array) {
     return c.bilateral();
   });
@@ -844,7 +746,7 @@ CollisionAdvance.prototype.jointFlags = function(collisions) {
 * @return {number} maximum impulse applied
 * @private
 */
-CollisionAdvance.prototype.maxImpulse = function(collisions) {
+maxImpulse(collisions) {
   return goog.array.reduce(collisions, function(max, c, index, array) {
     var impulse = c.getImpulse();
     return isFinite(impulse) ? Math.max(max, impulse) : max;
@@ -856,7 +758,7 @@ CollisionAdvance.prototype.maxImpulse = function(collisions) {
 * @return {number} minimum velocity
 * @private
 */
-CollisionAdvance.prototype.minVelocity = function(collisions) {
+minVelocity(collisions) {
   return goog.array.reduce(collisions, function(min, c, index, array) {
     var v = c.getVelocity();
     return isFinite(v) ? Math.min(min, v) : min;
@@ -868,7 +770,7 @@ CollisionAdvance.prototype.minVelocity = function(collisions) {
 * @param {...string} colors CSS color or background strings
 * @private
 */
-CollisionAdvance.prototype.myPrint = function(message, colors) {
+myPrint(message, colors) {
   if (!Util.DEBUG)
     return;
   // Note that `colors` is never referenced within this function body.
@@ -884,13 +786,14 @@ CollisionAdvance.prototype.myPrint = function(message, colors) {
     print debug information for
 @private
 */
-CollisionAdvance.prototype.print = function(wayPoint) {
+print(wayPoint) {
   if (!Util.DEBUG) {
     return;
   }
   if (!goog.array.contains(this.wayPoints_, wayPoint)) {
     return;
   }
+  var WayPoint = CollisionAdvance.WayPoint;
   var s;
   var ccount;
   switch (wayPoint) {
@@ -1101,7 +1004,7 @@ are colliding or close enough to handle.
 * @param {!Collision} c the Collision to print
 * @private
 */
-CollisionAdvance.printCollision = function(time, msg, c) {
+static printCollision(time, msg, c) {
   var style = 'color:black'; // color corresponding to distance
   if (c.getVelocity() < 0) {
     if (c.isColliding()) {
@@ -1119,7 +1022,7 @@ CollisionAdvance.printCollision = function(time, msg, c) {
 * @param {boolean} printAll whether to print joint and contact collisions
 * @private
 */
-CollisionAdvance.prototype.printCollisions = function(msg, printAll) {
+printCollisions(msg, printAll) {
   if (Util.DEBUG) {
     var time = this.sim_.getTime();
     goog.array.forEach(this.collisions_, function(c, i) {
@@ -1135,7 +1038,7 @@ CollisionAdvance.prototype.printCollisions = function(msg, printAll) {
 * @param {number} impulse minimum size of impulse
 * @private
 */
-CollisionAdvance.prototype.printCollisions2 = function(msg, impulse) {
+printCollisions2(msg, impulse) {
   if (Util.DEBUG) {
     var time = this.sim_.getTime();
     goog.array.forEach(this.collisions_, function(c, i) {
@@ -1150,7 +1053,7 @@ CollisionAdvance.prototype.printCollisions2 = function(msg, impulse) {
 @return {undefined}
 @private
 */
-CollisionAdvance.prototype.printJointDistance = function() {
+printJointDistance() {
   var time = this.sim_.getTime();
   // avoid printing too often when using small time steps.
   // (Useful when comparing joint distance with small time steps to large time steps)
@@ -1175,7 +1078,7 @@ removed collisions array.
 * @return {boolean} true if any collisions were removed
 * @private
 */
-CollisionAdvance.prototype.removeDistant = function(allowTiny) {
+removeDistant(allowTiny) {
   var removed = false;
   // iterate backwards because we remove items from the list we are iterating over
   var i = this.collisions_.length;
@@ -1191,7 +1094,7 @@ CollisionAdvance.prototype.removeDistant = function(allowTiny) {
 };
 
 /** @override */
-CollisionAdvance.prototype.reset = function() {
+reset() {
   this.sim_.reset();
   this.collisionTotals_.reset();
   this.printTime_ = Util.NEGATIVE_INFINITY;
@@ -1202,10 +1105,11 @@ see {@link CollisionAdvance.DebugLevel}.
 @param {!CollisionAdvance.DebugLevel} debugLevel specifies the
     groups of debug messages to show
 */
-CollisionAdvance.prototype.setDebugLevel = function(debugLevel) {
+setDebugLevel(debugLevel) {
   // display stack (for when you don't know who is setting debug level)
   //var e = new Error();
   //console.log('setDebugLevel '+debugLevel+' '+e.stack);
+  var WayPoint = CollisionAdvance.WayPoint;
   switch (debugLevel) {
     case CollisionAdvance.DebugLevel.NONE:
       this.wayPoints_ = [WayPoint.STUCK];
@@ -1313,7 +1217,7 @@ Here is example code where `simRun.paintAll` is the SimRunner method
 
 @param {?function():undefined} fn function that will paint canvases
 */
-CollisionAdvance.prototype.setDebugPaint = function(fn) {
+setDebugPaint(fn) {
   if (Util.DEBUG) {
     this.debugPaint_ = fn;
     if (0 == 1) {
@@ -1325,19 +1229,19 @@ CollisionAdvance.prototype.setDebugPaint = function(fn) {
 };
 
 /** @override */
-CollisionAdvance.prototype.setDiffEqSolver = function(diffEqSolver) {
+setDiffEqSolver(diffEqSolver) {
   this.odeSolver_ = diffEqSolver;
 };
 
 /** Sets whether to apply small impacts to joints to keep them aligned.
 * @param {boolean} value `true` means apply small impacts to joints
 */
-CollisionAdvance.prototype.setJointSmallImpacts = function(value) {
+setJointSmallImpacts(value) {
   this.jointSmallImpacts_ = value;
 };
 
 /** @override */
-CollisionAdvance.prototype.setTimeStep = function(timeStep) {
+setTimeStep(timeStep) {
   this.timeStep_ = timeStep;
 };
 
@@ -1345,8 +1249,101 @@ CollisionAdvance.prototype.setTimeStep = function(timeStep) {
 * @param {!Array<!CollisionAdvance.WayPoint>} wayPoints  array
 * of WayPoints to show debug messages for
 */
-CollisionAdvance.prototype.setWayPoints = function(wayPoints) {
+setWayPoints(wayPoints) {
   this.wayPoints_ = goog.array.clone(wayPoints);
 };
 
-}); // goog.scope
+} //end class
+
+/** The maximum number of times to go thru the loop in `advance()` without a successful
+step that advances the simulation time; when this limit is exceeded then `advance()`
+returns `false` to indicate it was unable to advance the simulation.
+* @type {number}
+* @const
+* @private
+*/
+CollisionAdvance.MAX_STUCK_COUNT = 30;
+
+/** Enum that specifies pre-defined groups of debug messages to show.
+* @readonly
+* @enum {number}
+*/
+CollisionAdvance.DebugLevel = {
+  /** no debug messages */
+  NONE: 0,
+  /** low debug level: shows brief summary of number of collisions handled */
+  LOW: 1,
+  /** medium debug level: shows all collisions that are handled */
+  MEDIUM: 2,
+  /** optimal debug level: best for understanding how collisions are handled */
+  OPTIMAL: 3,
+  /** high debug level: shows full set of debug messages */
+  HIGH: 4,
+  /** custom debug level: shows a customized set of debug messages */
+  CUSTOM: 5
+};
+
+/** Enum that specifies debugging 'way points' for {@link CollisionAdvance}. A WayPoint
+is a step of the AdvanceStrategy process where debug info can be printed.
+* @readonly
+* @enum {number}
+*/
+CollisionAdvance.WayPoint = {
+  /** at start of advance method */
+  START: 0,
+  /** when advanced without backup */
+  ADVANCED_NO_BACKUP: 1,
+  /** at finish of advance method */
+  FINISH: 2,
+  /** when starting to advance the simulation a step */
+  ADVANCE_SIM_START: 3,
+  /** when trying to advance the simulation a step fails */
+  ADVANCE_SIM_FAIL: 4,
+  /** when advancing the simulation advances a step, but there are collisions */
+  ADVANCE_SIM_COLLIDING: 5,
+  /** when finished advancing the simulation a step */
+  ADVANCE_SIM_FINISH: 6,
+  /** when starting to backup after a collision detected. */
+  POST_COLLISION: 7,
+  /** when finished backup after a collision detected. */
+  PRE_COLLISION: 8,
+  /** when starting to handle collisions. */
+  HANDLE_COLLISION_START: 9,
+  /** when removing distant-in-time collisions */
+  HANDLE_REMOVE_DISTANT: 10,
+  /** when successfully handled collisions. */
+  HANDLE_COLLISION_SUCCESS: 11,
+  /** when unable to handle collisions. */
+  HANDLE_COLLISION_FAIL: 12,
+  /** when starting to handle small impacts */
+  SMALL_IMPACTS_START: 13,
+  /** when finished handling small impacts */
+  SMALL_IMPACTS_FINISH: 14,
+  /** when failed to find collision during binary search */
+  BINARY_SEARCH_FAIL: 15,
+  /** when estimating time of next step */
+  NEXT_STEP_ESTIMATE: 16,
+  /** when calculating next step during binary search. */
+  NEXT_STEP_BINARY: 17,
+  /** when stuck, unable to advance. */
+  STUCK: 18,
+  /** at finish, show summary of collisions handled */
+  SUMMARY: 19,
+  /** when handling collisions, show list of collisions to handle */
+  COLLISIONS_TO_HANDLE: 20,
+  /** small impacts summary */
+  SMALL_IMPACTS: 21,
+  /** when no estimate or binary search, then take full step */
+  NEXT_STEP_FULL: 22,
+  /** when estimate of collision time is in the past, switch to binary search */
+  ESTIMATE_IN_PAST: 23,
+  /** when there are collisions that need handling, but no estimate of collision time,
+  * switch to binary search */
+  NO_ESTIMATE: 24,
+  /** We had an estimate for collision time, but didn't find a collision */
+  ESTIMATE_FAILED: 25,
+  /** When we back up many times in a row without advancing, we may be stuck. */
+  MAYBE_STUCK: 26
+};
+
+exports = CollisionAdvance;

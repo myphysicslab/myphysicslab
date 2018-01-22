@@ -41,7 +41,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var CollisionAdvance = lab.model.CollisionAdvance;
+const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CollisionHandling = lab.engine2D.CollisionHandling;
 var CommonControls = sims.common.CommonControls;
 var ConcreteVertex = lab.engine2D.ConcreteVertex;

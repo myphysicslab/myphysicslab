@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.PointMass');
 
 goog.scope(function() {
 
-var Collision = myphysicslab.lab.model.Collision;
+const Collision = goog.module.get('myphysicslab.lab.model.Collision');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');

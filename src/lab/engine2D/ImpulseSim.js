@@ -45,8 +45,8 @@ var lab = myphysicslab.lab;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 var CollisionHandling = lab.engine2D.CollisionHandling;
-var CollisionSim = myphysicslab.lab.model.CollisionSim;
-var CollisionTotals = lab.model.CollisionTotals;
+const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
+const CollisionTotals = goog.module.get('myphysicslab.lab.model.CollisionTotals');
 var ComputeForces = lab.engine2D.ComputeForces;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');

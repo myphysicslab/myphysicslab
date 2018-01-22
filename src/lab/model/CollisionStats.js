@@ -12,27 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.CollisionStats');
+goog.module('myphysicslab.lab.model.CollisionStats');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-var Collision = myphysicslab.lab.model.Collision;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Calculates statistics about a particular set of Collisions.
 
 Statistics are simply stored in public properties, there are no 'getter' or 'setter'
 methods.
-
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.model.CollisionStats = function() {
+class CollisionStats {
+constructor() {
   /** number of collisions
   * @type {number}
   */
@@ -71,10 +64,9 @@ myphysicslab.lab.model.CollisionStats = function() {
   */
   this.detectedTime = infinity;
 };
-var CollisionStats = myphysicslab.lab.model.CollisionStats;
 
 /** @override */
-CollisionStats.prototype.toString = function() {
+toString() {
   if (Util.ADVANCED) {
     return '';
   } else {
@@ -96,7 +88,7 @@ CollisionStats.prototype.toString = function() {
 /** Resets statistics to start from zero.
 @return {undefined}
 */
-CollisionStats.prototype.clear = function() {
+clear() {
   this.numCollisions = 0;
   this.numJoints = 0;
   this.numContacts = 0;
@@ -114,7 +106,7 @@ First calls {@link #clear} to start from zero.
 @param {!Array<!Collision>} collisions the set of collisions to
     examine
 */
-CollisionStats.prototype.update =  function(collisions) {
+update(collisions) {
   var infinity = Util.POSITIVE_INFINITY;
   this.clear();
   this.numCollisions = collisions.length;
@@ -162,4 +154,5 @@ CollisionStats.prototype.update =  function(collisions) {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = CollisionStats;
