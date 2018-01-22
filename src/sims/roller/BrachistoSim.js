@@ -35,7 +35,7 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-var NumericalPath = myphysicslab.lab.model.NumericalPath;
+const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
 const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');

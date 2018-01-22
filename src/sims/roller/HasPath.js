@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Printable');
 
 goog.scope(function() {
 
-var NumericalPath = myphysicslab.lab.model.NumericalPath;
+const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 
 /** An object which has a {@link NumericalPath} that can be set.
 

@@ -12,33 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.NumericalPath');
-goog.provide('myphysicslab.lab.model.PointsIterator');
+goog.module('myphysicslab.lab.model.NumericalPath');
 
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.ParametricPath');
-goog.require('myphysicslab.lab.model.Path');
-goog.require('myphysicslab.lab.model.PathIterator');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-const Path = goog.module.get('myphysicslab.lab.model.Path');
-const PathIterator = goog.module.get('myphysicslab.lab.model.PathIterator');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const Path = goog.require('myphysicslab.lab.model.Path');
+const PathIterator = goog.require('myphysicslab.lab.model.PathIterator');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A numerical approximation of a {@link ParametricPath} providing various functions
 to find points based on distance along the path and also the slope, normal, and
@@ -52,7 +37,6 @@ See the myPhysicsLab page showing the
 [Roller Coaster](http://www.myphysicslab.com/roller/roller-single-en.html)
 for more about the math involved here.
 
-
 ## Path Length 'p'
 
 Points on the path are usually specified by the *path distance* to that point from a
@@ -63,7 +47,6 @@ path distance is zero.
 Path distance is abbreviated here as `p`, so you see methods named like
 {@link #map_p_to_slope} which finds the slope at a point specified by the `p` value of the
 point.
-
 
 ## Table of Numerical Values
 
@@ -90,7 +73,6 @@ Some functions *result in finding* a `p` value from a location in space. For exa
 when the user clicks the mouse somewhere we need to find the nearest point on the path.
 See {@link #findNearestLocal} and {@link #findNearestGlobal}.
 
-
 ## Slope of Path
 
 The slope is found from the relation `dy/dx = (dy/dp) / (dx/dp)`. Because we
@@ -101,7 +83,6 @@ there.
 The method {@link #map_p_to_slope} figures out the slope in this way, and stores it
 in the `slope` property of the PathPoint.
 
-
 ## Direction of Path
 
 Sometimes it is important to know the direction of the path: i.e. as
@@ -111,7 +92,6 @@ from the table data as needed. For vertical sections, the question becomes wheth
 
 The method {@link #map_p_to_slope} figures out the direction in this way, and stores it
 in the `direction` property of the PathPoint.
-
 
 ## Design Note: How _Not_ To Calculate Slope
 
@@ -148,17 +128,16 @@ can’t do something as simple as pass radius to Circle constructor. Also, might
 adjust path later on (translate for example, or scale or rotate). So might want to
 have the makeTable thing be callable anytime.
 
+* @implements {Path}
+*/
+class NumericalPath extends AbstractSimObject {
+/**
 * @param {!ParametricPath} path the ParametricPath to represent with a numerical table
 * @param {number=} opt_tableLength optional number of points to store in table; default
 *     is 9000.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {Path}
 */
-myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
-  AbstractSimObject.call(this, path.getName());
+constructor(path, opt_tableLength) {
+  super(path.getName());
   /** Number of points stored in table.
   * @type {number}
   * @const
@@ -246,13 +225,11 @@ myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
   this.map_p_to_slope(this.startPoint_);
   this.map_p_to_slope(this.endPoint_);
 };
-var NumericalPath = myphysicslab.lab.model.NumericalPath;
-goog.inherits(NumericalPath, AbstractSimObject);
 
 /** @override */
-NumericalPath.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      NumericalPath.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', length: ' + Util.NF5(this.getLength())
       +', closedLoop: '+this.closedLoop
       +', bounds: '+this.bounds
@@ -260,23 +237,9 @@ NumericalPath.prototype.toString = function() {
 };
 
 /** @override */
-NumericalPath.prototype.getClassName = function() {
+getClassName() {
   return 'NumericalPath';
 };
-
-/** Number of data points to record for the path.
-* @type {number}
-* @const
-* @private
-*/
-NumericalPath.DATA_POINTS = 9000;
-
-/**
-* @type {boolean}
-* @const
-* @private
-*/
-NumericalPath.debug = false;
 
 /** Finds where in the array the given value is located using a binary search algorithm.
 Given an array `arr[0..n-1]`, and given a value `x`, binarySearch returns a value `i`
@@ -292,7 +255,7 @@ increasing or decreasing.
     or equal to x, or -1 or n is returned to indicate that x is out of range.
 @private
 */
-NumericalPath.binarySearch = function(arr, x) {
+static binarySearch(arr, x) {
   var i_int, min, max;
   var n_int = arr.length;
   if (n_int<2)
@@ -372,7 +335,7 @@ three-point differentiation formula used here.
 @return {number} three-point derivative of array yy
 @private
 */
-NumericalPath.prototype.deriv3 = function(yy, k, type) {
+deriv3(yy, k, type) {
   goog.asserts.assert(k >= 0);
   goog.asserts.assert(k <= this.tableLength_-3 );
   var x0 = this.pvals[k];
@@ -397,7 +360,7 @@ NumericalPath.prototype.deriv3 = function(yy, k, type) {
 @return {number} distance-squared between the given point and a point on the path
 @private
 */
-NumericalPath.prototype.distanceSquared = function(point, i) {
+distanceSquared(point, i) {
   var xd = point.getX() - this.xvals[i];
   var yd = point.getY() - this.yvals[i];
   var len = xd*xd + yd*yd;
@@ -413,7 +376,7 @@ the path.
     the path.
 @private
 */
-NumericalPath.prototype.distanceSquared2 = function(point, p, k) {
+distanceSquared2(point, p, k) {
   var xp = NumericalPath.interp4(this.pvals, this.xvals, p, k-1, this.closedLoop);
   var yp = NumericalPath.interp4(this.pvals, this.yvals, p, k-1, this.closedLoop);
   var xd = point.getX() - xp;
@@ -431,7 +394,7 @@ mapping using interpolation.
 @return {!PathPoint} a PathPoint with the `x, y, p`, and `idx` fields are set to the
     closest point in the table.
 */
-NumericalPath.prototype.findNearestGlobal = function(point) {
+findNearestGlobal(point) {
   var ppt = new PathPoint();
   // just do a straight search; improve later if necessary.
   var x = point.getX();
@@ -488,7 +451,7 @@ Outline of the algorithm:
     the table index `ppt.idx` is used to start the search;
     the `p` value and table index are stored in `ppt`.
 */
-NumericalPath.prototype.findNearestLocal = function(target, ppt) {
+findNearestLocal(target, ppt) {
   // NOTE: k_int and dk_int should be integers at all times!
   var k_int = this.modk(ppt.idx);
   // plen/20 is an arbitrary value; what is a good policy?
@@ -607,7 +570,7 @@ NumericalPath.prototype.findNearestLocal = function(target, ppt) {
  }
 
 /** @override */
-NumericalPath.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return this.bounds;
 };
 
@@ -616,12 +579,12 @@ path are referenced by their distance along the path. Path distance increases fr
 to finish.
 @return {number} the ending path distance value
 */
-NumericalPath.prototype.getFinishPValue = function() {
+getFinishPValue() {
   return this.pvals[this.pvals.length-1];
 };
 
 /** @override */
-NumericalPath.prototype.getIterator = function (numPoints) {
+getIterator(numPoints) {
   return new PointsIterator(this, numPoints);
 };
 
@@ -629,12 +592,12 @@ NumericalPath.prototype.getIterator = function (numPoints) {
 {@link #getStartPValue}.
 * @return {number} total path length of this NumericalPath from start to finish
 */
-NumericalPath.prototype.getLength = function() {
+getLength() {
   return this.getFinishPValue() - this.getStartPValue();
 };
 
 /** @override */
-NumericalPath.prototype.getSequence = function () {
+getSequence() {
   return 0; // never changes
 };
 
@@ -643,14 +606,14 @@ the path are referenced by their distance along the path. Path distance increase
 start to finish.
 @return {number} the starting path distance value (usually zero)
 */
-NumericalPath.prototype.getStartPValue = function() {
+getStartPValue() {
   return this.pvals[0];
 };
 
 /** Returns number of points stored in the path table.
 @return {number} number of points stored in the path table
 */
-NumericalPath.prototype.getTableLength = function() {
+getTableLength() {
   return this.tableLength_;
 };
 
@@ -693,7 +656,7 @@ chapter 2 <cite>Polynomial Interpolation</cite> p. 77.
 @return {number} the interpolated y-value corresponding to the requested x-value
 @private
 */
-NumericalPath.interp4 = function(xx, yy, x, k, closedLoop) {
+static interp4(xx, yy, x, k, closedLoop) {
   var n = xx.length;
   if (yy.length != n)
     throw new Error();
@@ -727,7 +690,7 @@ NumericalPath.interp4 = function(xx, yy, x, k, closedLoop) {
 /** Whether this NumericalPath is a closed loop, ending at the same point it starts.
 * @return {boolean} Whether this NumericalPath is a closed loop
 */
-NumericalPath.prototype.isClosedLoop = function() {
+isClosedLoop() {
   return this.closedLoop;
 };
 
@@ -736,7 +699,7 @@ NumericalPath.prototype.isClosedLoop = function() {
 @return {boolean} `true` if the given array is monotonically increasing or decreasing.
 @private
 */
-NumericalPath.isMonotonic = function(arr) {
+static isMonotonic(arr) {
   var n_int = arr.length;
   if (n_int<2)
     throw new Error('array must have more than one element');
@@ -764,7 +727,7 @@ length, see {@link #mod_p}.
 @return {number} the equivalent path distance `p` position, limited to be within the
     path.
 */
-NumericalPath.prototype.limit_p = function(p) {
+limit_p(p) {
   if (this.closedLoop) {
     return this.mod_p(p);
   } else {
@@ -789,7 +752,7 @@ the `p` value.
 @return {number} index `j` into table such that `pvals[j] <= p < pvals[j+1]`
 @private
 */
-NumericalPath.prototype.linearSearch = function(p, k) {
+linearSearch(p, k) {
   var j = k;
   if (j > this.tableLength_-2)
     j = this.tableLength_-2;
@@ -831,7 +794,7 @@ NumericalPath.prototype.linearSearch = function(p, k) {
 @param {!ParametricPath} path
 @private
 */
-NumericalPath.prototype.make_table = function(path) {
+make_table(path) {
   var tLow = path.getStartTValue();
   var tHigh = path.getFinishTValue();
   var i;
@@ -935,7 +898,7 @@ returns 0 if `p < pvals[0]`.
 @param {number} p  path value to search for
 @return {number} index in the path table just before the given `p` value
 */
-NumericalPath.prototype.map_p_to_index = function(p) {
+map_p_to_index(p) {
   var k = NumericalPath.binarySearch(this.pvals, p);
   if (k < 0) {
     k = 0;
@@ -951,7 +914,7 @@ NumericalPath.prototype.map_p_to_index = function(p) {
 @param {number} p the path distance value to search for
 @return {!Vector} the Vector position corresponding to the given path distance `p` value
 */
-NumericalPath.prototype.map_p_to_vector = function(p) {
+map_p_to_vector(p) {
   return new Vector(this.map_p_to_x(p), this.map_p_to_y(p));
 };
 
@@ -959,7 +922,7 @@ NumericalPath.prototype.map_p_to_vector = function(p) {
 @param {number} p the path distance value to search for
 @return {number} the `x` value corresponding to the given path distance `p` value
 */
-NumericalPath.prototype.map_p_to_x = function(p) {
+map_p_to_x(p) {
   p = this.mod_p(p);
   var k = NumericalPath.binarySearch(this.pvals, p);
   return NumericalPath.interp4(this.pvals, this.xvals, p, k-1, this.closedLoop);
@@ -969,7 +932,7 @@ NumericalPath.prototype.map_p_to_x = function(p) {
 @param {number} p the path distance value to search for
 @return {number} the `y` value corresponding to the given path distance `p` value
 */
-NumericalPath.prototype.map_p_to_y = function(p) {
+map_p_to_y(p) {
   p = this.mod_p(p);
   var k = NumericalPath.binarySearch(this.pvals, p);
   return NumericalPath.interp4(this.pvals, this.yvals, p, k-1, this.closedLoop);
@@ -980,7 +943,7 @@ NumericalPath.prototype.map_p_to_y = function(p) {
 @return {number} the path distance `p` value corresponding to the given `x` value
 @throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
-NumericalPath.prototype.map_x_to_p = function(x) {
+map_x_to_p(x) {
   if (!this.x_monotonic)
     throw new Error('x is not monotonic');
   var k = NumericalPath.binarySearch(this.xvals, x);
@@ -992,7 +955,7 @@ NumericalPath.prototype.map_x_to_p = function(x) {
 @return {number} the `y` value corresponding to the given `x` value
 @throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
-NumericalPath.prototype.map_x_to_y = function(x) {
+map_x_to_y(x) {
   if (!this.x_monotonic)
     throw new Error('x is not monotonic');
   var k = NumericalPath.binarySearch(this.xvals, x);
@@ -1006,7 +969,7 @@ interpolates to find corresponding `y` and `p` values.
     accordingly.
 @throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
-NumericalPath.prototype.map_x_to_y_p = function(ppt) {
+map_x_to_y_p(ppt) {
   if (!this.x_monotonic)
     throw new Error('x is not monotonic');
   var k = NumericalPath.binarySearch(this.xvals, ppt.x);
@@ -1026,7 +989,7 @@ returns `pi`.
 @return {number} the equivalent path distance `p` position, modulo total path length for
     closed paths
 */
-NumericalPath.prototype.mod_p = function(p) {
+mod_p(p) {
   if (this.closedLoop) {
     if (p < 0 || p > this.plen)  {
       p = p - this.plen*Math.floor(p/this.plen);
@@ -1041,7 +1004,7 @@ table loops around or not.
 @return {number}
 @private
 */
-NumericalPath.prototype.modk = function(k) {
+modk(k) {
   var r = k;
   if (this.closedLoop) {
     while (r < 0) {
@@ -1080,7 +1043,7 @@ radius is infinite there which is wrong.
     `PathPoint.p` is the input path position. Optionally calculates
     the radius of curvature if `PathPoint.radius_flag` is set.
 */
-NumericalPath.prototype.map_p_to_slope = function(ppt) {
+map_p_to_slope(ppt) {
   var saveP = ppt.p;
   var nowP = this.mod_p(ppt.p);
   // If `PathPoint.idx` corresponds to `PathPoint.p`, then can avoid searching
@@ -1241,7 +1204,7 @@ NumericalPath.prototype.map_p_to_slope = function(ppt) {
 * @return {undefined}
 * @private
 */
-NumericalPath.prototype.printTable = function() {
+printTable() {
   if (Util.DEBUG) {
     for (var i=0; i<this.tableLength_; i++) {
       this.printPoint(i);
@@ -1254,7 +1217,7 @@ NumericalPath.prototype.printTable = function() {
 * @return {undefined}
 * @private
 */
-NumericalPath.prototype.printPoint = function(i) {
+printPoint(i) {
   if (Util.DEBUG) {
     var s = 'p='+Util.NF5(this.pvals[i]);
     if (0 == 1 && i > 0) {
@@ -1286,7 +1249,7 @@ table entry.
   table end points.
 @private
 */
-NumericalPath.prototype.tableSpacing = function(k) {
+tableSpacing(k) {
   var j;
   if (this.closedLoop) {
     j = this.modk(k-1);
@@ -1308,20 +1271,22 @@ NumericalPath.prototype.tableSpacing = function(k) {
   }
 };
 
+} //end class
+
 /** Iterates over a NumericalPath to give the `x-y` location of a set of points.
 Assumes that the `p` values (distance along path) are increasing in the table.
 
 @todo plot more points where the path is more curvy, ie. where second derivative is
 bigger
 
-* @param {!NumericalPath} path the NumericalPath to iterate over
-* @param {number} numberOfPoints number of points to deliver during the iteration
-* @constructor
-* @final
-* @struct
 * @implements {PathIterator}
 */
-myphysicslab.lab.model.PointsIterator = function(path, numberOfPoints) {
+class PointsIterator {
+/**
+* @param {!NumericalPath} path the NumericalPath to iterate over
+* @param {number} numberOfPoints number of points to deliver during the iteration
+*/
+constructor(path, numberOfPoints) {
   numberOfPoints = Math.min(numberOfPoints, path.getTableLength());
   /**
   * @type {!NumericalPath}
@@ -1343,10 +1308,9 @@ myphysicslab.lab.model.PointsIterator = function(path, numberOfPoints) {
   */
   this.idx_ = -1;
 };
-var PointsIterator = myphysicslab.lab.model.PointsIterator;
 
 /** @override */
-PointsIterator.prototype.nextPoint = function(point) {
+nextPoint(point) {
   var n = this.path_.getTableLength();
   if (this.idx_ >=  n-1) {
     return false;
@@ -1368,4 +1332,20 @@ PointsIterator.prototype.nextPoint = function(point) {
   return true;
 };
 
-}); // goog.scope
+} // end class
+
+/** Number of data points to record for the path.
+* @type {number}
+* @const
+* @private
+*/
+NumericalPath.DATA_POINTS = 9000;
+
+/**
+* @type {boolean}
+* @const
+* @private
+*/
+NumericalPath.debug = false;
+
+exports = NumericalPath;
