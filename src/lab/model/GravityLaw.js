@@ -12,36 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.GravityLaw');
+goog.module('myphysicslab.lab.model.GravityLaw');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Applies constant downward gravitational force to a set of MassObjects.
 
@@ -64,20 +49,19 @@ Parameters Created
 
 + ParameterNumber named `ZERO_ENERGY`, see {@link #setZeroEnergyLevel}
 
-@param {number} gravity magnitude of gravity
-@param {!SimList=} opt_simList optional SimList to observe for
-  when objects are added; also adds all existing bodies on that SimList.
-@constructor
-@final
-@struct
-@extends {AbstractSubject}
 @implements {ForceLaw}
 @implements {Observer}
 */
-myphysicslab.lab.model.GravityLaw = function(gravity, opt_simList) {
+class GravityLaw extends AbstractSubject {
+/**
+@param {number} gravity magnitude of gravity
+@param {!SimList=} opt_simList optional SimList to observe for
+    when objects are added; also adds all existing bodies on that SimList.
+*/
+constructor(gravity, opt_simList) {
   var id = GravityLaw.NAME_ID++;
   var nm = 'GRAVITY_LAW' + (id > 0 ? '_'+id : '');
-  AbstractSubject.call(this, nm);
+  super(nm);
   /**
   * @type {number}
   * @private
@@ -111,38 +95,31 @@ myphysicslab.lab.model.GravityLaw = function(gravity, opt_simList) {
       goog.bind(this.setZeroEnergyLevel, this))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
-var GravityLaw = myphysicslab.lab.model.GravityLaw;
-goog.inherits(GravityLaw, AbstractSubject);
 
 /** @override */
-GravityLaw.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bodies: '+this.bods_.length
-      + GravityLaw.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-GravityLaw.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      GravityLaw.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', gravity: '+Util.NF5(this.gravity_)+'}';
 };
 
 /** @override */
-GravityLaw.prototype.getClassName = function() {
+getClassName() {
   return 'GravityLaw';
 };
-
-/**
-* @type {number}
-*/
-GravityLaw.NAME_ID = 0;
 
 /** Adds any MassObjects with finite mass among the given list of SimObjects.
 * @param {!Array<!SimObject>} bodies set of SimObjects to
   possibly add
 */
-GravityLaw.prototype.addBodies = function(bodies) {
+addBodies(bodies) {
   goog.array.forEach(bodies, goog.bind(this.addBody, this));
 };
 
@@ -150,7 +127,7 @@ GravityLaw.prototype.addBodies = function(bodies) {
 * if it has positive finite mass
 * @param {!SimObject} obj the SimObject to possibly add
 */
-GravityLaw.prototype.addBody = function(obj) {
+addBody(obj) {
   if (!obj.isMassObject() || goog.array.contains(this.bods_, obj)) {
     return;
   }
@@ -162,7 +139,7 @@ GravityLaw.prototype.addBody = function(obj) {
 };
 
 /** @override */
-GravityLaw.prototype.calculateForces = function() {
+calculateForces() {
   var forces = [];
   /** @type {function(this:GravityLaw, !MassObject)} */
   var f = function(body) {
@@ -181,14 +158,14 @@ GravityLaw.prototype.calculateForces = function() {
 SimList. Also adds all existing bodies on that SimList.
 * @param {!SimList} simList  the SimList to connect with
 */
-GravityLaw.prototype.connect = function(simList) {
+connect(simList) {
   this.addBodies(simList.toArray());
   simList.addObserver(this);
   this.simList_ = simList;
 };
 
 /** @override */
-GravityLaw.prototype.disconnect = function() {
+disconnect() {
   if (this.simList_ != null) {
     this.simList_.removeObserver(this);
     this.simList_ = null;
@@ -196,19 +173,19 @@ GravityLaw.prototype.disconnect = function() {
 };
 
 /** @override */
-GravityLaw.prototype.getBodies = function() {
+getBodies() {
   return goog.array.clone(this.bods_);
 };
 
 /** Returns the magnitude of the gravity force.
 * @return {number} the magnitude of the gravity force
 */
-GravityLaw.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** @override */
-GravityLaw.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   var pe = 0;
   goog.array.forEach(this.bods_, function(body) {
     if (isFinite(body.getMass())) { // skip infinite mass objects
@@ -231,12 +208,12 @@ energy. Can override for a particular body with {@link MassObject#setZeroEnergyL
 @return {number} the default vertical world coordinate where a body has zero potential
     energy
 */
-GravityLaw.prototype.getZeroEnergyLevel = function() {
+getZeroEnergyLevel() {
   return this.zeroEnergyLevel_;
 };
 
 /** @override */
-GravityLaw.prototype.observe =  function(event) {
+observe(event) {
   var obj = /** @type {!SimObject} */ (event.getValue());
   if (event.nameEquals(SimList.OBJECT_ADDED)) {
     this.addBody(obj);
@@ -249,7 +226,7 @@ GravityLaw.prototype.observe =  function(event) {
 /** Sets the magnitude of the gravity force.
 * @param {number} gravity the magnitude of the gravity force
 */
-GravityLaw.prototype.setGravity = function(gravity) {
+setGravity(gravity) {
   this.gravity_ = gravity;
   this.broadcastParameter(GravityLaw.en.GRAVITY);
 };
@@ -259,10 +236,17 @@ Can override for a particular body with {@link MassObject#setZeroEnergyLevel}.
 @param {number} value the default vertical world coordinate where a body has zero
     potential energy
 */
-GravityLaw.prototype.setZeroEnergyLevel = function(value) {
+setZeroEnergyLevel(value) {
   this.zeroEnergyLevel_ = value;
   this.broadcastParameter(GravityLaw.en.ZERO_ENERGY);
 };
+
+} //end class
+
+/**
+* @type {number}
+*/
+GravityLaw.NAME_ID = 0;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -295,4 +279,4 @@ GravityLaw.de_strings = {
 GravityLaw.i18n = goog.LOCALE === 'de' ? GravityLaw.de_strings :
     GravityLaw.en;
 
-}); // goog.scope
+exports = GravityLaw;

@@ -12,36 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Gravity2Law');
+goog.module('myphysicslab.lab.model.Gravity2Law');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Applies gravitational force between each pair of objects proportional to the
 inverse square of distance between them. The equation for the force is
@@ -60,20 +45,19 @@ Parameters Created
 
 + ParameterNumber named `GRAVITY`, see {@link #setGravity}
 
-* @param {number} gravity strength of gravity force
-* @param {!SimList=} opt_simList optional SimList to observe
-    for when objects are added; also adds all existing bodies on that SimList.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 * @implements {ForceLaw}
 * @implements {Observer}
 */
-myphysicslab.lab.model.Gravity2Law = function(gravity, opt_simList) {
+class Gravity2Law extends AbstractSubject {
+/**
+* @param {number} gravity strength of gravity force
+* @param {!SimList=} opt_simList optional SimList to observe
+    for when objects are added; also adds all existing bodies on that SimList.
+*/
+constructor(gravity, opt_simList) {
   var id = Gravity2Law.NAME_ID++;
   var nm = 'GRAVITY_INVERSE_SQUARE_LAW' + (id > 0 ? '_'+id : '');
-  AbstractSubject.call(this, nm);
+  super(nm);
   /**
   * @type {number}
   * @private
@@ -97,38 +81,31 @@ myphysicslab.lab.model.Gravity2Law = function(gravity, opt_simList) {
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this))
       .setSignifDigits(4));
 };
-var Gravity2Law = myphysicslab.lab.model.Gravity2Law;
-goog.inherits(Gravity2Law, AbstractSubject);
 
 /** @override */
-Gravity2Law.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bodies: '+this.bods_.length
-      + Gravity2Law.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Gravity2Law.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      Gravity2Law.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', gravity: '+Util.NF5(this.gravity_)+'}';
 };
 
 /** @override */
-Gravity2Law.prototype.getClassName = function() {
+getClassName() {
   return 'Gravity2Law';
 };
-
-/**
-* @type {number}
-*/
-Gravity2Law.NAME_ID = 0;
 
 /** Adds any MassObjects with finite mass among the given list of SimObjects.
 @param {!Array<!SimObject>} bodies set of SimObjects to
   possibly add
 */
-Gravity2Law.prototype.addBodies = function(bodies) {
+addBodies(bodies) {
   goog.array.forEach(bodies, goog.bind(this.addBody, this));
 };
 
@@ -136,7 +113,7 @@ Gravity2Law.prototype.addBodies = function(bodies) {
 forces to, but only if it has positive finite mass.
 * @param {!SimObject} obj the SimObject to possibly add
 */
-Gravity2Law.prototype.addBody = function(obj) {
+addBody(obj) {
   if (!obj.isMassObject() || goog.array.contains(this.bods_, obj)) {
     return;
   }
@@ -148,7 +125,7 @@ Gravity2Law.prototype.addBody = function(obj) {
 };
 
 /** @override */
-Gravity2Law.prototype.calculateForces = function() {
+calculateForces() {
   // Calculate the force between each pair of bodies.
   // Avoid duplicate calculations by only looking at the 'upper triangle' of the matrix:
   // in a matrix of bodies x bodies, only look at the entries above the diagonal.
@@ -188,28 +165,28 @@ Gravity2Law.prototype.calculateForces = function() {
 SimList. Also adds all existing bodies on that SimList.
 * @param {!SimList} simList  the SimList to connect with
 */
-Gravity2Law.prototype.connect = function(simList) {
+connect(simList) {
   this.addBodies(simList.toArray());
   simList.addObserver(this);
   this.simList_ = simList;
 };
 
 /** @override */
-Gravity2Law.prototype.disconnect = function() {
+disconnect() {
   if (this.simList_ != null) {
     this.simList_.removeObserver(this);
   }
 };
 
 /** @override */
-Gravity2Law.prototype.getBodies = function() {
+getBodies() {
   return goog.array.clone(this.bods_);
 };
 
 /** Returns the strength of gravity, the `G` factor in `F = G m1 m2 / r^2`.
 * @return {number} the strength of gravity
 */
-Gravity2Law.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
@@ -257,7 +234,7 @@ non-infinite number for the minimum PE.
 
 * @return {number} the potential energy due to this ForceLaw
 */
-Gravity2Law.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   var pe = 0;
   var bodies2 = goog.array.toArray(this.bods_);
   var j = 0;
@@ -285,7 +262,7 @@ Gravity2Law.prototype.getPotentialEnergy = function() {
 };
 
 /** @override */
-Gravity2Law.prototype.observe =  function(event) {
+observe(event) {
   var obj;
   if (event.nameEquals(SimList.OBJECT_ADDED)) {
     obj = /** @type {!SimObject} */ (event.getValue());
@@ -301,17 +278,24 @@ Gravity2Law.prototype.observe =  function(event) {
 * @param {!Array<!MassObject>} bodies the set of
     MassObjects to apply forces on.
 */
-Gravity2Law.prototype.setBodies = function(bodies) {
+setBodies(bodies) {
   this.bods_ = goog.array.concat(bodies);
 };
 
 /** Sets the strength of gravity, the `G` factor in `F = G m1 m2 / r^2`.
 * @param {number} gravity the strength of gravity
 */
-Gravity2Law.prototype.setGravity = function(gravity) {
+setGravity(gravity) {
   this.gravity_ = gravity;
   this.broadcastParameter(Gravity2Law.en.GRAVITY);
 };
+
+} //end class
+
+/**
+* @type {number}
+*/
+Gravity2Law.NAME_ID = 0;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -342,4 +326,4 @@ Gravity2Law.i18n = goog.LOCALE === 'de' ?
     Gravity2Law.de_strings :
     Gravity2Law.en;
 
-}); // goog.scope
+exports = Gravity2Law;
