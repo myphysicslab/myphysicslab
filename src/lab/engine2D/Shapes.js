@@ -27,7 +27,7 @@ goog.scope(function() {
 
 const CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
 const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-var Polygon = myphysicslab.lab.engine2D.Polygon;
+const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
 const Util = goog.module.get('myphysicslab.lab.util.Util');

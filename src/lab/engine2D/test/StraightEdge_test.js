@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 var testStraightEdge1 = function() {
   const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-  var Polygon = myphysicslab.lab.engine2D.Polygon;
+  const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
   const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

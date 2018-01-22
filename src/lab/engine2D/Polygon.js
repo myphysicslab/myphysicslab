@@ -12,53 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Polygon');
+goog.module('myphysicslab.lab.engine2D.Polygon');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.CircularEdge');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.engine2D.LocalCoords');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.model.AbstractMassObject');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const AbstractMassObject = goog.module.get('myphysicslab.lab.model.AbstractMassObject');
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const DebugEngine2D = goog.module.get('myphysicslab.lab.engine2D.DebugEngine2D');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const EdgeSet = goog.module.get('myphysicslab.lab.engine2D.EdgeSet');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const LocalCoords = goog.module.get('myphysicslab.lab.engine2D.LocalCoords');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
+const AbstractMassObject = goog.require('myphysicslab.lab.model.AbstractMassObject');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const CircularEdge = goog.require('myphysicslab.lab.engine2D.CircularEdge');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const DebugEngine2D = goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const EdgeSet = goog.require('myphysicslab.lab.engine2D.EdgeSet');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const LocalCoords = goog.require('myphysicslab.lab.engine2D.LocalCoords');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** A RigidBody made of connected Edges and Vertexes.
 
@@ -72,7 +50,6 @@ For explanation of **body vs. world coordinates** see
 
 Methods that return a location often have
 names ending with either 'body' or 'world' to indicate the coordinate system. Similarly, parameters of methods often end with 'body' or 'world'.
-
 
 ### Structure of a Polygon
 
@@ -102,7 +79,6 @@ The list of Vertexes may include automatically generated 'mid-point Vertexes' fo
 Edges. These Vertexes are added to give better collision detection for curved Edges. See
 {@link Vertex} about end-point vs. mid-point Vertexes.
 
-
 ### Creating a Polygon
 
 + First create a Polygon with the constructor; it has no Vertexes or Edges.
@@ -125,7 +101,6 @@ the process of adding the Edge to the Polygon.
 
 For examples of creating a Polygon see {@link myphysicslab.lab.engine2D.Shapes}.
 
-
 ### Centroids & Proximity Testing
 
 We need a quick way to know if objects are close enough to warrant the more expensive
@@ -142,9 +117,6 @@ Some of the proximity tests can be found in
 centroid radius by the distance that the Vertex has travelled during the current time
 step. And that we use the *distance squared* in these tests, to avoid the computational
 cost of the square root function.
-
-
-
 
 <a id="specialedgeforproximitytesting"></a>
 ### Special Edge for Proximity Testing
@@ -167,7 +139,6 @@ special centroid radius is half of the (short) width of the wall object.
 Only the special edge is tested for collisions, so care should be taken to avoid objects
 being able to collide into any of the non-special edge walls.
 
-
 ### Old Coords Is Used For Collision Detection
 
 A Polygon keeps a copy of its local coordinate system before the last time step of the
@@ -175,9 +146,6 @@ differential equation solver. The copy is used for collision detection, to deter
 a collision may have happened; for example whether a Vertex crossed over an Edge during
 the last time step. See {@link #saveOldCoords}, {@link #getOldCoords}, and
 {@link #eraseOldCoords}.
-
-
-
 
 ### Minimum Height
 
@@ -201,7 +169,6 @@ of mass is not on one of the axes of the circle/ellipse.
 changes. To do so, call `setMinHeight(NaN)` and the next time `getMinHeight` is
 called it will recalculate.
 
-
 @todo Each collision or contact is being calculated twice. Each body is calculating all
 its collisions/contacts, so redundant combinations are being done. (Though some bodies
 don't capture all of their possible collisions/contacts: block only looks for corner
@@ -217,15 +184,14 @@ of the edges.
 @todo minHeight is complicated, because not well defined.  For examples: donut;
 concave oval Edge on rectangle; these are not easy to figure out.
 
-* @param {string=} opt_name name of this Polygon for scripting (language independent)
-* @param {string=} opt_localName localized name of this Polygon, for display to user
-* @constructor
-* @final
-* @struct
-* @extends {AbstractMassObject}
 * @implements {RigidBody}
 */
-myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
+class Polygon extends AbstractMassObject {
+/**
+* @param {string=} opt_name name of this Polygon for scripting (language independent)
+* @param {string=} opt_localName localized name of this Polygon, for display to user
+*/
+constructor(opt_name, opt_localName) {
   var name, localName;
   if (!goog.isDef(opt_name) || opt_name == '') {
     var id = Polygon.ID++;
@@ -235,7 +201,7 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
     name = opt_name;
     localName = opt_localName ? opt_localName : name;
   }
-  AbstractMassObject.call(this, name, localName);
+  super(name, localName);
 
   /** list of Vertexes in this Polygon
   * @type {!Array<!Vertex>}
@@ -356,13 +322,11 @@ myphysicslab.lab.engine2D.Polygon = function(opt_name, opt_localName) {
   */
   this.accuracy_ = 0.6;
 };
-var Polygon = myphysicslab.lab.engine2D.Polygon;
-goog.inherits(Polygon, AbstractMassObject);
 
 /** @override */
-Polygon.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      Polygon.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', elasticity: ' +Util.NF(this.elasticity_)
       +', distanceTol_: '+Util.NF(this.distanceTol_)
       +', velocityTol_: '+Util.NF(this.velocityTol_)
@@ -373,40 +337,9 @@ Polygon.prototype.toString = function() {
 };
 
 /** @override */
-Polygon.prototype.getClassName = function() {
+getClassName() {
   return 'Polygon';
 };
-
-/** Counter used for naming Polygons.
-* @type {number}
-*/
-Polygon.ID = 1;
-
-/**
-* @type {string}
-* @private
-* @const
-*/
-Polygon.OPEN_PATH_ERROR = 'Polygon does not have an open path to add edges to';
-
-/** add small circle at end point Vertexes
-* @type {boolean}
-* @const
-* @private
-*/
-Polygon.SHOW_VERTICES = false;
-/** add small circle at all Vertexes, including mid-point Vertexes
-* @type {boolean}
-* @const
-* @private
-*/
-Polygon.SHOW_ALL_VERTICES = false;
-/** print Edge & Vertex info for each Polygon when created.
-* @type {boolean}
-* @const
-* @private
-*/
-Polygon.PRINT_POLYGON_STRUCTURE = false;
 
 /** Adds a CircularEdge to the open path of this Polygon, starting at the current last
 Vertex and ending at the given point, with the given center for the circular arc, and
@@ -425,7 +358,7 @@ moving clockwise or counter-clockwise from the start Vertex. See
 @throws {!Error} if `p_body` and last point are not equidistant from `center_body`
     within `CircularEdge.TINY_POSITIVE` tolerance
 */
-Polygon.prototype.addCircularEdge = function(p_body, center_body, clockwise,
+addCircularEdge(p_body, center_body, clockwise,
     outsideIsOut) {
   var edge = new CircularEdge(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), center_body, clockwise,
@@ -462,7 +395,7 @@ line.
 @return {!CircularEdge} the Edge that is created
 @throws {!Error} if Polygon does not have an open path to add Edges to
 */
-Polygon.prototype.addCircularEdge2 = function(p_body, radius, aboveRight, clockwise, outsideIsOut) {
+addCircularEdge2(p_body, radius, aboveRight, clockwise, outsideIsOut) {
   var edge = CircularEdge.make(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), radius, aboveRight, clockwise,
       outsideIsOut);
@@ -477,7 +410,7 @@ Polygon.prototype.addCircularEdge2 = function(p_body, radius, aboveRight, clockw
 * @throws {!Error} if there is no open path, or the start Vertex of the Edge does not
 *     match the end Vertex of last Edge in open path.
 */
-Polygon.prototype.addEdge = function(edge) {
+addEdge(edge) {
   if (this.finished_) {
     throw new Error('cannot add edges to finished Polygon');
   }
@@ -499,7 +432,7 @@ Polygon.prototype.addEdge = function(edge) {
 };
 
 /** @override */
-Polygon.prototype.addNonCollide = function(bodies) {
+addNonCollide(bodies) {
   this.nonCollideBodies_ = goog.array.join(this.nonCollideBodies_, bodies);
   goog.array.removeDuplicates(this.nonCollideBodies_);
 };
@@ -516,7 +449,7 @@ Vertex and ending at the given point. See {@link #lastOpenVertex} and
 @return {!StraightEdge} the Edge that is created
 @throws {!Error} if Polygon does not have an open path to add Edges to
 */
-Polygon.prototype.addStraightEdge = function(p_body, outsideIsUp) {
+addStraightEdge(p_body, outsideIsUp) {
   // the StraightEdge adds itself to the Polygon's list of Edges & Vertexes
   var edge = new StraightEdge(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), outsideIsUp);
@@ -528,7 +461,7 @@ Polygon.prototype.addStraightEdge = function(p_body, outsideIsUp) {
 * @return {undefined}
 * @private
 */
-Polygon.prototype.calculateSize = function() {
+calculateSize() {
   var xmin = Util.POSITIVE_INFINITY;
   var xmax = Util.NEGATIVE_INFINITY;
   var ymin = Util.POSITIVE_INFINITY;
@@ -563,7 +496,7 @@ a new RigidBodyCollision to the list of collisions.
     collisions with
 @param {number} time current simulation time
 */
-Polygon.prototype.checkCollision = function(collisions, body, time) {
+checkCollision(collisions, body, time) {
   UtilityCollision.checkVertexes(collisions, this, body, time);
   UtilityCollision.checkVertexes(collisions, body, this, time);
   goog.array.forEach(this.edges_, function checkEdgeCollision1(e1) {
@@ -596,7 +529,7 @@ Polygon.prototype.checkCollision = function(collisions, body, time) {
 * @return {undefined}
 * @private
 */
-Polygon.prototype.checkConsistent = function() {
+checkConsistent() {
   if (!this.finished_) {
     throw new Error('Polygon construction is not finished.');
   }
@@ -625,7 +558,7 @@ and {@link #getStartVertex}.
 @throws {!Error} if Polygon construction was previously finished
 @throws {!Error} if start and end Vertex of the path are not at the same location
 */
-Polygon.prototype.closePath = function() {
+closePath() {
   if (this.finished_) {
     throw new Error('Polygon construction is finished.');
   }
@@ -670,7 +603,7 @@ and Vertex v2 is deleted.
 * @param {!Vertex} v2
 * @private
 */
-Polygon.prototype.closePath_ = function(v1, v2) {
+closePath_(v1, v2) {
   if (v1.locBody().distanceTo(v2.locBody()) > 1E-8) {
     throw new Error(Util.DEBUG ?
       ('Vertexes must be at same location '+v1+' '+v2) : '');
@@ -686,7 +619,7 @@ Polygon.prototype.closePath_ = function(v1, v2) {
 };
 
 /** @override */
-Polygon.prototype.createCanvasPath = function(context) {
+createCanvasPath(context) {
   context.beginPath();
   // v0 = starting Vertex of the current path being examined
   goog.array.forEach(this.paths_, function(v0) {
@@ -724,12 +657,12 @@ Polygon.prototype.createCanvasPath = function(context) {
 };
 
 /** @override */
-Polygon.prototype.doesNotCollide = function(body) {
+doesNotCollide(body) {
   return goog.array.contains(this.nonCollideBodies_, body);
 };
 
 /** @override */
-Polygon.prototype.eraseOldCoords = function() {
+eraseOldCoords() {
   this.body_old_ = null;
 };
 
@@ -738,7 +671,7 @@ minimizes the distance to all Vertexes.
 @return {!Vector} the geometric center of this Polygon, in body
     coordinates.
 */
-Polygon.prototype.findCentroid = function() {
+findCentroid() {
   var NEARNESS_TOLERANCE = 1e-6;
   // this should probably also calculate the centroidRadius_ as a by-product;
   var info = new Array(2);
@@ -762,7 +695,7 @@ box, centroid, centroid radius; set to default values the center of mass, moment
 drag point.
 * @return {undefined}
 */
-Polygon.prototype.finish = function() {
+finish() {
   if (this.finished_) {
     throw new Error('Polygon construction is finished.');
   }
@@ -801,17 +734,17 @@ Polygon.prototype.finish = function() {
 };
 
 /** @override */
-Polygon.prototype.getAccuracy = function() {
+getAccuracy() {
   return this.accuracy_;
 };
 
 /** @override */
-Polygon.prototype.getBottomBody = function() {
+getBottomBody() {
   return this.bottom_body_;
 };
 
 /** @override */
-Polygon.prototype.getCentroidBody = function() {
+getCentroidBody() {
   if (this.centroid_body_ == null) {
     this.centroid_body_ = this.findCentroid();
     this.setCentroid(this.centroid_body_);
@@ -820,12 +753,12 @@ Polygon.prototype.getCentroidBody = function() {
 };
 
 /** @override */
-Polygon.prototype.getCentroidRadius = function() {
+getCentroidRadius() {
   return this.centroidRadius_;
 };
 
 /** @override */
-Polygon.prototype.getDistanceTol = function() {
+getDistanceTol() {
   return this.distanceTol_;
 };
 
@@ -833,7 +766,7 @@ Polygon.prototype.getDistanceTol = function() {
 @return {!Array<!Edge>} the list of edges of this body.
 @package
 */
-Polygon.prototype.getEdges_ = function() {
+getEdges_() {
   return this.edges_;
 };
 
@@ -841,22 +774,22 @@ Polygon.prototype.getEdges_ = function() {
 @return {!Array<!Edge>} clone of the list of edges of this
     body.
 */
-Polygon.prototype.getEdges = function() {
+getEdges() {
   return goog.array.clone(this.edges_);
 };
 
 /** @override */
-Polygon.prototype.getElasticity = function() {
+getElasticity() {
   return this.elasticity_;
 };
 
 /** @override */
-Polygon.prototype.getLeftBody = function() {
+getLeftBody() {
   return this.left_body_;
 };
 
 /** @override */
-Polygon.prototype.getMinHeight = function() {
+getMinHeight() {
   //BUG WARNING:  Will be incorrect for Ball or Oval,
   //when the center of mass is not on one of the axes of the circle/ellipse.
   //BUG WARNING:  Should be recalculated if the center of mass changes.
@@ -900,7 +833,7 @@ Polygon.prototype.getMinHeight = function() {
 * @return {number} minimum height that this object can be at
 * @private
 */
-Polygon.prototype.getMinHeight2 = function() {
+getMinHeight2() {
   if (isNaN(this.minHeight_)) {
     var dist = Util.POSITIVE_INFINITY;
     var d;
@@ -931,12 +864,12 @@ Polygon.prototype.getMinHeight2 = function() {
 };
 
 /** @override */
-Polygon.prototype.getOldCoords = function() {
+getOldCoords() {
   return this.body_old_;
 };
 
 /** @override */
-Polygon.prototype.getRightBody = function() {
+getRightBody() {
   return this.right_body_;
 };
 
@@ -952,7 +885,7 @@ See {@link #setSpecialEdge}.
 @return {?Vector} normal vector for special edge, in world
 coordinates, or null when there is no special edge
 */
-Polygon.prototype.getSpecialNormalWorld = function() {
+getSpecialNormalWorld() {
   var e = this.specialEdge_;
   if (e == null)
     return null;
@@ -972,12 +905,12 @@ Polygon.prototype.getSpecialNormalWorld = function() {
 * @return {?Vertex} starting Vertex for the current open path,
 *    or `null` if there is no open path.
 */
-Polygon.prototype.getStartVertex = function() {
+getStartVertex() {
   return this.startVertex_;
 };
 
 /** @override */
-Polygon.prototype.getTopBody = function() {
+getTopBody() {
   return this.top_body_;
 };
 
@@ -987,7 +920,7 @@ Polygon.prototype.getTopBody = function() {
 @param {boolean} localized whether to return localized variable name
 @return {string} the name of the specified variable for this particular body
 */
-Polygon.prototype.getVarName = function(index, localized) {
+getVarName(index, localized) {
   var s = this.getName(localized)+' ';
   switch (index) {
     case 0: s += 'X '+(localized ? Polygon.i18n.POSITION : Polygon.en.POSITION);
@@ -1010,12 +943,12 @@ Polygon.prototype.getVarName = function(index, localized) {
 };
 
 /** @override */
-Polygon.prototype.getVarsIndex = function() {
+getVarsIndex() {
   return this.varsIndex_;
 };
 
 /** @override */
-Polygon.prototype.getVelocityTol = function() {
+getVelocityTol() {
   return this.velocityTol_;
 };
 
@@ -1023,12 +956,12 @@ Polygon.prototype.getVelocityTol = function() {
 @return {!Array<!Vertex>}the list of Vertexes of this body.
 @package
 */
-Polygon.prototype.getVertexes_ = function() {
+getVertexes_() {
   return this.vertices_;
 };
 
 /** @override */
-Polygon.prototype.getVerticesBody = function() {
+getVerticesBody() {
   return goog.array.map(this.vertices_, function(v) { return v.locBody(); });
 };
 
@@ -1037,7 +970,7 @@ open path.
 * @return {?Edge} last Edge in current open path
 *     or `null` when there is no last Edge or no open path.
 */
-Polygon.prototype.lastOpenEdge = function() {
+lastOpenEdge() {
   if (this.startVertex_ == null) {
     throw new Error();
   }
@@ -1065,7 +998,7 @@ then this is the starting Vertex, see {@link #startPath} and {@link #getStartVer
 * @return {!Vertex} last Vertex in current open path
 * @throws {!Error} if there is no open path
 */
-Polygon.prototype.lastOpenVertex = function() {
+lastOpenVertex() {
   if (this.startVertex_ == null) {
     throw new Error(Polygon.OPEN_PATH_ERROR);
   }
@@ -1084,7 +1017,7 @@ any Vertex of this Polygon.
 *    body coords to any Vertex of this Polygon
 * @private
 */
-Polygon.prototype.maxRadiusSquared = function(p_body) {
+maxRadiusSquared(p_body) {
   var maxR = 0;
   goog.array.forEach(this.vertices_, function(v) {
     var d = p_body.distanceTo(v.locBody());
@@ -1111,7 +1044,7 @@ Returns `true` when passing `null` for the Edge.
 @return {boolean} true if this body cannot collide with the given Edge or if `edge` is
     null.
 */
-Polygon.prototype.nonCollideEdge = function(edge) {
+nonCollideEdge(edge) {
   if (edge == null) {
     return true;
   }
@@ -1125,7 +1058,7 @@ Polygon.prototype.nonCollideEdge = function(edge) {
 /** Prints all edges and Vertexes to console for debugging.
 * @return {undefined}
 */
-Polygon.prototype.printAll = function() {
+printAll() {
   if (Util.DEBUG) {
     console.log(this.toString());
     /** @type {!Vertex} */
@@ -1150,7 +1083,7 @@ WARNING:  For debugging only.  Does not work for complex (non-convex) shapes.
 @param {!Vector} p_body the point in body coords
 @return {boolean} true if the given body coords point is probably inside this polygon
 */
-Polygon.prototype.probablyPointInside = function(p_body) {
+probablyPointInside(p_body) {
   // look for an Edge with positive distance to the point,
   // which means the point is outside the body.
   var edge = goog.array.find(this.edges_,
@@ -1162,14 +1095,14 @@ Polygon.prototype.probablyPointInside = function(p_body) {
 };
 
 /** @override */
-Polygon.prototype.removeNonCollide = function(bodies) {
+removeNonCollide(bodies) {
   goog.array.removeAllIf(this.nonCollideBodies_, function(body, index, arr) {
     return goog.array.contains(bodies, body);
   });
 };
 
 /** @override */
-Polygon.prototype.saveOldCoords = function() {
+saveOldCoords() {
   if (this.body_old_ == null) {
     this.body_old_ = this.body_old_save_;
   }
@@ -1177,7 +1110,7 @@ Polygon.prototype.saveOldCoords = function() {
 };
 
 /** @override */
-Polygon.prototype.setAccuracy = function(accuracy) {
+setAccuracy(accuracy) {
   if (accuracy <= 0 || accuracy > 1) {
     throw new Error('accuracy must be between 0 and 1, is '+accuracy);
   }
@@ -1193,7 +1126,7 @@ proximity testing in world coords, in body coordinates
 @throws {!Error} when `setCentroid` is called while the Polygon is 'open' in process of
     adding edges, before the Polygon is closed with `finish()` method
 */
-Polygon.prototype.setCentroid = function(centroid_body) {
+setCentroid(centroid_body) {
   if (this.startVertex_ != null) {
     throw new Error('setCentroid called before finish, while creating Polygon');
   }
@@ -1219,12 +1152,12 @@ Polygon.prototype.setCentroid = function(centroid_body) {
 };
 
 /** @override */
-Polygon.prototype.setDistanceTol = function(value) {
+setDistanceTol(value) {
   this.distanceTol_ = value;
 };
 
 /** @override */
-Polygon.prototype.setElasticity = function(value) {
+setElasticity(value) {
   this.elasticity_ = value;
 };
 
@@ -1232,7 +1165,7 @@ Polygon.prototype.setElasticity = function(value) {
 @param {number} mass the mass of this Polygon
 @return {!Polygon} this object for chaining setters
 */
-Polygon.prototype.setMass = function(mass) {
+setMass(mass) {
   if (mass <= 0 || !goog.isNumber(mass)) {
     throw new Error('mass must be positive '+mass);
   }
@@ -1248,12 +1181,12 @@ see {@link RigidBody#addNonCollide}.
 @param {!EdgeSet} nonCollideSet  the set of other body edges
     to not collide with
 */
-Polygon.prototype.setNonCollideEdge = function(nonCollideSet) {
+setNonCollideEdge(nonCollideSet) {
   this.nonCollideSet_ = nonCollideSet;
 };
 
 /** @override */
-Polygon.prototype.setPosition = function(loc_world, angle) {
+setPosition(loc_world, angle) {
   this.loc_world_ = Vector.clone(loc_world);
   if (goog.isDef(angle) && isFinite(angle) && this.angle_ != angle) {
     this.angle_ = angle;
@@ -1280,7 +1213,7 @@ See {@link #getSpecialNormalWorld}.
 @throws {!Error} if this is not a rectangular Polygon, or the
     `edgeIndex` is not in range
 */
-Polygon.prototype.setSpecialEdge = function(edgeIndex, radius) {
+setSpecialEdge(edgeIndex, radius) {
   if (this.edges_.length != 4)
     throw new Error(Util.DEBUG ? 'can only set special edge on rectangle' : '');
   if (edgeIndex < 0 || edgeIndex > 3)
@@ -1309,12 +1242,12 @@ Polygon. The VarsList contains 6 values for each Polygon,
 * @param {number} index  the index of the x-position in the VarsList for this Polygon;
 *   or -1 if this Polygon is not in the VarsList.
 */
-Polygon.prototype.setVarsIndex = function(index) {
+setVarsIndex(index) {
   this.varsIndex_ = index;
 };
 
 /** @override */
-Polygon.prototype.setVelocityTol = function(value) {
+setVelocityTol(value) {
   this.velocityTol_ = value;
 };
 
@@ -1322,7 +1255,7 @@ Polygon.prototype.setVelocityTol = function(value) {
 * @param {!Vertex|!Edge}
 *    vertexOrEdge the Vertex or Edge to start the path at
 */
-Polygon.prototype.startPath = function(vertexOrEdge) {
+startPath(vertexOrEdge) {
   if (this.finished_) {
     throw new Error('Polygon construction is finished.');
   }
@@ -1340,6 +1273,8 @@ Polygon.prototype.startPath = function(vertexOrEdge) {
     this.edges_.push(edge);
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -1381,4 +1316,35 @@ Polygon.de_strings = {
 Polygon.i18n = goog.LOCALE === 'de' ? Polygon.de_strings :
     Polygon.en;
 
-}); // goog.scope
+/** Counter used for naming Polygons.
+* @type {number}
+*/
+Polygon.ID = 1;
+
+/**
+* @type {string}
+* @private
+* @const
+*/
+Polygon.OPEN_PATH_ERROR = 'Polygon does not have an open path to add edges to';
+
+/** add small circle at end point Vertexes
+* @type {boolean}
+* @const
+* @private
+*/
+Polygon.SHOW_VERTICES = false;
+/** add small circle at all Vertexes, including mid-point Vertexes
+* @type {boolean}
+* @const
+* @private
+*/
+Polygon.SHOW_ALL_VERTICES = false;
+/** print Edge & Vertex info for each Polygon when created.
+* @type {boolean}
+* @const
+* @private
+*/
+Polygon.PRINT_POLYGON_STRUCTURE = false;
+
+exports = Polygon;

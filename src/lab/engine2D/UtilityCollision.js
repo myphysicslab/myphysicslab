@@ -740,7 +740,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
         // removed on May 27 2013.
 
         // both bodies must be Polygon's, because Scrim doesn't collide with anything
-        goog.asserts.assert(body1 instanceof myphysicslab.lab.engine2D.Polygon);
+        // goog.asserts.assert(body1 instanceof Polygon);
         var noSpecialEdge = body1.getSpecialNormalWorld() == null;
 
         // note May 9 2016: If you make an EdgeRange or EdgeGroup such that two

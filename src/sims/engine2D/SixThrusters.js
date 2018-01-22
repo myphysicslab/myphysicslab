@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-var Polygon = myphysicslab.lab.engine2D.Polygon;
+const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

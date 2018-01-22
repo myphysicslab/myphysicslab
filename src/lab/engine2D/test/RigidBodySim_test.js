@@ -31,7 +31,7 @@ goog.require('myphysicslab.lab.util.Subject');
 goog.require('myphysicslab.lab.engine2D.Polygon');
 
 var testRigidBodySim1 = function() {
-  var Polygon = myphysicslab.lab.engine2D.Polygon;
+  const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
   const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
   var Shapes = myphysicslab.lab.engine2D.Shapes;
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
