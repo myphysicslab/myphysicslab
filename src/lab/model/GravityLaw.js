@@ -36,6 +36,7 @@ var CoordType = myphysicslab.lab.model.CoordType;
 var Force = myphysicslab.lab.model.Force;
 var ForceLaw = myphysicslab.lab.model.ForceLaw;
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var SimList = myphysicslab.lab.model.SimList;
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
@@ -71,7 +72,7 @@ Parameters Created
 @struct
 @extends {AbstractSubject}
 @implements {ForceLaw}
-@implements {myphysicslab.lab.util.Observer}
+@implements {Observer}
 */
 myphysicslab.lab.model.GravityLaw = function(gravity, opt_simList) {
   var id = GravityLaw.NAME_ID++;

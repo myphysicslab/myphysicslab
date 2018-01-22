@@ -34,6 +34,7 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 var PathPoint = myphysicslab.lab.model.PathPoint;
@@ -61,7 +62,7 @@ and <http://www.myphysicslab.com/RollerSpring.html>.
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {myphysicslab.sims.roller.HasPath}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
   AbstractODESim.call(this, opt_name);

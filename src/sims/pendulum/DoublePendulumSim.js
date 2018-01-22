@@ -28,9 +28,10 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -115,7 +116,7 @@ The variables are stored in the VarsList as follows
 * @struct
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
   AbstractODESim.call(this, opt_name);

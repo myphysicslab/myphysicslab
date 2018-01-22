@@ -33,9 +33,11 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 var CoordMap = lab.view.CoordMap;
+var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var LabView = lab.view.LabView;
 var ODESim = lab.model.ODESim;
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 var ScreenRect = lab.view.ScreenRect;
 var Subject = lab.util.Subject;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -67,8 +69,8 @@ direction field.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {DisplayObject}
+* @implements {Observer}
 */
 myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
   /**

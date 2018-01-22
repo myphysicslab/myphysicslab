@@ -30,6 +30,7 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 var Spring = myphysicslab.lab.model.Spring;
@@ -108,7 +109,7 @@ version.
 * @struct
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
   AbstractODESim.call(this, opt_name);

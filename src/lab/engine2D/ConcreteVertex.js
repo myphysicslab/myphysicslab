@@ -26,6 +26,7 @@ var Edge = myphysicslab.lab.engine2D.Edge;
 var UtilEngine = myphysicslab.lab.engine2D.UtilEngine;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+var Vertex = myphysicslab.lab.engine2D.Vertex;
 
 /** Concrete implementation of Vertex interface.
 *
@@ -37,7 +38,7 @@ const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.engine2D.Vertex}
+* @implements {Vertex}
 */
 myphysicslab.lab.engine2D.ConcreteVertex = function(v_body, opt_endPoint, opt_edge) {
   /** location in body coordinates of the RigidBody that this Vertex belongs to

@@ -12,35 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.ConcreteLine');
+goog.module('myphysicslab.lab.model.ConcreteLine');
 
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.model.Line');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Line = goog.module.get('myphysicslab.lab.model.Line');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Line = goog.require('myphysicslab.lab.model.Line');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A {@link myphysicslab.lab.model.Line} whose endpoints can be modified.
 
+* @implements {Line}
+*/
+class ConcreteLine extends AbstractSimObject {
+/**
 * @param {string} name the name of this ConcreteLine, for scripting
 * @param {!Vector=} startPt  starting point, default is the origin
 * @param {!Vector=} endPt  ending point, default is the origin
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {myphysicslab.lab.model.Line}
 */
-myphysicslab.lab.model.ConcreteLine = function(name, startPt, endPt) {
-  AbstractSimObject.call(this, name);
+constructor(name, startPt, endPt) {
+  super(name);
   /**
   * @type {!Vector}
   * @private
@@ -52,59 +43,57 @@ myphysicslab.lab.model.ConcreteLine = function(name, startPt, endPt) {
   */
   this.endPt_ = goog.isObject(endPt) ? endPt : Vector.ORIGIN;
 };
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
-goog.inherits(ConcreteLine, AbstractSimObject);
 
 /** @override */
-ConcreteLine.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      ConcreteLine.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', startPoint: '+this.getStartPoint()
       +', endPoint: '+this.getEndPoint()
       +'}';
 };
 
 /** @override */
-ConcreteLine.prototype.getClassName = function() {
+getClassName() {
   return 'ConcreteLine';
 };
 
 /** @override */
-ConcreteLine.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.getStartPoint(), this.getEndPoint());
 };
 
 /** @override */
-ConcreteLine.prototype.getEndPoint = function() {
+getEndPoint() {
   return this.endPt_;
 };
 
 /** @override */
-ConcreteLine.prototype.getStartPoint = function() {
+getStartPoint() {
   return this.startPt_;
 };
 
 /** @override */
-ConcreteLine.prototype.getVector = function() {
+getVector() {
   return this.getEndPoint().subtract(this.getStartPoint());
 };
 
 /** Sets ending point of the line.
 @param {!Vector} loc the ending point in world coords.
 */
-ConcreteLine.prototype.setEndPoint = function(loc) {
+setEndPoint(loc) {
   this.endPt_ = loc;
 };
 
 /** Sets starting point of the line.
 @param {!Vector} loc the starting point in world coords.
 */
-ConcreteLine.prototype.setStartPoint = function(loc) {
+setStartPoint(loc) {
   this.startPt_ = loc;
 };
 
 /** @override */
-ConcreteLine.prototype.similar = function(obj, opt_tolerance) {
+similar(obj, opt_tolerance) {
   if (!(obj instanceof ConcreteLine)) {
     return false;
   }
@@ -115,4 +104,5 @@ ConcreteLine.prototype.similar = function(obj, opt_tolerance) {
   return ml.getEndPoint().nearEqual(this.getEndPoint(), opt_tolerance);
 };
 
-}); // goog.scope
+} //end class
+exports = ConcreteLine;

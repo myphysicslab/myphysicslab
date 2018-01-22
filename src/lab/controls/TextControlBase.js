@@ -24,6 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -42,7 +43,7 @@ broadcasts events, this will update the value it displays.
 *     a text input field is created.
 * @constructor
 * @struct
-* @implements {myphysicslab.lab.controls.LabControl}
+* @implements {LabControl}
 * @implements {Observer}
 */
 myphysicslab.lab.controls.TextControlBase = function(label, getter, setter, textField) {

@@ -31,6 +31,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.springs.SingleSpringSim');
 
 var testSingleSpring = function() {
+  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var SimpleAdvance = myphysicslab.lab.model.SimpleAdvance;
@@ -71,7 +72,7 @@ var testSingleSpring = function() {
 
   /**  Observer that counts number of times that parameters are changed or events fire.
   @constructor
-  @implements {myphysicslab.lab.util.Observer}
+  @implements {Observer}
   */
   var MockObserver1 = function() {
     /**

@@ -31,9 +31,10 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var AbstractODESim = lab.model.AbstractODESim;
-var ConcreteLine = lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 var Spring = lab.model.Spring;
@@ -94,7 +95,7 @@ gravitational field. The kinetic energy should include the motion added by the a
 * @struct
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.pendulum.MoveableDoublePendulumSim = function(opt_name) {
   AbstractODESim.call(this, opt_name);

@@ -29,6 +29,7 @@ goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
+var ODESim = myphysicslab.lab.model.ODESim;
 var SimList = myphysicslab.lab.model.SimList;
 var Simulation = myphysicslab.lab.model.Simulation;
 const Subject = goog.module.get('myphysicslab.lab.util.Subject');
@@ -43,7 +44,7 @@ const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 * @constructor
 * @abstract
 * @struct
-* @implements {myphysicslab.lab.model.ODESim}
+* @implements {ODESim}
 * @extends {AbstractSubject}
 */
 myphysicslab.lab.model.AbstractODESim = function(opt_name, opt_simList, opt_varsList) {

@@ -36,8 +36,10 @@ goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var Collision = myphysicslab.lab.model.Collision;
+var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
@@ -185,8 +187,8 @@ From vector algebra:
 * @struct
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.model.CollisionSim}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {CollisionSim}
+* @implements {EventHandler}
 */
 myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
   AbstractODESim.call(this, opt_name);

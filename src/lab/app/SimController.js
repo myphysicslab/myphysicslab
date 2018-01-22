@@ -41,6 +41,7 @@ var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;
 var MouseTracker = myphysicslab.lab.app.MouseTracker;
+const Printable = goog.module.get('myphysicslab.lab.util.Printable');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var ViewPanner = myphysicslab.lab.app.ViewPanner;
@@ -173,7 +174,7 @@ The table below shows how modifier keys are named on different operating systems
     See {@link SimController#modifierKey}.
 * @constructor
 * @final
-* @implements {myphysicslab.lab.util.Printable}
+* @implements {Printable}
 * @implements {ErrorObserver}
 * @struct
 */

@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.util.Util');
 goog.scope(function() {
 
 var EdgeRange = myphysicslab.lab.engine2D.EdgeRange;
+var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s in multiple Polygons.
@@ -32,7 +33,7 @@ Edges are specified by {@link EdgeRange}s.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.engine2D.EdgeSet}
+* @implements {EdgeSet}
 */
 myphysicslab.lab.engine2D.EdgeGroup = function(opt_edgeRange) {
   /**

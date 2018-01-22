@@ -33,6 +33,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
@@ -94,7 +95,7 @@ The variables are stored in the VarsList as follows
 * @final
 * @struct
 * @extends {AbstractODESim}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
   AbstractODESim.call(this, opt_name, opt_simList);

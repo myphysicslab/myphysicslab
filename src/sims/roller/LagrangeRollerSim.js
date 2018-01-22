@@ -37,6 +37,7 @@ var sims = myphysicslab.sims;
 var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 var HumpPath = sims.roller.HumpPath;
 var NumericalPath = lab.model.NumericalPath;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
@@ -147,7 +148,7 @@ Note that this should agree with:
 * @struct
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
   AbstractODESim.call(this, opt_name);

@@ -29,7 +29,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 var Arc = lab.model.Arc;
-var ConcreteLine = lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');

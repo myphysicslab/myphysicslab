@@ -45,6 +45,7 @@ var lab = myphysicslab.lab;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 var CollisionHandling = lab.engine2D.CollisionHandling;
+var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var CollisionTotals = lab.model.CollisionTotals;
 var ComputeForces = lab.engine2D.ComputeForces;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
@@ -240,7 +241,7 @@ to check if body B collides with body A.
 * @param {string=} opt_name name of this Subject
 * @constructor
 * @struct
-* @implements {myphysicslab.lab.model.CollisionSim}
+* @implements {CollisionSim}
 * @extends {RigidBodySim}
 */
 myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {

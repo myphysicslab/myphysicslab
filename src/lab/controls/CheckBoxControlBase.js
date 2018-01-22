@@ -23,6 +23,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -40,7 +41,7 @@ current target value.
 *     a checkbox and label are created.
 * @constructor
 * @struct
-* @implements {myphysicslab.lab.controls.LabControl}
+* @implements {LabControl}
 * @implements {Observer}
 */
 myphysicslab.lab.controls.CheckBoxControlBase = function(label, getter, setter, checkBox) {

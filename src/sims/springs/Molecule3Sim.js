@@ -38,9 +38,11 @@ var lab = myphysicslab.lab;
 
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var Collision = myphysicslab.lab.model.Collision;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+var CollisionSim = myphysicslab.lab.model.CollisionSim;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
@@ -200,9 +202,9 @@ contact being broken.
 * @final
 * @struct
 * @extends {AbstractODESim}
-* @implements {myphysicslab.lab.model.CollisionSim}
+* @implements {CollisionSim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
   AbstractODESim.call(this, opt_name);

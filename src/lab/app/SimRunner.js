@@ -45,6 +45,7 @@ const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList
 const ErrorObserver = goog.module.get('myphysicslab.lab.util.ErrorObserver');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
@@ -135,8 +136,8 @@ All the Parameters are broadcast when their values change.  In addition:
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.util.Observer}
-* @implements {myphysicslab.lab.util.MemoList}
+* @implements {Observer}
+* @implements {MemoList}
 * @extends {AbstractSubject}
 */
 myphysicslab.lab.app.SimRunner = function(advance, opt_name) {

@@ -51,13 +51,16 @@ var sims = myphysicslab.sims;
 const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 var AdvanceStrategy = lab.model.AdvanceStrategy;
-var ConcreteLine = lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
+var Path = myphysicslab.lab.model.Path;
+var PathIterator = myphysicslab.lab.model.PathIterator;
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 var SimList = lab.model.SimList;
 var Simulation = lab.model.Simulation;
@@ -106,7 +109,7 @@ accel at that point.
 * @final
 * @struct
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 * @implements {Simulation}
 * @extends {AbstractSubject}
 * @param {!StringShape} shape starting wave shape
@@ -701,7 +704,7 @@ StringAdvance.prototype.reset = function() {
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.Path}
+* @implements {Path}
 * @extends {AbstractSimObject}
 */
 myphysicslab.sims.pde.StringPath = function(sim) {
@@ -754,7 +757,7 @@ StringPath.prototype.getSequence = function () {
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.PathIterator}
+* @implements {PathIterator}
 */
 myphysicslab.sims.pde.StringIterator = function(sim) {
   /**

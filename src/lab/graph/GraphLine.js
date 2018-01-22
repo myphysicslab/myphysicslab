@@ -40,6 +40,7 @@ var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
@@ -137,7 +138,7 @@ All the Parameters are broadcast when their values change.  In addition:
 * @struct
 * @extends {AbstractSubject}
 * @implements {Memorizable}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
 myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
   AbstractSubject.call(this, name);

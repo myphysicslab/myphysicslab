@@ -34,6 +34,7 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 var HasPath = myphysicslab.sims.roller.HasPath;
 var NumericalPath = myphysicslab.lab.model.NumericalPath;
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
@@ -71,7 +72,7 @@ The simulation is not functional until a path has been provided with {@link #set
 * @extends {AbstractODESim}
 * @implements {HasPath}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.roller.RollerDoubleSim = function(opt_name) {
   AbstractODESim.call(this, opt_name);

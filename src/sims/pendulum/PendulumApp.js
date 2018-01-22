@@ -37,7 +37,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 var CheckBoxControl = lab.controls.CheckBoxControl;
-var ConcreteLine = lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var DisplayArc = lab.view.DisplayArc;
 var DisplayLine = lab.view.DisplayLine;
 var DisplayShape = lab.view.DisplayShape;

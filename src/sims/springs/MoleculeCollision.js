@@ -20,6 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
+var Collision = myphysicslab.lab.model.Collision;
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -34,7 +35,7 @@ const Util = goog.module.get('myphysicslab.lab.util.Util');
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.Collision}
+* @implements {Collision}
 */
 myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
   /**

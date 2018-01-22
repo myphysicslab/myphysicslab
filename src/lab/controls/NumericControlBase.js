@@ -24,6 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -81,7 +82,7 @@ shown, switching to exponential when needed.
 *     a text field is created.
 * @constructor
 * @struct
-* @implements {myphysicslab.lab.controls.LabControl}
+* @implements {LabControl}
 * @implements {Observer}
 */
 myphysicslab.lab.controls.NumericControlBase = function(label, getter, setter, textField) {

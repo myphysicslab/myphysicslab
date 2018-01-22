@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.model.ConcreteLine');
 var testConcreteLine = function() {
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+  const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
   var tol = 1E-15;
   var l0 = new ConcreteLine('line0');
   assertFalse(l0.isMassObject());
@@ -57,7 +57,7 @@ goog.exportProperty(window, 'testConcreteLine', testConcreteLine);
 
 var testConcreteLineSimilar = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+  const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
   var l1 = new ConcreteLine('line1');
   l1.setStartPoint(new Vector(2, 0));
   l1.setEndPoint(new Vector(0, 2));

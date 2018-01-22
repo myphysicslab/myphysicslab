@@ -22,6 +22,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 goog.scope(function() {
 
 var Connector = myphysicslab.lab.engine2D.Connector;
+var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
@@ -38,7 +39,7 @@ has no effect, and the DisplayConnector is never dragable.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.view.DisplayObject}
+* @implements {DisplayObject}
 */
 myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
   /**

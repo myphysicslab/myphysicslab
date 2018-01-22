@@ -49,7 +49,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var ConcreteLine = lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var DampingLaw = lab.model.DampingLaw;
 var DebugEngine2D = lab.engine2D.DebugEngine2D;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -59,6 +59,7 @@ var Force = lab.model.Force;
 var ForceLaw = lab.model.ForceLaw;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var GravityLaw = lab.model.GravityLaw;
+var ODESim = myphysicslab.lab.model.ODESim;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
@@ -169,7 +170,7 @@ VarsList. Their position in the VarsList remains constant after they are allocat
 * @extends {AbstractSubject}
 * @implements {DebugEngine2D}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.model.ODESim}
+* @implements {ODESim}
 */
 myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
   AbstractSubject.call(this, opt_name || 'SIM');

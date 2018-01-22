@@ -35,8 +35,10 @@ goog.scope(function() {
 var AbstractODESim = myphysicslab.lab.model.AbstractODESim;
 var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 var Collision = myphysicslab.lab.model.Collision;
+var CollisionSim = myphysicslab.lab.model.CollisionSim;
 var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
 var EnergySystem = myphysicslab.lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
@@ -122,9 +124,9 @@ Elasticity parameter.
 * @final
 * @struct
 * @extends {AbstractODESim}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.model.CollisionSim}
+* @implements {CollisionSim}
 */
 myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
   AbstractODESim.call(this, opt_name);

@@ -24,6 +24,7 @@ goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('goog.testing.jsunit');
 
 var testAbstractSubject1 = function() {
+  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
@@ -154,7 +155,7 @@ var testAbstractSubject1 = function() {
   assertTrue(goog.array.contains(params, paramQux));
   /**  Observer that counts number of times that parameters are changed or events fire.
   @constructor
-  @implements {myphysicslab.lab.util.Observer}
+  @implements {Observer}
   */
   var MockObserver1 = function() {
     /**
@@ -257,7 +258,7 @@ var testAbstractSubject1 = function() {
 
   /**  Observer that counts number of times that parameters are changed or events fire.
   @constructor
-  @implements {myphysicslab.lab.util.Observer}
+  @implements {Observer}
   */
   var MockObserver2 = function() {
     /**

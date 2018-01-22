@@ -31,6 +31,8 @@ goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.sims.pendulum.DoublePendulumSim');
 
 var testDoublePendulum = function() {
+  const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
+  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var EnergyInfo = myphysicslab.lab.model.EnergyInfo;
@@ -49,9 +51,9 @@ var testDoublePendulum = function() {
   var bob2 = simList.getPointMass('bob2');
   assertTrue(bob2 instanceof PointMass);
   var rod1 = simList.getConcreteLine('rod1');
-  assertTrue(rod1 instanceof myphysicslab.lab.model.ConcreteLine);
+  assertTrue(rod1 instanceof ConcreteLine);
   var rod2 = simList.getConcreteLine('rod2');
-  assertTrue(rod2 instanceof myphysicslab.lab.model.ConcreteLine);
+  assertTrue(rod2 instanceof ConcreteLine);
 
   // confirm parameters exist
   var rod1LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_1_LENGTH);
@@ -77,7 +79,7 @@ var testDoublePendulum = function() {
 
   /**  Observer that counts number of times that parameters are changed or events fire.
   @constructor
-  @implements {myphysicslab.lab.util.Observer}
+  @implements {Observer}
   */
   var MockObserver1 = function() {
     /**

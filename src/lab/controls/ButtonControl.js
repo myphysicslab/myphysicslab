@@ -21,6 +21,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** A button input element which executes a function when the button is pressed.
@@ -36,7 +37,7 @@ See {@link #repeatDelay} and {@link #repeatFirst}.
 *     the name is displayed as text.
 * @constructor
 * @final
-* @implements {myphysicslab.lab.controls.LabControl}
+* @implements {LabControl}
 * @struct
 */
 myphysicslab.lab.controls.ButtonControl = function(label, clickFunction, opt_image) {

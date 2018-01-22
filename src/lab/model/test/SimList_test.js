@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.util.Observer');
 var testSimList = function() {
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+  const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
   var Spring = myphysicslab.lab.model.Spring;
   var SimList = myphysicslab.lab.model.SimList;
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
@@ -37,7 +37,7 @@ var testSimList = function() {
 
   /** observer that tracks the number of each type of SimObject in list
   @constructor
-  @implements {myphysicslab.lab.util.Observer}
+  @implements {Observer}
   */
   var MockObserver1 = function() {
     /**
@@ -60,12 +60,12 @@ var testSimList = function() {
 
   /** @override */
   MockObserver1.prototype.observe =  function(event) {
-    var obj = /** @type {!myphysicslab.lab.model.SimObject} */ (event.getValue());
+    var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (obj instanceof Spring) {
         this.numSprings++;
       } else if (obj instanceof PointMass) {
-        var pm = /** @type {!myphysicslab.lab.model.PointMass} */(obj);
+        var pm = /** @type {!PointMass} */(obj);
         if (pm.getShape() == ShapeType.OVAL) {
           this.numPoints++;
         } else if (pm.getShape() == ShapeType.RECTANGLE) {
@@ -78,7 +78,7 @@ var testSimList = function() {
       if (obj instanceof Spring) {
         this.numSprings--;
       } else if (obj instanceof PointMass) {
-        pm = /** @type {!myphysicslab.lab.model.PointMass} */(obj);
+        pm = /** @type {!PointMass} */(obj);
         if (pm.getShape() == ShapeType.OVAL) {
           this.numPoints--;
         } else if (pm.getShape() == ShapeType.RECTANGLE) {
@@ -209,7 +209,8 @@ goog.exportProperty(window, 'testSimList', testSimList);
 */
 var testSimListThrows = function() {
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  var simList = new myphysicslab.lab.model.SimList();
+  var SimList = myphysicslab.lab.model.SimList;
+  var simList = new SimList();
   var e = assertThrows(function() {simList.add(null);}  );
   assertTrue(e instanceof Error);
   assertEquals('cannot add invalid SimObject', e.message);

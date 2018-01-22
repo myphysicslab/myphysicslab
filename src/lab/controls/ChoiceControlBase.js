@@ -24,6 +24,7 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -90,7 +91,7 @@ Observer of the Subject.
     `undefined` or empty string then no label is made.
 * @constructor
 * @struct
-* @implements {myphysicslab.lab.controls.LabControl}
+* @implements {LabControl}
 * @implements {Observer}
 */
 myphysicslab.lab.controls.ChoiceControlBase = function(choices, values, getter, setter,

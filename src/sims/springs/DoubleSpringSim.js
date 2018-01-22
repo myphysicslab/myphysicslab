@@ -35,6 +35,7 @@ var sims = myphysicslab.sims;
 var AbstractODESim = lab.model.AbstractODESim;
 var EnergyInfo = lab.model.EnergyInfo;
 var EnergySystem = lab.model.EnergySystem;
+var EventHandler = myphysicslab.lab.app.EventHandler;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
@@ -93,7 +94,7 @@ Equations of Motion:
 * @struct
 * @extends {AbstractODESim}
 * @implements {EnergySystem}
-* @implements {myphysicslab.lab.app.EventHandler}
+* @implements {EventHandler}
 */
 myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
   AbstractODESim.call(this, opt_name);

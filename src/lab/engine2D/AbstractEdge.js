@@ -53,7 +53,7 @@ var Vertex = myphysicslab.lab.engine2D.Vertex;
 * @constructor
 * @abstract
 * @struct
-* @implements {myphysicslab.lab.engine2D.Edge}
+* @implements {Edge}
 */
 myphysicslab.lab.engine2D.AbstractEdge = function(body, vertex1, vertex2) {
   /** the previous vertex, in body coords; matches the next (second) vertex of the

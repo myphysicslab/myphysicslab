@@ -77,7 +77,7 @@ const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 var CommonControls = sims.common.CommonControls;
 var CompareGraph = sims.common.CompareGraph;
 var CompareTimeGraph = sims.common.CompareTimeGraph;
-var ConcreteLine = lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var DisplayAxes = lab.graph.DisplayAxes;
 var DisplayClock = lab.view.DisplayClock;
 var DisplayGraph = lab.graph.DisplayGraph;
@@ -93,6 +93,7 @@ const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver')
 var GraphLine = lab.graph.GraphLine;
 var LabControl = lab.controls.LabControl;
 var NumericControl = lab.controls.NumericControl;
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
@@ -238,7 +239,7 @@ can be properly expanded.
 * @final
 * @struct
 * @extends {AbstractSubject}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 * @export
 */
 myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {

@@ -34,6 +34,8 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
 const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
 var ParametricPath = myphysicslab.lab.model.ParametricPath;
+var Path = myphysicslab.lab.model.Path;
+var PathIterator = myphysicslab.lab.model.PathIterator;
 var PathPoint = myphysicslab.lab.model.PathPoint;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
@@ -153,7 +155,7 @@ have the makeTable thing be callable anytime.
 * @final
 * @struct
 * @extends {AbstractSimObject}
-* @implements {myphysicslab.lab.model.Path}
+* @implements {Path}
 */
 myphysicslab.lab.model.NumericalPath = function(path, opt_tableLength) {
   AbstractSimObject.call(this, path.getName());
@@ -1315,7 +1317,7 @@ bigger
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.model.PathIterator}
+* @implements {PathIterator}
 */
 myphysicslab.lab.model.PointsIterator = function(path, numberOfPoints) {
   numberOfPoints = Math.min(numberOfPoints, path.getTableLength());

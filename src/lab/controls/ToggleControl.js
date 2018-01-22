@@ -25,6 +25,8 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -38,8 +40,8 @@ CSS scripting.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.controls.LabControl}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {LabControl}
+* @implements {Observer}
 */
 myphysicslab.lab.controls.ToggleControl = function(parameter, imageOn, imageOff) {
   /**

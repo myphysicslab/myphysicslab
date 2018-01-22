@@ -24,6 +24,8 @@ goog.require('myphysicslab.lab.controls.LabControl');
 
 goog.scope(function() {
 
+var LabControl = myphysicslab.lab.controls.LabControl;
+const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
@@ -150,8 +152,8 @@ elements, but use a `<div>` instead.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.controls.LabControl}
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {LabControl}
+* @implements {Observer}
 */
 myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply,
       increments) {

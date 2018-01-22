@@ -20,6 +20,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
+var EdgeSet = myphysicslab.lab.engine2D.EdgeSet;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Specifies a set of Edges in a Polygon. The Edges must be contiguous in the list of
@@ -34,7 +35,7 @@ Polygon, see {@link myphysicslab.lab.engine2D.Polygon}.
 * @constructor
 * @final
 * @struct
-* @implements {myphysicslab.lab.engine2D.EdgeSet}
+* @implements {EdgeSet}
 */
 myphysicslab.lab.engine2D.EdgeRange = function(body, beginIdx, endIdx) {
   if (endIdx < beginIdx) {

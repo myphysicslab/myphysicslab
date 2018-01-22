@@ -42,7 +42,7 @@ goog.scope(function() {
 
 var CollisionAdvance = myphysicslab.lab.model.CollisionAdvance;
 var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
-var ConcreteLine = myphysicslab.lab.model.ConcreteLine;
+const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 var CoordType = myphysicslab.lab.model.CoordType;
 var DampingLaw = myphysicslab.lab.model.DampingLaw;
