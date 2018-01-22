@@ -12,30 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.SimList');
+goog.module('myphysicslab.lab.model.SimList');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.Arc');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const Arc = goog.module.get('myphysicslab.lab.model.Arc');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Arc = goog.require('myphysicslab.lab.model.Arc');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** The list of SimObjects that represent the current state of a
 Simulation. For an ODESim the current state is dictated by its VarsList and the
@@ -73,13 +60,10 @@ This is to prevent thousands of similar SimObjects being created which would onl
 performance without adding any significant information to the visual display. An example
 of this is when we show forces in ContactSim.
 
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 */
-myphysicslab.lab.model.SimList = function() {
-  AbstractSubject.call(this, 'SIM_LIST');
+class SimList extends AbstractSubject {
+constructor() {
+  super('SIM_LIST');
   /** The SimObjectss that this SimList contains.
   * @type {!Array<!SimObject>}
   * @private
@@ -91,50 +75,29 @@ myphysicslab.lab.model.SimList = function() {
   */
   this.tolerance_ = 0.1;
 };
-var SimList = myphysicslab.lab.model.SimList;
-goog.inherits(SimList, AbstractSubject);
 
 /** @override */
-SimList.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', tolerance_: '+Util.NF(this.tolerance_)
       +', elements_: ['
       + goog.array.map(this.elements_, function(e, idx) {
           return idx+': '+e.toStringShort();
         })
-      + ']' + SimList.superClass_.toString.call(this);
+      + ']' + super.toString();
 };
 
 /** @override */
-SimList.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      SimList.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       + ', length: '+this.elements_.length+'}';
 };
 
 /** @override */
-SimList.prototype.getClassName = function() {
+getClassName() {
   return 'SimList';
 };
-
-/** Name of event broadcast when a SimObject is added to the SimList.
-* @type {string}
-* @const
-*/
-SimList.OBJECT_ADDED = 'OBJECT_ADDED';
-
-/** Name of event broadcast when a SimObject has been modified, but not added
-* or removed from the SimList.
-* @type {string}
-* @const
-*/
-SimList.OBJECT_MODIFIED = 'OBJECT_MODIFIED';
-
-/** Name of event broadcast when a SimObject is removed from the SimList.
-* @type {string}
-* @const
-*/
-SimList.OBJECT_REMOVED = 'OBJECT_REMOVED';
 
 /** Adds the SimObject to this SimList. Notifies Observers by broadcasting
 the {@link #OBJECT_ADDED} event. For SimObjects with finite
@@ -143,7 +106,7 @@ any existing similar SimObject in this SimList, as found using
 {@link #getSimilar} with the default tolerance from {@link #getTolerance}.
 @param {...!SimObject} simObjs the SimObjects to add
 */
-SimList.prototype.add = function(simObjs) {
+add(simObjs) {
   for (var i=0; i<arguments.length; i++) {
     /** @type {!SimObject} */
     var element = arguments[i];
@@ -168,7 +131,7 @@ SimList.prototype.add = function(simObjs) {
 {@link #OBJECT_ADDED} event for each SimObject added.
 @param {!Array<!SimObject>} objList the SimObjects to add
 */
-SimList.prototype.addAll = function(objList) {
+addAll(objList) {
   for (var i=0, len=objList.length; i<len; i++) {
     this.add(objList[i]);
   }
@@ -178,7 +141,7 @@ SimList.prototype.addAll = function(objList) {
 {@link #OBJECT_REMOVED} event for each SimObject removed.
 * @return {undefined}
 */
-SimList.prototype.clear = function() {
+clear() {
   this.removeAll(this.toArray());
 };
 
@@ -186,7 +149,7 @@ SimList.prototype.clear = function() {
 @param {!SimObject} simObj the SimObject to look for
 @return {boolean} true if the SimObject is in this SimList.
 */
-SimList.prototype.contains = function(simObj) {
+contains(simObj) {
   return goog.array.contains(this.elements_, simObj);
 };
 
@@ -198,7 +161,7 @@ SimObject in this SimList with the given name.
     or with the given name
 @throws {!Error} if SimObject not found or index out of range
 */
-SimList.prototype.get = function(arg) {
+get(arg) {
   if (goog.isNumber(arg)) {
     if (arg >= 0 && arg < this.elements_.length) {
       return this.elements_[arg];
@@ -221,7 +184,7 @@ SimList.prototype.get = function(arg) {
 @return {!Arc} the Arc with the given name
 @throws {!Error} if Arc not found
 */
-SimList.prototype.getArc = function(name) {
+getArc(name) {
   var obj = this.get(name);
   if (obj instanceof Arc) {
     return /** @type {!Arc} */(obj);
@@ -235,7 +198,7 @@ SimList.prototype.getArc = function(name) {
 @return {!ConcreteLine} the ConcreteLine with the given name
 @throws {!Error} if ConcreteLine not found
 */
-SimList.prototype.getConcreteLine = function(name) {
+getConcreteLine(name) {
   var obj = this.get(name);
   if (obj instanceof ConcreteLine) {
     return /** @type {!ConcreteLine} */(obj);
@@ -249,7 +212,7 @@ SimList.prototype.getConcreteLine = function(name) {
 @return {!PointMass} the PointMass with the given name
 @throws {!Error} if PointMass not found
 */
-SimList.prototype.getPointMass = function(name) {
+getPointMass(name) {
   var obj = this.get(name);
   if (obj instanceof PointMass) {
     return /** @type {!PointMass} */(obj);
@@ -266,7 +229,7 @@ See {@link SimObject#similar} for how similarity is determined.
 @return {?SimObject} a similar looking SimObject on this SimList,
     or `null` if there isn't one
 */
-SimList.prototype.getSimilar = function(simObj, tolerance) {
+getSimilar(simObj, tolerance) {
   var tol = (tolerance === undefined) ? this.tolerance_ : tolerance;
   return goog.array.find(this.elements_,
     function(obj, index, array) {
@@ -279,7 +242,7 @@ SimList.prototype.getSimilar = function(simObj, tolerance) {
 @return {!Spring} the Spring with the given name
 @throws {!Error} if Spring not found
 */
-SimList.prototype.getSpring = function(name) {
+getSpring(name) {
   var obj = this.get(name);
   if (obj instanceof Spring) {
     return /** @type {!Spring} */(obj);
@@ -293,7 +256,7 @@ SimList. See {@link SimObject#similar} for how similarity is determined.
 @return {number} the tolerance used for similarity testing when adding
 SimObjects
 */
-SimList.prototype.getTolerance = function() {
+getTolerance() {
   return this.tolerance_;
 };
 
@@ -303,14 +266,14 @@ this list, or -1 if this list does not contain the SimObject.
 @return {number} the index of the first occurrence of the specified SimObject in
     this list, or -1 if this list does not contain the SimObject
 */
-SimList.prototype.indexOf = function(simObj) {
+indexOf(simObj) {
   return goog.array.indexOf(this.elements_, simObj);
 };
 
 /** Returns the number of SimObjects in this SimList.
 @return {number} the number of SimObjects in this SimList.
 */
-SimList.prototype.length = function() {
+length() {
   return this.elements_.length;
 };
 
@@ -318,7 +281,7 @@ SimList.prototype.length = function() {
 {@link #OBJECT_REMOVED} event.
 @param {!SimObject} simObj the SimObject to remove
 */
-SimList.prototype.remove = function(simObj) {
+remove(simObj) {
   if (goog.array.remove(this.elements_, simObj)) {
     this.broadcast(new GenericEvent(this, SimList.OBJECT_REMOVED, simObj));
   }
@@ -328,7 +291,7 @@ SimList.prototype.remove = function(simObj) {
 the {@link #OBJECT_REMOVED} event for each SimObject removed.
 @param {!Array<!SimObject>} objList the SimObjects to remove
 */
-SimList.prototype.removeAll = function(objList) {
+removeAll(objList) {
   for (var i=0, len=objList.length; i<len; i++) {
     this.remove(objList[i]);
   }
@@ -339,7 +302,7 @@ time. Notifies Observers by broadcasting the {@link #OBJECT_REMOVED} event for e
 SimObject removed. See {@link SimObject#getExpireTime}
 @param {number} time the current simulation time
 */
-SimList.prototype.removeTemporary = function(time) {
+removeTemporary(time) {
   for (var i = this.elements_.length-1; i >= 0; i--) {
     var simobj = this.elements_[i];
     if (simobj.getExpireTime() < time) {
@@ -354,15 +317,36 @@ SimList. See {@link SimObject#similar} for how similarity is determined.
 @param {number} tolerance the tolerance used for similarity testing when adding
     SimObjects
 */
-SimList.prototype.setTolerance = function(tolerance) {
+setTolerance(tolerance) {
   this.tolerance_ = tolerance;
 };
 
 /** Returns an array containing all the SimObjects on this SimList.
 @return {!Array<!SimObject>} an array containing all the SimObjects on this SimList.
 */
-SimList.prototype.toArray = function() {
+toArray() {
   return goog.array.clone(this.elements_);
 };
 
-}); // goog.scope
+} //end class
+
+/** Name of event broadcast when a SimObject is added to the SimList.
+* @type {string}
+* @const
+*/
+SimList.OBJECT_ADDED = 'OBJECT_ADDED';
+
+/** Name of event broadcast when a SimObject has been modified, but not added
+* or removed from the SimList.
+* @type {string}
+* @const
+*/
+SimList.OBJECT_MODIFIED = 'OBJECT_MODIFIED';
+
+/** Name of event broadcast when a SimObject is removed from the SimList.
+* @type {string}
+* @const
+*/
+SimList.OBJECT_REMOVED = 'OBJECT_REMOVED';
+
+exports = SimList;

@@ -30,7 +30,7 @@ var testSimList = function() {
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
   const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  var SimList = myphysicslab.lab.model.SimList;
+  const SimList = goog.module.get('myphysicslab.lab.model.SimList');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   const Observer = goog.module.get('myphysicslab.lab.util.Observer');
   const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
@@ -122,7 +122,7 @@ var testSimList = function() {
       /*restLength=*/2, /*stiffness=*/12);
   var r1 = PointMass.makeRectangle(3, 2, 'rect1').setMass(2);
   // put objects into SimList
-  var simList = new myphysicslab.lab.model.SimList();
+  var simList = new SimList();
   assertEquals(0.1, simList.getTolerance());
   assertEquals(0, simList.length());
   simList.addObserver(myMockObserver);
@@ -209,7 +209,7 @@ goog.exportProperty(window, 'testSimList', testSimList);
 */
 var testSimListThrows = function() {
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  var SimList = myphysicslab.lab.model.SimList;
+  const SimList = goog.module.get('myphysicslab.lab.model.SimList');
   var simList = new SimList();
   var e = assertThrows(function() {simList.add(null);}  );
   assertTrue(e instanceof Error);

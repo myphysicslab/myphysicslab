@@ -20,7 +20,7 @@ goog.require('myphysicslab.lab.util.Subject');
 
 goog.scope(function() {
 
-var SimList = myphysicslab.lab.model.SimList;
+const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 
 /**  The mathematical model of a simulation.

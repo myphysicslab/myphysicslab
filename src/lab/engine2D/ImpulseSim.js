@@ -60,7 +60,7 @@ const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 var RigidBody = lab.engine2D.RigidBody;
 var RigidBodyCollision = lab.engine2D.RigidBodyCollision;
 var RigidBodySim = lab.engine2D.RigidBodySim;
-var SimList = lab.model.SimList;
+const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 var UtilEngine = lab.engine2D.UtilEngine;
 var UtilityCollision = lab.engine2D.UtilityCollision;
 
