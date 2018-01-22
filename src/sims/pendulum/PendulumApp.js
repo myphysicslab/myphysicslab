@@ -47,7 +47,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 var PendulumSim = sims.pendulum.PendulumSim;
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-var SliderControl = lab.controls.SliderControl;
+const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

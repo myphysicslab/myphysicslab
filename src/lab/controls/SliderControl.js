@@ -12,22 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.controls.SliderControl');
+goog.module('myphysicslab.lab.controls.SliderControl');
 
 goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.Event');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.controls.LabControl');
 
-goog.scope(function() {
-
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Creates a "slider plus textbox" control that displays and modifies the given {@link
 ParameterNumber}. Consists of a label plus a slider and textbox which show the value of
@@ -96,7 +90,6 @@ the text of the Error. After dismissing the alert, the displayed value will be r
 to match the current target value, as returned by the `getter`. (Note that the user's
 input is discarded).
 
-
 How SliderControl Works
 -----------------------
 
@@ -119,7 +112,6 @@ The ParameterNumber can take on any value allowed by the ParameterNumber's upper
 lower limits. If the ParameterNumber takes on a value outside the range of the slider,
 then the slider will be at its min or max position.
 
-
 Odd Behavior in Browsers
 ------------------------
 
@@ -141,6 +133,11 @@ of the label. The `for` attribute of a label seems to be the first control unles
 explicitly specified. The solution is to not use `<label>` for grouping the slider
 elements, but use a `<div>` instead.
 
+* @implements {LabControl}
+* @implements {Observer}
+*/
+class SliderControl {
+/**
 * @param {!ParameterNumber} parameter the ParameterNumber to
       display and control
 * @param {number} min  the minimum value that the slider can reach
@@ -149,13 +146,8 @@ elements, but use a `<div>` instead.
 *     delta for each step; default is `false` meaning "add"
 * @param {number=} increments  the number of increments, between max and min,
 *     that the value can take on; default is 100
-* @constructor
-* @final
-* @struct
-* @implements {LabControl}
-* @implements {Observer}
 */
-myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply,
+constructor(parameter, min, max, multiply,
       increments) {
   /**
   * @type {!ParameterNumber}
@@ -319,10 +311,9 @@ myphysicslab.lab.controls.SliderControl = function(parameter, min, max, multiply
   this.formatTextField();
   this.parameter_.getSubject().addObserver(this);
 };
-var SliderControl = myphysicslab.lab.controls.SliderControl;
 
 /** @override */
-SliderControl.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', paramValue_: '+Util.NF(this.paramValue_)
       +', sliderValue_: '+Util.NF(this.sliderValue_)
@@ -340,7 +331,7 @@ SliderControl.prototype.toString = function() {
 };
 
 /** @override */
-SliderControl.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'SliderControl{parameter: '+this.parameter_.toStringShort()+'}';
 };
@@ -352,7 +343,7 @@ with the given number of significant digits.
 @return {number} the number of columns needed
 @private
 */
-SliderControl.prototype.columnsNeeded = function(x, sigDigits) {
+columnsNeeded(x, sigDigits) {
   var mag = SliderControl.magnitude(x);
   return 2 + this.decimalPlacesNeeded(x, sigDigits) + (mag > 0 ? mag : 0);
 };
@@ -364,7 +355,7 @@ SliderControl.prototype.columnsNeeded = function(x, sigDigits) {
 @return {number} the number of fractional decimal places needed
 @private
 */
-SliderControl.prototype.decimalPlacesNeeded = function(x, sigDigits) {
+decimalPlacesNeeded(x, sigDigits) {
   if (this.decimalPlaces_ > -1) {
     return this.decimalPlaces_;
   } else {
@@ -377,7 +368,7 @@ SliderControl.prototype.decimalPlacesNeeded = function(x, sigDigits) {
 };
 
 /** @override */
-SliderControl.prototype.disconnect = function() {
+disconnect() {
   this.parameter_.getSubject().removeObserver(this);
   goog.events.unlistenByKey(this.sliderKey_);
   goog.events.unlistenByKey(this.sliderKey2_);
@@ -391,7 +382,7 @@ SliderControl.prototype.disconnect = function() {
 * @param {!goog.events.Event} evt the event that caused this callback to fire
 * @private
 */
-SliderControl.prototype.doClick = function(evt) {
+doClick(evt) {
   if (this.firstClick_) {
     // first click after gaining focus should select entire field
     this.textField_.select();
@@ -403,7 +394,7 @@ SliderControl.prototype.doClick = function(evt) {
 * @param {!goog.events.Event} evt the event that caused this callback to fire
 * @private
 */
-SliderControl.prototype.doClick2 = function(evt) {
+doClick2(evt) {
   this.slider_.focus();
 };
 
@@ -412,7 +403,7 @@ SliderControl.prototype.doClick2 = function(evt) {
 * @return {undefined}
 * @private
 */
-SliderControl.prototype.formatTextField = function() {
+formatTextField() {
   var dec = this.decimalPlacesNeeded(this.paramValue_, this.signifDigits_);
   var col = this.columnsNeeded(this.paramValue_, this.signifDigits_);
   // console.log('columnsNeeded '+col+' dec='+dec+' x='
@@ -429,7 +420,7 @@ SliderControl.prototype.formatTextField = function() {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-SliderControl.prototype.gainFocus = function(event) {
+gainFocus(event) {
   this.firstClick_ = true;
 };
 
@@ -438,17 +429,17 @@ the number, or –1 when in *variable decimal places mode*.
 @return {number} the fixed number of fractional decimal places to show when formatting
     the number, or –1 when in *variable decimal places mode*.
 */
-SliderControl.prototype.getDecimalPlaces = function() {
+getDecimalPlaces() {
   return this.decimalPlaces_;
 };
 
 /** @override */
-SliderControl.prototype.getElement = function() {
+getElement() {
   return this.label_;
 };
 
 /** @override */
-SliderControl.prototype.getParameter = function() {
+getParameter() {
   return this.parameter_;
 };
 
@@ -456,7 +447,7 @@ SliderControl.prototype.getParameter = function() {
 has an effect in *variable decimal places mode*, see {@link #getDecimalPlaces}.
 @return {number} the number of significant digits to show when formatting the number
 */
-SliderControl.prototype.getSignifDigits = function() {
+getSignifDigits() {
   return this.signifDigits_;
 };
 
@@ -464,7 +455,7 @@ SliderControl.prototype.getSignifDigits = function() {
 {@link #observe} is being called).
 @return {number} the value that this control is currently displaying
 */
-SliderControl.prototype.getValue = function() {
+getValue() {
   return this.paramValue_;
 };
 
@@ -473,7 +464,7 @@ SliderControl.prototype.getValue = function() {
 * @return {number}
 * @private
 */
-SliderControl.prototype.incrementToValue = function(increment) {
+incrementToValue(increment) {
   if (this.multiply_) {
     return this.min_ * Math.pow(this.delta_, increment);
   } else {
@@ -486,7 +477,7 @@ SliderControl.prototype.incrementToValue = function(increment) {
 * @return {number}
 * @private
 */
-SliderControl.magnitude = function(x) {
+static magnitude(x) {
   if (Math.abs(x) < 1E-15) {
     // fix for displaying zero.
     return 0;
@@ -496,7 +487,7 @@ SliderControl.magnitude = function(x) {
 };
 
 /** @override */
-SliderControl.prototype.observe =  function(event) {
+observe(event) {
   // only update when this parameter has changed
   if (event == this.parameter_) {
     // Ensure that the correct value is displayed by the control.
@@ -512,7 +503,7 @@ SliderControl.prototype.observe =  function(event) {
 * @return {number}
 * @private
 */
-SliderControl.rangeToDelta = function(min, max, increments, multiply) {
+static rangeToDelta(min, max, increments, multiply) {
   if (multiply) {
     return Math.exp((Math.log(max) - Math.log(min))/increments);
   } else {
@@ -529,7 +520,7 @@ See {@link #setSignifDigits}.
 @return {!SliderControl} this SliderControl for chaining
     setters
 */
-SliderControl.prototype.setDecimalPlaces = function(decimalPlaces) {
+setDecimalPlaces(decimalPlaces) {
   if (this.decimalPlaces_ != decimalPlaces) {
     this.decimalPlaces_ = decimalPlaces > -1 ? decimalPlaces : -1;
     this.formatTextField();
@@ -538,7 +529,7 @@ SliderControl.prototype.setDecimalPlaces = function(decimalPlaces) {
 };
 
 /** @override */
-SliderControl.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
   this.textField_.disabled = !enabled;
 };
 
@@ -548,7 +539,7 @@ has an effect in *variable decimal places mode*, see {@link #setDecimalPlaces}.
     formatting the number
 @return {!SliderControl} this object for chaining setters
 */
-SliderControl.prototype.setSignifDigits = function(signifDigits) {
+setSignifDigits(signifDigits) {
   if (this.signifDigits_ != signifDigits) {
     this.signifDigits_ = signifDigits;
     this.formatTextField();
@@ -561,7 +552,7 @@ ParameterNumber to this value.
 @param {number} value  the new value
 @throws {!Error} if value is NaN (not a number)
 */
-SliderControl.prototype.setValue = function(value) {
+setValue(value) {
   if (value != this.paramValue_) {
     //console.log('SliderControl.setValue value='+value+' vs '+this.paramValue_);
     if (isNaN(value)) {
@@ -591,7 +582,7 @@ SliderControl.prototype.setValue = function(value) {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-SliderControl.prototype.sliderChange = function(event) {
+sliderChange(event) {
   var newValue = this.incrementToValue(Number(this.slider_.value));
   if (Util.veryDifferent(newValue, this.sliderValue_)) {
     this.setValue(newValue);
@@ -603,7 +594,7 @@ SliderControl.prototype.sliderChange = function(event) {
 * @param {!goog.events.Event} event the event that caused this callback to fire
 * @private
 */
-SliderControl.prototype.validateText = function(event) {
+validateText(event) {
   // trim whitespace from start and end of string
   var newValue = this.textField_.value.trim();
   // Compare the current and previous text value of the field.
@@ -625,7 +616,7 @@ SliderControl.prototype.validateText = function(event) {
 * @return {number}
 * @private
 */
-SliderControl.prototype.valueToIncrement = function(value) {
+valueToIncrement(value) {
   if (this.multiply_) {
     return Math.floor(0.5+(Math.log(value) - Math.log(this.min_)) /
         Math.log(this.delta_));
@@ -634,4 +625,5 @@ SliderControl.prototype.valueToIncrement = function(value) {
   }
 };
 
-}); // goog.scope
+} //end class
+exports = SliderControl;
