@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.Impulse');
+goog.module('myphysicslab.lab.model.Impulse');
 
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Line');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Line = goog.module.get('myphysicslab.lab.model.Line');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Line = goog.require('myphysicslab.lab.model.Line');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** An Impulse is a sudden change in momentum, it acts on a given {@link MassObject}
 at a defined location and with a defined direction and magnitude.
@@ -39,6 +29,10 @@ The method {@link #getStartPoint} gives the location in world coordinates where 
 Impulse is applied. The method {@link #getVector} gives the direction and magnitude of
 the Impulse in world coordinates.
 
+* @implements {Line}
+*/
+class Impulse extends AbstractSimObject {
+/**
 @param {string} name  string indicating the type of impulse
 @param {!MassObject} body the MassObject that the Impulse is
     applied to
@@ -49,15 +43,10 @@ the Impulse in world coordinates.
     magnitude of the Impulse, in world coordinates
 @param {!Vector} offset vector from CM (center of mass) of body to point of impact,
     in world coords
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {Line}
 */
-myphysicslab.lab.model.Impulse = function(name, body, magnitude, location, direction,
+constructor(name, body, magnitude, location, direction,
       offset) {
-  AbstractSimObject.call(this, name);
+  super(name);
   /** which body the impulse is applied to
   * @type {!MassObject}
   * @private
@@ -85,13 +74,11 @@ myphysicslab.lab.model.Impulse = function(name, body, magnitude, location, direc
   */
   this.offset_ = offset;
 };
-var Impulse = myphysicslab.lab.model.Impulse;
-goog.inherits(Impulse, AbstractSimObject);
 
 /** @override */
-Impulse.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      Impulse.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', body: "'+this.body_.getName()+'"'
       +', magnitude_: '+Util.NF5E(this.magnitude_)
       +', location_: '+this.location_
@@ -101,36 +88,36 @@ Impulse.prototype.toString = function() {
 };
 
 /** @override */
-Impulse.prototype.getClassName = function() {
+getClassName() {
   return 'Impulse';
 };
 
 /** The body to which this Impulse is applied.
 * @return {!MassObject} The MassObject to which this impulse is applied
 */
-Impulse.prototype.getBody = function() {
+getBody() {
   return this.body_;
 };
 
 /** @override */
-Impulse.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.location_, this.getEndPoint());
 };
 
 /** @override */
-Impulse.prototype.getEndPoint = function() {
+getEndPoint() {
   return this.location_.add(this.direction_);
 };
 
 /** @override */
-Impulse.prototype.getStartPoint = function() {
+getStartPoint() {
   return this.location_;
 };
 
 /** Returns the magnitude of the impulse.
 * @return {number} the magnitude of the impulse.
 */
-Impulse.prototype.getMagnitude = function() {
+getMagnitude() {
   return this.magnitude_;
 };
 
@@ -138,17 +125,17 @@ Impulse.prototype.getMagnitude = function() {
 * in world coords
 * @return {!Vector} the offset vector of the impulse.
 */
-Impulse.prototype.getOffset = function() {
+getOffset() {
   return this.offset_;
 };
 
 /** @override */
-Impulse.prototype.getVector = function() {
+getVector() {
   return this.direction_;
 };
 
 /** @override */
-Impulse.prototype.similar = function(obj, opt_tolerance) {
+similar(obj, opt_tolerance) {
   if (!(obj instanceof Impulse)) {
     return false;
   }
@@ -168,4 +155,5 @@ Impulse.prototype.similar = function(obj, opt_tolerance) {
   return this.offset_.nearEqual(f.getOffset(), opt_tolerance);
 };
 
-}); // goog.scope
+} //end class
+exports = Impulse;
