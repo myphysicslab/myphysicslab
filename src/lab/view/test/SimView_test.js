@@ -76,7 +76,7 @@ myphysicslab.lab.view.test.SimView_test.MockObserver.prototype.observe = functio
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
   if (event instanceof GenericEvent) {
-    var LabView = myphysicslab.lab.view.LabView;
+    const LabView = goog.module.get('myphysicslab.lab.view.LabView');
     this.numEvents++;
     if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
       this.numScreenRectEvents++;
@@ -107,12 +107,12 @@ var testSimView1 = function() {
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
   const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-  var LabView = myphysicslab.lab.view.LabView;
+  const LabView = goog.module.get('myphysicslab.lab.view.LabView');
   var MockObserver = myphysicslab.lab.view.test.SimView_test.MockObserver;
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-  var SimView = myphysicslab.lab.view.SimView;
+  const SimView = goog.module.get('myphysicslab.lab.view.SimView');
   const Spring = goog.module.get('myphysicslab.lab.model.Spring');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');

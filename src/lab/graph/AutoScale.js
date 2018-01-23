@@ -35,13 +35,13 @@ const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject')
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var GraphLine = myphysicslab.lab.graph.GraphLine;
-var LabView = myphysicslab.lab.view.LabView;
+const LabView = goog.module.get('myphysicslab.lab.view.LabView');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var SimView = myphysicslab.lab.view.SimView;
+const SimView = goog.module.get('myphysicslab.lab.view.SimView');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 

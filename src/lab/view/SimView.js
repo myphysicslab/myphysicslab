@@ -12,51 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.SimView');
+goog.module('myphysicslab.lab.view.SimView');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.ConcreteMemoList');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.MemoList');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.VerticalAlign');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-var LabView = myphysicslab.lab.view.LabView;
-const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
-
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ConcreteMemoList = goog.require('myphysicslab.lab.util.ConcreteMemoList');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const MemoList = goog.require('myphysicslab.lab.util.MemoList');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** Defines a rectangular region where a {@link DisplayList}
 draws a set of {@link DisplayObject}s. A DisplayObject typically
@@ -64,7 +42,6 @@ represents a {@link SimObject}, but not always.
 
 A SimView is shown inside a {@link myphysicslab.lab.view.LabCanvas}, possibly overlaid
 with other SimViews.
-
 
 Boundary Rectangles
 -------------------
@@ -83,7 +60,6 @@ rectangle, in accordance with various alignment options; see {@link #setHorizAli
 {@link #getCoordMap}. The CoordMap is passed to each DisplayObject during the
 {@link #paint} method.
 
-
 Pan-Zoom Controls
 -----------------
 The methods such as {@link #panUp}, {@link #panLeft}, {@link #zoomIn}, {@link #zoomOut}
@@ -91,7 +67,6 @@ are used to make a 'pan-zoom control' in
 {@link myphysicslab.sims.common.CommonControls#makePanZoomControls}. The amount of
 pan-zoom that is done by each invocation of those methods can be changed via the
 properties {@link #panX}, {@link #panY}, {@link #zoom}.
-
 
 Parameters Created
 ------------------
@@ -112,7 +87,6 @@ Parameters Created
 
 + ParameterNumber named `ASPECT_RATIO`, see {@link #setAspectRatio}
 
-
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
@@ -121,21 +95,18 @@ All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `COORD_MAP_CHANGED` when the CoordMap changes.
 
-
-
-* @param {string} name name of this SimView.
-* @param {!DoubleRect} simRect specifies what area of the simulation to display, in
-*    simulation coordinates
-* @constructor
-* @final
-* @struct
 * @implements {LabView}
 * @implements {Memorizable}
 * @implements {MemoList}
-* @extends {AbstractSubject}
 */
-myphysicslab.lab.view.SimView = function(name, simRect) {
-  AbstractSubject.call(this, name);
+class SimView extends AbstractSubject {
+/**
+* @param {string} name name of this SimView.
+* @param {!DoubleRect} simRect specifies what area of the simulation to display, in
+*    simulation coordinates
+*/
+constructor(name, simRect) {
+  super(name);
   if (!(simRect instanceof DoubleRect) || simRect.isEmpty()) {
     throw new Error('bad simRect: '+simRect);
   }
@@ -262,11 +233,9 @@ myphysicslab.lab.view.SimView = function(name, simRect) {
       SimView.i18n.ASPECT_RATIO,
       goog.bind(this.getAspectRatio, this), goog.bind(this.setAspectRatio, this)));
 };
-var SimView = myphysicslab.lab.view.SimView;
-goog.inherits(SimView, AbstractSubject);
 
 /** @override */
-SimView.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', simRect_: '+this.simRect_
       +', screenRect_: '+this.screenRect_
@@ -276,28 +245,28 @@ SimView.prototype.toString = function() {
       +', opaqueness: '+Util.NF5(this.opaqueness)
       +', coordMap_: '+this.coordMap_
       +', memoList_: '+this.memoList_
-      + SimView.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-SimView.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      SimView.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', displayList_: '+this.displayList_.toStringShort() +'}';
 };
 
 /** @override */
-SimView.prototype.getClassName = function() {
+getClassName() {
   return 'SimView';
 };
 
 /** @override */
-SimView.prototype.addMemo = function(memorizable) {
+addMemo(memorizable) {
   this.memoList_.addMemo(memorizable);
 };
 
 /** @override */
-SimView.prototype.gainFocus = function() {
+gainFocus() {
 };
 
 /** Returns the ratio of 'pixels per simulation unit along y axis' divided
@@ -305,38 +274,38 @@ by 'pixels per simulation unit along x axis' used when displaying this SimView.
 See {@link CoordMap}.
 @return {number} the aspect ratio used when displaying this SimView
 */
-SimView.prototype.getAspectRatio = function() {
+getAspectRatio() {
   return this.aspectRatio_;
 };
 
 /** Returns the horizontal coordinate of simulation rectangle's center.
 * @return {number} horizontal coordinate of simulation rectangle's center.
 */
-SimView.prototype.getCenterX = function() {
+getCenterX() {
   return this.centerX_;
 };
 
 /** Returns the vertical coordinate of simulation rectangle's center.
 * @return {number} the vertical coordinate of simulation rectangle's center.
 */
-SimView.prototype.getCenterY = function() {
+getCenterY() {
   return this.centerY_;
 };
 
 /** @override */
-SimView.prototype.getCoordMap = function() {
+getCoordMap() {
   return this.coordMap_; // it is immutable, so OK to return it
 };
 
 /** @override */
-SimView.prototype.getDisplayList = function() {
+getDisplayList() {
   return this.displayList_;
 };
 
 /** Returns height of the simulation rectangle.
 * @return {number} height of the simulation rectangle
 */
-SimView.prototype.getHeight = function() {
+getHeight() {
   return this.height_;
 };
 
@@ -346,12 +315,12 @@ See {@link CoordMap}.
 @return {!HorizAlign} the horizontal alignment to use for aligning the simulation
     rectangle within the screen rectangle
 */
-SimView.prototype.getHorizAlign = function() {
+getHorizAlign() {
   return this.horizAlign_;
 };
 
 /** @override */
-SimView.prototype.getMemos = function() {
+getMemos() {
   return this.memoList_.getMemos();
 };
 
@@ -359,17 +328,17 @@ SimView.prototype.getMemos = function() {
 true then changing one causes the other to change proportionally.
 * @return {boolean} whether width and height scale together
 */
-SimView.prototype.getScaleTogether = function() {
+getScaleTogether() {
   return this.scaleTogether_;
 };
 
 /** @override */
-SimView.prototype.getScreenRect = function() {
+getScreenRect() {
   return this.screenRect_; // it is immutable, so OK to return it
 };
 
 /** @override */
-SimView.prototype.getSimRect = function() {
+getSimRect() {
   return this.simRect_;
 };
 
@@ -378,23 +347,23 @@ simulation rectangle within its screen rectangle. See {@link CoordMap}.
 @return {!VerticalAlign} the vertical alignment to use for aligning the simulation
     rectangle within the screen rectangle
 */
-SimView.prototype.getVerticalAlign = function() {
+getVerticalAlign() {
   return this.verticalAlign_;
 };
 
 /** Returns the width of the simulation rectangle.
 * @return {number} width of the simulation rectangle
 */
-SimView.prototype.getWidth = function() {
+getWidth() {
   return this.width_;
 };
 
 /** @override */
-SimView.prototype.loseFocus = function() {
+loseFocus() {
 };
 
 /** @override */
-SimView.prototype.memorize = function() {
+memorize() {
   this.memoList_.memorize();
 };
 
@@ -403,7 +372,7 @@ current settings for width, height, centerX, centerY.
 * @return {undefined}
 * @private
 */
-SimView.prototype.modifySimRect = function() {
+modifySimRect() {
   var left = this.centerX_ - this.width_/2.0;
   var bottom = this.centerY_ - this.height_/2.0;
   var r = new DoubleRect(left, bottom, left+this.width_,
@@ -412,7 +381,7 @@ SimView.prototype.modifySimRect = function() {
 };
 
 /** @override */
-SimView.prototype.paint = function(context) {
+paint(context) {
   context.save();
   context.globalAlpha = this.opaqueness;
   this.displayList_.draw(context, this.coordMap_);
@@ -424,7 +393,7 @@ SimView.prototype.paint = function(context) {
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
-SimView.prototype.panDown = function() {
+panDown() {
   this.setCenterY(this.centerY_ - this.panY * this.height_);
 };
 
@@ -433,7 +402,7 @@ SimView.prototype.panDown = function() {
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
-SimView.prototype.panLeft = function() {
+panLeft() {
   this.setCenterX(this.centerX_ - this.panX * this.width_);
 };
 
@@ -442,7 +411,7 @@ SimView.prototype.panLeft = function() {
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
-SimView.prototype.panRight = function() {
+panRight() {
   this.setCenterX(this.centerX_ + this.panX * this.width_);
 };
 
@@ -451,7 +420,7 @@ SimView.prototype.panRight = function() {
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
-SimView.prototype.panUp = function() {
+panUp() {
   this.setCenterY(this.centerY_ + this.panY * this.height_);
 };
 
@@ -459,7 +428,7 @@ SimView.prototype.panUp = function() {
 * @return {undefined}
 * @private
 */
-SimView.prototype.realign = function() {
+realign() {
   this.setCoordMap(CoordMap.make(this.screenRect_, this.simRect_, this.horizAlign_,
         this.verticalAlign_, this.aspectRatio_));
   this.width_ = this.simRect_.getWidth();
@@ -470,7 +439,7 @@ SimView.prototype.realign = function() {
 };
 
 /** @override */
-SimView.prototype.removeMemo = function(memorizable) {
+removeMemo(memorizable) {
   this.memoList_.removeMemo(memorizable);
 };
 
@@ -479,7 +448,7 @@ by 'pixels per simulation unit along x axis' used when displaying this SimView.
 See {@link CoordMap}.
 @param {number} aspectRatio the aspect ratio used when displaying this SimView
 */
-SimView.prototype.setAspectRatio = function(aspectRatio) {
+setAspectRatio(aspectRatio) {
   if (Util.veryDifferent(this.aspectRatio_, aspectRatio)) {
     this.aspectRatio_ = aspectRatio;
     this.realign();
@@ -491,7 +460,7 @@ SimView.prototype.setAspectRatio = function(aspectRatio) {
 and broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @param {number} value the horizontal coordinate of simulation rectangle's center.
 */
-SimView.prototype.setCenterX = function(value) {
+setCenterX(value) {
   if (Util.veryDifferent(this.centerX_, value)) {
     this.centerX_ = value;
     this.modifySimRect();
@@ -502,7 +471,7 @@ SimView.prototype.setCenterX = function(value) {
 and broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @param {number} value the vertical coordinate of simulation rectangle's center.
 */
-SimView.prototype.setCenterY = function(value) {
+setCenterY(value) {
   if (Util.veryDifferent(this.centerY_, value)) {
     this.centerY_ = value;
     this.modifySimRect();
@@ -510,7 +479,7 @@ SimView.prototype.setCenterY = function(value) {
 };
 
 /** @override */
-SimView.prototype.setCoordMap = function(map) {
+setCoordMap(map) {
   if (!CoordMap.isDuckType(map))
     throw new Error('not a CoordMap: '+map);
   this.coordMap_ = map;
@@ -521,7 +490,7 @@ SimView.prototype.setCoordMap = function(map) {
 * event.
 * @param {number} value height of the simulation rectangle
 */
-SimView.prototype.setHeight = function(value) {
+setHeight(value) {
   if (Util.veryDifferent(this.height_, value)) {
     this.height_ = value;
     if (this.scaleTogether_) {
@@ -536,7 +505,7 @@ simulation rectangle within its screen rectangle. See {@link CoordMap}.
 @param {!HorizAlign} alignHoriz the horizontal alignment to use
     for aligning the simulation rectangle within the screen rectangle
 */
-SimView.prototype.setHorizAlign = function(alignHoriz) {
+setHorizAlign(alignHoriz) {
   this.horizAlign_ = HorizAlign.stringToEnum(alignHoriz);
   this.realign();
   this.broadcastParameter(SimView.en.HORIZONTAL_ALIGN);
@@ -546,7 +515,7 @@ SimView.prototype.setHorizAlign = function(alignHoriz) {
 true then changing one causes the other to change proportionally.
 * @param {boolean} value whether width and height scale together
 */
-SimView.prototype.setScaleTogether = function(value) {
+setScaleTogether(value) {
   if (this.scaleTogether_ != value) {
     this.scaleTogether_ = value;
     if (this.scaleTogether_) {
@@ -557,7 +526,7 @@ SimView.prototype.setScaleTogether = function(value) {
 };
 
 /** @override */
-SimView.prototype.setScreenRect = function(screenRect) {
+setScreenRect(screenRect) {
   if (!ScreenRect.isDuckType(screenRect))
     throw new Error('not a ScreenRect: '+screenRect);
   if (screenRect.isEmpty()) {
@@ -571,7 +540,7 @@ SimView.prototype.setScreenRect = function(screenRect) {
 };
 
 /** @override */
-SimView.prototype.setSimRect = function(simRect) {
+setSimRect(simRect) {
   if (!DoubleRect.isDuckType(simRect))
     throw new Error('not a DoubleRect: '+simRect);
   if (!simRect.equals(this.simRect_)) {
@@ -590,7 +559,7 @@ simulation rectangle within its screen rectangle. See {@link CoordMap}.
 @param {!VerticalAlign} alignVert the vertical alignment to use
     for aligning the simulation rectangle within the screen rectangle
 */
-SimView.prototype.setVerticalAlign = function(alignVert) {
+setVerticalAlign(alignVert) {
   this.verticalAlign_ = VerticalAlign.stringToEnum(alignVert);
   this.realign();
   this.broadcastParameter(SimView.en.VERTICAL_ALIGN);
@@ -600,7 +569,7 @@ SimView.prototype.setVerticalAlign = function(alignVert) {
 * event.
 * @param {number} value width of the simulation rectangle
 */
-SimView.prototype.setWidth = function(value) {
+setWidth(value) {
   if (Util.veryDifferent(this.width_, value)) {
     this.width_ = value;
     if (this.scaleTogether_) {
@@ -615,7 +584,7 @@ and also the width if {@link #getScaleTogether} is true.
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
-SimView.prototype.zoomIn = function() {
+zoomIn() {
   this.setHeight(this.height_ / this.zoom);
 };
 
@@ -624,9 +593,11 @@ and also the width if {@link #getScaleTogether} is true.
 Also broadcasts a {@link #SIM_RECT_CHANGED} event.
 * @return {undefined}
 */
-SimView.prototype.zoomOut = function() {
+zoomOut() {
   this.setHeight(this.height_ * this.zoom);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -677,4 +648,4 @@ SimView.de_strings = {
 SimView.i18n = goog.LOCALE === 'de' ? SimView.de_strings :
     SimView.en;
 
-}); // goog.scope
+exports = SimView;
