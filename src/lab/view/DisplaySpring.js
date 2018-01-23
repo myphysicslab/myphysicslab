@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplaySpring');
+goog.module('myphysicslab.lab.view.DisplaySpring');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
 
-goog.scope(function() {
-
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link Spring}. Can show either a jagged or straight line,
 see {@link #drawMode}. Can have a different color when compressed or expanded,
@@ -40,14 +32,14 @@ The position is reported as the midpoint of the Spring by {@link #getPosition}.
 The position is determined by the position of the Spring, so {@link #setPosition}
 has no effect, and the DisplaySpring is never dragable.
 
-* @param {?Spring=} spring the Spring to display
-* @param {?DisplaySpring=} proto the prototype DisplaySpring to inherit properties from
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
+class DisplaySpring {
+/**
+* @param {?Spring=} spring the Spring to display
+* @param {?DisplaySpring=} proto the prototype DisplaySpring to inherit properties from
+*/
+constructor(spring, proto) {
   /**
   * @type {?Spring}
   * @private
@@ -93,10 +85,9 @@ myphysicslab.lab.view.DisplaySpring = function(spring, proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
 
 /** @override */
-DisplaySpring.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', width: '+Util.NF(this.getWidth())
       +', colorCompressed: "'+this.getColorCompressed()+'"'
@@ -108,45 +99,18 @@ DisplaySpring.prototype.toString = function() {
 };
 
 /** @override */
-DisplaySpring.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplaySpring{spring_: '+
       (this.spring_ != null ? this.spring_.toStringShort() : 'null')+'}';
 };
 
-/** Drawing mode constant indicating jagged line.
-* @type {number}
-* @const
-*/
-DisplaySpring.JAGGED = 1;
-
-/** Drawing mode constant indicating straight line.
-* @type {number}
-* @const
-*/
-DisplaySpring.STRAIGHT = 2;
-
-/** The fixed length of the un-transformed path
-* @type {number}
-* @private
-* @const
-*/
-DisplaySpring.pathLength = 6.0;
-
-/** The fixed width of the un-transformed path
-* @type {number}
-* @private
-* @const
-*/
-DisplaySpring.pathWidth = 0.5;
-
-
 /** @override */
-DisplaySpring.prototype.contains = function(p_world) {
+contains(p_world) {
   return false;
 };
 
 /** @override */
-DisplaySpring.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.spring_ == null) {
     return;
   }
@@ -195,7 +159,7 @@ scaled up or down, it doesn't get too distorted.
 * @param {!AffineTransform} at transform to apply to each point
 * @private
 */
-DisplaySpring.drawSpring = function(context, at) {
+static drawSpring(context, at) {
   var size = DisplaySpring.pathLength;
   var t = DisplaySpring.pathWidth/2; // half thickness of spring
   var w = size / 16;
@@ -216,7 +180,7 @@ DisplaySpring.drawSpring = function(context, at) {
 * a CSS3 color value.
 * @return {string}
 */
-DisplaySpring.prototype.getColorCompressed = function() {
+getColorCompressed() {
   if (this.colorCompressed_ !== undefined) {
     return this.colorCompressed_;
   } else if (this.proto_ != null) {
@@ -230,7 +194,7 @@ DisplaySpring.prototype.getColorCompressed = function() {
 * a CSS3 color value.
 * @return {string}
 */
-DisplaySpring.prototype.getColorExpanded = function() {
+getColorExpanded() {
   if (this.colorExpanded_ !== undefined) {
     return this.colorExpanded_;
   } else if (this.proto_ != null) {
@@ -243,7 +207,7 @@ DisplaySpring.prototype.getColorExpanded = function() {
 /** Whether the Spring is drawn {@link #JAGGED} or {@link #STRAIGHT}.
 * @return {number}
 */
-DisplaySpring.prototype.getDrawMode = function() {
+getDrawMode() {
   if (this.drawMode_ !== undefined) {
     return this.drawMode_;
   } else if (this.proto_ != null) {
@@ -254,12 +218,12 @@ DisplaySpring.prototype.getDrawMode = function() {
 };
 
 /** @override */
-DisplaySpring.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
 /** @override */
-DisplaySpring.prototype.getPosition = function() {
+getPosition() {
   // return midpoint of the line
   return this.spring_ == null ? Vector.ORIGIN :
       this.spring_.getStartPoint().add(this.spring_.getEndPoint()).multiply(0.5);
@@ -269,12 +233,12 @@ DisplaySpring.prototype.getPosition = function() {
 * from the prototype unless the parameter is explicitly set for this object.
 * @return {?DisplaySpring}
 */
-DisplaySpring.prototype.getPrototype = function() {
+getPrototype() {
   return this.proto_;
 };
 
 /** @override */
-DisplaySpring.prototype.getSimObjects = function() {
+getSimObjects() {
   return this.spring_ == null ? [ ] : [ this.spring_ ];
 };
 
@@ -282,7 +246,7 @@ DisplaySpring.prototype.getSimObjects = function() {
 * value of 1 means a 1 pixel thick line.
 * @return {number}
 */
-DisplaySpring.prototype.getThickness = function() {
+getThickness() {
   if (this.thickness_ !== undefined) {
     return this.thickness_;
   } else if (this.proto_ != null) {
@@ -296,7 +260,7 @@ DisplaySpring.prototype.getThickness = function() {
 * in simulation coordinates.
 * @return {number}
 */
-DisplaySpring.prototype.getWidth = function() {
+getWidth() {
   if (this.width_ !== undefined) {
     return this.width_;
   } else if (this.proto_ != null) {
@@ -307,7 +271,7 @@ DisplaySpring.prototype.getWidth = function() {
 };
 
 /** @override */
-DisplaySpring.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -318,7 +282,7 @@ DisplaySpring.prototype.getZIndex = function() {
 };
 
 /** @override */
-DisplaySpring.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
@@ -327,7 +291,7 @@ DisplaySpring.prototype.isDragable = function() {
 * @param {string|undefined} colorCompressed
 * @return {!DisplaySpring} this object for chaining setters
 */
-DisplaySpring.prototype.setColorCompressed = function(colorCompressed) {
+setColorCompressed(colorCompressed) {
   this.colorCompressed_ = colorCompressed;
   return this;
 };
@@ -337,13 +301,13 @@ DisplaySpring.prototype.setColorCompressed = function(colorCompressed) {
 * @param {string|undefined} colorExpanded
 * @return {!DisplaySpring} this object for chaining setters
 */
-DisplaySpring.prototype.setColorExpanded = function(colorExpanded) {
+setColorExpanded(colorExpanded) {
   this.colorExpanded_ = colorExpanded;
   return this;
 };
 
 /** @override */
-DisplaySpring.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   // does nothing
 };
 
@@ -351,13 +315,13 @@ DisplaySpring.prototype.setDragable = function(dragable) {
 * @param {number|undefined} drawMode
 * @return {!DisplaySpring} this object for chaining setters
 */
-DisplaySpring.prototype.setDrawMode = function(drawMode) {
+setDrawMode(drawMode) {
   this.drawMode_ = drawMode;
   return this;
 };
 
 /** @override */
-DisplaySpring.prototype.setPosition = function(position) {
+setPosition(position) {
   //throw new Error('unsupported operation');
 };
 
@@ -366,7 +330,7 @@ DisplaySpring.prototype.setPosition = function(position) {
 * @param {?DisplaySpring} value
 * @return {!DisplaySpring} this object for chaining setters
 */
-DisplaySpring.prototype.setPrototype = function(value) {
+setPrototype(value) {
   this.proto_ = value;
   return this;
 };
@@ -376,7 +340,7 @@ DisplaySpring.prototype.setPrototype = function(value) {
 * @param {number|undefined} thickness
 * @return {!DisplaySpring} this object for chaining setters
 */
-DisplaySpring.prototype.setThickness = function(thickness) {
+setThickness(thickness) {
   this.thickness_ = thickness;
   return this;
 };
@@ -386,14 +350,42 @@ DisplaySpring.prototype.setThickness = function(thickness) {
 * @param {number|undefined} width
 * @return {!DisplaySpring} this object for chaining setters
 */
-DisplaySpring.prototype.setWidth = function(width) {
+setWidth(width) {
   this.width_ = width;
   return this;
 };
 
 /** @override */
-DisplaySpring.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-});  // goog.scope
+} //end class
+
+/** Drawing mode constant indicating jagged line.
+* @type {number}
+* @const
+*/
+DisplaySpring.JAGGED = 1;
+
+/** Drawing mode constant indicating straight line.
+* @type {number}
+* @const
+*/
+DisplaySpring.STRAIGHT = 2;
+
+/** The fixed length of the un-transformed path
+* @type {number}
+* @private
+* @const
+*/
+DisplaySpring.pathLength = 6.0;
+
+/** The fixed width of the un-transformed path
+* @type {number}
+* @private
+* @const
+*/
+DisplaySpring.pathWidth = 0.5;
+
+exports = DisplaySpring;

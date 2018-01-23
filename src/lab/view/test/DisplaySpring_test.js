@@ -29,7 +29,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 var testDisplaySpring = function() {
   var tol = 1E-14;
   const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-  var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
+  const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
