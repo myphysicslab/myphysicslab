@@ -37,12 +37,12 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.common.AbstractApp;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
 var BrachistoObserver = sims.roller.BrachistoObserver;
 var BrachistoPaths = sims.roller.BrachistoPaths;
 var BrachistoSim = sims.roller.BrachistoSim;
 const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
@@ -50,7 +50,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

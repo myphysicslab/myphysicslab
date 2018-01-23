@@ -12,69 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.common.CommonControls');
+goog.module('myphysicslab.sims.common.CommonControls');
 
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.ChoiceControlBase');
-goog.require('myphysicslab.lab.controls.GroupControl');
-goog.require('myphysicslab.lab.controls.ToggleControl');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const ChoiceControlBase = goog.module.get('myphysicslab.lab.controls.ChoiceControlBase');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GroupControl = goog.module.get('myphysicslab.lab.controls.GroupControl');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-var Subject = lab.util.Subject;
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const ToggleControl = goog.module.get('myphysicslab.lab.controls.ToggleControl');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const ChoiceControlBase = goog.require('myphysicslab.lab.controls.ChoiceControlBase');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GroupControl = goog.require('myphysicslab.lab.controls.GroupControl');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const ToggleControl = goog.require('myphysicslab.lab.controls.ToggleControl');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** A collection of static functions for making controls, used in several applications.
 CommonControls is a 'static' class, meaning it is not instantiated, instead it only a
 convenient place to keep several common functions for constructing an application.
-* @constructor
-* @final
-* @struct
+*/
+class CommonControls {
+/**
 * @private
 */
-myphysicslab.sims.common.CommonControls = function() {
+constructor() {
   throw new Error();
 };
-var CommonControls = myphysicslab.sims.common.CommonControls;
 
 /** Makes a DisplayAxes which shows the simRect of a SimView, adding it to the SimView;
 and makes a GenericObserver which resizes the axes whenever the SimView's simRect
@@ -85,7 +57,7 @@ changes (for example because of pan-zoom controls).
 *        which puts the axes thru the origin whenever possible.
 * @return {!DisplayAxes} the axes that were created
 */
-CommonControls.makeAxes = function(simView, bottomLeft_opt) {
+static makeAxes(simView, bottomLeft_opt) {
   /** @type {!DisplayAxes} */
   var axes = new DisplayAxes(simView.getSimRect());
   if (bottomLeft_opt) {
@@ -102,18 +74,6 @@ CommonControls.makeAxes = function(simView, bottomLeft_opt) {
   return axes;
 };
 
-/** Value of alpha for "short trails" effect.
-* @type {number}
-* @const
-*/
-CommonControls.SHORT_TRAILS = 0.1;
-
-/** Value of alpha for "long trails" effect.
-* @type {number}
-* @const
-*/
-CommonControls.LONG_TRAILS = 0.05;
-
 /** Makes pop-up menu of choices for background color plus options for "trails" which
 turns on the global alpha transparency feature in LabCanvas. See
 {@link LabCanvas#setAlpha} and
@@ -121,7 +81,7 @@ turns on the global alpha transparency feature in LabCanvas. See
 * @param {!LabCanvas} labCanvas
 * @return {!ChoiceControlBase}
 */
-CommonControls.makeBackgroundMenu = function(labCanvas) {
+static makeBackgroundMenu(labCanvas) {
   var choices = [
       CommonControls.i18n.WHITE,
       CommonControls.i18n.BLACK,
@@ -192,7 +152,7 @@ CommonControls.makeBackgroundMenu = function(labCanvas) {
 *        should reset the SimView to the original default location and scale
 * @return {!Element} the div containing the pan-zoom controls.
 */
-CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
+static makePanZoomControls(simView, overlay, resetFunc) {
   var imagesPath = Util.IMAGES_DIR+'/';
   // There are several nested div's used to achieve the layout.
   // <div>
@@ -299,7 +259,7 @@ CommonControls.makePanZoomControls = function(simView, overlay, resetFunc) {
 *       default is false.
 * @return {!GroupControl}
 */
-CommonControls.makePlaybackControls = function(simrun, opt_overlay) {
+static makePlaybackControls(simrun, opt_overlay) {
   var imagesPath = Util.IMAGES_DIR+'/';
   // To overlay the controls on top of canvas:  put the controls in a div;
   // use absolute positioning to place the div on top of canvas.
@@ -345,7 +305,7 @@ controlling the SimRunner
 * @param {!Terminal} terminal the Terminal that executes scripts
 * @return {!EasyScriptParser}
 */
-CommonControls.makeEasyScript = function(subjects, dependent, simRun, terminal) {
+static makeEasyScript(subjects, dependent, simRun, terminal) {
   var easyScript = new EasyScriptParser(subjects, dependent);
   easyScript.addCommand('reset', function() {
       return simRun.reset();
@@ -375,7 +335,7 @@ targetView.
 * @param {!AbstractSubject} subject where to add the ParameterBoolean
 * @return {!ParameterBoolean}
 */
-CommonControls.makeShowClockParam = function(displayClock, targetView, subject) {
+static makeShowClockParam(displayClock, targetView, subject) {
   var displayList = targetView.getDisplayList();
   var pb = new ParameterBoolean(subject, DisplayClock.en.SHOW_CLOCK,
       DisplayClock.i18n.SHOW_CLOCK,
@@ -412,8 +372,7 @@ ParameterBoolean whenever the EnergyBarGraph is added or removed from the target
 * @param {string=} opt_i18n_name localized name of parameter (optional)
 * @return {!ParameterBoolean}
 */
-CommonControls.makeShowEnergyParam = function(energyGraph, targetView, subject,
-    opt_name, opt_i18n_name) {
+static makeShowEnergyParam(energyGraph, targetView, subject, opt_name, opt_i18n_name) {
   var paramName = goog.isString(opt_name) ? opt_name : EnergyBarGraph.en.SHOW_ENERGY;
   var i18nName = goog.isString(opt_i18n_name) ? opt_i18n_name :
       EnergyBarGraph.i18n.SHOW_ENERGY;
@@ -446,7 +405,7 @@ controls.
 * @param {!AbstractSubject} subject where to add the ParameterBoolean
 * @return {!ParameterBoolean} the PAN_ZOOM ParmeterBoolean that is created
 */
-CommonControls.makeShowPanZoomParam = function(panZoomDiv, subject) {
+static makeShowPanZoomParam(panZoomDiv, subject) {
   var pb = new ParameterBoolean(subject, CommonControls.en.PAN_ZOOM,
       CommonControls.i18n.PAN_ZOOM,
       /* getter=*/function() { return panZoomDiv.style.display != 'none'; },
@@ -469,7 +428,7 @@ Presents the user with a prompt showing a text box with the URL + script.
 * @param {!SimRunner} simRun
 * @return {!ButtonControl}
 */
-CommonControls.makeURLScriptButton = function(easyScript, simRun) {
+static makeURLScriptButton(easyScript, simRun) {
   if (!goog.isDef(easyScript)) {
     throw new Error();
   }
@@ -492,6 +451,20 @@ CommonControls.makeURLScriptButton = function(easyScript, simRun) {
     };
   return new ButtonControl(EasyScriptParser.i18n.URL_SCRIPT, copyURL);
 };
+
+} //end class
+
+/** Value of alpha for "short trails" effect.
+* @type {number}
+* @const
+*/
+CommonControls.SHORT_TRAILS = 0.1;
+
+/** Value of alpha for "long trails" effect.
+* @type {number}
+* @const
+*/
+CommonControls.LONG_TRAILS = 0.05;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -542,4 +515,4 @@ CommonControls.de_strings = {
 CommonControls.i18n = goog.LOCALE === 'de' ? CommonControls.de_strings :
     CommonControls.en;
 
-}); // goog.scope
+exports = CommonControls;

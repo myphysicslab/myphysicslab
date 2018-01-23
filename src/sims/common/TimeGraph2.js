@@ -47,13 +47,13 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var AutoScale = lab.graph.AutoScale;
+const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
 const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-var CommonControls = myphysicslab.sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-var DisplayGraph = lab.graph.DisplayGraph;
+const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
 const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');

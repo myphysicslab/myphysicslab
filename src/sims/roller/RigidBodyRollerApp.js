@@ -67,7 +67,7 @@ var CardioidPath = sims.roller.CardioidPath;
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 var CirclePath = sims.roller.CirclePath;
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
@@ -102,7 +102,7 @@ const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
 var SpiralPath = sims.roller.SpiralPath;
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

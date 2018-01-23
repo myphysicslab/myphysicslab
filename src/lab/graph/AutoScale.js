@@ -12,44 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.AutoScale');
+goog.module('myphysicslab.lab.graph.AutoScale');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.graph.GraphPoint');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** Watches the {@link VarsList} of one or more {@link GraphLine} to calculate the
 range rectangle that encloses the points on the graphs, and sets accordingly the
 `simRect` of a {@link SimView}. The range rectangle is the smallest rectangle that
 contains all the points, but possibly expanded by the {@link #extraMargin} factor.
-
 
 Temporarily Deactivate
 ----------------------
@@ -72,13 +57,11 @@ You can also directly call {@link #setActive} to make the AutoScale active or in
 
 To entirely disable an AutoScale, use {@link #setEnabled}.
 
-
 Time Graph
 ----------
 For a *time graph* where one variable is time, the range rectangle in the time dimension
 has a fixed size specified by {@link #setTimeWindow}. The default time window is 10
 seconds.
-
 
 Parameters Created
 ------------------
@@ -90,7 +73,6 @@ Parameters Created
 
 + ParameterNumber named `TIME_WINDOW`, see {@link #setTimeWindow}.
 
-
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
@@ -98,21 +80,19 @@ All the Parameters are broadcast when their values change.  In addition:
 + GenericEvent named `AUTO_SCALE` is broadcast when the range rectangle changes. The new
 range rectangle is the value of the event.
 
-
+* @implements {Memorizable}
+* @implements {Observer}
+*/
+class AutoScale extends AbstractSubject {
+/**
 * @param {string} name name of this AutoScale.
 * @param {!GraphLine} graphLine the GraphLine to observe
 *     in order to calculate the range rectangle of its points
 * @param {!SimView} simView the SimView whose simRect will be
 *     modified to the range rectangle
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @implements {Memorizable}
-* @implements {Observer}
 */
-myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
-  AbstractSubject.call(this, name);
+constructor(name, graphLine, simView) {
+  super(name);
   if (goog.isDef(graphLine) && !GraphLine.isDuckType(graphLine)) {
     throw new Error('not a GraphLine '+graphLine);
   }
@@ -222,11 +202,9 @@ myphysicslab.lab.graph.AutoScale = function(name, graphLine, simView) {
       goog.bind(this.getEnabled, this), goog.bind(this.setEnabled, this)));
   this.setComputed(this.isActive_);
 };
-var AutoScale = myphysicslab.lab.graph.AutoScale;
-goog.inherits(AutoScale, AbstractSubject);
 
 /** @override */
-AutoScale.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', enabled_: '+this.enabled_
       +', isActive_: '+this.isActive_
@@ -237,44 +215,19 @@ AutoScale.prototype.toString = function() {
       +', simView_: '+this.simView_.toStringShort()
       +', graphLines_: ['
       + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
-      + ']' + AutoScale.superClass_.toString.call(this);
+      + ']' + super.toString();
 };
 
 /** @override */
-AutoScale.prototype.getClassName = function() {
+getClassName() {
   return 'AutoScale';
 };
-
-/** Name of event broadcast when a new enclosing simulation rectangle has been
-* calculated.
-* @type {string}
-* @const
-*/
-AutoScale.AUTO_SCALE = 'AUTO_SCALE';
-
-/** Specifies both axes option for {@link #setAxis}.
-* @type {string}
-* @const
-*/
-AutoScale.BOTH_AXES = 'BOTH_AXES';
-
-/** Specifies horizontal axis option for {@link #setAxis}.
-* @type {string}
-* @const
-*/
-AutoScale.HORIZONTAL = 'HORIZONTAL';
-
-/** Specifies vertical axis option for {@link #setAxis}.
-* @type {string}
-* @const
-*/
-AutoScale.VERTICAL = 'VERTICAL';
 
 /** Add a GraphLine which will be observed to calculate the range rectangle of points
 on the line.
 @param {!GraphLine} graphLine the GraphLine to add
 */
-AutoScale.prototype.addGraphLine = function(graphLine) {
+addGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
     if (!goog.array.contains(this.graphLines_, graphLine)) {
       this.graphLines_.push(graphLine);
@@ -288,7 +241,7 @@ AutoScale.prototype.addGraphLine = function(graphLine) {
 /** Clears the range rectangle, continues calculating from latest entry in HistoryList.
 * @return {undefined}
 */
-AutoScale.prototype.clearRange = function() {
+clearRange() {
   this.rangeXLo_ = 0;
   this.rangeXHi_ = 0;
   this.rangeSetX_ = false;
@@ -300,7 +253,7 @@ AutoScale.prototype.clearRange = function() {
 /** Returns whether is AutoScale is active.  See {@link #setActive}.
 * @return {boolean} whether is AutoScale is active
 */
-AutoScale.prototype.getActive = function() {
+getActive() {
   return this.isActive_;
 };
 
@@ -308,14 +261,14 @@ AutoScale.prototype.getActive = function() {
 `BOTH_AXES`.
 @return {string} which axis should be auto scaled
 */
-AutoScale.prototype.getAxis = function() {
+getAxis() {
   return this.axis_;
 };
 
 /** Returns whether is AutoScale is enabled.  See {@link #setEnabled}.
 * @return {boolean} whether is AutoScale is enabled
 */
-AutoScale.prototype.getEnabled = function() {
+getEnabled() {
   return this.enabled_;
 };
 
@@ -325,19 +278,19 @@ rectangle, see {@link #setAxis}.
 * @return {!DoubleRect} the range rectangle that encloses points
 *    on the GraphLines
 */
-AutoScale.prototype.getRangeRect = function() {
+getRangeRect() {
   return new DoubleRect(this.rangeXLo_, this.rangeYLo_, this.rangeXHi_, this.rangeYHi_);
 };
 
 /** Returns length of time to include in the range rectangle for a *time graph*.
 * @return {number} length of time to include in the range rectangle
 */
-AutoScale.prototype.getTimeWindow = function() {
+getTimeWindow() {
   return this.timeWindow_;
 };
 
 /** @override */
-AutoScale.prototype.memorize = function() {
+memorize() {
   for (var i=0, n=this.graphLines_.length; i<n; i++) {
     var graphPts = this.graphLines_[i].getGraphPoints();
     // Detect when graphLine has been reset.
@@ -359,7 +312,7 @@ AutoScale.prototype.memorize = function() {
 };
 
 /** @override */
-AutoScale.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simView_) {
     if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {
       if (!this.ownEvent_) {
@@ -385,7 +338,7 @@ AutoScale.prototype.observe =  function(event) {
 `AUTO_SCALE`.
 @private
 */
-AutoScale.prototype.rangeCheck_ = function() {
+rangeCheck_() {
   var avg, incr;
   var e = this.minSize;
   // set range rectangle to minimum size, when range is very tiny
@@ -425,7 +378,7 @@ AutoScale.prototype.rangeCheck_ = function() {
 rectangle of points on the line.
 @param {!GraphLine} graphLine the GraphLine to remove
 */
-AutoScale.prototype.removeGraphLine = function(graphLine) {
+removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
     var idx = goog.array.indexOf(this.graphLines_, graphLine);
     goog.array.removeAt(this.graphLines_, idx);
@@ -441,7 +394,7 @@ AutoScale.prototype.removeGraphLine = function(graphLine) {
 * Note that you will need to call {@link #memorize} to have the range recalculated.
 * @return {undefined}
 */
-AutoScale.prototype.reset = function() {
+reset() {
   this.clearRange();
   for (var i=0, n=this.lastIndex_.length; i<n; i++) {
     this.lastIndex_[i] = -1;
@@ -457,7 +410,7 @@ If not enabled, then this method can only make the AutoScale inactive.
 
 * @param {boolean} value whether this AutoScale should be active
 */
-AutoScale.prototype.setActive = function(value) {
+setActive(value) {
   if (this.isActive_ != value) {
     if (value) {
       if (this.enabled_) {
@@ -480,7 +433,7 @@ AutoScale.prototype.setActive = function(value) {
 /** Set which axis to auto scale: one of `VERTICAL`, `HORIZONTAL`, or `BOTH_AXES`.
 @param {string} value which axis should be auto scaled
 */
-AutoScale.prototype.setAxis = function(value) {
+setAxis(value) {
   if (value == AutoScale.VERTICAL || value == AutoScale.HORIZONTAL
       || value == AutoScale.BOTH_AXES) {
     this.axis_ = value;
@@ -495,7 +448,7 @@ depending on whether this AutoScale is active.
 * @param {boolean} value whether this AutoScale is computing the Parameter values
 * @private
 */
-AutoScale.prototype.setComputed = function(value) {
+setComputed(value) {
   var names = [SimView.en.WIDTH, SimView.en.HEIGHT, SimView.en.CENTER_X,
       SimView.en.CENTER_Y];
   goog.array.forEach(names, goog.bind(function(name) {
@@ -508,7 +461,7 @@ AutoScale.prototype.setComputed = function(value) {
 to be active.  See {@link #setActive}.
 * @param {boolean} value whether this AutoScale should be enabled
 */
-AutoScale.prototype.setEnabled = function(value) {
+setEnabled(value) {
   if (this.enabled_ != value) {
     this.enabled_ = value;
     this.setActive(value);
@@ -521,7 +474,7 @@ AutoScale.prototype.setEnabled = function(value) {
 * and sets the AutoScale to be active. See {@link #setActive}.
 * @param {number} value length of time to include in the range rectangle
 */
-AutoScale.prototype.setTimeWindow = function(value) {
+setTimeWindow(value) {
   if (Util.veryDifferent(value, this.timeWindow_)) {
     this.timeWindow_ = value;
     this.reset();
@@ -540,7 +493,7 @@ the range is exceeded; this helps avoid too many visually distracting updates.
 * @param {number} nowY
 * @private
 */
-AutoScale.prototype.updateRange_ = function(line, nowX, nowY) {
+updateRange_(line, nowX, nowY) {
   // To avoid infinity in the range, store a very large number instead.
   // Largest double precision floating point number is approx 1.8 * 10^308
   if (!isFinite(nowX)) {
@@ -614,6 +567,33 @@ AutoScale.prototype.updateRange_ = function(line, nowX, nowY) {
   }
 };
 
+} //end class
+
+/** Name of event broadcast when a new enclosing simulation rectangle has been
+* calculated.
+* @type {string}
+* @const
+*/
+AutoScale.AUTO_SCALE = 'AUTO_SCALE';
+
+/** Specifies both axes option for {@link #setAxis}.
+* @type {string}
+* @const
+*/
+AutoScale.BOTH_AXES = 'BOTH_AXES';
+
+/** Specifies horizontal axis option for {@link #setAxis}.
+* @type {string}
+* @const
+*/
+AutoScale.HORIZONTAL = 'HORIZONTAL';
+
+/** Specifies vertical axis option for {@link #setAxis}.
+* @type {string}
+* @const
+*/
+AutoScale.VERTICAL = 'VERTICAL';
+
 /** Set of internationalized strings.
 @typedef {{
   AXIS: string,
@@ -651,4 +631,4 @@ AutoScale.de_strings = {
 AutoScale.i18n = goog.LOCALE === 'de' ? AutoScale.de_strings :
     AutoScale.en;
 
-});  // goog.scope
+exports = AutoScale;

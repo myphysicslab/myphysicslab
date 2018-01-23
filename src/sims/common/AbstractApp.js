@@ -57,25 +57,23 @@ goog.require('myphysicslab.sims.common.StandardGraph1');
 goog.require('myphysicslab.sims.common.TabLayout');
 goog.require('myphysicslab.sims.common.TimeGraph1');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
+// following are only goog.require'd for possible use in Terminal
+goog.require('myphysicslab.lab.graph.VarsHistory');
+goog.require('myphysicslab.lab.model.ExpressionVariable');
+goog.require('myphysicslab.lab.model.FunctionVariable');
+goog.require('myphysicslab.lab.util.ClockTask');
+goog.require('myphysicslab.lab.util.GenericMemo');
+goog.require('myphysicslab.lab.view.DisplayText');
 
 goog.scope(function() {
 
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var AutoScale = lab.graph.AutoScale;
+const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
 const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const DiffEqSolverSubject = goog.module.get('myphysicslab.lab.model.DiffEqSolverSubject');
 const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
 const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
@@ -99,12 +97,12 @@ const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
 const SimView = goog.module.get('myphysicslab.lab.view.SimView');
 const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-var StandardGraph1 = sims.common.StandardGraph1;
-var Subject = lab.util.Subject;
+const StandardGraph1 = goog.module.get('myphysicslab.sims.common.StandardGraph1');
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-var TimeGraph1 = sims.common.TimeGraph1;
+const TimeGraph1 = goog.module.get('myphysicslab.sims.common.TimeGraph1');
 const ToggleControl = goog.module.get('myphysicslab.lab.controls.ToggleControl');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
@@ -144,8 +142,8 @@ can be properly expanded.
 * @implements {SubjectList}
 * @struct
 */
-sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler,
-     energySystem, opt_name) {
+myphysicslab.sims.common.AbstractApp = function(elem_ids, simRect, sim, advance,
+     eventHandler, energySystem, opt_name) {
   AbstractSubject.call(this, opt_name || 'APP');
   /** @type {!DoubleRect} */
   this.simRect = simRect;
@@ -235,7 +233,7 @@ sims.common.AbstractApp = function(elem_ids, simRect, sim, advance, eventHandler
   /** @type {!EasyScriptParser} */
   this.easyScript;
 };
-var AbstractApp = sims.common.AbstractApp;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
 goog.inherits(AbstractApp, AbstractSubject);
 
 /** @override */

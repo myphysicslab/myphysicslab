@@ -36,7 +36,7 @@ var sims = myphysicslab.sims;
 
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -45,7 +45,7 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** SingleViewerApp is hard-coded to run a single test for debugging, similar to

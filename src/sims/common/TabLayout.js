@@ -12,36 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.common.TabLayout');
+goog.module('myphysicslab.sims.common.TabLayout');
 
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.style');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.SubjectList');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.LabCanvas');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** TabLayout is a tab-based layout for showing a simulation, graph, controls.
 TabLayout implements specific ways to present the application on the web page, in this
@@ -92,7 +78,6 @@ will change the layout to pick the appropriate version of the current layout, fo
 example either 'sim+graph' or 'graph'. The method {@link #showSim} can be used from
 JavaScript to accomplish the same result.
 
-
 ### Size of Sim, Graph, TimeGraph
 
 There are three 'levels' which affect how the Simulation, Graph and TimeGraph appear:
@@ -116,7 +101,6 @@ or height. The size of any LabCanvas can be changed after construction if desire
 These affect only the SimRect, which determines simulation coordinates. Pan and zoom of
 the image can be done by changing these Parameters.
 
-
 ### Layout Of Controls
 
 We use CSS style `display: inline-block` on the controls div, so that it naturally flows
@@ -130,7 +114,6 @@ will flow under the controls div.
 We use <P> instead of <BR> to separate controls. This fixes a problem in Firefox which
 was adding a blank line (after the controls-div, before the 'show terminal' checkbox).
 
-
 ### Terminal Checkbox
 
 A 'show terminal' checkbox is added to the controls div in all layouts,
@@ -139,7 +122,6 @@ but only when not using advanced compile.
 When using advanced-optimizations compile mode the Terminal will not work, because
 all method and class names are minified, and unused code is eliminated -- so even if
 you could get at a minified class, much of it would not be there to use.
-
 
 Parameters Created
 ------------------
@@ -154,19 +136,18 @@ Parameters Created
 
 + ParameterBoolean named `SHOW_TERMINAL`, see {@link #showTerminal}
 
+* @implements {SubjectList}
+*/
+class TabLayout extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elements to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number=} canvasWidth width of sim canvas in pixels
 * @param {number=} canvasHeight height of sim canvas in pixels
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @implements {SubjectList}
 */
-myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeight) {
-  AbstractSubject.call(this, 'TAB_LAYOUT');
+constructor(elem_ids, canvasWidth, canvasHeight) {
+  super('TAB_LAYOUT');
   canvasWidth = canvasWidth || 800;
   canvasHeight = canvasHeight || 800;
   /**
@@ -210,7 +191,7 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
   */
   this.terminalEnabled_ = true;
   if (this.layout_ == '') {
-    this.layout_ = Layout.SIM;
+    this.layout_ = TabLayout.Layout.SIM;
     this.setSelectedTab(this.layout_);
   }
 
@@ -378,11 +359,9 @@ myphysicslab.sims.common.TabLayout = function(elem_ids, canvasWidth, canvasHeigh
       goog.bind(function() { return this.show_term_cb.checked; }, this),
       goog.bind(this.showTerminal, this)));
 };
-var TabLayout = myphysicslab.sims.common.TabLayout;
-goog.inherits(TabLayout, AbstractSubject);
 
 /** @override */
-TabLayout.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', layout_: "'+this.layout_+'"'
       +', simWidth_: '+Util.NF(this.simWidth_)
@@ -395,33 +374,20 @@ TabLayout.prototype.toString = function() {
       +', controls_: ['
       + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
       +']'
-      + TabLayout.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-TabLayout.prototype.getClassName = function() {
+getClassName() {
   return 'TabLayout';
 };
 
-/** Set of available layout options.
-* @readonly
-* @enum {string}
-*/
-TabLayout.Layout = {
-  SIM: 'sim',
-  GRAPH: 'graph',
-  GRAPH_AND_SIM: 'sim+graph',
-  TIME_GRAPH: 'time_graph',
-  TIME_GRAPH_AND_SIM: 'sim+time_graph',
-  MULTI_GRAPH: 'multi_graph',
-  MULTI_GRAPH_AND_SIM: 'sim+multi_graph'
-};
-var Layout = TabLayout.Layout;
 
 /** Returns array containing all possible layout values.
 * @return {!Array<!TabLayout.Layout>} array containing all possible layout values
 */
-TabLayout.getValues = function() {
+static getValues() {
+  var Layout = TabLayout.Layout;
   return [ Layout.SIM,
      Layout.GRAPH,
      Layout.GRAPH_AND_SIM,
@@ -432,35 +398,13 @@ TabLayout.getValues = function() {
    ];
 };
 
-/**  Names of HTML div, form, and input element's to search for by using
-* {document.getElementById()}.
-* @typedef {{
-*  tab_list: string,
-*  container: string,
-*  term_output: string,
-*  term_input: string,
-*  sim_applet: string,
-*  div_graph: string,
-*  graph_controls: string,
-*  sim_controls: string,
-*  div_terminal: string,
-*  div_time_graph: string,
-*  time_graph_controls: string,
-*  label_terminal: string,
-*  show_terminal: string,
-*  show_sim: string,
-*  images_dir: string
-* }}
-*/
-TabLayout.elementIds;
-
 /** Finds the specified element in the HTML Document; throws an error if element
 * is not found.
 * @param {!TabLayout.elementIds} elem_ids  set of elementId names to look for
 * @param {string} elementId specifies which elementId to get from elem_ids
 * @return {!HTMLElement} the element from the current HTML Document
 */
-TabLayout.getElementById = function(elem_ids, elementId) {
+static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
@@ -479,7 +423,7 @@ TabLayout.getElementById = function(elem_ids, elementId) {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-TabLayout.prototype.addControl = function(control) {
+addControl(control) {
   var element = control.getElement();
   element.style.display = 'block';
   this.sim_controls.appendChild(element);
@@ -496,7 +440,7 @@ the controls to have 2 columns when the controls are below the canvas.
 * @param {!HTMLElement=} canvas2
 * @private
 */
-TabLayout.prototype.alignCanvasControls = function(canvas, controls, canvas2) {
+alignCanvasControls(canvas, controls, canvas2) {
   var cvs_width, contain_width, avail_width;
   canvas.style.display = 'block';
   controls.style.display = 'inline-block';
@@ -541,14 +485,14 @@ TabLayout.prototype.alignCanvasControls = function(canvas, controls, canvas2) {
 /** Returns the width of the graph LabCanvas, as fraction of available width
 @return {number} width of the graph LabCanvas, as fraction of available width
 */
-TabLayout.prototype.getGraphWidth = function() {
+getGraphWidth() {
   return this.graphWidth_;
 };
 
 /** Returns current layout.
 @return {string} name of the current layout
 */
-TabLayout.prototype.getLayout = function() {
+getLayout() {
   return this.layout_;
 };
 
@@ -556,7 +500,7 @@ TabLayout.prototype.getLayout = function() {
 @return {string} classname of selected tab, or empty string if none selected
 @private
 */
-TabLayout.prototype.getSelectedTab = function() {
+getSelectedTab() {
   var tab = goog.array.find(this.tab_list.childNodes,
     function(/** !Node */n) {
       if (n.nodeType != Node.ELEMENT_NODE) {
@@ -579,19 +523,19 @@ TabLayout.prototype.getSelectedTab = function() {
 /** Returns the width of the simulation LabCanvas, as fraction of available width
 @return {number} width of the simulation LabCanvas, as fraction of available width
 */
-TabLayout.prototype.getSimWidth = function() {
+getSimWidth() {
   return this.simWidth_;
 };
 
 /** @override */
-TabLayout.prototype.getSubjects = function() {
+getSubjects() {
   return [ this, this.simCanvas, this.graphCanvas, this.timeGraphCanvas ];
 };
 
 /** Returns the width of the time graph LabCanvas, as fraction of available width
 @return {number} width of the time graph LabCanvas, as fraction of available width
 */
-TabLayout.prototype.getTimeGraphWidth = function() {
+getTimeGraphWidth() {
   return this.timeGraphWidth_;
 };
 
@@ -600,13 +544,14 @@ of the view port changed.
 @return {undefined}
 @private
 */
-TabLayout.prototype.redoLayout = function() {
+redoLayout() {
   // WARNING-NOTE: use goog.style.setFloat() to set float property.
   // Do NOT use style.float (it works some browsers but is non-standard because
   // 'float' is a javascript reserved word).
   // You can use style.cssFloat, but IE uses a different name: styleFloat.
   // WARNING-NOTE: viewport size can change if scrollbars appear or disappear
   // due to layout changes.
+  var Layout = TabLayout.Layout;
   var view_sz = goog.dom.getViewportSize();
   goog.style.setFloat(this.div_sim, 'left');
   goog.style.setFloat(this.div_graph, 'left');
@@ -704,7 +649,7 @@ fits in the window.
 * @param {!HTMLElement} graph_div
 * @private
 */
-TabLayout.prototype.setDisplaySize = function(max_width, graph_div) {
+setDisplaySize(max_width, graph_div) {
   if (this.limitSize_) {
     // Limit size of SimCanvas so it fits in the window.
     // Let divsim_h, divsim_w be dimensions of div_sim in pixels.
@@ -736,7 +681,7 @@ TabLayout.prototype.setDisplaySize = function(max_width, graph_div) {
 /** Sets the width of the graph LabCanvas, as fraction of available width.
 @param {number} value  width of the graph LabCanvas, as fraction of available width
 */
-TabLayout.prototype.setGraphWidth = function(value) {
+setGraphWidth(value) {
   if (Util.veryDifferent(value, this.graphWidth_)) {
     this.graphWidth_ = value;
   }
@@ -747,7 +692,8 @@ TabLayout.prototype.setGraphWidth = function(value) {
 /** Sets current layout.
 @param {string} layout name of layout
 */
-TabLayout.prototype.setLayout = function(layout) {
+setLayout(layout) {
+  var Layout = TabLayout.Layout;
   layout = layout.toLowerCase().trim();
   if (this.layout_ != layout) {
     this.layout_ = layout;
@@ -773,7 +719,8 @@ TabLayout.prototype.setLayout = function(layout) {
 /** Sets current layout based on which tab was clicked
 @param {string} layout class name of tab that was clicked
 */
-TabLayout.prototype.setLayoutFromTab = function(layout) {
+setLayoutFromTab(layout) {
+  var Layout = TabLayout.Layout;
   layout = layout.toLowerCase().trim();
   // When click on a graph tab, set layout to include sim view also.
   switch (layout) {
@@ -795,7 +742,7 @@ TabLayout.prototype.setLayoutFromTab = function(layout) {
 @param {string} layout className of tab
 @private
 */
-TabLayout.prototype.setSelectedTab = function(layout) {
+setSelectedTab(layout) {
   if (this.getSelectedTab() != layout) {
     goog.array.forEach(this.tab_list.childNodes,
       function(/** !Node */node) {
@@ -826,7 +773,7 @@ TabLayout.prototype.setSelectedTab = function(layout) {
 /** Sets the width of the simulation LabCanvas, as fraction of available width.
 @param {number} value  width of the simulation LabCanvas, as fraction of available width
 */
-TabLayout.prototype.setSimWidth = function(value) {
+setSimWidth(value) {
   if (Util.veryDifferent(value, this.simWidth_)) {
     this.simWidth_ = value;
   }
@@ -837,7 +784,7 @@ TabLayout.prototype.setSimWidth = function(value) {
 /** Sets the width of the time graph LabCanvas, as fraction of available width.
 @param {number} value  width of the time graph LabCanvas, as fraction of available width
 */
-TabLayout.prototype.setTimeGraphWidth = function(value) {
+setTimeGraphWidth(value) {
   if (Util.veryDifferent(value, this.timeGraphWidth_)) {
     this.timeGraphWidth_ = value;
   }
@@ -848,7 +795,8 @@ TabLayout.prototype.setTimeGraphWidth = function(value) {
 /** Change layout to hide or show simulation view.
 @param {boolean} visible whether sim view should be visible
 */
-TabLayout.prototype.showSim = function(visible) {
+showSim(visible) {
+  var Layout = TabLayout.Layout;
   switch (this.layout_) {
     case '':
     case Layout.SIM:
@@ -891,7 +839,7 @@ TabLayout.prototype.showSim = function(visible) {
 /** Change layout to hide or show terminal text editor.
 @param {boolean} visible whether terminal should be visible
 */
-TabLayout.prototype.showTerminal = function(visible) {
+showTerminal(visible) {
   this.div_term.style.display = visible ? 'block' : 'none';
   this.show_term_cb.checked = visible;
   if (visible && !this.terminal.recalling) {
@@ -899,6 +847,44 @@ TabLayout.prototype.showTerminal = function(visible) {
     this.term_input.focus();
   }
 };
+
+} //end class
+
+/** Set of available layout options.
+* @readonly
+* @enum {string}
+*/
+TabLayout.Layout = {
+  SIM: 'sim',
+  GRAPH: 'graph',
+  GRAPH_AND_SIM: 'sim+graph',
+  TIME_GRAPH: 'time_graph',
+  TIME_GRAPH_AND_SIM: 'sim+time_graph',
+  MULTI_GRAPH: 'multi_graph',
+  MULTI_GRAPH_AND_SIM: 'sim+multi_graph'
+};
+
+/**  Names of HTML div, form, and input element's to search for by using
+* {document.getElementById()}.
+* @typedef {{
+*  tab_list: string,
+*  container: string,
+*  term_output: string,
+*  term_input: string,
+*  sim_applet: string,
+*  div_graph: string,
+*  graph_controls: string,
+*  sim_controls: string,
+*  div_terminal: string,
+*  div_time_graph: string,
+*  time_graph_controls: string,
+*  label_terminal: string,
+*  show_terminal: string,
+*  show_sim: string,
+*  images_dir: string
+* }}
+*/
+TabLayout.elementIds;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -940,4 +926,4 @@ TabLayout.de_strings = {
 TabLayout.i18n = goog.LOCALE === 'de' ? TabLayout.de_strings :
     TabLayout.en;
 
-}); // goog.scope
+exports = TabLayout;

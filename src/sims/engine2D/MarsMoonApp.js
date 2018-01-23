@@ -37,7 +37,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -48,7 +48,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

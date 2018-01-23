@@ -45,15 +45,15 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AutoScale = lab.graph.AutoScale;
+const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-var DisplayGraph = lab.graph.DisplayGraph;
+const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
 const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
@@ -65,7 +65,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');

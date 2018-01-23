@@ -12,38 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.DisplayGraph');
+goog.module('myphysicslab.lab.graph.DisplayGraph');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.graph.GraphPoint');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.graph.GraphStyle');
-goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.ScreenRect');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const GraphPoint = goog.module.get('myphysicslab.lab.graph.GraphPoint');
-const GraphStyle = goog.module.get('myphysicslab.lab.graph.GraphStyle');
-const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const GraphPoint = goog.require('myphysicslab.lab.graph.GraphPoint');
+const GraphStyle = goog.require('myphysicslab.lab.graph.GraphStyle');
+const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays one or more {@link GraphLine}. The GraphLines are drawn in the simulation
 coordinates of the containing {@link LabView}.
@@ -64,13 +48,13 @@ a line at a point of discontinuity, but draws a dot instead. A discontinuity is
 indicated by incrementing the sequence number, see
 {@link myphysicslab.lab.model.VarsList}.
 
-* @param {!GraphLine=} opt_graphLine a GraphLine to display
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
+class DisplayGraph {
+/**
+* @param {!GraphLine=} opt_graphLine a GraphLine to display
+*/
+constructor(opt_graphLine) {
   if (goog.isDef(opt_graphLine) && !GraphLine.isDuckType(opt_graphLine)) {
     throw new Error('not a GraphLine '+opt_graphLine);
   }
@@ -114,10 +98,9 @@ myphysicslab.lab.graph.DisplayGraph = function(opt_graphLine) {
   */
   this.zIndex = 0;
 };
-var DisplayGraph = myphysicslab.lab.graph.DisplayGraph;
 
 /** @override */
-DisplayGraph.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', screenRect_: '+this.screenRect_
       +', useBuffer_: '+this.useBuffer_
@@ -127,7 +110,7 @@ DisplayGraph.prototype.toString = function() {
       +']}';
 };
 
-DisplayGraph.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'DisplayGraph{graphLines_.length: '+this.graphLines_.length+'}';
 };
@@ -135,7 +118,7 @@ DisplayGraph.prototype.toStringShort = function() {
 /** Add a GraphLine to be displayed.
 @param {!GraphLine} graphLine the GraphLine to be display
 */
-DisplayGraph.prototype.addGraphLine = function(graphLine) {
+addGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
     if (!goog.array.contains(this.graphLines_, graphLine)) {
       this.graphLines_.push(graphLine);
@@ -147,13 +130,13 @@ DisplayGraph.prototype.addGraphLine = function(graphLine) {
 };
 
 /** @override */
-DisplayGraph.prototype.contains = function(p_world) {
+contains(p_world) {
   // ? this seems wrong, but need the CoordMap to convert screenRect to sim coords
   return false;
 };
 
 /** @override */
-DisplayGraph.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.screenRect_.isEmpty()) {
     if (Util.DEBUG) {
       console.log('DisplayGraph: screenRect is empty');
@@ -232,7 +215,7 @@ If the hot spot color is the empty string, then the hot spot is not drawn.
 * @param {!GraphLine} graphLine
 * @private
 */
-DisplayGraph.prototype.drawHotSpot = function(context, coordMap, graphLine) {
+drawHotSpot(context, coordMap, graphLine) {
   var p = graphLine.getGraphPoints().getEndValue();
   if (p != null) {
     var x = coordMap.simToScreenX(p.getX());
@@ -255,7 +238,7 @@ DisplayGraph.prototype.drawHotSpot = function(context, coordMap, graphLine) {
 * @return {number} the index of the last point drawn, within the {@link #datapoints}
 * @private
 */
-DisplayGraph.prototype.drawPoints = function(context, coordMap, from, graphLine) {
+drawPoints(context, coordMap, from, graphLine) {
   var simRect = coordMap.screenToSimRect(this.screenRect_);
   var iter = graphLine.getGraphPoints().getIterator(from);
   if (!iter.hasNext())
@@ -320,19 +303,19 @@ DisplayGraph.prototype.drawPoints = function(context, coordMap, from, graphLine)
 *    screen conversion
 * @private
 */
-DisplayGraph.prototype.fullDraw = function(context, coordMap) {
+fullDraw(context, coordMap) {
   // Redraw entire memory list by drawing from oldest point in list
   this.memDraw_ = goog.array.repeat(-1, this.graphLines_.length);
   this.incrementalDraw(context, coordMap);
 };
 
 /** @override */
-DisplayGraph.prototype.getMassObjects = function() {
+getMassObjects() {
   return [];
 };
 
 /** @override */
-DisplayGraph.prototype.getPosition = function() {
+getPosition() {
   //? what to return here ??? center of screenRect in sim coords?
   return Vector.ORIGIN;
 };
@@ -342,24 +325,24 @@ DisplayGraph.prototype.getPosition = function() {
 * @return {!ScreenRect} the screen rectangle of this DisplayGraph in
 *    screen coordinates
 */
-DisplayGraph.prototype.getScreenRect = function() {
+getScreenRect() {
   return this.screenRect_;
 };
 
 /** @override */
-DisplayGraph.prototype.getSimObjects = function() {
+getSimObjects() {
   return [];
 };
 
 /** Whether this DisplayGraph is drawing into an offscreen buffer.
 * @return {boolean} Whether this DisplayGraph is drawing into an offscreen buffer
 */
-DisplayGraph.prototype.getUseBuffer = function() {
+getUseBuffer() {
   return this.useBuffer_;
 };
 
 /** @override */
-DisplayGraph.prototype.getZIndex = function() {
+getZIndex() {
   return this.zIndex;
 };
 
@@ -370,7 +353,7 @@ Keeps track of what was the last point drawn.
 *    screen conversion
 * @private
 */
-DisplayGraph.prototype.incrementalDraw = function(context, coordMap) {
+incrementalDraw(context, coordMap) {
   // draw points from the last drawn (=memDraw) up to the current latest point
   //experiment: fade the graph by drawing a translucent white rectangle
   //var r = this.getScreenRect();
@@ -383,14 +366,14 @@ DisplayGraph.prototype.incrementalDraw = function(context, coordMap) {
 };
 
 /** @override */
-DisplayGraph.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
 /** Remove a GraphLine from set of those to display.
 @param {!GraphLine} graphLine the GraphLine to not display
 */
-DisplayGraph.prototype.removeGraphLine = function(graphLine) {
+removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
     var idx = goog.array.indexOf(this.graphLines_, graphLine);
     goog.array.removeAt(this.graphLines_, idx);
@@ -405,17 +388,17 @@ DisplayGraph.prototype.removeGraphLine = function(graphLine) {
 /** Causes entire graph to be redrawn, when {@link #draw} is next called.
 * @return {undefined}
 */
-DisplayGraph.prototype.reset = function() {
+reset() {
   this.memDraw_ = goog.array.repeat(-1, this.graphLines_.length);
   this.needRedraw_ = true;
 };
 
 /** @override */
-DisplayGraph.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
 };
 
 /** @override */
-DisplayGraph.prototype.setPosition = function(position) {
+setPosition(position) {
   //throw new Error(); // unsupported
 };
 
@@ -424,7 +407,7 @@ DisplayGraph.prototype.setPosition = function(position) {
 * @param {!ScreenRect} screenRect the screen coordinates of the
     area this DisplayGraph should occupy.
 */
-DisplayGraph.prototype.setScreenRect = function(screenRect) {
+setScreenRect(screenRect) {
   this.screenRect_ = screenRect;
   this.offScreen_ = null; // force reallocation of offscreen
 };
@@ -433,7 +416,7 @@ DisplayGraph.prototype.setScreenRect = function(screenRect) {
 frame, so it saves time to *not* use an offscreen buffer in that case.
 * @param {boolean} value Whether to draw into an offscreen buffer
 */
-DisplayGraph.prototype.setUseBuffer = function(value) {
+setUseBuffer(value) {
   this.useBuffer_ = value;
   if (!this.useBuffer_) {
     this.offScreen_ = null;
@@ -441,8 +424,9 @@ DisplayGraph.prototype.setUseBuffer = function(value) {
 };
 
 /** @override */
-DisplayGraph.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
-});  // goog.scope
+} //end class
+exports = DisplayGraph;

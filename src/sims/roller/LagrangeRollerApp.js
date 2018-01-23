@@ -33,8 +33,8 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.common.AbstractApp;
-var CommonControls = sims.common.CommonControls;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
 const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -43,7 +43,7 @@ var LagrangeRollerSim = sims.roller.LagrangeRollerSim;
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

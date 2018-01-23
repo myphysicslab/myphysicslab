@@ -35,8 +35,8 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.common.AbstractApp;
-var CommonControls = sims.common.CommonControls;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -47,7 +47,7 @@ const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 var SingleSpringSim = sims.springs.SingleSpringSim;
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link SingleSpringSim} simulation.

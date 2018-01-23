@@ -39,7 +39,7 @@ var sims = myphysicslab.sims;
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -49,7 +49,7 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

@@ -37,7 +37,7 @@ var sims = myphysicslab.sims;
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 var CircleStraightTest = myphysicslab.test.CircleStraightTest;
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
@@ -46,7 +46,7 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** StuckTestApp runs a simulation that is guaranteed to become 'stuck', at which point

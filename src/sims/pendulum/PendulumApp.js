@@ -35,7 +35,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.common.AbstractApp;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const DisplayArc = goog.module.get('myphysicslab.lab.view.DisplayArc');
@@ -48,7 +48,7 @@ var PendulumSim = sims.pendulum.PendulumSim;
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the {@link PendulumSim} simulation.

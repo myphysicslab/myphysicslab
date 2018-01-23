@@ -70,7 +70,7 @@ const Rope = goog.module.get('myphysicslab.lab.engine2D.Rope');
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var Subject = lab.util.Subject;
+const Subject = goog.module.get('myphysicslab.lab.util.Subject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

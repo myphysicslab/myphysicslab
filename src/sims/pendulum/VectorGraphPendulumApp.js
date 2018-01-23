@@ -38,10 +38,10 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.common.AbstractApp;
-var CommonControls = sims.common.CommonControls;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var DisplayGraph = lab.graph.DisplayGraph;
+const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
 const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
 const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -52,7 +52,7 @@ var PendulumSim = sims.pendulum.PendulumSim;
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const VectorGraph = goog.module.get('myphysicslab.lab.graph.VectorGraph');

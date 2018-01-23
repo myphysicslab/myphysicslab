@@ -12,89 +12,53 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.common.TimeGraph1');
+goog.module('myphysicslab.sims.common.TimeGraph1');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.SubjectList');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.common.CommonControls');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var AutoScale = lab.graph.AutoScale;
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-var CommonControls = myphysicslab.sims.common.CommonControls;
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-var DisplayGraph = lab.graph.DisplayGraph;
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-var Subject = lab.util.Subject;
-const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates a single graph showing several independent GraphLines, and with a horizontal
 time axis. Because there is a single SimView and DisplayGraph, all the GraphLines are
 plotted in the same graph coordinates. The horizontal variable can be changed to
 something other than time. Creates an AutoScale that ensures all of the GraphLines are
 visible. Creates several controls to modify the graph.
+* @implements {SubjectList}
+*/
+class TimeGraph1 extends AbstractSubject {
+/**
 * @param {!VarsList} varsList the VarsList to collect data from
 * @param {!LabCanvas} graphCanvas the LabCanvas where the graph should appear
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
 * @param {!SimRunner} simRun the SimRunner controlling the overall app
-* @constructor
-* @final
-* @extends {AbstractSubject}
-* @implements {SubjectList}
-* @struct
 */
-myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_controls,
-    div_graph, simRun) {
-  AbstractSubject.call(this, 'TIME_GRAPH_LAYOUT');
+constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
+  super('TIME_GRAPH_LAYOUT');
   /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
@@ -213,11 +177,9 @@ myphysicslab.sims.common.TimeGraph1 = function(varsList, graphCanvas, div_contro
   var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
-var TimeGraph1 = myphysicslab.sims.common.TimeGraph1;
-goog.inherits(TimeGraph1, AbstractSubject);
 
 /** @override */
-TimeGraph1.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', canvas: '+this.canvas.toStringShort()
       +', view: '+this.view.toStringShort()
@@ -228,11 +190,11 @@ TimeGraph1.prototype.toString = function() {
       +', autoScale: '+this.autoScale.toStringShort()
       +', displayGraph: '+this.displayGraph.toStringShort()
       +', graphCtrl: '+this.graphCtrl.toStringShort()
-      + TimeGraph1.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-TimeGraph1.prototype.getClassName = function() {
+getClassName() {
   return 'TimeGraph1';
 };
 
@@ -240,7 +202,7 @@ TimeGraph1.prototype.getClassName = function() {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-TimeGraph1.prototype.addControl = function(control) {
+addControl(control) {
   var element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
@@ -249,9 +211,11 @@ TimeGraph1.prototype.addControl = function(control) {
 };
 
 /** @override */
-TimeGraph1.prototype.getSubjects = function() {
+getSubjects() {
   return [ this, this.line1, this.line2, this.line3, this.view, this.autoScale ];
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -287,4 +251,4 @@ TimeGraph1.de_strings = {
 TimeGraph1.i18n = goog.LOCALE === 'de' ? TimeGraph1.de_strings :
     TimeGraph1.en;
 
-}); // goog.scope
+exports = TimeGraph1;

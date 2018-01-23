@@ -31,12 +31,12 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CommonControls = sims.common.CommonControls;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');

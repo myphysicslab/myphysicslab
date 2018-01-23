@@ -45,13 +45,13 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = sims.common.AbstractApp;
+var AbstractApp = myphysicslab.sims.common.AbstractApp;
 const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
 var ChainOfSpringsSim = sims.springs.ChainOfSpringsSim;
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-var CommonControls = sims.common.CommonControls;
-var DisplayGraph = lab.graph.DisplayGraph;
+const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
+const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
 const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
@@ -69,7 +69,7 @@ const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var TabLayout = sims.common.TabLayout;
+const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link ChainOfSpringsSim}.
