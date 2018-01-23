@@ -12,33 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayText');
+goog.module('myphysicslab.lab.view.DisplayText');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
 
-goog.scope(function() {
-
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays text. Can set display attributes {@link #font}, {@link #fillStyle},
 {@link #textAlign}, and {@link #textBaseline}.
-@param {string=} opt_text the text to display (default is empty string)
-@param {!Vector=} opt_position the position in simulation coords to display the text
-    (default is origin)
-* @param {?DisplayText=} proto the prototype DisplayText to inherit properties from
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
+class DisplayText {
+/**
+* @param {string=} opt_text the text to display (default is empty string)
+* @param {!Vector=} opt_position the position in simulation coords to display the text
+*     (default is origin)
+* @param {?DisplayText=} proto the prototype DisplayText to inherit properties from
+*/
+constructor(opt_text, opt_position, proto) {
   /**
   * @type {!string}
   * @private
@@ -87,10 +81,9 @@ myphysicslab.lab.view.DisplayText = function(opt_text, opt_position, proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplayText = myphysicslab.lab.view.DisplayText;
 
 /** @override */
-DisplayText.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', location: '+this.location_
       +', font: '+this.getFont()
@@ -102,17 +95,17 @@ DisplayText.prototype.toString = function() {
 };
 
 /** @override */
-DisplayText.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayText{text_: '+this.text_+'}';
 };
 
 /** @override */
-DisplayText.prototype.contains = function(point) {
+contains(point) {
   return false; // could figure out bounds?
 };
 
 /** @override */
-DisplayText.prototype.draw = function(context, map) {
+draw(context, map) {
   context.save()
   context.fillStyle = this.getFillStyle();
   context.font = this.getFont();
@@ -131,7 +124,7 @@ DisplayText.prototype.draw = function(context, map) {
 /** Color used when drawing the text, a CSS3 color value.
 * @return {string}
 */
-DisplayText.prototype.getFillStyle = function() {
+getFillStyle() {
   if (this.fillStyle_ !== undefined) {
     return this.fillStyle_;
   } else if (this.proto_ != null) {
@@ -144,7 +137,7 @@ DisplayText.prototype.getFillStyle = function() {
 /** Font used when drawing the text.
 * @return {string} a CSS font specification
 */
-DisplayText.prototype.getFont = function() {
+getFont() {
   if (this.font_ !== undefined) {
     return this.font_;
   } else if (this.proto_ != null) {
@@ -155,17 +148,17 @@ DisplayText.prototype.getFont = function() {
 };
 
 /** @override */
-DisplayText.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
 /** @override */
-DisplayText.prototype.getPosition = function() {
+getPosition() {
   return this.location_;
 };
 
 /** @override */
-DisplayText.prototype.getSimObjects = function() {
+getSimObjects() {
   return [ ];
 };
 
@@ -173,7 +166,7 @@ DisplayText.prototype.getSimObjects = function() {
 * 'start' and 'end'.
 * @return {string}
 */
-DisplayText.prototype.getTextAlign = function() {
+getTextAlign() {
   if (this.textAlign_ !== undefined) {
     return this.textAlign_;
   } else if (this.proto_ != null) {
@@ -187,7 +180,7 @@ DisplayText.prototype.getTextAlign = function() {
 * 'alphabetic', 'hanging', and 'ideographic'.
 * @return {string}
 */
-DisplayText.prototype.getTextBaseline = function() {
+getTextBaseline() {
   if (this.textBaseline_ !== undefined) {
     return this.textBaseline_;
   } else if (this.proto_ != null) {
@@ -200,12 +193,12 @@ DisplayText.prototype.getTextBaseline = function() {
 /** Returns the text being drawn.
 * @return {string} the text being drawn.
 */
-DisplayText.prototype.getText = function() {
+getText() {
   return this.text_;
 };
 
 /** @override */
-DisplayText.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -216,12 +209,12 @@ DisplayText.prototype.getZIndex = function() {
 };
 
 /** @override */
-DisplayText.prototype.isDragable = function() {
+isDragable() {
   return this.dragable_;
 };
 
 /** @override */
-DisplayText.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   this.dragable_ = dragable;
 };
 
@@ -229,7 +222,7 @@ DisplayText.prototype.setDragable = function(dragable) {
 * @param {string|undefined} value
 * @return {!DisplayText} this object for chaining setters
 */
-DisplayText.prototype.setFillStyle = function(value) {
+setFillStyle(value) {
   this.fillStyle_ = value;
   return this;
 };
@@ -238,20 +231,20 @@ DisplayText.prototype.setFillStyle = function(value) {
 * @param {string|undefined} value a CSS font specification, or undefined
 * @return {!DisplayText} this object for chaining setters
 */
-DisplayText.prototype.setFont = function(value) {
+setFont(value) {
   this.font_ = value;
   return this;
 };
 
 /** @override */
-DisplayText.prototype.setPosition = function(position) {
+setPosition(position) {
   this.location_ = position;
 };
 
 /** Sets the text to draw.
 * @param {string} text the text to draw.
 */
-DisplayText.prototype.setText = function(text) {
+setText(text) {
   this.text_ = text;
 };
 
@@ -260,7 +253,7 @@ DisplayText.prototype.setText = function(text) {
 * @param {string|undefined} value
 * @return {!DisplayText} this object for chaining setters
 */
-DisplayText.prototype.setTextAlign = function(value) {
+setTextAlign(value) {
   this.textAlign_ = value;
   return this;
 };
@@ -270,14 +263,15 @@ DisplayText.prototype.setTextAlign = function(value) {
 * @param {string|undefined} value
 * @return {!DisplayText} this object for chaining setters
 */
-DisplayText.prototype.setTextBaseline = function(value) {
+setTextBaseline(value) {
   this.textBaseline_ = value;
   return this;
 };
 
 /** @override */
-DisplayText.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-});  // goog.scope
+} //end class
+exports = DisplayText;

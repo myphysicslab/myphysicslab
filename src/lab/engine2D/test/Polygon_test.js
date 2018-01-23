@@ -22,7 +22,6 @@ goog.require('myphysicslab.lab.engine2D.StraightEdge');
 goog.require('myphysicslab.lab.engine2D.Vertex');
 goog.require('myphysicslab.lab.util.Util');
 goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
 goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 var testPolygon1 = function() {
@@ -87,6 +86,5 @@ var testPolygon1 = function() {
   p.setPosition(new Vector(0.5,  1.5),  Math.PI/4);
   assertTrue(p.getPosition().equals(v5));
   assertEquals(Math.PI/4, p.getAngle());
-  var dispPoly = new myphysicslab.lab.view.DisplayShape(p);
 };
 goog.exportProperty(window, 'testPolygon1', testPolygon1);
