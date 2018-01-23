@@ -503,6 +503,10 @@ See {@link #incrSequence}.
 setValue(index, value, continuous) {
   this.checkIndex_(index);
   var variable = this.varList_[index];
+  if (variable.getName() == VarsList.DELETED) {
+    // ignore attempt to set deleted variable
+    return;
+  }
   if (isNaN(value) && !variable.isComputed()) {
     throw new Error('cannot set variable '+variable.getName()+' to NaN');
   }

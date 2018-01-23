@@ -12,39 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.PathJoint');
+goog.module('myphysicslab.lab.engine2D.PathJoint');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const ConnectorCollision = goog.module.get('myphysicslab.lab.engine2D.ConnectorCollision');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const ConnectorCollision = goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Represents a bilateral contact point between a {@link RigidBody} and a
 {@link NumericalPath}.
@@ -65,18 +49,17 @@ attachment points are free to move.
 Note that some slippage of a PathJoint can occur over time, especially
 when there is very fast rotation.
 
+* @implements {Connector}
+*/
+class PathJoint extends AbstractSimObject {
+/**
 @param {!NumericalPath} path the path to connect
 @param {!RigidBody} body the RigidBody to connect
 @param {!Vector} attach_body the attachment point on the
     RigidBody in body coordinates
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {Connector}
 */
-myphysicslab.lab.engine2D.PathJoint = function(path, body, attach_body) {
-  AbstractSimObject.call(this, 'PathJoint'+(PathJoint.nextJointNum++));
+constructor(path, body, attach_body) {
+  super('PathJoint'+(PathJoint.nextJointNum++));
   /**
   * @type {!RigidBody}
   * @private
@@ -98,13 +81,11 @@ myphysicslab.lab.engine2D.PathJoint = function(path, body, attach_body) {
   */
   this.ppt_ = new PathPoint();
 };
-var PathJoint = myphysicslab.lab.engine2D.PathJoint;
-goog.inherits(PathJoint, AbstractSimObject);
 
 /** @override */
-PathJoint.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      PathJoint.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       +', body_:='+this.body_.toStringShort()
       +', path_: '+this.path_.toStringShort()
       +', attach_body_: '+this.attach_body_
@@ -113,17 +94,12 @@ PathJoint.prototype.toString = function() {
 };
 
 /** @override */
-PathJoint.prototype.getClassName = function() {
+getClassName() {
   return 'PathJoint';
 };
 
-/**
-* @type {number}
-*/
-PathJoint.nextJointNum = 0;
-
 /** @override */
-PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
+addCollision(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/true);
   this.updateCollision(c);
   c.setDetectedTime(time);
@@ -141,7 +117,7 @@ PathJoint.prototype.addCollision = function(collisions, time, accuracy) {
 };
 
 /** @override */
-PathJoint.prototype.align = function() {
+align() {
   // Move the body so the attach point is on the path.
   // Find current world position of attachment point.
   var attach_world = this.body_.bodyToWorld(this.attach_body_);
@@ -155,27 +131,27 @@ PathJoint.prototype.align = function() {
 /** Returns the attachment point on the RigidBody in body coordinates.
 @return {!Vector} the attachment point on the RigidBody in body coordinates
 */
-PathJoint.prototype.getAttach1 = function() {
+getAttach1() {
   return this.attach_body_;
 };
 
 /** @override */
-PathJoint.prototype.getBody1 = function() {
+getBody1() {
   return this.body_;
 };
 
 /** @override */
-PathJoint.prototype.getBody2 = function() {
+getBody2() {
   return Scrim.getScrim();
 };
 
 /** @override */
-PathJoint.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.getPosition1(), this.getPosition2());
 };
 
 /** @override */
-PathJoint.prototype.getNormalDistance = function() {
+getNormalDistance() {
   var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
   return collisions[0].getDistance();
@@ -185,7 +161,7 @@ PathJoint.prototype.getNormalDistance = function() {
 @return {!NumericalPath} the NumericalPath to which this PathJoint attaches the
     RigidBody.
 */
-PathJoint.prototype.getPath = function() {
+getPath() {
   return this.path_;
 };
 
@@ -194,22 +170,22 @@ attachment point on the NumericalPath.
 @return {!PathPoint} the PathPoint corresponding to the most recent position of
     this PathJoint's attachment point on the NumericalPath.
 */
-PathJoint.prototype.getPathPoint = function() {
+getPathPoint() {
   return this.ppt_;
 };
 
 /** @override */
-PathJoint.prototype.getPosition1 = function() {
+getPosition1() {
   return this.body_.bodyToWorld(this.attach_body_);
 };
 
 /** @override */
-PathJoint.prototype.getPosition2 = function() {
+getPosition2() {
   return this.getPosition1();
 };
 
 /** @override */
-PathJoint.prototype.updateCollision = function(c) {
+updateCollision(c) {
   if (c.primaryBody != this.body_ || c.normalBody != Scrim.getScrim()) {
     throw new Error();
   }
@@ -263,4 +239,11 @@ PathJoint.prototype.updateCollision = function(c) {
   c.creator = 'PathJoint';
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {number}
+*/
+PathJoint.nextJointNum = 0;
+
+exports = PathJoint;

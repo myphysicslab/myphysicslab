@@ -75,6 +75,7 @@ var DisplayShape = lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var DrawingStyle = lab.view.DrawingStyle;
 var Engine2DApp = sims.engine2D.Engine2DApp;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 var FlatPath = sims.roller.FlatPath;
 const FunctionVariable = goog.module.get('myphysicslab.lab.model.FunctionVariable');
 const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
@@ -92,8 +93,8 @@ const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-var PathEndPoint = lab.engine2D.PathEndPoint;
-var PathJoint = lab.engine2D.PathJoint;
+const PathEndPoint = goog.module.get('myphysicslab.lab.engine2D.PathEndPoint');
+const PathJoint = goog.module.get('myphysicslab.lab.engine2D.PathJoint');
 var PathObserver = sims.roller.PathObserver;
 var PathSelector = sims.roller.PathSelector;
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
@@ -135,7 +136,7 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(true);
-  this.mySim.setExtraAccel(lab.engine2D.ExtraAccel.VELOCITY_JOINTS);
+  this.mySim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(/*damping=*/0, /*rotateRatio=*/0.15,
       this.simList);
