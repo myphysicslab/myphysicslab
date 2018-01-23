@@ -32,7 +32,7 @@ goog.scope(function() {
 const Clock = goog.module.get('myphysicslab.lab.util.Clock');
 const DisplayText = goog.module.get('myphysicslab.lab.view.DisplayText');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var LabCanvas = myphysicslab.lab.view.LabCanvas;
+const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
 const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const SimView = goog.module.get('myphysicslab.lab.view.SimView');

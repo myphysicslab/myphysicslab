@@ -12,38 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.LabCanvas');
+goog.module('myphysicslab.lab.view.LabCanvas');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.ConcreteMemoList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.MemoList');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.ScreenRect');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ConcreteMemoList = goog.require('myphysicslab.lab.util.ConcreteMemoList');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const MemoList = goog.require('myphysicslab.lab.util.MemoList');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into
 the canvas. The LabViews are drawn overlapping so that the last LabView appears on
@@ -66,7 +51,6 @@ and the CoordMap translates simulation coordinates to screen coordinates. Pan an
 can be accomplished by changing the simulation rectangle of a LabView (which changes
 its CoordMap accordingly).
 
-
 <a id="focusview"></a>
 ### Focus View
 
@@ -76,7 +60,6 @@ focus LabView when a particular set of modifier keys are pressed during a mouse 
 
 The first LabView that is added becomes the initial focus view, but the focus view can
 be changed via {@link #setFocusView}.
-
 
 ### Background Color
 
@@ -91,7 +74,6 @@ old frame from the HTML canvas. What happens depends on the
     which fills the HTML canvas with that color.
 
 The background color can be set with {@link #setBackground}.
-
 
 ### Trails Effect
 
@@ -110,7 +92,6 @@ The trails effect happens when `alpha` is less than 1 because we paint a translu
 rectangle over the old frame, which gradually makes the old image disappear after
 several iterations of painting.
 
-
 Parameters Created
 ------------------
 
@@ -121,7 +102,6 @@ Parameters Created
 + ParameterNumber named `ALPHA`, see {@link #setAlpha}
 
 + ParameterString named `BACKGROUND`, see {@link #setBackground}
-
 
 Events Broadcast
 ----------------
@@ -138,17 +118,15 @@ All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `SIZE_CHANGED`
 
-
-* @param {!HTMLCanvasElement} canvas the HTML canvas to manage
-* @param {string} name name of this LabCanvas
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 * @implements {MemoList}
 */
-myphysicslab.lab.view.LabCanvas = function(canvas, name) {
-  AbstractSubject.call(this, name);
+class LabCanvas extends AbstractSubject {
+/**
+* @param {!HTMLCanvasElement} canvas the HTML canvas to manage
+* @param {string} name name of this LabCanvas
+*/
+constructor(canvas, name) {
+  super(name);
   /**
   * @type {!HTMLCanvasElement}
   * @private
@@ -212,11 +190,9 @@ myphysicslab.lab.view.LabCanvas = function(canvas, name) {
       LabCanvas.i18n.BACKGROUND, goog.bind(this.getBackground, this),
       goog.bind(this.setBackground, this)));
 };
-var LabCanvas = myphysicslab.lab.view.LabCanvas;
-goog.inherits(LabCanvas, AbstractSubject);
 
 /** @override */
-LabCanvas.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', width: '+this.canvas_.width
       +', height: '+this.canvas_.height
@@ -227,46 +203,16 @@ LabCanvas.prototype.toString = function() {
       +', labViews_: ['
       + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
       +'], memoList_: '+this.memoList_
-      + LabCanvas.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-LabCanvas.prototype.getClassName = function() {
+getClassName() {
   return 'LabCanvas';
 };
 
-/** Name of GenericEvent that is broadcast when the focus view changes.
-* @type {string}
-* @const
-*/
-LabCanvas.FOCUS_VIEW_CHANGED = 'FOCUS_VIEW_CHANGED';
-
-/** Name of GenericEvent that is broadcast when the size of the HTML canvas changes.
-* @type {string}
-* @const
-*/
-LabCanvas.SIZE_CHANGED = 'SIZE_CHANGED';
-
-/** Name of GenericEvent that is broadcast when the list of LabViews is modified.
-* @type {string}
-* @const
-*/
-LabCanvas.VIEW_LIST_MODIFIED = 'VIEW_LIST_MODIFIED';
-
-/** Name of GenericEvent that is broadcast when a LabView is added.
-* @type {string}
-* @const
-*/
-LabCanvas.VIEW_ADDED = 'VIEW_ADDED';
-
-/** Name of GenericEvent that is broadcast when a LabView is removed.
-* @type {string}
-* @const
-*/
-LabCanvas.VIEW_REMOVED = 'VIEW_REMOVED';
-
 /** @override */
-LabCanvas.prototype.addMemo = function(memorizable) {
+addMemo(memorizable) {
   this.memoList_.addMemo(memorizable);
 };
 
@@ -276,7 +222,7 @@ Notifies any Observers by broadcasting GenericEvents named {@link #VIEW_ADDED} a
 {@link #VIEW_LIST_MODIFIED} and possibly also {@link #FOCUS_VIEW_CHANGED}.
 @param {!LabView} view the LabView to add
 */
-LabCanvas.prototype.addView = function(view) {
+addView(view) {
   goog.asserts.assertObject(view);
   if (this.getWidth() > 0 && this.getHeight() > 0) {
     var sr = new ScreenRect(0, 0, this.getWidth(), this.getHeight());
@@ -296,7 +242,7 @@ LabCanvas.prototype.addView = function(view) {
 /** Moves the keyboard focus to the HTML canvas.
 * @return {undefined}
 */
-LabCanvas.prototype.focus = function() {
+focus() {
   // Move the keyboard focus to the canvas.  This is desirable so that if
   // the user was editing a text field, it ends that editing operation.
   // see http://stackoverflow.com/questions/1829586/
@@ -309,7 +255,7 @@ a number between 0.0 (fully transparent) and 1.0 (fully opaque).
 Only has an effect if the background color is non-empty string.
 * @return {number} transparency used when painting, between 0 and 1.
 */
-LabCanvas.prototype.getAlpha = function() {
+getAlpha() {
   return this.alpha_;
 };
 
@@ -318,14 +264,14 @@ string means that background is cleared to transparent black (which actually app
 as a white background unless there is something already drawn underneath).
 * @return {string} the background color; either a CSS3 color value or the empty string
 */
-LabCanvas.prototype.getBackground = function() {
+getBackground() {
   return this.background_;
 };
 
 /** Returns the HTML canvas being managed by this LabCanvas.
 * @return {!HTMLCanvasElement} the HTML canvas being managed by this LabCanvas
 */
-LabCanvas.prototype.getCanvas = function() {
+getCanvas() {
   return this.canvas_;
 };
 
@@ -334,26 +280,26 @@ LabCanvas.prototype.getCanvas = function() {
 * @return {!CanvasRenderingContext2D} the CanvasRenderingContext2D used for drawing
 *   into the HTML canvas
 */
-LabCanvas.prototype.getContext = function() {
+getContext() {
   return /** @type {!CanvasRenderingContext2D} */(this.canvas_.getContext('2d'));
 };
 
 /** Returns the focus LabView which the user expects to modify by his/her actions.
 * @return {?LabView} the focus LabView, or `null` when there is no focus LabView
 */
-LabCanvas.prototype.getFocusView = function() {
+getFocusView() {
   return this.focusView_;
 };
 
 /** Returns the height of the HTML canvas, in screen coords (pixels).
 * @return {number} the height of the HTML canvas, in screen coords (pixels)
 */
-LabCanvas.prototype.getHeight = function() {
+getHeight() {
   return this.canvas_.height;
 };
 
 /** @override */
-LabCanvas.prototype.getMemos = function() {
+getMemos() {
   return this.memoList_.getMemos();
 };
 
@@ -362,26 +308,26 @@ The top-left coordinate is always (0,0).  This does not represent the location
 of the canvas within the document or window.
 @return {!ScreenRect} the ScreenRect corresponding to the area of the HTML canvas.
 */
-LabCanvas.prototype.getScreenRect = function() {
+getScreenRect() {
   return new ScreenRect(0, 0, this.canvas_.width, this.canvas_.height);
 };
 
 /**  Returns list of the LabViews in this LabCanvas.
 @return {!Array<!LabView>} list of LabViews in this LabCanvas
 */
-LabCanvas.prototype.getViews = function() {
+getViews() {
   return goog.array.clone(this.labViews_);
 };
 
 /** Returns the width of the HTML canvas, in screen coords (pixels).
 * @return {number} the width of the HTML canvas, in screen coords (pixels)
 */
-LabCanvas.prototype.getWidth = function() {
+getWidth() {
   return this.canvas_.width;
 };
 
 /** @override */
-LabCanvas.prototype.memorize = function() {
+memorize() {
   this.memoList_.memorize();
 };
 
@@ -389,7 +335,7 @@ LabCanvas.prototype.memorize = function() {
 @return {undefined}
 @private
 */
-LabCanvas.prototype.notifySizeChanged = function() {
+notifySizeChanged() {
   var r = this.getScreenRect();
   goog.array.forEach(this.labViews_, function(view) {
     view.setScreenRect(r);
@@ -401,7 +347,7 @@ LabCanvas.prototype.notifySizeChanged = function() {
 See {@link #setBackground} and {@link #setAlpha}.
 @return {undefined}
 */
-LabCanvas.prototype.paint = function() {
+paint() {
   // Avoid painting when the canvas is hidden.
   // http://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
@@ -442,7 +388,7 @@ LabCanvas.prototype.paint = function() {
 };
 
 /** @override */
-LabCanvas.prototype.removeMemo = function(memorizable) {
+removeMemo(memorizable) {
   this.memoList_.removeMemo(memorizable);
 };
 
@@ -452,7 +398,7 @@ Notifies any Observers by broadcasting GenericEvents named {@link #VIEW_LIST_MOD
 and {@link #VIEW_REMOVED} and possibly also {@link #FOCUS_VIEW_CHANGED}.
 * @param {!LabView} view the LabView to remove
 */
-LabCanvas.prototype.removeView = function(view) {
+removeView(view) {
   goog.asserts.assertObject(view);
   goog.array.remove(this.labViews_, view);
   this.removeMemo(view);
@@ -469,7 +415,7 @@ a number between 0.0 (fully transparent) and 1.0 (fully opaque).
 Only has an effect if the background color is non-empty string.
 * @param {number} value transparency used when painting, between 0 and 1
 */
-LabCanvas.prototype.setAlpha = function(value) {
+setAlpha(value) {
   if (Util.veryDifferent(this.alpha_, value)) {
     this.alpha_ = value;
     // Alpha has no effect when background is empty string which means
@@ -487,7 +433,7 @@ as a white background unless there is something already drawn underneath).
 * @param {string} value the background color; either a CSS3 color value or the empty
 *    string
 */
-LabCanvas.prototype.setBackground = function(value) {
+setBackground(value) {
   if (this.background_ != value) {
     this.background_ = value;
     this.broadcastParameter(LabCanvas.en.BACKGROUND);
@@ -501,7 +447,7 @@ observers that the focus has changed by broadcasting the GenericEvent named
     `null` when no LabView has the focus.
 @throws {!Error} if `view` is not contained by this LabCanvas
 */
-LabCanvas.prototype.setFocusView = function(view) {
+setFocusView(view) {
   if (view != null && !goog.array.contains(this.labViews_, view))
     throw new Error('cannot set focus to unknown view '+view);
   if (this.focusView_ != view) {
@@ -521,7 +467,7 @@ LabViews. Notifies any Observers by broadcasting a GenericEvent named
 {@link #SIZE_CHANGED}.
 @param {number} value  the height of the canvas, in screen coords (pixels),
 */
-LabCanvas.prototype.setHeight = function(value) {
+setHeight(value) {
   if (Util.veryDifferent(value, this.canvas_.height)) {
     this.canvas_.height = value;
   }
@@ -533,7 +479,7 @@ LabCanvas.prototype.setHeight = function(value) {
 @param {!ScreenRect} sr  specifies the width and height; the top-left must be (0,0).
 @throws {!Error} if the top-left of the given ScreenRect is not (0,0).
 */
-LabCanvas.prototype.setScreenRect = function(sr) {
+setScreenRect(sr) {
   if (!ScreenRect.isDuckType(sr)) {
     throw new Error('not a ScreenRect '+sr);
   }
@@ -549,7 +495,7 @@ Notifies any Observers by broadcasting a GenericEvent named {@link #SIZE_CHANGED
 @param {number} width  the width of the canvas, in screen coords (pixels)
 @param {number} height  the height of the canvas, in screen coords (pixels)
 */
-LabCanvas.prototype.setSize = function(width, height) {
+setSize(width, height) {
   if (!goog.isNumber(width) || width <= 0 || !goog.isNumber(height) || height <= 0) {
     throw new Error('bad size '+width+', '+height);
   }
@@ -565,13 +511,45 @@ LabViews. Notifies any Observers by broadcasting a GenericEvent named
 {@link #SIZE_CHANGED}.
 @param {number} value  the width of the canvas, in screen coords (pixels),
 */
-LabCanvas.prototype.setWidth = function(value) {
+setWidth(value) {
   if (Util.veryDifferent(value, this.canvas_.width)) {
     this.canvas_.width = value;
   }
   this.notifySizeChanged();
   this.broadcastParameter(LabCanvas.en.WIDTH);
 };
+
+} //end class
+
+/** Name of GenericEvent that is broadcast when the focus view changes.
+* @type {string}
+* @const
+*/
+LabCanvas.FOCUS_VIEW_CHANGED = 'FOCUS_VIEW_CHANGED';
+
+/** Name of GenericEvent that is broadcast when the size of the HTML canvas changes.
+* @type {string}
+* @const
+*/
+LabCanvas.SIZE_CHANGED = 'SIZE_CHANGED';
+
+/** Name of GenericEvent that is broadcast when the list of LabViews is modified.
+* @type {string}
+* @const
+*/
+LabCanvas.VIEW_LIST_MODIFIED = 'VIEW_LIST_MODIFIED';
+
+/** Name of GenericEvent that is broadcast when a LabView is added.
+* @type {string}
+* @const
+*/
+LabCanvas.VIEW_ADDED = 'VIEW_ADDED';
+
+/** Name of GenericEvent that is broadcast when a LabView is removed.
+* @type {string}
+* @const
+*/
+LabCanvas.VIEW_REMOVED = 'VIEW_REMOVED';
 
 /** Set of internationalized strings.
 @typedef {{
@@ -610,4 +588,4 @@ LabCanvas.de_strings = {
 LabCanvas.i18n = goog.LOCALE === 'de' ? LabCanvas.de_strings :
     LabCanvas.en;
 
-}); // goog.scope
+exports = LabCanvas;

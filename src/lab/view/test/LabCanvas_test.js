@@ -78,7 +78,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver.prototype.observe = fun
   const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
   const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
   if (event instanceof GenericEvent) {
-    var LabCanvas = myphysicslab.lab.view.LabCanvas;
+    const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
     this.numEvents++;
     if (event.nameEquals(LabCanvas.VIEW_LIST_MODIFIED)) {
       this.numListModifiedEvents++;
@@ -168,7 +168,7 @@ var testLabCanvas1 = function() {
   const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-  var LabCanvas = myphysicslab.lab.view.LabCanvas;
+  const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
   var MockLCObserver = myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver;
   var MockViewObserver = myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver;
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
