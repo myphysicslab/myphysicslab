@@ -12,30 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Rope');
+goog.module('myphysicslab.lab.engine2D.Rope');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.Line');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const ConnectorCollision = goog.module.get('myphysicslab.lab.engine2D.ConnectorCollision');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Line = goog.module.get('myphysicslab.lab.model.Line');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const ConnectorCollision = goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Line = goog.require('myphysicslab.lab.model.Line');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Rope connects two RigidBodys and limits the distance
 between the two attachment points on the bodies. A Rope can either be
@@ -62,7 +51,11 @@ the bodies only if the distance is more than the rope's rest length (minus half 
 contact distance tolerance). Moves the second body to align with the first body,
 maintaining the angle between them if possible.
 
-
+* @implements {Connector}
+* @implements {Line}
+*/
+class Rope extends AbstractSimObject {
+/**
 * @param {!RigidBody} body1  the first body; can be an
   immoveable object like Scrim or an infinite mass Polygon
 * @param {!Vector} attach1_body attachment point in body coords
@@ -73,16 +66,10 @@ maintaining the angle between them if possible.
   body2
 * @param {number} length  the maximum length of the rope (or fixed length of rod)
 * @param {number} ropeType  1 means rope, 2 means rod.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSimObject}
-* @implements {Connector}
-* @implements {Line}
 */
-myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, length,
+constructor(body1, attach1_body, body2, attach2, length,
       ropeType) {
-  AbstractSimObject.call(this, 'rope'+(Rope.ropeNum++));
+  super('rope'+(Rope.ropeNum++));
   if (!isFinite(body2.getMass())) {
     throw new Error('body2 must have finite mass');
   }
@@ -129,12 +116,10 @@ myphysicslab.lab.engine2D.Rope = function(body1, attach1_body, body2, attach2, l
   */
   this.veloTol_ = Math.max(this.body1_.getVelocityTol(), this.body2_.getVelocityTol());
 };
-var Rope = myphysicslab.lab.engine2D.Rope;
-goog.inherits(Rope, AbstractSimObject);
 
 /** @override */
-Rope.prototype.toString = function() {
-  return Util.ADVANCED ? '' : Rope.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       +', body1_:"'+this.body1_.getName()+'"'
       +', attach1_body: '+this.attach1_body_
       +', body2:"'+this.body2_.getName()+'"'
@@ -145,30 +130,12 @@ Rope.prototype.toString = function() {
 };
 
 /** @override */
-Rope.prototype.getClassName = function() {
+getClassName() {
   return 'Rope';
 };
 
-/**
-@type {number}
-@const
-*/
-Rope.ROPE = 1;
-
-/**
-@type {number}
-@const
-*/
-Rope.ROD = 2;
-
-/** For naming objects.
-@type {number}
-@private
-*/
-Rope.ropeNum = 0;
-
 /** @override */
-Rope.prototype.addCollision = function(collisions, time, accuracy) {
+addCollision(collisions, time, accuracy) {
   var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/this.rod_);
   this.updateCollision(c);
   c.setDetectedTime(time);
@@ -180,7 +147,7 @@ Rope.prototype.addCollision = function(collisions, time, accuracy) {
 };
 
 /** @override */
-Rope.prototype.align = function() {
+align() {
   // Find the angle between the attachment points, then set the distance
   // between the two attachment points to be rest-length apart.
   var angle = -Math.PI/2;  // where 0 = 3 o'clock.
@@ -201,68 +168,68 @@ Rope.prototype.align = function() {
 };
 
 /** @override */
-Rope.prototype.getBody1 = function() {
+getBody1() {
   return this.body1_;
 };
 
 /** @override */
-Rope.prototype.getBody2 = function() {
+getBody2() {
   return this.body2_;
 };
 
 /** @override */
-Rope.prototype.getBoundsWorld = function() {
+getBoundsWorld() {
   return DoubleRect.make(this.getPosition1(), this.getPosition2());
 };
 
 /** @override */
-Rope.prototype.getEndPoint = function() {
+getEndPoint() {
   return this.body2_.bodyToWorld(this.attach2_body_);
 };
 
 /** Returns the distance between end points of this spring
 @return {number} the distance between end points of this spring
 */
-Rope.prototype.getLength = function() {
+getLength() {
   return this.getEndPoint().distanceTo(this.getStartPoint());
 };
 
 /** @override */
-Rope.prototype.getNormalDistance = function() {
+getNormalDistance() {
   return this.getLength();
 };
 
 /** @override */
-Rope.prototype.getPosition1 = function() {
+getPosition1() {
   return this.body1_.bodyToWorld(this.attach1_body_);
 };
 
 /** @override */
-Rope.prototype.getPosition2 = function() {
+getPosition2() {
   return this.body2_.bodyToWorld(this.attach2_body_);
 };
 
 /** Returns the maximum length of the rope (or fixed length of rod)
 @return {number} the maximum length of the rope (or fixed length of rod)
 */
-Rope.prototype.getRestLength = function() {
+getRestLength() {
   return this.restLength_;
 };
 
 /** @override */
-Rope.prototype.getStartPoint = function() {
+getStartPoint() {
   return this.body1_.bodyToWorld(this.attach1_body_);
 };
 
 /** Positive stretch means the rope is expanded, negative stretch means compressed.
 @return {number} the amount that this line is stretched from its rest length
 */
-Rope.prototype.getStretch = function() {
+getStretch() {
   return this.getLength() - this.restLength_;
 };
 
 /** @override */
-Rope.prototype.getVector = function() {
+getVector() {
   return this.getEndPoint().subtract(this.getStartPoint());
 };
 
@@ -270,13 +237,13 @@ Rope.prototype.getVector = function() {
 length.
 @return {boolean} `true` if the rope is tight
 */
-Rope.prototype.isTight = function() {
+isTight() {
   return this.rod_ ||
       this.getLength() > this.restLength_ - this.distTol_;
 };
 
 /** @override */
-Rope.prototype.updateCollision = function(c) {
+updateCollision(c) {
   if (c.primaryBody != this.body1_ || c.normalBody != this.body2_)
     throw new Error();
   if (c.getConnector() != this)
@@ -306,4 +273,24 @@ Rope.prototype.updateCollision = function(c) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/**
+@type {number}
+@const
+*/
+Rope.ROPE = 1;
+
+/**
+@type {number}
+@const
+*/
+Rope.ROD = 2;
+
+/** For naming objects.
+@type {number}
+@private
+*/
+Rope.ropeNum = 0;
+
+exports = Rope;
