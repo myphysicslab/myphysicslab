@@ -37,7 +37,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
 var BrachistoObserver = sims.roller.BrachistoObserver;
 var BrachistoPaths = sims.roller.BrachistoPaths;
 var BrachistoSim = sims.roller.BrachistoSim;

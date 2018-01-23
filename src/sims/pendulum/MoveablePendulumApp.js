@@ -38,7 +38,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
 const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');

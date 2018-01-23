@@ -32,10 +32,7 @@ goog.require('myphysicslab.sims.pendulum.PendulumSim');
 
 goog.scope(function() {
 
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const DisplayArc = goog.module.get('myphysicslab.lab.view.DisplayArc');
@@ -44,7 +41,7 @@ const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var PendulumSim = sims.pendulum.PendulumSim;
+var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
@@ -62,7 +59,7 @@ const Util = goog.module.get('myphysicslab.lab.util.Util');
 * @struct
 * @export
 */
-sims.pendulum.PendulumApp = function(elem_ids) {
+myphysicslab.sims.pendulum.PendulumApp = function(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
   var sim = new PendulumSim();
@@ -112,7 +109,7 @@ sims.pendulum.PendulumApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var PendulumApp = sims.pendulum.PendulumApp;
+var PendulumApp = myphysicslab.sims.pendulum.PendulumApp;
 goog.inherits(PendulumApp, AbstractApp);
 
 /** @override */

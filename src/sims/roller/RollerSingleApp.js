@@ -49,7 +49,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var AbstractApp = myphysicslab.sims.common.AbstractApp;
+const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
 var CardioidPath = sims.roller.CardioidPath;
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 var CirclePath = sims.roller.CirclePath;
