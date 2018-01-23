@@ -48,7 +48,7 @@ myphysicslab.sims.experimental.SimpleApp = function() {
 */
 myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
   const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-  var DisplayShape = myphysicslab.lab.view.DisplayShape;
+  const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
   var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   var LabCanvas = myphysicslab.lab.view.LabCanvas;

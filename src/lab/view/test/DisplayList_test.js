@@ -24,7 +24,7 @@ goog.require('myphysicslab.lab.view.DisplayShape');
 var testDisplayList = function() {
   var tol = 1E-14;
   var DisplayList = myphysicslab.lab.view.DisplayList;
-  var DisplayShape = myphysicslab.lab.view.DisplayShape;
+  const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
 

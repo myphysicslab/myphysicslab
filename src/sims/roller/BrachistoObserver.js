@@ -37,7 +37,7 @@ goog.scope(function() {
 var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
 var DisplayList = myphysicslab.lab.view.DisplayList;
 const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
-var DisplayShape = myphysicslab.lab.view.DisplayShape;
+const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 var DisplayText = myphysicslab.lab.view.DisplayText;
 const DrawingStyle = goog.module.get('myphysicslab.lab.view.DrawingStyle');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');

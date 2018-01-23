@@ -27,7 +27,7 @@ goog.scope(function() {
 
 const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-var DisplayShape = myphysicslab.lab.view.DisplayShape;
+const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');

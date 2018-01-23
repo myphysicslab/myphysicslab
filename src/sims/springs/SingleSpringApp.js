@@ -37,7 +37,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 var CommonControls = sims.common.CommonControls;
-var DisplayShape = lab.view.DisplayShape;
+const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
 var DisplaySpring = lab.view.DisplaySpring;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const ExpressionVariable = goog.module.get('myphysicslab.lab.model.ExpressionVariable');
