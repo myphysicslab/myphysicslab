@@ -41,7 +41,7 @@ goog.scope(function() {
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
 const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-var DisplayList = myphysicslab.lab.view.DisplayList;
+const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
 const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');

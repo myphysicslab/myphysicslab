@@ -30,7 +30,7 @@ goog.require('myphysicslab.lab.view.SimView');
 
 goog.scope(function() {
 
-var DisplayList = myphysicslab.lab.view.DisplayList;
+const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
 const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');

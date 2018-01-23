@@ -12,31 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayList');
+goog.module('myphysicslab.lab.view.DisplayList');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.util.MemoList');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A set of {@link DisplayObject}s, which show the state of the simulation. A
 DisplayObject typically represents a {@link SimObject}, but not always.
@@ -46,70 +33,48 @@ zIndex
 DisplayObjects with a lower `zIndex` appear underneath those with higher `zIndex`.
 The DisplayList is sorted by `zIndex`. See {@link DisplayObject#getZIndex}.
 
-* @param {string=} opt_name name of this DisplayList.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 */
-myphysicslab.lab.view.DisplayList = function(opt_name) {
-  AbstractSubject.call(this, opt_name || 'DISPLAY_LIST_'+(DisplayList.NAME_ID++));
+class DisplayList extends AbstractSubject {
+/**
+* @param {string=} opt_name name of this DisplayList.
+*/
+constructor(opt_name) {
+  super(opt_name || 'DISPLAY_LIST_'+(DisplayList.NAME_ID++));
   /**
   * @type {!Array<!DisplayObject>}
   * @private
   */
   this.drawables_ = [];
 };
-var DisplayList = myphysicslab.lab.view.DisplayList;
-goog.inherits(DisplayList, AbstractSubject);
 
 /** @override */
-DisplayList.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', drawables_: ['
       + goog.array.map(this.drawables_, function(d, idx) {
           return idx+': '+d.toStringShort();
         })
-      + ']' + DisplayList.superClass_.toString.call(this);
+      + ']' + super.toString();
 };
 
 /** @override */
-DisplayList.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      DisplayList.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', drawables_.length: '+this.drawables_.length +'}';
 };
 
 /** @override */
-DisplayList.prototype.getClassName = function() {
+getClassName() {
   return 'DisplayList';
 };
-
-/**
-* @type {number}
-*/
-DisplayList.NAME_ID = 1;
-
-/** Name of event broadcast when a DisplayObject is added, see {@link #add},
-* {@link #prepend}.
-* @type {string}
-* @const
-*/
-DisplayList.OBJECT_ADDED = 'OBJECT_ADDED';
-
-/** Name of event broadcast when a DisplayObject is removed, see {@link #remove},
-* {@link #removeAll}.
-* @type {string}
-* @const
-*/
-DisplayList.OBJECT_REMOVED = 'OBJECT_REMOVED';
 
 /** Adds the DisplayObject, inserting it at the end of the group of DisplayObjects
 with the same zIndex; the item will appear visually over objects that have
 the same (or lower) `zIndex`.
 @param {!DisplayObject} dispObj the DisplayObject to add
 */
-DisplayList.prototype.add = function(dispObj) {
+add(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw new Error('non-object passed to DisplayList.add');
   }
@@ -135,7 +100,7 @@ DisplayList.prototype.add = function(dispObj) {
 @param {!DisplayObject} dispObj the item to search for
 @return {boolean} true if the DisplayObject was found
 */
-DisplayList.prototype.contains = function(dispObj) {
+contains(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw new Error('non-object passed to DisplayList.contains');
   }
@@ -149,7 +114,7 @@ list).
 @param {!CoordMap} map the mapping to use for translating between simulation and screen
     coordinates
 */
-DisplayList.prototype.draw = function(context, map) {
+draw(context, map) {
   this.sort();
   goog.array.forEach(this.drawables_, function(dispObj) {
     dispObj.draw(context, map);
@@ -163,7 +128,7 @@ DisplayList.prototype.draw = function(context, map) {
 @return {?DisplayObject} the DisplayObject on this list that shows
     the given SimObject, or null if not found
 */
-DisplayList.prototype.find = function(search) {
+find(search) {
   if (goog.isNumber(search)) {
     var index = /** @type {number}*/(search);
     var n = this.drawables_.length;
@@ -202,7 +167,7 @@ DisplayList.prototype.find = function(search) {
     the given SimObject
 @throws {!Error} if DisplayShape is not found
 */
-DisplayList.prototype.findShape = function(search) {
+findShape(search) {
   var ds = this.find(search);
   if (ds instanceof DisplayShape) {
     return /**!DisplayShape*/(ds);
@@ -218,7 +183,7 @@ DisplayList.prototype.findShape = function(search) {
     the given SimObject
 @throws {!Error} if DisplaySpring is not found
 */
-DisplayList.prototype.findSpring = function(search) {
+findSpring(search) {
   var ds = this.find(search);
   if (ds instanceof DisplaySpring) {
     return /**!DisplaySpring*/(ds);
@@ -232,7 +197,7 @@ DisplayList.prototype.findSpring = function(search) {
     position in this DisplayList
 @throws {!Error} if index out of range
 */
-DisplayList.prototype.get = function(index) {
+get(index) {
   var n = this.drawables_.length;
   if (index < 0 || index >= n) {
     throw new Error(index+' is not in range 0 to '+(n-1));
@@ -244,7 +209,7 @@ DisplayList.prototype.get = function(index) {
 /** Returns number of DisplayObjects in this DisplayList, minus 1.
 @return number of DisplayObjects minus 1
 */
-DisplayList.prototype.length = function() {
+length() {
   return this.drawables_.length;
 };
 
@@ -252,7 +217,7 @@ DisplayList.prototype.length = function() {
 @param {!DisplayObject} dispObj
 @private
 */
-DisplayList.prototype.preExist = function(dispObj) {
+preExist(dispObj) {
   if (Util.DEBUG) {
     var simObjs = dispObj.getSimObjects();
     for (var i=0, len=simObjs.length; i<len; i++) {
@@ -273,7 +238,7 @@ with the same zIndex; the item will appear visually under objects that have
 the same (or higher) `zIndex`.
 @param {!DisplayObject} dispObj the DisplayObject to prepend
 */
-DisplayList.prototype.prepend = function(dispObj) {
+prepend(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw new Error('non-object passed to DisplayList.add');
   }
@@ -298,7 +263,7 @@ DisplayList.prototype.prepend = function(dispObj) {
 /** Removes the item from the list of DisplayObjects.
 @param {!DisplayObject} dispObj the item to remove
 */
-DisplayList.prototype.remove = function(dispObj) {
+remove(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw new Error('non-object passed to DisplayList.remove');
   }
@@ -312,7 +277,7 @@ DisplayList.prototype.remove = function(dispObj) {
 /** Clears the list of DisplayObjects.
 * @return {undefined}
 */
-DisplayList.prototype.removeAll = function() {
+removeAll() {
   goog.array.forEachRight(this.drawables_, function(dispObj) {
     this.remove(dispObj);
   }, this);
@@ -321,7 +286,7 @@ DisplayList.prototype.removeAll = function() {
 /** Sorts the DisplayList by zIndex. Avoids sorting if the list is already sorted.
 * @return {undefined}
 */
-DisplayList.prototype.sort = function() {
+sort() {
   // avoid sorting if the list is already sorted
   var isSorted = true;
   var lastZ = Util.NEGATIVE_INFINITY;
@@ -354,9 +319,30 @@ DisplayList.prototype.sort = function() {
 bottom-most object.
 @return {!Array<!DisplayObject>} list of DisplayObjects in visual sequence order
 */
-DisplayList.prototype.toArray = function() {
+toArray() {
   this.sort();
   return goog.array.clone(this.drawables_);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {number}
+*/
+DisplayList.NAME_ID = 1;
+
+/** Name of event broadcast when a DisplayObject is added, see {@link #add},
+* {@link #prepend}.
+* @type {string}
+* @const
+*/
+DisplayList.OBJECT_ADDED = 'OBJECT_ADDED';
+
+/** Name of event broadcast when a DisplayObject is removed, see {@link #remove},
+* {@link #removeAll}.
+* @type {string}
+* @const
+*/
+DisplayList.OBJECT_REMOVED = 'OBJECT_REMOVED';
+
+exports = DisplayList;
