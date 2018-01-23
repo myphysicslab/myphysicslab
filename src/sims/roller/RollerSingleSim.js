@@ -34,7 +34,7 @@ goog.scope(function() {
 const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
 const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-var EventHandler = myphysicslab.lab.app.EventHandler;
+const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');

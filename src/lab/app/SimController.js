@@ -11,45 +11,30 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-goog.provide('myphysicslab.lab.app.SimController');
+goog.module('myphysicslab.lab.app.SimController');
 
 goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyEvent');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.app.MouseTracker');
-goog.require('myphysicslab.lab.app.ViewPanner');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ErrorObserver');
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
 
-goog.scope(function() {
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const ErrorObserver = goog.module.get('myphysicslab.lab.util.ErrorObserver');
-var EventHandler = myphysicslab.lab.app.EventHandler;
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-var MouseTracker = myphysicslab.lab.app.MouseTracker;
-const Printable = goog.module.get('myphysicslab.lab.util.Printable');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var ViewPanner = myphysicslab.lab.app.ViewPanner;
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const ErrorObserver = goog.require('myphysicslab.lab.util.ErrorObserver');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const MouseTracker = goog.require('myphysicslab.lab.app.MouseTracker');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const ViewPanner = goog.require('myphysicslab.lab.app.ViewPanner');
 
 /** Handles mouse and keyboard events occurring in a LabCanvas; either forwards events
 to an {@link EventHandler}, or does LabView panning
 (moving the content of the LabView with the mouse).
-
 
 Key Events
 ----------
@@ -57,7 +42,6 @@ Key events are forwarded to the EventHandler, but only when the event target is 
 LabCanvas, or when there is no specific target (`document.body` is the event target in
 that case). This avoids forwarding key events intended for some other target, for
 example a text edit area.
-
 
 Mouse Events
 ------------
@@ -73,7 +57,6 @@ dragable DisplayObject; the initial offset between the mouse and the DisplayObje
 Even if no dragable DisplayObject is found (and LabView panning is not occurring)
 the MouseTracker still forwards the event to the EventHandler. The mouse position is
 given in simulation coordinates of the focus LabView of the LabCanvas.
-
 
 Touch Events
 ------------
@@ -103,7 +86,6 @@ can add this bit of CSS code:
     }
 
 There are other such CSS options for other browsers.
-
 
 <a id="labviewpanning"></a>
 LabView Panning
@@ -135,8 +117,6 @@ The table below shows how modifier keys are named on different operating systems
 | alt      | option    | alt         |
 | meta     | command   | windows     |
 
-
-
 @todo Should this class be designed for inheritance?
     Seems like there could be a need for a class that doesn't look for dragable objects
     at all, but wants to get mouse drag info anyway.
@@ -164,6 +144,11 @@ The table below shows how modifier keys are named on different operating systems
 @todo  Make a unit test; especially for findNearestDragable.  Note that it is
     possible to make synthetic events for testing in Javascript.
 
+* @implements {Printable}
+* @implements {ErrorObserver}
+*/
+class SimController {
+/**
 * @param {!LabCanvas} labCanvas the LabCanvas to process events
     for.
 * @param {?EventHandler=} eventHandler  the EventHandler
@@ -172,13 +157,8 @@ The table below shows how modifier keys are named on different operating systems
     keys are needed for LabView panning; if `null`, then LabView panning will not be
     done; if `undefined` then default is to do LabView panning when alt key is pressed.
     See {@link SimController#modifierKey}.
-* @constructor
-* @final
-* @implements {Printable}
-* @implements {ErrorObserver}
-* @struct
 */
-myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifier) {
+constructor(labCanvas, eventHandler, panModifier) {
   /** the LabCanvas to gather events from
   * @type {!LabCanvas}
   * @private
@@ -290,10 +270,9 @@ myphysicslab.lab.app.SimController = function(labCanvas, eventHandler, panModifi
   this.touchEndKey_ = goog.events.listen(document, goog.events.EventType.TOUCHEND,
       /*callback=*/this.touchEnd,  /*capture=*/false, this);
 };
-var SimController = myphysicslab.lab.app.SimController;
 
 /** @override */
-SimController.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', labCanvas_: '+this.labCanvas_.toStringShort()
       +', enablePanning_: '+this.enablePanning_
@@ -305,14 +284,14 @@ SimController.prototype.toString = function() {
 };
 
 /** @override */
-SimController.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'SimController{eventHandler_: '
       +(this.eventHandler_ != null ? this.eventHandler_.toStringShort() : 'null')
       +'}';
 };
 
 /** @override */
-SimController.prototype.notifyError = function(error) {
+notifyError(error) {
   // This turns off mouse dragging when an error occurs. For example, with ImpulseApp,
   // set elasticity to 0.8, drag a block into the wall, get the 'sim stuck' alert,
   // click OK, then we turn off drag mode here.
@@ -324,7 +303,7 @@ SimController.prototype.notifyError = function(error) {
 /** Remove connections to other objects to facilitate garbage collection.
 * @return {undefined}
 */
-SimController.prototype.destroy = function() {
+destroy() {
   goog.events.unlistenByKey(this.mouseDownKey_);
   goog.events.unlistenByKey(this.mouseMoveKey_);
   goog.events.unlistenByKey(this.mouseUpKey_);
@@ -339,7 +318,7 @@ SimController.prototype.destroy = function() {
 @param {!goog.events.BrowserEvent} evt the mouse down event that occurred
 @private
 */
-SimController.prototype.mouseDown = function(evt) {
+mouseDown(evt) {
   this.doMouseDown(evt, evt.clientX, evt.clientY);
 };
 
@@ -355,7 +334,7 @@ of (0,0) for the top left corner of the client area (the canvas). See
 @param {number} mouseY Y-coordinate relative to the client area (canvas)
 @private
 */
-SimController.prototype.doMouseDown = function(evt, mouseX, mouseY) {
+doMouseDown(evt, mouseX, mouseY) {
   //console.log('ctrl='+evt.ctrlKey+' meta='+evt.metaKey
   //  +' shift='+evt.shiftKey+' alt='+evt.altKey);
   if (evt.target != this.labCanvas_.getCanvas()) {
@@ -413,7 +392,7 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 @return {!Vector} the event location in the LabCanvas's screen coordinates
 @private
 */
-SimController.prototype.eventToScreen = function(mouseX, mouseY) {
+eventToScreen(mouseX, mouseY) {
   var cvs = this.labCanvas_.getCanvas();
   var r = cvs.getBoundingClientRect();
   var p = new Vector(mouseX - r.left, mouseY - r.top);
@@ -426,7 +405,7 @@ SimController.prototype.eventToScreen = function(mouseX, mouseY) {
 @param {!goog.events.BrowserEvent} evt the mouse move event that occurred
 @private
 */
-SimController.prototype.mouseMove = function(evt) {
+mouseMove(evt) {
   this.doMouseMove(evt, evt.clientX, evt.clientY);
 };
 
@@ -443,7 +422,7 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 @param {number} mouseY Y-coordinate relative to the client area (canvas)
 @private
 */
-SimController.prototype.doMouseMove = function(evt, mouseX, mouseY) {
+doMouseMove(evt, mouseX, mouseY) {
   //console.log('SimController.mouseMove evt='+Util.propertiesOf(evt, true));
   var cvs = this.labCanvas_.getCanvas();
   // offsetParent returns null when the element has style.display set to 'none'.
@@ -471,7 +450,7 @@ SimController.prototype.doMouseMove = function(evt, mouseX, mouseY) {
 @param {!goog.events.BrowserEvent} evt the mouse up event that occurred
 @private
 */
-SimController.prototype.mouseUp = function(evt) {
+mouseUp(evt) {
   var cvs = this.labCanvas_.getCanvas();
   // offsetParent returns null when the element has style.display set to 'none'.
   // see https://developer.mozilla.org/en/DOM/element.offsetParent
@@ -493,7 +472,7 @@ SimController.prototype.mouseUp = function(evt) {
 * @return {undefined}
 * @private
 */
-SimController.prototype.finishDrag = function() {
+finishDrag() {
   if (this.myViewPanner_ != null) {
     this.myViewPanner_.finishDrag();
   } else if (this.mouseTracker_ != null) {
@@ -510,7 +489,7 @@ when there is no specific target (`document.body` is the event target in that ca
 * @param {!goog.events.KeyEvent} evt the key down event that occurred
 * @private
 */
-SimController.prototype.keyPressed = function(evt) {
+keyPressed(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
       if (Util.DEBUG && this.debug_) {
@@ -527,7 +506,7 @@ when there is no specific target (`document.body` is the event target in that ca
 * @param {!goog.events.KeyEvent} evt the key up event that occurred
 * @private
 */
-SimController.prototype.keyReleased = function(evt) {
+keyReleased(evt) {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
       if (Util.DEBUG && this.debug_) {
@@ -544,7 +523,7 @@ mouse-down event. Multiple touch cancels an ongoing mouse drag by calling
 @param {!goog.events.BrowserEvent} evt the touch start event that occurred
 @private
 */
-SimController.prototype.touchStart = function(evt) {
+touchStart(evt) {
   if (evt.target == this.labCanvas_.getCanvas()) {
     var bevt = /** @type {!TouchEvent} */(evt.getBrowserEvent());
     if (bevt != null) {
@@ -566,7 +545,7 @@ mouse-move event.  Multiple touch cancels an ongoing mouse drag by calling
 @param {!goog.events.BrowserEvent} evt the touch move event that occurred
 @private
 */
-SimController.prototype.touchMove = function(evt) {
+touchMove(evt) {
   var e = /** @type {!TouchEvent} */(evt.getBrowserEvent());
   var touches = goog.isDefAndNotNull(e) ? e.touches : [];
   if (this.mouseDrag_ && touches && touches.length == 1) {
@@ -583,31 +562,18 @@ mouse-up event.
 @param {!goog.events.BrowserEvent} evt the touch end event that occurred
 @private
 */
-SimController.prototype.touchEnd = function(evt) {
+touchEnd(evt) {
   if (this.mouseDrag_) {
     this.mouseUp(evt);
   }
 };
-
-/**  Specifies a set of modifier keys that can occur during browser events.
-
-The table below shows how modifier keys are named on different operating systems.
-
-|          | Mac OS    |  Windows    |
-| :----    | :-------- | :---------- |
-| alt      | option    | alt         |
-| meta     | command   | windows     |
-
-* @typedef {{control: boolean, meta: boolean, shift: boolean, alt: boolean}}
-*/
-SimController.modifierKey;
 
 /** Returns string representation of the set of modifier keys, for debugging.
 @param {!SimController.modifierKey} modifier the set of modifier keys of interest
 @return {string} string representation of the modifierKey
 @private
 */
-SimController.modifierToString = function(modifier) {
+static modifierToString(modifier) {
   var s = '';
   if (modifier.control == true)
     s += 'control';
@@ -626,7 +592,7 @@ SimController.modifierToString = function(modifier) {
 @return {boolean} true if the set of modifier keys matches the event's modifiers
 @private
 */
-SimController.modifierMatchesEvent = function(modifier, evt) {
+static modifierMatchesEvent(modifier, evt) {
   if ((modifier.control == true) != evt.ctrlKey)
     return false;
   if ((modifier.alt == true) != evt.altKey)
@@ -638,4 +604,19 @@ SimController.modifierMatchesEvent = function(modifier, evt) {
   return true;
 };
 
-}); // goog.scope
+} //end class
+
+/**  Specifies a set of modifier keys that can occur during browser events.
+
+The table below shows how modifier keys are named on different operating systems.
+
+|          | Mac OS    |  Windows    |
+| :----    | :-------- | :---------- |
+| alt      | option    | alt         |
+| meta     | command   | windows     |
+
+* @typedef {{control: boolean, meta: boolean, shift: boolean, alt: boolean}}
+*/
+SimController.modifierKey;
+
+exports = SimController;

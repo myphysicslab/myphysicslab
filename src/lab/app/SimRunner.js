@@ -12,52 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.app.SimRunner');
+goog.module('myphysicslab.lab.app.SimRunner');
 
 goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyEvent');
-goog.require('myphysicslab.lab.model.AdvanceStrategy');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.ClockTask');
-goog.require('myphysicslab.lab.util.ConcreteMemoList');
-goog.require('myphysicslab.lab.util.ErrorObserver');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.MemoList');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.LabCanvas');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AdvanceStrategy = goog.module.get('myphysicslab.lab.model.AdvanceStrategy');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
-const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
-const ErrorObserver = goog.module.get('myphysicslab.lab.util.ErrorObserver');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Timer = goog.module.get('myphysicslab.lab.util.Timer');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AdvanceStrategy = goog.require('myphysicslab.lab.model.AdvanceStrategy');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const ConcreteMemoList = goog.require('myphysicslab.lab.util.ConcreteMemoList');
+const ErrorObserver = goog.require('myphysicslab.lab.util.ErrorObserver');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const MemoList = goog.require('myphysicslab.lab.util.MemoList');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Timer = goog.require('myphysicslab.lab.util.Timer');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Uses an {@link AdvanceStrategy} to advance the
 {@link myphysicslab.lab.model.Simulation Simulation} state; the process is driven by a
 {@link Timer} and a {@link Clock} to synchronize the Simulation with real time; updates
 the {@link LabCanvas} to show the current Simulation state.
-
 
 How Simulation Advances with Clock
 ----------------------------------
@@ -96,7 +78,6 @@ callback fires. See {@link #setDisplayPeriod}.
 calculated; that is determined separately by the **time step** used when calling
 {@link AdvanceStrategy#advance}. See {@link #setTimeStep}.
 
-
 Stop Simulation When Window is Not Active
 -----------------------------------------
 SimRunner listens for blur and focus events to stop and start the Timer. Those events
@@ -108,7 +89,6 @@ user is not viewing the simulation.
 There is a "non-stop" Parameter which allows the simulation to run even when the window
 is not active. This is useful if you want to view two simulations running in separate
 browser windows. See {@link #setNonStop}.
-
 
 Parameters Created
 ------------------
@@ -122,26 +102,23 @@ Parameters Created
 
 + ParameterBoolean named `NON_STOP`, see {@link #setNonStop}
 
-
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `RESET`, see {@link #reset}.
 
-
+* @implements {Observer}
+* @implements {MemoList}
+*/
+class SimRunner extends AbstractSubject {
+/**
 * @param {!AdvanceStrategy} advance  the AdvanceStrategy which
 *     runs advances the Simulation
 * @param {string=} opt_name name of this SimRunner.
-* @constructor
-* @final
-* @struct
-* @implements {Observer}
-* @implements {MemoList}
-* @extends {AbstractSubject}
 */
-myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
-  AbstractSubject.call(this, opt_name || 'SIM_RUNNER');
+constructor(advance, opt_name) {
+  super(opt_name || 'SIM_RUNNER');
   /** name of the application that created this SimRunner, for debugging.
   * @type {string}
   * @private
@@ -221,11 +198,9 @@ myphysicslab.lab.app.SimRunner = function(advance, opt_name) {
       SimRunner.i18n.NON_STOP,
       goog.bind(this.getNonStop, this), goog.bind(this.setNonStop, this)));
 };
-var SimRunner = myphysicslab.lab.app.SimRunner;
-goog.inherits(SimRunner, AbstractSubject);
 
 /** @override */
-SimRunner.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', advanceList_: ['
       + goog.array.map(this.advanceList_, function(a) { return a.toStringShort(); })
@@ -237,11 +212,11 @@ SimRunner.prototype.toString = function() {
       +', canvasList_: ['
       + goog.array.map(this.canvasList_, function(a) { return a.toStringShort(); })
       +'], memoList_: '+this.memoList_
-      + SimRunner.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-SimRunner.prototype.getClassName = function() {
+getClassName() {
   return 'SimRunner';
 };
 
@@ -250,7 +225,7 @@ repainted and memorized after each advance of the Simulation.
 @param {!LabCanvas} canvas the LabCanvas to add to the list of
     LabCanvas's to update
 */
-SimRunner.prototype.addCanvas = function(canvas) {
+addCanvas(canvas) {
   if (!goog.array.contains(this.canvasList_, canvas)) {
     this.canvasList_.push(canvas);
     this.addMemo(canvas);
@@ -262,21 +237,21 @@ error occurs.
 @param {!ErrorObserver} errorObserver object to add to the list of
     ErrorObserver objects
 */
-SimRunner.prototype.addErrorObserver = function(errorObserver) {
+addErrorObserver(errorObserver) {
   if (!goog.array.contains(this.errorObservers_, errorObserver)) {
     this.errorObservers_.push(errorObserver);
   }
 };
 
 /** @override */
-SimRunner.prototype.addMemo = function(memorizable) {
+addMemo(memorizable) {
   this.memoList_.addMemo(memorizable);
 };
 
 /** Adds an AdvanceStrategy to the set being advanced.
 * @param {!AdvanceStrategy} advance  the AdvanceStrategy to add
 */
-SimRunner.prototype.addStrategy = function(advance) {
+addStrategy(advance) {
   this.advanceList_.push(advance);
 };
 
@@ -286,7 +261,7 @@ Memorizables after each time step.
 * @param {number} targetTime the time to advance to
 * @private
 */
-SimRunner.prototype.advanceSims = function(strategy, targetTime) {
+advanceSims(strategy, targetTime) {
   var  simTime = strategy.getTime();
   var n = 0;
   while (simTime < targetTime) {
@@ -314,7 +289,7 @@ step. This is the callback function that is being run by the {@link Timer}.
 * @return {undefined}
 * @private
 */
-SimRunner.prototype.callback = function() {
+callback() {
   try {
     if (this.clock_.isRunning() || this.clock_.isStepping()) {
       var clockTime = this.clock_.getTime();
@@ -353,7 +328,7 @@ SimRunner.prototype.callback = function() {
 /** Remove connections to other objects to facilitate garbage collection.
 * @return {undefined}
 */
-SimRunner.prototype.destroy = function() {
+destroy() {
   this.stopFiring();
 };
 
@@ -361,33 +336,33 @@ SimRunner.prototype.destroy = function() {
 Simulation.
 * @return {!Array<!LabCanvas>} the list of LabCanvas that need to be repainted
 */
-SimRunner.prototype.getCanvasList = function() {
+getCanvasList() {
   return goog.array.clone(this.canvasList_);
 };
 
 /** Returns the Clock which the Simulation is synchronized to.
 * @return {!Clock} the Clock which the Simulation is synchronized to.
 */
-SimRunner.prototype.getClock = function() {
+getClock() {
   return this.clock_;
 };
 
 /** Returns the amount of time between displaying frames of the Simulation, in seconds.
 @return {number} amount of time between displaying frames of the Simulation, in seconds.
 */
-SimRunner.prototype.getDisplayPeriod = function() {
+getDisplayPeriod() {
   return this.displayPeriod_;
 };
 
 /** Whether the Timer is executing `callback()`.
 @return {boolean}
 */
-SimRunner.prototype.getFiring = function() {
+getFiring() {
   return this.timer_.isFiring();
 };
 
 /** @override */
-SimRunner.prototype.getMemos = function() {
+getMemos() {
   return this.memoList_.getMemos();
 };
 
@@ -398,14 +373,14 @@ active.
 @return {boolean} `true` means the Timer keeps firing even when the browser window is
     inactive
 */
-SimRunner.prototype.getNonStop = function() {
+getNonStop() {
   return this.nonStop_;
 };
 
 /** Returns true if the Clock is running.
 @return {boolean} true if the Clock is running
 */
-SimRunner.prototype.getRunning = function() {
+getRunning() {
   return this.clock_.isRunning();
 };
 
@@ -414,7 +389,7 @@ Several steps of this size may be taken to advance the Simulation time to be equ
 beyond the Clock time.
 @return {number} the length of a time step, in seconds.
 */
-SimRunner.prototype.getTimeStep = function() {
+getTimeStep() {
   return this.timeStep_;
 };
 
@@ -422,7 +397,7 @@ SimRunner.prototype.getTimeStep = function() {
 * get the Simulation running again; calls {@link #pause} to stop the Simulation.
 * @param {*} error the error that caused the exception
 */
-SimRunner.prototype.handleException = function(error) {
+handleException(error) {
   this.pause();
   this.timer_.stopFiring();
   goog.array.forEach(this.errorObservers_, function(e) { e.notifyError(error); });
@@ -431,12 +406,12 @@ SimRunner.prototype.handleException = function(error) {
 };
 
 /** @override */
-SimRunner.prototype.memorize = function() {
+memorize() {
   this.memoList_.memorize();
 };
 
 /** @override */
-SimRunner.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.clock_) {
     if (event.nameEquals(Clock.CLOCK_RESUME) || event.nameEquals(Clock.CLOCK_PAUSE)) {
       // sync clock to simulation time
@@ -453,7 +428,7 @@ SimRunner.prototype.observe =  function(event) {
 /** Paints all the LabCanvas's, which causes them to redraw their contents.
 * @return {undefined}
 */
-SimRunner.prototype.paintAll = function() {
+paintAll() {
   goog.array.forEach(this.canvasList_, function(c) {
     c.paint();
   });
@@ -462,7 +437,7 @@ SimRunner.prototype.paintAll = function() {
 /** Pause the Clock, which therefore also pauses the Simulation.
 @return {number} the current time on the Clock
 */
-SimRunner.prototype.pause = function() {
+pause() {
   this.clock_.pause();
   return this.clock_.getTime();
 };
@@ -472,7 +447,7 @@ resumes advancing the Simulation, and creates a ClockTask to stop the Clock.
 @param {number} pauseTime time when the Clock should be paused
 @return {number} the current time on the Clock
 */
-SimRunner.prototype.playUntil = function(pauseTime) {
+playUntil(pauseTime) {
   var pauseTask = new ClockTask(pauseTime, null);
   pauseTask.setCallback(goog.bind(function() {
       this.clock_.pause();
@@ -487,7 +462,7 @@ repainted and memorized after each advance of the Simulation.
 @param {!LabCanvas} canvas the LabCanvas to remove from the list
     of LabCanvas's to update
 */
-SimRunner.prototype.removeCanvas = function(canvas) {
+removeCanvas(canvas) {
   goog.array.remove(this.canvasList_, canvas);
   this.removeMemo(canvas);
 };
@@ -497,12 +472,12 @@ error occurs.
 @param {!ErrorObserver} errorObserver object to remove from
     the list of ErrorObserver objects
 */
-SimRunner.prototype.removeErrorObserver = function(errorObserver) {
+removeErrorObserver(errorObserver) {
   goog.array.remove(this.errorObservers_, errorObserver);
 };
 
 /** @override */
-SimRunner.prototype.removeMemo = function(memorizable) {
+removeMemo(memorizable) {
   this.memoList_.removeMemo(memorizable);
 };
 
@@ -511,7 +486,7 @@ SimRunner.prototype.removeMemo = function(memorizable) {
 zero), and pauses the Clock. Broadcasts a {@link SimRunner.RESET} event.
 @return {number} the current time on the Clock after resetting
 */
-SimRunner.prototype.reset = function() {
+reset() {
   this.timer_.startFiring(); // in case the timer was stopped.
   this.clock_.pause();
   goog.array.forEach(this.advanceList_, function(strategy) {
@@ -529,7 +504,7 @@ SimRunner.prototype.reset = function() {
 /** Resume the Clock, which therefore also resumes advancing the Simulation.
 @return {number} the current time on the Clock
 */
-SimRunner.prototype.resume = function() {
+resume() {
   this.timer_.startFiring(); // in case the timer was stopped.
   this.clock_.resume();
   return this.clock_.getTime();
@@ -538,7 +513,7 @@ SimRunner.prototype.resume = function() {
 /** Set name of the application that created this SimRunner, for debugging.
 @param {string} name the name of the application that created this SimRunner
 */
-SimRunner.prototype.setAppName = function(name) {
+setAppName(name) {
   this.appName_ = name;
 };
 
@@ -548,7 +523,7 @@ which is usually 60 frames per second.
 @param {number} displayPeriod amount of time between displaying frames of the
     Simulation, in seconds.
 */
-SimRunner.prototype.setDisplayPeriod = function(displayPeriod) {
+setDisplayPeriod(displayPeriod) {
   this.displayPeriod_ = displayPeriod;
   this.timer_.setPeriod(displayPeriod);
   this.broadcastParameter(SimRunner.en.DISPLAY_PERIOD);
@@ -558,7 +533,7 @@ SimRunner.prototype.setDisplayPeriod = function(displayPeriod) {
 non-stop mode is on, then this will not stop the Timer, see {@link #setNonStop}.
 @param {boolean} value `true` causes the Timer to start firing
 */
-SimRunner.prototype.setFiring = function(value) {
+setFiring(value) {
   if (value) {
     this.startFiring();
   } else {
@@ -574,7 +549,7 @@ active.
 @param {boolean} value `true` means the Timer keeps firing even when the browser
     window is not active
 */
-SimRunner.prototype.setNonStop = function(value) {
+setNonStop(value) {
   this.nonStop_ = value;
   this.broadcastParameter(SimRunner.en.NON_STOP);
 };
@@ -582,7 +557,7 @@ SimRunner.prototype.setNonStop = function(value) {
 /** Sets whether the Clock is running or paused.
 @param {boolean} value true means the Clock will be running
 */
-SimRunner.prototype.setRunning = function(value) {
+setRunning(value) {
   if (value) {
     this.resume();
   } else {
@@ -595,7 +570,7 @@ advance the Simulation's state.  Several steps of this size may be taken to adva
 Simulation time to be equal to or beyond the Clock time.
 @param {number} timeStep the length of a time step, in seconds.
 */
-SimRunner.prototype.setTimeStep = function(timeStep) {
+setTimeStep(timeStep) {
   this.timeStep_ = timeStep;
   this.broadcastParameter(SimRunner.en.TIME_STEP);
 };
@@ -603,14 +578,14 @@ SimRunner.prototype.setTimeStep = function(timeStep) {
 /** Starts the Timer executing `callback()`.
 @return {undefined}
 */
-SimRunner.prototype.startFiring = function() {
+startFiring() {
   this.timer_.startFiring();
 };
 
 /** Steps the Clock and Simulation forward by a single timestep.
 @return {number} the current time on the clock after stepping
 */
-SimRunner.prototype.step = function() {
+step() {
   //this.clock_.pause();
   // advance clock to be exactly one timeStep past current sim time
   var dt = this.advanceList_[0].getTime() + this.timeStep_ - this.clock_.getTime();
@@ -623,11 +598,13 @@ SimRunner.prototype.step = function() {
 * `false`, see {@link #setNonStop}.
 @return {undefined}
 */
-SimRunner.prototype.stopFiring = function() {
+stopFiring() {
   if (!this.nonStop_) {
     this.timer_.stopFiring();
   }
 };
+
+} //end class
 
 /** Name of GenericEvent that is broadcast when {@link #reset} method occurs.
 * @type {string}
@@ -690,4 +667,4 @@ SimRunner.de_strings = {
 SimRunner.i18n = goog.LOCALE === 'de' ? SimRunner.de_strings :
     SimRunner.en;
 
-}); // goog.scope
+exports = SimRunner;

@@ -11,37 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-goog.provide('myphysicslab.lab.app.RigidBodyEventHandler');
+goog.module('myphysicslab.lab.app.RigidBodyEventHandler');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.events.KeyCodes');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-var EventHandler = myphysicslab.lab.app.EventHandler;
-var KeyCodes = goog.events.KeyCodes;
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** User interface controller for {@link RigidBodySim}, provides mouse dragging of
 nearest moveable {@link RigidBody}, and keyboard thrust controls for one or two
@@ -68,18 +54,17 @@ of thrust forces for each RigidBody. The keyboard commands to fire thrusters are
 Some of the key commands will fire pairs of 'side ways' thrust controls. Holding shift
 key changes the pair of thrusters to give a rotation effect.
 
-
 @todo extract the stuff about thrusters into a subclass or decorating class, so that
 the mouse drag stuff could be reused separately.
 
-* @param {!RigidBodySim} sim the simulation to handle events for
-* @param {!Clock} clock the clock that determines whether the simulation is running
-* @constructor
-* @final
-* @struct
 * @implements {EventHandler }
 */
-myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
+class RigidBodyEventHandler {
+/**
+* @param {!RigidBodySim} sim the simulation to handle events for
+* @param {!Clock} clock the clock that determines whether the simulation is running
+*/
+constructor(sim, clock) {
   /**
   * @type {!RigidBodySim}
   * @private
@@ -161,10 +146,8 @@ myphysicslab.lab.app.RigidBodyEventHandler = function(sim, clock) {
   this.shiftF_ = false;
 };
 
-var RigidBodyEventHandler = myphysicslab.lab.app.RigidBodyEventHandler;
-
 /** @override */
-RigidBodyEventHandler.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', clock_: '+this.clock_.toStringShort()
       +', thrustRight_: '+this.thrustRight_
@@ -174,7 +157,7 @@ RigidBodyEventHandler.prototype.toString = function() {
 };
 
 /** @override */
-RigidBodyEventHandler.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'RigidBodyEventHandler{sim: '+this.sim_.toStringShort()+'}';
 };
@@ -186,7 +169,7 @@ Left hand controls: keys S, D, F, E.
     activated by keyboard commands, or null to turn off this set of thruster controls
 @param {string} side 'right' sets right hand controls, 'left' sets left hand controls
 */
-RigidBodyEventHandler.prototype.setThrusters = function(thrusters, side) {
+setThrusters(thrusters, side) {
   if (side == 'right') {
     this.thrustRight_ = thrusters;
   } else if (side == 'left') {
@@ -197,7 +180,7 @@ RigidBodyEventHandler.prototype.setThrusters = function(thrusters, side) {
 };
 
 /** @override */
-RigidBodyEventHandler.prototype.startDrag = function(simObject, location, offset,
+startDrag(simObject, location, offset,
     dragBody, mouseEvent) {
   this.optionKey_ = mouseEvent.altKey || mouseEvent.metaKey || mouseEvent.ctrlKey;
   this.resetDrag();
@@ -228,8 +211,7 @@ RigidBodyEventHandler.prototype.startDrag = function(simObject, location, offset
 };
 
 /** @override */
-RigidBodyEventHandler.prototype.mouseDrag = function(simObject, location, offset,
-    mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   if (!this.clock_.isRunning() && this.dragObj_ > -1) {
     var body = this.sim_.getBody(this.dragObj_);
     if (this.optionKey_) {
@@ -249,7 +231,7 @@ RigidBodyEventHandler.prototype.mouseDrag = function(simObject, location, offset
 };
 
 /** @override */
-RigidBodyEventHandler.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   if (1 == 0) {
     // demonstration of giving a onMouseUp action to a RigidBody.
     // Clicking on the body named 'click' causes a ball to be created.
@@ -268,7 +250,7 @@ RigidBodyEventHandler.prototype.finishDrag = function(simObject, location, offse
 @return {undefined}
 @private
 */
-RigidBodyEventHandler.prototype.resetDrag = function() {
+resetDrag() {
   var spring = this.dragSpring_;
   if (spring != null) {
     this.sim_.removeForceLaw(spring);
@@ -279,9 +261,10 @@ RigidBodyEventHandler.prototype.resetDrag = function() {
 };
 
 /** @override */
-RigidBodyEventHandler.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
   //console.log('RBEH.handleKeyEvent keyCode:'+keyCode+'  pressed: '+pressed
   //  +' event:'+Util.propertiesOf(keyEvent, true));
+  var KeyCodes = goog.events.KeyCodes;
   var thrustRight = this.thrustRight_;
   var thrustLeft = this.thrustLeft_;
   if (keyEvent.ctrlKey || keyEvent.metaKey || keyEvent.altKey)
@@ -362,16 +345,18 @@ RigidBodyEventHandler.prototype.handleKeyEvent = function(keyCode, pressed, keyE
 /** Returns stiffness of the drag spring.
 @return {number} stiffness of the drag spring
 */
-RigidBodyEventHandler.prototype.getDragStiffness = function() {
+getDragStiffness() {
   return this.dragStiffness_;
 };
 
 /** Sets stiffness of the drag spring.
 @param {number} stiffness of the drag spring
 */
-RigidBodyEventHandler.prototype.setDragStiffness = function(stiffness) {
+setDragStiffness(stiffness) {
   this.dragStiffness_ = stiffness;
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -404,4 +389,4 @@ RigidBodyEventHandler.de_strings = {
 RigidBodyEventHandler.i18n = goog.LOCALE === 'de' ? RigidBodyEventHandler.de_strings :
     RigidBodyEventHandler.en;
 
-}); // goog.scope
+exports = RigidBodyEventHandler;

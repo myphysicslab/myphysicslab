@@ -11,29 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-goog.provide('myphysicslab.lab.app.MouseTracker');
+goog.module('myphysicslab.lab.app.MouseTracker');
 
 goog.require('goog.events.BrowserEvent');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
 
-goog.scope(function() {
-
-var BrowserEvent = goog.events.BrowserEvent;
-var Coordmap = myphysicslab.lab.view.CoordMap;
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-var EventHandler = myphysicslab.lab.app.EventHandler;
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Coordmap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Processes mouse events to either (1) directly move a {@link DisplayObject} or (2)
 forward events to an {@link EventHandler}.
@@ -62,12 +51,14 @@ coordinates of the specified LabView.
 
 See *Mouse Events* in {@link myphysicslab.lab.app.SimController}.
 
-
 @todo  what to do when there are multiple SimObjects, as with DisplayPath?
 
 @todo  Make a unit test; especially for findNearestDragable.  Note that it is
     possible to make synthetic events for testing in Javascript.
 
+*/
+class MouseTracker {
+/**
 @param {?DisplayObject} dragDispObj the dragable DisplayObject
     to move according to mouse movements; `null` indicates that events will just be
     translated to simulation coordinates
@@ -87,11 +78,8 @@ See *Mouse Events* in {@link myphysicslab.lab.app.SimController}.
 @param {?EventHandler} eventHandler the EventHandler to send
     events to; will be `null` when a DisplayObject should be dragged directly
 
-@constructor
-@final
-@struct
 */
-myphysicslab.lab.app.MouseTracker = function(dragDispObj, view, loc_sim, drag_body,
+constructor(dragDispObj, view, loc_sim, drag_body,
      eventHandler) {
   if (dragDispObj == null && eventHandler == null) {
     throw new Error();
@@ -149,7 +137,6 @@ myphysicslab.lab.app.MouseTracker = function(dragDispObj, view, loc_sim, drag_bo
     this.dragOffset_ = loc_sim.subtract(dragDispObj.getPosition());
   }
 };
-var MouseTracker = myphysicslab.lab.app.MouseTracker;
 
 /*  Design Notes
 
@@ -170,9 +157,9 @@ MouseTracker should however be able to move such DisplayObjects if they exist.
 */
 
 /** Called when a mouse down event occurs.
-@param {!BrowserEvent} evt the mouse down event that occurred
+@param {!goog.events.BrowserEvent} evt the mouse down event that occurred
 */
-MouseTracker.prototype.startDrag = function(evt) {
+startDrag(evt) {
   if (this.eventHandler_ != null) {
     this.ehDrag_ = this.eventHandler_.startDrag(this.dragSimObj_, this.loc_sim_,
         this.dragOffset_, this.drag_body_, evt);
@@ -183,9 +170,9 @@ MouseTracker.prototype.startDrag = function(evt) {
 
 /** Called when a mouse move event occurs.
 @param {!Vector} loc_screen location of the event in screen coordinates
-@param {!BrowserEvent} evt the mouse move event that occurred
+@param {!goog.events.BrowserEvent} evt the mouse move event that occurred
 */
-MouseTracker.prototype.mouseDrag = function(loc_screen, evt) {
+mouseDrag(loc_screen, evt) {
   var map = this.view_.getCoordMap();
   this.loc_sim_ = map.screenToSim(loc_screen);
   if (this.dragDispObj_ != null && (this.dragSimObj_ == null || !this.ehDrag_)) {
@@ -201,7 +188,7 @@ MouseTracker.prototype.mouseDrag = function(loc_screen, evt) {
 
 /** Called when the mouse is released after a drag in the LabCanvas.
 */
-MouseTracker.prototype.finishDrag = function() {
+finishDrag() {
   //Use last loc_sim_ from last mouseDown or mouseMove event
   //because for touchEnd events there is no location.
   if (this.eventHandler_ != null) {
@@ -228,7 +215,7 @@ are checked first.
 @return {?MouseTracker} the MouseTracker to use for processing mouse events,
     or `null` if MouseTracking is not possible
 */
-MouseTracker.findNearestDragable = function(labCanvas, start_screen, eventHandler) {
+static findNearestDragable(labCanvas, start_screen, eventHandler) {
   /** the DisplayObject currently being dragged.
   * @type {?DisplayObject}
   */
@@ -322,4 +309,5 @@ MouseTracker.findNearestDragable = function(labCanvas, start_screen, eventHandle
   return null;
 };
 
-}); // goog.scope
+} //end class
+exports = MouseTracker;

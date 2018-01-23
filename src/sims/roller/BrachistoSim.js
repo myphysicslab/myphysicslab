@@ -33,7 +33,7 @@ goog.require('myphysicslab.lab.util.Vector');
 goog.scope(function() {
 
 const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-var EventHandler = myphysicslab.lab.app.EventHandler;
+const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');

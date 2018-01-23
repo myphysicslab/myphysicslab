@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.app.EventHandler');
+goog.module('myphysicslab.lab.app.EventHandler');
 
 goog.require('goog.events.BrowserEvent');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Printable');
 
-goog.scope(function() {
-
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Handles mouse and keyboard events for a
 {@link myphysicslab.lab.model.Simulation Simulation}. Converts mouse or key events on a
@@ -32,11 +28,8 @@ See {@link myphysicslab.lab.app.SimController SimController} which is usually th
 entity that supplies events to the EventHandler.
 
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.lab.app.EventHandler = function() {};
-
-var EventHandler = myphysicslab.lab.app.EventHandler;
+class EventHandler extends Printable {
 
 /** Called at the start of a mouse drag. The nearest dragable SimObject is passed in,
 along with mouse position in simulation coordinates. If no dragable SimObject was
@@ -59,7 +52,7 @@ the SimObject then it should return `false`.
 @param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
 @return {boolean} `true` if the EventHandler will handle dragging the SimObject
 */
-EventHandler.prototype.startDrag;
+startDrag(simObject, location, offset, dragBody, mouseEvent) {}
 
 /** Called at each movement during a mouse drag, performs whatever action is
 appropriate. Only called if {@link #startDrag} returned `true`. The
@@ -80,7 +73,7 @@ smoothly along with the mouse movement.
     to the mouse location at start of drag.
 @param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
 */
-EventHandler.prototype.mouseDrag;
+mouseDrag(simObject, location, offset, mouseEvent) {}
 
 /** Called at the end of a mouse drag operation, performs whatever action is
 appropriate.  Only called if {@link #startDrag} returned `true`.
@@ -94,7 +87,7 @@ appropriate.  Only called if {@link #startDrag} returned `true`.
 @param {!Vector} offset distance from the initial object position
     to the mouse location at start of drag.
 */
-EventHandler.prototype.finishDrag;
+finishDrag(simObject, location, offset) {}
 
 /** Called when a key is pressed or released, performs whatever action is appropriate
 for that event.
@@ -104,7 +97,9 @@ for that event.
     event
 @param {!goog.events.BrowserEvent} keyEvent the original BrowserEvent
 */
-EventHandler.prototype.handleKeyEvent;
+handleKeyEvent(keyCode, pressed, keyEvent) {}
+
+} //end class
 
 /**  Name of event broadcast when mouse drag occurs. The value of the event is the
 * object being dragged.
@@ -127,4 +122,4 @@ EventHandler.START_DRAG = 'START_DRAG';
 */
 EventHandler.FINISH_DRAG = 'FINISH_DRAG';
 
-}); // goog.scope
+exports = EventHandler;
