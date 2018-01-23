@@ -55,7 +55,7 @@ const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl')
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VectorGraph = lab.graph.VectorGraph;
+const VectorGraph = goog.module.get('myphysicslab.lab.graph.VectorGraph');
 
 /** Displays the {@link PendulumSim} simulation with a {@link VectorGraph}.
 

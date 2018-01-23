@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.GraphColor');
-
-goog.scope(function() {
+goog.module('myphysicslab.lab.graph.GraphColor');
 
 /** GraphColor enum, used to present a set of colors for user to choose from for setting
 the color of a {@link myphysicslab.lab.graph.GraphLine GraphLine}.
@@ -25,7 +23,7 @@ the color of a {@link myphysicslab.lab.graph.GraphLine GraphLine}.
 *
 * @enum {string}
 */
-myphysicslab.lab.graph.GraphColor = {
+const GraphColor = {
   AQUA: 'aqua',
   BLACK: 'black',
   BLUE: 'blue',
@@ -43,7 +41,6 @@ myphysicslab.lab.graph.GraphColor = {
   WHITE: 'white',
   YELLOW: 'yellow'
 };
-var GraphColor = myphysicslab.lab.graph.GraphColor;
 
 /** The set of localized strings corresponding to {@link #getValues}.
 * @return {!Array<string>} the set of localized strings corresponding to
@@ -182,4 +179,4 @@ GraphColor.de_strings = {
 GraphColor.i18n = goog.LOCALE === 'de' ? GraphColor.de_strings :
     GraphColor.en;
 
-}); // goog.scope
+exports = GraphColor;

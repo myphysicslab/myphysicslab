@@ -12,21 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.VarsHistory');
+goog.module('myphysicslab.lab.graph.VarsHistory');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.CircularList');
-goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
-const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
+const CircularList = goog.require('myphysicslab.lab.util.CircularList');
+const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** Collects data from a {@link VarsList},
 storing it in a {@link HistoryList}. Each entry in
@@ -55,15 +49,14 @@ variables are sampled or the order of the variables within each sample see
 
     hist.setVariables([3,0,1])
 
-
+* @implements {Memorizable}
+*/
+class VarsHistory {
+/**
 * @param {!VarsList} variablesList the VarsList to gather data from
 * @param {number=} opt_capacity number of data samples to store
-* @implements {Memorizable}
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
+constructor(variablesList, opt_capacity) {
   /** @type {!VarsList}
   * @private
   */
@@ -87,10 +80,9 @@ myphysicslab.lab.graph.VarsHistory = function(variablesList, opt_capacity) {
   */
   this.separator = ', ';
 };
-var VarsHistory = myphysicslab.lab.graph.VarsHistory;
 
 /** @override */
-VarsHistory.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', samples: '+this.dataPoints_.getSize()
       +', varIndex_: ['+Util.array2string(this.varIndex_, Util.NF0)
@@ -98,7 +90,7 @@ VarsHistory.prototype.toString = function() {
 };
 
 /** @override */
-VarsHistory.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
        'VarsHistory{variablesList: '+this.variablesList_.toStringShort()+'}';
 };
@@ -106,7 +98,7 @@ VarsHistory.prototype.toStringShort = function() {
 /** Returns the HistoryList of data points.
 * @return {!HistoryList<!Array<number>>}
 */
-VarsHistory.prototype.getDataPoints = function() {
+getDataPoints() {
   return this.dataPoints_;
 };
 
@@ -114,12 +106,12 @@ VarsHistory.prototype.getDataPoints = function() {
 * @return {!Array<number>} array of variable index numbers specifying which
     variables to remember
 */
-VarsHistory.prototype.getVariables = function() {
+getVariables() {
   return goog.array.clone(this.varIndex_);
 };
 
 /** @override */
-VarsHistory.prototype.memorize = function() {
+memorize() {
   var vars = this.variablesList_.getValues(/*computed=*/true);
   var data = goog.array.map(this.varIndex_, function(idx) { return vars[idx]; });
   // only store if the new point is different from the last point
@@ -134,7 +126,7 @@ number formatting function and text separator specified by the properties
 {@link #numberFormat} and {@link #separator}.
 * @return {string}
 */
-VarsHistory.prototype.output = function() {
+output() {
   var iter = this.dataPoints_.getIterator();
   var s = '';
   while (iter.hasNext()) {
@@ -147,7 +139,7 @@ VarsHistory.prototype.output = function() {
 /** Clears the HistoryList of data points.
 * @return {undefined}
 */
-VarsHistory.prototype.reset = function() {
+reset() {
   this.dataPoints_.reset();
 };
 
@@ -155,7 +147,7 @@ VarsHistory.prototype.reset = function() {
 @param {!Array<number>} varIndex array of variable index numbers specifying which
     variables to remember
 */
-VarsHistory.prototype.setVariables = function(varIndex) {
+setVariables(varIndex) {
   var numVars = this.variablesList_.numVariables();
   goog.array.forEach(varIndex, function(idx) {
     if (idx < 0 || idx > numVars) {
@@ -169,7 +161,7 @@ VarsHistory.prototype.setVariables = function(varIndex) {
 /** Returns arrays of the data points, one array for each sample.
 * @return {!Array<!Array<number>>}
 */
-VarsHistory.prototype.toArray = function() {
+toArray() {
   var iter = this.dataPoints_.getIterator();
   var r = [];
   while (iter.hasNext()) {
@@ -178,4 +170,5 @@ VarsHistory.prototype.toArray = function() {
   return r;
 };
 
-}); // goog.scope
+} //end class
+exports = VarsHistory;

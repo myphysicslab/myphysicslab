@@ -45,12 +45,12 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var DisplayAxes = lab.graph.DisplayAxes;
+const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
 var DisplayGraph = lab.graph.DisplayGraph;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var GraphLine = lab.graph.GraphLine;
-var GraphPoint = lab.graph.GraphPoint;
+const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
+const GraphPoint = goog.module.get('myphysicslab.lab.graph.GraphPoint');
 const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
 const LabView = goog.module.get('myphysicslab.lab.view.LabView');

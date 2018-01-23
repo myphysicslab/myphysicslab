@@ -12,39 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.GraphLine');
+goog.module('myphysicslab.lab.graph.GraphLine');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.graph.GraphPoint');
-goog.require('myphysicslab.lab.graph.GraphStyle');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.CircularList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DrawingMode');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-var GraphPoint = myphysicslab.lab.graph.GraphPoint;
-var GraphStyle = myphysicslab.lab.graph.GraphStyle;
-const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CircularList = goog.require('myphysicslab.lab.util.CircularList');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GraphPoint = goog.require('myphysicslab.lab.graph.GraphPoint');
+const GraphStyle = goog.require('myphysicslab.lab.graph.GraphStyle');
+const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed
 of {@link GraphPoint}s. The variables that this GraphLine is tracking are selected via
@@ -74,7 +59,6 @@ as thousands of short line segments and the line dash starts over for each segme
 might be possible to use the HTML `CanvasRenderingContext2D.lineDashOffset` property to
 deal with this.
 
-
 ### Axes Names
 
 To update the names of the axes shown in a
@@ -86,7 +70,6 @@ to the variables tracked by the GraphLine, as in this example:
       axes.setHorizName(graphLine.getXVarName());
       axes.setVerticalName(graphLine.getYVarName());
     });
-
 
 ### Polar or Logarithmic Graph
 
@@ -105,7 +88,6 @@ HistoryList contains transformed points something like this:
 
 Note that the transform functions do not affect how the graph axes are shown.
 
-
 Parameters Created
 ------------------
 
@@ -121,27 +103,23 @@ Parameters Created
 
 + ParameterString named `GRAPH_COLOR`, see {@link #setColor}.
 
-
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `RESET`, see {@link #reset}.
 
-
-
-* @param {string} name
-* @param {!VarsList} varsList the VarsList to collect data from
-* @param {number=} opt_capacity number of GraphPoints to store
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 * @implements {Memorizable}
 * @implements {Observer}
 */
-myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
-  AbstractSubject.call(this, name);
+class GraphLine extends AbstractSubject {
+/**
+* @param {string} name
+* @param {!VarsList} varsList the VarsList to collect data from
+* @param {number=} opt_capacity number of GraphPoints to store
+*/
+constructor(name, varsList, opt_capacity) {
+  super(name);
   /** The VarsList whose data this graph is displaying
   * @type {!VarsList}
   * @private
@@ -241,11 +219,8 @@ myphysicslab.lab.graph.GraphLine = function(name, varsList, opt_capacity) {
       goog.bind(this.getColor, this), goog.bind(this.setColor, this)));
 };
 
-var GraphLine = myphysicslab.lab.graph.GraphLine;
-goog.inherits(GraphLine, AbstractSubject);
-
 /** @override */
-GraphLine.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
       this.toStringShort().slice(0, -1)
       +', drawColor_:"'+this.drawColor_+'"'
@@ -255,35 +230,29 @@ GraphLine.prototype.toString = function() {
       +', styles_.length: '+Util.NF(this.styles_.length)
       +', varsList: '+this.varsList_.toStringShort()
       +', dataPoints_: '+this.dataPoints_
-      + GraphLine.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-GraphLine.prototype.toStringShort = function() {
+toStringShort() {
   return  Util.ADVANCED ? '' :
-      GraphLine.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', xVar: ' + Util.NF(this.xVar_)
       + ', yVar: '+ Util.NF(this.yVar_)
       +'}';
 };
 
 /** @override */
-GraphLine.prototype.getClassName = function() {
+getClassName() {
   return 'GraphLine';
 };
-
-/** Event broadcast when {@link #reset} is called.
-* @type {string}
-* @const
-*/
-GraphLine.RESET = 'RESET';
 
 /** Adds a GraphStyle with the current color, draw mode, and line width, corresponding
 to the current end point of the HistoryList.
 * @return {undefined}
 * @private
 */
-GraphLine.prototype.addGraphStyle = function() {
+addGraphStyle() {
   this.styles_.push(new GraphStyle(this.dataPoints_.getEndIndex() + 1,
       this.drawMode_, this.drawColor_, this.lineWidth_));
 };
@@ -293,7 +262,7 @@ VarsList, plus add the `NONE` choice.
 @return {undefined}
 @private
 */
-GraphLine.prototype.buildMenu = function() {
+buildMenu() {
   // add the NONE option to front of the list
   var varNames = [GraphLine.i18n.NONE];
   var vals = [-1];
@@ -310,7 +279,7 @@ GraphLine.prototype.buildMenu = function() {
 * @param {*} obj the object of interest
 * @return {boolean} true if the object is likely a GraphLine
 */
-GraphLine.isDuckType = function(obj) {
+static isDuckType(obj) {
   if (obj instanceof GraphLine) {
     return true;
   }
@@ -330,21 +299,21 @@ GraphLine.isDuckType = function(obj) {
 /** Returns the color used when drawing the graph.
 @return {string} the color used when drawing the graph
 */
-GraphLine.prototype.getColor = function() {
+getColor() {
   return this.drawColor_;
 };
 
 /** Returns the drawing mode of the graph: dots or lines. See {@link DrawingMode}.
 @return {!DrawingMode} the DrawingMode to draw this graph with
 */
-GraphLine.prototype.getDrawingMode = function() {
+getDrawingMode() {
   return this.drawMode_;
 };
 
 /** Returns the HistoryList of GraphPoints.
 * @return {!HistoryList<!GraphPoint>}
 */
-GraphLine.prototype.getGraphPoints = function() {
+getGraphPoints() {
   return this.dataPoints_;
 };
 
@@ -352,7 +321,7 @@ GraphLine.prototype.getGraphPoints = function() {
 @param {number} index  the index number in list of GraphPoints
 @return {!GraphStyle} the GraphStyle for that position
 */
-GraphLine.prototype.getGraphStyle = function(index) {
+getGraphStyle(index) {
   var styles = this.styles_;
   if (styles.length == 0) {
     throw new Error('graph styles list is empty');
@@ -375,7 +344,7 @@ GraphLine.prototype.getGraphStyle = function(index) {
 /** Returns the color used when drawing the hot spot (most recent point).
 @return {string} the color used when drawing the hot spot (most recent point)
 */
-GraphLine.prototype.getHotSpotColor = function() {
+getHotSpotColor() {
   return this.hotSpotColor_;
 };
 
@@ -383,14 +352,14 @@ GraphLine.prototype.getHotSpotColor = function() {
 * is a screen pixel.
 * @return {number} thickness of line in screen coordinates
 */
-GraphLine.prototype.getLineWidth = function() {
+getLineWidth() {
   return this.lineWidth_;
 };
 
 /** Returns the VarsList that this GraphLine is collecting from
 @return {!VarsList} the VarsList that this is collecting from.
 */
-GraphLine.prototype.getVarsList = function() {
+getVarsList() {
   return this.varsList_;
 };
 
@@ -398,14 +367,14 @@ GraphLine.prototype.getVarsList = function() {
 @return {number} the index of X variable in the VarsList, or  -1 if no X variable
     is being collected.
 */
-GraphLine.prototype.getXVariable = function() {
+getXVariable() {
   return this.xVar_;
 };
 
 /** Returns localized X variable name.
 @return {string} variable name or empty string in case index is -1
 */
-GraphLine.prototype.getXVarName = function() {
+getXVarName() {
   return this.xVar_ > -1 ?
       this.varsList_.getVariable(this.xVar_).getName(/*localized=*/true) : '';
 };
@@ -414,20 +383,20 @@ GraphLine.prototype.getXVarName = function() {
 @return {number} the index of Y variable in the VarsList, or  -1 if no Y variable
     is being collected.
 */
-GraphLine.prototype.getYVariable = function() {
+getYVariable() {
   return this.yVar_;
 };
 
 /** Returns localized Y variable name.
 @return {string} variable name or empty string in case index is -1
 */
-GraphLine.prototype.getYVarName = function() {
+getYVarName() {
   return this.yVar_ > -1 ?
       this.varsList_.getVariable(this.yVar_).getName(/*localized=*/true) : '';
 };
 
 /** @override */
-GraphLine.prototype.memorize = function() {
+memorize() {
   if (this.xVar_ > -1 && this.yVar_ > -1) {
     var xVar = this.varsList_.getVariable(this.xVar_);
     var yVar = this.varsList_.getVariable(this.yVar_);
@@ -447,7 +416,7 @@ GraphLine.prototype.memorize = function() {
 };
 
 /** @override */
-GraphLine.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.varsList_) {
     if (event.nameEquals(VarsList.VARS_MODIFIED)) {
       this.buildMenu();
@@ -458,7 +427,7 @@ GraphLine.prototype.observe =  function(event) {
 /** Forgets any memorized data and styles, starts from scratch.
 * @return {undefined}
 */
-GraphLine.prototype.reset = function() {
+reset() {
   this.dataPoints_.reset();
   this.resetStyle();
   this.broadcast(new GenericEvent(this, GraphLine.RESET));
@@ -469,7 +438,7 @@ GraphLine.prototype.reset = function() {
 * {@link myphysicslab.lab.graph.DisplayGraph#reset} to see this change take effect.
 * @return {undefined}
 */
-GraphLine.prototype.resetStyle = function() {
+resetStyle() {
   this.styles_ = [];
   // ensure there is always at least one GraphStyle
   this.addGraphStyle();
@@ -479,7 +448,7 @@ GraphLine.prototype.resetStyle = function() {
 memorized after this time.
 @param {string} color the color to use when drawing the graph, a CSS3 color string.
 */
-GraphLine.prototype.setColor = function(color) {
+setColor(color) {
   if (this.drawColor_ != color) {
     this.drawColor_ = color;
     this.addGraphStyle();
@@ -492,7 +461,7 @@ memorized after this time.
 @param {!DrawingMode} value the DrawingMode (dots or lines) to draw this graph with.
 @throws {!Error} if the value does not represent a valid DrawingMode
 */
-GraphLine.prototype.setDrawingMode = function(value) {
+setDrawingMode(value) {
   var dm = DrawingMode.stringToEnum(value);
   goog.asserts.assert(dm == value);
   if (this.drawMode_ != dm) {
@@ -506,7 +475,7 @@ GraphLine.prototype.setDrawingMode = function(value) {
 Set this to empty string to not draw the hot spot.
 @param {string} color the color to use when drawing the hot spot (most recent point)
 */
-GraphLine.prototype.setHotSpotColor = function(color) {
+setHotSpotColor(color) {
   this.hotSpotColor_ = color;
 };
 
@@ -514,7 +483,7 @@ GraphLine.prototype.setHotSpotColor = function(color) {
 screen pixel. Applies only to portions of graph memorized after this time.
 * @param {number} value thickness of line in screen coordinates
 */
-GraphLine.prototype.setLineWidth = function(value) {
+setLineWidth(value) {
   if (Util.veryDifferent(value, this.lineWidth_)) {
     this.lineWidth_ = value;
     this.addGraphStyle();
@@ -528,7 +497,7 @@ over with a new HistoryList. Broadcasts the ParameterNumber named
 @param {number} xVar the index of X variable in the VarsList, or -1 to not
     collect any X variable data and have an empty HistoryList.
 */
-GraphLine.prototype.setXVariable = function(xVar) {
+setXVariable(xVar) {
   if (xVar < -1 || xVar > this.varsList_.numVariables()-1) {
     throw new Error('setXVariable bad index '+xVar);
   }
@@ -545,7 +514,7 @@ over with a new HistoryList. Broadcasts the ParameterNumber named
 @param {number} yVar the index of Y variable in the VarsList, or -1 to not
     collect any Y variable data and have an empty HistoryList.
 */
-GraphLine.prototype.setYVariable = function(yVar) {
+setYVariable(yVar) {
   if (yVar < -1 || yVar > this.varsList_.numVariables()-1) {
     throw new Error('setYVariable bad index '+yVar);
   }
@@ -555,6 +524,14 @@ GraphLine.prototype.setYVariable = function(yVar) {
     this.broadcastParameter(GraphLine.en.Y_VARIABLE);
   }
 };
+
+} //end class
+
+/** Event broadcast when {@link #reset} is called.
+* @type {string}
+* @const
+*/
+GraphLine.RESET = 'RESET';
 
 /** Set of internationalized strings.
 @typedef {{
@@ -608,4 +585,4 @@ GraphLine.de_strings = {
 GraphLine.i18n = goog.LOCALE === 'de' ? GraphLine.de_strings :
     GraphLine.en;
 
-});  // goog.scope
+exports = GraphLine;

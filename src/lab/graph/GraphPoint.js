@@ -12,30 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.GraphPoint');
+goog.module('myphysicslab.lab.graph.GraphPoint');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.GenericVector');
-
-goog.scope(function() {
-
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** A point in a 2D graph, with indication of when discontinuity occurs in a sequence
 * of points.  See {@link myphysicslab.lab.graph.GraphLine}.
+* @implements {GenericVector}
+*/
+class GraphPoint {
+/**
 * @param {number} x X value of the GraphPoint
 * @param {number} y Y value of the GraphPoint
 * @param {number} seqX sequence number for the X value; when sequence number changes
 *   between successive GraphPoints it indicates there was a discontinuity in the graph
 * @param {number} seqY sequence number for the Y value; when sequence number changes
 *   between successive GraphPoints it indicates there was a discontinuity in the graph
-* @constructor
-* @final
-* @struct
-* @implements {GenericVector}
 */
-myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
+constructor(x, y, seqX, seqY) {
   /** @type {number} */
   this.x = x;
   /** @type {number} */
@@ -45,10 +40,9 @@ myphysicslab.lab.graph.GraphPoint = function(x, y, seqX, seqY) {
   /** @type {number} */
   this.seqY = seqY;
 };
-var GraphPoint = myphysicslab.lab.graph.GraphPoint;
 
 /** @override */
-GraphPoint.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'GraphPoint{x: '+Util.NF(this.x)
       +', y: '+Util.NF(this.y)
       +', seqX: '+Util.NF(this.seqX)
@@ -60,24 +54,25 @@ GraphPoint.prototype.toString = function() {
 * @param {!GraphPoint} other the GraphPoint to compare with
 * @return {boolean} `true` if this GraphPoint is identical to the other GraphPoint
 */
-GraphPoint.prototype.equals = function(other) {
+equals(other) {
   return this.x == other.x && this.y == other.y && this.seqX == other.seqX
       && this.seqY == other.seqY;
 };
 
 /** @override */
-GraphPoint.prototype.getX = function() {
+getX() {
   return this.x;
 };
 
 /** @override */
-GraphPoint.prototype.getY = function() {
+getY() {
   return this.y;
 };
 
 /** @override */
-GraphPoint.prototype.getZ = function() {
+getZ() {
   return 0;
 };
 
-}); // goog.scope
+} //end class
+exports = GraphPoint;

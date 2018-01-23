@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.DisplayAxes');
+goog.module('myphysicslab.lab.graph.DisplayAxes');
 
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-
-goog.scope(function() {
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** Draws linear horizontal and vertical axes within a given simulation coordinates
 rectangle. The simulation rectangle determines where the axes are drawn, and the
@@ -58,16 +48,16 @@ the LabView.
 
 @todo  add option to set the number of tick marks (instead of automatic)?
 
+* @implements {DisplayObject}
+*/
+class DisplayAxes {
+/**
 * @param {DoubleRect=} opt_simRect the area to draw axes for in
   simulation coordinates.
 * @param {string=} opt_font the Font to draw numbers and names of axes with
 * @param {string=} opt_color the Color to draw the axes with
-* @constructor
-* @final
-* @struct
-* @implements {DisplayObject}
 */
-myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) {
+constructor(opt_simRect, opt_font, opt_color) {
   /** bounds rectangle of area to draw
   * @type {!DoubleRect}
   * @private
@@ -139,10 +129,9 @@ myphysicslab.lab.graph.DisplayAxes = function(opt_simRect, opt_font, opt_color) 
   */
   this.zIndex = 100;
 };
-var DisplayAxes = myphysicslab.lab.graph.DisplayAxes;
 
 /** @override */
-DisplayAxes.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', horizAxisAlignment_: '+this.horizAxisAlignment_
       +', vertAxisAlignment_: '+this.vertAxisAlignment_
@@ -156,18 +145,18 @@ DisplayAxes.prototype.toString = function() {
 };
 
 /** @override */
-DisplayAxes.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayAxes{horizName_: "'+this.horizName_
       +'", verticalName_: "'+this.verticalName_+'"}';
 };
 
 /** @override */
-DisplayAxes.prototype.contains = function(point) {
+contains(point) {
   return false;
 };
 
 /** @override */
-DisplayAxes.prototype.draw = function(context, map) {
+draw(context, map) {
   //Draws both horizontal and vertical axes, getting the size of the axes from the
   //simulation rectangle
   context.save();
@@ -253,7 +242,7 @@ DisplayAxes.prototype.draw = function(context, map) {
 @param {!DoubleRect} r the view area in simulation coords
 @private
 */
-DisplayAxes.prototype.drawHorizTicks = function(y0, context, map, r) {
+drawHorizTicks(y0, context, map, r) {
   var y1 = y0 - 4;  // bottom edge of tick mark
   var y2 = y1 + 8;  // top edge of tick mark
   var sim_x1 = r.getLeft();
@@ -300,7 +289,7 @@ DisplayAxes.prototype.drawHorizTicks = function(y0, context, map, r) {
 @param {!DoubleRect} r the view area in simulation coords
 @private
 */
-DisplayAxes.prototype.drawVertTicks = function(x0, context, map, r) {
+drawVertTicks(x0, context, map, r) {
   var x1 = x0 - 4;  // left edge of tick mark
   var x2 = x1 + 8;  // right edge of tick mark
   var sim_y1 = r.getBottom();
@@ -343,26 +332,26 @@ DisplayAxes.prototype.drawVertTicks = function(x0, context, map, r) {
 /** Returns the color to draw the graph axes with.
 @return {string} the color to draw the graph axes with
 */
-DisplayAxes.prototype.getColor = function() {
+getColor() {
   return this.drawColor_;
 };
 
 /** Returns the font to draw the graph axes with.
 @return {string} the font to draw the graph axes with
 */
-DisplayAxes.prototype.getFont = function() {
+getFont() {
   return this.numFont_;
 };
 
 /** Returns the name shown next to the horizontal axis.
 @return {string} the name of the horizontal axis.
 */
-DisplayAxes.prototype.getHorizName = function() {
+getHorizName() {
   return this.horizName_;
 };
 
 /** @override */
-DisplayAxes.prototype.getMassObjects = function() {
+getMassObjects() {
   return [];
 };
 
@@ -376,7 +365,7 @@ Side effect: modifies the number of fractional digits to show
 @return {number} an increment to use for spacing of tick marks on an axis.
 @private
 */
-DisplayAxes.prototype.getNiceIncrement = function(range) {
+getNiceIncrement(range) {
   // First, scale the range to within 1 to 10.
   var power = Math.pow(10, Math.floor(Math.log(range)/Math.LN10));
   var logTot = range/power;
@@ -405,18 +394,18 @@ DisplayAxes.prototype.getNiceIncrement = function(range) {
 @return {number} the starting value for the tick marks on the axis.
 @private
 */
-DisplayAxes.getNiceStart = function(start, incr) {
+static getNiceStart(start, incr) {
   // gives the first nice increment just greater than the starting number
   return Math.ceil(start/incr)*incr;
 };
 
 /** @override */
-DisplayAxes.prototype.getPosition = function() {
+getPosition() {
   return Vector.ORIGIN;
 };
 
 /** @override */
-DisplayAxes.prototype.getSimObjects = function() {
+getSimObjects() {
   return [];
 };
 
@@ -425,14 +414,14 @@ which determines the numbering scale shown.
 @return {!DoubleRect} the bounding rectangle for this
     DisplayAxes in simulation coordinates.
 */
-DisplayAxes.prototype.getSimRect = function() {
+getSimRect() {
   return this.simRect_;
 };
 
 /** Returns the name shown next to the vertical axis.
 @return {string} the name of the vertical axis.
 */
-DisplayAxes.prototype.getVerticalName = function() {
+getVerticalName() {
   return this.verticalName_;
 };
 
@@ -440,7 +429,7 @@ DisplayAxes.prototype.getVerticalName = function() {
 the simulation rectangle.
 @return {!VerticalAlign} X-axis alignment option from {@link VerticalAlign}
 */
-DisplayAxes.prototype.getXAxisAlignment = function() {
+getXAxisAlignment() {
   return this.horizAxisAlignment_;
 };
 
@@ -448,17 +437,17 @@ DisplayAxes.prototype.getXAxisAlignment = function() {
 the simulation rectangle.
 @return {!HorizAlign} Y-axis alignment option from {@link HorizAlign}
 */
-DisplayAxes.prototype.getYAxisAlignment = function() {
+getYAxisAlignment() {
   return this.vertAxisAlignment_;
 };
 
 /** @override */
-DisplayAxes.prototype.getZIndex = function() {
+getZIndex() {
   return this.zIndex;
 };
 
 /** @override */
-DisplayAxes.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
@@ -466,26 +455,26 @@ DisplayAxes.prototype.isDragable = function() {
 @return {boolean} true when this DisplayAxes has changed since the last time
     draw was called.
 */
-DisplayAxes.prototype.needsRedraw = function() {
+needsRedraw() {
   return this.needRedraw_;
 };
 
 /** Set the color to draw the graph axes with.
 @param {string} color the color to draw the graph axes with
 */
-DisplayAxes.prototype.setColor = function(color) {
+setColor(color) {
   this.drawColor_ = color;
   this.needRedraw_ = true;
 };
 
 /** @override */
-DisplayAxes.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
 };
 
 /** Set the font to draw the graph axes with.
 @param {string} font the font to draw the graph axes with
 */
-DisplayAxes.prototype.setFont = function(font) {
+setFont(font) {
   this.numFont_ = font;
   this.needRedraw_ = true;
 };
@@ -493,13 +482,13 @@ DisplayAxes.prototype.setFont = function(font) {
 /** Sets the name shown next to the horizontal axis
 @param {string} name name of the horizontal axis
 */
-DisplayAxes.prototype.setHorizName = function(name) {
+setHorizName(name) {
   this.horizName_ = name;
   this.needRedraw_ = true;
 };
 
 /** @override */
-DisplayAxes.prototype.setPosition = function(position) {
+setPosition(position) {
 };
 
 /** Sets the bounding rectangle for this DisplayAxes in simulation coordinates; this
@@ -507,7 +496,7 @@ determines the numbering scale shown.
 @param {!DoubleRect} simRect the bounding rectangle for this
     DisplayAxes in simulation coordinates.
 */
-DisplayAxes.prototype.setSimRect = function(simRect) {
+setSimRect(simRect) {
   this.simRect_ = simRect;
   this.needRedraw_ = true;
 };
@@ -515,7 +504,7 @@ DisplayAxes.prototype.setSimRect = function(simRect) {
 /** Sets the name shown next to the vertical axis
 @param {string} name name of the vertical axis
 */
-DisplayAxes.prototype.setVerticalName = function(name) {
+setVerticalName(name) {
   this.verticalName_ = name;
   this.needRedraw_ = true;
 };
@@ -527,7 +516,7 @@ simulation rectangle, or go thru a particular value of the Y-axis.
      {@link VerticalAlign.VALUE}
 @return {!DisplayAxes} this object for chaining setters
 */
-DisplayAxes.prototype.setXAxisAlignment = function(alignment, value) {
+setXAxisAlignment(alignment, value) {
   this.horizAxisAlignment_ = alignment;
   if (goog.isNumber(value)) {
     this.horizAlignValue_ = value;
@@ -543,7 +532,7 @@ simulation rectangle, or go thru a particular value of the X-axis.
      {@link HorizAlign.VALUE}
 @return {!DisplayAxes} this object for chaining setters
 */
-DisplayAxes.prototype.setYAxisAlignment = function(alignment, value) {
+setYAxisAlignment(alignment, value) {
   this.vertAxisAlignment_ = alignment;
   if (goog.isNumber(value)) {
     this.vertAlignValue_ = value;
@@ -553,10 +542,11 @@ DisplayAxes.prototype.setYAxisAlignment = function(alignment, value) {
 };
 
 /** @override */
-DisplayAxes.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   if (goog.isDef(zIndex)) {
     this.zIndex = zIndex;
   }
 };
 
-}); // goog.scope
+} //end class
+exports = DisplayAxes;

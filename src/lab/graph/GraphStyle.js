@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.GraphStyle');
+goog.module('myphysicslab.lab.graph.GraphStyle');
 
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Specifies graph style such as color, line thickness, line pattern.
 
@@ -34,17 +29,17 @@ as thousands of short line segments and the line dash starts over for each segme
 might be possible to use the HTML `CanvasRenderingContext2D.lineDashOffset` property to
 deal with this.
 
+*/
+class GraphStyle {
+/**
 * @param {number} index specifies where in the HistoryList this style should be applied
 * @param {!DrawingMode} drawMode whether to draw dots or lines,
 *     a value from {@link DrawingMode}
 * @param {string} color a CSS color specification
 * @param {number} lineWidth  thickness to use when drawing the graph line, in screen
 *     coordinates, so a unit is a screen pixel.
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.graph.GraphStyle = function(index, drawMode, color, lineWidth) {
+constructor(index, drawMode, color, lineWidth) {
   /** Specifies where in the HistoryList this style should be applied.
   * @type {number}
   */
@@ -64,10 +59,9 @@ myphysicslab.lab.graph.GraphStyle = function(index, drawMode, color, lineWidth) 
   */
   this.lineWidth = lineWidth;
 };
-var GraphStyle = myphysicslab.lab.graph.GraphStyle;
 
 /** @override */
-GraphStyle.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'GraphStyle{index_: '+this.index_
       +', drawMode: '+this.drawMode
       +', color_:"'+this.color_+'"'
@@ -75,4 +69,5 @@ GraphStyle.prototype.toString = function() {
       +'}';
 };
 
-});  // goog.scope
+} //end class
+exports = GraphStyle;

@@ -12,36 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.VectorGraph');
+goog.module('myphysicslab.lab.graph.VectorGraph');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.ScreenRect');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-var Subject = lab.util.Subject;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Draws vectors showing the direction field of the differential equation. In a graph
 of Y vs. X, shows the value of the derivative dy/dx at various points on a grid, as a
@@ -62,17 +46,17 @@ direction field.
 
 + Optionally, make length of the vector be proportional to the speed of the trajectory at that point.
 
+* @implements {DisplayObject}
+* @implements {Observer}
+*/
+class VectorGraph {
+/**
 * @param {!ODESim} sim the simulation whose differential equations will be shown
     as a direction field
 * @param {number} xVariable index of X variable in VarsList of `sim`
 * @param {number} yVariable index of Y variable in VarsList of `sim`
-* @constructor
-* @final
-* @struct
-* @implements {DisplayObject}
-* @implements {Observer}
 */
-myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
+constructor(sim, xVariable, yVariable) {
   /**
   * @type {!ODESim}
   * @private
@@ -126,22 +110,21 @@ myphysicslab.lab.graph.VectorGraph = function(sim, xVariable, yVariable) {
   */
   this.zIndex = 0;
 };
-var VectorGraph = myphysicslab.lab.graph.VectorGraph;
 
 /** @override */
-VectorGraph.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', screenRect_: '+this.screenRect_
       +', zIndex: '+this.zIndex
       +'}';
 };
 
-VectorGraph.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'VectorGraph{sim_: '+this.sim_.toStringShort()+'}';
 };
 
 /** @override */
-VectorGraph.prototype.contains = function(p_world) {
+contains(p_world) {
   // ? this seems wrong, but need the CoordMap to convert screenRect to sim coords
   return false;
 };
@@ -159,7 +142,7 @@ The procedure is as follows:
 */
 
 /** @override */
-VectorGraph.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.screenRect_.isEmpty()) {
     if (Util.DEBUG) {
       console.log('VectorGraph: screenRect is empty');
@@ -209,7 +192,7 @@ VectorGraph.prototype.draw = function(context, map) {
 * @param {!CoordMap} coordMap the CoordMap specifying sim to screen conversion
 * @private
 */
-VectorGraph.prototype.fullDraw = function(context, coordMap) {
+fullDraw(context, coordMap) {
   var gp = this.gridPoints;
   var sr = this.screenRect_;
   var w = sr.getWidth();
@@ -263,12 +246,12 @@ VectorGraph.prototype.fullDraw = function(context, coordMap) {
 };
 
 /** @override */
-VectorGraph.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
 /** @override */
-VectorGraph.prototype.getPosition = function() {
+getPosition() {
   //? what to return here ??? center of screenRect in sim coords?
   return Vector.ORIGIN;
 };
@@ -278,27 +261,27 @@ VectorGraph.prototype.getPosition = function() {
 * @return {!ScreenRect} the screen rectangle of this VectorGraph in
 *    screen coordinates
 */
-VectorGraph.prototype.getScreenRect = function() {
+getScreenRect() {
   return this.screenRect_;
 };
 
 /** @override */
-VectorGraph.prototype.getSimObjects = function() {
+getSimObjects() {
   return [ ];
 };
 
 /** @override */
-VectorGraph.prototype.getZIndex = function() {
+getZIndex() {
   return this.zIndex;
 };
 
 /** @override */
-VectorGraph.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
 /** @override */
-VectorGraph.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.sim_) {
     // assume any change in sim modifies direction field, so redraw
     this.needRedraw_ = true;
@@ -306,11 +289,11 @@ VectorGraph.prototype.observe =  function(event) {
 };
 
 /** @override */
-VectorGraph.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
 };
 
 /** @override */
-VectorGraph.prototype.setPosition = function(position) {
+setPosition(position) {
   //throw new Error(); // unsupported
 };
 
@@ -319,14 +302,15 @@ VectorGraph.prototype.setPosition = function(position) {
 * @param {!ScreenRect} screenRect the screen coordinates of the
     area this VectorGraph should occupy.
 */
-VectorGraph.prototype.setScreenRect = function(screenRect) {
+setScreenRect(screenRect) {
   this.screenRect_ = screenRect;
   this.offScreen_ = null; // force reallocation of offscreen
 };
 
 /** @override */
-VectorGraph.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
-});  // goog.scope
+} //end class
+exports = VectorGraph;

@@ -12,33 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.graph.EnergyBarGraph');
+goog.module('myphysicslab.lab.graph.EnergyBarGraph');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.ScreenRect');
 
-goog.scope(function() {
-
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays a bar graph of the various forms of energy (potential, kinetic, etc.) in an
 {@link EnergySystem}. The visible area must be set via
 {@link #setVisibleArea} in order for EnergyBarGraph to draw.
-
 
 ### Display Formats
 
@@ -81,7 +70,6 @@ Here is a typical situation:
 EnergyBarGraph draws with a transparent white rectangle to ensure it is readable
 against a black background.
 
-
 ### Color and Font
 
 Public properties can be set for changing the color of the bars and the font used.
@@ -104,7 +92,6 @@ Once the EnergyBarGraph is moved via {@link #setPosition}, we retain that vertic
 position when the visible area changes, except that we ensure the EnergyBarGraph is
 entirely within the visible area.
 
-
 @todo Create some unit tests for this? It is complex enough that it could benefit.
 For example, see the kludge about 'energy is zero at startup' which previously resulted
 in an assertion failing.
@@ -112,13 +99,13 @@ in an assertion failing.
 @todo larger fonts (size 14) have formatting problems where the text is overlapping
 the color key and other pieces of text. (Nov 2012)
 
-* @param {!EnergySystem} system the EnergySystem to display
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.graph.EnergyBarGraph = function(system) {
+class EnergyBarGraph {
+/**
+* @param {!EnergySystem} system the EnergySystem to display
+*/
+constructor(system) {
   /** The font to use for numbers on the bar chart energy graph, a CSS3 font
   * specification.
   * @type {string}
@@ -300,10 +287,9 @@ myphysicslab.lab.graph.EnergyBarGraph = function(system) {
   */
   this.debug_ = false;
 };
-var EnergyBarGraph = myphysicslab.lab.graph.EnergyBarGraph;
 
 /** @override */
-EnergyBarGraph.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', visibleRect: '+this.visibleRect_
       +', rect: '+this.rect_
@@ -326,46 +312,18 @@ EnergyBarGraph.prototype.toString = function() {
 };
 
 /** @override */
-EnergyBarGraph.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'EnergyBarGraph{system: '+this.system_.toStringShort()+'}';
 };
 
-/**
-* @type {number}
-* @const
-* @private
-*/
-EnergyBarGraph.HEIGHT = 10;
-
-/**
-* @type {number}
-* @const
-* @private
-*/
-EnergyBarGraph.LEFT_MARGIN = 10;
-
-/**
-* @type {number}
-* @const
-* @private
-*/
-EnergyBarGraph.RIGHT_MARGIN = 0;
-
-/**
-* @type {number}
-* @const
-* @private
-*/
-EnergyBarGraph.TOP_MARGIN = 0;
-
 /** @override */
-EnergyBarGraph.prototype.contains = function(point) {
+contains(point) {
   return this.rect_.contains(point);
 };
 
 /** @override */
-EnergyBarGraph.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.visibleRect_.isEmpty())
     return;
   context.save();
@@ -495,7 +453,7 @@ EnergyBarGraph.prototype.draw = function(context, map) {
 * @return {number}
 * @private
 */
-EnergyBarGraph.prototype.drawLegend = function(context, s, c, filled, x, y) {
+drawLegend(context, s, c, filled, x, y) {
   var BOX = 10;
   if (filled) {
     context.fillStyle = c;
@@ -520,7 +478,7 @@ EnergyBarGraph.prototype.drawLegend = function(context, s, c, filled, x, y) {
 @return {number}
 @private
 */
-EnergyBarGraph.prototype.drawScale = function(context, left, top, total) {
+drawScale(context, left, top, total) {
   var graphAscent = this.fontAscent_;
   // don't draw anything when total is zero.
   if (Math.abs(total) > 1E-18 && this.graphDelta_ > 1E-18) {
@@ -581,7 +539,7 @@ EnergyBarGraph.prototype.drawScale = function(context, left, top, total) {
 * @return {number}
 * @private
 */
-EnergyBarGraph.prototype.drawTotalEnergy = function(context, x, y) {
+drawTotalEnergy(context, x, y) {
   var s = EnergyBarGraph.i18n.TOTAL+' '+
     this.formatTotalEnergy(this.totalEnergyDisplay_, this.lastEnergyDisplay_);
   context.fillStyle = '#000'; // black
@@ -599,7 +557,7 @@ then we retain the previous setting for number of digits to show.
 @return {string}
 @private
 */
-EnergyBarGraph.prototype.formatTotalEnergy = function(value, previous) {
+formatTotalEnergy(value, previous) {
   var diff = Math.abs(value - previous);
   if (diff > 1E-15) {
     // number of decimal places is based on difference to previous value
@@ -619,17 +577,17 @@ EnergyBarGraph.prototype.formatTotalEnergy = function(value, previous) {
 };
 
 /** @override */
-EnergyBarGraph.prototype.getSimObjects = function() {
+getSimObjects() {
   return [];
 };
 
 /** @override */
-EnergyBarGraph.prototype.getMassObjects = function() {
+getMassObjects() {
   return [];
 };
 
 /** @override */
-EnergyBarGraph.prototype.getPosition = function() {
+getPosition() {
   return !this.rect_.isEmpty() ? this.rect_.getCenter() : new Vector(0, 0);
 };
 
@@ -638,17 +596,17 @@ coordinates.
 @return {!DoubleRect} the area within which this
     EnergyBarGraph is drawn, in simulation coordinates.
 */
-EnergyBarGraph.prototype.getVisibleArea = function() {
+getVisibleArea() {
   return this.visibleRect_;
 };
 
 /** @override */
-EnergyBarGraph.prototype.getZIndex = function() {
+getZIndex() {
   return this.zIndex;
 };
 
 /** @override */
-EnergyBarGraph.prototype.isDragable = function() {
+isDragable() {
   return this.dragable_;
 };
 
@@ -656,7 +614,7 @@ EnergyBarGraph.prototype.isDragable = function() {
 * @return {number}
 * @private
 */
-EnergyBarGraph.prototype.minHistory = function() {
+minHistory() {
   var min = 0;
   for (var i=0, len=this.history_.length; i<len; i++) {
     if (this.history_[i] < min)
@@ -671,7 +629,7 @@ Designed to format scale tick marks.
 @return {string}
 @private
 */
-EnergyBarGraph.numberFormat1 = function(value) {
+static numberFormat1(value) {
   var v = Math.abs(value);
   var s;
   // use regexp to remove trailing zeros, and maybe decimal point
@@ -707,7 +665,7 @@ EnergyBarGraph.numberFormat1 = function(value) {
 * @param {string} s
 * @private
 */
-EnergyBarGraph.prototype.printEverything = function(s) {
+printEverything(s) {
   if (Util.DEBUG && this.debug_) {
     console.log(s + this);
     if (0 == 1) {  // equiv to 'if (false)'
@@ -720,7 +678,7 @@ EnergyBarGraph.prototype.printEverything = function(s) {
 * @param {number} maxWidth
 * @private
 */
-EnergyBarGraph.prototype.rescale = function(maxWidth) {
+rescale(maxWidth) {
   var time_check = this.timeCheck(this.minEnergy_);
   if (Util.DEBUG) { this.printEverything('(status)'); }
   // keep track of most negative min energy value during this time check period
@@ -834,7 +792,7 @@ EnergyBarGraph.prototype.rescale = function(maxWidth) {
 * @param {number} height
 * @private
 */
-EnergyBarGraph.prototype.resizeRect = function(height) {
+resizeRect(height) {
   goog.asserts.assertObject(this.visibleRect_);
   var top = this.rect_.isEmpty() ?
       this.visibleRect_.getTop() : this.rect_.getTop();
@@ -860,12 +818,12 @@ EnergyBarGraph.prototype.resizeRect = function(height) {
 };
 
 /** @override */
-EnergyBarGraph.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   this.dragable_ = dragable;
 };
 
 /** @override */
-EnergyBarGraph.prototype.setPosition = function(position) {
+setPosition(position) {
   if (!this.rect_.isEmpty()) {
     var h = this.rect_.getHeight()/2;
     this.rect_ = new DoubleRect(this.rect_.getLeft(), position.getY() - h,
@@ -884,13 +842,13 @@ EnergyBarGraph.prototype.setPosition = function(position) {
 @param {!DoubleRect} visibleArea the area within which this
     EnergyBarGraph is drawn, in simulation coordinates.
 */
-EnergyBarGraph.prototype.setVisibleArea = function(visibleArea) {
+setVisibleArea(visibleArea) {
   this.visibleRect_ = visibleArea;
   this.needResize_ = true;
 };
 
 /** @override */
-EnergyBarGraph.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
@@ -899,7 +857,7 @@ EnergyBarGraph.prototype.setZIndex = function(zIndex) {
 * @return {boolean}
 * @private
 */
-EnergyBarGraph.prototype.timeCheck = function(minEnergy) {
+timeCheck(minEnergy) {
   var nowTime = Util.systemTime();
   if (nowTime - this.lastTime2_ > 1.0) {
     this.lastTime2_ = nowTime;
@@ -917,6 +875,36 @@ EnergyBarGraph.prototype.timeCheck = function(minEnergy) {
     return false;
   }
 };
+
+} //end class
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+EnergyBarGraph.HEIGHT = 10;
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+EnergyBarGraph.LEFT_MARGIN = 10;
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+EnergyBarGraph.RIGHT_MARGIN = 0;
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+EnergyBarGraph.TOP_MARGIN = 0;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -961,4 +949,4 @@ EnergyBarGraph.de_strings = {
 EnergyBarGraph.i18n = goog.LOCALE === 'de' ? EnergyBarGraph.de_strings :
     EnergyBarGraph.en;
 
-});  // goog.scope
+exports = EnergyBarGraph;

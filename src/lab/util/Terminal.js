@@ -1334,7 +1334,7 @@ static stdRegex(terminal) {
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'
       +'|DrawingMode|DrawingStyle|EnergyBarGraph|HorizAlign|LabCanvas|LabView'
       +'|ScreenRect|SimView|VerticalAlign',
-       'myphysicslab.lab.view.', /*addToVars=*/false);
+       'module$$exports$$myphysicslab$$lab$$view$$', /*addToVars=*/false);
 
   terminal.addRegex('CircularEdge|CollisionHandling|ContactSim'
        +'|EdgeRange|ExtraAccel|ImpulseSim|Joint|Polygon'
