@@ -30,10 +30,10 @@ goog.scope(function() {
 
 var lab = myphysicslab.lab;
 
-var ContactSim = lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var JointUtil = lab.engine2D.JointUtil;
+const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const Random = goog.module.get('myphysicslab.lab.util.Random');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');

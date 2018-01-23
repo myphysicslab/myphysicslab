@@ -31,7 +31,7 @@ goog.scope(function() {
 const Collision = goog.module.get('myphysicslab.lab.model.Collision');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-var ContactSim = myphysicslab.lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');

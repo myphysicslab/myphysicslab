@@ -12,35 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.JointUtil');
+goog.module('myphysicslab.lab.engine2D.JointUtil');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var ContactSim = myphysicslab.lab.engine2D.ContactSim;
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Utility functions for creating Joints.
-@constructor
-@final
-@struct
+*/
+class JointUtil {
+/**
 @private
 */
-myphysicslab.lab.engine2D.JointUtil = function() {
+constructor() {
   throw new Error();
 };
-var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 
 /** Creates a single Joint to attach a RigidBody to a fixed point on the singleton
 {@link Scrim}, at the current world position of the attachment point.
@@ -53,7 +44,7 @@ See {@link Scrim#getScrim}.
 @param {!Vector} normal the normal Vector that determines the direction of the Joint
 @return {!Joint} the Joint that is created
 */
-JointUtil.addSingleFixedJoint = function(sim, body, attach_body, normalType, normal) {
+static addSingleFixedJoint(sim, body, attach_body, normalType, normal) {
   return JointUtil.addSingleJoint(sim,
       Scrim.getScrim(), body.bodyToWorld(attach_body),
       body, attach_body,
@@ -72,8 +63,7 @@ with the first body, see {@link #align}.
 @param {!Vector} normal the normal Vector that determines the direction of the Joint
 @return {!Joint} the Joint that is created
 */
-JointUtil.addSingleJoint = function(sim, body1, attach1_body, body2, attach2_body,
-    normalType, normal) {
+static addSingleJoint(sim, body1, attach1_body, body2, attach2_body, normalType, normal) {
   var j1 = new Joint(
       body1, attach1_body,
       body2, attach2_body,
@@ -93,7 +83,7 @@ point. See {@link Scrim#getScrim}.
 @param {!CoordType} normalType whether the normal should be in
     body or world coords, from {@link CoordType}.
 */
-JointUtil.attachFixedPoint = function(sim, body, attach_body, normalType) {
+static attachFixedPoint(sim, body, attach_body, normalType) {
   JointUtil.attachRigidBody(sim,
       Scrim.getScrim(), body.bodyToWorld(attach_body),
       body, attach_body,
@@ -113,8 +103,7 @@ the CoordType.
 @param {!CoordType} normalType whether the normal should be in
     body or world coords, from {@link CoordType}.
 */
-JointUtil.attachRigidBody = function(sim, body1, attach1_body, body2, attach2_body,
-    normalType) {
+static attachRigidBody(sim, body1, attach1_body, body2, attach2_body, normalType) {
   JointUtil.addSingleJoint(sim,
       body1, attach1_body,
       body2, attach2_body,
@@ -125,4 +114,5 @@ JointUtil.attachRigidBody = function(sim, body1, attach1_body, body2, attach2_bo
       normalType, Vector.EAST);
 };
 
-}); // goog.scope
+} //end class
+exports = JointUtil;

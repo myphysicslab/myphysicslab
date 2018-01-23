@@ -25,11 +25,11 @@ goog.require('myphysicslab.lab.view.DisplayShape');
 
 goog.scope(function() {
 
-var ContactSim = myphysicslab.lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var JointUtil = myphysicslab.lab.engine2D.JointUtil;
+const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

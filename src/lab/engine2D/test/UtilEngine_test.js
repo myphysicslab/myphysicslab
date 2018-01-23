@@ -499,7 +499,7 @@ Checks that various contact ordering policies find a valid solution.
 */
 var testMatrix11_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
@@ -652,7 +652,7 @@ between C/NC while driving a particular contact to zero.
 */
 var testMatrix12_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
@@ -788,7 +788,7 @@ Update May 2013: all the solutions seem to be the maxForce = 7.60 now.
 */
 var testMatrix15_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
@@ -886,7 +886,7 @@ contact order does not find a lower force.
 */
 var testMatrix16_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
@@ -989,7 +989,7 @@ var testMatrix17_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix17_CF ***');
@@ -1094,7 +1094,7 @@ var testMatrix18_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix18_CF ***');
@@ -1193,7 +1193,7 @@ var testMatrix19_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix19_CF ***');
@@ -1298,7 +1298,7 @@ var testMatrix20_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix20_CF ***');
@@ -1394,7 +1394,7 @@ var testMatrix21_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix21_CF ***');
@@ -1501,7 +1501,7 @@ var testMatrix22_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix22_CF ***');
@@ -1694,7 +1694,7 @@ var testMatrix23_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix23_CF ***');
@@ -1822,7 +1822,7 @@ var testMatrix24_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix24_CF ***');
@@ -1928,7 +1928,7 @@ var testMatrix25_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix25_CF ***');
@@ -2024,7 +2024,7 @@ var testMatrix26_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix26_CF ***');
@@ -2090,7 +2090,7 @@ var testMatrix27_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix27_CF ***');
@@ -2192,7 +2192,7 @@ var testMatrix28_CF = function() {
   const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
+  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix28_CF ***');

@@ -35,14 +35,14 @@ goog.scope(function() {
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-var ContactSim = myphysicslab.lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
+const ImpulseSim = goog.module.get('myphysicslab.lab.engine2D.ImpulseSim');
 const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');

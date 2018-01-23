@@ -12,57 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.ImpulseSim');
+goog.module('myphysicslab.lab.engine2D.ImpulseSim');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.vec.Float64Array');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ComputeForces');
-goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.model.CollisionSim');
-goog.require('myphysicslab.lab.model.CollisionTotals');
-goog.require('myphysicslab.lab.model.Impulse');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
-const CollisionTotals = goog.module.get('myphysicslab.lab.model.CollisionTotals');
-var ComputeForces = lab.engine2D.ComputeForces;
-const DebugEngine2D = goog.module.get('myphysicslab.lab.engine2D.DebugEngine2D');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Impulse = goog.module.get('myphysicslab.lab.model.Impulse');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const Random = goog.module.get('myphysicslab.lab.util.Random');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
+const CollisionTotals = goog.require('myphysicslab.lab.model.CollisionTotals');
+const ComputeForces = goog.require('myphysicslab.lab.engine2D.ComputeForces');
+const DebugEngine2D = goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Impulse = goog.require('myphysicslab.lab.model.Impulse');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Random = goog.require('myphysicslab.lab.util.Random');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 
 /** Simulation of RigidBody movement with collisions. ImpulseSim adds methods for
 collision detection and collision handling to the super-class RigidBodySim.
@@ -96,7 +71,6 @@ found.
 + {@link ComputeForces} is the algorithm used when finding
 multiple simultaneous impulses during collision handling.
 
-
 ### Parameters Created
 
 + ParameterString named `COLLISION_HANDLING`, see {@link #setCollisionHandling}
@@ -111,15 +85,11 @@ multiple simultaneous impulses during collision handling.
 
 See also the super class for additional Parameters.
 
-
-
-
 ### Collision Handling Options
 
 There are several different collision handling options available. See the section on
 [Multiple Simultaneous Collisions](Engine2D.html#multiplesimultaneouscollisions) and
 {@link CollisionHandling}.
-
 
 ### Contacts During Collision Handling
 
@@ -137,7 +107,6 @@ If you calculate such a scenario by considering only one collision at a time, th
 each collision we would step forward in time, find collisions, back up to where we were,
 handle the collision, and do that over and over for each ricochet. This would take far
 more compute time than doing the equivalent inside of `handleCollisions`.
-
 
 ### Finding the Collision Impulse
 
@@ -212,14 +181,12 @@ This corresponds to solving for `j` as
 This only works when A is a scalar value not a matrix. Otherwise you would
 left-multiply by the inverse of the A matrix.
 
-
 @todo use {@link UtilityCollision#subsetCollisions1}
 to arrange collisions into
 separate groups, so that contacts are handled with zero elasticity more often.
 Currently, when contacts are handled simultaneously with a high-velocity collision, we
 use the non-zero elasticity on the contacts also, even if they are not connected to
 the collision.
-
 
 @todo the momentum stuff was pretty klugey and ugly; I'm commenting it out Dec 2009;
 the text info might be useful, but it needs to be made prettier. The 'momentum arrows'
@@ -238,14 +205,14 @@ way to communicate the distance/velocity tolerance to the RigidBody.
 it needs to:  once you check if body A collides with body B, you don't have
 to check if body B collides with body A.
 
-* @param {string=} opt_name name of this Subject
-* @constructor
-* @struct
 * @implements {CollisionSim}
-* @extends {RigidBodySim}
 */
-myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
-  RigidBodySim.call(this, opt_name);
+class ImpulseSim extends RigidBodySim {
+/**
+* @param {string=} opt_name name of this Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   /**
   * @type {boolean}
   * @private
@@ -319,65 +286,25 @@ myphysicslab.lab.engine2D.ImpulseSim = function(opt_name) {
       .setDecimalPlaces(0)
       .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
-var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
-goog.inherits(ImpulseSim, RigidBodySim);
 
 /** @override  */
-ImpulseSim.prototype.toString_ = function() {
+toString_() {
   return Util.ADVANCED ? '' : ', collisionHandling_: '+this.collisionHandling_
       + ', distanceTol_: '+Util.NF(this.distanceTol_)
       + ', velocityTol_: '+Util.NF(this.velocityTol_)
       + ', collisionAccuracy_: '+Util.NF(this.collisionAccuracy_)
       + ', showCollisions_: '+this.showCollisions_
       + ', simRNG_: '+this.simRNG_
-      + ImpulseSim.superClass_.toString_.call(this);
+      + super.toString_();
 };
 
 /** @override */
-ImpulseSim.prototype.getClassName = function() {
+getClassName() {
   return 'ImpulseSim';
 };
 
-/** For debugging, this allows code to look for collisions, but does not actually
-* return them. This allows to debug code for finding nearest point between objects.
-* @type {boolean}
-* @const
-* @protected
-*/
-ImpulseSim.COLLISIONS_DISABLED = false;
-
-/** Show the impulse applied at each collision.
-* @type {boolean}
-* @const
-* @private
-*/
-ImpulseSim.DEBUG_IMPULSE = false && Util.DEBUG;
-
-/** Impulse smaller than this is regarded as insignificant at various points
-* in the collision handling algorithm.
-* @type {number}
-* @const
-* @private
-*/
-ImpulseSim.TINY_IMPULSE = 1E-12;
-
-/** Impulse smaller than this is not marked as a discontinuous change in the
-* velocity variables of the objects colliding.
-* @type {number}
-* @const
-* @private
-*/
-ImpulseSim.SMALL_IMPULSE = 1E-4;
-
-/**
-* @type {number}
-* @const
-* @private
-*/
-ImpulseSim.LOG10 = Math.log(10);
-
 /** @override */
-ImpulseSim.prototype.setDebugPaint = function(fn) {
+setDebugPaint(fn) {
   this.debugPaint_ = fn;
 };
 
@@ -388,7 +315,7 @@ then always give the same sequence of random numbers.
 See {@link Random}.
 * @return {number} the seed of the pseudo random number generator
 */
-ImpulseSim.prototype.getRandomSeed = function() {
+getRandomSeed() {
   return this.simRNG_.getSeed();
 };
 
@@ -399,7 +326,7 @@ then always give the same sequence of random numbers.
 See {@link Random}.
 * @param {number} value the seed of the pseudo random number generator
 */
-ImpulseSim.prototype.setRandomSeed = function(value) {
+setRandomSeed(value) {
   this.simRNG_.setSeed(value);
   this.broadcastParameter(RigidBodySim.en.RANDOM_SEED);
 };
@@ -408,7 +335,7 @@ ImpulseSim.prototype.setRandomSeed = function(value) {
 * @return {!CollisionHandling} the collision handling method
 *     being used, from {@link CollisionHandling}.
 */
-ImpulseSim.prototype.getCollisionHandling = function() {
+getCollisionHandling() {
   return this.collisionHandling_;
 };
 
@@ -416,7 +343,7 @@ ImpulseSim.prototype.getCollisionHandling = function() {
 * @param {!CollisionHandling} value the collision handling
 *    method to use, from {@link CollisionHandling}.
 */
-ImpulseSim.prototype.setCollisionHandling = function(value) {
+setCollisionHandling(value) {
   var a = CollisionHandling.stringToEnum(value);
   goog.asserts.assert(a == value);
   if (this.collisionHandling_ != a) {
@@ -431,7 +358,7 @@ the collision is considered close enough to handle (apply an impulse).
 @return {number} the collision accuracy, a fraction between 0 (exclusive) and 1
 (inclusive)
 */
-ImpulseSim.prototype.getCollisionAccuracy = function() {
+getCollisionAccuracy() {
   return this.collisionAccuracy_;
 };
 
@@ -441,7 +368,7 @@ the collision is considered close enough to handle (apply an impulse).
 * @param {number} value how close in distance to be in order to handle a collision
 * @throws {!Error} if value is out of the range 0 to 1, or is exactly zero
 */
-ImpulseSim.prototype.setCollisionAccuracy = function(value) {
+setCollisionAccuracy(value) {
   if (value <= 0 || value > 1) {
     throw new Error('accuracy must be between 0 and 1, is '+value);
   }
@@ -457,7 +384,7 @@ object
 * @return {number} distance tolerance used to determine if an object is in contact with
   another object
 */
-ImpulseSim.prototype.getDistanceTol = function() {
+getDistanceTol() {
   return this.distanceTol_;
 };
 
@@ -466,7 +393,7 @@ object
 * @param {number} value distance tolerance to use to determine if an object is in
   contact with another object
 */
-ImpulseSim.prototype.setDistanceTol = function(value) {
+setDistanceTol(value) {
   this.distanceTol_ = value;
   goog.array.forEach(this.bods_, function(b, index, array) {
     b.setDistanceTol(value);
@@ -479,7 +406,7 @@ object
 * @return {number} velocity tolerance used to determine if an object is in contact with
   another object
 */
-ImpulseSim.prototype.getVelocityTol = function() {
+getVelocityTol() {
   return this.velocityTol_;
 };
 
@@ -488,7 +415,7 @@ object
 * @param {number} value velocity tolerance to use to determine if an object is in
   contact with another object
 */
-ImpulseSim.prototype.setVelocityTol = function(value) {
+setVelocityTol(value) {
   this.velocityTol_ = value;
   goog.array.forEach(this.bods_, function(b, index, array) {
     b.setVelocityTol(value);
@@ -497,8 +424,8 @@ ImpulseSim.prototype.setVelocityTol = function(value) {
 };
 
 /** @override */
-ImpulseSim.prototype.setShowForces = function(value) {
-  ImpulseSim.superClass_.setShowForces.call(this, value);
+setShowForces(value) {
+  super.setShowForces(value);
   // this is a hack: The goal is to be able to show collisions but not show forces.
   // But because historically these (show collisions and show forces) were set together
   // we need to have setShowForces cause collisions to also be shown.
@@ -508,7 +435,7 @@ ImpulseSim.prototype.setShowForces = function(value) {
 /** Whether to to show collisions visually.
 * @return {boolean} whether to show collisions visually.
 */
-ImpulseSim.prototype.getShowCollisions = function() {
+getShowCollisions() {
   return this.showCollisions_;
 };
 
@@ -516,21 +443,21 @@ ImpulseSim.prototype.getShowCollisions = function() {
 * will also change whether to show collisions.
 * @param {boolean} value whether to show collisions visually.
 */
-ImpulseSim.prototype.setShowCollisions = function(value) {
+setShowCollisions(value) {
   this.showCollisions_ = value;
 };
 
 /** @override */
-ImpulseSim.prototype.addBody = function(body) {
-  ImpulseSim.superClass_.addBody.call(this, body);
+addBody(body) {
+  super.addBody(body);
   body.setDistanceTol(this.distanceTol_);
   body.setVelocityTol(this.velocityTol_);
   body.setAccuracy(this.collisionAccuracy_);
 };
 
 /** @override */
-ImpulseSim.prototype.cleanSlate = function() {
-  ImpulseSim.superClass_.cleanSlate.call(this);
+cleanSlate() {
+  super.cleanSlate();
   this.computeImpacts_ = new ComputeForces('I', this.simRNG_);
 };
 
@@ -539,7 +466,7 @@ ImpulseSim.prototype.cleanSlate = function() {
 * @throws {!Error} if an infinite mass object has non-zero velocity
 * @private
 */
-ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {
+checkInfiniteMassVelocity(vars) {
   goog.array.forEach(this.bods_, function(b) {
     var idx = b.getVarsIndex();
     goog.asserts.assert(idx >= 0);
@@ -557,7 +484,7 @@ ImpulseSim.prototype.checkInfiniteMassVelocity = function(vars) {
 };
 
 /** @override */
-ImpulseSim.prototype.findCollisions = function(collisions, vars, stepSize) {
+findCollisions(collisions, vars, stepSize) {
   if (Util.DEBUG)
     this.checkInfiniteMassVelocity(vars);
   if (ImpulseSim.COLLISIONS_DISABLED) {
@@ -722,7 +649,7 @@ here. Here is how the vector cross product is calculated:
 *      from a unit impulse on the given body at collision cj.
 * @private
 */
-ImpulseSim.prototype.influence = function(ci, cj, body) {
+influence(ci, cj, body) {
   // how much does the impulse fj at cj on given body affect the
   // relative normal velocity at ci?
   if (!isFinite(body.getMass()))
@@ -780,7 +707,7 @@ use just one of these (duplicate code currently).  March 2012.
 *    at collision point `i` affects relative normal velocity at collision point `j`
 * @protected
 */
-ImpulseSim.prototype.makeCollisionMatrix = function(collisions) {
+makeCollisionMatrix(collisions) {
   var n = collisions.length;
   var A = new Array(n);
   for (var k = 0; k<n; k++) {
@@ -798,7 +725,7 @@ ImpulseSim.prototype.makeCollisionMatrix = function(collisions) {
 };
 
 /** @override */
-ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
+handleCollisions(collisions, opt_totals) {
   var rbcs = /** @type !Array<!RigidBodyCollision>*/(collisions);
   var energy = 0;  // for debugging
   if (collisions.length==0) {
@@ -857,7 +784,7 @@ ImpulseSim.prototype.handleCollisions = function(collisions, opt_totals) {
 * @return {boolean} whether any change was made to the collisions
 * @private
 */
-ImpulseSim.prototype.handleCollisionsSimultaneous = function(collisions, opt_totals) {
+handleCollisionsSimultaneous(collisions, opt_totals) {
   var n = collisions.length;
   var b = Util.newNumberArray(n);
   var j = Util.newNumberArray(n);
@@ -1030,7 +957,7 @@ in the solution is poor, or some other reason.
 * @return {boolean} whether any change was made to the collisions
 * @private
 */
-ImpulseSim.prototype.handleCollisionsSerial = function(collisions, hybrid, opt_totals,
+handleCollisionsSerial(collisions, hybrid, opt_totals,
       grouped, lastPass, small_velocity, doPanic) {
   grouped = goog.isDef(grouped) ? grouped : true;
   lastPass = goog.isDef(lastPass) ? lastPass : true;
@@ -1208,7 +1135,7 @@ means either:
 @return {number} size of largest velocity
 @private
 */
-ImpulseSim.largestVelocity = function(joint, b) {
+static largestVelocity(joint, b) {
   var max = 0;
   if (Util.DEBUG) {
     var i;
@@ -1240,7 +1167,7 @@ Part of the `handleCollisionsSerial` process.
 @return {number} index of focus collision, or -1 when all collisions are small
 @private
 */
-ImpulseSim.prototype.hcs_focus = function(debugHCS, small_velocity, loopCtr,
+hcs_focus(debugHCS, small_velocity, loopCtr,
     joint, b) {
   var i, j, k;
   var n = b.length;
@@ -1276,7 +1203,7 @@ velocity and impulse for that focus collision, and also adjusts connected collis
 @param {!Array<!Float64Array>} A the matrix that says how collisions affect each other
 @private
 */
-ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
+hcs_handle(hybrid, grouped, debugHCS,
     small_velocity, loopCtr, focus, joint, e, b, j2, collisions, A) {
   var i, j, k;
   var n = b.length;
@@ -1448,7 +1375,7 @@ ImpulseSim.prototype.hcs_handle = function(hybrid, grouped, debugHCS,
 * @param {number} j magnitude of impulse to apply
 * @private
 */
-ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
+applyCollisionImpulse(cd, j) {
   if (!cd.joint && j < 0) {
     if (j < -ImpulseSim.TINY_IMPULSE) {
       throw new Error(Util.DEBUG ? ('negative impulse is impossible '+j+' '+cd) : '');
@@ -1481,7 +1408,7 @@ ImpulseSim.prototype.applyCollisionImpulse = function(cd, j) {
 * @param {!Impulse} impulse
 * @private
 */
-ImpulseSim.prototype.applyImpulse = function(impulse) {
+applyImpulse(impulse) {
   var b = impulse.getBody();
   var body = /** @type {!RigidBody} */(b);
   var m = body.getMass();
@@ -1513,4 +1440,44 @@ ImpulseSim.prototype.applyImpulse = function(impulse) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/** For debugging, this allows code to look for collisions, but does not actually
+* return them. This allows to debug code for finding nearest point between objects.
+* @type {boolean}
+* @const
+* @protected
+*/
+ImpulseSim.COLLISIONS_DISABLED = false;
+
+/** Show the impulse applied at each collision.
+* @type {boolean}
+* @const
+* @private
+*/
+ImpulseSim.DEBUG_IMPULSE = false && Util.DEBUG;
+
+/** Impulse smaller than this is regarded as insignificant at various points
+* in the collision handling algorithm.
+* @type {number}
+* @const
+* @private
+*/
+ImpulseSim.TINY_IMPULSE = 1E-12;
+
+/** Impulse smaller than this is not marked as a discontinuous change in the
+* velocity variables of the objects colliding.
+* @type {number}
+* @const
+* @private
+*/
+ImpulseSim.SMALL_IMPULSE = 1E-4;
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+ImpulseSim.LOG10 = Math.log(10);
+
+exports = ImpulseSim;

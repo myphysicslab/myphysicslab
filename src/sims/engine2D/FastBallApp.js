@@ -32,7 +32,7 @@ var sims = myphysicslab.sims;
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
-var ContactSim = lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');

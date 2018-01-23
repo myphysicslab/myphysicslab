@@ -38,13 +38,13 @@ var sims = myphysicslab.sims;
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 var CommonControls = sims.common.CommonControls;
-var ContactSim = lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-var JointUtil = lab.engine2D.JointUtil;
+const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');

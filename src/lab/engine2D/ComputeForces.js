@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.ComputeForces');
+goog.module('myphysicslab.lab.engine2D.ComputeForces');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.vec.Float64Array');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-const Random = goog.module.get('myphysicslab.lab.util.Random');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Random = goog.require('myphysicslab.lab.util.Random');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Computes forces at contact points between RigidBodys, or impulses at collision
 points between RigidBodys. The {@link #compute_forces} method is an implementation of
@@ -48,7 +43,6 @@ This documentation is written assuming that *contact forces* and resulting accel
 are being calculated, but everything applies equally when calculating multiple
 simultaneous *collision impulses* and resulting velocities.
 
-
 ### Terminology
 
 This documentation uses several terms from the Baraff paper, such as C, NC, Acc.
@@ -64,7 +58,6 @@ have negative acceleration)
 The algorithm starts with both C and NC being empty. We then examine one contact at a
 time, moving it into C or NC, and possibly moving existing contacts between C and NC as
 necessary.
-
 
 ### Constraints
 
@@ -91,7 +84,6 @@ condition means that either
   or
 + the force at a contact is positive and acceleration is zero
 
-
 ### Joints
 
 Joints are contact points that can both push and pull, and which never break their
@@ -100,7 +92,6 @@ objects move apart. Joints are called 'bilateral constraints' in the Baraff pape
 
 Joints have different constraints: the force can be be positive or negative, but the
 acceleration is always exactly zero.
-
 
 ### Return Value
 
@@ -121,7 +112,6 @@ the following code calculates and checks the acceleration from the calculated fo
       }
     }
 
-
 ### Redundant Contacts
 
 It can often happen that the set of contacts is **redundant** in that pushing on one
@@ -140,7 +130,6 @@ other rows).
 Simulations where redundant contacts show up include: the Pile simulation where a
 pile of rectangular blocks is resting on each other in a corner on the ground; and the
 DoNothingGrinder where the shuttle blocks are wedged between immoveable blocks.
-
 
 ### Deferred (Rejected) Contacts
 
@@ -183,7 +172,6 @@ force at `d`. We can defer any contact that is currently in NC because it has no
 In the 'zero step' case, we can defer the contact that is in C only if it has zero
 force on it.
 
-
 ### Order of Treating Contacts
 
 The order in which we handle (or 'treat') contacts is important and can affect what
@@ -195,7 +183,6 @@ most negative acceleration.
 There are three other contact order policies: {@link #NEXT_CONTACT_MIN_ACCEL},
 {@link #NEXT_CONTACT_RANDOM}, {@link #NEXT_CONTACT_PRE_ORDERED}. Some of these are used
 for testing.
-
 
 ### Infinite Loop Detection
 
@@ -210,7 +197,6 @@ When any progress is made, the reRejects go back to the rejects list to be treat
 again. If the rejects list is exhausted without making any progress, then an infinite
 loop is detected, then we abandon the entire process, returning an error code. It is
 then up to the caller to decide if the resulting solution is adequate or not.
-
 
 ### Sometimes Acc Becomes Singular
 
@@ -238,7 +224,6 @@ fail; but instead it typically is the case that the total acceleration at that c
 is already zero (or close to zero) because we have driven the other contacts to zero,
 and the redundant contact is dependent on those.
 
-
 ### Will Not Find Minimal Forces
 
 This algorithm is not guaranteed to find the minimum set of forces that will satisfy the
@@ -251,7 +236,6 @@ vector depends on the ordering, and also on the criteria for when a matrix is po
 conditioned (which affects when we defer treating a contact that would make the Acc
 matrix poorly conditioned).
 
-
 ### Performance Tweaks
 
 ComputeForces keeps a matrix allocated that is reused, to avoid re-allocating a large
@@ -262,12 +246,10 @@ calls to `compute_forces`, to avoid reallocation.
 This resulted in an 11% reduction in running time for the `pile_20_random_blocks`
 performance test.
 
-
 ### Future Improvements
 
 See [Future Improvements](Engine2D.html#futureimprovements) in 2D Physics Engine
 Overview.
-
 
 ### Remaining Mysteries
 
@@ -285,17 +267,17 @@ of Acc bad?
 
 @todo  make an enum for Next Contact Policy
 
+*/
+class ComputeForces {
+/**
 * @param {string} name for debugging, this distinguishes whether this is used for
 *     contact forces or collision impulses
 * @param {!Random} pRNG  pseudo random number generator, used to
 *    randomly decide order in which to calculate forces
 * @param {number=} tolerance used to decide when numbers are equal or zero;
 *    default is 1E-10
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.engine2D.ComputeForces = function(name, pRNG, tolerance) {
+constructor(name, pRNG, tolerance) {
   /** debug compute forces
   * @type {boolean}
   * @private
@@ -458,41 +440,13 @@ myphysicslab.lab.engine2D.ComputeForces = function(name, pRNG, tolerance) {
   this.pRNG = pRNG;
 }
 
-var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
-
-/** Constant indicates the **Next Contact Policy** which chooses the contact with the
-most negative acceleration, treating Joints first.
-* @type {number}
-* @const
-*/
-ComputeForces.NEXT_CONTACT_MIN_ACCEL = 1;
-/** Constant indicates the **Next Contact Policy** which chooses contacts in random
-order, but treats Joints first.
-* @type {number}
-* @const
-*/
-ComputeForces.NEXT_CONTACT_RANDOM = 2;
-/** Constant indicates the **Next Contact Policy** which chooses contacts according to a
-pre-arranged ordering given by the 'preOrder' list of contact numbers, but treats Joints
-first.
-* @type {number}
-* @const
-*/
-ComputeForces.NEXT_CONTACT_PRE_ORDERED = 3;
-/** Constant indicates the **Next Contact Policy** which chooses the contact with the
-most negative acceleration, except Joints are treated first in random order.
-* @type {number}
-* @const
-*/
-ComputeForces.NEXT_CONTACT_HYBRID = 4;
-
 /** Sets the policy for choosing which contact to treat next.
 See {@link #getNextContactPolicy}.
 @param {number} nextContactPolicy One of {@link #NEXT_CONTACT_MIN_ACCEL},
     {@link #NEXT_CONTACT_RANDOM}, {@link #NEXT_CONTACT_PRE_ORDERED},
     {@link #NEXT_CONTACT_HYBRID}
 */
-ComputeForces.prototype.setNextContactPolicy = function(nextContactPolicy) {
+setNextContactPolicy(nextContactPolicy) {
   if (Util.DEBUG && this.debugCF)
     this.print('nextContactPolicy='+ nextContactPolicy);
   this.nextContactPolicy = nextContactPolicy;
@@ -504,7 +458,7 @@ See {@link #setNextContactPolicy}.
     {@link #NEXT_CONTACT_RANDOM}, {@link #NEXT_CONTACT_PRE_ORDERED},
     {@link #NEXT_CONTACT_HYBRID}
 */
-ComputeForces.prototype.getNextContactPolicy = function() {
+getNextContactPolicy() {
   return this.nextContactPolicy;
 }
 
@@ -521,7 +475,7 @@ ComputeForces.prototype.getNextContactPolicy = function() {
 @param {number} time  the current time, used only for debugging
 @return {number} error code, -1 if successful otherwise an error occurred
 */
-ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
+compute_forces(A, f, b, joint, debug, time) {
   if (Util.DEBUG && 1==0 && this.name_ == 'C' && this.pRNG.nextFloat() < 0.001) {
     // test of the ContactSim.reportError mechanism: randomly generate an error
     return -999;
@@ -671,7 +625,6 @@ ComputeForces.prototype.compute_forces = function(A, f, b, joint, debug, time) {
   return -1;
 }
 
-
 /** Detects infinite loop while solving reject contacts by checking if the current
 'state' is a duplicate of an earlier state. State is specified by the pattern of which
 contacts are in C, NC, or R, plus which contact is currently being driven-to-zero. We
@@ -681,7 +634,7 @@ of C, NC, or R. We keep a list of every state seen previously.
 * @return {boolean} true if the current state matches any previous state
 * @private
 */
-ComputeForces.prototype.checkLoop = function(d) {
+checkLoop(d) {
   var debug = this.debugCF; //time >= 46.4499;
   var i, len;
   if (Util.DEBUG) {
@@ -762,7 +715,7 @@ be zero for a solution.
 @return {number} the sum of squares of unwanted accelerations
 @private
 */
-ComputeForces.sumAccelSquare = function(accel, joint, n) {
+static sumAccelSquare(accel, joint, n) {
   var r = 0;
   for (var i=0; i<n; i++) {
     if (joint[i] || accel[i] < 0) {
@@ -778,7 +731,7 @@ ComputeForces.sumAccelSquare = function(accel, joint, n) {
 @param {number} n number of contacts
 @return {number} the maximum unwanted acceleration at all contacts
 */
-ComputeForces.maxAccel = function(accel, joint, n) {
+static maxAccel(accel, joint, n) {
   var r = 0;
   for (var i=0; i<n; i++) {
     if (joint[i] || !joint[i] && accel[i] < 0) {
@@ -807,7 +760,7 @@ acceleration.
 * @return {number} the next contact to be treated
 * @private
 */
-ComputeForces.prototype.nextContactHybrid = function() {
+nextContactHybrid() {
   //UtilEngine.printList('nextContact ', this.order);
   // for Joints, find the Joint with the maximum absolute value acceleration
   var j = -1;
@@ -837,7 +790,6 @@ ComputeForces.prototype.nextContactHybrid = function() {
   return this.nextReject();
 }
 
-
 /** Returns the contact with the most negative acceleration, treating Joints first.
 When only 'rejects' (deferred contacts) are left, we pick the reject with most
 negative acceleration, but stop treating rejects when they have small negative
@@ -848,7 +800,7 @@ affect the outcome of forces.
 * @return {number} the next contact to be treated
 * @private
 */
-ComputeForces.prototype.nextContactMinAccel = function() {
+nextContactMinAccel() {
   //UtilEngine.printList('nextContact ', this.order);
   // for Joints, find the Joint with the maximum absolute value acceleration
   var maxAccel = -1;
@@ -882,7 +834,6 @@ ComputeForces.prototype.nextContactMinAccel = function() {
   return this.nextReject();
 }
 
-
 /** Returns contacts in random order, but treats Joints first.  This is used
 for testing.
 
@@ -893,7 +844,7 @@ of randomly, is important.
 * @return {number} the next contact to be treated
 * @private
 */
-ComputeForces.prototype.nextContactRandom = function() {
+nextContactRandom() {
   //UtilEngine.printList('nextContactRandom ', this.order);
   var j = -1;
   var i, k;
@@ -920,7 +871,7 @@ of contact numbers, but treats Joints first.  Used for testing.
 * @return {number} the next contact to be treated
 * @private
 */
-ComputeForces.prototype.nextContactOrdered = function() {
+nextContactOrdered() {
   //UtilEngine.printList('nextContactOrdered ', this.order);
   var np = this.preOrder.length;
   var i, k;
@@ -946,7 +897,7 @@ rejects.
 * @return {number} the next reject to be treated
 * @private
 */
-ComputeForces.prototype.nextReject = function() {
+nextReject() {
   var maxAccel = 0.0;
   var j = -1;
   var i;
@@ -972,7 +923,7 @@ debug information to console when errors are detected.
     non-negative
 @return {boolean} true if acceleration is OK
 */
-ComputeForces.prototype.checkAccel = function(tolerance) {
+checkAccel(tolerance) {
   var i;
   if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
     for (i=0; i<this.n; i++) {
@@ -1034,7 +985,7 @@ ComputeForces.prototype.checkAccel = function(tolerance) {
 * @param {!Array<boolean>} joint whether each contact is a joint
 * @return {boolean} true if the force and accel vectors satisfy the constraints
 */
-ComputeForces.checkForceAccel = function(tolerance, force, accel, joint) {
+static checkForceAccel(tolerance, force, accel, joint) {
   if (Util.DEBUG) {
     UtilEngine.checkArrayNaN(accel);
     UtilEngine.checkArrayNaN(force);
@@ -1163,7 +1114,7 @@ this is kind of my current mental model of the whole process.)
     contact to defer till later, or negative integer means general failure.
 * @private
 */
-ComputeForces.prototype.drive_to_zero = function(d) {
+drive_to_zero(d) {
   var i;
   goog.asserts.assert(this.n <= this.f.length);
   goog.asserts.assert(!this.C[d]);
@@ -1428,7 +1379,6 @@ ComputeForces.prototype.drive_to_zero = function(d) {
   return -1;
 }
 
-
 /** fdirection computes vector delta_f resulting from a change of 1 in delta_f[d].
 We have a unit increase in the d-th force, so delta_f[d] = 1.
 The forces in NC remain zero, so delta_f[i] = 0, for i an element of NC.
@@ -1457,7 +1407,7 @@ all the C forces (this involves a matrix equation solve).
 * @return {number} -1 if successful, or an error code
 * @private
 */
-ComputeForces.prototype.fdirection = function(d) {
+fdirection(d) {
   var i, j;
   goog.asserts.assert(this.n <= this.C.length);
   for (i=0; i<this.n; i++)
@@ -1573,7 +1523,6 @@ ComputeForces.prototype.fdirection = function(d) {
   return -1;
 }
 
-
 /** Finds the largest step of force change we can take while driving contact d to have
 zero acceleration before causing a contact (other than d) to change between clamped
 contacts in C and unclamped contacts in NC. If we haven't yet treated a contact, then
@@ -1587,7 +1536,7 @@ size can be negative when d is a Joint with positive acceleration.
       and also sets this.stepSize as a side-effect
 * @private
 */
-ComputeForces.prototype.maxStep = function(d) {
+maxStep(d) {
   var s = Util.POSITIVE_INFINITY;
   // for a Joint d with positive acceleration, need to decrease the force f[d],
   // so we will have negative step size in this case.
@@ -1708,7 +1657,7 @@ last row is zero at the end, then we know the matrix is singular.
 * @return {boolean} true if matrix is singular after adding contact d
 * @private
 */
-ComputeForces.prototype.wouldBeSingular1 = function(d) {
+wouldBeSingular1(d) {
   var i, j;
   // Set up the matrix Acc as though d is in C, and solve a sample problem but
   // only to get the matrix in upper triangular form, so that we can
@@ -1752,7 +1701,6 @@ ComputeForces.prototype.wouldBeSingular1 = function(d) {
   return isSingular;
 }
 
-
 /** For the Acc matrix formed by adding contacts d and e into set C, returns true if
 that matrix is singular. Does Gaussian Elimination on the extended Acc matrix, and
 if the last row is zero at the end, then we know the matrix is singular.
@@ -1761,7 +1709,7 @@ if the last row is zero at the end, then we know the matrix is singular.
 * @return {boolean} true if matrix is singular after adding contacts d, e
 * @private
 */
-ComputeForces.prototype.wouldBeSingular2 = function(d, e) {
+wouldBeSingular2(d, e) {
   var i, j;
   // Set up the matrix Acc as though d and k are in C, and solve a sample problem but
   // only to get the matrix in upper triangular form, so that we can
@@ -1810,7 +1758,7 @@ ComputeForces.prototype.wouldBeSingular2 = function(d, e) {
 * @param {boolean=} printMatrix
 * @private
 */
-ComputeForces.prototype.printEverything = function(s, printMatrix) {
+printEverything(s, printMatrix) {
   if (Util.DEBUG) {
     printMatrix = printMatrix || false;
     this.print('printEverything '+s);
@@ -1847,7 +1795,7 @@ ComputeForces.prototype.printEverything = function(s, printMatrix) {
 * @param {number} loopCtr
 * @private
 */
-ComputeForces.prototype.printContact = function(s, allInfo, j, d, loopCtr) {
+printContact(s, allInfo, j, d, loopCtr) {
   if (Util.DEBUG) {
     s = s+' j='+j+' N='+this.n+' step='+Util.NFE(this.stepSize);
     if (allInfo || this.C[j])
@@ -1866,13 +1814,12 @@ ComputeForces.prototype.printContact = function(s, allInfo, j, d, loopCtr) {
   }
 }
 
-
 /** Resize the aMatrix and bMatrix to be at least N x N+1.
 * @param {number} N  the size to make the matrix
 * @return {!Array<!Float64Array>}
 * @private
 */
-ComputeForces.prototype.resizeMatrix = function(N) {
+resizeMatrix(N) {
   if (this.aMatrix == null || this.aMatrix.length < N) {
     // to avoid many re-allocates, bump up the size by larger increments
     N = 10 * (2 + N/10);
@@ -1893,7 +1840,7 @@ ComputeForces.prototype.resizeMatrix = function(N) {
 * @param {!Array<!Float64Array>} dest  destination matrix
 * @private
 */
-ComputeForces.copyMatrix = function(rows, cols, m, dest) {
+static copyMatrix(rows, cols, m, dest) {
   goog.asserts.assert(m.length >= rows);
   goog.asserts.assert(dest.length >= rows);
   for (var i=0; i<rows; i++) {
@@ -1907,7 +1854,7 @@ ComputeForces.copyMatrix = function(rows, cols, m, dest) {
 * @param {!Float64Array} dest  destination array, must have length >= n
 * @private
 */
-ComputeForces.copyArray = function(n, r, dest) {
+static copyArray(n, r, dest) {
   goog.asserts.assert(r.length >= n);
   goog.asserts.assert(dest.length >= n);
   for (var i=0; i<n; i++) {
@@ -1919,10 +1866,38 @@ ComputeForces.copyArray = function(n, r, dest) {
 * @param {string} s
 * @private
 */
-ComputeForces.prototype.print = function(s) {
+print(s) {
   if (Util.DEBUG) {
     console.log(this.name_+' '+Util.NF7(this.time)+' '+s);
   }
 }
 
-}); // goog.scope
+} //end class
+
+/** Constant indicates the **Next Contact Policy** which chooses the contact with the
+most negative acceleration, treating Joints first.
+* @type {number}
+* @const
+*/
+ComputeForces.NEXT_CONTACT_MIN_ACCEL = 1;
+/** Constant indicates the **Next Contact Policy** which chooses contacts in random
+order, but treats Joints first.
+* @type {number}
+* @const
+*/
+ComputeForces.NEXT_CONTACT_RANDOM = 2;
+/** Constant indicates the **Next Contact Policy** which chooses contacts according to a
+pre-arranged ordering given by the 'preOrder' list of contact numbers, but treats Joints
+first.
+* @type {number}
+* @const
+*/
+ComputeForces.NEXT_CONTACT_PRE_ORDERED = 3;
+/** Constant indicates the **Next Contact Policy** which chooses the contact with the
+most negative acceleration, except Joints are treated first in random order.
+* @type {number}
+* @const
+*/
+ComputeForces.NEXT_CONTACT_HYBRID = 4;
+
+exports = ComputeForces;

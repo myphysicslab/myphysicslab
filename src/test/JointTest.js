@@ -43,7 +43,7 @@ goog.scope(function() {
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var ContactSim = myphysicslab.lab.engine2D.ContactSim;
+const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DisplayLine = myphysicslab.lab.view.DisplayLine;
@@ -52,7 +52,7 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-var JointUtil = myphysicslab.lab.engine2D.JointUtil;
+const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');

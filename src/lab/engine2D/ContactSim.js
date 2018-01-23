@@ -12,50 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.ContactSim');
+goog.module('myphysicslab.lab.engine2D.ContactSim');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.ComputeForces');
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.model.CollisionSim');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const ComputeForces = goog.require('myphysicslab.lab.engine2D.ComputeForces');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ImpulseSim = goog.require('myphysicslab.lab.engine2D.ImpulseSim');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Physics engine for rigid bodies with contact forces to allow resting contact. The
 contact forces prevent the bodies from interpenetrating when they are in resting
@@ -69,13 +48,11 @@ prevent the objects from penetrating. These contact forces are calculated in the
 the request of the {@link myphysicslab.lab.model.AdvanceStrategy} to advance the state
 of the simulation.
 
-
 ### Parameters Created
 
 + ParameterString named `EXTRA_ACCEL`, see {@link #setExtraAccel}
 
 See also the super class for additional Parameters.
-
 
 ### Background and References
 
@@ -91,7 +68,6 @@ See explanations at:
 
 + [ContactSim Math](ContactSim_Math.html)  has more details about the math.
 
-
 The algorithm used here is based on these papers:
 
 + David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid Bodies.](Baraff_Fast_Contact_Force_94.pdf)
@@ -105,7 +81,6 @@ See also the [list of David Baraff's papers](http://www-2.cs.cmu.edu/~baraff/pap
 See the paper [Curved Edge Physics paper](CEP_Curved_Edge_Physics.pdf) by Erik Neumann
 for modifications to contact forces when curved edges are involved.
 
-
 ### Find External Forces
 
 Within `evaluate()` we first let the super-class apply the external forces to the
@@ -113,7 +88,6 @@ RigidBody objects. The external forces include things like gravity, thrust, spri
 damping. The external forces result in accelerations of the bodies, so at this point
 many of the bodies would start to penetrate into each other if we did not find contact
 forces to prevent that.
-
 
 ### Find Contacts
 
@@ -135,7 +109,6 @@ can make the compute_forces algorithm, which is `O(n^4)`, run faster in some cas
 the flag {@link #SUBSET_COLLISIONS}. Collisions are independent when there is no chain
 of moveable (finite mass) bodies in common between the collisions.
 
-
 ### The Matrix Equation for Contact Forces
 
 Now we have the set of contacts and we know the accelerations of the bodies due to
@@ -150,7 +123,6 @@ where
     the `i`-th *contact distance* (the separation between the bodies)
 + `f =` vector of contact forces (to be found)
 + `b =` external forces (gravity, thrust, rubber band, damping)
-
 
 ### Set Up the A Matrix
 
@@ -201,7 +173,6 @@ acting on body A or body B. These include all the forces except `f5`. Therefore 
 third row of the `A` matrix has four non-zero entries corresponding to the four forces
 that affect the acceleration at `p3`.
 
-
 ### Constraints On the Solution
 
 Assume we now have the `b` vector of external forces and the `A` matrix of dependencies
@@ -230,7 +201,6 @@ Note that for Joints the constraints are different:
 
 + No constraint on `f` because it can push or pull.
 
-
 ### Solving For the Contact Forces
 
 The [Baraff 'Fast Contact Force' paper](Baraff_Fast_Contact_Force_94.pdf) goes into full
@@ -254,7 +224,6 @@ The last step is to **apply the contact forces** to the bodies, which gives the 
 set of accelerations that the `evaluate()` method then returns to the differential
 equation solver.
 
-
 ### Extra Acceleration
 
 The contact forces are calculated so that there is zero acceleration at contact points; but this does not immediately affect the remaining small velocity at a contact point.  As a result, objects that are in resting contact will often have some undesirable jittery motion.
@@ -265,7 +234,6 @@ The extra acceleration is added to the `b` vector in the private method
 `calculate_b_vector`. See {@link ExtraAccel} enum for
 explanations of the various options. See {@link #setExtraAccel} for how to specify the
 desired ExtraAccel option.
-
 
 ### Intermediate Steps During `evaluate`
 
@@ -286,14 +254,13 @@ Prior to February 2012, there was an experimental option specified by the flag
 method, instead we used the collisions found outside the `evaluate()` method during
 `AdvanceStrategy.advance()` which are based on a complete ODE step. See the git archive.
 
-* @param {string=} opt_name name of this Subject
-* @constructor
-* @final
-* @struct
-* @extends {ImpulseSim}
 */
-myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
-  ImpulseSim.call(this, opt_name);
+class ContactSim extends ImpulseSim {
+/**
+* @param {string=} opt_name name of this Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   /**
   * @type {!Array<!Connector>}
   * @private
@@ -358,48 +325,25 @@ myphysicslab.lab.engine2D.ContactSim = function(opt_name) {
       goog.bind(function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); }, this),
       ExtraAccel.getChoices(), ExtraAccel.getValues()));
 };
-var ContactSim = myphysicslab.lab.engine2D.ContactSim;
-goog.inherits(ContactSim, ImpulseSim);
 
 /** @override  */
-ContactSim.prototype.toString_ = function() {
+toString_() {
   return Util.ADVANCED ? '' : ', extra_accel_: '+this.extra_accel_
       +', extraAccelTimeStep_: '+Util.NF(this.extraAccelTimeStep_)
-      + ContactSim.superClass_.toString_.call(this)
+      + super.toString_()
 };
 
 /** @override */
-ContactSim.prototype.getClassName = function() {
+getClassName() {
   return 'ContactSim';
 };
-
-/** Find subsets of related contacts to solve each subset separately for contact forces.
-This feature is useful for cases where there are a lot of contacts that are in separate
-groups (two piles) because the matrices being solved are smaller. The ComputeForces
-algorithm is `O(n^4)`. For example suppose there are 40 contact points. The cost of
-`40^4 = 2,560,000` is far greater than `20^4 + 20^4 = 320,000`. There is some overhead
-to finding the subsets, so this can lose time when there is just a big single pile.
-* @type {boolean}
-*/
-ContactSim.SUBSET_COLLISIONS = true;
-
-/** write to debug console detail on all contacts found
-* @type {boolean}
-* @const
-*/
-ContactSim.SHOW_CONTACTS = false;
-/**
-* @type {boolean}
-* @const
-*/
-ContactSim.SHOW_NUM_CONTACTS = false;
 
 /** Returns the method to use for calculating extra acceleration added to
 * eliminate small amount of remaining velocity at a contact.
 * @return {!ExtraAccel} the method to use for calculating
 *     extra acceleration, from {@link ExtraAccel}
 */
-ContactSim.prototype.getExtraAccel = function() {
+getExtraAccel() {
   return this.extra_accel_;
 };
 
@@ -408,7 +352,7 @@ ContactSim.prototype.getExtraAccel = function() {
 * @param {!ExtraAccel} value the method to use for
 *     calculating extra acceleration, from {@link ExtraAccel}
 */
-ContactSim.prototype.setExtraAccel = function(value) {
+setExtraAccel(value) {
   var a = ExtraAccel.stringToEnum(value);
   goog.asserts.assert(a == value);
   if (this.extra_accel_ != a) {
@@ -421,7 +365,7 @@ ContactSim.prototype.setExtraAccel = function(value) {
 * to keep contact points at the proper distance apart.
 * @param {number} value the approximate length of a time step
 */
-ContactSim.prototype.setExtraAccelTimeStep = function(value) {
+setExtraAccelTimeStep(value) {
   this.extraAccelTimeStep_ = value;
 };
 
@@ -429,22 +373,22 @@ ContactSim.prototype.setExtraAccelTimeStep = function(value) {
 * needed to keep contact points at the proper distance apart.
 * @return {number} the approximate length of a time step
 */
-ContactSim.prototype.getExtraAccelTimeStep = function() {
+getExtraAccelTimeStep() {
   return this.extraAccelTimeStep_;
 };
 
 /** @override */
-ContactSim.prototype.cleanSlate = function() {
-  ContactSim.superClass_.cleanSlate.call(this);
+cleanSlate() {
+  super.cleanSlate();
   this.connectors_ = [];
   this.computeForces_ = new ComputeForces('C',  this.simRNG_);
 };
 
 /** @override */
-ContactSim.prototype.reset = function() {
+reset() {
   // prevent the Simulation.RESET message being broadcast by sub-class
   var saveBroadcast = this.setBroadcast(false);
-  ContactSim.superClass_.reset.call(this);
+  super.reset();
   this.setBroadcast(saveBroadcast);
   // ensure that joints are properly connected.
   this.alignConnectors();
@@ -455,8 +399,8 @@ ContactSim.prototype.reset = function() {
 * to it.
 * @param {!Polygon} body  Polygons to remove from the simulation
 */
-ContactSim.prototype.removeBody = function(body) {
-  ContactSim.superClass_.removeBody.call(this, body);
+removeBody(body) {
+  super.removeBody(body);
   // remove any Connectors attached to the removed body
   goog.array.forEachRight(this.connectors_,
     function(connect, index, array) {
@@ -477,7 +421,7 @@ see {@link #alignConnectors}.
 @throws {!Error} if RigidBodys of the Connector have not been added to this
     ContactSim
 */
-ContactSim.prototype.addConnector = function(connector, follow) {
+addConnector(connector, follow) {
   if (goog.array.contains(this.connectors_, connector)) {
     // avoid adding a Connector twice
     return;
@@ -509,7 +453,7 @@ important because the Connectors are aligned in list order.
 * @param {!Array<!Connector>} connectors set of Connectors
 * to add
 */
-ContactSim.prototype.addConnectors = function(connectors) {
+addConnectors(connectors) {
   for (var i=0,len=connectors.length; i<len; i++) {
     this.addConnector(connectors[i]);
   }
@@ -519,7 +463,7 @@ ContactSim.prototype.addConnectors = function(connectors) {
 also a SimObject, then removes it from the {@link com.SimList}.
 @param {!Connector} connector the Connector to remove
 */
-ContactSim.prototype.removeConnector = function(connector) {
+removeConnector(connector) {
   goog.array.remove(this.connectors_, connector);
   this.getSimList().remove(connector);
 };
@@ -527,7 +471,7 @@ ContactSim.prototype.removeConnector = function(connector) {
 /**  Returns the list of active Connectors.
 @return {!Array<!Connector>} the list of active Connectors
 */
-ContactSim.prototype.getConnectors = function() {
+getConnectors() {
   return goog.array.clone(this.connectors_);
 };
 
@@ -540,7 +484,7 @@ list of Connectors is significant because the Connectors are aligned in list ord
 
 * @return {undefined}
 */
-ContactSim.prototype.alignConnectors = function() {
+alignConnectors() {
   for (var i=0, len=this.connectors_.length; i<len; i++) {
     var connector = this.connectors_[i];
     connector.align();
@@ -556,19 +500,19 @@ that are all interrelated.
 @return {number} number of contacts in the biggest subset of contacts that
     are all interrelated
 */
-ContactSim.prototype.getNumContacts = function() {
+getNumContacts() {
   return this.numContacts_;
 };
 
 /** @override */
-ContactSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   var maxContacts = 0;
   // ===================== get external forces =====================
   // Let superclass figure out the effects of forces like thruster,
   // rubber-band, damping, gravity.  Also, superclass will move objects
   // to the resulting current location & orientation,
   // so that we can figure out the points of resting contact.
-  ContactSim.superClass_.evaluate.call(this, vars, change, timeStep);
+  super.evaluate(vars, change, timeStep);
   // Note that findCollisions does not look at vars[], only at object positions.
   /** @type {!Array<!RigidBodyCollision>} */
   var contactsFound = [];
@@ -622,7 +566,7 @@ ContactSim.prototype.evaluate = function(vars, change, timeStep) {
 * @param {!Array<!RigidBodyCollision>} subset
 * @private
 */
-ContactSim.prototype.calcContactForces = function(vars, change, subset) {
+calcContactForces(vars, change, subset) {
   if (0 == 1 && Util.DEBUG)
     UtilEngine.printList('subset size='+subset.length, subset);
   /** @type {boolean} */
@@ -678,7 +622,7 @@ ContactSim.prototype.calcContactForces = function(vars, change, subset) {
     to modify
 * @private
 */
-ContactSim.prototype.removeNonContacts = function(contactsFound) {
+removeNonContacts(contactsFound) {
   // iterate backwards because we may remove items from the list
   for (var i=contactsFound.length-1; i>=0; i--) {
     /** @type {!RigidBodyCollision} */
@@ -702,10 +646,10 @@ ContactSim.prototype.removeNonContacts = function(contactsFound) {
 };
 
 /** @override */
-ContactSim.prototype.findCollisions = function(collisions, vars, stepSize) {
+findCollisions(collisions, vars, stepSize) {
   // Adds collisions or contacts from Connectors like Joint.
   var i, j, len;
-  ContactSim.superClass_.findCollisions.call(this, collisions, vars, stepSize);
+  super.findCollisions(collisions, vars, stepSize);
   if (ImpulseSim.COLLISIONS_DISABLED)
     return;
   var rbcs = /** @type {!Array<!RigidBodyCollision>} */(collisions);
@@ -748,7 +692,7 @@ not.
 * @return {!Array<!Float64Array>}
 * @private
 */
-ContactSim.calculate_a_matrix = function(contacts) {
+static calculate_a_matrix(contacts) {
   var nc = contacts.length;
   /** @type {!Array<!Float64Array>} */
   var a = UtilEngine.newEmptyMatrix(nc, nc);
@@ -889,7 +833,7 @@ to eliminate velocity" kluge for joints.
 * @return {!Array<number>}
 * @private
 */
-ContactSim.prototype.calculate_b_vector = function(contacts, change, vars) {
+calculate_b_vector(contacts, change, vars) {
   var c_len=contacts.length;
   /** @type {!Array<number>} */
   var b = new Array(c_len);
@@ -1092,7 +1036,7 @@ fixed body cannot move. We could let those forces thru if desired.
 * @param {!Array<number>} change  vector of rigid body accelerations
 * @private
 */
-ContactSim.prototype.applyContactForce = function(c, f, change) {
+applyContactForce(c, f, change) {
   if (0 == 1 && Util.DEBUG) {
     this.myPrint('contact force '+Util.NF5(f)+' '+c);
   }
@@ -1136,7 +1080,7 @@ ContactSim.prototype.applyContactForce = function(c, f, change) {
 * @param {!Array<boolean>} joint
 * @private
 */
-ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
+reportError(error, tol, A, f, b, joint) {
   // check on how bad the solution is.
   /** @type {!Array<number>} */
   var accel = UtilEngine.matrixMultiply(A, f);
@@ -1160,7 +1104,7 @@ ContactSim.prototype.reportError = function(error, tol, A, f, b, joint) {
 * @return {number}
 * @private
 */
-ContactSim.matrixDiff = function(A1, A2) {
+static matrixDiff(A1, A2) {
   /** @type {number} */
   var s = 0;
   if (Util.DEBUG) {
@@ -1188,7 +1132,7 @@ ContactSim.matrixDiff = function(A1, A2) {
 * @param {!Array<number>} vars
 * @private
 */
-ContactSim.prototype.printContactInfo = function(subset, b, vars) {
+printContactInfo(subset, b, vars) {
   if (Util.DEBUG) {
     // print all the collisions currently being treated
     for (var i=0, len=subset.length; i<len; i++) {
@@ -1211,7 +1155,7 @@ ContactSim.prototype.printContactInfo = function(subset, b, vars) {
 * @param {!Array<number>} vars
 * @private
 */
-ContactSim.prototype.printForceInfo = function(subset, A, f, b, joint, vars) {
+printForceInfo(subset, A, f, b, joint, vars) {
   if (Util.DEBUG) {
     // if the largest force suddenly is much larger than previously,
     // then print out debug information.
@@ -1241,7 +1185,7 @@ ContactSim.prototype.printForceInfo = function(subset, A, f, b, joint, vars) {
 * @param {number} f
 * @private
 */
-ContactSim.prototype.addForceHistory = function(f) {
+addForceHistory(f) {
   if (Util.DEBUG) {
     if (this.forceHistoryIndex_ >= this.forceHistory_.length)
       this.forceHistoryIndex_ = 0;
@@ -1254,7 +1198,7 @@ ContactSim.prototype.addForceHistory = function(f) {
 * @param {!Array<!RigidBodyCollision>} contacts
 * @private
 */
-ContactSim.prototype.printContactDistances = function(contacts) {
+printContactDistances(contacts) {
   if (Util.DEBUG) {
     // print all contact distances
     var s = 'contact dist ';
@@ -1269,7 +1213,7 @@ ContactSim.prototype.printContactDistances = function(contacts) {
 * @return {undefined}
 * @private
 */
-ContactSim.prototype.printNumContacts = function() {
+printNumContacts() {
   if (Util.DEBUG) {
     if (ContactSim.SHOW_NUM_CONTACTS) {
       var t = this.getTime();
@@ -1282,4 +1226,27 @@ ContactSim.prototype.printNumContacts = function() {
   };
 };
 
-}); // goog.scope
+} //end class
+
+/** Find subsets of related contacts to solve each subset separately for contact forces.
+This feature is useful for cases where there are a lot of contacts that are in separate
+groups (two piles) because the matrices being solved are smaller. The ComputeForces
+algorithm is `O(n^4)`. For example suppose there are 40 contact points. The cost of
+`40^4 = 2,560,000` is far greater than `20^4 + 20^4 = 320,000`. There is some overhead
+to finding the subsets, so this can lose time when there is just a big single pile.
+* @type {boolean}
+*/
+ContactSim.SUBSET_COLLISIONS = true;
+
+/** write to debug console detail on all contacts found
+* @type {boolean}
+* @const
+*/
+ContactSim.SHOW_CONTACTS = false;
+/**
+* @type {boolean}
+* @const
+*/
+ContactSim.SHOW_NUM_CONTACTS = false;
+
+exports = ContactSim;
