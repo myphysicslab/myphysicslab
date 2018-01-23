@@ -34,7 +34,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-var DisplayObject = lab.view.DisplayObject;
+const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
 var DrawingMode = lab.view.DrawingMode;
 var GraphLine = lab.graph.GraphLine;
 var GraphPoint = lab.graph.GraphPoint;

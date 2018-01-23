@@ -22,7 +22,7 @@ goog.require('myphysicslab.lab.view.DisplayObject');
 goog.scope(function() {
 
 const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-var DisplayObject = myphysicslab.lab.view.DisplayObject;
+const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

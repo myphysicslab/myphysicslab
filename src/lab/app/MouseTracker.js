@@ -27,7 +27,7 @@ goog.scope(function() {
 
 var BrowserEvent = goog.events.BrowserEvent;
 var Coordmap = myphysicslab.lab.view.CoordMap;
-var DisplayObject = myphysicslab.lab.view.DisplayObject;
+const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
 var EventHandler = myphysicslab.lab.app.EventHandler;
 var LabCanvas = myphysicslab.lab.view.LabCanvas;
 var LabView = myphysicslab.lab.view.LabView;

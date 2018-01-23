@@ -12,22 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayObject');
+goog.module('myphysicslab.lab.view.DisplayObject');
 
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-
-goog.scope(function() {
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** An object that can be displayed in a {@link myphysicslab.lab.view.LabView}, often it
 is the visible representation of a {@link SimObject}.
@@ -43,58 +35,56 @@ See the View section of [myPhysicsLab Architecture](Architecture.html#view) for 
 about how DisplayObjects are used within an application.
 
 * @interface
-* @extends myphysicslab.lab.util.Printable
 */
-myphysicslab.lab.view.DisplayObject = function() {};
-var DisplayObject = myphysicslab.lab.view.DisplayObject;
+class DisplayObject extends Printable {
 
 /** Whether the DisplayObject contains the given world coordinates point.
 @param {!Vector} p_world  the point in world coordinates
 @return {boolean} `true` if this DisplayObject contains the given point
 */
-DisplayObject.prototype.contains;
+contains(p_world) {}
 
 /** Draws this DisplayObject using the given CoordMap.
 @param {!CanvasRenderingContext2D} context the canvas's context to draw this object into
 @param {!CoordMap} map the mapping to use for translating between simulation
     and screen coordinates
 */
-DisplayObject.prototype.draw;
+draw(context, map) {}
 
 /** Whether this DisplayObject is currently dragable.
 @return {boolean} `true` if this DisplayObject is dragable.
 */
-DisplayObject.prototype.isDragable;
+isDragable() {}
 
 /** Returns the set of MassObjects that this DisplayObject represents.
 Returns an empty list if this DisplayObject doesn't represent a MassObject.
 @return {!Array<!MassObject>} the set of MassObjects that this DisplayObject represents
 */
-DisplayObject.prototype.getMassObjects;
+getMassObjects() {}
 
 /** Returns this DisplayObject's position in space. This is mainly used when dragging
 the DisplayObject.
 @return {!Vector} this DisplayObject's position, in simulation coordinates.
 */
-DisplayObject.prototype.getPosition;
+getPosition() {}
 
 /** Returns the set of SimObjects that this DisplayObject represents.
 Returns an empty list if this DisplayObject doesn't represent a SimObject.
 @return {!Array<!SimObject>} the set of SimObjects that this DisplayObject represents
 */
-DisplayObject.prototype.getSimObjects;
+getSimObjects() {}
 
 /** Sets the z-index which specifies front-to-back ordering of objects;
 objects with a higher zIndex are drawn over (in front of) objects with a lower zIndex.
 @return {number} the zIndex of this DisplayObject
 */
-DisplayObject.prototype.getZIndex;
+getZIndex() {}
 
 /** Sets whether this DisplayObject is currently dragable; has no effect on objects
 that are not dragable.
 @param {boolean} dragable whether this DisplayObject should be dragable
 */
-DisplayObject.prototype.setDragable;
+setDragable(dragable) {}
 
 /** Sets this DisplayObject's position in space. This is mainly used for dragging the
 DisplayObject. Each type of DisplayObject has a different policy regarding whether this
@@ -111,13 +101,14 @@ will have an effect. Generally the policies are:
 
 @param {!Vector} position this DisplayObject's position, in simulation coordinates.
 */
-DisplayObject.prototype.setPosition;
+setPosition(position) {}
 
 /** Sets the z-index which specifies front-to-back ordering of objects;
 objects with a higher zIndex are drawn over objects with a lower zIndex.
 Default is zero.
 @param {number|undefined} zIndex the zIndex of this DisplayObject
 */
-DisplayObject.prototype.setZIndex;
+setZIndex(zIndex) {}
 
-});  // goog.scope
+} //end class
+exports = DisplayObject;
