@@ -39,7 +39,7 @@ var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
 var Shapes = myphysicslab.lab.engine2D.Shapes;
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
+const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

@@ -1338,14 +1338,14 @@ static stdRegex(terminal) {
 
   terminal.addRegex('CollisionHandling|ContactSim'
        +'|ExtraAccel|ImpulseSim'
-       +'|RigidBodySim|Rope|Shapes'
-       +'|ThrusterSet|Walls',
+       +'|RigidBodySim|Shapes'
+       +'|Walls',
        'myphysicslab.lab.engine2D.', /*addToVars=*/false);
 
   terminal.addRegex('CircularEdge'
        +'|EdgeRange|Joint|Polygon'
-       +'|RigidBodyCollision|Scrim|StraightEdge'
-       +'|Vertex',
+       +'|RigidBodyCollision|Rope|Scrim|StraightEdge'
+       +'|ThrusterSet|Vertex',
        'module$$exports$$myphysicslab$$lab$$engine2D$$', /*addToVars=*/false);
 
   terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine'

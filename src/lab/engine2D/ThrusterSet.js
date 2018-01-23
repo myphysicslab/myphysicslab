@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.ThrusterSet');
+goog.module('myphysicslab.lab.engine2D.ThrusterSet');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Contains a set of thrust forces operating on a particular RigidBody; each thruster
 generates a Force at a specified location on the RigidBody with a specified direction.
@@ -45,15 +37,15 @@ thrusters from key events.
 
 @todo be able to scale or rotate each Force independently?
 
+* @implements {ForceLaw}
+*/
+class ThrusterSet {
+/**
 * @param {number} numThrusters number of thrusters to create
 * @param {!RigidBody} body the RigidBody which thrust is applied to
 * @param {number} magnitude the overall multiplier applied to each thrust Force.
-* @constructor
-* @final
-* @struct
-* @implements {ForceLaw}
 */
-myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) {
+constructor(numThrusters, body, magnitude) {
   /** The rigidBody which thrust is applied to.
   * @type {!RigidBody}
   * @private
@@ -80,10 +72,9 @@ myphysicslab.lab.engine2D.ThrusterSet = function(numThrusters, body, magnitude) 
   */
   this.active_ = goog.array.repeat(false, numThrusters);
 };
-var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
 
 /** @override */
-ThrusterSet.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', thrusters: '+this.active_.length
       +', magnitude: '+Util.NF(this.magnitude_)
@@ -94,7 +85,7 @@ ThrusterSet.prototype.toString = function() {
 };
 
 /** @override */
-ThrusterSet.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'ThrusterSet{rigidBody_: "'+this.rigidBody_.getName()+'"}';
 };
@@ -102,7 +93,7 @@ ThrusterSet.prototype.toStringShort = function() {
 /**  Returns true if any thrusters in the ThrusterSet are firing.
 * @return {boolean} true if any thrusters in the ThrusterSet are firing
 */
-ThrusterSet.prototype.anyActive  = function() {
+anyActive() {
   for (var i=0; i<this.active_.length; i++) {
     if (this.active_[i])
       return true;
@@ -111,7 +102,7 @@ ThrusterSet.prototype.anyActive  = function() {
 };
 
 /** @override */
-ThrusterSet.prototype.calculateForces  = function() {
+calculateForces() {
   var forces = [];
   for (var k=0; k<this.active_.length; k++) {  // for each thruster
     if (this.active_[k]) {
@@ -127,19 +118,19 @@ ThrusterSet.prototype.calculateForces  = function() {
 };
 
 /** @override */
-ThrusterSet.prototype.disconnect = function() {
+disconnect() {
 };
 
 /** Returns true if the given thruster is firing.
 * @param {number} index the index number of the thruster within the array of thrusters
 * @return {boolean} true if the given thruster is firing
 */
-ThrusterSet.prototype.getActive  = function(index) {
+getActive(index) {
   return this.active_[index];
 };
 
 /** @override */
-ThrusterSet.prototype.getBodies = function() {
+getBodies() {
   return [ this.rigidBody_ ];
 };
 
@@ -150,7 +141,7 @@ thruster.
     array of thrusters
 @return {!Vector} direction and magnitude of thrust force, in body coords
 */
-ThrusterSet.prototype.getDirectionBody  = function(index) {
+getDirectionBody(index) {
   if (index < 0 || index >= this.directions_body_.length)
     throw new Error();
   return this.directions_body_[index].multiply(this.magnitude_);
@@ -162,7 +153,7 @@ Returns default value `Vector.ORIGIN` if location not yet defined for that thrus
     array of thrusters
 @return {!Vector} location on body where thrust force is applied, in body coords
 */
-ThrusterSet.prototype.getLocationBody  = function(index) {
+getLocationBody(index) {
   if (index < 0 || index >= this.locations_body_.length)
     throw new Error();
   return this.locations_body_[index];
@@ -171,12 +162,12 @@ ThrusterSet.prototype.getLocationBody  = function(index) {
 /** Returns overall multiplier applied to the magnitude of each thrust Force.
 * @return {number} the overall multiplier applied to each thrust Force.
 */
-ThrusterSet.prototype.getMagnitude  = function() {
+getMagnitude() {
   return this.magnitude_;
 };
 
 /** @override */
-ThrusterSet.prototype.getPotentialEnergy  = function() {
+getPotentialEnergy() {
   return 0;
 };
 
@@ -185,7 +176,7 @@ ThrusterSet.prototype.getPotentialEnergy  = function() {
 * @param {boolean} active  whether the thruster should be firing.
 * @return {!ThrusterSet} this object for chaining setters
 */
-ThrusterSet.prototype.setActive  = function(index, active) {
+setActive(index, active) {
   this.active_[index] = active;
   return this;
 };
@@ -194,7 +185,7 @@ ThrusterSet.prototype.setActive  = function(index, active) {
 @param {number} magnitude  the overall multiplier to apply to each thrust Force.
 @return {!ThrusterSet} this object for chaining setters
 */
-ThrusterSet.prototype.setMagnitude  = function(magnitude) {
+setMagnitude(magnitude) {
   this.magnitude_ = magnitude;
   return this;
 };
@@ -206,11 +197,12 @@ ThrusterSet.prototype.setMagnitude  = function(magnitude) {
 * @param {!Vector} direction_body the direction and magnitude of
   the thrust force, in body coordinates
 */
-ThrusterSet.prototype.setThruster  = function(index, location_body, direction_body) {
+setThruster(index, location_body, direction_body) {
   if (index < 0 || index >= this.locations_body_.length)
     throw new Error();
   this.locations_body_[index] = location_body;
   this.directions_body_[index] = direction_body;
 };
 
-}); // goog.scope
+} //end class
+exports = ThrusterSet;

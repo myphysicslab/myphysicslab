@@ -24,7 +24,7 @@ goog.scope(function() {
 
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-var ThrusterSet = myphysicslab.lab.engine2D.ThrusterSet;
+const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Creates a ThrusterSet with six thrusters that apply force at two points on a

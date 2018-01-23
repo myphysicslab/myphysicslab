@@ -58,7 +58,7 @@ const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
 var SixThrusters = sims.engine2D.SixThrusters;
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
-var ThrusterSet = lab.engine2D.ThrusterSet;
+const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
