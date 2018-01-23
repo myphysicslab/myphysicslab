@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayRope');
+goog.module('myphysicslab.lab.view.DisplayRope');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Rope');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
 
-goog.scope(function() {
-
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const Rope = goog.module.get('myphysicslab.lab.engine2D.Rope');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const Rope = goog.require('myphysicslab.lab.engine2D.Rope');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link Rope} by showing a straight line when the Rope is tight, or a
 jagged line when the Rope has slack. Can have a different color when tight or slack,
@@ -39,14 +31,14 @@ The position is reported as the midpoint of the Rope by {@link #getPosition}.
 The position is determined by the position of the Rope, so {@link #setPosition}
 has no effect, and the DisplayRope is never dragable.
 
-* @param {?Rope=} rope the Rope to display
-* @param {?DisplayRope=} proto the prototype DisplayRope to inherit properties from
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayRope = function(rope, proto) {
+class DisplayRope {
+/**
+* @param {?Rope=} rope the Rope to display
+* @param {?DisplayRope=} proto the prototype DisplayRope to inherit properties from
+*/
+constructor(rope, proto) {
   /**
   * @type {?Rope}
   * @private
@@ -79,10 +71,9 @@ myphysicslab.lab.view.DisplayRope = function(rope, proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplayRope = myphysicslab.lab.view.DisplayRope;
 
 /** @override */
-DisplayRope.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', colorTight: "'+this.getColorTight()+'"'
       +', colorSlack: "'+this.getColorSlack()+'"'
@@ -92,32 +83,18 @@ DisplayRope.prototype.toString = function() {
 };
 
 /** @override */
-DisplayRope.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayRope{rope_: '+
       (this.rope_ != null ? this.rope_.toStringShort() : 'null')+'}';
 };
 
-/**  the fixed length of the un-transformed path
-* @type {number}
-* @private
-* @const
-*/
-DisplayRope.pathLength = 6.0;
-
-/**  the fixed width of the un-transformed path
-* @type {number}
-* @private
-* @const
-*/
-DisplayRope.pathWidth = 0.5;
-
 /** @override */
-DisplayRope.prototype.contains = function(p_world) {
+contains(p_world) {
   return false;
 };
 
 /** @override */
-DisplayRope.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.rope_ == null) {
     return;
   }
@@ -166,7 +143,7 @@ when it is scaled up or down, it doesn't get too distorted.
 * @param {!AffineTransform} at  the transform to apply to each point
 * @private
 */
-DisplayRope.drawRope = function(context, at) {
+static drawRope(context, at) {
   /** Function to have the amount of rope oscillation change from small
   oscillation at the end points to large oscillation at the middle.
   Returns the height the rope should be away from x-axis at that point.
@@ -197,7 +174,7 @@ DisplayRope.drawRope = function(context, at) {
 /** Color when rope is slack; a CSS3 color value
 * @return {string}
 */
-DisplayRope.prototype.getColorSlack = function() {
+getColorSlack() {
   if (this.colorSlack_ !== undefined) {
     return this.colorSlack_;
   } else if (this.proto_ != null) {
@@ -210,7 +187,7 @@ DisplayRope.prototype.getColorSlack = function() {
 /** Color when rope is tight; a CSS3 color value
 * @return {string}
 */
-DisplayRope.prototype.getColorTight = function() {
+getColorTight() {
   if (this.colorTight_ !== undefined) {
     return this.colorTight_;
   } else if (this.proto_ != null) {
@@ -221,19 +198,19 @@ DisplayRope.prototype.getColorTight = function() {
 };
 
 /** @override */
-DisplayRope.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
 /** @override */
-DisplayRope.prototype.getPosition = function() {
+getPosition() {
   // return midpoint of the line
   return this.rope_ == null ? Vector.ORIGIN :
       this.rope_.getStartPoint().add(this.rope_.getEndPoint()).multiply(0.5);
 };
 
 /** @override */
-DisplayRope.prototype.getSimObjects = function() {
+getSimObjects() {
   return this.rope_ == null ? [ ] : [ this.rope_ ];
 };
 
@@ -241,7 +218,7 @@ DisplayRope.prototype.getSimObjects = function() {
 * is a screen pixel.
 * @return {number}
 */
-DisplayRope.prototype.getThickness = function() {
+getThickness() {
   if (this.thickness_ !== undefined) {
     return this.thickness_;
   } else if (this.proto_ != null) {
@@ -252,7 +229,7 @@ DisplayRope.prototype.getThickness = function() {
 };
 
 /** @override */
-DisplayRope.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -263,7 +240,7 @@ DisplayRope.prototype.getZIndex = function() {
 };
 
 /** @override */
-DisplayRope.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
@@ -271,7 +248,7 @@ DisplayRope.prototype.isDragable = function() {
 * @param {string|undefined} value
 * @return {!DisplayRope} this object for chaining setters
 */
-DisplayRope.prototype.setColorSlack = function(value) {
+setColorSlack(value) {
   this.colorSlack_ = value;
   return this;
 };
@@ -280,18 +257,18 @@ DisplayRope.prototype.setColorSlack = function(value) {
 * @param {string|undefined} value
 * @return {!DisplayRope} this object for chaining setters
 */
-DisplayRope.prototype.setColorTight = function(value) {
+setColorTight(value) {
   this.colorTight_ = value;
   return this;
 };
 
 /** @override */
-DisplayRope.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   // does nothing
 };
 
 /** @override */
-DisplayRope.prototype.setPosition = function(position) {
+setPosition(position) {
   //throw new Error('unsupported operation');
 };
 
@@ -300,14 +277,30 @@ DisplayRope.prototype.setPosition = function(position) {
 * @param {number|undefined} value
 * @return {!DisplayRope} this object for chaining setters
 */
-DisplayRope.prototype.setThickness = function(value) {
+setThickness(value) {
   this.thickness_ = value;
   return this;
 };
 
 /** @override */
-DisplayRope.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-});  // goog.scope
+} //end class
+
+/**  the fixed length of the un-transformed path
+* @type {number}
+* @private
+* @const
+*/
+DisplayRope.pathLength = 6.0;
+
+/**  the fixed width of the un-transformed path
+* @type {number}
+* @private
+* @const
+*/
+DisplayRope.pathWidth = 0.5;
+
+exports = DisplayRope;

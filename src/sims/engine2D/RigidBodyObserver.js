@@ -48,11 +48,11 @@ var lab = myphysicslab.lab;
 
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
 const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-var DisplayConnector = lab.view.DisplayConnector;
-var DisplayLine = lab.view.DisplayLine;
+const DisplayConnector = goog.module.get('myphysicslab.lab.view.DisplayConnector');
+const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
 var DisplayList = lab.view.DisplayList;
 const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-var DisplayRope = lab.view.DisplayRope;
+const DisplayRope = goog.module.get('myphysicslab.lab.view.DisplayRope');
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 const Force = goog.module.get('myphysicslab.lab.model.Force');

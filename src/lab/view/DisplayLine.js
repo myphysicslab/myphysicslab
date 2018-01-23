@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayLine');
+goog.module('myphysicslab.lab.view.DisplayLine');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.Line');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
 
-goog.scope(function() {
-
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const Line = goog.module.get('myphysicslab.lab.model.Line');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const Line = goog.require('myphysicslab.lab.model.Line');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link Line} as a colored line.
 
@@ -37,14 +29,14 @@ The position is determined by the position of the Line, so {@link #setPosition}
 has no effect, and the DisplayLine is never dragable.
 The position is reported as the midpoint of the Line by {@link #getPosition}.
 
-* @param {?Line=} line the Line to display
-* @param {?DisplayLine=} proto the prototype DisplayLine to inherit properties from
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayLine = function(line, proto) {
+class DisplayLine {
+/**
+* @param {?Line=} line the Line to display
+* @param {?DisplayLine=} proto the prototype DisplayLine to inherit properties from
+*/
+constructor(line, proto) {
   /**
   * @type {!Line}
   * @private
@@ -79,10 +71,9 @@ myphysicslab.lab.view.DisplayLine = function(line, proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplayLine = myphysicslab.lab.view.DisplayLine;
 
 /** @override */
-DisplayLine.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', thickness: '+Util.NF(this.getThickness())
       +', color: "'+this.getColor()+'"'
@@ -93,17 +84,17 @@ DisplayLine.prototype.toString = function() {
 };
 
 /** @override */
-DisplayLine.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayLine{line_: '+this.line_.toStringShort()+'}';
 };
 
 /** @override */
-DisplayLine.prototype.contains = function(point) {
+contains(point) {
   return false;
 };
 
 /** @override */
-DisplayLine.prototype.draw = function(context, map) {
+draw(context, map) {
   var thickness = this.getThickness();
   if (thickness > 0) {
     var p1 = map.simToScreen(this.line_.getStartPoint());
@@ -129,7 +120,7 @@ DisplayLine.prototype.draw = function(context, map) {
 /** Color used when drawing the line, a CSS3 color value.
 * @return {string}
 */
-DisplayLine.prototype.getColor = function() {
+getColor() {
   if (this.color_ !== undefined) {
     return this.color_;
   } else if (this.proto_ != null) {
@@ -144,7 +135,7 @@ DisplayLine.prototype.getColor = function() {
 * length 3 with spaces of length 5. Empty array indicates solid line.
 * @return {!Array<number>}
 */
-DisplayLine.prototype.getLineDash = function() {
+getLineDash() {
   if (this.lineDash_ !== undefined) {
     return this.lineDash_;
   } else if (this.proto_ != null) {
@@ -155,18 +146,18 @@ DisplayLine.prototype.getLineDash = function() {
 };
 
 /** @override */
-DisplayLine.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
 /** @override */
-DisplayLine.prototype.getPosition = function() {
+getPosition() {
   // return midpoint of the line
   return this.line_.getStartPoint().add(this.line_.getEndPoint()).multiply(0.5);
 };
 
 /** @override */
-DisplayLine.prototype.getSimObjects = function() {
+getSimObjects() {
   return [ this.line_ ];
 };
 
@@ -175,7 +166,7 @@ DisplayLine.prototype.getSimObjects = function() {
 * Can be set to zero to make the line disappear.
 * @return {number}
 */
-DisplayLine.prototype.getThickness = function() {
+getThickness() {
   if (this.thickness_ !== undefined) {
     return this.thickness_;
   } else if (this.proto_ != null) {
@@ -186,7 +177,7 @@ DisplayLine.prototype.getThickness = function() {
 };
 
 /** @override */
-DisplayLine.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -197,7 +188,7 @@ DisplayLine.prototype.getZIndex = function() {
 };
 
 /** @override */
-DisplayLine.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
@@ -205,13 +196,13 @@ DisplayLine.prototype.isDragable = function() {
 * @param {string|undefined} color
 * @return {!DisplayLine} this object for chaining setters
 */
-DisplayLine.prototype.setColor = function(color) {
+setColor(color) {
   this.color_ = color;
   return this;
 };
 
 /** @override */
-DisplayLine.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   // does nothing
 };
 
@@ -221,13 +212,13 @@ DisplayLine.prototype.setDragable = function(dragable) {
 * @param {!Array<number>|undefined} lineDash
 * @return {!DisplayLine} this object for chaining setters
 */
-DisplayLine.prototype.setLineDash = function(lineDash) {
+setLineDash(lineDash) {
   this.lineDash_ = lineDash;
   return this;
 };
 
 /** @override */
-DisplayLine.prototype.setPosition = function(position) {
+setPosition(position) {
 };
 
 /** Thickness to use when drawing the line, in screen coordinates, so a unit
@@ -236,14 +227,15 @@ DisplayLine.prototype.setPosition = function(position) {
 * @param {number|undefined} thickness
 * @return {!DisplayLine} this object for chaining setters
 */
-DisplayLine.prototype.setThickness = function(thickness) {
+setThickness(thickness) {
   this.thickness_ = thickness;
   return this;
 };
 
 /** @override */
-DisplayLine.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-});  // goog.scope
+} //end class
+exports = DisplayLine;

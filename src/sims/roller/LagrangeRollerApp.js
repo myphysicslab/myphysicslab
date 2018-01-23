@@ -35,10 +35,10 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 var CommonControls = sims.common.CommonControls;
-var DisplayPath = myphysicslab.lab.view.DisplayPath;
+const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
 var DisplayShape = lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var DrawingStyle = myphysicslab.lab.view.DrawingStyle;
+const DrawingStyle = goog.module.get('myphysicslab.lab.view.DrawingStyle');
 var LagrangeRollerSim = sims.roller.LagrangeRollerSim;
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');

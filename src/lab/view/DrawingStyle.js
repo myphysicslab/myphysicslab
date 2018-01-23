@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DrawingStyle');
+goog.module('myphysicslab.lab.view.DrawingStyle');
 
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-var DrawingMode = myphysicslab.lab.view.DrawingMode;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Specifies drawing style including: whether to draw dots or lines; color; thickness;
 line dash.
-
+*/
+class DrawingStyle {
+/**
 * @param {!DrawingMode} drawMode whether to draw dots or lines,
 *     a value from {@link DrawingMode}
 * @param {string} color a CSS color specification
@@ -34,11 +31,8 @@ line dash.
 *     Corresponds to lengths of dash and spaces, in screen coordinates.
 *     For example, `[3, 5]` alternates dashes of length 3 with spaces of length 5.
 *     Empty array indicates solid line (which is the default).
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.lab.view.DrawingStyle = function(drawMode, color, lineWidth, opt_lineDash) {
+constructor(drawMode, color, lineWidth, opt_lineDash) {
   /** Whether to draw dots or lines, a value from {@link DrawingMode}
   * @type {!DrawingMode}
   */
@@ -59,10 +53,9 @@ myphysicslab.lab.view.DrawingStyle = function(drawMode, color, lineWidth, opt_li
   */
   this.lineDash = opt_lineDash || [];
 };
-var DrawingStyle = myphysicslab.lab.view.DrawingStyle;
 
 /** @override */
-DrawingStyle.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'DrawingStyle{drawMode: '+this.drawMode
       +', color:"'+this.color+'"'
       +', lineWidth: '+this.lineWidth
@@ -77,7 +70,7 @@ DrawingStyle.prototype.toString = function() {
 *     pixel.
 * @return {!DrawingStyle} a DrawingStyle for drawing dots with the given color and dot size
 */
-DrawingStyle.dotStyle = function(color, dotSize) {
+static dotStyle(color, dotSize) {
   return new DrawingStyle(DrawingMode.DOTS, color, dotSize);
 };
 
@@ -93,8 +86,9 @@ optional line dash.
 * @return {!DrawingStyle} a DrawingStyle for drawing a line with the given color,
 *     line width and optional line dash
 */
-DrawingStyle.lineStyle = function(color, lineWidth, opt_lineDash) {
+static lineStyle(color, lineWidth, opt_lineDash) {
   return new DrawingStyle(DrawingMode.LINES, color, lineWidth, opt_lineDash);
 };
 
-});  // goog.scope
+} //end class
+exports = DrawingStyle;

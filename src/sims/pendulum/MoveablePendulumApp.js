@@ -40,7 +40,7 @@ var sims = myphysicslab.sims;
 
 var AbstractApp = sims.common.AbstractApp;
 const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var DisplayLine = lab.view.DisplayLine;
+const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
 var DisplayShape = lab.view.DisplayShape;
 var DisplaySpring = lab.view.DisplaySpring;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');

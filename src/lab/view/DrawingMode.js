@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DrawingMode');
-
-goog.scope(function() {
+goog.module('myphysicslab.lab.view.DrawingMode');
 
 /** DrawingMode enum, specifies how the line of a graph or path is drawn.
 *
@@ -23,13 +21,12 @@ goog.scope(function() {
 * see [Dossier issue #32](https://github.com/jleyba/js-dossier/issues/32).
 * @enum {string}
 */
-myphysicslab.lab.view.DrawingMode = {
+const DrawingMode = {
   /** Draw the graph as separate dots. */
   DOTS: 'dots',
   /** Draw the graph as connected lines. */
   LINES: 'lines'
 };
-var DrawingMode = myphysicslab.lab.view.DrawingMode;
 
 /** Converts a localized choice string to an enum.
 * @param {string} value the localized choice string to convert
@@ -125,4 +122,4 @@ DrawingMode.de_strings = {
 DrawingMode.i18n = goog.LOCALE === 'de' ? DrawingMode.de_strings :
     DrawingMode.en;
 
-}); // goog.scope
+exports = DrawingMode;

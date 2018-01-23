@@ -12,41 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayPath');
+goog.module('myphysicslab.lab.view.DisplayPath');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.color');
-goog.require('myphysicslab.lab.model.Path');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.view.DrawingStyle');
-goog.require('myphysicslab.lab.view.ScreenRect');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var DrawingMode = lab.view.DrawingMode;
-var DrawingStyle = lab.view.DrawingStyle;
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const Path = goog.module.get('myphysicslab.lab.model.Path');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const DrawingStyle = goog.require('myphysicslab.lab.view.DrawingStyle');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const Path = goog.require('myphysicslab.lab.model.Path');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays one or more {@link Path}s within a specified screen rectangle in the
 canvas. The screen rectangle is initially empty, so it must be set with {@link
@@ -57,14 +40,13 @@ canvas. The screen rectangle is initially empty, so it must be set with {@link
 @todo Could allow setting background color.
 @todo getPosition() and contains() should return something related to position of
     screenRect.
-* @param {?DisplayPath=} proto the prototype DisplayPath to inherit properties
-*     from
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayPath = function(proto) {
+class DisplayPath {
+/**
+* @param {?DisplayPath=} proto the prototype DisplayPath to inherit properties from
+*/
+constructor(proto) {
   /**
   * @type {?HTMLCanvasElement}
   * @private
@@ -121,10 +103,9 @@ myphysicslab.lab.view.DisplayPath = function(proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplayPath = myphysicslab.lab.view.DisplayPath;
 
 /** @override */
-DisplayPath.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', screenRect_: '+this.screenRect_
       +', zIndex: '+this.zIndex_
@@ -138,23 +119,16 @@ DisplayPath.prototype.toString = function() {
 };
 
 /** @override */
-DisplayPath.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayPath{paths_.length: '+this.paths_.length+'}';
 };
-
-/**
-* @type {number}
-* @const
-* @private
-*/
-DisplayPath.DRAW_POINTS = 3000;
 
 /** Adds a Path to the set of paths to display.
 * @param {!Path} path the Path to display
 * @param {!DrawingStyle=} opt_style the DrawingStyle to use for drawing this Path;
 *     uses the default style if not specified, see {@link #setStyle}.
 */
-DisplayPath.prototype.addPath = function(path, opt_style) {
+addPath(path, opt_style) {
   if (!this.containsPath(path)) {
     this.paths_.push(path);
     if (goog.isDefAndNotNull(opt_style)) {
@@ -169,7 +143,7 @@ DisplayPath.prototype.addPath = function(path, opt_style) {
 };
 
 /** @override */
-DisplayPath.prototype.contains = function(p_world) {
+contains(p_world) {
   // ? this seems wrong, but need the CoordMap to convert screenRect to sim coords
   return false;
 };
@@ -178,12 +152,12 @@ DisplayPath.prototype.contains = function(p_world) {
 * @param {!Path} path the Path of interest
 * @return {boolean} `true` if `path` is in the set of paths to display
 */
-DisplayPath.prototype.containsPath = function(path) {
+containsPath(path) {
   return goog.array.contains(this.paths_, path);
 };
 
 /** @override */
-DisplayPath.prototype.draw = function(context, map) {
+draw(context, map) {
   var r = this.screenRect_;
   if (r.isEmpty()) {
     // don't bother if the screen isn't visible
@@ -255,7 +229,7 @@ DisplayPath.prototype.draw = function(context, map) {
 * @param {!DrawingStyle} style the DrawingStyle to use for drawing the Path
 * @private
 */
-DisplayPath.prototype.drawPath = function(path, context, map, style) {
+drawPath(path, context, map, style) {
   var point = new MutableVector(0, 0);
   var firstTime = true;
   var w = style.lineWidth;
@@ -303,7 +277,7 @@ DisplayPath.prototype.drawPath = function(path, context, map, style) {
 * @return {undefined}
 * @private
 */
-DisplayPath.prototype.flush = function() {
+flush() {
   // in Javascript it is enough to just drop references and GC will collect it.
   this.offScreen_ = null;
 }
@@ -311,7 +285,7 @@ DisplayPath.prototype.flush = function() {
 /** Sets default DrawingStyle used in {@link #addPath}.
 * @return {!DrawingStyle} the default DrawingStyle to use when adding a Path
 */
-DisplayPath.prototype.getDefaultStyle = function() {
+getDefaultStyle() {
   if (this.defaultStyle_ !== undefined) {
     return this.defaultStyle_;
   } else if (this.proto_ != null) {
@@ -322,7 +296,7 @@ DisplayPath.prototype.getDefaultStyle = function() {
 };
 
 /** @override */
-DisplayPath.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
@@ -331,7 +305,7 @@ DisplayPath.prototype.getMassObjects = function() {
     or language-independent version of name.
 * @return {!Path} path the Path of interest
 */
-DisplayPath.prototype.getPath = function(arg) {
+getPath(arg) {
   if (goog.isNumber(arg)) {
     if (arg >= 0 && arg < this.paths_.length) {
       return this.paths_[arg];
@@ -350,7 +324,7 @@ DisplayPath.prototype.getPath = function(arg) {
 };
 
 /** @override */
-DisplayPath.prototype.getPosition = function() {
+getPosition() {
   //? what to return here ??? center of screenRect in sim coords?
   return Vector.ORIGIN;
 };
@@ -359,12 +333,12 @@ DisplayPath.prototype.getPosition = function() {
 * LabCanvas, in screen coordinates.
 * @return {!ScreenRect} the screen rectangle of this DisplayPath in screen coordinates
 */
-DisplayPath.prototype.getScreenRect = function() {
+getScreenRect() {
   return this.screenRect_;
 };
 
 /** @override */
-DisplayPath.prototype.getSimObjects = function() {
+getSimObjects() {
   return goog.array.clone(this.paths_);
 };
 
@@ -372,7 +346,7 @@ DisplayPath.prototype.getSimObjects = function() {
 * @param {number} idx index of Path
 * @return {!DrawingStyle} the DrawingStyle being used for drawing the Path
 */
-DisplayPath.prototype.getStyle = function(idx) {
+getStyle(idx) {
   if (idx < 0 || idx >= this.styles_.length) {
     throw new Error();
   }
@@ -382,7 +356,7 @@ DisplayPath.prototype.getStyle = function(idx) {
 /** Returns true when drawing the Paths into an offscreen buffer.
 * @return {boolean} true when drawing the Paths into an offscreen buffer
 */
-DisplayPath.prototype.getUseBuffer = function() {
+getUseBuffer() {
   if (this.useBuffer_ !== undefined) {
     return this.useBuffer_;
   } else if (this.proto_ != null) {
@@ -393,7 +367,7 @@ DisplayPath.prototype.getUseBuffer = function() {
 };
 
 /** @override */
-DisplayPath.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -404,14 +378,14 @@ DisplayPath.prototype.getZIndex = function() {
 };
 
 /** @override */
-DisplayPath.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
 /** Removes a Path from the set of paths to display.
 * @param {!Path} path the Path to remove
 */
-DisplayPath.prototype.removePath = function(path) {
+removePath(path) {
   if (this.containsPath(path)) {
     var idx = goog.array.indexOf(this.paths_, path);
     if (idx > -1) {
@@ -429,17 +403,17 @@ DisplayPath.prototype.removePath = function(path) {
 *      a Path
 * @return {!DisplayPath} this object for chaining setters
 */
-DisplayPath.prototype.setDefaultStyle = function(value) {
+setDefaultStyle(value) {
   this.defaultStyle_ = value;
   return this;
 };
 
 /** @override */
-DisplayPath.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
 };
 
 /** @override */
-DisplayPath.prototype.setPosition = function(position) {
+setPosition(position) {
 };
 
 /** Sets the screen rectangle that this DisplayPath should occupy within the
@@ -447,7 +421,7 @@ DisplayPath.prototype.setPosition = function(position) {
 * @param {!ScreenRect} screenRect the screen coordinates of the area this DisplayPath
 *    should occupy.
 */
-DisplayPath.prototype.setScreenRect = function(screenRect) {
+setScreenRect(screenRect) {
   this.screenRect_ = screenRect;
   this.flush();
 };
@@ -456,7 +430,7 @@ DisplayPath.prototype.setScreenRect = function(screenRect) {
 * @param {number} idx index of Path
 * @param {!DrawingStyle} value the DrawingStyle to use for drawing the Path
 */
-DisplayPath.prototype.setStyle = function(idx, value) {
+setStyle(idx, value) {
   if (idx < 0 || idx >= this.styles_.length) {
     throw new Error();
   }
@@ -469,7 +443,7 @@ frame, it saves time to *not* use an offscreen buffer.
 * @param {boolean|undefined} value Whether to draw the Paths into an offscreen buffer
 * @return {!DisplayPath} this object for chaining setters
 */
-DisplayPath.prototype.setUseBuffer = function(value) {
+setUseBuffer(value) {
   this.useBuffer_ = value;
   if (!this.getUseBuffer()) {
     this.flush();
@@ -478,8 +452,17 @@ DisplayPath.prototype.setUseBuffer = function(value) {
 };
 
 /** @override */
-DisplayPath.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-});  // goog.scope
+} //end class
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+DisplayPath.DRAW_POINTS = 3000;
+
+exports = DisplayPath;

@@ -19,7 +19,7 @@ goog.require('myphysicslab.lab.util.Util');
 
 goog.scope(function() {
 
-var DrawingMode = myphysicslab.lab.view.DrawingMode;
+const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Specifies graph style such as color, line thickness, line pattern.

@@ -12,19 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayConnector');
+goog.module('myphysicslab.lab.view.DisplayConnector');
 
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
-
-goog.scope(function() {
-
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Shows the location of a {@link Connector} as a small colored circle.
 The {@link #radius} is specified in screen coordinates, so the size of the circle stays
@@ -33,15 +26,15 @@ the same regardless of the zoom level on the {@link myphysicslab.lab.view.SimVie
 The position is determined by the position of the Connector, so {@link #setPosition}
 has no effect, and the DisplayConnector is never dragable.
 
+* @implements {DisplayObject}
+*/
+class DisplayConnector {
+/**
 * @param {?Connector=} connector the Connector to display
 * @param {?DisplayConnector=} proto the prototype DisplayConnector to inherit
 *    properties from
-* @constructor
-* @final
-* @struct
-* @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
+constructor(connector, proto) {
   /**
   * @type {?Connector}
   * @private
@@ -68,10 +61,9 @@ myphysicslab.lab.view.DisplayConnector = function(connector, proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplayConnector = myphysicslab.lab.view.DisplayConnector;
 
 /** @override */
-DisplayConnector.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', radius: '+Util.NF5(this.getRadius())
       +', color: "'+this.getColor()+'"'
@@ -81,18 +73,18 @@ DisplayConnector.prototype.toString = function() {
 };
 
 /** @override */
-DisplayConnector.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayConnector{connector_: '+
       (this.connector_ != null ? this.connector_.toStringShort() : 'null')+'}';
 };
 
 /** @override */
-DisplayConnector.prototype.contains = function(p_world) {
+contains(p_world) {
   return false;
 };
 
 /** @override */
-DisplayConnector.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.connector_ == null) {
     return;
   }
@@ -110,14 +102,14 @@ DisplayConnector.prototype.draw = function(context, map) {
 };
 
 /** @override */
-DisplayConnector.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
 /** Color to draw the joint, a CSS3 color value.
 * @return {string}
 */
-DisplayConnector.prototype.getColor = function() {
+getColor() {
   if (this.color_ !== undefined) {
     return this.color_;
   } else if (this.proto_ != null) {
@@ -128,19 +120,19 @@ DisplayConnector.prototype.getColor = function() {
 };
 
 /** @override */
-DisplayConnector.prototype.getMassObjects = function() {
+getMassObjects() {
   return [];
 };
 
 /** @override */
-DisplayConnector.prototype.getPosition = function() {
+getPosition() {
   return this.connector_ == null ? Vector.ORIGIN : this.connector_.getPosition1();
 };
 
 /** Radius of circle to draw, in screen coordinates.
 * @return {number}
 */
-DisplayConnector.prototype.getRadius = function() {
+getRadius() {
   if (this.radius_ !== undefined) {
     return this.radius_;
   } else if (this.proto_ != null) {
@@ -151,12 +143,12 @@ DisplayConnector.prototype.getRadius = function() {
 };
 
 /** @override */
-DisplayConnector.prototype.getSimObjects = function() {
+getSimObjects() {
   return this.connector_ == null ? [ ] : [ this.connector_ ];
 };
 
 /** @override */
-DisplayConnector.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -170,18 +162,18 @@ DisplayConnector.prototype.getZIndex = function() {
 * @param {string|undefined} color
 * @return {!DisplayConnector} this object for chaining setters
 */
-DisplayConnector.prototype.setColor = function(color) {
+setColor(color) {
   this.color_ = color;
   return this;
 };
 
 /** @override */
-DisplayConnector.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   // do nothing, connectors cannot be moved
 };
 
 /** @override */
-DisplayConnector.prototype.setPosition = function(position) {
+setPosition(position) {
   // do nothing, connectors cannot be moved
 };
 
@@ -189,14 +181,15 @@ DisplayConnector.prototype.setPosition = function(position) {
 * @param {number|undefined} value
 * @return {!DisplayConnector} this object for chaining setters
 */
-DisplayConnector.prototype.setRadius = function(value) {
+setRadius(value) {
   this.radius_ = value;
   return this;
 };
 
 /** @override */
-DisplayConnector.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-});  // goog.scope
+} //end class
+exports = DisplayConnector;
