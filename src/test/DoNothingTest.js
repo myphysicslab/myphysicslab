@@ -34,7 +34,7 @@ goog.require('myphysicslab.test.Engine2DTestRig');
 goog.scope(function() {
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
@@ -42,7 +42,7 @@ const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DoNothingApp = myphysicslab.sims.engine2D.DoNothingApp;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const Force = goog.module.get('myphysicslab.lab.model.Force');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;

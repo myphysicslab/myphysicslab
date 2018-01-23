@@ -38,7 +38,7 @@ var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var Shapes = myphysicslab.lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

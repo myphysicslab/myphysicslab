@@ -54,12 +54,12 @@ const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 var JointUtil = lab.engine2D.JointUtil;
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of a car suspension modelled in two different ways: each wheel has either
 two springs, or a rigid rod and a spring.

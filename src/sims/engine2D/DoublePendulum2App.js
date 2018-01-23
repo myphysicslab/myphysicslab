@@ -63,13 +63,13 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
 const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** A simple example app using ContactSim, this shows two blocks
 connected like a double pendulum, and a third free moving block.

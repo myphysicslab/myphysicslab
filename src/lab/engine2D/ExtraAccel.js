@@ -12,13 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.ExtraAccel');
-
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+goog.module('myphysicslab.lab.engine2D.ExtraAccel');
 
 /** Specifies the calculation done by {@link myphysicslab.lab.engine2D.ContactSim} to
 determine the extra acceleration added to eliminate small amount of residual velocity
@@ -47,7 +41,7 @@ More information:
 * @readonly
 * @enum {string}
 */
-myphysicslab.lab.engine2D.ExtraAccel = {
+const ExtraAccel = {
     /** No extra acceleration.
     */
   NONE: 'none',
@@ -68,7 +62,6 @@ myphysicslab.lab.engine2D.ExtraAccel = {
     to Joints */
   VELOCITY_AND_DISTANCE_JOINTS: 'velocity_and_distance_joints'
 };
-var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
 
 /** Converts a localized choice string to an enum.
 * @param {string} value the localized choice string to convert
@@ -179,4 +172,4 @@ ExtraAccel.de_strings = {
 ExtraAccel.i18n = goog.LOCALE === 'de' ? ExtraAccel.de_strings :
     ExtraAccel.en;
 
-}); // goog.scope
+exports = ExtraAccel;

@@ -36,24 +36,24 @@ goog.require('myphysicslab.test.TestShapes');
 goog.scope(function() {
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
 var PileConfig = myphysicslab.sims.engine2D.PileConfig;
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-var Shapes = myphysicslab.lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var TestShapes = myphysicslab.test.TestShapes;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = myphysicslab.lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /**  Tests involving piles of many objects with engine2D physics engine.
 @constructor

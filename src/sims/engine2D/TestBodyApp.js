@@ -45,27 +45,27 @@ var sims = myphysicslab.sims;
 
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CollisionHandling = lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
-var ExtraAccel = lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-var RigidBodySim = lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** TestBodyApp is meant for close observation of contacts and collisions for
 debugging.

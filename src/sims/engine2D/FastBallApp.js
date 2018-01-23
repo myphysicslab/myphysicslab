@@ -35,11 +35,11 @@ var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Demonstrates collision handling for fast moving object with very thin walls.
 

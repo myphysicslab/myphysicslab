@@ -38,10 +38,10 @@ const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const Random = goog.module.get('myphysicslab.lab.util.Random');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Utility functions for making the 'pile of blocks' simulation.
 

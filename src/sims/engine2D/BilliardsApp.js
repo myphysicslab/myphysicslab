@@ -55,12 +55,12 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-var RigidBodySim = lab.engine2D.RigidBodySim;
-var Shapes = lab.engine2D.Shapes;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of a table top billiards game with several balls bouncing against each
 other and against the sides of the table.

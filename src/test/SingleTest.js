@@ -32,7 +32,7 @@ goog.scope(function() {
 
 var CircleCircleTest = myphysicslab.test.CircleCircleTest;
 var CircleStraightTest = myphysicslab.test.CircleStraightTest;
-var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 var DoNothingTest = myphysicslab.test.DoNothingTest;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 var JointTest = myphysicslab.test.JointTest;

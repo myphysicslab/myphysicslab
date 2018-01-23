@@ -30,7 +30,7 @@ const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
-var Shapes = myphysicslab.lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Makes chain of rigid bodies.

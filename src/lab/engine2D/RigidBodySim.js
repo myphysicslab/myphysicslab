@@ -12,67 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.RigidBodySim');
+goog.module('myphysicslab.lab.engine2D.RigidBodySim');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.vec.Float64Array');
-goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DebugEngine2D = goog.module.get('myphysicslab.lab.engine2D.DebugEngine2D');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const ODESim = goog.module.get('myphysicslab.lab.model.ODESim');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DebugEngine2D = goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const ODESim = goog.require('myphysicslab.lab.model.ODESim');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of rigid body movement with external forces like gravity or springs, but
 no collisions or contact forces. RigidBodys will pass thru each other unless you use the
@@ -95,7 +65,6 @@ More information:
     [ContactSim](http://www.myphysicslab.com/engine2D/contact-en.html) are
     described on the myPhysicsLab website.
 
-
 ### Parameters Created
 
 + ParameterBoolean named `SHOW_FORCES`, see {@link #setShowForces}
@@ -104,7 +73,6 @@ More information:
 All the Parameters are broadcast when their values change.  In addition:
 
 + GenericEvent named `ELASTICITY_SET`, see {@link #setElasticity}.
-
 
 ### RigidBodys
 
@@ -163,17 +131,16 @@ variables allocated for a RigidBody are guaranteed to be contiguous.
 {@link myphysicslab.lab.model.FunctionVariable FunctionVariables} can be added to a
 VarsList. Their position in the VarsList remains constant after they are allocated.
 
-
-* @param {string=} opt_name name of this Subject
-* @constructor
-* @struct
-* @extends {AbstractSubject}
 * @implements {DebugEngine2D}
 * @implements {EnergySystem}
 * @implements {ODESim}
 */
-myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
-  AbstractSubject.call(this, opt_name || 'SIM');
+class RigidBodySim extends AbstractSubject {
+/**
+* @param {string=} opt_name name of this Subject
+*/
+constructor(opt_name) {
+  super(opt_name || 'SIM');
   /** The Polygons in this simulation.
   * @type {!Array<!Polygon>}
   * @protected
@@ -265,11 +232,9 @@ myphysicslab.lab.engine2D.RigidBodySim = function(opt_name) {
       RigidBodySim.i18n.SHOW_FORCES,
       goog.bind(this.getShowForces, this), goog.bind(this.setShowForces, this)));
 };
-var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
-goog.inherits(RigidBodySim, AbstractSubject);
 
 /** @override */
-RigidBodySim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1) + this.toString_();
 };
 
@@ -277,7 +242,7 @@ RigidBodySim.prototype.toString = function() {
 * @return {string}
 * @protected
 */
-RigidBodySim.prototype.toString_ = function() {
+toString_() {
   return Util.ADVANCED ? '' : ', showForces_: '+this.showForces_
       + ', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + ', varsList_: '+ this.varsList_.toStringShort()
@@ -286,84 +251,47 @@ RigidBodySim.prototype.toString_ = function() {
       + '], bods_: ['
       + goog.array.map(this.bods_, function(b) { return b.toStringShort();})
       + ']'
-      + RigidBodySim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RigidBodySim.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      RigidBodySim.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', bods_.length: ' + this.bods_.length + '}';
 };
 
 /** @override */
-RigidBodySim.prototype.getClassName = function() {
+getClassName() {
   return 'RigidBodySim';
 };
 
-/** Offset in the VarsList for a RigidBody's x position
-* @type {number}
-* @const
-*/
-RigidBodySim.X_ = 0;
-/** Offset in the VarsList for a RigidBody's x velocity
-* @type {number}
-* @const
-*/
-RigidBodySim.VX_ = 1;
-/** Offset in the VarsList for a RigidBody's y position
-* @type {number}
-* @const
-*/
-RigidBodySim.Y_ = 2;
-/** Offset in the VarsList for a RigidBody's y velocity
-* @type {number}
-* @const
-*/
-RigidBodySim.VY_ = 3;
-/** Offset in the VarsList for a RigidBody's angle
-* @type {number}
-* @const
-*/
-RigidBodySim.W_ = 4;
-/** Offset in the VarsList for a RigidBody's angular velocity
-* @type {number}
-* @const
-*/
-RigidBodySim.VW_ = 5;
-/** Name of event broadcast from {@link #setElasticity}.
-* @type {string}
-* @const
-*/
-RigidBodySim.ELASTICITY_SET = 'ELASTICITY_SET';
-
-
 /** @override */
-RigidBodySim.prototype.getSimList = function() {
+getSimList() {
   return this.simList_;
 };
 
 /** @override */
-RigidBodySim.prototype.getVarsList = function() {
+getVarsList() {
   return this.varsList_;
 };
 
 /** @override */
-RigidBodySim.prototype.getTime = function() {
+getTime() {
   return this.varsList_.getTime();
 };
 
 /** Whether to add Forces to the SimList so they can be seen.
 * @return {boolean} whether to add Forces to the SimList so they can be seen
 */
-RigidBodySim.prototype.getShowForces = function() {
+getShowForces() {
   return this.showForces_;
 };
 
 /** Sets whether to add Forces to the SimList so they can be seen.
 * @param {boolean} value whether to add Forces to the SimList so they can be seen
 */
-RigidBodySim.prototype.setShowForces = function(value) {
+setShowForces(value) {
   this.showForces_ = value;
   this.broadcastParameter(RigidBodySim.en.SHOW_FORCES);
 };
@@ -372,7 +300,7 @@ RigidBodySim.prototype.setShowForces = function(value) {
 * with {@link myphysicslab.test.TestViewerApp}.
 * @return {?DoubleRect} suggested size for the SimView
 */
-RigidBodySim.prototype.getSimRect = function() {
+getSimRect() {
   return this.simRect_;
 };
 
@@ -380,14 +308,14 @@ RigidBodySim.prototype.getSimRect = function() {
 * with {@link myphysicslab.test.TestViewerApp}.
 * @param {?DoubleRect} rect the suggested size for the SimView
 */
-RigidBodySim.prototype.setSimRect = function(rect) {
+setSimRect(rect) {
   this.simRect_ = rect;
 };
 
 /** Returns string showing current variables of each RigidBody, for debugging.
 @return {string} string showing current variables of each RigidBody, for debugging.
 */
-RigidBodySim.prototype.formatVars = function() {
+formatVars() {
   var v = this.varsList_.getValues(/*computed=*/true);
   var s = goog.array.reduce(this.bods_,
     function(str, b) {
@@ -398,7 +326,7 @@ RigidBodySim.prototype.formatVars = function() {
 };
 
 /** @override */
-RigidBodySim.prototype.reset = function() {
+reset() {
   if (this.initialState_ != null &&
       this.initialState_.length == this.varsList_.numVariables()) {
     this.varsList_.setValues(this.initialState_);
@@ -412,7 +340,7 @@ RigidBodySim.prototype.reset = function() {
 };
 
 /** @override */
-RigidBodySim.prototype.saveInitialState = function() {
+saveInitialState() {
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
 };
@@ -427,7 +355,7 @@ must unhook the old RigidBodySim from all the various user controls and graph an
 and hook up the new one.
 * @return {undefined}
 */
-RigidBodySim.prototype.cleanSlate = function() {
+cleanSlate() {
   this.getSimList().clear();
   // clear force laws AFTER simList, so that forceLaw hears the remove events
   // (in case we re-use the forceLaw later on)
@@ -451,7 +379,7 @@ RigidBodySim.prototype.cleanSlate = function() {
 };
 
 /** @override */
-RigidBodySim.prototype.saveState = function() {
+saveState() {
   this.recentState_ = this.varsList_.getValues();
   goog.array.forEach(this.bods_, function(b) {
     b.saveOldCoords();
@@ -459,7 +387,7 @@ RigidBodySim.prototype.saveState = function() {
 };
 
 /** @override */
-RigidBodySim.prototype.restoreState = function() {
+restoreState() {
   if (this.recentState_ != null) {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
   }
@@ -473,7 +401,7 @@ VarsList, and sets the simulation state to match the Polygon state (by copying t
 Polygon's position and velocity to the simulation's VarsList).
 * @param {!Polygon} body  Polygon to add to the simulation
 */
-RigidBodySim.prototype.addBody = function(body) {
+addBody(body) {
   if (body instanceof Scrim)
     return;
   if (!goog.array.contains(this.bods_, body)) {
@@ -498,12 +426,11 @@ RigidBodySim.prototype.addBody = function(body) {
   });
 };
 
-
 /** Removes the Polygon from the simulation and SimList, and removes the corresponding
 variables from the VarsList.
 * @param {!Polygon} body Polygon to remove from the simulation
 */
-RigidBodySim.prototype.removeBody = function(body) {
+removeBody(body) {
   if (goog.array.contains(this.bods_, body)) {
     this.varsList_.deleteVariables(body.getVarsIndex(), 6);
     goog.array.remove(this.bods_, body);
@@ -518,7 +445,7 @@ RigidBodySim.prototype.removeBody = function(body) {
 @return {!Array<!Polygon>} list of Polygons in this
     RigidBodySim.
 */
-RigidBodySim.prototype.getBodies = function() {
+getBodies() {
   return goog.array.clone(this.bods_);
 };
 
@@ -530,7 +457,7 @@ RigidBodySim.prototype.getBodies = function() {
 *    the given position in the list of Polygons
 * @throws {!Error} if requesting a non-existing body.
 */
-RigidBodySim.prototype.getBody = function(numOrName) {
+getBody(numOrName) {
   /** @type {Polygon} */
   var bod = null;
   if (goog.isString(numOrName)) {
@@ -556,7 +483,7 @@ RigidBodySim.prototype.getBody = function(numOrName) {
 *     the simulation variables
 * @throws {!Error} if the body is not recognized
 */
-RigidBodySim.prototype.initializeFromBody = function(body) {
+initializeFromBody(body) {
   body.eraseOldCoords();
   var idx = body.getVarsIndex();
   if (idx < 0) {
@@ -574,7 +501,7 @@ RigidBodySim.prototype.initializeFromBody = function(body) {
 };
 
 /** @override */
-RigidBodySim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.varsList_;
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -589,7 +516,7 @@ RigidBodySim.prototype.modifyObjects = function() {
 not already on the list.
 @param {!ForceLaw} forceLaw the ForceLaw to add
 */
-RigidBodySim.prototype.addForceLaw = function(forceLaw) {
+addForceLaw(forceLaw) {
   // It is a rather common problem to add DampingLaw or GravityLaw twice.
   // When you don't realize you did it, you then get twice the amount of damping
   // or gravity, and it can be difficult to understand why.  Therefore we
@@ -617,7 +544,7 @@ RigidBodySim.prototype.addForceLaw = function(forceLaw) {
 * @param {!ForceLaw} forceLaw the ForceLaw to remove
 * @return {boolean} whether the ForceLaw was removed
 */
-RigidBodySim.prototype.removeForceLaw = function(forceLaw) {
+removeForceLaw(forceLaw) {
   forceLaw.disconnect();
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
@@ -627,7 +554,7 @@ RigidBodySim.prototype.removeForceLaw = function(forceLaw) {
 /** Clears the list of ForceLaws operating in this simulation.
 * @return {undefined}
 */
-RigidBodySim.prototype.clearForceLaws = function() {
+clearForceLaws() {
   goog.array.forEachRight(this.forceLaws_, this.removeForceLaw, this);
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
@@ -637,12 +564,12 @@ RigidBodySim.prototype.clearForceLaws = function() {
 * @return {!Array<!ForceLaw>} list of ForceLaws operating in
 *     this simulation
 */
-RigidBodySim.prototype.getForceLaws = function() {
+getForceLaws() {
   return goog.array.clone(this.forceLaws_);
 };
 
 /** @override */
-RigidBodySim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -653,7 +580,7 @@ RigidBodySim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-RigidBodySim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // assumes bodies match current vars
   /** @type {number} */
   var pe = 0;
@@ -674,7 +601,7 @@ RigidBodySim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-RigidBodySim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
@@ -684,7 +611,7 @@ RigidBodySim.prototype.setPotentialEnergy = function(value) {
 * @param {!Array<number>} vars array of variables to update from
 * @protected
 */
-RigidBodySim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   goog.array.forEach(this.bods_, function(b) {
     var idx = b.getVarsIndex();
     if (idx < 0)
@@ -700,7 +627,7 @@ RigidBodySim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-RigidBodySim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   this.moveObjects(vars);  // so that rigid body objects know their current state.
   goog.array.forEach(this.bods_, function(body) {
     var idx = body.getVarsIndex();
@@ -737,7 +664,7 @@ RigidBodySim.prototype.evaluate = function(vars, change, timeStep) {
 * @param {!Force} force the Force to be applied
 * @protected
 */
-RigidBodySim.prototype.applyForce = function(change, force) {
+applyForce(change, force) {
   var obj = force.getBody();
   if (!(goog.array.contains(this.bods_, obj))) {
     return;
@@ -768,7 +695,7 @@ RigidBodySim.prototype.applyForce = function(change, force) {
 };
 
 /** @override */
-RigidBodySim.prototype.debugLine = function(name, pa, pb, expireTime) {
+debugLine(name, pa, pb, expireTime) {
   if (expireTime === undefined)
     expireTime = this.getTime();
   var v = new ConcreteLine(name, pa, pb);
@@ -777,7 +704,7 @@ RigidBodySim.prototype.debugLine = function(name, pa, pb, expireTime) {
 };
 
 /** @override */
-RigidBodySim.prototype.debugCircle = function(name, center, radius, expireTime) {
+debugCircle(name, center, radius, expireTime) {
   if (expireTime === undefined) {
     // when debugging, set expireTime = this.getTime() to have collisions
     // disappear after each step.
@@ -791,7 +718,7 @@ RigidBodySim.prototype.debugCircle = function(name, center, radius, expireTime) 
 };
 
 /** @override */
-RigidBodySim.prototype.myPrint = function(message, colors) {
+myPrint(message, colors) {
   if (Util.DEBUG) {
     var args = goog.array.slice(arguments, 1);
     args.unshift('%c'+Util.NF7(this.getTime())+'%c '+message, 'color:green', 'color:black');
@@ -807,7 +734,7 @@ Broadcasts a {@link #ELASTICITY_SET} event. See {@link RigidBody#setElasticity}.
 * @param {number} value elasticity to set on all RigidBodys, a number from 0 to 1.
 * @throws {!Error} if there are no RigidBodys
 */
-RigidBodySim.prototype.setElasticity = function(value) {
+setElasticity(value) {
   if (this.bods_.length == 0) {
     throw new Error('setElasticity: no bodies');
   }
@@ -817,6 +744,43 @@ RigidBodySim.prototype.setElasticity = function(value) {
   this.broadcast(new GenericEvent(this, RigidBodySim.ELASTICITY_SET, value));
 };
 
+} //end class
+
+/** Offset in the VarsList for a RigidBody's x position
+* @type {number}
+* @const
+*/
+RigidBodySim.X_ = 0;
+/** Offset in the VarsList for a RigidBody's x velocity
+* @type {number}
+* @const
+*/
+RigidBodySim.VX_ = 1;
+/** Offset in the VarsList for a RigidBody's y position
+* @type {number}
+* @const
+*/
+RigidBodySim.Y_ = 2;
+/** Offset in the VarsList for a RigidBody's y velocity
+* @type {number}
+* @const
+*/
+RigidBodySim.VY_ = 3;
+/** Offset in the VarsList for a RigidBody's angle
+* @type {number}
+* @const
+*/
+RigidBodySim.W_ = 4;
+/** Offset in the VarsList for a RigidBody's angular velocity
+* @type {number}
+* @const
+*/
+RigidBodySim.VW_ = 5;
+/** Name of event broadcast from {@link #setElasticity}.
+* @type {string}
+* @const
+*/
+RigidBodySim.ELASTICITY_SET = 'ELASTICITY_SET';
 
 /** Set of internationalized strings.
 @typedef {{
@@ -867,4 +831,4 @@ RigidBodySim.de_strings = {
 RigidBodySim.i18n = goog.LOCALE === 'de' ? RigidBodySim.de_strings :
     RigidBodySim.en;
 
-}); // goog.scope
+exports = RigidBodySim;

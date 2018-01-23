@@ -44,7 +44,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
-var CollisionHandling = lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
 const CollisionTotals = goog.module.get('myphysicslab.lab.model.CollisionTotals');
 var ComputeForces = lab.engine2D.ComputeForces;
@@ -59,7 +59,7 @@ const Random = goog.module.get('myphysicslab.lab.util.Random');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var RigidBodySim = lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
 const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');

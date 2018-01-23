@@ -12,41 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Walls');
+goog.module('myphysicslab.lab.engine2D.Walls');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
-var Shapes = myphysicslab.lab.engine2D.Shapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Factory for making a set of four walls arranged in rectangle to form an enclosed
 space. See {@link Shapes#makeWall}.
 
-@constructor
-@final
-@struct
+*/
+class Walls {
+/**
 @private
 */
-myphysicslab.lab.engine2D.Walls = function() {
+constructor() {
   throw new Error();
 };
-var Walls = myphysicslab.lab.engine2D.Walls;
 
 /** Makes four walls of given thickness, with interior rectangle of given width and
 height and centered at the given location. Each wall is given infinite mass. The walls
@@ -61,7 +50,7 @@ are named according to the constants {@link #WALL_BOTTOM}, {@link #WALL_TOP},
     walls, in world coordinates; default is origin.
 @return {number} suggested zero potential energy level -- the top of the bottom wall.
 */
-Walls.make = function(sim, width, height, opt_thickness, opt_center) {
+static make(sim, width, height, opt_thickness, opt_center) {
   var center = opt_center || Vector.ORIGIN;
   var thickness = opt_thickness || 1;
   var i, j;
@@ -119,10 +108,12 @@ rectangle.
 @param {number=} opt_thickness  the thickness of each wall
 @return {number} suggested zero potential energy level -- the top of the bottom wall.
 */
-Walls.make2 = function(sim, rect, opt_thickness) {
+static make2(sim, rect, opt_thickness) {
   return Walls.make(sim, rect.getWidth(), rect.getHeight(), opt_thickness,
       rect.getCenter());
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -161,4 +152,4 @@ Walls.de_strings = {
 Walls.i18n = goog.LOCALE === 'de' ? Walls.de_strings :
     Walls.en;
 
-}); // goog.scope
+exports = Walls;

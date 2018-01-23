@@ -41,7 +41,7 @@ goog.scope(function() {
 var ComputeForces = myphysicslab.lab.engine2D.ComputeForces;
 const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const Force = goog.module.get('myphysicslab.lab.model.Force');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
@@ -49,7 +49,7 @@ const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber')
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');

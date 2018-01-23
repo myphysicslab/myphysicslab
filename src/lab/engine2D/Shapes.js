@@ -12,72 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.Shapes');
+goog.module('myphysicslab.lab.engine2D.Shapes');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.CircularEdge');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CircularEdge = goog.require('myphysicslab.lab.engine2D.CircularEdge');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Provides static functions to make Polygons of various shapes.
-
-@constructor
-@final
-@struct
+*/
+class Shapes {
+/**
 @private
 */
-myphysicslab.lab.engine2D.Shapes = function() {
+constructor() {
   throw new Error();
 };
-
-var Shapes = myphysicslab.lab.engine2D.Shapes;
-
-/** Counter used for naming shapes.
-* @type {number}
-*/
-Shapes.ID = 1;
-
-/** index of bottom edge in Polygon from `makeBlock()`
-* @type {number}
-* @const
-*/
-Shapes.BOTTOM_EDGE = 0;
-/** index of right edge in Polygon from `makeBlock()`
-* @type {number}
-* @const
-*/
-Shapes.RIGHT_EDGE = 1;
-/** index of top edge in Polygon from `makeBlock()`
-* @type {number}
-* @const
-*/
-Shapes.TOP_EDGE = 2;
-/** index of left edge in Polygon from `makeBlock()`
-* @type {number}
-* @const
-*/
-Shapes.LEFT_EDGE = 3;
-
-/**
-* @type {!RandomLCG}
-* @const
-* @private
-*/
-Shapes.RANDOM = new RandomLCG(0);
 
 /** Makes a circular Polygon with given radius.
 * @param {number} radius radius of the circle
@@ -85,7 +40,7 @@ Shapes.RANDOM = new RandomLCG(0);
 * @param {string=} opt_localName  localized name of the Polygon
 * @return {!Polygon} a circular Polygon
 */
-Shapes.makeBall = function(radius, opt_name, opt_localName) {
+static makeBall(radius, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
   // Bug Note:  if this starting vertex is instead at (radius, 0) then some
   // tests fail.  See notes in the Java version of this file.
@@ -107,7 +62,7 @@ is at the origin, and width is along the x-axis, height along the y-axis.
 * @param {string=} opt_localName  localized name of the Polygon
 * @return {!Polygon} a rectangular Polygon
 */
-Shapes.makeBlock = function(width, height, opt_name, opt_localName) {
+static makeBlock(width, height, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
   var w = width/2;
   var h = height/2;
@@ -131,7 +86,7 @@ the origin is at the bottom left corner.
 * @param {string=} opt_localName  localized name of the Polygon
 * @return {!Polygon} a rectangular Polygon
 */
-Shapes.makeBlock2 = function(width, height, opt_name, opt_localName) {
+static makeBlock2(width, height, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
   p.startPath(new ConcreteVertex(new Vector(0, 0)));
   p.addStraightEdge(new Vector(width, 0), /*outsideIsUp=*/false);
@@ -156,7 +111,7 @@ that angled straight lines are tested.
 @return {!Polygon} a rectangle centered at origin with the
     given width and height, but rotated by the given angle
 */
-Shapes.makeDiamond = function(width, height, angle, opt_name, opt_localName) {
+static makeDiamond(width, height, angle, opt_name, opt_localName) {
   if (angle < -Math.PI/2 || angle > Math.PI/2)
     throw new Error('angle must be within +/- pi/2');
   var p = new Polygon(opt_name, opt_localName);
@@ -193,7 +148,7 @@ Shapes.makeDiamond = function(width, height, angle, opt_name, opt_localName) {
 * @param {string=} opt_localName  localized name of the Polygon
 * @return {!Polygon}
 */
-Shapes.makeFrame = function(width, height, thickness, opt_name, opt_localName) {
+static makeFrame(width, height, thickness, opt_name, opt_localName) {
   var w = width/2;
   var h = height/2;
   var t = thickness/2;
@@ -227,7 +182,7 @@ Shapes.makeFrame = function(width, height, thickness, opt_name, opt_localName) {
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} a regular hexagon
 */
-Shapes.makeHexagon = function(size, opt_name, opt_localName) {
+static makeHexagon(size, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
   var a = Math.sin(Math.PI/3);
   var b = Math.cos(Math.PI/3);
@@ -257,7 +212,7 @@ is straight above.
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} a pendulum-shaped Polygon
 */
-Shapes.makePendulum = function(width, length, radius, opt_name, opt_localName) {
+static makePendulum(width, length, radius, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
   p.startPath(new ConcreteVertex(new Vector(width, radius)));
   p.addStraightEdge(new Vector(width, length+width), /*outsideIsUp=*/true);
@@ -285,7 +240,7 @@ Shapes.makePendulum = function(width, length, radius, opt_name, opt_localName) {
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} Polygon whose vertices are at the given points
 */
-Shapes.makePolygon = function(points, outIsUp, moment, opt_name, opt_localName) {
+static makePolygon(points, outIsUp, moment, opt_name, opt_localName) {
   if (points.length < 3 || points.length != outIsUp.length) {
     throw new Error();
   }
@@ -316,8 +271,7 @@ on a circle with given radius centered at origin.
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} a block with round corners
 */
-Shapes.makeRandomPolygon = function(sides, radius, minAngle, maxAngle, opt_name,
-      opt_localName) {
+static makeRandomPolygon(sides, radius, minAngle, maxAngle, opt_name, opt_localName) {
   if (!goog.isDef(minAngle)) {
     minAngle = Math.PI/sides;
   }
@@ -366,7 +320,7 @@ Shapes.makeRandomPolygon = function(sides, radius, minAngle, maxAngle, opt_name,
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} a block with rounded ends
 */
-Shapes.makeRoundBlock = function(width, height, opt_name, opt_localName) {
+static makeRoundBlock(width, height, opt_name, opt_localName) {
   if (height < width) {
     throw new Error('Height must be greater than width.');
   }
@@ -396,7 +350,7 @@ is at the origin, and width is along the x-axis, height along the y-axis.
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} a block with round corners
 */
-Shapes.makeRoundCornerBlock = function(width, height, radius, opt_name, opt_localName) {
+static makeRoundCornerBlock(width, height, radius, opt_name, opt_localName) {
   var w = width/2;
   var h = height/2;
   var r = radius;
@@ -438,7 +392,7 @@ See {@link Polygon#getSpecialNormalWorld}.
 * @param {string=} opt_localName  localized name of the Polygon
 @return {!Polygon} a rectangular Polygon with a special edge
 */
-Shapes.makeWall = function(width, height, edgeIndex, opt_name, opt_localName) {
+static makeWall(width, height, edgeIndex, opt_name, opt_localName) {
   if (edgeIndex < 0 || edgeIndex > 3)
     throw new Error();
   var w = Shapes.makeBlock(width, height, opt_name, opt_localName);
@@ -452,6 +406,8 @@ Shapes.makeWall = function(width, height, edgeIndex, opt_name, opt_localName) {
   return w;
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   BLOCK: string,
@@ -460,4 +416,37 @@ Shapes.makeWall = function(width, height, edgeIndex, opt_name, opt_localName) {
 */
 Shapes.i18n_strings;
 
-}); // goog.scope
+/** Counter used for naming shapes.
+* @type {number}
+*/
+Shapes.ID = 1;
+
+/** index of bottom edge in Polygon from `makeBlock()`
+* @type {number}
+* @const
+*/
+Shapes.BOTTOM_EDGE = 0;
+/** index of right edge in Polygon from `makeBlock()`
+* @type {number}
+* @const
+*/
+Shapes.RIGHT_EDGE = 1;
+/** index of top edge in Polygon from `makeBlock()`
+* @type {number}
+* @const
+*/
+Shapes.TOP_EDGE = 2;
+/** index of left edge in Polygon from `makeBlock()`
+* @type {number}
+* @const
+*/
+Shapes.LEFT_EDGE = 3;
+
+/**
+* @type {!RandomLCG}
+* @const
+* @private
+*/
+Shapes.RANDOM = new RandomLCG(0);
+
+exports = Shapes;

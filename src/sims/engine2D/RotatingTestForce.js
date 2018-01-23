@@ -28,7 +28,7 @@ const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const Force = goog.module.get('myphysicslab.lab.model.Force');
 const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

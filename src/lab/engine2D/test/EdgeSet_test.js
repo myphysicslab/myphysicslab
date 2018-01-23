@@ -24,7 +24,7 @@ var testEdgeSet1 = function() {
   var EdgeGroup = goog.module.get('myphysicslab.lab.engine2D.EdgeGroup');
   var EdgeSet = goog.module.get('myphysicslab.lab.engine2D.EdgeSet');
   var EdgeRange = goog.module.get('myphysicslab.lab.engine2D.EdgeRange');
-  var Shapes = myphysicslab.lab.engine2D.Shapes;
+  const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 
   var body1 = Shapes.makeBlock(1, 1);
   var body2 = Shapes.makeBall(0.5);

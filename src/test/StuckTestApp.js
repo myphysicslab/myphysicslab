@@ -45,7 +45,7 @@ var ImpulseSim = lab.engine2D.ImpulseSim;
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var RigidBodySim = lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

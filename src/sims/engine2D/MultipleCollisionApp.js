@@ -45,7 +45,7 @@ var sims = myphysicslab.sims;
 const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CollisionHandling = lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 var CommonControls = sims.common.CommonControls;
 var ContactSim = lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
@@ -57,12 +57,12 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-var RigidBodySim = lab.engine2D.RigidBodySim;
-var Shapes = lab.engine2D.Shapes;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Demonstrates that collision handling policies produce different results.
 

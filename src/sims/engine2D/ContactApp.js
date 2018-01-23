@@ -47,19 +47,19 @@ var ContactSim = lab.engine2D.ContactSim;
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var Engine2DApp = sims.engine2D.Engine2DApp;
-var ExtraAccel = lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var SixThrusters = sims.engine2D.SixThrusters;
 var TabLayout = sims.common.TabLayout;
 const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /**  ContactApp demonstrates ContactSim with a set of simple rectangular objects.
 

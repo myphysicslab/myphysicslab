@@ -28,7 +28,7 @@ var lab = myphysicslab.lab;
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const Observer = goog.module.get('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var RigidBodySim = lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Provides a ParameterNumber for setting the elasticity of all RigidBodys in an

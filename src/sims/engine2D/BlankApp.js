@@ -99,7 +99,7 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 var Engine2DApp = sims.engine2D.Engine2DApp;
 const ExpressionVariable = goog.module.get('myphysicslab.lab.model.ExpressionVariable');
-var ExtraAccel = lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const Force = goog.module.get('myphysicslab.lab.model.Force');
 const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
 var GraphLine = lab.graph.GraphLine;
@@ -119,7 +119,7 @@ const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
 var ScreenRect = lab.view.ScreenRect;
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 var SimView = lab.view.SimView;
@@ -131,7 +131,7 @@ const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 var VerticalAlign = lab.view.VerticalAlign;
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Intended for scripting, this provides a ContactSim with no RigidBody objects or
 ForceLaws. The RigidBody objects and ForceLaws should be created via scripting such as

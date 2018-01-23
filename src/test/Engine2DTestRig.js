@@ -35,7 +35,7 @@ var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
 var PathJoint = myphysicslab.lab.engine2D.PathJoint;
 const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-var RigidBodySim = myphysicslab.lab.engine2D.RigidBodySim;
+const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
 const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 

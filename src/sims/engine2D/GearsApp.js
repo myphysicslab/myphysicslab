@@ -67,7 +67,7 @@ const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of two interlocking gears. One of the gears has a constant turning
 force applied.

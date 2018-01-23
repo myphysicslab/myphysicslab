@@ -54,7 +54,7 @@ const AdaptiveStepSolver = goog.module.get('myphysicslab.lab.model.AdaptiveStepS
 var ChainConfig = sims.engine2D.ChainConfig;
 var CirclePath = myphysicslab.sims.roller.CirclePath;
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CollisionHandling = lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
 var ContactSim = lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
@@ -64,7 +64,7 @@ var DisplayShape = lab.view.DisplayShape;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const EdgeRange = goog.module.get('myphysicslab.lab.engine2D.EdgeRange');
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-var ExtraAccel = lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const Force = goog.module.get('myphysicslab.lab.model.Force');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 var HumpPath = sims.roller.HumpPath;
@@ -75,7 +75,7 @@ var PathEndPoint = lab.engine2D.PathEndPoint;
 var PathJoint = lab.engine2D.PathJoint;
 var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
 /** Miscellaneous tests of engine2D physics engine.

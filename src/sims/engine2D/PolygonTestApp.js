@@ -56,14 +56,14 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var SixThrusters = sims.engine2D.SixThrusters;
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
 const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** PolygonTestApp shows some unusual shapes such as hexagon, L-shape, hollow box with
 a ball inside, and blocks with both curved and straight edges.

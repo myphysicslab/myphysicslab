@@ -37,24 +37,24 @@ goog.require('myphysicslab.test.TestShapes');
 goog.scope(function() {
 
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
+const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 var ContactSim = myphysicslab.lab.engine2D.ContactSim;
 const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
 const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
 var DisplayShape = myphysicslab.lab.view.DisplayShape;
 var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-var ExtraAccel = myphysicslab.lab.engine2D.ExtraAccel;
+const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
 var ImpulseSim = myphysicslab.lab.engine2D.ImpulseSim;
 var JointUtil = myphysicslab.lab.engine2D.JointUtil;
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-var Shapes = myphysicslab.lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 var TestShapes = myphysicslab.test.TestShapes;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = myphysicslab.lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /**  Unit tests of {@link ImpulseSim}, for cases involving multiple simultaneous
 collisions.

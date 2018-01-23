@@ -63,12 +63,12 @@ const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-var Shapes = lab.engine2D.Shapes;
+const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
 var TabLayout = sims.common.TabLayout;
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var Walls = lab.engine2D.Walls;
+const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Simulates a pendulum attached to another body with a spring.
 The pendulum is a rigid body with a pivot attached to the background.

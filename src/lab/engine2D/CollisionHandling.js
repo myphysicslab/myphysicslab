@@ -12,13 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.CollisionHandling');
-
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+goog.module('myphysicslab.lab.engine2D.CollisionHandling');
 
 /** Enum that specifies which collision handling algorithm to use during
 {@link myphysicslab.lab.engine2D.ImpulseSim#handleCollisions}.
@@ -89,7 +83,7 @@ or joints.
 * @readonly
 * @enum {string}
 */
-myphysicslab.lab.engine2D.CollisionHandling = {
+const CollisionHandling = {
   /** Solve all collisions in a single step, with the goal condition being that the
   post-collision velocity is equal to elasticity times opposite of pre-collision
   velocity. */
@@ -113,7 +107,6 @@ myphysicslab.lab.engine2D.CollisionHandling = {
   contacts. */
   SERIAL_SEPARATE_LASTPASS: 'serial separate lastpass'
 };
-var CollisionHandling = myphysicslab.lab.engine2D.CollisionHandling;
 
 /** Converts a localized choice string to an enum.
 * @param {string} value the localized choice string to convert
@@ -182,4 +175,4 @@ CollisionHandling.stringToEnum = function(value) {
   throw new Error('not found '+value);
 };
 
-}); // goog.scope
+exports = CollisionHandling;
