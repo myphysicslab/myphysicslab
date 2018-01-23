@@ -119,7 +119,9 @@ class SimRunner extends AbstractSubject {
 */
 constructor(advance, opt_name) {
   super(opt_name || 'SIM_RUNNER');
-  /** name of the application that created this SimRunner, for debugging.
+  /** Name of the application that created this SimRunner, for debugging.
+  * Useful when multiple apps are running simultaneously on a page: this tells which
+  * app this SimRunner belongs to.
   * @type {string}
   * @private
   */

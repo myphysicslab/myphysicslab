@@ -255,15 +255,15 @@ addStandardControls() {
 */
 defineNames(myName) {
   this.simRun.setAppName(myName);
-  if (Util.ADVANCED)
-    return;
-  this.terminal.addWhiteList(myName);
-  this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
-      +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView'
-      +'|timeGraph|easyScript|terminal|varsList|displayList',
-      myName+'.');
-  this.terminal.addRegex('simCanvas',
-      myName+'.layout.');
+  if (!Util.ADVANCED) {
+    this.terminal.addWhiteList(myName);
+    this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
+        +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView'
+        +'|timeGraph|easyScript|terminal|varsList|displayList',
+        myName+'.');
+    this.terminal.addRegex('simCanvas',
+        myName+'.layout.');
+  }
 };
 
 /** Creates the EasyScriptParser for this app. See explanation of

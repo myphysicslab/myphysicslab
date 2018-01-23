@@ -280,15 +280,15 @@ Engine2DApp.prototype.toString = function() {
 */
 Engine2DApp.prototype.defineNames = function(myName) {
   this.simRun.setAppName(myName);
-  if (Util.ADVANCED)
-    return;
-  this.terminal.addWhiteList(myName);
-  this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
-  +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView|timeGraph'
-  +'|displayList|easyScript|terminal|statusList|elasticity|varsList|rbo',
-      myName+'.');
-  this.terminal.addRegex('simCanvas',
-      myName+'.layout.');
+  if (!Util.ADVANCED) {
+    this.terminal.addWhiteList(myName);
+    this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock|energyGraph'
+    +'|graph|layout|sim|simCtrl|simList|simRect|simRun|simView|statusView|timeGraph'
+    +'|displayList|easyScript|terminal|statusList|elasticity|varsList|rbo',
+        myName+'.');
+    this.terminal.addRegex('simCanvas',
+        myName+'.layout.');
+  }
 };
 
 /** Watch a Parameter and when it changes note that there was a discontinuous change

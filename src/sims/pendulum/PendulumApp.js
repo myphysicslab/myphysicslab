@@ -12,59 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.PendulumApp');
+goog.module('myphysicslab.sims.pendulum.PendulumApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayArc');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.PendulumSim');
-
-goog.scope(function() {
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayArc = goog.module.get('myphysicslab.lab.view.DisplayArc');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PendulumSim = goog.module.get('myphysicslab.sims.pendulum.PendulumSim');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayArc = goog.require('myphysicslab.lab.view.DisplayArc');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PendulumSim = goog.require('myphysicslab.sims.pendulum.PendulumSim');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link PendulumSim} simulation.
-
+*/
+class PendulumApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
 * @export
 */
-myphysicslab.sims.pendulum.PendulumApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
   var sim = new PendulumSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   /** @type {!DisplayLine} */
   this.rod = new DisplayLine(this.simList.getConcreteLine('rod'));
@@ -109,28 +89,39 @@ myphysicslab.sims.pendulum.PendulumApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var PendulumApp = myphysicslab.sims.pendulum.PendulumApp;
-goog.inherits(PendulumApp, AbstractApp);
 
 /** @override */
-PendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bob: '+this.bob.toStringShort()
       +', rod: '+this.rod.toStringShort()
       +', drive: '+this.drive.toStringShort()
-      + PendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-PendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'PendulumApp';
 };
 
 /** @override */
-PendulumApp.prototype.defineNames = function(myName) {
-  PendulumApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('rod|drive|bob',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+*    elementId's to look for in the HTML document; these elements are where the user
+*    interface of the simulation is created.
+* @return {!PendulumApp}
+*/
+function makePendulumApp(elem_ids) {
+  return new PendulumApp(elem_ids);
+};
+goog.exportSymbol('makePendulumApp', makePendulumApp);
+
+exports = PendulumApp;
