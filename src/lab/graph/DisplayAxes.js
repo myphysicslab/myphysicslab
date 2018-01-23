@@ -27,10 +27,10 @@ goog.scope(function() {
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Draws linear horizontal and vertical axes within a given simulation coordinates
 rectangle. The simulation rectangle determines where the axes are drawn, and the

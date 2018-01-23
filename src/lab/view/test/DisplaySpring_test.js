@@ -31,12 +31,12 @@ var testDisplaySpring = function() {
   var CoordMap = myphysicslab.lab.view.CoordMap;
   var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  var HorizAlign = myphysicslab.lab.view.HorizAlign;
+  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  var ScreenRect = myphysicslab.lab.view.ScreenRect;
+  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 
   /**  mock 2D context of a canvas element

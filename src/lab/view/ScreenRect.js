@@ -12,26 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.ScreenRect');
+goog.module('myphysicslab.lab.view.ScreenRect');
 
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** An immutable rectangle corresponding to screen coordinates where the
 vertical coordinates increase downwards.
-
+*/
+class ScreenRect {
+/**
 @param {number} left the horizontal coordinate of the top-left corner
 @param {number} top the vertical coordinate of the top-left corner
 @param {number} width the width of the rectangle
 @param {number} height the height of the rectangle
-@constructor
-@final
-@struct
 */
-myphysicslab.lab.view.ScreenRect = function(left, top, width, height) {
+constructor(left, top, width, height) {
   if (!goog.isNumber(left) || !goog.isNumber(top) || !goog.isNumber(width)
       || !goog.isNumber(height)) {
     throw new Error();
@@ -60,10 +55,9 @@ myphysicslab.lab.view.ScreenRect = function(left, top, width, height) {
   */
   this.height_ = height;
 };
-var ScreenRect = myphysicslab.lab.view.ScreenRect;
 
 /** @override */
-ScreenRect.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'ScreenRect{left_: '+Util.NF(this.left_)
       +', top_: '+Util.NF(this.top_)
       +', width_: '+Util.NF(this.width_)
@@ -71,17 +65,11 @@ ScreenRect.prototype.toString = function() {
       +'}';
 };
 
-/** An empty ScreenRect located at the origin.
-* @type {!ScreenRect}
-* @const
-*/
-ScreenRect.EMPTY_RECT = new ScreenRect(0, 0, 0, 0);
-
 /** Returns a copy of the given ScreenRect.
 * @param {!ScreenRect} rect the ScreenRect to clone
 * @return {!ScreenRect} a copy of `rect`
 */
-ScreenRect.clone = function(rect) {
+static clone(rect) {
   return new ScreenRect(rect.left_, rect.top_, rect.width_, rect.height_);
 };
 
@@ -89,7 +77,7 @@ ScreenRect.clone = function(rect) {
 * @param {!ScreenRect} otherRect the ScreenRect to compare to
 * @return {boolean} true if this ScreenRect is exactly equal to the other ScreenRect
 */
-ScreenRect.prototype.equals = function(otherRect) {
+equals(otherRect) {
   return this.left_ == otherRect.left_ &&
          this.top_ == otherRect.top_ &&
          this.width_ == otherRect.width_ &&
@@ -101,7 +89,7 @@ ScreenRect.prototype.equals = function(otherRect) {
 * @param {*} obj the object of interest
 * @return {boolean} true if the object is likely a ScreenRect
 */
-ScreenRect.isDuckType = function(obj) {
+static isDuckType(obj) {
   if (obj instanceof ScreenRect) {
     return true;
   }
@@ -120,42 +108,42 @@ ScreenRect.isDuckType = function(obj) {
 /** The horizontal coordinate of this ScreenRect center.
 * @return {number} the horizontal coordinate of this ScreenRect center
 */
-ScreenRect.prototype.getCenterX = function() {
+getCenterX() {
   return this.left_ + this.width_/2;
 };
 
 /** The vertical coordinate of this ScreenRect center
 * @return {number} the vertical coordinate of this ScreenRect center
 */
-ScreenRect.prototype.getCenterY = function() {
+getCenterY() {
   return this.top_ + this.height_/2;
 };
 
 /** The height of this ScreenRect.
 * @return {number} the height of this ScreenRect.
 */
-ScreenRect.prototype.getHeight = function() {
+getHeight() {
   return this.height_;
 };
 
 /** The left coordinate of this ScreenRect.
 * @return {number} the left coordinate of this ScreenRect.
 */
-ScreenRect.prototype.getLeft = function() {
+getLeft() {
   return this.left_;
 };
 
 /** The top coordinate of this ScreenRect.
 * @return {number} the top coordinate of this ScreenRect
 */
-ScreenRect.prototype.getTop = function() {
+getTop() {
   return this.top_;
 };
 
 /** The width of this ScreenRect.
 * @return {number} the width of this ScreenRect.
 */
-ScreenRect.prototype.getWidth = function() {
+getWidth() {
   return this.width_;
 };
 
@@ -163,7 +151,7 @@ ScreenRect.prototype.getWidth = function() {
 * @param {number=} opt_tol tolerance for comparison, default is 1E-14;
 * @return {boolean} true if this ScreenRect has zero width or height
 */
-ScreenRect.prototype.isEmpty = function(opt_tol) {
+isEmpty(opt_tol) {
   var tol = opt_tol || 1E-14;
   return this.width_ < tol || this.height_ < tol;
 };
@@ -171,7 +159,7 @@ ScreenRect.prototype.isEmpty = function(opt_tol) {
 /** Creates an oval path in the Canvas context, with the size of this ScreenRect.
 @param {!CanvasRenderingContext2D} context the Canvas context to draw into
 */
-ScreenRect.prototype.makeOval = function(context) {
+makeOval(context) {
     var w = this.width_/2;
     var h = this.height_/2;
   if (goog.isFunction(context.ellipse)) {
@@ -193,7 +181,7 @@ ScreenRect.prototype.makeOval = function(context) {
 /** Creates a rectangle path in the Canvas context, with the size of this ScreenRect.
 @param {!CanvasRenderingContext2D} context the Canvas context to draw into
 */
-ScreenRect.prototype.makeRect = function(context) {
+makeRect(context) {
   context.rect(this.left_, this.top_, this.width_, this.height_);
 };
 
@@ -205,7 +193,7 @@ used depends on the magnitude of the numbers being compared.
 * @param {number=} opt_tolerance optional tolerance for comparison
 * @return {boolean} true if this ScreenRect is nearly equal to the other ScreenRect
 */
-ScreenRect.prototype.nearEqual = function(otherRect, opt_tolerance) {
+nearEqual(otherRect, opt_tolerance) {
   if (Util.veryDifferent(this.left_, otherRect.left_, opt_tolerance)) {
     return false;
   }
@@ -221,4 +209,12 @@ ScreenRect.prototype.nearEqual = function(otherRect, opt_tolerance) {
   return true;
 };
 
-});  // goog.scope
+} //end class
+
+/** An empty ScreenRect located at the origin.
+* @type {!ScreenRect}
+* @const
+*/
+ScreenRect.EMPTY_RECT = new ScreenRect(0, 0, 0, 0);
+
+exports = ScreenRect;

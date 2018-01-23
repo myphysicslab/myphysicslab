@@ -59,7 +59,7 @@ var DisplayGraph = lab.graph.DisplayGraph;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphLine = lab.graph.GraphLine;
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 var LabView = lab.view.LabView;
@@ -74,7 +74,7 @@ var Subject = lab.util.Subject;
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates a single graph showing several independent GraphLines, and with a horizontal
 time axis. Because there is a single SimView and DisplayGraph, all the GraphLines are

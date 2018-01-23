@@ -51,17 +51,17 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphLine = lab.graph.GraphLine;
 var GraphPoint = lab.graph.GraphPoint;
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
-var ScreenRect = lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 var SimController = lab.app.SimController;
 var SimView = lab.view.SimView;
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** GraphCalcApp is a simple graphing calculator demonstration using myphysicslab.
 

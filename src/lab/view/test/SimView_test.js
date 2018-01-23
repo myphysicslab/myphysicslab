@@ -106,17 +106,17 @@ var testSimView1 = function() {
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
   const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-  var HorizAlign = myphysicslab.lab.view.HorizAlign;
+  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
   var LabView = myphysicslab.lab.view.LabView;
   var MockObserver = myphysicslab.lab.view.test.SimView_test.MockObserver;
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  var ScreenRect = myphysicslab.lab.view.ScreenRect;
+  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var SimView = myphysicslab.lab.view.SimView;
   const Spring = goog.module.get('myphysicslab.lab.model.Spring');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
   /**  mock 2D context of a canvas element
   @constructor

@@ -41,7 +41,7 @@ var GraphPoint = lab.graph.GraphPoint;
 var GraphStyle = lab.graph.GraphStyle;
 const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
 var LabView = lab.view.LabView;
-var ScreenRect = lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 

@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.HorizAlign');
-
-goog.scope(function() {
+goog.module('myphysicslab.lab.view.HorizAlign');
 
 /** Horizontal alignment enum, used to specify how to align a LabView's simulation
 rectangle within its screen rectangle. See {@link myphysicslab.lab.view.CoordMap#make},
@@ -29,7 +27,7 @@ see {@link myphysicslab.lab.graph.DisplayAxes#setYAxisAlignment}.
 *
 * @enum {string}
 */
-myphysicslab.lab.view.HorizAlign = {
+const HorizAlign = {
   /** align left */
   LEFT: 'LEFT',
   /** align middle */
@@ -41,7 +39,6 @@ myphysicslab.lab.view.HorizAlign = {
   /** align at a particular value (specified elsewhere) */
   VALUE: 'VALUE'
 };
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
 
 /** Returns array containing all localized enum choices.
 * @return {!Array<string>} array containing all localized enum choices.
@@ -121,4 +118,4 @@ HorizAlign.de_strings = {
 HorizAlign.i18n = goog.LOCALE === 'de' ? HorizAlign.de_strings :
     HorizAlign.en;
 
-}); // goog.scope
+exports = HorizAlign;

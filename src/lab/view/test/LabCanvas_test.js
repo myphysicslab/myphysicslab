@@ -167,18 +167,18 @@ var testLabCanvas1 = function() {
   var DisplayShape = myphysicslab.lab.view.DisplayShape;
   var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  var HorizAlign = myphysicslab.lab.view.HorizAlign;
+  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
   var LabCanvas = myphysicslab.lab.view.LabCanvas;
   var MockLCObserver = myphysicslab.lab.view.test.LabCanvas_test.MockLCObserver;
   var MockViewObserver = myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver;
   const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  var ScreenRect = myphysicslab.lab.view.ScreenRect;
+  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
   var SimView = myphysicslab.lab.view.SimView;
   const Spring = goog.module.get('myphysicslab.lab.model.Spring');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
   /**  mock 2D context of a canvas element
   @constructor

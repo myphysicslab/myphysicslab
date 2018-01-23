@@ -26,11 +26,11 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 var testCoordMap = function() {
   var CoordMap = myphysicslab.lab.view.CoordMap;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  var HorizAlign = myphysicslab.lab.view.HorizAlign;
-  var ScreenRect = myphysicslab.lab.view.ScreenRect;
+  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
+  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
   var tol = 1E-13;
   // WIDE screen rect

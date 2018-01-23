@@ -60,7 +60,7 @@ const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var DrawingMode = myphysicslab.lab.view.DrawingMode;
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphLine = lab.graph.GraphLine;
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 var LabView = myphysicslab.lab.view.LabView;
@@ -74,7 +74,7 @@ var SimView = lab.view.SimView;
 var Subject = lab.util.Subject;
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates a time graph showing two GraphLines corresponding to two Simulations, where
 the two GraphLines are showing the same Y variable, and the X variable is time.

@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.VerticalAlign');
-
-goog.scope(function() {
+goog.module('myphysicslab.lab.view.VerticalAlign');
 
 /** Vertical alignment enum, used to specify how to align a LabView's simulation
 rectangle within its screen rectangle. See {@link myphysicslab.lab.view.CoordMap#make},
@@ -29,7 +27,7 @@ see {@link myphysicslab.lab.graph.DisplayAxes#setXAxisAlignment}.
 *
 * @enum {string}
 */
-myphysicslab.lab.view.VerticalAlign = {
+const VerticalAlign = {
   /** align top */
   TOP: 'TOP',
   /** align middle */
@@ -41,7 +39,6 @@ myphysicslab.lab.view.VerticalAlign = {
   /** align at a particular value (specified elsewhere) */
   VALUE: 'VALUE'
 };
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
 
 /** Returns array containing all localized enum choices.
 * @return {!Array<string>} array containing all localized enum choices.
@@ -120,4 +117,4 @@ VerticalAlign.de_strings = {
 VerticalAlign.i18n = goog.LOCALE === 'de' ? VerticalAlign.de_strings :
     VerticalAlign.en;
 
-}); // goog.scope
+exports = VerticalAlign;

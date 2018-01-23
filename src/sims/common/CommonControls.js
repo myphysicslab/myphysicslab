@@ -50,7 +50,7 @@ const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 const GroupControl = goog.module.get('myphysicslab.lab.controls.GroupControl');
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 var LabView = lab.view.LabView;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
@@ -61,7 +61,7 @@ const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const ToggleControl = goog.module.get('myphysicslab.lab.controls.ToggleControl');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** A collection of static functions for making controls, used in several applications.
 CommonControls is a 'static' class, meaning it is not instantiated, instead it only a

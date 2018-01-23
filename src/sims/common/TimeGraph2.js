@@ -58,7 +58,7 @@ var DisplayList = lab.view.DisplayList;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphLine = lab.graph.GraphLine;
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 var LabView = myphysicslab.lab.view.LabView;
@@ -72,7 +72,7 @@ var SimView = lab.view.SimView;
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates two independent graphs which have a common horizontal time axis, but the
 graphs can have very different vertical scales. Each graph consists of a SimView,

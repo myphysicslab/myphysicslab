@@ -70,11 +70,11 @@ var DisplayText = lab.view.DisplayText;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 var EnergyBarGraph = lab.graph.EnergyBarGraph;
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-var ScreenRect = lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 var SimController = lab.app.SimController;
 var SimView = lab.view.SimView;
 const Spring = goog.module.get('myphysicslab.lab.model.Spring');
@@ -82,7 +82,7 @@ const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Timer = goog.module.get('myphysicslab.lab.util.Timer');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** BlankSlateApp has a LabCanvas and Terminal, and let's you experiment building
 things with scripts.

@@ -65,7 +65,7 @@ const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphColor = lab.graph.GraphColor;
 var GraphLine = lab.graph.GraphLine;
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 var LabView = lab.view.LabView;
@@ -81,7 +81,7 @@ const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates a graph with a single GraphLine. Creates a single SimView and DisplayGraph
 to show the GraphLine. Adds the SimView to `graphCanvas`. Creates an AutoScale that

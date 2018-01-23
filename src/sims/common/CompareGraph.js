@@ -62,7 +62,7 @@ var DrawingMode = myphysicslab.lab.view.DrawingMode;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
 var GraphLine = lab.graph.GraphLine;
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabCanvas = lab.view.LabCanvas;
 const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 var LabView = myphysicslab.lab.view.LabView;
@@ -77,7 +77,7 @@ var Subject = lab.util.Subject;
 const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates a graph showing two GraphLines corresponding to two Simulations, where the
 two GraphLines are showing the same variables. There is a single SimView and

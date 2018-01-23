@@ -28,11 +28,11 @@ goog.scope(function() {
 var CoordMap = myphysicslab.lab.view.CoordMap;
 var DisplayList = myphysicslab.lab.view.DisplayList;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
-var ScreenRect = myphysicslab.lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** A visual representation of a Simulation which can be displayed in a
 {@link myphysicslab.lab.view.LabCanvas LabCanvas}; has a {@link DisplayList} which

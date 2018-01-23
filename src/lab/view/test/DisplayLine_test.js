@@ -29,11 +29,11 @@ var testDisplayLine = function() {
   var CoordMap = myphysicslab.lab.view.CoordMap;
   var DisplayLine = myphysicslab.lab.view.DisplayLine;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  var HorizAlign = myphysicslab.lab.view.HorizAlign;
+  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
   const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-  var ScreenRect = myphysicslab.lab.view.ScreenRect;
+  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
   /**  mock 2D context of a canvas element
   @constructor

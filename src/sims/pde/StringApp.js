@@ -93,7 +93,7 @@ var EnergyBarGraph = lab.graph.EnergyBarGraph;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
 const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
 const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
@@ -112,7 +112,7 @@ var TabLayout = sims.common.TabLayout;
 const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 /** Displays the {@link StringSim} simulation.
 

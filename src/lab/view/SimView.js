@@ -45,17 +45,17 @@ var DisplayList = myphysicslab.lab.view.DisplayList;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-var HorizAlign = myphysicslab.lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 var LabView = myphysicslab.lab.view.LabView;
 const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var ScreenRect = myphysicslab.lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VerticalAlign = myphysicslab.lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 
 
 /** Defines a rectangular region where a {@link DisplayList}

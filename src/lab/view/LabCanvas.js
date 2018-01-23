@@ -42,7 +42,7 @@ const MemoList = goog.module.get('myphysicslab.lab.util.MemoList');
 const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
 const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var ScreenRect = myphysicslab.lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Manages an HTML canvas and contains a list of {@link LabView}s which are drawn into

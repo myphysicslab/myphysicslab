@@ -105,7 +105,7 @@ const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
 var GraphLine = lab.graph.GraphLine;
 const Gravity2Law = goog.module.get('myphysicslab.lab.model.Gravity2Law');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-var HorizAlign = lab.view.HorizAlign;
+const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
 const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
 var LabCanvas = lab.view.LabCanvas;
 const Line = goog.module.get('myphysicslab.lab.model.Line');
@@ -117,7 +117,7 @@ const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
 const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
 const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-var ScreenRect = lab.view.ScreenRect;
+const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
 const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 const SimList = goog.module.get('myphysicslab.lab.model.SimList');
@@ -130,7 +130,7 @@ const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalAlign = lab.view.VerticalAlign;
+const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
 const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
 
 /** Intended for scripting, this provides a ContactSim with no RigidBody objects or
