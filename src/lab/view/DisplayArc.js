@@ -12,33 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayArc');
+goog.module('myphysicslab.lab.view.DisplayArc');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.Arc');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayObject');
 
-goog.scope(function() {
-
-const Arc = goog.module.get('myphysicslab.lab.model.Arc');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Arc = goog.require('myphysicslab.lab.model.Arc');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays a {@link myphysicslab.lab.model.Arc}.
 
-* @param {?Arc=} arc the Arc to display
-* @param {?DisplayArc=} proto the prototype DisplayArc to inherit properties from
-* @constructor
-* @final
-* @struct
 * @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayArc = function(arc, proto) {
+class DisplayArc {
+/**
+* @param {?Arc=} arc the Arc to display
+* @param {?DisplayArc=} proto the prototype DisplayArc to inherit properties from
+*/
+constructor(arc, proto) {
   /**
   * @type {?Arc}
   * @private
@@ -78,10 +71,9 @@ myphysicslab.lab.view.DisplayArc = function(arc, proto) {
   */
   this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
 };
-var DisplayArc = myphysicslab.lab.view.DisplayArc;
 
 /** @override */
-DisplayArc.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', thickness: '+Util.NF(this.getThickness())
       +', arrowHeadLength: '+Util.NF(this.getArrowHeadLength())
@@ -92,18 +84,18 @@ DisplayArc.prototype.toString = function() {
 };
 
 /** @override */
-DisplayArc.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'DisplayArc{arc_: '+
       (this.arc_ != null ? this.arc_.toStringShort() : 'null')+'}';
 };
 
 /** @override */
-DisplayArc.prototype.contains = function(point) {
+contains(point) {
   return false;
 };
 
 /** @override */
-DisplayArc.prototype.draw = function(context, map) {
+draw(context, map) {
   if (this.arc_ == null) {
     return;
   }
@@ -171,7 +163,7 @@ DisplayArc.prototype.draw = function(context, map) {
 /** Length of arrowhead, in simulation coordinates.
 * @return {number}
 */
-DisplayArc.prototype.getArrowHeadLength = function() {
+getArrowHeadLength() {
   if (this.arrowHeadLength_ !== undefined) {
     return this.arrowHeadLength_;
   } else if (this.proto_ != null) {
@@ -184,7 +176,7 @@ DisplayArc.prototype.getArrowHeadLength = function() {
 /** Color used when drawing the arc, a CSS3 color value.
 * @return {string}
 */
-DisplayArc.prototype.getColor = function() {
+getColor() {
   if (this.color_ !== undefined) {
     return this.color_;
   } else if (this.proto_ != null) {
@@ -199,7 +191,7 @@ DisplayArc.prototype.getColor = function() {
 * length 3 with spaces of length 5. Empty array indicates solid arc.
 * @return {!Array<number>}
 */
-DisplayArc.prototype.getLineDash = function() {
+getLineDash() {
   if (this.lineDash_ !== undefined) {
     return this.lineDash_;
   } else if (this.proto_ != null) {
@@ -210,18 +202,18 @@ DisplayArc.prototype.getLineDash = function() {
 };
 
 /** @override */
-DisplayArc.prototype.getMassObjects = function() {
+getMassObjects() {
   return [ ];
 };
 
 /** @override */
-DisplayArc.prototype.getPosition = function() {
+getPosition() {
   // return midpoint of the line
   return this.arc_ == null ? Vector.ORIGIN : this.arc_.getCenter();
 };
 
 /** @override */
-DisplayArc.prototype.getSimObjects = function() {
+getSimObjects() {
   return this.arc_ == null ? [ ] : [ this.arc_ ];
 };
 
@@ -229,7 +221,7 @@ DisplayArc.prototype.getSimObjects = function() {
 * is a screen pixel.
 * @return {number}
 */
-DisplayArc.prototype.getThickness = function() {
+getThickness() {
   if (this.thickness_ !== undefined) {
     return this.thickness_;
   } else if (this.proto_ != null) {
@@ -240,7 +232,7 @@ DisplayArc.prototype.getThickness = function() {
 };
 
 /** @override */
-DisplayArc.prototype.getZIndex = function() {
+getZIndex() {
   if (this.zIndex_ !== undefined) {
     return this.zIndex_;
   } else if (this.proto_ != null) {
@@ -251,7 +243,7 @@ DisplayArc.prototype.getZIndex = function() {
 };
 
 /** @override */
-DisplayArc.prototype.isDragable = function() {
+isDragable() {
   return false;
 };
 
@@ -259,7 +251,7 @@ DisplayArc.prototype.isDragable = function() {
 * @param {number|undefined} value
 * @return {!DisplayArc} this object for chaining setters
 */
-DisplayArc.prototype.setArrowHeadLength = function(value) {
+setArrowHeadLength(value) {
   this.arrowHeadLength_ = value;
   return this;
 };
@@ -268,13 +260,13 @@ DisplayArc.prototype.setArrowHeadLength = function(value) {
 * @param {string|undefined} value
 * @return {!DisplayArc} this object for chaining setters
 */
-DisplayArc.prototype.setColor = function(value) {
+setColor(value) {
   this.color_ = value;
   return this;
 };
 
 /** @override */
-DisplayArc.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   // does nothing
 };
 
@@ -284,13 +276,13 @@ DisplayArc.prototype.setDragable = function(dragable) {
 * @param {!Array<number>|undefined} value
 * @return {!DisplayArc} this object for chaining setters
 */
-DisplayArc.prototype.setLineDash = function(value) {
+setLineDash(value) {
   this.lineDash_ = value;
   return this;
 };
 
 /** @override */
-DisplayArc.prototype.setPosition = function(position) {
+setPosition(position) {
   // does nothing
 };
 
@@ -299,14 +291,15 @@ DisplayArc.prototype.setPosition = function(position) {
 * @param {number|undefined} value
 * @return {!DisplayArc} this object for chaining setters
 */
-DisplayArc.prototype.setThickness = function(value) {
+setThickness(value) {
   this.thickness_ = value;
   return this;
 };
 
 /** @override */
-DisplayArc.prototype.setZIndex = function(value) {
+setZIndex(value) {
   this.zIndex_ = value;
 };
 
-});  // goog.scope
+} //end class
+exports = DisplayArc;

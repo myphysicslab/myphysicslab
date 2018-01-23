@@ -12,41 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.DisplayClock');
+goog.module('myphysicslab.lab.view.DisplayClock');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayObject');
 
-goog.scope(function() {
-
-const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Draws a clock with two 'second hands': one tracks the simulation time, the other
 tracks real time. This makes it easy to see whether the simulation time is keeping up
 with real time.
 
+* @implements {DisplayObject}
+*/
+class DisplayClock {
+/**
 * @param {function():number} simTimeFn  function that returns current simulation time
 * @param {function():number} realTimeFn  function that returns current real time
 * @param {number=} period  Period of clock in seconds, the time it takes for the
 *     seconds hand to wrap around; default is 2 seconds.
 * @param {number=} radius  Radius of clock in simulation coords, default is 1.0.
 * @param {!Vector=} location  Location of center of clock, in simulation coords.
-* @constructor
-* @final
-* @struct
-* @implements {DisplayObject}
 */
-myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, radius,
+constructor(simTimeFn, realTimeFn, period, radius,
       location) {
   /**
   * @type {function():number}
@@ -125,10 +117,9 @@ myphysicslab.lab.view.DisplayClock = function(simTimeFn, realTimeFn, period, rad
   */
   this.zIndex_ = 0;
 };
-var DisplayClock = myphysicslab.lab.view.DisplayClock;
 
 /** @override */
-DisplayClock.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', radius: '+Util.NF(this.radius_)
       +', period: '+Util.NF(this.period_)
@@ -138,18 +129,18 @@ DisplayClock.prototype.toString = function() {
 };
 
 /** @override */
-DisplayClock.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
       'DisplayClock{'+'time: '+Util.NF(this.simTimeFn_())+'}';
 };
 
 /** @override */
-DisplayClock.prototype.contains = function(point) {
+contains(point) {
   return point.distanceTo(this.location_) <= this.radius_;
 };
 
 /** @override */
-DisplayClock.prototype.draw = function(context, map) {
+draw(context, map) {
   var center = map.simToScreen(this.location_);
   var r = map.simToScreenScaleX(this.radius_);
   // fill circle with transparent white, so that it is visible with black background
@@ -183,7 +174,7 @@ DisplayClock.prototype.draw = function(context, map) {
 * @param {!Vector} center
 * @private
 */
-DisplayClock.prototype.drawHand = function(context, map, color, time, center) {
+drawHand(context, map, color, time, center) {
   time = time - this.period_ * Math.floor(time/this.period_);
   var fraction = time / this.period_;
   var endx = map.simToScreenScaleX(this.radius_ * Math.sin(2*Math.PI * fraction));
@@ -197,7 +188,7 @@ DisplayClock.prototype.drawHand = function(context, map, color, time, center) {
 };
 
 /** @override */
-DisplayClock.prototype.isDragable = function() {
+isDragable() {
   return this.dragable_;
 };
 
@@ -205,81 +196,81 @@ DisplayClock.prototype.isDragable = function() {
 * visible over a black background.
 * @return {string} a CSS3 color value
 */
-DisplayClock.prototype.getFillStyle = function() {
+getFillStyle() {
   return this.fillStyle_;
 };
 
 /** Font used when drawing the text, a CSS font specification.
 * @return {string} a CSS font specification
 */
-DisplayClock.prototype.getFont = function() {
+getFont() {
   return this.font_;
 };
 
 /** Returns color to draw the second-hand showing simulation time.
 * @return {string} a CSS3 color value
 */
-DisplayClock.prototype.getHandColor = function() {
+getHandColor() {
   return this.handColor_;
 };
 
 /** Returns thickness of clock hands, in screen coords (1 means one pixel).
 * @return {number}
 */
-DisplayClock.prototype.getHandWidth = function() {
+getHandWidth() {
   return this.handWidth_;
 };
 
 /** @override */
-DisplayClock.prototype.getMassObjects = function() {
+getMassObjects() {
   return [];
 };
 
 /** Returns color to draw the second-hand showing real time.
 * @return {string} a CSS3 color value
 */
-DisplayClock.prototype.getOutlineColor = function() {
+getOutlineColor() {
   return this.outlineColor_;
 };
 
 /** Returns thickness of outline, in screen coords (1 means one pixel).
 * @return {number}
 */
-DisplayClock.prototype.getOutlineWidth = function() {
+getOutlineWidth() {
   return this.outlineWidth_;
 };
 
 /** @override */
-DisplayClock.prototype.getPosition = function() {
+getPosition() {
   return this.location_;
 };
 
 /** Returns color to draw the second-hand showing real time.
 * @return {string} a CSS3 color value
 */
-DisplayClock.prototype.getRealColor = function() {
+getRealColor() {
   return this.realColor_;
 };
 
 /** @override */
-DisplayClock.prototype.getSimObjects = function() {
+getSimObjects() {
   return [];
 };
 
 /** Returns color for drawing the time.
 * @return {string} a CSS3 color value
 */
-DisplayClock.prototype.getTextColor = function() {
+getTextColor() {
   return this.textColor_;
 };
 
 /** @override */
-DisplayClock.prototype.getZIndex = function() {
+getZIndex() {
   return this.zIndex_;
 };
 
 /** @override */
-DisplayClock.prototype.setDragable = function(dragable) {
+setDragable(dragable) {
   this.dragable_ = dragable;
 };
 
@@ -288,7 +279,7 @@ DisplayClock.prototype.setDragable = function(dragable) {
 * @param {string} value a CSS3 color value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setFillStyle = function(value) {
+setFillStyle(value) {
   this.fillStyle_ = value;
   return this;
 };
@@ -297,7 +288,7 @@ DisplayClock.prototype.setFillStyle = function(value) {
 * @param {string} value a CSS font specification
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setFont = function(value) {
+setFont(value) {
   this.font_ = value;
   return this;
 };
@@ -306,7 +297,7 @@ DisplayClock.prototype.setFont = function(value) {
 * @param {string} value a CSS3 color value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setHandColor = function(value) {
+setHandColor(value) {
   this.handColor_ = value;
   return this;
 };
@@ -315,7 +306,7 @@ DisplayClock.prototype.setHandColor = function(value) {
 * @param {number} value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setHandWidth = function(value) {
+setHandWidth(value) {
   this.handWidth_ = value;
   return this;
 };
@@ -324,7 +315,7 @@ DisplayClock.prototype.setHandWidth = function(value) {
 * @param {string} value a CSS3 color value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setOutlineColor = function(value) {
+setOutlineColor(value) {
   this.outlineColor_ = value;
   return this;
 };
@@ -333,13 +324,13 @@ DisplayClock.prototype.setOutlineColor = function(value) {
 * @param {number} value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setOutlineWidth = function(value) {
+setOutlineWidth(value) {
   this.outlineWidth_ = value;
   return this;
 };
 
 /** @override */
-DisplayClock.prototype.setPosition = function(position) {
+setPosition(position) {
   this.location_ = position;
 };
 
@@ -347,7 +338,7 @@ DisplayClock.prototype.setPosition = function(position) {
 * @param {string} value a CSS3 color value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setRealColor = function(value) {
+setRealColor(value) {
   this.realColor_ = value;
   return this;
 };
@@ -356,15 +347,17 @@ DisplayClock.prototype.setRealColor = function(value) {
 * @param {string} value a CSS3 color value
 * @return {!DisplayClock} this object for chaining setters
 */
-DisplayClock.prototype.setTextColor = function(value) {
+setTextColor(value) {
   this.textColor_ = value;
   return this;
 };
 
 /** @override */
-DisplayClock.prototype.setZIndex = function(zIndex) {
+setZIndex(zIndex) {
   this.zIndex_ = goog.isDef(zIndex) ? zIndex : 0;
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -394,4 +387,4 @@ DisplayClock.de_strings = {
 DisplayClock.i18n = goog.LOCALE === 'de' ? DisplayClock.de_strings :
     DisplayClock.en;
 
-});  // goog.scope
+exports = DisplayClock;
