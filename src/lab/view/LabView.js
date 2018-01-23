@@ -25,7 +25,7 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 
 goog.scope(function() {
 
-var CoordMap = myphysicslab.lab.view.CoordMap;
+const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
 var DisplayList = myphysicslab.lab.view.DisplayList;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');

@@ -12,28 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.CoordMap');
+goog.module('myphysicslab.lab.view.CoordMap');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.VerticalAlign');
 
-goog.scope(function() {
-
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** Provides the mapping between screen (canvas) coordinates and simulation coordinates;
 this is an immutable object.
@@ -77,18 +67,18 @@ what is called *model coordinates* in the above quote.
 See also 'Coordinate System When Drawing An Image' in
 {@link myphysicslab.lab.view.DisplayShape}.
 
+*/
+class CoordMap {
+/**
 @param {number} screen_left  the left edge of the canvas in screen coordinates
 @param {number} screen_bottom the bottom edge of the canvas in screen coordinates
 @param {number} sim_left  the simulation coordinate corresponding to screen_left
 @param {number} sim_bottom  the simulation coordinate corresponding to screen_bottom
 @param {number} pixel_per_unit_x  canvas pixels per simulation space unit along x axis
 @param {number} pixel_per_unit_y  canvas pixels per simulation space unit along y axis
-@constructor
-@final
-@struct
 @private
 */
-myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
+constructor(screen_left, screen_bottom, sim_left,
     sim_bottom, pixel_per_unit_x, pixel_per_unit_y) {
   /**
   * @type {number}
@@ -131,10 +121,9 @@ myphysicslab.lab.view.CoordMap = function(screen_left, screen_bottom, sim_left,
   */
   this.transform_ = at;
 };
-var CoordMap = myphysicslab.lab.view.CoordMap;
 
 /** @override */
-CoordMap.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'CoordMap{screen_left_: '+Util.NF(this.screen_left_)
       +', screen_bottom_: '+Util.NF(this.screen_bottom_)
       +', sim_left_: '+Util.NF(this.sim_left_)
@@ -144,13 +133,6 @@ CoordMap.prototype.toString = function() {
       + (this.transform_ != null) ? ', transform: '+this.transform_ : ''
       +'}';
 };
-
-/**
-* @type {number}
-* @const
-* @private
-*/
-CoordMap.MIN_SIZE = 1E-15;
 
 /** Creates a CoordMap that fits a simulation coordinates rectangle inside a
 screen coordinates rectangle in accordance with alignment options and aspect ratio.
@@ -285,7 +267,7 @@ the CoordMap.
 @throws {!Error} if simRect is empty (has zero area), or invalid alignment options
     are given.
 */
-CoordMap.make = function(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
+static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
   horizAlign = HorizAlign.stringToEnum(horizAlign || HorizAlign.MIDDLE);
   verticalAlign = VerticalAlign.stringToEnum(verticalAlign || VerticalAlign.MIDDLE);
   aspectRatio = aspectRatio || 1.0;
@@ -386,7 +368,7 @@ CoordMap.make = function(screenRect, simRect, horizAlign, verticalAlign, aspectR
 * @param {*} obj the object of interest
 * @return {boolean} true if the object is likely a CoordMap
 */
-CoordMap.isDuckType = function(obj) {
+static isDuckType(obj) {
   if (obj instanceof CoordMap) {
     return true;
   }
@@ -406,7 +388,7 @@ CoordMap.isDuckType = function(obj) {
 using the mapping defined by this CoordMap.
 @return {!AffineTransform} the AffineTransform equivalent of this CoordMap
 */
-CoordMap.prototype.getAffineTransform = function() {
+getAffineTransform() {
   return this.transform_;
 };
 
@@ -415,7 +397,7 @@ unit along x axis.
 @return {number} the horizontal scaling factor: screen pixels per unit of simulation
 space in x direction
 */
-CoordMap.prototype.getScaleX = function() {
+getScaleX() {
   return this.pixel_per_unit_x_;
 };
 
@@ -424,7 +406,7 @@ unit along y axis.
 @return {number} the vertical scaling factor: screen pixels per unit of simulation
 space in y direction
 */
-CoordMap.prototype.getScaleY = function() {
+getScaleY() {
   return this.pixel_per_unit_y_;
 };
 
@@ -434,7 +416,7 @@ CoordMap.prototype.getScaleY = function() {
 @param {number=} scr_y vertical position in screen coordinates
 @return {!Vector} the equivalent position in simulation coordinates
 */
-CoordMap.prototype.screenToSim = function(scr_x, scr_y) {
+screenToSim(scr_x, scr_y) {
   var sx, sy;
   if (goog.isNumber(scr_x)) {
     sx = scr_x;
@@ -454,7 +436,7 @@ CoordMap.prototype.screenToSim = function(scr_x, scr_y) {
 @param {!ScreenRect} rect the rectangle in screen coordinates
 @return {!DoubleRect} the equivalent rectangle in simulation coordinates
 */
-CoordMap.prototype.screenToSimRect = function(rect) {
+screenToSimRect(rect) {
   return new DoubleRect(
     this.screenToSimX(rect.getLeft()),
     this.screenToSimY(rect.getTop() + rect.getHeight()),
@@ -468,7 +450,7 @@ length in screen coordinates.
 @param {number} scr_x a horizontal length in screen coordinates
 @return {number} the equivalent length in simulation coordinates
 */
-CoordMap.prototype.screenToSimScaleX = function(scr_x) {
+screenToSimScaleX(scr_x) {
   return scr_x/this.pixel_per_unit_x_;
 };
 
@@ -477,7 +459,7 @@ length in screen coordinates.
 @param {number} scr_y a vertical length in screen coordinates
 @return {number} the equivalent length in simulation coordinates
 */
-CoordMap.prototype.screenToSimScaleY = function(scr_y) {
+screenToSimScaleY(scr_y) {
   return scr_y/this.pixel_per_unit_y_;
 };
 
@@ -485,7 +467,7 @@ CoordMap.prototype.screenToSimScaleY = function(scr_y) {
 @param {number} scr_x horizontal position in screen coordinates
 @return {number} the equivalent position in simulation coordinates
 */
-CoordMap.prototype.screenToSimX = function(scr_x)  {
+screenToSimX(scr_x)  {
   return this.sim_left_ + (scr_x - this.screen_left_)/this.pixel_per_unit_x_;
 };
 
@@ -493,7 +475,7 @@ CoordMap.prototype.screenToSimX = function(scr_x)  {
 @param {number} scr_y vertical position in screen coordinates
 @return {number} the equivalent position in simulation coordinates
 */
-CoordMap.prototype.screenToSimY = function(scr_y) {
+screenToSimY(scr_y) {
   return this.sim_bottom_ + (this.screen_bottom_ - scr_y)/this.pixel_per_unit_y_;
 };
 
@@ -501,7 +483,7 @@ CoordMap.prototype.screenToSimY = function(scr_y) {
 @param {!GenericVector} p_sim the point in simulation coordinates to translate
 @return {!Vector} the point translated to screen coordinates
 */
-CoordMap.prototype.simToScreen = function(p_sim) {
+simToScreen(p_sim) {
   return new Vector(this.simToScreenX(p_sim.getX()), this.simToScreenY(p_sim.getY()));
 };
 
@@ -509,7 +491,7 @@ CoordMap.prototype.simToScreen = function(p_sim) {
 @param {!DoubleRect} r the rectangle in simulation coordinates
 @return {!ScreenRect} the equivalent rectangle in screen coordinates
 */
-CoordMap.prototype.simToScreenRect = function(r) {
+simToScreenRect(r) {
   return new ScreenRect(
     this.simToScreenX(r.getLeft()),
     this.simToScreenY(r.getTop()),
@@ -523,7 +505,7 @@ in simulation coordinates.
 @param {number} length_x a horizontal length in simulation coordinates
 @return {number} the equivalent length in screen coordinates
 */
-CoordMap.prototype.simToScreenScaleX = function(length_x)  {
+simToScreenScaleX(length_x)  {
   return length_x*this.pixel_per_unit_x_;
 };
 
@@ -532,7 +514,7 @@ in simulation coordinates.
 @param {number} length_y a vertical length in simulation coordinates
 @return {number} the equivalent length in screen coordinates
 */
-CoordMap.prototype.simToScreenScaleY = function(length_y)  {
+simToScreenScaleY(length_y)  {
   return length_y*this.pixel_per_unit_y_;
 };
 
@@ -540,7 +522,7 @@ CoordMap.prototype.simToScreenScaleY = function(length_y)  {
 @param {number} sim_x horizontal position in simulation coordinates
 @return {number} the equivalent position in screen coordinates
 */
-CoordMap.prototype.simToScreenX = function(sim_x)  {
+simToScreenX(sim_x)  {
   return this.screen_left_ + (sim_x - this.sim_left_)*this.pixel_per_unit_x_;
 };
 
@@ -548,8 +530,17 @@ CoordMap.prototype.simToScreenX = function(sim_x)  {
 @param {number} sim_y vertical position in simulation coordinates
 @return {number} the equivalent position in screen coordinates
 */
-CoordMap.prototype.simToScreenY = function(sim_y)  {
+simToScreenY(sim_y)  {
   return this.screen_bottom_ - (sim_y - this.sim_bottom_)*this.pixel_per_unit_y_;
 };
 
-});  // goog.scope
+} //end class
+
+/**
+* @type {number}
+* @const
+* @private
+*/
+CoordMap.MIN_SIZE = 1E-15;
+
+exports = CoordMap;

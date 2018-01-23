@@ -28,7 +28,7 @@ goog.require('myphysicslab.lab.model.SimObject');
 
 var testDisplaySpring = function() {
   var tol = 1E-14;
-  var CoordMap = myphysicslab.lab.view.CoordMap;
+  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
   var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');

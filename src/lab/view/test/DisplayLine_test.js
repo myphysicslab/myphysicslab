@@ -26,7 +26,7 @@ goog.require('myphysicslab.lab.view.VerticalAlign');
 
 var testDisplayLine = function() {
   var tol = 1E-14;
-  var CoordMap = myphysicslab.lab.view.CoordMap;
+  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
   var DisplayLine = myphysicslab.lab.view.DisplayLine;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
   const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');

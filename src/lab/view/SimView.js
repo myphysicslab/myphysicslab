@@ -40,7 +40,7 @@ goog.scope(function() {
 
 const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
 const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
-var CoordMap = myphysicslab.lab.view.CoordMap;
+const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
 var DisplayList = myphysicslab.lab.view.DisplayList;
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');

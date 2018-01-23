@@ -163,7 +163,7 @@ myphysicslab.lab.view.test.LabCanvas_test.MockViewObserver.prototype.toStringSho
 var testLabCanvas1 = function() {
   var tol = 1E-14;
   const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-  var CoordMap = myphysicslab.lab.view.CoordMap;
+  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
   var DisplayShape = myphysicslab.lab.view.DisplayShape;
   var DisplaySpring = myphysicslab.lab.view.DisplaySpring;
   const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');

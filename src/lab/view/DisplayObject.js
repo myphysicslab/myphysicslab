@@ -23,7 +23,7 @@ goog.require('myphysicslab.lab.view.CoordMap');
 
 goog.scope(function() {
 
-var CoordMap = myphysicslab.lab.view.CoordMap;
+const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
 const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
 const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');

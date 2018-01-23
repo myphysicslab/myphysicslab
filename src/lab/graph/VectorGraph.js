@@ -32,7 +32,7 @@ goog.scope(function() {
 var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
-var CoordMap = lab.view.CoordMap;
+const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
 var DisplayObject = myphysicslab.lab.view.DisplayObject;
 const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
 var LabView = lab.view.LabView;
