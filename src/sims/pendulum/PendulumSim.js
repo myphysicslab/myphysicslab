@@ -12,39 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.PendulumSim');
+goog.module('myphysicslab.sims.pendulum.PendulumSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.Arc');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const Arc = goog.module.get('myphysicslab.lab.model.Arc');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const Arc = goog.require('myphysicslab.lab.model.Arc');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a pendulum driven by an optional periodic torque force.
 
@@ -76,7 +58,6 @@ The position of the pendulum is given by `U` = position of center of mass
 
 We set the radius of the arc that represents the driving force to be 0.5 times the
 amplitude `A`.
-
 
 Equations of Motion
 -------------------------
@@ -114,7 +95,6 @@ This can be rearranged to get the equations of motion (these are implemented in
     th' = v
     v' = -(g / L) sin(th) -(b /m L^2) v + (A / m L^2) cos(k t)
 
-
 Settings for Chaotic Pendulum
 -----------------------------
 
@@ -133,7 +113,6 @@ If we have `m = L = g = 1`, then we need:
 + k = 2.0/3.0 = drive frequency
 + b = 1/q = 0.5 = damping
 
-
 Variables Array
 -------------------------
 
@@ -149,16 +128,15 @@ The variables are stored in the VarsList as follows
 
 @todo  add ParameterBoolean specifying whether to limit angles to +/-Pi.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class PendulumSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
   var var_names = [
@@ -277,11 +255,8 @@ myphysicslab.sims.pendulum.PendulumSim = function(opt_name) {
       goog.bind(this.getLimitAngle, this), goog.bind(this.setLimitAngle, this)));
 };
 
-var PendulumSim = myphysicslab.sims.pendulum.PendulumSim;
-goog.inherits(PendulumSim, AbstractODESim);
-
 /** @override */
-PendulumSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', length_: '+Util.NF(this.length_)
       +', gravity_: '+Util.NF(this.gravity_)
@@ -292,16 +267,16 @@ PendulumSim.prototype.toString = function() {
       +', pivot_: '+this.pivot_
       +', rod_: '+this.rod_
       +', bob_: '+this.bob_
-      + PendulumSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-PendulumSim.prototype.getClassName = function() {
+getClassName() {
   return 'PendulumSim';
 };
 
 /** @override */
-PendulumSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -312,7 +287,7 @@ PendulumSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-PendulumSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var ke = this.bob_.getKineticEnergy();
   var y = this.bob_.getPosition().getY();
   var pe = this.gravity_ * this.bob_.getMass() * y;
@@ -320,14 +295,14 @@ PendulumSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-PendulumSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.modifyObjects();
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-PendulumSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   if (this.limitAngle_) {
@@ -357,7 +332,7 @@ PendulumSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-PendulumSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
   var angle = vars[0];
@@ -392,7 +367,7 @@ PendulumSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-PendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   // can't do 'live dragging' because everything is too connected!
   if (simObject == this.bob_) {
@@ -405,7 +380,7 @@ PendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody
 };
 
 /** @override */
-PendulumSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var vars = va.getValues();
   if (simObject == this.bob_) {
@@ -421,7 +396,7 @@ PendulumSim.prototype.mouseDrag = function(simObject, location, offset, mouseEve
 };
 
 /** @override */
-PendulumSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   if (this.isDragging_) {
     this.isDragging_ = false;
     this.broadcast(new GenericEvent(this, EventHandler.FINISH_DRAG, simObject));
@@ -429,11 +404,11 @@ PendulumSim.prototype.finishDrag = function(simObject, location, offset) {
 };
 
 /** @override */
-PendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-PendulumSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
   Util.zeroArray(change);
@@ -455,28 +430,28 @@ PendulumSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Whether mouse drag is in progress
 @return {boolean} Whether mouse drag is in progress
 */
-PendulumSim.prototype.getIsDragging = function() {
+getIsDragging() {
   return this.isDragging_;
 };
 
 /** Set whether mouse drag is in progress
 @param {boolean} value whether mouse drag is in progress
 */
-PendulumSim.prototype.setIsDragging = function(value) {
+setIsDragging(value) {
   this.isDragging_ = value;
 };
 
 /** Return mass of pendulum bob.
 @return {number} mass of pendulum bob
 */
-PendulumSim.prototype.getMass = function() {
+getMass() {
   return this.bob_.getMass();
 };
 
 /** Set mass of pendulum bob
 @param {number} value mass of pendulum bob
 */
-PendulumSim.prototype.setMass = function(value) {
+setMass(value) {
   this.bob_.setMass(value);
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
@@ -488,14 +463,14 @@ PendulumSim.prototype.setMass = function(value) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-PendulumSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-PendulumSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
@@ -507,14 +482,14 @@ PendulumSim.prototype.setGravity = function(value) {
 /** Return frequency of the rotating driving force
 @return {number} frequency of the rotating driving force
 */
-PendulumSim.prototype.getDriveFrequency = function() {
+getDriveFrequency() {
   return this.frequency_;
 };
 
 /** Set frequency of the rotating driving force
 @param {number} value frequency of the rotating driving force
 */
-PendulumSim.prototype.setDriveFrequency = function(value) {
+setDriveFrequency(value) {
   this.frequency_ = value;
   this.broadcastParameter(PendulumSim.en.DRIVE_FREQUENCY);
 };
@@ -522,14 +497,14 @@ PendulumSim.prototype.setDriveFrequency = function(value) {
 /** Return amplitude of the rotating driving force
 @return {number} amplitude of the rotating driving force
 */
-PendulumSim.prototype.getDriveAmplitude = function() {
+getDriveAmplitude() {
   return this.amplitude_;
 };
 
 /** Set amplitude of the rotating driving force
 @param {number} value amplitude of the rotating driving force
 */
-PendulumSim.prototype.setDriveAmplitude = function(value) {
+setDriveAmplitude(value) {
   this.amplitude_ = value;
   this.drive_.setRadius(Math.min(2*this.length_, 0.5*this.amplitude_));
   this.modifyObjects();
@@ -539,14 +514,14 @@ PendulumSim.prototype.setDriveAmplitude = function(value) {
 /** Return length of pendulum rod
 @return {number} length of pendulum rod
 */
-PendulumSim.prototype.getLength = function() {
+getLength() {
   return this.length_;
 };
 
 /** Set length of pendulum rod
 @param {number} value length of pendulum rod
 */
-PendulumSim.prototype.setLength = function(value) {
+setLength(value) {
   this.length_ = value;
   this.drive_.setRadius(Math.min(2*this.length_, 0.5*this.amplitude_));
   //  0       1       2    3        4   5   6
@@ -560,14 +535,14 @@ PendulumSim.prototype.setLength = function(value) {
 /** Return whether we limit the pendulum angle to +/- Pi
 @return {boolean} whether we limit the pendulum angle to +/- Pi
 */
-PendulumSim.prototype.getLimitAngle = function() {
+getLimitAngle() {
   return this.limitAngle_;
 };
 
 /** Set whether we limit the pendulum angle to +/- Pi
 @param {boolean} value whether we limit the pendulum angle to +/- Pi
 */
-PendulumSim.prototype.setLimitAngle = function(value) {
+setLimitAngle(value) {
   this.limitAngle_ = value;
   this.broadcastParameter(PendulumSim.en.LIMIT_ANGLE);
 };
@@ -575,14 +550,14 @@ PendulumSim.prototype.setLimitAngle = function(value) {
 /** Return damping factor
 @return {number} damping factor
 */
-PendulumSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping factor
 @param {number} value damping factor
 */
-PendulumSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(PendulumSim.en.DAMPING);
 };
@@ -590,18 +565,20 @@ PendulumSim.prototype.setDamping = function(value) {
 /** Return location of pivot point
 @return {!Vector}
 */
-PendulumSim.prototype.getPivot = function() {
+getPivot() {
   return this.pivot_;
 };
 
 /** Set location of pivot point
 @param {!Vector} value
 */
-PendulumSim.prototype.setPivot = function(value) {
+setPivot(value) {
   this.pivot_ = value;
   this.drive_.setCenter(value);
   this.modifyObjects();
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -661,4 +638,4 @@ PendulumSim.de_strings = {
 PendulumSim.i18n = goog.LOCALE === 'de' ? PendulumSim.de_strings :
     PendulumSim.en;
 
-}); // goog.scope
+exports = PendulumSim;
