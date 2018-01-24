@@ -35,14 +35,14 @@ var testTerminal1 = function() {
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   assertEquals('> 2+2\n4\n', output_elem.value);
-  assertEquals('module$exports$myphysicslab$lab$util$DoubleRect',
+  assertEquals('mpl$lab$util$DoubleRect',
       t.expand('DoubleRect'));
   // test that expand() ignores quoted strings containing escaped quotes
   var txt = 'replace this DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
-  var exp = 'replace this module$exports$myphysicslab$lab$util$DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
+  var exp = 'replace this mpl$lab$util$DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
   assertEquals(exp, t.expand(txt));
   txt = " this Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
-  exp = " this module$exports$myphysicslab$lab$util$Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
+  exp = " this mpl$lab$util$Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
   assertEquals(exp, t.expand(txt));
   // test storing a variable in the Terminal's 'z' object
   t.eval('z.a = 1;');
@@ -50,6 +50,7 @@ var testTerminal1 = function() {
   t.eval('z.a');
   assertEquals('> z.a\n1\n', output_elem.value);
   // Test that semicolons inside strings or braces don't break up the command
+  debugger;
   assertTrue(t.eval('Util.toName("foo;")=="FOO;"'));
   assertEquals(6, t.eval('{1;2;3+3}'));
   assertEquals(3, t.eval('{1;{2;3}}'));
@@ -224,19 +225,19 @@ var testTerminal3 = function() {
   output_elem.value = '';
   assertEquals(5, t.eval('var b =/* new Vector */5'));
   assertEquals('> var b =/* new Vector */5\n'+
-      '>> terminal.z.b =/* new module$exports$myphysicslab$lab$util$Vector */5\n'+
+      '>> terminal.z.b =/* new mpl$lab$util$Vector */5\n'+
       '5\n', output_elem.value);
   // semicolon does not end a // comment
   output_elem.value = '';
   assertEquals(3, t.eval('3//5; new Vector(1,1)'));
   assertEquals('> 3//5; new Vector(1,1)\n'+
-      '>> 3//5; new module$exports$myphysicslab$lab$util$Vector(1,1)\n'+
+      '>> 3//5; new mpl$lab$util$Vector(1,1)\n'+
       '3\n', output_elem.value);
   // a comment ends at the newline, not at semicolon
   output_elem.value = '';
   assertEquals(5, t.eval('3 //foo; new Vector(1,1)\n5'));
   assertEquals('> 3 //foo; new Vector(1,1)\n'+
-      '>> 3 //terminal.z.foo; new module$exports$myphysicslab$lab$util$Vector(1,1)\n'+
+      '>> 3 //terminal.z.foo; new mpl$lab$util$Vector(1,1)\n'+
       '> 5\n'+
       '>> 5\n'+
       '5\n', output_elem.value);
@@ -394,7 +395,7 @@ var testTerminal8 = function() {
   var t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
-  assertEquals('module$exports$myphysicslab$lab$util$DoubleRect',
+  assertEquals('mpl$lab$util$DoubleRect',
       t.expand('DoubleRect'));
   // regex containing a semicolon.
   var txt = 'SIM_VARS.foo=1.00;';

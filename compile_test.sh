@@ -194,3 +194,11 @@ java -jar "$CLOSURE_COMPILER" \
 --warning_level=VERBOSE \
 > $target
 set +x
+
+# for simple-compile apps, do a search/replace to make shorter names
+# replace "module$exports$myphysicslab$" with "mpl$"
+# This makes typical file about 10% smaller.
+# WARNING: Closure Compiler could change how these module exports are named.
+if [[ $comp_level == 'SIMPLE' ]] ; then
+	sed -E -i '' "s/module\\\$exports\\\$myphysicslab\\\$/mpl\\\$/g" $target;
+fi
