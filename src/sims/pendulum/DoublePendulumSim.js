@@ -12,34 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.DoublePendulumSim');
+goog.module('myphysicslab.sims.pendulum.DoublePendulumSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a double pendulum.
-
 
 Variables and Parameters
 -------------------------
@@ -66,7 +52,6 @@ This diagram shows how the sticks and masses are connected:
        |
        m2
 
-
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown at
@@ -81,7 +66,6 @@ solver to find the above equations.
     ddth1 = ------------------------------------
             L1 (2 m1 + m2 - m2 Cos[2(th1-th2)])
 
-
             2 Sin[th1-th2](
               (m1+m2) dth1^2 L1
               + g (m1+m2) Cos[th1]
@@ -89,7 +73,6 @@ solver to find the above equations.
             )
     ddth2 = ------------------------------------
             L2 (2 m1 + m2 - m2 Cos[2(th1-th2)])
-
 
 Variables Array
 -------------------------
@@ -106,20 +89,18 @@ The variables are stored in the VarsList as follows
     vars[8] = total energy
     vars[9] = time
 
-
 @todo  add damping force.
 @todo  add ParameterBoolean specifying whether to limit angles to +/-Pi.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class DoublePendulumSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
   var var_names = [
@@ -214,11 +195,9 @@ myphysicslab.sims.pendulum.DoublePendulumSim = function(opt_name) {
       DoublePendulumSim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
 };
-var DoublePendulumSim = myphysicslab.sims.pendulum.DoublePendulumSim;
-goog.inherits(DoublePendulumSim, AbstractODESim);
 
 /** @override */
-DoublePendulumSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', rod1Length_: '+Util.NF(this.rod1Length_)
       +', rod2Length_: '+Util.NF(this.rod2Length_)
@@ -227,18 +206,18 @@ DoublePendulumSim.prototype.toString = function() {
       +', bob1_: '+this.bob1_
       +', bob2_: '+this.bob2_
       +', gravity_: '+Util.NF(this.gravity_)
-      + DoublePendulumSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DoublePendulumSim.prototype.getClassName = function() {
+getClassName() {
   return 'DoublePendulumSim';
 };
 
 /** Sets the double pendulum to the rest state and sets the energy to zero.
 * @return {undefined}
 */
-DoublePendulumSim.prototype.restState = function() {
+restState() {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
   var va = this.getVarsList();
@@ -252,7 +231,7 @@ DoublePendulumSim.prototype.restState = function() {
 };
 
 /** @override */
-DoublePendulumSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -263,7 +242,7 @@ DoublePendulumSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-DoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var L1 = this.rod1Length_;
   var L2 = this.rod2Length_;
   var ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
@@ -277,13 +256,13 @@ DoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-DoublePendulumSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-DoublePendulumSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // limit the pendulum angle to +/- Pi
@@ -316,7 +295,7 @@ DoublePendulumSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-DoublePendulumSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
   var theta1 = vars[0];
@@ -346,7 +325,7 @@ DoublePendulumSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-DoublePendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
     mouseEvent) {
   // can't do 'live dragging' because everything is too connected!
   if (simObject == this.bob1_ || simObject == this.bob2_) {
@@ -358,7 +337,7 @@ DoublePendulumSim.prototype.startDrag = function(simObject, location, offset, dr
 };
 
 /** @override */
-DoublePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
+mouseDrag(simObject, location, offset,
     mouseEvent) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
@@ -380,16 +359,16 @@ DoublePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
 };
 
 /** @override */
-DoublePendulumSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
 /** @override */
-DoublePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-DoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
   Util.zeroArray(change);
@@ -426,18 +405,17 @@ DoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
   return null;
 };
 
-
 /**
 @return {number}
 */
-DoublePendulumSim.prototype.getMass1 = function() {
+getMass1() {
   return this.bob1_.getMass();
 };
 
 /**
 @param {number} value
 */
-DoublePendulumSim.prototype.setMass1 = function(value) {
+setMass1(value) {
   this.bob1_.setMass(value);
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
@@ -449,14 +427,14 @@ DoublePendulumSim.prototype.setMass1 = function(value) {
 /**
 @return {number}
 */
-DoublePendulumSim.prototype.getMass2 = function() {
+getMass2() {
   return this.bob2_.getMass();
 };
 
 /**
 @param {number} value
 */
-DoublePendulumSim.prototype.setMass2 = function(value) {
+setMass2(value) {
   this.bob2_.setMass(value);
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
@@ -468,14 +446,14 @@ DoublePendulumSim.prototype.setMass2 = function(value) {
 /**
 @return {number}
 */
-DoublePendulumSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /**
 @param {number} value
 */
-DoublePendulumSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
@@ -487,14 +465,14 @@ DoublePendulumSim.prototype.setGravity = function(value) {
 /**
 @return {number}
 */
-DoublePendulumSim.prototype.getRod1Length = function() {
+getRod1Length() {
   return this.rod1Length_;
 };
 
 /**
 @param {number} value
 */
-DoublePendulumSim.prototype.setRod1Length = function(value) {
+setRod1Length(value) {
   this.rod1Length_ = value;
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
@@ -506,14 +484,14 @@ DoublePendulumSim.prototype.setRod1Length = function(value) {
 /**
 @return {number}
 */
-DoublePendulumSim.prototype.getRod2Length = function() {
+getRod2Length() {
   return this.rod2Length_;
 };
 
 /**
 @param {number} value
 */
-DoublePendulumSim.prototype.setRod2Length = function(value) {
+setRod2Length(value) {
   this.rod2Length_ = value;
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
@@ -521,6 +499,8 @@ DoublePendulumSim.prototype.setRod2Length = function(value) {
   this.getVarsList().incrSequence(4, 5, 6, 7, 8);
   this.broadcastParameter(DoublePendulumSim.en.ROD_2_LENGTH);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -580,4 +560,4 @@ DoublePendulumSim.de_strings = {
 DoublePendulumSim.i18n = goog.LOCALE === 'de' ? DoublePendulumSim.de_strings :
     DoublePendulumSim.en;
 
-}); // goog.scope
+exports = DoublePendulumSim;

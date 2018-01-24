@@ -114,9 +114,7 @@ defineNames(myName) {
 } //end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
-*    elementId's to look for in the HTML document; these elements are where the user
-*    interface of the simulation is created.
+* @param {!TabLayout.elementIds} elem_ids
 * @return {!PendulumApp}
 */
 function makePendulumApp(elem_ids) {

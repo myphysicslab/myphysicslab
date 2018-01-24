@@ -38,7 +38,7 @@ var testDoublePendulum = function() {
   const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-  var DoublePendulumSim = myphysicslab.sims.pendulum.DoublePendulumSim;
+  const DoublePendulumSim = goog.module.get('myphysicslab.sims.pendulum.DoublePendulumSim');
   var i;
   var tol = 1E-15;
   var sim = new DoublePendulumSim();
