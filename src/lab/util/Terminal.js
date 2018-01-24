@@ -1314,11 +1314,14 @@ static stdRegex(terminal) {
        'terminal.', /*addToVars=*/true);
 
   // note: $$ represents $ in regexp-replace string.
+  // In compile_js.sh we replace "module$exports$myphysicslab$" with "mpl$"
+  // That is done to reduce the size of the simple-compiled file.
+  // Otherwise a typical name would be "module$exports$myphysicslab$lab$util$Clock".
   terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask'
       +'|DoubleRect|EasyScriptParser|GenericEvent|GenericMemo|GenericObserver'
       +'|MutableVector|ParameterBoolean|ParameterNumber|ParameterString'
       +'|RandomLCG|Terminal|Timer|Util|Vector',
-      'module$$exports$$myphysicslab$$lab$$util$$', /*addToVars=*/false);
+      'mpl$$lab$$util$$', /*addToVars=*/false);
 
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',
       'Util.', /*addToVars=*/false);
@@ -1328,32 +1331,31 @@ static stdRegex(terminal) {
       +'|GravityLaw|Gravity2Law'
       +'|MassObject|ModifiedEuler|NumericalPath|PointMass'
       +'|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
-      'module$$exports$$myphysicslab$$lab$$model$$', /*addToVars=*/false);
+      'mpl$$lab$$model$$', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'
       +'|DrawingMode|DrawingStyle|EnergyBarGraph|HorizAlign|LabCanvas|LabView'
       +'|ScreenRect|SimView|VerticalAlign',
-       'module$$exports$$myphysicslab$$lab$$view$$', /*addToVars=*/false);
+       'mpl$$lab$$view$$', /*addToVars=*/false);
 
   terminal.addRegex('CircularEdge|CollisionHandling|ContactSim'
        +'|EdgeRange|ExtraAccel|ImpulseSim|Joint|Polygon'
        +'|RigidBodyCollision|RigidBodySim|Rope|Scrim|Shapes|StraightEdge'
        +'|ThrusterSet|Vertex|Walls',
-       'module$$exports$$myphysicslab$$lab$$engine2D$$', /*addToVars=*/false);
+       'mpl$$lab$$engine2D$$', /*addToVars=*/false);
 
   terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine'
        +'|GraphStyle|DisplayAxes|VarsHistory',
-       'myphysicslab.lab.graph.', /*addToVars=*/false);
+       'mpl$$lab$$graph$$', /*addToVars=*/false);
 
   terminal.addRegex('EventHandler|MouseTracker|RigidBodyEventHandler'
        +'|SimController|SimRunner|ViewPanner',
-       'myphysicslab.lab.app.', /*addToVars=*/false);
+       'mpl$$lab$$app$$', /*addToVars=*/false);
 
   terminal.addRegex('ButtonControl|CheckBoxControl|ChoiceControl'
        +'|NumericControl|SliderControl|ToggleControl',
-       'myphysicslab.lab.controls.', /*addToVars=*/false);
-
+       'mpl$$lab$$controls$$', /*addToVars=*/false);
 };
 
 /** Returns names of the variables that have been defined using {@link #addRegex}.
