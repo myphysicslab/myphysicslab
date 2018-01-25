@@ -12,68 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.VectorGraphPendulumApp');
+goog.module('myphysicslab.sims.pendulum.VectorGraphPendulumApp');
 
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.VectorGraph');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.PendulumSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PendulumSim = goog.module.get('myphysicslab.sims.pendulum.PendulumSim');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VectorGraph = goog.module.get('myphysicslab.lab.graph.VectorGraph');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PendulumSim = goog.require('myphysicslab.sims.pendulum.PendulumSim');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VectorGraph = goog.require('myphysicslab.lab.graph.VectorGraph');
 
 /** Displays the {@link PendulumSim} simulation with a {@link VectorGraph}.
-
+*/
+class VectorGraphPendulumApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
   var sim = new PendulumSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
   sim.setDriveAmplitude(0);
@@ -128,27 +101,36 @@ sims.pendulum.VectorGraphPendulumApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var VectorGraphPendulumApp = sims.pendulum.VectorGraphPendulumApp;
-goog.inherits(VectorGraphPendulumApp, AbstractApp);
 
 /** @override */
-VectorGraphPendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bob: '+this.bob.toStringShort()
       +', rod: '+this.rod.toStringShort()
-      + VectorGraphPendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-VectorGraphPendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'VectorGraphPendulumApp';
 };
 
 /** @override */
-VectorGraphPendulumApp.prototype.defineNames = function(myName) {
-  VectorGraphPendulumApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('rod|bob',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!VectorGraphPendulumApp}
+*/
+function makeVectorGraphPendulumApp(elem_ids) {
+  return new VectorGraphPendulumApp(elem_ids);
+};
+goog.exportSymbol('makeVectorGraphPendulumApp', makeVectorGraphPendulumApp);
+
+exports = VectorGraphPendulumApp;
