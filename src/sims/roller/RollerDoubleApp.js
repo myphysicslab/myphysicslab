@@ -12,91 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.RollerDoubleApp');
+goog.module('myphysicslab.sims.roller.RollerDoubleApp');
 
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.model.ParametricPath');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.roller.CardioidPath');
-goog.require('myphysicslab.sims.roller.CirclePath');
-goog.require('myphysicslab.sims.roller.FlatPath');
-goog.require('myphysicslab.sims.roller.HumpPath');
-goog.require('myphysicslab.sims.roller.LemniscatePath');
-goog.require('myphysicslab.sims.roller.LoopTheLoopPath');
-goog.require('myphysicslab.sims.roller.OvalPath');
-goog.require('myphysicslab.sims.roller.PathObserver');
-goog.require('myphysicslab.sims.roller.PathSelector');
-goog.require('myphysicslab.sims.roller.RollerDoubleSim');
-goog.require('myphysicslab.sims.roller.SpiralPath');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CardioidPath = goog.module.get('myphysicslab.sims.roller.CardioidPath');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const FlatPath = goog.module.get('myphysicslab.sims.roller.FlatPath');
-const HumpPath = goog.module.get('myphysicslab.sims.roller.HumpPath');
-const LemniscatePath = goog.module.get('myphysicslab.sims.roller.LemniscatePath');
-const LoopTheLoopPath = goog.module.get('myphysicslab.sims.roller.LoopTheLoopPath');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const OvalPath = goog.module.get('myphysicslab.sims.roller.OvalPath');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-const PathObserver = goog.module.get('myphysicslab.sims.roller.PathObserver');
-const PathSelector = goog.module.get('myphysicslab.sims.roller.PathSelector');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-var RollerDoubleSim = sims.roller.RollerDoubleSim;
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SpiralPath = goog.module.get('myphysicslab.sims.roller.SpiralPath');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CardioidPath = goog.require('myphysicslab.sims.roller.CardioidPath');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const FlatPath = goog.require('myphysicslab.sims.roller.FlatPath');
+const HumpPath = goog.require('myphysicslab.sims.roller.HumpPath');
+const LemniscatePath = goog.require('myphysicslab.sims.roller.LemniscatePath');
+const LoopTheLoopPath = goog.require('myphysicslab.sims.roller.LoopTheLoopPath');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const OvalPath = goog.require('myphysicslab.sims.roller.OvalPath');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const PathObserver = goog.require('myphysicslab.sims.roller.PathObserver');
+const PathSelector = goog.require('myphysicslab.sims.roller.PathSelector');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RollerDoubleSim = goog.require('myphysicslab.sims.roller.RollerDoubleSim');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Creates the RollerDoubleSim simulation
 
+* @implements {Observer}
+*/
+class RollerDoubleApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @implements {Observer}
-* @struct
-* @export
 */
-myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new RollerDoubleSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   //this.layout.simCanvas.setBackground('black');
   //this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
@@ -165,40 +128,38 @@ myphysicslab.sims.roller.RollerDoubleApp = function(elem_ids) {
   this.addURLScriptButton();
   this.pathSelect.addObserver(this);
 };
-var RollerDoubleApp = myphysicslab.sims.roller.RollerDoubleApp;
-goog.inherits(RollerDoubleApp, AbstractApp);
 
 /** @override */
-RollerDoubleApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', ball1: '+this.ball1.toStringShort()
       +', ball2: '+this.ball2.toStringShort()
       +', spring: '+this.spring.toStringShort()
       +', pathSelect: '+this.pathSelect.toStringShort()
       +', paths: [ '+this.paths+' ]'
-      + RollerDoubleApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RollerDoubleApp.prototype.getClassName = function() {
+getClassName() {
   return 'RollerDoubleApp';
 };
 
 /** @override */
-RollerDoubleApp.prototype.defineNames = function(myName) {
-  RollerDoubleApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('ball1|ball2|spring|paths|pathSelect',
       myName+'.');
 };
 
 /** @override */
-RollerDoubleApp.prototype.getSubjects = function() {
-  var subjects = RollerDoubleApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.pathSelect, subjects);
 };
 
 /** @override */
-RollerDoubleApp.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.pathSelect) {
     this.easyScript.update();
     this.sim.modifyObjects();
@@ -208,9 +169,20 @@ RollerDoubleApp.prototype.observe =  function(event) {
 /**
 @param {!DoubleRect} simRect
 */
-RollerDoubleApp.prototype.setSimRect = function(simRect) {
+setSimRect(simRect) {
   this.simRect = simRect;
   this.simView.setSimRect(simRect);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!RollerDoubleApp}
+*/
+function makeRollerDoubleApp(elem_ids) {
+  return new RollerDoubleApp(elem_ids);
+};
+goog.exportSymbol('makeRollerDoubleApp', makeRollerDoubleApp);
+
+exports = RollerDoubleApp;
