@@ -12,46 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
+goog.module('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
 
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a double pendulum as two rigid bodies. This uses RigidBody's and
 Joint's, but only for geometry. This does not use the general physics engine
@@ -73,19 +51,17 @@ which will also fix the energy calculation.
 
 @todo:  derive equations of motion using Lagrangian method
 
+* @implements {EnergySystem}
+*/
+class RigidDoublePendulumSim extends AbstractODESim {
+/**
 * @param {!RigidDoublePendulumSim.Parts} parts the RigidBodys and Joints that make the
 *    pendulum.
 * @param {string=} opt_name name of this as a Subject
 * @param {!SimList=} opt_simList
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
-* @implements {EnergySystem}
 */
-myphysicslab.sims.pendulum.RigidDoublePendulumSim = function(parts, opt_name,
-    opt_simList) {
-  AbstractODESim.call(this, opt_name, opt_simList);
+constructor(parts, opt_name, opt_simList) {
+  super(opt_name, opt_simList);
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
   var var_names = [
@@ -236,11 +212,8 @@ myphysicslab.sims.pendulum.RigidDoublePendulumSim = function(parts, opt_name,
   this.getSimList().add(this.pendulum1_, this.pendulum2_, this.pivot1_, this.pivot2_);
 };
 
-var RigidDoublePendulumSim = myphysicslab.sims.pendulum.RigidDoublePendulumSim;
-goog.inherits(RigidDoublePendulumSim, AbstractODESim);
-
 /** @override */
-RigidDoublePendulumSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', gamma1_: '+Util.NF(this.gamma1_)
       +', gamma2_: '+Util.NF(this.gamma2_)
@@ -248,22 +221,13 @@ RigidDoublePendulumSim.prototype.toString = function() {
       +', pendulum2_: '+this.pendulum2_
       +', gravity_: '+Util.NF(this.gravity_)
       +', potentialOffset_: '+Util.NF(this.potentialOffset_)
-      + RigidDoublePendulumSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RigidDoublePendulumSim.prototype.getClassName = function() {
+getClassName() {
   return 'RigidDoublePendulumSim';
 };
-
-/** The parts that make up a RigidDoublePendulumSim: two RigidBodys and the four Joints
-that connect them.
-@typedef {{
-  bodies: !Array<!Polygon>,
-  joints: !Array<!Joint>
-}}
-*/
-RigidDoublePendulumSim.Parts;
 
 /** Creates a double pendulum with offset center of mass and offset joints. The two
 rectangular bodies are attached together as a double pendulum. The center of mass of the
@@ -274,7 +238,7 @@ is not along the vertical center line of either body, but is offset.
 @param {!Vector=} pivot location of fixed joint connecting to Scrim, in world coords
 @return {!RigidDoublePendulumSim.Parts}
 */
-RigidDoublePendulumSim.makeOffset = function(theta1, theta2, pivot) {
+static makeOffset(theta1, theta2, pivot) {
   pivot = pivot || Vector.ORIGIN;
   // body coords origin is at lower left corner with makeBlock2
   var p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
@@ -318,7 +282,7 @@ each pendulum, and joints are along the vertical center line of each body.
 @param {!Vector=} pivot location of fixed joint connecting to Scrim, in world coords
 @return {!RigidDoublePendulumSim.Parts}
 */
-RigidDoublePendulumSim.makeCentered = function(theta1, theta2, pivot) {
+static makeCentered(theta1, theta2, pivot) {
   pivot = pivot || Vector.ORIGIN;
   // (body coords origin is at lower left corner with makeBlock2)
   var p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
@@ -361,7 +325,7 @@ with no forces other than gravity acting, then the angle of the pendulum would b
     joint to center of mass of the pendulum
 @throws {!Error} if the pendulum is not one of the bodies of the joint
 */
-RigidDoublePendulumSim.getGamma = function(pendulum, pivot) {
+static getGamma(pendulum, pivot) {
   /** @type {!Vector} */
   var attach;
   if (pivot.getBody1() == pendulum) {
@@ -376,7 +340,7 @@ RigidDoublePendulumSim.getGamma = function(pendulum, pivot) {
 };
 
 /** @override */
-RigidDoublePendulumSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -387,7 +351,7 @@ RigidDoublePendulumSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-RigidDoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var p1 = this.pendulum1_;
   var p2 = this.pendulum2_;
   var ke = p1.translationalEnergy() + p2.translationalEnergy();
@@ -398,13 +362,13 @@ RigidDoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-RigidDoublePendulumSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-RigidDoublePendulumSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -420,7 +384,7 @@ RigidDoublePendulumSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-RigidDoublePendulumSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
   var sin_th1 = Math.sin(vars[0]);
@@ -443,7 +407,7 @@ RigidDoublePendulumSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-RigidDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[7] = 1; // time
   // vars  0        1        2       3      4   5   6   7
@@ -485,28 +449,28 @@ RigidDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Returns angle of R1 with respect to vertical in body coords of pendulum 1.
 @return {number} angle of R1 with respect to vertical in body coords of pendulum 1.
 */
-RigidDoublePendulumSim.prototype.getGamma1 = function() {
+getGamma1() {
   return this.gamma1_;
 };
 
 /** Returns angle of R2 with respect to vertical in body coords of pendulum 2.
 @return {number} angle of R2 with respect to vertical in body coords of pendulum 2.
 */
-RigidDoublePendulumSim.prototype.getGamma2 = function() {
+getGamma2() {
   return this.gamma2_;
 };
 
 /**
 @return {number}
 */
-RigidDoublePendulumSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /**
 @param {number} value
 */
-RigidDoublePendulumSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
@@ -519,7 +483,7 @@ RigidDoublePendulumSim.prototype.setGravity = function(value) {
 * @return {undefined}
 * @private
 */
-RigidDoublePendulumSim.prototype.setInitialAngles = function() {
+setInitialAngles() {
   this.reset();
   // figure out the new 'theta' angles
   // theta = omega + gamma, where omega is the rigid body angle.
@@ -537,14 +501,14 @@ RigidDoublePendulumSim.prototype.setInitialAngles = function() {
 /**
 @return {number}
 */
-RigidDoublePendulumSim.prototype.getAngle1 = function() {
+getAngle1() {
   return this.omega1_;
 };
 
 /**
 @param {number} value
 */
-RigidDoublePendulumSim.prototype.setAngle1 = function(value) {
+setAngle1(value) {
   this.omega1_ = value;
   this.setInitialAngles();
   this.broadcastParameter(RigidDoublePendulumSim.en.ANGLE_1);
@@ -553,18 +517,29 @@ RigidDoublePendulumSim.prototype.setAngle1 = function(value) {
 /**
 @return {number}
 */
-RigidDoublePendulumSim.prototype.getAngle2 = function() {
+getAngle2() {
   return this.omega2_;
 };
 
 /**
 @param {number} value
 */
-RigidDoublePendulumSim.prototype.setAngle2 = function(value) {
+setAngle2(value) {
   this.omega2_ = value;
   this.setInitialAngles();
   this.broadcastParameter(RigidDoublePendulumSim.en.ANGLE_2);
 };
+
+} //end class
+
+/** The parts that make up a RigidDoublePendulumSim: two RigidBodys and the four Joints
+that connect them.
+@typedef {{
+  bodies: !Array<!Polygon>,
+  joints: !Array<!Joint>
+}}
+*/
+RigidDoublePendulumSim.Parts;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -621,4 +596,4 @@ RigidDoublePendulumSim.de_strings = {
 RigidDoublePendulumSim.i18n = goog.LOCALE === 'de' ? RigidDoublePendulumSim.de_strings :
     RigidDoublePendulumSim.en;
 
-}); // goog.scope
+exports = RigidDoublePendulumSim;

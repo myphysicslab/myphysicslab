@@ -12,70 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.RigidDoublePendulumApp');
+goog.module('myphysicslab.sims.pendulum.RigidDoublePendulumApp');
 
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayConnector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayConnector = goog.module.get('myphysicslab.lab.view.DisplayConnector');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-var RigidDoublePendulumSim = sims.pendulum.RigidDoublePendulumSim;
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayConnector = goog.require('myphysicslab.lab.view.DisplayConnector');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RigidDoublePendulumSim = goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link RigidDoublePendulumSim} simulation.
-
+*/
+class RigidDoublePendulumApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {boolean} centered determines which pendulum configuration to make: centered
 *    (true) or offset (false)
-* @extends {AbstractApp}
-* @constructor
-* @final
-* @struct
-* @export
 */
-sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
+constructor(elem_ids, centered) {
   Util.setErrorHandler();
   /** @type {!RigidDoublePendulumSim.Parts} */
-  this.parts = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0)
+  var parts = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0);
   var simRect = new DoubleRect(-2, -2, 2, 2);
-  var sim = new RigidDoublePendulumSim(this.parts);
+  var sim = new RigidDoublePendulumSim(parts);
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/null,
-      /*energySystem=*/sim);
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/null, /*energySystem=*/sim);
 
   // This Observer ensures that when initial angles are changed in sim, then clock
   // time is also reset.  This helps with feedback when dragging angle slider,
@@ -89,16 +63,16 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
   this.protoBob = new DisplayShape().setFillStyle('').setStrokeStyle('blue')
       .setDrawCenterOfMass(true).setThickness(3);
   /** @type {!DisplayShape} */
-  this.bob0 = new DisplayShape(this.parts.bodies[0], this.protoBob);
+  this.bob0 = new DisplayShape(parts.bodies[0], this.protoBob);
   this.displayList.add(this.bob0);
   /** @type {!DisplayShape} */
-  this.bob1 = new DisplayShape(this.parts.bodies[1], this.protoBob);
+  this.bob1 = new DisplayShape(parts.bodies[1], this.protoBob);
   this.displayList.add(this.bob1);
   /** @type {!DisplayConnector} */
-  this.joint0 = new DisplayConnector(this.parts.joints[0]);
+  this.joint0 = new DisplayConnector(parts.joints[0]);
   this.displayList.add(this.joint0);
   /** @type {!DisplayConnector} */
-  this.joint1 = new DisplayConnector(this.parts.joints[1]);
+  this.joint1 = new DisplayConnector(parts.joints[1]);
   this.displayList.add(this.joint1);
 
   this.addPlaybackControls();
@@ -118,29 +92,40 @@ sims.pendulum.RigidDoublePendulumApp = function(elem_ids, centered) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var RigidDoublePendulumApp = sims.pendulum.RigidDoublePendulumApp;
-goog.inherits(RigidDoublePendulumApp, AbstractApp);
 
 /** @override */
-RigidDoublePendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bob0: '+this.bob0.toStringShort()
       +', bob1: '+this.bob1.toStringShort()
       +', joint0: '+this.joint0.toStringShort()
       +', joint1: '+this.joint1.toStringShort()
-      + RigidDoublePendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RigidDoublePendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'RigidDoublePendulumApp';
 };
 
 /** @override */
-RigidDoublePendulumApp.prototype.defineNames = function(myName) {
-  RigidDoublePendulumApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('joint0|joint1|bob1|bob0|protoBob',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {boolean} centered determines which pendulum configuration to make: centered
+*    (true) or offset (false)
+* @return {!RigidDoublePendulumApp}
+*/
+function makeRigidDoublePendulumApp(elem_ids, centered) {
+  return new RigidDoublePendulumApp(elem_ids, centered);
+};
+goog.exportSymbol('makeRigidDoublePendulumApp', makeRigidDoublePendulumApp);
+
+exports = RigidDoublePendulumApp;

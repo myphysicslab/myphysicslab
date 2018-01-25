@@ -5,6 +5,7 @@
 #define #APP_PATH sims.pendulum.RigidDoublePendulumApp
 #include "#TOP_DIR/macros.html"
 #include "#TOP_DIR/macros_tab.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@
 #LOREM_IPSUM
 
 #LOAD_APP
-#define INSTANTIATE_APP app = new myphysicslab.sims.pendulum.RigidDoublePendulumApp(elem_ids,\
+#define INSTANTIATE_APP app = makeRigidDoublePendulumApp(elem_ids,\
         /*centered=*/false);
 #BUILD_APP
 #SHOW_ALL
