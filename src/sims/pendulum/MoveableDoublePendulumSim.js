@@ -12,35 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.MoveableDoublePendulumSim');
+goog.module('myphysicslab.sims.pendulum.MoveableDoublePendulumSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a double pendulum hanging from a moveable anchor point.
 
@@ -80,7 +64,6 @@ The variables are stored in the VarsList as follows
     vars[7] = y_0  anchor Y position
     vars[8] = vy_0 = y_0'  anchor Y velocity
 
-
 To Do
 -------------------------
 The energy values are not correct. When the anchor is moving then energy is being added
@@ -89,16 +72,15 @@ gravitational field. The kinetic energy should include the motion added by the a
 
 @todo  add ParameterBoolean specifying whether to limit angles to +/-Pi.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.pendulum.MoveableDoublePendulumSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class MoveableDoublePendulumSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
   var var_names = [
@@ -280,11 +262,8 @@ myphysicslab.sims.pendulum.MoveableDoublePendulumSim = function(opt_name) {
       goog.bind(this.setSpringStiffness, this)));
 };
 
-var MoveableDoublePendulumSim = myphysicslab.sims.pendulum.MoveableDoublePendulumSim;
-goog.inherits(MoveableDoublePendulumSim, AbstractODESim);
-
 /** @override */
-MoveableDoublePendulumSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', length1_: '+Util.NF(this.length1_)
       +', length2_: '+Util.NF(this.length2_)
@@ -298,11 +277,11 @@ MoveableDoublePendulumSim.prototype.toString = function() {
       +', anchor_: '+this.anchor_
       +', bob1_: '+this.bob1_
       +', bob2_: '+this.bob2_
-      + MoveableDoublePendulumSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.getClassName = function() {
+getClassName() {
   return 'MoveableDoublePendulumSim';
 };
 
@@ -311,7 +290,7 @@ mouse dragging of anchor results in applying spring force or just moving the anc
 directly.
 @param {boolean} value
 */
-MoveableDoublePendulumSim.prototype.setRunning = function(value) {
+setRunning(value) {
   this.running_ = value;
 };
 
@@ -331,7 +310,7 @@ To avoid the anchor wandering need `C = 0` therefore
 @return {undefined}
 @private
 */
-MoveableDoublePendulumSim.prototype.setAnchorYVelocity = function() {
+setAnchorYVelocity() {
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
   var value = Math.abs(this.frequency_) < 1E-10 ? 0 :
@@ -346,7 +325,7 @@ MoveableDoublePendulumSim.prototype.setAnchorYVelocity = function() {
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -357,7 +336,7 @@ MoveableDoublePendulumSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-MoveableDoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
   var L1 = this.length1_;
@@ -376,13 +355,13 @@ MoveableDoublePendulumSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // limit the pendulum angle to +/- Pi
@@ -413,7 +392,7 @@ MoveableDoublePendulumSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-MoveableDoublePendulumSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
   var angle1 = vars[0];
@@ -450,13 +429,12 @@ MoveableDoublePendulumSim.prototype.moveObjects = function(vars) {
 /** Returns the spring used to drag the anchor mass with the mouse.
 * @return {!Spring} the Spring used to drag the anchor
 */
-MoveableDoublePendulumSim.prototype.getDragSpring = function() {
+getDragSpring() {
   return this.dragSpring_;
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.startDrag = function(simObject, location, offset,
-    dragBody, mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.anchor_) {
     // Apply spring force on the anchor mass; can continue simulation while dragging.
     // But when not running, just move the anchor directly.
@@ -476,8 +454,7 @@ MoveableDoublePendulumSim.prototype.startDrag = function(simObject, location, of
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.mouseDrag = function(simObject, location, offset,
-    mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
   var va = this.getVarsList();
@@ -514,7 +491,7 @@ MoveableDoublePendulumSim.prototype.mouseDrag = function(simObject, location, of
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.pendulumDragging_ = false;
   if (this.springDragging_) {
     this.springDragging_ = false;
@@ -523,12 +500,11 @@ MoveableDoublePendulumSim.prototype.finishDrag = function(simObject, location, o
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.handleKeyEvent = function(keyCode, pressed,
-    keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-MoveableDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[4] = 1; // time
@@ -604,14 +580,14 @@ MoveableDoublePendulumSim.prototype.evaluate = function(vars, change, timeStep) 
 /** Return mass of pendulum bob 1.
 @return {number} mass of pendulum bob 1
 */
-MoveableDoublePendulumSim.prototype.getMass1 = function() {
+getMass1() {
   return this.bob1_.getMass();
 };
 
 /** Set mass of pendulum bob 1
 @param {number} value mass of pendulum bob 1
 */
-MoveableDoublePendulumSim.prototype.setMass1 = function(value) {
+setMass1(value) {
   this.bob1_.setMass(value);
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
@@ -623,14 +599,14 @@ MoveableDoublePendulumSim.prototype.setMass1 = function(value) {
 /** Return mass of pendulum bob 2.
 @return {number} mass of pendulum bob 2
 */
-MoveableDoublePendulumSim.prototype.getMass2 = function() {
+getMass2() {
   return this.bob2_.getMass();
 };
 
 /** Set mass of pendulum bob
 @param {number} value mass of pendulum bob
 */
-MoveableDoublePendulumSim.prototype.setMass2 = function(value) {
+setMass2(value) {
   this.bob2_.setMass(value);
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
@@ -642,14 +618,14 @@ MoveableDoublePendulumSim.prototype.setMass2 = function(value) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-MoveableDoublePendulumSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-MoveableDoublePendulumSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
@@ -661,14 +637,14 @@ MoveableDoublePendulumSim.prototype.setGravity = function(value) {
 /** Return frequency of driving force on anchor to make periodic up/down motion
 @return {number} frequency of driving force on anchor
 */
-MoveableDoublePendulumSim.prototype.getDriveFrequency = function() {
+getDriveFrequency() {
   return this.frequency_;
 };
 
 /** Set frequency of driving force on anchor to make periodic up/down motion
 @param {number} value driving force on anchor
 */
-MoveableDoublePendulumSim.prototype.setDriveFrequency = function(value) {
+setDriveFrequency(value) {
   this.frequency_ = value;
   this.setAnchorYVelocity();
   this.broadcastParameter(MoveableDoublePendulumSim.en.DRIVE_FREQUENCY);
@@ -677,14 +653,14 @@ MoveableDoublePendulumSim.prototype.setDriveFrequency = function(value) {
 /** Return amplitude of driving force on anchor to make periodic up/down motion
 @return {number} amplitude of driving force on anchor
 */
-MoveableDoublePendulumSim.prototype.getDriveAmplitude = function() {
+getDriveAmplitude() {
   return this.amplitude_;
 };
 
 /** Set amplitude of of driving force on anchor to make periodic up/down motion
 @param {number} value amplitude of driving force on anchor
 */
-MoveableDoublePendulumSim.prototype.setDriveAmplitude = function(value) {
+setDriveAmplitude(value) {
   this.amplitude_ = value;
   this.setAnchorYVelocity();
   this.broadcastParameter(MoveableDoublePendulumSim.en.DRIVE_AMPLITUDE);
@@ -693,14 +669,14 @@ MoveableDoublePendulumSim.prototype.setDriveAmplitude = function(value) {
 /** Return length of pendulum rod 1
 @return {number} length of pendulum rod 1
 */
-MoveableDoublePendulumSim.prototype.getLength1 = function() {
+getLength1() {
   return this.length1_;
 };
 
 /** Set length of pendulum rod 1
 @param {number} value length of pendulum rod 1
 */
-MoveableDoublePendulumSim.prototype.setLength1 = function(value) {
+setLength1(value) {
   this.length1_ = value;
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
@@ -712,14 +688,14 @@ MoveableDoublePendulumSim.prototype.setLength1 = function(value) {
 /** Return length of pendulum rod 2
 @return {number} length of pendulum rod 2
 */
-MoveableDoublePendulumSim.prototype.getLength2 = function() {
+getLength2() {
   return this.length2_;
 };
 
 /** Set length of pendulum rod 2
 @param {number} value length of pendulum rod 2
 */
-MoveableDoublePendulumSim.prototype.setLength2 = function(value) {
+setLength2(value) {
   this.length2_ = value;
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
@@ -731,14 +707,14 @@ MoveableDoublePendulumSim.prototype.setLength2 = function(value) {
 /** Return damping factor
 @return {number} damping factor
 */
-MoveableDoublePendulumSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping factor
 @param {number} value damping factor
 */
-MoveableDoublePendulumSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(MoveableDoublePendulumSim.en.DAMPING);
 };
@@ -746,14 +722,14 @@ MoveableDoublePendulumSim.prototype.setDamping = function(value) {
 /** Returns spring stiffness for dragging the anchor mass
 @return {number} spring stiffness for dragging the anchor mass
 */
-MoveableDoublePendulumSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.springStiffness_;
 };
 
 /** Sets spring stiffness for dragging the anchor mass
 @param {number} value spring stiffness for dragging the anchor mass
 */
-MoveableDoublePendulumSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.springStiffness_ = value;
   this.dragSpring_.setStiffness(value);
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
@@ -766,18 +742,19 @@ MoveableDoublePendulumSim.prototype.setSpringStiffness = function(value) {
 /** Return anchor damping factor
 @return {number} anchor damping factor
 */
-MoveableDoublePendulumSim.prototype.getAnchorDamping = function() {
+getAnchorDamping() {
   return this.anchorDamping_;
 };
 
 /** Set anchor damping factor
 @param {number} value anchor damping factor
 */
-MoveableDoublePendulumSim.prototype.setAnchorDamping = function(value) {
+setAnchorDamping(value) {
   this.anchorDamping_ = value;
   this.broadcastParameter(MoveableDoublePendulumSim.en.ANCHOR_DAMPING);
 };
 
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -858,4 +835,4 @@ MoveableDoublePendulumSim.de_strings = {
 MoveableDoublePendulumSim.i18n = goog.LOCALE === 'de' ?
     MoveableDoublePendulumSim.de_strings : MoveableDoublePendulumSim.en;
 
-}); // goog.scope
+exports = MoveableDoublePendulumSim;

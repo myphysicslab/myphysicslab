@@ -12,72 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.MoveableDoublePendulumApp');
+goog.module('myphysicslab.sims.pendulum.MoveableDoublePendulumApp');
 
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.MoveableDoublePendulumSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var MoveableDoublePendulumSim = sims.pendulum.MoveableDoublePendulumSim;
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const MoveableDoublePendulumSim = goog.require('myphysicslab.sims.pendulum.MoveableDoublePendulumSim');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link MoveableDoublePendulumSim} simulation.
-
+*/
+class MoveableDoublePendulumApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-sims.pendulum.MoveableDoublePendulumApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-3.3, -3.3, 3.3, 3);
   var sim = new MoveableDoublePendulumSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
@@ -166,30 +137,39 @@ sims.pendulum.MoveableDoublePendulumApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var MoveableDoublePendulumApp = sims.pendulum.MoveableDoublePendulumApp;
-goog.inherits(MoveableDoublePendulumApp, AbstractApp);
 
 /** @override */
-MoveableDoublePendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', anchor: '+this.anchor.toStringShort()
       +', bob1: '+this.bob1.toStringShort()
       +', bob2: '+this.bob2.toStringShort()
       +', rod1: '+this.rod1.toStringShort()
       +', rod2: '+this.rod2.toStringShort()
-      + MoveableDoublePendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-MoveableDoublePendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'MoveableDoublePendulumApp';
 };
 
 /** @override */
-MoveableDoublePendulumApp.prototype.defineNames = function(myName) {
-  MoveableDoublePendulumApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('rod1|rod2|anchor|bob1|bob2',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!MoveableDoublePendulumApp}
+*/
+function makeMoveableDoublePendulumApp(elem_ids) {
+  return new MoveableDoublePendulumApp(elem_ids);
+};
+goog.exportSymbol('makeMoveableDoublePendulumApp', makeMoveableDoublePendulumApp);
+
+exports = MoveableDoublePendulumApp;
