@@ -12,42 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.LagrangeRollerSim');
+goog.module('myphysicslab.sims.roller.LagrangeRollerSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.roller.HumpPath');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const HumpPath = goog.module.get('myphysicslab.sims.roller.HumpPath');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const HumpPath = goog.require('myphysicslab.sims.roller.HumpPath');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Rollercoaster simulation that uses Lagrangian method of finding equations of motion.
 The shape of the roller coaster path is defined by {@link HumpPath}.
@@ -58,7 +38,6 @@ methods used in the other roller coaster simulations such as
 for finding the initial conditions such as the path length position corresponding to the
 starting X value. Whereas in Roller1Sim the NumericalPath is used in the `evaluate()`
 method to find the rates of change.
-
 
 Variables and Parameters
 ---------------------------------
@@ -79,7 +58,6 @@ Parameters are:
     g = gravity
     m = mass
 
-
 Equation of Motion
 ---------------------------------
 
@@ -96,7 +74,6 @@ They turn out to be:
          -(x * (-7 + 2*x^2) * (3*g + (-7 + 6*x^2) * v^2))
     v' = ------------------------------------------------
                 (9 + 49*x^2 - 28*x^4 + 4*x^6)
-
 
 Track Position and Velocity
 ---------------------------------
@@ -125,7 +102,6 @@ Putting these together we get the track velocity as a function of `x` and `v`:
 
 The track position `s` is then found by integrating `ds/dt` over time.
 
-
 Y Velocity
 ---------------------------------
 
@@ -139,19 +115,17 @@ Note that this should agree with:
 
     s' = ds/dt = (+/-)sqrt((dx/dt)^2 + (dy/dt)^2)
 
-
-* @param {boolean=} hasSpring whether the simulation should have a spring attaching
-*     the ball to a fixed point.
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
-  AbstractODESim.call(this, opt_name);
+class LagrangeRollerSim extends AbstractODESim {
+/**
+* @param {boolean=} hasSpring whether the simulation should have a spring attaching
+*     the ball to a fixed point.
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(hasSpring, opt_name) {
+  super(opt_name);
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   var var_names = [
@@ -227,33 +201,31 @@ myphysicslab.sims.roller.LagrangeRollerSim = function(hasSpring, opt_name) {
       LagrangeRollerSim.i18n.MASS,
       goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
 };
-var LagrangeRollerSim = myphysicslab.sims.roller.LagrangeRollerSim;
-goog.inherits(LagrangeRollerSim, AbstractODESim);
 
 /** @override */
-LagrangeRollerSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', ball1_: '+this.ball1_
       +', path_: '+this.path_
       +', gravity_: '+Util.NF(this.gravity_)
       +', lowestPoint_: '+Util.NF(this.lowestPoint_)
-      + LagrangeRollerSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-LagrangeRollerSim.prototype.getClassName = function() {
+getClassName() {
   return 'LagrangeRollerSim';
 };
 
 /** Returns the NumericalPath that the ball follows
 * @return {!NumericalPath}
 */
-LagrangeRollerSim.prototype.getPath = function() {
+getPath() {
   return this.path_;
 };
 
 /** @override */
-LagrangeRollerSim.prototype.modifyObjects = function() {
+modifyObjects() {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   var va = this.getVarsList();
@@ -278,7 +250,7 @@ LagrangeRollerSim.prototype.modifyObjects = function() {
 * @param {!Array<number>} vars
 * @private
 */
-LagrangeRollerSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   var x = vars[0];
@@ -294,7 +266,7 @@ LagrangeRollerSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-LagrangeRollerSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -305,7 +277,7 @@ LagrangeRollerSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-LagrangeRollerSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   // kinetic energy is 1/2 m v^2
@@ -321,14 +293,13 @@ LagrangeRollerSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-LagrangeRollerSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-LagrangeRollerSim.prototype.startDrag = function(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.ball1_) {
     this.dragObj_ = simObject;
     return true;
@@ -337,8 +308,7 @@ LagrangeRollerSim.prototype.startDrag = function(simObject, location, offset, dr
 };
 
 /** @override */
-LagrangeRollerSim.prototype.mouseDrag = function(simObject, location, offset,
-      mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   if (simObject == this.ball1_)  {
     /** @type {!PathPoint} */
@@ -356,16 +326,16 @@ LagrangeRollerSim.prototype.mouseDrag = function(simObject, location, offset,
 };
 
 /** @override */
-LagrangeRollerSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
 /** @override */
-LagrangeRollerSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-LagrangeRollerSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   Util.zeroArray(change);
@@ -394,14 +364,14 @@ LagrangeRollerSim.prototype.evaluate = function(vars, change, timeStep) {
 /**
 @return {number}
 */
-LagrangeRollerSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /**
 @param {number} value
 */
-LagrangeRollerSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
@@ -413,14 +383,14 @@ LagrangeRollerSim.prototype.setGravity = function(value) {
 /**
 @return {number}
 */
-LagrangeRollerSim.prototype.getMass = function() {
+getMass() {
   return this.ball1_.getMass();
 }
 
 /**
 @param {number} value
 */
-LagrangeRollerSim.prototype.setMass = function(value) {
+setMass(value) {
   this.ball1_.setMass(value);
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
@@ -429,6 +399,7 @@ LagrangeRollerSim.prototype.setMass = function(value) {
   this.broadcastParameter(LagrangeRollerSim.en.MASS);
 }
 
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -479,4 +450,4 @@ LagrangeRollerSim.de_strings = {
 LagrangeRollerSim.i18n = goog.LOCALE === 'de' ? LagrangeRollerSim.de_strings :
     LagrangeRollerSim.en;
 
-}); // goog.scope
+exports = LagrangeRollerSim;

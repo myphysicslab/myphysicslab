@@ -12,58 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.LagrangeRollerApp');
+goog.module('myphysicslab.sims.roller.LagrangeRollerApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayPath');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DrawingStyle');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.roller.LagrangeRollerSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingStyle = goog.module.get('myphysicslab.lab.view.DrawingStyle');
-var LagrangeRollerSim = sims.roller.LagrangeRollerSim;
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingStyle = goog.require('myphysicslab.lab.view.DrawingStyle');
+const LagrangeRollerSim = goog.require('myphysicslab.sims.roller.LagrangeRollerSim');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Shows the {@link LagrangeRollerSim} simulation.
-
+*/
+class LagrangeRollerApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-sims.roller.LagrangeRollerApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new LagrangeRollerSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
   this.simRect = sim.getPath().getBoundsWorld().scale(1.2);
@@ -83,10 +61,8 @@ sims.roller.LagrangeRollerApp = function(elem_ids) {
       DrawingStyle.lineStyle('gray', /*lineWidth=*/4));
 
   this.addPlaybackControls();
-  /** @type {!lab.util.ParameterNumber} */
-  var pn;
 
-  pn = sim.getParameterNumber(LagrangeRollerSim.en.GRAVITY);
+  var pn = sim.getParameterNumber(LagrangeRollerSim.en.GRAVITY);
   this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(LagrangeRollerSim.en.MASS);
   this.addControl(new NumericControl(pn));
@@ -101,27 +77,36 @@ sims.roller.LagrangeRollerApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var LagrangeRollerApp = sims.roller.LagrangeRollerApp;
-goog.inherits(LagrangeRollerApp, AbstractApp);
 
 /** @override */
-LagrangeRollerApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', ball1: '+this.ball1.toStringShort()
       +', displayPath: '+this.displayPath.toStringShort()
-      + LagrangeRollerApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-LagrangeRollerApp.prototype.getClassName = function() {
+getClassName() {
   return 'LagrangeRollerApp';
 };
 
 /** @override */
-LagrangeRollerApp.prototype.defineNames = function(myName) {
-  LagrangeRollerApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('ball1',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!LagrangeRollerApp}
+*/
+function makeLagrangeRollerApp(elem_ids) {
+  return new LagrangeRollerApp(elem_ids);
+};
+goog.exportSymbol('makeLagrangeRollerApp', makeLagrangeRollerApp);
+
+exports = LagrangeRollerApp;
