@@ -113,9 +113,9 @@ TerminalSpringApp.prototype.defineNames = function(myName) {
   t.addRegex('ChainOfSpringsSim|CollideBlocksSim|CollideSpringSim'
       +'|DangleStickSim|Double2DSpringSim|DoubleSpringSim|Molecule1Sim'
       +'|Molecule3Sim|SingleSpringSim|Spring2DSim',
-      'myphysicslab.sims.springs.', /*addToVars=*/false);
+      'mpl$$sims$$springs$$', /*addToVars=*/false);
   t.addRegex('CommonControls',
-      'myphysicslab.sims.common.', /*addToVars=*/false);
+      'mpl$$sims$$common$$', /*addToVars=*/false);
 };
 
 /**

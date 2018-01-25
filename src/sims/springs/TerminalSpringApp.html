@@ -36,8 +36,6 @@ of this app; advanced-compiled versions cannot execute JavaScript.
 #SHOW_ALL
 <script>
 app.eval('layout.showTerminal(true);'
-+'var SingleSpringSim = mpl$sims$springs$SingleSpringSim;'
-+'var CommonControls = mpl$sims$common$CommonControls;'
 +'var sim = new SingleSpringSim();'
 +'var simList = sim.getSimList();'
 +'var simCtrl = new SimController(simCanvas, /*eventHandler=*/sim);'
