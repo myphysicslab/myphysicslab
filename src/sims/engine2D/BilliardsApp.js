@@ -12,55 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.BilliardsApp');
+goog.module('myphysicslab.sims.engine2D.BilliardsApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of a table top billiards game with several balls bouncing against each
 other and against the sides of the table.
@@ -77,22 +50,20 @@ Parameters Created
 
 + ParameterNumber named `SPEED`, see {@link #setSpeed}
 
-
+*/
+class BilliardsApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.95);
@@ -144,38 +115,22 @@ myphysicslab.sims.engine2D.BilliardsApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var BilliardsApp = myphysicslab.sims.engine2D.BilliardsApp;
-goog.inherits(BilliardsApp, Engine2DApp);
 
 /** @override */
-BilliardsApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
-      + BilliardsApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-BilliardsApp.prototype.getClassName = function() {
+getClassName() {
   return 'BilliardsApp';
 };
 
-/**
-* @enum {number}
-*/
-BilliardsApp.Formation = {
-  ONE_HITS_THREE: 0,
-  ONE_HITS_SIX: 1
-};
-var Formation = BilliardsApp.Formation;
-
-/**
-* @type {number}
-*/
-BilliardsApp.WALL_DISTANCE = 6;
-
 /** @override */
-BilliardsApp.prototype.defineNames = function(myName) {
-  BilliardsApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('dampingLaw',
        myName+'.');
   this.terminal.addRegex('BilliardsApp|Engine2DApp',
@@ -183,15 +138,15 @@ BilliardsApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-BilliardsApp.prototype.getSubjects = function() {
-  var subjects = BilliardsApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-BilliardsApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -213,7 +168,7 @@ BilliardsApp.prototype.config = function() {
 * @param {number} offset gap between balls
 * @param {number} speed initial velocity of cue ball
 */
-BilliardsApp.make = function(sim, displayList, formation, offset, speed) {
+static make(sim, displayList, formation, offset, speed) {
   var r = 0.5;
   var x1 = (2*r + sim.getDistanceTol()/2 + offset) * Math.sqrt(3)/2.0;
   switch (formation) {
@@ -269,21 +224,21 @@ BilliardsApp.make = function(sim, displayList, formation, offset, speed) {
 * @return {!Polygon}
 * @private
 */
-BilliardsApp.makeBall = function(num, radius) {
+static makeBall(num, radius) {
   return Shapes.makeBall(radius, BilliardsApp.en.BALL+num, BilliardsApp.i18n.BALL+num);
 };
 
 /**
 * @return {number}
 */
-BilliardsApp.prototype.getFormation = function() {
+getFormation() {
   return this.formation;
 };
 
 /**
 * @param {number} value
 */
-BilliardsApp.prototype.setFormation = function(value) {
+setFormation(value) {
   this.formation = /** @type {BilliardsApp.Formation} */(value);
   this.config();
   this.broadcastParameter(BilliardsApp.en.FORMATION);
@@ -292,14 +247,14 @@ BilliardsApp.prototype.setFormation = function(value) {
 /**
 * @return {number}
 */
-BilliardsApp.prototype.getOffset = function() {
+getOffset() {
   return this.offset;
 };
 
 /**
 * @param {number} value
 */
-BilliardsApp.prototype.setOffset = function(value) {
+setOffset(value) {
   this.offset = value;
   this.config();
   this.broadcastParameter(BilliardsApp.en.OFFSET);
@@ -308,18 +263,34 @@ BilliardsApp.prototype.setOffset = function(value) {
 /**
 * @return {number}
 */
-BilliardsApp.prototype.getSpeed = function() {
+getSpeed() {
   return this.speed;
 };
 
 /**
 * @param {number} value
 */
-BilliardsApp.prototype.setSpeed = function(value) {
+setSpeed(value) {
   this.speed = value;
   this.config();
   this.broadcastParameter(BilliardsApp.en.SPEED);
 };
+
+} //end class
+
+/**
+* @enum {number}
+*/
+BilliardsApp.Formation = {
+  ONE_HITS_THREE: 0,
+  ONE_HITS_SIX: 1
+};
+var Formation = BilliardsApp.Formation;
+
+/**
+* @type {number}
+*/
+BilliardsApp.WALL_DISTANCE = 6;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -358,11 +329,19 @@ BilliardsApp.de_strings = {
   BALL: 'Ball'
 };
 
-
 /** Set of internationalized strings.
 @type {BilliardsApp.i18n_strings}
 */
 BilliardsApp.i18n = goog.LOCALE === 'de' ? BilliardsApp.de_strings :
     BilliardsApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!BilliardsApp}
+*/
+function makeBilliardsApp(elem_ids) {
+  return new BilliardsApp(elem_ids);
+};
+goog.exportSymbol('makeBilliardsApp', makeBilliardsApp);
+
+exports = BilliardsApp;
