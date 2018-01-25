@@ -12,67 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.RigidBodyObserver');
+goog.module('myphysicslab.sims.engine2D.RigidBodyObserver');
 
-goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.PathEndPoint');
-goog.require('myphysicslab.lab.engine2D.PathJoint');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Rope');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.Impulse');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayConnector');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayObject');
-goog.require('myphysicslab.lab.view.DisplayRope');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const DisplayConnector = goog.module.get('myphysicslab.lab.view.DisplayConnector');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayObject = goog.module.get('myphysicslab.lab.view.DisplayObject');
-const DisplayRope = goog.module.get('myphysicslab.lab.view.DisplayRope');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const Impulse = goog.module.get('myphysicslab.lab.model.Impulse');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const PathEndPoint = goog.module.get('myphysicslab.lab.engine2D.PathEndPoint');
-const PathJoint = goog.module.get('myphysicslab.lab.engine2D.PathJoint');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodyEventHandler = goog.module.get('myphysicslab.lab.app.RigidBodyEventHandler');
-const Rope = goog.module.get('myphysicslab.lab.engine2D.Rope');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const DisplayConnector = goog.require('myphysicslab.lab.view.DisplayConnector');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
+const DisplayRope = goog.require('myphysicslab.lab.view.DisplayRope');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Impulse = goog.require('myphysicslab.lab.model.Impulse');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const PathEndPoint = goog.require('myphysicslab.lab.engine2D.PathEndPoint');
+const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodyEventHandler = goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
+const Rope = goog.require('myphysicslab.lab.engine2D.Rope');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Automatically creates a {@link DisplayObject} for most types of {@link SimObject}
 when they are added to a {@link SimList}. Observes the SimList of a
@@ -95,7 +63,6 @@ is an example:
     var dispPoly1 = displayList.findShape(polygon1);
     dispPoly1.setFillStyle('red');
 
-
 #### 2. Modify the prototype
 
 Many DisplayObjects allow specifying a **prototype** DisplayObject. When a display
@@ -112,7 +79,6 @@ RigidBodyObserver.
 
     this.rbo.protoPolygon.setNameFont('10pt sans-serif');
 
-
 ### Displaying Contact Forces
 
 Instances of {@link Force} are displayed with
@@ -125,16 +91,15 @@ of opposing contact Forces. Forces named 'contact_force1' are shown. Forces name
 See {@link myphysicslab.lab.util.GenericObserver} for example code that sets the color
 of the DisplayLine based on contact gap distance.
 
-
+@implements {Observer}
+*/
+class RigidBodyObserver {
+/**
 @param {!SimList} simList SimList to observe; processes all objects currently on the
     SimList
 @param {!DisplayList} displayList the DisplayList to add DisplayObjects to
-@implements {Observer}
-@constructor
-@final
-@struct
 */
-myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
+constructor(simList, displayList) {
   /**
   * @type {!DisplayList}
   * @private
@@ -215,10 +180,9 @@ myphysicslab.sims.engine2D.RigidBodyObserver = function(simList, displayList) {
   this.protoPathEndPoint = new DisplayConnector().setRadius(3).setColor('red');
   this.protoPathEndPoint.setZIndex(10);
 };
-var RigidBodyObserver = myphysicslab.sims.engine2D.RigidBodyObserver;
 
 /** @override */
-RigidBodyObserver.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'RigidBodyObserver{'
     +'ordering: "'+RigidBodyObserver.ordering+'"'
     +', simList_: '+this.simList_.toStringShort()
@@ -227,21 +191,9 @@ RigidBodyObserver.prototype.toString = function() {
 };
 
 /** @override */
-RigidBodyObserver.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'RigidBodyObserver{}';
 };
-
-/**
-* @typedef {{simObj: !SimObject, dispObj: !DisplayObject}}
-*/
-RigidBodyObserver.memPair;
-
-/** Whether to add the next object 'over' or 'under' other DisplayObjects with
-the same `zIndex`. See {@link DisplayObject#getZIndex}.
-@type {string} 'over' means the next object will appear above other DisplayObjects
-    with the same `zIndex`; 'under' means it will appear below.
-*/
-RigidBodyObserver.ordering = 'over';
 
 /** Add the DisplayObject to the DisplayList, following the setting of
 {@link #ordering}.
@@ -249,7 +201,7 @@ RigidBodyObserver.ordering = 'over';
 * @param {!SimObject} simObj the SimObject being displayed
 * @private
 */
-RigidBodyObserver.prototype.add_ = function(dispObj, simObj) {
+add_(dispObj, simObj) {
   if (RigidBodyObserver.ordering == 'over') {
     this.displayList_.add(dispObj);
   } else {
@@ -262,7 +214,7 @@ RigidBodyObserver.prototype.add_ = function(dispObj, simObj) {
 * @param {!Array<!SimObject>} bodies
 * @private
 */
-RigidBodyObserver.prototype.addBodies = function(bodies) {
+addBodies(bodies) {
   goog.array.forEach(bodies, goog.bind(this.addBody, this));
 };
 
@@ -270,7 +222,7 @@ RigidBodyObserver.prototype.addBodies = function(bodies) {
 * @param {!SimObject} obj
 * @private
 */
-RigidBodyObserver.prototype.addBody = function(obj) {
+addBody(obj) {
   if (this.displayList_.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
@@ -345,7 +297,7 @@ RigidBodyObserver.prototype.addBody = function(obj) {
 * @param {!SimObject} obj
 * @private
 */
-RigidBodyObserver.prototype.removeBody = function(obj) {
+removeBody(obj) {
   var pair = goog.array.find(this.memPairs_, function(element) {
     return element.simObj == obj;
   });
@@ -356,7 +308,7 @@ RigidBodyObserver.prototype.removeBody = function(obj) {
 };
 
 /** @override */
-RigidBodyObserver.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList_) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
@@ -367,4 +319,18 @@ RigidBodyObserver.prototype.observe =  function(event) {
   }
 };
 
-});  // goog.scope
+} //end class
+
+/**
+* @typedef {{simObj: !SimObject, dispObj: !DisplayObject}}
+*/
+RigidBodyObserver.memPair;
+
+/** Whether to add the next object 'over' or 'under' other DisplayObjects with
+the same `zIndex`. See {@link DisplayObject#getZIndex}.
+@type {string} 'over' means the next object will appear above other DisplayObjects
+    with the same `zIndex`; 'under' means it will appear below.
+*/
+RigidBodyObserver.ordering = 'over';
+
+exports = RigidBodyObserver;

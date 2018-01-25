@@ -5,6 +5,7 @@
 #define #APP_PATH sims.pendulum.CompareDoublePendulumApp
 #include "#TOP_DIR/macros.html"
 #include "#TOP_DIR/macros_tab.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -20,6 +21,8 @@
 #PAGE_INFO
 #LOREM_IPSUM
 #LOAD_APP
+#define INSTANTIATE_APP app = makeCompareDoublePendulumApp(elem_ids,\
+        /*centered=*/false);
 #BUILD_APP
 #SHOW_ALL
 #START_APP

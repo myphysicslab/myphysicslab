@@ -12,122 +12,68 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.CompareDoublePendulumApp');
+goog.module('myphysicslab.sims.pendulum.CompareDoublePendulumApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayConnector');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.CompareGraph');
-goog.require('myphysicslab.sims.common.CompareTimeGraph');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
-goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const CompareGraph = goog.require('myphysicslab.sims.common.CompareGraph');
+const CompareTimeGraph = goog.require('myphysicslab.sims.common.CompareTimeGraph');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayConnector = goog.require('myphysicslab.lab.view.DisplayConnector');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RigidBodyEventHandler = goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
+const RigidBodyObserver = goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const RigidDoublePendulumSim = goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const CompareGraph = goog.module.get('myphysicslab.sims.common.CompareGraph');
-const CompareTimeGraph = goog.module.get('myphysicslab.sims.common.CompareTimeGraph');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayConnector = goog.module.get('myphysicslab.lab.view.DisplayConnector');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RigidBodyEventHandler = goog.module.get('myphysicslab.lab.app.RigidBodyEventHandler');
-var RigidBodyObserver = sims.engine2D.RigidBodyObserver;
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const RigidDoublePendulumSim = goog.module.get('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+// following are only required for possible use in Terminal
+const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
 
 /** Compares two double pendulum simulations that are run simultaneously: the
 theoretically accurate {@link RigidDoublePendulumSim} and the equivalent double
@@ -153,21 +99,18 @@ created for this application instance. This application global is created outsid
 this file in the HTML where the constructor is called. The name of that global variable
 holding the application is passed to defineNames() method so that short-names in scripts
 can be properly expanded.
-
+*/
+class CompareDoublePendulumApp extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {boolean} centered determines which pendulum configuration to make: centered
 *    (true) or offset (false)
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @export
 */
-myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centered) {
+constructor(elem_ids, centered) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, 'APP');
+  super('APP');
   /** horizontal distance between the fixed pivot points of the two sims.
   * @type {number}
   */
@@ -513,22 +456,20 @@ myphysicslab.sims.pendulum.CompareDoublePendulumApp = function(elem_ids, centere
   this.timeGraph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
-var CompareDoublePendulumApp = myphysicslab.sims.pendulum.CompareDoublePendulumApp;
-goog.inherits(CompareDoublePendulumApp, AbstractSubject);
 
 /** @override */
-CompareDoublePendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', sim1: '+this.sim1.toStringShort()
       +', sim2: '+this.sim2.toStringShort()
       +', terminal: '+this.terminal
       +', graph: '+this.graph
       +', timeGraph: '+this.timeGraph
-      + CompareDoublePendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CompareDoublePendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'CompareDoublePendulumApp';
 };
 
@@ -537,7 +478,7 @@ CompareDoublePendulumApp.prototype.getClassName = function() {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-CompareDoublePendulumApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -554,7 +495,7 @@ CompareDoublePendulumApp.prototype.defineNames = function(myName) {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-CompareDoublePendulumApp.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
@@ -562,7 +503,7 @@ CompareDoublePendulumApp.prototype.addControl = function(control) {
 * @return {undefined}
 * @export
 */
-CompareDoublePendulumApp.prototype.setup = function() {
+setup() {
   this.clock.resume();
   this.terminal.parseURLorRecall();
   this.sim1.saveInitialState();
@@ -573,7 +514,7 @@ CompareDoublePendulumApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-CompareDoublePendulumApp.prototype.start = function() {
+start() {
   this.simRun.startFiring();
   //console.log(Util.prettyPrint(this.toString()));
 };
@@ -585,7 +526,7 @@ CompareDoublePendulumApp.prototype.start = function() {
 * @return {*}
 * @export
 */
-CompareDoublePendulumApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -596,14 +537,14 @@ CompareDoublePendulumApp.prototype.eval = function(script, opt_output) {
 /** Returns the distance between the fixed pivot points of the two double pendulums.
 * @return {number} distance between the fixed pivot points
 */
-CompareDoublePendulumApp.prototype.getSeparation = function() {
+getSeparation() {
   return this.separation;
 };
 
 /** Sets the distance between the fixed pivot points of the two double pendulums.
 * @param {number} value distance between the fixed pivot points
 */
-CompareDoublePendulumApp.prototype.setSeparation = function(value) {
+setSeparation(value) {
   if (this.separation != value) {
     this.separation = value;
     this.setSeparation_();
@@ -615,7 +556,7 @@ CompareDoublePendulumApp.prototype.setSeparation = function(value) {
 * @return {undefined}
 * @private
 */
-CompareDoublePendulumApp.prototype.setSeparation_ = function() {
+setSeparation_() {
     // Because Joint is immutable we have to replace with a different Joint.
     // (Alternative: connect to an infinite mass 'anchor' body instead of Scrim, and
     // then move the anchor body).
@@ -639,6 +580,8 @@ CompareDoublePendulumApp.prototype.setSeparation_ = function() {
     }, this);
     this.sim2.alignConnectors();
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -672,4 +615,15 @@ CompareDoublePendulumApp.de_strings = {
 CompareDoublePendulumApp.i18n = goog.LOCALE === 'de' ? CompareDoublePendulumApp.de_strings :
     CompareDoublePendulumApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {boolean} centered determines which pendulum configuration to make: centered
+*    (true) or offset (false)
+* @return {!CompareDoublePendulumApp}
+*/
+function makeCompareDoublePendulumApp(elem_ids, centered) {
+  return new CompareDoublePendulumApp(elem_ids, centered);
+};
+goog.exportSymbol('makeCompareDoublePendulumApp', makeCompareDoublePendulumApp);
+
+exports = CompareDoublePendulumApp;
