@@ -52,7 +52,7 @@ const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 const AdaptiveStepSolver = goog.module.get('myphysicslab.lab.model.AdaptiveStepSolver');
 var ChainConfig = sims.engine2D.ChainConfig;
-var CirclePath = myphysicslab.sims.roller.CirclePath;
+const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
 const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
@@ -67,7 +67,7 @@ var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
 const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
 const Force = goog.module.get('myphysicslab.lab.model.Force');
 const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-var HumpPath = sims.roller.HumpPath;
+const HumpPath = goog.module.get('myphysicslab.sims.roller.HumpPath');
 const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
 var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
 const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');

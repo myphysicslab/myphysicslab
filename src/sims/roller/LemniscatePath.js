@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.LemniscatePath');
+goog.module('myphysicslab.sims.roller.LemniscatePath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** Lemniscate curve; a 'figure eight' path.
 
@@ -46,18 +41,17 @@ To get into Cartesian coords, we use
     x = r cos(t)
     y = r sin(t)
 
+*/
+class LemniscatePath extends AbstractPath {
+/**
 * @param {number} size
 * @param {number=} start
 * @param {number=} finish
 * @param {boolean=} closedLoop
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.LemniscatePath = function(size, start, finish,
+constructor(size, start, finish,
       closedLoop, name, localName) {
   if (!goog.isNumber(start))
     start = -Math.PI/4;
@@ -67,30 +61,28 @@ myphysicslab.sims.roller.LemniscatePath = function(size, start, finish,
     closedLoop = true;
   name = name || LemniscatePath.en.NAME;
   localName = localName || LemniscatePath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start, finish, closedLoop);
+  super(name, localName, start, finish, closedLoop);
   /** @type {number}
   * @private
   * @const
   */
   this.a_ = size;
 };
-var LemniscatePath = myphysicslab.sims.roller.LemniscatePath;
-goog.inherits(LemniscatePath, AbstractPath);
 
 /** @override */
-LemniscatePath.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      LemniscatePath.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       + ', size: '+Util.NF(this.a_)+'}';
 };
 
 /** @override */
-LemniscatePath.prototype.getClassName = function() {
+getClassName() {
   return 'LemniscatePath';
 };
 
 /** @override */
-LemniscatePath.prototype.x_func = function(t) {
+x_func(t) {
   if (t<=Math.PI/4) {
     return this.a_ *Math.sqrt(2*Math.cos(2*t))*Math.cos(t);
   } else if (t<=3*Math.PI/4) {
@@ -102,7 +94,7 @@ LemniscatePath.prototype.x_func = function(t) {
 };
 
 /** @override */
-LemniscatePath.prototype.y_func = function(t) {
+y_func(t) {
   if (t<=Math.PI/4) {
     return this.a_*Math.sqrt(2*Math.cos(2*t))*Math.sin(t);
   } else if (t<=3*Math.PI/4) {
@@ -112,6 +104,8 @@ LemniscatePath.prototype.y_func = function(t) {
     return 0;
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -141,4 +135,4 @@ LemniscatePath.de_strings = {
 LemniscatePath.i18n = goog.LOCALE === 'de' ? LemniscatePath.de_strings :
     LemniscatePath.en;
 
-}); // goog.scope
+exports = LemniscatePath;

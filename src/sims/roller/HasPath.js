@@ -12,33 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.HasPath');
+goog.module('myphysicslab.sims.roller.HasPath');
 
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.util.Printable');
-
-goog.scope(function() {
-
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** An object which has a {@link NumericalPath} that can be set.
-
 * @interface
-* @extends {myphysicslab.lab.util.Printable}
 */
-myphysicslab.sims.roller.HasPath = function() {};
-var HasPath = myphysicslab.sims.roller.HasPath;
+class HasPath extends Printable {
 
 /** Returns the NumericalPath for this object.
 * @return {?NumericalPath} the NumericalPath used
 *       by this object, or null if no path is set
 */
-HasPath.prototype.getPath;
+getPath() {}
 
 /** Sets the NumericalPath for this object.
 * @param {!NumericalPath} path the NumericalPath to be used
 *       by this object
 */
-HasPath.prototype.setPath;
+setPath(path) {}
 
-}); // goog.scope
+} //end class
+
+exports = HasPath;

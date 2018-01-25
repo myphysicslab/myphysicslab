@@ -12,25 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.SpiralPath');
+goog.module('myphysicslab.sims.roller.SpiralPath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** A spiral shaped path.
 See the Mathematica file Rollercurves.nb for construction.
 
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.SpiralPath = function() {
+class SpiralPath extends AbstractPath {
+/**
+*/
+constructor() {
+  super(SpiralPath.en.NAME, SpiralPath.i18n.NAME, /*start=*/0, /*finish=*/0,
+      /*closedLoop=*/true);
   /** center of upper arc
   * @type {number}
   * @private
@@ -139,20 +135,16 @@ myphysicslab.sims.roller.SpiralPath = function() {
   * @const
   */
   this.t7 = this.t6 + Math.PI/4;
-
-  AbstractPath.call(this, SpiralPath.en.NAME, SpiralPath.i18n.NAME, /*start=*/0,
-      /*finish=*/this.t7, /*closedLoop=*/true);
+  this.setFinishTValue(this.t7);
 };
-var SpiralPath = myphysicslab.sims.roller.SpiralPath;
-goog.inherits(SpiralPath, AbstractPath);
 
 /** @override */
-SpiralPath.prototype.getClassName = function() {
+getClassName() {
   return 'SpiralPath';
 };
 
 /** @override */
-SpiralPath.prototype.x_func = function(t) {
+x_func(t) {
   if (t < this.t1) { // upper arc
     return Math.cos(t + Math.PI/2) + this.arc1x;
   } else if (t < this.t2)  { // left vertical line
@@ -173,7 +165,7 @@ SpiralPath.prototype.x_func = function(t) {
 };
 
 /** @override */
-SpiralPath.prototype.y_func = function(t) {
+y_func(t) {
   if (t < this.t1) { // upper arc
     return Math.sin(t + Math.PI/2) + this.arc1y;
   } else if (t < this.t2)  { // left vertical line
@@ -192,6 +184,8 @@ SpiralPath.prototype.y_func = function(t) {
     return 0;
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -221,4 +215,4 @@ SpiralPath.de_strings = {
 SpiralPath.i18n = goog.LOCALE === 'de' ? SpiralPath.de_strings :
     SpiralPath.en;
 
-}); // goog.scope
+exports = SpiralPath;

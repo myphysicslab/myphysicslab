@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.CardioidPath');
+goog.module('myphysicslab.sims.roller.CardioidPath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** ParametricPath that represents a cardiod, which is a vaguely heart shaped
 figure. Currently set to not be a closed curve, with end points at the point (at the
@@ -34,21 +29,17 @@ Cardioid equation:
     y = a sin t (1 + cos t)
 
 or interchange x-y to rotate by 90 degrees.
-
-
+*/
+class CardioidPath extends AbstractPath {
+/**
 * @param {number} radius
 * @param {number=} start
 * @param {number=} finish
 * @param {boolean=} closedLoop
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.CardioidPath = function(radius, start, finish,
-      closedLoop, name, localName) {
+constructor(radius, start, finish, closedLoop, name, localName) {
   if (!goog.isNumber(start)) {
     start = -Math.PI;
   }
@@ -60,39 +51,39 @@ myphysicslab.sims.roller.CardioidPath = function(radius, start, finish,
   }
   name = name || CardioidPath.en.NAME;
   localName = localName || CardioidPath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start, finish, closedLoop);
+  super(name, localName, start, finish, closedLoop);
   /** @type {number}
   * @private
   * @const
   */
   this.a_ = radius;
 };
-var CardioidPath = myphysicslab.sims.roller.CardioidPath;
-goog.inherits(CardioidPath, AbstractPath);
 
 /** @override */
-CardioidPath.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' :
-      CardioidPath.superClass_.toString.call(this).slice(0, -1)
+      super.toString().slice(0, -1)
       + ', radius: '+Util.NF(this.a_)+'}';
 };
 
 /** @override */
-CardioidPath.prototype.getClassName = function() {
+getClassName() {
   return 'CardioidPath';
 };
 
 /** @override */
-CardioidPath.prototype.x_func = function(t) {
+x_func(t) {
   var c = Math.cos(t);
   return this.a_ *Math.sin(t)*(1+c);
 };
 
 /** @override */
-CardioidPath.prototype.y_func = function(t) {
+y_func(t) {
   var c = Math.cos(t);
   return -this.a_ *c*(1+c);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -122,4 +113,4 @@ CardioidPath.de_strings = {
 CardioidPath.i18n = goog.LOCALE === 'de' ? CardioidPath.de_strings :
     CardioidPath.en;
 
-}); // goog.scope
+exports = CardioidPath;

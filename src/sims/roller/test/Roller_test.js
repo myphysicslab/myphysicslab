@@ -40,9 +40,9 @@ var testRoller1 = function() {
   const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  var CirclePath = myphysicslab.sims.roller.CirclePath;
+  const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
   const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-  var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
+  const RollerSingleSim = goog.module.get('myphysicslab.sims.roller.RollerSingleSim');
 
   var sim = new RollerSingleSim();
   var simList = sim.getSimList();

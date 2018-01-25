@@ -39,7 +39,7 @@ var sims = myphysicslab.sims;
 
 const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
 var BrachistoObserver = sims.roller.BrachistoObserver;
-var BrachistoPaths = sims.roller.BrachistoPaths;
+const BrachistoPaths = goog.module.get('myphysicslab.sims.roller.BrachistoPaths');
 var BrachistoSim = sims.roller.BrachistoSim;
 const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
 const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');

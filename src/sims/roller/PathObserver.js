@@ -12,37 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.PathObserver');
+goog.module('myphysicslab.sims.roller.PathObserver');
 
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayPath');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
-
-goog.scope(function() {
-
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Automatically creates a DisplayPath when a NumericalPath is added to a SimList.
 Observes the SimList of a Simulation, adding or removing DisplayPath to represent the
@@ -51,7 +35,6 @@ objects.
 
 Note that the DisplayPath shows only a single NumericalPath, and is destroyed when that
 NumericalPath is removed from the SimList.
-
 
 ### Setting Style of DisplayPath
 
@@ -79,7 +62,6 @@ Here is an example where we set the prototype to have a thin blue line.
     var pathObs = new PathObserver(simList, simView, null);
     pathObs.protoDisplayPath.setStyle(0, DrawingStyle.lineStyle('blue', 1));
 
-
 ### Resize the SimView to match NumericalPath
 
 Often we want the SimView's dimensions to match that of the NumericalPath. To have the
@@ -87,7 +69,10 @@ PathObserver change the bounding rectangle of the SimView to match that of the
 NumericalPath, specify the `simRectSetter` argument in the constructor. This will
 occur whenever the NumericalPath changes.
 
-
+@implements {Observer}
+*/
+class PathObserver {
+/**
 @param {!SimList} simList SimList to observe
 @param {!SimView} simView the SimView to add DisplayObjects to
 @param {?function(!DoubleRect)} simRectSetter function to use for resizing the
@@ -95,13 +80,8 @@ occur whenever the NumericalPath changes.
 @param {number=} opt_expand  factor to multiply the width and height by
      to expand the path bounds, which yields the rectangle used for resizing the
      SimView.  For example, 1.1 will make the bounds 10% larger.
-@implements {Observer}
-@constructor
-@final
-@struct
 */
-myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter,
-      opt_expand) {
+constructor(simList, simView, simRectSetter, opt_expand) {
   /**
   * @type {!SimView}
   * @private
@@ -140,10 +120,9 @@ myphysicslab.sims.roller.PathObserver = function(simList, simView, simRectSetter
   this.protoDisplayPath = new DisplayPath();
   this.protoDisplayPath.setZIndex(-10);
 };
-var PathObserver = myphysicslab.sims.roller.PathObserver;
 
 /** @override */
-PathObserver.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'PathObserver{'
     +'simList_: '+this.simList_.toStringShort()
     +', simView_: '+this.simView_.toStringShort()
@@ -155,20 +134,15 @@ PathObserver.prototype.toString = function() {
 };
 
 /** @override */
-PathObserver.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'PathObserver{}';
 };
-
-/**
-* @typedef {{simObj: !NumericalPath, obs: !GenericObserver, dispPath: !DisplayPath}}
-*/
-PathObserver.memObjects;
 
 /** Creates DisplayPath for the NumericalPath, and adds DisplayPath to SimView.
 * @param {!NumericalPath} np
 * @private
 */
-PathObserver.prototype.addPath = function(np) {
+addPath(np) {
   if (this.displayList_.find(np) != null) {
     // we already have a DisplayPath for this NumericalPath, don't add a new one.
     return;
@@ -202,7 +176,7 @@ PathObserver.prototype.addPath = function(np) {
 * @param {!NumericalPath} np
 * @private
 */
-PathObserver.prototype.removePath = function(np) {
+removePath(np) {
   var memObj = goog.array.find(this.memObjs_, function(element) {
     return element.simObj == np;
   });
@@ -216,7 +190,7 @@ PathObserver.prototype.removePath = function(np) {
 };
 
 /** @override */
-PathObserver.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList_) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (obj instanceof NumericalPath) {
@@ -230,4 +204,11 @@ PathObserver.prototype.observe =  function(event) {
   }
 };
 
-});  // goog.scope
+} //end class
+
+/**
+* @typedef {{simObj: !NumericalPath, obs: !GenericObserver, dispPath: !DisplayPath}}
+*/
+PathObserver.memObjects;
+
+exports = PathObserver;

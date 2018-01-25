@@ -12,38 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.RollerSingleSim');
+goog.module('myphysicslab.sims.roller.RollerSingleSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.roller.HasPath');
-
-goog.scope(function() {
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const HasPath = goog.require('myphysicslab.sims.roller.HasPath');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a ball moving on a roller coaster track, optionally with a spring
 attached to the ball. The track can take any shape as defined by a NumericalPath. The
@@ -52,20 +36,18 @@ simulation is not functional until a path has been provided with {@link #setPath
 For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>
 and <http://www.myphysicslab.com/RollerSpring.html>.
 
-
+* @implements {EnergySystem}
+* @implements {HasPath}
+* @implements {EventHandler}
+*/
+class RollerSingleSim extends AbstractODESim {
+/**
 * @param {boolean=} hasSpring whether the simulation should have a spring attaching
 *     the ball to a fixed point.
 * @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
-* @implements {EnergySystem}
-* @implements {myphysicslab.sims.roller.HasPath}
-* @implements {EventHandler}
 */
-myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
-  AbstractODESim.call(this, opt_name);
+constructor(hasSpring, opt_name) {
+  super(opt_name);
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   var var_names = [
@@ -178,11 +160,9 @@ myphysicslab.sims.roller.RollerSingleSim = function(hasSpring, opt_name) {
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
 };
-var RollerSingleSim = myphysicslab.sims.roller.RollerSingleSim;
-goog.inherits(RollerSingleSim, AbstractODESim);
 
 /** @override */
-RollerSingleSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', ball1_: '+this.ball1_
       +', anchor_: '+this.anchor_
@@ -192,21 +172,21 @@ RollerSingleSim.prototype.toString = function() {
       +', damping_: '+Util.NF(this.damping_)
       +', gravity_: '+Util.NF(this.gravity_)
       +', lowestPoint_: '+Util.NF(this.lowestPoint_)
-      + RollerSingleSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RollerSingleSim.prototype.getClassName = function() {
+getClassName() {
   return 'RollerSingleSim';
 };
 
 /** @override */
-RollerSingleSim.prototype.getPath = function() {
+getPath() {
   return this.path_;
 };
 
 /** @override */
-RollerSingleSim.prototype.setPath = function(path) {
+setPath(path) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   var simList = this.getSimList();
@@ -237,7 +217,7 @@ RollerSingleSim.prototype.setPath = function(path) {
 };
 
 /** @override */
-RollerSingleSim.prototype.modifyObjects = function() {
+modifyObjects() {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   if (this.path_ != null) {
@@ -262,7 +242,7 @@ RollerSingleSim.prototype.modifyObjects = function() {
 * @param {!Array<number>} vars
 * @private
 */
-RollerSingleSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   if (this.path_ != null) {
@@ -277,7 +257,7 @@ RollerSingleSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-RollerSingleSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -288,7 +268,7 @@ RollerSingleSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-RollerSingleSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var ke = this.ball1_.getKineticEnergy();
   // gravity potential = m g y
   var pe = this.ball1_.getMass() * this.gravity_ *
@@ -300,14 +280,13 @@ RollerSingleSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-RollerSingleSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-RollerSingleSim.prototype.startDrag = function(simObject, location, offset, dragBody,
-    mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.ball1_) {
     this.dragObj_ = simObject;
     return true;
@@ -318,8 +297,7 @@ RollerSingleSim.prototype.startDrag = function(simObject, location, offset, drag
 };
 
 /** @override */
-RollerSingleSim.prototype.mouseDrag = function(simObject, location, offset,
-    mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   var va = this.getVarsList();
@@ -337,16 +315,16 @@ RollerSingleSim.prototype.mouseDrag = function(simObject, location, offset,
 };
 
 /** @override */
-RollerSingleSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
 /** @override */
-RollerSingleSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-RollerSingleSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   Util.zeroArray(change);
@@ -387,14 +365,14 @@ RollerSingleSim.prototype.evaluate = function(vars, change, timeStep) {
 /**
 @return {number}
 */
-RollerSingleSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /**
 @param {number} value
 */
-RollerSingleSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
@@ -406,14 +384,14 @@ RollerSingleSim.prototype.setGravity = function(value) {
 /**
 @return {number}
 */
-RollerSingleSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 }
 
 /**
 @param {number} value
 */
-RollerSingleSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(RollerSingleSim.en.DAMPING);
 }
@@ -421,14 +399,14 @@ RollerSingleSim.prototype.setDamping = function(value) {
 /**
 @return {number}
 */
-RollerSingleSim.prototype.getMass = function() {
+getMass() {
   return this.ball1_.getMass();
 }
 
 /**
 @param {number} value
 */
-RollerSingleSim.prototype.setMass = function(value) {
+setMass(value) {
   this.ball1_.setMass(value);
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
@@ -440,14 +418,14 @@ RollerSingleSim.prototype.setMass = function(value) {
 /**
 @return {number}
 */
-RollerSingleSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.spring_.getStiffness();
 }
 
 /**
 @param {number} value
 */
-RollerSingleSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.spring_.setStiffness(value);
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
@@ -459,14 +437,14 @@ RollerSingleSim.prototype.setSpringStiffness = function(value) {
 /**
 @return {number}
 */
-RollerSingleSim.prototype.getSpringLength = function() {
+getSpringLength() {
   return this.spring_.getRestLength();
 }
 
 /**
 @param {number} value
 */
-RollerSingleSim.prototype.setSpringLength = function(value) {
+setSpringLength(value) {
   this.spring_.setRestLength(value);
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
@@ -478,17 +456,19 @@ RollerSingleSim.prototype.setSpringLength = function(value) {
 /**
 @return {number}
 */
-RollerSingleSim.prototype.getSpringDamping = function() {
+getSpringDamping() {
   return this.spring_.getDamping();
 }
 
 /**
 @param {number} value
 */
-RollerSingleSim.prototype.setSpringDamping = function(value) {
+setSpringDamping(value) {
   this.spring_.setDamping(value);
   this.broadcastParameter(RollerSingleSim.en.SPRING_DAMPING);
 }
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -551,4 +531,4 @@ RollerSingleSim.de_strings = {
 RollerSingleSim.i18n = goog.LOCALE === 'de' ? RollerSingleSim.de_strings :
     RollerSingleSim.en;
 
-}); // goog.scope
+exports = RollerSingleSim;

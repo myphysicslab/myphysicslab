@@ -51,7 +51,7 @@ var testNumericalPath1 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  var CirclePath = myphysicslab.sims.roller.CirclePath;
+  const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var r = 3;
   var path = new NumericalPath(new CirclePath(r));
@@ -194,7 +194,7 @@ var testNumericalPath2 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  var CustomPath = myphysicslab.sims.roller.CustomPath;
+  const CustomPath = goog.module.get('myphysicslab.sims.roller.CustomPath');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   /** @type {function(number):number} */
   var invsinh = function(x) { return Math.log(x + Math.sqrt(x*x + 1)); };
@@ -274,7 +274,7 @@ var testNumericalPath3 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  var OvalPath = myphysicslab.sims.roller.OvalPath;
+  const OvalPath = goog.module.get('myphysicslab.sims.roller.OvalPath');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var path = new NumericalPath(new OvalPath());
   var pp = new PathPoint(0, /*calculateRadius=*/true);
@@ -323,7 +323,7 @@ var testNumericalPath4 = function() {
   const Util = goog.module.get('myphysicslab.lab.util.Util');
   const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
   const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  var FlatPath = myphysicslab.sims.roller.FlatPath;
+  const FlatPath = goog.module.get('myphysicslab.sims.roller.FlatPath');
   const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var path = new NumericalPath(new FlatPath());
   var pp = new PathPoint(0, /*calculateRadius=*/true);

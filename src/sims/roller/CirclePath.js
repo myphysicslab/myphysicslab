@@ -12,30 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.CirclePath');
+goog.module('myphysicslab.sims.roller.CirclePath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** Circular path centered at the origin.
-
+*/
+class CirclePath extends AbstractPath {
+/**
 * @param {number} radius
 * @param {number=} start
 * @param {number=} finish
 * @param {boolean=} closedLoop
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.CirclePath = function(radius, start, finish,
+constructor(radius, start, finish,
       closedLoop, name, localName) {
   if (!goog.isNumber(start))
     start = -3*Math.PI/2;
@@ -45,36 +38,36 @@ myphysicslab.sims.roller.CirclePath = function(radius, start, finish,
     closedLoop = true;
   name = name || CirclePath.en.NAME;
   localName = localName || CirclePath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start, finish, closedLoop);
+  super(name, localName, start, finish, closedLoop);
   /** @type {number}
   * @private
   * @const
   */
   this.radius_ = radius;
 };
-var CirclePath = myphysicslab.sims.roller.CirclePath;
-goog.inherits(CirclePath, AbstractPath);
 
 /** @override */
-CirclePath.prototype.toString = function() {
-  return Util.ADVANCED ? '' : CirclePath.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       + ', radius_: '+Util.NF(this.radius_)+'}';
 };
 
 /** @override */
-CirclePath.prototype.getClassName = function() {
+getClassName() {
   return 'CirclePath';
 };
 
 /** @override */
-CirclePath.prototype.x_func = function(t) {
+x_func(t) {
   return this.radius_*Math.cos(t);
 };
 
 /** @override */
-CirclePath.prototype.y_func = function(t) {
+y_func(t) {
   return this.radius_*Math.sin(t);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -104,4 +97,4 @@ CirclePath.de_strings = {
 CirclePath.i18n = goog.LOCALE === 'de' ? CirclePath.de_strings :
     CirclePath.en;
 
-}); // goog.scope
+exports = CirclePath;

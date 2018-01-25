@@ -12,25 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.PathSelector');
+goog.module('myphysicslab.sims.roller.PathSelector');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.ParametricPath');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.HasPath');
 
-goog.scope(function() {
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-var HasPath = myphysicslab.sims.roller.HasPath;
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const HasPath = goog.require('myphysicslab.sims.roller.HasPath');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Provides a {@link HasPath} (such as roller coaster simulation) with a choice of
 several paths. Defines a ParameterString that has the set of available ParametricPaths
@@ -44,15 +35,14 @@ to the constructor.
 
 + ParameterString named `PATH`, see {@link #setPathName}.
 
+*/
+class PathSelector extends AbstractSubject {
+/**
 * @param {!HasPath} hasPath
 * @param {!Array<!ParametricPath>} paths  the set of paths to offer
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
 */
-myphysicslab.sims.roller.PathSelector = function(hasPath, paths) {
-  AbstractSubject.call(this, 'PATH_SELECTOR');
+constructor(hasPath, paths) {
+  super('PATH_SELECTOR');
   /**
   * @type {!HasPath}
   * @private
@@ -75,46 +65,45 @@ myphysicslab.sims.roller.PathSelector = function(hasPath, paths) {
       return p.getName(/*localized=*/true);
   });
   var ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
-      goog.bind(this.getPathName, this), goog.bind(this.setPathName, this), localNames, names);
+      goog.bind(this.getPathName, this), goog.bind(this.setPathName, this),
+      localNames, names);
   // the input function allows passing in lowercase path names.
   //ps.setInputFunction(Util.toName);
   this.addParameter(ps);
 };
-var PathSelector = myphysicslab.sims.roller.PathSelector;
-goog.inherits(PathSelector, AbstractSubject);
 
 /** @override */
-PathSelector.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', pathName: '+this.pathName_
       +', paths: ['
       + goog.array.map(this.paths_, function(p) {return p.getName();})
-      + ']' + PathSelector.superClass_.toString.call(this);
+      + ']' + super.toString();
 };
 
 /** @override */
-PathSelector.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' :
-      PathSelector.superClass_.toStringShort.call(this).slice(0, -1)
+      super.toStringShort().slice(0, -1)
       +', hasPath: '+this.hasPath_.toStringShort() +'}';
 };
 
 /** @override */
-PathSelector.prototype.getClassName = function() {
+getClassName() {
   return 'PathSelector';
 };
 
 /** Returns name of current path.
 * @return {string} name of current path.
 */
-PathSelector.prototype.getPathName = function() {
+getPathName() {
   return this.pathName_;
 };
 
 /** Sets the current path.
 * @param {string} value  name of desired path
 */
-PathSelector.prototype.setPathName = function(value) {
+setPathName(value) {
   value = Util.toName(value);
   if (value != this.pathName_) {
     for (var i=0, len=this.paths_.length; i<len; i++) {
@@ -134,7 +123,7 @@ PathSelector.prototype.setPathName = function(value) {
 has changed, or the start and finish parameter values have changed.
 * @return {undefined}
 */
-PathSelector.prototype.update = function() {
+update() {
   for (var i=0, len=this.paths_.length; i<len; i++) {
     var path = this.paths_[i];
     if (path.nameEquals(this.pathName_)) {
@@ -145,6 +134,8 @@ PathSelector.prototype.update = function() {
   }
   throw new Error('unknown path '+this.pathName_);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -174,4 +165,4 @@ PathSelector.de_strings = {
 PathSelector.i18n = goog.LOCALE === 'de' ? PathSelector.de_strings :
     PathSelector.en;
 
-}); // goog.scope
+exports = PathSelector;

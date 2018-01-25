@@ -12,53 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.FlatPath');
+goog.module('myphysicslab.sims.roller.FlatPath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** A horizontal flat path.
-
+*/
+class FlatPath extends AbstractPath {
+/**
 * @param {number=} start
 * @param {number=} finish
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.FlatPath = function(start, finish, name, localName) {
+constructor(start, finish, name, localName) {
   if (!goog.isNumber(start))
     start = -5;
   if (!goog.isNumber(finish))
     finish = 5;
   name = name || FlatPath.en.NAME;
   localName = localName || FlatPath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start, finish, /*closedLoop=*/false);
+  super(name, localName, start, finish, /*closedLoop=*/false);
 };
-var FlatPath = myphysicslab.sims.roller.FlatPath;
-goog.inherits(FlatPath, AbstractPath);
 
 /** @override */
-FlatPath.prototype.getClassName = function() {
+getClassName() {
   return 'FlatPath';
 };
 
 /** @override */
-FlatPath.prototype.x_func = function(t) {
+x_func(t) {
   return t;
 };
 
 /** @override */
-FlatPath.prototype.y_func = function(t) {
+y_func(t) {
   return 0;
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -88,4 +81,4 @@ FlatPath.de_strings = {
 FlatPath.i18n = goog.LOCALE === 'de' ? FlatPath.de_strings :
     FlatPath.en;
 
-}); // goog.scope
+exports = FlatPath;

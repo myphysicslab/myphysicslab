@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.CustomPath');
+goog.module('myphysicslab.sims.roller.CustomPath');
 
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** A path defined by custom equations. The equations are JavaScript string
 expressions where the parameter is `t`. There is an equation for both the `x` and `y`
@@ -30,24 +24,22 @@ value. The equation is checked to conform to
 [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript).
 
 NOTE: This class creates a global variable named `t`.
-
+*/
+class CustomPath extends AbstractPath {
+/**
 * @param {number=} start_t starting `t` value
 * @param {number=} finish_t ending `t` value
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.CustomPath = function(start_t, finish_t, name, localName) {
+constructor(start_t, finish_t, name, localName) {
   if (!goog.isNumber(start_t))
     start_t = -3;
   if (!goog.isNumber(finish_t))
     finish_t = 3;
   name = name || CustomPath.en.NAME;
   localName = localName || CustomPath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start_t, finish_t, /*closedLoop=*/false);
+  super(name, localName, start_t, finish_t, /*closedLoop=*/false);
   /**
   * @type {string}
   * @private
@@ -59,33 +51,31 @@ myphysicslab.sims.roller.CustomPath = function(start_t, finish_t, name, localNam
   */
   this.equationY_ = '3 + t*t*(-7 + 1.2*t*t)/6';
 };
-var CustomPath = myphysicslab.sims.roller.CustomPath;
-goog.inherits(CustomPath, AbstractPath);
 
 /** @override */
-CustomPath.prototype.toString = function() {
-  return Util.ADVANCED ? '' : CustomPath.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
     +', equationX_: "'+this.equationX_+'"'
     +', equationY_: "'+this.equationY_+'"'
     +'}';
 };
 
 /** @override */
-CustomPath.prototype.getClassName = function() {
+getClassName() {
   return 'CustomPath';
 };
 
 /** Returns the parameteric X equation defining the path.
 * @return {string} the parameteric X equation defining the path
 */
-CustomPath.prototype.getXEquation = function() {
+getXEquation() {
   return this.equationX_;
 };
 
 /** Returns the parameteric Y equation defining the path.
 * @return {string} the parameteric Y equation defining the path
 */
-CustomPath.prototype.getYEquation = function() {
+getYEquation() {
   return this.equationY_;
 };
 
@@ -95,7 +85,7 @@ the parameter is `t`.
 * @throws {!Error} if the equation fails checks for
 *    [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript)
 */
-CustomPath.prototype.setXEquation = function(value) {
+setXEquation(value) {
   value = Terminal.deUnicode(value);
   Terminal.vetCommand(value, /*whiteList=*/['t'], /*blackList=*//\beval\b/g);
   Terminal.vetBrackets(value);
@@ -108,7 +98,7 @@ the parameter is `t`.
 * @throws {!Error} if the equation fails checks for
 *    [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript)
 */
-CustomPath.prototype.setYEquation = function(value) {
+setYEquation(value) {
   value = Terminal.deUnicode(value);
   Terminal.vetCommand(value,  /*whiteList=*/['t'], /*blackList=*//\beval\b/g);
   Terminal.vetBrackets(value);
@@ -116,7 +106,7 @@ CustomPath.prototype.setYEquation = function(value) {
 };
 
 /** @override */
-CustomPath.prototype.x_func = function(t) {
+x_func(t) {
   window['t'] = t;
   var r = eval('"use strict"; '+this.equationX_);
   if (goog.isNumber(r) && isFinite(r)) {
@@ -127,7 +117,7 @@ CustomPath.prototype.x_func = function(t) {
 };
 
 /** @override */
-CustomPath.prototype.y_func = function(t) {
+y_func(t) {
   window['t'] = t;
   var r = eval('"use strict"; '+this.equationY_);
   if (goog.isNumber(r) && isFinite(r)) {
@@ -136,6 +126,8 @@ CustomPath.prototype.y_func = function(t) {
     throw new Error('not a finite number "'+this.equationY_+'" when t='+t);
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -165,4 +157,4 @@ CustomPath.de_strings = {
 CustomPath.i18n = goog.LOCALE === 'de' ? CustomPath.de_strings :
     CustomPath.en;
 
-}); // goog.scope
+exports = CustomPath;

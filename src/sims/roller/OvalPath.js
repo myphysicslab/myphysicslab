@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.OvalPath');
+goog.module('myphysicslab.sims.roller.OvalPath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** A path like an oval racetrack with vertical sections. The straight
 sections are vertical, so it is a good test for handling infinite slope situations.
@@ -33,17 +28,20 @@ The parameter, `t` starts at pi/2, corresponding to the topmost point of the ova
     t = 2 + 2*pi to 4 + 2*pi is straight up section
     t = 4+2*pi to 4+ (5/2)*pi is upper right quarter circle
 
+*/
+class OvalPath extends AbstractPath {
+/**
 * @param {number=} straight
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.OvalPath = function(straight, name, localName) {
-  if (!goog.isNumber(straight))
+constructor(straight, name, localName) {
+  name = name || OvalPath.en.NAME;
+  localName = localName || OvalPath.i18n.NAME;
+  super(name, localName, /*start=*/0, /*finish=*/0, /*closedLoop=*/true);
+  if (!goog.isNumber(straight)) {
     straight = 2.0;
+  }
   /** length of straight section
   * @type {number}
   * @private
@@ -86,27 +84,23 @@ myphysicslab.sims.roller.OvalPath = function(straight, name, localName) {
   * @const
   */
   this.t5_ = this.t4_ + Math.PI/2;
-  name = name || OvalPath.en.NAME;
-  localName = localName || OvalPath.i18n.NAME;
-  AbstractPath.call(this, name, localName, /*start=*/this.t0_,
-      /*finish=*/this.t5_, /*closedLoop=*/true);
+  this.setStartTValue(this.t0_);
+  this.setFinishTValue(this.t5_);
 };
-var OvalPath = myphysicslab.sims.roller.OvalPath;
-goog.inherits(OvalPath, AbstractPath);
 
 /** @override */
-OvalPath.prototype.toString = function() {
-  return Util.ADVANCED ? '' : OvalPath.superClass_.toString.call(this).slice(0, -1)
+toString() {
+  return Util.ADVANCED ? '' : super.toString().slice(0, -1)
       + ', straight: '+Util.NF(this.s_)+'}';
 };
 
 /** @override */
-OvalPath.prototype.getClassName = function() {
+getClassName() {
   return 'OvalPath';
 };
 
 /** @override */
-OvalPath.prototype.x_func = function(t) {
+x_func(t) {
   if (t<this.t1_)
     return Math.cos(t);
   else if (t<this.t2_)
@@ -122,7 +116,7 @@ OvalPath.prototype.x_func = function(t) {
 };
 
 /** @override */
-OvalPath.prototype.y_func = function(t) {
+y_func(t) {
   if (t<this.t1_)
     return this.s_+Math.sin(t);
   else if (t<this.t2_)
@@ -136,6 +130,8 @@ OvalPath.prototype.y_func = function(t) {
   else
     return 0;
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -165,4 +161,4 @@ OvalPath.de_strings = {
 OvalPath.i18n = goog.LOCALE === 'de' ? OvalPath.de_strings :
     OvalPath.en;
 
-}); // goog.scope
+exports = OvalPath;

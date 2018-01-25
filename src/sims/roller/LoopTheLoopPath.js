@@ -12,30 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.LoopTheLoopPath');
+goog.module('myphysicslab.sims.roller.LoopTheLoopPath');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const Util = goog.require('myphysicslab.lab.util.Util');
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** Loop-the-loop curve, like a roller coaster that has a loop in it where
 the car will go upside down. Formed from part of a parabola, then part of a circle, then
 another parabola. For details see Mathematica file 'roller.nb'.
 
+*/
+class LoopTheLoopPath extends AbstractPath {
+/**
 * @param {number=} start
 * @param {number=} finish
 * @param {string=} name
 * @param {string=} localName
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-myphysicslab.sims.roller.LoopTheLoopPath = function(start, finish, name, localName) {
+constructor(start, finish, name, localName) {
   if (!goog.isNumber(start)) {
     start = -3.7;
   }
@@ -44,10 +38,40 @@ myphysicslab.sims.roller.LoopTheLoopPath = function(start, finish, name, localNa
   }
   name = name || LoopTheLoopPath.en.NAME;
   localName = localName || LoopTheLoopPath.i18n.NAME;
-  AbstractPath.call(this, name, localName, start, finish, /*closedLoop=*/false);
+  super(name, localName, start, finish, /*closedLoop=*/false);
 };
-var LoopTheLoopPath = myphysicslab.sims.roller.LoopTheLoopPath;
-goog.inherits(LoopTheLoopPath, AbstractPath);
+
+/** @override */
+getClassName() {
+  return 'LoopTheLoopPath';
+};
+
+/** @override */
+x_func(t) {
+  if (t<0.5) {
+    return t;
+  } else if (t < 0.5 + LoopTheLoopPath.theta1 - LoopTheLoopPath.theta2) {
+    return LoopTheLoopPath.radius * Math.cos(t - 0.5 + LoopTheLoopPath.theta2)
+        + LoopTheLoopPath.xcenter;
+  } else {
+    return t - LoopTheLoopPath.theta1 + LoopTheLoopPath.theta2 - 1;
+  }
+};
+
+/** @override */
+y_func(t) {
+  if (t<0.5) {
+    return (t+1)*(t+1) + LoopTheLoopPath.yoffset;
+  } else if (t < 0.5 + LoopTheLoopPath.theta1 - LoopTheLoopPath.theta2) {
+    return LoopTheLoopPath.radius * Math.sin(t - 0.5 + LoopTheLoopPath.theta2)
+        + LoopTheLoopPath.ycenter + LoopTheLoopPath.yoffset;
+  } else {
+    var dd = t - LoopTheLoopPath.theta1 + LoopTheLoopPath.theta2 - 2;
+    return dd*dd + LoopTheLoopPath.yoffset;
+  }
+};
+
+} //end class
 
 /**
 * @type {number}
@@ -86,36 +110,6 @@ LoopTheLoopPath.xcenter = 0;
 */
 LoopTheLoopPath.yoffset = 1;
 
-/** @override */
-LoopTheLoopPath.prototype.getClassName = function() {
-  return 'LoopTheLoopPath';
-};
-
-/** @override */
-LoopTheLoopPath.prototype.x_func = function(t) {
-  if (t<0.5) {
-    return t;
-  } else if (t < 0.5 + LoopTheLoopPath.theta1 - LoopTheLoopPath.theta2) {
-    return LoopTheLoopPath.radius * Math.cos(t - 0.5 + LoopTheLoopPath.theta2)
-        + LoopTheLoopPath.xcenter;
-  } else {
-    return t - LoopTheLoopPath.theta1 + LoopTheLoopPath.theta2 - 1;
-  }
-};
-
-/** @override */
-LoopTheLoopPath.prototype.y_func = function(t) {
-  if (t<0.5) {
-    return (t+1)*(t+1) + LoopTheLoopPath.yoffset;
-  } else if (t < 0.5 + LoopTheLoopPath.theta1 - LoopTheLoopPath.theta2) {
-    return LoopTheLoopPath.radius * Math.sin(t - 0.5 + LoopTheLoopPath.theta2)
-        + LoopTheLoopPath.ycenter + LoopTheLoopPath.yoffset;
-  } else {
-    var dd = t - LoopTheLoopPath.theta1 + LoopTheLoopPath.theta2 - 2;
-    return dd*dd + LoopTheLoopPath.yoffset;
-  }
-};
-
 /** Set of internationalized strings.
 @typedef {{
   NAME: string
@@ -144,4 +138,4 @@ LoopTheLoopPath.de_strings = {
 LoopTheLoopPath.i18n = goog.LOCALE === 'de' ? LoopTheLoopPath.de_strings :
     LoopTheLoopPath.en;
 
-}); // goog.scope
+exports = LoopTheLoopPath;
