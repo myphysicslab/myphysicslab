@@ -12,109 +12,61 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.ComparePendulumApp');
+goog.module('myphysicslab.sims.pendulum.ComparePendulumApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.Arc');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayArc');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.CompareGraph');
-goog.require('myphysicslab.sims.common.CompareTimeGraph');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.PendulumSim');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const Arc = goog.require('myphysicslab.lab.model.Arc');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const CompareGraph = goog.require('myphysicslab.sims.common.CompareGraph');
+const CompareTimeGraph = goog.require('myphysicslab.sims.common.CompareTimeGraph');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayArc = goog.require('myphysicslab.lab.view.DisplayArc');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PendulumSim = goog.require('myphysicslab.sims.pendulum.PendulumSim');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const Arc = goog.module.get('myphysicslab.lab.model.Arc');
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-var CompareGraph = sims.common.CompareGraph;
-var CompareTimeGraph = sims.common.CompareTimeGraph;
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayArc = goog.module.get('myphysicslab.lab.view.DisplayArc');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PendulumSim = goog.module.get('myphysicslab.sims.pendulum.PendulumSim');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+// following are only required for possible use in Terminal
+const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
 
 /** Runs two chaotic pendulum simulations simultaneously with the same settings except
 for a slight difference of initial conditions. This demonstrates the sensitivity of
@@ -137,18 +89,16 @@ this file in the HTML where the constructor is called. The name of that global v
 holding the application is passed to defineNames() method so that short-names in scripts
 can be properly expanded.
 
+*/
+class ComparePendulumApp extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @export
 */
-myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, 'APP');
+  super('APP');
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
   this.layout.simCanvas.setBackground('black');
@@ -398,22 +348,20 @@ myphysicslab.sims.pendulum.ComparePendulumApp = function(elem_ids) {
   this.timeGraph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
-var ComparePendulumApp = myphysicslab.sims.pendulum.ComparePendulumApp;
-goog.inherits(ComparePendulumApp, AbstractSubject);
 
 /** @override */
-ComparePendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', sim1: '+this.sim1.toStringShort()
       +', sim2: '+this.sim2.toStringShort()
       +', terminal: '+this.terminal
       +', graph: '+this.graph
       +', timeGraph: '+this.timeGraph
-      + ComparePendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ComparePendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'ComparePendulumApp';
 };
 
@@ -422,7 +370,7 @@ ComparePendulumApp.prototype.getClassName = function() {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-ComparePendulumApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -438,7 +386,7 @@ ComparePendulumApp.prototype.defineNames = function(myName) {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-ComparePendulumApp.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
@@ -446,7 +394,7 @@ ComparePendulumApp.prototype.addControl = function(control) {
 * @return {undefined}
 * @export
 */
-ComparePendulumApp.prototype.setup = function() {
+setup() {
   this.clock.resume();
   this.terminal.parseURLorRecall();
   this.sim1.saveInitialState();
@@ -457,7 +405,7 @@ ComparePendulumApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-ComparePendulumApp.prototype.start = function() {
+start() {
   this.simRun.startFiring();
   //console.log(Util.prettyPrint(this.toString()));
 };
@@ -469,7 +417,7 @@ ComparePendulumApp.prototype.start = function() {
 * @return {*}
 * @export
 */
-ComparePendulumApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -480,14 +428,14 @@ ComparePendulumApp.prototype.eval = function(script, opt_output) {
 /**
 * @return {number}
 */
-ComparePendulumApp.prototype.getAngleDelta = function() {
+getAngleDelta() {
   return this.angleDelta;
 };
 
 /**
 * @param {number} value
 */
-ComparePendulumApp.prototype.setAngleDelta = function(value) {
+setAngleDelta(value) {
   if (this.angleDelta != value) {
     this.angleDelta = value;
     this.simRun.reset();
@@ -497,6 +445,8 @@ ComparePendulumApp.prototype.setAngleDelta = function(value) {
     this.broadcastParameter(ComparePendulumApp.en.ANGLE_DELTA);
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -526,4 +476,13 @@ ComparePendulumApp.de_strings = {
 ComparePendulumApp.i18n = goog.LOCALE === 'de' ? ComparePendulumApp.de_strings :
     ComparePendulumApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!ComparePendulumApp}
+*/
+function makeComparePendulumApp(elem_ids) {
+  return new ComparePendulumApp(elem_ids);
+};
+goog.exportSymbol('makeComparePendulumApp', makeComparePendulumApp);
+
+exports = ComparePendulumApp;

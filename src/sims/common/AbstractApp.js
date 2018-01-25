@@ -99,8 +99,7 @@ class AbstractApp extends AbstractSubject {
 * @param {?EnergySystem} energySystem
 * @param {string=} opt_name name of this as a Subject
 */
-constructor(elem_ids, simRect, sim, advance,
-     eventHandler, energySystem, opt_name) {
+constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_name) {
   super(opt_name || 'APP');
   /** @type {!DoubleRect} */
   this.simRect = simRect;

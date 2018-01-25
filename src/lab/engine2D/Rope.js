@@ -67,8 +67,7 @@ class Rope extends AbstractSimObject {
 * @param {number} length  the maximum length of the rope (or fixed length of rod)
 * @param {number} ropeType  1 means rope, 2 means rod.
 */
-constructor(body1, attach1_body, body2, attach2, length,
-      ropeType) {
+constructor(body1, attach1_body, body2, attach2, length, ropeType) {
   super('rope'+(Rope.ropeNum++));
   if (!isFinite(body2.getMass())) {
     throw new Error('body2 must have finite mass');

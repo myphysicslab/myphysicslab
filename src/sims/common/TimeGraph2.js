@@ -68,8 +68,7 @@ class TimeGraph2 {
 * @param {!SimRunner} simRun the SimRunner controlling the
 *   overall app
 */
-constructor(varsList, graphCanvas, div_controls,
-    div_graph, simRun) {
+constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);

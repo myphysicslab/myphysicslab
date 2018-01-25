@@ -12,72 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.common.CompareGraph');
+goog.module('myphysicslab.sims.common.CompareGraph');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.SubjectList');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.common.CommonControls');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates a graph showing two GraphLines corresponding to two Simulations, where the
 two GraphLines are showing the same variables. There is a single SimView and
@@ -86,21 +51,19 @@ controls to modify the graph. The menu choices are only connected to the first
 GraphLine. The second GraphLine should be externally synchronized to show the same
 variables as the first GraphLine.
 
+* @implements {SubjectList}
+*/
+class CompareGraph extends AbstractSubject {
+/**
 * @param {!GraphLine} line1 the first GraphLine to show
 * @param {!GraphLine} line2 the second GraphLine to show
 * @param {!LabCanvas} graphCanvas the LabCanvas where the graph should appear
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
 * @param {!SimRunner} simRun the SimRunner controlling the overall app
-* @constructor
-* @final
-* @extends {AbstractSubject}
-* @implements {SubjectList}
-* @struct
 */
-myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
-    div_controls, div_graph, simRun) {
-  AbstractSubject.call(this, 'GRAPH_LAYOUT');
+constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
+  super('GRAPH_LAYOUT');
   /** @type {!GraphLine} */
   this.line1 = line1;
   /** @type {!GraphLine} */
@@ -193,11 +156,9 @@ myphysicslab.sims.common.CompareGraph = function(line1, line2, graphCanvas,
   var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
-var CompareGraph = myphysicslab.sims.common.CompareGraph;
-goog.inherits(CompareGraph, AbstractSubject);
 
 /** @override */
-CompareGraph.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', line1: '+this.line1.toStringShort()
       +', line2: '+this.line2.toStringShort()
@@ -207,16 +168,16 @@ CompareGraph.prototype.toString = function() {
       +', autoScale: '+this.autoScale.toStringShort()
       +', displayGraph: '+this.displayGraph.toStringShort()
       +', graphCtrl: '+this.graphCtrl.toStringShort()
-      + CompareGraph.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CompareGraph.prototype.getClassName = function() {
+getClassName() {
   return 'CompareGraph';
 };
 
 /** @override */
-CompareGraph.prototype.getSubjects = function() {
+getSubjects() {
   return [ this, this.line1, this.line2, this.view, this.autoScale ];
 };
 
@@ -224,7 +185,7 @@ CompareGraph.prototype.getSubjects = function() {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-CompareGraph.prototype.addControl = function(control) {
+addControl(control) {
   var element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
@@ -232,4 +193,6 @@ CompareGraph.prototype.addControl = function(control) {
   return control;
 };
 
-}); // goog.scope
+} //end class
+
+exports = CompareGraph;

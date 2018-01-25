@@ -44,8 +44,7 @@ class Impulse extends AbstractSimObject {
 @param {!Vector} offset vector from CM (center of mass) of body to point of impact,
     in world coords
 */
-constructor(name, body, magnitude, location, direction,
-      offset) {
+constructor(name, body, magnitude, location, direction, offset) {
   super(name);
   /** which body the impulse is applied to
   * @type {!MassObject}

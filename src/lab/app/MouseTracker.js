@@ -79,8 +79,7 @@ class MouseTracker {
     events to; will be `null` when a DisplayObject should be dragged directly
 
 */
-constructor(dragDispObj, view, loc_sim, drag_body,
-     eventHandler) {
+constructor(dragDispObj, view, loc_sim, drag_body, eventHandler) {
   if (dragDispObj == null && eventHandler == null) {
     throw new Error();
   }

@@ -56,8 +56,7 @@ class ChoiceControl extends ChoiceControlBase {
 @param {!Array<string>=} opt_values array of values corresponding to the choices;
     if not specified, then the Parameter's values are used.
 */
-constructor(parameter, opt_label, opt_choices,
-    opt_values) {
+constructor(parameter, opt_label, opt_choices, opt_values) {
   var choices = opt_choices !== undefined ? opt_choices : parameter.getChoices();
   var values = opt_values !== undefined ? opt_values : parameter.getValues();
   var label = opt_label !== undefined ?

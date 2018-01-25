@@ -38,8 +38,7 @@ class DisplayClock {
 * @param {number=} radius  Radius of clock in simulation coords, default is 1.0.
 * @param {!Vector=} location  Location of center of clock, in simulation coords.
 */
-constructor(simTimeFn, realTimeFn, period, radius,
-      location) {
+constructor(simTimeFn, realTimeFn, period, radius, location) {
   /**
   * @type {function():number}
   * @private

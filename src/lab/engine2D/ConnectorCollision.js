@@ -33,8 +33,7 @@ class ConnectorCollision extends RigidBodyCollision {
 * @param {boolean} joint whether this is a bilateral constraint which can both
     push and pull.
 */
-constructor(body, normalBody, theConnector,
-     joint) {
+constructor(body, normalBody, theConnector, joint) {
   super(body, normalBody, joint);
   /** Connector that generated this collision
   * @type {!Connector}

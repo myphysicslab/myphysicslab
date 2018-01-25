@@ -60,8 +60,7 @@ class PathEndPoint extends AbstractSimObject {
 @param {boolean} upperLimit `true` means this is an is an upper limit; `false` indicates
     this is a lower limit
 */
-constructor(name, path, body, attach_body, limit,
-      upperLimit) {
+constructor(name, path, body, attach_body, limit, upperLimit) {
   super(name);
   /**
   * @type {!RigidBody}

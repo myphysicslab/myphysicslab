@@ -147,8 +147,7 @@ class SliderControl {
 * @param {number=} increments  the number of increments, between max and min,
 *     that the value can take on; default is 100
 */
-constructor(parameter, min, max, multiply,
-      increments) {
+constructor(parameter, min, max, multiply, increments) {
   /**
   * @type {!ParameterNumber}
   * @private

@@ -128,8 +128,7 @@ class CircularEdge extends AbstractEdge {
 * @throws {!Error} if `vertex1` is already connected to a 'next' Edge
 * @throws {!Error} if `vertex2` is already connected to a 'previous' Edge
 */
-constructor(body, vertex1, vertex2, center_body,
-    clockwise, outsideIsOut, opt_spacing) {
+constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_spacing) {
   super(body, vertex1, vertex2);
   /** position of the center, in body coords
   * @type {!Vector}

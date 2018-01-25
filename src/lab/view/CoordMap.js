@@ -78,8 +78,8 @@ class CoordMap {
 @param {number} pixel_per_unit_y  canvas pixels per simulation space unit along y axis
 @private
 */
-constructor(screen_left, screen_bottom, sim_left,
-    sim_bottom, pixel_per_unit_x, pixel_per_unit_y) {
+constructor(screen_left, screen_bottom, sim_left, sim_bottom, pixel_per_unit_x,
+      pixel_per_unit_y) {
   /**
   * @type {number}
   * @private

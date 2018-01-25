@@ -61,8 +61,8 @@ class Spring extends AbstractSimObject {
 *    behaves normally if the spring is in compression but disconnects
 *    from the second attachment point during extension.
 */
-constructor(name, body1, attach1_body,
-      body2, attach2_body, restLength, stiffness, compressOnly) {
+constructor(name, body1, attach1_body, body2, attach2_body, restLength, stiffness,
+      compressOnly) {
   super(name);
   /** body to attach point1 to
   * @type {!MassObject}

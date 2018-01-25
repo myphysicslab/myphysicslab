@@ -136,8 +136,7 @@ class Joint extends AbstractSimObject {
 @param {!Vector} normal this Joint's normal vector in body
     (for `rigidBody2`) or world coordinates
 */
-constructor(rigidBody1, attach1_body,
-      rigidBody2, attach2_body, normalType, normal) {
+constructor(rigidBody1, attach1_body, rigidBody2, attach2_body, normalType, normal) {
   super('JOINT'+(Joint.nextJointNum++));
   /** first body of the joint
   * @type {!RigidBody}
