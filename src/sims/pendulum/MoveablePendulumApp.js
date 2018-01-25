@@ -12,68 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.MoveablePendulumApp');
+goog.module('myphysicslab.sims.pendulum.MoveablePendulumApp');
 
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.MoveablePendulumSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var MoveablePendulumSim = sims.pendulum.MoveablePendulumSim;
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const MoveablePendulumSim = goog.require('myphysicslab.sims.pendulum.MoveablePendulumSim');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link MoveablePendulumSim} simulation.
-
+*/
+class MoveablePendulumApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @extends {AbstractApp}
-* @constructor
-* @final
-* @struct
-* @export
 */
-sims.pendulum.MoveablePendulumApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-3.3, -3.3, 3.3, 3);
   var sim = new MoveablePendulumSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
   this.simRun.setTimeStep(0.01);
@@ -143,28 +116,37 @@ sims.pendulum.MoveablePendulumApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var MoveablePendulumApp = sims.pendulum.MoveablePendulumApp;
-goog.inherits(MoveablePendulumApp, AbstractApp);
 
 /** @override */
-MoveablePendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', anchor: '+this.anchor.toStringShort()
       +', bob: '+this.bob.toStringShort()
       +', rod: '+this.rod.toStringShort()
-      + MoveablePendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-MoveablePendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'MoveablePendulumApp';
 };
 
 /** @override */
-MoveablePendulumApp.prototype.defineNames = function(myName) {
-  MoveablePendulumApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('rod|anchor|bob',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!MoveablePendulumApp}
+*/
+function makeMoveablePendulumApp(elem_ids) {
+  return new MoveablePendulumApp(elem_ids);
+};
+goog.exportSymbol('makeMoveablePendulumApp', makeMoveablePendulumApp);
+
+exports = MoveablePendulumApp;
