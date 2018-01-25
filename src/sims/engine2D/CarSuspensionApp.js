@@ -12,54 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.CarSuspensionApp');
+goog.module('myphysicslab.sims.engine2D.CarSuspensionApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of a car suspension modelled in two different ways: each wheel has either
 two springs, or a rigid rod and a spring.
@@ -76,22 +50,20 @@ Parameters Created
 
 + ParameterNumber named `STIFFNESS`, see {@link #setStiffness}
 
-
+*/
+class CarSuspensionApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-7, -5, 7, 5);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.rbo.protoSpring.setWidth(0.3);
   /** @type {!DisplayShape} */
   this.protoWheel = new DisplayShape().setFillStyle('#CCF');
@@ -153,34 +125,23 @@ myphysicslab.sims.engine2D.CarSuspensionApp = function(elem_ids) {
   this.configure();
   this.graphSetup();
 };
-var CarSuspensionApp = myphysicslab.sims.engine2D.CarSuspensionApp;
-goog.inherits(CarSuspensionApp, Engine2DApp);
 
 /** @override */
-CarSuspensionApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + CarSuspensionApp.superClass_.toString.call(this);
+      + super.toString();
 };
-
-/**
-* @enum {number}
-*/
-CarSuspensionApp.Formation = {
-  ROD_SPRING: 0,
-  TWO_SPRINGS: 1
-};
-var Formation = CarSuspensionApp.Formation;
 
 /** @override */
-CarSuspensionApp.prototype.getClassName = function() {
+getClassName() {
   return 'CarSuspensionApp';
 };
 
 /** @override */
-CarSuspensionApp.prototype.defineNames = function(myName) {
-  CarSuspensionApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('dampingLaw|gravityLaw|protoWheel',
       myName+'.');
   this.terminal.addRegex('CarSuspensionApp|Engine2DApp',
@@ -188,8 +149,8 @@ CarSuspensionApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-CarSuspensionApp.prototype.getSubjects = function() {
-  var subjects = CarSuspensionApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
@@ -197,7 +158,7 @@ CarSuspensionApp.prototype.getSubjects = function() {
 * @param {!Spring} s
 * @private
 */
-CarSuspensionApp.prototype.addSpring = function(s) {
+addSpring(s) {
   s.setDamping(this.springDamping);
   this.mySim.addForceLaw(s);
   this.mySim.getSimList().add(s);
@@ -208,7 +169,7 @@ CarSuspensionApp.prototype.addSpring = function(s) {
 * @return {undefined}
 * @private
 */
-CarSuspensionApp.prototype.configure = function() {
+configure() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -220,7 +181,7 @@ CarSuspensionApp.prototype.configure = function() {
   this.mySim.addBody(car);
   this.displayList.findShape(car).setFillStyle('lightGray');
   switch (this.formation) {
-    case Formation.TWO_SPRINGS:
+    case CarSuspensionApp.Formation.TWO_SPRINGS:
       var wheel1 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+1,
           CarSuspensionApp.i18n.WHEEL+1);
       wheel1.setMass(this.wheelMass);
@@ -250,7 +211,7 @@ CarSuspensionApp.prototype.configure = function() {
           wheel2, Vector.ORIGIN,
           this.springLength, this.stiffness));
       break;
-    case Formation.ROD_SPRING:
+    case CarSuspensionApp.Formation.ROD_SPRING:
       var p1 = Shapes.makePendulum(0.05, this.springLength, 0.4,
           CarSuspensionApp.en.WHEEL+1, CarSuspensionApp.i18n.WHEEL+1);
       p1.setAngle(0);
@@ -299,14 +260,14 @@ CarSuspensionApp.prototype.configure = function() {
 /**
 * @return {number}
 */
-CarSuspensionApp.prototype.getFormation = function() {
+getFormation() {
   return this.formation;
 };
 
 /**
 * @param {number} value
 */
-CarSuspensionApp.prototype.setFormation = function(value) {
+setFormation(value) {
   this.formation = /** @type {CarSuspensionApp.Formation} */(value);
   this.configure();
   this.broadcastParameter(CarSuspensionApp.en.FORMATION);
@@ -315,14 +276,14 @@ CarSuspensionApp.prototype.setFormation = function(value) {
 /**
 * @return {number}
 */
-CarSuspensionApp.prototype.getSpringDamping = function() {
+getSpringDamping() {
   return this.springDamping;
 };
 
 /**
 * @param {number} value
 */
-CarSuspensionApp.prototype.setSpringDamping = function(value) {
+setSpringDamping(value) {
   this.springDamping = value;
   for (var i=0; i<this.springs.length; i++) {
     this.springs[i].setDamping(this.springDamping);
@@ -333,19 +294,29 @@ CarSuspensionApp.prototype.setSpringDamping = function(value) {
 /**
 * @return {number}
 */
-CarSuspensionApp.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness;
 };
 
 /**
 * @param {number} value
 */
-CarSuspensionApp.prototype.setStiffness = function(value) {
+setStiffness(value) {
   this.stiffness = value;
   for (var i=0; i<this.springs.length; i++) {
     this.springs[i].setStiffness(this.stiffness);
   }
   this.broadcastParameter(CarSuspensionApp.en.STIFFNESS);
+};
+
+} //end class
+
+/**
+* @enum {number}
+*/
+CarSuspensionApp.Formation = {
+  ROD_SPRING: 0,
+  TWO_SPRINGS: 1
 };
 
 /** Set of internationalized strings.
@@ -403,4 +374,13 @@ CarSuspensionApp.de_strings = {
 CarSuspensionApp.i18n = goog.LOCALE === 'de' ? CarSuspensionApp.de_strings :
     CarSuspensionApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!CarSuspensionApp}
+*/
+function makeCarSuspensionApp(elem_ids) {
+  return new CarSuspensionApp(elem_ids);
+};
+goog.exportSymbol('makeCarSuspensionApp', makeCarSuspensionApp);
+
+exports = CarSuspensionApp;
