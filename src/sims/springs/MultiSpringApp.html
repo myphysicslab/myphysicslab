@@ -5,6 +5,7 @@
 #define #APP_PATH sims.springs.SingleSpringApp
 #include "#TOP_DIR/macros.html"
 #include "#TOP_DIR/macros_tab.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -57,7 +58,7 @@
   (function() {
     #define #APP_NUM 1
     #ELEM_IDS
-    app1 = new myphysicslab.sims.springs.SingleSpringApp(elem_ids1);
+    app1 = makeSingleSpringApp(elem_ids1);
     app1.defineNames('app1');
     app1.eval('SPRING_STIFFNESS=10;DAMPING=0.01;RUNNING=true');
     app1.start();
@@ -68,7 +69,7 @@
     #define #APP_NUM 2
     #define #TAB_LIST_ID tab_list2
     #ELEM_IDS
-    app2 = new myphysicslab.sims.springs.SingleSpringApp(elem_ids2);
+    app2 = makeSingleSpringApp(elem_ids2);
     app2.defineNames('app2');
     app2.eval('RUNNING=true;');
     app2.start();

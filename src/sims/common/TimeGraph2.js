@@ -12,67 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.common.TimeGraph2');
+goog.module('myphysicslab.sims.common.TimeGraph2');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Printable');
-goog.require('myphysicslab.lab.util.SubjectList');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.common.CommonControls');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Printable = goog.module.get('myphysicslab.lab.util.Printable');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Printable = goog.require('myphysicslab.lab.util.Printable');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** Creates two independent graphs which have a common horizontal time axis, but the
 graphs can have very different vertical scales. Each graph consists of a SimView,
@@ -87,6 +54,11 @@ it gets too confusing with the independent graphs).
 Each graph has its own DisplayAxes, which are shown in the same color as the GraphLine.
 One of the axes are placed on the right, and the other is on the left.
 
+* @implements {Printable}
+* @implements {SubjectList}
+*/
+class TimeGraph2 {
+/**
 * @param {!VarsList} varsList the VarsList to collect
 *   data from
 * @param {!LabCanvas} graphCanvas the LabCanvas where the graph
@@ -95,13 +67,8 @@ One of the axes are placed on the right, and the other is on the left.
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
 * @param {!SimRunner} simRun the SimRunner controlling the
 *   overall app
-* @constructor
-* @final
-* @implements {Printable}
-* @implements {SubjectList}
-* @struct
 */
-myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_controls,
+constructor(varsList, graphCanvas, div_controls,
     div_graph, simRun) {
   /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
@@ -230,10 +197,9 @@ myphysicslab.sims.common.TimeGraph2 = function(varsList, graphCanvas, div_contro
       this.line2.setXVariable(this.line1.getXVariable());
     }, this), 'ensures line2 has same X variable as line1');
 };
-var TimeGraph2 = myphysicslab.sims.common.TimeGraph2;
 
 /** @override */
-TimeGraph2.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'TimeGraph2{'
     +'canvas: '+this.canvas.toStringShort()
     +', view1: '+this.view1.toStringShort()
@@ -250,7 +216,7 @@ TimeGraph2.prototype.toString = function() {
 };
 
 /** @override */
-TimeGraph2.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'TimeGraph2{}';
 };
 
@@ -258,7 +224,7 @@ TimeGraph2.prototype.toStringShort = function() {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-TimeGraph2.prototype.addControl = function(control) {
+addControl(control) {
   var element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
@@ -267,10 +233,12 @@ TimeGraph2.prototype.addControl = function(control) {
 };
 
 /** @override */
-TimeGraph2.prototype.getSubjects = function() {
+getSubjects() {
   return [ this.line1, this.line2, this.view1, this.view2, this.autoScale1,
       this.autoScale2 ];
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -303,4 +271,4 @@ TimeGraph2.de_strings = {
 TimeGraph2.i18n = goog.LOCALE === 'de' ? TimeGraph2.de_strings :
     TimeGraph2.en;
 
-}); // goog.scope
+exports = TimeGraph2;

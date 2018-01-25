@@ -12,127 +12,71 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.SingleSpring2App');
+goog.module('myphysicslab.sims.springs.SingleSpring2App');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.controls.ToggleControl');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ExpressionVariable');
-goog.require('myphysicslab.lab.model.ODEAdvance');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.StandardGraph1');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.common.TimeGraph2');
-goog.require('myphysicslab.sims.springs.SingleSpringSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DiffEqSolverSubject = goog.module.get('myphysicslab.lab.model.DiffEqSolverSubject');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ExpressionVariable = goog.module.get('myphysicslab.lab.model.ExpressionVariable');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SingleSpringSim = goog.module.get('myphysicslab.sims.springs.SingleSpringSim');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const StandardGraph1 = goog.module.get('myphysicslab.sims.common.StandardGraph1');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-var TimeGraph2 = sims.common.TimeGraph2;
-const ToggleControl = goog.module.get('myphysicslab.lab.controls.ToggleControl');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DiffEqSolverSubject = goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SingleSpringSim = goog.require('myphysicslab.sims.springs.SingleSpringSim');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const StandardGraph1 = goog.require('myphysicslab.sims.common.StandardGraph1');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const TimeGraph2 = goog.require('myphysicslab.sims.common.TimeGraph2');
+const ToggleControl = goog.require('myphysicslab.lab.controls.ToggleControl');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** SingleSpring2App displays the {@link SingleSpringSim} simulation.
 
 The difference between this and {@link myphysicslab.sims.springs.SingleSpringApp} is
 that this doesn't inherit from {@link myphysicslab.sims.common.AbstractApp} because
 this uses {@link TimeGraph2} instead of TimeGraph1.
-
+*/
+class SingleSpring2App extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @extends {AbstractSubject}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
+constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, opt_name || 'APP');
+  super(opt_name || 'APP');
 
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-3, -2, 3, 2);
@@ -287,11 +231,9 @@ myphysicslab.sims.springs.SingleSpring2App = function(elem_ids, opt_name) {
        this.simRun, this.terminal);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
-var SingleSpring2App = myphysicslab.sims.springs.SingleSpring2App;
-goog.inherits(SingleSpring2App, AbstractSubject);
 
 /** @override */
-SingleSpring2App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', block: '+this.block.toStringShort()
       +', spring: '+this.spring.toStringShort()
@@ -312,11 +254,11 @@ SingleSpring2App.prototype.toString = function() {
       +', timeGraph: '+this.timeGraph
       +', layout: '+this.layout
       +', terminal: '+this.terminal
-      + SingleSpring2App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-SingleSpring2App.prototype.getClassName = function() {
+getClassName() {
   return 'SingleSpring2App';
 };
 
@@ -325,7 +267,7 @@ SingleSpring2App.prototype.getClassName = function() {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-SingleSpring2App.prototype.defineNames = function(myName) {
+defineNames(myName) {
   this.terminal.addWhiteList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun|varsList'
@@ -341,7 +283,7 @@ SingleSpring2App.prototype.defineNames = function(myName) {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-SingleSpring2App.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
@@ -352,7 +294,7 @@ SingleSpring2App.prototype.addControl = function(control) {
 * @return {*}
 * @export
 */
-SingleSpring2App.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -364,7 +306,7 @@ SingleSpring2App.prototype.eval = function(script, opt_output) {
 * @return {undefined}
 * @export
 */
-SingleSpring2App.prototype.setup = function() {
+setup() {
   this.clock.resume();
   this.terminal.parseURLorRecall();
   this.sim.saveInitialState();
@@ -376,8 +318,19 @@ SingleSpring2App.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-SingleSpring2App.prototype.start = function() {
+start() {
   this.simRun.startFiring();
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!SingleSpring2App}
+*/
+function makeSingleSpring2App(elem_ids) {
+  return new SingleSpring2App(elem_ids);
+};
+goog.exportSymbol('makeSingleSpring2App', makeSingleSpring2App);
+
+exports = SingleSpring2App;
