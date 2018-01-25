@@ -38,7 +38,7 @@ var testSingleSpring = function() {
   const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
   const Spring = goog.module.get('myphysicslab.lab.model.Spring');
   const Util = goog.module.get('myphysicslab.lab.util.Util');
-  var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
+  const SingleSpringSim = goog.module.get('myphysicslab.sims.springs.SingleSpringSim');
   var i;
   var tol = 1E-15;
   var sim = new SingleSpringSim();

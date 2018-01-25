@@ -12,31 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.SingleSpringSim');
+goog.module('myphysicslab.sims.springs.SingleSpringSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a spring-mass system.  One end of the spring is fixed, the other end
 has the mass attached.
@@ -50,7 +37,6 @@ Variables:
     L = x - x_0 = current length of spring
     L - R = how much spring is stretched from rest length
 
-
 Parameters:
 
     x_0 = fixed point of spring
@@ -63,7 +49,6 @@ x=0 when the spring is at its rest length. This makes the simulation
 match the differential equations shown in the corresponding web page on
 the myPhysicsLab website. When spring rest length changes, we move the
 fixed point so that the resting position is still x=0.
-
 
 Equations of Motion
 -------------------------
@@ -80,7 +65,6 @@ The equations of motion are:
 
     x' = v
     v' = -(k/m)(x - x_0 - R) -(b/m)v
-
 
 Work from Damping
 ---------------------------
@@ -99,20 +83,18 @@ Since the damping force is `F = -b v` we have
 
 Note that {@link #initWork} method should be called if initial conditions are modified.
 
-
 @todo: bring back the display of the work from damping in DisplayEnergy, as in Java
 version.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class SingleSpringSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
   var var_names = [
@@ -204,28 +186,25 @@ myphysicslab.sims.springs.SingleSpringSim = function(opt_name) {
       .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
 
-var SingleSpringSim = myphysicslab.sims.springs.SingleSpringSim;
-goog.inherits(SingleSpringSim, AbstractODESim);
-
 /** @override */
-SingleSpringSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', block_: '+this.block_
       +', fixedPoint_: '+this.fixedPoint_
       +', spring_: '+this.spring_
       +', damping_: '+Util.NF(this.damping_)
       +', initialEnergy_: '+Util.NF(this.initialEnergy_)
-      + SingleSpringSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-SingleSpringSim.prototype.getClassName = function() {
+getClassName() {
   return 'SingleSpringSim';
 };
 
 /** @override */
-SingleSpringSim.prototype.reset = function() {
-  SingleSpringSim.superClass_.reset.call(this);
+reset() {
+  super.reset();
   this.initWork();
 };
 
@@ -233,7 +212,7 @@ SingleSpringSim.prototype.reset = function() {
   this should be called after changing the initial conditions of the simulation.
 @return {undefined}
 */
-SingleSpringSim.prototype.initWork = function() {
+initWork() {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
   this.getVarsList().setValue(2, 0);
@@ -241,7 +220,7 @@ SingleSpringSim.prototype.initWork = function() {
 };
 
 /** @override */
-SingleSpringSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -252,7 +231,7 @@ SingleSpringSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-SingleSpringSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
   var ke = this.block_.getKineticEnergy();
@@ -262,13 +241,13 @@ SingleSpringSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-SingleSpringSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-SingleSpringSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -288,7 +267,7 @@ SingleSpringSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-SingleSpringSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
   this.block_.setPosition(new Vector(vars[0],  0));
@@ -296,7 +275,7 @@ SingleSpringSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-SingleSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.block_) {
     this.isDragging = true;
@@ -306,7 +285,7 @@ SingleSpringSim.prototype.startDrag = function(simObject, location, offset, drag
 };
 
 /** @override */
-SingleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
   var va = this.getVarsList();
@@ -323,16 +302,16 @@ SingleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mous
 };
 
 /** @override */
-SingleSpringSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.isDragging = false;
 };
 
 /** @override */
-SingleSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-SingleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
   Util.zeroArray(change);
@@ -355,14 +334,14 @@ SingleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
 /**
 @return {number}
 */
-SingleSpringSim.prototype.getMass = function() {
+getMass() {
   return this.block_.getMass();
 };
 
 /**
 @param {number} value
 */
-SingleSpringSim.prototype.setMass = function(value) {
+setMass(value) {
   this.block_.setMass(value);
   this.initWork();
   // 0  1   2       3     4    5   6   7
@@ -375,14 +354,14 @@ SingleSpringSim.prototype.setMass = function(value) {
 /**
 @return {number}
 */
-SingleSpringSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.spring_.getStiffness();
 };
 
 /**
 @param {number} value
 */
-SingleSpringSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.spring_.setStiffness(value);
   this.initWork();
   // 0  1   2       3     4    5   6   7
@@ -395,14 +374,14 @@ SingleSpringSim.prototype.setSpringStiffness = function(value) {
 /**
 @return {number}
 */
-SingleSpringSim.prototype.getSpringRestLength = function() {
+getSpringRestLength() {
   return this.spring_.getRestLength();
 };
 
 /**
 @param {number} value
 */
-SingleSpringSim.prototype.setSpringRestLength = function(value) {
+setSpringRestLength(value) {
   this.spring_.setRestLength(value);
   this.initWork();
   // 0  1   2       3     4    5   6   7
@@ -415,14 +394,14 @@ SingleSpringSim.prototype.setSpringRestLength = function(value) {
 /**
 @return {number}
 */
-SingleSpringSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /**
 @param {number} value
 */
-SingleSpringSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.initWork();
   this.broadcastParameter(SingleSpringSim.en.DAMPING);
@@ -431,18 +410,20 @@ SingleSpringSim.prototype.setDamping = function(value) {
 /**
 @return {number}
 */
-SingleSpringSim.prototype.getFixedPoint = function() {
+getFixedPoint() {
   return this.fixedPoint_.getPosition().getX();
 };
 
 /**
 @param {number} value
 */
-SingleSpringSim.prototype.setFixedPoint = function(value) {
+setFixedPoint(value) {
   this.fixedPoint_.setPosition(new Vector(value,  0));
   this.initWork();
   this.broadcastParameter(SingleSpringSim.en.FIXED_POINT);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -496,4 +477,4 @@ SingleSpringSim.de_strings = {
 SingleSpringSim.i18n = goog.LOCALE === 'de' ? SingleSpringSim.de_strings :
     SingleSpringSim.en;
 
-}); // goog.scope
+exports = SingleSpringSim;
