@@ -12,99 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.RigidBodyRollerApp');
+goog.module('myphysicslab.sims.roller.RigidBodyRollerApp');
 
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.PathEndPoint');
-goog.require('myphysicslab.lab.engine2D.PathJoint');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.FunctionVariable');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.ParametricPath');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Memorizable');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayPath');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DrawingStyle');
-goog.require('myphysicslab.lab.util.GenericMemo');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.roller.CardioidPath');
-goog.require('myphysicslab.sims.roller.CirclePath');
-goog.require('myphysicslab.sims.roller.FlatPath');
-goog.require('myphysicslab.sims.roller.HumpPath');
-goog.require('myphysicslab.sims.roller.LemniscatePath');
-goog.require('myphysicslab.sims.roller.LoopTheLoopPath');
-goog.require('myphysicslab.sims.roller.OvalPath');
-goog.require('myphysicslab.sims.roller.PathObserver');
-goog.require('myphysicslab.sims.roller.PathSelector');
-goog.require('myphysicslab.sims.roller.HasPath');
-goog.require('myphysicslab.sims.roller.SpiralPath');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CardioidPath = goog.module.get('myphysicslab.sims.roller.CardioidPath');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingStyle = goog.module.get('myphysicslab.lab.view.DrawingStyle');
-var Engine2DApp = sims.engine2D.Engine2DApp;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const FlatPath = goog.module.get('myphysicslab.sims.roller.FlatPath');
-const FunctionVariable = goog.module.get('myphysicslab.lab.model.FunctionVariable');
-const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const HasPath = goog.module.get('myphysicslab.sims.roller.HasPath');
-const HumpPath = goog.module.get('myphysicslab.sims.roller.HumpPath');
-const LemniscatePath = goog.module.get('myphysicslab.sims.roller.LemniscatePath');
-const LoopTheLoopPath = goog.module.get('myphysicslab.sims.roller.LoopTheLoopPath');
-const Memorizable = goog.module.get('myphysicslab.lab.util.Memorizable');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const OvalPath = goog.module.get('myphysicslab.sims.roller.OvalPath');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-const PathEndPoint = goog.module.get('myphysicslab.lab.engine2D.PathEndPoint');
-const PathJoint = goog.module.get('myphysicslab.lab.engine2D.PathJoint');
-const PathObserver = goog.module.get('myphysicslab.sims.roller.PathObserver');
-const PathSelector = goog.module.get('myphysicslab.sims.roller.PathSelector');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const SpiralPath = goog.module.get('myphysicslab.sims.roller.SpiralPath');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CardioidPath = goog.require('myphysicslab.sims.roller.CardioidPath');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingStyle = goog.require('myphysicslab.lab.view.DrawingStyle');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const FlatPath = goog.require('myphysicslab.sims.roller.FlatPath');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const HasPath = goog.require('myphysicslab.sims.roller.HasPath');
+const HumpPath = goog.require('myphysicslab.sims.roller.HumpPath');
+const LemniscatePath = goog.require('myphysicslab.sims.roller.LemniscatePath');
+const LoopTheLoopPath = goog.require('myphysicslab.sims.roller.LoopTheLoopPath');
+const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const OvalPath = goog.require('myphysicslab.sims.roller.OvalPath');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const PathEndPoint = goog.require('myphysicslab.lab.engine2D.PathEndPoint');
+const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
+const PathObserver = goog.require('myphysicslab.sims.roller.PathObserver');
+const PathSelector = goog.require('myphysicslab.sims.roller.PathSelector');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Demonstrates a RigidBody connected to various 'roller coaster' paths by a PathJoint.
 
@@ -116,22 +67,21 @@ on the Hump path.
 + Adds variables for distance and velocity as measured along the path, these are called
 'path position' and 'path velocity' in English.
 
+* @implements {HasPath}
+*/
+class RigidBodyRollerApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @implements {HasPath}
-* @export
 */
-myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.8);
@@ -196,11 +146,9 @@ myphysicslab.sims.roller.RigidBodyRollerApp = function(elem_ids) {
   this.setPath(this.path);
   this.graphSetup();
 };
-var RigidBodyRollerApp = myphysicslab.sims.roller.RigidBodyRollerApp;
-goog.inherits(RigidBodyRollerApp, Engine2DApp);
 
 /** @override */
-RigidBodyRollerApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', simList: '+this.simList.toStringShort()
       +', simView: '+this.simView.toStringShort()
@@ -208,17 +156,17 @@ RigidBodyRollerApp.prototype.toString = function() {
       +', pathSelect: '+this.pathSelect
       +', pathObserver: '+this.pathObserver
       +', paths: [ '+this.paths+' ]'
-      + RigidBodyRollerApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RigidBodyRollerApp.prototype.getClassName = function() {
+getClassName() {
   return 'RigidBodyRollerApp';
 };
 
 /** @override */
-RigidBodyRollerApp.prototype.defineNames = function(myName) {
-  RigidBodyRollerApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('block|paths|path|pathSelect|gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('Engine2DApp',
@@ -230,13 +178,13 @@ RigidBodyRollerApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-RigidBodyRollerApp.prototype.getSubjects = function() {
-  var subjects = RigidBodyRollerApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.pathSelect, this.gravityLaw, this.dampingLaw, subjects);
 };
 
 /** @override */
-RigidBodyRollerApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   this.graph.line.setXVariable(10); // 10 = path distance
   this.graph.line.setYVariable(1); // 1 = kinetic energy
   this.timeGraph.line1.setYVariable(1);
@@ -246,7 +194,7 @@ RigidBodyRollerApp.prototype.graphSetup = function(body) {
 /**
 * @return {undefined}
 */
-RigidBodyRollerApp.prototype.config = function() {
+config() {
   goog.asserts.assert(goog.isDefAndNotNull(this.path));
   if (this.resetObserver != null) {
     this.resetObserver.disconnect();
@@ -336,12 +284,12 @@ RigidBodyRollerApp.prototype.config = function() {
 };
 
 /** @override */
-RigidBodyRollerApp.prototype.getPath = function() {
+getPath() {
   return this.path;
 };
 
 /** @override */
-RigidBodyRollerApp.prototype.setPath = function(path) {
+setPath(path) {
   this.path = path;
   this.config();
 };
@@ -349,10 +297,12 @@ RigidBodyRollerApp.prototype.setPath = function(path) {
 /**
 @param {!DoubleRect} simRect
 */
-RigidBodyRollerApp.prototype.setSimRect = function(simRect) {
+setSimRect(simRect) {
   this.simRect = simRect;
   this.simView.setSimRect(simRect);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -388,4 +338,13 @@ RigidBodyRollerApp.de_strings = {
 RigidBodyRollerApp.i18n = goog.LOCALE === 'de' ? RigidBodyRollerApp.de_strings :
     RigidBodyRollerApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!RigidBodyRollerApp}
+*/
+function makeRigidBodyRollerApp(elem_ids) {
+  return new RigidBodyRollerApp(elem_ids);
+};
+goog.exportSymbol('makeRigidBodyRollerApp', makeRigidBodyRollerApp);
+
+exports = RigidBodyRollerApp;

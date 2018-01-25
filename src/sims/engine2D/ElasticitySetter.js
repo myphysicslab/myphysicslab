@@ -12,24 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.ElasticitySetter');
+goog.module('myphysicslab.sims.engine2D.ElasticitySetter');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Provides a ParameterNumber for setting the elasticity of all RigidBodys in an
 RigidBodySim.
@@ -46,15 +37,14 @@ elasticity of RigidBodys are done thru this class or via
 
 + ParameterNumber named `ELASTICITY`, see {@link #setElasticity}
 
-@param {!RigidBodySim} sim
-@extends {AbstractSubject}
 @implements {Observer}
-@constructor
-@final
-@struct
 */
-myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
-  AbstractSubject.call(this, 'ELASTICITY_SETTER');
+class ElasticitySetter extends AbstractSubject {
+/**
+@param {!RigidBodySim} sim
+*/
+constructor(sim) {
+  super('ELASTICITY_SETTER');
   /**
   * @type {!RigidBodySim}
   * @private
@@ -71,18 +61,16 @@ myphysicslab.sims.engine2D.ElasticitySetter = function(sim) {
       goog.bind(this.getElasticity, this),
       goog.bind(this.setElasticity, this)).setSignifDigits(3).setUpperLimit(1));
 };
-var ElasticitySetter = myphysicslab.sims.engine2D.ElasticitySetter;
-goog.inherits(ElasticitySetter, AbstractSubject);
 
 /** @override */
-ElasticitySetter.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', sim: '+this.sim_.toStringShort()
-      + ElasticitySetter.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ElasticitySetter.prototype.getClassName = function() {
+getClassName() {
   return 'ElasticitySetter';
 };
 
@@ -93,7 +81,7 @@ perfect elasticity where the kinetic energy after collision is the same as befor
 (extremely bouncy), while a value of 0 means no elasticity (no bounce).
 * @return {number} elasticity used when calculating collisions, a number from 0 to 1.
 */
-ElasticitySetter.prototype.getElasticity = function() {
+getElasticity() {
   this.lastValue_ = this.getElasticity_();
   return this.lastValue_;
 };
@@ -102,7 +90,7 @@ ElasticitySetter.prototype.getElasticity = function() {
 * @private
 * @return {number}
 */
-ElasticitySetter.prototype.getElasticity_ = function() {
+getElasticity_() {
   var bods = this.sim_.getBodies();
   if (bods.length == 0) {
     return this.lastValue_;
@@ -121,7 +109,7 @@ perfect elasticity where the kinetic energy after collision is the same as befor
 * @param {number} value elasticity used when calculating collisions,
 *    a number from 0 to 1.
 */
-ElasticitySetter.prototype.setElasticity = function(value) {
+setElasticity(value) {
   goog.array.forEach(this.sim_.getBodies(), function(body) {
     body.setElasticity(value);
   });
@@ -130,7 +118,7 @@ ElasticitySetter.prototype.setElasticity = function(value) {
 };
 
 /** @override */
-ElasticitySetter.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.sim_ && event.nameEquals(RigidBodySim.ELASTICITY_SET)) {
     var nowValue = this.getElasticity_();
     if (this.lastValue_ != nowValue) {
@@ -141,6 +129,7 @@ ElasticitySetter.prototype.observe =  function(event) {
   }
 };
 
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -170,4 +159,4 @@ ElasticitySetter.de_strings = {
 ElasticitySetter.i18n = goog.LOCALE === 'de' ? ElasticitySetter.de_strings :
     ElasticitySetter.en;
 
-});  // goog.scope
+exports = ElasticitySetter;

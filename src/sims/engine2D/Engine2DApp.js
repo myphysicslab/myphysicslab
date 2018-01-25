@@ -12,107 +12,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.Engine2DApp');
+goog.module('myphysicslab.sims.engine2D.Engine2DApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.controls.ToggleControl');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
-goog.require('myphysicslab.lab.model.ODEAdvance');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.SubjectList');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
-goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.StandardGraph1');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.common.TimeGraph1');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DiffEqSolverSubject = goog.module.get('myphysicslab.lab.model.DiffEqSolverSubject');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var ElasticitySetter = sims.engine2D.ElasticitySetter;
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ODEAdvance = goog.module.get('myphysicslab.lab.model.ODEAdvance');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodyEventHandler = goog.module.get('myphysicslab.lab.app.RigidBodyEventHandler');
-const RigidBodyObserver = goog.module.get('myphysicslab.sims.engine2D.RigidBodyObserver');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const StandardGraph1 = goog.module.get('myphysicslab.sims.common.StandardGraph1');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const SubjectList = goog.module.get('myphysicslab.lab.util.SubjectList');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const TimeGraph1 = goog.module.get('myphysicslab.sims.common.TimeGraph1');
-const ToggleControl = goog.module.get('myphysicslab.lab.controls.ToggleControl');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DiffEqSolverSubject = goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const ElasticitySetter = goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodyEventHandler = goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
+const RigidBodyObserver = goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const StandardGraph1 = goog.require('myphysicslab.sims.common.StandardGraph1');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const TimeGraph1 = goog.require('myphysicslab.sims.common.TimeGraph1');
+const ToggleControl = goog.require('myphysicslab.lab.controls.ToggleControl');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Abstract base class that creates the standard set of views, graphs and controls
 which are common to applications that run a
@@ -136,7 +81,11 @@ HTML where the constructor is called. The name of that global variable holding t
 application is passed to {@link #defineNames} method so that short-names in scripts can
 be properly expanded.
 
-
+* @implements {SubjectList}
+* @abstract
+*/
+class Engine2DApp extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
@@ -145,16 +94,10 @@ be properly expanded.
 * @param {!RigidBodySim} sim
 * @param {!ODEAdvance} advance
 * @param {string=} opt_name name of this Subject
-* @constructor
-* @extends {AbstractSubject}
-* @implements {SubjectList}
-* @struct
-* @abstract
 */
-myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advance,
-      opt_name) {
+constructor(elem_ids, simRect, sim, advance, opt_name) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, opt_name || 'APP');
+  super(opt_name || 'APP');
   /** @type {!DoubleRect} */
   this.simRect = simRect;
   // set canvasWidth to 800, and canvasHeight proportional as in simRect.
@@ -245,11 +188,9 @@ myphysicslab.sims.engine2D.Engine2DApp = function(elem_ids, simRect, sim, advanc
   /** @type {!EasyScriptParser} */
   this.easyScript;
 };
-var Engine2DApp = myphysicslab.sims.engine2D.Engine2DApp;
-goog.inherits(Engine2DApp, AbstractSubject);
 
 /** @override */
-Engine2DApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : ', sim: '+this.sim.toStringShort()
       +', elasticity: '+this.elasticity.toStringShort()
       +', simList: '+this.simList.toStringShort()
@@ -270,7 +211,7 @@ Engine2DApp.prototype.toString = function() {
       +', layout: '+this.layout
       +', easyScript: '+this.easyScript.toStringShort()
       +', terminal: '+this.terminal
-      + Engine2DApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced
@@ -278,7 +219,7 @@ Engine2DApp.prototype.toString = function() {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-Engine2DApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   this.simRun.setAppName(myName);
   if (!Util.ADVANCED) {
     this.terminal.addWhiteList(myName);
@@ -295,7 +236,7 @@ Engine2DApp.prototype.defineNames = function(myName) {
 * in potential and total energy.
 * @param {!Parameter} parameter the Parameter to watch
 */
-Engine2DApp.prototype.watchEnergyChange = function(parameter) {
+watchEnergyChange(parameter) {
   new GenericObserver(parameter.getSubject(), goog.bind(function(evt) {
     if (evt == parameter) {
       // Ensure that energy is updated now, so that the next time the data is
@@ -308,7 +249,7 @@ Engine2DApp.prototype.watchEnergyChange = function(parameter) {
 };
 
 /** @override */
-Engine2DApp.prototype.getSubjects = function() {
+getSubjects() {
   var subjects = [
     this,
     this.sim,
@@ -329,7 +270,7 @@ Engine2DApp.prototype.getSubjects = function() {
 in EasyScriptParser documentation.
 * @param {!Array<!Subject>=} opt_dependent additional dependent Subjects
 */
-Engine2DApp.prototype.makeEasyScript = function(opt_dependent) {
+makeEasyScript(opt_dependent) {
   var dependent = [ this.varsList ];
   if (goog.isArray(opt_dependent)) {
     dependent = goog.array.concat(dependent, opt_dependent);
@@ -343,7 +284,7 @@ Engine2DApp.prototype.makeEasyScript = function(opt_dependent) {
 * @return {undefined}
 * @export
 */
-Engine2DApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   if (!goog.isDefAndNotNull(body)) {
     // find first body with finite mass
     body = goog.array.find(this.sim.getBodies(),
@@ -369,14 +310,14 @@ Engine2DApp.prototype.graphSetup = function(body) {
 /**
 * @return {undefined}
 */
-Engine2DApp.prototype.addPlaybackControls = function() {
+addPlaybackControls() {
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
 };
 
 /**
 * @return {undefined}
 */
-Engine2DApp.prototype.addURLScriptButton = function() {
+addURLScriptButton() {
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.graph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
@@ -387,7 +328,7 @@ Engine2DApp.prototype.addURLScriptButton = function() {
 /** Adds the standard set of engine2D controls.
 * @return {undefined}
 */
-Engine2DApp.prototype.addStandardControls = function() {
+addStandardControls() {
   var pn = this.elasticity.getParameterNumber(ElasticitySetter.en.ELASTICITY);
   this.addControl(new NumericControl(pn));
   var pb = this.sim.getParameterBoolean(RigidBodySim.en.SHOW_FORCES);
@@ -411,7 +352,7 @@ Engine2DApp.prototype.addStandardControls = function() {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-Engine2DApp.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
@@ -422,7 +363,7 @@ Engine2DApp.prototype.addControl = function(control) {
 * @return {*}
 * @export
 */
-Engine2DApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -434,7 +375,7 @@ Engine2DApp.prototype.eval = function(script, opt_output) {
 * @return {undefined}
 * @export
 */
-Engine2DApp.prototype.setup = function() {
+setup() {
   this.clock.resume();
   this.terminal.parseURLorRecall();
   this.sim.saveInitialState();
@@ -446,10 +387,12 @@ Engine2DApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-Engine2DApp.prototype.start = function() {
+start() {
   this.simRun.startFiring();
   //console.log(Util.prettyPrint(this.toString()));
   //console.log(Util.prettyPrint(this.sim.toString()));
 };
 
-}); // goog.scope
+} //end class
+
+exports = Engine2DApp;
