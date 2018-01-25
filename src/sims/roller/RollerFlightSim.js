@@ -12,45 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.RollerFlightSim');
+goog.module('myphysicslab.sims.roller.RollerFlightSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.CollisionSim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.roller.RollerCollision');
-
-goog.scope(function() {
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-var RollerCollision = myphysicslab.sims.roller.RollerCollision;
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RollerCollision = goog.require('myphysicslab.sims.roller.RollerCollision');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a ball moving on a track, where the ball can fly off the
 track.
@@ -73,7 +53,6 @@ The actual acceleration normal to the track is given by the component of gravity
 other forces, eg. spring) that are normal to the track. If the actual acceleration is
 less than the minimum acceleration then the ball leaves the track.
 
-
 Radius of Curvature
 ------------------------------
 The radius of curvature of the track is given by reciprocal of `kappa`
@@ -87,7 +66,6 @@ Another way to get it is:
     kappa = |d^2 y / d x^2|
             ---------------
            (1 + (dy/dx)^2)^(3/2)
-
 
 On Track vs. Off Track
 -----------------------------
@@ -114,8 +92,6 @@ When the ball leaves the track, the equations are similar to those of
 
 Storing track or free mode in `vars[6]` is useful for backing up
 in time; it allows the `vars` to hold the complete state.
-
-
 
 Equations of Motion
 ---------------------------
@@ -144,13 +120,11 @@ Without a spring force, the off-the-track equations of motion are:
     Vx' = 0
     Vy' = -g
 
-
 Collisions
 -----------------------------
 To detect collisions: see if the ball is below the track. We require that the track has
 no loops, so each x has a single point of the track above or below it. To handle the
 collision, we reflect the velocity in the tangent of the curve.
-
 
 Math in `handleCollisions`
 -----------------------------
@@ -169,7 +143,6 @@ From vector algebra:
     But we multiply the normal by the elasticity e, so
     result = C - e*N
 
-
 @todo Add to docs the mathematica file 'roller.nb' where curves like Hump and others
   were worked out.
 
@@ -179,19 +152,17 @@ From vector algebra:
   vertical lines (infinite slope) & straight lines (infinite
   radius).
 
-
-* @param {!NumericalPath} thePath
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {CollisionSim}
 * @implements {EventHandler}
 */
-myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
-  AbstractODESim.call(this, opt_name);
+class RollerFlightSim extends AbstractODESim {
+/**
+* @param {!NumericalPath} thePath
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(thePath, opt_name) {
+  super(opt_name);
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
   var var_names = [
@@ -346,11 +317,9 @@ myphysicslab.sims.roller.RollerFlightSim = function(thePath, opt_name) {
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
 };
-var RollerFlightSim = myphysicslab.sims.roller.RollerFlightSim;
-goog.inherits(RollerFlightSim, AbstractODESim);
 
 /** @override */
-RollerFlightSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', ball1: '+this.ball1_
       +', anchor: '+this.anchor_
@@ -361,37 +330,16 @@ RollerFlightSim.prototype.toString = function() {
       +', stickiness: '+Util.NF(this.stickiness_)
       +', elasticity: '+Util.NF(this.elasticity_)
       +', lowestPoint: '+Util.NF(this.lowestPoint_)
-      + RollerFlightSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-RollerFlightSim.prototype.getClassName = function() {
+getClassName() {
   return 'RollerFlightSim';
 };
 
-/** Value of TRACK_VAR that indicates the ball is on the track
-* @type {number}
-* @const
-* @private
-*/
-RollerFlightSim.ON_TRACK = 1;
-
-/** Value of TRACK_VAR that indicates the ball is in free flight
-* @type {number}
-* @const
-* @private
-*/
-RollerFlightSim.OFF_TRACK = 0;
-
-/** index of the track mode in vars array
-* @type {number}
-* @const
-* @private
-*/
-RollerFlightSim.TRACK_VAR = 6;
-
 /** @override */
-RollerFlightSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   var currentPoint = this.moveObjects(vars);
@@ -421,7 +369,7 @@ RollerFlightSim.prototype.modifyObjects = function() {
 };
 
 /** @override */
-RollerFlightSim.prototype.setDebugPaint = function(fn) {
+setDebugPaint(fn) {
   this.debugPaint_ = fn;
 };
 
@@ -429,7 +377,7 @@ RollerFlightSim.prototype.setDebugPaint = function(fn) {
 * @return {undefined}
 * @private
 */
-RollerFlightSim.prototype.updateVars = function() {
+updateVars() {
 };
 
 /**
@@ -438,7 +386,7 @@ RollerFlightSim.prototype.updateVars = function() {
 *   on track when in TRACK_MODE, or null if in FREE_MODE
 * @private
 */
-RollerFlightSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
   var pathPoint = null;
@@ -465,7 +413,7 @@ RollerFlightSim.prototype.moveObjects = function(vars) {
 * @param {!PathPoint} pathPoint1
 * @private
 */
-RollerFlightSim.prototype.jumpOffTrack = function(pathPoint1) {
+jumpOffTrack(pathPoint1) {
   var va = this.getVarsList();
   goog.asserts.assert (va.getValue(RollerFlightSim.TRACK_VAR) ==
       RollerFlightSim.ON_TRACK);
@@ -554,7 +502,7 @@ RollerFlightSim.prototype.jumpOffTrack = function(pathPoint1) {
 };
 
 /** @override */
-RollerFlightSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -565,7 +513,7 @@ RollerFlightSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-RollerFlightSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var ke = this.ball1_.getKineticEnergy();
   // gravity potential = m g y
   var pe = this.ball1_.getMass() * this.gravity_ *
@@ -575,13 +523,13 @@ RollerFlightSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-RollerFlightSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-RollerFlightSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
     mouseEvent) {
   if (simObject == this.ball1_) {
     this.dragObj_ = simObject;
@@ -597,7 +545,7 @@ RollerFlightSim.prototype.startDrag = function(simObject, location, offset, drag
 * @return {boolean}
 * @private
 */
-RollerFlightSim.prototype.off_track = function(x) {
+off_track(x) {
   if (this.path_.isClosedLoop())
     return false;
   else {
@@ -610,7 +558,7 @@ RollerFlightSim.prototype.off_track = function(x) {
 * @return {number}
 * @private
 */
-RollerFlightSim.prototype.off_track_adjust = function(x) {
+off_track_adjust(x) {
   if (x < this.xLow_)
     x = this.xLow_ + 0.1;
   if (x > this.xHigh_)
@@ -619,7 +567,7 @@ RollerFlightSim.prototype.off_track_adjust = function(x) {
 }
 
 /** @override */
-RollerFlightSim.prototype.mouseDrag = function(simObject, location, offset,
+mouseDrag(simObject, location, offset,
     mouseEvent) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
@@ -660,16 +608,16 @@ RollerFlightSim.prototype.mouseDrag = function(simObject, location, offset,
 };
 
 /** @override */
-RollerFlightSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragObj_ = null;
 };
 
 /** @override */
-RollerFlightSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-RollerFlightSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[10] = 1; // time
   if (this.dragObj_ != null) {
@@ -748,7 +696,7 @@ RollerFlightSim.prototype.evaluate = function(vars, change, timeStep) {
 };
 
 /** @override */
-RollerFlightSim.prototype.findCollisions = function(collisions, vars, stepSize) {
+findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
   if (vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.OFF_TRACK) {
     var c = new RollerCollision(this.ball1_, this.path_, this.getTime());
@@ -759,7 +707,7 @@ RollerFlightSim.prototype.findCollisions = function(collisions, vars, stepSize) 
 };
 
 /** @override */
-RollerFlightSim.prototype.handleCollisions = function(collisions, opt_totals) {
+handleCollisions(collisions, opt_totals) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
   var va = this.getVarsList();
@@ -833,14 +781,14 @@ RollerFlightSim.prototype.handleCollisions = function(collisions, opt_totals) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
@@ -852,14 +800,14 @@ RollerFlightSim.prototype.setGravity = function(value) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(RollerFlightSim.en.DAMPING);
 };
@@ -867,14 +815,14 @@ RollerFlightSim.prototype.setDamping = function(value) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getMass = function() {
+getMass() {
   return this.ball1_.getMass();
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setMass = function(value) {
+setMass(value) {
   this.ball1_.setMass(value);
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
@@ -886,14 +834,14 @@ RollerFlightSim.prototype.setMass = function(value) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.spring_.getStiffness();
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.spring_.setStiffness(value);
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
@@ -905,14 +853,14 @@ RollerFlightSim.prototype.setSpringStiffness = function(value) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getSpringLength = function() {
+getSpringLength() {
   return this.spring_.getRestLength();
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setSpringLength = function(value) {
+setSpringLength(value) {
   this.spring_.setRestLength(value);
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
@@ -924,14 +872,14 @@ RollerFlightSim.prototype.setSpringLength = function(value) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getElasticity = function() {
+getElasticity() {
   return this.elasticity_;
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setElasticity = function(value) {
+setElasticity(value) {
   this.elasticity_ = value;
   this.broadcastParameter(RollerFlightSim.en.ELASTICITY);
 };
@@ -939,14 +887,14 @@ RollerFlightSim.prototype.setElasticity = function(value) {
 /**
 @return {number}
 */
-RollerFlightSim.prototype.getStickiness = function() {
+getStickiness() {
   return this.stickiness_;
 };
 
 /**
 @param {number} value
 */
-RollerFlightSim.prototype.setStickiness = function(value) {
+setStickiness(value) {
   var v = value;
   // stickiness = 0 leads to insanity, so prevent it here
   if (v < 0.001)
@@ -956,6 +904,29 @@ RollerFlightSim.prototype.setStickiness = function(value) {
   this.stickiness_ = v;
   this.broadcastParameter(RollerFlightSim.en.STICKINESS);
 };
+
+} //end class
+
+/** Value of TRACK_VAR that indicates the ball is on the track
+* @type {number}
+* @const
+* @private
+*/
+RollerFlightSim.ON_TRACK = 1;
+
+/** Value of TRACK_VAR that indicates the ball is in free flight
+* @type {number}
+* @const
+* @private
+*/
+RollerFlightSim.OFF_TRACK = 0;
+
+/** index of the track mode in vars array
+* @type {number}
+* @const
+* @private
+*/
+RollerFlightSim.TRACK_VAR = 6;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -1039,4 +1010,4 @@ RollerFlightSim.de_strings = {
 RollerFlightSim.i18n = goog.LOCALE === 'de' ? RollerFlightSim.de_strings :
     RollerFlightSim.en;
 
-}); // goog.scope
+exports = RollerFlightSim;

@@ -12,33 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.RollerCollision');
+goog.module('myphysicslab.sims.roller.RollerCollision');
 
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.PointMass');
-
-goog.scope(function() {
-
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 
 /** Collision used by RollerFlightSim.
 
+* @implements {Collision}
+*/
+class RollerCollision {
+/**
 * @param {!PointMass} ball
 * @param {!NumericalPath} path
 * @param {number} time
-* @constructor
-* @final
-* @struct
-* @implements {Collision}
 */
-myphysicslab.sims.roller.RollerCollision = function(ball, path, time) {
+constructor(ball, path, time) {
   /**
   * @type {!PointMass}
   * @private
@@ -88,10 +80,8 @@ myphysicslab.sims.roller.RollerCollision = function(ball, path, time) {
   this.updateCollision(time);
 };
 
-var RollerCollision = myphysicslab.sims.roller.RollerCollision;
-
 /** @override */
-RollerCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'RollerCollision{'
       +'distance='+Util.NF(this.distance_)
       +', accuracy='+Util.NF(this.accuracy_)
@@ -105,67 +95,67 @@ RollerCollision.prototype.toString = function() {
 /**
 * @return {!PathPoint}
 */
-RollerCollision.prototype.getPathPoint = function() {
+getPathPoint() {
   return this.pathPoint_;
 };
 
 /** @override */
-RollerCollision.prototype.closeEnough = function(allowTiny) {
+closeEnough(allowTiny) {
   return Math.abs(this.distance_) <= this.accuracy_;
 };
 
 /** @override */
-RollerCollision.prototype.isTouching = function() {
+isTouching() {
   return true;
 };
 
 /** @override */
-RollerCollision.prototype.isColliding = function() {
+isColliding() {
   return this.distance_ < -this.accuracy_;
 };
 
 /** @override */
-RollerCollision.prototype.getDistance = function() {
+getDistance() {
   return this.distance_;
 };
 
 /** @override */
-RollerCollision.prototype.getDetectedTime = function() {
+getDetectedTime() {
   return this.detectedTime_;
 };
 
 /** @override */
-RollerCollision.prototype.getEstimatedTime = function() {
+getEstimatedTime() {
   return Util.NaN;
 };
 
 /** @override */
-RollerCollision.prototype.bilateral = function() {
+bilateral() {
   return false;
 };
 
 /** @override */
-RollerCollision.prototype.contact = function() {
+contact() {
   return false;
 };
 
 /** @override */
-RollerCollision.prototype.illegalState = function() {
+illegalState() {
   return this.distance_ < -this.accuracy_;
 };
 
 /** @override */
-RollerCollision.prototype.setNeedsHandling = function(needsHandling) {
+setNeedsHandling(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
 
 /** @override */
-RollerCollision.prototype.needsHandling = function() {
+needsHandling() {
   return this.mustHandle_;
 };
 
 /** @override */
-RollerCollision.prototype.updateCollision = function(time) {
+updateCollision(time) {
   // Assume that the track does not loop.
   // Then if the ball is below the track there has been a collision.
   this.pathPoint_ = new PathPoint();
@@ -179,13 +169,15 @@ RollerCollision.prototype.updateCollision = function(time) {
 };
 
 /** @override */
-RollerCollision.prototype.getImpulse = function() {
+getImpulse() {
   return this.impulse;
 };
 
 /** @override */
-RollerCollision.prototype.getVelocity = function() {
+getVelocity() {
   return this.velocity;
 };
 
-}); // goog.scope
+} //end class
+
+exports = RollerCollision;
