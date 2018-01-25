@@ -12,45 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.ReactionPendulumSim');
+goog.module('myphysicslab.sims.pendulum.ReactionPendulumSim');
 
 goog.require('goog.vec.Float64Array');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.Arc');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Single pendulum done with reaction forces instead of the analytic equations of
 motion as in {@link myphysicslab.sims.pendulum.PendulumSim}. This is similar to how the
@@ -71,24 +51,22 @@ The pivot is fixed at the origin.
 Note that `w` is the angle of the pendulum in relation to the pivot point, which happens
 to also correspond to the angle of the disk rigid body (perhaps adding a constant).
 
-
 @todo  make dragable for setting start angle?
 
+* @implements {EnergySystem}
+*/
+class ReactionPendulumSim extends AbstractODESim {
+/**
 * @param {number} length length of pendulum rod
 * @param {number} radius radius of rigid body pendulum disk
 * @param {number} startAngle starting angle for the pendulum; in radians; zero is
 *     straight down; counter-clockwise is positive
 * @param {string=} opt_name name of this as a Subject
 * @param {!SimList=} opt_simList SimList to use (optional)
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
-* @implements {EnergySystem}
 */
-myphysicslab.sims.pendulum.ReactionPendulumSim = function(length, radius, startAngle,
+constructor(length, radius, startAngle,
       opt_name, opt_simList) {
-  AbstractODESim.call(this, opt_name, opt_simList);
+  super(opt_name, opt_simList);
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   var var_names = [
@@ -170,22 +148,20 @@ myphysicslab.sims.pendulum.ReactionPendulumSim = function(length, radius, startA
       ReactionPendulumSim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
 };
-var ReactionPendulumSim = myphysicslab.sims.pendulum.ReactionPendulumSim;
-goog.inherits(ReactionPendulumSim, AbstractODESim);
 
 /** @override */
-ReactionPendulumSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', gravity_: '+Util.NF(this.gravity_)
       +', damping_: '+Util.NF(this.damping_)
       +', length_: '+Util.NF(this.length_)
       +', rod_: '+this.rod_
       +', bob_: '+this.bob_
-      + ReactionPendulumSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ReactionPendulumSim.prototype.getClassName = function() {
+getClassName() {
   return 'ReactionPendulumSim';
 };
 
@@ -194,7 +170,7 @@ ReactionPendulumSim.prototype.getClassName = function() {
 * @param {number} radius
 * @param {number} startAngle
 */
-ReactionPendulumSim.prototype.config = function(length, radius, startAngle) {
+config(length, radius, startAngle) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   this.length_ = length;
@@ -217,7 +193,7 @@ ReactionPendulumSim.prototype.config = function(length, radius, startAngle) {
 };
 
 /** @override */
-ReactionPendulumSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -228,7 +204,7 @@ ReactionPendulumSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-ReactionPendulumSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   var ke = 0.5* this.mass_ *(vars[1]*vars[1] + vars[3]*vars[3]);
@@ -243,13 +219,13 @@ ReactionPendulumSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-ReactionPendulumSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-ReactionPendulumSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -265,7 +241,7 @@ ReactionPendulumSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-ReactionPendulumSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   this.bob_.setPosition(new Vector(vars[0],  vars[2]),  vars[4]);
@@ -275,7 +251,7 @@ ReactionPendulumSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   Util.zeroArray(change);
@@ -386,7 +362,7 @@ ReactionPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
 * @param {number} fy
 * @private
 */
-ReactionPendulumSim.prototype.showForce = function(fx, fy) {
+showForce(fx, fy) {
   var v = new ConcreteLine('contact_force', Vector.ORIGIN, new Vector(fx, fy));
   v.setExpireTime(this.getTime());
   this.getSimList().add(v);
@@ -395,14 +371,14 @@ ReactionPendulumSim.prototype.showForce = function(fx, fy) {
 /** Return mass of pendulum bob.
 @return {number} mass of pendulum bob
 */
-ReactionPendulumSim.prototype.getMass = function() {
+getMass() {
   return this.mass_;
 };
 
 /** Set mass of pendulum bob
 @param {number} value mass of pendulum bob
 */
-ReactionPendulumSim.prototype.setMass = function(value) {
+setMass(value) {
   if (this.mass_ != value) {
     this.mass_ = value;
     this.bob_.setMass(value);
@@ -417,14 +393,14 @@ ReactionPendulumSim.prototype.setMass = function(value) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-ReactionPendulumSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-ReactionPendulumSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
@@ -433,21 +409,22 @@ ReactionPendulumSim.prototype.setGravity = function(value) {
   this.broadcastParameter(ReactionPendulumSim.en.GRAVITY);
 };
 
-
 /** Return damping factor
 @return {number} damping factor
 */
-ReactionPendulumSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping factor
 @param {number} value damping factor
 */
-ReactionPendulumSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(ReactionPendulumSim.en.DAMPING);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -513,4 +490,4 @@ ReactionPendulumSim.de_strings = {
 ReactionPendulumSim.i18n = goog.LOCALE === 'de' ? ReactionPendulumSim.de_strings :
     ReactionPendulumSim.en;
 
-}); // goog.scope
+exports = ReactionPendulumSim;

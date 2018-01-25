@@ -12,108 +12,56 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.ReactionPendulumApp');
+goog.module('myphysicslab.sims.pendulum.ReactionPendulumApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.Arc');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Parameter');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.CompareGraph');
-goog.require('myphysicslab.sims.common.CompareTimeGraph');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pendulum.PendulumSim');
-goog.require('myphysicslab.sims.pendulum.ReactionPendulumSim');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const Arc = goog.module.get('myphysicslab.lab.model.Arc');
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const CompareGraph = goog.module.get('myphysicslab.sims.common.CompareGraph');
-const CompareTimeGraph = goog.module.get('myphysicslab.sims.common.CompareTimeGraph');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const Parameter = goog.module.get('myphysicslab.lab.util.Parameter');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PendulumSim = goog.module.get('myphysicslab.sims.pendulum.PendulumSim');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-var ReactionPendulumSim = sims.pendulum.ReactionPendulumSim;
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const Arc = goog.require('myphysicslab.lab.model.Arc');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const CompareGraph = goog.require('myphysicslab.sims.common.CompareGraph');
+const CompareTimeGraph = goog.require('myphysicslab.sims.common.CompareTimeGraph');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PendulumSim = goog.require('myphysicslab.sims.pendulum.PendulumSim');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const ReactionPendulumSim = goog.require('myphysicslab.sims.pendulum.ReactionPendulumSim');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the reaction forces pendulum simulation {@link ReactionPendulumSim} and
 compares it to the classic pendulum simulation {@link PendulumSim} which is shown
@@ -125,7 +73,6 @@ Something to notice is that the reaction force diverges more from the stick vect
 the size of disk increases. This is because a smaller disk is closer to the ideal of a
 point mass in the classic pendulum simulation.
 
-
 Keep Parameters Synchronized
 ------------------------------
 We keep the parameters for gravity, mass and length of pendulum synchronized between the
@@ -133,7 +80,6 @@ two simulations (though length is slightly different, see below).
 
 The damping model is different for the two simulations so we don't try to synchronize
 the damping; we just leave both simulations with zero damping.
-
 
 Length of Equivalent Classic Pendulum
 ------------------------------------------
@@ -186,7 +132,6 @@ equating the two we get
 
 So the equivalent ideal pendulum is longer:  `R > h`
 
-
 Another Way to Calculate Equivalent Length
 -------------------------------------------
 Here's another way to calculate equivalent classic ideal pendulum length. Suppose we
@@ -213,7 +158,6 @@ If we put in the value for `I` above:
 
 which is the same as the previous answer.
 
-
 App Setup
 ---------------------------
 Creates instance objects such as the simulation and display objects;
@@ -232,19 +176,17 @@ this file in the HTML where the constructor is called. The name of that global v
 holding the application is passed to defineNames() method so that short-names in scripts
 can be properly expanded.
 
+* @implements {Observer}
+*/
+class ReactionPendulumApp extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @implements {Observer}
-* @export
 */
-myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, 'APP');
+  super('APP');
   /** distance between the pendulum anchor points
   * @type {number}
   */
@@ -525,22 +467,20 @@ myphysicslab.sims.pendulum.ReactionPendulumApp = function(elem_ids) {
   this.timeGraph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
-var ReactionPendulumApp = myphysicslab.sims.pendulum.ReactionPendulumApp;
-goog.inherits(ReactionPendulumApp, AbstractSubject);
 
 /** @override */
-ReactionPendulumApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', sim1: '+this.sim1.toStringShort()
       +', sim2: '+this.sim2.toStringShort()
       +', terminal: '+this.terminal
       +', graph: '+this.graph
       +', timeGraph: '+this.timeGraph
-      + ReactionPendulumApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ReactionPendulumApp.prototype.getClassName = function() {
+getClassName() {
   return 'ReactionPendulumApp';
 };
 
@@ -548,12 +488,12 @@ ReactionPendulumApp.prototype.getClassName = function() {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-ReactionPendulumApp.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
 /** @override */
-ReactionPendulumApp.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList2) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
@@ -589,7 +529,7 @@ ReactionPendulumApp.prototype.observe =  function(event) {
 /**
 * @return {undefined}
 */
-ReactionPendulumApp.prototype.reset = function() {
+reset() {
   this.sim2.config(this.pendulumLength, this.radius, this.startAngle);
   this.sim1.setLength(this.classicLength());
   this.sim1.getVarsList().setValue(0, this.startAngle);
@@ -602,14 +542,14 @@ ReactionPendulumApp.prototype.reset = function() {
 /**
 * @return {number}
 */
-ReactionPendulumApp.prototype.getStartAngle = function() {
+getStartAngle() {
   return this.startAngle;
 };
 
 /**
 * @param {number} value
 */
-ReactionPendulumApp.prototype.setStartAngle = function(value) {
+setStartAngle(value) {
   if (this.startAngle != value) {
     this.startAngle = value;
     this.reset();
@@ -621,7 +561,7 @@ ReactionPendulumApp.prototype.setStartAngle = function(value) {
 * has given length, depends on the length and radius of ReactionPendulumSim.
 * @return {number} equivalent length for classic pendulum
 */
-ReactionPendulumApp.prototype.classicLength = function() {
+classicLength() {
   // reaction pendulum with radius r, length h is equivalent to
   // classic pendulum with length = h + r^2 / (2 h)
   return this.pendulumLength + this.radius*this.radius / (2 * this.pendulumLength);
@@ -630,7 +570,7 @@ ReactionPendulumApp.prototype.classicLength = function() {
 /** Return length of ReactionPendulumSim rod
 @return {number} length of ReactionPendulumSim rod
 */
-ReactionPendulumApp.prototype.getLength = function() {
+getLength() {
   return this.pendulumLength;
 };
 
@@ -638,7 +578,7 @@ ReactionPendulumApp.prototype.getLength = function() {
 to equivalent length.  See {@link #classicLength}.
 @param {number} value length of ReactionPendulumSim rod
 */
-ReactionPendulumApp.prototype.setLength = function(value) {
+setLength(value) {
   if (this.pendulumLength != value) {
     this.pendulumLength = value;
     this.reset();
@@ -649,7 +589,7 @@ ReactionPendulumApp.prototype.setLength = function(value) {
 /** Return radius of ReactionPendulumSim bob
 @return {number} radius of ReactionPendulumSim bob
 */
-ReactionPendulumApp.prototype.getRadius = function() {
+getRadius() {
   return this.radius;
 };
 
@@ -657,7 +597,7 @@ ReactionPendulumApp.prototype.getRadius = function() {
 to according equivalent length.  See {@link #classicLength}.
 @param {number} value radius of ReactionPendulumSim bob
 */
-ReactionPendulumApp.prototype.setRadius = function(value) {
+setRadius(value) {
   if (this.radius != value) {
     this.radius = value;
     this.reset();
@@ -668,14 +608,14 @@ ReactionPendulumApp.prototype.setRadius = function(value) {
 /** Returns the distance between the fixed pivot points of the two pendulums.
 * @return {number} distance between the fixed pivot points
 */
-ReactionPendulumApp.prototype.getSeparation = function() {
+getSeparation() {
   return this.separation;
 };
 
 /** Sets the distance between the fixed pivot points of the two pendulums.
 * @param {number} value distance between the fixed pivot points
 */
-ReactionPendulumApp.prototype.setSeparation = function(value) {
+setSeparation(value) {
   if (this.separation != value) {
     this.separation = value;
     this.sim1.setPivot(new Vector(value, 0));
@@ -688,7 +628,7 @@ ReactionPendulumApp.prototype.setSeparation = function(value) {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-ReactionPendulumApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -704,7 +644,7 @@ ReactionPendulumApp.prototype.defineNames = function(myName) {
 * @return {undefined}
 * @export
 */
-ReactionPendulumApp.prototype.setup = function() {
+setup() {
   this.clock.resume();
   this.terminal.parseURLorRecall();
   this.sim1.saveInitialState();
@@ -715,7 +655,7 @@ ReactionPendulumApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-ReactionPendulumApp.prototype.start = function() {
+start() {
   this.simRun.startFiring();
   //console.log(Util.prettyPrint(this.toString()));
 };
@@ -727,13 +667,15 @@ ReactionPendulumApp.prototype.start = function() {
 * @return {*}
 * @export
 */
-ReactionPendulumApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
     alert(ex);
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -766,4 +708,13 @@ ReactionPendulumApp.de_strings = {
 ReactionPendulumApp.i18n = goog.LOCALE === 'de' ? ReactionPendulumApp.de_strings :
     ReactionPendulumApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!ReactionPendulumApp}
+*/
+function makeReactionPendulumApp(elem_ids) {
+  return new ReactionPendulumApp(elem_ids);
+};
+goog.exportSymbol('makeReactionPendulumApp', makeReactionPendulumApp);
+
+exports = ReactionPendulumApp;
