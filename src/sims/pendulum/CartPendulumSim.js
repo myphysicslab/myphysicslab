@@ -12,35 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pendulum.CartPendulumSim');
+goog.module('myphysicslab.sims.pendulum.CartPendulumSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a cart moving on a horizontal track with a pendulum suspended from the
 cart.
@@ -82,7 +66,6 @@ correspond to the spring being at its relaxed length. This makes the equations s
 but less general – therefore don't change rest length or attachment position of the
 spring.
 
-
 Variables Array
 -------------------------
 
@@ -93,17 +76,15 @@ The variables are stored in the VarsList as follows
     vars[2] = x'
     vars[3] = h'
 
-
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class CartPendulumSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
   var var_names = [
@@ -226,11 +207,8 @@ myphysicslab.sims.pendulum.CartPendulumSim = function(opt_name) {
       goog.bind(this.setSpringStiffness, this)));
 };
 
-var CartPendulumSim = myphysicslab.sims.pendulum.CartPendulumSim;
-goog.inherits(CartPendulumSim, AbstractODESim);
-
 /** @override */
-CartPendulumSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', gravity_: '+Util.NF(this.gravity_)
       +', dampingCart_: '+Util.NF(this.dampingCart_)
@@ -241,24 +219,24 @@ CartPendulumSim.prototype.toString = function() {
       +', spring_: '+this.spring_
       +', rod_: '+this.rod_
       +', fixedPoint_: '+this.fixedPoint_
-      + CartPendulumSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CartPendulumSim.prototype.getClassName = function() {
+getClassName() {
   return 'CartPendulumSim';
 };
 
 /** Initialize 'work done by damping' to zero.
 * @return {undefined}
 */
-CartPendulumSim.prototype.initWork = function() {
+initWork() {
   this.getVarsList().setValue(4, 0);
   this.initialEnergy_ = this.getEnergyInfo().getTotalEnergy();
 };
 
 /** @override */
-CartPendulumSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -269,7 +247,7 @@ CartPendulumSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-CartPendulumSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
   var ke = this.cart_.getKineticEnergy();
@@ -283,13 +261,13 @@ CartPendulumSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-CartPendulumSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-CartPendulumSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // limit the pendulum angle to +/- Pi
@@ -313,7 +291,7 @@ CartPendulumSim.prototype.modifyObjects = function() {
 * @param {!Array<number>} vars
 * @private
 */
-CartPendulumSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
   var angle = vars[1];
@@ -332,7 +310,7 @@ CartPendulumSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-CartPendulumSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.cart_ || simObject == this.pendulum_) {
     this.isDragging_ = true;
@@ -343,7 +321,7 @@ CartPendulumSim.prototype.startDrag = function(simObject, location, offset, drag
 };
 
 /** @override */
-CartPendulumSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var vars = va.getValues();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
@@ -368,16 +346,16 @@ CartPendulumSim.prototype.mouseDrag = function(simObject, location, offset, mous
 };
 
 /** @override */
-CartPendulumSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
 /** @override */
-CartPendulumSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-CartPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[8] = 1; // time
@@ -413,14 +391,14 @@ CartPendulumSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-CartPendulumSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-CartPendulumSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   this.initWork();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
@@ -433,14 +411,14 @@ CartPendulumSim.prototype.setGravity = function(value) {
 /** Return mass of pendulum bob.
 @return {number} mass of pendulum bob
 */
-CartPendulumSim.prototype.getPendulumMass = function() {
+getPendulumMass() {
   return this.pendulum_.getMass();
 };
 
 /** Set mass of pendulum bob
 @param {number} value mass of pendulum bob
 */
-CartPendulumSim.prototype.setPendulumMass = function(value) {
+setPendulumMass(value) {
   this.pendulum_.setMass(value);
   this.initWork();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
@@ -453,14 +431,14 @@ CartPendulumSim.prototype.setPendulumMass = function(value) {
 /** Return mass of cart.
 @return {number} mass of cart
 */
-CartPendulumSim.prototype.getCartMass = function() {
+getCartMass() {
   return this.cart_.getMass();
 };
 
 /** Set mass of cart
 @param {number} value mass of cart
 */
-CartPendulumSim.prototype.setCartMass = function(value) {
+setCartMass(value) {
   this.cart_.setMass(value);
   this.initWork();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
@@ -473,14 +451,14 @@ CartPendulumSim.prototype.setCartMass = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-CartPendulumSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.spring_.getStiffness();
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-CartPendulumSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.spring_.setStiffness(value);
   this.initWork();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
@@ -493,14 +471,14 @@ CartPendulumSim.prototype.setSpringStiffness = function(value) {
 /** Return cart damping
 @return {number} cart damping
 */
-CartPendulumSim.prototype.getCartDamping = function() {
+getCartDamping() {
   return this.dampingCart_;
 };
 
 /** Set cart damping
 @param {number} value cart damping
 */
-CartPendulumSim.prototype.setCartDamping = function(value) {
+setCartDamping(value) {
   this.dampingCart_ = value;
   this.initWork();
   this.broadcastParameter(CartPendulumSim.en.CART_DAMPING);
@@ -509,14 +487,14 @@ CartPendulumSim.prototype.setCartDamping = function(value) {
 /** Return pendulum damping
 @return {number} pendulum damping
 */
-CartPendulumSim.prototype.getPendulumDamping = function() {
+getPendulumDamping() {
   return this.dampingPendulum_;
 };
 
 /** Set pendulum damping
 @param {number} value pendulum damping
 */
-CartPendulumSim.prototype.setPendulumDamping = function(value) {
+setPendulumDamping(value) {
   this.dampingPendulum_ = value;
   this.initWork();
   this.broadcastParameter(CartPendulumSim.en.PENDULUM_DAMPING);
@@ -525,14 +503,14 @@ CartPendulumSim.prototype.setPendulumDamping = function(value) {
 /** Return length of pendulum rod
 @return {number} length of pendulum rod
 */
-CartPendulumSim.prototype.getPendulumLength = function() {
+getPendulumLength() {
   return this.length_;
 };
 
 /** Set length of pendulum rod
 @param {number} value length of pendulum rod
 */
-CartPendulumSim.prototype.setPendulumLength = function(value) {
+setPendulumLength(value) {
   this.length_ = value;
   this.initWork();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
@@ -541,6 +519,8 @@ CartPendulumSim.prototype.setPendulumLength = function(value) {
   this.getVarsList().incrSequence(5, 6, 7);
   this.broadcastParameter(CartPendulumSim.en.PENDULUM_LENGTH);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -603,4 +583,4 @@ CartPendulumSim.de_strings = {
 CartPendulumSim.i18n = goog.LOCALE === 'de' ? CartPendulumSim.de_strings :
     CartPendulumSim.en;
 
-}); // goog.scope
+exports = CartPendulumSim;
