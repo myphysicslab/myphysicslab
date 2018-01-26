@@ -12,40 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.CollideBlocksSim');
+goog.module('myphysicslab.sims.springs.CollideBlocksSim');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.CollisionSim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.springs.BlockCollision');
 
-goog.scope(function() {
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-var BlockCollision = myphysicslab.sims.springs.BlockCollision;
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const BlockCollision = goog.require('myphysicslab.sims.springs.BlockCollision');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of two blocks moving horizontally between walls, with collisions
 between the blocks and walls. One of the blocks is connected to a wall with a spring.
@@ -71,11 +55,9 @@ Parameters:
     k = spring constant
     b = damping constant
 
-
 Equations Of Motion
 -----------------------------
 See also <http://www.myphysicslab.com/collideSpring.html>.
-
 
 Spring force and damping look like this:
 
@@ -85,7 +67,6 @@ So equations of motion are:
 
     x' = v
     v' = -(k/m)(x - S1.getX() - R) -(b/m) v
-
 
 Collision Handling
 -----------------------------
@@ -114,22 +95,20 @@ Add back `vcm` to get to laboratory frame:
 
 Same derivation applies for block 2.
 
-
 To Do
 -----------------------------
 Elasticity parameter.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EventHandler}
 * @implements {EnergySystem}
 * @implements {CollisionSim}
 */
-myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class CollideBlocksSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   /**
   * @type {number}
   * @private
@@ -246,11 +225,9 @@ myphysicslab.sims.springs.CollideBlocksSim = function(opt_name) {
       CollideBlocksSim.i18n.DAMPING,
       goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
 };
-var CollideBlocksSim = myphysicslab.sims.springs.CollideBlocksSim;
-goog.inherits(CollideBlocksSim, AbstractODESim);
 
 /** @override */
-CollideBlocksSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', block1_: '+this.block1_
       +', block2_: '+this.block2_
@@ -258,16 +235,16 @@ CollideBlocksSim.prototype.toString = function() {
       +', wallRight_: '+this.wallRight_
       +', spring1_: '+this.spring1_
       +', spring2_: '+this.spring2_
-      + CollideBlocksSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CollideBlocksSim.prototype.getClassName = function() {
+getClassName() {
   return 'CollideBlocksSim';
 };
 
 /** @override */
-CollideBlocksSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -278,20 +255,20 @@ CollideBlocksSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-CollideBlocksSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
   var pe = this.spring1_.getPotentialEnergy() + this.spring2_.getPotentialEnergy();
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
 /** @override */
-CollideBlocksSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-CollideBlocksSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -309,7 +286,7 @@ CollideBlocksSim.prototype.modifyObjects = function() {
 * @return {undefined}
 * @private
 */
-CollideBlocksSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
   this.block1_.setPosition(new Vector(vars[0],  0));
@@ -322,12 +299,12 @@ CollideBlocksSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-CollideBlocksSim.prototype.setDebugPaint = function(fn) {
+setDebugPaint(fn) {
   this.debugPaint_ = fn;
 };
 
 /** @override */
-CollideBlocksSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
     mouseEvent) {
   if (simObject == this.block1_ || simObject == this.block2_) {
     this.isDragging = true;
@@ -338,8 +315,7 @@ CollideBlocksSim.prototype.startDrag = function(simObject, location, offset, dra
 };
 
 /** @override */
-CollideBlocksSim.prototype.mouseDrag = function(simObject, location, offset,
-    mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // maintain gap between objects, to avoid stuck collision problems.
   var gap = 0.02;
   var va = this.getVarsList();
@@ -398,12 +374,12 @@ CollideBlocksSim.prototype.mouseDrag = function(simObject, location, offset,
 };
 
 /** @override */
-CollideBlocksSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.isDragging = false;
 };
 
 /** @override */
-CollideBlocksSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /**
@@ -413,8 +389,7 @@ CollideBlocksSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent)
 * @param {number} time
 * @private
 */
-CollideBlocksSim.prototype.addCollision = function(collisions, leftBlock, rightBlock,
-    time) {
+addCollision(collisions, leftBlock, rightBlock, time) {
   var c = new BlockCollision(leftBlock, rightBlock, time);
   if (c.getDistance() < 0.1) {
     // Avoid adding a duplicate collision.
@@ -436,7 +411,7 @@ CollideBlocksSim.prototype.addCollision = function(collisions, leftBlock, rightB
 };
 
 /** @override */
-CollideBlocksSim.prototype.findCollisions = function(collisions, vars, stepSize) {
+findCollisions(collisions, vars, stepSize) {
   // Assumes only 3 possible collisions.
   this.moveObjects(vars);
   var time = this.getTime() + stepSize;
@@ -446,7 +421,7 @@ CollideBlocksSim.prototype.findCollisions = function(collisions, vars, stepSize)
 };
 
 /** @override */
-CollideBlocksSim.prototype.handleCollisions = function(collisions, opt_totals) {
+handleCollisions(collisions, opt_totals) {
   var va = this.getVarsList();
   var seq0 = va.getVariable(0).getSequence();
   var seq2 = va.getVariable(2).getSequence();
@@ -484,7 +459,7 @@ CollideBlocksSim.prototype.handleCollisions = function(collisions, opt_totals) {
 };
 
 /** @override */
-CollideBlocksSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[4] = 1.0;  // time
   // 0   1    2   3   4    5   6   7
@@ -506,7 +481,7 @@ CollideBlocksSim.prototype.evaluate = function(vars, change, timeStep) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getMomentum = function() {
+getMomentum() {
   this.modifyObjects();
   var m1 = this.block1_.getVelocity().multiply(this.block1_.getMass());
   var m2 = this.block2_.getVelocity().multiply(this.block2_.getMass());
@@ -516,14 +491,14 @@ CollideBlocksSim.prototype.getMomentum = function() {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getMass1 = function() {
+getMass1() {
   return this.block1_.getMass();
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setMass1 = function(value) {
+setMass1(value) {
   this.block1_.setMass(value);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
@@ -535,14 +510,14 @@ CollideBlocksSim.prototype.setMass1 = function(value) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getMass2 = function() {
+getMass2() {
   return this.block2_.getMass();
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setMass2 = function(value) {
+setMass2(value) {
   this.block2_.setMass(value);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
@@ -554,14 +529,14 @@ CollideBlocksSim.prototype.setMass2 = function(value) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(CollideBlocksSim.en.DAMPING);
 };
@@ -569,14 +544,14 @@ CollideBlocksSim.prototype.setDamping = function(value) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getSpring1Stiffness = function() {
+getSpring1Stiffness() {
   return this.spring1_.getStiffness();
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setSpring1Stiffness = function(value) {
+setSpring1Stiffness(value) {
   this.spring1_.setStiffness(value);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
@@ -588,14 +563,14 @@ CollideBlocksSim.prototype.setSpring1Stiffness = function(value) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getSpring1Length = function() {
+getSpring1Length() {
   return this.spring1_.getRestLength();
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setSpring1Length = function(value) {
+setSpring1Length(value) {
   this.spring1_.setRestLength(value);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
@@ -607,14 +582,14 @@ CollideBlocksSim.prototype.setSpring1Length = function(value) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getSpring2Stiffness = function() {
+getSpring2Stiffness() {
   return this.spring2_.getStiffness();
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setSpring2Stiffness = function(value) {
+setSpring2Stiffness(value) {
   this.spring2_.setStiffness(value);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
@@ -626,14 +601,14 @@ CollideBlocksSim.prototype.setSpring2Stiffness = function(value) {
 /**
 * @return {number}
 */
-CollideBlocksSim.prototype.getSpring2Length = function() {
+getSpring2Length() {
   return this.spring2_.getRestLength();
 };
 
 /**
 * @param {number} value
 */
-CollideBlocksSim.prototype.setSpring2Length = function(value) {
+setSpring2Length(value) {
   this.spring2_.setRestLength(value);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
@@ -641,6 +616,8 @@ CollideBlocksSim.prototype.setSpring2Length = function(value) {
   this.getVarsList().incrSequence(6, 7);
   this.broadcastParameter(CollideBlocksSim.en.LENGTH_2);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -703,4 +680,4 @@ CollideBlocksSim.de_strings = {
 CollideBlocksSim.i18n = goog.LOCALE === 'de' ? CollideBlocksSim.de_strings :
     CollideBlocksSim.en;
 
-}); // goog.scope
+exports = CollideBlocksSim;

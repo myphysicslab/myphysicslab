@@ -12,64 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.DangleStickApp');
+goog.module('myphysicslab.sims.springs.DangleStickApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.DangleStickSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-var DangleStickSim = sims.springs.DangleStickSim;
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DangleStickSim = goog.require('myphysicslab.sims.springs.DangleStickSim');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link DangleStickSim} simulation.
-
+*/
+class DangleStickApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.DangleStickApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-4, -4, 4, 2);
   var sim = new DangleStickSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/null);
 
   /** @type {!DisplayShape} */
@@ -114,29 +89,38 @@ myphysicslab.sims.springs.DangleStickApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var DangleStickApp = myphysicslab.sims.springs.DangleStickApp;
-goog.inherits(DangleStickApp, AbstractApp);
 
 /** @override */
-DangleStickApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bob1: '+this.bob1.toStringShort()
       +', bob2: '+this.bob2.toStringShort()
       +', stick: '+this.stick.toStringShort()
       +', spring: '+this.spring.toStringShort()
-      + DangleStickApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DangleStickApp.prototype.getClassName = function() {
+getClassName() {
   return 'DangleStickApp';
 };
 
 /** @override */
-DangleStickApp.prototype.defineNames = function(myName) {
-  DangleStickApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('stick|bob1|bob2|spring|protoMass',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!DangleStickApp}
+*/
+function makeDangleStickApp(elem_ids) {
+  return new DangleStickApp(elem_ids);
+};
+goog.exportSymbol('makeDangleStickApp', makeDangleStickApp);
+
+exports = DangleStickApp;

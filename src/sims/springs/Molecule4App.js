@@ -12,74 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Molecule4App');
+goog.module('myphysicslab.sims.springs.Molecule4App');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.FunctionVariable');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.sims.springs.SpringNonLinear');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.Molecule4Sim');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.util.GenericObserver');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const FunctionVariable = goog.module.get('myphysicslab.lab.model.FunctionVariable');
-var Molecule4Sim = sims.springs.Molecule4Sim;
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const Molecule4Sim = goog.require('myphysicslab.sims.springs.Molecule4Sim');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SpringNonLinear = goog.require('myphysicslab.sims.springs.SpringNonLinear');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 
 /** Displays the {@link Molecule4Sim} simulation which is an experimental version of
 the Molecule3 simulation. This uses a non-linear spring force. Note that the spring
 length controls will have no effect.
-
+*/
+class Molecule4App extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
+constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  /** @type {number} */
-  this.numAtoms = numAtoms;
   var simRect = new DoubleRect(-8, -8, 8, 8);
-  var sim = new Molecule4Sim(this.numAtoms);
+  var sim = new Molecule4Sim(numAtoms);
   // cludge: this makes the potential energy not so large.
   sim.setPotentialEnergy(5 - 0.38559373);
   var advance = new CollisionAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
-      /*energySystem=*/sim);
+
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
+
+  /** @type {number} */
+  this.numAtoms = numAtoms;
   // The SpringNonLinear is very "stiff", and sim is unstable with default
   // timestep=0.025, so set it to be smaller.
   this.simRun.setTimeStep(0.01);
@@ -175,27 +150,37 @@ myphysicslab.sims.springs.Molecule4App = function(elem_ids, numAtoms) {
   this.addURLScriptButton();
 
 };
-var Molecule4App = myphysicslab.sims.springs.Molecule4App;
-goog.inherits(Molecule4App, AbstractApp);
 
 /** @override */
-Molecule4App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', atoms: '+this.atoms.length
       +', walls: '+this.walls.toStringShort()
-      + Molecule4App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Molecule4App.prototype.getClassName = function() {
+getClassName() {
   return 'Molecule4App';
 };
 
 /** @override */
-Molecule4App.prototype.defineNames = function(myName) {
-  Molecule4App.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('walls|atoms|protoSpecialSpring|protoSpring',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {number} numAtoms number of atoms to make, from 2 to 6
+* @return {!Molecule4App}
+*/
+function makeMolecule4App(elem_ids, numAtoms) {
+  return new Molecule4App(elem_ids, numAtoms);
+};
+goog.exportSymbol('makeMolecule4App', makeMolecule4App);
+
+exports = Molecule4App;

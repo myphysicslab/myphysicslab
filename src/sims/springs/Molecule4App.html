@@ -5,6 +5,7 @@
 #define #APP_PATH sims.springs.Molecule4App
 #include "#TOP_DIR/macros.html"
 #include "#TOP_DIR/macros_tab.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -25,7 +26,7 @@ spring force.  Note that the spring length controls will have no effect.</p>
 #LOREM_IPSUM
 
 #LOAD_APP
-#define INSTANTIATE_APP app = new myphysicslab.sims.springs.Molecule4App(elem_ids, 6);
+#define INSTANTIATE_APP app = makeMolecule4App(elem_ids, 6);
 #BUILD_APP
 #SHOW_ALL
 #START_APP

@@ -12,69 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.DoubleSpringApp');
+goog.module('myphysicslab.sims.springs.DoubleSpringApp');
 
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.DoubleSpringSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var DoubleSpringSim = sims.springs.DoubleSpringSim;
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DoubleSpringSim = goog.require('myphysicslab.sims.springs.DoubleSpringSim');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link DoubleSpringSim} simulation.
-
+*/
+class DoubleSpringApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-0.5, -5, 10, 5);
   var sim = new DoubleSpringSim(/*thirdSpring=*/false);
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
 
@@ -142,11 +115,9 @@ myphysicslab.sims.springs.DoubleSpringApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var DoubleSpringApp = myphysicslab.sims.springs.DoubleSpringApp;
-goog.inherits(DoubleSpringApp, AbstractApp);
 
 /** @override */
-DoubleSpringApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', block1: '+this.block1.toStringShort()
       +', block2: '+this.block2.toStringShort()
@@ -155,19 +126,30 @@ DoubleSpringApp.prototype.toString = function() {
       +', spring3: '+this.spring3.toStringShort()
       +', wall1: '+this.wall1.toStringShort()
       +', wall2: '+this.wall2.toStringShort()
-      + DoubleSpringApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DoubleSpringApp.prototype.getClassName = function() {
+getClassName() {
   return 'DoubleSpringApp';
 };
 
 /** @override */
-DoubleSpringApp.prototype.defineNames = function(myName) {
-  DoubleSpringApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('wall1|wall2|block1|block2|spring1|spring2|spring3'
       +'|protoWall|protoBlock|protoSpring', myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!DoubleSpringApp}
+*/
+function makeDoubleSpringApp(elem_ids) {
+  return new DoubleSpringApp(elem_ids);
+};
+goog.exportSymbol('makeDoubleSpringApp', makeDoubleSpringApp);
+
+exports = DoubleSpringApp;

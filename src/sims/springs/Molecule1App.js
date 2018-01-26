@@ -12,58 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Molecule1App');
+goog.module('myphysicslab.sims.springs.Molecule1App');
 
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.Molecule1Sim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var Molecule1Sim = sims.springs.Molecule1Sim;
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Molecule1Sim = goog.require('myphysicslab.sims.springs.Molecule1Sim');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Molecule1Sim} simulation.
-
+*/
+class Molecule1App extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new Molecule1Sim();
   var advance = new CollisionAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('white');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
@@ -114,29 +92,38 @@ myphysicslab.sims.springs.Molecule1App = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var Molecule1App = myphysicslab.sims.springs.Molecule1App;
-goog.inherits(Molecule1App, AbstractApp);
 
 /** @override */
-Molecule1App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', atom1: '+this.atom1.toStringShort()
       +', atom2: '+this.atom2.toStringShort()
       +', spring: '+this.spring.toStringShort()
       +', walls: '+this.walls.toStringShort()
-      + Molecule1App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Molecule1App.prototype.getClassName = function() {
+getClassName() {
   return 'Molecule1App';
 };
 
 /** @override */
-Molecule1App.prototype.defineNames = function(myName) {
-  Molecule1App.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('walls|atom1|atom2|spring',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!Molecule1App}
+*/
+function makeMolecule1App(elem_ids) {
+  return new Molecule1App(elem_ids);
+};
+goog.exportSymbol('makeMolecule1App', makeMolecule1App);
+
+exports = Molecule1App;

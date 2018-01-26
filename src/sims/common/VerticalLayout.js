@@ -12,23 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.common.VerticalLayout');
+goog.module('myphysicslab.sims.common.VerticalLayout');
 
 goog.require('goog.events');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.LabCanvas');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** VerticalLayout creates a SimView and a command line Terminal a command line Terminal
 for interactive scripting; also an area to show a graph, and an area to put controls.
@@ -51,15 +42,14 @@ you could get at a minified class, much of it would not be there to use.
 
 Oct 2014: increased size of simCanvas and graphCanvas so that they look better when
 stretched to large sizes on large screens.
-
+*/
+class VerticalLayout {
+/**
 * @param {!VerticalLayout.elementIds} elem_ids specifies the names of the HTML
 *    elements to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
+constructor(elem_ids) {
   Util.setImagesDir(elem_ids['images_dir']);
   /** whether to put dashed borders around elements
   * @type {boolean}
@@ -183,10 +173,9 @@ myphysicslab.sims.common.VerticalLayout = function(elem_ids) {
   }
 
 };
-var VerticalLayout = myphysicslab.sims.common.VerticalLayout;
 
 /** @override */
-VerticalLayout.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'VerticalLayout{'
     +'simCanvas: '+this.simCanvas.toStringShort()
     +', graphCanvas: '+this.graphCanvas.toStringShort()
@@ -194,6 +183,41 @@ VerticalLayout.prototype.toString = function() {
     +', controls: '+this.controls_.length
     +'}';
 };
+
+/** Finds the specified element in the HTML Document; throws an error if element
+* is not found.
+* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to look for
+* @param {string} elementId specifies which elementId to get from elem_ids
+* @return {!Element} the element from the current HTML Document
+*/
+static getElementById(elem_ids, elementId) {
+  // note:  Google Closure Compiler will rename properties in advanced mode.
+  // Therefore, we need to get the property with a string which is not renamed.
+  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
+  var e_id = elem_ids[elementId];
+  if (!goog.isString(e_id)) {
+    throw new Error('unknown elementId: '+elementId);
+  }
+  var e = document.getElementById(e_id);
+  if (!goog.isObject(e)) {
+    throw new Error('not found: element with id='+e_id);
+  }
+  return e;
+};
+
+/** Add the control to the set of simulation controls.
+* @param {!LabControl} control
+* @return {!LabControl} the control that was passed in
+*/
+addControl(control) {
+  var element = control.getElement();
+  element.style.display = 'inline-block';
+  this.sim_controls.appendChild(element);
+  this.controls_.push(control);
+  return control;
+};
+
+} //end class
 
 /**  Names of HTML div, form, and input element's to search for by using
 * {document.getElementById()}.
@@ -215,37 +239,4 @@ VerticalLayout.prototype.toString = function() {
 */
 VerticalLayout.elementIds;
 
-/** Finds the specified element in the HTML Document; throws an error if element
-* is not found.
-* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to look for
-* @param {string} elementId specifies which elementId to get from elem_ids
-* @return {!Element} the element from the current HTML Document
-*/
-VerticalLayout.getElementById = function(elem_ids, elementId) {
-  // note:  Google Closure Compiler will rename properties in advanced mode.
-  // Therefore, we need to get the property with a string which is not renamed.
-  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
-    throw new Error('unknown elementId: '+elementId);
-  }
-  var e = document.getElementById(e_id);
-  if (!goog.isObject(e)) {
-    throw new Error('not found: element with id='+e_id);
-  }
-  return e;
-};
-
-/** Add the control to the set of simulation controls.
-* @param {!LabControl} control
-* @return {!LabControl} the control that was passed in
-*/
-VerticalLayout.prototype.addControl = function(control) {
-  var element = control.getElement();
-  element.style.display = 'inline-block';
-  this.sim_controls.appendChild(element);
-  this.controls_.push(control);
-  return control;
-};
-
-}); // goog.scope
+exports = VerticalLayout;

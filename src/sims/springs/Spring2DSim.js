@@ -12,35 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Spring2DSim');
+goog.module('myphysicslab.sims.springs.Spring2DSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** 2-D spring simulation with gravity. An immoveable top anchor mass with a spring and
 moveable mass hanging below and swinging in 2D. The top anchor mass can however be
@@ -73,7 +57,6 @@ Parameters:
     b = damping constant
     m = mass of bob
 
-
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown in more detail at
@@ -96,7 +79,6 @@ Differential Equations:
     Vx' = -(k/m)L sin(th) -(b/m)Vx
     Vy' = -g + (k/m)L cos(th) -(b/m)Vy
 
-
 Variables Array
 -------------------------
 The variables are stored in the VarsList as follows
@@ -112,17 +94,15 @@ The variables are stored in the VarsList as follows
     vars[8] = anchor X
     vars[9] = anchor Y
 
-
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.Spring2DSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class Spring2DSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   var var_names = [
@@ -217,22 +197,19 @@ myphysicslab.sims.springs.Spring2DSim = function(opt_name) {
       goog.bind(this.setSpringStiffness, this)));
 };
 
-var Spring2DSim = myphysicslab.sims.springs.Spring2DSim;
-goog.inherits(Spring2DSim, AbstractODESim);
-
 /** @override */
-Spring2DSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', gravity_: '+Util.NF(this.gravity_)
       +', damping_: '+Util.NF(this.damping_)
       +', spring_: '+this.spring_
       +', bob_: '+this.bob_
       +', anchor_: '+this.anchor_
-      + Spring2DSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Spring2DSim.prototype.getClassName = function() {
+getClassName() {
   return 'Spring2DSim';
 };
 
@@ -240,7 +217,7 @@ Spring2DSim.prototype.getClassName = function() {
 * to zero.
 * @return {undefined}
 */
-Spring2DSim.prototype.restState = function() {
+restState() {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   var va = this.getVarsList();
@@ -256,7 +233,7 @@ Spring2DSim.prototype.restState = function() {
 };
 
 /** @override */
-Spring2DSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -267,7 +244,7 @@ Spring2DSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-Spring2DSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var ke = this.bob_.getKineticEnergy();
   var y = this.bob_.getPosition().getY();
   var pe = this.gravity_ * this.bob_.getMass() * y;
@@ -276,13 +253,13 @@ Spring2DSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-Spring2DSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-Spring2DSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -298,7 +275,7 @@ Spring2DSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-Spring2DSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   this.bob_.setPosition(new Vector(vars[0],  vars[1]));
@@ -307,8 +284,7 @@ Spring2DSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-Spring2DSim.prototype.startDrag = function(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.bob_) {
     this.isDragging_ = true;
     return true;
@@ -319,7 +295,7 @@ Spring2DSim.prototype.startDrag = function(simObject, location, offset, dragBody
 };
 
 /** @override */
-Spring2DSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   var va = this.getVarsList();
@@ -337,16 +313,16 @@ Spring2DSim.prototype.mouseDrag = function(simObject, location, offset, mouseEve
 };
 
 /** @override */
-Spring2DSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
 /** @override */
-Spring2DSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-Spring2DSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   Util.zeroArray(change);
@@ -370,14 +346,14 @@ Spring2DSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-Spring2DSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-Spring2DSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
@@ -389,14 +365,14 @@ Spring2DSim.prototype.setGravity = function(value) {
 /** Return mass of pendulum bob.
 @return {number} mass of pendulum bob
 */
-Spring2DSim.prototype.getMass = function() {
+getMass() {
   return this.bob_.getMass();
 };
 
 /** Set mass of pendulum bob
 @param {number} value mass of pendulum bob
 */
-Spring2DSim.prototype.setMass = function(value) {
+setMass(value) {
   this.bob_.setMass(value);
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
@@ -408,14 +384,14 @@ Spring2DSim.prototype.setMass = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-Spring2DSim.prototype.getSpringRestLength = function() {
+getSpringRestLength() {
   return this.spring_.getRestLength();
 };
 
 /** Set spring resting length
 @param {number} value spring resting length
 */
-Spring2DSim.prototype.setSpringRestLength = function(value) {
+setSpringRestLength(value) {
   this.spring_.setRestLength(value);
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
@@ -427,14 +403,14 @@ Spring2DSim.prototype.setSpringRestLength = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-Spring2DSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.spring_.getStiffness();
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-Spring2DSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.spring_.setStiffness(value);
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
@@ -446,18 +422,19 @@ Spring2DSim.prototype.setSpringStiffness = function(value) {
 /** Return damping
 @return {number} damping
 */
-Spring2DSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping
 @param {number} value damping
 */
-Spring2DSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(Spring2DSim.en.DAMPING);
 };
 
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -520,4 +497,4 @@ Spring2DSim.de_strings = {
 Spring2DSim.i18n = goog.LOCALE === 'de' ? Spring2DSim.de_strings :
     Spring2DSim.en;
 
-}); // goog.scope
+exports = Spring2DSim;

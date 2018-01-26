@@ -12,62 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.TerminalSpringApp');
+goog.module('myphysicslab.sims.springs.TerminalSpringApp');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.VerticalLayout');
-goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');
-goog.require('myphysicslab.sims.springs.CollideBlocksSim');
-goog.require('myphysicslab.sims.springs.CollideSpringSim');
-goog.require('myphysicslab.sims.springs.DangleStickSim');
-goog.require('myphysicslab.sims.springs.Double2DSpringSim');
-goog.require('myphysicslab.sims.springs.DoubleSpringSim');
-goog.require('myphysicslab.sims.springs.Molecule1Sim');
-goog.require('myphysicslab.sims.springs.Molecule3Sim');
-goog.require('myphysicslab.sims.springs.SingleSpringSim');
-goog.require('myphysicslab.sims.springs.Spring2DSim');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VerticalLayout = goog.require('myphysicslab.sims.common.VerticalLayout');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericObserver'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-var VerticalLayout = sims.common.VerticalLayout;
+// following are only required for possible use in Terminal
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const DiffEqSolverSubject = goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ChainOfSpringsSim = goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');
+const CollideBlocksSim = goog.require('myphysicslab.sims.springs.CollideBlocksSim');
+const CollideSpringSim = goog.require('myphysicslab.sims.springs.CollideSpringSim');
+const DangleStickSim = goog.require('myphysicslab.sims.springs.DangleStickSim');
+const Double2DSpringSim = goog.require('myphysicslab.sims.springs.Double2DSpringSim');
+const DoubleSpringSim = goog.require('myphysicslab.sims.springs.DoubleSpringSim');
+const Molecule1Sim = goog.require('myphysicslab.sims.springs.Molecule1Sim');
+const Molecule3Sim = goog.require('myphysicslab.sims.springs.Molecule3Sim');
+const SingleSpringSim = goog.require('myphysicslab.sims.springs.SingleSpringSim');
+const Spring2DSim = goog.require('myphysicslab.sims.springs.Spring2DSim');
+const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
 
 /** Shows a simulation from the `springs` namespace by executing commands in Terminal.
 This makes it easy to create and modify an app without needing Closure Compiler,
@@ -78,30 +70,27 @@ looking at the Terminal output.
 All the simulations in the namespace `myphysicslab.sims.springs` are included (assuming
 this is compiled with simple compile, because advanced compile will strip out all
 the simulations).
-
+*/
+class TerminalSpringApp {
+/**
 * @param {!VerticalLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @export
 */
-myphysicslab.sims.springs.TerminalSpringApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
 };
-var TerminalSpringApp = myphysicslab.sims.springs.TerminalSpringApp;
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced
 * by 'myApp.sim' when myName is 'myApp'.
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-TerminalSpringApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   var t = this.terminal;
@@ -125,12 +114,25 @@ TerminalSpringApp.prototype.defineNames = function(myName) {
 * @return {*}
 * @export
 */
-TerminalSpringApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
-    alert(ex);
+    console.log(ex);
+    // NOTE: don't show an alert here, because that causes blur/focus events
+    // which can trigger attempt to evaluate a script
   }
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!VerticalLayout.elementIds} elem_ids
+* @return {!TerminalSpringApp}
+*/
+function makeTerminalSpringApp(elem_ids) {
+  return new TerminalSpringApp(elem_ids);
+};
+goog.exportSymbol('makeTerminalSpringApp', makeTerminalSpringApp);
+
+exports = TerminalSpringApp;

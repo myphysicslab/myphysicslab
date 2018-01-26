@@ -269,6 +269,14 @@ donothing doublependulum2 fastball gears impulse marsmoon multiplecollision \
 mutualattract newtonscradle pendulumclock pendulumspring pile pileattract \
 polygontest rigidbody testbody
 
+pendulum: cartpendulum comparedoublependulum comparependulum doublependulum \
+moveabledoublependulum moveablependulum pendulum reactionpendulum \
+rigiddoublependulum vectorgraphpendulum
+
+springs: chainofsprings collideblocks collidespring danglestick double2dspring \
+doublespring molecule1 molecule3 molecule4 molecule5 molecule6 multispring \
+singlespring singlespring2 spring2d terminalspring terminalspring2d
+
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
 sims/engine2D/CarSuspensionApp \

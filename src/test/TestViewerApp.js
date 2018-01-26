@@ -131,7 +131,7 @@ const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var VerticalLayout = sims.common.VerticalLayout;
+const VerticalLayout = goog.module.get('myphysicslab.sims.common.VerticalLayout');
 var WayPoint = lab.model.CollisionAdvance.WayPoint;
 
 /** Interactively run and view various engine2D tests after selecting the

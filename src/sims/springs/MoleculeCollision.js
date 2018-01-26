@@ -12,32 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.MoleculeCollision');
+goog.module('myphysicslab.sims.springs.MoleculeCollision');
 
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Collision between an atom and a wall in
 {@link myphysicslab.sims.springs.Molecule1Sim Molecule1Sim} simulation.
 
+* @implements {Collision}
+*/
+class MoleculeCollision {
+/**
 * @param {!PointMass} atom
 * @param {!PointMass} wall
 * @param {string} side one of {@link #TOP_WALL}, {@link #BOTTOM_WALL},
 *    {@link #LEFT_WALL}, {@link #RIGHT_WALL}
 * @param {number} time
-* @constructor
-* @final
-* @struct
-* @implements {Collision}
 */
-myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
+constructor(atom, wall, side, time) {
   /**
   * @type {!PointMass}
   */
@@ -83,10 +77,9 @@ myphysicslab.sims.springs.MoleculeCollision = function(atom, wall, side, time) {
   this.impulse = Util.NaN;
   this.updateCollision(time);
 };
-var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
 
 /** @override */
-MoleculeCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'MoleculeCollision{'
       +'distance: '+Util.NF5(this.distance_)
       +', targetGap: '+Util.NF5(this.targetGap_)
@@ -99,6 +92,113 @@ MoleculeCollision.prototype.toString = function() {
       +', side: '+this.side
       +'}';
 };
+
+/** @override */
+closeEnough(allowTiny) {
+  if (allowTiny) {
+    return this.distance_ > 0 && this.distance_ < this.targetGap_ + this.accuracy_;
+  } else {
+    return Math.abs(this.distance_ - this.targetGap_) <= this.accuracy_;
+  }
+};
+
+/** @override */
+bilateral() {
+  return false;
+};
+
+/** @override */
+contact() {
+  return false;
+};
+
+/** @override */
+getDetectedTime() {
+  return this.detectedTime_;
+};
+
+/** @override */
+getDistance() {
+  return this.distance_;
+};
+
+/** @override */
+getEstimatedTime() {
+  return Util.NaN; // don't bother
+};
+
+/** @override */
+getImpulse() {
+  return this.impulse;
+};
+
+/** @override */
+getVelocity() {
+  var v = this.atom.getVelocity();
+  // Returns the relative normal velocity between the two collision points.
+  // Negative velocity means colliding, positive means separating.
+  switch (this.side) {
+    case MoleculeCollision.TOP_WALL:
+      return -v.getY();
+    case MoleculeCollision.BOTTOM_WALL:
+      return v.getY();
+    case MoleculeCollision.LEFT_WALL:
+      return v.getX();
+    case MoleculeCollision.RIGHT_WALL:
+      return -v.getX();
+    default:
+      throw new Error('no such side '+this.side);
+  }
+};
+
+/** @override */
+illegalState() {
+  return this.distance_ < 0;
+};
+
+/** @override */
+isColliding() {
+  return this.distance_ < this.targetGap_ - this.accuracy_;
+};
+
+/** @override */
+isTouching() {
+  return this.distance_ < 2*this.targetGap_;
+};
+
+/** @override */
+needsHandling() {
+  return this.mustHandle_;
+};
+
+/** @override */
+setNeedsHandling(needsHandling) {
+  this.mustHandle_ = needsHandling;
+};
+
+/** @override */
+updateCollision(time) {
+  var a = this.atom.getBoundsWorld();
+  var w = this.wall.getBoundsWorld();
+  switch (this.side) {
+    case MoleculeCollision.TOP_WALL:
+      this.distance_ = w.getTop() - a.getTop();
+      break;
+    case MoleculeCollision.BOTTOM_WALL:
+      this.distance_ = a.getBottom() - w.getBottom();
+      break;
+    case MoleculeCollision.LEFT_WALL:
+      this.distance_ = a.getLeft() - w.getLeft();
+      break;
+    case MoleculeCollision.RIGHT_WALL:
+      this.distance_ = w.getRight() - a.getRight();
+      break;
+    default:
+      throw new Error('no such side '+this.side);
+  }
+};
+
+} //end class
 
 /**
 @type {string}
@@ -124,110 +224,4 @@ MoleculeCollision.LEFT_WALL = 'left';
 */
 MoleculeCollision.RIGHT_WALL = 'right';
 
-
-/** @override */
-MoleculeCollision.prototype.closeEnough = function(allowTiny) {
-  if (allowTiny) {
-    return this.distance_ > 0 && this.distance_ < this.targetGap_ + this.accuracy_;
-  } else {
-    return Math.abs(this.distance_ - this.targetGap_) <= this.accuracy_;
-  }
-};
-
-/** @override */
-MoleculeCollision.prototype.bilateral = function() {
-  return false;
-};
-
-/** @override */
-MoleculeCollision.prototype.contact = function() {
-  return false;
-};
-
-/** @override */
-MoleculeCollision.prototype.getDetectedTime = function() {
-  return this.detectedTime_;
-};
-
-/** @override */
-MoleculeCollision.prototype.getDistance = function() {
-  return this.distance_;
-};
-
-/** @override */
-MoleculeCollision.prototype.getEstimatedTime = function() {
-  return Util.NaN; // don't bother
-};
-
-/** @override */
-MoleculeCollision.prototype.getImpulse = function() {
-  return this.impulse;
-};
-
-/** @override */
-MoleculeCollision.prototype.getVelocity = function() {
-  var v = this.atom.getVelocity();
-  // Returns the relative normal velocity between the two collision points.
-  // Negative velocity means colliding, positive means separating.
-  switch (this.side) {
-    case MoleculeCollision.TOP_WALL:
-      return -v.getY();
-    case MoleculeCollision.BOTTOM_WALL:
-      return v.getY();
-    case MoleculeCollision.LEFT_WALL:
-      return v.getX();
-    case MoleculeCollision.RIGHT_WALL:
-      return -v.getX();
-    default:
-      throw new Error('no such side '+this.side);
-  }
-};
-
-/** @override */
-MoleculeCollision.prototype.illegalState = function() {
-  return this.distance_ < 0;
-};
-
-/** @override */
-MoleculeCollision.prototype.isColliding = function() {
-  return this.distance_ < this.targetGap_ - this.accuracy_;
-};
-
-/** @override */
-MoleculeCollision.prototype.isTouching = function() {
-  return this.distance_ < 2*this.targetGap_;
-};
-
-/** @override */
-MoleculeCollision.prototype.needsHandling = function() {
-  return this.mustHandle_;
-};
-
-/** @override */
-MoleculeCollision.prototype.setNeedsHandling = function(needsHandling) {
-  this.mustHandle_ = needsHandling;
-};
-
-/** @override */
-MoleculeCollision.prototype.updateCollision = function(time) {
-  var a = this.atom.getBoundsWorld();
-  var w = this.wall.getBoundsWorld();
-  switch (this.side) {
-    case MoleculeCollision.TOP_WALL:
-      this.distance_ = w.getTop() - a.getTop();
-      break;
-    case MoleculeCollision.BOTTOM_WALL:
-      this.distance_ = a.getBottom() - w.getBottom();
-      break;
-    case MoleculeCollision.LEFT_WALL:
-      this.distance_ = a.getLeft() - w.getLeft();
-      break;
-    case MoleculeCollision.RIGHT_WALL:
-      this.distance_ = w.getRight() - a.getRight();
-      break;
-    default:
-      throw new Error('no such side '+this.side);
-  }
-};
-
-}); // goog.scope
+exports = MoleculeCollision;

@@ -5,6 +5,7 @@
 #define #APP_PATH sims.springs.Molecule6App
 #include "#TOP_DIR/macros.html"
 #include "#TOP_DIR/macros_tab.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@
 </ol>
 
 #LOAD_APP
-#define INSTANTIATE_APP app = new myphysicslab.sims.springs.Molecule6App(elem_ids, 2);
+#define INSTANTIATE_APP app = makeMolecule6App(elem_ids, 2);
 #BUILD_APP
 #SHOW_ALL
 #START_APP

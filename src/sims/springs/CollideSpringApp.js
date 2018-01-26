@@ -12,76 +12,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.CollideSpringApp');
+goog.module('myphysicslab.sims.springs.CollideSpringApp');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.CollideSpringSim');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-var CollideSpringSim = sims.springs.CollideSpringSim;
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollideSpringSim = goog.require('myphysicslab.sims.springs.CollideSpringSim');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link CollideSpringSim}.
 
+* @implements {Observer}
+*/
+class CollideSpringApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractApp}
-* @implements {Observer}
-* @export
 */
-myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-6.4, -2, 6.4, 2);
   var sim = new CollideSpringSim();
+  var advance = new SimpleAdvance(sim);
+
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
+
   /** @type {!CollideSpringSim} */
   this.mySim = sim;
-  var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
-      /*energySystem=*/sim);
+
   this.layout.simCanvas.setBackground('black');
 
   /**
@@ -160,26 +136,24 @@ myphysicslab.sims.springs.CollideSpringApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var CollideSpringApp = myphysicslab.sims.springs.CollideSpringApp;
-goog.inherits(CollideSpringApp, AbstractApp);
 
 /** @override */
-CollideSpringApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', startGap: '+Util.NF(this.startGap)
       +', numBlocks: '+Util.NF(this.numBlocks)
       +', startPosition: '+Util.NF(this.startPosition)
-      + CollideSpringApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CollideSpringApp.prototype.getClassName = function() {
+getClassName() {
   return 'CollideSpringApp';
 };
 
 /** @override */
-CollideSpringApp.prototype.defineNames = function(myName) {
-  CollideSpringApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('protoBlock|protoWall|protoSpring',
       myName+'.');
 };
@@ -188,7 +162,7 @@ CollideSpringApp.prototype.defineNames = function(myName) {
 @param {!SimObject} obj
 @private
 */
-CollideSpringApp.prototype.addBody = function(obj) {
+addBody(obj) {
   if (this.displayList.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
@@ -204,7 +178,7 @@ CollideSpringApp.prototype.addBody = function(obj) {
 };
 
 /** @override */
-CollideSpringApp.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
@@ -221,14 +195,14 @@ CollideSpringApp.prototype.observe =  function(event) {
 /** Return gap between objects in starting position
 @return {number} gap between objects in starting position
 */
-CollideSpringApp.prototype.getStartGap = function() {
+getStartGap() {
   return this.startGap;
 };
 
 /** Set gap between objects in starting position
 @param {number} value gap between objects in starting position
 */
-CollideSpringApp.prototype.setStartGap = function(value) {
+setStartGap(value) {
   if (value != this.startGap) {
     this.startGap = value;
     this.mySim.config(this.numBlocks, this.startPosition, this.startGap);
@@ -240,14 +214,14 @@ CollideSpringApp.prototype.setStartGap = function(value) {
 /**
 * @return {number}
 */
-CollideSpringApp.prototype.getNumBlocks = function() {
+getNumBlocks() {
   return this.numBlocks;
 };
 
 /**
 * @param {number} value
 */
-CollideSpringApp.prototype.setNumBlocks = function(value) {
+setNumBlocks(value) {
   value = Math.floor(value+0.5);
   if (this.numBlocks != value) {
     this.numBlocks = value;
@@ -260,14 +234,14 @@ CollideSpringApp.prototype.setNumBlocks = function(value) {
 /**
 * @return {number}
 */
-CollideSpringApp.prototype.getStartPosition = function() {
+getStartPosition() {
   return this.startPosition;
 };
 
 /**
 * @param {number} value
 */
-CollideSpringApp.prototype.setStartPosition = function(value) {
+setStartPosition(value) {
   if (this.startPosition != value) {
     this.startPosition = value;
     this.mySim.config(this.numBlocks, this.startPosition, this.startGap);
@@ -276,4 +250,15 @@ CollideSpringApp.prototype.setStartPosition = function(value) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!CollideSpringApp}
+*/
+function makeCollideSpringApp(elem_ids) {
+  return new CollideSpringApp(elem_ids);
+};
+goog.exportSymbol('makeCollideSpringApp', makeCollideSpringApp);
+
+exports = CollideSpringApp;

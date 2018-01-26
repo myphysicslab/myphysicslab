@@ -12,31 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.SpringNonLinear');
+goog.module('myphysicslab.sims.springs.SpringNonLinear');
 
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericVector');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const GenericVector = goog.module.get('myphysicslab.lab.util.GenericVector');
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Represents a non-linear spring attached between two {@link MassObject}s, generates
 a {@link Force} which depends on how the SpringNonLinear is stretched. Damping is
@@ -44,7 +31,9 @@ proportional to the relative velocity of the two objects.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
 {@link myphysicslab.lab.engine2D.Scrim Scrim}.
-
+*/
+class SpringNonLinear extends Spring {
+/**
 * @param {string} name language-independent name of this object
 * @param {!MassObject} body1 body to attach to start point of the
 *    SpringNonLinear
@@ -56,15 +45,10 @@ To attach one end to a fixed point you can attach to an infinite mass MassObject
 *    coords of body2
 * @param {number} restLength length of spring when it has no force
 * @param {number=} stiffness amount of force per unit distance of stretch
-* @constructor
-* @final
-* @struct
-* @extends {Spring}
 */
-myphysicslab.sims.springs.SpringNonLinear = function(name, body1, attach1_body,
-      body2, attach2_body, restLength, stiffness) {
-  Spring.call(this, name, body1, attach1_body, body2, attach2_body, restLength,
-      stiffness, /*compressOnly=*/false);
+constructor(name, body1, attach1_body, body2, attach2_body, restLength, stiffness) {
+  super(name, body1, attach1_body, body2, attach2_body, restLength, stiffness,
+      /*compressOnly=*/false);
   var minLen = 2/Math.sqrt(3);
   /** minimum potential energy
   @type {number}
@@ -72,16 +56,14 @@ myphysicslab.sims.springs.SpringNonLinear = function(name, body1, attach1_body,
   */
   this.minPE_ = (6 * Math.log(minLen) + 4/(minLen*minLen));
 };
-var SpringNonLinear = myphysicslab.sims.springs.SpringNonLinear;
-goog.inherits(SpringNonLinear, Spring);
 
 /** @override */
-SpringNonLinear.prototype.getClassName = function() {
+getClassName() {
   return 'SpringNonLinear';
 };
 
 /** @override */
-SpringNonLinear.prototype.calculateForces = function() {
+calculateForces() {
   var point1 = this.getStartPoint();
   var point2 = this.getEndPoint();
   var body1 = this.getBody1();
@@ -111,7 +93,7 @@ SpringNonLinear.prototype.calculateForces = function() {
 };
 
 /** @override */
-SpringNonLinear.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   // The graph of potential energy reaches a minimum where force is zero.
   // Find the offset so that potential energy is zero when force is zero.
   // force = 0 = -k (6/x - 8 x^-3)
@@ -126,4 +108,6 @@ SpringNonLinear.prototype.getPotentialEnergy = function() {
   return this.getStiffness() * (6 * Math.log(len) + 4/(len*len) - this.minPE_);
 };
 
-}); // goog.scope
+} //end class
+
+exports = SpringNonLinear;

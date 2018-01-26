@@ -12,40 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Double2DSpringSim');
+goog.module('myphysicslab.sims.springs.Double2DSpringSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation showing 2 springs and 2 masses hanging below a moveable top anchor mass.
 The top anchor mass is moveable by the user, but is not influenced by the springs or
 gravity.
-
 
 Variables and Parameters
 -------------------------
@@ -64,7 +47,6 @@ Parameters:
     g = gravity
     b = damping constant
     m = mass of bob
-
 
 Equations of Motion
 -------------------------
@@ -88,7 +70,6 @@ See also <http://www.myphysicslab.com/dbl_spring2d.html>.
     cos(th2) = -yy2 / len2
     sin(th2) = xx2 / len2
 
-
 Variables Array
 -------------------------
 The variables are stored in the VarsList as follows
@@ -98,20 +79,18 @@ The variables are stored in the VarsList as follows
 
 where KE = kinetic energy, PE = potential energy, TE = total energy
 
-
 @todo  draw a number on each mass, either 1 or 2, to make it easier to understand
 the parameter names.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class Double2DSpringSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   var var_names = [
@@ -237,11 +216,8 @@ myphysicslab.sims.springs.Double2DSpringSim = function(opt_name) {
       goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
 };
 
-var Double2DSpringSim = myphysicslab.sims.springs.Double2DSpringSim;
-goog.inherits(Double2DSpringSim, AbstractODESim);
-
 /** @override */
-Double2DSpringSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', gravity_: '+Util.NF(this.gravity_)
       +', damping_: '+Util.NF(this.damping_)
@@ -250,11 +226,11 @@ Double2DSpringSim.prototype.toString = function() {
       +', spring1_: '+this.spring1_
       +', spring2_: '+this.spring2_
       +', topMass_: '+this.topMass_
-      + Double2DSpringSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Double2DSpringSim.prototype.getClassName = function() {
+getClassName() {
   return 'Double2DSpringSim';
 };
 
@@ -262,7 +238,7 @@ Double2DSpringSim.prototype.getClassName = function() {
 * energy to zero.
 * @return {undefined}
 */
-Double2DSpringSim.prototype.restState = function() {
+restState() {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   var m1 = this.bob1_.getMass();
@@ -291,7 +267,7 @@ Double2DSpringSim.prototype.restState = function() {
 };
 
 /** @override */
-Double2DSpringSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -302,7 +278,7 @@ Double2DSpringSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-Double2DSpringSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   var ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
   var pe = this.gravity_*this.bob1_.getMass()*this.bob1_.getPosition().getY();
   pe += this.gravity_*this.bob2_.getMass()*this.bob2_.getPosition().getY();
@@ -312,13 +288,13 @@ Double2DSpringSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-Double2DSpringSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-Double2DSpringSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -334,7 +310,7 @@ Double2DSpringSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-Double2DSpringSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   this.bob1_.setPosition(new Vector(vars[0],  vars[1]));
@@ -345,8 +321,7 @@ Double2DSpringSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-Double2DSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   this.dragBlock_ = -1;
   if (simObject == this.bob1_) {
     this.dragBlock_ = 0;
@@ -361,8 +336,7 @@ Double2DSpringSim.prototype.startDrag = function(simObject, location, offset, dr
 };
 
 /** @override */
-Double2DSpringSim.prototype.mouseDrag = function(simObject, location, offset,
-    mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   var va = this.getVarsList();
@@ -387,16 +361,16 @@ Double2DSpringSim.prototype.mouseDrag = function(simObject, location, offset,
 };
 
 /** @override */
-Double2DSpringSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragBlock_ = -1;
 };
 
 /** @override */
-Double2DSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-Double2DSpringSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[11] = 1; // time
@@ -432,14 +406,14 @@ Double2DSpringSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-Double2DSpringSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-Double2DSpringSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
@@ -451,14 +425,14 @@ Double2DSpringSim.prototype.setGravity = function(value) {
 /** Return mass of pendulum block 1.
 @return {number} mass of pendulum block 1
 */
-Double2DSpringSim.prototype.getMass1 = function() {
+getMass1() {
   return this.bob1_.getMass();
 };
 
 /** Set mass of pendulum block 1
 @param {number} value mass of pendulum block 1
 */
-Double2DSpringSim.prototype.setMass1 = function(value) {
+setMass1(value) {
   this.bob1_.setMass(value);
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
@@ -470,14 +444,14 @@ Double2DSpringSim.prototype.setMass1 = function(value) {
 /** Return mass of pendulum block 2.
 @return {number} mass of pendulum block 2
 */
-Double2DSpringSim.prototype.getMass2 = function() {
+getMass2() {
   return this.bob2_.getMass();
 };
 
 /** Set mass of pendulum block 2
 @param {number} value mass of pendulum block 2
 */
-Double2DSpringSim.prototype.setMass2 = function(value) {
+setMass2(value) {
   this.bob2_.setMass(value);
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
@@ -489,14 +463,14 @@ Double2DSpringSim.prototype.setMass2 = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-Double2DSpringSim.prototype.getLength = function() {
+getLength() {
   return this.springs_[0].getRestLength();
 };
 
 /** Set spring resting length
 @param {number} value spring resting length
 */
-Double2DSpringSim.prototype.setLength = function(value) {
+setLength(value) {
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
   }
@@ -510,14 +484,14 @@ Double2DSpringSim.prototype.setLength = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-Double2DSpringSim.prototype.getStiffness = function() {
+getStiffness() {
   return this.springs_[0].getStiffness();
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-Double2DSpringSim.prototype.setStiffness = function(value) {
+setStiffness(value) {
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setStiffness(value);
   }
@@ -531,18 +505,19 @@ Double2DSpringSim.prototype.setStiffness = function(value) {
 /** Return damping
 @return {number} damping
 */
-Double2DSpringSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping
 @param {number} value damping
 */
-Double2DSpringSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(Double2DSpringSim.en.DAMPING);
 };
 
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -608,4 +583,4 @@ Double2DSpringSim.de_strings = {
 Double2DSpringSim.i18n = goog.LOCALE === 'de' ? Double2DSpringSim.de_strings :
     Double2DSpringSim.en;
 
-}); // goog.scope
+exports = Double2DSpringSim;

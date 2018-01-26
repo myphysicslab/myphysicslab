@@ -12,45 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Molecule3Sim');
+goog.module('myphysicslab.sims.springs.Molecule3Sim');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.CollisionSim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.springs.MoleculeCollision');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const CollisionSim = goog.module.get('myphysicslab.lab.model.CollisionSim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-var MoleculeCollision = myphysicslab.sims.springs.MoleculeCollision;
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const MoleculeCollision = goog.require('myphysicslab.sims.springs.MoleculeCollision');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a 'molecule' made of 2 to 6 masses with springs between, moving freely
 in 2D, and bouncing against the four walls. A small subset of the springs and masses are
@@ -59,7 +40,6 @@ length) can be set separately from the others.
 
 This uses the same physics as {@link myphysicslab.sims.springs.Molecule1Sim} but allows
 for more springs and masses.
-
 
 Variables and Parameters
 -------------------------
@@ -88,7 +68,6 @@ Parameters:
     R = rest length of spring
     k = spring constant
     b = damping constant
-
 
 Equations of Motion
 -------------------------
@@ -125,7 +104,6 @@ Variables at the beginning of the VariablesList:
 + potential energy
 + total energy
 
-
 Contact Force
 -------------------------
 
@@ -148,7 +126,6 @@ case do nothing, there is no reaction force from the floor.
 b.  Net force negative: atom is being pulled downwards.
 Here, we set the net force to zero, because the force is resisted
 by the reaction force from the floor.
-
 
 How small is 'small' velocity?
 --------------------------------
@@ -197,17 +174,16 @@ Equivalently, if there is just a slight downward force (e.g. spring almost
 offsetting gravity), then just a little velocity is enough to result in
 contact being broken.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {CollisionSim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class Molecule3Sim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   var var_names = [
@@ -310,37 +286,27 @@ myphysicslab.sims.springs.Molecule3Sim = function(opt_name) {
       .setSignifDigits(5));
 };
 
-var Molecule3Sim = myphysicslab.sims.springs.Molecule3Sim;
-goog.inherits(Molecule3Sim, AbstractODESim);
-
 /** @override */
-Molecule3Sim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +'gravity_: '+Util.NF(this.gravity_)
       +', damping: '+Util.NF(this.getDamping())
       +', elasticity_: '+Util.NF(this.elasticity_)
       +', number_of_atoms: '+this.atoms_.length
       +', walls_: '+this.walls_
-      + Molecule3Sim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Molecule3Sim.prototype.getClassName = function() {
+getClassName() {
   return 'Molecule3Sim';
 };
-
-/** Index in variables of first atom.
-@type {number}
-@static
-@const
-*/
-Molecule3Sim.START_VAR = 7;
 
 /** Adds a {@link PointMass} to the simulation, and gets the initial conditions
 from that atom.
 * @param {!PointMass} atom the PointMass to add to the simulation
 */
-Molecule3Sim.prototype.addAtom = function(atom) {
+addAtom(atom) {
   if (!goog.array.contains(this.atoms_, atom)) {
     // create 4 variables in vars array for this atom
     var names = [];
@@ -365,7 +331,7 @@ Molecule3Sim.prototype.addAtom = function(atom) {
 @param {boolean} localized whether to return localized variable name
 @return {string} the name of the specified variable for the given atom
 */
-Molecule3Sim.prototype.getVarName = function(atom, index, localized) {
+getVarName(atom, index, localized) {
   var s = atom.getName(localized)+' ';
   switch (index) {
     case 0: s += 'X '+
@@ -391,7 +357,7 @@ Molecule3Sim.prototype.getVarName = function(atom, index, localized) {
 * @param {!PointMass} atom the PointMass to use for updating
 *     the simulation variables
 */
-Molecule3Sim.prototype.initializeFromAtom = function(atom) {
+initializeFromAtom(atom) {
   var idx = goog.array.indexOf(this.atoms_, atom);
   if (idx < 0) {
     throw new Error("atom not found: "+atom);
@@ -411,14 +377,14 @@ Molecule3Sim.prototype.initializeFromAtom = function(atom) {
 /** Returns the set of {@link PointMass}'s in the simulation.
 * @return {!Array<!PointMass>}
 */
-Molecule3Sim.prototype.getAtoms = function() {
+getAtoms() {
   return goog.array.clone(this.atoms_);
 };
 
 /** Adds a {@link Spring} to the simulation.
 * @param {!Spring} spring the Spring to add to the simulation
 */
-Molecule3Sim.prototype.addSpring = function(spring) {
+addSpring(spring) {
   this.springs_.push(spring);
   this.getSimList().add(spring);
 };
@@ -426,21 +392,21 @@ Molecule3Sim.prototype.addSpring = function(spring) {
 /** Returns the set of {@link Spring}'s in the simulation.
 * @return {!Array<!Spring>}
 */
-Molecule3Sim.prototype.getSprings = function() {
+getSprings() {
   return goog.array.clone(this.springs_);
 };
 
 /** Returns the {@link PointMass} that represents the walls.
 * @return {!PointMass} the {@link PointMass} that represents the walls.
 */
-Molecule3Sim.prototype.getWalls = function() {
+getWalls() {
   return this.walls_;
 };
 
 /** Sets the {@link PointMass} that represents the walls.
 * @param {!PointMass} walls the {@link PointMass} that represents the walls.
 */
-Molecule3Sim.prototype.setWalls = function(walls) {
+setWalls(walls) {
   this.getSimList().remove(this.walls_);
   this.walls_ = walls;
   this.getSimList().add(this.walls_);
@@ -449,7 +415,7 @@ Molecule3Sim.prototype.setWalls = function(walls) {
 /** Removes all springs and atoms from the simulation.
 * @return {undefined}
 */
-Molecule3Sim.prototype.cleanSlate = function() {
+cleanSlate() {
   // Don't make a new VarsList, because there are various controls and graphs
   // observing the current VarsList.  Instead, resize it for zero bodies.
   // Note this will delete any Variables that have been added to the end
@@ -469,7 +435,7 @@ Molecule3Sim.prototype.cleanSlate = function() {
 };
 
 /** @override */
-Molecule3Sim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -480,7 +446,7 @@ Molecule3Sim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-Molecule3Sim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // position and velocity corresponding to the vars[] array.
   /** @type {number} */
@@ -501,13 +467,13 @@ Molecule3Sim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-Molecule3Sim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.setPEOffset(0);
   this.setPEOffset(value - this.getEnergyInfo().getPotential());
 };
 
 /** @override */
-Molecule3Sim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -550,7 +516,7 @@ Molecule3Sim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-Molecule3Sim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   goog.array.forEach(this.atoms_, function(atom, i) {
@@ -564,19 +530,18 @@ Molecule3Sim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-Molecule3Sim.prototype.setDebugPaint = function(fn) {
+setDebugPaint(fn) {
   this.debugPaint_ = fn;
 };
 
 /** @override */
-Molecule3Sim.prototype.startDrag = function(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
   return this.dragAtom_ > -1;
 };
 
 /** @override */
-Molecule3Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   if (this.dragAtom_ > -1) {
     var atom = this.atoms_[this.dragAtom_];
     if (simObject != atom) {
@@ -616,7 +581,7 @@ Molecule3Sim.prototype.mouseDrag = function(simObject, location, offset, mouseEv
 };
 
 /** @override */
-Molecule3Sim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragAtom_ = -1;
   // modify initial conditions, but only when changes happen at time zero
   if (!Util.veryDifferent(this.getTime(), 0)) {
@@ -625,7 +590,7 @@ Molecule3Sim.prototype.finishDrag = function(simObject, location, offset) {
 };
 
 /** @override */
-Molecule3Sim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /**
@@ -635,13 +600,13 @@ Molecule3Sim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
 * @param {number} time
 * @private
 */
-Molecule3Sim.prototype.addCollision = function(collisions, atom, side, time) {
+addCollision(collisions, atom, side, time) {
   var c = new MoleculeCollision(atom, this.walls_, side, time);
   collisions.push(c);
 };
 
 /** @override */
-Molecule3Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
+findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
   goog.array.forEach(this.atoms_, function(atom) {
@@ -663,7 +628,7 @@ Molecule3Sim.prototype.findCollisions = function(collisions, vars, stepSize) {
 };
 
 /** @override */
-Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
+handleCollisions(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   var va = this.getVarsList();
@@ -693,7 +658,7 @@ Molecule3Sim.prototype.handleCollisions = function(collisions, opt_totals) {
 };
 
 /** @override */
-Molecule3Sim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[0] = 1; // time
@@ -756,14 +721,14 @@ Molecule3Sim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-Molecule3Sim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-Molecule3Sim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // discontinuous change in energy for PE, TE
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
@@ -775,14 +740,14 @@ Molecule3Sim.prototype.setGravity = function(value) {
 /** Return damping
 @return {number} damping
 */
-Molecule3Sim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping
 @param {number} value damping
 */
-Molecule3Sim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(Molecule3Sim.en.DAMPING);
 };
@@ -790,14 +755,14 @@ Molecule3Sim.prototype.setDamping = function(value) {
 /** Return elasticity
 @return {number} elasticity
 */
-Molecule3Sim.prototype.getElasticity = function() {
+getElasticity() {
   return this.elasticity_;
 };
 
 /** Set elasticity
 @param {number} value elasticity
 */
-Molecule3Sim.prototype.setElasticity = function(value) {
+setElasticity(value) {
   this.elasticity_ = value;
   this.broadcastParameter(Molecule3Sim.en.ELASTICITY);
 };
@@ -806,17 +771,26 @@ Molecule3Sim.prototype.setElasticity = function(value) {
 * energy.
 @return {number} potential energy offset
 */
-Molecule3Sim.prototype.getPEOffset = function() {
+getPEOffset() {
   return this.potentialOffset_;
 };
 
 /** Set potential energy offset; this amount is added to the reported potential energy.
 @param {number} value potential energy offset
 */
-Molecule3Sim.prototype.setPEOffset = function(value) {
+setPEOffset(value) {
   this.potentialOffset_ = value;
   this.broadcastParameter(Molecule3Sim.en.PE_OFFSET);
 };
+
+} //end class
+
+/** Index in variables of first atom.
+@type {number}
+@static
+@const
+*/
+Molecule3Sim.START_VAR = 7;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -864,4 +838,4 @@ Molecule3Sim.de_strings = {
 Molecule3Sim.i18n = goog.LOCALE === 'de' ? Molecule3Sim.de_strings :
     Molecule3Sim.en;
 
-}); // goog.scope
+exports = Molecule3Sim;

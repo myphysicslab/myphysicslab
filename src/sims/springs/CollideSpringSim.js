@@ -12,41 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.CollideSpringSim');
+goog.module('myphysicslab.sims.springs.CollideSpringSim');
 
 goog.require('goog.asserts');
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of one to three blocks moving freely in one dimension, with springs
 attached to the blocks, and walls on either end.
@@ -91,16 +74,15 @@ fluctuations with regular step size of 0.025; if you reduce to a very small time
 0.0005, then the energy is fairly constant. But that's wasteful of using many tiny steps
 during most of the time when the springs aren't engaging.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class CollideSpringSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   /** index of the block being dragged, or -1 when no drag is happening
   * @type {number}
   * @private
@@ -200,11 +182,8 @@ myphysicslab.sims.springs.CollideSpringSim = function(opt_name) {
       goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
 };
 
-var CollideSpringSim = myphysicslab.sims.springs.CollideSpringSim;
-goog.inherits(CollideSpringSim, AbstractODESim);
-
 /** @override */
-CollideSpringSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', blocks: '+this.blocks_.length
       +', damping_: '+Util.NF(this.damping_)
@@ -214,25 +193,13 @@ CollideSpringSim.prototype.toString = function() {
       +', restLength_: '+Util.NF(this.restLength_)
       +', wall1_: '+this.wall1_
       +', wall2_: '+this.wall2_
-      + CollideSpringSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CollideSpringSim.prototype.getClassName = function() {
+getClassName() {
   return 'CollideSpringSim';
 };
-
-/** Constant that indicates 'start in middle' configuration.
-* @const
-* @type {number}
-*/
-CollideSpringSim.START_MIDDLE = 0;
-
-/** Constant that indicates 'start on wall' configuration.
-* @const
-* @type {number}
-*/
-CollideSpringSim.START_ON_WALL = 1;
 
 /**
 * @param {number} numBlocks
@@ -240,7 +207,7 @@ CollideSpringSim.START_ON_WALL = 1;
 * @return {!Array<string>}
 * @private
 */
-CollideSpringSim.prototype.makeVarNames = function(numBlocks, localized) {
+makeVarNames(numBlocks, localized) {
   var names = [];
   var n = numBlocks*2 + 4;
   for (var i=0; i<n; i++) {
@@ -256,7 +223,7 @@ CollideSpringSim.prototype.makeVarNames = function(numBlocks, localized) {
 * @return {string}
 * @private
 */
-CollideSpringSim.prototype.getVariableName = function(idx, numBlocks, localized) {
+getVariableName(idx, numBlocks, localized) {
   if (idx < numBlocks*2) {
   // vars: 0   1   2   3   4   5
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
@@ -295,7 +262,7 @@ CollideSpringSim.prototype.getVariableName = function(idx, numBlocks, localized)
 * @param {number} startGap gap between objects in starting position
 * @return {undefined}
 */
-CollideSpringSim.prototype.config = function(numBlocks, startPosition, startGap)  {
+config(numBlocks, startPosition, startGap)  {
   if (numBlocks < 1 || numBlocks > 3) {
     throw new Error('too many blocks '+numBlocks);
   }
@@ -378,7 +345,7 @@ CollideSpringSim.prototype.config = function(numBlocks, startPosition, startGap)
 };
 
 /** @override */
-CollideSpringSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -389,7 +356,7 @@ CollideSpringSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-CollideSpringSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // position and velocity corresponding to the vars[] array.
   /** @type {number} */
@@ -406,13 +373,13 @@ CollideSpringSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-CollideSpringSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-CollideSpringSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -427,7 +394,7 @@ CollideSpringSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-CollideSpringSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars: 0   1   2   3   4   5
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   goog.array.forEach(this.blocks_, function(block, i) {
@@ -438,7 +405,7 @@ CollideSpringSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-CollideSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragIdx_ = goog.array.indexOf(this.blocks_, simObject);
   if (this.dragIdx_ < 0) {
@@ -454,7 +421,7 @@ CollideSpringSim.prototype.startDrag = function(simObject, location, offset, dra
 };
 
 /** @override */
-CollideSpringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   if (simObject == this.wall1_) {
     this.wall1_.setPosition(p);
@@ -466,7 +433,7 @@ CollideSpringSim.prototype.mouseDrag = function(simObject, location, offset, mou
 };
 
 /** @override */
-CollideSpringSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragIdx_ = -1;
   if (this.dragSpring_ != null) {
     this.getSimList().remove(this.dragSpring_);
@@ -475,11 +442,11 @@ CollideSpringSim.prototype.finishDrag = function(simObject, location, offset) {
 };
 
 /** @override */
-CollideSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-CollideSpringSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   // vars: 0   1   2   3   4   5
@@ -512,14 +479,14 @@ CollideSpringSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return damping
 @return {number} damping
 */
-CollideSpringSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping
 @param {number} value damping
 */
-CollideSpringSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(CollideSpringSim.en.DAMPING);
 };
@@ -527,14 +494,14 @@ CollideSpringSim.prototype.setDamping = function(value) {
 /** Return spring damping
 @return {number} spring damping
 */
-CollideSpringSim.prototype.getSpringDamping = function() {
+getSpringDamping() {
   return this.springDamping_;
 };
 
 /** Set spring damping
 @param {number} value spring damping
 */
-CollideSpringSim.prototype.setSpringDamping = function(value) {
+setSpringDamping(value) {
   this.springDamping_ = value;
   goog.array.forEach(this.springs_, function(spr) {
     spr.setDamping(value);
@@ -545,14 +512,14 @@ CollideSpringSim.prototype.setSpringDamping = function(value) {
 /** Return mass of atoms
 @return {number} mass of atoms
 */
-CollideSpringSim.prototype.getMass = function() {
+getMass() {
   return this.mass_;
 };
 
 /** Set mass of atoms
 @param {number} value mass of atoms
 */
-CollideSpringSim.prototype.setMass = function(value) {
+setMass(value) {
   this.mass_ = value;
   var mass = this.mass_/this.blocks_.length;
   goog.array.forEach(this.blocks_, function(block, idx) {
@@ -568,14 +535,14 @@ CollideSpringSim.prototype.setMass = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-CollideSpringSim.prototype.getLength = function() {
+getLength() {
   return this.restLength_;
 };
 
 /** Set spring resting length
 @param {number} value spring resting length
 */
-CollideSpringSim.prototype.setLength = function(value) {
+setLength(value) {
   this.restLength_ = value;
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
@@ -590,14 +557,14 @@ CollideSpringSim.prototype.setLength = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-CollideSpringSim.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness_;
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-CollideSpringSim.prototype.setStiffness = function(value) {
+setStiffness(value) {
   this.stiffness_ = value;
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setStiffness(value);
@@ -608,6 +575,20 @@ CollideSpringSim.prototype.setStiffness = function(value) {
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(CollideSpringSim.en.SPRING_STIFFNESS);
 };
+
+} //end class
+
+/** Constant that indicates 'start in middle' configuration.
+* @const
+* @type {number}
+*/
+CollideSpringSim.START_MIDDLE = 0;
+
+/** Constant that indicates 'start on wall' configuration.
+* @const
+* @type {number}
+*/
+CollideSpringSim.START_ON_WALL = 1;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -673,4 +654,4 @@ CollideSpringSim.de_strings = {
 CollideSpringSim.i18n = goog.LOCALE === 'de' ? CollideSpringSim.de_strings :
     CollideSpringSim.en;
 
-}); // goog.scope
+exports = CollideSpringSim;

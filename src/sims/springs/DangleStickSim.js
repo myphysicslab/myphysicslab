@@ -12,31 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.DangleStickSim');
+goog.module('myphysicslab.sims.springs.DangleStickSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a stick dangling from a spring attached to a fixed point.  The stick is modeled as a massless rod with a point mass at each end.
 
@@ -57,7 +43,6 @@ Fixed parameters:
     g = gravity
     k = spring constant
 
-
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown at
@@ -70,7 +55,6 @@ See also the Mathematica notebook [DangleStick.nb](DangleStick.pdf).
         + k m2 (b-r)sin(2(theta-phi)))
         /(2 m1(m1+m2)r)
 
-
     r'' = (2 b k m1
         + b k m2
         - 2 k m1 r
@@ -82,9 +66,7 @@ See also the Mathematica notebook [DangleStick.nb](DangleStick.pdf).
         + 2 m1 m2 r theta'^2)
         / (2 m1 (m1+m2))
 
-
     phi'' = k(b-r)sin(phi-theta)/(L m1)
-
 
 Variables Array
 ------------------------
@@ -97,20 +79,18 @@ The variables are stored in the VarsList as follows
     vars[4] = phi
     vars[5] = phi'
 
-
 To Do
 -------------------------
 1. add EnergyInfo
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class DangleStickSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   var var_names = [
     DangleStickSim.en.SPRING_ANGLE,
     DangleStickSim.en.SPRING_ANGULAR_VELOCITY,
@@ -209,11 +189,8 @@ myphysicslab.sims.springs.DangleStickSim = function(opt_name) {
       goog.bind(this.getStickLength, this), goog.bind(this.setStickLength, this)));
 };
 
-var DangleStickSim = myphysicslab.sims.springs.DangleStickSim;
-goog.inherits(DangleStickSim, AbstractODESim);
-
 /** @override */
-DangleStickSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', gravity_: '+Util.NF(this.gravity_)
       +', stickLength_: '+Util.NF(this.stickLength_)
@@ -221,18 +198,18 @@ DangleStickSim.prototype.toString = function() {
       +', stick_: '+this.stick_
       +', bob1_: '+this.bob1_
       +', bob2_: '+this.bob2_
-      + DangleStickSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DangleStickSim.prototype.getClassName = function() {
+getClassName() {
   return 'DangleStickSim';
 };
 
 /** Sets simulation to motionless equilibrium resting state.
 * @return {undefined}
 */
-DangleStickSim.prototype.restState = function() {
+restState() {
   var va = this.getVarsList();
   var vars = va.getValues();
   vars[0] = vars[1] = vars[3] = vars[4] = vars[5] = 0;
@@ -243,7 +220,7 @@ DangleStickSim.prototype.restState = function() {
 };
 
 /** @override */
-DangleStickSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
@@ -269,7 +246,7 @@ DangleStickSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-DangleStickSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
   var theta = vars[0];
   var phi = vars[4];
@@ -292,7 +269,7 @@ DangleStickSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-DangleStickSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   if (simObject == this.bob1_ || simObject == this.bob2_) {
     this.isDragging_ = true;
@@ -303,7 +280,7 @@ DangleStickSim.prototype.startDrag = function(simObject, location, offset, dragB
 };
 
 /** @override */
-DangleStickSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var va = this.getVarsList();
   var vars = va.getValues();
   var p = location.subtract(offset);
@@ -332,16 +309,16 @@ DangleStickSim.prototype.mouseDrag = function(simObject, location, offset, mouse
 };
 
 /** @override */
-DangleStickSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.isDragging_ = false;
 };
 
 /** @override */
-DangleStickSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-DangleStickSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
   Util.zeroArray(change);
   change[6] = 1; // time
@@ -398,14 +375,14 @@ DangleStickSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-DangleStickSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-DangleStickSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   this.broadcastParameter(DangleStickSim.en.GRAVITY);
 };
@@ -413,14 +390,14 @@ DangleStickSim.prototype.setGravity = function(value) {
 /** Return mass of pendulum bob 1.
 @return {number} mass of pendulum bob 1
 */
-DangleStickSim.prototype.getMass1 = function() {
+getMass1() {
   return this.bob1_.getMass();
 };
 
 /** Set mass of pendulum bob 1
 @param {number} value mass of pendulum bob 1
 */
-DangleStickSim.prototype.setMass1 = function(value) {
+setMass1(value) {
   this.bob1_.setMass(value);
   this.broadcastParameter(DangleStickSim.en.MASS1);
 };
@@ -428,14 +405,14 @@ DangleStickSim.prototype.setMass1 = function(value) {
 /** Return mass of pendulum bob 2.
 @return {number} mass of pendulum bob 2
 */
-DangleStickSim.prototype.getMass2 = function() {
+getMass2() {
   return this.bob2_.getMass();
 };
 
 /** Set mass of pendulum bob 2
 @param {number} value mass of pendulum bob 2
 */
-DangleStickSim.prototype.setMass2 = function(value) {
+setMass2(value) {
   this.bob2_.setMass(value);
   this.broadcastParameter(DangleStickSim.en.MASS2);
 };
@@ -443,14 +420,14 @@ DangleStickSim.prototype.setMass2 = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-DangleStickSim.prototype.getSpringRestLength = function() {
+getSpringRestLength() {
   return this.spring_.getRestLength();
 };
 
 /** Set spring resting length
 @param {number} value spring resting length
 */
-DangleStickSim.prototype.setSpringRestLength = function(value) {
+setSpringRestLength(value) {
   this.spring_.setRestLength(value);
   this.broadcastParameter(DangleStickSim.en.SPRING_REST_LENGTH);
 };
@@ -458,14 +435,14 @@ DangleStickSim.prototype.setSpringRestLength = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-DangleStickSim.prototype.getSpringStiffness = function() {
+getSpringStiffness() {
   return this.spring_.getStiffness();
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-DangleStickSim.prototype.setSpringStiffness = function(value) {
+setSpringStiffness(value) {
   this.spring_.setStiffness(value);
   this.broadcastParameter(DangleStickSim.en.SPRING_STIFFNESS);
 };
@@ -473,18 +450,19 @@ DangleStickSim.prototype.setSpringStiffness = function(value) {
 /** Return length of stick
 @return {number} length of stick
 */
-DangleStickSim.prototype.getStickLength = function() {
+getStickLength() {
   return this.stickLength_;
 };
 
 /** Set length of stick
 @param {number} value length of stick
 */
-DangleStickSim.prototype.setStickLength = function(value) {
+setStickLength(value) {
   this.stickLength_ = value;
   this.broadcastParameter(DangleStickSim.en.STICK_LENGTH);
 };
 
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -547,4 +525,4 @@ DangleStickSim.de_strings = {
 DangleStickSim.i18n = goog.LOCALE === 'de' ? DangleStickSim.de_strings :
     DangleStickSim.en;
 
-}); // goog.scope
+exports = DangleStickSim;

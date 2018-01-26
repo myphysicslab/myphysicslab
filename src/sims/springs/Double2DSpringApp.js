@@ -12,63 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Double2DSpringApp');
+goog.module('myphysicslab.sims.springs.Double2DSpringApp');
 
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.Double2DSpringSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-var Double2DSpringSim = sims.springs.Double2DSpringSim;
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const Double2DSpringSim = goog.require('myphysicslab.sims.springs.Double2DSpringSim');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Double2DSpringSim} simulation.
-
+*/
+class Double2DSpringApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-6, -6, 6, 6);
   var sim = new Double2DSpringSim();
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
 
@@ -126,30 +102,39 @@ myphysicslab.sims.springs.Double2DSpringApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var Double2DSpringApp = myphysicslab.sims.springs.Double2DSpringApp;
-goog.inherits(Double2DSpringApp, AbstractApp);
 
 /** @override */
-Double2DSpringApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', bob1: '+this.bob1.toStringShort()
       +', bob2: '+this.bob2.toStringShort()
       +', spring1: '+this.spring1.toStringShort()
       +', spring2: '+this.spring2.toStringShort()
       +', topMass: '+this.topMass.toStringShort()
-      + Double2DSpringApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Double2DSpringApp.prototype.getClassName = function() {
+getClassName() {
   return 'Double2DSpringApp';
 };
 
 /** @override */
-Double2DSpringApp.prototype.defineNames = function(myName) {
-  Double2DSpringApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('topMass|bob1|bob2|spring1|spring2|protoBob|protoSpring',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!Double2DSpringApp}
+*/
+function makeDouble2DSpringApp(elem_ids) {
+  return new Double2DSpringApp(elem_ids);
+};
+goog.exportSymbol('makeDouble2DSpringApp', makeDouble2DSpringApp);
+
+exports = Double2DSpringApp;

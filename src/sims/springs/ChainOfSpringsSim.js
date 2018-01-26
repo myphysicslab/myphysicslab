@@ -12,54 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.ChainOfSpringsSim');
+goog.module('myphysicslab.sims.springs.ChainOfSpringsSim');
 
 goog.require('goog.asserts');
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a chain of springs and masses stretched between two fixed points.
 
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.ChainOfSpringsSim = function(opt_name) {
-  AbstractODESim.call(this, opt_name);
+class ChainOfSpringsSim extends AbstractODESim {
+/**
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(opt_name) {
+  super(opt_name);
   /**
   * @type {boolean}
   * @private
@@ -147,11 +129,8 @@ myphysicslab.sims.springs.ChainOfSpringsSim = function(opt_name) {
       goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
 };
 
-var ChainOfSpringsSim = myphysicslab.sims.springs.ChainOfSpringsSim;
-goog.inherits(ChainOfSpringsSim, AbstractODESim);
-
 /** @override */
-ChainOfSpringsSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', atoms: '+this.atoms_.length
       +', gravity_: '+Util.NF(this.gravity_)
@@ -162,11 +141,11 @@ ChainOfSpringsSim.prototype.toString = function() {
       +', restLength_: '+Util.NF(this.restLength_)
       +', fixed1_: '+this.fixed1_
       +', fixed2_: '+this.fixed2_
-      + ChainOfSpringsSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.getClassName = function() {
+getClassName() {
   return 'ChainOfSpringsSim';
 };
 
@@ -176,7 +155,7 @@ ChainOfSpringsSim.prototype.getClassName = function() {
 * @param {boolean} localized
 * @private
 */
-ChainOfSpringsSim.makeVarNames = function(numAtoms, localized) {
+static makeVarNames(numAtoms, localized) {
   var names = [];
   var n = numAtoms*4 + 8;
   for (var i=0; i<n; i++) {
@@ -192,7 +171,7 @@ ChainOfSpringsSim.makeVarNames = function(numAtoms, localized) {
 * @return {string}
 * @private
 */
-ChainOfSpringsSim.getVariableName = function(idx, numAtoms, localized) {
+static getVariableName(idx, numAtoms, localized) {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
   if (idx >= 8) {
@@ -250,7 +229,7 @@ ChainOfSpringsSim.getVariableName = function(idx, numAtoms, localized) {
 * @param {boolean} attachRight whether to attach to fixed block on right
 * @return {undefined}
 */
-ChainOfSpringsSim.prototype.makeChain = function(numAtoms, attachRight)  {
+makeChain(numAtoms, attachRight)  {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
   this.getSimList().removeAll(this.atoms_);
@@ -309,7 +288,7 @@ ChainOfSpringsSim.prototype.makeChain = function(numAtoms, attachRight)  {
 * points are not connected to the chain).
 * @return {undefined}
 */
-ChainOfSpringsSim.prototype.straightLine = function()  {
+straightLine()  {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
   var vars = this.getVarsList().getValues();
@@ -329,7 +308,7 @@ ChainOfSpringsSim.prototype.straightLine = function()  {
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -340,7 +319,7 @@ ChainOfSpringsSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-ChainOfSpringsSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // positions & velocities corresponding to the vars[] array.
   /** @type {number} */
@@ -359,13 +338,13 @@ ChainOfSpringsSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -380,7 +359,7 @@ ChainOfSpringsSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-ChainOfSpringsSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
   goog.array.forEach(this.atoms_, function(atom, i) {
@@ -393,14 +372,14 @@ ChainOfSpringsSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
   return this.dragAtom_ > -1 || simObject == this.fixed1_ || simObject == this.fixed2_;
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   var va = this.getVarsList();
   if (simObject == this.fixed1_) {
@@ -427,16 +406,16 @@ ChainOfSpringsSim.prototype.mouseDrag = function(simObject, location, offset, mo
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragAtom_ = -1;
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-ChainOfSpringsSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
   Util.zeroArray(change);
@@ -471,14 +450,14 @@ ChainOfSpringsSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return gravity strength.
 @return {number} gravity strength
 */
-ChainOfSpringsSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /** Set gravity strength.
 @param {number} value gravity strength
 */
-ChainOfSpringsSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   // discontinuous change in energy
   // vars[1] = KE, vars[2] = PE, vars[3] = TE
@@ -489,14 +468,14 @@ ChainOfSpringsSim.prototype.setGravity = function(value) {
 /** Return damping
 @return {number} damping
 */
-ChainOfSpringsSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping
 @param {number} value damping
 */
-ChainOfSpringsSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(ChainOfSpringsSim.en.DAMPING);
 };
@@ -504,14 +483,14 @@ ChainOfSpringsSim.prototype.setDamping = function(value) {
 /** Return spring damping
 @return {number} spring damping
 */
-ChainOfSpringsSim.prototype.getSpringDamping = function() {
+getSpringDamping() {
   return this.springDamping_;
 };
 
 /** Set spring damping
 @param {number} value spring damping
 */
-ChainOfSpringsSim.prototype.setSpringDamping = function(value) {
+setSpringDamping(value) {
   this.springDamping_ = value;
   goog.array.forEach(this.springs_, function(spr) {
     spr.setDamping(value);
@@ -522,14 +501,14 @@ ChainOfSpringsSim.prototype.setSpringDamping = function(value) {
 /** Return mass of atoms
 @return {number} mass of atoms
 */
-ChainOfSpringsSim.prototype.getMass = function() {
+getMass() {
   return this.mass_;
 };
 
 /** Set mass of atoms
 @param {number} value mass of atoms
 */
-ChainOfSpringsSim.prototype.setMass = function(value) {
+setMass(value) {
   this.mass_ = value;
   var mass = this.mass_/this.atoms_.length;
   goog.array.forEach(this.atoms_, function(atom, idx) {
@@ -544,14 +523,14 @@ ChainOfSpringsSim.prototype.setMass = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-ChainOfSpringsSim.prototype.getLength = function() {
+getLength() {
   return this.restLength_;
 };
 
 /** Set spring resting length
 @param {number} value spring resting length
 */
-ChainOfSpringsSim.prototype.setLength = function(value) {
+setLength(value) {
   this.restLength_ = value;
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
@@ -565,14 +544,14 @@ ChainOfSpringsSim.prototype.setLength = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-ChainOfSpringsSim.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness_;
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-ChainOfSpringsSim.prototype.setStiffness = function(value) {
+setStiffness(value) {
   this.stiffness_ = value;
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setStiffness(value);
@@ -582,6 +561,8 @@ ChainOfSpringsSim.prototype.setStiffness = function(value) {
   this.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(ChainOfSpringsSim.en.STIFFNESS);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -662,4 +643,4 @@ ChainOfSpringsSim.de_strings = {
 ChainOfSpringsSim.i18n = goog.LOCALE === 'de' ? ChainOfSpringsSim.de_strings :
     ChainOfSpringsSim.en;
 
-}); // goog.scope
+exports = ChainOfSpringsSim;

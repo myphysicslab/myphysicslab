@@ -12,60 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.CollideBlocksApp');
+goog.module('myphysicslab.sims.springs.CollideBlocksApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.CollideBlocksSim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-var CollideBlocksSim = sims.springs.CollideBlocksSim;
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CollideBlocksSim = goog.require('myphysicslab.sims.springs.CollideBlocksSim');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  CollideBlocksApp displays the CollideBlocksSim simulation.
-
+*/
+class CollideBlocksApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   var simRect = new DoubleRect(-0.5, -2, 7.5, 2);
   var sim = new CollideBlocksSim();
   var advance = new CollisionAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
   //this.advance.setDebugLevel(DebugLevel.OPTIMAL);
@@ -125,11 +102,9 @@ myphysicslab.sims.springs.CollideBlocksApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var CollideBlocksApp = myphysicslab.sims.springs.CollideBlocksApp;
-goog.inherits(CollideBlocksApp, AbstractApp);
 
 /** @override */
-CollideBlocksApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', block1: '+this.block1.toStringShort()
       +', block2: '+this.block2.toStringShort()
@@ -137,20 +112,31 @@ CollideBlocksApp.prototype.toString = function() {
       +', wallRight: '+this.wallRight.toStringShort()
       +', spring1: '+this.spring1.toStringShort()
       +', spring2: '+this.spring2.toStringShort()
-      + CollideBlocksApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CollideBlocksApp.prototype.getClassName = function() {
+getClassName() {
   return 'CollideBlocksApp';
 };
 
 /** @override */
-CollideBlocksApp.prototype.defineNames = function(myName) {
-  CollideBlocksApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('block1|block2|wallLeft|wallRight|spring1|spring2'
       +'|protoBlock|protoWall|protoSpring',
       myName+'.');
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!CollideBlocksApp}
+*/
+function makeCollideBlocksApp(elem_ids) {
+  return new CollideBlocksApp(elem_ids);
+};
+goog.exportSymbol('makeCollideBlocksApp', makeCollideBlocksApp);
+
+exports = CollideBlocksApp;

@@ -12,93 +12,67 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.ChainOfSpringsApp');
+goog.module('myphysicslab.sims.springs.ChainOfSpringsApp');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.ShapeType');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.DrawingMode');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-var ChainOfSpringsSim = sims.springs.ChainOfSpringsSim;
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingMode = goog.module.get('myphysicslab.lab.view.DrawingMode');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const ChainOfSpringsSim = goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link ChainOfSpringsSim}.
 
+* @implements {Observer}
+*/
+class ChainOfSpringsApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number=} numAtoms number of chain links to make
 * @param {boolean=} attachRight whether to attach to fixed block on right
-* @constructor
-* @final
-* @struct
-* @extends {AbstractApp}
-* @implements {Observer}
-* @export
 */
-myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attachRight) {
+constructor(elem_ids, numAtoms, attachRight) {
   Util.setErrorHandler();
-  /** @type {number} */
-  this.numAtoms = goog.isNumber(numAtoms) ? numAtoms : 10;
-  /** @type {boolean} */
-  this.attachRight = goog.isDef(attachRight) ? attachRight : true;
+  numAtoms = goog.isNumber(numAtoms) ? numAtoms : 10;
+  attachRight = goog.isDef(attachRight) ? attachRight : true;
   var simRect = new DoubleRect(-6.4, -6, 6.4, 6);
+  var sim = new ChainOfSpringsSim();
+  sim.makeChain(numAtoms, attachRight);
+  var advance = new SimpleAdvance(sim);
+
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
+
+  /** @type {number} */
+  this.numAtoms = numAtoms;
+  /** @type {boolean} */
+  this.attachRight = attachRight;
   /** @type {!ChainOfSpringsSim} */
-  this.mySim = new ChainOfSpringsSim();
-  this.mySim.makeChain(this.numAtoms, this.attachRight);
-  var advance = new SimpleAdvance(this.mySim);
-  AbstractApp.call(this, elem_ids, simRect, this.mySim, advance,
-      /*eventHandler=*/this.mySim, /*energySystem=*/this.mySim);
+  this.mySim = sim;
+
   /** @type {!DisplayShape} */
   this.protoMass = new DisplayShape().setFillStyle('blue');
   /** @type {!DisplayShape} */
@@ -169,19 +143,17 @@ myphysicslab.sims.springs.ChainOfSpringsApp = function(elem_ids, numAtoms, attac
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var ChainOfSpringsApp = sims.springs.ChainOfSpringsApp;
-goog.inherits(ChainOfSpringsApp, AbstractApp);
 
 /** @override */
-ChainOfSpringsApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', numAtoms: '+this.numAtoms
       +', attachRight: '+this.attachRight
-      + ChainOfSpringsApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ChainOfSpringsApp.prototype.getClassName = function() {
+getClassName() {
   return 'ChainOfSpringsApp';
 };
 
@@ -189,7 +161,7 @@ ChainOfSpringsApp.prototype.getClassName = function() {
 @param {!SimObject} obj
 @private
 */
-ChainOfSpringsApp.prototype.addBody = function(obj) {
+addBody(obj) {
   if (this.displayList.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
@@ -205,7 +177,7 @@ ChainOfSpringsApp.prototype.addBody = function(obj) {
 };
 
 /** @override */
-ChainOfSpringsApp.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
@@ -222,14 +194,14 @@ ChainOfSpringsApp.prototype.observe =  function(event) {
 /**
 * @return {number}
 */
-ChainOfSpringsApp.prototype.getNumLinks = function() {
+getNumLinks() {
   return this.numAtoms;
 };
 
 /**
 * @param {number} value
 */
-ChainOfSpringsApp.prototype.setNumLinks = function(value) {
+setNumLinks(value) {
   value = Math.floor(value+0.5);
   if (this.numAtoms != value) {
     this.numAtoms = value;
@@ -242,14 +214,14 @@ ChainOfSpringsApp.prototype.setNumLinks = function(value) {
 /**
 * @return {boolean}
 */
-ChainOfSpringsApp.prototype.getAttachRight = function() {
+getAttachRight() {
   return this.attachRight;
 };
 
 /**
 * @param {boolean} value
 */
-ChainOfSpringsApp.prototype.setAttachRight = function(value) {
+setAttachRight(value) {
   if (this.attachRight != value) {
     this.attachRight = value;
     this.mySim.makeChain(this.numAtoms, this.attachRight);
@@ -258,4 +230,17 @@ ChainOfSpringsApp.prototype.setAttachRight = function(value) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {number=} numAtoms number of chain links to make
+* @param {boolean=} attachRight whether to attach to fixed block on right
+* @return {!ChainOfSpringsApp}
+*/
+function makeChainOfSpringsApp(elem_ids, numAtoms, attachRight) {
+  return new ChainOfSpringsApp(elem_ids, numAtoms, attachRight);
+};
+goog.exportSymbol('makeChainOfSpringsApp', makeChainOfSpringsApp);
+
+exports = ChainOfSpringsApp;

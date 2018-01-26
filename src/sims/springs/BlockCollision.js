@@ -12,28 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.BlockCollision');
+goog.module('myphysicslab.sims.springs.BlockCollision');
 
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.util.Util');
-
-goog.scope(function() {
-
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Horizontal collision between two PointMass's.
+* @implements {Collision}
+*/
+class BlockCollision {
+/**
 * @param {!PointMass} leftBlock
 * @param {!PointMass} rightBlock
 * @param {number} time
-* @constructor
-* @final
-* @struct
-* @implements {Collision}
 */
-myphysicslab.sims.springs.BlockCollision = function(leftBlock, rightBlock, time) {
+constructor(leftBlock, rightBlock, time) {
   /** object 1 of collision
   * @type {!PointMass}
   */
@@ -75,10 +69,9 @@ myphysicslab.sims.springs.BlockCollision = function(leftBlock, rightBlock, time)
   this.impulse = Util.NaN;
   this.updateCollision(time);
 };
-var BlockCollision = myphysicslab.sims.springs.BlockCollision;
 
 /** @override */
-BlockCollision.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'BlockCollision{'
       +'distance: '+Util.NF5(this.distance_)
       +', targetGap: '+Util.NF5(this.targetGap_)
@@ -92,12 +85,12 @@ BlockCollision.prototype.toString = function() {
 };
 
 /** @override */
-BlockCollision.prototype.bilateral = function() {
+bilateral() {
   return false;
 };
 
 /** @override */
-BlockCollision.prototype.closeEnough = function(allowTiny) {
+closeEnough(allowTiny) {
   if (allowTiny) {
     return this.distance_ > 0 && this.distance_ < this.targetGap_ + this.accuracy_;
   } else {
@@ -106,58 +99,58 @@ BlockCollision.prototype.closeEnough = function(allowTiny) {
 };
 
 /** @override */
-BlockCollision.prototype.contact = function() {
+contact() {
   return false;
 };
 
 /** @override */
-BlockCollision.prototype.getDetectedTime = function() {
+getDetectedTime() {
   return this.detectedTime_;
 };
 
 /** @override */
-BlockCollision.prototype.getDistance = function() {
+getDistance() {
   return this.distance_;
 };
 
 /** @override */
-BlockCollision.prototype.getEstimatedTime = function() {
+getEstimatedTime() {
   return Util.NaN; // don't bother
 };
 
 /** @override */
-BlockCollision.prototype.getImpulse = function() {
+getImpulse() {
   return this.impulse;
 };
 
 /** @override */
-BlockCollision.prototype.getVelocity = function() {
+getVelocity() {
   // because these blocks only collide horizontally, we use only the x value
   return this.rightBlock_.getVelocity().subtract(this.leftBlock_.getVelocity()).getX();
 };
 
 /** @override */
-BlockCollision.prototype.illegalState = function() {
+illegalState() {
   return this.distance_ < 0;
 };
 
 /** @override */
-BlockCollision.prototype.isColliding = function() {
+isColliding() {
   return this.distance_ < this.targetGap_ - this.accuracy_;
 };
 
 /** @override */
-BlockCollision.prototype.isTouching = function() {
+isTouching() {
   return this.distance_ < 2*this.targetGap_;
 };
 
 /** @override */
-BlockCollision.prototype.needsHandling = function() {
+needsHandling() {
   return this.mustHandle_;
 };
 
 /** @override */
-BlockCollision.prototype.setNeedsHandling = function(needsHandling) {
+setNeedsHandling(needsHandling) {
   this.mustHandle_ = needsHandling;
 };
 
@@ -165,13 +158,15 @@ BlockCollision.prototype.setNeedsHandling = function(needsHandling) {
 * @param {!BlockCollision} c
 * @return {boolean}
 */
-BlockCollision.prototype.similarTo = function(c) {
+similarTo(c) {
   return c.leftBlock_ == this.leftBlock_ && c.rightBlock_ == this.rightBlock_;
 };
 
 /** @override */
-BlockCollision.prototype.updateCollision = function(time) {
+updateCollision(time) {
   this.distance_ = this.rightBlock_.getLeftWorld() - this.leftBlock_.getRightWorld();
 };
 
-}); // goog.scope
+} //end class
+
+exports = BlockCollision;

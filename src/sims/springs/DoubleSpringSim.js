@@ -12,38 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.DoubleSpringSim');
+goog.module('myphysicslab.sims.springs.DoubleSpringSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of two blocks connected by springs. Movement is only along one dimension.
 No gravity force or damping force. The configuration is:
@@ -87,17 +69,16 @@ Equations of Motion:
 
 @todo  make a vertical configuration with gravity
 
-* @param {boolean} thirdSpring whether to have the third spring
-* @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
 * @implements {EnergySystem}
 * @implements {EventHandler}
 */
-myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
-  AbstractODESim.call(this, opt_name);
+class DoubleSpringSim extends AbstractODESim {
+/**
+* @param {boolean} thirdSpring whether to have the third spring
+* @param {string=} opt_name name of this as a Subject
+*/
+constructor(thirdSpring, opt_name) {
+  super(opt_name);
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   var var_names = [
@@ -232,11 +213,8 @@ myphysicslab.sims.springs.DoubleSpringSim = function(thirdSpring, opt_name) {
       goog.bind(this.getThirdSpring, this), goog.bind(this.setThirdSpring, this)));
 };
 
-var DoubleSpringSim = myphysicslab.sims.springs.DoubleSpringSim;
-goog.inherits(DoubleSpringSim, AbstractODESim);
-
 /** @override */
-DoubleSpringSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', block1_: '+this.block1_
       +', block2_: '+this.block2_
@@ -244,11 +222,11 @@ DoubleSpringSim.prototype.toString = function() {
       +', damping_: '+Util.NF(this.damping_)
       +', stiffness_: '+Util.NF(this.stiffness_)
       +', thirdSpring_: '+this.thirdSpring_
-      + DoubleSpringSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DoubleSpringSim.prototype.getClassName = function() {
+getClassName() {
   return 'DoubleSpringSim';
 };
 
@@ -293,7 +271,7 @@ Plug that into the second equation and solve for `u1`:
 
 @return {undefined}
 */
-DoubleSpringSim.prototype.restState = function() {
+restState() {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   var vars = this.getVarsList().getValues();
@@ -315,7 +293,7 @@ DoubleSpringSim.prototype.restState = function() {
 };
 
 /** @override */
-DoubleSpringSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   var vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
@@ -326,7 +304,7 @@ DoubleSpringSim.prototype.getEnergyInfo = function() {
 * @return {!EnergyInfo}
 * @private
 */
-DoubleSpringSim.prototype.getEnergyInfo_ = function(vars) {
+getEnergyInfo_(vars) {
   /** @type {number} */
   var ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
   /** @type {number} */
@@ -338,13 +316,13 @@ DoubleSpringSim.prototype.getEnergyInfo_ = function(vars) {
 };
 
 /** @override */
-DoubleSpringSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
 
 /** @override */
-DoubleSpringSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   this.moveObjects(vars);
@@ -365,7 +343,7 @@ DoubleSpringSim.prototype.modifyObjects = function() {
 @param {!Array<number>} vars
 @private
 */
-DoubleSpringSim.prototype.moveObjects = function(vars) {
+moveObjects(vars) {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   this.block1_.setPosition(new Vector(vars[0],  0));
@@ -375,8 +353,7 @@ DoubleSpringSim.prototype.moveObjects = function(vars) {
 };
 
 /** @override */
-DoubleSpringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.block1_) {
     this.dragBlock_ = 0;
     return true;
@@ -389,7 +366,7 @@ DoubleSpringSim.prototype.startDrag = function(simObject, location, offset, drag
 };
 
 /** @override */
-DoubleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   var p = location.subtract(offset);
   if (this.dragBlock_ >= 0 && this.dragBlock_ <= 1) {
     var block = this.dragBlock_ == 0 ? this.block1_ : this.block2_;
@@ -408,16 +385,16 @@ DoubleSpringSim.prototype.mouseDrag = function(simObject, location, offset, mous
 };
 
 /** @override */
-DoubleSpringSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
   this.dragBlock_ = -1;
 };
 
 /** @override */
-DoubleSpringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-DoubleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   Util.zeroArray(change);
@@ -447,14 +424,14 @@ DoubleSpringSim.prototype.evaluate = function(vars, change, timeStep) {
 /** Return whether to have the third spring
 @return {boolean} whether to have the third spring
 */
-DoubleSpringSim.prototype.getThirdSpring = function() {
+getThirdSpring() {
   return this.thirdSpring_;
 };
 
 /** Set whether to have the third spring
 @param {boolean} value whether to have the third spring
 */
-DoubleSpringSim.prototype.setThirdSpring = function(value) {
+setThirdSpring(value) {
   if (value != this.thirdSpring_) {
     this.thirdSpring_ = value;
     this.spring3_.setStiffness(value ? this.stiffness_ : 0);
@@ -469,14 +446,14 @@ DoubleSpringSim.prototype.setThirdSpring = function(value) {
 /** Return mass of pendulum block 1.
 @return {number} mass of pendulum block 1
 */
-DoubleSpringSim.prototype.getMass1 = function() {
+getMass1() {
   return this.block1_.getMass();
 };
 
 /** Set mass of pendulum block 1
 @param {number} value mass of pendulum block 1
 */
-DoubleSpringSim.prototype.setMass1 = function(value) {
+setMass1(value) {
   this.block1_.setMass(value);
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
@@ -488,14 +465,14 @@ DoubleSpringSim.prototype.setMass1 = function(value) {
 /** Return mass of pendulum block 2.
 @return {number} mass of pendulum block 2
 */
-DoubleSpringSim.prototype.getMass2 = function() {
+getMass2() {
   return this.block2_.getMass();
 };
 
 /** Set mass of pendulum block 2
 @param {number} value mass of pendulum block 2
 */
-DoubleSpringSim.prototype.setMass2 = function(value) {
+setMass2(value) {
   this.block2_.setMass(value);
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
@@ -507,14 +484,14 @@ DoubleSpringSim.prototype.setMass2 = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-DoubleSpringSim.prototype.getLength = function() {
+getLength() {
   return this.springs_[0].getRestLength();
 };
 
 /** Set spring resting length
 @param {number} value spring resting length
 */
-DoubleSpringSim.prototype.setLength = function(value) {
+setLength(value) {
   for (var i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
   }
@@ -528,14 +505,14 @@ DoubleSpringSim.prototype.setLength = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-DoubleSpringSim.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness_;
 };
 
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-DoubleSpringSim.prototype.setStiffness = function(value) {
+setStiffness(value) {
   if (this.stiffness_ != value) {
     this.stiffness_ = value;
     this.spring1_.setStiffness(value);
@@ -554,17 +531,19 @@ DoubleSpringSim.prototype.setStiffness = function(value) {
 /**
 @return {number}
 */
-DoubleSpringSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /**
 @param {number} value
 */
-DoubleSpringSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(DoubleSpringSim.en.DAMPING);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -621,4 +600,4 @@ DoubleSpringSim.de_strings = {
 DoubleSpringSim.i18n = goog.LOCALE === 'de' ? DoubleSpringSim.de_strings :
     DoubleSpringSim.en;
 
-}); // goog.scope
+exports = DoubleSpringSim;

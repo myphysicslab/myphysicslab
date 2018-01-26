@@ -12,82 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Molecule3App');
+goog.module('myphysicslab.sims.springs.Molecule3App');
 
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.Molecule3Sim');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var Molecule3Sim = sims.springs.Molecule3Sim;
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const Molecule3Sim = goog.require('myphysicslab.sims.springs.Molecule3Sim');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link Molecule3Sim} simulation.
 
+* @implements {Observer}
+*/
+class Molecule3App extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
-* @constructor
-* @final
-* @implements {Observer}
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
+constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  /** @type {number}
-  * @private
-  */
-  this.numAtoms_ = numAtoms;
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new Molecule3Sim();
+  var advance = new CollisionAdvance(sim);
+
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
+
+  /** @type {number} */
+  this.numAtoms_ = numAtoms;
   /** @type {!Molecule3Sim} */
-  this.sim_ = new Molecule3Sim();
-  var advance = new CollisionAdvance(this.sim_);
-  AbstractApp.call(this, elem_ids, simRect, this.sim_, advance,
-      /*eventHandler=*/this.sim_, /*energySystem=*/this.sim_);
+  this.sim_ = sim;
+
   this.layout.simCanvas.setBackground('black');
 
   /** @type {!DisplaySpring} */
@@ -181,23 +153,21 @@ myphysicslab.sims.springs.Molecule3App = function(elem_ids, numAtoms) {
   this.timeGraph.line1.setYVariable(1);
   this.timeGraph.line2.setYVariable(2);
 };
-var Molecule3App = myphysicslab.sims.springs.Molecule3App;
-goog.inherits(Molecule3App, AbstractApp);
 
 /** @override */
-Molecule3App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      + Molecule3App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Molecule3App.prototype.getClassName = function() {
+getClassName() {
   return 'Molecule3App';
 };
 
 /** @override */
-Molecule3App.prototype.defineNames = function(myName) {
-  Molecule3App.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('protoSpecialSpring|protoSpring', myName+'.');
 };
 
@@ -205,7 +175,7 @@ Molecule3App.prototype.defineNames = function(myName) {
 @param {!SimObject} obj
 @private
 */
-Molecule3App.prototype.addBody = function(obj) {
+addBody(obj) {
   if (this.displayList.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
@@ -238,7 +208,7 @@ Molecule3App.prototype.addBody = function(obj) {
 };
 
 /** @override */
-Molecule3App.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
@@ -256,7 +226,7 @@ Molecule3App.prototype.observe =  function(event) {
 * @return {undefined}
 * @private
 */
-Molecule3App.prototype.config = function()  {
+config()  {
   var numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
     throw new Error('too many atoms '+numAtoms);
@@ -298,7 +268,7 @@ Molecule3App.prototype.config = function()  {
 * @return {!Array<!Array<number>>}
 * @private
 */
-Molecule3App.getMSM = function(numAtoms) {
+static getMSM(numAtoms) {
   switch (numAtoms) {
     case 1: return [];
     case 2: return [[0,1]];
@@ -317,7 +287,7 @@ Molecule3App.getMSM = function(numAtoms) {
 * @return {!Array<number>}
 * @private
 */
-Molecule3App.getSG = function(numAtoms) {
+static getSG(numAtoms) {
   switch (numAtoms) {
     case 1: return [];
     case 2: return [];
@@ -335,7 +305,7 @@ Molecule3App.getSG = function(numAtoms) {
 * @return {!Array<number>}
 * @private
 */
-Molecule3App.getNSG = function(num_springs, sg) {
+static getNSG(num_springs, sg) {
   var nsg = [];
   for (var i=0; i<num_springs; i++) {
     if (!goog.array.contains(sg, i)) {
@@ -350,7 +320,7 @@ Molecule3App.getNSG = function(num_springs, sg) {
 * @return {undefined}
 * @private
 */
-Molecule3App.prototype.initialPositions = function(numAtoms)  {
+initialPositions(numAtoms)  {
   var vars = this.sim_.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11
   //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
@@ -384,14 +354,14 @@ Molecule3App.prototype.initialPositions = function(numAtoms)  {
 /** Return number of atoms
 @return {number} number of atoms
 */
-Molecule3App.prototype.getNumAtoms = function() {
+getNumAtoms() {
   return this.numAtoms_;
 };
 
 /** Set number of atoms
 @param {number} value number of atoms
 */
-Molecule3App.prototype.setNumAtoms = function(value) {
+setNumAtoms(value) {
   if (value < 1 || value > 6) {
     throw new Error('too many atoms '+value);
   }
@@ -407,14 +377,14 @@ Molecule3App.prototype.setNumAtoms = function(value) {
 /** Return mass of atoms
 @return {number} mass of atoms
 */
-Molecule3App.prototype.getMass = function() {
+getMass() {
   return (this.numAtoms_ > 1) ? this.sim_.getAtoms()[1].getMass() : 0;
 };
 
 /** Set mass of atoms
 @param {number} value mass of atoms
 */
-Molecule3App.prototype.setMass = function(value) {
+setMass(value) {
   goog.array.forEach(this.sim_.getAtoms(), function(atom, idx) {
     if (idx > 0) {
       atom.setMass(value);
@@ -430,14 +400,14 @@ Molecule3App.prototype.setMass = function(value) {
 /** Return mass of special atom
 @return {number} mass of special atom
 */
-Molecule3App.prototype.getMassSpecial = function() {
+getMassSpecial() {
   return this.sim_.getAtoms()[0].getMass();
 };
 
 /** Set mass of special atom
 @param {number} value mass of special atom
 */
-Molecule3App.prototype.setMassSpecial = function(value) {
+setMassSpecial(value) {
   this.sim_.getAtoms()[0].setMass(value);
   // discontinuous change in energy
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
@@ -449,7 +419,7 @@ Molecule3App.prototype.setMassSpecial = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-Molecule3App.prototype.getLength = function() {
+getLength() {
   return (this.nsg_.length>0) ?
       this.sim_.getSprings()[this.nsg_[0]].getRestLength() : 0.0;
 };
@@ -457,7 +427,7 @@ Molecule3App.prototype.getLength = function() {
 /** Set spring resting length
 @param {number} value spring resting length
 */
-Molecule3App.prototype.setLength = function(value) {
+setLength(value) {
   for (var i=0; i<this.nsg_.length; i++) {
     this.sim_.getSprings()[this.nsg_[i]].setRestLength(value);
   }
@@ -471,7 +441,7 @@ Molecule3App.prototype.setLength = function(value) {
 /** Return spring resting length
 @return {number} spring resting length
 */
-Molecule3App.prototype.getLengthSpecial = function() {
+getLengthSpecial() {
   return (this.sg_.length>0) ?
       this.sim_.getSprings()[this.sg_[0]].getRestLength() : 0;
 };
@@ -479,7 +449,7 @@ Molecule3App.prototype.getLengthSpecial = function() {
 /** Set spring resting length
 @param {number} value spring resting length
 */
-Molecule3App.prototype.setLengthSpecial = function(value) {
+setLengthSpecial(value) {
   for (var i=0; i<this.sg_.length; i++) {
     this.sim_.getSprings()[this.sg_[i]].setRestLength(value);
   }
@@ -493,7 +463,7 @@ Molecule3App.prototype.setLengthSpecial = function(value) {
 /** Returns spring stiffness
 @return {number} spring stiffness
 */
-Molecule3App.prototype.getStiffness = function() {
+getStiffness() {
   return (this.nsg_.length>0) ?
     this.sim_.getSprings()[this.nsg_[0]].getStiffness() : 0;
 };
@@ -501,7 +471,7 @@ Molecule3App.prototype.getStiffness = function() {
 /** Sets spring stiffness
 @param {number} value spring stiffness
 */
-Molecule3App.prototype.setStiffness = function(value) {
+setStiffness(value) {
   for (var i=0; i<this.nsg_.length; i++) {
     this.sim_.getSprings()[this.nsg_[i]].setStiffness(value);
   }
@@ -515,14 +485,14 @@ Molecule3App.prototype.setStiffness = function(value) {
 /** Returns spring stiffness of special group of springs
 @return {number} spring stiffness of special group of springs
 */
-Molecule3App.prototype.getStiffnessSpecial = function() {
+getStiffnessSpecial() {
   return (this.sg_.length>0) ? this.sim_.getSprings()[this.sg_[0]].getStiffness() : 0.0;
 };
 
 /** Sets spring stiffness of special group of springs
 @param {number} value spring stiffness of special group of springs
 */
-Molecule3App.prototype.setStiffnessSpecial = function(value) {
+setStiffnessSpecial(value) {
   for (var i=0; i<this.sg_.length; i++) {
     this.sim_.getSprings()[this.sg_[i]].setStiffness(value);
   }
@@ -532,6 +502,8 @@ Molecule3App.prototype.setStiffnessSpecial = function(value) {
   this.sim_.getVarsList().incrSequence(2, 3, 4, 5, 6);
   this.broadcastParameter(Molecule3App.en.STIFFNESS_SPECIAL);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -579,4 +551,14 @@ Molecule3App.de_strings = {
 Molecule3App.i18n = goog.LOCALE === 'de' ? Molecule3App.de_strings :
     Molecule3App.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {number} numAtoms number of atoms to make, from 2 to 6
+* @return {!Molecule3App}
+*/
+function makeMolecule3App(elem_ids, numAtoms) {
+  return new Molecule3App(elem_ids, numAtoms);
+};
+goog.exportSymbol('makeMolecule3App', makeMolecule3App);
+
+exports = Molecule3App;

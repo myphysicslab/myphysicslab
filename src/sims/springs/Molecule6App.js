@@ -12,99 +12,63 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.Molecule6App');
+goog.module('myphysicslab.sims.springs.Molecule6App');
 
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.FunctionVariable');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericMemo');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.DisplayText');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.springs.Molecule3Sim');
-goog.require('myphysicslab.sims.springs.SpringNonLinear2');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DisplayText = goog.module.get('myphysicslab.lab.view.DisplayText');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const FunctionVariable = goog.module.get('myphysicslab.lab.model.FunctionVariable');
-const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-var Molecule3Sim = sims.springs.Molecule3Sim;
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var SpringNonLinear2 = myphysicslab.sims.springs.SpringNonLinear2;
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const Molecule3Sim = goog.require('myphysicslab.sims.springs.Molecule3Sim');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const SpringNonLinear2 = goog.require('myphysicslab.sims.springs.SpringNonLinear2');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link Molecule3Sim} simulation.
 
+* @implements {Observer}
+*/
+class Molecule6App extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
-* @constructor
-* @final
-* @implements {Observer}
-* @extends {AbstractApp}
-* @struct
-* @export
 */
-myphysicslab.sims.springs.Molecule6App = function(elem_ids, numAtoms) {
+constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  /** @type {number}
-  * @private
-  */
-  this.numAtoms_ = numAtoms;
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new Molecule3Sim();
+  sim.setDamping(0);
+  var advance = new CollisionAdvance(sim);
+
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
+
+  /** @type {number} */
+  this.numAtoms_ = numAtoms;
   /** @type {!Molecule3Sim} */
-  this.sim_ = new Molecule3Sim();
-  this.sim_.setDamping(0);
-  var advance = new CollisionAdvance(this.sim_);
-  AbstractApp.call(this, elem_ids, simRect, this.sim_, advance,
-      /*eventHandler=*/this.sim_, /*energySystem=*/this.sim_);
+  this.sim_ = sim;
+
   this.layout.simCanvas.setBackground('black');
   this.simRun.setTimeStep(0.01);
   if (this.showEnergyParam != null) {
@@ -319,23 +283,21 @@ myphysicslab.sims.springs.Molecule6App = function(elem_ids, numAtoms) {
   }, this));
   this.simRun.addMemo(this.residualEnergy_memo_);
 };
-var Molecule6App = myphysicslab.sims.springs.Molecule6App;
-goog.inherits(Molecule6App, AbstractApp);
 
 /** @override */
-Molecule6App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      + Molecule6App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-Molecule6App.prototype.getClassName = function() {
+getClassName() {
   return 'Molecule6App';
 };
 
 /** @override */
-Molecule6App.prototype.defineNames = function(myName) {
-  Molecule6App.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('protoSpring', myName+'.');
 };
 
@@ -343,7 +305,7 @@ Molecule6App.prototype.defineNames = function(myName) {
 @param {!SimObject} obj
 @private
 */
-Molecule6App.prototype.addBody = function(obj) {
+addBody(obj) {
   if (this.displayList.find(obj) != null) {
     // we already have a DisplayObject for this SimObject, don't add a new one.
     return;
@@ -377,7 +339,7 @@ Molecule6App.prototype.addBody = function(obj) {
 @param {!SimObject} obj
 @private
 */
-Molecule6App.prototype.removeBody = function(obj) {
+removeBody(obj) {
   var dispObj = this.displayList.find(obj);
   if (dispObj) {
     this.displayList.remove(dispObj);
@@ -385,7 +347,7 @@ Molecule6App.prototype.removeBody = function(obj) {
 };
 
 /** @override */
-Molecule6App.prototype.observe =  function(event) {
+observe(event) {
   if (event.getSubject() == this.simList) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
@@ -400,7 +362,7 @@ Molecule6App.prototype.observe =  function(event) {
 * @return {undefined}
 * @private
 */
-Molecule6App.prototype.config = function() {
+config() {
   var numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
     throw new Error('too many atoms '+numAtoms);
@@ -445,7 +407,7 @@ Molecule6App.prototype.config = function() {
 * @return {undefined}
 * @private
 */
-Molecule6App.prototype.resetResidualEnergy = function() {
+resetResidualEnergy() {
   this.residualEnergySet_ = false;
   this.residualEnergySamples_ = [];
   this.residualEnergy_.setText('');
@@ -455,7 +417,7 @@ Molecule6App.prototype.resetResidualEnergy = function() {
 * @return {undefined}
 * @private
 */
-Molecule6App.prototype.addKEVars = function()  {
+addKEVars()  {
   var sim = this.sim_;
   var va = sim.getVarsList();
   for (var i=1; i<=this.numAtoms_; i++) {
@@ -481,7 +443,7 @@ changes.
 * @return {undefined}
 * @private
 */
-Molecule6App.prototype.broadcastAll = function()  {
+broadcastAll()  {
   for (var i=1; i<=6; i++) {
     this.broadcastParameter(Molecule6App.en.MASS+' '+i);
   }
@@ -500,7 +462,7 @@ Molecule6App.prototype.broadcastAll = function()  {
 * @return {!Array<!Array<number>>}
 * @private
 */
-Molecule6App.getMSM = function(numAtoms) {
+static getMSM(numAtoms) {
   switch (numAtoms) {
     case 1: return [];
     case 2: return [[0,1]];
@@ -526,7 +488,7 @@ Molecule6App.getMSM = function(numAtoms) {
 * @return {undefined}
 * @private
 */
-Molecule6App.prototype.initialPositions = function(numAtoms)  {
+initialPositions(numAtoms)  {
   var vars = this.sim_.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
@@ -544,14 +506,14 @@ Molecule6App.prototype.initialPositions = function(numAtoms)  {
 /** Return number of atoms
 @return {number} number of atoms
 */
-Molecule6App.prototype.getNumAtoms = function() {
+getNumAtoms() {
   return this.numAtoms_;
 };
 
 /** Set number of atoms
 @param {number} value number of atoms
 */
-Molecule6App.prototype.setNumAtoms = function(value) {
+setNumAtoms(value) {
   if (value < 1 || value > 6) {
     throw new Error('too many atoms '+value);
   }
@@ -568,7 +530,7 @@ Molecule6App.prototype.setNumAtoms = function(value) {
 @param {number} index index number of atom, starting from 1
 @return {number} mass of specified atom
 */
-Molecule6App.prototype.getMass = function(index) {
+getMass(index) {
   var atoms = this.sim_.getAtoms();
   return (index >= 1 && index <= atoms.length) ? atoms[index-1].getMass() : 0;
 };
@@ -577,7 +539,7 @@ Molecule6App.prototype.getMass = function(index) {
 @param {number} index index number of atom, starting from 1
 @param {number} value mass of atom
 */
-Molecule6App.prototype.setMass = function(index, value) {
+setMass(index, value) {
   this.sim_.getAtoms()[index-1].setMass(value);
   // discontinuous change in energy
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
@@ -593,7 +555,7 @@ Molecule6App.prototype.setMass = function(index, value) {
     index1
 @return {?Spring} spring connecting specified atoms
 */
-Molecule6App.prototype.getSpring = function(index1, index2) {
+getSpring(index1, index2) {
   var atoms = this.sim_.getAtoms();
   if (index2 < index1) {
     throw new Error('index2 must be > index1');
@@ -622,7 +584,7 @@ Molecule6App.prototype.getSpring = function(index1, index2) {
 @param {number} index2 index number of atom, starting from 1
 @return {number} spring stiffness
 */
-Molecule6App.prototype.getStiffness = function(index1, index2) {
+getStiffness(index1, index2) {
   var spr = this.getSpring(index1, index2);
   return spr ? spr.getStiffness() : 0;
 };
@@ -632,7 +594,7 @@ Molecule6App.prototype.getStiffness = function(index1, index2) {
 @param {number} index2 index number of atom, starting from 1
 @param {number} value spring stiffness
 */
-Molecule6App.prototype.setStiffness = function(index1, index2, value) {
+setStiffness(index1, index2, value) {
   var spr = this.getSpring(index1, index2);
   if (!spr) {
     throw new Error('unknown spring connecting '+index1+'-'+index2);
@@ -649,7 +611,7 @@ Molecule6App.prototype.setStiffness = function(index1, index2, value) {
 @return undefined
 @private
 */
-Molecule6App.prototype.calcMinPE = function() {
+calcMinPE() {
   if (this.nonLinearSprings_) {
     goog.array.forEach(this.sim_.getSprings(), function(spr) {
       if (spr instanceof SpringNonLinear2) {
@@ -663,14 +625,14 @@ Molecule6App.prototype.calcMinPE = function() {
 /** Whether names should be displayed.
 @return {boolean}
 */
-Molecule6App.prototype.getShowNames = function() {
+getShowNames() {
   return this.showNames_;
 };
 
 /** Sets whether names should be displayed.
 @param {boolean} value
 */
-Molecule6App.prototype.setShowNames = function(value) {
+setShowNames(value) {
   if (value != this.showNames_) {
     this.showNames_ = value;
     goog.array.forEach(this.sim_.getAtoms(), function(atom) {
@@ -690,14 +652,14 @@ Molecule6App.prototype.setShowNames = function(value) {
 /** Whether springs should be displayed.
 @return {boolean}
 */
-Molecule6App.prototype.getShowSprings = function() {
+getShowSprings() {
   return this.showSprings_;
 };
 
 /** Sets whether springs should be displayed.
 @param {boolean} value
 */
-Molecule6App.prototype.setShowSprings = function(value) {
+setShowSprings(value) {
   if (value != this.showSprings_) {
     this.showSprings_ = value;
     if (value) {
@@ -716,14 +678,14 @@ Molecule6App.prototype.setShowSprings = function(value) {
 /** Whether to create linear or non-linear springs
 @return {boolean}
 */
-Molecule6App.prototype.getNonLinearSprings = function() {
+getNonLinearSprings() {
   return this.nonLinearSprings_;
 };
 
 /** Sets whether to create linear or non-linear springs/
 @param {boolean} value
 */
-Molecule6App.prototype.setNonLinearSprings = function(value) {
+setNonLinearSprings(value) {
   if (this.nonLinearSprings_ != value) {
     this.nonLinearSprings_ = value;
     this.config();
@@ -734,14 +696,14 @@ Molecule6App.prototype.setNonLinearSprings = function(value) {
 /** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
 @return {number}
 */
-Molecule6App.prototype.getKEHighPct = function() {
+getKEHighPct() {
   return this.ke_high_pct_;
 };
 
 /** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
 @param {number} value
 */
-Molecule6App.prototype.setKEHighPct = function(value) {
+setKEHighPct(value) {
   if (this.ke_high_pct_ != value) {
     this.ke_high_pct_ = value;
     this.broadcastParameter(Molecule6App.en.KE_HIGH_PCT);
@@ -751,14 +713,14 @@ Molecule6App.prototype.setKEHighPct = function(value) {
 /** 
 @return {number}
 */
-Molecule6App.prototype.getAttractForce = function() {
+getAttractForce() {
   return this.attract_;
 };
 
 /** 
 @param {number} value
 */
-Molecule6App.prototype.setAttractForce = function(value) {
+setAttractForce(value) {
   if (this.attract_ != value) {
     this.attract_ = value;
     goog.array.forEach(this.sim_.getSprings(), function(spr) {
@@ -774,14 +736,14 @@ Molecule6App.prototype.setAttractForce = function(value) {
 /** whether to specially color atoms with high KE percentage.
 @return {boolean}
 */
-Molecule6App.prototype.getShowKEHigh = function() {
+getShowKEHigh() {
   return this.show_ke_high_;
 };
 
 /** Sets whether to specially color atoms with high KE percentage.
 @param {boolean} value
 */
-Molecule6App.prototype.setShowKEHigh = function(value) {
+setShowKEHigh(value) {
   if (value != this.show_ke_high_) {
     this.show_ke_high_ = value;
     if (value) {
@@ -798,6 +760,8 @@ Molecule6App.prototype.setShowKEHigh = function(value) {
     this.broadcastParameter(Molecule6App.en.SHOW_KE_HIGH);
   }
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -854,4 +818,14 @@ Molecule6App.de_strings = {
 Molecule6App.i18n = goog.LOCALE === 'de' ? Molecule6App.de_strings :
     Molecule6App.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {number} numAtoms number of atoms to make, from 2 to 6
+* @return {!Molecule6App}
+*/
+function makeMolecule6App(elem_ids, numAtoms) {
+  return new Molecule6App(elem_ids, numAtoms);
+};
+goog.exportSymbol('makeMolecule6App', makeMolecule6App);
+
+exports = Molecule6App;
