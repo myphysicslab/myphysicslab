@@ -12,46 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.NewtonsCradleApp');
+goog.module('myphysicslab.sims.engine2D.NewtonsCradleApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  The NewtonsCradleApp simulation shows six pendulums side-by-side, you
 lift one at the end and let it strike the others;  only the pendulum on the far side
@@ -59,22 +37,20 @@ flies away and the pendulum that you let fall becomes motionless when it strikes
 
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class NewtonsCradleApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.NewtonsCradleApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-5, -3, 5, 5);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(1.0);
@@ -137,25 +113,23 @@ sims.engine2D.NewtonsCradleApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var NewtonsCradleApp = sims.engine2D.NewtonsCradleApp;
-goog.inherits(NewtonsCradleApp, Engine2DApp);
 
 /** @override */
-NewtonsCradleApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + NewtonsCradleApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-NewtonsCradleApp.prototype.getClassName = function() {
+getClassName() {
   return 'NewtonsCradleApp';
 };
 
 /** @override */
-NewtonsCradleApp.prototype.defineNames = function(myName) {
-  NewtonsCradleApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('NewtonsCradleApp|Engine2DApp',
@@ -163,13 +137,13 @@ NewtonsCradleApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-NewtonsCradleApp.prototype.getSubjects = function() {
-  var subjects = NewtonsCradleApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /** @override */
-NewtonsCradleApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   body = this.mySim.getBody('pendulum1');
   this.graph.line.setXVariable(body.getVarsIndex()+4); // angle
   this.graph.line.setYVariable(body.getVarsIndex()+5); // angular velocity
@@ -180,14 +154,14 @@ NewtonsCradleApp.prototype.graphSetup = function(body) {
 /**
 * @return {number}
 */
-NewtonsCradleApp.prototype.getNumBodies = function() {
+getNumBodies() {
   return this.options.numBods;
 };
 
 /**
 * @param {number} value
 */
-NewtonsCradleApp.prototype.setNumBodies = function(value) {
+setNumBodies(value) {
   this.options.numBods = value;
   this.config();
   this.broadcastParameter(NewtonsCradleApp.en.NUM_BODIES);
@@ -196,14 +170,14 @@ NewtonsCradleApp.prototype.setNumBodies = function(value) {
 /**
 * @return {number}
 */
-NewtonsCradleApp.prototype.getStickLength = function() {
+getStickLength() {
   return this.options.stickLength;
 };
 
 /**
 * @param {number} value
 */
-NewtonsCradleApp.prototype.setStickLength = function(value) {
+setStickLength(value) {
   this.options.stickLength = value;
   this.config();
   this.broadcastParameter(NewtonsCradleApp.en.LENGTH);
@@ -212,14 +186,14 @@ NewtonsCradleApp.prototype.setStickLength = function(value) {
 /**
 * @return {number}
 */
-NewtonsCradleApp.prototype.getGapDistance = function() {
+getGapDistance() {
   return this.options.gapDistance;
 };
 
 /**
 * @param {number} value
 */
-NewtonsCradleApp.prototype.setGapDistance = function(value) {
+setGapDistance(value) {
   this.options.gapDistance = value;
   this.config();
   this.broadcastParameter(NewtonsCradleApp.en.GAP_DISTANCE);
@@ -228,14 +202,14 @@ NewtonsCradleApp.prototype.setGapDistance = function(value) {
 /**
 * @return {number}
 */
-NewtonsCradleApp.prototype.getRadius = function() {
+getRadius() {
   return this.options.radius;
 };
 
 /**
 * @param {number} value
 */
-NewtonsCradleApp.prototype.setRadius = function(value) {
+setRadius(value) {
   this.options.radius = value;
   this.config();
   this.broadcastParameter(NewtonsCradleApp.en.RADIUS);
@@ -244,7 +218,7 @@ NewtonsCradleApp.prototype.setRadius = function(value) {
 /**
 * @return {undefined}
 */
-NewtonsCradleApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.mySim.addForceLaw(this.dampingLaw);
@@ -261,20 +235,10 @@ NewtonsCradleApp.prototype.config = function() {
 };
 
 /**
-* @typedef {{stickLength: number,
-    radius: number,
-    gapDistance: number,
-    numBods: number,
-    startAngle: number
-    }}
-*/
-NewtonsCradleApp.options;
-
-/**
 * @param {!ContactSim} sim
 * @param {!NewtonsCradleApp.options} options
 */
-NewtonsCradleApp.make = function(sim, options) {
+static make(sim, options) {
   // each pendulum is 2*radius wide.
   // We have a gap between pendulums of distTol/2 + gapDistance
   // total width of all pendulums:
@@ -302,6 +266,18 @@ NewtonsCradleApp.make = function(sim, options) {
   sim.getBody('pendulum1').setAngle(options.startAngle); //-Math.PI/4;
   sim.alignConnectors();
 };
+
+} //end class
+
+/**
+* @typedef {{stickLength: number,
+    radius: number,
+    gapDistance: number,
+    numBods: number,
+    startAngle: number
+    }}
+*/
+NewtonsCradleApp.options;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -343,4 +319,13 @@ NewtonsCradleApp.de_strings = {
 NewtonsCradleApp.i18n = goog.LOCALE === 'de' ? NewtonsCradleApp.de_strings :
     NewtonsCradleApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!NewtonsCradleApp}
+*/
+function makeNewtonsCradleApp(elem_ids) {
+  return new NewtonsCradleApp(elem_ids);
+};
+goog.exportSymbol('makeNewtonsCradleApp', makeNewtonsCradleApp);
+
+exports = NewtonsCradleApp;

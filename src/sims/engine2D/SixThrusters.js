@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.SixThrusters');
+goog.module('myphysicslab.sims.engine2D.SixThrusters');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.model.MassObject');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Creates a ThrusterSet with six thrusters that apply force at two points on a
 Polygon. The first point is the body's drag point; the second point is at the
@@ -60,27 +54,14 @@ In the diagram, `t` is the primary thrust point, see {@link MassObject#setDragPo
 There is second thrust point at `t2`, the mirror image of `t` through the geometric
 center of the body.
 
-* @constructor
-* @final
-* @struct
+*/
+class SixThrusters {
+/**
 * @private
 */
-myphysicslab.sims.engine2D.SixThrusters = function() {
+constructor() {
   throw new Error();
 };
-var SixThrusters = myphysicslab.sims.engine2D.SixThrusters;
-
-/**
-* @type {!Array<number>}
-* @private
-*/
-SixThrusters.thrustAngle = new Array(6);
-SixThrusters.thrustAngle[0] = Math.PI; // upper left
-SixThrusters.thrustAngle[1] = 0; // upper right
-SixThrusters.thrustAngle[2] = Math.PI/2; // up
-SixThrusters.thrustAngle[3] = -Math.PI/2; // down
-SixThrusters.thrustAngle[4] = Math.PI; // lower left
-SixThrusters.thrustAngle[5] = 0; // lower right
 
 /** Creates a ThrusterSet with six thrusters that apply force at two points on a
 Polygon.
@@ -88,7 +69,7 @@ Polygon.
 * @param {!Polygon} body
 * @return {!ThrusterSet}
 */
-SixThrusters.make = function(magnitude, body) {
+static make(magnitude, body) {
   var ts = new ThrusterSet(6, body, magnitude);
   for (var i=0; i<6; i++) {
     ts.setThruster(i, SixThrusters.getLocationBody(i, body),
@@ -103,7 +84,7 @@ SixThrusters.make = function(magnitude, body) {
 * @return {!Vector}
 * @private
 */
-SixThrusters.getLocationBody = function(index, body) {
+static getLocationBody(index, body) {
   var t_body = body.getDragPoints()[0];
   if (index <= 2)
     return t_body;
@@ -120,7 +101,7 @@ SixThrusters.getLocationBody = function(index, body) {
 * @return {!Vector}
 * @private
 */
-SixThrusters.getDirectionBody = function(index, body) {
+static getDirectionBody(index, body) {
   if (index < 0 || index >= SixThrusters.thrustAngle.length)
     return Vector.ORIGIN;
   // side thrusters are weaker
@@ -129,4 +110,18 @@ SixThrusters.getDirectionBody = function(index, body) {
   return new Vector(tmag, 0).rotate(SixThrusters.thrustAngle[index]);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {!Array<number>}
+* @private
+*/
+SixThrusters.thrustAngle = new Array(6);
+SixThrusters.thrustAngle[0] = Math.PI; // upper left
+SixThrusters.thrustAngle[1] = 0; // upper right
+SixThrusters.thrustAngle[2] = Math.PI/2; // up
+SixThrusters.thrustAngle[3] = -Math.PI/2; // down
+SixThrusters.thrustAngle[4] = Math.PI; // lower left
+SixThrusters.thrustAngle[5] = 0; // lower right
+
+exports = SixThrusters;

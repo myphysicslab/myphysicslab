@@ -12,84 +12,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.GearsApp');
+goog.module('myphysicslab.sims.engine2D.GearsApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.GearsConfig');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-var GearsConfig = sims.engine2D.GearsConfig;
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const GearsConfig = goog.require('myphysicslab.sims.engine2D.GearsConfig');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of two interlocking gears. One of the gears has a constant turning
 force applied.
 
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class GearsApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.GearsApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4, -6, 8, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.elasticity.setElasticity(0.3);
   this.mySim.setShowForces(true);
   /** @type {!DampingLaw} */
@@ -144,25 +112,23 @@ sims.engine2D.GearsApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var GearsApp = sims.engine2D.GearsApp;
-goog.inherits(GearsApp, Engine2DApp);
 
 /** @override */
-GearsApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + GearsApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-GearsApp.prototype.getClassName = function() {
+getClassName() {
   return 'GearsApp';
 };
 
 /** @override */
-GearsApp.prototype.defineNames = function(myName) {
-  GearsApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('GearsApp|Engine2DApp',
@@ -170,13 +136,13 @@ GearsApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-GearsApp.prototype.getSubjects = function() {
-  var subjects = GearsApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /** @override */
-GearsApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   body = this.mySim.getBody(GearsConfig.en.LEFT_GEAR);
   this.graph.line.setXVariable(body.getVarsIndex()+4); // angle
   this.graph.line.setYVariable(body.getVarsIndex()+5); // angular velocity
@@ -187,7 +153,7 @@ GearsApp.prototype.graphSetup = function(body) {
 /**
 * @return {undefined}
 */
-GearsApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -242,14 +208,14 @@ GearsApp.prototype.config = function() {
 /**
 * @return {number}
 */
-GearsApp.prototype.getTurningForce = function() {
+getTurningForce() {
   return this.turningForce;
 };
 
 /**
 * @param {number} value
 */
-GearsApp.prototype.setTurningForce = function(value) {
+setTurningForce(value) {
   this.turningForce = value;
   if (this.turnForceLaw != null) {
     this.mySim.removeForceLaw(this.turnForceLaw);
@@ -265,27 +231,38 @@ GearsApp.prototype.setTurningForce = function(value) {
 };
 
 /** @return {boolean} */
-GearsApp.prototype.getPinnedGears = function() {
+getPinnedGears() {
   return this.pinnedGears;
 };
 
 /** @param {boolean} value */
-GearsApp.prototype.setPinnedGears = function(value) {
+setPinnedGears(value) {
   this.pinnedGears = value;
   this.config();
   this.broadcastParameter(GearsConfig.en.PINNED_GEARS);
 };
 
 /** @return {boolean} */
-GearsApp.prototype.getTwoGears = function() {
+getTwoGears() {
   return this.twoGears;
 };
 
 /** @param {boolean} value */
-GearsApp.prototype.setTwoGears = function(value) {
+setTwoGears(value) {
   this.twoGears = value;
   this.config();
   this.broadcastParameter(GearsConfig.en.TWO_GEARS);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!GearsApp}
+*/
+function makeGearsApp(elem_ids) {
+  return new GearsApp(elem_ids);
+};
+goog.exportSymbol('makeGearsApp', makeGearsApp);
+
+exports = GearsApp;

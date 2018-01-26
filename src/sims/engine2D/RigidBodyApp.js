@@ -12,77 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.RigidBodyApp');
+goog.module('myphysicslab.sims.engine2D.RigidBodyApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-var SixThrusters = sims.engine2D.SixThrusters;
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  RigidBodyApp demonstrates using RigidBodySim (instead of the usual ContactSim) with
 a set of simple rectangular objects.
 
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class RigidBodyApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.RigidBodyApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 4);
+  var sim = new RigidBodySim();
+  var advance = new SimpleAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!RigidBodySim} */
-  this.mySim = new RigidBodySim();
-  var advance = new SimpleAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
   this.rbo.protoSpring.setThickness(4).setWidth(.4);
@@ -154,35 +125,33 @@ sims.engine2D.RigidBodyApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var RigidBodyApp = sims.engine2D.RigidBodyApp;
-goog.inherits(RigidBodyApp, Engine2DApp);
 
 /** @override */
-RigidBodyApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + RigidBodyApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /**
 * @param {!Spring} s
 * @private
 */
-RigidBodyApp.prototype.addSpring = function(s) {
+addSpring(s) {
   this.springs_.push(s);
   this.mySim.addForceLaw(s);
   this.simList.add(s);
 };
 
 /** @override */
-RigidBodyApp.prototype.getClassName = function() {
+getClassName() {
   return 'RigidBodyApp';
 };
 
 /** @override */
-RigidBodyApp.prototype.defineNames = function(myName) {
-  RigidBodyApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('RigidBodyApp|Engine2DApp',
@@ -190,8 +159,8 @@ RigidBodyApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-RigidBodyApp.prototype.getSubjects = function() {
-  var subjects = RigidBodyApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
@@ -200,14 +169,14 @@ RigidBodyApp.prototype.getSubjects = function() {
 * @return {!Polygon}
 * @private
 */
-RigidBodyApp.makeBlock = function(num) {
+static makeBlock(num) {
   return Shapes.makeBlock(1, 3, RigidBodyApp.en.BLOCK+num, RigidBodyApp.i18n.BLOCK+num);
 };
 
 /**
 * @return {undefined}
 */
-RigidBodyApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
@@ -314,14 +283,14 @@ RigidBodyApp.prototype.config = function() {
 /**
 * @return {number}
 */
-RigidBodyApp.prototype.getMass1 = function() {
+getMass1() {
   return this.mass1;
 };
 
 /**
 * @param {number} value
 */
-RigidBodyApp.prototype.setMass1 = function(value) {
+setMass1(value) {
   if (this.mass1 != value) {
     this.mass1 = value;
     var body1 = this.mySim.getBody(RigidBodyApp.en.BLOCK+'1');
@@ -333,14 +302,14 @@ RigidBodyApp.prototype.setMass1 = function(value) {
 /**
 * @return {number}
 */
-RigidBodyApp.prototype.getNumBodies = function() {
+getNumBodies() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-RigidBodyApp.prototype.setNumBodies = function(value) {
+setNumBodies(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(RigidBodyApp.en.NUM_BODIES);
@@ -349,14 +318,14 @@ RigidBodyApp.prototype.setNumBodies = function(value) {
 /**
 * @return {number}
 */
-RigidBodyApp.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness;
 };
 
 /**
 * @param {number} value
 */
-RigidBodyApp.prototype.setStiffness = function(value) {
+setStiffness(value) {
   this.stiffness = value;
   goog.array.forEach(this.springs_, function(s){ s.setStiffness(value);});
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
@@ -367,14 +336,14 @@ RigidBodyApp.prototype.setStiffness = function(value) {
 /**
 * @return {number}
 */
-RigidBodyApp.prototype.getRestLength = function() {
+getRestLength() {
   return this.restLength;
 };
 
 /**
 * @param {number} value
 */
-RigidBodyApp.prototype.setRestLength = function(value) {
+setRestLength(value) {
   this.restLength = value;
   goog.array.forEach(this.springs_, function(s){ s.setRestLength(value);});
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
@@ -385,19 +354,21 @@ RigidBodyApp.prototype.setRestLength = function(value) {
 /**
 * @return {number}
 */
-RigidBodyApp.prototype.getThrust = function() {
+getThrust() {
   return this.thrust;
 };
 
 /**
 * @param {number} value
 */
-RigidBodyApp.prototype.setThrust = function(value) {
+setThrust(value) {
   this.thrust = value;
   this.thrust1.setMagnitude(value);
   this.thrust2.setMagnitude(value);
   this.broadcastParameter(RigidBodyApp.en.THRUST);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -442,4 +413,13 @@ RigidBodyApp.de_strings = {
 RigidBodyApp.i18n = goog.LOCALE === 'de' ? RigidBodyApp.de_strings :
     RigidBodyApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!RigidBodyApp}
+*/
+function makeRigidBodyApp(elem_ids) {
+  return new RigidBodyApp(elem_ids);
+};
+goog.exportSymbol('makeRigidBodyApp', makeRigidBodyApp);
+
+exports = RigidBodyApp;

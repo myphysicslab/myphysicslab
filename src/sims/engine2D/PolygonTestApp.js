@@ -12,80 +12,51 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.PolygonTestApp');
+goog.module('myphysicslab.sims.engine2D.PolygonTestApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var SixThrusters = sims.engine2D.SixThrusters;
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** PolygonTestApp shows some unusual shapes such as hexagon, L-shape, hollow box with
 a ball inside, and blocks with both curved and straight edges.
 
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class PolygonTestApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.PolygonTestApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 4);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(false);
@@ -130,25 +101,23 @@ sims.engine2D.PolygonTestApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var PolygonTestApp = sims.engine2D.PolygonTestApp;
-goog.inherits(PolygonTestApp, Engine2DApp);
 
 /** @override */
-PolygonTestApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + PolygonTestApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-PolygonTestApp.prototype.getClassName = function() {
+getClassName() {
   return 'PolygonTestApp';
 };
 
 /** @override */
-PolygonTestApp.prototype.defineNames = function(myName) {
-  PolygonTestApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('PolygonTestApp|Engine2DApp',
@@ -156,15 +125,15 @@ PolygonTestApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-PolygonTestApp.prototype.getSubjects = function() {
-  var subjects = PolygonTestApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-PolygonTestApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -279,14 +248,14 @@ PolygonTestApp.prototype.config = function() {
 /**
 * @return {number}
 */
-PolygonTestApp.prototype.getNumBodies = function() {
+getNumBodies() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-PolygonTestApp.prototype.setNumBodies = function(value) {
+setNumBodies(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(PolygonTestApp.en.NUM_BODIES);
@@ -295,19 +264,21 @@ PolygonTestApp.prototype.setNumBodies = function(value) {
 /**
 * @return {number}
 */
-PolygonTestApp.prototype.getThrust = function() {
+getThrust() {
   return this.thrust;
 };
 
 /**
 * @param {number} value
 */
-PolygonTestApp.prototype.setThrust = function(value) {
+setThrust(value) {
   this.thrust = value;
   this.thrust1.setMagnitude(value);
   this.thrust2.setMagnitude(value);
   this.broadcastParameter(PolygonTestApp.en.THRUST);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -364,4 +335,13 @@ PolygonTestApp.de_strings = {
 PolygonTestApp.i18n = goog.LOCALE === 'de' ? PolygonTestApp.de_strings :
     PolygonTestApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!PolygonTestApp}
+*/
+function makePolygonTestApp(elem_ids) {
+  return new PolygonTestApp(elem_ids);
+};
+goog.exportSymbol('makePolygonTestApp', makePolygonTestApp);
+
+exports = PolygonTestApp;

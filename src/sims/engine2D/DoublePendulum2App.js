@@ -12,86 +12,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.DoublePendulum2App');
+goog.module('myphysicslab.sims.engine2D.DoublePendulum2App');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var SixThrusters = sims.engine2D.SixThrusters;
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** A simple example app using ContactSim, this shows two blocks
 connected like a double pendulum, and a third free moving block.
 
 DoublePendulum2App also demonstrates having an image inside a DisplayShape. It uses an
 AffineTransform to rotate, scale, and position the image within the DisplayShape.
-
+*/
+class DoublePendulum2App extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.DoublePendulum2App = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(false);
@@ -222,25 +188,23 @@ sims.engine2D.DoublePendulum2App = function(elem_ids) {
   this.addURLScriptButton();
   this.graphSetup();
 };
-var DoublePendulum2App = sims.engine2D.DoublePendulum2App;
-goog.inherits(DoublePendulum2App, Engine2DApp);
 
 /** @override */
-DoublePendulum2App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + DoublePendulum2App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DoublePendulum2App.prototype.getClassName = function() {
+getClassName() {
   return 'DoublePendulum2App';
 };
 
 /** @override */
-DoublePendulum2App.prototype.defineNames = function(myName) {
-  DoublePendulum2App.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('DoublePendulum2App|Engine2DApp',
@@ -248,10 +212,12 @@ DoublePendulum2App.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-DoublePendulum2App.prototype.getSubjects = function() {
-  var subjects = DoublePendulum2App.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -281,4 +247,13 @@ DoublePendulum2App.de_strings = {
 DoublePendulum2App.i18n = goog.LOCALE === 'de' ? DoublePendulum2App.de_strings :
     DoublePendulum2App.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!DoublePendulum2App}
+*/
+function makeDoublePendulum2App(elem_ids) {
+  return new DoublePendulum2App(elem_ids);
+};
+goog.exportSymbol('makeDoublePendulum2App', makeDoublePendulum2App);
+
+exports = DoublePendulum2App;

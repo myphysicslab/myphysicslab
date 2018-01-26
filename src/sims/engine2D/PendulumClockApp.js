@@ -12,60 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.PendulumClockApp');
+goog.module('myphysicslab.sims.engine2D.PendulumClockApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
-goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-var PendulumClockConfig = sims.engine2D.PendulumClockConfig;
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PendulumClockConfig = goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulates a pendulum clock with a pendulum attached to an anchor that
 regulates that turning of an escapement wheel. The escapement wheel has a constant
@@ -73,22 +43,20 @@ torque force that causes it to turn continuously.
 
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class PendulumClockApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.PendulumClockApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.mySim.setShowForces(true);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0.05, 0.15, this.simList);
@@ -149,25 +117,23 @@ sims.engine2D.PendulumClockApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var PendulumClockApp = sims.engine2D.PendulumClockApp;
-goog.inherits(PendulumClockApp, Engine2DApp);
 
 /** @override */
-PendulumClockApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + PendulumClockApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-PendulumClockApp.prototype.getClassName = function() {
+getClassName() {
   return 'PendulumClockApp';
 };
 
 /** @override */
-PendulumClockApp.prototype.defineNames = function(myName) {
-  PendulumClockApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('PendulumClockApp|Engine2DApp',
@@ -175,13 +141,13 @@ PendulumClockApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-PendulumClockApp.prototype.getSubjects = function() {
-  var subjects = PendulumClockApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /** @override */
-PendulumClockApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   body = this.mySim.getBody(PendulumClockConfig.en.ANCHOR);
   this.graph.line.setXVariable(body.getVarsIndex()+4);
   this.graph.line.setYVariable(body.getVarsIndex()+5);
@@ -192,7 +158,7 @@ PendulumClockApp.prototype.graphSetup = function(body) {
 /**
 * @return {undefined}
 */
-PendulumClockApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -237,14 +203,14 @@ PendulumClockApp.prototype.config = function() {
 /**
 * @return {boolean}
 */
-PendulumClockApp.prototype.getWithGears = function() {
+getWithGears() {
   return this.withGears;
 };
 
 /**
 * @param {boolean} value
 */
-PendulumClockApp.prototype.setWithGears = function(value) {
+setWithGears(value) {
   this.withGears = value;
   this.config();
   this.broadcastParameter(PendulumClockConfig.en.WITH_GEARS);
@@ -253,14 +219,14 @@ PendulumClockApp.prototype.setWithGears = function(value) {
 /**
 * @return {boolean}
 */
-PendulumClockApp.prototype.getExtraBody = function() {
+getExtraBody() {
   return this.extraBody;
 };
 
 /**
 * @param {boolean} value
 */
-PendulumClockApp.prototype.setExtraBody = function(value) {
+setExtraBody(value) {
   this.extraBody = value;
   this.config();
   this.broadcastParameter(PendulumClockConfig.en.EXTRA_BODY);
@@ -269,14 +235,14 @@ PendulumClockApp.prototype.setExtraBody = function(value) {
 /**
 * @return {number}
 */
-PendulumClockApp.prototype.getPendulumLength = function() {
+getPendulumLength() {
   return this.pendulumLength;
 };
 
 /**
 * @param {number} value
 */
-PendulumClockApp.prototype.setPendulumLength = function(value) {
+setPendulumLength(value) {
   this.pendulumLength = value;
   this.config();
   this.broadcastParameter(PendulumClockConfig.en.PENDULUM_LENGTH);
@@ -285,14 +251,14 @@ PendulumClockApp.prototype.setPendulumLength = function(value) {
 /**
 * @return {number}
 */
-PendulumClockApp.prototype.getTurningForce = function() {
+getTurningForce() {
   return this.turningForce;
 };
 
 /**
 * @param {number} value
 */
-PendulumClockApp.prototype.setTurningForce = function(value) {
+setTurningForce(value) {
   this.turningForce = value;
   if (this.turnForceLaw != null) {
     this.mySim.removeForceLaw(this.turnForceLaw);
@@ -308,4 +274,15 @@ PendulumClockApp.prototype.setTurningForce = function(value) {
   this.broadcastParameter(PendulumClockConfig.en.TURNING_FORCE);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!PendulumClockApp}
+*/
+function makePendulumClockApp(elem_ids) {
+  return new PendulumClockApp(elem_ids);
+};
+goog.exportSymbol('makePendulumClockApp', makePendulumClockApp);
+
+exports = PendulumClockApp;

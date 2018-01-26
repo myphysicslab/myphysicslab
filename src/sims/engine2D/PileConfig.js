@@ -12,61 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.PileConfig');
+goog.module('myphysicslab.sims.engine2D.PileConfig');
 
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Random');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const Random = goog.module.get('myphysicslab.lab.util.Random');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Random = goog.require('myphysicslab.lab.util.Random');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Utility functions for making the 'pile of blocks' simulation.
-
-* @constructor
-* @final
-* @struct
+*/
+class PileConfig {
+/**
 * @private
 */
-myphysicslab.sims.engine2D.PileConfig = function() {
+constructor() {
   throw new Error();
 };
-var PileConfig = myphysicslab.sims.engine2D.PileConfig;
-
-/**
-* @type {!Random}
-* @private
-*/
-PileConfig.randomColor_ = new RandomLCG(901745);
 
 /** Makes a single V-shaped 'pit' for blocks to fall into.
 @param {!ContactSim} sim
 @param {number=} opt_offset  vertical offset for position of walls
 @return {number} suggested zero energy level for blocks
 */
-PileConfig.makeVPit = function(sim, opt_offset) {
+static makeVPit(sim, opt_offset) {
   var offset = goog.isDef(opt_offset) ? opt_offset : 0;
   var p1 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.LEFT,
@@ -104,7 +80,7 @@ PileConfig.makeVPit = function(sim, opt_offset) {
 @param {number=} opt_offset  vertical offset for position of walls
 @return {number} suggested zero energy level for blocks
 */
-PileConfig.makeDoubleVPit = function(sim, opt_offset) {
+static makeDoubleVPit(sim, opt_offset) {
   var offset = goog.isDef(opt_offset) ? opt_offset : 0;
   var walls = [];
   var b = 1.0/(2*Math.sqrt(2.0));  // to get center of block, = 1 / (2 * sqrt(2))
@@ -157,7 +133,7 @@ the given rectangle.
 @param {number} buffer distance between each block
 @param {number} limit maximum number of blocks to make
 */
-PileConfig.makeUniformBlocks = function(sim, rect, circular, size, buffer, limit) {
+static makeUniformBlocks(sim, rect, circular, size, buffer, limit) {
   var row = 0;
   var col = 0;
   var index = 0;
@@ -205,7 +181,7 @@ side.
 @param {boolean=} rightAngle whether to make right-angle blocks
 @return {!Array<!Polygon>} the blocks that were created
 */
-PileConfig.makeRandomBlocks = function(sim, n, x, y, random, rightAngle) {
+static makeRandomBlocks(sim, n, x, y, random, rightAngle) {
   rightAngle = goog.isDef(rightAngle) ? rightAngle : true;
   var bods = [];
   for (var i=0; i<n; i++) {
@@ -259,7 +235,7 @@ situations with redundant joints can be handled correctly.
 @param {number} angle  the angle to set the blocks
 @return {!Array<!Polygon>} array containing the two blocks
 */
-PileConfig.makeConnectedBlocks = function(sim, x, y, angle) {
+static makeConnectedBlocks(sim, x, y, angle) {
   var p1 = Shapes.makeBlock(1.0, 1.0);
   p1.setMass(0.6);
   p1.setPosition(new Vector(x,  y),  angle);
@@ -280,12 +256,11 @@ PileConfig.makeConnectedBlocks = function(sim, x, y, angle) {
   return [p1, p2];
 };
 
-
 /** Returns a random 'somewhat bright' color.  Avoids near-white colors.
 * @param {!Random=} random
 * @return {string} a random color
 */
-PileConfig.getRandomColor = function(random) {
+static getRandomColor(random) {
   random = random || PileConfig.randomColor_;
   var colors = new Array(3);
   var nearWhite = true;
@@ -303,6 +278,14 @@ PileConfig.getRandomColor = function(random) {
     return Util.colorString6(colors[0], colors[1], colors[2]);
   }
 };
+
+} //end class
+
+/**
+* @type {!Random}
+* @private
+*/
+PileConfig.randomColor_ = new RandomLCG(901745);
 
 /** Set of internationalized strings.
 @typedef {{
@@ -365,4 +348,4 @@ PileConfig.de_strings = {
 PileConfig.i18n = goog.LOCALE === 'de' ? PileConfig.de_strings :
     PileConfig.en;
 
-}); // goog.scope
+exports = PileConfig;

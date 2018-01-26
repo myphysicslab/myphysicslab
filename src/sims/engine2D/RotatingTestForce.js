@@ -12,39 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.RotatingTestForce');
+goog.module('myphysicslab.sims.engine2D.RotatingTestForce');
 
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A ForceLaw that creates a Force whose direction rotates continuously.
+* @implements {ForceLaw}
+*/
+class RotatingTestForce {
+/**
 * @param {!RigidBodySim} sim
 * @param {!RigidBody} body
 * @param {!Vector} location_body
 * @param {number} magnitude
 * @param {number} rotation_rate
-* @constructor
-* @final
-* @struct
-* @implements {ForceLaw}
 */
-myphysicslab.sims.engine2D.RotatingTestForce = function(sim, body, location_body,
-    magnitude, rotation_rate) {
+constructor(sim, body, location_body, magnitude, rotation_rate) {
   /**
   * @type {!RigidBodySim}
   * @private
@@ -71,29 +60,28 @@ myphysicslab.sims.engine2D.RotatingTestForce = function(sim, body, location_body
   */
   this.rotation_rate_ = rotation_rate;
 };
-var RotatingTestForce = myphysicslab.sims.engine2D.RotatingTestForce;
 
 /** @override */
-RotatingTestForce.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'RotatingTestForce{body: "'+this.body_.getName()+'"}';
 };
 
 /** @override */
-RotatingTestForce.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'RotatingTestForce{body: "'+this.body_.getName()+'"}';
 };
 
 /** @override */
-RotatingTestForce.prototype.disconnect = function() {
+disconnect() {
 };
 
 /** @override */
-RotatingTestForce.prototype.getBodies = function() {
+getBodies() {
   return [this.body_];
 };
 
 /** @override */
-RotatingTestForce.prototype.calculateForces = function() {
+calculateForces() {
   var t = this.rotation_rate_ * this.sim_.getTime();
   var direction_body = new Vector(this.magnitude_*Math.cos(t),
     this.magnitude_*Math.sin(t));
@@ -104,8 +92,10 @@ RotatingTestForce.prototype.calculateForces = function() {
 };
 
 /** @override */
-RotatingTestForce.prototype.getPotentialEnergy = function() {
+getPotentialEnergy() {
   return 0;
 };
 
-}); // goog.scope
+} //end class
+
+exports = RotatingTestForce;

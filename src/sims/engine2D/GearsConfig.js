@@ -12,40 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.GearsConfig');
+goog.module('myphysicslab.sims.engine2D.GearsConfig');
 
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Utility methods for making toothed gears, and setting forces on them.
 
 @todo  add a DisplayObject for the turning force which is a big obvious arrow
-* @constructor
-* @final
-* @struct
+*/
+class GearsConfig {
+/**
 * @private
 */
-myphysicslab.sims.engine2D.GearsConfig = function() {
+constructor() {
   throw new Error();
 };
-var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 
 /**
 * @param {number} radius
@@ -55,7 +43,7 @@ var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
 * @param {string=} opt_localName  localized name of the Polygon
 * @return {!Polygon}
 */
-GearsConfig.makeGear = function(radius, startEdges, opt_name, opt_localName) {
+static makeGear(radius, startEdges, opt_name, opt_localName) {
   var p = new Polygon(opt_name, opt_localName);
   GearsConfig.addGear(p, radius, 0.3, 36, 30, 30, startEdges);
   p.finish();
@@ -84,7 +72,7 @@ between the up-slope and down-slope.
 @param {number} inPercent  the percentage of tooth that is not extended (the in-edge)
 @param {!Array<Edge>} startEdges adds to this array the starting edge of the gear
 */
-GearsConfig.addGear = function(p, r1, depth, numTeeth, outPercent, inPercent, startEdges) {
+static addGear(p, r1, depth, numTeeth, outPercent, inPercent, startEdges) {
   // calculate the small angle fraction corresponding to each of the 4 tooth edges
   var wholeTooth = 2 * Math.PI / numTeeth;
   var upSlope = wholeTooth * (100.0 - outPercent - inPercent) / 200.0;
@@ -136,6 +124,8 @@ GearsConfig.addGear = function(p, r1, depth, numTeeth, outPercent, inPercent, st
   p.closePath();
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   LEFT_GEAR: string,
@@ -176,4 +166,4 @@ GearsConfig.de_strings = {
 GearsConfig.i18n = goog.LOCALE === 'de' ? GearsConfig.de_strings :
     GearsConfig.en;
 
-}); // goog.scope
+exports = GearsConfig;

@@ -12,67 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.MutualAttractApp');
+goog.module('myphysicslab.sims.engine2D.MutualAttractApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const Gravity2Law = goog.module.get('myphysicslab.lab.model.Gravity2Law');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const Gravity2Law = goog.require('myphysicslab.lab.model.Gravity2Law');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation showing several objects experiencing mutual attraction from gravity.
 
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class MutualAttractApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.MutualAttractApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.8);
@@ -115,25 +91,23 @@ sims.engine2D.MutualAttractApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var MutualAttractApp = sims.engine2D.MutualAttractApp;
-goog.inherits(MutualAttractApp, Engine2DApp);
 
 /** @override */
-MutualAttractApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + MutualAttractApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-MutualAttractApp.prototype.getClassName = function() {
+getClassName() {
   return 'MutualAttractApp';
 };
 
 /** @override */
-MutualAttractApp.prototype.defineNames = function(myName) {
-  MutualAttractApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('MutualAttractApp|Engine2DApp',
@@ -141,8 +115,8 @@ MutualAttractApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-MutualAttractApp.prototype.getSubjects = function() {
-  var subjects = MutualAttractApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
@@ -150,14 +124,14 @@ MutualAttractApp.prototype.getSubjects = function() {
 * @return {!Polygon}
 * @private
 */
-MutualAttractApp.prototype.makeBody = function() {
+makeBody() {
   return this.circleBody ?  Shapes.makeBall(0.2) : Shapes.makeBlock(1, 1);
 };
 
 /**
 * @return {undefined}
 */
-MutualAttractApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
@@ -225,18 +199,20 @@ MutualAttractApp.prototype.config = function() {
 /**
 * @return {number}
 */
-MutualAttractApp.prototype.getNumBodies = function() {
+getNumBodies() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-MutualAttractApp.prototype.setNumBodies = function(value) {
+setNumBodies(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(MutualAttractApp.en.NUMBER_BODIES);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -263,11 +239,19 @@ MutualAttractApp.de_strings = {
   OBJECTS: 'K\u00f6rpern'
 };
 
-
 /** Set of internationalized strings.
 @type {MutualAttractApp.i18n_strings}
 */
 MutualAttractApp.i18n = goog.LOCALE === 'de' ? MutualAttractApp.de_strings :
     MutualAttractApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!MutualAttractApp}
+*/
+function makeMutualAttractApp(elem_ids) {
+  return new MutualAttractApp(elem_ids);
+};
+goog.exportSymbol('makeMutualAttractApp', makeMutualAttractApp);
+
+exports = MutualAttractApp;

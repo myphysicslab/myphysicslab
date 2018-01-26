@@ -12,57 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.MultipleCollisionApp');
+goog.module('myphysicslab.sims.engine2D.MultipleCollisionApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Demonstrates that collision handling policies produce different results.
 
@@ -87,29 +59,27 @@ to do:  another to add:  1x3 block on ground, lying horizontally, pick up one co
 
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class MultipleCollisionApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {string=} opt_name name of this as a Subject
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
-  /** @type {number} */
-  this.space_half_width = 6;
-  /** @type {number} */
-  this.space_half_height = 2;
-  var w = this.space_half_width;
-  var h = this.space_half_height;
+constructor(elem_ids, opt_name) {
+  var w = 6;
+  var h = 2;
   var simRect = new DoubleRect(-w, -h, w, h);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance, opt_name);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, opt_name);
+  this.mySim = sim;
+  /** @type {number} */
+  this.space_half_width = w;
+  /** @type {number} */
+  this.space_half_height = h;
   this.layout.simCanvas.setBackground('black');
   this.mySim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   this.elasticity.setElasticity(1.0);
@@ -215,11 +185,9 @@ myphysicslab.sims.engine2D.MultipleCollisionApp = function(elem_ids, opt_name) {
   this.config();
   this.graphSetup();
 };
-var MultipleCollisionApp = myphysicslab.sims.engine2D.MultipleCollisionApp;
-goog.inherits(MultipleCollisionApp, Engine2DApp);
 
 /** @override */
-MultipleCollisionApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', formation: '+this.formation
@@ -227,26 +195,17 @@ MultipleCollisionApp.prototype.toString = function() {
       +', angle: '+Util.NF(this.angle)
       +', offset: '+Util.NF(this.offset)
       +', speed: '+Util.NF(this.speed)
-      + MultipleCollisionApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-MultipleCollisionApp.prototype.getClassName = function() {
+getClassName() {
   return 'MultipleCollisionApp';
 };
 
-
-/**
-* @enum {string}
-*/
-MultipleCollisionApp.Shape = {
-  SQUARE: 'SQUARE',
-  CIRCLE: 'CIRCLE'
-};
-
 /** @override */
-MultipleCollisionApp.prototype.defineNames = function(myName) {
-  MultipleCollisionApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('dampingLaw',
        myName+'.');
   this.terminal.addRegex('MultipleCollisionApp|Engine2DApp',
@@ -254,8 +213,8 @@ MultipleCollisionApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-MultipleCollisionApp.prototype.getSubjects = function() {
-  var subjects = MultipleCollisionApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, subjects);
 };
 
@@ -263,7 +222,7 @@ MultipleCollisionApp.prototype.getSubjects = function() {
 * @return {!Polygon}
 * @private
 */
-MultipleCollisionApp.prototype.makePuck = function() {
+makePuck() {
   if (this.shape == MultipleCollisionApp.Shape.SQUARE) {
     return Shapes.makeBlock(1, 1);
   } else if (this.shape == MultipleCollisionApp.Shape.CIRCLE) {
@@ -278,7 +237,7 @@ MultipleCollisionApp.prototype.makePuck = function() {
 * @param {!Polygon} body
 * @private
 */
-MultipleCollisionApp.prototype.addBody = function(body) {
+addBody(body) {
   var c = MultipleCollisionApp.massToColor(body.getMass());
   this.mySim.addBody(body);
   this.displayList.findShape(body).setFillStyle(c).setDrawCenterOfMass(true);
@@ -299,7 +258,7 @@ This translates to equation:
 * @param {number} mass
 * @return {string} color corresponding to mass
 */
-MultipleCollisionApp.massToColor = function(mass) {
+static massToColor(mass) {
   var logm = Math.LOG10E * Math.log((mass));
   if (logm < -1) {
     logm = -1;
@@ -315,7 +274,7 @@ MultipleCollisionApp.massToColor = function(mass) {
 * @return {undefined}
 * @private
 */
-MultipleCollisionApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
@@ -577,14 +536,14 @@ MultipleCollisionApp.prototype.config = function() {
 /**
 * @return {string}
 */
-MultipleCollisionApp.prototype.getFormation = function() {
+getFormation() {
   return this.formation;
 };
 
 /**
 * @param {string} value
 */
-MultipleCollisionApp.prototype.setFormation = function(value) {
+setFormation(value) {
   value = Util.toName(value);
   if (this.formation != value) {
     if (!goog.array.contains(this.formations, value)) {
@@ -599,14 +558,14 @@ MultipleCollisionApp.prototype.setFormation = function(value) {
 /**
 * @return {number}
 */
-MultipleCollisionApp.prototype.getOffset = function() {
+getOffset() {
   return this.offset;
 };
 
 /**
 * @param {number} value
 */
-MultipleCollisionApp.prototype.setOffset = function(value) {
+setOffset(value) {
   this.offset = value;
   this.config();
   this.broadcastParameter(MultipleCollisionApp.en.OFFSET);
@@ -615,14 +574,14 @@ MultipleCollisionApp.prototype.setOffset = function(value) {
 /**
 * @return {number}
 */
-MultipleCollisionApp.prototype.getSpeed = function() {
+getSpeed() {
   return this.speed;
 };
 
 /**
 * @param {number} value
 */
-MultipleCollisionApp.prototype.setSpeed = function(value) {
+setSpeed(value) {
   this.speed = value;
   this.config();
   this.broadcastParameter(MultipleCollisionApp.en.SPEED);
@@ -631,14 +590,14 @@ MultipleCollisionApp.prototype.setSpeed = function(value) {
 /**
 * @return {number}
 */
-MultipleCollisionApp.prototype.getAngle = function() {
+getAngle() {
   return this.angle;
 };
 
 /**
 * @param {number} value
 */
-MultipleCollisionApp.prototype.setAngle = function(value) {
+setAngle(value) {
   this.angle = value;
   this.config();
   this.broadcastParameter(MultipleCollisionApp.en.ANGLE);
@@ -647,20 +606,30 @@ MultipleCollisionApp.prototype.setAngle = function(value) {
 /**
 * @return {string}
 */
-MultipleCollisionApp.prototype.getShape = function() {
+getShape() {
   return this.shape;
 };
 
 /**
 * @param {string} value
 */
-MultipleCollisionApp.prototype.setShape = function(value) {
+setShape(value) {
   value = Util.toName(value);
   if (this.shape != value) {
     this.shape = value;
     this.config();
     this.broadcastParameter(MultipleCollisionApp.en.SHAPE);
   }
+};
+
+} //end class
+
+/**
+* @enum {string}
+*/
+MultipleCollisionApp.Shape = {
+  SQUARE: 'SQUARE',
+  CIRCLE: 'CIRCLE'
 };
 
 /** Set of internationalized strings.
@@ -754,11 +723,20 @@ MultipleCollisionApp.de_strings = {
   MASS: 'Masse'
 };
 
-
 /** Set of internationalized strings.
 @type {MultipleCollisionApp.i18n_strings}
 */
 MultipleCollisionApp.i18n = goog.LOCALE === 'de' ? MultipleCollisionApp.de_strings :
     MultipleCollisionApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @param {string=} opt_name name of this as a Subject
+* @return {!MultipleCollisionApp}
+*/
+function makeMultipleCollisionApp(elem_ids, opt_name) {
+  return new MultipleCollisionApp(elem_ids, opt_name);
+};
+goog.exportSymbol('makeMultipleCollisionApp', makeMultipleCollisionApp);
+
+exports = MultipleCollisionApp;

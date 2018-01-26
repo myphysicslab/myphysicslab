@@ -12,57 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.ChainApp');
+goog.module('myphysicslab.sims.engine2D.ChainApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.sims.engine2D.ChainConfig');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-var ChainConfig = sims.engine2D.ChainConfig;
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const ChainConfig = goog.require('myphysicslab.sims.engine2D.ChainConfig');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of a chain of rigid bodies.
 
@@ -87,22 +58,20 @@ Parameters Created
 
 + ParameterNumber named `BLOCK_WIDTH`, see {@link #setBlockWidth}.
 
-
+*/
+class ChainApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.ChainApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-12, -12, 12, 12);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   /** @type {boolean}
   * @private
   */
@@ -218,25 +187,23 @@ sims.engine2D.ChainApp = function(elem_ids) {
   this.config();
   this.graphSetup(this.mySim.getBody('chain-2'));
 };
-var ChainApp = sims.engine2D.ChainApp;
-goog.inherits(ChainApp, Engine2DApp);
 
 /** @override */
-ChainApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + ChainApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ChainApp.prototype.getClassName = function() {
+getClassName() {
   return 'ChainApp';
 };
 
 /** @override */
-ChainApp.prototype.defineNames = function(myName) {
-  ChainApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('ChainConfig|ChainApp|Engine2DApp',
@@ -244,15 +211,15 @@ ChainApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-ChainApp.prototype.getSubjects = function() {
-  var subjects = ChainApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-ChainApp.prototype.config = function() {
+config() {
   if (this.debug_) {
     // show names of objects
     this.rbo.protoPolygon.setNameFont('10pt sans-serif');
@@ -293,14 +260,14 @@ ChainApp.prototype.config = function() {
 /**
 * @return {number}
 */
-ChainApp.prototype.getNumLinks = function() {
+getNumLinks() {
   return this.options.numLinks;
 };
 
 /**
 * @param {number} value
 */
-ChainApp.prototype.setNumLinks = function(value) {
+setNumLinks(value) {
   this.options.numLinks = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.NUM_LINKS);
@@ -309,14 +276,14 @@ ChainApp.prototype.setNumLinks = function(value) {
 /**
 * @return {boolean}
 */
-ChainApp.prototype.getWalls = function() {
+getWalls() {
   return this.walls;
 };
 
 /**
 * @param {boolean} value
 */
-ChainApp.prototype.setWalls = function(value) {
+setWalls(value) {
   this.walls = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.WALLS);
@@ -325,14 +292,14 @@ ChainApp.prototype.setWalls = function(value) {
 /**
 * @return {number}
 */
-ChainApp.prototype.getWallWidth = function() {
+getWallWidth() {
   return this.wallWidth;
 };
 
 /**
 * @param {number} value
 */
-ChainApp.prototype.setWallWidth = function(value) {
+setWallWidth(value) {
   this.wallWidth = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.WALL_WIDTH);
@@ -341,14 +308,14 @@ ChainApp.prototype.setWallWidth = function(value) {
 /**
 * @return {boolean}
 */
-ChainApp.prototype.getExtraBody = function() {
+getExtraBody() {
   return this.extraBody;
 };
 
 /**
 * @param {boolean} value
 */
-ChainApp.prototype.setExtraBody = function(value) {
+setExtraBody(value) {
   this.extraBody = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.EXTRA_BODY);
@@ -357,14 +324,14 @@ ChainApp.prototype.setExtraBody = function(value) {
 /**
 * @return {boolean}
 */
-ChainApp.prototype.getFixedLeft = function() {
+getFixedLeft() {
   return this.options.fixedLeft;
 };
 
 /**
 * @param {boolean} value
 */
-ChainApp.prototype.setFixedLeft = function(value) {
+setFixedLeft(value) {
   this.options.fixedLeft = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.FIXED_LEFT);
@@ -373,14 +340,14 @@ ChainApp.prototype.setFixedLeft = function(value) {
 /**
 * @return {boolean}
 */
-ChainApp.prototype.getFixedRight = function() {
+getFixedRight() {
   return this.options.fixedRight;
 };
 
 /**
 * @param {boolean} value
 */
-ChainApp.prototype.setFixedRight = function(value) {
+setFixedRight(value) {
   this.options.fixedRight = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.FIXED_RIGHT);
@@ -389,14 +356,14 @@ ChainApp.prototype.setFixedRight = function(value) {
 /**
 * @return {number}
 */
-ChainApp.prototype.getFixedLeftX = function() {
+getFixedLeftX() {
   return this.options.wallPivotX;
 };
 
 /**
 * @param {number} value
 */
-ChainApp.prototype.setFixedLeftX = function(value) {
+setFixedLeftX(value) {
   this.options.wallPivotX = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.FIXED_LEFT_X);
@@ -405,14 +372,14 @@ ChainApp.prototype.setFixedLeftX = function(value) {
 /**
 * @return {number}
 */
-ChainApp.prototype.getFixedLeftY = function() {
+getFixedLeftY() {
   return this.options.wallPivotY;
 };
 
 /**
 * @param {number} value
 */
-ChainApp.prototype.setFixedLeftY = function(value) {
+setFixedLeftY(value) {
   this.options.wallPivotY = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.FIXED_LEFT_Y);
@@ -421,14 +388,14 @@ ChainApp.prototype.setFixedLeftY = function(value) {
 /**
 * @return {number}
 */
-ChainApp.prototype.getBlockLength = function() {
+getBlockLength() {
   return this.options.blockHeight;
 };
 
 /**
 * @param {number} value
 */
-ChainApp.prototype.setBlockLength = function(value) {
+setBlockLength(value) {
   this.options.blockHeight = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.BLOCK_LENGTH);
@@ -437,17 +404,28 @@ ChainApp.prototype.setBlockLength = function(value) {
 /**
 * @return {number}
 */
-ChainApp.prototype.getBlockWidth = function() {
+getBlockWidth() {
   return this.options.blockWidth;
 };
 
 /**
 * @param {number} value
 */
-ChainApp.prototype.setBlockWidth = function(value) {
+setBlockWidth(value) {
   this.options.blockWidth = value;
   this.config();
   this.broadcastParameter(ChainConfig.en.BLOCK_WIDTH);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!ChainApp}
+*/
+function makeChainApp(elem_ids) {
+  return new ChainApp(elem_ids);
+};
+goog.exportSymbol('makeChainApp', makeChainApp);
+
+exports = ChainApp;

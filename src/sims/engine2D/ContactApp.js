@@ -12,54 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.ContactApp');
+goog.module('myphysicslab.sims.engine2D.ContactApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var SixThrusters = sims.engine2D.SixThrusters;
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /**  ContactApp demonstrates ContactSim with a set of simple rectangular objects.
 
@@ -74,25 +48,23 @@ Parameters Created
 
 + ParameterNumber named `MASS1`, see {@link #setMass1}
 
-
+*/
+class ContactApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.ContactApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4.5, -3.6, 3.1, 4);
-  /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
+  var sim = new ContactSim();
   // Try different ExtraAccel values here. Can also do this in Terminal.
   //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);
-  var advance = new CollisionAdvance(this.mySim);
+  var advance = new CollisionAdvance(sim);
   //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  super(elem_ids, simRect, sim, advance);
+  /** @type {!ContactSim} */
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(true);
@@ -146,25 +118,23 @@ sims.engine2D.ContactApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var ContactApp = sims.engine2D.ContactApp;
-goog.inherits(ContactApp, Engine2DApp);
 
 /** @override */
-ContactApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + ContactApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-ContactApp.prototype.getClassName = function() {
+getClassName() {
   return 'ContactApp';
 };
 
 /** @override */
-ContactApp.prototype.defineNames = function(myName) {
-  ContactApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('ContactApp|Engine2DApp',
@@ -172,15 +142,15 @@ ContactApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-ContactApp.prototype.getSubjects = function() {
-  var subjects = ContactApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-ContactApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
@@ -258,14 +228,14 @@ ContactApp.prototype.config = function() {
 /**
 * @return {number}
 */
-ContactApp.prototype.getMass1 = function() {
+getMass1() {
   return this.mass1;
 };
 
 /**
 * @param {number} value
 */
-ContactApp.prototype.setMass1 = function(value) {
+setMass1(value) {
   if (this.mass1 != value) {
     this.mass1 = value;
     var body1 = this.mySim.getBody(ContactApp.en.BLOCK+'1');
@@ -277,14 +247,14 @@ ContactApp.prototype.setMass1 = function(value) {
 /**
 * @return {number}
 */
-ContactApp.prototype.getNumBodies = function() {
+getNumBodies() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-ContactApp.prototype.setNumBodies = function(value) {
+setNumBodies(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(ContactApp.en.NUM_BODIES);
@@ -293,19 +263,21 @@ ContactApp.prototype.setNumBodies = function(value) {
 /**
 * @return {number}
 */
-ContactApp.prototype.getThrust = function() {
+getThrust() {
   return this.thrust;
 };
 
 /**
 * @param {number} value
 */
-ContactApp.prototype.setThrust = function(value) {
+setThrust(value) {
   this.thrust = value;
   this.thrust1.setMagnitude(value);
   this.thrust2.setMagnitude(value);
   this.broadcastParameter(ContactApp.en.THRUST);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -344,4 +316,13 @@ ContactApp.de_strings = {
 ContactApp.i18n = goog.LOCALE === 'de' ? ContactApp.de_strings :
     ContactApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!ContactApp}
+*/
+function makeContactApp(elem_ids) {
+  return new ContactApp(elem_ids);
+};
+goog.exportSymbol('makeContactApp', makeContactApp);
+
+exports = ContactApp;

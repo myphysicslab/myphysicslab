@@ -12,52 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.CurvedTestApp');
+goog.module('myphysicslab.sims.engine2D.CurvedTestApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.ThrusterSet');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var SixThrusters = sims.engine2D.SixThrusters;
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const ThrusterSet = goog.module.get('myphysicslab.lab.engine2D.ThrusterSet');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /**  CurvedTestApp shows some ball and rectangle objects bouncing
 among some fixed ball and rectangle objects.
@@ -71,22 +47,20 @@ Parameters Created
 
 + ParameterNumber named `THRUST`, see {@link #setThrust}
 
-
+*/
+class CurvedTestApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.CurvedTestApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4, -6, 8, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.rbo.protoPolygon.setDrawCenterOfMass(true).setNameFont('10pt sans-serif');
   this.rbo.protoSpring.setWidth(0.3);
   this.mySim.setShowForces(true);
@@ -132,25 +106,23 @@ sims.engine2D.CurvedTestApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var CurvedTestApp = sims.engine2D.CurvedTestApp;
-goog.inherits(CurvedTestApp, Engine2DApp);
 
 /** @override */
-CurvedTestApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + CurvedTestApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CurvedTestApp.prototype.getClassName = function() {
+getClassName() {
   return 'CurvedTestApp';
 };
 
 /** @override */
-CurvedTestApp.prototype.defineNames = function(myName) {
-  CurvedTestApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('CurvedTestApp|Engine2DApp',
@@ -158,15 +130,15 @@ CurvedTestApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-CurvedTestApp.prototype.getSubjects = function() {
-  var subjects = CurvedTestApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-CurvedTestApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -203,7 +175,7 @@ CurvedTestApp.prototype.config = function() {
 * @param {?DisplayList} displayList
 * @return {undefined}
 */
-CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayList) {
+static make(sim, gravity, damping, numBods, simRect, displayList) {
   sim.addForceLaw(damping);
   damping.connect(sim.getSimList());
   sim.addForceLaw(gravity);
@@ -288,14 +260,14 @@ CurvedTestApp.make = function(sim, gravity, damping, numBods, simRect, displayLi
 /**
 * @return {number}
 */
-CurvedTestApp.prototype.getNumBodies = function() {
+getNumBodies() {
   return this.numBods;
 };
 
 /**
 * @param {number} value
 */
-CurvedTestApp.prototype.setNumBodies = function(value) {
+setNumBodies(value) {
   this.numBods = value;
   this.config();
   this.broadcastParameter(CurvedTestApp.en.NUM_BODIES);
@@ -304,19 +276,21 @@ CurvedTestApp.prototype.setNumBodies = function(value) {
 /**
 * @return {number}
 */
-CurvedTestApp.prototype.getThrust = function() {
+getThrust() {
   return this.thrust;
 };
 
 /**
 * @param {number} value
 */
-CurvedTestApp.prototype.setThrust = function(value) {
+setThrust(value) {
   this.thrust = value;
   this.thrust1.setMagnitude(value);
   this.thrust2.setMagnitude(value);
   this.broadcastParameter(CurvedTestApp.en.THRUST);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -361,4 +335,13 @@ CurvedTestApp.de_strings = {
 CurvedTestApp.i18n = goog.LOCALE === 'de' ? CurvedTestApp.de_strings :
     CurvedTestApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!CurvedTestApp}
+*/
+function makeCurvedTestApp(elem_ids) {
+  return new CurvedTestApp(elem_ids);
+};
+goog.exportSymbol('makeCurvedTestApp', makeCurvedTestApp);
+
+exports = CurvedTestApp;

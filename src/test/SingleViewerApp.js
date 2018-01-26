@@ -62,10 +62,11 @@ TestViewerApp but without the menus to select tests.
 */
 myphysicslab.test.SingleViewerApp = function(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
 
   myphysicslab.test.SpeedTest.ball_vs_wall_setup(this.mySim, advance);
 

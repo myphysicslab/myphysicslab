@@ -12,60 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.DoNothingApp');
+goog.module('myphysicslab.sims.engine2D.DoNothingApp');
 
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.ForceLaw');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const ForceLaw = goog.module.get('myphysicslab.lab.model.ForceLaw');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var RotatingTestForce = sims.engine2D.RotatingTestForce;
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const RotatingTestForce = goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of the Do Nothing Grinder, which consists of two shuttle
 blocks, each moving in its own groove, and a handle connects the shuttles. You can move
@@ -79,22 +50,21 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 
 @todo  Make a control for magnitude of handle force.
 
+*/
+class DoNothingApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.DoNothingApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-6, -6, 6, 6);
+  var sim = new ContactSim();
+  sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  this.mySim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.rbo.protoFixedPolygon.setFillStyle('rgb(240,240,240)');
   this.mySim.setShowForces(false);
   this.elasticity.setElasticity(0.8);
@@ -146,24 +116,22 @@ sims.engine2D.DoNothingApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var DoNothingApp = sims.engine2D.DoNothingApp;
-goog.inherits(DoNothingApp, Engine2DApp);
 
 /** @override */
-DoNothingApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
-      + DoNothingApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-DoNothingApp.prototype.getClassName = function() {
+getClassName() {
   return 'DoNothingApp';
 };
 
 /** @override */
-DoNothingApp.prototype.defineNames = function(myName) {
-  DoNothingApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('dampingLaw',
        myName+'.');
   this.terminal.addRegex('DoNothingApp|Engine2DApp',
@@ -171,15 +139,15 @@ DoNothingApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-DoNothingApp.prototype.getSubjects = function() {
-  var subjects = DoNothingApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-DoNothingApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -244,7 +212,7 @@ The handle does not interact with the fixed groove blocks.
   shuttles are in constant contact at all four corners;  false gives a little
   wiggle room for the shuttles.
 */
-DoNothingApp.setup = function(sim, tightFit) {
+static setup(sim, tightFit) {
   var handle = Shapes.makeBlock(0.8, 6.2, DoNothingApp.en.HANDLE,
       DoNothingApp.i18n.HANDLE);
   handle.setMass(0.5);
@@ -298,52 +266,54 @@ DoNothingApp.setup = function(sim, tightFit) {
 };
 
 /** @return {number} */
-DoNothingApp.prototype.getHandleForce = function() {
+getHandleForce() {
   return this.handleForce;
 };
 
 /** @param {number} value */
-DoNothingApp.prototype.setHandleForce = function(value) {
+setHandleForce(value) {
   this.handleForce = value;
   this.config();
   this.broadcastParameter(DoNothingApp.en.HANDLE_FORCE);
 };
 
 /** @return {number} */
-DoNothingApp.prototype.getRotateRate = function() {
+getRotateRate() {
   return this.rotateRate;
 };
 
 /** @param {number} value */
-DoNothingApp.prototype.setRotateRate = function(value) {
+setRotateRate(value) {
   this.rotateRate = value;
   this.config();
   this.broadcastParameter(DoNothingApp.en.ROTATE_RATE);
 };
 
 /** @return {boolean} */
-DoNothingApp.prototype.getTightFit = function() {
+getTightFit() {
   return this.tightFit;
 };
 
 /** @param {boolean} value */
-DoNothingApp.prototype.setTightFit = function(value) {
+setTightFit(value) {
   this.tightFit = value;
   this.config();
   this.broadcastParameter(DoNothingApp.en.TIGHT_FIT);
 };
 
 /** @return {boolean} */
-DoNothingApp.prototype.getExtraBlock = function() {
+getExtraBlock() {
   return this.extraBlock;
 };
 
 /** @param {boolean} value */
-DoNothingApp.prototype.setExtraBlock = function(value) {
+setExtraBlock(value) {
   this.extraBlock = value;
   this.config();
   this.broadcastParameter(DoNothingApp.en.EXTRA_BLOCK);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -391,4 +361,13 @@ DoNothingApp.de_strings = {
 DoNothingApp.i18n = goog.LOCALE === 'de' ? DoNothingApp.de_strings :
     DoNothingApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!DoNothingApp}
+*/
+function makeDoNothingApp(elem_ids) {
+  return new DoNothingApp(elem_ids);
+};
+goog.exportSymbol('makeDoNothingApp', makeDoNothingApp);
+
+exports = DoNothingApp;

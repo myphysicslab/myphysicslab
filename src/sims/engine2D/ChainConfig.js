@@ -12,57 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.ChainConfig');
+goog.module('myphysicslab.sims.engine2D.ChainConfig');
 
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-
-goog.scope(function() {
-
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Makes chain of rigid bodies.
-* @constructor
-* @final
-* @struct
+*/
+class ChainConfig {
+/**
 * @private
 */
-myphysicslab.sims.engine2D.ChainConfig = function() {
+constructor() {
   throw new Error();
 };
-var ChainConfig = myphysicslab.sims.engine2D.ChainConfig;
-
-
-/** @typedef {{
-    wallPivotX: number,
-    wallPivotY: number,
-    fixedLeft: boolean,
-    fixedRight: boolean,
-    blockWidth: number,
-    blockHeight: number,
-    numLinks: number
-  }}
-*/
-ChainConfig.options;
 
 /**
 * @param {!ContactSim} sim
 * @param {!ChainConfig.options} options
 * @return {!DoubleRect} rectangle that contains all chain links, in sim coords
 */
-ChainConfig.makeChain = function(sim, options) {
+static makeChain(sim, options) {
   var joint1X, joint1Y;  /* where 'lower' joint attaches, in body coords*/
   var joint2X, joint2Y;  /* where 'upper' joint attaches, in body coords*/
   joint1X = 0.5 * options.blockWidth;
@@ -116,6 +91,20 @@ ChainConfig.makeChain = function(sim, options) {
   }
   return r;
 };
+
+} //end class
+
+/** @typedef {{
+    wallPivotX: number,
+    wallPivotY: number,
+    fixedLeft: boolean,
+    fixedRight: boolean,
+    blockWidth: number,
+    blockHeight: number,
+    numLinks: number
+  }}
+*/
+ChainConfig.options;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -175,4 +164,4 @@ ChainConfig.de_strings = {
 ChainConfig.i18n = goog.LOCALE === 'de' ? ChainConfig.de_strings :
     ChainConfig.en;
 
-}); // goog.scope
+exports = ChainConfig;

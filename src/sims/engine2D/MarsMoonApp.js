@@ -12,66 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.MarsMoonApp');
+goog.module('myphysicslab.sims.engine2D.MarsMoonApp');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const Gravity2Law = goog.module.get('myphysicslab.lab.model.Gravity2Law');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const Gravity2Law = goog.require('myphysicslab.lab.model.Gravity2Law');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of an asteroid orbiting a moon.
 
 This app has a {@link #config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class MarsMoonApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.MarsMoonApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-10, -10, 10, 10);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(1.0);
@@ -139,25 +115,23 @@ sims.engine2D.MarsMoonApp = function(elem_ids) {
   // show the pan-zoom controls
   this.panZoomParam.setValue(true);
 };
-var MarsMoonApp = sims.engine2D.MarsMoonApp;
-goog.inherits(MarsMoonApp, Engine2DApp);
 
 /** @override */
-MarsMoonApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + MarsMoonApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-MarsMoonApp.prototype.getClassName = function() {
+getClassName() {
   return 'MarsMoonApp';
 };
 
 /** @override */
-MarsMoonApp.prototype.defineNames = function(myName) {
-  MarsMoonApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('MarsMoonApp|Engine2DApp',
@@ -165,13 +139,13 @@ MarsMoonApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-MarsMoonApp.prototype.getSubjects = function() {
-  var subjects = MarsMoonApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /** @override */
-MarsMoonApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   var idx = this.asteroid.getVarsIndex();
   this.graph.line.setXVariable(idx+0); // 'asteroid x position'
   this.graph.line.setYVariable(idx+2); // 'asteroid y position'
@@ -182,7 +156,7 @@ MarsMoonApp.prototype.graphSetup = function(body) {
 /**
 * @return {undefined}
 */
-MarsMoonApp.prototype.config = function() {
+config() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -228,14 +202,14 @@ MarsMoonApp.prototype.config = function() {
 /**
 * @return {number}
 */
-MarsMoonApp.prototype.getAsteroidMass = function() {
+getAsteroidMass() {
   return this.asteroidMass;
 };
 
 /**
 * @param {number} value
 */
-MarsMoonApp.prototype.setAsteroidMass = function(value) {
+setAsteroidMass(value) {
   this.asteroidMass = value;
   this.broadcastParameter(MarsMoonApp.en.ASTERIOD_MASS);
 };
@@ -243,14 +217,14 @@ MarsMoonApp.prototype.setAsteroidMass = function(value) {
 /**
 * @return {number}
 */
-MarsMoonApp.prototype.getMoonMass = function() {
+getMoonMass() {
   return this.moonMass;
 };
 
 /**
 * @param {number} value
 */
-MarsMoonApp.prototype.setMoonMass = function(value) {
+setMoonMass(value) {
   this.moonMass = value;
   this.broadcastParameter(MarsMoonApp.en.MOON_MASS);
 };
@@ -258,18 +232,20 @@ MarsMoonApp.prototype.setMoonMass = function(value) {
 /**
 * @return {number}
 */
-MarsMoonApp.prototype.getVelocity = function() {
+getVelocity() {
   return this.velocity;
 };
 
 /**
 * @param {number} value
 */
-MarsMoonApp.prototype.setVelocity = function(value) {
+setVelocity(value) {
   this.velocity = value;
   this.config();
   this.broadcastParameter(MarsMoonApp.en.VELOCITY);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -314,11 +290,19 @@ MarsMoonApp.de_strings = {
   ASTERIOD: 'Asteroid'
 };
 
-
 /** Set of internationalized strings.
 @type {MarsMoonApp.i18n_strings}
 */
 MarsMoonApp.i18n = goog.LOCALE === 'de' ? MarsMoonApp.de_strings :
     MarsMoonApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!MarsMoonApp}
+*/
+function makeMarsMoonApp(elem_ids) {
+  return new MarsMoonApp(elem_ids);
+};
+goog.exportSymbol('makeMarsMoonApp', makeMarsMoonApp);
+
+exports = MarsMoonApp;

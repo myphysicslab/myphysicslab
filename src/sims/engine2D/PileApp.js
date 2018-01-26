@@ -12,63 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.PileApp');
+goog.module('myphysicslab.sims.engine2D.PileApp');
 
-goog.require('myphysicslab.lab.controls.ButtonControl');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-goog.require('myphysicslab.lab.util.ClockTask');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.engine2D.PileConfig');
-goog.require('myphysicslab.sims.engine2D.SixThrusters');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const ButtonControl = goog.module.get('myphysicslab.lab.controls.ButtonControl');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-var PileConfig = sims.engine2D.PileConfig;
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var SixThrusters = sims.engine2D.SixThrusters;
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-var WayPoint = lab.model.CollisionAdvance.WayPoint;
+const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PileConfig = goog.require('myphysicslab.sims.engine2D.PileConfig');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Creates a pile of randomly shaped blocks that fall onto a V shaped
 wall. The user can add 6 blocks at a time to the pile by clicking a button. This is a
@@ -93,7 +61,6 @@ Specifically here are some settings and their effects:
 + No Wiggle:  Gravity=10, TimeStep=0.025, Runge Kutta
 + No Wiggle:  Gravity=3, TimeStep=0.025, Modified Euler
 
-
 Update Nov 2011: The fix to ContactSim.calculate_b_vector which "adjusts acceleration
 to eliminate velocity at contacts" has eliminated the wiggling in the above cases. One
 case that is still problematic is when using inverse square gravity: with gravity=10 you
@@ -104,22 +71,20 @@ numeric control.  To make the UI simpler by having one less UI item.
 
 This app has a config() method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
-
+*/
+class PileApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.PileApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-3, -0.2, 3, 5.2);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance, 'PILE_APP');
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance, 'PILE_APP');
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
   this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
@@ -217,25 +182,23 @@ sims.engine2D.PileApp = function(elem_ids) {
   this.config();
   this.graphSetup();
 };
-var PileApp = sims.engine2D.PileApp;
-goog.inherits(PileApp, Engine2DApp);
 
 /** @override */
-PileApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + PileApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-PileApp.prototype.getClassName = function() {
+getClassName() {
   return 'PileApp';
 };
 
 /** @override */
-PileApp.prototype.defineNames = function(myName) {
-  PileApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('PileConfig|PileApp|Engine2DApp',
@@ -243,15 +206,15 @@ PileApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-PileApp.prototype.getSubjects = function() {
-  var subjects = PileApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
 /**
 * @return {undefined}
 */
-PileApp.prototype.config = function() {
+config() {
   // to build a specific config each time, set buildRNG here.
   //this.buildRNG = new RandomLCG(594074265);
   //console.log('buildRNG.getSeed()='+this.buildRNG.getSeed());
@@ -311,7 +274,7 @@ PileApp.prototype.config = function() {
 /**
 * @return {undefined}
 */
-PileApp.prototype.addBlock = function() {
+addBlock() {
   var b = this.squareBlocks ? Shapes.makeBlock(1, 1) :
       Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/0.7);
   b.setPosition(new Vector(0,  10));
@@ -323,14 +286,14 @@ PileApp.prototype.addBlock = function() {
 /**
 * @return {number}
 */
-PileApp.prototype.getLoopTime = function() {
+getLoopTime() {
   return this.task.getTime();
 };
 
 /**
 * @param {number} value
 */
-PileApp.prototype.setLoopTime = function(value) {
+setLoopTime(value) {
   this.clock.removeTask(this.task);
   this.task = new ClockTask(value, goog.bind(this.config, this));
   this.clock.addTask(this.task);
@@ -343,14 +306,14 @@ PileApp.prototype.setLoopTime = function(value) {
 /**
 * @return {number}
 */
-PileApp.prototype.getNumBlocks = function() {
+getNumBlocks() {
   return this.numBlocks;
 };
 
 /**
 * @param {number} value
 */
-PileApp.prototype.setNumBlocks = function(value) {
+setNumBlocks(value) {
   this.numBlocks = value;
   this.config();
   this.broadcastParameter(PileConfig.en.NUM_BLOCKS);
@@ -359,14 +322,14 @@ PileApp.prototype.setNumBlocks = function(value) {
 /**
 * @return {boolean}
 */
-PileApp.prototype.getTwoPiles = function() {
+getTwoPiles() {
   return this.twoPiles;
 };
 
 /**
 * @param {boolean} value
 */
-PileApp.prototype.setTwoPiles = function(value) {
+setTwoPiles(value) {
   this.twoPiles = value;
   this.config();
   this.broadcastParameter(PileConfig.en.TWO_PILES);
@@ -375,14 +338,14 @@ PileApp.prototype.setTwoPiles = function(value) {
 /**
 * @return {boolean}
 */
-PileApp.prototype.getConnectedBlocks = function() {
+getConnectedBlocks() {
   return this.connectedBlocks;
 };
 
 /**
 * @param {boolean} value
 */
-PileApp.prototype.setConnectedBlocks = function(value) {
+setConnectedBlocks(value) {
   this.connectedBlocks = value;
   this.config();
   this.broadcastParameter(PileConfig.en.CONNECTED_BLOCKS);
@@ -391,14 +354,14 @@ PileApp.prototype.setConnectedBlocks = function(value) {
 /**
 * @return {boolean}
 */
-PileApp.prototype.getEndlessLoop = function() {
+getEndlessLoop() {
   return this.endlessLoop;
 };
 
 /**
 * @param {boolean} value
 */
-PileApp.prototype.setEndlessLoop = function(value) {
+setEndlessLoop(value) {
   this.endlessLoop = value;
   this.config();
   this.broadcastParameter(PileConfig.en.ENDLESS_LOOP);
@@ -407,14 +370,14 @@ PileApp.prototype.setEndlessLoop = function(value) {
 /** Returns the seed of the random number generator used to determine sizes of blocks.
 * @return {number}
 */
-PileApp.prototype.getRandomSeed = function() {
+getRandomSeed() {
   return this.randomSeed;
 };
 
 /** Sets the seed of the random number generator used to determine sizes of blocks
 * @param {number} value
 */
-PileApp.prototype.setRandomSeed = function(value) {
+setRandomSeed(value) {
   this.randomSeed = value;
   this.buildRNG.setSeed(value);
   this.config();
@@ -424,17 +387,28 @@ PileApp.prototype.setRandomSeed = function(value) {
 /**
 * @return {boolean}
 */
-PileApp.prototype.getSquareBlocks = function() {
+getSquareBlocks() {
   return this.squareBlocks;
 };
 
 /**
 * @param {boolean} value
 */
-PileApp.prototype.setSquareBlocks = function(value) {
+setSquareBlocks(value) {
   this.squareBlocks = value;
   this.config();
   this.broadcastParameter(PileConfig.en.SQUARE_BLOCKS);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!PileApp}
+*/
+function makePileApp(elem_ids) {
+  return new PileApp(elem_ids);
+};
+goog.exportSymbol('makePileApp', makePileApp);
+
+exports = PileApp;

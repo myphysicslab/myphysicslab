@@ -12,63 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.PendulumSpringApp');
+goog.module('myphysicslab.sims.engine2D.PendulumSpringApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.graph.AutoScale');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AutoScale = goog.module.get('myphysicslab.lab.graph.AutoScale');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Simulates a pendulum attached to another body with a spring.
 The pendulum is a rigid body with a pivot attached to the background.
@@ -76,22 +47,20 @@ The pendulum is a rigid body with a pivot attached to the background.
 Includes demonstration of using a DisplayGraph to show the movement of a body
 as trailing lines following the body. Also demonstrates automatically zooming
 the view to show the graph as it is drawn.
-
+*/
+class PendulumSpringApp extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-sims.engine2D.PendulumSpringApp = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-4, -4, 4, 4);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.layout.simCanvas.setBackground('black');
   this.mySim.setShowForces(false);
   /** @type {!DampingLaw} */
@@ -199,37 +168,35 @@ sims.engine2D.PendulumSpringApp = function(elem_ids) {
   this.addURLScriptButton();
   this.graphSetup();
 };
-var PendulumSpringApp = sims.engine2D.PendulumSpringApp;
-goog.inherits(PendulumSpringApp, Engine2DApp);
 
 /** @override */
-PendulumSpringApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
       +', graphLine: '+this.graphLine.toStringShort()
       +', autoScale: '+this.autoScale.toStringShort()
-      + PendulumSpringApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /**
 * @param {!Spring} s
 * @private
 */
-PendulumSpringApp.prototype.addSpring = function(s) {
+addSpring(s) {
   this.springs_.push(s);
   this.mySim.addForceLaw(s);
   this.simList.add(s);
 };
 
 /** @override */
-PendulumSpringApp.prototype.getClassName = function() {
+getClassName() {
   return 'PendulumSpringApp';
 };
 
 /** @override */
-PendulumSpringApp.prototype.defineNames = function(myName) {
-  PendulumSpringApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw|graphLine|autoScale',
        myName+'.');
   this.terminal.addRegex('PendulumSpringApp|Engine2DApp',
@@ -237,14 +204,14 @@ PendulumSpringApp.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-PendulumSpringApp.prototype.getSubjects = function() {
-  var subjects = PendulumSpringApp.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.gravityLaw, this.dampingLaw, this.graphLine,
        this.autoScale, subjects);
 };
 
 /** @override */
-PendulumSpringApp.prototype.graphSetup = function(body) {
+graphSetup(body) {
   var bodyIdx = this.mySim.getBody('block').getVarsIndex();
   this.graphLine.setXVariable(bodyIdx+0);
   this.graphLine.setYVariable(bodyIdx+2);
@@ -257,14 +224,14 @@ PendulumSpringApp.prototype.graphSetup = function(body) {
 /**
 * @return {number}
 */
-PendulumSpringApp.prototype.getStiffness = function() {
+getStiffness() {
   return this.springs_[0].getStiffness();
 };
 
 /**
 * @param {number} value
 */
-PendulumSpringApp.prototype.setStiffness = function(value) {
+setStiffness(value) {
   goog.array.forEach(this.springs_, function(s){
     s.setStiffness(value);});
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
@@ -275,20 +242,22 @@ PendulumSpringApp.prototype.setStiffness = function(value) {
 /**
 * @return {number}
 */
-PendulumSpringApp.prototype.getRestLength = function() {
+getRestLength() {
   return this.springs_[0].getRestLength();
 };
 
 /**
 * @param {number} value
 */
-PendulumSpringApp.prototype.setRestLength = function(value) {
+setRestLength(value) {
   goog.array.forEach(this.springs_, function(s){
     s.setRestLength(value);});
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(PendulumSpringApp.en.SPRING_LENGTH);
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -327,4 +296,13 @@ PendulumSpringApp.de_strings = {
 PendulumSpringApp.i18n = goog.LOCALE === 'de' ? PendulumSpringApp.de_strings :
     PendulumSpringApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!PendulumSpringApp}
+*/
+function makePendulumSpringApp(elem_ids) {
+  return new PendulumSpringApp(elem_ids);
+};
+goog.exportSymbol('makePendulumSpringApp', makePendulumSpringApp);
+
+exports = PendulumSpringApp;

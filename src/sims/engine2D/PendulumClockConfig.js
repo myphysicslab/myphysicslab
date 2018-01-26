@@ -12,45 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.PendulumClockConfig');
+goog.module('myphysicslab.sims.engine2D.PendulumClockConfig');
 
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Edge');
-goog.require('myphysicslab.lab.engine2D.EdgeRange');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.GearsConfig');
-
-goog.scope(function() {
-
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const Edge = goog.module.get('myphysicslab.lab.engine2D.Edge');
-const EdgeRange = goog.module.get('myphysicslab.lab.engine2D.EdgeRange');
-var GearsConfig = myphysicslab.sims.engine2D.GearsConfig;
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const EdgeRange = goog.require('myphysicslab.lab.engine2D.EdgeRange');
+const GearsConfig = goog.require('myphysicslab.sims.engine2D.GearsConfig');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Utility methods to make parts of a Pendulum Clock.
 
-* @constructor
-* @final
-* @struct
 */
-myphysicslab.sims.engine2D.PendulumClockConfig = function(builder) {};
-var PendulumClockConfig = myphysicslab.sims.engine2D.PendulumClockConfig;
-
+class PendulumClockConfig {
+/**
+*/
+constructor(builder) {
+  throw new Error();
+};
 
 /**  Creates the anchor with pendulum that engages the escape wheel in a
 pendulum clock.
@@ -62,8 +47,7 @@ pendulum clock.
     and the pendulum
 @return {!Polygon} the anchor Polygon
 */
-PendulumClockConfig.makeAnchor = function(scale, anchorJoint, rodLength, bobRadius,
-      startEdges) {
+static makeAnchor(scale, anchorJoint, rodLength, bobRadius, startEdges) {
   var p = new Polygon(PendulumClockConfig.en.ANCHOR, PendulumClockConfig.i18n.ANCHOR);
   // make the anchor, which is the part that engages the escape wheel
   p.startPath(new ConcreteVertex(new Vector(61*scale, 104*scale)));
@@ -107,7 +91,7 @@ PendulumClockConfig.makeAnchor = function(scale, anchorJoint, rodLength, bobRadi
 *    wheel and gear
 * @return {!Polygon}
 */
-PendulumClockConfig.makeEscapeWheel = function(scale, withGear, startEdges) {
+static makeEscapeWheel(scale, withGear, startEdges) {
   var p = new Polygon(PendulumClockConfig.en.ESCAPE_WHEEL,
       PendulumClockConfig.i18n.ESCAPE_WHEEL);
   var radius = 90 * scale; // inner radius
@@ -156,13 +140,12 @@ PendulumClockConfig.makeEscapeWheel = function(scale, withGear, startEdges) {
   return p;
 };
 
-
 /**
 * @param {!ContactSim} sim
 * @param {number} pendulumLength
 * @param {!Vector} center location of escape wheel center, in world coords
 */
-PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
+static makeClock(sim, pendulumLength, center) {
   var escapeEdges = [];
   // escape wheel is the sharp toothed gear, which drives the clock.
   var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
@@ -203,7 +186,7 @@ PendulumClockConfig.makeClock = function(sim, pendulumLength, center) {
 * @param {number} pendulumLength
 * @param {!Vector} center location of escape wheel center, in world coords
 */
-PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
+static makeClockWithGears(sim, pendulumLength, center) {
   // anchor is the rocking pendulum which regulates movement of escape wheel
   var scale = 0.03;
   var anchorJoint = new Vector(109*scale, 166*scale);
@@ -264,6 +247,8 @@ PendulumClockConfig.makeClockWithGears = function(sim, pendulumLength, center) {
   anchor.setNonCollideEdge(EdgeRange.fromEdge(escapeEdges[1]));
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   ANCHOR: string,
@@ -310,4 +295,4 @@ PendulumClockConfig.de_strings = {
 PendulumClockConfig.i18n = goog.LOCALE === 'de' ? PendulumClockConfig.de_strings :
     PendulumClockConfig.en;
 
-}); // goog.scope
+exports = PendulumClockConfig;

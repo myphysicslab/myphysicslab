@@ -221,7 +221,6 @@ impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp-$(loc).ht
 index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index-$(loc).html )
 lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp-$(loc).html )
 marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).html )
-marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).html )
 molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App-$(loc).html )
 molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App-$(loc).html )
 molecule4: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule4App-$(loc).html )
@@ -264,6 +263,11 @@ testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp-$(loc).html 
 unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest-$(loc).html )
 unittestone: $(BUILD_DIR)/test/UnitTestOne.html
 vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp-$(loc).html )
+
+engine2d: billiards blank carsuspension cartpendulum2 chain contact curvedtest \
+donothing doublependulum2 fastball gears impulse marsmoon multiplecollision \
+mutualattract newtonscradle pendulumclock pendulumspring pile pileattract \
+polygontest rigidbody testbody
 
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
