@@ -51,7 +51,7 @@ const Double2DSpringSim = goog.require('myphysicslab.sims.springs.Double2DSpring
 const DoubleSpringSim = goog.require('myphysicslab.sims.springs.DoubleSpringSim');
 const Molecule1Sim = goog.require('myphysicslab.sims.springs.Molecule1Sim');
 const Molecule3Sim = goog.require('myphysicslab.sims.springs.Molecule3Sim');
-const SingleSpringSim = goog.require('myphysicslab.sims.springs.SingleSpringSim');
+//const SingleSpringSim = goog.require('myphysicslab.sims.springs.SingleSpringSim');
 const Spring2DSim = goog.require('myphysicslab.sims.springs.Spring2DSim');
 const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
 const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
@@ -118,9 +118,7 @@ eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
-    console.log(ex);
-    // NOTE: don't show an alert here, because that causes blur/focus events
-    // which can trigger attempt to evaluate a script
+    this.terminal.alertOnce(ex);
   }
 };
 

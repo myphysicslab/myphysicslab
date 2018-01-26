@@ -437,6 +437,11 @@ constructor(term_input, term_output) {
   this.changeKey_ = this.term_input_ ? goog.events.listen(this.term_input_,
       goog.events.EventType.CHANGE, /*callback=*/this.inputCallback,
       /*capture=*/true, this): NaN;
+  /** Whether the {@link #alertOnce} function has happened.
+  * @private
+  * @type {boolean}
+  */
+  this.hasAlerted_ = false;
   /**  session history of scripts entered.
   * @type {!Array<string>}
   * @private
@@ -596,6 +601,21 @@ addWhiteList(name, opt_addToVars) {
     if (addToVars) {
       this.vars_ += (this.vars_.length > 0 ? '|' : '') + name;
     }
+  }
+};
+
+/** Shows an alert with the given message, but only the first time it is called.
+This prevents infinite loop of alerts. An example where that can happen is if an
+error occurs during a blur or focus event, which can then repeat after the user
+dismisses the alert which causes further blur/focus events.
+@param {string} msg the message to show
+*/
+alertOnce(msg) {
+  if (!this.hasAlerted_) {
+    this.hasAlerted_ = true;
+    alert(msg);
+  } else {
+    console.log(msg);
   }
 };
 

@@ -834,7 +834,7 @@ TestViewerApp.prototype.eval = function(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
-    alert(ex);
+    this.terminal.alertOnce(ex);
   }
 };
 
