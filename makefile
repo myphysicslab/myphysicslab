@@ -269,13 +269,21 @@ donothing doublependulum2 fastball gears impulse marsmoon multiplecollision \
 mutualattract newtonscradle pendulumclock pendulumspring pile pileattract \
 polygontest rigidbody testbody
 
-pendulum: cartpendulum comparedoublependulum comparependulum doublependulum \
+experimental: biketimer blankslate collisioncombo graphcalc simple
+
+pendulums: cartpendulum comparedoublependulum comparependulum doublependulum \
 moveabledoublependulum moveablependulum pendulum reactionpendulum \
 rigiddoublependulum vectorgraphpendulum
+
+roller: brachisto lagrangeroller rigidbodyroller rollerdouble rollerflight \
+rollersingle rollerspring
 
 springs: chainofsprings collideblocks collidespring danglestick double2dspring \
 doublespring molecule1 molecule3 molecule4 molecule5 molecule6 multispring \
 singlespring singlespring2 spring2d terminalspring terminalspring2d
+
+alltest: test perf singletest singleviewer stucktest testviewer unittest \
+unittestone
 
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
@@ -702,8 +710,8 @@ help:
 	@echo "docs        Make documentation"
 	@echo "docs-md     Make markdown documentation (overview, engine2D, ...)"
 	@echo "help        List available targets"
-	@echo "perf        Make performance test"
 	@echo "index       Make index files (table of contents for tests)"
+	@echo "perf        Make performance test"
 	@echo "settings    Lists current value of important settings used by this makefile"
 	@echo "test        Make engine2D test"
 	@echo "unittest    Make unit tests"
@@ -734,7 +742,7 @@ clean:
 # PHONY also means "always out of date if it has no prerequistes"
 # PHONY also prevents implicit rules from trying to build these.
 .PHONY: all apps apps-de apps-en clean deps docs help index settings unit-test \
-compiler docs-md
+compiler docs-md engine2d experimental pendulums roller springs alltest
 
 # If .DELETE_ON_ERROR is mentioned as a target anywhere in the makefile, then make will
 # delete the target of a rule if it has changed and its recipe exits with a nonzero exit
