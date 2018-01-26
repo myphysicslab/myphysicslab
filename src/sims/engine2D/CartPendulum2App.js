@@ -12,52 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.engine2D.CartPendulum2App');
+goog.module('myphysicslab.sims.engine2D.CartPendulum2App');
 
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.Engine2DApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const Engine2DApp = goog.module.get('myphysicslab.sims.engine2D.Engine2DApp');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Simulation of a cart moving on a horizontal track with a pendulum suspended from the
 cart.  Intended to be similar to {@link myphysicslab.sims.pendulum.CartPendulumSim}.
@@ -72,22 +47,20 @@ Parameters Created
 
 + ParameterNumber named `STIFFNESS`, see {@link #setStiffness}
 
-
+*/
+class CartPendulum2App extends Engine2DApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {Engine2DApp}
-* @export
 */
-myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
+constructor(elem_ids) {
   var simRect = new DoubleRect(-3, -2, 3, 2);
+  var sim = new ContactSim();
+  var advance = new CollisionAdvance(sim);
+  super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
-  this.mySim = new ContactSim();
-  var advance = new CollisionAdvance(this.mySim);
-  Engine2DApp.call(this, elem_ids, simRect, this.mySim, advance);
+  this.mySim = sim;
   this.mySim.setShowForces(false);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(/*damping=*/0, /*rotateRatio=*/0.15, this.simList);
@@ -128,25 +101,23 @@ myphysicslab.sims.engine2D.CartPendulum2App = function(elem_ids) {
   this.configure();
   this.graphSetup();
 };
-var CartPendulum2App = myphysicslab.sims.engine2D.CartPendulum2App;
-goog.inherits(CartPendulum2App, Engine2DApp);
 
 /** @override */
-CartPendulum2App.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', dampingLaw: '+this.dampingLaw.toStringShort()
       +', gravityLaw: '+this.gravityLaw.toStringShort()
-      + CartPendulum2App.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-CartPendulum2App.prototype.getClassName = function() {
+getClassName() {
   return 'CartPendulum2App';
 };
 
 /** @override */
-CartPendulum2App.prototype.defineNames = function(myName) {
-  CartPendulum2App.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('gravityLaw|dampingLaw',
        myName+'.');
   this.terminal.addRegex('CartPendulum2App|Engine2DApp',
@@ -154,8 +125,8 @@ CartPendulum2App.prototype.defineNames = function(myName) {
 };
 
 /** @override */
-CartPendulum2App.prototype.getSubjects = function() {
-  var subjects = CartPendulum2App.superClass_.getSubjects.call(this);
+getSubjects() {
+  var subjects = super.getSubjects();
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
@@ -163,7 +134,7 @@ CartPendulum2App.prototype.getSubjects = function() {
 * @return {undefined}
 * @private
 */
-CartPendulum2App.prototype.configure = function() {
+configure() {
   var elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
@@ -273,14 +244,14 @@ CartPendulum2App.prototype.configure = function() {
 /**
 * @return {number}
 */
-CartPendulum2App.prototype.getSpringDamping = function() {
+getSpringDamping() {
   return this.springDamping;
 };
 
 /**
 * @param {number} value
 */
-CartPendulum2App.prototype.setSpringDamping = function(value) {
+setSpringDamping(value) {
   if (this.springDamping != value) {
     this.springDamping = value;
     if (this.spring != null) {
@@ -293,14 +264,14 @@ CartPendulum2App.prototype.setSpringDamping = function(value) {
 /**
 * @return {number}
 */
-CartPendulum2App.prototype.getStiffness = function() {
+getStiffness() {
   return this.stiffness;
 };
 
 /**
 * @param {number} value
 */
-CartPendulum2App.prototype.setStiffness = function(value) {
+setStiffness(value) {
   if (this.stiffness != value) {
     this.stiffness = value;
     if (this.spring != null) {
@@ -311,7 +282,7 @@ CartPendulum2App.prototype.setStiffness = function(value) {
 };
 
 /** @override */
-CartPendulum2App.prototype.graphSetup = function(body) {
+graphSetup(body) {
   var cart = this.mySim.getBody('cart');
   var pendulum = this.mySim.getBody('pendulum');
   this.graph.line.setXVariable(cart.getVarsIndex()+0); // x position
@@ -319,6 +290,8 @@ CartPendulum2App.prototype.graphSetup = function(body) {
   this.timeGraph.line1.setYVariable(cart.getVarsIndex()+0); // x position
   this.timeGraph.line2.setYVariable(pendulum.getVarsIndex()+4); // angle
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -354,11 +327,19 @@ CartPendulum2App.de_strings = {
   PENDULUM: 'Pendel'
 };
 
-
 /** Set of internationalized strings.
 @type {CartPendulum2App.i18n_strings}
 */
 CartPendulum2App.i18n = goog.LOCALE === 'de' ? CartPendulum2App.de_strings :
     CartPendulum2App.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!CartPendulum2App}
+*/
+function makeCartPendulum2App(elem_ids) {
+  return new CartPendulum2App(elem_ids);
+};
+goog.exportSymbol('makeCartPendulum2App', makeCartPendulum2App);
+
+exports = CartPendulum2App;
