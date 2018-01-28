@@ -35,6 +35,7 @@ const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
 const ODESim = goog.require('myphysicslab.lab.model.ODESim');
@@ -245,6 +246,8 @@ addStandardControls() {
   this.addControl(new ChoiceControl(ps));
   var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
+  // show compile time so user can ensure loading latest version
+  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
 };
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced
