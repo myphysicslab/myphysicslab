@@ -12,45 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.BrachistoObserver');
+goog.module('myphysicslab.sims.roller.BrachistoObserver');
 
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayPath');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplayText');
-goog.require('myphysicslab.lab.view.DrawingStyle');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.roller.BrachistoSim');
-
-goog.scope(function() {
-
-var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplayText = goog.module.get('myphysicslab.lab.view.DisplayText');
-const DrawingStyle = goog.module.get('myphysicslab.lab.view.DrawingStyle');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const BrachistoSim = goog.require('myphysicslab.sims.roller.BrachistoSim');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
+const DrawingStyle = goog.require('myphysicslab.lab.view.DrawingStyle');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Observes the SimList of the BrachistoSim simulation, adding or removing
 DisplayObjects to represent the simulation. BrachistoObserver also listens for the
@@ -59,16 +39,16 @@ show the 'click a path' message or the 'you chose' message.
 
 Note that this will add DisplayObject for every object currently on the simList.
 
+@implements {Observer}
+*/
+class BrachistoObserver {
+/**
 @param {!BrachistoSim} sim
 @param {!SimList} simList
 @param {!SimView} simView
 @param {!SimView} statusView
-@implements {Observer}
-@constructor
-@final
-@struct
 */
-myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, statusView) {
+constructor(sim, simList, simView, statusView) {
   /**
   * @type {!BrachistoSim}
   * @private
@@ -117,10 +97,9 @@ myphysicslab.sims.roller.BrachistoObserver = function(sim, simList, simView, sta
   simList.addObserver(this);
   sim.addObserver(this);
 };
-var BrachistoObserver = myphysicslab.sims.roller.BrachistoObserver;
 
 /** @override */
-BrachistoObserver.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : 'BrachistoObserver{'
     +'sim_: '+this.sim_.toStringShort()
     +', simList_: '+this.simList_.toStringShort()
@@ -132,21 +111,21 @@ BrachistoObserver.prototype.toString = function() {
 };
 
 /** @override */
-BrachistoObserver.prototype.toStringShort = function() {
+toStringShort() {
   return Util.ADVANCED ? '' : 'BrachistoObserver{}';
 };
 
 /** Creates DisplayObjects for the SimObjects, and add to SimView.
 * @param {!Array<!SimObject>} bodies
 */
-BrachistoObserver.prototype.addBodies = function(bodies) {
+addBodies(bodies) {
   goog.array.forEach(bodies, goog.bind(this.addBody, this));
 };
 
 /** Creates DisplayObject for the SimObject, and adds DisplayObject to SimView.
 * @param {!SimObject} obj
 */
-BrachistoObserver.prototype.addBody = function(obj) {
+addBody(obj) {
   var dobj = this.displayList_.find(obj);
   if (dobj != null) {
     // if we already have a DisplayObject for this, don't add a new one.
@@ -181,14 +160,14 @@ BrachistoObserver.prototype.addBody = function(obj) {
 * @return {!Vector}
 * @private
 */
-BrachistoObserver.prototype.getTextPosition = function() {
+getTextPosition() {
   var sr = this.statusView_.getScreenRect();
   var r = this.statusView_.getCoordMap().screenToSimRect(sr);
   return new Vector(r.getLeft() + 0.15*r.getWidth(), r.getTop() - 0.1*r.getHeight());
 };
 
 /** @override */
-BrachistoObserver.prototype.observe =  function(event) {
+observe(event) {
   //console.log('BrachistoObserver event='+event);
   if (event.getSubject() == this.sim_) {
     if (event.nameEquals(BrachistoSim.PATH_CHOSEN)) {
@@ -228,6 +207,8 @@ BrachistoObserver.prototype.observe =  function(event) {
   }
 };
 
+} //end class
+
 /** Set of internationalized strings.
 @typedef {{
   PATH: string,
@@ -262,4 +243,4 @@ BrachistoObserver.de_strings = {
 BrachistoObserver.i18n = goog.LOCALE === 'de' ? BrachistoObserver.de_strings :
     BrachistoObserver.en;
 
-});  // goog.scope
+exports = BrachistoObserver;

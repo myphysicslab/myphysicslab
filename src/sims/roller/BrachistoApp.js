@@ -12,47 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.BrachistoApp');
+goog.module('myphysicslab.sims.roller.BrachistoApp');
 
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.model.ParametricPath');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.util.ClockTask');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.common.AbstractApp');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.roller.BrachistoObserver');
-goog.require('myphysicslab.sims.roller.BrachistoPaths');
-goog.require('myphysicslab.sims.roller.BrachistoSim');
-
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractApp = goog.module.get('myphysicslab.sims.common.AbstractApp');
-var BrachistoObserver = sims.roller.BrachistoObserver;
-const BrachistoPaths = goog.module.get('myphysicslab.sims.roller.BrachistoPaths');
-var BrachistoSim = sims.roller.BrachistoSim;
-const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const BrachistoObserver = goog.require('myphysicslab.sims.roller.BrachistoObserver');
+const BrachistoPaths = goog.require('myphysicslab.sims.roller.BrachistoPaths');
+const BrachistoSim = goog.require('myphysicslab.sims.roller.BrachistoSim');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link BrachistoSim} simulation which shows a ball sliding down various
 curved paths to see which path is fastest.
@@ -61,20 +38,16 @@ The various curves shown are defined in the {@link BrachistoPaths} class.
 The Mathematica notebook [Brachistochrone Curves](Brachistochrone_Curves.pdf) shows how
 the curves were chosen. The goal is to find a variety of curves that start at
 the origin (0, 0) and pass thru the point (3, -2).
-
+*/
+class BrachistoApp extends AbstractApp {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractApp}
-* @export
 */
-myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
-  /** @type {!Array<!ParametricPath>} **/
-  this.paths = [
+  var paths = [
       new BrachistoPaths.BrachistochronePath(),
       new BrachistoPaths.LinearPath(),
       new BrachistoPaths.CircleArcPath(),
@@ -83,10 +56,12 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
       new BrachistoPaths.ParabolaDownPath()
     ];
   var simRect = new DoubleRect(-1, -3, 7, 1);
-  var sim = new BrachistoSim(this.paths);
+  var sim = new BrachistoSim(paths);
   var advance = new SimpleAdvance(sim);
-  AbstractApp.call(this, elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
-      /*enerygSystem=*/null);
+  super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*enerygSystem=*/null);
+
+  /** @type {!Array<!ParametricPath>} **/
+  this.paths = paths;
 
   /** BrachistoObserver handles making all DisplayObjects
   * @type {!BrachistoObserver}
@@ -150,26 +125,24 @@ myphysicslab.sims.roller.BrachistoApp = function(elem_ids) {
   this.makeEasyScript();
   this.addURLScriptButton();
 };
-var BrachistoApp = myphysicslab.sims.roller.BrachistoApp;
-goog.inherits(BrachistoApp, AbstractApp);
 
 /** @override */
-BrachistoApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
     +', brachistoObserver: '+this.brachistoObserver.toStringShort()
     +', paths: [ '+this.paths+' ]'
-    + BrachistoApp.superClass_.toString.call(this);
+    + super.toString();
 };
 
 /** @override */
-BrachistoApp.prototype.getClassName = function() {
+getClassName() {
   return 'BrachistoApp';
 };
 
 /**
 * @return {number}
 */
-BrachistoApp.prototype.getRepeatTime = function() {
+getRepeatTime() {
   return this.task.getTime();
 };
 
@@ -178,7 +151,7 @@ BrachistoApp.prototype.getRepeatTime = function() {
 * @return {!ClockTask}
 * @private
 */
-BrachistoApp.prototype.makeTask = function(time) {
+makeTask(time) {
   return new ClockTask(time, goog.bind(function() {
       this.sim.reset();
       this.clock.setTime(0);
@@ -189,7 +162,7 @@ BrachistoApp.prototype.makeTask = function(time) {
 /** Restart sim when reaching the repeat time.
 * @param {number} value
 */
-BrachistoApp.prototype.setRepeatTime = function(value) {
+setRepeatTime(value) {
   this.clock.removeTask(this.task);
   this.task = this.makeTask(value);
   this.clock.addTask(this.task);
@@ -200,16 +173,18 @@ BrachistoApp.prototype.setRepeatTime = function(value) {
 };
 
 /** @override */
-BrachistoApp.prototype.defineNames = function(myName) {
-  BrachistoApp.superClass_.defineNames.call(this, myName);
+defineNames(myName) {
+  super.defineNames(myName);
   this.terminal.addRegex('brachistoObserver|paths',
       myName+'.');
 };
 
-BrachistoApp.prototype.setup = function() {
-  BrachistoApp.superClass_.setup.call(this);
+setup() {
+  super.setup();
   this.clock.pause();
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -239,4 +214,13 @@ BrachistoApp.de_strings = {
 BrachistoApp.i18n = goog.LOCALE === 'de' ? BrachistoApp.de_strings :
     BrachistoApp.en;
 
-}); // goog.scope
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!BrachistoApp}
+*/
+function makeBrachistoApp(elem_ids) {
+  return new BrachistoApp(elem_ids);
+};
+goog.exportSymbol('makeBrachistoApp', makeBrachistoApp);
+
+exports = BrachistoApp;

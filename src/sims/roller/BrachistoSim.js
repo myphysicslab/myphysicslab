@@ -12,41 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.BrachistoSim');
+goog.module('myphysicslab.sims.roller.BrachistoSim');
 
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractODESim');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.ParametricPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.ShapeType');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const AbstractODESim = goog.module.get('myphysicslab.lab.model.AbstractODESim');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParametricPath = goog.module.get('myphysicslab.lab.model.ParametricPath');
-const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** The Brachistochrone is a classic problem about finding the path
 between two points where a ball will travel fastest (without friction). From greek:
@@ -56,7 +38,6 @@ The equations of motion are the same as those of
 {@link myphysicslab.sims.roller.RollerSingleSim}.
 For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>
 and <http://www.myphysicslab.com/RollerSpring.html>.
-
 
 Variables Array
 --------------------
@@ -88,17 +69,16 @@ The variables are stored in the VarsList as follows
 
 @todo could make an array of PathPoint, to avoid creating them so often.
 
+* @implements {EventHandler}
+*/
+class BrachistoSim extends AbstractODESim {
+/**
 * @param {!Array<!ParametricPath>} paths the set of paths to show
 * @param {string=} opt_name name of this as a Subject
 * @param {!SimList=} opt_simList optional SimList where SimObjects should be stored
-* @constructor
-* @final
-* @struct
-* @extends {AbstractODESim}
-* @implements {EventHandler}
 */
-myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
-  AbstractODESim.call(this, opt_name, opt_simList);
+constructor(paths, opt_name, opt_simList) {
+  super(opt_name, opt_simList);
   var plen = paths.length;
   /** keep track of our SimObjects so that we can erase them
   * @type {!Array<!SimObject>} simObjects
@@ -161,21 +141,19 @@ myphysicslab.sims.roller.BrachistoSim = function(paths, opt_name, opt_simList) {
       BrachistoSim.i18n.MASS,
       goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
 };
-var BrachistoSim = myphysicslab.sims.roller.BrachistoSim;
-goog.inherits(BrachistoSim, AbstractODESim);
 
 /** @override */
-BrachistoSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', damping_: '+Util.NF(this.damping_)
       +', gravity_: '+Util.NF(this.gravity_)
       +', mass_: '+Util.NF(this.mass_)
       +', paths: '+this.paths_.length
-      + BrachistoSim.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-BrachistoSim.prototype.getClassName = function() {
+getClassName() {
   return 'BrachistoSim';
 };
 
@@ -185,7 +163,7 @@ BrachistoSim.prototype.getClassName = function() {
 * @param {boolean} localized
 * @private
 */
-BrachistoSim.makeVarNames = function(paths, localized) {
+static makeVarNames(paths, localized) {
   var names = new Array(paths.length*4 + 1);
   for (var i=0, len=names.length; i<len; i++) {
     names[i] = BrachistoSim.getVariableName(i, paths, localized);
@@ -199,7 +177,7 @@ BrachistoSim.makeVarNames = function(paths, localized) {
 * @param {boolean} localized
 * @return {string}
 */
-BrachistoSim.getVariableName = function(i, paths, localized) {
+static getVariableName(i, paths, localized) {
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
   // time p0 v0 x0 y0 p1 v1 x1 y1 p2 v2 x2 y2 ...
   if (i==0) {
@@ -227,14 +205,14 @@ BrachistoSim.getVariableName = function(i, paths, localized) {
 /** Returns the set of paths to choose from.
 @return {!Array<!NumericalPath>} the set of paths to choose from
 */
-BrachistoSim.prototype.getPaths = function() {
+getPaths() {
   return goog.array.clone(this.paths_);
 };
 
 /** Which path was chosen by user, or -1 if no path chosen.
 @return {number} Which path was chosen by user, or -1 if no path chosen.
 */
-BrachistoSim.prototype.getPathChoice = function() {
+getPathChoice() {
   return this.choice_;
 };
 
@@ -247,7 +225,7 @@ to allow decorating one of the paths with a different colored ball, and to prese
 instructions.
 * @param {number} choice Which path was chosen by user, or -1 if no path chosen.
 */
-BrachistoSim.prototype.setPathChoice = function(choice) {
+setPathChoice(choice) {
   this.choice_ = choice;
   var i, len;
   // remove from simList all of our old objects
@@ -286,7 +264,7 @@ BrachistoSim.prototype.setPathChoice = function(choice) {
 };
 
 /** @override */
-BrachistoSim.prototype.modifyObjects = function() {
+modifyObjects() {
   var va = this.getVarsList();
   var vars = va.getValues();
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
@@ -306,8 +284,7 @@ BrachistoSim.prototype.modifyObjects = function() {
 };
 
 /** @override */
-BrachistoSim.prototype.startDrag = function(simObject, location, offset, dragBody,
-    mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   // find the closest path to this point.
   var dist = Util.POSITIVE_INFINITY;
   var closestPath = -1;
@@ -324,19 +301,19 @@ BrachistoSim.prototype.startDrag = function(simObject, location, offset, dragBod
 };
 
 /** @override */
-BrachistoSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
 };
 
 /** @override */
-BrachistoSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
 };
 
 /** @override */
-BrachistoSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** @override */
-BrachistoSim.prototype.evaluate = function(vars, change, timeStep) {
+evaluate(vars, change, timeStep) {
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
   // time p0 v0 x0 y0 p1 v1 x1 y1 p2 v2 x2 y2 ...
   change[0] = 1; // time
@@ -366,14 +343,14 @@ BrachistoSim.prototype.evaluate = function(vars, change, timeStep) {
 /**
 @return {number}
 */
-BrachistoSim.prototype.getGravity = function() {
+getGravity() {
   return this.gravity_;
 };
 
 /**
 @param {number} value
 */
-BrachistoSim.prototype.setGravity = function(value) {
+setGravity(value) {
   this.gravity_ = value;
   this.broadcastParameter(BrachistoSim.en.GRAVITY);
 };
@@ -381,14 +358,14 @@ BrachistoSim.prototype.setGravity = function(value) {
 /**
 @return {number}
 */
-BrachistoSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /**
 @param {number} value
 */
-BrachistoSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(BrachistoSim.en.DAMPING);
 };
@@ -396,14 +373,14 @@ BrachistoSim.prototype.setDamping = function(value) {
 /**
 @return {number}
 */
-BrachistoSim.prototype.getMass = function() {
+getMass() {
   return this.mass_;
 };
 
 /**
 @param {number} value
 */
-BrachistoSim.prototype.setMass = function(value) {
+setMass(value) {
   this.mass_ = value;
   for (var i=0, len=this.balls_.length; i<len; i++) {
     if (this.balls_[i] != null)
@@ -411,6 +388,8 @@ BrachistoSim.prototype.setMass = function(value) {
   }
   this.broadcastParameter(BrachistoSim.en.MASS);
 };
+
+} //end class
 
 /** Event broadcast when a path is chosen.
 * @type {string}
@@ -458,4 +437,4 @@ BrachistoSim.de_strings = {
 BrachistoSim.i18n = goog.LOCALE === 'de' ? BrachistoSim.de_strings :
     BrachistoSim.en;
 
-}); // goog.scope
+exports = BrachistoSim;

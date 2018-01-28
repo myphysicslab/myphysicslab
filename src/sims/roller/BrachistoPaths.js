@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.BrachistoPaths');
+goog.module('myphysicslab.sims.roller.BrachistoPaths');
 
-goog.require('myphysicslab.sims.roller.AbstractPath');
-
-goog.scope(function() {
-
-var AbstractPath = myphysicslab.sims.roller.AbstractPath;
+const AbstractPath = goog.require('myphysicslab.sims.roller.AbstractPath');
 
 /** Contains the various curves used in the Brachistochrone simulation,
 see {@link myphysicslab.sims.roller.BrachistoApp}.
@@ -27,70 +23,61 @@ The Mathematica notebook [Brachistochrone Curves](Brachistochrone_Curves.pdf) sh
 the various curves were chosen. The goal is to find a variety of curves that start at
 the origin (0, 0) and pass thru the point (3, -2). The Brachistochrone simulation shows
 a ball sliding down each of the curves without friction, with gravity acting.
-
-* @constructor
-* @final
-* @struct
+*/
+class BrachistoPaths {
+/**
 * @private
 */
-myphysicslab.sims.roller.BrachistoPaths = function() {
+constructor() {
   throw new Error();
 };
-var BrachistoPaths = myphysicslab.sims.roller.BrachistoPaths;
+
+} //end class
 
 
 // =================================================================
 /**
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-BrachistoPaths.LinearPath = function() {
-  AbstractPath.call(this, BrachistoPaths.en.LINEAR_PATH,
+class LinearPath extends AbstractPath {
+constructor() {
+  super(BrachistoPaths.en.LINEAR_PATH,
       BrachistoPaths.i18n.LINEAR_PATH, 0, 6, false);
 };
-var LinearPath = myphysicslab.sims.roller.BrachistoPaths.LinearPath;
-goog.inherits(LinearPath, AbstractPath);
 
 /** @override */
-LinearPath.prototype.getClassName = function() {
+getClassName() {
   return 'LinearPath';
 };
 
 /** @override */
-LinearPath.prototype.x_func = function(t) {
+x_func(t) {
   return t;
 };
 
 /** @override */
-LinearPath.prototype.y_func = function(t) {
+y_func(t) {
   return -(2.0/3.0)*t;
 };
 
-
+} // end class
+BrachistoPaths.LinearPath = LinearPath;
 
 // =================================================================
 /**
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-BrachistoPaths.BrachistochronePath = function() {
-  AbstractPath.call(this, BrachistoPaths.en.BRACH_PATH,
+class BrachistochronePath extends AbstractPath {
+constructor() {
+  super(BrachistoPaths.en.BRACH_PATH,
       BrachistoPaths.i18n.BRACH_PATH, 0, 2*Math.PI, false);
 };
-var BrachistochronePath = BrachistoPaths.BrachistochronePath;
-goog.inherits(BrachistochronePath, AbstractPath);
 
 /** @override */
-BrachistochronePath.prototype.getClassName = function() {
+getClassName() {
   return 'BrachistochronePath';
 };
 
 /** @override */
-BrachistochronePath.prototype.x_func = function(t) {
+x_func(t) {
   if (t>2*Math.PI)
     t = 2*Math.PI; // goes up vertical beyond the end (so x is fixed)
   if (t<0)
@@ -99,7 +86,7 @@ BrachistochronePath.prototype.x_func = function(t) {
 };
 
 /** @override */
-BrachistochronePath.prototype.y_func = function(t) {
+y_func(t) {
   if (t>2*Math.PI)
     return t - 2*Math.PI;  // goes up vertical beyond the end
   else if (t<0)
@@ -108,62 +95,55 @@ BrachistochronePath.prototype.y_func = function(t) {
     return -1.00133*(1 - Math.cos(t));
 };
 
-
+} // end class
+BrachistoPaths.BrachistochronePath = BrachistochronePath;
 
 // =================================================================
 /**
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-BrachistoPaths.ParabolaUpPath = function() {
-  AbstractPath.call(this, BrachistoPaths.en.PARABOLA_UP,
+class ParabolaUpPath extends AbstractPath {
+constructor() {
+  super(BrachistoPaths.en.PARABOLA_UP,
       BrachistoPaths.i18n.PARABOLA_UP, -2, 8, false);
 };
-var ParabolaUpPath = BrachistoPaths.ParabolaUpPath;
-goog.inherits(ParabolaUpPath, AbstractPath);
 
 /** @override */
-ParabolaUpPath.prototype.getClassName = function() {
+getClassName() {
   return 'ParabolaUpPath';
 };
 
 /** @override */
-ParabolaUpPath.prototype.x_func = function(t) {
+x_func(t) {
   return t;
 };
 
 /** @override */
-ParabolaUpPath.prototype.y_func = function(t) {
+y_func(t) {
   return -2.0 + (2.0/9.0)*(t - 3.0)*(t - 3.0);  // parabola
   //return -2.0 - (2.0/27.0)*(t - 3.0)*(t-3.0)*(t-3.0);  // cubic
   //return -2.0 + (2.0/81.0)*(t - 3.0)*(t - 3.0)*(t - 3.0)*(t - 3.0); // quartic
 };
 
+} // end class
+BrachistoPaths.ParabolaUpPath = ParabolaUpPath;
 
 // =================================================================
 /** A 'squared' Brachistochrone path.  Created to have a path that drops below the
 regular brachistochrone and stays below it.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-BrachistoPaths.Brachistochrone2Path = function() {
-  AbstractPath.call(this, BrachistoPaths.en.BRACH_SQUARED,
+class Brachistochrone2Path extends AbstractPath {
+constructor() {
+  super(BrachistoPaths.en.BRACH_SQUARED,
       BrachistoPaths.i18n.BRACH_SQUARED, 0, 2*Math.PI, false);
 };
-var Brachistochrone2Path = BrachistoPaths.Brachistochrone2Path;
-goog.inherits(Brachistochrone2Path, AbstractPath);
 
 /** @override */
-Brachistochrone2Path.prototype.getClassName = function() {
+getClassName() {
   return 'Brachistochrone2Path';
 };
 
 /** @override */
-Brachistochrone2Path.prototype.x_func = function(t) {
+x_func(t) {
   if (t>2*Math.PI)
     t = 2*Math.PI; // goes up vertical beyond the end (so x is fixed)
   if (t<0)
@@ -172,7 +152,7 @@ Brachistochrone2Path.prototype.x_func = function(t) {
 };
 
 /** @override */
-Brachistochrone2Path.prototype.y_func = function(t) {
+y_func(t) {
   if (t>2*Math.PI)
     return t - 2*Math.PI;  // goes up vertical beyond the end
   else if (t<0)
@@ -183,66 +163,62 @@ Brachistochrone2Path.prototype.y_func = function(t) {
   }
 };
 
+} // end class
+BrachistoPaths.Brachistochrone2Path = Brachistochrone2Path;
 
 // =================================================================
 /**
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-BrachistoPaths.ParabolaDownPath = function() {
-  AbstractPath.call(this, BrachistoPaths.en.PARABOLA_DOWN,
+class ParabolaDownPath extends AbstractPath {
+constructor() {
+  super(BrachistoPaths.en.PARABOLA_DOWN,
       BrachistoPaths.i18n.PARABOLA_DOWN, -2, 8, false);
 };
-var ParabolaDownPath = BrachistoPaths.ParabolaDownPath;
-goog.inherits(ParabolaDownPath, AbstractPath);
 
 /** @override */
-ParabolaDownPath.prototype.getClassName = function() {
+getClassName() {
   return 'ParabolaDownPath';
 };
 
 /** @override */
-ParabolaDownPath.prototype.x_func = function(t) {
+x_func(t) {
   return t;
 };
 
 /** @override */
-ParabolaDownPath.prototype.y_func = function(t) {
+y_func(t) {
   return -0.1666667*(t+0.5)*(t+0.5) + 0.04166667;
 };
 
+} // end class
+BrachistoPaths.ParabolaDownPath = ParabolaDownPath;
 
 // =================================================================
 /**
-* @constructor
-* @final
-* @struct
-* @extends {AbstractPath}
 */
-BrachistoPaths.CircleArcPath = function() {
-  AbstractPath.call(this, BrachistoPaths.en.CIRCLE_ARC,
+class CircleArcPath extends AbstractPath {
+constructor() {
+  super(BrachistoPaths.en.CIRCLE_ARC,
       BrachistoPaths.i18n.CIRCLE_ARC, -Math.PI, 0, false);
 };
-var CircleArcPath = BrachistoPaths.CircleArcPath;
-goog.inherits(CircleArcPath, AbstractPath);
 
 /** @override */
-CircleArcPath.prototype.getClassName = function() {
+getClassName() {
   return 'CircleArcPath';
 };
 
 /** @override */
-CircleArcPath.prototype.x_func = function(t) {
+x_func(t) {
   return 3 + (13.0/4.0)*Math.cos(t);
 };
 
 /** @override */
-CircleArcPath.prototype.y_func = function(t) {
+y_func(t) {
   return (13.0/4.0 - 2.0) + (13.0/4.0)*Math.sin(t);
 };
 
+} // end class
+BrachistoPaths.CircleArcPath = CircleArcPath;
 
 /** Set of internationalized strings.
 @typedef {{
@@ -287,4 +263,4 @@ BrachistoPaths.de_strings = {
 BrachistoPaths.i18n = goog.LOCALE === 'de' ? BrachistoPaths.de_strings :
     BrachistoPaths.en;
 
-}); // goog.scope
+exports = BrachistoPaths;
