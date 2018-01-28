@@ -12,63 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pde.StringSim');
-goog.provide('myphysicslab.sims.pde.StringAdvance');
-goog.provide('myphysicslab.sims.pde.StringPath');
-goog.provide('myphysicslab.sims.pde.StringIterator');
+goog.module('myphysicslab.sims.pde.StringSim');
 
 goog.require('goog.asserts');
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.EventHandler');
-goog.require('myphysicslab.lab.model.AbstractSimObject');
-goog.require('myphysicslab.lab.model.AdvanceStrategy');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.EnergyInfo');
-goog.require('myphysicslab.lab.model.EnergySystem');
-goog.require('myphysicslab.lab.model.ODESim');
-goog.require('myphysicslab.lab.model.Path');
-goog.require('myphysicslab.lab.model.PathIterator');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.Simulation');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.pde.StringShape');
 
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AdvanceStrategy = goog.module.get('myphysicslab.lab.model.AdvanceStrategy');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
-const EnergySystem = goog.module.get('myphysicslab.lab.model.EnergySystem');
-const EventHandler = goog.module.get('myphysicslab.lab.app.EventHandler');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const Path = goog.module.get('myphysicslab.lab.model.Path');
-const PathIterator = goog.module.get('myphysicslab.lab.model.PathIterator');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-const Simulation = goog.module.get('myphysicslab.lab.model.Simulation');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-var StringShape = sims.pde.StringShape;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const StringPath = goog.require('myphysicslab.sims.pde.StringPath');
+const StringShape = goog.require('myphysicslab.sims.pde.StringShape');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Simulation of a string under tension which can have waves in 2D.  This is
 an unusual simulation from others in myPhysicsLab in that it uses a partial
@@ -78,7 +43,6 @@ Algorithm
 ------------------------
 Based on Algorithm 12.4, 'Wave Equation Finite-Difference' from
 <cite>Numerical Analysis</cite>, 6th Ed. by Burden & Faires.
-
 
 Three Data Arrays
 -------------------------
@@ -93,30 +57,27 @@ derivatives_ by looking at neighboring points within `w2`. We can get _time deri
 by looking at the difference between a point in `w1` and `w2`. The PDE for the string
 then gives us the change based on those derivatives, and we can figure out `w3`.
 
-
 Stability Condition
 -------------------------
 The stability condition is:
 
     sqrt(tension / density) delta_t / delta_x < 1
 
-
 @todo Proved a VarsList for graphing. We could provide variables corresponding to
 one or more discrete points on the string, giving the position (displacement), velocity,
 accel at that point.
 
-* @constructor
-* @final
-* @struct
 * @implements {EnergySystem}
 * @implements {EventHandler}
 * @implements {Simulation}
-* @extends {AbstractSubject}
+*/
+class StringSim extends AbstractSubject {
+/**
 * @param {!StringShape} shape starting wave shape
 * @param {!SimList=} opt_simList SimList to use (optional)
 */
-myphysicslab.sims.pde.StringSim = function(shape, opt_simList) {
-  AbstractSubject.call(this, 'SIM');
+constructor(shape, opt_simList) {
+  super('SIM');
   /**
   * @type {!SimList}
   * @private
@@ -262,42 +223,47 @@ myphysicslab.sims.pde.StringSim = function(shape, opt_simList) {
       goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this)));
   this.initializeFromShape();
 };
-var StringSim = myphysicslab.sims.pde.StringSim;
-goog.inherits(StringSim, AbstractSubject);
 
 /** @override */
-StringSim.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
     +', density_: '+Util.NF(this.density_)
     +', tension_: '+this.tension_
-    + StringSim.superClass_.toString.call(this);
+    + super.toString();
 };
 
 /** @override */
-StringSim.prototype.getClassName = function() {
+getClassName() {
   return 'StringSim';
 };
 
+/** Returns the length of the string.
+@return {number} length of the string
+*/
+getLength() {
+  return this.length_;
+};
+
 /** @override */
-StringSim.prototype.getSimList = function() {
+getSimList() {
   return this.simList_;
 };
 
 /** @override */
-StringSim.prototype.getTime = function() {
+getTime() {
   return this.nowTime_;
 };
 
 /** @override */
-StringSim.prototype.modifyObjects = function() {
+modifyObjects() {
 };
 
 /** @override */
-StringSim.prototype.saveInitialState = function() {
+saveInitialState() {
 };
 
 /** @override */
-StringSim.prototype.reset = function() {
+reset() {
   this.nowTime_ = 0;
   this.initializeFromShape();
   this.simList_.removeTemporary(Util.POSITIVE_INFINITY);
@@ -306,13 +272,13 @@ StringSim.prototype.reset = function() {
 };
 
 /** @override */
-StringSim.prototype.startDrag = function(simObject, location, offset, dragBody,
+startDrag(simObject, location, offset, dragBody,
       mouseEvent) {
   return simObject == this.block_;
 };
 
 /** @override */
-StringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   if (simObject == this.block_) {
     var p = location.subtract(offset);
     this.block_.setPosition(new Vector(this.block_.getPosition().getX(), p.getY()));
@@ -320,18 +286,18 @@ StringSim.prototype.mouseDrag = function(simObject, location, offset, mouseEvent
 };
 
 /** @override */
-StringSim.prototype.finishDrag = function(simObject, location, offset) {
+finishDrag(simObject, location, offset) {
 };
 
 /** @override */
-StringSim.prototype.handleKeyEvent = function(keyCode, pressed, keyEvent) {
+handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /** Sets the given MutableVector to the position of a point on the string
 * @param {number} idx index of point on the string, from 0 to {@link #getNumPoints}
 * @param {!MutableVector} point the MutableVector which will be set to the position
 */
-StringSim.prototype.getPoint = function(idx, point) {
+getPoint(idx, point) {
   if (idx < 0 || idx > this.w_.length) {
     throw new Error();
   }
@@ -341,7 +307,7 @@ StringSim.prototype.getPoint = function(idx, point) {
 /* Set initial conditions for string based on current shape.
 * return {undefined}
 */
-StringSim.prototype.initializeFromShape = function()  {
+initializeFromShape()  {
   this.block_.setPosition(this.startPosition_);
   this.length_ = this.shape_.getLength();
   this.deltaX_ = this.length_/(this.numPoints_-1);
@@ -376,7 +342,7 @@ StringSim.prototype.initializeFromShape = function()  {
 /** Advances the simulation state by the time step given by {@link #getTimeStep}.
 * @return {undefined}
 */
-StringSim.prototype.advance = function() {
+advance() {
   /** @type {!Array<number>} */
   var wNew;
   /** @type {!Array<number>} */
@@ -429,7 +395,7 @@ StringSim.prototype.advance = function() {
 };
 
 /** @override */
-StringSim.prototype.getEnergyInfo = function() {
+getEnergyInfo() {
   /** @type {!Array<number>} */
   var wNew;
   /** @type {!Array<number>} */
@@ -466,7 +432,7 @@ StringSim.prototype.getEnergyInfo = function() {
 };
 
 /** @override */
-StringSim.prototype.setPotentialEnergy = function(value) {
+setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
 };
@@ -474,21 +440,21 @@ StringSim.prototype.setPotentialEnergy = function(value) {
 /** Returns a sequence number which changes when the data array changes.
 * @return {number} sequence number which indicates when data array changes
 */
-StringSim.prototype.getSequence = function () {
+getSequence() {
   return this.sequence_;
 };
 
 /** Returns initial shape of string
 @return {!StringShape} initial shape of string
 */
-StringSim.prototype.getShape = function() {
+getShape() {
   return this.shape_;
 };
 
 /** Set initial shape of string
 @param {!StringShape} shape initial shape of string
 */
-StringSim.prototype.setShape = function(shape) {
+setShape(shape) {
   this.shape_ = shape;
   this.initializeFromShape();
 };
@@ -496,14 +462,14 @@ StringSim.prototype.setShape = function(shape) {
 /** Returns number of calculation points on the string
 * @return {number} number of calculation points on the string
 */
-StringSim.prototype.getNumPoints = function() {
+getNumPoints() {
   return this.numPoints_;
 };
 
 /** Set number of calculation points on the string.
 * @param {number} value number of calculation points on the string
 */
-StringSim.prototype.setNumPoints = function(value) {
+setNumPoints(value) {
   if (value != this.numPoints_) {
     this.numPoints_ = value;
     this.reset();
@@ -514,14 +480,14 @@ StringSim.prototype.setNumPoints = function(value) {
 /** Returns time step used when advancing the simulation
 * @return {number} time step used when advancing the simulation
 */
-StringSim.prototype.getTimeStep = function() {
+getTimeStep() {
   return this.deltaT_;
 };
 
 /** Set time step used when advancing the simulation
 * @param {number} value time step used when advancing the simulation
 */
-StringSim.prototype.setTimeStep = function(value) {
+setTimeStep(value) {
   if (value != this.deltaT_) {
     this.deltaT_ = value;
     this.reset();
@@ -532,14 +498,14 @@ StringSim.prototype.setTimeStep = function(value) {
 /** Return damping
 @return {number} damping
 */
-StringSim.prototype.getDamping = function() {
+getDamping() {
   return this.damping_;
 };
 
 /** Set damping
 @param {number} value damping
 */
-StringSim.prototype.setDamping = function(value) {
+setDamping(value) {
   this.damping_ = value;
   this.broadcastParameter(StringSim.en.DAMPING);
 };
@@ -547,14 +513,14 @@ StringSim.prototype.setDamping = function(value) {
 /** Return density of string (mass per unit length)
 @return {number} density of string
 */
-StringSim.prototype.getDensity = function() {
+getDensity() {
   return this.density_;
 };
 
 /** Set density of string (mass per unit length)
 @param {number} value density of string
 */
-StringSim.prototype.setDensity = function(value) {
+setDensity(value) {
   this.density_ = value;
   this.broadcastParameter(StringSim.en.DENSITY);
 };
@@ -562,14 +528,14 @@ StringSim.prototype.setDensity = function(value) {
 /** Return tension.
 @return {number} tension
 */
-StringSim.prototype.getTension = function() {
+getTension() {
   return this.tension_;
 };
 
 /** Set tension.
 @param {number} value tension
 */
-StringSim.prototype.setTension = function(value) {
+setTension(value) {
   this.tension_ = value;
   this.broadcastParameter(StringSim.en.TENSION);
 };
@@ -578,9 +544,11 @@ StringSim.prototype.setTension = function(value) {
 the simulation to be stable.
 @return {number} the stability condition number
 */
-StringSim.prototype.getStability = function() {
+getStability() {
   return Math.sqrt(this.tension_/this.density_)*this.deltaT_/this.deltaX_;
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -625,163 +593,4 @@ StringSim.de_strings = {
 StringSim.i18n = goog.LOCALE === 'de' ? StringSim.de_strings :
     StringSim.en;
 
-
-
-// ==============================================================
-// ====== S T R I N G     A D V A N C E  ==============
-// ============================================================
-
-
-/** This is an Adapter that forwards to {@link StringSim}.
-* @constructor
-* @final
-* @struct
-* @implements {AdvanceStrategy}
-* @param {!StringSim} sim
-*/
-myphysicslab.sims.pde.StringAdvance = function(sim) {
-  /**
-  * @type {!StringSim}
-  * @private
-  */
-  this.sim_ = sim;
-};
-var StringAdvance = myphysicslab.sims.pde.StringAdvance;
-
-/** @override */
-StringAdvance.prototype.toString = function() {
-  return Util.ADVANCED ? '' : this.toStringShort();
-};
-
-/** @override */
-StringAdvance.prototype.toStringShort = function() {
-  return Util.ADVANCED ? '' : 'StringAdvance{sim_: '+this.sim_.toStringShort()+'}';
-};
-
-/** @override */
-StringAdvance.prototype.advance = function(opt_timeStep, opt_memoList) {
-  var timeStep = goog.isDef(opt_timeStep) ? opt_timeStep : this.getTimeStep();
-  var startTime = this.getTime();
-  while (this.getTime() < startTime + timeStep) {
-    this.sim_.advance();
-  }
-  this.sim_.getSimList().removeTemporary(this.sim_.getTime());
-  this.sim_.modifyObjects();
-  if (opt_memoList !== undefined) {
-    opt_memoList.memorize();
-  }
-};
-
-/** @override */
-StringAdvance.prototype.getTime = function() {
-  return this.sim_.getTime();
-};
-
-/** @override */
-StringAdvance.prototype.getTimeStep = function() {
-  return this.sim_.getTimeStep();
-};
-
-/** @override */
-StringAdvance.prototype.setTimeStep = function(value) {
-  if (this.sim_.getTimeStep() != value) {
-    this.sim_.setTimeStep(value);
-  }
-};
-
-/** @override */
-StringAdvance.prototype.reset = function() {
-  this.sim_.reset();
-};
-
-
-// ==============================================================
-// ====== S T R I N G     P A T H  ==============
-// ============================================================
-
-/** This is an Adapter that forwards to {@link StringSim}.
-* @param {!StringSim} sim
-* @constructor
-* @final
-* @struct
-* @implements {Path}
-* @extends {AbstractSimObject}
-*/
-myphysicslab.sims.pde.StringPath = function(sim) {
-  AbstractSimObject.call(this, 'string');
-  /**
-  * @type {!StringSim}
-  * @private
-  */
-  this.sim_ = sim;
-};
-var StringPath = myphysicslab.sims.pde.StringPath;
-goog.inherits(StringPath, AbstractSimObject);
-
-/** @override */
-StringPath.prototype.toString = function() {
-  return Util.ADVANCED ? '' : StringPath.superClass_.toString.call(this).slice(0, -1)
-      +', sim: '+this.sim_.toStringShort()
-      +'}';
-};
-
-/** @override */
-StringPath.prototype.getClassName = function() {
-  return 'StringPath';
-};
-
-/** @override */
-StringPath.prototype.getBoundsWorld = function() {
-  // height is just a guess! Should get this info from StringShape?
-  var len = this.sim_.length_;
-  var height = 1;
-  return new DoubleRect(0, -height, len, height);
-};
-
-/** @override */
-StringPath.prototype.getIterator = function(numPoints) {
-  return new StringIterator(this.sim_);
-};
-
-/** @override */
-StringPath.prototype.getSequence = function () {
-  return this.sim_.getSequence();
-};
-
-// ==============================================================
-// ====== S T R I N G     I T E R A T O R  ==============
-// ============================================================
-
-/** This is an Adapter that forwards to {@link StringSim}.
-* @param {!StringSim} sim
-* @constructor
-* @final
-* @struct
-* @implements {PathIterator}
-*/
-myphysicslab.sims.pde.StringIterator = function(sim) {
-  /**
-  * @type {!StringSim}
-  * @private
-  */
-  this.sim_ = sim;
-  /**
-  * @type {number}
-  * @private
-  */
-  this.idx_ = -1;
-};
-var StringIterator = myphysicslab.sims.pde.StringIterator;
-
-/** @override */
-StringIterator.prototype.nextPoint = function(point) {
-  var n = this.sim_.getNumPoints();
-  if (this.idx_ >=  n-1) {
-    return false;
-  }
-  this.idx_++;
-  this.sim_.getPoint(this.idx_, point);
-  return true;
-};
-
-}); // goog.scope
+exports = StringSim;

@@ -12,107 +12,55 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.pde.StringApp');
+goog.module('myphysicslab.sims.pde.StringApp');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.controls.SliderControl');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.ShapeType');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.GenericMemo');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayPath');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplayText');
-goog.require('myphysicslab.lab.view.DrawingStyle');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.TabLayout');
-goog.require('myphysicslab.sims.pde.FlatShape');
-goog.require('myphysicslab.sims.pde.HalfSinePulseShape');
-goog.require('myphysicslab.sims.pde.MultiSineShape');
-goog.require('myphysicslab.sims.pde.SinePulseShape');
-goog.require('myphysicslab.sims.pde.SquarePulseShape');
-goog.require('myphysicslab.sims.pde.StringAdvance');
-goog.require('myphysicslab.sims.pde.StringPath');
-goog.require('myphysicslab.sims.pde.StringShape');
-goog.require('myphysicslab.sims.pde.StringSim');
-goog.require('myphysicslab.sims.pde.TrianglePulseShape');
-goog.require('myphysicslab.sims.pde.TriangleShape');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const DrawingStyle = goog.require('myphysicslab.lab.view.DrawingStyle');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
+const StringAdvance = goog.require('myphysicslab.sims.pde.StringAdvance');
+const StringPath = goog.require('myphysicslab.sims.pde.StringPath');
+const StringShape = goog.require('myphysicslab.sims.pde.StringShape');
+const StringShapes = goog.require('myphysicslab.sims.pde.StringShapes');
+const StringSim = goog.require('myphysicslab.sims.pde.StringSim');
+const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayPath = goog.module.get('myphysicslab.lab.view.DisplayPath');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplayText = goog.module.get('myphysicslab.lab.view.DisplayText');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const DrawingStyle = goog.module.get('myphysicslab.lab.view.DrawingStyle');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const SliderControl = goog.module.get('myphysicslab.lab.controls.SliderControl');
-var StringAdvance = sims.pde.StringAdvance;
-var StringPath = sims.pde.StringPath;
-var StringShape = sims.pde.StringShape;
-var StringSim = sims.pde.StringSim;
-const TabLayout = goog.module.get('myphysicslab.sims.common.TabLayout');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+// following are only required for possible use in Terminal
+const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
 
 /** Displays the {@link StringSim} simulation.
 
@@ -132,18 +80,16 @@ this file in the HTML where the constructor is called. The name of that global v
 holding the application is passed to defineNames() method so that short-names in scripts
 can be properly expanded.
 
+*/
+class StringApp extends AbstractSubject {
+/**
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @export
 */
-myphysicslab.sims.pde.StringApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, 'APP');
+  super('APP');
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
   // keep reference to terminal to make for shorter 'expanded' names
@@ -155,12 +101,12 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   var length = 13.5;
   /** @type {!Array<!StringShape>} */
   this.shapes = [
-      new sims.pde.FlatShape(length),
-      new sims.pde.TrianglePulseShape(length),
-      new sims.pde.SquarePulseShape(length),
-      new sims.pde.SinePulseShape(length),
-      new sims.pde.HalfSinePulseShape(length),
-      new sims.pde.MultiSineShape(length)
+      new StringShapes.FlatShape(length),
+      new StringShapes.TrianglePulseShape(length),
+      new StringShapes.SquarePulseShape(length),
+      new StringShapes.SinePulseShape(length),
+      new StringShapes.HalfSinePulseShape(length),
+      new StringShapes.MultiSineShape(length)
     ];
   /** @type {!StringSim} */
   this.sim = new StringSim(this.shapes[1]);
@@ -294,6 +240,8 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
   this.addControl(new NumericControl(pn).setDecimalPlaces(7));
   pn = this.clock.getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
+  // show compile time so user can ensure loading latest version
+  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
 
   /** @type {!EnergyBarGraph} */
   this.energyGraph = new EnergyBarGraph(this.sim);
@@ -341,11 +289,9 @@ myphysicslab.sims.pde.StringApp = function(elem_ids) {
       this.terminal);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
-var StringApp = myphysicslab.sims.pde.StringApp;
-goog.inherits(StringApp, AbstractSubject);
 
 /** @override */
-StringApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', sim: '+this.sim.toStringShort()
       +', simRun: '+this.simRun.toStringShort()
@@ -355,25 +301,25 @@ StringApp.prototype.toString = function() {
       +', path: '+this.path
       +', displayPath: '+this.displayPath
       +', shapes: [ '+this.shapes + ']'
-      + StringApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-StringApp.prototype.getClassName = function() {
+getClassName() {
   return 'StringApp';
 };
 
 /** Returns name of initial string shape.
 * @return {string} name of initial string shape.
 */
-StringApp.prototype.getShape = function() {
+getShape() {
   return this.sim.getShape().getName();
 }
 
 /** Sets the initial string shape.
 * @param {string} value  name of initial string shape
 */
-StringApp.prototype.setShape = function(value) {
+setShape(value) {
   for (var i=0; i<this.shapes.length; i++) {
     var shape = this.shapes[i];
     if (shape.getName() == value) {
@@ -390,7 +336,7 @@ StringApp.prototype.setShape = function(value) {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-StringApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -406,7 +352,7 @@ StringApp.prototype.defineNames = function(myName) {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-StringApp.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
@@ -414,7 +360,7 @@ StringApp.prototype.addControl = function(control) {
 * @return {undefined}
 * @export
 */
-StringApp.prototype.setup = function() {
+setup() {
   this.clock.resume();
   this.terminal.parseURLorRecall();
   this.sim.saveInitialState();
@@ -425,7 +371,7 @@ StringApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-StringApp.prototype.start = function() {
+start() {
   this.simRun.startFiring();
 };
 
@@ -436,7 +382,7 @@ StringApp.prototype.start = function() {
 * @return {*}
 * @export
 */
-StringApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -444,4 +390,15 @@ StringApp.prototype.eval = function(script, opt_output) {
   }
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @param {!TabLayout.elementIds} elem_ids
+* @return {!StringApp}
+*/
+function makeStringApp(elem_ids) {
+  return new StringApp(elem_ids);
+};
+goog.exportSymbol('makeStringApp', makeStringApp);
+
+exports = StringApp;

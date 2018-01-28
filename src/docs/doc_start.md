@@ -123,7 +123,7 @@ interfaces listed for ease of browsing.
      partial differential equations
     + [myphysicslab.sims.pde.StringApp](myphysicslab.sims.pde.StringApp.html)
     + [myphysicslab.sims.pde.StringPath](myphysicslab.sims.pde.StringPath.html)
-    + [myphysicslab.sims.pde.StringShape](myphysicslab.sims.pde.StringShape.html)
+    + [myphysicslab.sims.pde.StringShapes](myphysicslab.sims.pde.StringShapes.html)
     + [myphysicslab.sims.pde.StringSim](myphysicslab.sims.pde.StringSim.html)
 
 + `myphysicslab.sims.pendulum` applications displaying pendulum simulations
