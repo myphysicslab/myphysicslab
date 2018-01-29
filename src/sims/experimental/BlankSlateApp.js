@@ -12,92 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.experimental.BlankSlateApp');
+goog.module('myphysicslab.sims.experimental.BlankSlateApp');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.DisplayText');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.springs.SingleSpringSim');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Timer = goog.require('myphysicslab.lab.util.Timer');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-const DisplayText = goog.module.get('myphysicslab.lab.view.DisplayText');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Timer = goog.module.get('myphysicslab.lab.util.Timer');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+// following are only required for possible use in Terminal
+const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 
 /** BlankSlateApp has a LabCanvas and Terminal, and let's you experiment building
 things with scripts.
+*/
+class BlankSlateApp extends AbstractSubject {
+/**
 * @param {!BlankSlateApp.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @extends {AbstractSubject}
-* @final
-* @struct
-* @export
 */
-myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, 'APP');
+  super('APP');
   Util.setImagesDir(elem_ids['images_dir']);
   var div_sim = BlankSlateApp.getElementById(elem_ids, 'sim_canvas');
   // 'relative' allows absolute positioning of icon controls over the canvas
@@ -173,20 +135,6 @@ myphysicslab.sims.experimental.BlankSlateApp = function(elem_ids) {
   this.timer.setCallBack(callback);
   this.timer.startFiring();
 };
-var BlankSlateApp = myphysicslab.sims.experimental.BlankSlateApp;
-goog.inherits(BlankSlateApp, AbstractSubject);
-
-/**  Names of HTML div, form, and input element's to search for by using
-* `document.getElementById()`.
-* @typedef {{
-*   sim_canvas: string,
-*   sim_controls: string,
-*   term_output: string,
-*   term_input: string,
-*   images_dir: string
-* }}
-*/
-BlankSlateApp.elementIds;
 
 /** Finds the specified element in the HTML Document; throws an error if element
 * is not found.
@@ -194,7 +142,7 @@ BlankSlateApp.elementIds;
 * @param {string} elementId specifies which elementId to get from elem_ids
 * @return {!Element} the element from the current HTML Document
 */
-BlankSlateApp.getElementById = function(elem_ids, elementId) {
+static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
@@ -206,7 +154,7 @@ BlankSlateApp.getElementById = function(elem_ids, elementId) {
 };
 
 /** @override */
-BlankSlateApp.prototype.getClassName = function() {
+getClassName() {
   return 'BlankSlateApp';
 };
 
@@ -215,7 +163,7 @@ BlankSlateApp.prototype.getClassName = function() {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-BlankSlateApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -230,7 +178,7 @@ BlankSlateApp.prototype.defineNames = function(myName) {
 * @return {*}
 * @export
 */
-BlankSlateApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -242,7 +190,7 @@ BlankSlateApp.prototype.eval = function(script, opt_output) {
 * @return {undefined}
 * @export
 */
-BlankSlateApp.prototype.setup = function() {
+setup() {
   this.terminal.parseURLorRecall();
 };
 
@@ -250,7 +198,30 @@ BlankSlateApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-BlankSlateApp.prototype.start = function() {
+start() {
 };
 
-}); // goog.scope
+} //end class
+
+/**  Names of HTML div, form, and input element's to search for by using
+* `document.getElementById()`.
+* @typedef {{
+*   sim_canvas: string,
+*   sim_controls: string,
+*   term_output: string,
+*   term_input: string,
+*   images_dir: string
+* }}
+*/
+BlankSlateApp.elementIds;
+
+/**
+* @param {!BlankSlateApp.elementIds} elem_ids
+* @return {!BlankSlateApp}
+*/
+function makeBlankSlateApp(elem_ids) {
+  return new BlankSlateApp(elem_ids);
+};
+goog.exportSymbol('makeBlankSlateApp', makeBlankSlateApp);
+
+exports = BlankSlateApp;

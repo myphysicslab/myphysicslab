@@ -4,6 +4,7 @@
 #define #TOP_DIR ../..
 #define #APP_PATH sims.experimental.BlankSlateApp
 #include "#TOP_DIR/macros.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -75,7 +76,7 @@ clock.resume();</a>
       term_input: 'term_input',
       images_dir: '#IMAGES_DIR'
     };
-    app = new myphysicslab.sims.experimental.BlankSlateApp(elem_ids);
+    app = makeBlankSlateApp(elem_ids);
     app.defineNames('app');
   }());
 </script>
