@@ -12,126 +12,77 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.TestViewerApp');
+goog.module('myphysicslab.test.TestViewerApp');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.app.SimRunner');
-goog.require('myphysicslab.lab.controls.CheckBoxControl');
-goog.require('myphysicslab.lab.controls.ChoiceControl');
-goog.require('myphysicslab.lab.controls.GroupControl');
-goog.require('myphysicslab.lab.controls.LabControl');
-goog.require('myphysicslab.lab.controls.NumericControl');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.EnergyBarGraph');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayClock');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.sims.common.CommonControls');
-goog.require('myphysicslab.sims.common.StandardGraph1');
-goog.require('myphysicslab.sims.common.VerticalLayout');
-goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
-goog.require('myphysicslab.sims.engine2D.PileConfig');
-goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
-goog.require('myphysicslab.sims.roller.PathObserver');
-goog.require('myphysicslab.test.CircleCircleTest');
-goog.require('myphysicslab.test.CircleStraightTest');
-goog.require('myphysicslab.test.DoNothingTest');
-goog.require('myphysicslab.test.JointTest');
-goog.require('myphysicslab.test.MiscellanyTest');
-goog.require('myphysicslab.test.MultipleCollisionTest');
-goog.require('myphysicslab.test.PileTest');
-goog.require('myphysicslab.test.RopeTest');
-goog.require('myphysicslab.test.SpeedTest');
-goog.require('myphysicslab.test.StraightStraightTest');
 
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
+const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
+const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
+const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
+const JointTest = goog.require('myphysicslab.test.JointTest');
+const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
+const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
+const PileTest = goog.require('myphysicslab.test.PileTest');
+const RopeTest = goog.require('myphysicslab.test.RopeTest');
+const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
+const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
 
-goog.scope(function() {
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DiffEqSolverSubject = goog.require('myphysicslab.lab.model.DiffEqSolverSubject');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayClock = goog.require('myphysicslab.lab.view.DisplayClock');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const ElasticitySetter = goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
+const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const Gravity2Law = goog.require('myphysicslab.lab.model.Gravity2Law');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const GroupControl = goog.require('myphysicslab.lab.controls.GroupControl');
+const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PathObserver = goog.require('myphysicslab.sims.roller.PathObserver');
+const PileConfig = goog.require('myphysicslab.sims.engine2D.PileConfig');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBodyEventHandler = goog.require('myphysicslab.lab.app.RigidBodyEventHandler');
+const RigidBodyObserver = goog.require('myphysicslab.sims.engine2D.RigidBodyObserver');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const StandardGraph1 = goog.require('myphysicslab.sims.common.StandardGraph1');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalLayout = goog.require('myphysicslab.sims.common.VerticalLayout');
 
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-const CheckBoxControl = goog.module.get('myphysicslab.lab.controls.CheckBoxControl');
-const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DiffEqSolverSubject = goog.module.get('myphysicslab.lab.model.DiffEqSolverSubject');
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayClock = goog.module.get('myphysicslab.lab.view.DisplayClock');
-const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-const ElasticitySetter = goog.module.get('myphysicslab.sims.engine2D.ElasticitySetter');
-const EnergyBarGraph = goog.module.get('myphysicslab.lab.graph.EnergyBarGraph');
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const Gravity2Law = goog.module.get('myphysicslab.lab.model.Gravity2Law');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const GroupControl = goog.module.get('myphysicslab.lab.controls.GroupControl');
-const LabControl = goog.module.get('myphysicslab.lab.controls.LabControl');
-const NumericControl = goog.module.get('myphysicslab.lab.controls.NumericControl');
-const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-const PathObserver = goog.module.get('myphysicslab.sims.roller.PathObserver');
-const PileConfig = goog.module.get('myphysicslab.sims.engine2D.PileConfig');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBodyEventHandler = goog.module.get('myphysicslab.lab.app.RigidBodyEventHandler');
-const RigidBodyObserver = goog.module.get('myphysicslab.sims.engine2D.RigidBodyObserver');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimRunner = goog.module.get('myphysicslab.lab.app.SimRunner');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const StandardGraph1 = goog.module.get('myphysicslab.sims.common.StandardGraph1');
-const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalLayout = goog.module.get('myphysicslab.sims.common.VerticalLayout');
+// following are only required for possible use in Terminal
+const VarsHistory = goog.require('myphysicslab.lab.graph.VarsHistory');
+const ExpressionVariable = goog.require('myphysicslab.lab.model.ExpressionVariable');
+const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
 
 /** Interactively run and view various engine2D tests after selecting the
 test to run from a set of menus. This lets us see what a test is doing; it uses the
@@ -172,7 +123,6 @@ the timeStep, etc.
 
 + ParameterBoolean named `START_ON_LOAD`, see {@link #setStartOnLoad}
 
-
 ## How TestViewerApp Works
 
 + Look in a set of specified classes (e.g. StraightStraightTest,
@@ -187,7 +137,6 @@ the timeStep, etc.
 
 + When the menu item selected:  reset the sim;  run the selected '_setup' method.
 
-
 ## Does Not Work With Advanced Compile
 
 Under advanced compile the compiler decides that we
@@ -197,7 +146,6 @@ a test group object like `myphysicslab.test.StraightStraightTest` and then we
 form a menu of the functions whose name ends with `_setup`.  But we never actually
 call those functions in a way that the compiler would see.
 
-
 ## Communicating the Time Step
 
 The reason for storing the time step in AdvanceStrategy is
@@ -205,13 +153,11 @@ so that TestViewer produces same results as running a test.  This is a way to
 communicate the time step to the TestViewer.  VERY IMPORTANT for reproducing
 results.  See `TestViewer.startTest_` where we set the timestep on the `SimRunner`.
 
-
 ## Communicating the Sim Rect
 
 If a test sets a specific simulation rectangle on the ContactSim then we use that.
 Otherwise we try to find a rectangle that encloses all the objects and then some.
 See {@link #setSimRect_}.
-
 
 ## Gravity and Damping Get Special Treatment
 
@@ -232,18 +178,16 @@ see {@link #prependControl}.
 
 @todo rename to reflect this is the test viewer for engine2D tests only?
 
+*/
+class TestViewerApp extends AbstractSubject {
+/**
 * @param {!VerticalLayout.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @extends {AbstractSubject}
-* @export
 */
-myphysicslab.test.TestViewerApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
-  AbstractSubject.call(this, 'TEST_VIEWER_APP');
+  super('TEST_VIEWER_APP');
 
   /**  The test classes in which test functions are found.
   * @type {!Array<!Object>}
@@ -355,16 +299,16 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.gravityLaw;
 
   // make the group test menu
-  this.addGroup_(myphysicslab.test.StraightStraightTest, 'Straight/Straight');
-  this.addGroup_(myphysicslab.test.CircleStraightTest, 'Circle/Straight');
-  this.addGroup_(myphysicslab.test.CircleCircleTest, 'Circle/Circle');
-  this.addGroup_(myphysicslab.test.DoNothingTest, 'DoNothingGrinder');
-  this.addGroup_(myphysicslab.test.MiscellanyTest, 'Miscellany');
-  this.addGroup_(myphysicslab.test.PileTest, 'Pile');
-  this.addGroup_(myphysicslab.test.MultipleCollisionTest, 'Multiple Collision');
-  this.addGroup_(myphysicslab.test.JointTest, 'Joints');
-  this.addGroup_(myphysicslab.test.RopeTest, 'Ropes');
-  this.addGroup_(myphysicslab.test.SpeedTest, 'Speed');
+  this.addGroup_(StraightStraightTest, 'Straight/Straight');
+  this.addGroup_(CircleStraightTest, 'Circle/Straight');
+  this.addGroup_(CircleCircleTest, 'Circle/Circle');
+  this.addGroup_(DoNothingTest, 'DoNothingGrinder');
+  this.addGroup_(MiscellanyTest, 'Miscellany');
+  this.addGroup_(PileTest, 'Pile');
+  this.addGroup_(MultipleCollisionTest, 'Multiple Collision');
+  this.addGroup_(JointTest, 'Joints');
+  this.addGroup_(RopeTest, 'Ropes');
+  this.addGroup_(SpeedTest, 'Speed');
 
   /** @type {!ParameterNumber} */
   var pn;
@@ -412,6 +356,9 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.elasticity = new ElasticitySetter(this.sim);
   pn = this.elasticity.getParameterNumber(ElasticitySetter.en.ELASTICITY);
   this.addControl(new NumericControl(pn));
+
+  // show compile time so user can ensure loading latest version
+  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
 
   br = new GroupControl('BR', document.createElement('BR'), []);
   this.addControl(br);
@@ -486,17 +433,15 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
       this.simRun, this.terminal);
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
 };
-var TestViewerApp = myphysicslab.test.TestViewerApp;
-goog.inherits(TestViewerApp, AbstractSubject);
 
 /** @override */
-TestViewerApp.prototype.toString = function() {
+toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      + TestViewerApp.superClass_.toString.call(this);
+      + super.toString();
 };
 
 /** @override */
-TestViewerApp.prototype.getClassName = function() {
+getClassName() {
   return 'TestViewerApp';
 };
 
@@ -505,7 +450,7 @@ TestViewerApp.prototype.getClassName = function() {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-TestViewerApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -522,14 +467,14 @@ TestViewerApp.prototype.defineNames = function(myName) {
 /** Returns index of current group within group menu
 * @return {number} index of current group within group menu
 */
-TestViewerApp.prototype.getGroup = function() {
+getGroup() {
   return this.groupSelected_;
 };
 
 /** Change to the given group menu, and run the first test of that group
 * @param {number} groupIndex index of group within group menu
 */
-TestViewerApp.prototype.setGroup = function(groupIndex) {
+setGroup(groupIndex) {
   if (groupIndex < 0 || groupIndex >= this.groupNames_.length) {
     throw new Error('setGroup: groupIndex='+groupIndex
         +' range=' +this.groupNames_.length);
@@ -550,14 +495,14 @@ TestViewerApp.prototype.setGroup = function(groupIndex) {
 /** Returns index of current test within test menu
 * @return {number} index of current test within test menu
 */
-TestViewerApp.prototype.getTest = function() {
+getTest() {
   return this.testSelected_;
 };
 
 /** Change to run the given test.
 * @param {number} index index of test within test menu of current group
 */
-TestViewerApp.prototype.setTest = function(index) {
+setTest(index) {
   if (index < 0 || index >= this.testNames_.length) {
     throw new Error('setTest: index='+index+' range='+this.testNames_.length);
   }
@@ -574,7 +519,7 @@ TestViewerApp.prototype.setTest = function(index) {
 * @param {string} name
 * @private
 */
-TestViewerApp.prototype.addGroup_ = function(c, name) {
+addGroup_(c, name) {
   //console.log('addGroup_ '+c+' name='+name);
   this.groups_.push(c);
   this.groupNames_.push(name);
@@ -583,14 +528,14 @@ TestViewerApp.prototype.addGroup_ = function(c, name) {
 /**
 * @return {boolean}
 */
-TestViewerApp.prototype.getStartOnLoad = function() {
+getStartOnLoad() {
   return this.startOnLoad_;
 };
 
 /**
 * @param {boolean} value
 */
-TestViewerApp.prototype.setStartOnLoad = function(value) {
+setStartOnLoad(value) {
   if (this.startOnLoad_ != value) {
     this.startOnLoad_ = value;
     this.broadcastParameter(TestViewerApp.en.START_ON_LOAD);
@@ -606,7 +551,7 @@ the '_setup' suffix.
 * @param {!Object} c the class whose tests will be added to the menu of available tests.
 * @private
 */
-TestViewerApp.prototype.addTestsFrom_ = function(c) {
+addTestsFrom_(c) {
   //console.log('addTestsFrom_ '+c);
   for (var p in c) {
     //console.log('addTestsFrom_ p='+p);
@@ -630,7 +575,7 @@ reset method is re-using the ContactSim and not rebuilding controls etc.
 * @param {number} testIndex
 * @private
 */
-TestViewerApp.prototype.startTest_ = function(testIndex) {
+startTest_(testIndex) {
   goog.asserts.assert(goog.isNumber(testIndex));
 
   this.sim.setDistanceTol(0.01);
@@ -669,7 +614,6 @@ TestViewerApp.prototype.startTest_ = function(testIndex) {
       }
     });
 
-
   // ensure that we use same timestep that is used in the Engine2DTestRig
   this.simRun.setTimeStep(this.advance.getTimeStep());
 
@@ -701,7 +645,7 @@ TestViewerApp.prototype.startTest_ = function(testIndex) {
 @return {undefined}
 @private
 */
-TestViewerApp.prototype.makeGravityControl_ = function() {
+makeGravityControl_() {
   var g = goog.array.find(this.sim.getForceLaws(), function(f, index, array) {
     return f instanceof GravityLaw || f instanceof Gravity2Law;
   });
@@ -725,7 +669,7 @@ TestViewerApp.prototype.makeGravityControl_ = function() {
 @return {undefined}
 @private
 */
-TestViewerApp.prototype.makeDampingControl_ = function() {
+makeDampingControl_() {
   var g = goog.array.find(this.sim.getForceLaws(), function(f, index, array) {
     return f instanceof DampingLaw;
   });
@@ -750,7 +694,7 @@ that size. If there are no walls, then sets to twice the size.
 @return {undefined}
 @private
 */
-TestViewerApp.prototype.setSimRect_ = function() {
+setSimRect_() {
   // does sim have a specified simRect?
   var simRect = this.sim.getSimRect();
   if (simRect != null) {
@@ -780,7 +724,7 @@ TestViewerApp.prototype.setSimRect_ = function() {
 * @return {undefined}
 * @export
 */
-TestViewerApp.prototype.setup = function() {
+setup() {
   if (Util.ADVANCED) {
     this.terminal.println('TestViewerApp does not work with advanced-compile');
     return;
@@ -800,7 +744,7 @@ TestViewerApp.prototype.setup = function() {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-TestViewerApp.prototype.addControl = function(control) {
+addControl(control) {
   return this.layout.addControl(control);
 };
 
@@ -808,7 +752,7 @@ TestViewerApp.prototype.addControl = function(control) {
 * @param {!LabControl} control
 * @return {!LabControl} the control that was passed in
 */
-TestViewerApp.prototype.prependControl = function(control) {
+prependControl(control) {
   var element = control.getElement();
   element.style.display = 'inline-block';
   this.layout.controls_.push(control);
@@ -829,7 +773,7 @@ TestViewerApp.prototype.prependControl = function(control) {
 * @return {*}
 * @export
 */
-TestViewerApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -841,12 +785,14 @@ TestViewerApp.prototype.eval = function(script, opt_output) {
 * @return {undefined}
 * @export
 */
-TestViewerApp.prototype.start = function() {
+start() {
   if (Util.ADVANCED) {
     return;
   }
   this.simRun.startFiring();
 };
+
+} //end class
 
 /** Set of internationalized strings.
 @typedef {{
@@ -882,4 +828,13 @@ TestViewerApp.de_strings = {
 TestViewerApp.i18n = goog.LOCALE === 'de' ? TestViewerApp.de_strings :
     TestViewerApp.en;
 
-}); // goog.scope
+/**
+* @param {!VerticalLayout.elementIds} elem_ids
+* @return {!TestViewerApp}
+*/
+function makeTestViewerApp(elem_ids) {
+  return new TestViewerApp(elem_ids);
+};
+goog.exportSymbol('makeTestViewerApp', makeTestViewerApp);
+
+exports = TestViewerApp;
