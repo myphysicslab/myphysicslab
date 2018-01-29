@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.experimental.SimpleApp');
+goog.module('myphysicslab.sims.experimental.SimpleApp');
 
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.SimView');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Timer = goog.require('myphysicslab.lab.util.Timer');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  Simple App is a demo of using a minimal set of myPhysicsLab classes.
 
@@ -32,32 +32,14 @@ This displays something like the SingleSpringSim simulation, but it uses a very 
 math routine to move the objects instead of a differential equation. There are no
 DiffEqSolver or Simulation classes involved. This sets up the LabCanvas and
 DisplayObjects and defines a callback that drives the animation.
-
-* @constructor
-* @final
-* @struct
-* @private
 */
-myphysicslab.sims.experimental.SimpleApp = function() {
-  throw new Error();
-};
+class SimpleApp {
 
 /**
 * @return {undefined}
 * @export
 */
-myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
-  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-  const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-  const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-  const Timer = goog.module.get('myphysicslab.lab.util.Timer');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+static makeSimpleApp() {
 
   Util.setErrorHandler();
   // create a canvas for displaying the view objects
@@ -100,3 +82,8 @@ myphysicslab.sims.experimental.SimpleApp.makeApp = function() {
   timer.startFiring();
   clock.resume();
 };
+
+} // end class
+goog.exportSymbol('makeSimpleApp', SimpleApp.makeSimpleApp);
+
+exports = SimpleApp;
