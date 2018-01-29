@@ -12,87 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.MultipleCollisionTest');
+goog.module('myphysicslab.test.MultipleCollisionTest');
 
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.TestShapes');
-
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const ImpulseSim = goog.module.get('myphysicslab.lab.engine2D.ImpulseSim');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TestShapes = myphysicslab.test.TestShapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const ImpulseSim = goog.require('myphysicslab.lab.engine2D.ImpulseSim');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestShapes = goog.require('myphysicslab.test.TestShapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /**  Unit tests of {@link ImpulseSim}, for cases involving multiple simultaneous
 collisions.
 
 Note that these tests are sensitive to the settings for
 `VELOCITY_TOL` and `DISTANCE_TOL` in ImpulseSim.
-
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.MultipleCollisionTest = function() {};
-
-var MultipleCollisionTest = myphysicslab.test.MultipleCollisionTest;
-
+class MultipleCollisionTest {
 /**
-* @type {string}
-* @const
+* @private
 */
-MultipleCollisionTest.groupName = 'MultipleCollisionTest.';
+constructor() { throw new Error(); };
 
-/**
-@type {boolean}
-@private
-@const
-*/
-MultipleCollisionTest.BALL = true;
-
-/**
-@type {boolean}
-@private
-@const
-*/
-MultipleCollisionTest.BLOCK = false;
-
-
-MultipleCollisionTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.SIMULTANEOUS));
   Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.HYBRID));
   Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test1_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
@@ -128,25 +82,11 @@ MultipleCollisionTest.test = function() {
 };
 
 /**
-@type {number}
-@private
-@const
-*/
-MultipleCollisionTest.distanceTol_ = 0.01;
-
-/**
-@type {number}
-@private
-@const
-*/
-MultipleCollisionTest.velocityTol_ = 0.5;
-
-/**
 @param {!ImpulseSim} sim
 @param {!CollisionAdvance} advance
 @private
 */
-MultipleCollisionTest.commonSetup1 = function(sim, advance) {
+static commonSetup1(sim, advance) {
   sim.addForceLaw(new DampingLaw(0, 0.15, sim.getSimList()));
   sim.setCollisionAccuracy(0.6);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
@@ -167,7 +107,7 @@ MultipleCollisionTest.commonSetup1 = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_wall_setup = function(sim, advance) {
+static one_hits_wall_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var b0 = Shapes.makeBlock(1, 1, 'block');
   b0.setPosition(new Vector(0,  2),  0);
@@ -183,7 +123,7 @@ MultipleCollisionTest.one_hits_wall_setup = function(sim, advance) {
 /** With sequential or hybrid collision handling, the block bounces straight off the wall.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test1_0 = function(collisionType) {
+static test1_0(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test1_0 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -201,7 +141,7 @@ MultipleCollisionTest.test1_0 = function(collisionType) {
 /** With serial collision handling, the block starts rotating.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test1_1 = function(collisionType) {
+static test1_1(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test1_1 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -225,7 +165,7 @@ Because resting contact is involved, we need to use ContactSim instead of Impuls
 @param {number} offset  additional distance between the stationary objects
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
-MultipleCollisionTest.test2_prep = function(sim, advance, offset, balls) {
+static test2_prep(sim, advance, offset, balls) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var radius = 0.5;
   var b0 = balls ? Shapes.makeBall(radius, 'ball0')
@@ -249,7 +189,7 @@ MultipleCollisionTest.test2_prep = function(sim, advance, offset, balls) {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_two_ball_setup = function(sim, advance) {
+static one_hits_two_ball_setup(sim, advance) {
   MultipleCollisionTest.test2_prep(sim, advance, 0, MultipleCollisionTest.BALL);
 };
 
@@ -258,7 +198,7 @@ MultipleCollisionTest.one_hits_two_ball_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_two_block_setup = function(sim, advance) {
+static one_hits_two_block_setup(sim, advance) {
   MultipleCollisionTest.test2_prep(sim, advance, 0, MultipleCollisionTest.BLOCK);
 };
 
@@ -267,7 +207,7 @@ MultipleCollisionTest.one_hits_two_block_setup = function(sim, advance) {
 @param {!CollisionHandling} collisionType
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
-MultipleCollisionTest.test2_0 = function(collisionType, balls) {
+static test2_0(collisionType, balls) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test2_0 '+collisionType+' balls='+balls;
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -287,7 +227,7 @@ MultipleCollisionTest.test2_0 = function(collisionType, balls) {
 @param {!CollisionHandling} collisionType
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
-MultipleCollisionTest.test2_1 = function(collisionType, balls) {
+static test2_1(collisionType, balls) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test2_1 '+collisionType+' balls='+balls;
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -326,7 +266,7 @@ ImpulseSim here (don't need to use ContactSim).
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.two_hits_one_asymmetric_setup = function(sim, advance) {
+static two_hits_one_asymmetric_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var distTol = sim.getDistanceTol();
   var radius = 0.5;
@@ -351,7 +291,7 @@ test now works identically for all collision solvers.
 MAY 2016: I've solved the above problem, see the setup function above.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test3_0 = function(collisionType) {
+static test3_0(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test3_0 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -371,7 +311,7 @@ MultipleCollisionTest.test3_0 = function(collisionType) {
 the two balls exchange velocity.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test3_1 = function(collisionType) {
+static test3_1(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test3_1 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -395,7 +335,7 @@ ImpulseSim here (don't need to use ContactSim).
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_two_separate_setup = function(sim, advance) {
+static one_hits_two_separate_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var b0 = Shapes.makeBlock(1, 3, 'block0');
   b0.setPosition(new Vector(-4,  0),  0); // could modify angle slightly here
@@ -414,7 +354,7 @@ MultipleCollisionTest.one_hits_two_separate_setup = function(sim, advance) {
 /**
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test4_0 = function(collisionType) {
+static test4_0(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test4_0 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -433,7 +373,7 @@ MultipleCollisionTest.test4_0 = function(collisionType) {
 /**
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test4_1 = function(collisionType) {
+static test4_1(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test4_1 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -460,7 +400,7 @@ Because this test involves resting contacts, we must use ContactSim.
 @param {!CollisionAdvance} advance
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
-MultipleCollisionTest.test5_prep = function(sim, advance, balls) {
+static test5_prep(sim, advance, balls) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var radius = 0.5;
   var b0 = balls ? Shapes.makeBall(radius, 'ball0')
@@ -488,7 +428,7 @@ MultipleCollisionTest.test5_prep = function(sim, advance, balls) {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_two_on_wall_ball_setup = function(sim, advance) {
+static one_hits_two_on_wall_ball_setup(sim, advance) {
   MultipleCollisionTest.test5_prep(sim, advance, MultipleCollisionTest.BALL);
 };
 
@@ -497,7 +437,7 @@ MultipleCollisionTest.one_hits_two_on_wall_ball_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_two_on_wall_block_setup = function(sim, advance) {
+static one_hits_two_on_wall_block_setup(sim, advance) {
   MultipleCollisionTest.test5_prep(sim, advance, MultipleCollisionTest.BLOCK);
 };
 
@@ -505,7 +445,7 @@ MultipleCollisionTest.one_hits_two_on_wall_block_setup = function(sim, advance) 
 @param {!CollisionHandling} collisionType
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
-MultipleCollisionTest.test5_0 = function(collisionType, balls) {
+static test5_0(collisionType, balls) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test5_0 '+collisionType+' balls='+balls;
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -532,7 +472,7 @@ This corresponds to the 'center spin' version of the interactive SimultaneousCol
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.center_spin_setup = function(sim, advance) {
+static center_spin_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var b0 = Shapes.makeBlock(1, 3, 'block0');
   b0.setPosition(new Vector(0,  0),  0);
@@ -550,7 +490,7 @@ MultipleCollisionTest.center_spin_setup = function(sim, advance) {
 /** Serial collision handling case:  non-symmetric result.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test6_0 = function(collisionType) {
+static test6_0(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test6_0 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -570,7 +510,7 @@ MultipleCollisionTest.test6_0 = function(collisionType) {
 /** Simultaneous collision handling case:  symmetric result.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test6_1 = function(collisionType) {
+static test6_1(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test6_1 '+collisionType;
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -596,7 +536,7 @@ This corresponds to the 'side spin' version of the interactive SimultaneousColli
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.side_spin_setup = function(sim, advance) {
+static side_spin_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var b0 = Shapes.makeBlock(1, 3, 'block0');
   b0.setPosition(new Vector(0,  0),  Math.PI/2);
@@ -620,7 +560,7 @@ MultipleCollisionTest.side_spin_setup = function(sim, advance) {
  the contact was separating).
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test7_0 = function(collisionType) {
+static test7_0(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_0 '+collisionType;
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -640,7 +580,7 @@ MultipleCollisionTest.test7_0 = function(collisionType) {
 /** Hybrid collision handling case.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test7_1 = function(collisionType) {
+static test7_1(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_1 '+collisionType;
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -660,7 +600,7 @@ MultipleCollisionTest.test7_1 = function(collisionType) {
 /** Serial collision handling case.
 @param {!CollisionHandling} collisionType
 */
-MultipleCollisionTest.test7_2 = function(collisionType) {
+static test7_2(collisionType) {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_2 '+collisionType;
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -684,7 +624,7 @@ a collision.
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.joint_collision_setup = function(sim, advance) {
+static joint_collision_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var zel = Walls.make(sim, /*width=*/20, /*height=*/10);
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
@@ -713,7 +653,7 @@ MultipleCollisionTest.joint_collision_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.test8_0 = function() {
+static test8_0() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_0';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -737,7 +677,7 @@ MultipleCollisionTest.test8_0 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.joint_collision_2_setup = function(sim, advance) {
+static joint_collision_2_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
@@ -762,7 +702,7 @@ MultipleCollisionTest.joint_collision_2_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.test8_1 = function() {
+static test8_1() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -781,7 +721,7 @@ MultipleCollisionTest.test8_1 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.joint_collision_3_setup = function(sim, advance) {
+static joint_collision_3_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
@@ -806,7 +746,7 @@ MultipleCollisionTest.joint_collision_3_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.test8_2 = function() {
+static test8_2() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_2';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -828,7 +768,7 @@ spinning joints tight with just contact force calculations.
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.joint_collision_4_setup = function(sim, advance) {
+static joint_collision_4_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
@@ -854,7 +794,7 @@ MultipleCollisionTest.joint_collision_4_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.test8_3 = function() {
+static test8_3() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_3';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -875,7 +815,7 @@ the jointed rectangle blocks.
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.joint_collision_5_setup = function(sim, advance) {
+static joint_collision_5_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var distTol = sim.getDistanceTol();
   var body = Shapes.makeBall(0.5, 'body4');
@@ -908,7 +848,7 @@ MultipleCollisionTest.joint_collision_5_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.test8_5 = function() {
+static test8_5() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_5';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -932,7 +872,7 @@ et. al. Chapter 6-2 'Multiple Points of Collision'.
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.two_in_box_setup = function(sim, advance) {
+static two_in_box_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var distTol = sim.getDistanceTol();
   var body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
@@ -954,7 +894,7 @@ MultipleCollisionTest.two_in_box_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.two_in_box = function() {
+static two_in_box() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'two_in_box';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -977,7 +917,7 @@ et. al. Chapter 6-2 'Multiple Points of Collision'.
 @param {!CollisionAdvance} advance
 @export
 */
-MultipleCollisionTest.one_hits_two_in_box_setup = function(sim, advance) {
+static one_hits_two_in_box_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
   var distTol = sim.getDistanceTol();
   var body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
@@ -1003,7 +943,7 @@ MultipleCollisionTest.one_hits_two_in_box_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-MultipleCollisionTest.one_hits_two_in_box = function() {
+static one_hits_two_in_box() {
   Engine2DTestRig.testName = MultipleCollisionTest.groupName+'two_in_box';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -1019,4 +959,40 @@ MultipleCollisionTest.one_hits_two_in_box = function() {
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+MultipleCollisionTest.groupName = 'MultipleCollisionTest.';
+
+/**
+@type {boolean}
+@private
+@const
+*/
+MultipleCollisionTest.BALL = true;
+
+/**
+@type {boolean}
+@private
+@const
+*/
+MultipleCollisionTest.BLOCK = false;
+
+/**
+@type {number}
+@private
+@const
+*/
+MultipleCollisionTest.distanceTol_ = 0.01;
+
+/**
+@type {number}
+@private
+@const
+*/
+MultipleCollisionTest.velocityTol_ = 0.5;
+
+exports = MultipleCollisionTest;

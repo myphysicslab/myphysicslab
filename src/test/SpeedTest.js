@@ -12,62 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.SpeedTest');
+goog.module('myphysicslab.test.SpeedTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const ImpulseSim = goog.module.get('myphysicslab.lab.engine2D.ImpulseSim');
-const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const ImpulseSim = goog.require('myphysicslab.lab.engine2D.ImpulseSim');
+const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Tests high speed collisions.  Some are between small object and thin walls.
 Some are between two small objects.
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.SpeedTest = function() {};
-
-var SpeedTest = myphysicslab.test.SpeedTest;
-
+class SpeedTest {
 /**
-* @type {string}
-* @const
+* @private
 */
-SpeedTest.groupName = 'SpeedTest.';
+constructor() { throw new Error(); };
 
-SpeedTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(SpeedTest.ball_vs_wall_0);
   Engine2DTestRig.schedule(SpeedTest.ball_vs_wall_1);
   Engine2DTestRig.schedule(SpeedTest.ball_vs_circle_0);
@@ -80,7 +53,7 @@ SpeedTest.test = function() {
 @param {number=} damping
 @private
 */
-SpeedTest.commonSetup1 = function(sim, advance, damping) {
+static commonSetup1(sim, advance, damping) {
   damping = damping === undefined ? 0.05 : damping;
   sim.addForceLaw(new DampingLaw(damping, 0.15, sim.getSimList()));
   if (sim instanceof ContactSim) {
@@ -100,7 +73,7 @@ SpeedTest.commonSetup1 = function(sim, advance, damping) {
 @param {!CollisionAdvance} advance
 @export
 */
-SpeedTest.ball_vs_wall_setup = function(sim, advance) {
+static ball_vs_wall_setup(sim, advance) {
   SpeedTest.commonSetup1(sim, advance);
   var p = Shapes.makeBall(0.2, 'fast_ball');
   p.setMass(0.1);
@@ -116,7 +89,7 @@ SpeedTest.ball_vs_wall_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-SpeedTest.ball_vs_wall_0 = function() {
+static ball_vs_wall_0() {
   Engine2DTestRig.testName = SpeedTest.groupName+'ball_vs_wall_0';
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
@@ -133,7 +106,7 @@ SpeedTest.ball_vs_wall_0 = function() {
 @return {undefined}
 @private
 */
-SpeedTest.ball_vs_wall_1 = function() {
+static ball_vs_wall_1() {
   Engine2DTestRig.testName = SpeedTest.groupName+'ball_vs_wall_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -151,7 +124,7 @@ SpeedTest.ball_vs_wall_1 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-SpeedTest.ball_vs_circle_setup = function(sim, advance) {
+static ball_vs_circle_setup(sim, advance) {
   SpeedTest.commonSetup1(sim, advance);
   var p = Shapes.makeBall(0.2, 'fast_ball');
   p.setMass(0.1);
@@ -171,7 +144,7 @@ SpeedTest.ball_vs_circle_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-SpeedTest.ball_vs_circle_0 = function() {
+static ball_vs_circle_0() {
   Engine2DTestRig.testName = SpeedTest.groupName+'ball_vs_circle_0';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -205,7 +178,7 @@ same large time step used here
 @param {!CollisionAdvance} advance
 @export
 */
-SpeedTest.small_small_setup = function(sim, advance) {
+static small_small_setup(sim, advance) {
   SpeedTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setSimRect(new DoubleRect(-32, -12, 32, 12));
   advance.setDiffEqSolver(new ModifiedEuler(sim));
@@ -225,7 +198,7 @@ SpeedTest.small_small_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-SpeedTest.small_small = function() {
+static small_small() {
   Engine2DTestRig.testName = SpeedTest.groupName+'small_small';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -240,4 +213,12 @@ SpeedTest.small_small = function() {
       /*expectedCollisions=*/1);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+SpeedTest.groupName = 'SpeedTest.';
+
+exports = SpeedTest;

@@ -12,67 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.CircleStraightTest');
+goog.module('myphysicslab.test.CircleStraightTest');
 
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.ImpulseSim');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.TestShapes');
-
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Gravity2Law = goog.module.get('myphysicslab.lab.model.Gravity2Law');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const ImpulseSim = goog.module.get('myphysicslab.lab.engine2D.ImpulseSim');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TestShapes = myphysicslab.test.TestShapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Gravity2Law = goog.require('myphysicslab.lab.model.Gravity2Law');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const ImpulseSim = goog.require('myphysicslab.lab.engine2D.ImpulseSim');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestShapes = goog.require('myphysicslab.test.TestShapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Tests interactions between polygons with circular and straight edges.
 
 Why are some of these tests using such small time steps???  to show energy conservation?
 
 @todo  arc (partial circle) tests.
-
-@constructor
-@final
-@struct
+*/
+class CircleStraightTest {
+/**
 @private
 */
-myphysicslab.test.CircleStraightTest = function() {};
+constructor() { throw new Error(); };
 
-var CircleStraightTest = myphysicslab.test.CircleStraightTest;
-
-CircleStraightTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(CircleStraightTest.ball_block_collide);
   Engine2DTestRig.schedule(CircleStraightTest.ball_block_attract);
   Engine2DTestRig.schedule(CircleStraightTest.ball_block_contact);
@@ -88,18 +62,12 @@ CircleStraightTest.test = function() {
 };
 
 /**
-* @type {string}
-* @const
-*/
-CircleStraightTest.groupName = 'CircleStraightTest.';
-
-/**
 @param {!ImpulseSim} sim
 @param {!CollisionAdvance} advance
 @param {number=} damping
 @private
 */
-CircleStraightTest.commonSetup1 = function(sim, advance, damping) {
+static commonSetup1(sim, advance, damping) {
   damping = damping === undefined ? 0 : damping;
   sim.addForceLaw(new DampingLaw(damping, 0.5, sim.getSimList()));
   sim.setCollisionAccuracy(0.6);
@@ -119,7 +87,7 @@ CircleStraightTest.commonSetup1 = function(sim, advance, damping) {
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.ball_block_collide_setup = function(sim, advance) {
+static ball_block_collide_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   var body0 = Shapes.makeBall(0.75, 'ball');
   body0.setCenterOfMass(0, 0.2);
@@ -137,7 +105,7 @@ CircleStraightTest.ball_block_collide_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleStraightTest.ball_block_collide = function() {
+static ball_block_collide() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'ball_block_collide';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -172,7 +140,7 @@ lets us get past this point, though it doesn't fix the tiny distance.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.ball_block_attract_setup = function(sim, advance) {
+static ball_block_attract_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   var body0 = Shapes.makeBall(0.75, 'ball');
   body0.setCenterOfMass(0, 0.2);
@@ -192,7 +160,7 @@ CircleStraightTest.ball_block_attract_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleStraightTest.ball_block_attract = function() {
+static ball_block_attract() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'ball_block_attract';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -210,7 +178,7 @@ offset center of mass. Energy should be constant with a small enough time step.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.ball_block_contact_setup = function(sim, advance) {
+static ball_block_contact_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   var body0 = Shapes.makeBall(0.75, 'ball');
   body0.setCenterOfMass(0, 0.2);
@@ -234,7 +202,7 @@ in the setup function).
 @return {undefined}
 @private
 */
-CircleStraightTest.ball_block_contact = function() {
+static ball_block_contact() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'ball_block_contact';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -258,7 +226,7 @@ they settle into rocking contact under mutual gravitation.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.circle_arc_block_setup = function(sim, advance) {
+static circle_arc_block_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
   var p = TestShapes.makeBlockRoundEdge();
@@ -275,7 +243,7 @@ CircleStraightTest.circle_arc_block_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleStraightTest.circle_arc_block = function() {
+static circle_arc_block() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'circle_arc_block';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -298,7 +266,7 @@ CircleStraightTest.circle_arc_block = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.concave_ball_block_collide_setup = function(sim, advance) {
+static concave_ball_block_collide_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
   var p = TestShapes.makeConcaveCirclePoly();
@@ -317,7 +285,7 @@ CircleStraightTest.concave_ball_block_collide_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleStraightTest.concave_ball_block_collide = function() {
+static concave_ball_block_collide() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'concave_ball_block_collide';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -348,7 +316,7 @@ the depth of the collision plus the desired ending gap, and try again.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.concave_ball_block_contact_setup = function(sim, advance) {
+static concave_ball_block_contact_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
   var p = TestShapes.makeConcaveCirclePoly();
@@ -401,7 +369,7 @@ CircularEdge.findVertexContact results in near stable contact:
 @return {undefined}
 @private
 */
-CircleStraightTest.concave_ball_block_contact = function() {
+static concave_ball_block_contact() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'concave_ball_block_contact';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -415,13 +383,12 @@ CircleStraightTest.concave_ball_block_contact = function() {
           /*expectedCollisions=*/0);
 };
 
-
 /** With a very small time step of 0.0025, the energy stays constant to 6 decimal
 places.
 @return {undefined}
 @private
 */
-CircleStraightTest.concave_ball_block_contact_2 = function() {
+static concave_ball_block_contact_2() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'concave_ball_block_contact_2';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -452,7 +419,7 @@ occur.
 @param {!CollisionAdvance} advance
 @private
 */
-CircleStraightTest.rotating_block_vs_ball_init = function(sim, advance) {
+static rotating_block_vs_ball_init(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   var body0 = Shapes.makeBall(0.75, 'ball');
   body0.setPosition(new Vector(-0.4,  0),  0);
@@ -470,7 +437,7 @@ CircleStraightTest.rotating_block_vs_ball_init = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.rotating_block_vs_ball_1_setup = function(sim, advance) {
+static rotating_block_vs_ball_1_setup(sim, advance) {
   CircleStraightTest.rotating_block_vs_ball_init(sim, advance);
   sim.setElasticity(1);
 };
@@ -479,7 +446,7 @@ CircleStraightTest.rotating_block_vs_ball_1_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleStraightTest.rotating_block_vs_ball_1 = function() {
+static rotating_block_vs_ball_1() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'rotating_block_vs_ball_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -496,7 +463,7 @@ CircleStraightTest.rotating_block_vs_ball_1 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.rotating_block_vs_ball_0_setup = function(sim, advance) {
+static rotating_block_vs_ball_0_setup(sim, advance) {
   CircleStraightTest.rotating_block_vs_ball_init(sim, advance);
   sim.setElasticity(0);
 };
@@ -505,7 +472,7 @@ CircleStraightTest.rotating_block_vs_ball_0_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleStraightTest.rotating_block_vs_ball_0 = function() {
+static rotating_block_vs_ball_0() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'rotating_block_vs_ball_0';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -525,7 +492,7 @@ zero and the simulation gets stuck.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.ball_falls_on_floor_setup = function(sim, advance) {
+static ball_falls_on_floor_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   sim.clearForceLaws();
   var body0 = Shapes.makeBall(0.5, 'ball');
@@ -547,12 +514,12 @@ ImpulseSim when elasticity is less than 1.0; this test expects that an
 AdvanceException will occur.
 @return {undefined}
 */
-CircleStraightTest.ball_falls_on_floor_stuck = function() {
+static ball_falls_on_floor_stuck() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'ball_falls_on_floor_stuck';
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   //advance.addWayPoints([CollisionAdvance.WayPoint.HANDLE_COLLISION_FAIL]);
-  //advance.setDebugLevel(DebugLevel.HIGH);
+  //advance.setDebugLevel(CollisionAdvance.DebugLevel.HIGH);
   CircleStraightTest.ball_falls_on_floor_setup(sim, advance);
   Engine2DTestRig.runExceptionTest(advance, /*time=*/15);
 };
@@ -563,7 +530,7 @@ smaller than the radius of the ball.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.wedged_ball_setup = function(sim, advance) {
+static wedged_ball_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   sim.setCollisionAccuracy(0.6);
@@ -586,7 +553,7 @@ CircleStraightTest.wedged_ball_setup = function(sim, advance) {
 the space is slightly smaller than the radius of the ball.
 @return {undefined}
 */
-CircleStraightTest.wedged_ball = function() {
+static wedged_ball() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'wedged_ball';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -607,7 +574,7 @@ CircleStraightTest.wedged_ball = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-CircleStraightTest.elastic_balls_setup = function(sim, advance) {
+static elastic_balls_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   var body = Shapes.makeBall(0.8, 'ball1');
@@ -643,7 +610,7 @@ CircleStraightTest.elastic_balls_setup = function(sim, advance) {
 /** Tests several balls with varying elasticity bouncing on floor.
 @return {undefined}
 */
-CircleStraightTest.elastic_balls = function() {
+static elastic_balls() {
   Engine2DTestRig.testName = CircleStraightTest.groupName+'elastic_balls';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -661,4 +628,12 @@ CircleStraightTest.elastic_balls = function() {
       /*expectedCollisions=*/17);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+CircleStraightTest.groupName = 'CircleStraightTest.';
+
+exports = CircleStraightTest;

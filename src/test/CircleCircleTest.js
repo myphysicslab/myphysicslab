@@ -12,76 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.CircleCircleTest');
+goog.module('myphysicslab.test.CircleCircleTest');
 
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.Gravity2Law');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.TestShapes');
-
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Gravity2Law = goog.module.get('myphysicslab.lab.model.Gravity2Law');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TestShapes = myphysicslab.test.TestShapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Gravity2Law = goog.require('myphysicslab.lab.model.Gravity2Law');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestShapes = goog.require('myphysicslab.test.TestShapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Tests interactions between circular edges.
-
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.CircleCircleTest = function() {};
+class CircleCircleTest {
+/**
+* @private
+*/
+constructor() { throw new Error(); };
 
-var CircleCircleTest = myphysicslab.test.CircleCircleTest;
-
-CircleCircleTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(CircleCircleTest.ball_ball_contact);
   Engine2DTestRig.schedule(CircleCircleTest.concave_circle_and_ball);
 };
-
-/**
-* @type {string}
-* @const
-*/
-CircleCircleTest.groupName = 'CircleCircleTest.';
 
 /**
 @param {!ContactSim} sim
 @param {!CollisionAdvance} advance
 @private
 */
-CircleCircleTest.commonSetup1 = function(sim, advance) {
+static commonSetup1(sim, advance) {
   sim.addForceLaw(new DampingLaw(0, 0.15, sim.getSimList()));
   sim.setDistanceTol(0.01);
   sim.setVelocityTol(0.5);
@@ -101,7 +71,7 @@ offset center of mass. Energy should be constant with a small enough time step.
 @param {!CollisionAdvance} advance
 @export
 */
-CircleCircleTest.ball_ball_contact_setup = function(sim, advance) {
+static ball_ball_contact_setup(sim, advance) {
   CircleCircleTest.commonSetup1(sim, advance);
   var body0 = Shapes.makeBall(0.75, 'ball1');
   body0.setCenterOfMass(0, 0.2);
@@ -124,7 +94,7 @@ are no collisions (after initial collision settles down).
 @return {undefined}
 @private
 */
-CircleCircleTest.ball_ball_contact = function() {
+static ball_ball_contact() {
   Engine2DTestRig.testName = CircleCircleTest.groupName+'ball_ball_contact';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -147,7 +117,7 @@ CircleCircleTest.ball_ball_contact = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-CircleCircleTest.concave_circle_and_ball_setup = function(sim, advance) {
+static concave_circle_and_ball_setup(sim, advance) {
   CircleCircleTest.commonSetup1(sim, advance);
   var p = TestShapes.makeConcaveCirclePoly();
   p.setPosition(new Vector(0,  -2),  0);
@@ -164,7 +134,7 @@ CircleCircleTest.concave_circle_and_ball_setup = function(sim, advance) {
 @return {undefined}
 @private
 */
-CircleCircleTest.concave_circle_and_ball = function() {
+static concave_circle_and_ball() {
   Engine2DTestRig.testName = CircleCircleTest.groupName+'concave_circle_and_ball';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -182,4 +152,12 @@ CircleCircleTest.concave_circle_and_ball = function() {
                /*expectedCollisions=*/0);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+CircleCircleTest.groupName = 'CircleCircleTest.';
+
+exports = CircleCircleTest;

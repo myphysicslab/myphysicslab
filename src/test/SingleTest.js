@@ -30,18 +30,18 @@ goog.require('myphysicslab.test.StraightStraightTest');
 
 goog.scope(function() {
 
-var CircleCircleTest = myphysicslab.test.CircleCircleTest;
-var CircleStraightTest = myphysicslab.test.CircleStraightTest;
+const CircleCircleTest = goog.module.get('myphysicslab.test.CircleCircleTest');
+const CircleStraightTest = goog.module.get('myphysicslab.test.CircleStraightTest');
 const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-var DoNothingTest = myphysicslab.test.DoNothingTest;
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-var JointTest = myphysicslab.test.JointTest;
-var MiscellanyTest = myphysicslab.test.MiscellanyTest;
-var MultipleCollisionTest = myphysicslab.test.MultipleCollisionTest;
-var PileTest = myphysicslab.test.PileTest;
-var RopeTest = myphysicslab.test.RopeTest;
-var SpeedTest = myphysicslab.test.SpeedTest;
-var StraightStraightTest = myphysicslab.test.StraightStraightTest;
+const DoNothingTest = goog.module.get('myphysicslab.test.DoNothingTest');
+const Engine2DTestRig = goog.module.get('myphysicslab.test.Engine2DTestRig');
+const JointTest = goog.module.get('myphysicslab.test.JointTest');
+const MiscellanyTest = goog.module.get('myphysicslab.test.MiscellanyTest');
+const MultipleCollisionTest = goog.module.get('myphysicslab.test.MultipleCollisionTest');
+const PileTest = goog.module.get('myphysicslab.test.PileTest');
+const RopeTest = goog.module.get('myphysicslab.test.RopeTest');
+const SpeedTest = goog.module.get('myphysicslab.test.SpeedTest');
+const StraightStraightTest = goog.module.get('myphysicslab.test.StraightStraightTest');
 const Util = goog.module.get('myphysicslab.lab.util.Util');
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See

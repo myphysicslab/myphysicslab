@@ -12,55 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.DoNothingTest');
+goog.module('myphysicslab.test.DoNothingTest');
 
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.DoNothingApp');
-goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
-goog.require('myphysicslab.test.Engine2DTestRig');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoNothingApp = goog.require('myphysicslab.sims.engine2D.DoNothingApp');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RotatingTestForce = goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DoNothingApp = goog.module.get('myphysicslab.sims.engine2D.DoNothingApp');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RotatingTestForce = goog.module.get('myphysicslab.sims.engine2D.RotatingTestForce');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-
+/** Defines tests involving {@link DoNothingApp}.
+*/
+class DoNothingTest {
 /**
-@constructor
-@final
-@struct
 @private
 */
-myphysicslab.test.DoNothingTest = function() {};
+constructor() { throw new Error(); };
 
-var DoNothingTest = myphysicslab.test.DoNothingTest;
-
-DoNothingTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(DoNothingTest.do_nothing_grinder_test1);
   Engine2DTestRig.schedule(DoNothingTest.do_nothing_grinder_test1b);
   Engine2DTestRig.schedule(DoNothingTest.do_nothing_grinder_test2);
@@ -68,18 +47,12 @@ DoNothingTest.test = function() {
   Engine2DTestRig.schedule(DoNothingTest.do_nothing_error);
 };
 
-/**
-* @type {string}
-* @const
-*/
-DoNothingTest.groupName = 'DoNothingTest.';
-
 /** DoNothingApp with variable rotating force on handle.
 @param {!ContactSim} sim
 @param {!CollisionAdvance} advance
 @export
 */
-DoNothingTest.do_nothing_variable_setup = function(sim, advance) {
+static do_nothing_variable_setup(sim, advance) {
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setDistanceTol(0.01);
   sim.setVelocityTol(0.5);
@@ -104,7 +77,7 @@ This test has many redundant contacts, which activates code in ComputeForces
 that looks for singular matrices.
 * @return {undefined}
 */
-DoNothingTest.do_nothing_variable_test = function() {
+static do_nothing_variable_test() {
   Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_variable_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -132,7 +105,7 @@ the time step?
 @param {!CollisionAdvance} advance
 @export
 */
-DoNothingTest.do_nothing_constant_setup = function(sim, advance) {
+static do_nothing_constant_setup(sim, advance) {
   sim.setDistanceTol(0.01);
   sim.setVelocityTol(0.5);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
@@ -164,7 +137,7 @@ June 2015: this test is now less stable.  Change to run only 20 seconds.
 
 * @return {undefined}
 */
-DoNothingTest.do_nothing_grinder_test1 = function() {
+static do_nothing_grinder_test1() {
   Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_grinder_test1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -188,7 +161,7 @@ DoNothingTest.do_nothing_grinder_test1 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-DoNothingTest.do_nothing_constant_1b_setup = function(sim, advance) {
+static do_nothing_constant_1b_setup(sim, advance) {
   DoNothingTest.do_nothing_constant_setup(sim, advance);
   // special joint policy
   advance.setJointSmallImpacts(false);
@@ -207,7 +180,7 @@ code for VELOCITY_AND_DISTANCE
   // extrab = (2*v0*h + x0)/(h*h)
 * @return {undefined}
 */
-DoNothingTest.do_nothing_grinder_test1b = function() {
+static do_nothing_grinder_test1b() {
   Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_grinder_test1b';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -229,7 +202,7 @@ DoNothingTest.do_nothing_grinder_test1b = function() {
 /** Confirms that DoNothingApp will coast with near-constant energy.
 * @return {undefined}
 */
-DoNothingTest.do_nothing_grinder_test2 = function() {
+static do_nothing_grinder_test2() {
   Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_grinder_test2';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -287,7 +260,7 @@ and you can see the contact distances just before the error are unsteady:
 
 @return {undefined}
 */
-DoNothingTest.do_nothing_error = function() {
+static do_nothing_error() {
   Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_error';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -298,4 +271,12 @@ DoNothingTest.do_nothing_error = function() {
   Engine2DTestRig.runExceptionTest(advance, 100);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+DoNothingTest.groupName = 'DoNothingTest.';
+
+exports = DoNothingTest;

@@ -12,73 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.RopeTest');
+goog.module('myphysicslab.test.RopeTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Rope');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.TestShapes');
-goog.require('myphysicslab.lab.model.DampingLaw');
-
-goog.scope(function() {
-
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const Rope = goog.module.get('myphysicslab.lab.engine2D.Rope');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TestShapes = myphysicslab.test.TestShapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const Rope = goog.require('myphysicslab.lab.engine2D.Rope');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestShapes = goog.require('myphysicslab.test.TestShapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Tests various configurations of Ropes.
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.RopeTest = function() {};
-
-var RopeTest = myphysicslab.test.RopeTest;
-
+class RopeTest {
 /**
-* @type {string}
-* @const
+* @private
 */
-RopeTest.groupName = 'RopeTest.';
+constructor() { throw new Error(); };
 
-RopeTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(RopeTest.pendulum_rope_test);
   Engine2DTestRig.schedule(RopeTest.pendulum_rope_test_2);
   Engine2DTestRig.schedule(RopeTest.pendulum_rod_test);
@@ -94,7 +61,7 @@ RopeTest.test = function() {
 @param {!CollisionAdvance} advance
 @private
 */
-RopeTest.commonSetup1 = function(sim, advance) {
+static commonSetup1(sim, advance) {
   sim.addForceLaw(new DampingLaw(0, 0.15, sim.getSimList()));
   sim.setDistanceTol(0.01);
   sim.setVelocityTol(0.5);
@@ -112,7 +79,7 @@ RopeTest.commonSetup1 = function(sim, advance) {
 @param {number} ropeType
 @private
 */
-RopeTest.pendulum_rope_init = function(sim, advance, ropeType) {
+static pendulum_rope_init(sim, advance, ropeType) {
   RopeTest.commonSetup1(sim, advance);
   var b1 = Shapes.makeBlock(1, 3, 'block');
   // let the rope align the body
@@ -142,14 +109,14 @@ RopeTest.pendulum_rope_init = function(sim, advance, ropeType) {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.pendulum_rope_setup = function(sim, advance) {
+static pendulum_rope_setup(sim, advance) {
   RopeTest.pendulum_rope_init(sim, advance, Rope.ROPE);
 };
 
 /**
 * @return {undefined}
 */
-RopeTest.pendulum_rope_test = function() {
+static pendulum_rope_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rope_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -166,7 +133,7 @@ RopeTest.pendulum_rope_test = function() {
 0.0025.
 * @return {undefined}
 */
-RopeTest.pendulum_rope_test_2 = function() {
+static pendulum_rope_test_2() {
   Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rope_test_2';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -185,14 +152,14 @@ RopeTest.pendulum_rope_test_2 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.pendulum_rod_setup = function(sim, advance) {
+static pendulum_rod_setup(sim, advance) {
   RopeTest.pendulum_rope_init(sim, advance, Rope.ROD);
 };
 
 /**
 * @return {undefined}
 */
-RopeTest.pendulum_rod_test = function() {
+static pendulum_rod_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rod_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -210,7 +177,7 @@ RopeTest.pendulum_rod_test = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.pendulum_rope_bounce_setup = function(sim, advance) {
+static pendulum_rope_bounce_setup(sim, advance) {
   RopeTest.commonSetup1(sim, advance);
   var b1 = Shapes.makeBlock(1, 3, 'block');
   sim.addBody(b1);
@@ -236,7 +203,7 @@ RopeTest.pendulum_rope_bounce_setup = function(sim, advance) {
 /**
 * @return {undefined}
 */
-RopeTest.pendulum_rope_bounce_test = function() {
+static pendulum_rope_bounce_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rope_bounce_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -259,7 +226,7 @@ RopeTest.pendulum_rope_bounce_test = function() {
 @param {number} ropeType
 @param {boolean} thrust
 */
-RopeTest.double_rope_init = function(sim, advance, ropeType, thrust) {
+static double_rope_init(sim, advance, ropeType, thrust) {
   RopeTest.commonSetup1(sim, advance);
   var b1 = Shapes.makeBlock(1, 3, 'block');
   b1.setPosition(new Vector(-1.5,  0),  Math.PI/4);
@@ -296,14 +263,14 @@ RopeTest.double_rope_init = function(sim, advance, ropeType, thrust) {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.double_rope_spin_setup = function(sim, advance) {
+static double_rope_spin_setup(sim, advance) {
   RopeTest.double_rope_init(sim, advance, Rope.ROPE, false);
 };
 
 /**
 * @return {undefined}
 */
-RopeTest.double_rope_spin_test = function() {
+static double_rope_spin_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'double_rope_spin_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -326,7 +293,7 @@ RopeTest.double_rope_spin_test = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.double_rod_spin_setup = function(sim, advance) {
+static double_rod_spin_setup(sim, advance) {
   RopeTest.double_rope_init(sim, advance, Rope.ROD, false);
   var collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
@@ -336,7 +303,7 @@ RopeTest.double_rod_spin_setup = function(sim, advance) {
 /**
 * @return {undefined}
 */
-RopeTest.double_rod_spin_test = function() {
+static double_rod_spin_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'double_rod_spin_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -359,14 +326,14 @@ RopeTest.double_rod_spin_test = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.double_rope_thrust_setup = function(sim, advance) {
+static double_rope_thrust_setup(sim, advance) {
   RopeTest.double_rope_init(sim, advance, Rope.ROPE, true);
 };
 
 /**
 * @return {undefined}
 */
-RopeTest.double_rope_thrust_test = function() {
+static double_rope_thrust_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'double_rope_thrust_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -388,14 +355,14 @@ RopeTest.double_rope_thrust_test = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-RopeTest.double_rod_thrust_setup = function(sim, advance) {
+static double_rod_thrust_setup(sim, advance) {
   RopeTest.double_rope_init(sim, advance, Rope.ROD, true);
 };
 
 /**
 * @return {undefined}
 */
-RopeTest.double_rod_thrust_test = function() {
+static double_rod_thrust_test() {
   Engine2DTestRig.testName = RopeTest.groupName+'double_rod_thrust_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -412,4 +379,12 @@ RopeTest.double_rod_thrust_test = function() {
       /*expectedCollisions=*/0);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+RopeTest.groupName = 'RopeTest.';
+
+exports = RopeTest;

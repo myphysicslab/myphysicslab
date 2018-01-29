@@ -12,84 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.MiscellanyTest');
+goog.module('myphysicslab.test.MiscellanyTest');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.EdgeRange');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.PathEndPoint');
-goog.require('myphysicslab.lab.engine2D.PathJoint');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConstantForceLaw');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.Force');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.sims.engine2D.ChainConfig');
-goog.require('myphysicslab.sims.engine2D.CurvedTestApp');
-goog.require('myphysicslab.sims.engine2D.NewtonsCradleApp');
-goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
-goog.require('myphysicslab.sims.roller.HumpPath');
-goog.require('myphysicslab.sims.roller.CirclePath');
-goog.require('myphysicslab.test.Engine2DTestRig');
 
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-
-const AdaptiveStepSolver = goog.module.get('myphysicslab.lab.model.AdaptiveStepSolver');
-const ChainConfig = goog.module.get('myphysicslab.sims.engine2D.ChainConfig');
-const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ConstantForceLaw = goog.module.get('myphysicslab.lab.model.ConstantForceLaw');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const CurvedTestApp = goog.module.get('myphysicslab.sims.engine2D.CurvedTestApp');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const EdgeRange = goog.module.get('myphysicslab.lab.engine2D.EdgeRange');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const Force = goog.module.get('myphysicslab.lab.model.Force');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const HumpPath = goog.module.get('myphysicslab.sims.roller.HumpPath');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const NewtonsCradleApp = goog.module.get('myphysicslab.sims.engine2D.NewtonsCradleApp');
-const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-const PathEndPoint = goog.module.get('myphysicslab.lab.engine2D.PathEndPoint');
-const PathJoint = goog.module.get('myphysicslab.lab.engine2D.PathJoint');
-const PendulumClockConfig = goog.module.get('myphysicslab.sims.engine2D.PendulumClockConfig');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const AdaptiveStepSolver = goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
+const ChainConfig = goog.require('myphysicslab.sims.engine2D.ChainConfig');
+const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ConstantForceLaw = goog.require('myphysicslab.lab.model.ConstantForceLaw');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const CurvedTestApp = goog.require('myphysicslab.sims.engine2D.CurvedTestApp');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EdgeRange = goog.require('myphysicslab.lab.engine2D.EdgeRange');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const HumpPath = goog.require('myphysicslab.sims.roller.HumpPath');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const NewtonsCradleApp = goog.require('myphysicslab.sims.engine2D.NewtonsCradleApp');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const PathEndPoint = goog.require('myphysicslab.lab.engine2D.PathEndPoint');
+const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
+const PendulumClockConfig = goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Miscellaneous tests of engine2D physics engine.
-
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.MiscellanyTest = function() {};
+class MiscellanyTest {
+/**
+* @private
+*/
+constructor() { throw new Error(); };
 
-var MiscellanyTest = myphysicslab.test.MiscellanyTest;
-
-MiscellanyTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(MiscellanyTest.non_collide_edges);
   Engine2DTestRig.schedule(MiscellanyTest.damping_standard);
   Engine2DTestRig.schedule(MiscellanyTest.clock_with_gears);
@@ -106,22 +70,16 @@ MiscellanyTest.test = function() {
   Engine2DTestRig.schedule(MiscellanyTest.roller_end_point_test);
 };
 
-MiscellanyTest.testPerformance = function() {
+static testPerformance() {
   Engine2DTestRig.schedule(MiscellanyTest.clock_gears_perf);
 };
-
-/**
-* @type {string}
-* @const
-*/
-MiscellanyTest.groupName = 'MiscellanyTest.';
 
 /**
 @param {!ContactSim} sim
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.newtons_cradle_setup = function(sim, advance) {
+static newtons_cradle_setup(sim, advance) {
   sim.setShowForces(true);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setCollisionAccuracy(0.6);
@@ -150,7 +108,7 @@ MiscellanyTest.newtons_cradle_setup = function(sim, advance) {
 /**
 * @return {undefined}
 */
-MiscellanyTest.newtons_cradle = function() {
+static newtons_cradle() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'newtons_cradle';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -173,7 +131,7 @@ MiscellanyTest.newtons_cradle = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.chain_setup = function(sim, advance) {
+static chain_setup(sim, advance) {
   sim.setShowForces(true);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setCollisionAccuracy(0.6);
@@ -204,7 +162,7 @@ MiscellanyTest.chain_setup = function(sim, advance) {
 /**
 * @return {undefined}
 */
-MiscellanyTest.chain = function() {
+static chain() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'chain';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -229,7 +187,7 @@ MiscellanyTest.chain = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.clock_with_gears_setup = function(sim, advance) {
+static clock_with_gears_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-2, -2, 6, 4.5))
   sim.setShowForces(true);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
@@ -255,7 +213,7 @@ MiscellanyTest.clock_with_gears_setup = function(sim, advance) {
 /**
 * @return {undefined}
 */
-MiscellanyTest.clock_with_gears = function() {
+static clock_with_gears() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'clock_with_gears';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -270,7 +228,7 @@ MiscellanyTest.clock_with_gears = function() {
 
 /**  Performance test that runs the clock_with_gears test.
 */
-MiscellanyTest.clock_gears_perf = function() {
+static clock_gears_perf() {
   var testName = 'clock_gears_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
   var startTime = Util.systemTime();
@@ -287,7 +245,7 @@ MiscellanyTest.clock_gears_perf = function() {
 * @param {!ContactSim} sim
 * @param {!CollisionAdvance} advance
 */
-MiscellanyTest.commonSetup1 = function(sim, advance) {
+static commonSetup1(sim, advance) {
   sim.setDistanceTol(0.01);
   sim.setVelocityTol(0.5);
   sim.setCollisionAccuracy(0.6);
@@ -306,7 +264,7 @@ pendulum rod does collide with the floor.
 * @param {!CollisionAdvance} advance
 * @export
 */
-MiscellanyTest.non_collide_edges_setup = function(sim, advance) {
+static non_collide_edges_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   var p1 = Shapes.makePendulum(0.05, 3.0, 0.6, 'pendulum1');
   p1.setPosition(new Vector(0,  0),  5*Math.PI/4);
@@ -335,7 +293,7 @@ MiscellanyTest.non_collide_edges_setup = function(sim, advance) {
 * @private
 * @return {undefined}
 */
-MiscellanyTest.non_collide_edges = function() {
+static non_collide_edges() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'non_collide_edges';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -351,7 +309,7 @@ MiscellanyTest.non_collide_edges = function() {
 @param {!ContactSim} sim
 @private
 */
-MiscellanyTest.damping_init = function(sim) {
+static damping_init(sim) {
   var p1 = Shapes.makeBall(0.5, 'small');
   //console.log('small moment '+p1.momentAboutCM());
   p1.setPosition(new Vector(2,  0),  0);
@@ -372,7 +330,7 @@ DampingLaw.
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.damping_standard_setup = function(sim, advance) {
+static damping_standard_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   MiscellanyTest.damping_init(sim);
   sim.addForceLaw(new DampingLaw(0.1, 0.15, sim.getSimList()));
@@ -381,7 +339,7 @@ MiscellanyTest.damping_standard_setup = function(sim, advance) {
 /**
 * @return {undefined}
 */
-MiscellanyTest.damping_standard = function() {
+static damping_standard() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'damping_standard';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -401,7 +359,7 @@ This is intended to be a further test of Joints.
 @param {number=} damping
 @export
 */
-MiscellanyTest.three_body_spin_setup = function(sim, advance, damping) {
+static three_body_spin_setup(sim, advance, damping) {
   if (damping === undefined) {
     damping = 0;
   }
@@ -456,7 +414,7 @@ MiscellanyTest.three_body_spin_setup = function(sim, advance, damping) {
 /** For three-body-spin setup, confirm that energy is conserved and joints stay tight.
 * @return {undefined}
 */
-MiscellanyTest.three_body_spin_test1 = function() {
+static three_body_spin_test1() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -475,7 +433,7 @@ conserved and joints stay tight, with much smaller tolerance.  Here we use time 
 of 0.0025 and tolerance of 0.0001 for energy compared to 0.025 and 0.01.
 * @return {undefined}
 */
-MiscellanyTest.three_body_spin_test2 = function() {
+static three_body_spin_test2() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test2';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -498,7 +456,7 @@ confirming that energy is conserved and joints stay tight, although a rather lar
 time step is specified.
 * @return {undefined}
 */
-MiscellanyTest.three_body_spin_test3A = function() {
+static three_body_spin_test3A() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test3A';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -534,7 +492,7 @@ AdaptiveStepSolver to use second differences results in greater accuracy
 here.
 * @return {undefined}
 */
-MiscellanyTest.three_body_spin_test3B = function() {
+static three_body_spin_test3B() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test3B';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -570,7 +528,7 @@ needed to get the same accuracy as the AdaptiveStepSolver, see
 {@link #three_body_spin_test4B}.
 * @return {undefined}
 */
-MiscellanyTest.three_body_spin_test4A = function() {
+static three_body_spin_test4A() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test4A';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -602,7 +560,7 @@ RungeKutta solver with a very small step size of 0.001, see
 {@link #three_body_spin_test4A}.
 * @return {undefined}
 */
-MiscellanyTest.three_body_spin_test4B = function() {
+static three_body_spin_test4B() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test4B';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -637,7 +595,7 @@ is very tight.
 * @param {!ContactSim} sim
 * @return {undefined}
 */
-MiscellanyTest.setupCurvedError = function(sim) {
+static setupCurvedError(sim) {
   sim.getVarsList().setValue(0, 51.324999999998155);
   sim.getVarsList().setValue(1, 4.938388182728488);
   sim.getVarsList().setValue(2, 77.95311071780354);
@@ -737,7 +695,7 @@ fixed block, so it never gets wedged.
 * @param {!ContactSim} sim
 * @return {undefined}
 */
-MiscellanyTest.setupCurvedError2 = function(sim) {
+static setupCurvedError2(sim) {
   sim.getVarsList().setValue(0, 51.12499999999817);
   sim.getVarsList().setValue(1, 6.478454831100117);
   sim.getVarsList().setValue(2, 78.2937280301735);
@@ -837,7 +795,7 @@ TO DO: This error state should be fixed or prevented from happening.
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.curved_test_error_setup = function(sim, advance) {
+static curved_test_error_setup(sim, advance) {
   sim.setShowForces(true);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setCollisionAccuracy(0.6);
@@ -860,7 +818,7 @@ TO DO: This error state should be fixed or prevented from happening.
 
 * @return {undefined}
 */
-MiscellanyTest.curved_test_error = function() {
+static curved_test_error() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'curved_test_error';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -874,7 +832,7 @@ with a PathJoint.
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.roller_hump_setup = function(sim, advance) {
+static roller_hump_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   advance.setJointSmallImpacts(false);
   sim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
@@ -895,7 +853,7 @@ MiscellanyTest.roller_hump_setup = function(sim, advance) {
 with a PathJoint.
 * @return {undefined}
 */
-MiscellanyTest.roller_hump_test = function() {
+static roller_hump_test() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'roller_hump_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -916,7 +874,7 @@ with a PathJoint; also there is a PathEndPoint that limits travel of the RigidBo
 @param {!CollisionAdvance} advance
 @export
 */
-MiscellanyTest.roller_end_point_setup = function(sim, advance) {
+static roller_end_point_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   advance.setJointSmallImpacts(false);
   sim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
@@ -942,7 +900,7 @@ MiscellanyTest.roller_end_point_setup = function(sim, advance) {
 with a PathJoint; also there is a PathEndPoint that limits travel of the RigidBody.
 * @return {undefined}
 */
-MiscellanyTest.roller_end_point_test = function() {
+static roller_end_point_test() {
   Engine2DTestRig.testName = MiscellanyTest.groupName+'roller_end_point_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -959,4 +917,12 @@ MiscellanyTest.roller_end_point_test = function() {
   Engine2DTestRig.checkTightJoints(sim, 0.003);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+MiscellanyTest.groupName = 'MiscellanyTest.';
+
+exports = MiscellanyTest;

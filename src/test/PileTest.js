@@ -12,65 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.PileTest');
+goog.module('myphysicslab.test.PileTest');
 
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.sims.engine2D.PileConfig');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.TestShapes');
-
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-var DebugLevel = myphysicslab.lab.model.CollisionAdvance.DebugLevel;
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
-const PileConfig = goog.module.get('myphysicslab.sims.engine2D.PileConfig');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TestShapes = myphysicslab.test.TestShapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
+const PileConfig = goog.require('myphysicslab.sims.engine2D.PileConfig');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestShapes = goog.require('myphysicslab.test.TestShapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /**  Tests involving piles of many objects with engine2D physics engine.
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.PileTest = function() {};
-var PileTest = myphysicslab.test.PileTest;
-
+class PileTest {
 /**
-* @type {string}
-* @const
+* @private
 */
-PileTest.groupName = 'PileTest.';
+constructor() { throw new Error(); };
 
-PileTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(PileTest.pile_config_1_test);
   Engine2DTestRig.schedule(PileTest.near_stable_connected_blocks_pile_test);
   Engine2DTestRig.schedule(PileTest.stable_connected_blocks_pile_test);
@@ -78,7 +49,7 @@ PileTest.test = function() {
   Engine2DTestRig.schedule(PileTest.connected_blocks_pile_test);
 };
 
-PileTest.testPerformance = function() {
+static testPerformance() {
   Engine2DTestRig.schedule(PileTest.pile_10_perf);
   if (0 == 1 && Util.isChrome()) {
     // this test is too slow on non-Chrome browsers
@@ -101,7 +72,7 @@ the wall.
 @param {!CollisionAdvance} advance
 @export
 */
-PileTest.connected_blocks_pile_setup = function(sim, advance) {
+static connected_blocks_pile_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-3.5, -9.2, 3.5, -1));
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setShowForces(false);
@@ -139,7 +110,7 @@ slightly so that the result was not a situation where there was a rocking block 
 loses energy over time
 @return {undefined}
 */
-PileTest.connected_blocks_pile_test = function() {
+static connected_blocks_pile_test() {
   Engine2DTestRig.testName = PileTest.groupName+'connected_blocks_pile_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -163,7 +134,7 @@ PileTest.connected_blocks_pile_test = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-PileTest.stable_connected_blocks_pile_setup = function(sim, advance) {
+static stable_connected_blocks_pile_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-3.5, -9.2, 3.5, -1));
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setShowForces(false);
@@ -237,7 +208,7 @@ PileTest.stable_connected_blocks_pile_setup = function(sim, advance) {
 configuration across different browsers and changes to myPhysicsLab software.
 @return {undefined}
 */
-PileTest.stable_connected_blocks_pile_test = function() {
+static stable_connected_blocks_pile_test() {
   Engine2DTestRig.testName = PileTest.groupName+'stable_connected_blocks_pile_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -267,7 +238,7 @@ PileTest.stable_connected_blocks_pile_test = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-PileTest.near_stable_connected_blocks_pile_setup = function(sim, advance) {
+static near_stable_connected_blocks_pile_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-3.5, -9.2, 3.5, -1));
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setShowForces(false);
@@ -350,7 +321,7 @@ is still moving at the time of these test results.
 
 @return {undefined}
 */
-PileTest.near_stable_connected_blocks_pile_test = function() {
+static near_stable_connected_blocks_pile_test() {
   Engine2DTestRig.testName =
      PileTest.groupName + 'near_stable_connected_blocks_pile_test';
   var sim = new ContactSim();
@@ -401,7 +372,7 @@ May 12, 2016. Originally found in PileApp after clicking the 'random' button onc
 @param {!CollisionAdvance} advance
 @export
 */
-PileTest.pile_config_1_setup = function(sim, advance) {
+static pile_config_1_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-7, 0, 7, 8));
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setShowForces(false);
@@ -482,7 +453,7 @@ PileTest.pile_config_1_setup = function(sim, advance) {
 to May 12, 2016.
 @return {undefined}
 */
-PileTest.pile_config_1_test = function() {
+static pile_config_1_test() {
   Engine2DTestRig.testName = PileTest.groupName+'pile_config_1_test';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -505,7 +476,7 @@ PileTest.pile_config_1_test = function() {
 * @param {!CollisionAdvance} advance
 * @export
 */
-PileTest.pile_10_random_blocks_setup = function(sim, advance) {
+static pile_10_random_blocks_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-3.5, -9.2, 3.5, -1));
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setShowForces(false);
@@ -533,7 +504,7 @@ PileTest.pile_10_random_blocks_setup = function(sim, advance) {
 /** Runs pile_10_random_blocks_setup.
 @return {undefined}
 */
-PileTest.pile_10_random_blocks = function() {
+static pile_10_random_blocks() {
   Engine2DTestRig.testName = PileTest.groupName+'pile_10_random_blocks';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -571,7 +542,7 @@ PileTest.pile_10_random_blocks = function() {
 /** Performance test that runs pile_10_random_blocks; this is a stress test for
 contact force calculation.
 */
-PileTest.pile_10_perf = function() {
+static pile_10_perf() {
   var testName = 'pile_10_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
   var startTime = Util.systemTime();
@@ -591,7 +562,7 @@ parameters.
 * @param {number} gravity
 * @private
 */
-PileTest.pile_make_v_pit = function(sim, advance, damping, gravity) {
+static pile_make_v_pit(sim, advance, damping, gravity) {
   sim.addForceLaw(new DampingLaw(damping, 0.15, sim.getSimList()));
   sim.setShowForces(false);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
@@ -612,7 +583,7 @@ PileTest.pile_make_v_pit = function(sim, advance, damping, gravity) {
 * @param {!CollisionAdvance} advance
 * @export
 */
-PileTest.pile_uniform_balls_setup = function(sim, advance) {
+static pile_uniform_balls_setup(sim, advance) {
   PileTest.pile_make_v_pit(sim, advance, /*damping=*/0.05, /*gravity=*/3.0);
   var rect = new DoubleRect(-9, 5, 9, 20);
   PileConfig.makeUniformBlocks(sim, rect, /*circular=*/true, /*size=*/2.0,
@@ -625,7 +596,7 @@ PileTest.pile_uniform_balls_setup = function(sim, advance) {
 * @param {!CollisionAdvance} advance
 * @export
 */
-PileTest.pile_uniform_blocks_setup = function(sim, advance) {
+static pile_uniform_blocks_setup(sim, advance) {
   PileTest.pile_make_v_pit(sim, advance, /*damping=*/0.05, /*gravity=*/3.0);
   var rect = new DoubleRect(-9, 5, 9, 20);
   PileConfig.makeUniformBlocks(sim, rect, /*circular=*/false, /*size=*/2.0,
@@ -638,7 +609,7 @@ PileTest.pile_uniform_blocks_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-PileTest.pile_20_random_blocks_setup = function(sim, advance) {
+static pile_20_random_blocks_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-3.5, -9.2, 3.5, -1));
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setShowForces(false);
@@ -666,7 +637,7 @@ PileTest.pile_20_random_blocks_setup = function(sim, advance) {
 /** Runs pile_20_random_blocks_setup.
 @return {undefined}
 */
-PileTest.pile_20_random_blocks = function() {
+static pile_20_random_blocks() {
   Engine2DTestRig.testName = PileTest.groupName+'pile_20_random_blocks';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -708,7 +679,7 @@ changed so that the blocks are not moving after 7 or 8 seconds.
 
 @return {undefined}
 */
-PileTest.pile_20_perf = function() {
+static pile_20_perf() {
   var testName = 'pile_20_perf';
   var expected = Engine2DTestRig.perfExpected(testName);
   var startTime = Util.systemTime();
@@ -727,7 +698,7 @@ the additive_pile_test is added to over time).
 * @param {!CollisionAdvance} advance
 * @private
 */
-PileTest.additive_pile_setup_ = function(sim, advance) {
+static additive_pile_setup_(sim, advance) {
   sim.addForceLaw(new DampingLaw(0.05, 0.15, sim.getSimList()));
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setDistanceTol(0.01);
@@ -749,7 +720,7 @@ to the point that the sim is barely keeping up with real time.
 @return {number} the number of blocks at the point where performance started to degrade
 @private
 */
-PileTest.additive_pile_test = function(square, start_num_blocks) {
+static additive_pile_test(square, start_num_blocks) {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.additive_pile_setup_(sim, advance);
@@ -790,7 +761,7 @@ PileTest.additive_pile_test = function(square, start_num_blocks) {
 @return {number} the elapsed real time that it took to run the simulation to the given time
 @private
 */
-PileTest.add_block_and_run = function(sim, advance, runUntil, square) {
+static add_block_and_run(sim, advance, runUntil, square) {
   var startTime = Util.systemTime();
   var p = square ? Shapes.makeBlock(1.0, 1.0, 'block')
                  : Shapes.makeBall(0.5, 'ball');
@@ -807,7 +778,7 @@ PileTest.add_block_and_run = function(sim, advance, runUntil, square) {
 to the point that the sim is barely keeping up with real time
 @param {number} expectedBlocks
 */
-PileTest.additive_pile_square_test = function(expectedBlocks) {
+static additive_pile_square_test(expectedBlocks) {
   Engine2DTestRig.testName = PileTest.groupName+'additive_pile_square_test';
   var startTime = Util.systemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/true,
@@ -824,7 +795,7 @@ PileTest.additive_pile_square_test = function(expectedBlocks) {
 to the point that the sim is barely keeping up with real time
 @param {number} expectedBlocks
 */
-PileTest.additive_pile_circle_test = function(expectedBlocks) {
+static additive_pile_circle_test(expectedBlocks) {
   Engine2DTestRig.testName = PileTest.groupName+'additive_pile_circle_test';
   var startTime = Util.systemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/false,
@@ -837,4 +808,12 @@ PileTest.additive_pile_circle_test = function(expectedBlocks) {
   Engine2DTestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @type {string}
+* @const
+*/
+PileTest.groupName = 'PileTest.';
+
+exports = PileTest;

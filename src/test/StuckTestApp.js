@@ -35,7 +35,7 @@ var lab = myphysicslab.lab;
 var sims = myphysicslab.sims;
 
 const ChoiceControl = goog.module.get('myphysicslab.lab.controls.ChoiceControl');
-var CircleStraightTest = myphysicslab.test.CircleStraightTest;
+const CircleStraightTest = goog.module.get('myphysicslab.test.CircleStraightTest');
 const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
 const CommonControls = goog.module.get('myphysicslab.sims.common.CommonControls');
 var DebugLevel = lab.model.CollisionAdvance.DebugLevel;

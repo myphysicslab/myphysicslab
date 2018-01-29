@@ -12,43 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.TestShapes');
+goog.module('myphysicslab.test.TestShapes');
 
 goog.require('goog.asserts');
-goog.require('myphysicslab.lab.engine2D.CircularEdge');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
 
-goog.scope(function() {
+const CircularEdge = goog.require('myphysicslab.lab.engine2D.CircularEdge');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-const CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
-const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-
-/**  This class consists exclusively of static methods that create RigidBodys.
-
-* @constructor
-* @final
-* @struct
+/**  This class contains static methods that create RigidBodys.
+*/
+class TestShapes {
+/**
 * @private
 */
-myphysicslab.test.TestShapes = function() {
+constructor() {
   throw new Error();
 };
-var TestShapes = myphysicslab.test.TestShapes;
 
 /**
 * @return {!Polygon}
 */
-TestShapes.makeBlockRoundEdge = function() {
+static makeBlockRoundEdge() {
   var p = new Polygon('block-round-edge');
   p.startPath(new ConcreteVertex(new Vector(0, 0)));
   p.addStraightEdge(new Vector(2, 0), /*outsideIsUp=*/false);
@@ -66,7 +55,7 @@ TestShapes.makeBlockRoundEdge = function() {
 /**
 * @return {!Polygon}
 */
-TestShapes.makeConcaveCirclePoly = function() {
+static makeConcaveCirclePoly() {
   var p = new Polygon('concave_circle');
   p.startPath(new ConcreteVertex(new Vector(0, -0.5)));
   p.addStraightEdge(new Vector(3, -0.5), /*outsideIsUp=*/false);
@@ -88,7 +77,7 @@ TestShapes.makeConcaveCirclePoly = function() {
 @param {number} radius the distance from center to each vertex
 @return {!Polygon} an n-sided Polygon with n equal sides.
 */
-TestShapes.makeNGon = function(n, radius) {
+static makeNGon(n, radius) {
   var p = new Polygon('polygon-'+n+'-sides');
   var delta = 2*Math.PI/n;
   p.startPath(new ConcreteVertex(new Vector(radius, 0)));
@@ -105,4 +94,6 @@ TestShapes.makeNGon = function(n, radius) {
   return p;
 };
 
-}); // goog.scope
+} //end class
+
+exports = TestShapes;

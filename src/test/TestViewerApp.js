@@ -132,7 +132,6 @@ const Util = goog.module.get('myphysicslab.lab.util.Util');
 const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 const VerticalLayout = goog.module.get('myphysicslab.sims.common.VerticalLayout');
-var WayPoint = lab.model.CollisionAdvance.WayPoint;
 
 /** Interactively run and view various engine2D tests after selecting the
 test to run from a set of menus. This lets us see what a test is doing; it uses the
@@ -176,7 +175,7 @@ the timeStep, etc.
 
 ## How TestViewerApp Works
 
-+ In setupSimControls, look in a set of specified classes (e.g. StraightStraightTest,
++ Look in a set of specified classes (e.g. StraightStraightTest,
     CircleStraightTest, etc.)
 
 + Iterate over all methods in each class, looking for any methods that end with
@@ -318,7 +317,7 @@ myphysicslab.test.TestViewerApp = function(elem_ids) {
   this.advance = new CollisionAdvance(this.sim);
   this.advance.setJointSmallImpacts(true);
   this.advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
-  //this.advance.addWayPoints([WayPoint.NEXT_STEP_ESTIMATE, WayPoint.NEXT_STEP_BINARY]);
+  //this.advance.addWayPoints([CollisionAdvance.WayPoint.NEXT_STEP_ESTIMATE, CollisionAdvance.WayPoint.NEXT_STEP_BINARY]);
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-6, -6, 6, 6);
   /** @type {!SimView} */

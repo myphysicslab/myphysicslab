@@ -12,57 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.JointTest');
+goog.module('myphysicslab.test.JointTest');
 
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.ExtraAccel');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.JointUtil');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.Scrim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.engine2D.Walls');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.CoordType');
-goog.require('myphysicslab.lab.model.DampingLaw');
-goog.require('myphysicslab.lab.model.GravityLaw');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.RungeKutta');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.TestShapes');
-
-goog.scope(function() {
-
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const CoordType = goog.module.get('myphysicslab.lab.model.CoordType');
-const DampingLaw = goog.module.get('myphysicslab.lab.model.DampingLaw');
-const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-const ExtraAccel = goog.module.get('myphysicslab.lab.engine2D.ExtraAccel');
-const GravityLaw = goog.module.get('myphysicslab.lab.model.GravityLaw');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const JointUtil = goog.module.get('myphysicslab.lab.engine2D.JointUtil');
-const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-const RungeKutta = goog.module.get('myphysicslab.lab.model.RungeKutta');
-const Scrim = goog.module.get('myphysicslab.lab.engine2D.Scrim');
-const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-var TestShapes = myphysicslab.test.TestShapes;
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const Walls = goog.module.get('myphysicslab.lab.engine2D.Walls');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
+const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const ExtraAccel = goog.require('myphysicslab.lab.engine2D.ExtraAccel');
+const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestShapes = goog.require('myphysicslab.test.TestShapes');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
 /** Tests various configurations of Joints.
 
@@ -77,22 +51,14 @@ approach, and doesn't work in the other cases you find here in JointTest.
 
 @todo  make tests using each configuration of joints.
 
-@constructor
-@final
-@struct
-@private
 */
-myphysicslab.test.JointTest = function() {};
-
-var JointTest = myphysicslab.test.JointTest;
-
+class JointTest {
 /**
-* @type {string}
-* @const
+* @private
 */
-JointTest.groupName = 'JointTest.';
+constructor() { throw new Error(); };
 
-JointTest.test = function() {
+static test() {
   Engine2DTestRig.schedule(JointTest.pendulum_1_joint_1);
   Engine2DTestRig.schedule(JointTest.pendulum_1_joint_2);
   Engine2DTestRig.schedule(JointTest.pendulum_2_joints_1);
@@ -105,7 +71,7 @@ JointTest.test = function() {
 @param {!CollisionAdvance} advance
 @private
 */
-JointTest.commonSetup1 = function(sim, advance) {
+static commonSetup1(sim, advance) {
   sim.addForceLaw(new DampingLaw(0, 0.15, sim.getSimList()));
   sim.setDistanceTol(0.01);
   sim.setVelocityTol(0.5);
@@ -121,29 +87,13 @@ JointTest.commonSetup1 = function(sim, advance) {
 };
 
 /**
-* @enum {number}
-*/
-JointTest.JointTestConfig = {
-  PENDULUM_1_JOINT: 1,
-  PENDULUM_2_JOINTS: 2,
-  PENDULUM_2_JOINTS_OFFSET: 3,
-  PENDULUM_3_JOINTS_OFFSET: 4,
-  TWO_BLOCKS_1_JOINT: 5,
-  TWO_BLOCKS_2_JOINTS: 6,
-  TWO_BLOCKS_3_JOINTS: 7,
-  TWO_BLOCKS_4_JOINTS: 8,
-  TWO_BLOCKS_1_DBL_JOINT: 9,
-  TWO_BLOCKS_2_DBL_JOINT: 10
-};
-var JointTestConfig = JointTest.JointTestConfig;
-
-/**
 @param {!ContactSim} sim
-@param {!JointTestConfig} testConfig
+@param {!JointTest.JointTestConfig} testConfig
 @param {!CoordType} normalType
 @private
 */
-JointTest.buildJointTest = function(sim, testConfig, normalType) {
+static buildJointTest(sim, testConfig, normalType) {
+  const JointTestConfig = JointTest.JointTestConfig;
   switch (testConfig) {
     case JointTestConfig.PENDULUM_1_JOINT:
     case JointTestConfig.PENDULUM_2_JOINTS:
@@ -167,11 +117,12 @@ JointTest.buildJointTest = function(sim, testConfig, normalType) {
 
 /**
 @param {!ContactSim} sim
-@param {!JointTestConfig} testConfig
+@param {!JointTest.JointTestConfig} testConfig
 @param {!CoordType} normalType
 @private
 */
-JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
+static makeBlockPendulum(sim, testConfig, normalType) {
+  const JointTestConfig = JointTest.JointTestConfig;
   // pendulum from fixed point, start it moving.
   var p1 = Shapes.makeBlock(1.0, 5.0, 'PENDULUM');
   p1.setDragPoints([new Vector(0.0, -2.0)]);
@@ -223,11 +174,12 @@ JointTest.makeBlockPendulum = function(sim, testConfig, normalType) {
 
 /**
 @param {!ContactSim} sim
-@param {!JointTestConfig} testConfig
+@param {!JointTest.JointTestConfig} testConfig
 @param {!CoordType} normalType
 @private
 */
-JointTest.makeConnectedBlocks = function(sim, testConfig, normalType) {
+static makeConnectedBlocks(sim, testConfig, normalType) {
+  const JointTestConfig = JointTest.JointTestConfig;
   var x = 0;
   var y = 0;
   var angle = 0;
@@ -294,7 +246,8 @@ track, rocking back and forth because it starts at an angle.
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.pendulum_1_joint_setup = function(sim, advance) {
+static pendulum_1_joint_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_1_JOINT, CoordType.WORLD);
   var pendulum = sim.getBody('pendulum');
@@ -311,7 +264,7 @@ JointTest.pendulum_1_joint_setup = function(sim, advance) {
 and joint tightness using 'small impacts' on joints  and ExtraAccel.VELOCITY.
 @return {undefined}
 */
-JointTest.pendulum_1_joint_1 = function() {
+static pendulum_1_joint_1() {
   Engine2DTestRig.testName = JointTest.groupName+'pendulum_1_joint_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -331,7 +284,7 @@ ExtraAccel.VELOCITY_AND_DISTANCE, when `CollisionAdvance.setJointSmallImpacts()`
 is turned off.
 @return {undefined}
 */
-JointTest.pendulum_1_joint_2 = function() {
+static pendulum_1_joint_2() {
   Engine2DTestRig.testName = JointTest.groupName+'pendulum_1_joint_2';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -354,7 +307,8 @@ JointTest.pendulum_1_joint_2 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.pendulum_2_joints_setup = function(sim, advance) {
+static pendulum_2_joints_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_2_JOINTS, CoordType.WORLD);
   var pendulum = sim.getBody('pendulum');
@@ -366,7 +320,7 @@ JointTest.pendulum_2_joints_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-JointTest.pendulum_2_joints_1 = function() {
+static pendulum_2_joints_1() {
   Engine2DTestRig.testName = JointTest.groupName+'pendulum_2_joints_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -385,7 +339,8 @@ JointTest.pendulum_2_joints_1 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.pendulum_2_joints_offset_setup = function(sim, advance) {
+static pendulum_2_joints_offset_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_2_JOINTS_OFFSET, CoordType.WORLD);
   var pendulum = sim.getBody('pendulum');
@@ -417,7 +372,8 @@ JointTest.pendulum_2_joints_offset_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-JointTest.pendulum_2_joints_offset_1 = function() {
+static pendulum_2_joints_offset_1() {
+  const JointTestConfig = JointTest.JointTestConfig;
   Engine2DTestRig.testName = JointTest.groupName+'pendulum_2_joints_offset_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -437,7 +393,8 @@ JointTest.pendulum_2_joints_offset_1 = function() {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.pendulum_3_joints_offset_setup = function(sim, advance) {
+static pendulum_3_joints_offset_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_3_JOINTS_OFFSET, CoordType.WORLD);
   var pendulum = sim.getBody('pendulum');
@@ -451,7 +408,8 @@ JointTest.pendulum_3_joints_offset_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.two_blocks_1_joint_setup = function(sim, advance) {
+static two_blocks_1_joint_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_1_JOINT, CoordType.BODY);
 };
@@ -461,7 +419,8 @@ JointTest.two_blocks_1_joint_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.two_blocks_2_joints_setup = function(sim, advance) {
+static two_blocks_2_joints_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_2_JOINTS, CoordType.BODY);
 };
@@ -471,7 +430,8 @@ JointTest.two_blocks_2_joints_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.two_blocks_3_joints_setup = function(sim, advance) {
+static two_blocks_3_joints_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_3_JOINTS, CoordType.BODY);
 };
@@ -481,7 +441,8 @@ JointTest.two_blocks_3_joints_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.two_blocks_4_joints_setup = function(sim, advance) {
+static two_blocks_4_joints_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_4_JOINTS, CoordType.BODY);
   var body1 = sim.getBody('connect1');
@@ -497,7 +458,8 @@ JointTest.two_blocks_4_joints_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.two_blocks_1_dbl_joint_setup = function(sim, advance) {
+static two_blocks_1_dbl_joint_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_1_DBL_JOINT, CoordType.BODY);
 };
@@ -507,7 +469,8 @@ JointTest.two_blocks_1_dbl_joint_setup = function(sim, advance) {
 @param {!CollisionAdvance} advance
 @export
 */
-JointTest.two_blocks_2_dbl_joint_setup = function(sim, advance) {
+static two_blocks_2_dbl_joint_setup(sim, advance) {
+  const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_2_DBL_JOINT, CoordType.BODY);
   var body1 = sim.getBody('connect1');
@@ -522,7 +485,8 @@ JointTest.two_blocks_2_dbl_joint_setup = function(sim, advance) {
 /**
 @return {undefined}
 */
-JointTest.two_blocks_2_dbl_joint_1 = function() {
+static two_blocks_2_dbl_joint_1() {
+  const JointTestConfig = JointTest.JointTestConfig;
   Engine2DTestRig.testName = JointTest.groupName+'two_blocks_2_dbl_joint_1';
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
@@ -537,4 +501,28 @@ JointTest.two_blocks_2_dbl_joint_1 = function() {
   Engine2DTestRig.checkTightJoints(sim, 0.000001);
 };
 
-}); // goog.scope
+} //end class
+
+/**
+* @enum {number}
+*/
+JointTest.JointTestConfig = {
+  PENDULUM_1_JOINT: 1,
+  PENDULUM_2_JOINTS: 2,
+  PENDULUM_2_JOINTS_OFFSET: 3,
+  PENDULUM_3_JOINTS_OFFSET: 4,
+  TWO_BLOCKS_1_JOINT: 5,
+  TWO_BLOCKS_2_JOINTS: 6,
+  TWO_BLOCKS_3_JOINTS: 7,
+  TWO_BLOCKS_4_JOINTS: 8,
+  TWO_BLOCKS_1_DBL_JOINT: 9,
+  TWO_BLOCKS_2_DBL_JOINT: 10
+};
+
+/**
+* @type {string}
+* @const
+*/
+JointTest.groupName = 'JointTest.';
+
+exports = JointTest;

@@ -12,32 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.Engine2DTestRig');
+goog.module('myphysicslab.test.Engine2DTestRig');
 
-goog.require('myphysicslab.lab.engine2D.Connector');
-goog.require('myphysicslab.lab.engine2D.ContactSim');
-goog.require('myphysicslab.lab.engine2D.Joint');
-goog.require('myphysicslab.lab.engine2D.PathJoint');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.model.Collision');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.model.CollisionAdvance');
 goog.require('myphysicslab.test.ExpectedPerf');
-
-goog.scope(function() {
-
-const Collision = goog.module.get('myphysicslab.lab.model.Collision');
-const CollisionAdvance = goog.module.get('myphysicslab.lab.model.CollisionAdvance');
-const Connector = goog.module.get('myphysicslab.lab.engine2D.Connector');
-const ContactSim = goog.module.get('myphysicslab.lab.engine2D.ContactSim');
-const Joint = goog.module.get('myphysicslab.lab.engine2D.Joint');
-const PathJoint = goog.module.get('myphysicslab.lab.engine2D.PathJoint');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const Collision = goog.require('myphysicslab.lab.model.Collision');
+const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
+const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
+const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
+const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Static class that provides common test functions such as `runTest`.
 
@@ -53,82 +40,14 @@ the name of the function when compiled.  So it seems to be safer and easier to j
 stuff the name of the current test into the testName variable.  Plus, we can add other
 information about the test, such as additional test parameters that vary between runs
 of the test.
-
-* @constructor
-* @final
-* @struct
+*/
+class Engine2DTestRig {
+/**
 * @private
 */
-myphysicslab.test.Engine2DTestRig = function() {
+constructor() {
   throw new Error();
 };
-
-var Engine2DTestRig = myphysicslab.test.Engine2DTestRig;
-
-/** ABORT_ON_FAIL = true means generate an exception to immediately stop the tests.
-* @type {boolean}
-* @const
-* @private
-*/
-Engine2DTestRig.ABORT_ON_FAIL = false;
-
-/** Identifier of Chrome browser.
-* @type {string}
-* @const
-*/
-Engine2DTestRig.BROWSER_CHROME = 'Chrome';
-
-/** Identifier of Firefox browser.
-* @type {string}
-* @const
-*/
-Engine2DTestRig.BROWSER_FIREFOX = 'Firefox';
-
-/** Identifier of Safari browser.
-* @type {string}
-* @const
-*/
-Engine2DTestRig.BROWSER_SAFARI = 'Safari';
-
-/**
-* @type {boolean}
-* @const
-* @private
-*/
-Engine2DTestRig.PRINT_ALL_VARS = false;
-
-/** Array of tests that have been scheduled to run.
-* @type {!Array<!Function>}
-*/
-Engine2DTestRig.testFns = new Array();
-
-/**  Number of tests that failed.
-* @type {number}
-*/
-Engine2DTestRig.testsFailed = 0;
-
-/**  Output will be written to this Element.  If this is null then
-* output goes to window.console.
-* @type {?Element}
-*/
-Engine2DTestRig.output = null;
-
-/** Turn on this debug flag to see more information from tests.
-* @type {boolean}
-*/
-Engine2DTestRig.debug = false;
-
-/** Name of currently running test, for reporting results.
-* @type {string}
-*/
-Engine2DTestRig.testName = '';
-
-/** Name of global variable that gives name of current machine.
-* @type {string}
-* @const
-* @private
-*/
-Engine2DTestRig.machineName = 'MYPHYSICSLAB_MACHINE_NAME';
 
 /** Returns the name of this machine, which should be stored in the global
 * variable `MYPHYSICSLAB_MACHINE_NAME`.  That global is set in the file
@@ -136,7 +55,7 @@ Engine2DTestRig.machineName = 'MYPHYSICSLAB_MACHINE_NAME';
 * the file `sampleMachineName.js`).
 * @return {string} the name of this machine, or `UNKNOWN_MACHINE`
 */
-Engine2DTestRig.getMachineName = function() {
+static getMachineName() {
   if (window.hasOwnProperty(Engine2DTestRig.machineName)) {
     var s = window[Engine2DTestRig.machineName];
     if (goog.isString(s)) {
@@ -154,7 +73,7 @@ Engine2DTestRig.getMachineName = function() {
 unrecognized browsers.
 * @return {string}
 */
-Engine2DTestRig.getBrowserName = function() {
+static getBrowserName() {
   var nav = navigator;
   if (nav == null)
     return 'unknown';
@@ -173,7 +92,7 @@ Engine2DTestRig.getBrowserName = function() {
 * @param {number} expected the expected length of time
 * @return {number} the maximum length of time the test should take in seconds
 */
-Engine2DTestRig.getPerfLimit = function(expected) {
+static getPerfLimit(expected) {
   return 1.20 * expected;
 };
 
@@ -183,7 +102,7 @@ Engine2DTestRig.getPerfLimit = function(expected) {
 * @param {number} expected the expected length of time in seconds
 * @return {string} string showing performance test results
 */
-Engine2DTestRig.perfResult = function(duration, expected) {
+static perfResult(duration, expected) {
   return 'time='+Util.NF2(duration)+' expected='+Util.NF2(expected)
     +'  ('+(Util.NF1S(100*duration/expected - 100))+'%)';
 };
@@ -196,7 +115,7 @@ Engine2DTestRig.perfResult = function(duration, expected) {
 *     to find expected time
 * @return {number} the expected running time in seconds
 */
-Engine2DTestRig.perfExpected = function(testName, defaultTime) {
+static perfExpected(testName, defaultTime) {
   if (defaultTime === undefined) {
     defaultTime = 10000;
   }
@@ -240,7 +159,7 @@ Engine2DTestRig.perfExpected = function(testName, defaultTime) {
 /** Executes the test function; catches and reports errors.
 * @param {!Function} testFunc
 */
-Engine2DTestRig.runFunction = function(testFunc) {
+static runFunction(testFunc) {
   try {
     testFunc();
   } catch (e) {
@@ -255,7 +174,7 @@ Engine2DTestRig.runFunction = function(testFunc) {
 Tests will not start until `Engine2DTestRig.runTests` is called.
 * @param {!Function} testFunc
 */
-Engine2DTestRig.schedule = function(testFunc) {
+static schedule(testFunc) {
   Engine2DTestRig.testFns.push(goog.partial(Engine2DTestRig.runFunction, testFunc));
 };
 
@@ -264,7 +183,7 @@ gap of time between each test so that the browser will update the page to show t
 results, and so that the user can interrupt the test.
 * @return {undefined}
 */
-Engine2DTestRig.runTests = function() {
+static runTests() {
   var testFunc = Engine2DTestRig.testFns.shift();
   if (goog.isFunction(testFunc)) {
     testFunc();
@@ -276,7 +195,7 @@ Engine2DTestRig.runTests = function() {
 for writing the results.
 * @return {undefined}
 */
-Engine2DTestRig.startTests = function() {
+static startTests() {
   Engine2DTestRig.testsFailed = 0;
   // Find the  element to show test results
   var test_results = document.getElementById('test_results');
@@ -330,7 +249,7 @@ Engine2DTestRig.startTests = function() {
 /**  Reports that a group of tests has finished.
 * @return {undefined}
 */
-Engine2DTestRig.finishTests = function() {
+static finishTests() {
   var f = Engine2DTestRig.testsFailed;
   if (f > 0) {
     Engine2DTestRig.myPrintln('Tests finished -- '+f+' TESTS FAILED', /*error=*/true);
@@ -353,7 +272,7 @@ to be fixed.
 * @param {boolean=} opt_error if true then string is highlighted as an error
 * @param {boolean=} opt_warning if true then string is highlighted as a warning
 */
-Engine2DTestRig.myPrintln = function(s, opt_error, opt_warning) {
+static myPrintln(s, opt_error, opt_warning) {
   console.log(s);
   if (Engine2DTestRig.output != null) {
     if (opt_error) {
@@ -376,7 +295,7 @@ Engine2DTestRig.myPrintln = function(s, opt_error, opt_warning) {
 * @param {number} expected  the expected value
 * @param {number} tolerance  how much the value can differ from expected value
 */
-Engine2DTestRig.checkValue = function(message, value, expected, tolerance) {
+static checkValue(message, value, expected, tolerance) {
   if (Math.abs(expected - value) > tolerance) {
     var s = message+' expected='+expected+' actual='+value
                 + ' tolerance='+tolerance;
@@ -388,7 +307,7 @@ Engine2DTestRig.checkValue = function(message, value, expected, tolerance) {
 @param {number} n  the length of the array
 @return {!Array<number>} an array of doubles, all of which are NaN
 */
-Engine2DTestRig.makeVars = function(n) {
+static makeVars(n) {
   var vars = new Array(n);
   for (var i=0; i<n; i++)
     vars[i] = Util.NaN;
@@ -409,7 +328,7 @@ find their index within the VarsList.
 @param {number} w  angle of the body
 @param {number} vw angular velocity of the body
 */
-Engine2DTestRig.setBodyVars = function(sim, vars, i, x, vx, y, vy, w, vw) {
+static setBodyVars(sim, vars, i, x, vx, y, vy, w, vw) {
   var idx = sim.getBody(i).getVarsIndex();
   vars[idx + RigidBodySim.X_] = x;
   vars[idx + RigidBodySim.VX_] = vx;
@@ -432,7 +351,7 @@ which variable was out of tolerance.
 @return {boolean} true if expected results are found or expected results are null
 @throws {!Error} if expected results are null, or tolerance is NaN
 */
-Engine2DTestRig.checkResult = function(sim, expected, tolerance) {
+static checkResult(sim, expected, tolerance) {
   if (expected == null || isNaN(tolerance))
     throw new Error();
   var passed = true;
@@ -499,7 +418,7 @@ then the state of all objects at conclusion of the test.
 @param {number=} expectedSearches expected number of collision searches, or -1 to
         not test number of collision searches. Default is zero.
 */
-Engine2DTestRig.runTest = function(sim, advance, runUntil, expectedVars, tolerance,
+static runTest(sim, advance, runUntil, expectedVars, tolerance,
       expectedEnergyDiff, energyTol, expectedCollisions, expectedSearches) {
   if (sim instanceof ContactSim) {
     sim.setExtraAccelTimeStep(advance.getTimeStep());
@@ -652,7 +571,7 @@ whose name includes the word 'error' is printed with the 'warning' highlighting.
     test results, or `null`
 @throws {!Error} if `passed` is false and `ABORT_ON_FAIL` is true
 */
-Engine2DTestRig.reportTestResults = function(passed, testType, reason) {
+static reportTestResults(passed, testType, reason) {
   var s = Engine2DTestRig.testName+' ['+testType+']';
   if (passed) {
     if (testType == 'performance') {
@@ -679,7 +598,7 @@ simulation is able to advance thru the entire time.
 @param {number} time  run the simulation until this time is reached, fail if no
     exception has occured by then.
 */
-Engine2DTestRig.runExceptionTest = function(advance, time) {
+static runExceptionTest(advance, time) {
   var testType = 'exception';
   while (advance.getTime() < (time - 0.0000001)) {
     try {
@@ -698,7 +617,7 @@ Engine2DTestRig.runExceptionTest = function(advance, time) {
 @param {!ContactSim} sim  the ContactSim to test
 @param {number} tolerance the maximum allowed Joint normal distance
 */
-Engine2DTestRig.checkTightJoints = function(sim, tolerance) {
+static checkTightJoints(sim, tolerance) {
   var joints = sim.getConnectors();
   var len = joints.length;
   if (len > 0) {
@@ -720,7 +639,7 @@ Engine2DTestRig.checkTightJoints = function(sim, tolerance) {
 @param {!ContactSim} sim  the ContactSim to test
 @param {number} tolerance the maximum allowed contact normal distance
 */
-Engine2DTestRig.checkContactDistances = function(sim, tolerance) {
+static checkContactDistances(sim, tolerance) {
   /** @type {!Array<!Collision>} */
   var contacts = [];
   sim.findCollisions(contacts, sim.getVarsList().getValues(), /*stepSize=*/0);
@@ -747,7 +666,7 @@ code.
 @param {!RigidBodySim} sim
 @private
 */
-Engine2DTestRig.printVars = function(sim) {
+static printVars(sim) {
   // @todo  fix this for when time is at the front of variable list.
   var X=0, VX=1, Y=2, VY=3, W=4, VW=5;
   var vars = sim.getVarsList().getValues(/*computed=*/true);
@@ -771,7 +690,7 @@ Engine2DTestRig.printVars = function(sim) {
 @param {number} index which body to print
 @private
 */
-Engine2DTestRig.printRigidBody = function(sim, index) {
+static printRigidBody(sim, index) {
   var vars = sim.getVarsList().getValues(/*computed=*/true);
   var offset = index*6;
   // @todo  fix this for when time is at the front of variable list.
@@ -786,4 +705,71 @@ Engine2DTestRig.printRigidBody = function(sim, index) {
         +Util.NF5(sim.getEnergyInfo().getTotalEnergy()));
 };
 
-}); // goog.scope
+} //end class
+
+/** ABORT_ON_FAIL = true means generate an exception to immediately stop the tests.
+* @type {boolean}
+* @const
+* @private
+*/
+Engine2DTestRig.ABORT_ON_FAIL = false;
+
+/** Identifier of Chrome browser.
+* @type {string}
+* @const
+*/
+Engine2DTestRig.BROWSER_CHROME = 'Chrome';
+
+/** Identifier of Firefox browser.
+* @type {string}
+* @const
+*/
+Engine2DTestRig.BROWSER_FIREFOX = 'Firefox';
+
+/** Identifier of Safari browser.
+* @type {string}
+* @const
+*/
+Engine2DTestRig.BROWSER_SAFARI = 'Safari';
+
+/**
+* @type {boolean}
+* @const
+* @private
+*/
+Engine2DTestRig.PRINT_ALL_VARS = false;
+
+/** Array of tests that have been scheduled to run.
+* @type {!Array<!Function>}
+*/
+Engine2DTestRig.testFns = new Array();
+
+/**  Number of tests that failed.
+* @type {number}
+*/
+Engine2DTestRig.testsFailed = 0;
+
+/**  Output will be written to this Element.  If this is null then
+* output goes to window.console.
+* @type {?Element}
+*/
+Engine2DTestRig.output = null;
+
+/** Turn on this debug flag to see more information from tests.
+* @type {boolean}
+*/
+Engine2DTestRig.debug = false;
+
+/** Name of currently running test, for reporting results.
+* @type {string}
+*/
+Engine2DTestRig.testName = '';
+
+/** Name of global variable that gives name of current machine.
+* @type {string}
+* @const
+* @private
+*/
+Engine2DTestRig.machineName = 'MYPHYSICSLAB_MACHINE_NAME';
+
+exports = Engine2DTestRig;
