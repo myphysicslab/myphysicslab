@@ -12,35 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.PerformanceTests');
+goog.module('myphysicslab.test.PerformanceTests');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.test.CircleCircleTest');
-goog.require('myphysicslab.test.CircleStraightTest');
-goog.require('myphysicslab.test.DoNothingTest');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.JointTest');
-goog.require('myphysicslab.test.MiscellanyTest');
-goog.require('myphysicslab.test.MultipleCollisionTest');
-goog.require('myphysicslab.test.PileTest');
-goog.require('myphysicslab.test.RopeTest');
-goog.require('myphysicslab.test.SpeedTest');
-goog.require('myphysicslab.test.StraightStraightTest');
-
-goog.scope(function() {
-
-const CircleCircleTest = goog.module.get('myphysicslab.test.CircleCircleTest');
-const CircleStraightTest = goog.module.get('myphysicslab.test.CircleStraightTest');
-const DoNothingTest = goog.module.get('myphysicslab.test.DoNothingTest');
-const Engine2DTestRig = goog.module.get('myphysicslab.test.Engine2DTestRig');
-const JointTest = goog.module.get('myphysicslab.test.JointTest');
-const MiscellanyTest = goog.module.get('myphysicslab.test.MiscellanyTest');
-const MultipleCollisionTest = goog.module.get('myphysicslab.test.MultipleCollisionTest');
-const PileTest = goog.module.get('myphysicslab.test.PileTest');
-const RopeTest = goog.module.get('myphysicslab.test.RopeTest');
-const SpeedTest = goog.module.get('myphysicslab.test.SpeedTest');
-const StraightStraightTest = goog.module.get('myphysicslab.test.StraightStraightTest');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
+const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
+const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const JointTest = goog.require('myphysicslab.test.JointTest');
+const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
+const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
+const PileTest = goog.require('myphysicslab.test.PileTest');
+const RopeTest = goog.require('myphysicslab.test.RopeTest');
+const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
+const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Runs performance tests of the rigid body physics engine. See
 [2D Physics Engine Overview](Engine2D.html). Each test has an expected time, if it
@@ -77,22 +62,20 @@ MachineName.js file)
 menu will store that name in local storage (and perhaps reload the page or re-run the
 test).
 
-
-* @constructor
-* @final
-* @struct
+*/
+class PerformanceTests {
+/**
 * @private
 */
-myphysicslab.test.PerformanceTests = function() {
+constructor() {
   throw new Error();
 };
-var PerformanceTests = myphysicslab.test.PerformanceTests;
 
 /**
 * @return {undefined}
 * @export
 */
-PerformanceTests.runTests = function() {
+static runTests() {
   Engine2DTestRig.startTests();
   // 'warm up' the test environment by running a non-performance test first.
   Engine2DTestRig.schedule(StraightStraightTest.six_blocks_settle);
@@ -103,4 +86,7 @@ PerformanceTests.runTests = function() {
   Engine2DTestRig.runTests();
 };
 
-}); // goog.scope
+} //end class
+
+goog.exportSymbol('runTests', PerformanceTests.runTests);
+exports = PerformanceTests;

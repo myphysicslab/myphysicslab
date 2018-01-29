@@ -12,58 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.SingleTest');
+goog.module('myphysicslab.test.SingleTest');
 
-goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.test.CircleCircleTest');
-goog.require('myphysicslab.test.CircleStraightTest');
-goog.require('myphysicslab.test.DoNothingTest');
-goog.require('myphysicslab.test.Engine2DTestRig');
-goog.require('myphysicslab.test.JointTest');
-goog.require('myphysicslab.test.MiscellanyTest');
-goog.require('myphysicslab.test.MultipleCollisionTest');
-goog.require('myphysicslab.test.PileTest');
-goog.require('myphysicslab.test.RopeTest');
-goog.require('myphysicslab.test.SpeedTest');
-goog.require('myphysicslab.test.StraightStraightTest');
-
-goog.scope(function() {
-
-const CircleCircleTest = goog.module.get('myphysicslab.test.CircleCircleTest');
-const CircleStraightTest = goog.module.get('myphysicslab.test.CircleStraightTest');
-const CollisionHandling = goog.module.get('myphysicslab.lab.engine2D.CollisionHandling');
-const DoNothingTest = goog.module.get('myphysicslab.test.DoNothingTest');
-const Engine2DTestRig = goog.module.get('myphysicslab.test.Engine2DTestRig');
-const JointTest = goog.module.get('myphysicslab.test.JointTest');
-const MiscellanyTest = goog.module.get('myphysicslab.test.MiscellanyTest');
-const MultipleCollisionTest = goog.module.get('myphysicslab.test.MultipleCollisionTest');
-const PileTest = goog.module.get('myphysicslab.test.PileTest');
-const RopeTest = goog.module.get('myphysicslab.test.RopeTest');
-const SpeedTest = goog.module.get('myphysicslab.test.SpeedTest');
-const StraightStraightTest = goog.module.get('myphysicslab.test.StraightStraightTest');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
+const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
+const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
+const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
+const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const JointTest = goog.require('myphysicslab.test.JointTest');
+const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
+const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
+const PileTest = goog.require('myphysicslab.test.PileTest');
+const RopeTest = goog.require('myphysicslab.test.RopeTest');
+const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
+const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See
 [2D Physics Engine Overview](Engine2D.html).
 
 Unlike other tests, the makefile does not set `GOOG_DEBUG` to false for this test, so
 `Util.DEBUG` should be true when this is compiled.
-* @constructor
-* @final
-* @struct
+*/
+class SingleTest {
+/**
 * @private
 */
-myphysicslab.test.SingleTest = function() {
+constructor() {
   throw new Error();
 };
-var SingleTest = myphysicslab.test.SingleTest;
 
 /**
 * @return {undefined}
 * @export
 */
-SingleTest.runTests = function() {
+static runTests() {
   Engine2DTestRig.startTests();
 
   //CircleCircleTest.test();
@@ -123,4 +106,7 @@ SingleTest.runTests = function() {
   Engine2DTestRig.runTests();
 };
 
-}); // goog.scope
+} //end class
+
+goog.exportSymbol('runTests', SingleTest.runTests);
+exports = SingleTest;
