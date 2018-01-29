@@ -431,15 +431,13 @@ intersection(p1_body, p2_body) {
 
 /** @override */
 intersectionPossible(edge, swellage) {
-  if (edge instanceof StraightEdge) {
+  if (edge.isStraightEdge) {
     // Because straight/straight edges never interact (instead they only interact with
     // Vertexes) we can avoid some testing and get a performance gain by returning false
     // if the other edge is also a straight edge.
     return false;
   } else {
-    // is this type cast because of NTI?
-    return /** @type {boolean} */(
-      super.intersectionPossible(edge, swellage));
+    return super.intersectionPossible(edge, swellage);
   }
 };
 
@@ -447,6 +445,12 @@ intersectionPossible(edge, swellage) {
 isStraight() {
   return true;
 };
+
+/** This function is used to avoid an `instanceof` test, because those are slow
+* on Firefox.
+* @return {undefined}
+*/
+isStraightEdge() {};
 
 /** Makes a Vertex/Vertex contact.
 * @param {!Vertex} myV
