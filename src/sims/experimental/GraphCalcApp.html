@@ -4,6 +4,7 @@
 #define #TOP_DIR ../..
 #define #APP_PATH sims.experimental.GraphCalcApp
 #include "#TOP_DIR/macros.html"
+#define #MODULE_TYPE module
 #DOC_TYPE
 <html lang="en">
 <head>
@@ -100,7 +101,7 @@ page. Example:
         term_input: 'term_input',
         images_dir: '#IMAGES_DIR'
       };
-      app = new myphysicslab.sims.experimental.GraphCalcApp(elem_ids);
+      app = makeGraphCalcApp(elem_ids);
       app.defineNames('app');
       app.eval('plot("x*Math.sin(5*x)", -10, 10)');
     }());

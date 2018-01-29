@@ -12,23 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.experimental.CollisionCombo');
+goog.module('myphysicslab.sims.experimental.CollisionCombo');
 
-goog.require('myphysicslab.sims.engine2D.MultipleCollisionApp');
-goog.require('myphysicslab.sims.springs.CollideSpringApp');
+const MultipleCollisionApp = goog.require('myphysicslab.sims.engine2D.MultipleCollisionApp');
+const CollideSpringApp = goog.require('myphysicslab.sims.springs.CollideSpringApp');
 
 /** This class exists only to compile MultipleCollisionApp and CollideSpringApp
 * into a single compiled file.
-* @constructor
-* @final
-* @struct
-* @export
 */
-myphysicslab.sims.experimental.CollisionCombo = function() {
+class CollisionCombo {
 };
-
-goog.exportSymbol('myphysicslab.sims.engine2D.MultipleCollisionApp',
-myphysicslab.sims.engine2D.MultipleCollisionApp);
-
-goog.exportSymbol('myphysicslab.sims.springs.CollideSpringApp',
-myphysicslab.sims.springs.CollideSpringApp);

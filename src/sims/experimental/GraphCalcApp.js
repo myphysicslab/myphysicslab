@@ -12,56 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.experimental.GraphCalcApp');
+goog.module('myphysicslab.sims.experimental.GraphCalcApp');
 
-goog.require('myphysicslab.lab.app.SimController');
-goog.require('myphysicslab.lab.graph.DisplayAxes');
-goog.require('myphysicslab.lab.graph.DisplayGraph');
-goog.require('myphysicslab.lab.graph.GraphLine');
-goog.require('myphysicslab.lab.graph.GraphPoint');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-
-goog.require('myphysicslab.lab.graph.VarsHistory'); // for possible use in Terminal
-goog.require('myphysicslab.lab.model.ExpressionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.model.FunctionVariable'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.ClockTask'); // for usage in Terminal
-goog.require('myphysicslab.lab.util.GenericMemo'); // for usage in Terminal
-goog.require('myphysicslab.lab.view.DisplayText'); // for usage in Terminal
-
-goog.scope(function() {
-
-var lab = myphysicslab.lab;
-var sims = myphysicslab.sims;
-
-const DisplayAxes = goog.module.get('myphysicslab.lab.graph.DisplayAxes');
-const DisplayGraph = goog.module.get('myphysicslab.lab.graph.DisplayGraph');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-const GraphLine = goog.module.get('myphysicslab.lab.graph.GraphLine');
-const GraphPoint = goog.module.get('myphysicslab.lab.graph.GraphPoint');
-const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const SimController = goog.module.get('myphysicslab.lab.app.SimController');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
+const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
+const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const GraphPoint = goog.require('myphysicslab.lab.graph.GraphPoint');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimController = goog.require('myphysicslab.lab.app.SimController');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /** GraphCalcApp is a simple graphing calculator demonstration using myphysicslab.
 
@@ -82,16 +51,14 @@ Recipe for Graphing
 
 @todo: add AutoScale, so that full range is shown
 @todo: add pan-zoom controls
-
+*/
+class GraphCalcApp {
+/**
 * @param {!GraphCalcApp.elementIds} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @constructor
-* @final
-* @struct
-* @export
 */
-myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
+constructor(elem_ids) {
   Util.setErrorHandler();
   Util.setImagesDir(elem_ids['images_dir']);
   /** The expression evaluating process uses Terminal.expand() to access
@@ -183,17 +150,6 @@ myphysicslab.sims.experimental.GraphCalcApp = function(elem_ids) {
       this.simCanvas.paint();
     }, this));
 };
-var GraphCalcApp = myphysicslab.sims.experimental.GraphCalcApp;
-
-/**  Names of HTML div, form, and input element's to search for by using
-* `document.getElementById()`.
-* @typedef {{
-*   graph_div: string,
-*   term_output: string,
-*   term_input: string
-* }}
-*/
-GraphCalcApp.elementIds;
 
 /** Finds the specified element in the HTML Document; throws an error if element
 * is not found.
@@ -201,7 +157,7 @@ GraphCalcApp.elementIds;
 * @param {string} elementId specifies which elementId to get from elem_ids
 * @return {!Element} the element from the current HTML Document
 */
-GraphCalcApp.getElementById = function(elem_ids, elementId) {
+static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
@@ -219,7 +175,7 @@ GraphCalcApp.getElementById = function(elem_ids, elementId) {
 * @param {number=} numPts
 * @return {undefined}
 */
-GraphCalcApp.prototype.plot = function(expr, range1, range2, numPts) {
+plot(expr, range1, range2, numPts) {
     numPts = numPts || 200;
     var r = this.simView.getSimRect();
     if (!goog.isDef(range1)) {
@@ -265,7 +221,7 @@ GraphCalcApp.prototype.plot = function(expr, range1, range2, numPts) {
 * @param {string} myName  the name of this object, valid in global Javascript context.
 * @export
 */
-GraphCalcApp.prototype.defineNames = function(myName) {
+defineNames(myName) {
   if (Util.ADVANCED)
     return;
   this.terminal.addWhiteList(myName);
@@ -281,7 +237,7 @@ GraphCalcApp.prototype.defineNames = function(myName) {
 * @return {*}
 * @export
 */
-GraphCalcApp.prototype.eval = function(script, opt_output) {
+eval(script, opt_output) {
   try {
     return this.terminal.eval(script, opt_output);
   } catch(ex) {
@@ -293,7 +249,7 @@ GraphCalcApp.prototype.eval = function(script, opt_output) {
 * @return {undefined}
 * @export
 */
-GraphCalcApp.prototype.setup = function() {
+setup() {
   this.terminal.parseURLorRecall();
 };
 
@@ -301,7 +257,28 @@ GraphCalcApp.prototype.setup = function() {
 * @return {undefined}
 * @export
 */
-GraphCalcApp.prototype.start = function() {
+start() {
 };
 
-}); // goog.scope
+} //end class
+
+/**  Names of HTML div, form, and input element's to search for by using
+* `document.getElementById()`.
+* @typedef {{
+*   graph_div: string,
+*   term_output: string,
+*   term_input: string
+* }}
+*/
+GraphCalcApp.elementIds;
+
+/**
+* @param {!GraphCalcApp.elementIds} elem_ids
+* @return {!GraphCalcApp}
+*/
+function makeGraphCalcApp(elem_ids) {
+  return new GraphCalcApp(elem_ids);
+};
+goog.exportSymbol('makeGraphCalcApp', makeGraphCalcApp);
+
+exports = GraphCalcApp;
