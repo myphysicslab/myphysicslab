@@ -12,33 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.experimental.BikeTimerApp');
+goog.module('myphysicslab.sims.experimental.BikeTimerApp');
 
 goog.require('goog.events');
 
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Timer');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.DisplayText');
-goog.require('myphysicslab.lab.view.LabCanvas');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.SimView');
-
-goog.scope(function() {
-
-const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-const DisplayText = goog.module.get('myphysicslab.lab.view.DisplayText');
-const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-const LabCanvas = goog.module.get('myphysicslab.lab.view.LabCanvas');
-const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-const Timer = goog.module.get('myphysicslab.lab.util.Timer');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Timer = goog.require('myphysicslab.lab.util.Timer');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Timer for Mark Neumann's bike ride record attempt.
 
@@ -48,22 +35,21 @@ The `Audio` object used here is deprecated.  Need to use newer HTML5 ways of pla
 audio (but without showing any playback controls).
 See <https://developer.mozilla.org/en/DOM/HTMLAudioElement>.
 
-* @constructor
-* @final
-* @struct
+*/
+class BikeTimerApp {
+/**
 * @private
 */
-myphysicslab.sims.experimental.BikeTimerApp = function() {
+constructor() {
   throw new Error();
 };
-var BikeTimerApp = myphysicslab.sims.experimental.BikeTimerApp;
 
 /**
 * @param {string} sound_url the relative URL of sound to play
 * @return {undefined}
 * @export
 */
-BikeTimerApp.makeApp = function(sound_url) {
+static makeBikeTimerApp(sound_url) {
   Util.setErrorHandler();
   var simDiv = window.document.getElementById('sim_applet');
   if (simDiv === null)
@@ -169,4 +155,8 @@ BikeTimerApp.makeApp = function(sound_url) {
   clock.pause();
 };
 
-}); // goog.scope
+} //end class
+
+goog.exportSymbol('makeBikeTimerApp', BikeTimerApp.makeBikeTimerApp);
+
+exports = BikeTimerApp;
