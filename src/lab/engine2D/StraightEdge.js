@@ -126,7 +126,7 @@ chordError() {
 
 /** @override */
 distanceToEdge(edge) {
-  if (edge instanceof StraightEdge) {
+  if (edge.isStraightEdge) {
     // no edge-edge contact between straight edges;
     // these are handled by corner-edge contacts. See Polygon.checkCollision.
     throw new Error();
@@ -406,7 +406,7 @@ highlight() {
 
 /** @override */
 improveAccuracyEdge(rbc, edge) {
-  if (edge instanceof StraightEdge) {
+  if (edge.isStraightEdge) {
     // no collisions between straight edges;
     /*if (rbc.getNormalBody() == edge.getBody()) {
       StraightStraight.improveAccuracy(rbc, this, edge);
@@ -532,7 +532,7 @@ projectionOntoLine(p_body) {
 
 /** @override */
 testCollisionEdge(collisions, edge, time) {
-  if (edge instanceof StraightEdge) {
+  if (edge.isStraightEdge) {
     // no collisions or contacts between StraightEdges, only between vertex and
     // StraightEdge.
     // However, if desired here is a way to detect when StraightEdges intersect:
