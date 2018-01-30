@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.test.ExpectedPerf');
+goog.module('myphysicslab.test.ExpectedPerf');
 
 /** Defines expected times for performance tests.  There are separate expected times
 * for each combination of machine, browser, compiled-status, and test.  The compiled
@@ -26,10 +26,8 @@ goog.provide('myphysicslab.test.ExpectedPerf');
 * see {@link myphysicslab.test.Engine2DTestRig#getMachineName} and
 * {@link myphysicslab.test.Engine2DTestRig#getBrowserName}.
 *
-* @const
-* @export
 */
-myphysicslab.test.ExpectedPerf = {
+const ExpectedPerf = {
   'ERN_MacBookProMid2010': {
     'Safari': {
       'all': {
@@ -90,3 +88,4 @@ myphysicslab.test.ExpectedPerf = {
     },
   }
 };
+exports = ExpectedPerf;

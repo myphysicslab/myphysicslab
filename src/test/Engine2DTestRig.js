@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.test.Engine2DTestRig');
 
-goog.require('myphysicslab.test.ExpectedPerf');
+const ExpectedPerf = goog.require('myphysicslab.test.ExpectedPerf');
 const Collision = goog.require('myphysicslab.lab.model.Collision');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
@@ -122,7 +122,7 @@ static perfExpected(testName, defaultTime) {
   var machine = Engine2DTestRig.getMachineName();
   var browser = Engine2DTestRig.getBrowserName();
   var compiled = Util.ADVANCED ? 'advanced' : 'simple';
-  var e0 = myphysicslab.test.ExpectedPerf;
+  var e0 = ExpectedPerf;
   goog.asserts.assertObject(e0, 'not an object '+e0);
   var err = 'no expected results for machine: '+machine;
   var e1 = e0[machine];
