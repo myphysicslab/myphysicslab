@@ -12,38 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.roller.test.Roller_test');
+goog.module('myphysicslab.sims.roller.test.Roller_test');
 
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.roller.CirclePath');
-goog.require('myphysicslab.sims.roller.RollerSingleSim');
+const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const RollerSingleSim = goog.require('myphysicslab.sims.roller.RollerSingleSim');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Test RollerSingleSim with a circular path.  Ball starts at default upper left
 position.  Run simulation for short time, compare to expected results (which were
 obtained by running the simulation previously).  Check that energy stays constant.
 */
 var testRoller1 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
-  const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-  const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
-  const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-  const RollerSingleSim = goog.module.get('myphysicslab.sims.roller.RollerSingleSim');
-
   var sim = new RollerSingleSim();
   var simList = sim.getSimList();
   var solvr = new ModifiedEuler(sim);

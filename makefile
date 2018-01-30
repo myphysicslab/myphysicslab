@@ -577,6 +577,7 @@ unit_test_js := $(addsuffix .js,$(unit_test))
 # UnitTest is built with a special shell script and prerequisites.
 # Note Oct 2015: MockClock requires goog.DEBUG to be true (unfortunately).
 $(unit_test_js) : $(BUILD_DIR)/test/UnitTest%.js : $(lab_js) \
+src/sims/roller/test/*.js \
 src/sims/springs/test/*.js \
 src/sims/pendulum/test/*.js
 	./compile_test.sh src $@ $(UTIL_DEBUG) $(COMPILE_LEVEL)
