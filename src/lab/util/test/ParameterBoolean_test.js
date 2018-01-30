@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.ParameterBoolean_test');
+goog.module('myphysicslab.lab.util.test.ParameterBoolean_test');
 
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.AbstractSubject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('goog.testing.jsunit');
 
-var testParameterBoolean1 = function() {
-  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-
-  /**
-  @constructor
-  @extends {myphysicslab.lab.util.AbstractSubject}
-  */
-  var MockSubject1 = function() {
-    AbstractSubject.call(this, 'MOCK');
+class MockSubject1 extends AbstractSubject {
+  constructor() {
+    super('MOCK');
     /**
     * @type {boolean}
     * @private
@@ -41,38 +33,41 @@ var testParameterBoolean1 = function() {
     */
     this.fooBarness_ = true;
   };
-  goog.inherits(MockSubject1, AbstractSubject);
 
-  MockSubject1.FOONESS = 'FOONESS';
-  MockSubject1.FOOBARNESS = 'FOO_BARNESS';
   /** @override */
-  MockSubject1.prototype.getClassName = function() {
+  getClassName() {
     return 'MockSubject1';
   };
   /**
   @return {boolean}
   */
-  MockSubject1.prototype.getFooness = function() {
+  getFooness() {
     return this.fooness_;
   };
   /**
   @param {boolean} value
   */
-  MockSubject1.prototype.setFooness = function(value) {
+  setFooness(value) {
     this.fooness_ = value;
   };
   /**
   @return {boolean}
   */
-  MockSubject1.prototype.getFooBarness = function() {
+  getFooBarness() {
     return this.fooBarness_;
   };
   /**
   @param {boolean} value
   */
-  MockSubject1.prototype.setFooBarness = function(value) {
+  setFooBarness(value) {
     this.fooBarness_ = value;
   };
+} // end class
+MockSubject1.FOONESS = 'FOONESS';
+MockSubject1.FOOBARNESS = 'FOO_BARNESS';
+
+var testParameterBoolean1 = function() {
+
   var mockSubj1 = new MockSubject1();
   assertFalse(mockSubj1.getFooness());
   assertTrue(mockSubj1.getFooBarness());

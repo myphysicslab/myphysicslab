@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.MutableVector_test');
+goog.module('myphysicslab.lab.util.test.MutableVector_test');
 
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.MutableVector');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
 goog.require('goog.testing.jsunit');
 
 var testMutableVector = function() {
-  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var v1 = new MutableVector(20, 30);
   assertEquals(20, v1.getX());
   assertEquals(30, v1.getY());
@@ -53,7 +51,6 @@ var testMutableVector = function() {
 goog.exportProperty(window, 'testMutableVector', testMutableVector);
 
 var testMutableVectorSimilar = function() {
-  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
   var v1 = new MutableVector(2, 3, 4);
   var v2 = new MutableVector(2.01, 3.02, 4.015);
   assertTrue(v1.nearEqual(v2, 0.03));

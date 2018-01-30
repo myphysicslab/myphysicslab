@@ -12,98 +12,89 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.ParameterNumber_test');
+goog.module('myphysicslab.lab.util.test.ParameterNumber_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.Subject');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
 goog.require('goog.testing.jsunit');
 
+/**
+@implements {Subject}
+*/
+class MockSubject1 {
+  constructor() {
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooness_ = 0;
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooBarness_ = 0;
+    /**
+    * @type {string}
+    * @private
+    */
+    this.symbol_ = '';
+  };
+  /**
+  @return {number}
+  */
+  getFooness() {
+    return this.fooness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooness(value) {
+    this.fooness_ = value;
+  };
+  /**
+  @return {number}
+  */
+  getFooBarness() {
+    return this.fooBarness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooBarness(value) {
+    this.fooBarness_ = value;
+  };
+  /** @override */
+  getName() { return ''; };
+  /** @override */
+  addObserver(observer) {};
+  /** @override */
+  removeObserver(observer) {};
+  /** @override */
+  getObservers() { return []; };
+  /** @override */
+  getParameters() { return []; };
+  /** @override */
+  getParameter(name) { throw new Error(); };
+  /** @override */
+  getParameterBoolean(name) { throw new Error(); };
+  /** @override */
+  getParameterNumber(name) { throw new Error(); };
+  /** @override */
+  getParameterString(name) { throw new Error(); };
+  /** @override */
+  broadcastParameter(name) {};
+  /** @override */
+  broadcast(event) {};
+  /** @override */
+  toStringShort() { return 'MockSubject1'; };
+}
+MockSubject1.FOONESS = 'FOONESS';
+MockSubject1.FOOBARNESS = 'FOO_BARNESS';
 
 var testParameterNumber1 = function() {
-  const Subject = goog.module.get('myphysicslab.lab.util.Subject');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  /**
-  @implements {Subject}
-  */
-  class MockSubject1 {
-    constructor() {
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooness_ = 0;
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooBarness_ = 0;
-      /**
-      * @type {string}
-      * @private
-      */
-      this.symbol_ = '';
-      /**
-      * @type {?myphysicslab.lab.util.Terminal}
-      * @private
-      */
-      this.terminal_ = null;
-    };
-    /**
-    @return {number}
-    */
-    getFooness() {
-      return this.fooness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooness(value) {
-      this.fooness_ = value;
-    };
-    /**
-    @return {number}
-    */
-    getFooBarness() {
-      return this.fooBarness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooBarness(value) {
-      this.fooBarness_ = value;
-    };
-    /** @override */
-    getName() { return ''; };
-    /** @override */
-    addObserver(observer) {};
-    /** @override */
-    removeObserver(observer) {};
-    /** @override */
-    getObservers() { return []; };
-    /** @override */
-    getParameters() { return []; };
-    /** @override */
-    getParameter(name) { throw new Error(); };
-    /** @override */
-    getParameterBoolean(name) { throw new Error(); };
-    /** @override */
-    getParameterNumber(name) { throw new Error(); };
-    /** @override */
-    getParameterString(name) { throw new Error(); };
-    /** @override */
-    broadcastParameter(name) {};
-    /** @override */
-    broadcast(event) {};
-    /** @override */
-    toStringShort() { return 'MockSubject1'; };
-  }
-  MockSubject1.FOONESS = 'FOONESS';
-  MockSubject1.FOOBARNESS = 'FOO_BARNESS';
   var mockSubj1 = new MockSubject1();
   assertEquals(0, mockSubj1.getFooness());
   assertEquals(0, mockSubj1.getFooBarness());
@@ -170,58 +161,55 @@ var testParameterNumber1 = function() {
 };
 goog.exportProperty(window, 'testParameterNumber1', testParameterNumber1);
 
+class MockSubject2 extends AbstractSubject {
+  constructor() {
+    super('MOCK');
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooness_ = 0;
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooBarness_ = 0;
+  };
+  /** @override */
+  getClassName() {
+    return 'MockSubject2';
+  };
+  /**
+  @return {number}
+  */
+  getFooness() {
+    return this.fooness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooness(value) {
+    this.fooness_ = value;
+  };
+  /**
+  @return {number}
+  */
+  getFooBarness() {
+    return this.fooBarness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooBarness(value) {
+    this.fooBarness_ = value;
+  };
+}
+/** @type {string} */
+MockSubject2.FOONESS = 'fooness';
+/** @type {string} */
+MockSubject2.FOOBARNESS = 'foo-barness';
 
 var testParameterNumber2 = function() {
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  class MockSubject2 extends AbstractSubject {
-    constructor() {
-      super('MOCK');
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooness_ = 0;
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooBarness_ = 0;
-    };
-    /** @override */
-    getClassName() {
-      return 'MockSubject2';
-    };
-    /**
-    @return {number}
-    */
-    getFooness() {
-      return this.fooness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooness(value) {
-      this.fooness_ = value;
-    };
-    /**
-    @return {number}
-    */
-    getFooBarness() {
-      return this.fooBarness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooBarness(value) {
-      this.fooBarness_ = value;
-    };
-  }
-  /** @type {string} */
-  MockSubject2.FOONESS = 'fooness';
-  /** @type {string} */
-  MockSubject2.FOOBARNESS = 'foo-barness';
   /** @type {!MockSubject2} */
   var mockSubj2 = new MockSubject2();
   assertEquals(0, mockSubj2.getFooness());
@@ -263,55 +251,53 @@ var testParameterNumber2 = function() {
 };
 goog.exportProperty(window, 'testParameterNumber2', testParameterNumber2);
 
+class MockSubject3 extends AbstractSubject {
+  constructor() {
+    super('MOCK');
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooness_ = 0;
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooBarness_ = 0;
+  };
+  /** @override */
+  getClassName() {
+    return 'MockSubject3';
+  };
+  /**
+  @return {number}
+  */
+  getFooness() {
+    return this.fooness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooness(value) {
+    this.fooness_ = value;
+  };
+  /**
+  @return {number}
+  */
+  getFooBarness() {
+    return this.fooBarness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooBarness(value) {
+    this.fooBarness_ = value;
+  };
+}
+MockSubject3.FOONESS = 'FOONESS';
+MockSubject3.FOOBARNESS = 'FOO_BARNESS';
+
 var testParameterNumber3 = function() {
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  class MockSubject3 extends AbstractSubject {
-    constructor() {
-      super('MOCK');
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooness_ = 0;
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooBarness_ = 0;
-    };
-    /** @override */
-    getClassName() {
-      return 'MockSubject3';
-    };
-    /**
-    @return {number}
-    */
-    getFooness() {
-      return this.fooness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooness(value) {
-      this.fooness_ = value;
-    };
-    /**
-    @return {number}
-    */
-    getFooBarness() {
-      return this.fooBarness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooBarness(value) {
-      this.fooBarness_ = value;
-    };
-  }
-  MockSubject3.FOONESS = 'FOONESS';
-  MockSubject3.FOOBARNESS = 'FOO_BARNESS';
   var mockSubj3 = new MockSubject3();
   assertEquals(0, mockSubj3.getFooness());
   assertEquals(0, mockSubj3.getFooBarness());
@@ -346,88 +332,86 @@ var testParameterNumber3 = function() {
 };
 goog.exportProperty(window, 'testParameterNumber3', testParameterNumber3);
 
+class MockSubject4 extends AbstractSubject {
+  constructor() {
+    super('MOCK');
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooness_ = 0.1;
+    /**
+    * @type {number}
+    * @private
+    */
+    this.fooBarness_ = 1000000;
+    /**
+    * @type {number}
+    * @private
+    */
+    this.baz_ = 0;
+  };
+  /** @override */
+  getClassName() {
+    return 'MockSubject4';
+  };
+  /**
+  @return {number}
+  */
+  getFooness() {
+    return this.fooness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooness(value) {
+    this.fooness_ = value;
+  };
+  /**
+  @return {number}
+  */
+  getFooBarness() {
+    return this.fooBarness_;
+  };
+  /**
+  @param {number} value
+  */
+  setFooBarness(value) {
+    this.fooBarness_ = value;
+  };
+  /**
+  @return {number}
+  */
+  getBaz() {
+    return this.baz_;
+  };
+  /**
+  @param {number} value
+  */
+  setBaz(value) {
+    this.baz_ = value;
+  };
+}
+MockSubject4.FOONESS = 'FOONESS';
+MockSubject4.FOOBARNESS = 'FOO_BARNESS';
+MockSubject4.BAZ = 'BAZ';
+
 // ParameterNumber with array of choices and values
 var testParameterNumber4 = function() {
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  class MockSubject2 extends AbstractSubject {
-    constructor() {
-      super('MOCK');
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooness_ = 0.1;
-      /**
-      * @type {number}
-      * @private
-      */
-      this.fooBarness_ = 1000000;
-      /**
-      * @type {number}
-      * @private
-      */
-      this.baz_ = 0;
-    };
-    /** @override */
-    getClassName() {
-      return 'MockSubject2';
-    };
-    /**
-    @return {number}
-    */
-    getFooness() {
-      return this.fooness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooness(value) {
-      this.fooness_ = value;
-    };
-    /**
-    @return {number}
-    */
-    getFooBarness() {
-      return this.fooBarness_;
-    };
-    /**
-    @param {number} value
-    */
-    setFooBarness(value) {
-      this.fooBarness_ = value;
-    };
-    /**
-    @return {number}
-    */
-    getBaz() {
-      return this.baz_;
-    };
-    /**
-    @param {number} value
-    */
-    setBaz(value) {
-      this.baz_ = value;
-    };
-  }
-  MockSubject2.FOONESS = 'FOONESS';
-  MockSubject2.FOOBARNESS = 'FOO_BARNESS';
-  MockSubject2.BAZ = 'BAZ';
-  /** @type {!MockSubject2} */
-  var mockSubj2 = new MockSubject2();
+  /** @type {!MockSubject4} */
+  var mockSubj2 = new MockSubject4();
 
   // make a parameter with choices and non-integer values
   var pi = Math.PI; //3.141592653589793;
   var e = Math.E; //2.718281828459045;
   var sqrt2 = Math.sqrt(2); //1.4142135623730951;
-  var paramFooness = new ParameterNumber(mockSubj2, MockSubject2.FOONESS,
-      MockSubject2.FOONESS,
+  var paramFooness = new ParameterNumber(mockSubj2, MockSubject4.FOONESS,
+      MockSubject4.FOONESS,
       goog.bind(mockSubj2.getFooness, mockSubj2),
       goog.bind(mockSubj2.setFooness, mockSubj2),
     ['pi', 'e', 'sqrt(2)'], [pi, e, sqrt2]);
   mockSubj2.addParameter(paramFooness);
-  assertEquals(MockSubject2.FOONESS, paramFooness.getName());
+  assertEquals(MockSubject4.FOONESS, paramFooness.getName());
   assertEquals(mockSubj2, paramFooness.getSubject());
   assertTrue(paramFooness instanceof ParameterNumber);
   // we can start with a non-allowed value
@@ -435,10 +419,10 @@ var testParameterNumber4 = function() {
   // set to a non-allowed value
   assertThrows(function() { paramFooness.setValue(10); });
   assertRoughlyEquals(0.1, paramFooness.getValue(), 1E-15);
-  assertEquals(paramFooness, mockSubj2.getParameter(MockSubject2.FOONESS));
-  assertEquals(paramFooness, mockSubj2.getParameterNumber(MockSubject2.FOONESS));
-  assertThrows(function() { mockSubj2.getParameterString(MockSubject2.FOONESS) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject2.FOONESS) });
+  assertEquals(paramFooness, mockSubj2.getParameter(MockSubject4.FOONESS));
+  assertEquals(paramFooness, mockSubj2.getParameterNumber(MockSubject4.FOONESS));
+  assertThrows(function() { mockSubj2.getParameterString(MockSubject4.FOONESS) });
+  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject4.FOONESS) });
   // check the list of choices/values
   assertEquals(3, paramFooness.getChoices().length);
   assertEquals(3, paramFooness.getValues().length);
@@ -455,15 +439,14 @@ var testParameterNumber4 = function() {
   paramFooness.setValue(Number(paramFooness.getValues()[2]));
   assertEquals(sqrt2, paramFooness.getValue());
 
-
   // make a parameter with choices and integer values
-  var paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
-      MockSubject2.FOOBARNESS,
+  var paramFooBar = new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
+      MockSubject4.FOOBARNESS,
       goog.bind(mockSubj2.getFooBarness, mockSubj2),
       goog.bind(mockSubj2.setFooBarness, mockSubj2),
       ['none', 'some', 'lots'], [0, 5, 1000]);
   mockSubj2.addParameter(paramFooBar);
-  assertEquals(MockSubject2.FOOBARNESS, paramFooBar.getName());
+  assertEquals(MockSubject4.FOOBARNESS, paramFooBar.getName());
   assertEquals(mockSubj2, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterNumber);
   // we can start with a non-allowed value
@@ -471,9 +454,9 @@ var testParameterNumber4 = function() {
   // set to a non-allowed value
   assertThrows(function() { paramFooBar.setValue(10); });
   assertEquals(1000000, paramFooBar.getValue());
-  assertEquals(paramFooBar, mockSubj2.getParameterNumber(MockSubject2.FOOBARNESS));
-  assertThrows(function() { mockSubj2.getParameterString(MockSubject2.FOONESS) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject2.FOONESS) });
+  assertEquals(paramFooBar, mockSubj2.getParameterNumber(MockSubject4.FOOBARNESS));
+  assertThrows(function() { mockSubj2.getParameterString(MockSubject4.FOONESS) });
+  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject4.FOONESS) });
   // check the list of choices/values
   assertEquals(3, paramFooBar.getChoices().length);
   assertEquals(3, paramFooBar.getValues().length);
@@ -492,23 +475,23 @@ var testParameterNumber4 = function() {
 
   // make a parameter with choices and integers
   var bazChoices = ['red', 'green', 'blue', 'black'];
-  var paramBaz = new ParameterNumber(mockSubj2, MockSubject2.BAZ,
-      MockSubject2.BAZ,
+  var paramBaz = new ParameterNumber(mockSubj2, MockSubject4.BAZ,
+      MockSubject4.BAZ,
       goog.bind(mockSubj2.getBaz, mockSubj2),
       goog.bind(mockSubj2.setBaz, mockSubj2),
       bazChoices, goog.array.range(bazChoices.length)
       );
   mockSubj2.addParameter(paramBaz);
-  assertEquals(MockSubject2.BAZ, paramBaz.getName());
+  assertEquals(MockSubject4.BAZ, paramBaz.getName());
   assertEquals(mockSubj2, paramBaz.getSubject());
   assertTrue(paramBaz instanceof ParameterNumber);
   assertEquals(0, paramBaz.getValue());
   // set to a non-allowed value
   assertThrows(function() { paramBaz.setValue(10); });
   assertEquals(0, paramBaz.getValue());
-  assertEquals(paramBaz, mockSubj2.getParameterNumber(MockSubject2.BAZ));
-  assertThrows(function() { mockSubj2.getParameterString(MockSubject2.BAZ) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject2.BAZ) });
+  assertEquals(paramBaz, mockSubj2.getParameterNumber(MockSubject4.BAZ));
+  assertThrows(function() { mockSubj2.getParameterString(MockSubject4.BAZ) });
+  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject4.BAZ) });
   // check the list of choices/values
   assertEquals(4, paramBaz.getChoices().length);
   assertEquals(4, paramBaz.getValues().length);
@@ -535,8 +518,8 @@ var testParameterNumber4 = function() {
 
   // check for exception when different number of choices and values
   assertThrows( function() {
-      new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
-      MockSubject2.FOOBARNESS,
+      new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
+      MockSubject4.FOOBARNESS,
       goog.bind(mockSubj2.getFooBarness, mockSubj2),
       goog.bind(mockSubj2.setFooBarness, mockSubj2),
       ['none', 'some', 'lots', 'too many'], [0, 5, 1000]);

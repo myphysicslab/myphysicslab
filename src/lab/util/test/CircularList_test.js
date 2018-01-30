@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.CircularList_test');
+goog.module('myphysicslab.lab.util.test.CircularList_test');
 
-goog.require('myphysicslab.lab.util.HistoryList');
-goog.require('myphysicslab.lab.util.HistoryIterator');
-goog.require('myphysicslab.lab.util.CircularList');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.Util');
+const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
+const HistoryIterator = goog.require('myphysicslab.lab.util.HistoryIterator');
+const CircularList = goog.require('myphysicslab.lab.util.CircularList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
 /*
@@ -52,11 +52,6 @@ goog.require('goog.testing.jsunit');
         ^
 */
 var testUtilCircularList1 = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-  const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
-  const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   /** @type {!HistoryList<!Vector>}*/
   var cList = new CircularList(10);
   var i, j;
@@ -210,13 +205,7 @@ var testUtilCircularList1 = function() {
 };
 goog.exportProperty(window, 'testUtilCircularList1', testUtilCircularList1);
 
-
 var testUtilCircularList2 = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-  const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
 
   // Test that CircularList will throw the MAX_INT_ERROR when the index number
   // exceeds the maximum representable integer.
@@ -263,14 +252,8 @@ var testUtilCircularList2 = function() {
 };
 goog.exportProperty(window, 'testUtilCircularList2', testUtilCircularList2);
 
-
 // test iterating backwards: start at end, go to previous points.
 var testUtilCircularList3 = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const CircularList = goog.module.get('myphysicslab.lab.util.CircularList');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const HistoryList = goog.module.get('myphysicslab.lab.util.HistoryList');
-  const HistoryIterator = goog.module.get('myphysicslab.lab.util.HistoryIterator');
   /** @type {!HistoryList<!Vector>}*/
   var cList = new CircularList(100);
   var i, j, vec;

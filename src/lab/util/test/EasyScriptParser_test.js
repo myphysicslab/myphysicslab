@@ -12,28 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.EasyScriptParser_test');
+goog.module('myphysicslab.lab.util.test.EasyScriptParser_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
-goog.require('myphysicslab.lab.model.ConcreteVariable');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.util.DoubleRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
+const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 goog.require('goog.testing.jsunit');
 
 var testEasyScript1 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-  const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
-  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-  const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   // Make several Subjects for EasyScriptParser to operate on:
   // a VarsList, and two SimViews.
   var var_names = [
@@ -229,8 +221,6 @@ var testEasyScript1 = function() {
 goog.exportProperty(window, 'testEasyScript1', testEasyScript1);
 
 var testEasyScript2 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
 
   // Test the EasyScriptParser.unquote() function:
   assertEquals('', EasyScriptParser.unquote("''"));

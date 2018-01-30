@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.AffineTransform_test');
+goog.module('myphysicslab.lab.util.test.AffineTransform_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.AffineTransform');
-
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 
 var testAffineTransform = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-  const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
 
   var tol = 1E-13;
   // identity

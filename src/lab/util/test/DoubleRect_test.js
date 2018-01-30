@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.DoubleRect_test');
+goog.module('myphysicslab.lab.util.test.DoubleRect_test');
 
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 goog.require('goog.testing.jsunit');
 
 var testDoubleRect = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
 
   var r1 = new DoubleRect(/*left=*/-5, /*bottom=*/-6, /*right=*/5, /*top=*/6);
   assertEquals(-5, r1.getLeft());

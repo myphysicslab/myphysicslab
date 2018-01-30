@@ -12,30 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.AbstractSubject_test');
+goog.module('myphysicslab.lab.util.test.AbstractSubject_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.AbstractSubject');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 goog.require('goog.testing.jsunit');
 
-var testAbstractSubject1 = function() {
-  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-  /**
-  @constructor
-  @extends {myphysicslab.lab.util.AbstractSubject}
-  */
-  var MockSubject1 = function() {
-    AbstractSubject.call(this, 'MOCK');
+class MockSubject1 extends AbstractSubject {
+  constructor() {
+    super('MOCK');
     /**
     * @type {number}
     * @private
@@ -52,52 +42,188 @@ var testAbstractSubject1 = function() {
     */
     this.qux_ = 'corge';
   };
-  goog.inherits(MockSubject1, AbstractSubject);
 
-  MockSubject1.FOONESS = 'FOONESS';
-  MockSubject1.FOOBARNESS = 'FOO_BARNESS';
-  MockSubject1.QUX = 'QUX';
   /** @override */
-  MockSubject1.prototype.getClassName = function() {
+  getClassName() {
     return 'MockSubject1';
   };
   /**
   @return {number}
   */
-  MockSubject1.prototype.getFooness = function() {
+  getFooness() {
     return this.fooness_;
   };
   /**
   @param {number} value
   */
-  MockSubject1.prototype.setFooness = function(value) {
+  setFooness(value) {
     this.fooness_ = value;
   };
   /**
   @return {boolean}
   */
-  MockSubject1.prototype.getFooBarness = function() {
+  getFooBarness() {
     return this.fooBarness_;
   };
   /**
   @param {boolean} value
   */
-  MockSubject1.prototype.setFooBarness = function(value) {
+  setFooBarness(value) {
     this.fooBarness_ = value;
   };
   /**
   @return {string}
   */
-  MockSubject1.prototype.getQux = function() {
+  getQux() {
     return this.qux_;
   };
   /**
   @param {string} value
   */
-  MockSubject1.prototype.setQux = function(value) {
+  setQux(value) {
     this.qux_ = value;
   };
+} // end class
+MockSubject1.FOONESS = 'FOONESS';
+MockSubject1.FOOBARNESS = 'FOO_BARNESS';
+MockSubject1.QUX = 'QUX';
 
+
+/**  Observer that counts number of times that parameters are changed or events fire.
+@implements {Observer}
+*/
+class MockObserver1 {
+  /**
+  * @param {!MockSubject1} mockSubj1
+  */
+  constructor(mockSubj1) {
+    /**
+    * @type {number}
+    */
+    this.numEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numBooleans = 0;
+    /**
+    * @type {number}
+    */
+    this.numDoubles = 0;
+    /**
+    * @type {number}
+    */
+    this.numStrings = 0;
+    /**
+    * @type {!MockSubject1}
+    */
+    this.mockSubj1 = mockSubj1;
+  };
+  observe(event) {
+    if (event instanceof GenericEvent) {
+      this.numEvents++;
+      assertEquals('FOOEVENT', event.getName());
+      assertTrue(event.nameEquals('fooevent'));
+      assertTrue(event instanceof GenericEvent);
+      assertEquals(this.mockSubj1, event.getSubject());
+    } else if (event instanceof ParameterBoolean) {
+      this.numBooleans++;
+      assertEquals('FOO_BARNESS', event.getName());
+      assertTrue(event.nameEquals('foo-barness'));
+      assertTrue(event instanceof ParameterBoolean);
+      assertEquals(this.mockSubj1, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isBoolean(val));
+    } else if (event instanceof ParameterNumber) {
+      this.numDoubles++;
+      assertEquals('FOONESS', event.getName());
+      assertTrue(event.nameEquals('fooness'));
+      assertTrue(event instanceof ParameterNumber);
+      assertEquals(this.mockSubj1, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isNumber(val));
+    } else if (event instanceof ParameterString) {
+      this.numStrings++;
+      assertEquals('QUX', event.getName());
+      assertTrue(event.nameEquals('qux'));
+      assertTrue(event instanceof ParameterString);
+      assertEquals(this.mockSubj1, event.getSubject());
+      assertTrue(goog.isString(event.getValue()));
+    }
+  };
+  toStringShort() {
+    return 'MockObserver1';
+  };
+} // end class
+
+/**  Observer that counts number of times that parameters are changed or events fire.
+@implements {Observer}
+*/
+class MockObserver2 {
+  /**
+  * @param {!MockSubject1} mockSubj1
+  */
+  constructor(mockSubj1) {
+    /**
+    * @type {number}
+    */
+    this.numEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numBooleans = 0;
+    /**
+    * @type {number}
+    */
+    this.numDoubles = 0;
+    /**
+    * @type {number}
+    */
+    this.numStrings = 0;
+    /**
+    * @type {!MockSubject1}
+    */
+    this.mockSubj1 = mockSubj1;
+  };
+  observe(event) {
+    if (event instanceof GenericEvent) {
+      this.numEvents++;
+      assertEquals('FOOEVENT', event.getName());
+      assertTrue(event.nameEquals('fooevent'));
+      assertTrue(event instanceof GenericEvent);
+      assertEquals(this.mockSubj1, event.getSubject());
+    } else if (event instanceof ParameterBoolean) {
+      // remove myself from observer list
+      this.mockSubj1.removeObserver(this);
+      this.numBooleans++;
+      assertEquals('FOO_BARNESS', event.getName());
+      assertTrue(event.nameEquals('foo-barness'));
+      assertTrue(event instanceof ParameterBoolean);
+      assertEquals(this.mockSubj1, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isBoolean(val));
+    } else if (event instanceof ParameterNumber) {
+      this.numDoubles++;
+      assertEquals('FOONESS', event.getName());
+      assertTrue(event.nameEquals('fooness'));
+      assertTrue(event instanceof ParameterNumber);
+      assertEquals(this.mockSubj1, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isNumber(val));
+    } else if (event instanceof ParameterString) {
+      this.numStrings++;
+      assertEquals('QUX', event.getName());
+      assertTrue(event.nameEquals('qux'));
+      assertTrue(event instanceof ParameterString);
+      assertEquals(this.mockSubj1, event.getSubject());
+      assertTrue(goog.isString(event.getValue()));
+    }
+  };
+  toStringShort() {
+    return 'MockObserver2';
+  };
+} // end class
+
+var testAbstractSubject1 = function() {
   var mockSubj1 = new MockSubject1();
   assertEquals(0, mockSubj1.getFooness());
   assertFalse(mockSubj1.getFooBarness());
@@ -153,64 +279,7 @@ var testAbstractSubject1 = function() {
   assertTrue(goog.array.contains(params, paramFoo));
   assertTrue(goog.array.contains(params, paramFooBar));
   assertTrue(goog.array.contains(params, paramQux));
-  /**  Observer that counts number of times that parameters are changed or events fire.
-  @constructor
-  @implements {Observer}
-  */
-  var MockObserver1 = function() {
-    /**
-    * @type {number}
-    */
-    this.numEvents = 0;
-    /**
-    * @type {number}
-    */
-    this.numBooleans = 0;
-    /**
-    * @type {number}
-    */
-    this.numDoubles = 0;
-    /**
-    * @type {number}
-    */
-    this.numStrings = 0;
-  };
-  MockObserver1.prototype.observe =  function(event) {
-    if (event instanceof GenericEvent) {
-      this.numEvents++;
-      assertEquals('FOOEVENT', event.getName());
-      assertTrue(event.nameEquals('fooevent'));
-      assertTrue(event instanceof GenericEvent);
-      assertEquals(mockSubj1, event.getSubject());
-    } else if (event instanceof ParameterBoolean) {
-      this.numBooleans++;
-      assertEquals('FOO_BARNESS', event.getName());
-      assertTrue(event.nameEquals('foo-barness'));
-      assertTrue(event instanceof ParameterBoolean);
-      assertEquals(mockSubj1, event.getSubject());
-      var val = event.getValue();
-      assertTrue(goog.isBoolean(val));
-    } else if (event instanceof ParameterNumber) {
-      this.numDoubles++;
-      assertEquals('FOONESS', event.getName());
-      assertTrue(event.nameEquals('fooness'));
-      assertTrue(event instanceof ParameterNumber);
-      assertEquals(mockSubj1, event.getSubject());
-      var val = event.getValue();
-      assertTrue(goog.isNumber(val));
-    } else if (event instanceof ParameterString) {
-      this.numStrings++;
-      assertEquals('QUX', event.getName());
-      assertTrue(event.nameEquals('qux'));
-      assertTrue(event instanceof ParameterString);
-      assertEquals(mockSubj1, event.getSubject());
-      assertTrue(goog.isString(event.getValue()));
-    }
-  };
-  MockObserver1.prototype.toStringShort = function() {
-    return 'MockObserver1';
-  };
-  var mockObsvr1 = new MockObserver1();
+  var mockObsvr1 = new MockObserver1(mockSubj1);
   assertEquals(0, mockObsvr1.numEvents);
   assertEquals(0, mockObsvr1.numBooleans);
   assertEquals(0, mockObsvr1.numDoubles);
@@ -256,69 +325,9 @@ var testAbstractSubject1 = function() {
   // mockObsvr1 should be unchanged
   assertEquals(3, mockObsvr1.numBooleans);
 
-  /**  Observer that counts number of times that parameters are changed or events fire.
-  @constructor
-  @implements {Observer}
-  */
-  var MockObserver2 = function() {
-    /**
-    * @type {number}
-    */
-    this.numEvents = 0;
-    /**
-    * @type {number}
-    */
-    this.numBooleans = 0;
-    /**
-    * @type {number}
-    */
-    this.numDoubles = 0;
-    /**
-    * @type {number}
-    */
-    this.numStrings = 0;
-  };
-  MockObserver2.prototype.observe =  function(event) {
-    if (event instanceof GenericEvent) {
-      this.numEvents++;
-      assertEquals('FOOEVENT', event.getName());
-      assertTrue(event.nameEquals('fooevent'));
-      assertTrue(event instanceof GenericEvent);
-      assertEquals(mockSubj1, event.getSubject());
-    } else if (event instanceof ParameterBoolean) {
-      // remove myself from observer list
-      mockSubj1.removeObserver(this);
-      this.numBooleans++;
-      assertEquals('FOO_BARNESS', event.getName());
-      assertTrue(event.nameEquals('foo-barness'));
-      assertTrue(event instanceof ParameterBoolean);
-      assertEquals(mockSubj1, event.getSubject());
-      var val = event.getValue();
-      assertTrue(goog.isBoolean(val));
-    } else if (event instanceof ParameterNumber) {
-      this.numDoubles++;
-      assertEquals('FOONESS', event.getName());
-      assertTrue(event.nameEquals('fooness'));
-      assertTrue(event instanceof ParameterNumber);
-      assertEquals(mockSubj1, event.getSubject());
-      var val = event.getValue();
-      assertTrue(goog.isNumber(val));
-    } else if (event instanceof ParameterString) {
-      this.numStrings++;
-      assertEquals('QUX', event.getName());
-      assertTrue(event.nameEquals('qux'));
-      assertTrue(event instanceof ParameterString);
-      assertEquals(mockSubj1, event.getSubject());
-      assertTrue(goog.isString(event.getValue()));
-    }
-  };
-  MockObserver2.prototype.toStringShort = function() {
-    return 'MockObserver2';
-  };
-
   // make a second observer, to test the claim that
   // "you can do removeObserver() during observe()"
-  var mockObsvr2 = new MockObserver2();
+  var mockObsvr2 = new MockObserver2(mockSubj1);
   mockSubj1.addObserver(mockObsvr2);
   mockSubj1.addObserver(mockObsvr1);
   assertEquals(2, mockSubj1.getObservers().length);

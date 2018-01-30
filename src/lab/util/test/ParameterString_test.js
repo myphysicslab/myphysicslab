@@ -12,25 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.ParameterString_test');
+goog.module('myphysicslab.lab.util.test.ParameterString_test');
 
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.Util');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const Util = goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
-
-var testParameterString1 = function() {
-  const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-
-  /**
-  @constructor
-  @extends {myphysicslab.lab.util.AbstractSubject}
-  */
-  var MockSubject2 = function() {
-    AbstractSubject.call(this, 'MOCK');
+class MockSubject2 extends AbstractSubject {
+  constructor() {
+    super('MOCK');
     /**
     * @type {string}
     * @private
@@ -42,38 +33,40 @@ var testParameterString1 = function() {
     */
     this.fooBarness_ = 'none';
   };
-  goog.inherits(MockSubject2, AbstractSubject);
 
-  MockSubject2.FOONESS = 'fooness';
-  MockSubject2.FOOBARNESS = 'foo-barness';
   /** @override */
-  MockSubject2.prototype.getClassName = function() {
+  getClassName() {
     return 'MockSubject2';
   };
   /**
   @return {string}
   */
-  MockSubject2.prototype.getFooness = function() {
+  getFooness() {
     return this.fooness_;
   };
   /**
   @param {string} value
   */
-  MockSubject2.prototype.setFooness = function(value) {
+  setFooness(value) {
     this.fooness_ = value;
   };
   /**
   @return {string}
   */
-  MockSubject2.prototype.getFooBarness = function() {
+  getFooBarness() {
     return this.fooBarness_;
   };
   /**
   @param {string} value
   */
-  MockSubject2.prototype.setFooBarness = function(value) {
+  setFooBarness(value) {
     this.fooBarness_ = value;
   };
+} // end class
+MockSubject2.FOONESS = 'fooness';
+MockSubject2.FOOBARNESS = 'foo-barness';
+
+var testParameterString1 = function() {
   /** @type {!MockSubject2} */
   var mockSubj2 = new MockSubject2();
   assertEquals('foo', mockSubj2.getFooness());

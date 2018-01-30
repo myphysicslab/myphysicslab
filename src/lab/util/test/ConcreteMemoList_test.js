@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.ConcreteMemoList_test');
+goog.module('myphysicslab.lab.util.test.ConcreteMemoList_test');
 
-goog.require('myphysicslab.lab.util.ConcreteMemoList');
-goog.require('myphysicslab.lab.util.GenericMemo');
-goog.require('myphysicslab.lab.util.MutableVector');
-goog.require('myphysicslab.lab.util.Util');
+const ConcreteMemoList = goog.require('myphysicslab.lab.util.ConcreteMemoList');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
+const Util = goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
 var testConcreteMemoList1 = function() {
-  const ConcreteMemoList = goog.module.get('myphysicslab.lab.util.ConcreteMemoList');
-  const GenericMemo = goog.module.get('myphysicslab.lab.util.GenericMemo');
-  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var vec1 = new MutableVector(1, 1);
   var memVec1 = MutableVector.clone(vec1);
   var vec2 = new MutableVector(2, 2);

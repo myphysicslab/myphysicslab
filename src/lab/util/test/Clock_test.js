@@ -12,105 +12,99 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.Clock_test');
+goog.module('myphysicslab.lab.util.test.Clock_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Clock');
-goog.require('myphysicslab.lab.util.ClockTask');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const Clock = goog.require('myphysicslab.lab.util.Clock');
+const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.jsunit');
 
-
 /**  Observer that counts number of times that parameters are changed or
 *    events fire.
-* @constructor
-* @final
-* @struct
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
-myphysicslab.lab.util.test.Clock_test.MockObserver1 = function() {
-  /**
-  * @type {number}
-  */
-  this.numEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numStartEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numStopEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numPauseEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numResumeEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numStepEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numSetTimeEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numBooleans = 0;
-  /**
-  * @type {number}
-  */
-  this.numDoubles = 0;
-  /**
-  * @type {number}
-  */
-  this.numStrings = 0;
-};
+class MockObserver1 {
+  constructor() {
+    /**
+    * @type {number}
+    */
+    this.numEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numStartEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numStopEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numPauseEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numResumeEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numStepEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numSetTimeEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numBooleans = 0;
+    /**
+    * @type {number}
+    */
+    this.numDoubles = 0;
+    /**
+    * @type {number}
+    */
+    this.numStrings = 0;
+  };
 
-myphysicslab.lab.util.test.Clock_test.MockObserver1.prototype.observe =  function(event) {
-  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-  if (event instanceof GenericEvent) {
-    const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-    this.numEvents++;
-    if (event.nameEquals(Clock.CLOCK_PAUSE)) {
-      this.numPauseEvents++;
-    } else if (event.nameEquals(Clock.CLOCK_RESUME)) {
-      this.numResumeEvents++;
-    } else if (event.nameEquals(Clock.CLOCK_STEP)) {
-      this.numStepEvents++;
-    } else if (event.nameEquals(Clock.CLOCK_SET_TIME)) {
-      this.numSetTimeEvents++;
-    } else {
-      fail('unknown event '+event.getName());
+  observe(event) {
+    if (event instanceof GenericEvent) {
+      this.numEvents++;
+      if (event.nameEquals(Clock.CLOCK_PAUSE)) {
+        this.numPauseEvents++;
+      } else if (event.nameEquals(Clock.CLOCK_RESUME)) {
+        this.numResumeEvents++;
+      } else if (event.nameEquals(Clock.CLOCK_STEP)) {
+        this.numStepEvents++;
+      } else if (event.nameEquals(Clock.CLOCK_SET_TIME)) {
+        this.numSetTimeEvents++;
+      } else {
+        fail('unknown event '+event.getName());
+      }
+    } else if (event instanceof ParameterBoolean) {
+      this.numBooleans++;
+      this.numEvents++;
+    } else if (event instanceof ParameterNumber) {
+      this.numDoubles++;
+      this.numEvents++;
+    } else if (event instanceof ParameterString) {
+      this.numStrings++;
+      this.numEvents++;
     }
-  } else if (event instanceof ParameterBoolean) {
-    this.numBooleans++;
-    this.numEvents++;
-  } else if (event instanceof ParameterNumber) {
-    this.numDoubles++;
-    this.numEvents++;
-  } else if (event instanceof ParameterString) {
-    this.numStrings++;
-    this.numEvents++;
-  }
-};
+  };
 
-myphysicslab.lab.util.test.Clock_test.MockObserver1.prototype.toStringShort = function() {
-  return 'MockObserver1';
-};
+  toStringShort() {
+    return 'MockObserver1';
+  };
+} // end class
+
 /*
 stage    system     clock    real    expect  period  events  fired  running?  firing?
 1   initial state
@@ -163,8 +157,6 @@ stage    system     clock    real    expect  period  events  fired  running?  fi
         0.430        0.255   0.280   0.470     40     15      7      n        y
 */
 var testClock1 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
   var tol = 1E-14;
 
   var mockClock = new goog.testing.MockClock();
@@ -173,7 +165,7 @@ var testClock1 = function() {
     mockClock.install();
 
     var myClock = new Clock();
-    var mockObsvr1 = new myphysicslab.lab.util.test.Clock_test.MockObserver1();
+    var mockObsvr1 = new MockObserver1();
     // add the observer to the subject
     myClock.addObserver(mockObsvr1);
 
@@ -417,7 +409,6 @@ var testClock1 = function() {
     assertRoughlyEquals(0.280, myClock.getRealTime(), tol);
     assertFalse(myClock.isRunning());
 
-
   } finally {
     Util.MOCK_CLOCK = true;
     mockClock.uninstall();
@@ -459,8 +450,6 @@ stage     system     clock    real    expect  period  events  fired  rate
 */
 // tests changing time rateClock
 var testClock2 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
   var tol = 1E-14;
 
   var mockClock = new goog.testing.MockClock();
@@ -469,7 +458,7 @@ var testClock2 = function() {
     mockClock.install();
 
     var myClock = new Clock();
-    var mockObsvr1 = new myphysicslab.lab.util.test.Clock_test.MockObserver1();
+    var mockObsvr1 = new MockObserver1();
     // add the observer to the subject
     myClock.addObserver(mockObsvr1);
 
@@ -632,9 +621,6 @@ goog.exportProperty(window, 'testClock2', testClock2);
 
 // test that ClockTasks are executed at proper times.
 var testClock3 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Clock = goog.module.get('myphysicslab.lab.util.Clock');
-  const ClockTask = goog.module.get('myphysicslab.lab.util.ClockTask');
   var tol = 1E-3;
 
   var mockClock = new goog.testing.MockClock();

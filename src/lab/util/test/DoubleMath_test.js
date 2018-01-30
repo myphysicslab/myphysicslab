@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.DoubleMath_test');
+goog.module('myphysicslab.lab.util.test.DoubleMath_test');
 
-goog.require('myphysicslab.lab.util.DoubleMath');
-goog.require('myphysicslab.lab.util.Util');
+const DoubleMath = goog.require('myphysicslab.lab.util.DoubleMath');
+const Util = goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 
 var testDoubleMath = function() {
   var n, s;
-  var DoubleMath = goog.module.get('myphysicslab.lab.util.DoubleMath');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   assertEquals(s = '3FF0000000000000', DoubleMath.numToHex(n = 1));
   assertEquals(n, DoubleMath.hexToNum(s));
   assertEquals(s = '3FF0000000000001', DoubleMath.numToHex(n = 1.0000000000000002));

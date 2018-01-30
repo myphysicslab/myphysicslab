@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.Terminal_test');
+goog.module('myphysicslab.lab.util.test.Terminal_test');
 
 goog.require('goog.array');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Terminal');
-goog.require('myphysicslab.lab.util.EasyScriptParser');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
+const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
 goog.require('goog.testing.jsunit');
 
 var testTerminal1 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
@@ -50,7 +48,6 @@ var testTerminal1 = function() {
   t.eval('z.a');
   assertEquals('> z.a\n1\n', output_elem.value);
   // Test that semicolons inside strings or braces don't break up the command
-  debugger;
   assertTrue(t.eval('Util.toName("foo;")=="FOO;"'));
   assertEquals(6, t.eval('{1;2;3+3}'));
   assertEquals(3, t.eval('{1;{2;3}}'));
@@ -82,9 +79,6 @@ var testTerminal1 = function() {
 goog.exportProperty(window, 'testTerminal1', testTerminal1);
 
 var testTerminal2 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
-  const EasyScriptParser = goog.module.get('myphysicslab.lab.util.EasyScriptParser');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
@@ -168,8 +162,6 @@ var testTerminal2 = function() {
 goog.exportProperty(window, 'testTerminal2', testTerminal2);
 
 var testTerminal3 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
@@ -258,8 +250,6 @@ var testTerminal3 = function() {
 goog.exportProperty(window, 'testTerminal3', testTerminal3);
 
 var testTerminal4 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
 
   if (Util.ADVANCED) {
     // Terminal.eval doesn't work under advanced-compile.
@@ -294,8 +284,6 @@ var testTerminal4 = function() {
 goog.exportProperty(window, 'testTerminal4', testTerminal4);
 
 var testTerminal5 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   // static Terminal methods do work under advanced-compile
   // test blacklist. These are variant spellings of "window".
   // to do: Possible closure compiler issue: had to move these static tests to a
@@ -322,10 +310,7 @@ var testTerminal5 = function() {
 };
 goog.exportProperty(window, 'testTerminal5', testTerminal5);
 
-
 var testTerminal6 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
@@ -346,8 +331,6 @@ goog.exportProperty(window, 'testTerminal6', testTerminal6);
 
 // test of vetBrackets: when square brackets are allowed or prohibited.
 var testTerminal7 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;
@@ -385,8 +368,6 @@ goog.exportProperty(window, 'testTerminal7', testTerminal7);
 // tests handling of regex and strings by Terminal.expand()
 // and Terminal.splitAtSemicolon().
 var testTerminal8 = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Terminal = goog.module.get('myphysicslab.lab.util.Terminal');
   if (Util.ADVANCED) {
     // Terminal doesn't work under advanced-compile.
     return;

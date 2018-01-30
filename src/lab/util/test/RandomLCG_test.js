@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.RandomLCG_test');
+goog.module('myphysicslab.lab.util.test.RandomLCG_test');
 
-goog.require('myphysicslab.lab.util.RandomLCG');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 goog.require('goog.testing.jsunit');
 
 var testRandom1 = function() {
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 
   var exp = [1013904223, 1196435762, 3519870697, 2868466484, 1649599747, 2670642822,
   1476291629, 2748932008, 2180890343, 2498801434, 3421909937, 3167820124, 2636375307,
@@ -47,7 +46,6 @@ var testRandom1 = function() {
 goog.exportProperty(window, 'testRandom1', testRandom1);
 
 var testRandom2 = function() {
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
 
   var exp = [99, 56, 96, 26, 34, 96, 61, 2, 51, 37, 90, 26, 76, 69, 44, 57, 97, 32,
   50, 83, 53, 86, 99, 11, 66, 93, 8, 36, 94, 73, 13, 9, 64, 1, 99, 60, 15, 49, 75,

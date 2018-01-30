@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.util.test.Util_test');
+goog.module('myphysicslab.lab.util.test.Util_test');
 
-goog.require('myphysicslab.lab.util.Util');
 goog.require('goog.testing.jsunit');
 goog.require('goog.asserts');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 var testUtil = function() {
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-
   // the default tolerance is 1E-14, so large and small numbers should differ
   // at about the 14th decimal place
   assertTrue(Util.veryDifferent(2E-14, 3.1E-14));
