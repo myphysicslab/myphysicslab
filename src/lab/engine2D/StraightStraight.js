@@ -12,38 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.StraightStraight');
+goog.module('myphysicslab.lab.engine2D.StraightStraight');
 
-goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.engine2D.UtilityCollision');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-
-goog.scope(function() {
-
-const EdgeEdgeCollision = goog.module.get('myphysicslab.lab.engine2D.EdgeEdgeCollision');
-const RigidBodyCollision = goog.module.get('myphysicslab.lab.engine2D.RigidBodyCollision');
-const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-const UtilityCollision = goog.module.get('myphysicslab.lab.engine2D.UtilityCollision');
-const Util = goog.module.get('myphysicslab.lab.util.Util');
-const Vector = goog.module.get('myphysicslab.lab.util.Vector');
+const EdgeEdgeCollision = goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
+const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Provides static functions for handling interactions between two
 {@link myphysicslab.lab.engine2D.StraightEdge StraightEdges}.
 
 NOTE: This class is not currently being used!  Because StraightEdges cannot have
 edge-edge collisions, only vertex-edge or vertex-vertex collisions.
-@constructor
-@final
-@struct
+*/
+class StraightStraight {
+/**
 @private
 */
-myphysicslab.lab.engine2D.StraightStraight = function() {
+constructor() {
   throw new Error();
 };
-var StraightStraight = myphysicslab.lab.engine2D.StraightStraight;
 
 /** Returns intersection point of the two StraightEdges.
 * @param {!myphysicslab.lab.engine2D.StraightEdge} edge1
@@ -51,7 +41,7 @@ var StraightStraight = myphysicslab.lab.engine2D.StraightStraight;
 * @return {?Vector} intersection point or null if no intersection
 * @private
 */
-StraightStraight.intersect = function(edge1, edge2) {
+static intersect(edge1, edge2) {
   var body1 = edge1.getBody();
   var body2 = edge2.getBody();
   var e1v1 = edge1.getVertex1();
@@ -70,7 +60,7 @@ positions and velocities of the RigidBodys.
 * @param {!myphysicslab.lab.engine2D.StraightEdge} edge1
 * @param {!myphysicslab.lab.engine2D.StraightEdge} edge2
 */
-StraightStraight.improveAccuracy = function(rbc, edge1, edge2) {
+static improveAccuracy(rbc, edge1, edge2) {
   var edge1Body = edge1.getBody();
   var edge2Body = edge2.getBody();
   goog.asserts.assert( rbc.getPrimaryBody() == edge1Body);
@@ -135,7 +125,7 @@ StraightStraight.improveAccuracy = function(rbc, edge1, edge2) {
 * @param {!myphysicslab.lab.engine2D.StraightEdge} edge2
 * @param {number} time current simulation time
 */
-StraightStraight.testCollision = function(collisions, edge1, edge2, time) {
+static testCollision(collisions, edge1, edge2, time) {
   if (UtilityCollision.DISABLE_EDGE_EDGE)
     return;
   var pt = StraightStraight.intersect(edge1, edge2);
@@ -152,7 +142,7 @@ StraightStraight.testCollision = function(collisions, edge1, edge2, time) {
 * @param {number} time current simulation time
 * @private
 */
-StraightStraight.addCollision = function(collisions, edge1, edge2, pt, time) {
+static addCollision(collisions, edge1, edge2, pt, time) {
   var rbc = new EdgeEdgeCollision(edge1, edge2);
   rbc.ballNormal = false;
   rbc.ballObject = false;
@@ -164,7 +154,9 @@ StraightStraight.addCollision = function(collisions, edge1, edge2, pt, time) {
   rbc.normal = edge2.getBody().rotateBodyToWorld(edge2.getNormalBody(pt));
   rbc.setDetectedTime(time);
   UtilityCollision.addCollision(collisions, rbc);
-  console.log('StraightStraight.addCollision '+rbc);
+  //console.log('StraightStraight.addCollision '+rbc);
 };
 
-}); // goog.scope
+} //end class
+
+exports = StraightStraight;
