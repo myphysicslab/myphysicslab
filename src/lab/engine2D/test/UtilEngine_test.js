@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.test.UtilEngine_test');
+goog.module('myphysicslab.lab.engine2D.test.UtilEngine_test');
 
 goog.require('goog.asserts');
 goog.require('goog.testing.jsunit');
 goog.require('goog.vec.Float64Array');
-goog.require('myphysicslab.lab.engine2D.ComputeForces');
-goog.require('myphysicslab.lab.engine2D.UtilEngine');
-goog.require('myphysicslab.lab.util.RandomLCG');
-goog.require('myphysicslab.lab.util.Util');
+const ComputeForces = goog.require('myphysicslab.lab.engine2D.ComputeForces');
+const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /* Check that double arithmetic behaves the expected ways.
 See Java Floating-Point Number Intricacies by Thomas Wang, March 2000
@@ -76,9 +77,6 @@ var testNumericalBug1 = function() {
 };
 
 var testRandomInts = function() {
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var i;
   // 2 arrays of random ints should be different
   var prng = new RandomLCG(6473275);
@@ -108,7 +106,6 @@ Here is the mathematica solution:
 {0.000579228, 0.139932, -0.112466, 26544.3, -26544.3, 0.129809, -1.02402, 0.0233028, 79632.8, -79632.8, 0.00878981, 0.0061003, 0.00125071, 0.0263103, -0.682809, 0.0300069, 0.104119}
 */
 var testRedundantMatrix3 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var i, j;
   var n = 17;
   var a = [
@@ -152,9 +149,7 @@ var testRedundantMatrix3 = function() {
 };
 goog.exportProperty(window, 'testRedundantMatrix3', testRedundantMatrix3);
 
-
 var testRedundantMatrix4 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
     2.7831878, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.1081068, 0, 0, 0, 0,
     0, 3.7002506, -1.6999999, 0, 0, 0, 0, 0, 0, 0, 0, 1.3237512, 0, 0, 0,
@@ -181,13 +176,11 @@ var testRedundantMatrix4 = function() {
 };
 goog.exportProperty(window, 'testRedundantMatrix4', testRedundantMatrix4);
 
-
 /*
 This matrix caught a problem in matrix solving, where I was using too small of a
 value for testing whether a pivot in the matrix was zero.  May 11 2011.
 */
 var testRedundantMatrix5 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
     2.7795861, 0, 0, 0, 0, 0, 0, 0, -0.9528866, 0.1061772, -0.1117673, 0,
      0, 0, 0, -0, 0, 3.700137, -1.7, 0, 0, 0, 0, 0, 1.259836, 0, 0,
@@ -229,7 +222,6 @@ goog.exportProperty(window, 'testRedundantMatrix5', testRedundantMatrix5);
 (May 2013:  I guess that means the tolerance passed to matrixSolve?)
 */
 var testRedundantMatrix6 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
 3.70010194720032, -1.6999999903751832, 0, 0, 0, 0, 0, 0, -0.8998890165420942, -1.77200233034648, 0.4940241310921793, 0, 0, 0, 0, 0, -0,
 -1.6999999903751832, 3.6998980373999726, 0, 0, 0, 0, 0, 0, 0.8998844014814961, -0.2280268175322451, -0.4941187576462762, 0, 0, 0, 0, 0, -0,
@@ -259,9 +251,7 @@ var testRedundantMatrix6 = function() {
 };
 goog.exportProperty(window, 'testRedundantMatrix6', testRedundantMatrix6);
 
-
 var testRedundantMatrix7 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
     3.6974923776779236, -1.6999941991396543, 0, 0, 0, 0, 0, 0, -0.8990570561135972, 1.6967629614324449, 0.4759223607581712, 0, 0, 0, 0, 0, 0, -0,
     -1.6999941991396543, 3.702498340945523, 0, 0, 0, 0, 0, 0, 0.8971085142255755, -3.6992634550637478, -0.4735813775528715, 0, 0, 0, 0, 0, 0, -0,
@@ -293,7 +283,6 @@ var testRedundantMatrix7 = function() {
 goog.exportProperty(window, 'testRedundantMatrix7', testRedundantMatrix7);
 
 var testRedundantMatrix8 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
       3.699900499932072, -1.6999999908344403, 0, 0, 0, 0, 0, 0, 0, 0.899839223244678, 1.6986878768332623, 0.4884437738078804, 0, 0, 0, 0, 0, -0,
       -1.6999999908344403, 3.7000994854030322, 0, 0, 0, 0, 0, 0, 0, -0.8999829316972552, -3.6987855127777705, -0.4883512233620975, 0, 0, 0, 0, 0, -0,
@@ -324,14 +313,12 @@ var testRedundantMatrix8 = function() {
 };
 goog.exportProperty(window, 'testRedundantMatrix8', testRedundantMatrix8);
 
-
 /** This matrix occurred on Aug 20 2011 in ContactTest, with six blocks resting on the
 floor. It caused a problem with the matrix solver, which has been solved. See the test
 {@link myphysicslab.test.StraightStraightTest#six_blocks_11},
 which is where this matrix came from.
 */
 var testRedundantMatrix9 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
       2.884788914934762, -0.4908891516982347, -0.5392791553437065, 0.4194142399376012, -0.4193991545308258, -2.2582186908325808, 0.2582214925726989, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0,
       -0.4908891516982346, 3.0140128092800715, 0.6046112861037997, 0, 0, 0, 0, 0, 0, 0, 0, 0.8217046091839957, -2.422668819683555, 0, 0, 0, 0, 0, -0,
@@ -363,12 +350,10 @@ var testRedundantMatrix9 = function() {
 };
 goog.exportProperty(window, 'testRedundantMatrix9', testRedundantMatrix9);
 
-
 /** This matrix occurred on Aug 24 2011 in PolygonTest, with multiple shapes resting
 on the floor.
 */
 var testRedundantMatrix10 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
       2.1865166979865847, -0.0215396751014439, 0.0220271511411966, -0.0217713199944046, -0.000105975801523, -0.9891708035070803, -0.3427241601957276, 0.185686498254954, -0.1861364526269131, 0, 0, 0, 0, 0, 0, -0,
       -0.0215396751014439, 7.073409102180113, -1.2757615772836437, 1.3864623270581653, -1.0001278257247672, -1.1928044457508398, 0, -1.4567128591697207, 0, 0, 0, 0, 0, 0, 0, -0,
@@ -408,7 +393,6 @@ goog.exportProperty(window, 'testRedundantMatrix10', testRedundantMatrix10);
 * @type {function() : !Array<!Float64Array>}
 */
 var makeMatrix11 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
     5.24025764299373, 0, 0, 0, 0, 0, 0, 0, 0, -2.615501943799582, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 5.368078595488846, 0, 0, 0, 0,
@@ -474,7 +458,6 @@ explain why it is sensitive to the matrixSolve tolerance, and why the solution x
 A .x = b has such large numbers.
 */
 var testMatrix11 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var A = makeMatrix11();
   var b = makeBVector11();
   var x = new Array(A.length);
@@ -498,10 +481,6 @@ goog.exportProperty(window, 'testMatrix11', testMatrix11);
 Checks that various contact ordering policies find a valid solution.
 */
 var testMatrix11_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix11_CF ***');
@@ -552,12 +531,10 @@ var testMatrix11_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix11_CF', testMatrix11_CF);
 
-
 /**
 * @type {function() : !Array<!Float64Array>}
 */
 var makeMatrix12 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
 3.040694642274648, 0, 0, 0.01709055530317863, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.17854656770013483, 0, 0, 0, 0, 0, 0, 0, -0.5950357471205004, 0, -3.0390160802451973, 0, 0, 0, 0, -0.6937593926545077, 0, -0.7269641453882664, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.1797929927395687,
 0, 7.297331768240345, 0, 0, 0, 0, 0.1009238030787658, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.568314678505832, 0, -0.10048587507901019, 0, 0, 0, 0, 1.5853009221352987, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -621,7 +598,6 @@ tolerance 1e-12. This matrix is singular, which helps explain why it is sensitiv
 the matrixSolve tolerance, and why the solution x, in A x = b has such large numbers
 */
 var testMatrix12 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var A = makeMatrix12();
   var b = makeBVector12();
   var x = new Array(A.length);
@@ -651,10 +627,6 @@ Note that in the specific ordering there are a couple cases where we do
 between C/NC while driving a particular contact to zero.
 */
 var testMatrix12_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix12_CF ***');
@@ -714,12 +686,10 @@ var testMatrix12_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix12_CF', testMatrix12_CF);
 
-
 /** For this matrix, tolerance 1E-14 fails, but a bigger tolerance of 1E-12 succeeds.
 This matrix is from DoNothingGrinder, on Nov 29 2011.
 */
 var testMatrix13 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
       1.0830295556083844, 0.5366085787025969, 0, 0, -1.4633914212974029, -0.000000000000007228,
       0.5366085787025969, 3.5862068965517095, 0, 0, 1.5862068965517095, 0,
@@ -745,14 +715,12 @@ var testMatrix13 = function() {
 };
 goog.exportProperty(window, 'testMatrix13', testMatrix13);
 
-
 /** For this matrix, tolerance 1E-10 fails, but a bigger tolerance of 1E-9 succeeds.
 With tolerance 1E-10, the error is 0.000007629, but with tolerance 1E-9 error is
 7.99097e-11.
 This matrix is from DoNothingGrinder, on Nov 29 2011.
 */
 var testMatrix14 = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
   var a = [
       3.586206896147961, 0, 0, -3.586206896551724, 0, -1,
       0, 3.5862068965517238, -1.5862068965517238, 0, 0, 0,
@@ -778,7 +746,6 @@ var testMatrix14 = function() {
 };
 goog.exportProperty(window, 'testMatrix14', testMatrix14);
 
-
 /** From DoNothingGrinder, this is a matrix that can be solved two different ways,
 with max force either 7.60 or 225.9, depending on the order that the contacts are
 treated.
@@ -787,10 +754,6 @@ order does not find a lower force.
 Update May 2013: all the solutions seem to be the maxForce = 7.60 now.
 */
 var testMatrix15_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix15_CF ***');
@@ -877,18 +840,12 @@ var testMatrix15_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix15_CF', testMatrix15_CF);
 
-
-
 /** From DoNothingGrinder, this is a matrix that can be solved two different ways,
 with max force either 3.033 or 3.588 or 234, depending on the order that the contacts
 are treated. Checks that the default policy finds the minimum force, and that random
 contact order does not find a lower force.
 */
 var testMatrix16_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix16_CF ***');
@@ -975,7 +932,6 @@ var testMatrix16_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix16_CF', testMatrix16_CF);
 
-
 /** From DoNothingGrinder, this is a matrix that can be solved two different ways,
 with max force either 49 or 54 or 179 or 338, depending on the order that the contacts
 are treated. Checks that the default policy finds the minimum force, and that random
@@ -986,10 +942,6 @@ always get a maxForce of 49.32. But with ComputeForces.SINGULAR_MATRIX_LIMIT = 2
 get many cases where maxForce is 54 or 179.
 */
 var testMatrix17_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix17_CF ***');
@@ -1084,17 +1036,12 @@ var testMatrix17_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix17_CF', testMatrix17_CF);
 
-
 /** From DoNothingGrinder, this is a matrix that can be solved two different ways,
 with max force either 1.48 or 1.13, depending on the what contact ordering policy is
 used. Checks that the default contact ordering policy finds the minimum force, and
 that random contact order does not find a lower force.
 */
 var testMatrix18_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix18_CF ***');
@@ -1190,10 +1137,6 @@ that random contact order does not find a lower force.
 of 135701.
 */
 var testMatrix19_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix19_CF ***');
@@ -1287,7 +1230,6 @@ var testMatrix19_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix19_CF', testMatrix19_CF);
 
-
 /** From DoNothingGrinder, this is a matrix that can be solved two different ways,
 with max force either 6.4 or 1.9, depending on the what contact ordering policy
 is used.
@@ -1295,10 +1237,6 @@ Checks that the default contact ordering policy finds the minimum force, and
 that random contact order does not find a lower force.
 */
 var testMatrix20_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix20_CF ***');
@@ -1391,10 +1329,6 @@ Checks that the default contact ordering policy finds the minimum force, and
 that random contact order does not find a lower force.
 */
 var testMatrix21_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix21_CF ***');
@@ -1489,19 +1423,12 @@ var testMatrix21_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix21_CF', testMatrix21_CF);
 
-
-
-
 /** Test of finding contact force in Pile simulation (random seed 3 num blocks 12).
 Shows that the minAccel policy does not find the smallest force, it finds
 maxForce = 10.83, length=25.48, but a randomly selected order gets
 maxForce=9.46, length = 24.00.
 */
 var testMatrix22_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix22_CF ***');
@@ -1686,15 +1613,10 @@ var testMatrix22_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix22_CF', testMatrix22_CF);
 
-
 /** Test of finding contact force in Pile simulation (random seed 4 num blocks 12).
 Max force is 16.588.
 */
 var testMatrix23_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix23_CF ***');
@@ -1811,18 +1733,12 @@ var testMatrix23_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix23_CF', testMatrix23_CF);
 
-
-
 /** Test of finding contact force in Pile simulation also containing 2 blocks
   connected by joints. In this case only 2 of the 4 joints go into C initially, 2 into
   NC, but then later one of the joints is pushed from NC to C.
   Max force is 15.46.
 */
 var testMatrix24_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix24_CF ***');
@@ -1908,7 +1824,6 @@ var testMatrix24_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix24_CF', testMatrix24_CF);
 
-
 /** Test of finding contact force in DoNothingGrinder. This happens at 52.225 seconds,
 with the constantly rotating force on the handle. Previously there was a failure to
 find a solution, but this has been fixed by improving the 'detect singular matrix'
@@ -1925,10 +1840,6 @@ of 960, when we allow poorly conditioned matrices with the test for a singular m
 allowing diagonal entries as small as 0.0016.
 */
 var testMatrix25_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix25_CF ***');
@@ -2015,16 +1926,11 @@ var testMatrix25_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix25_CF', testMatrix25_CF);
 
-
 /**  Matrix from two-connected-blocks (in Pile sim) which after a lot of spinning
 the joints have separated by 2.2E-3 and ComputeForces is complaining about
 a singular matrix and not being able to get all contact accelerations to zero.
 */
 var testMatrix26_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix26_CF ***');
@@ -2081,16 +1987,11 @@ var testMatrix26_CF = function() {
 };
 goog.exportProperty(window, 'testMatrix26_CF', testMatrix26_CF);
 
-
 /**  Matrix from DoNothingGrinder accelerating with constant force to very
 fast rotation.  This matrix triggers the infinite loop detection in ComputeForces,
 see {@link myphysicslab.lab.engine2D.ComputeForces#checkLoop}.
 */
 var testMatrix27_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix27_CF ***');
@@ -2161,8 +2062,6 @@ goog.exportProperty(window, 'testMatrix27_CF', testMatrix27_CF);
 /**  Test of a situation where a diagonal line is going almost thru corner of a square block.
 */
 var testLinesIntersect = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   // p1 to p2 is horizontal edge
   var p1 = new Vector(3.5355339059327378, 0.5);
   var p2 = new Vector(-3.5355339059327378, 0.5);
@@ -2189,10 +2088,6 @@ forces.  However the test for singular matrix is not really correct, so we can't
 rely on that.
 */
 var testMatrix28_CF = function() {
-  const UtilEngine = goog.module.get('myphysicslab.lab.engine2D.UtilEngine');
-  const RandomLCG = goog.module.get('myphysicslab.lab.util.RandomLCG');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const ComputeForces = goog.module.get('myphysicslab.lab.engine2D.ComputeForces');
   var VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix28_CF ***');

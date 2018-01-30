@@ -12,21 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.test.StraightEdge_test');
+goog.module('myphysicslab.lab.engine2D.test.StraightEdge_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.StraightEdge');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 var testStraightEdge1 = function() {
-  const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-  const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-  const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
 
   var poly1 = new Polygon('test1');
   var vertex1 = new ConcreteVertex(new Vector(0, 0));

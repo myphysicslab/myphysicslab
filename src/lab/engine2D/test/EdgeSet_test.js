@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.test.EdgeSet_test');
+goog.module('myphysicslab.lab.engine2D.test.EdgeSet_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.engine2D.EdgeGroup');
-goog.require('myphysicslab.lab.engine2D.EdgeRange');
-goog.require('myphysicslab.lab.engine2D.EdgeSet');
-goog.require('myphysicslab.lab.engine2D.Shapes');
+const EdgeGroup = goog.require('myphysicslab.lab.engine2D.EdgeGroup');
+const EdgeRange = goog.require('myphysicslab.lab.engine2D.EdgeRange');
+const EdgeSet = goog.require('myphysicslab.lab.engine2D.EdgeSet');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 
 var testEdgeSet1 = function() {
-  var EdgeGroup = goog.module.get('myphysicslab.lab.engine2D.EdgeGroup');
-  var EdgeSet = goog.module.get('myphysicslab.lab.engine2D.EdgeSet');
-  var EdgeRange = goog.module.get('myphysicslab.lab.engine2D.EdgeRange');
-  const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
 
   var body1 = Shapes.makeBlock(1, 1);
   var body2 = Shapes.makeBall(0.5);

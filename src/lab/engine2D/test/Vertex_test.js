@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.test.Vertex_test');
+goog.module('myphysicslab.lab.engine2D.test.Vertex_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 var testVertex1 = function() {
-  const ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var vec1 = new Vector(2, 1);
   var vertex1 = new ConcreteVertex(vec1, /*endPoint=*/true);
   assertEquals(vec1, vertex1.locBody());

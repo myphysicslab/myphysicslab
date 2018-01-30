@@ -12,22 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.test.CircularEdge_test');
+goog.module('myphysicslab.lab.engine2D.test.CircularEdge_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.engine2D.CircularEdge');
-goog.require('myphysicslab.lab.engine2D.Polygon');
-goog.require('myphysicslab.lab.engine2D.Vertex');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
+const CircularEdge = goog.require('myphysicslab.lab.engine2D.CircularEdge');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 
 var testCircularEdge1 = function() {
-  var ConcreteVertex = goog.module.get('myphysicslab.lab.engine2D.ConcreteVertex');
-  var CircularEdge = goog.module.get('myphysicslab.lab.engine2D.CircularEdge');
-  const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var vec2 = new Vector(2, 0);
   var vertex2 = new ConcreteVertex(vec2, /*endPoint=*/true);
   var poly1 = new Polygon('test1');

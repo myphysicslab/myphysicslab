@@ -12,35 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.engine2D.test.RigidBodySim_test');
+goog.module('myphysicslab.lab.engine2D.test.RigidBodySim_test');
 
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.engine2D.RigidBody');
-goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-goog.require('myphysicslab.lab.engine2D.Shapes');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.VarsList');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.engine2D.Polygon');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
+const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 var testRigidBodySim1 = function() {
-  const Polygon = goog.module.get('myphysicslab.lab.engine2D.Polygon');
-  const RigidBody = goog.module.get('myphysicslab.lab.engine2D.RigidBody');
-  const Shapes = goog.module.get('myphysicslab.lab.engine2D.Shapes');
-  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-  const StraightEdge = goog.module.get('myphysicslab.lab.engine2D.StraightEdge');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const Vertex = goog.module.get('myphysicslab.lab.engine2D.Vertex');
-  const RigidBodySim = goog.module.get('myphysicslab.lab.engine2D.RigidBodySim');
-  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
 
   var i;
   var tol = 1E-15;
