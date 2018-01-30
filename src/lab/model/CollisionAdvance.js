@@ -234,7 +234,7 @@ advance(timeStep, opt_memoList) {
   var WayPoint = CollisionAdvance.WayPoint;
   if (timeStep < 1E-16) {
     this.sim_.modifyObjects();
-    return true;
+    return;
   }
   if (0 == 1 && Util.DEBUG) {
     // turn on debug at a specific time
