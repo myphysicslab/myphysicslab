@@ -12,33 +12,81 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.sims.springs.test.SingleSpring_test');
+goog.module('myphysicslab.sims.springs.test.SingleSpring_test');
 
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.ModifiedEuler');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.SimpleAdvance');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.ParameterBoolean');
-goog.require('myphysicslab.lab.util.ParameterNumber');
-goog.require('myphysicslab.lab.util.ParameterString');
-goog.require('myphysicslab.lab.util.Subject');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.sims.springs.SingleSpringSim');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
+const SingleSpringSim = goog.require('myphysicslab.sims.springs.SingleSpringSim');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Util = goog.require('myphysicslab.lab.util.Util');
+
+/**  Observer that counts number of times that parameters are changed or events fire.
+@implements {Observer}
+*/
+class MockObserver1 {
+  /**
+  * @param {!Subject} sim
+  */
+  constructor(sim) {
+    /**
+    * @type {!Subject}
+    */
+    this.sim = sim;
+    /**
+    * @type {number}
+    */
+    this.numEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numBooleans = 0;
+    /**
+    * @type {number}
+    */
+    this.numDoubles = 0;
+    /**
+    * @type {number}
+    */
+    this.numStrings = 0;
+  };
+  /** @override */
+  observe(event) {
+    if (event instanceof GenericEvent) {
+      this.numEvents++;
+      assertEquals(this.sim, event.getSubject());
+    } else if (event instanceof ParameterBoolean) {
+      this.numBooleans++;
+      assertEquals(this.sim, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isBoolean(val));
+    } else if (event instanceof ParameterNumber) {
+      this.numDoubles++;
+      assertEquals(this.sim, event.getSubject());
+      var val = event.getValue();
+      assertTrue(goog.isNumber(val));
+    } else if (event instanceof ParameterString) {
+      this.numStrings++;
+      assertEquals(this.sim, event.getSubject());
+      assertTrue(goog.isString(event.getValue()));
+    }
+  };
+  /** @override */
+  toStringShort() {
+    return 'MockObserver1';
+  };
+} // end class
 
 var testSingleSpring = function() {
-  const ModifiedEuler = goog.module.get('myphysicslab.lab.model.ModifiedEuler');
-  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-  const SimpleAdvance = goog.module.get('myphysicslab.lab.model.SimpleAdvance');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const SingleSpringSim = goog.module.get('myphysicslab.sims.springs.SingleSpringSim');
   var i;
   var tol = 1E-15;
   var sim = new SingleSpringSim();
@@ -72,56 +120,7 @@ var testSingleSpring = function() {
       stiffnessParam.getName());
   assertEquals(3.0, stiffnessParam.getValue());
 
-  /**  Observer that counts number of times that parameters are changed or events fire.
-  @constructor
-  @implements {Observer}
-  */
-  var MockObserver1 = function() {
-    /**
-    * @type {number}
-    */
-    this.numEvents = 0;
-    /**
-    * @type {number}
-    */
-    this.numBooleans = 0;
-    /**
-    * @type {number}
-    */
-    this.numDoubles = 0;
-    /**
-    * @type {number}
-    */
-    this.numStrings = 0;
-  };
-  MockObserver1.prototype.observe =  function(event) {
-    const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-    const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-    const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-    const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-    if (event instanceof GenericEvent) {
-      this.numEvents++;
-      assertEquals(sim, event.getSubject());
-    } else if (event instanceof ParameterBoolean) {
-      this.numBooleans++;
-      assertEquals(sim, event.getSubject());
-      var val = event.getValue();
-      assertTrue(goog.isBoolean(val));
-    } else if (event instanceof ParameterNumber) {
-      this.numDoubles++;
-      assertEquals(sim, event.getSubject());
-      var val = event.getValue();
-      assertTrue(goog.isNumber(val));
-    } else if (event instanceof ParameterString) {
-      this.numStrings++;
-      assertEquals(sim, event.getSubject());
-      assertTrue(goog.isString(event.getValue()));
-    }
-  };
-  MockObserver1.prototype.toStringShort = function() {
-    return 'MockObserver1';
-  };
-  var mockObsvr1 = new MockObserver1();
+  var mockObsvr1 = new MockObserver1(sim);
   assertEquals(0, mockObsvr1.numEvents);
   assertEquals(0, mockObsvr1.numBooleans);
   assertEquals(0, mockObsvr1.numDoubles);
@@ -225,6 +224,5 @@ var testSingleSpring = function() {
   var ei = sim.getEnergyInfo();
   assertEquals(99, ei.getPotential());
   assertRoughlyEquals(2.8621575302237665, ei.getTranslational(), 1e-10);
-
 };
 goog.exportProperty(window, 'testSingleSpring', testSingleSpring);
