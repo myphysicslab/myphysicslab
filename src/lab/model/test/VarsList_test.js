@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.test.VarsList_test');
+goog.module('myphysicslab.lab.model.test.VarsList_test');
 
 goog.require('goog.testing.jsunit');
 goog.require('goog.array');
-goog.require('myphysicslab.lab.model.ConcreteVariable');
-goog.require('myphysicslab.lab.model.VarsList');
+const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
+const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 var testVarsList1 = function() {
-  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
   var i, n;
   var var_names = [
     'position',
@@ -166,8 +165,6 @@ goog.exportProperty(window, 'testVarsList1', testVarsList1);
 // test variations on constructor.
 // @todo  exercise each of these more.
 var testVarsList2 = function() {
-  const VarsList = goog.module.get('myphysicslab.lab.model.VarsList');
-  const ConcreteVariable = goog.module.get('myphysicslab.lab.model.ConcreteVariable');
   // no variables
   var va = new VarsList([], []);
   assertEquals(0, va.numVariables());

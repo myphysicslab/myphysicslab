@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.test.NumericalPath_test');
+goog.module('myphysicslab.lab.model.test.NumericalPath_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.NumericalPath');
-goog.require('myphysicslab.lab.model.PathPoint');
-goog.require('myphysicslab.sims.roller.CirclePath');
-goog.require('myphysicslab.sims.roller.CustomPath');
-goog.require('myphysicslab.sims.roller.FlatPath');
-goog.require('myphysicslab.sims.roller.OvalPath');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const PathPoint = goog.require('myphysicslab.lab.model.PathPoint');
+const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
+const CustomPath = goog.require('myphysicslab.sims.roller.CustomPath');
+const FlatPath = goog.require('myphysicslab.sims.roller.FlatPath');
+const OvalPath = goog.require('myphysicslab.sims.roller.OvalPath');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Test a CirclePath with radius 3 centered at the origin.
 
@@ -48,11 +48,6 @@ d normal/dp = (sin(t), -cos(t)) dt/dp = (sin(t), -cos(t))/r
 var testNumericalPath1 = function() {
   var tol = 1E-6;
   var tol2 = 1E-4;
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-  const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  const CirclePath = goog.module.get('myphysicslab.sims.roller.CirclePath');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var r = 3;
   var path = new NumericalPath(new CirclePath(r));
   assertFalse(path.isMassObject());
@@ -191,11 +186,6 @@ getting the normal that is "outward" facing here.
 var testNumericalPath2 = function() {
   var tol = 1E-6;
   var tol2 = 1E-4;
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-  const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  const CustomPath = goog.module.get('myphysicslab.sims.roller.CustomPath');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   /** @type {function(number):number} */
   var invsinh = function(x) { return Math.log(x + Math.sqrt(x*x + 1)); };
   var parabola = new CustomPath(/*start_t=*/-1, /*finish_t=*/1);
@@ -271,11 +261,6 @@ goog.exportProperty(window, 'testNumericalPath2', testNumericalPath2);
 var testNumericalPath3 = function() {
   var tol = 1E-6;
   var tol2 = 1E-5;
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-  const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  const OvalPath = goog.module.get('myphysicslab.sims.roller.OvalPath');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var path = new NumericalPath(new OvalPath());
   var pp = new PathPoint(0, /*calculateRadius=*/true);
   // t = pi to 2+pi is straight down section
@@ -320,11 +305,6 @@ goog.exportProperty(window, 'testNumericalPath3', testNumericalPath3);
 var testNumericalPath4 = function() {
   var tol = 1E-6;
   var tol2 = 1E-5;
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const NumericalPath = goog.module.get('myphysicslab.lab.model.NumericalPath');
-  const PathPoint = goog.module.get('myphysicslab.lab.model.PathPoint');
-  const FlatPath = goog.module.get('myphysicslab.sims.roller.FlatPath');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
   var path = new NumericalPath(new FlatPath());
   var pp = new PathPoint(0, /*calculateRadius=*/true);
   // t = goes from -5 to 5

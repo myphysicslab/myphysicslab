@@ -12,34 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.test.SimList_test');
+goog.module('myphysicslab.lab.model.test.SimList_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.ShapeType');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.model.SimList');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.Observer');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
 
-var testSimList = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const SimList = goog.module.get('myphysicslab.lab.model.SimList');
-  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-  const Observer = goog.module.get('myphysicslab.lab.util.Observer');
-  const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
-
-  /** observer that tracks the number of each type of SimObject in list
-  @constructor
-  @implements {Observer}
-  */
-  var MockObserver1 = function() {
+/** observer that tracks the number of each type of SimObject in list
+@implements {Observer}
+*/
+class MockObserver1 {
+  constructor() {
     /**
     * @type {number}
     */
@@ -59,7 +49,7 @@ var testSimList = function() {
   };
 
   /** @override */
-  MockObserver1.prototype.observe =  function(event) {
+  observe(event) {
     var obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (obj instanceof Spring) {
@@ -89,9 +79,13 @@ var testSimList = function() {
       }
     }
   };
-  MockObserver1.prototype.toStringShort = function() {
+  toStringShort() {
     return 'MockObserver1';
   };
+} // end class
+
+var testSimList = function() {
+
   var myMockObserver = new MockObserver1();
 
   // create a bunch of SimObject's
@@ -208,8 +202,6 @@ goog.exportProperty(window, 'testSimList', testSimList);
 * @suppress {checkTypes}
 */
 var testSimListThrows = function() {
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const SimList = goog.module.get('myphysicslab.lab.model.SimList');
   var simList = new SimList();
   var e = assertThrows(function() {simList.add(null);}  );
   assertTrue(e instanceof Error);

@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.test.Spring_test');
+goog.module('myphysicslab.lab.model.test.Spring_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.MutableVector');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
 
 var testSpring = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const MutableVector = goog.module.get('myphysicslab.lab.util.MutableVector');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var tol = 1E-15;
   var p1 = PointMass.makeCircle(1, 'point1').setMass(2);
   p1.setPosition(new Vector(0,  1));
@@ -99,10 +94,6 @@ var testSpring = function() {
 goog.exportProperty(window, 'testSpring', testSpring);
 
 var testSpringCompressOnly = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
   var tol = 1E-15;
   var p1 = PointMass.makeCircle(1, 'point1').setMass(2);
   p1.setPosition(new Vector(1,  1));

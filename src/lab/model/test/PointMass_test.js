@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.test.PointMass_test');
+goog.module('myphysicslab.lab.model.test.PointMass_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.ShapeType');
-goog.require('myphysicslab.lab.model.SimObject');
+const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 var testPointMassAngle = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var p1 = PointMass.makeOval(1, 2, 'point1');
   // set PointMass at an angle of 45 degrees clockwise
   p1.setAngle(-Math.PI/4);
@@ -66,12 +65,6 @@ var testPointMassAngle = function() {
 goog.exportProperty(window, 'testPointMassAngle', testPointMassAngle);
 
 var testPointMass = function() {
-  const AbstractSimObject = goog.module.get('myphysicslab.lab.model.AbstractSimObject');
-  const MassObject = goog.module.get('myphysicslab.lab.model.MassObject');
-  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var p1 = PointMass.makeCircle(1, 'point1');
   // instanceof works for class inheritance, but not for interfaces
   assertTrue(p1 instanceof PointMass);
@@ -125,9 +118,6 @@ var testPointMass = function() {
 goog.exportProperty(window, 'testPointMass', testPointMass);
 
 var testPointMassSimilar = function() {
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const ShapeType = goog.module.get('myphysicslab.lab.model.ShapeType');
   var p1 = PointMass.makeCircle(1);
   p1.setPosition(new Vector(2,  -2));
   assertTrue(p1.similar(p1));
@@ -158,7 +148,6 @@ goog.exportProperty(window, 'testPointMassSimilar', testPointMassSimilar);
 * @suppress {checkTypes}
 */
 var testPointMassThrows = function() {
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
   var p1 = new PointMass('point1', 0);
   assertThrows(function() {p1.setPosition(3);} );
   assertThrows(function() {p1.setPosition(null);} );

@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.model.test.EnergyInfo_test');
+goog.module('myphysicslab.lab.model.test.EnergyInfo_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.EnergyInfo');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
 
 var testEnergyInfo1 = function() {
-  const EnergyInfo = goog.module.get('myphysicslab.lab.model.EnergyInfo');
   var e1 = new EnergyInfo();
   assertEquals(0, e1.getPotential());
   assertEquals(0, e1.getTranslational());
