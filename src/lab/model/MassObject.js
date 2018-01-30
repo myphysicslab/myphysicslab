@@ -26,8 +26,8 @@ potentially be dragged by the user.
 ## Body Coordinates
 
 See also the 2D Physics Engine Overview section about
-[Body Coordinates](Engine2D.html#bodycoordinates),
-and {@link myphysicslab.lab.model.CoordType}.
+[Body Coordinates](Engine2D.html#bodycoordinates), and
+[CoordType](myphysicslab.lab.model.CoordType.html).
 
 Each MassObject has its own local coordinate system called *body coordinates*, distinct
 from *world coordinates* (also called *simulation coordinates*). There are methods for

@@ -14,9 +14,10 @@
 
 goog.module('myphysicslab.lab.model.CoordType');
 
-/** Enum that specifies whether a {@link myphysicslab.lab.util.Vector} is
+/** Enum that specifies whether a [Vector](myphysicslab.lab.util.Vector.html) is
 in body or world coordinates. See [Body Coordinates](Engine2D.html#bodycoordinates)
-in 2D Physics Engine Overview and {@link myphysicslab.lab.model.MassObject}.
+in 2D Physics Engine Overview and
+[myphysicslab.lab.model.MassObject](myphysicslab.lab.model.MassObject.html).
 
 * @readonly
 * @enum {number}
