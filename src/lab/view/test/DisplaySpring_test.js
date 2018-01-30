@@ -12,73 +12,78 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.test.DisplaySpring_test');
+goog.module('myphysicslab.lab.view.test.DisplaySpring_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.VerticalAlign');
-goog.require('myphysicslab.lab.model.SimObject');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
-var testDisplaySpring = function() {
-  var tol = 1E-14;
-  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-  const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
-  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-
-  /**  mock 2D context of a canvas element
-  @constructor
-  @extends {CanvasRenderingContext2D}
+/**  mock CanvasRenderingContext2D
+*/
+class MockContext {
+  /**
+  * @param {number} tol
   */
-  var MockContext = function() {
+  constructor(tol) {
+    /**
+    * @type {number}
+    */
+    this.tol = tol;
     /**  expected screen coords point
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {?Vector}
     */
     this.startPoint = null;
     /**  last point drawn to
-    * @type {!myphysicslab.lab.util.Vector}
+    * @type {!Vector}
     */
     this.lastPoint = Vector.ORIGIN;
+    /**
+    * @type {string}
+    */
+    this.strokeStyle = '';
+    /**
+    * @type {number}
+    */
+    this.lineWidth = 0;
   };
-  /** @override */
-  MockContext.prototype.strokeStyle = '';
-  /** @override */
-  MockContext.prototype.lineWidth = 0;
-  /** @override */
-  MockContext.prototype.moveTo = function(x, y) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @return {undefined}
+   */
+  moveTo(x, y) {
     if (!goog.isNull(this.startPoint)) {
-      // check that the rectangle being drawn matches expected rectangle
-      assertRoughlyEquals(this.startPoint.getX(), x, tol);
-      assertRoughlyEquals(this.startPoint.getY(), y, tol);
+      // check that the point being drawn matches expected point
+      assertRoughlyEquals(this.startPoint.getX(), x, this.tol);
+      assertRoughlyEquals(this.startPoint.getY(), y, this.tol);
     }
   };
-  /** @override */
-  MockContext.prototype.lineTo = function(x, y) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @return {undefined}
+   */
+  lineTo(x, y) {
     this.lastPoint = new Vector(x, y);
   };
-  /** @override */
-  MockContext.prototype.save = function() {};
-  /** @override */
-  MockContext.prototype.restore = function() {};
-  /** @override */
-  MockContext.prototype.stroke = function() {};
-  /** @override */
-  MockContext.prototype.beginPath = function() {};
+  save() {};
+  restore() {};
+  stroke() {};
+  beginPath() {};
+} // end class
 
-  var mockContext = new MockContext();
+/** @suppress {invalidCasts} */
+var testDisplaySpring = function() {
+  var tol = 1E-14;
+  var mockContext = new MockContext(tol);
 
   // WIDE screen rect
   var screenRect = new ScreenRect(/*top=*/0, /*left=*/0, /*width=*/500,
@@ -109,7 +114,7 @@ var testDisplaySpring = function() {
 
   // set expected start point to be drawn
   mockContext.startPoint = new Vector(75, 75);
-  dspring.draw(mockContext, map);
+  dspring.draw(/** @type {!CanvasRenderingContext2D} */(mockContext), map);
   // spring is expanded
   assertEquals('gray', mockContext.strokeStyle);
   // check last point drawn to
@@ -123,11 +128,10 @@ var testDisplaySpring = function() {
 
   // move the spring so it is compressed
   p3.setPosition(new Vector(0,  0));
-  dspring.draw(mockContext, map);
+  dspring.draw(/** @type {!CanvasRenderingContext2D} */(mockContext), map);
   // spring is compressed
   assertEquals('yellow', mockContext.strokeStyle);
   // check last point drawn to
   assertTrue(mockContext.lastPoint.nearEqual(new Vector(150, 150), 1E-13));
-
 };
 goog.exportProperty(window, 'testDisplaySpring', testDisplaySpring);

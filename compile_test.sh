@@ -143,6 +143,7 @@ java -jar "$CLOSURE_COMPILER" \
 --entry_point=goog:myphysicslab.lab.util.test.Util_test \
 --entry_point=goog:myphysicslab.lab.util.test.Vector_test \
 --entry_point=goog:myphysicslab.lab.view.test.CoordMap_test \
+--entry_point=goog:myphysicslab.lab.view.test.DisplayLine_test \
 --entry_point=goog:myphysicslab.lab.view.test.DisplayList_test \
 --entry_point=goog:myphysicslab.lab.view.test.DisplayShape_test \
 --entry_point=goog:myphysicslab.lab.view.test.DisplaySpring_test \

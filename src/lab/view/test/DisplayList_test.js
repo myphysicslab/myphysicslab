@@ -12,22 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.test.DisplayList_test');
+goog.module('myphysicslab.lab.view.test.DisplayList_test');
 
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.view.DisplayList');
-goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const Util = goog.require('myphysicslab.lab.util.Util');
 
 var testDisplayList = function() {
   var tol = 1E-14;
-  const DisplayList = goog.module.get('myphysicslab.lab.view.DisplayList');
-  const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-
   var displayList = new DisplayList('TEST');
   assertEquals('TEST', displayList.getName());
   var p1 = PointMass.makeSquare(1);

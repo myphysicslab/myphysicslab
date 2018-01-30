@@ -12,26 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.test.CoordMap_test');
+goog.module('myphysicslab.lab.view.test.CoordMap_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.VerticalAlign');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 var testCoordMap = function() {
-  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
-
   var tol = 1E-13;
   // WIDE screen rect
   var screenRect1 = new ScreenRect(/*top=*/0, /*left=*/0, /*width=*/500,
@@ -160,7 +152,6 @@ var testCoordMap = function() {
   assertRoughlyEquals(10, map.screenToSimScaleX(150), tol);
   assertRoughlyEquals(10, map.screenToSimScaleY(150), tol);
 
-
   // WIDE =========  HorizAlign.MIDDLE, VerticalAlign.MIDDLE ===========
   map = CoordMap.make(screenRect1, simRect1, HorizAlign.MIDDLE,
       VerticalAlign.MIDDLE);
@@ -202,7 +193,6 @@ var testCoordMap = function() {
   assertRoughlyEquals(150, map.simToScreenScaleY(10), tol);
   assertRoughlyEquals(10, map.screenToSimScaleX(150), tol);
   assertRoughlyEquals(10, map.screenToSimScaleY(150), tol);
-
 
   // WIDE =========  HorizAlign.FULL, VerticalAlign.FULL ===========
   map = CoordMap.make(screenRect1, simRect1, HorizAlign.FULL,
@@ -334,7 +324,6 @@ var testCoordMap = function() {
   assertRoughlyEquals(10, map.screenToSimScaleX(150), tol);
   assertRoughlyEquals(10, map.screenToSimScaleY(150), tol);
 
-
   // TALL =======  HorizAlign.MIDDLE, VerticalAlign.MIDDLE ========
   map = CoordMap.make(screenRect1, simRect1, HorizAlign.MIDDLE,
       VerticalAlign.MIDDLE);
@@ -386,7 +375,5 @@ var testCoordMap = function() {
         HorizAlign.MIDDLE, (/** @type {!VerticalAlign}*/('foo'))); });
   assertThrows(function() { map = CoordMap.make(screenRect1, simRect1,
         HorizAlign.MIDDLE, VerticalAlign.MIDDLE, -1); });
-
 };
 goog.exportProperty(window, 'testCoordMap', testCoordMap);
-

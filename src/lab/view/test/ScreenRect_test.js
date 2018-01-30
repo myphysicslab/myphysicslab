@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.test.ScreenRect_test');
+goog.module('myphysicslab.lab.view.test.ScreenRect_test');
 
-goog.require('myphysicslab.lab.view.ScreenRect');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
 goog.require('goog.testing.jsunit');
 
 var testScreenRect = function() {
-  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
   var sr1 = new ScreenRect(0, 0, 500, 300);
   assertEquals(0, sr1.getLeft());
   assertEquals(0, sr1.getTop());

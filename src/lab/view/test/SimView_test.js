@@ -12,117 +12,98 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.test.SimView_test');
+goog.module('myphysicslab.lab.view.test.SimView_test');
 
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.PointMass');
-goog.require('myphysicslab.lab.model.SimObject');
-goog.require('myphysicslab.lab.model.Spring');
-goog.require('myphysicslab.lab.util.AffineTransform');
-goog.require('myphysicslab.lab.util.AbstractSubject');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.GenericEvent');
-goog.require('myphysicslab.lab.util.GenericObserver');
-goog.require('myphysicslab.lab.util.Observer');
-goog.require('myphysicslab.lab.util.Util');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayShape');
-goog.require('myphysicslab.lab.view.DisplaySpring');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.LabView');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.SimView');
-goog.require('myphysicslab.lab.view.VerticalAlign');
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const LabView = goog.require('myphysicslab.lab.view.LabView');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
+const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
+const SimView = goog.require('myphysicslab.lab.view.SimView');
+const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
 /**  Observer that counts number of times that parameters are changed or
 *    events fire.
-* @constructor
-* @final
-* @struct
-* @implements {myphysicslab.lab.util.Observer}
+* @implements {Observer}
 */
-myphysicslab.lab.view.test.SimView_test.MockObserver = function() {
-  /**
-  * @type {number}
-  */
-  this.numEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numScreenRectEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numSimRectEvents = 0;
-  /**
-  * @type {number}
-  */
-  this.numBooleans = 0;
-  /**
-  * @type {number}
-  */
-  this.numDoubles = 0;
-  /**
-  * @type {number}
-  */
-  this.numStrings = 0;
-};
-
-myphysicslab.lab.view.test.SimView_test.MockObserver.prototype.observe = function(event) {
-  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-  const ParameterBoolean = goog.module.get('myphysicslab.lab.util.ParameterBoolean');
-  const ParameterNumber = goog.module.get('myphysicslab.lab.util.ParameterNumber');
-  const ParameterString = goog.module.get('myphysicslab.lab.util.ParameterString');
-  if (event instanceof GenericEvent) {
-    const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-    this.numEvents++;
-    if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
-      this.numScreenRectEvents++;
-    } else if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {
-      this.numSimRectEvents++;
+class MockObserver {
+  constructor() {
+    /**
+    * @type {number}
+    */
+    this.numEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numScreenRectEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numSimRectEvents = 0;
+    /**
+    * @type {number}
+    */
+    this.numBooleans = 0;
+    /**
+    * @type {number}
+    */
+    this.numDoubles = 0;
+    /**
+    * @type {number}
+    */
+    this.numStrings = 0;
+  };
+  /** @override */
+  observe(event) {
+    if (event instanceof GenericEvent) {
+      this.numEvents++;
+      if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
+        this.numScreenRectEvents++;
+      } else if (event.nameEquals(LabView.SIM_RECT_CHANGED)) {
+        this.numSimRectEvents++;
+      }
+    } else if (event instanceof ParameterBoolean) {
+      this.numBooleans++;
+    } else if (event instanceof ParameterNumber) {
+      this.numDoubles++;
+    } else if (event instanceof ParameterString) {
+      this.numStrings++;
     }
-  } else if (event instanceof ParameterBoolean) {
-    this.numBooleans++;
-  } else if (event instanceof ParameterNumber) {
-    this.numDoubles++;
-  } else if (event instanceof ParameterString) {
-    this.numStrings++;
-  }
-};
+  };
+  /** @override */
+  toStringShort() {
+    return 'MockObserver';
+  };
+} // end class
 
-myphysicslab.lab.view.test.SimView_test.MockObserver.prototype.toStringShort = function() {
-  return 'MockObserver';
-};
-
-var testSimView1 = function() {
-  var tol = 1E-14;
-  const AffineTransform = goog.module.get('myphysicslab.lab.util.AffineTransform');
-  const AbstractSubject = goog.module.get('myphysicslab.lab.util.AbstractSubject');
-  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-  const DisplayShape = goog.module.get('myphysicslab.lab.view.DisplayShape');
-  const DisplaySpring = goog.module.get('myphysicslab.lab.view.DisplaySpring');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const GenericEvent = goog.module.get('myphysicslab.lab.util.GenericEvent');
-  const GenericObserver = goog.module.get('myphysicslab.lab.util.GenericObserver');
-  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-  const LabView = goog.module.get('myphysicslab.lab.view.LabView');
-  var MockObserver = myphysicslab.lab.view.test.SimView_test.MockObserver;
-  const PointMass = goog.module.get('myphysicslab.lab.model.PointMass');
-  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-  const SimObject = goog.module.get('myphysicslab.lab.model.SimObject');
-  const SimView = goog.module.get('myphysicslab.lab.view.SimView');
-  const Spring = goog.module.get('myphysicslab.lab.model.Spring');
-  const Util = goog.module.get('myphysicslab.lab.util.Util');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
-
-  /**  mock 2D context of a canvas element
-  @constructor
-  @extends {CanvasRenderingContext2D}
+/**  mock CanvasRenderingContext2D
+*/
+class MockContext {
+  /**
+  * @param {number} tol
   */
-  var MockContext = function() {
+  constructor(tol) {
+    /**
+    * @type {number}
+    */
+    this.tol = tol;
     /**  expected rectangle point 1
     * @type {?Vector}
     */
@@ -140,68 +121,99 @@ var testSimView1 = function() {
     */
     this.lastPoint = Vector.ORIGIN;
     /**
-    * @type {!myphysicslab.lab.util.AffineTransform}
+    * @type {!AffineTransform}
     */
     this.at = AffineTransform.IDENTITY;
+    /**
+    * @type {string}
+    */
+    this.fillStyle = '';
+    /**
+    * @type {string}
+    */
+    this.strokeStyle = '';
+    /**
+    * @type {number}
+    */
+    this.lineWidth = 0;
   };
-  /** @override */
-  MockContext.prototype.fillStyle = '';
-  /** @override */
-  MockContext.prototype.rect = function(x, y, w, h) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {number} w
+   * @param {number} h
+   * @return {undefined}
+   */
+  rect(x, y, w, h) {
     // check that the rectangle being drawn matches expected rectangle
     var pt1 = this.at.transform(x, y);
     var pt2 = this.at.transform(x+w, y+h);
     if (this.expectRect1 != null) {
-      assertRoughlyEquals(this.expectRect1.getX(), pt1.getX(), tol);
-      assertRoughlyEquals(this.expectRect1.getY(), pt1.getY(), tol);
+      assertRoughlyEquals(this.expectRect1.getX(), pt1.getX(), this.tol);
+      assertRoughlyEquals(this.expectRect1.getY(), pt1.getY(), this.tol);
     }
     if (this.expectRect2 != null) {
-      assertRoughlyEquals(this.expectRect2.getX(), pt2.getX(), tol);
-      assertRoughlyEquals(this.expectRect2.getY(), pt2.getY(), tol);
+      assertRoughlyEquals(this.expectRect2.getX(), pt2.getX(), this.tol);
+      assertRoughlyEquals(this.expectRect2.getY(), pt2.getY(), this.tol);
     }
   };
-  /** @override */
-  MockContext.prototype.strokeStyle = '';
-  /** @override */
-  MockContext.prototype.lineWidth = 0;
-  /** @override */
-  MockContext.prototype.moveTo = function(x, y) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @return {undefined}
+   */
+  moveTo(x, y) {
     var pt1 = this.at.transform(x, y);
     if (this.startPoint != null) {
       // check that the rectangle being drawn matches expected rectangle
-      assertRoughlyEquals(this.startPoint.getX(), pt1.getX(), tol);
-      assertRoughlyEquals(this.startPoint.getY(), pt1.getY(), tol);
+      assertRoughlyEquals(this.startPoint.getX(), pt1.getX(), this.tol);
+      assertRoughlyEquals(this.startPoint.getY(), pt1.getY(), this.tol);
     }
   };
-  /** @override */
-  MockContext.prototype.lineTo = function(x, y) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @return {undefined}
+   */
+  lineTo(x, y) {
     this.lastPoint = this.at.transform(x, y);
   };
-  /** @override */
-  MockContext.prototype.save = function() {};
-  /** @override */
-  MockContext.prototype.restore = function() {
+  save() {};
+  restore() {
     this.at = AffineTransform.IDENTITY;
   };
-  /** @override */
-  MockContext.prototype.stroke = function() {};
-  /** @override */
-  MockContext.prototype.beginPath = function() {};
-  /** @override */
-  MockContext.prototype.clearRect = function(x, y, w, h) {};
-  /** @override */
-  MockContext.prototype.setTransform = function(a, b, c, d, e, f) {
+  stroke() {};
+  beginPath() {};
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {number} w
+   * @param {number} h
+   * @return {undefined}
+   */
+  clearRect(x, y, w, h) {};
+  /**
+   * @param {number} a
+   * @param {number} b
+   * @param {number} c
+   * @param {number} d
+   * @param {number} e
+   * @param {number} f
+   * @return {undefined}
+   */
+  setTransform(a, b, c, d, e, f) {
     this.at = new AffineTransform(a, b, c, d, e, f);
   };
-  /** @override */
-  MockContext.prototype.fill = function() {};
+  fill() {};
+} // end class
 
-  var mockContext = new MockContext();
-
+/** @suppress {invalidCasts} */
+var testSimView1 = function() {
+  var tol = 1E-14;
+  var mockContext = new MockContext(tol);
   var screenRect = new ScreenRect(/*top=*/0, /*left=*/0, /*width=*/500,
       /*height=*/300);
   var simRect1 = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
-
   var simView1 = new SimView('view1', simRect1);
   var displayList1 = simView1.getDisplayList();
   simView1.setHorizAlign(HorizAlign.LEFT);
@@ -242,7 +254,7 @@ var testSimView1 = function() {
   mockContext.expectRect1 = map.simToScreen(new Vector(2, -0.5));
   mockContext.expectRect2 = map.simToScreen(new Vector(3, 0.5));
   mockContext.startPoint = map.simToScreen(new Vector(-1, 0));
-  simView1.paint(mockContext);
+  simView1.paint(/** @type {!CanvasRenderingContext2D} */(mockContext));
   assertEquals('orange', mockContext.fillStyle);
   assertTrue(mockContext.lastPoint.nearEqual(map.simToScreen(v1)));
   // spring is expanded

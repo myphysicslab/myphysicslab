@@ -12,70 +12,76 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('myphysicslab.lab.view.test.DisplayLine_test');
+goog.module('myphysicslab.lab.view.test.DisplayLine_test');
 
 goog.require('goog.testing.jsunit');
-goog.require('myphysicslab.lab.model.ConcreteLine');
-goog.require('myphysicslab.lab.util.DoubleRect');
-goog.require('myphysicslab.lab.util.Vector');
-goog.require('myphysicslab.lab.view.CoordMap');
-goog.require('myphysicslab.lab.view.DisplayLine');
-goog.require('myphysicslab.lab.view.HorizAlign');
-goog.require('myphysicslab.lab.view.ScreenRect');
-goog.require('myphysicslab.lab.view.VerticalAlign');
+const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
+const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
+const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
+const ScreenRect = goog.require('myphysicslab.lab.view.ScreenRect');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
+const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
-var testDisplayLine = function() {
-  var tol = 1E-14;
-  const CoordMap = goog.module.get('myphysicslab.lab.view.CoordMap');
-  const DisplayLine = goog.module.get('myphysicslab.lab.view.DisplayLine');
-  const DoubleRect = goog.module.get('myphysicslab.lab.util.DoubleRect');
-  const HorizAlign = goog.module.get('myphysicslab.lab.view.HorizAlign');
-  const ConcreteLine = goog.module.get('myphysicslab.lab.model.ConcreteLine');
-  const ScreenRect = goog.module.get('myphysicslab.lab.view.ScreenRect');
-  const Vector = goog.module.get('myphysicslab.lab.util.Vector');
-  const VerticalAlign = goog.module.get('myphysicslab.lab.view.VerticalAlign');
-
-  /**  mock 2D context of a canvas element
-  @constructor
-  @extends {CanvasRenderingContext2D}
+/**  mock CanvasRenderingContext2D
+*/
+class MockContext {
+  /**
+  * @param {number} tol
   */
-  var MockContext = function() {
+  constructor(tol) {
+    /**
+    * @type {number}
+    */
+    this.tol = tol;
     /**  expected screen coords point
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {?Vector}
     */
     this.startPoint = null;
     /**  last point drawn to
-    * @type {?myphysicslab.lab.util.Vector}
+    * @type {!Vector}
     */
-    this.lastPoint = null;
+    this.lastPoint = Vector.ORIGIN;
+    /**
+    * @type {string}
+    */
+    this.strokeStyle = '';
+    /**
+    * @type {number}
+    */
+    this.lineWidth = 0;
   };
-  /** @override */
-  MockContext.prototype.strokeStyle = '';
-  /** @override */
-  MockContext.prototype.lineWidth = 0;
-  /** @override */
-  MockContext.prototype.moveTo = function(x, y) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @return {undefined}
+   */
+  moveTo(x, y) {
     if (!goog.isNull(this.startPoint)) {
-      // check that the rectangle being drawn matches expected rectangle
-      assertRoughlyEquals(this.startPoint.getX(), x, tol);
-      assertRoughlyEquals(this.startPoint.getY(), y, tol);
+      // check that the point being drawn matches expected point
+      assertRoughlyEquals(this.startPoint.getX(), x, this.tol);
+      assertRoughlyEquals(this.startPoint.getY(), y, this.tol);
     }
   };
-  /** @override */
-  MockContext.prototype.lineTo = function(x, y) {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @return {undefined}
+   */
+  lineTo(x, y) {
     this.lastPoint = new Vector(x, y);
   };
-  /** @override */
-  MockContext.prototype.save = function() {};
-  /** @override */
-  MockContext.prototype.restore = function() {};
-  /** @override */
-  MockContext.prototype.stroke = function() {};
-  /** @override */
-  MockContext.prototype.beginPath = function() {};
+  save() {};
+  restore() {};
+  stroke() {};
+  beginPath() {};
+} // end class
 
-  var mockContext = new MockContext();
-
+/** @suppress {invalidCasts} */
+var testDisplayLine = function() {
+  var tol = 1E-14;
+  var mockContext = new MockContext(tol);
   // WIDE screen rect
   var screenRect = new ScreenRect(/*top=*/0, /*left=*/0, /*width=*/500,
       /*height=*/300);
@@ -90,9 +96,9 @@ var testDisplayLine = function() {
   var line1 = new ConcreteLine('line1');
   line1.setStartPoint(p2);
   line1.setEndPoint(p3);
-  DisplayLine.thickness = 2.0;
-  DisplayLine.color = 'fuschia';
   var dline = new DisplayLine(line1);
+  dline.setThickness(2.0);
+  dline.setColor('fuschia');
 
   // check starting conditions
   assertEquals(line1, dline.getSimObjects()[0]);
@@ -101,16 +107,16 @@ var testDisplayLine = function() {
 
   // set expected start point to be drawn
   mockContext.startPoint = new Vector(75, 75);
-  dline.draw(mockContext, map);
+  dline.draw(/** @type {!CanvasRenderingContext2D} */(mockContext), map);
   assertEquals('fuschia', mockContext.strokeStyle);
+  assertEquals(2, mockContext.lineWidth);
   // check last point drawn to
   assertTrue(mockContext.lastPoint.nearEqual(new Vector(225, 225), 1E-13));
 
   // move the line
   line1.setEndPoint(Vector.ORIGIN);
-  dline.draw(mockContext, map);
+  dline.draw(/** @type {!CanvasRenderingContext2D} */(mockContext), map);
   // check last point drawn to
   assertTrue(mockContext.lastPoint.nearEqual(new Vector(150, 150), 1E-13));
-
 };
 goog.exportProperty(window, 'testDisplayLine', testDisplayLine);
