@@ -76,9 +76,9 @@ checkConsistent() {
   super.checkConsistent();
   // both primary and normal edge always exist for non-joint
   goog.asserts.assert( this.primaryEdge != null );
-  goog.asserts.assert( this.primaryEdge.isStraight() == !this.ballObject );
+  goog.asserts.assert( this.primaryEdge.isStraight == !this.ballObject );
   goog.asserts.assert( this.normalEdge != null );
-  goog.asserts.assert( this.normalEdge.isStraight() == !this.ballNormal );
+  goog.asserts.assert( this.normalEdge.isStraight == !this.ballNormal );
 };
 
 /** @override */

@@ -796,11 +796,6 @@ intersection(p1_body, p2_body) {
   return [qb2];
 };
 
-/** @override */
-isStraight() {
-  return false;
-};
-
 /**
 @param {!Vector} p_edge the point of interest, in edge
 coordinates.

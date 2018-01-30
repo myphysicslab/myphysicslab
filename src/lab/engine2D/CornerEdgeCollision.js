@@ -105,7 +105,7 @@ checkConsistent() {
   }
   goog.asserts.assert( this.ballObject == false );
   // normal edge is of two types:  curved or straight
-  goog.asserts.assert( this.normalEdge.isStraight() == !this.ballNormal );
+  goog.asserts.assert( this.normalEdge.isStraight == !this.ballNormal );
 };
 
 /** @override */

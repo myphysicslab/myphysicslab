@@ -285,11 +285,6 @@ added to the max radius of the Edges, to make the test easier to succeed.
 */
 intersectionPossible(edge, swellage) {}
 
-/** Returns `true` if this Edge is a straight line, `false` if a curved line.
-@return {boolean} `true` if this Edge is a straight line, `false` if a curved line.
-*/
-isStraight() {}
-
 /** Returns the maximum distance from the given point (in body coordinates) to any
 point on this Edge.
 
@@ -332,5 +327,12 @@ RigidBodyCollision to the list. This ignores collisions with Vertexes.
 */
 testCollisionEdge(collisions, edge, time) {}
 
+
 } //end class
+
+/** Whether this Edge is a straight line.
+* @type {boolean}
+*/
+Edge.prototype.isStraight;
+
 exports = Edge;

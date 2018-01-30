@@ -87,6 +87,8 @@ constructor(body, vertex1, vertex2) {
   * @protected
   */
   this.index_ = -1;
+  /** @override */
+  this.isStraight = false;
 };
 
 toString() {
@@ -230,9 +232,6 @@ intersectionPossible(edge, swellage) {
   var dist2 = UtilEngine.square(edge.getCentroidRadius() + this.getCentroidRadius() + swellage);
   return dist < dist2;
 };
-
-/** @abstract */
-isStraight() {};
 
 /** @abstract */
 maxDistanceTo(p_body) {};

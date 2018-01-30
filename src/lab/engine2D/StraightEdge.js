@@ -82,6 +82,8 @@ constructor(body, vertex1, vertex2, outsideIsUp) {
   this.outsideIsUp_ = outsideIsUp;
   vertex1.setEdge2(this);
   vertex2.setEdge1(this);
+  /** @override */
+  this.isStraight = true;
 };
 
 toString() {
@@ -126,7 +128,7 @@ chordError() {
 
 /** @override */
 distanceToEdge(edge) {
-  if (edge.isStraightEdge) {
+  if (edge.isStraight) {
     // no edge-edge contact between straight edges;
     // these are handled by corner-edge contacts. See Polygon.checkCollision.
     throw new Error();
@@ -406,7 +408,7 @@ highlight() {
 
 /** @override */
 improveAccuracyEdge(rbc, edge) {
-  if (edge.isStraightEdge) {
+  if (edge.isStraight) {
     // no collisions between straight edges;
     /*if (rbc.getNormalBody() == edge.getBody()) {
       StraightStraight.improveAccuracy(rbc, this, edge);
@@ -431,7 +433,7 @@ intersection(p1_body, p2_body) {
 
 /** @override */
 intersectionPossible(edge, swellage) {
-  if (edge.isStraightEdge) {
+  if (edge.isStraight) {
     // Because straight/straight edges never interact (instead they only interact with
     // Vertexes) we can avoid some testing and get a performance gain by returning false
     // if the other edge is also a straight edge.
@@ -440,17 +442,6 @@ intersectionPossible(edge, swellage) {
     return super.intersectionPossible(edge, swellage);
   }
 };
-
-/** @override */
-isStraight() {
-  return true;
-};
-
-/** This function is used to avoid an `instanceof` test, because those are slow
-* on Firefox.
-* @return {undefined}
-*/
-isStraightEdge() {};
 
 /** Makes a Vertex/Vertex contact.
 * @param {!Vertex} myV
@@ -532,7 +523,7 @@ projectionOntoLine(p_body) {
 
 /** @override */
 testCollisionEdge(collisions, edge, time) {
-  if (edge.isStraightEdge) {
+  if (edge.isStraight) {
     // no collisions or contacts between StraightEdges, only between vertex and
     // StraightEdge.
     // However, if desired here is a way to detect when StraightEdges intersect:
