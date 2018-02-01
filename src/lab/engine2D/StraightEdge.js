@@ -433,6 +433,9 @@ intersection(p1_body, p2_body) {
 
 /** @override */
 intersectionPossible(edge, swellage) {
+  // Test isStraight property instead of using instanceof because of performance
+  // problems when using instanceof with goog.module and Firefox.
+  // See https://github.com/google/closure-compiler/issues/2800
   if (edge.isStraight) {
     // Because straight/straight edges never interact (instead they only interact with
     // Vertexes) we can avoid some testing and get a performance gain by returning false
