@@ -204,5 +204,5 @@ setThruster(index, location_body, direction_body) {
   this.directions_body_[index] = direction_body;
 };
 
-} //end class
+} // end class
 exports = ThrusterSet;

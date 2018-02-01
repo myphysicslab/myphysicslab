@@ -328,7 +328,7 @@ toArray() {
   return goog.array.clone(this.elements_);
 };
 
-} //end class
+} // end class
 
 /** Name of event broadcast when a SimObject is added to the SimList.
 * @type {string}

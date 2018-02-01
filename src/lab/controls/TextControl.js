@@ -65,5 +65,5 @@ getParameter() {
   return this.parameter_;
 };
 
-} //end class
+} // end class
 exports = TextControl;

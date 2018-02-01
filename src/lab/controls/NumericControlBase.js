@@ -420,5 +420,5 @@ validate(event) {
   }
 };
 
-} //end class
+} // end class
 exports = NumericControlBase;

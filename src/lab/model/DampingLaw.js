@@ -244,7 +244,7 @@ setRotateRatio(value) {
   this.broadcastParameter(DampingLaw.en.ROTATE_RATIO);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

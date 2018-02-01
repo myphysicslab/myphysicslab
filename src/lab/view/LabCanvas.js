@@ -519,7 +519,7 @@ setWidth(value) {
   this.broadcastParameter(LabCanvas.en.WIDTH);
 };
 
-} //end class
+} // end class
 
 /** Name of GenericEvent that is broadcast when the focus view changes.
 * @type {string}

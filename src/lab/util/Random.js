@@ -59,5 +59,5 @@ randomInts(n) {}
 */
 setSeed(seed) {}
 
-}
+} // end class
 exports = Random;

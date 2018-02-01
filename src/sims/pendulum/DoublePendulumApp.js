@@ -126,7 +126,7 @@ defineNames(myName) {
       myName+'.');
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

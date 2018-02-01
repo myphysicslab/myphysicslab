@@ -272,7 +272,7 @@ updateCollision(c) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 @type {number}

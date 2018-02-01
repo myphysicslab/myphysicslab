@@ -90,5 +90,5 @@ static lineStyle(color, lineWidth, opt_lineDash) {
   return new DrawingStyle(DrawingMode.LINES, color, lineWidth, opt_lineDash);
 };
 
-} //end class
+} // end class
 exports = DrawingStyle;

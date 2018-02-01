@@ -250,7 +250,7 @@ setStartPosition(value) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

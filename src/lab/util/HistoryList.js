@@ -93,5 +93,5 @@ reset() {}
 */
 store(value) {}
 
-}
+} // end class
 exports = HistoryList;

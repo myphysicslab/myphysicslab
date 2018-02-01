@@ -108,5 +108,5 @@ setTimeStep(timeStep) {
   this.timeStep_ = timeStep;
 };
 
-} //end class
+} // end class
 exports = SimpleAdvance;

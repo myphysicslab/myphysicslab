@@ -316,7 +316,7 @@ updateCollision(c) {
   c.creator = 'Joint';
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

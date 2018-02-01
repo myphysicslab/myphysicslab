@@ -273,7 +273,7 @@ setBroadcast(value) {
   return saveBroadcast;
 };
 
-}
+} // end class
 
 /** A delayed command to add (`action=true`) or remove (`action=false`) an Observer.
 * @typedef {{action: boolean, observer: !Observer}}

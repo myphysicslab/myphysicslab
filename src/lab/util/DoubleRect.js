@@ -393,7 +393,7 @@ unionPoint(point) {
       );
 };
 
-}
+} // end class
 
 /** The empty rectangle (0, 0, 0, 0).
 * @type {!DoubleRect}

@@ -149,5 +149,5 @@ reset() {
   this.backups_ = 0;
 };
 
-} //end class
+} // end class
 exports = CollisionTotals;

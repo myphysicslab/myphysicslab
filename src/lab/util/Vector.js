@@ -287,7 +287,7 @@ subtract(vector) {
   return new Vector(this.x_ - vector.getX(),
       this.y_ - vector.getY(), this.z_ - vector.getZ());
 };
-}
+} // end class
 
 /** The vector `(1, 0, 0)`.
 * @type {!Vector}

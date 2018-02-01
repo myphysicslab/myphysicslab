@@ -33,5 +33,5 @@ getY() {}
 * @return {number} the Z value of this GenericVector
 */
 getZ() {}
-}
+} // end class
 exports = GenericVector;

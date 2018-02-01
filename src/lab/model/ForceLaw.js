@@ -47,5 +47,5 @@ getBodies() {}
 */
 getPotentialEnergy() {}
 
-} //end class
+} // end class
 exports = ForceLaw;

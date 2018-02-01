@@ -1762,7 +1762,7 @@ static acute_corners() {
               /*expectedVars=*/vars, /*tolerance=*/0.00001);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

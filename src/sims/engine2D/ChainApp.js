@@ -417,7 +417,7 @@ setBlockWidth(value) {
   this.broadcastParameter(ChainConfig.en.BLOCK_WIDTH);
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

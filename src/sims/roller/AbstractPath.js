@@ -130,6 +130,6 @@ setStartTValue(value) {
   this.startTValue_ = value;
 };
 
-} //end class
+} // end class
 
 exports = AbstractPath;

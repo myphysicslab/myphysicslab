@@ -44,5 +44,5 @@ getParameter() {}
 */
 setEnabled(enabled) {}
 
-} //end class
+} // end class
 exports = LabControl;

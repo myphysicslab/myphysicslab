@@ -324,7 +324,7 @@ toArray() {
   return goog.array.clone(this.drawables_);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

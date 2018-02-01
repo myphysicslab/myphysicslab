@@ -172,5 +172,5 @@ setState(newState) {
   }
 };
 
-} //end class
+} // end class
 exports = CheckBoxControlBase;

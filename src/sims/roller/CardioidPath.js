@@ -83,7 +83,7 @@ y_func(t) {
   return -this.a_ *c*(1+c);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

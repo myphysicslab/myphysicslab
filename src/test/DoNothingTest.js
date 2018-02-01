@@ -271,7 +271,7 @@ static do_nothing_error() {
   Engine2DTestRig.runExceptionTest(advance, 100);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

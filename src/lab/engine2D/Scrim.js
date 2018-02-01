@@ -401,7 +401,7 @@ worldToBody(p_world) {
   return Vector.clone(p_world);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {!Scrim}

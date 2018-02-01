@@ -624,5 +624,5 @@ valueToIncrement(value) {
   }
 };
 
-} //end class
+} // end class
 exports = SliderControl;

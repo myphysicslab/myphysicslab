@@ -90,7 +90,7 @@ class MockSubject1 {
   broadcast(event) {};
   /** @override */
   toStringShort() { return 'MockSubject1'; };
-}
+} // end class
 MockSubject1.FOONESS = 'FOONESS';
 MockSubject1.FOOBARNESS = 'FOO_BARNESS';
 
@@ -203,7 +203,7 @@ class MockSubject2 extends AbstractSubject {
   setFooBarness(value) {
     this.fooBarness_ = value;
   };
-}
+} // end class
 /** @type {string} */
 MockSubject2.FOONESS = 'fooness';
 /** @type {string} */
@@ -293,7 +293,7 @@ class MockSubject3 extends AbstractSubject {
   setFooBarness(value) {
     this.fooBarness_ = value;
   };
-}
+} // end class
 MockSubject3.FOONESS = 'FOONESS';
 MockSubject3.FOOBARNESS = 'FOO_BARNESS';
 
@@ -391,7 +391,7 @@ class MockSubject4 extends AbstractSubject {
   setBaz(value) {
     this.baz_ = value;
   };
-}
+} // end class
 MockSubject4.FOONESS = 'FOONESS';
 MockSubject4.FOOBARNESS = 'FOO_BARNESS';
 MockSubject4.BAZ = 'BAZ';

@@ -68,7 +68,7 @@ getClassName() {
   return 'FastBallApp';
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

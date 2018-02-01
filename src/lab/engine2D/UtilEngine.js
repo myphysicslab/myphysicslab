@@ -1255,7 +1255,7 @@ static vectorLength(p) {
   return Math.sqrt(sum);
 };
 
-} //end class
+} // end class
 
 /** Contains the most recently created RigidBodySim, ***for debugging only***. Provides
 a shortcut to make lines and circles from anywhere in the engine2D code.

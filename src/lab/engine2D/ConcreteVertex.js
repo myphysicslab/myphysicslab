@@ -167,7 +167,7 @@ setEdge2(edge) {
   }
 };
 
-} //end class
+} // end class
 
 /** for debugging:  next vertex id number
 * @type {number}

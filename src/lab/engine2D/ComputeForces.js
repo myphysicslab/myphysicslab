@@ -1872,7 +1872,7 @@ print(s) {
   }
 }
 
-} //end class
+} // end class
 
 /** Constant indicates the **Next Contact Policy** which chooses the contact with the
 most negative acceleration, treating Joints first.

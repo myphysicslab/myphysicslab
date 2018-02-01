@@ -389,7 +389,7 @@ setMass(value) {
   this.broadcastParameter(BrachistoSim.en.MASS);
 };
 
-} //end class
+} // end class
 
 /** Event broadcast when a path is chosen.
 * @type {string}

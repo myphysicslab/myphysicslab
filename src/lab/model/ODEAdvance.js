@@ -35,5 +35,5 @@ getDiffEqSolver() {}
 */
 setDiffEqSolver(diffEqSolver) {}
 
-} //end class
+} // end class
 exports = ODEAdvance;

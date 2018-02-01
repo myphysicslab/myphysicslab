@@ -276,7 +276,7 @@ setSpeed(value) {
   this.broadcastParameter(BilliardsApp.en.SPEED);
 };
 
-} //end class
+} // end class
 
 /**
 * @enum {number}

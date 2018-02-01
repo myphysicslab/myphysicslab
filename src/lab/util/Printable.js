@@ -40,5 +40,5 @@ this:
 @return {string} a minimal string representation of this object.
 */
 toStringShort() {}
-}
+} // end class
 exports = Printable;

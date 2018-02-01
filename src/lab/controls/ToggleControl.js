@@ -158,5 +158,5 @@ setState(newState) {
   }
 };
 
-} //end class
+} // end class
 exports = ToggleControl;

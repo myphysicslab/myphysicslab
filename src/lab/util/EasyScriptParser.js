@@ -675,7 +675,7 @@ update() {
 values() {
   return this.namesAndValues(false, true, true) + this.namesAndValues(true, true, true);
 };
-}
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

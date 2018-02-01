@@ -628,7 +628,7 @@ static elastic_balls() {
       /*expectedCollisions=*/17);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

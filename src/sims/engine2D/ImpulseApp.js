@@ -267,7 +267,7 @@ setMass1(value) {
   }
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

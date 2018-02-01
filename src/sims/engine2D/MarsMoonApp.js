@@ -245,7 +245,7 @@ setVelocity(value) {
   this.broadcastParameter(MarsMoonApp.en.VELOCITY);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

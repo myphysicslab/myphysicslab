@@ -152,7 +152,7 @@ static concave_circle_and_ball() {
                /*expectedCollisions=*/0);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

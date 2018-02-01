@@ -137,5 +137,5 @@ observe(event) {
   this.observeFn_(event);
 };
 
-}
+} // end class
 exports = GenericObserver;

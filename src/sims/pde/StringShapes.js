@@ -28,7 +28,7 @@ constructor() {
   throw new Error();
 };
 
-} //end class
+} // end class
 
 // ===============================================================
 class FlatShape extends AbstractShape {

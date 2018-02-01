@@ -520,7 +520,7 @@ setPendulumLength(value) {
   this.broadcastParameter(CartPendulumSim.en.PENDULUM_LENGTH);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

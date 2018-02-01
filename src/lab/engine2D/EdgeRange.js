@@ -116,5 +116,5 @@ contains(edge) {
   return idx >= this.beginIdx_ && idx <= this.endIdx_;
 };
 
-} //end class
+} // end class
 exports = EdgeRange;

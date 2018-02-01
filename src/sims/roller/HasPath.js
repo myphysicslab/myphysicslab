@@ -34,6 +34,6 @@ getPath() {}
 */
 setPath(path) {}
 
-} //end class
+} // end class
 
 exports = HasPath;

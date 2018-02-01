@@ -848,7 +848,7 @@ showTerminal(visible) {
   }
 };
 
-} //end class
+} // end class
 
 /** Set of available layout options.
 * @readonly

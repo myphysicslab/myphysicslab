@@ -279,7 +279,7 @@ static getRandomColor(random) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @type {!Random}

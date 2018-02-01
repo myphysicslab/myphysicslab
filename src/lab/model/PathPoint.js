@@ -218,5 +218,5 @@ getZ() {
   return 0;
 };
 
-} //end class
+} // end class
 exports = PathPoint;

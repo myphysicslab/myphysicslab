@@ -424,7 +424,7 @@ setDamping(value) {
   this.broadcastParameter(ReactionPendulumSim.en.DAMPING);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

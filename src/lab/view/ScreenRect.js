@@ -209,7 +209,7 @@ nearEqual(otherRect, opt_tolerance) {
   return true;
 };
 
-} //end class
+} // end class
 
 /** An empty ScreenRect located at the origin.
 * @type {!ScreenRect}

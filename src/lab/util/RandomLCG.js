@@ -242,7 +242,7 @@ setSeed(seed) {
   this.seed_ = seed;
 };
 
-}
+} // end class
 
 /**
 * @type {boolean}

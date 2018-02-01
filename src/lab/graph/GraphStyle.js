@@ -69,5 +69,5 @@ toString() {
       +'}';
 };
 
-} //end class
+} // end class
 exports = GraphStyle;

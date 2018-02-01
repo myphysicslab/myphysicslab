@@ -1442,7 +1442,7 @@ static vetCommand(script, whiteList, opt_blackList) {
   }
 };
 
-}
+} // end class
 
 /**  A regular expression and the replacement string expression to be used in a
 * `String.replace()` command.

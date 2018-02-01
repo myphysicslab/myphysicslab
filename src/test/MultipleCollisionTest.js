@@ -959,7 +959,7 @@ static one_hits_two_in_box() {
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

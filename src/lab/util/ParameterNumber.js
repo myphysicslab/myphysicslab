@@ -322,5 +322,5 @@ setValue(value) {
   }
 };
 
-}
+} // end class
 exports = ParameterNumber;

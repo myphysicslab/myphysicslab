@@ -534,7 +534,7 @@ simToScreenY(sim_y)  {
   return this.screen_bottom_ - (sim_y - this.sim_bottom_)*this.pixel_per_unit_y_;
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

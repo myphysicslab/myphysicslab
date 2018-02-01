@@ -135,7 +135,7 @@ update() {
   throw new Error('unknown path '+this.pathName_);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

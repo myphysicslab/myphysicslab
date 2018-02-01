@@ -291,5 +291,5 @@ setEnabled(enabled) {
   this.selectMenu_.disabled = !enabled;
 };
 
-} //end class
+} // end class
 exports = ChoiceControlBase;

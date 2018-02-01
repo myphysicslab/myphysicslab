@@ -482,7 +482,7 @@ step(timeStep) {
 systemToClock(systemTime) {
   return (systemTime - this.clockStart_sys_secs_)*this.timeRate_;
 };
-}
+} // end class
 
 /**  Name of the GenericEvent fired when the Clock is paused, see {@link #pause}.
 * @type {string}

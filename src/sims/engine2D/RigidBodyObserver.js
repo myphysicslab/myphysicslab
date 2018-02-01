@@ -319,7 +319,7 @@ observe(event) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @typedef {{simObj: !SimObject, dispObj: !DisplayObject}}

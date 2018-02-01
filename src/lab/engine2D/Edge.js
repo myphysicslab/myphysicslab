@@ -335,6 +335,6 @@ RigidBodyCollision to the list. This ignores collisions with Vertexes.
 */
 testCollisionEdge(collisions, edge, time) {}
 
-} //end class
+} // end class
 
 exports = Edge;

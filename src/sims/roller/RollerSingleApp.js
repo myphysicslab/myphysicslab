@@ -270,7 +270,7 @@ setSimRect(simRect) {
   this.simView.setSimRect(simRect);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

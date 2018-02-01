@@ -783,7 +783,7 @@ setPEOffset(value) {
   this.broadcastParameter(Molecule3Sim.en.PE_OFFSET);
 };
 
-} //end class
+} // end class
 
 /** Index in variables of first atom.
 @type {number}

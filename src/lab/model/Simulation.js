@@ -73,7 +73,7 @@ Broadcasts event named {@link #INITIAL_STATE_SAVED}.
 */
 saveInitialState() {}
 
-} //end class
+} // end class
 
 /**  Name of event broadcast when the Simulation state is reset to initial conditions.
 * @type {string}

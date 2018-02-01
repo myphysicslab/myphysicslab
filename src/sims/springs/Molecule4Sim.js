@@ -979,7 +979,7 @@ setStiffnessSpecial(value) {
   this.broadcastParameter(Molecule4Sim.en.STIFFNESS_SPECIAL);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

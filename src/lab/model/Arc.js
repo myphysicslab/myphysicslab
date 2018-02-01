@@ -151,5 +151,5 @@ similar(obj, opt_tolerance) {
   return arc.getCenter().nearEqual(this.center_, opt_tolerance);
 };
 
-} //end class
+} // end class
 exports = Arc;

@@ -675,7 +675,7 @@ eval(script, opt_output) {
   }
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

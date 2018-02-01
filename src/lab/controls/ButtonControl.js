@@ -170,5 +170,5 @@ setEnabled(enabled) {
   this.button_.disabled = !enabled;
 };
 
-} //end class
+} // end class
 exports = ButtonControl;

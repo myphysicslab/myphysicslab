@@ -71,7 +71,7 @@ y_func(t) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

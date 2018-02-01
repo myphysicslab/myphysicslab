@@ -295,5 +295,5 @@ setValue(value) {
   }
 };
 
-}
+} // end class
 exports = ParameterString;

@@ -173,5 +173,5 @@ another RigidBody
 */
 setVelocityTol(value) {}
 
-} //end class
+} // end class
 exports = RigidBody;

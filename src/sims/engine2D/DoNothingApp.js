@@ -313,7 +313,7 @@ setExtraBlock(value) {
   this.broadcastParameter(DoNothingApp.en.EXTRA_BLOCK);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

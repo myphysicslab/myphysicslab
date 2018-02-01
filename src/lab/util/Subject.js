@@ -159,5 +159,5 @@ call `Subject.removeObserver` during its `observe` method.
         detach from list of Observers
 */
 removeObserver(observer) {}
-}
+} // end class
 exports = Subject;

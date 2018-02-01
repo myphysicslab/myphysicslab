@@ -606,7 +606,7 @@ stopFiring() {
   }
 };
 
-} //end class
+} // end class
 
 /** Name of GenericEvent that is broadcast when {@link #reset} method occurs.
 * @type {string}

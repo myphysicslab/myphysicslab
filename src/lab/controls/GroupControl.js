@@ -98,5 +98,5 @@ setEnabled(enabled) {
   goog.array.forEach(this.controls_, function(c) { c.setEnabled(enabled); });
 };
 
-} //end class
+} // end class
 exports = GroupControl;

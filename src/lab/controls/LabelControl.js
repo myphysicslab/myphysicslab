@@ -74,5 +74,5 @@ setEnabled(enabled) {
   this.label_.disabled = !enabled;
 };
 
-} //end class
+} // end class
 exports = LabelControl;

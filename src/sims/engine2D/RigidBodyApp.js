@@ -368,7 +368,7 @@ setThrust(value) {
   this.broadcastParameter(RigidBodyApp.en.THRUST);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

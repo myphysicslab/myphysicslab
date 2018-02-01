@@ -86,5 +86,5 @@ setForce(force) {
   this.force_ = force;
 };
 
-} //end class
+} // end class
 exports = ConstantForceLaw;

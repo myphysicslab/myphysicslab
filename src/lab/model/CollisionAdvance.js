@@ -1253,7 +1253,7 @@ setWayPoints(wayPoints) {
   this.wayPoints_ = goog.array.clone(wayPoints);
 };
 
-} //end class
+} // end class
 
 /** The maximum number of times to go thru the loop in `advance()` without a successful
 step that advances the simulation time; when this limit is exceeded then `advance()`

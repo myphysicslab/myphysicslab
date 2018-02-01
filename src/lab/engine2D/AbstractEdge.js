@@ -255,7 +255,7 @@ setVertex2(vertex) {
 /** @abstract */
 testCollisionEdge(collisions, edge, time) {};
 
-} //end class
+} // end class
 
 /**
 @const

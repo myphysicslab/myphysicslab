@@ -910,7 +910,7 @@ static zeroArray(array) {
 };
 
 
-};
+} // end class
 
 
 /** Flag indicates when advanced-compile option is being used during compilation

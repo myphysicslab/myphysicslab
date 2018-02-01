@@ -393,6 +393,6 @@ start() {
   //console.log(Util.prettyPrint(this.sim.toString()));
 };
 
-} //end class
+} // end class
 
 exports = Engine2DApp;

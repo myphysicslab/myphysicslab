@@ -548,7 +548,7 @@ getStability() {
   return Math.sqrt(this.tension_/this.density_)*this.deltaT_/this.deltaX_;
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

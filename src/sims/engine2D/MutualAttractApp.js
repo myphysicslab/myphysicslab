@@ -212,7 +212,7 @@ setNumBodies(value) {
   this.broadcastParameter(MutualAttractApp.en.NUMBER_BODIES);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

@@ -83,5 +83,5 @@ removeMemo(memorizable) {
   goog.array.remove(this.memorizables_, memorizable);
 };
 
-}
+} // end class
 exports = ConcreteMemoList;

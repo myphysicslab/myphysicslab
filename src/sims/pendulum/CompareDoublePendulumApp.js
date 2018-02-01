@@ -581,7 +581,7 @@ setSeparation_() {
     this.sim2.alignConnectors();
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

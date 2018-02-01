@@ -277,7 +277,7 @@ setThrust(value) {
   this.broadcastParameter(ContactApp.en.THRUST);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

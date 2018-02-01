@@ -231,5 +231,5 @@ updateCollision(c) {
   c.creator = Util.DEBUG ? 'PathEndPoint' : '';
 };
 
-} //end class
+} // end class
 exports = PathEndPoint;

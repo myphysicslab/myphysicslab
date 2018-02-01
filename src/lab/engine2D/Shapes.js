@@ -406,7 +406,7 @@ static makeWall(width, height, edgeIndex, opt_name, opt_localName) {
   return w;
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

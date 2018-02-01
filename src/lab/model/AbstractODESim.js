@@ -126,5 +126,5 @@ setVarsList(varsList) {
   this.varsList_ = varsList;
 };
 
-} //end class
+} // end class
 exports = AbstractODESim;

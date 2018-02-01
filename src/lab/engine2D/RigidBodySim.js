@@ -744,7 +744,7 @@ setElasticity(value) {
   this.broadcast(new GenericEvent(this, RigidBodySim.ELASTICITY_SET, value));
 };
 
-} //end class
+} // end class
 
 /** Offset in the VarsList for a RigidBody's x position
 * @type {number}

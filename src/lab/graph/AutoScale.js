@@ -567,7 +567,7 @@ updateRange_(line, nowX, nowY) {
   }
 };
 
-} //end class
+} // end class
 
 /** Name of event broadcast when a new enclosing simulation rectangle has been
 * calculated.

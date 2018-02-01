@@ -62,5 +62,5 @@ This is a convenient way for a test to make known the time step to use.
 */
 setTimeStep(timeStep) {}
 
-} //end class
+} // end class
 exports = AdvanceStrategy;

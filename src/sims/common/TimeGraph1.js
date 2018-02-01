@@ -215,7 +215,7 @@ getSubjects() {
   return [ this, this.line1, this.line2, this.line3, this.view, this.autoScale ];
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

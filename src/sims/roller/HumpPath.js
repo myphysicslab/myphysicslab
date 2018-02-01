@@ -56,7 +56,7 @@ y_func(t) {
   return 3 + t*t*(-7 + t*t)/6;
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

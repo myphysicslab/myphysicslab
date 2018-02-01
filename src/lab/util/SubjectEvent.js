@@ -61,5 +61,5 @@ done by {@link Util#toName}.
 */
 nameEquals(name) {}
 
-}
+} // end class
 exports = SubjectEvent;

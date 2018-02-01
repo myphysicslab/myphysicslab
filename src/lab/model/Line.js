@@ -37,5 +37,5 @@ getStartPoint() {}
 */
 getVector() {}
 
-} //end class
+} // end class
 exports = Line;

@@ -170,5 +170,5 @@ toArray() {
   return r;
 };
 
-} //end class
+} // end class
 exports = VarsHistory;

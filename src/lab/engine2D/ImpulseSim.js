@@ -1440,7 +1440,7 @@ applyImpulse(impulse) {
   }
 };
 
-} //end class
+} // end class
 
 /** For debugging, this allows code to look for collisions, but does not actually
 * return them. This allows to debug code for finding nearest point between objects.

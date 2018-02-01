@@ -179,6 +179,6 @@ setAttract(attract) {
   return this;
 };
 
-} //end class
+} // end class
 
 exports = SpringNonLinear2;

@@ -792,7 +792,7 @@ start() {
   this.simRun.startFiring();
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

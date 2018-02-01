@@ -154,5 +154,5 @@ similar(obj, opt_tolerance) {
   return this.offset_.nearEqual(f.getOffset(), opt_tolerance);
 };
 
-} //end class
+} // end class
 exports = Impulse;

@@ -622,7 +622,7 @@ setShape(value) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @enum {string}

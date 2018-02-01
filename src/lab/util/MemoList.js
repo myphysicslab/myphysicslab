@@ -62,5 +62,5 @@ getMemos() {}
 */
 removeMemo(memorizable) {}
 
-}
+} // end class
 exports = MemoList;

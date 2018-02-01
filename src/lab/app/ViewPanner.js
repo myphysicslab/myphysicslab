@@ -74,5 +74,5 @@ mouseDrag(loc_screen) {
 */
 finishDrag() {};
 
-} //end class
+} // end class
 exports = ViewPanner;

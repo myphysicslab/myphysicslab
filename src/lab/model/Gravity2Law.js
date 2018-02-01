@@ -290,7 +290,7 @@ setGravity(gravity) {
   this.broadcastParameter(Gravity2Law.en.GRAVITY);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

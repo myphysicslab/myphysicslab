@@ -178,6 +178,6 @@ getVelocity() {
   return this.velocity;
 };
 
-} //end class
+} // end class
 
 exports = RollerCollision;

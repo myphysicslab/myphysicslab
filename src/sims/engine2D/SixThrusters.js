@@ -110,7 +110,7 @@ static getDirectionBody(index, body) {
   return new Vector(tmag, 0).rotate(SixThrusters.thrustAngle[index]);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {!Array<number>}

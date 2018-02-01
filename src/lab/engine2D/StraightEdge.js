@@ -536,5 +536,5 @@ testCollisionEdge(collisions, edge, time) {
   }
 };
 
-} //end class
+} // end class
 exports = StraightEdge;

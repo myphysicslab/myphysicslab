@@ -200,5 +200,5 @@ updateCollision(time) {
   super.updateCollision(time);
 };
 
-} //end class
+} // end class
 exports = CornerEdgeCollision;

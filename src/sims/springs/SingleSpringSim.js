@@ -423,7 +423,7 @@ setFixedPoint(value) {
   this.broadcastParameter(SingleSpringSim.en.FIXED_POINT);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

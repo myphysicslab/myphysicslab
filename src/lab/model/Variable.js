@@ -72,5 +72,5 @@ See {@link myphysicslab.lab.model.VarsList#getSequence}.
 * @param {number} value the value of this Variable
 */
 setValueSmooth(value) {}
-}
+} // end class
 exports = Variable;

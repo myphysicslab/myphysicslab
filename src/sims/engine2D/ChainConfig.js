@@ -92,7 +92,7 @@ static makeChain(sim, options) {
   return r;
 };
 
-} //end class
+} // end class
 
 /** @typedef {{
     wallPivotX: number,

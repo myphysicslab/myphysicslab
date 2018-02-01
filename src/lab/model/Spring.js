@@ -304,5 +304,5 @@ setStiffness(stiffness) {
   return this;
 };
 
-} //end class
+} // end class
 exports = Spring;

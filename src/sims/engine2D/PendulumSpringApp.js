@@ -257,7 +257,7 @@ setRestLength(value) {
   this.broadcastParameter(PendulumSpringApp.en.SPRING_LENGTH);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

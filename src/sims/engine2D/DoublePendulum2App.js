@@ -217,7 +217,7 @@ getSubjects() {
   return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

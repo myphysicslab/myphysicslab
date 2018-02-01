@@ -201,7 +201,7 @@ setup() {
 start() {
 };
 
-} //end class
+} // end class
 
 /**  Names of HTML div, form, and input element's to search for by using
 * `document.getElementById()`.

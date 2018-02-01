@@ -468,7 +468,7 @@ setSpringDamping(value) {
   this.broadcastParameter(RollerSingleSim.en.SPRING_DAMPING);
 }
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

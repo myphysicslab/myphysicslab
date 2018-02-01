@@ -754,7 +754,7 @@ setAnchorDamping(value) {
   this.broadcastParameter(MoveableDoublePendulumSim.en.ANCHOR_DAMPING);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

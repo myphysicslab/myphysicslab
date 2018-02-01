@@ -235,7 +235,7 @@ setSquareBlocks(value) {
   this.broadcastParameter(PileConfig.en.SQUARE_BLOCKS);
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

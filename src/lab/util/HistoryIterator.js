@@ -57,5 +57,5 @@ nextValue() {}
 */
 previousValue() {}
 
-}
+} // end class
 exports = HistoryIterator;

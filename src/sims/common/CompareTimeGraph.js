@@ -201,6 +201,6 @@ addControl(control) {
   return control;
 };
 
-} //end class
+} // end class
 
 exports = CompareTimeGraph;

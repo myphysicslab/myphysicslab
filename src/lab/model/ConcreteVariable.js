@@ -181,5 +181,5 @@ setValueSmooth(value) {
   this.value_ = value;
 };
 
-}
+} // end class
 exports = ConcreteVariable;

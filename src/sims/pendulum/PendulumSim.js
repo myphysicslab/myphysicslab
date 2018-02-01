@@ -578,7 +578,7 @@ setPivot(value) {
   this.modifyObjects();
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

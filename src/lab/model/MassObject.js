@@ -438,5 +438,5 @@ position of this object.
 */
 worldToBody(p_world) {}
 
-} //end class
+} // end class
 exports = MassObject;

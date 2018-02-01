@@ -543,7 +543,7 @@ setDamping(value) {
   this.broadcastParameter(DoubleSpringSim.en.DAMPING);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

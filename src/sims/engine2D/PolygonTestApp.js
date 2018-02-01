@@ -278,7 +278,7 @@ setThrust(value) {
   this.broadcastParameter(PolygonTestApp.en.THRUST);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

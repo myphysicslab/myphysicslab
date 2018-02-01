@@ -711,7 +711,7 @@ setElasticity(value) {
   this.broadcastParameter(Molecule1Sim.en.ELASTICITY);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

@@ -261,7 +261,7 @@ static repeatChar(str, size) {
   return s;
 };
 
-}
+} // end class
 
 /**  A handy flag for debugging.
 * @type {boolean}

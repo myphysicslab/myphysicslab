@@ -99,5 +99,5 @@ worldToBody(p_world) {
   return new Vector(vx, vy);
 };
 
-} //end class
+} // end class
 exports = LocalCoords;

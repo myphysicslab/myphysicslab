@@ -114,5 +114,5 @@ static attachRigidBody(sim, body1, attach1_body, body2, attach2_body, normalType
       normalType, Vector.EAST);
 };
 
-} //end class
+} // end class
 exports = JointUtil;

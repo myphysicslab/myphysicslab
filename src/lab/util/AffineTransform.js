@@ -313,7 +313,7 @@ translate(x, y) {
   return new AffineTransform(this.m11_, this.m12_, this.m21_, this.m22_, dx, dy);
 };
 
-}
+} // end class
 
 /** The identity AffineTransform, which leaves a point unchanged when it is applied.
 @type {!AffineTransform}

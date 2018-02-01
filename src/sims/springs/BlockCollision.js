@@ -167,6 +167,6 @@ updateCollision(time) {
   this.distance_ = this.rightBlock_.getLeftWorld() - this.leftBlock_.getRightWorld();
 };
 
-} //end class
+} // end class
 
 exports = BlockCollision;

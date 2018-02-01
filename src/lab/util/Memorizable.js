@@ -31,5 +31,5 @@ regularly after each simulation time step.
 @return {undefined}
 */
 memorize() {}
-}
+} // end class
 exports = Memorizable;

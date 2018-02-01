@@ -42,5 +42,5 @@ class Observer extends Printable {
 */
 observe(event) {}
 
-}
+} // end class
 exports = Observer;

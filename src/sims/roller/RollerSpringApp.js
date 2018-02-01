@@ -169,7 +169,7 @@ setSimRect(simRect) {
   this.simView.setSimRect(simRect);
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

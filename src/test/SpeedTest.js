@@ -213,7 +213,7 @@ static small_small() {
       /*expectedCollisions=*/1);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

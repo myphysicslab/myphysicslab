@@ -94,6 +94,6 @@ static makeNGon(n, radius) {
   return p;
 };
 
-} //end class
+} // end class
 
 exports = TestShapes;

@@ -198,7 +198,7 @@ updateCollision(time) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 @type {string}

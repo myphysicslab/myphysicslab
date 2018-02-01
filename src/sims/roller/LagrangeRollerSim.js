@@ -399,7 +399,7 @@ setMass(value) {
   this.broadcastParameter(LagrangeRollerSim.en.MASS);
 }
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

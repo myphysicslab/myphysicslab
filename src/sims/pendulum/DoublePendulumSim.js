@@ -500,7 +500,7 @@ setRod2Length(value) {
   this.broadcastParameter(DoublePendulumSim.en.ROD_2_LENGTH);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

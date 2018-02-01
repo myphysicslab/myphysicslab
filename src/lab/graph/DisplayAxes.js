@@ -548,5 +548,5 @@ setZIndex(zIndex) {
   }
 };
 
-} //end class
+} // end class
 exports = DisplayAxes;

@@ -97,7 +97,7 @@ this SimView so that the simulation rectangle maps to the current screen rectang
 */
 setSimRect(simRect) {}
 
-} //end class
+} // end class
 
 /** Name of event broadcast when the CoordMap changes, see {@link #setCoordMap}.
 * @type {string}

@@ -100,7 +100,7 @@ similar(obj, opt_tolerance) {
   return obj == this;
 };
 
-} //end class
+} // end class
 
 /** Counter used for naming SimObjects.
 * @type {number}

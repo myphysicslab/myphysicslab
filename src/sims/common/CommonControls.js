@@ -452,7 +452,7 @@ static makeURLScriptButton(easyScript, simRun) {
   return new ButtonControl(EasyScriptParser.i18n.URL_SCRIPT, copyURL);
 };
 
-} //end class
+} // end class
 
 /** Value of alpha for "short trails" effect.
 * @type {number}

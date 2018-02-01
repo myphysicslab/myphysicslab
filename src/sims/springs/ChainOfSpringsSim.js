@@ -562,7 +562,7 @@ setStiffness(value) {
   this.broadcastParameter(ChainOfSpringsSim.en.STIFFNESS);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

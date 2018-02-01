@@ -604,7 +604,7 @@ static modifierMatchesEvent(modifier, evt) {
   return true;
 };
 
-} //end class
+} // end class
 
 /**  Specifies a set of modifier keys that can occur during browser events.
 

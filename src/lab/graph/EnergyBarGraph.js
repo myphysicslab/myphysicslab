@@ -876,7 +876,7 @@ timeCheck(minEnergy) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

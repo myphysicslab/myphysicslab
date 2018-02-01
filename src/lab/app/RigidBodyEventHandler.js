@@ -356,7 +356,7 @@ setDragStiffness(stiffness) {
   this.dragStiffness_ = stiffness;
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

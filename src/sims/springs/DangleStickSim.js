@@ -462,7 +462,7 @@ setStickLength(value) {
   this.broadcastParameter(DangleStickSim.en.STICK_LENGTH);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

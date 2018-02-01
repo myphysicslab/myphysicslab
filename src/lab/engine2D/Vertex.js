@@ -142,5 +142,5 @@ setEdge1(edge) {}
 */
 setEdge2(edge) {}
 
-} //end class
+} // end class
 exports = Vertex;

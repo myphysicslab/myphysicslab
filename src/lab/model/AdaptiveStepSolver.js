@@ -233,7 +233,7 @@ step(stepSize) {
   return null;
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

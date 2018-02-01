@@ -204,7 +204,7 @@ observe(event) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @typedef {{simObj: !NumericalPath, obs: !GenericObserver, dispPath: !DisplayPath}}

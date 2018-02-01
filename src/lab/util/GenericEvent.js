@@ -81,5 +81,5 @@ nameEquals(name) {
   return this.name_ == Util.toName(name);
 };
 
-}
+} // end class
 exports = GenericEvent;

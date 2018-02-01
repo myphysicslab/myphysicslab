@@ -83,5 +83,5 @@ of bodies involved.
 */
 updateCollision(c) {}
 
-} //end class
+} // end class
 exports = Connector;

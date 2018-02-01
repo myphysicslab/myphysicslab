@@ -69,7 +69,7 @@ time in green, the message in black; you can change colors in the message by add
 */
 myPrint(message, colors) {}
 
-} //end class
+} // end class
 
 /** Proximity testing means we avoid expensive collision testing when bodies are so far
 apart there is no way they can collide. For debugging, you can turn off the proximity

@@ -260,7 +260,7 @@ store(value) {
   }
   return this.pointerToIndex(this.lastPtr_);
 };
-}
+} // end class
 
 /**
 * @type {string}
@@ -379,5 +379,5 @@ previousValue() {
   return this.cList_.values_[this.pointer_];
 };
 
-}
+} // end class
 exports = CircularList;

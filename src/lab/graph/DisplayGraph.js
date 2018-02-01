@@ -428,5 +428,5 @@ setZIndex(zIndex) {
   this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
 };
 
-} //end class
+} // end class
 exports = DisplayGraph;

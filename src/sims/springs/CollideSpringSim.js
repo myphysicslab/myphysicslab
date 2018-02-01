@@ -576,7 +576,7 @@ setStiffness(value) {
   this.broadcastParameter(CollideSpringSim.en.SPRING_STIFFNESS);
 };
 
-} //end class
+} // end class
 
 /** Constant that indicates 'start in middle' configuration.
 * @const

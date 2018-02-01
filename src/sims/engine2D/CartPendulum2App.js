@@ -291,7 +291,7 @@ graphSetup(body) {
   this.timeGraph.line2.setYVariable(pendulum.getVarsIndex()+4); // angle
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

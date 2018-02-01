@@ -116,5 +116,5 @@ of bodies.  This is used after *backing up in time* to the moment before the col
 */
 updateCollision(time) {}
 
-} //end class
+} // end class
 exports = Collision;

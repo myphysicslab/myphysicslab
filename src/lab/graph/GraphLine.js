@@ -525,7 +525,7 @@ setYVariable(yVar) {
   }
 };
 
-} //end class
+} // end class
 
 /** Event broadcast when {@link #reset} is called.
 * @type {string}

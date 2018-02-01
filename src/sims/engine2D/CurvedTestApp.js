@@ -290,7 +290,7 @@ setThrust(value) {
   this.broadcastParameter(CurvedTestApp.en.THRUST);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

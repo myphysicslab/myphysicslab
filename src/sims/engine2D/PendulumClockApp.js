@@ -274,7 +274,7 @@ setTurningForce(value) {
   this.broadcastParameter(PendulumClockConfig.en.TURNING_FORCE);
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

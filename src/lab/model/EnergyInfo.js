@@ -158,5 +158,5 @@ setWorkDone(value) {
   this.workDone_ = value;
 };
 
-} //end class
+} // end class
 exports = EnergyInfo;

@@ -705,7 +705,7 @@ static printRigidBody(sim, index) {
         +Util.NF5(sim.getEnergyInfo().getTotalEnergy()));
 };
 
-} //end class
+} // end class
 
 /** ABORT_ON_FAIL = true means generate an exception to immediately stop the tests.
 * @type {boolean}

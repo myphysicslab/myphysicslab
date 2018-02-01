@@ -30,5 +30,5 @@ itself.
 @return {!Array<!myphysicslab.lab.util.Subject>} the Subjects contained in this object
 */
 getSubjects() {}
-}
+} // end class
 exports = SubjectList;

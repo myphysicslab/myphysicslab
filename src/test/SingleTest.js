@@ -106,7 +106,7 @@ static runTests() {
   Engine2DTestRig.runTests();
 };
 
-} //end class
+} // end class
 
 goog.exportSymbol('runTests', SingleTest.runTests);
 exports = SingleTest;

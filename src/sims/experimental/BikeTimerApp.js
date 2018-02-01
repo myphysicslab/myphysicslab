@@ -155,7 +155,7 @@ static makeBikeTimerApp(sound_url) {
   clock.pause();
 };
 
-} //end class
+} // end class
 
 goog.exportSymbol('makeBikeTimerApp', BikeTimerApp.makeBikeTimerApp);
 

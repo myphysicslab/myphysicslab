@@ -434,7 +434,7 @@ setDamping(value) {
   this.broadcastParameter(Spring2DSim.en.DAMPING);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

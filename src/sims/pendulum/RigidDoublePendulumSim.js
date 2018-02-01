@@ -530,7 +530,7 @@ setAngle2(value) {
   this.broadcastParameter(RigidDoublePendulumSim.en.ANGLE_2);
 };
 
-} //end class
+} // end class
 
 /** The parts that make up a RigidDoublePendulumSim: two RigidBodys and the four Joints
 that connect them.

@@ -247,7 +247,7 @@ static makeClockWithGears(sim, pendulumLength, center) {
   anchor.setNonCollideEdge(EdgeRange.fromEdge(escapeEdges[1]));
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

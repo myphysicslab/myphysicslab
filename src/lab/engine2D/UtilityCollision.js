@@ -27,10 +27,11 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 /** Provides utility methods for calculating collision information.
-
-@private
 */
 class UtilityCollision {
+/**
+@private
+*/
 constructor() {
   throw new Error();
 };
@@ -769,7 +770,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
   }
 };
 
-} //end class
+} // end class
 
 // track frequency of various events for performance tuning
 /** number of times that an edge-edge collision test occurred

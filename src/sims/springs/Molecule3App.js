@@ -503,7 +503,7 @@ setStiffnessSpecial(value) {
   this.broadcastParameter(Molecule3App.en.STIFFNESS_SPECIAL);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

@@ -239,7 +239,7 @@ updateCollision(c) {
   c.creator = 'PathJoint';
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

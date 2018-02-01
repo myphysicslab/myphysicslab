@@ -62,5 +62,5 @@ simulation while stepping thru with debugger.
 */
 setDebugPaint(fn) {}
 
-} //end class
+} // end class
 exports = CollisionSim;

@@ -864,5 +864,5 @@ setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-} //end class
+} // end class
 exports = DisplayShape;

@@ -131,7 +131,7 @@ y_func(t) {
     return 0;
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

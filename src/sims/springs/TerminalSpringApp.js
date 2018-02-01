@@ -122,7 +122,7 @@ eval(script, opt_output) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!VerticalLayout.elementIds} elem_ids

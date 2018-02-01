@@ -170,5 +170,5 @@ similar(obj, opt_tolerance) {
   return this.getVector().nearEqual(f.getVector(), opt_tolerance);
 };
 
-} //end class
+} // end class
 exports = Force;

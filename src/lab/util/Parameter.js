@@ -128,7 +128,7 @@ appropriate type (boolean, number or string).
 */
 setFromString(value) {}
 
-}
+} // end class
 
 /** Name of event signifying that the set of values and choices returned by
 {@link #getValues} and {@link #getChoices} has been modified: choices may have been added or

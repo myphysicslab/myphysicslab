@@ -344,5 +344,5 @@ start() {
   this.simRun.startFiring();
 };
 
-} //end class
+} // end class
 exports = AbstractApp;

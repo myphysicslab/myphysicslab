@@ -157,6 +157,6 @@ static addCollision(collisions, edge1, edge2, pt, time) {
   //console.log('StraightStraight.addCollision '+rbc);
 };
 
-} //end class
+} // end class
 
 exports = StraightStraight;

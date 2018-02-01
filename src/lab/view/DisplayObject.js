@@ -110,5 +110,5 @@ Default is zero.
 */
 setZIndex(zIndex) {}
 
-} //end class
+} // end class
 exports = DisplayObject;

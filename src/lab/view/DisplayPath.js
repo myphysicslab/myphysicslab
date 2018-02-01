@@ -456,7 +456,7 @@ setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

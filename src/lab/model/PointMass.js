@@ -300,7 +300,7 @@ similar(obj, opt_tolerance) {
   return true;
 };
 
-} //end class
+} // end class
 
 /** Counter used for naming PointMass.
 * @type {number}

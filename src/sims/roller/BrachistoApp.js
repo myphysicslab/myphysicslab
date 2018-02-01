@@ -184,7 +184,7 @@ setup() {
   this.clock.pause();
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

@@ -1271,7 +1271,7 @@ tableSpacing(k) {
   }
 };
 
-} //end class
+} // end class
 
 /** Iterates over a NumericalPath to give the `x-y` location of a set of points.
 Assumes that the `p` values (distance along path) are increasing in the table.

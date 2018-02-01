@@ -287,7 +287,7 @@ setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-} //end class
+} // end class
 
 /**  the fixed length of the un-transformed path
 * @type {number}

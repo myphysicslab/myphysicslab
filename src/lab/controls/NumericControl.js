@@ -74,5 +74,5 @@ observe(event) {
   }
 };
 
-} //end class
+} // end class
 exports = NumericControl;

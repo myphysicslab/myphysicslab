@@ -255,6 +255,6 @@ subtract(p) {
   this.z_ -= p.getZ();
   return this;
 };
-}
+} // end class
 
 exports = MutableVector;

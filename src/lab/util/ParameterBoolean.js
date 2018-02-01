@@ -196,5 +196,5 @@ setValue(value) {
   }
 };
 
-}
+} // end class
 exports = ParameterBoolean;

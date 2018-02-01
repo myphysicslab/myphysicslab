@@ -104,5 +104,5 @@ similar(obj, opt_tolerance) {
   return ml.getEndPoint().nearEqual(this.getEndPoint(), opt_tolerance);
 };
 
-} //end class
+} // end class
 exports = ConcreteLine;

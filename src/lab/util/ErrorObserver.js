@@ -30,5 +30,5 @@ class ErrorObserver extends Printable {
 */
 notifyError(error) {}
 
-}
+} // end class
 exports = ErrorObserver;

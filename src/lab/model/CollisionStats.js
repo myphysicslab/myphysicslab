@@ -154,5 +154,5 @@ update(collisions) {
   }
 };
 
-} //end class
+} // end class
 exports = CollisionStats;

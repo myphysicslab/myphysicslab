@@ -597,7 +597,7 @@ zoomOut() {
   this.setHeight(this.height_ * this.zoom);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

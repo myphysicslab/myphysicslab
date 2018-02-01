@@ -22,11 +22,10 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /**  Provides static functions for handling interactions between two
 {@link myphysicslab.lab.engine2D.CircularEdge CircularEdges}.
-
-@private
 */
 class CircleCircle {
 /**
+@private
 */
 constructor() {
   throw new Error();
@@ -261,5 +260,5 @@ static addCollision(contact, collisions, self, other, distance, len, coe, time) 
   UtilityCollision.addCollision(collisions, rbc);
 };
 
-} //end class
+} // end class
 exports = CircleCircle;

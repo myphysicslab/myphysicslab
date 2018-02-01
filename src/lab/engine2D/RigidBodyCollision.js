@@ -897,5 +897,5 @@ updateEstimatedTime(time, doUpdate) {
   }
 };
 
-} //end class
+} // end class
 exports = RigidBodyCollision;

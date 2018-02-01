@@ -128,5 +128,5 @@ rebuildMenu() {
   }
 };
 
-} //end class
+} // end class
 exports = ChoiceControl;

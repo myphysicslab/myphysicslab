@@ -905,7 +905,7 @@ setStickiness(value) {
   this.broadcastParameter(RollerFlightSim.en.STICKINESS);
 };
 
-} //end class
+} // end class
 
 /** Value of TRACK_VAR that indicates the ball is on the track
 * @type {number}

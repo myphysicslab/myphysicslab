@@ -1226,7 +1226,7 @@ printNumContacts() {
   };
 };
 
-} //end class
+} // end class
 
 /** Find subsets of related contacts to solve each subset separately for contact forces.
 This feature is useful for cases where there are a lot of contacts that are in separate

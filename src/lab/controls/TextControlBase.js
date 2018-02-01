@@ -282,5 +282,5 @@ validate(event) {
   }
 };
 
-} //end class
+} // end class
 exports = TextControlBase;

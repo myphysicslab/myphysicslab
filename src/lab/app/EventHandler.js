@@ -99,7 +99,7 @@ for that event.
 */
 handleKeyEvent(keyCode, pressed, keyEvent) {}
 
-} //end class
+} // end class
 
 /**  Name of event broadcast when mouse drag occurs. The value of the event is the
 * object being dragged.

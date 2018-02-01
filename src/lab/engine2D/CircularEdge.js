@@ -940,7 +940,7 @@ testCollisionEdge(collisions, edge, time) {
   }
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}

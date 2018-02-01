@@ -108,6 +108,6 @@ getPotentialEnergy() {
   return this.getStiffness() * (6 * Math.log(len) + 4/(len*len) - this.minPE_);
 };
 
-} //end class
+} // end class
 
 exports = SpringNonLinear;

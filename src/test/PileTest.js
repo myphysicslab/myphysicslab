@@ -808,7 +808,7 @@ static additive_pile_circle_test(expectedBlocks) {
   Engine2DTestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

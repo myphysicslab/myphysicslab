@@ -123,5 +123,5 @@ setCallback(callBack) {
   this.callBack_ = callBack;
 };
 
-}
+} // end class
 exports = ClockTask;

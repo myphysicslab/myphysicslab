@@ -617,7 +617,7 @@ setSpring2Length(value) {
   this.broadcastParameter(CollideBlocksSim.en.LENGTH_2);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

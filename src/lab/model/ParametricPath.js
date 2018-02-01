@@ -77,5 +77,5 @@ x_func(t) {}
 */
 y_func(t) {}
 
-} //end class
+} // end class
 exports = ParametricPath;

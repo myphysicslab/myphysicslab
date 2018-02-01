@@ -199,5 +199,5 @@ stopFiring() {
   this.delta_ = 0;
 };
 
-}
+} // end class
 exports = Timer;

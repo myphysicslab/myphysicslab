@@ -917,7 +917,7 @@ static roller_end_point_test() {
   Engine2DTestRig.checkTightJoints(sim, 0.003);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

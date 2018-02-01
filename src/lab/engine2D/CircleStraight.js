@@ -28,11 +28,10 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 @todo Perhaps nearestPointByAngle is not needed in testCollision? Instead just reject
 the edge-edge collision if not both the new and old impact points are within the arc of
 the circle.
-
-@private
 */
 class CircleStraight {
 /**
+@private
 */
 constructor() {
   throw new Error();
@@ -249,5 +248,5 @@ static addCollision(contact, collisions, straight, circle, dist,
   UtilityCollision.addCollision(collisions, rbc);
 };
 
-} //end class
+} // end class
 exports = CircleStraight;

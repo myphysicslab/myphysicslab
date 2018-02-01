@@ -99,5 +99,5 @@ memorize() {
   this.function_();
 };
 
-}
+} // end class
 exports = GenericMemo;

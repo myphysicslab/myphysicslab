@@ -113,7 +113,7 @@ static make2(sim, rect, opt_thickness) {
       rect.getCenter());
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

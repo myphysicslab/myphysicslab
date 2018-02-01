@@ -124,7 +124,7 @@ static addGear(p, r1, depth, numTeeth, outPercent, inPercent, startEdges) {
   p.closePath();
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

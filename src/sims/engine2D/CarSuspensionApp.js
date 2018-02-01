@@ -309,7 +309,7 @@ setStiffness(value) {
   this.broadcastParameter(CarSuspensionApp.en.STIFFNESS);
 };
 
-} //end class
+} // end class
 
 /**
 * @enum {number}

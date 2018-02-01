@@ -308,5 +308,5 @@ static findNearestDragable(labCanvas, start_screen, eventHandler) {
   return null;
 };
 
-} //end class
+} // end class
 exports = MouseTracker;

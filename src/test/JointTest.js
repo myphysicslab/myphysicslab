@@ -501,7 +501,7 @@ static two_blocks_2_dbl_joint_1() {
   Engine2DTestRig.checkTightJoints(sim, 0.000001);
 };
 
-} //end class
+} // end class
 
 /**
 * @enum {number}

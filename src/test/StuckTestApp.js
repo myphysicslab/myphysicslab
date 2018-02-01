@@ -84,7 +84,7 @@ getClassName() {
   return 'StuckTestApp';
 };
 
-} //end class
+} // end class
 
 /**
 * @param {!TabLayout.elementIds} elem_ids

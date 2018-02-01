@@ -45,5 +45,5 @@ unchanged.
 */
 saveStart() {}
 
-}
+} // end class
 exports = Parser;

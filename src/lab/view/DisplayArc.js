@@ -301,5 +301,5 @@ setZIndex(value) {
   this.zIndex_ = value;
 };
 
-} //end class
+} // end class
 exports = DisplayArc;

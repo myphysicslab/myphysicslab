@@ -237,7 +237,7 @@ getSubjects() {
       this.autoScale2 ];
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

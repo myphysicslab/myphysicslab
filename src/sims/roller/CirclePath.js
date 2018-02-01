@@ -67,7 +67,7 @@ y_func(t) {
   return this.radius_*Math.sin(t);
 };
 
-} //end class
+} // end class
 
 /** Set of internationalized strings.
 @typedef {{

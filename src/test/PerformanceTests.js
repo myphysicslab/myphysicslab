@@ -86,7 +86,7 @@ static runTests() {
   Engine2DTestRig.runTests();
 };
 
-} //end class
+} // end class
 
 goog.exportSymbol('runTests', PerformanceTests.runTests);
 exports = PerformanceTests;

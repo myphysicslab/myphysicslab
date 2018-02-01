@@ -267,7 +267,7 @@ static make(sim, options) {
   sim.alignConnectors();
 };
 
-} //end class
+} // end class
 
 /**
 * @typedef {{stickLength: number,

@@ -360,7 +360,7 @@ setZIndex(zIndex) {
   this.zIndex_ = zIndex;
 };
 
-} //end class
+} // end class
 
 /** Drawing mode constant indicating jagged line.
 * @type {number}

@@ -379,7 +379,7 @@ static double_rod_thrust_test() {
       /*expectedCollisions=*/0);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {string}

@@ -71,5 +71,5 @@ remove(edgeRange) {
   goog.array.remove(this.ranges_, edgeRange);
 };
 
-} //end class
+} // end class
 exports = EdgeGroup;

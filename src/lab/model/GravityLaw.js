@@ -241,7 +241,7 @@ setZeroEnergyLevel(value) {
   this.broadcastParameter(GravityLaw.en.ZERO_ENERGY);
 };
 
-} //end class
+} // end class
 
 /**
 * @type {number}
