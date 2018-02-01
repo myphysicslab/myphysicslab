@@ -42,6 +42,14 @@ implies that it is a unit normal vector.
 */
 class Edge extends Printable {
 
+constructor() {
+  super();
+  /** Whether this Edge is a straight line.
+  * @type {boolean}
+  */
+  this.isStraight;
+}
+
 /** Add this Edge to the currently open path of the JavaScript canvas context for
 drawing the Edge. The Edge should be drawn in local body coordinates.
 @param {!CanvasRenderingContext2D} context the JavaScript canvas context to draw this
@@ -327,12 +335,6 @@ RigidBodyCollision to the list. This ignores collisions with Vertexes.
 */
 testCollisionEdge(collisions, edge, time) {}
 
-
 } //end class
-
-/** Whether this Edge is a straight line.
-* @type {boolean}
-*/
-Edge.prototype.isStraight;
 
 exports = Edge;
