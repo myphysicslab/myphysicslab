@@ -54,36 +54,41 @@ const ExpectedPerf = {
   },
   'ERN_MacBookPro2013': {
     'Safari': {
-      'all': {
-        'six_blocks_perf': 1.25,
-        'pile_10_perf': 3.74,
-        'clock_gears_perf': 1.33
+      'simple': {
+        'six_blocks_perf': 0.94,
+        'pile_10_perf': 2.86,
+        'clock_gears_perf': 0.64
+      },
+      'advanced': {
+        'six_blocks_perf': 0.94,
+        'pile_10_perf': 3.00,
+        'clock_gears_perf': 0.64
       }
     },
     'Firefox': {
       'simple': {
-        'six_blocks_perf': 1.3,
-        'pile_10_perf': 2.0,
-        'clock_gears_perf': 1.9
+        'six_blocks_perf': 0.75,
+        'pile_10_perf': 1.03,
+        'clock_gears_perf': 0.92
       },
       'advanced': {
-        'six_blocks_perf': 0.6,
-        'pile_10_perf': 1.1,
-        'clock_gears_perf': 1.4
+        'six_blocks_perf': 0.66,
+        'pile_10_perf': 1.10,
+        'clock_gears_perf': 1.2
       }
     },
     'Chrome': {
       'simple': {
-        'six_blocks_perf': 1.33,
-        'pile_10_perf': 2.20,
+        'six_blocks_perf': 0.56,
+        'pile_10_perf': 1.08,
         'pile_20_perf': 19.00,
-        'clock_gears_perf': 2.78
+        'clock_gears_perf': 0.91
       },
       'advanced': {
-        'six_blocks_perf': 0.60,
+        'six_blocks_perf': 0.56,
         'pile_10_perf': 1.15,
         'pile_20_perf': 11.24,
-        'clock_gears_perf': 2.39
+        'clock_gears_perf': 0.9
       }
     },
   }
