@@ -715,11 +715,11 @@ static printRigidBody(sim, index) {
 };
 
 /** If the value does not match the expected value, then report a test failure.
-* @param {number} expected  the expected value
-* @param {number} value  the value to test
+* @param {*} expected  the expected value
+* @param {*} value  the value to test
 */
 static assertEquals(expected, value) {
-  if (value != expected) {
+  if (value !== expected) {
     var s = 'expected='+expected+' but was actual='+value;
     Engine2DTestRig.reportTestResults(false, 'value', s);
   }

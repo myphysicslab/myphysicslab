@@ -17,6 +17,7 @@ goog.module('myphysicslab.test.UnitTest2');
 const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
 const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 const Util = goog.require('myphysicslab.lab.util.Util');
+const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link Engine2DTestRig}.
@@ -34,6 +35,7 @@ class UnitTest2 {
 static runTests() {
   Engine2DTestRig.startTests();
   VectorTest.test();
+  UtilTest.test();
   Engine2DTestRig.schedule(Engine2DTestRig.finishTests);
   Engine2DTestRig.runTests();
 };
