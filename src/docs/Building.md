@@ -1040,11 +1040,6 @@ format the compiled code to be more readable.
 
 ## Debugging (Running Uncompiled)
 
-NOTE: The ability to run uncompiled is
-[not working](https://github.com/google/closure-compiler/issues/2786) in the latest
-myphysicslab source code. You can use a version of the source code prior to January 15,
-2018 if you need this.
-
 It is possible to run myPhysicsLab simulations from
 **uncompiled JavaScript source code** which makes debugging easier. Running from
 source code preserves line numbers and symbols which makes error messages and stack
