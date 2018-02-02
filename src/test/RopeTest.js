@@ -37,6 +37,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const checkContactDistances = Engine2DTestRig.checkContactDistances;
+const makeVars = Engine2DTestRig.makeVars;
+const runTest = Engine2DTestRig.runTest;
+const schedule = Engine2DTestRig.schedule;
+const setBodyVars = Engine2DTestRig.setBodyVars;
+
 /** Tests various configurations of Ropes.
 */
 class RopeTest {
@@ -46,14 +52,14 @@ class RopeTest {
 constructor() { throw new Error(); };
 
 static test() {
-  Engine2DTestRig.schedule(RopeTest.pendulum_rope_test);
-  Engine2DTestRig.schedule(RopeTest.pendulum_rope_test_2);
-  Engine2DTestRig.schedule(RopeTest.pendulum_rod_test);
-  Engine2DTestRig.schedule(RopeTest.pendulum_rope_bounce_test);
-  Engine2DTestRig.schedule(RopeTest.double_rope_spin_test);
-  Engine2DTestRig.schedule(RopeTest.double_rod_spin_test);
-  Engine2DTestRig.schedule(RopeTest.double_rope_thrust_test);
-  Engine2DTestRig.schedule(RopeTest.double_rod_thrust_test);
+  schedule(RopeTest.pendulum_rope_test);
+  schedule(RopeTest.pendulum_rope_test_2);
+  schedule(RopeTest.pendulum_rod_test);
+  schedule(RopeTest.pendulum_rope_bounce_test);
+  schedule(RopeTest.double_rope_spin_test);
+  schedule(RopeTest.double_rod_spin_test);
+  schedule(RopeTest.double_rope_thrust_test);
+  schedule(RopeTest.double_rod_thrust_test);
 };
 
 /**
@@ -121,9 +127,9 @@ static pendulum_rope_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rope_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(1*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0.464624, 2.5075476, -1.6254294, -1.9480108, -1.9189756, 2.5008213);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
+  var vars = makeVars(1*6);
+  setBodyVars(sim, vars, 0, -0.464624, 2.5075476, -1.6254294, -1.9480108, -1.9189756, 2.5008213);
+  runTest(sim, advance, /*runUntil=*/3.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0005,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0005,
       /*expectedCollisions=*/-1);
@@ -139,9 +145,9 @@ static pendulum_rope_test_2() {
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rope_setup(sim, advance);
   advance.setTimeStep(0.0025);
-  var vars = Engine2DTestRig.makeVars(1*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0.4646816, 2.5074788, -1.6254848, -1.9481484, -1.9189219, 2.5008787);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
+  var vars = makeVars(1*6);
+  setBodyVars(sim, vars, 0, -0.4646816, 2.5074788, -1.6254848, -1.9481484, -1.9189219, 2.5008787);
+  runTest(sim, advance, /*runUntil=*/3.0,
       /*expectedVars=*/vars, /*tolerance=*/0.000007,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000007,
       /*expectedCollisions=*/-1);
@@ -164,9 +170,9 @@ static pendulum_rod_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rod_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(1*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0.4724374, 2.508797, -1.6265058, -1.9447708, -1.9244047, 2.4944412);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
+  var vars = makeVars(1*6);
+  setBodyVars(sim, vars, 0, -0.4724374, 2.508797, -1.6265058, -1.9447708, -1.9244047, 2.4944412);
+  runTest(sim, advance, /*runUntil=*/3.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0001,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/-1);
@@ -208,13 +214,13 @@ static pendulum_rope_bounce_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rope_bounce_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(1*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -1.2820741, 0.3190586, -1.4043371, 2.2570863, -2.1692939, -2.5745948);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
+  var vars = makeVars(1*6);
+  setBodyVars(sim, vars, 0, -1.2820741, 0.3190586, -1.4043371, 2.2570863, -2.1692939, -2.5745948);
+  runTest(sim, advance, /*runUntil=*/4.0,
               /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.002,
       /*expectedCollisions=*/0);
@@ -275,14 +281,14 @@ static double_rope_spin_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rope_spin_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(2*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.0202249, 1.1878731, -0.0549298, -2.8669664, -3.2775885, -1.0964268);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 2.0202249, -1.1878731, 0.0549298, 2.8669664, 8.2637575, 2.398712);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
+  var vars = makeVars(2*6);
+  setBodyVars(sim, vars, 0, -2.0202249, 1.1878731, -0.0549298, -2.8669664, -3.2775885, -1.0964268);
+  setBodyVars(sim, vars, 1, 2.0202249, -1.1878731, 0.0549298, 2.8669664, 8.2637575, 2.398712);
+  runTest(sim, advance, /*runUntil=*/4.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
@@ -308,14 +314,14 @@ static double_rod_spin_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rod_spin_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(2*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -1.3440816, 2.7586505, -1.1513866, -2.2201892, -2.9211644, -0.7262073);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 1.8870925, -2.7586505, 1.0254415, 2.2201892, 9.245482, 3.1965811);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
+  var vars = makeVars(2*6);
+  setBodyVars(sim, vars, 0, -1.3440816, 2.7586505, -1.1513866, -2.2201892, -2.9211644, -0.7262073);
+  setBodyVars(sim, vars, 1, 1.8870925, -2.7586505, 1.0254415, 2.2201892, 9.245482, 3.1965811);
+  runTest(sim, advance, /*runUntil=*/4.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
@@ -338,13 +344,13 @@ static double_rope_thrust_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rope_thrust_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(2*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -20.0813603, -6.2898682, 0.7630124, 0.4718985, -3.0405913, 0.8092874);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -15.9186397, -5.7101318, -0.7630124, -0.4718985, 3.267749, 0.002753);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/6.0,
+  var vars = makeVars(2*6);
+  setBodyVars(sim, vars, 0, -20.0813603, -6.2898682, 0.7630124, 0.4718985, -3.0405913, 0.8092874);
+  setBodyVars(sim, vars, 1, -15.9186397, -5.7101318, -0.7630124, -0.4718985, 3.267749, 0.002753);
+  runTest(sim, advance, /*runUntil=*/6.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
+  runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/0);
@@ -367,13 +373,13 @@ static double_rod_thrust_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rod_thrust_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(2*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -9.7557763, -3.7491489, -0.2804153, 0.3478909, -3.2053655, -0.7700812);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -5.7012128, -4.2508511, 0.1544703, -0.3478909, 2.4690449, 0.5674662);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
+  var vars = makeVars(2*6);
+  setBodyVars(sim, vars, 0, -9.7557763, -3.7491489, -0.2804153, 0.3478909, -3.2053655, -0.7700812);
+  setBodyVars(sim, vars, 1, -5.7012128, -4.2508511, 0.1544703, -0.3478909, 2.4690449, 0.5674662);
+  runTest(sim, advance, /*runUntil=*/4.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/0);

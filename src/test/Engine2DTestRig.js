@@ -32,8 +32,8 @@ When using these test functions, be sure to set the `testName` class variable.
 
 ## Why the testName class property exists
 
-It is crazy that we can't get the name of the current test function from the stack in
-Javascript (as we do in Java). There are ways to do it, but the Error.stack property is
+We can't get the name of the current test function from the stack in
+Javascript. There are ways to do it, but the Error.stack property is
 non-standard (Chrome and Firefox only); and using arguments.callee.caller is standard
 but deprecated; and in either case we still have to prevent Google Closure from mangling
 the name of the function when compiled.  So it seems to be safer and easier to just
@@ -426,8 +426,7 @@ then the state of all objects at conclusion of the test.
 @param {number=} expectedSearches expected number of collision searches, or -1 to
         not test number of collision searches. Default is zero.
 */
-static runTest(sim, advance, runUntil, expectedVars, tolerance,
-      expectedEnergyDiff, energyTol, expectedCollisions, expectedSearches) {
+static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDiff, energyTol, expectedCollisions, expectedSearches) {
   if (sim instanceof ContactSim) {
     sim.setExtraAccelTimeStep(advance.getTimeStep());
   }
@@ -593,6 +592,7 @@ static reportTestResults(passed, testType, reason) {
     if (goog.isString(reason) && reason.length > 0) {
       Engine2DTestRig.myPrintln(reason, /*error=*/true);
     }
+    // show stack trace in console, to help figure out what went wrong.
     console.trace();
     if (Engine2DTestRig.ABORT_ON_FAIL) {
       throw(new Error());

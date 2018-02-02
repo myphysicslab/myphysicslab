@@ -226,8 +226,7 @@ static testCollision(collisions, straight, circle, time) {
 * @param {number} time current simulation time
 * @private
 */
-static addCollision(contact, collisions, straight, circle, dist,
-     pw, pb, time) {
+static addCollision(contact, collisions, straight, circle, dist, pw, pb, time) {
   var rbc = new EdgeEdgeCollision(circle, straight);
   goog.asserts.assert( circle.outsideIsOut() );
   rbc.ballNormal = false;

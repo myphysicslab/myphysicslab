@@ -33,6 +33,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const checkContactDistances = Engine2DTestRig.checkContactDistances;
+const makeVars = Engine2DTestRig.makeVars;
+const runTest = Engine2DTestRig.runTest;
+const schedule = Engine2DTestRig.schedule;
+const setBodyVars = Engine2DTestRig.setBodyVars;
+
 /**  Tests involving piles of many objects with engine2D physics engine.
 */
 class PileTest {
@@ -42,25 +48,25 @@ class PileTest {
 constructor() { throw new Error(); };
 
 static test() {
-  Engine2DTestRig.schedule(PileTest.pile_config_1_test);
-  Engine2DTestRig.schedule(PileTest.near_stable_connected_blocks_pile_test);
-  Engine2DTestRig.schedule(PileTest.stable_connected_blocks_pile_test);
-  Engine2DTestRig.schedule(PileTest.pile_10_random_blocks);
-  Engine2DTestRig.schedule(PileTest.connected_blocks_pile_test);
+  schedule(PileTest.pile_config_1_test);
+  schedule(PileTest.near_stable_connected_blocks_pile_test);
+  schedule(PileTest.stable_connected_blocks_pile_test);
+  schedule(PileTest.pile_10_random_blocks);
+  schedule(PileTest.connected_blocks_pile_test);
 };
 
 static testPerformance() {
-  Engine2DTestRig.schedule(PileTest.pile_10_perf);
+  schedule(PileTest.pile_10_perf);
   if (0 == 1 && Util.isChrome()) {
     // this test is too slow on non-Chrome browsers
-    Engine2DTestRig.schedule(PileTest.pile_20_perf);
+    schedule(PileTest.pile_20_perf);
   }
   /*  ERN March 13, 2014:  removing these tests because they are slow and aren't
   very different.
   t = Engine2DTestRig.getGlobalValue('ADDITIVE_PILE_SQUARE_BLOCKS', 17.0);
-  Engine2DTestRig.schedule(goog.partial(PileTest.additive_pile_square_test, t));
+  schedule(goog.partial(PileTest.additive_pile_square_test, t));
   t = Engine2DTestRig.getGlobalValue('ADDITIVE_PILE_CIRCLE_BLOCKS', 28.0);
-  Engine2DTestRig.schedule(goog.partial(PileTest.additive_pile_circle_test, t));
+  schedule(goog.partial(PileTest.additive_pile_circle_test, t));
   */
 };
 
@@ -116,12 +122,12 @@ static connected_blocks_pile_test() {
   var advance = new CollisionAdvance(sim);
   PileTest.connected_blocks_pile_setup(sim, advance);
   // run until collisions end; ignore binary searches
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
+  runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/null, /*tolerance=*/NaN,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
+  runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
                /*expectedCollisions=*/0);
@@ -213,19 +219,19 @@ static stable_connected_blocks_pile_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.stable_connected_blocks_pile_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(11*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, -1.3073175, -0, -7.6795634, 0, 3.9269908, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, 0, 3.9269908, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -0.8635095, -0, -7.4433597, 0, 16.4933614, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, 0, 21.2057504, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, 0, -0.7853982, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 9, 0.7732429, -0, -7.8054725, 0, 3.9269908, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 10, 0.1992863, -0, -7.7913917, 0, 3.9269908, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
+  var vars = makeVars(11*6);
+  setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
+  setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
+  setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
+  setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
+  setBodyVars(sim, vars, 4, -1.3073175, -0, -7.6795634, 0, 3.9269908, -0);
+  setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, 0, 3.9269908, -0);
+  setBodyVars(sim, vars, 6, -0.8635095, -0, -7.4433597, 0, 16.4933614, -0);
+  setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, 0, 21.2057504, -0);
+  setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, 0, -0.7853982, -0);
+  setBodyVars(sim, vars, 9, 0.7732429, -0, -7.8054725, 0, 3.9269908, -0);
+  setBodyVars(sim, vars, 10, 0.1992863, -0, -7.7913917, 0, 3.9269908, 0);
+  runTest(sim, advance, /*runUntil=*/10,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
       /*expectedCollisions=*/0);
@@ -327,39 +333,39 @@ static near_stable_connected_blocks_pile_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.near_stable_connected_blocks_pile_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(11*6);
+  var vars = makeVars(11*6);
   if (Util.isChrome()) {
-    Engine2DTestRig.setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, -0, 3.9269908, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 6, -0.48321, -0, -7.392295, -0, 16.4933614, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, -0, 21.2057504, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, -0, -0.7853982, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 9, 0.773236, -0, -7.8054793, -0, 3.9269908, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 10, 0.1992931, 0, -7.7913985, -0, 3.9269908, -0);
+    setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
+    setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
+    setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
+    setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
+    setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, -0);
+    setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, -0, 3.9269908, 0);
+    setBodyVars(sim, vars, 6, -0.48321, -0, -7.392295, -0, 16.4933614, -0);
+    setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, -0, 21.2057504, 0);
+    setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, -0, -0.7853982, 0);
+    setBodyVars(sim, vars, 9, 0.773236, -0, -7.8054793, -0, 3.9269908, 0);
+    setBodyVars(sim, vars, 10, 0.1992931, 0, -7.7913985, -0, 3.9269908, -0);
   } else {
-    Engine2DTestRig.setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 5, -0.6338649, 0, -8.3684045, -0, 3.9269908, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 6, -0.8635095, 0, -7.4433597, -0, 16.4933614, 0);
-    Engine2DTestRig.setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, 0, 21.2057504, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 8, 0.1624361, 0.0000002, -8.8758426, 0.0000004, -0.7853982, -0.0000004);
-    Engine2DTestRig.setBodyVars(sim, vars, 9, 0.7732544, -0, -7.8054609, 0, 3.9269908, -0);
-    Engine2DTestRig.setBodyVars(sim, vars, 10, 0.1992748, -0, -7.7913801, 0, 3.9269908, -0);
+    setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
+    setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
+    setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
+    setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
+    setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, 0);
+    setBodyVars(sim, vars, 5, -0.6338649, 0, -8.3684045, -0, 3.9269908, -0);
+    setBodyVars(sim, vars, 6, -0.8635095, 0, -7.4433597, -0, 16.4933614, 0);
+    setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, 0, 21.2057504, -0);
+    setBodyVars(sim, vars, 8, 0.1624361, 0.0000002, -8.8758426, 0.0000004, -0.7853982, -0.0000004);
+    setBodyVars(sim, vars, 9, 0.7732544, -0, -7.8054609, 0, 3.9269908, -0);
+    setBodyVars(sim, vars, 10, 0.1992748, -0, -7.7913801, 0, 3.9269908, -0);
   }
   // run until collisions end; ignore binary searches
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/6.0,
+  runTest(sim, advance, /*runUntil=*/6.0,
       /*expectedVars=*/vars, /*tolerance=*/0.001,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
+  runTest(sim, advance, /*runUntil=*/10.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
@@ -459,12 +465,12 @@ static pile_config_1_test() {
   var advance = new CollisionAdvance(sim);
   PileTest.pile_config_1_setup(sim, advance);
   // run until collisions are done; ignore binary searches
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
+  runTest(sim, advance, /*runUntil=*/9.0,
       /*expectedVars=*/null, /*tolerance=*/NaN,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
+  runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
@@ -509,27 +515,27 @@ static pile_10_random_blocks() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.pile_10_random_blocks_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(14*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, -1.4688341, 0, -7.366921, -0, 5.507218, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, -1.2888741, 0, -6.8611893, -0, 2.3604327, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -1.0893343, 0, -7.5132601, -0, 0.7919455, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 7, -0.5829513, 0, -8.0161773, -0, 0.7896626, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 8, -0.0678191, -0, -8.6057224, -0, 0.7853285, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 9, 0.1123147, -0, -7.4965551, -0, -0.771069, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 10, 0.0843676, 0, -7.8743626, -0, 0.8066319, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 11, 0.7205631, 0, -8.2682827, -0, 0.7924107, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 12, 0.7795149, 0, -7.7446799, 0, 3.9304584, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 13, 0.3485821, 0, -6.9817453, -0, 2.3673243, -0);
+  var vars = makeVars(14*6);
+  setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
+  setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
+  setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
+  setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
+  setBodyVars(sim, vars, 4, -1.4688341, 0, -7.366921, -0, 5.507218, -0);
+  setBodyVars(sim, vars, 5, -1.2888741, 0, -6.8611893, -0, 2.3604327, 0);
+  setBodyVars(sim, vars, 6, -1.0893343, 0, -7.5132601, -0, 0.7919455, -0);
+  setBodyVars(sim, vars, 7, -0.5829513, 0, -8.0161773, -0, 0.7896626, 0);
+  setBodyVars(sim, vars, 8, -0.0678191, -0, -8.6057224, -0, 0.7853285, -0);
+  setBodyVars(sim, vars, 9, 0.1123147, -0, -7.4965551, -0, -0.771069, -0);
+  setBodyVars(sim, vars, 10, 0.0843676, 0, -7.8743626, -0, 0.8066319, 0);
+  setBodyVars(sim, vars, 11, 0.7205631, 0, -8.2682827, -0, 0.7924107, 0);
+  setBodyVars(sim, vars, 12, 0.7795149, 0, -7.7446799, 0, 3.9304584, -0);
+  setBodyVars(sim, vars, 13, 0.3485821, 0, -6.9817453, -0, 2.3673243, -0);
   var startTime = Util.systemTime();
   // run until all collisions are done and energy is stable.
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  runTest(sim, advance, /*runUntil=*/8.0,
               /*expectedVars=*/vars, /*tolerance=*/0.01);
   // run another few seconds to have lots of contact calculations as well
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
+  runTest(sim, advance, /*runUntil=*/10.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0); // new Jan '13: test expected collisions
@@ -647,10 +653,10 @@ static pile_20_random_blocks() {
     throw new Error();
   }
   var startTime = Util.systemTime();
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
+  runTest(sim, advance, /*runUntil=*/9.0,
               /*expectedVars=*/null, /*tolerance=*/NaN);
   // run another few seconds to have lots of contact calculations as well
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
+  runTest(sim, advance, /*runUntil=*/12.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0);
@@ -770,7 +776,7 @@ static add_block_and_run(sim, advance, runUntil, square) {
   p.setElasticity(0.5);
   sim.addBody(p);
   // run till requested time, without any expected results
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/runUntil);
+  runTest(sim, advance, /*runUntil=*/runUntil);
   return (Util.systemTime() - startTime);
 };
 

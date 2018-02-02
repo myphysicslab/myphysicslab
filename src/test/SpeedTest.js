@@ -31,6 +31,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const checkContactDistances = Engine2DTestRig.checkContactDistances;
+const makeVars = Engine2DTestRig.makeVars;
+const runTest = Engine2DTestRig.runTest;
+const schedule = Engine2DTestRig.schedule;
+const setBodyVars = Engine2DTestRig.setBodyVars;
+
 /** Tests high speed collisions.  Some are between small object and thin walls.
 Some are between two small objects.
 */
@@ -41,10 +47,10 @@ class SpeedTest {
 constructor() { throw new Error(); };
 
 static test() {
-  Engine2DTestRig.schedule(SpeedTest.ball_vs_wall_0);
-  Engine2DTestRig.schedule(SpeedTest.ball_vs_wall_1);
-  Engine2DTestRig.schedule(SpeedTest.ball_vs_circle_0);
-  Engine2DTestRig.schedule(SpeedTest.small_small);
+  schedule(SpeedTest.ball_vs_wall_0);
+  schedule(SpeedTest.ball_vs_wall_1);
+  schedule(SpeedTest.ball_vs_circle_0);
+  schedule(SpeedTest.small_small);
 };
 
 /**
@@ -94,9 +100,9 @@ static ball_vs_wall_0() {
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_wall_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6*1);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -4.349276, 0.4830918, 4.4247788, -0.4310427, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
+  var vars = makeVars(6*1);
+  setBodyVars(sim, vars, 0, -4.349276, 0.4830918, 4.4247788, -0.4310427, 0, 0);
+  runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/37);
@@ -111,9 +117,9 @@ static ball_vs_wall_1() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_wall_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6*1);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -4.3493183, 0.4830918, 4.4248186, -0.4310427, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
+  var vars = makeVars(6*1);
+  setBodyVars(sim, vars, 0, -4.3493183, 0.4830918, 4.4248186, -0.4310427, 0, 0);
+  runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/37);
@@ -149,16 +155,16 @@ static ball_vs_circle_0() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_circle_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6*1);
+  var vars = makeVars(6*1);
   var expectedCollisions;
   if (Util.isChrome()) {
-    Engine2DTestRig.setBodyVars(sim, vars, 0, -5.6805659, -0.1123115, 5.6022192, 0.2347565, -0.0000012, -0);
+    setBodyVars(sim, vars, 0, -5.6805659, -0.1123115, 5.6022192, 0.2347565, -0.0000012, -0);
     expectedCollisions = 55;
   } else {
-    Engine2DTestRig.setBodyVars(sim, vars, 0, 4.2864427, 0.1090598, 5.7947777, -0.0042925, -0.0000012, -0);
+    setBodyVars(sim, vars, 0, 4.2864427, 0.1090598, 5.7947777, -0.0042925, -0.0000012, -0);
     expectedCollisions = 52;
   }
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
+  runTest(sim, advance, /*runUntil=*/10,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/expectedCollisions, /*expectedSearches=*/6);
@@ -203,11 +209,11 @@ static small_small() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.small_small_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6*2);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 3.7878932, 0, 0, 0, 0.7853982, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 71.2121068, 100, 0, 0, 0, 0);
+  var vars = makeVars(6*2);
+  setBodyVars(sim, vars, 0, 3.7878932, 0, 0, 0, 0.7853982, -0);
+  setBodyVars(sim, vars, 1, 71.2121068, 100, 0, 0, 0, 0);
   // use large time step of 0.1 to ensure that object passes thru in single step
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  runTest(sim, advance, /*runUntil=*/1.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
       /*expectedCollisions=*/1);

@@ -17,7 +17,6 @@ goog.module('myphysicslab.lab.util.test.VectorTest');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
 const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
-const Util = goog.require('myphysicslab.lab.util.Util');
 
 const assertEquals = Engine2DTestRig.assertEquals;
 const assertRoughlyEquals = Engine2DTestRig.assertRoughlyEquals;

@@ -31,6 +31,12 @@ const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
+const checkContactDistances = Engine2DTestRig.checkContactDistances;
+const makeVars = Engine2DTestRig.makeVars;
+const runTest = Engine2DTestRig.runTest;
+const schedule = Engine2DTestRig.schedule;
+const setBodyVars = Engine2DTestRig.setBodyVars;
+
 /** Defines tests involving {@link DoNothingApp}.
 */
 class DoNothingTest {
@@ -40,11 +46,11 @@ class DoNothingTest {
 constructor() { throw new Error(); };
 
 static test() {
-  Engine2DTestRig.schedule(DoNothingTest.do_nothing_grinder_test1);
-  Engine2DTestRig.schedule(DoNothingTest.do_nothing_grinder_test1b);
-  Engine2DTestRig.schedule(DoNothingTest.do_nothing_grinder_test2);
-  Engine2DTestRig.schedule(DoNothingTest.do_nothing_variable_test);
-  Engine2DTestRig.schedule(DoNothingTest.do_nothing_error);
+  schedule(DoNothingTest.do_nothing_grinder_test1);
+  schedule(DoNothingTest.do_nothing_grinder_test1b);
+  schedule(DoNothingTest.do_nothing_grinder_test2);
+  schedule(DoNothingTest.do_nothing_variable_test);
+  schedule(DoNothingTest.do_nothing_error);
 };
 
 /** DoNothingApp with variable rotating force on handle.
@@ -82,15 +88,15 @@ static do_nothing_variable_test() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_variable_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars((4 + 3)*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -1.0069176, -1.941661, 0.3746982, -0.1073186, -6.6510389, -0.7431672);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -0, 0, 2.9873821, -0.8556268, 3.1415927, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -1.1513247, -2.2201244, -0, -0, 1.5707963, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/40.0,
+  var vars = makeVars((4 + 3)*6);
+  setBodyVars(sim, vars, 0, -1.0069176, -1.941661, 0.3746982, -0.1073186, -6.6510389, -0.7431672);
+  setBodyVars(sim, vars, 1, -0, 0, 2.9873821, -0.8556268, 3.1415927, 0);
+  setBodyVars(sim, vars, 2, -1.1513247, -2.2201244, -0, -0, 1.5707963, 0);
+  setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/40.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // check that joints are tight
   Engine2DTestRig.checkTightJoints(sim, 0.005);
@@ -142,15 +148,15 @@ static do_nothing_grinder_test1() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars((4 + 3)*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.7257349, -4.1971916, -0.0918363, 2.5622131, 61.0303112, 6.5543294);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, -0, -0.7321898, 20.4279338, 3.1415927, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -3.1166463, -4.7991321, 0, -0, 1.5707963, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
+  var vars = makeVars((4 + 3)*6);
+  setBodyVars(sim, vars, 0, -2.7257349, -4.1971916, -0.0918363, 2.5622131, 61.0303112, 6.5543294);
+  setBodyVars(sim, vars, 1, 0, -0, -0.7321898, 20.4279338, 3.1415927, -0);
+  setBodyVars(sim, vars, 2, -3.1166463, -4.7991321, 0, -0, 1.5707963, -0);
+  setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/20.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   Engine2DTestRig.checkTightJoints(sim, 0.005);
 };
@@ -185,15 +191,15 @@ static do_nothing_grinder_test1b() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_1b_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars((4 + 3)*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.7245937, -4.2309373, -0.0925957, 2.560584, 61.028377, 6.5529456);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -0, -0, -0.7382445, 20.4149451, 3.1415927, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -3.1153414, -4.8377173, -0, -0, 1.5707963, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
+  var vars = makeVars((4 + 3)*6);
+  setBodyVars(sim, vars, 0, -2.7245937, -4.2309373, -0.0925957, 2.560584, 61.028377, 6.5529456);
+  setBodyVars(sim, vars, 1, -0, -0, -0.7382445, 20.4149451, 3.1415927, 0);
+  setBodyVars(sim, vars, 2, -3.1153414, -4.8377173, -0, -0, 1.5707963, 0);
+  setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/20.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // check that joints are reasonably tight
   Engine2DTestRig.checkTightJoints(sim, 0.01);
@@ -208,22 +214,22 @@ static do_nothing_grinder_test2() {
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
   // run for several seconds with handle force, to get it up to speed.
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10);
+  runTest(sim, advance, /*runUntil=*/10);
   // turn off the constant handle turning force, and damping
   var fls = sim.getForceLaws();
   for (var i=0; i<fls.length; i++) {
     sim.removeForceLaw(fls[i]);
   }
-  var vars = Engine2DTestRig.makeVars((4 + 3)*6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 1.8024594, 6.5378506, 0.307294, -0.7887431, 107.5135207, 3.0512303);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, 0, 2.4499844, -6.2884668, 3.1415927, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 2.0609592, 7.4754767, 0, 0, 1.5707963, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
+  var vars = makeVars((4 + 3)*6);
+  setBodyVars(sim, vars, 0, 1.8024594, 6.5378506, 0.307294, -0.7887431, 107.5135207, 3.0512303);
+  setBodyVars(sim, vars, 1, 0, 0, 2.4499844, -6.2884668, 3.1415927, 0);
+  setBodyVars(sim, vars, 2, 2.0609592, 7.4754767, 0, 0, 1.5707963, 0);
+  setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
+  setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
   // let it coast for a while, and check that energy is constant
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/40.0,
+  runTest(sim, advance, /*runUntil=*/40.0,
      /*expectedVars=*/vars, /*tolerance=*/0.00001,
      /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
      /*expectedCollisions=*/-1);

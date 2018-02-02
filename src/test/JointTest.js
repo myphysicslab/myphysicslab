@@ -38,6 +38,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const checkContactDistances = Engine2DTestRig.checkContactDistances;
+const makeVars = Engine2DTestRig.makeVars;
+const runTest = Engine2DTestRig.runTest;
+const schedule = Engine2DTestRig.schedule;
+const setBodyVars = Engine2DTestRig.setBodyVars;
+
 /** Tests various configurations of Joints.
 
 @todo: the tests with two moveable blocks are very confusing.  What would help is to
@@ -59,11 +65,11 @@ class JointTest {
 constructor() { throw new Error(); };
 
 static test() {
-  Engine2DTestRig.schedule(JointTest.pendulum_1_joint_1);
-  Engine2DTestRig.schedule(JointTest.pendulum_1_joint_2);
-  Engine2DTestRig.schedule(JointTest.pendulum_2_joints_1);
-  Engine2DTestRig.schedule(JointTest.pendulum_2_joints_offset_1);
-  Engine2DTestRig.schedule(JointTest.two_blocks_2_dbl_joint_1);
+  schedule(JointTest.pendulum_1_joint_1);
+  schedule(JointTest.pendulum_1_joint_2);
+  schedule(JointTest.pendulum_2_joints_1);
+  schedule(JointTest.pendulum_2_joints_offset_1);
+  schedule(JointTest.two_blocks_2_dbl_joint_1);
 };
 
 /**
@@ -269,9 +275,9 @@ static pendulum_1_joint_1() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_1_joint_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3687651, -1.3515045, -0.8170398, 0.9268013);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
+  var vars = makeVars(6);
+  setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3687651, -1.3515045, -0.8170398, 0.9268013);
+  runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -292,10 +298,10 @@ static pendulum_1_joint_2() {
   // special settings here:
   advance.setJointSmallImpacts(false);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS);
-  var vars = Engine2DTestRig.makeVars(6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3680947, -1.3501097, -0.8175124, 0.9262573);
+  var vars = makeVars(6);
+  setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3680947, -1.3501097, -0.8175124, 0.9262573);
   // loose tolerance for energy
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
+  runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/-1);
@@ -325,9 +331,9 @@ static pendulum_2_joints_1() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_2_joints_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -1.7297436, 0.0807141, -1.0039856, -0.1390604, -1.0448949, 0.0803936);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  var vars = makeVars(6);
+  setBodyVars(sim, vars, 0, -1.7297436, 0.0807141, -1.0039856, -0.1390604, -1.0448949, 0.0803936);
+  runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -378,9 +384,9 @@ static pendulum_2_joints_offset_1() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_2_joints_offset_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 1.7320508, 0, -1.1100682, 0.7857346, 0.9823923, 0.4722942);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  var vars = makeVars(6);
+  setBodyVars(sim, vars, 0, 1.7320508, 0, -1.1100682, 0.7857346, 0.9823923, 0.4722942);
+  runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -491,10 +497,10 @@ static two_blocks_2_dbl_joint_1() {
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.two_blocks_2_dbl_joint_setup(sim, advance);
-  var vars = Engine2DTestRig.makeVars(6*2);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 0.4674208, 0.1861004, -0.2921196, 0.5402443, 16.1616176, 2.0202021);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -0.0674208, -0.1861004, -0.1078804, -0.5402443, 16.1616176, 2.0202021);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
+  var vars = makeVars(6*2);
+  setBodyVars(sim, vars, 0, 0.4674208, 0.1861004, -0.2921196, 0.5402443, 16.1616176, 2.0202021);
+  setBodyVars(sim, vars, 1, -0.0674208, -0.1861004, -0.1078804, -0.5402443, 16.1616176, 2.0202021);
+  runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);

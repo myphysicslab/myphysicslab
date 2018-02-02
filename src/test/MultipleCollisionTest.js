@@ -34,6 +34,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const checkContactDistances = Engine2DTestRig.checkContactDistances;
+const makeVars = Engine2DTestRig.makeVars;
+const runTest = Engine2DTestRig.runTest;
+const schedule = Engine2DTestRig.schedule;
+const setBodyVars = Engine2DTestRig.setBodyVars;
+
 /**  Unit tests of {@link ImpulseSim}, for cases involving multiple simultaneous
 collisions.
 
@@ -47,38 +53,38 @@ class MultipleCollisionTest {
 constructor() { throw new Error(); };
 
 static test() {
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.SIMULTANEOUS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.HYBRID));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test1_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test2_0, CollisionHandling.SIMULTANEOUS, MultipleCollisionTest.BALL));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test2_0, CollisionHandling.SIMULTANEOUS, MultipleCollisionTest.BLOCK));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test2_1, CollisionHandling.SERIAL_GROUPED_LASTPASS, MultipleCollisionTest.BALL));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test2_1, CollisionHandling.HYBRID,  MultipleCollisionTest.BALL));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test2_1, CollisionHandling.HYBRID,  MultipleCollisionTest.BLOCK));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test3_0, CollisionHandling.SIMULTANEOUS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test3_0, CollisionHandling.HYBRID));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test3_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test4_0, CollisionHandling.SIMULTANEOUS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test4_0, CollisionHandling.HYBRID));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test4_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.SIMULTANEOUS,  MultipleCollisionTest.BALL));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.HYBRID,  MultipleCollisionTest.BALL));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.SERIAL_GROUPED_LASTPASS,  MultipleCollisionTest.BALL));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.SIMULTANEOUS,  MultipleCollisionTest.BLOCK));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.HYBRID,  MultipleCollisionTest.BLOCK));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test6_0, CollisionHandling.SERIAL_GROUPED_LASTPASS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test6_1, CollisionHandling.SIMULTANEOUS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test6_1, CollisionHandling.HYBRID));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test7_0, CollisionHandling.SIMULTANEOUS));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test7_1, CollisionHandling.HYBRID));
-  Engine2DTestRig.schedule(goog.partial(MultipleCollisionTest.test7_2, CollisionHandling.SERIAL_GROUPED_LASTPASS));
-  Engine2DTestRig.schedule(MultipleCollisionTest.test8_0);
-  Engine2DTestRig.schedule(MultipleCollisionTest.test8_1);
-  Engine2DTestRig.schedule(MultipleCollisionTest.test8_2);
-  Engine2DTestRig.schedule(MultipleCollisionTest.test8_3);
-  Engine2DTestRig.schedule(MultipleCollisionTest.test8_5);
-  Engine2DTestRig.schedule(MultipleCollisionTest.two_in_box);
-  Engine2DTestRig.schedule(MultipleCollisionTest.one_hits_two_in_box);
+  schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.SIMULTANEOUS));
+  schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.HYBRID));
+  schedule(goog.partial(MultipleCollisionTest.test1_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
+  schedule(goog.partial(MultipleCollisionTest.test2_0, CollisionHandling.SIMULTANEOUS, MultipleCollisionTest.BALL));
+  schedule(goog.partial(MultipleCollisionTest.test2_0, CollisionHandling.SIMULTANEOUS, MultipleCollisionTest.BLOCK));
+  schedule(goog.partial(MultipleCollisionTest.test2_1, CollisionHandling.SERIAL_GROUPED_LASTPASS, MultipleCollisionTest.BALL));
+  schedule(goog.partial(MultipleCollisionTest.test2_1, CollisionHandling.HYBRID,  MultipleCollisionTest.BALL));
+  schedule(goog.partial(MultipleCollisionTest.test2_1, CollisionHandling.HYBRID,  MultipleCollisionTest.BLOCK));
+  schedule(goog.partial(MultipleCollisionTest.test3_0, CollisionHandling.SIMULTANEOUS));
+  schedule(goog.partial(MultipleCollisionTest.test3_0, CollisionHandling.HYBRID));
+  schedule(goog.partial(MultipleCollisionTest.test3_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
+  schedule(goog.partial(MultipleCollisionTest.test4_0, CollisionHandling.SIMULTANEOUS));
+  schedule(goog.partial(MultipleCollisionTest.test4_0, CollisionHandling.HYBRID));
+  schedule(goog.partial(MultipleCollisionTest.test4_1, CollisionHandling.SERIAL_GROUPED_LASTPASS));
+  schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.SIMULTANEOUS,  MultipleCollisionTest.BALL));
+  schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.HYBRID,  MultipleCollisionTest.BALL));
+  schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.SERIAL_GROUPED_LASTPASS,  MultipleCollisionTest.BALL));
+  schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.SIMULTANEOUS,  MultipleCollisionTest.BLOCK));
+  schedule(goog.partial(MultipleCollisionTest.test5_0, CollisionHandling.HYBRID,  MultipleCollisionTest.BLOCK));
+  schedule(goog.partial(MultipleCollisionTest.test6_0, CollisionHandling.SERIAL_GROUPED_LASTPASS));
+  schedule(goog.partial(MultipleCollisionTest.test6_1, CollisionHandling.SIMULTANEOUS));
+  schedule(goog.partial(MultipleCollisionTest.test6_1, CollisionHandling.HYBRID));
+  schedule(goog.partial(MultipleCollisionTest.test7_0, CollisionHandling.SIMULTANEOUS));
+  schedule(goog.partial(MultipleCollisionTest.test7_1, CollisionHandling.HYBRID));
+  schedule(goog.partial(MultipleCollisionTest.test7_2, CollisionHandling.SERIAL_GROUPED_LASTPASS));
+  schedule(MultipleCollisionTest.test8_0);
+  schedule(MultipleCollisionTest.test8_1);
+  schedule(MultipleCollisionTest.test8_2);
+  schedule(MultipleCollisionTest.test8_3);
+  schedule(MultipleCollisionTest.test8_5);
+  schedule(MultipleCollisionTest.two_in_box);
+  schedule(MultipleCollisionTest.one_hits_two_in_box);
 };
 
 /**
@@ -129,10 +135,10 @@ static test1_0(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_wall_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*2);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 0, 0, 2.01, 3, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, 0, -2, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*2);
+  setBodyVars(sim, vars, 0, 0, 0, 2.01, 3, 0, 0);
+  setBodyVars(sim, vars, 1, 0, 0, -2, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -147,10 +153,10 @@ static test1_1(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_wall_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*2);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 0, 0, 1.7696, 2.76, -2.8848, -2.88);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, 0, -2, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*2);
+  setBodyVars(sim, vars, 0, 0, 0, 1.7696, 2.76, -2.8848, -2.88);
+  setBodyVars(sim, vars, 1, 0, 0, -2, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -213,11 +219,11 @@ static test2_0(collisionType, balls) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test2_prep(sim, advance, 0, balls);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.34, -1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 2.67, 2, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 3.675, 2, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -2.34, -1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 2.67, 2, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 3.675, 2, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -233,11 +239,11 @@ static test2_1(collisionType, balls) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test2_prep(sim, advance, 0, balls);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -1.005, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 5.01, 3, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -1.005, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 5.01, 3, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -297,11 +303,11 @@ static test3_0(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_hits_one_asymmetric_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.345, -2, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0.67, 1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 2.68, 2.5, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -2.345, -2, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 0.67, 1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 2.68, 2.5, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -317,11 +323,11 @@ static test3_1(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_hits_one_asymmetric_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.01, -1.5, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 3.015, 3, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -2.01, -1.5, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 3.015, 3, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -360,11 +366,11 @@ static test4_0(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_separate_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -1.005, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 3.005, 3, 1, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 3.005, 3, -1, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -1.005, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 3.005, 3, 1, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 3.005, 3, -1, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -379,11 +385,11 @@ static test4_1(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_separate_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0.9981859, 0.0068027, 0, 0, 0.1635374, 0.1632653);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 3.1344671, 3.1292517, 1, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 2.8619048, 2.8571429, -1, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -0.9981859, 0.0068027, 0, 0, 0.1635374, 0.1632653);
+  setBodyVars(sim, vars, 1, 3.1344671, 3.1292517, 1, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 2.8619048, 2.8571429, -1, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -451,11 +457,11 @@ static test5_0(collisionType, balls) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test5_prep(sim, advance, balls);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -5.01, -3, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 1.005, 0, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -5.01, -3, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 1.005, 0, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -496,12 +502,12 @@ static test6_0(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.center_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 0.1855924, 0.3179762, 0.2040219, 0.3495516, 0.4374322, -0.6771538);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 3.0447046, 0.4192534, 0.269004, 0.4608857, 1.2334118, -0.5780423);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -3.230297, -0.7372296, -0.473026, -0.8104373, -2.1640649, -1.0164494);
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, 0.1855924, 0.3179762, 0.2040219, 0.3495516, 0.4374322, -0.6771538);
+  setBodyVars(sim, vars, 1, 3.0447046, 0.4192534, 0.269004, 0.4608857, 1.2334118, -0.5780423);
+  setBodyVars(sim, vars, 2, -3.230297, -0.7372296, -0.473026, -0.8104373, -2.1640649, -1.0164494);
   // runUntil=1.0
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -516,11 +522,11 @@ static test6_1(collisionType) {
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.center_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 0, 0, 0, 0, 0.3612164, -0.8077347);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 3.1539628, 0.6064458, 0.3891116, 0.6666666, 1.082773, -0.8361323);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -3.1539628, -0.6064458, -0.3891116, -0.6666666, -2.0588196, -0.8361323);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, 0, 0, 0, 0, 0.3612164, -0.8077347);
+  setBodyVars(sim, vars, 1, 3.1539628, 0.6064458, 0.3891116, 0.6666666, 1.082773, -0.8361323);
+  setBodyVars(sim, vars, 2, -3.1539628, -0.6064458, -0.3891116, -0.6666666, -2.0588196, -0.8361323);
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -567,11 +573,11 @@ static test7_0(collisionType) {
   MultipleCollisionTest.side_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
   sim.setVelocityTol(0.05);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0, -0, -0.2407811, -1.1140238, 1.3296854, -1.1155496);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 2.8, 0, 1.2018587, 0.9293143, 1.6380862, 0.3255308);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -2.8, 0, 1.0409225, 0.1847096, 1.6330754, 0.2881469);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -0, -0, -0.2407811, -1.1140238, 1.3296854, -1.1155496);
+  setBodyVars(sim, vars, 1, 2.8, 0, 1.2018587, 0.9293143, 1.6380862, 0.3255308);
+  setBodyVars(sim, vars, 2, -2.8, 0, 1.0409225, 0.1847096, 1.6330754, 0.2881469);
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -587,11 +593,11 @@ static test7_1(collisionType) {
   MultipleCollisionTest.side_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0, -0, -0.2696156, -1.2474324, 1.4082314, -0.7521404);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 2.8, 0, 1.1939246, 0.8926056, 1.6523821, 0.3916737);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -2.8, 0, 1.077691, 0.3548268, 1.6904343, 0.5535298);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -0, -0, -0.2696156, -1.2474324, 1.4082314, -0.7521404);
+  setBodyVars(sim, vars, 1, 2.8, 0, 1.1939246, 0.8926056, 1.6523821, 0.3916737);
+  setBodyVars(sim, vars, 2, -2.8, 0, 1.077691, 0.3548268, 1.6904343, 0.5535298);
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -607,11 +613,11 @@ static test7_2(collisionType) {
   MultipleCollisionTest.side_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, -0.0005129, -0.002373, -0.2514185, -1.16324, 1.4220696, -0.6881151);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 2.8005129, 0.002373, 1.1681077, 0.7731586, 1.7396203, 0.7952992);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -2.8, 0, 1.0853108, 0.3900814, 1.7023212, 0.608527);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, -0.0005129, -0.002373, -0.2514185, -1.16324, 1.4220696, -0.6881151);
+  setBodyVars(sim, vars, 1, 2.8005129, 0.002373, 1.1681077, 0.7731586, 1.7396203, 0.7952992);
+  setBodyVars(sim, vars, 2, -2.8, 0, 1.0853108, 0.3900814, 1.7023212, 0.608527);
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -660,13 +666,13 @@ static test8_0() {
   MultipleCollisionTest.joint_collision_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*7);
-  Engine2DTestRig.setBodyVars(sim, vars, 4, 5.3468095, 1.3378378, -4.4909991, -0, 1.5708394, -0);
-  Engine2DTestRig.setBodyVars(sim, vars, 5, 3.3468392, 1.3378378, -4.4943779, 0, 1.5741319, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 6, -2.1936486, 0.3243243, -4.49445, 0.0000026, 1.5687089, -0.0000012);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.5,
+  var vars = makeVars(6*7);
+  setBodyVars(sim, vars, 4, 5.3468095, 1.3378378, -4.4909991, -0, 1.5708394, -0);
+  setBodyVars(sim, vars, 5, 3.3468392, 1.3378378, -4.4943779, 0, 1.5741319, 0);
+  setBodyVars(sim, vars, 6, -2.1936486, 0.3243243, -4.49445, 0.0000026, 1.5687089, -0.0000012);
+  runTest(sim, advance, /*runUntil=*/3.5,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/5.5,
+  runTest(sim, advance, /*runUntil=*/5.5,
                /*expectedVars=*/null, /*tolerance=*/0.000001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
                /*expectedCollisions=*/-1);
@@ -709,10 +715,10 @@ static test8_1() {
   MultipleCollisionTest.joint_collision_2_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*2);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 6.5, 1.5, -0, -0, 1.5707963, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 4.5, 1.5, 0, 0, 1.5707963, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
+  var vars = makeVars(6*2);
+  setBodyVars(sim, vars, 0, 6.5, 1.5, -0, -0, 1.5707963, 0);
+  setBodyVars(sim, vars, 1, 4.5, 1.5, 0, 0, 1.5707963, 0);
+  runTest(sim, advance, /*runUntil=*/3.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
@@ -753,11 +759,11 @@ static test8_2() {
   MultipleCollisionTest.joint_collision_3_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 5.3366667, 2, -0, -0, 1.5707963, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 3.3366667, 2, -0, -0, 1.5707963, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -3.6733333, -1, 0, 0, 1.5707963, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, 5.3366667, 2, -0, -0, 1.5707963, 0);
+  setBodyVars(sim, vars, 1, 3.3366667, 2, -0, -0, 1.5707963, 0);
+  setBodyVars(sim, vars, 2, -3.6733333, -1, 0, 0, 1.5707963, 0);
+  runTest(sim, advance, /*runUntil=*/3.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
@@ -801,10 +807,10 @@ static test8_3() {
   MultipleCollisionTest.joint_collision_4_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*2);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 1.4983143, 0.2052494, 0.8618191, -0.5534606, 8.9952832, 3.5216341);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0.5016857, -0.2052494, -0.8618191, 0.5534606, -10.0437751, -4.435186);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
+  var vars = makeVars(6*2);
+  setBodyVars(sim, vars, 0, 1.4983143, 0.2052494, 0.8618191, -0.5534606, 8.9952832, 3.5216341);
+  setBodyVars(sim, vars, 1, 0.5016857, -0.2052494, -0.8618191, 0.5534606, -10.0437751, -4.435186);
+  runTest(sim, advance, /*runUntil=*/3.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
@@ -855,12 +861,12 @@ static test8_5() {
   MultipleCollisionTest.joint_collision_5_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*4);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 2.51, 3, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, -3.505, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, -2, 0, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, -0.5, 0, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  var vars = makeVars(6*4);
+  setBodyVars(sim, vars, 0, 2.51, 3, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, -3.505, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, -2, 0, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 3, -0.5, 0, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
@@ -901,11 +907,11 @@ static two_in_box() {
   MultipleCollisionTest.two_in_box_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*3);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 1, 1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0.4975, 1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 1.5025, 1, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
+  var vars = makeVars(6*3);
+  setBodyVars(sim, vars, 0, 1, 1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 0.4975, 1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 1.5025, 1, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
@@ -950,12 +956,12 @@ static one_hits_two_in_box() {
   MultipleCollisionTest.one_hits_two_in_box_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = Engine2DTestRig.makeVars(6*4);
-  Engine2DTestRig.setBodyVars(sim, vars, 0, 0.9041667, 1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 1, 0.4016667, 1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 2, 1.4066667, 1, 0, 0, 0, 0);
-  Engine2DTestRig.setBodyVars(sim, vars, 3, -1.7125, 0, 0, 0, 0, 0);
-  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
+  var vars = makeVars(6*4);
+  setBodyVars(sim, vars, 0, 0.9041667, 1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 1, 0.4016667, 1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 2, 1.4066667, 1, 0, 0, 0, 0);
+  setBodyVars(sim, vars, 3, -1.7125, 0, 0, 0, 0, 0);
+  runTest(sim, advance, /*runUntil=*/2.0,
                /*expectedVars=*/vars, /*tolerance=*/0.000001);
 };
 
