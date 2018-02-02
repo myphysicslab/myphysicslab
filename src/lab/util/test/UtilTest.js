@@ -14,16 +14,16 @@
 
 goog.module('myphysicslab.lab.util.test.UtilTest');
 
-const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
-const assertEquals = Engine2DTestRig.assertEquals;
-const assertRoughlyEquals = Engine2DTestRig.assertRoughlyEquals;
-const assertTrue = Engine2DTestRig.assertTrue;
-const assertFalse = Engine2DTestRig.assertFalse;
-const assertThrows = Engine2DTestRig.assertThrows;
-const schedule = Engine2DTestRig.schedule;
-const startTest = Engine2DTestRig.startTest;
+const assertEquals = TestRig.assertEquals;
+const assertRoughlyEquals = TestRig.assertRoughlyEquals;
+const assertTrue = TestRig.assertTrue;
+const assertFalse = TestRig.assertFalse;
+const assertThrows = TestRig.assertThrows;
+const schedule = TestRig.schedule;
+const startTest = TestRig.startTest;
 
 class UtilTest {
 
@@ -31,9 +31,6 @@ static test() {
   schedule(UtilTest.testUtil);
 };
 
-/**
-@return {undefined}
-*/
 static testUtil() {
   startTest(UtilTest.groupName+'testUtil');
   // the default tolerance is 1E-14, so large and small numbers should differ

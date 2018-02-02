@@ -28,6 +28,7 @@ const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const TestShapes = goog.require('myphysicslab.test.TestShapes');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -36,8 +37,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Tests interactions between circular edges.
 */
@@ -101,7 +103,7 @@ are no collisions (after initial collision settles down).
 @private
 */
 static ball_ball_contact() {
-  Engine2DTestRig.testName = CircleCircleTest.groupName+'ball_ball_contact';
+  setTestName(CircleCircleTest.groupName+'ball_ball_contact');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   CircleCircleTest.ball_ball_contact_setup(sim, advance);
@@ -141,7 +143,7 @@ static concave_circle_and_ball_setup(sim, advance) {
 @private
 */
 static concave_circle_and_ball() {
-  Engine2DTestRig.testName = CircleCircleTest.groupName+'concave_circle_and_ball';
+  setTestName(CircleCircleTest.groupName+'concave_circle_and_ball');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   CircleCircleTest.concave_circle_and_ball_setup(sim, advance);

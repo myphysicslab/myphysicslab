@@ -28,6 +28,7 @@ const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const TestShapes = goog.require('myphysicslab.test.TestShapes');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -36,8 +37,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /**  Tests involving piles of many objects with engine2D physics engine.
 */
@@ -117,7 +119,7 @@ loses energy over time
 @return {undefined}
 */
 static connected_blocks_pile_test() {
-  Engine2DTestRig.testName = PileTest.groupName+'connected_blocks_pile_test';
+  setTestName(PileTest.groupName+'connected_blocks_pile_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.connected_blocks_pile_setup(sim, advance);
@@ -215,7 +217,7 @@ configuration across different browsers and changes to myPhysicsLab software.
 @return {undefined}
 */
 static stable_connected_blocks_pile_test() {
-  Engine2DTestRig.testName = PileTest.groupName+'stable_connected_blocks_pile_test';
+  setTestName(PileTest.groupName+'stable_connected_blocks_pile_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.stable_connected_blocks_pile_setup(sim, advance);
@@ -328,8 +330,7 @@ is still moving at the time of these test results.
 @return {undefined}
 */
 static near_stable_connected_blocks_pile_test() {
-  Engine2DTestRig.testName =
-     PileTest.groupName + 'near_stable_connected_blocks_pile_test';
+  setTestName(PileTest.groupName + 'near_stable_connected_blocks_pile_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.near_stable_connected_blocks_pile_setup(sim, advance);
@@ -460,7 +461,7 @@ to May 12, 2016.
 @return {undefined}
 */
 static pile_config_1_test() {
-  Engine2DTestRig.testName = PileTest.groupName+'pile_config_1_test';
+  setTestName(PileTest.groupName+'pile_config_1_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.pile_config_1_setup(sim, advance);
@@ -511,7 +512,7 @@ static pile_10_random_blocks_setup(sim, advance) {
 @return {undefined}
 */
 static pile_10_random_blocks() {
-  Engine2DTestRig.testName = PileTest.groupName+'pile_10_random_blocks';
+  setTestName(PileTest.groupName+'pile_10_random_blocks');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.pile_10_random_blocks_setup(sim, advance);
@@ -542,7 +543,7 @@ static pile_10_random_blocks() {
   var s = ' collisions='+advance.getCollisionTotals().getCollisions()
       +', steps='+advance.getCollisionTotals().getSteps()
       +', contacts='+sim.getNumContacts();
-  Engine2DTestRig.myPrintln('info: '+Engine2DTestRig.testName+s);
+  TestRig.myPrintln('info: '+TestRig.testName+s);
 };
 
 /** Performance test that runs pile_10_random_blocks; this is a stress test for
@@ -550,14 +551,14 @@ contact force calculation.
 */
 static pile_10_perf() {
   var testName = 'pile_10_perf';
-  var expected = Engine2DTestRig.perfExpected(testName);
+  var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
   PileTest.pile_10_random_blocks();
   var duration = Util.systemTime() - startTime;
-  Engine2DTestRig.testName = PileTest.groupName+testName;
-  var s = Engine2DTestRig.perfResult(duration, expected);
-  var timeLimit = Engine2DTestRig.getPerfLimit(expected);
-  Engine2DTestRig.reportTestResults(duration < timeLimit, 'performance', s);
+  setTestName(PileTest.groupName+testName);
+  var s = TestRig.perfResult(duration, expected);
+  var timeLimit = TestRig.getPerfLimit(expected);
+  TestRig.reportTestResults(duration < timeLimit, 'performance', s);
 };
 
 /** Makes a V-shaped set of walls for shapes to fall into, and sets various simulation
@@ -644,7 +645,7 @@ static pile_20_random_blocks_setup(sim, advance) {
 @return {undefined}
 */
 static pile_20_random_blocks() {
-  Engine2DTestRig.testName = PileTest.groupName+'pile_20_random_blocks';
+  setTestName(PileTest.groupName+'pile_20_random_blocks');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   PileTest.pile_20_random_blocks_setup(sim, advance);
@@ -663,7 +664,7 @@ static pile_20_random_blocks() {
   var s = ' collisions='+advance.getCollisionTotals().getCollisions()
       +', steps='+advance.getCollisionTotals().getSteps()
       +', contacts='+sim.getNumContacts();
-  Engine2DTestRig.myPrintln('info: '+Engine2DTestRig.testName+s);
+  TestRig.myPrintln('info: '+TestRig.testName+s);
 };
 
 /** Performance test that runs pile_20_random_blocks; this is a stress test for
@@ -687,14 +688,14 @@ changed so that the blocks are not moving after 7 or 8 seconds.
 */
 static pile_20_perf() {
   var testName = 'pile_20_perf';
-  var expected = Engine2DTestRig.perfExpected(testName);
+  var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
   PileTest.pile_20_random_blocks();
   var duration = Util.systemTime() - startTime;
-  Engine2DTestRig.testName = PileTest.groupName+testName;
-  var s = Engine2DTestRig.perfResult(duration, expected);
-  var timeLimit = Engine2DTestRig.getPerfLimit(expected);
-  Engine2DTestRig.reportTestResults(duration < timeLimit, 'performance', s);
+  setTestName(PileTest.groupName+testName);
+  var s = TestRig.perfResult(duration, expected);
+  var timeLimit = TestRig.getPerfLimit(expected);
+  TestRig.reportTestResults(duration < timeLimit, 'performance', s);
 };
 
 /**  Setup for additive_pile_test.  The name ends with underscore to prevent
@@ -745,7 +746,7 @@ static additive_pile_test(square, start_num_blocks) {
     simTime += TIME_SPAN;
     num_blocks++;
     var realTime = PileTest.add_block_and_run(sim, advance, simTime, square);
-    Engine2DTestRig.myPrintln('num_bodies='+num_blocks
+    TestRig.myPrintln('num_bodies='+num_blocks
         +' time='+Util.NF2(realTime)
         +' limit='+Util.NF2(LIMIT_TIME)
         +' totalTime='+Util.NF5(Util.systemTime() - startTime)
@@ -785,7 +786,7 @@ to the point that the sim is barely keeping up with real time
 @param {number} expectedBlocks
 */
 static additive_pile_square_test(expectedBlocks) {
-  Engine2DTestRig.testName = PileTest.groupName+'additive_pile_square_test';
+  setTestName(PileTest.groupName+'additive_pile_square_test');
   var startTime = Util.systemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/true,
     /*start_num_blocks=*/expectedBlocks-3);
@@ -793,8 +794,8 @@ static additive_pile_square_test(expectedBlocks) {
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+Util.NF5(totalTime);
-  Engine2DTestRig.myPrintln('additive_pile_square_test '+s);
-  Engine2DTestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
+  TestRig.myPrintln('additive_pile_square_test '+s);
+  TestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
 };
 
 /** Adds same sized round balls to a pile until performance degrades
@@ -802,7 +803,7 @@ to the point that the sim is barely keeping up with real time
 @param {number} expectedBlocks
 */
 static additive_pile_circle_test(expectedBlocks) {
-  Engine2DTestRig.testName = PileTest.groupName+'additive_pile_circle_test';
+  setTestName(PileTest.groupName+'additive_pile_circle_test');
   var startTime = Util.systemTime();
   var num_blocks = PileTest.additive_pile_test(/*square=*/false,
       /*start_num_blocks=*/expectedBlocks-3);
@@ -810,8 +811,8 @@ static additive_pile_circle_test(expectedBlocks) {
   var s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+Util.NF5(totalTime);
-  Engine2DTestRig.myPrintln('additive_pile_circle_test '+s);
-  Engine2DTestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
+  TestRig.myPrintln('additive_pile_circle_test '+s);
+  TestRig.reportTestResults(num_blocks >= expectedBlocks, 'performance', s);
 };
 
 } // end class

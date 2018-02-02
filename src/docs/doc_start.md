@@ -145,4 +145,5 @@ interfaces listed for ease of browsing.
 + `myphysicslab.test` tests of myphysicslab classes
     + [myphysicslab.test.Engine2DTestRig](myphysicslab.test.Engine2DTestRig.html)
     + [myphysicslab.test.Engine2DTests](myphysicslab.test.Engine2DTests.html)
+    + [myphysicslab.test.TestRig](myphysicslab.test.TestRig.html)
     + [myphysicslab.test.TestViewerApp](myphysicslab.test.TestViewerApp.html)

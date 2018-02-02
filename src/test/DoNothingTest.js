@@ -28,14 +28,16 @@ const Force = goog.require('myphysicslab.lab.model.Force');
 const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 const RotatingTestForce = goog.require('myphysicslab.sims.engine2D.RotatingTestForce');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Defines tests involving {@link DoNothingApp}.
 */
@@ -84,7 +86,7 @@ that looks for singular matrices.
 * @return {undefined}
 */
 static do_nothing_variable_test() {
-  Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_variable_test';
+  setTestName(DoNothingTest.groupName+'do_nothing_variable_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_variable_setup(sim, advance);
@@ -144,7 +146,7 @@ June 2015: this test is now less stable.  Change to run only 20 seconds.
 * @return {undefined}
 */
 static do_nothing_grinder_test1() {
-  Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_grinder_test1';
+  setTestName(DoNothingTest.groupName+'do_nothing_grinder_test1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
@@ -187,7 +189,7 @@ code for VELOCITY_AND_DISTANCE
 * @return {undefined}
 */
 static do_nothing_grinder_test1b() {
-  Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_grinder_test1b';
+  setTestName(DoNothingTest.groupName+'do_nothing_grinder_test1b');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_1b_setup(sim, advance);
@@ -209,7 +211,7 @@ static do_nothing_grinder_test1b() {
 * @return {undefined}
 */
 static do_nothing_grinder_test2() {
-  Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_grinder_test2';
+  setTestName(DoNothingTest.groupName+'do_nothing_grinder_test2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
@@ -267,7 +269,7 @@ and you can see the contact distances just before the error are unsteady:
 @return {undefined}
 */
 static do_nothing_error() {
-  Engine2DTestRig.testName = DoNothingTest.groupName+'do_nothing_error';
+  setTestName(DoNothingTest.groupName+'do_nothing_error');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_variable_setup(sim, advance);

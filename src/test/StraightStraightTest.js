@@ -29,6 +29,7 @@ const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const TestShapes = goog.require('myphysicslab.test.TestShapes');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -37,8 +38,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Tests interactions between polygons with straight edges only.
 
@@ -113,15 +115,15 @@ static commonSetup1(sim, advance, damping) {
 */
 static six_blocks_perf() {
   var testName = 'six_blocks_perf';
-  var expected = Engine2DTestRig.perfExpected(testName);
+  var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
   StraightStraightTest.six_blocks_settle();
-  Engine2DTestRig.testName = StraightStraightTest.groupName+testName;
+  setTestName(StraightStraightTest.groupName+testName);
   var endTime = Util.systemTime();
   var duration = endTime - startTime;
-  var s = Engine2DTestRig.perfResult(duration, expected);
-  var timeLimit = Engine2DTestRig.getPerfLimit(expected);
-  Engine2DTestRig.reportTestResults(duration <= timeLimit, 'performance', s);
+  var s = TestRig.perfResult(duration, expected);
+  var timeLimit = TestRig.getPerfLimit(expected);
+  TestRig.reportTestResults(duration <= timeLimit, 'performance', s);
 };
 
 /** Six blocks fall onto the ground and settle down (mostly) after 6 seconds.
@@ -152,7 +154,7 @@ collisions happen after blocks settle on the ground.
 @return {undefined}
 */
 static six_blocks_settle() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_settle';
+  setTestName(StraightStraightTest.groupName+'six_blocks_settle');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
@@ -193,7 +195,7 @@ at all contacts.
 @return {undefined}
 */
 static six_blocks_settle2() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_settle2';
+  setTestName(StraightStraightTest.groupName+'six_blocks_settle2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_settle_2_setup(sim, advance);
@@ -290,7 +292,7 @@ ensures that no further collisions happen, and energy is constant.
 @return {undefined}
 */
 static six_blocks_1() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_1';
+  setTestName(StraightStraightTest.groupName+'six_blocks_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_1_setup(sim, advance);
@@ -375,7 +377,7 @@ static six_blocks_2_setup(sim, advance) {
 @private
 */
 static six_blocks_2() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_2';
+  setTestName(StraightStraightTest.groupName+'six_blocks_2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_2_setup(sim, advance);
@@ -461,7 +463,7 @@ static six_blocks_3_setup(sim, advance) {
 @private
 */
 static six_blocks_3() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_3';
+  setTestName(StraightStraightTest.groupName+'six_blocks_3');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_3_setup(sim, advance);
@@ -574,7 +576,7 @@ static six_blocks_4_setup(sim, advance) {
 @package
 */
 static six_blocks_4() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_4';
+  setTestName(StraightStraightTest.groupName+'six_blocks_4');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_4_setup(sim, advance);
@@ -649,7 +651,7 @@ static six_blocks_5_setup(sim, advance) {
 @private
 */
 static six_blocks_5() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_5';
+  setTestName(StraightStraightTest.groupName+'six_blocks_5');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_5_setup(sim, advance);
@@ -712,7 +714,7 @@ static six_blocks_6_setup(sim, advance) {
 @private
 */
 static six_blocks_6() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_6';
+  setTestName(StraightStraightTest.groupName+'six_blocks_6');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_6_setup(sim, advance);
@@ -774,7 +776,7 @@ static six_blocks_7_setup(sim, advance) {
 @private
 */
 static six_blocks_7() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_7';
+  setTestName(StraightStraightTest.groupName+'six_blocks_7');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_7_setup(sim, advance);
@@ -836,7 +838,7 @@ static six_blocks_8_setup(sim, advance) {
 @private
 */
 static six_blocks_8() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_8';
+  setTestName(StraightStraightTest.groupName+'six_blocks_8');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_8_setup(sim, advance);
@@ -898,7 +900,7 @@ static six_blocks_9_setup(sim, advance) {
 @private
 */
 static six_blocks_9() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_9';
+  setTestName(StraightStraightTest.groupName+'six_blocks_9');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_9_setup(sim, advance);
@@ -978,7 +980,7 @@ static six_blocks_10_setup(sim, advance) {
 @private
 */
 static six_blocks_10() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_10';
+  setTestName(StraightStraightTest.groupName+'six_blocks_10');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_10_setup(sim, advance);
@@ -1052,7 +1054,7 @@ static six_blocks_11_setup(sim, advance) {
 @private
 */
 static six_blocks_11() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_11';
+  setTestName(StraightStraightTest.groupName+'six_blocks_11');
   // set the flag saying to not find related subsets of contacts
   var saveFlag = ContactSim.SUBSET_COLLISIONS;
   ContactSim.SUBSET_COLLISIONS = false;
@@ -1141,7 +1143,7 @@ static six_blocks_12_setup(sim, advance) {
 @private
 */
 static six_blocks_12() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'six_blocks_12';
+  setTestName(StraightStraightTest.groupName+'six_blocks_12');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_12_setup(sim, advance);
@@ -1181,7 +1183,7 @@ static hexagon_1_setup(sim, advance) {
 @private
 */
 static hexagon_1() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'hexagon_1';
+  setTestName(StraightStraightTest.groupName+'hexagon_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.hexagon_1_setup(sim, advance);
@@ -1222,7 +1224,7 @@ are no collisions.
 @private
 */
 static block_block_contact_1() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'block_block_contact_1';
+  setTestName(StraightStraightTest.groupName+'block_block_contact_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.block_block_contact_1_setup(sim, advance);
@@ -1260,7 +1262,7 @@ static block_block_contact_2_setup(sim, advance) {
 @private
 */
 static block_block_contact_2() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'block_block_contact_2';
+  setTestName(StraightStraightTest.groupName+'block_block_contact_2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.block_block_contact_2_setup(sim, advance);
@@ -1283,7 +1285,7 @@ to show that energy remains constant at a very small tolerance of 0.0000001.
 @private
 */
 static block_block_contact_2b() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'block_block_contact_2b';
+  setTestName(StraightStraightTest.groupName+'block_block_contact_2b');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.block_block_contact_2_setup(sim, advance);
@@ -1330,7 +1332,7 @@ static ngon_block_setup(sim, advance) {
 @return {undefined}
 */
 static ngon_block() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'ngon_block';
+  setTestName(StraightStraightTest.groupName+'ngon_block');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.ngon_block_setup(sim, advance);
@@ -1364,7 +1366,7 @@ static diamonds_setup(sim, advance) {
 @private
 */
 static diamonds() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'diamonds';
+  setTestName(StraightStraightTest.groupName+'diamonds');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.diamonds_setup(sim, advance);
@@ -1410,7 +1412,7 @@ simply that the collision handling is able to cope with this unusual case.
 @return {undefined}
 */
 static one_block1() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'one_block1';
+  setTestName(StraightStraightTest.groupName+'one_block1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.one_block1_setup(sim, advance);
@@ -1444,7 +1446,7 @@ static one_block2_setup(sim, advance) {
 @return {undefined}
 */
 static one_block2() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'one_block2';
+  setTestName(StraightStraightTest.groupName+'one_block2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.one_block2_setup(sim, advance);
@@ -1481,7 +1483,7 @@ static fast_close_setup(sim, advance) {
 @return {undefined}
 */
 static fast_close() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'fast_close';
+  setTestName(StraightStraightTest.groupName+'fast_close');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.fast_close_setup(sim, advance);
@@ -1513,7 +1515,7 @@ static corner_collision_setup(sim, advance) {
 @return {undefined}
 */
 static corner_collision() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'corner_collision';
+  setTestName(StraightStraightTest.groupName+'corner_collision');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.corner_collision_setup(sim, advance);
@@ -1546,7 +1548,7 @@ static rounded_corner_collision_setup(sim, advance) {
 @return {undefined}
 */
 static rounded_corner_collision() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'rounded_corner_collision';
+  setTestName(StraightStraightTest.groupName+'rounded_corner_collision');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.rounded_corner_collision_setup(sim, advance);
@@ -1601,7 +1603,7 @@ static oblique_corner_collision_setup(sim, advance) {
 @return {undefined}
 */
 static oblique_corner_collision() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'oblique_corner_collision';
+  setTestName(StraightStraightTest.groupName+'oblique_corner_collision');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.oblique_corner_collision_setup(sim, advance);
@@ -1749,7 +1751,7 @@ static acute_corners_setup(sim, advance) {
 @return {undefined}
 */
 static acute_corners() {
-  Engine2DTestRig.testName = StraightStraightTest.groupName+'acute_corners';
+  setTestName(StraightStraightTest.groupName+'acute_corners');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   StraightStraightTest.acute_corners_setup(sim, advance);

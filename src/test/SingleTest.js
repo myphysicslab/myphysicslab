@@ -18,7 +18,7 @@ const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
-const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const JointTest = goog.require('myphysicslab.test.JointTest');
 const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
 const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
@@ -48,7 +48,7 @@ constructor() {
 * @export
 */
 static runTests() {
-  Engine2DTestRig.startTests();
+  TestRig.startTests();
 
   //CircleCircleTest.test();
   //CircleStraightTest.ball_falls_on_floor_stuck()
@@ -104,8 +104,8 @@ static runTests() {
   //StraightStraightTest.test();
   VectorTest.test();
 
-  Engine2DTestRig.schedule(Engine2DTestRig.finishTests);
-  Engine2DTestRig.runTests();
+  TestRig.schedule(TestRig.finishTests);
+  TestRig.runTests();
 };
 
 } // end class

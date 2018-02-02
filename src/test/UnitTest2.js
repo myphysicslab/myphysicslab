@@ -14,13 +14,13 @@
 
 goog.module('myphysicslab.test.UnitTest2');
 
-const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
-{@link Engine2DTestRig}.
+{@link TestRig}.
 
 `GOOG_DEBUG` flag: Check the makefile to see if it is setting `GOOG_DEBUG` to false
 for this test; usually `Util.DEBUG` should be false when this is compiled to avoid
@@ -33,11 +33,11 @@ class UnitTest2 {
 * @export
 */
 static runTests() {
-  Engine2DTestRig.startTests();
+  TestRig.startTests();
   VectorTest.test();
   UtilTest.test();
-  Engine2DTestRig.schedule(Engine2DTestRig.finishTests);
-  Engine2DTestRig.runTests();
+  TestRig.schedule(TestRig.finishTests);
+  TestRig.runTests();
 };
 
 } // end class

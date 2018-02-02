@@ -32,6 +32,7 @@ const Rope = goog.require('myphysicslab.lab.engine2D.Rope');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const TestShapes = goog.require('myphysicslab.test.TestShapes');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -40,8 +41,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Tests various configurations of Ropes.
 */
@@ -123,7 +125,7 @@ static pendulum_rope_setup(sim, advance) {
 * @return {undefined}
 */
 static pendulum_rope_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rope_test';
+  setTestName(RopeTest.groupName+'pendulum_rope_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rope_setup(sim, advance);
@@ -140,7 +142,7 @@ static pendulum_rope_test() {
 * @return {undefined}
 */
 static pendulum_rope_test_2() {
-  Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rope_test_2';
+  setTestName(RopeTest.groupName+'pendulum_rope_test_2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rope_setup(sim, advance);
@@ -166,7 +168,7 @@ static pendulum_rod_setup(sim, advance) {
 * @return {undefined}
 */
 static pendulum_rod_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rod_test';
+  setTestName(RopeTest.groupName+'pendulum_rod_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rod_setup(sim, advance);
@@ -210,7 +212,7 @@ static pendulum_rope_bounce_setup(sim, advance) {
 * @return {undefined}
 */
 static pendulum_rope_bounce_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'pendulum_rope_bounce_test';
+  setTestName(RopeTest.groupName+'pendulum_rope_bounce_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.pendulum_rope_bounce_setup(sim, advance);
@@ -277,7 +279,7 @@ static double_rope_spin_setup(sim, advance) {
 * @return {undefined}
 */
 static double_rope_spin_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'double_rope_spin_test';
+  setTestName(RopeTest.groupName+'double_rope_spin_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rope_spin_setup(sim, advance);
@@ -310,7 +312,7 @@ static double_rod_spin_setup(sim, advance) {
 * @return {undefined}
 */
 static double_rod_spin_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'double_rod_spin_test';
+  setTestName(RopeTest.groupName+'double_rod_spin_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rod_spin_setup(sim, advance);
@@ -340,7 +342,7 @@ static double_rope_thrust_setup(sim, advance) {
 * @return {undefined}
 */
 static double_rope_thrust_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'double_rope_thrust_test';
+  setTestName(RopeTest.groupName+'double_rope_thrust_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rope_thrust_setup(sim, advance);
@@ -369,7 +371,7 @@ static double_rod_thrust_setup(sim, advance) {
 * @return {undefined}
 */
 static double_rod_thrust_test() {
-  Engine2DTestRig.testName = RopeTest.groupName+'double_rod_thrust_test';
+  setTestName(RopeTest.groupName+'double_rod_thrust_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   RopeTest.double_rod_thrust_setup(sim, advance);

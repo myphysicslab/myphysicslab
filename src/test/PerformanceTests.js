@@ -17,7 +17,7 @@ goog.module('myphysicslab.test.PerformanceTests');
 const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
-const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const JointTest = goog.require('myphysicslab.test.JointTest');
 const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
 const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
@@ -30,7 +30,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 /** Runs performance tests of the rigid body physics engine. See
 [2D Physics Engine Overview](Engine2D.html). Each test has an expected time, if it
 takes significantly longer then a failure is reported.
-The function {@link myphysicslab.test.Engine2DTestRig#getPerfLimit} contains the
+The function {@link myphysicslab.test.TestRig#getPerfLimit} contains the
 policy for 'how much longer than expected is a failure'.
 
 The expected time for each test is dependent on the particular machine that the test is
@@ -38,13 +38,13 @@ being run on, as well as the browser. The expected running time for the performa
 tests are specified in {@link myphysicslab.test.ExpectedPerf}. There is a separate
 number there for each combination of machine, browser, and test.
 
-+ **machine name** See {@link myphysicslab.test.Engine2DTestRig#getMachineName} to learn
++ **machine name** See {@link myphysicslab.test.TestRig#getMachineName} to learn
 how to specify the unique name of your particular machine in the file `MachineName.js`.
 If `MachineName.js` doesn't exist, then the performance tests will use large default
 values for the time limit so that no errors are reported.
 
 + **browser name** The browser name comes from
-{@link myphysicslab.test.Engine2DTestRig#getBrowserName}.
+{@link myphysicslab.test.TestRig#getBrowserName}.
 
 + **test name** The test name is usually the name of the test function such as
 `six_blocks_perf` for {@link myphysicslab.test.StraightStraightTest.six_blocks_perf}.
@@ -76,14 +76,14 @@ constructor() {
 * @export
 */
 static runTests() {
-  Engine2DTestRig.startTests();
+  TestRig.startTests();
   // 'warm up' the test environment by running a non-performance test first.
-  Engine2DTestRig.schedule(StraightStraightTest.six_blocks_settle);
+  TestRig.schedule(StraightStraightTest.six_blocks_settle);
   StraightStraightTest.testPerformance();
   PileTest.testPerformance();
   MiscellanyTest.testPerformance();
-  Engine2DTestRig.schedule(Engine2DTestRig.finishTests);
-  Engine2DTestRig.runTests();
+  TestRig.schedule(TestRig.finishTests);
+  TestRig.runTests();
 };
 
 } // end class

@@ -29,6 +29,7 @@ const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const TestShapes = goog.require('myphysicslab.test.TestShapes');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -37,8 +38,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /**  Unit tests of {@link ImpulseSim}, for cases involving multiple simultaneous
 collisions.
@@ -130,7 +132,7 @@ static one_hits_wall_setup(sim, advance) {
 @param {!CollisionHandling} collisionType
 */
 static test1_0(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test1_0 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test1_0 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_wall_setup(sim, advance);
@@ -148,7 +150,7 @@ static test1_0(collisionType) {
 @param {!CollisionHandling} collisionType
 */
 static test1_1(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test1_1 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test1_1 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_wall_setup(sim, advance);
@@ -214,7 +216,7 @@ static one_hits_two_block_setup(sim, advance) {
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 static test2_0(collisionType, balls) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test2_0 '+collisionType+' balls='+balls;
+  setTestName(MultipleCollisionTest.groupName+'test2_0 '+collisionType+' balls='+balls);
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test2_prep(sim, advance, 0, balls);
@@ -234,7 +236,7 @@ static test2_0(collisionType, balls) {
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 static test2_1(collisionType, balls) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test2_1 '+collisionType+' balls='+balls;
+  setTestName(MultipleCollisionTest.groupName+'test2_1 '+collisionType+' balls='+balls);
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test2_prep(sim, advance, 0, balls);
@@ -298,7 +300,7 @@ MAY 2016: I've solved the above problem, see the setup function above.
 @param {!CollisionHandling} collisionType
 */
 static test3_0(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test3_0 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test3_0 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_hits_one_asymmetric_setup(sim, advance);
@@ -318,7 +320,7 @@ the two balls exchange velocity.
 @param {!CollisionHandling} collisionType
 */
 static test3_1(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test3_1 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test3_1 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_hits_one_asymmetric_setup(sim, advance);
@@ -361,7 +363,7 @@ static one_hits_two_separate_setup(sim, advance) {
 @param {!CollisionHandling} collisionType
 */
 static test4_0(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test4_0 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test4_0 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_separate_setup(sim, advance);
@@ -380,7 +382,7 @@ static test4_0(collisionType) {
 @param {!CollisionHandling} collisionType
 */
 static test4_1(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test4_1 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test4_1 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_separate_setup(sim, advance);
@@ -452,7 +454,7 @@ static one_hits_two_on_wall_block_setup(sim, advance) {
 @param {boolean} balls  true gives round balls, false gives square blocks
 */
 static test5_0(collisionType, balls) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test5_0 '+collisionType+' balls='+balls;
+  setTestName(MultipleCollisionTest.groupName+'test5_0 '+collisionType+' balls='+balls);
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test5_prep(sim, advance, balls);
@@ -497,7 +499,7 @@ static center_spin_setup(sim, advance) {
 @param {!CollisionHandling} collisionType
 */
 static test6_0(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test6_0 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test6_0 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.center_spin_setup(sim, advance);
@@ -517,7 +519,7 @@ static test6_0(collisionType) {
 @param {!CollisionHandling} collisionType
 */
 static test6_1(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test6_1 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test6_1 '+collisionType);
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.center_spin_setup(sim, advance);
@@ -567,7 +569,7 @@ static side_spin_setup(sim, advance) {
 @param {!CollisionHandling} collisionType
 */
 static test7_0(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_0 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test7_0 '+collisionType);
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.side_spin_setup(sim, advance);
@@ -587,7 +589,7 @@ static test7_0(collisionType) {
 @param {!CollisionHandling} collisionType
 */
 static test7_1(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_1 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test7_1 '+collisionType);
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.side_spin_setup(sim, advance);
@@ -607,7 +609,7 @@ static test7_1(collisionType) {
 @param {!CollisionHandling} collisionType
 */
 static test7_2(collisionType) {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test7_2 '+collisionType;
+  setTestName(MultipleCollisionTest.groupName+'test7_2 '+collisionType);
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.side_spin_setup(sim, advance);
@@ -660,7 +662,7 @@ static joint_collision_setup(sim, advance) {
 @return {undefined}
 */
 static test8_0() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_0';
+  setTestName(MultipleCollisionTest.groupName+'test8_0');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_setup(sim, advance);
@@ -709,7 +711,7 @@ static joint_collision_2_setup(sim, advance) {
 @return {undefined}
 */
 static test8_1() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_1';
+  setTestName(MultipleCollisionTest.groupName+'test8_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_2_setup(sim, advance);
@@ -753,7 +755,7 @@ static joint_collision_3_setup(sim, advance) {
 @return {undefined}
 */
 static test8_2() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_2';
+  setTestName(MultipleCollisionTest.groupName+'test8_2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_3_setup(sim, advance);
@@ -801,7 +803,7 @@ static joint_collision_4_setup(sim, advance) {
 @return {undefined}
 */
 static test8_3() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_3';
+  setTestName(MultipleCollisionTest.groupName+'test8_3');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_4_setup(sim, advance);
@@ -855,7 +857,7 @@ static joint_collision_5_setup(sim, advance) {
 @return {undefined}
 */
 static test8_5() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'test8_5';
+  setTestName(MultipleCollisionTest.groupName+'test8_5');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_5_setup(sim, advance);
@@ -901,7 +903,7 @@ static two_in_box_setup(sim, advance) {
 @return {undefined}
 */
 static two_in_box() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'two_in_box';
+  setTestName(MultipleCollisionTest.groupName+'two_in_box');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_in_box_setup(sim, advance);
@@ -950,7 +952,7 @@ static one_hits_two_in_box_setup(sim, advance) {
 @return {undefined}
 */
 static one_hits_two_in_box() {
-  Engine2DTestRig.testName = MultipleCollisionTest.groupName+'two_in_box';
+  setTestName(MultipleCollisionTest.groupName+'two_in_box');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_in_box_setup(sim, advance);

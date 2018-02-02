@@ -16,15 +16,15 @@ goog.module('myphysicslab.lab.util.test.VectorTest');
 
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
-const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = Engine2DTestRig.assertEquals;
-const assertRoughlyEquals = Engine2DTestRig.assertRoughlyEquals;
-const assertTrue = Engine2DTestRig.assertTrue;
-const assertFalse = Engine2DTestRig.assertFalse;
-const assertThrows = Engine2DTestRig.assertThrows;
-const schedule = Engine2DTestRig.schedule;
-const startTest = Engine2DTestRig.startTest;
+const assertEquals = TestRig.assertEquals;
+const assertRoughlyEquals = TestRig.assertRoughlyEquals;
+const assertTrue = TestRig.assertTrue;
+const assertFalse = TestRig.assertFalse;
+const assertThrows = TestRig.assertThrows;
+const schedule = TestRig.schedule;
+const startTest = TestRig.startTest;
 
 class VectorTest {
 
@@ -34,9 +34,6 @@ static test() {
   schedule(VectorTest.testVectorMath);
 };
 
-/**
-@return {undefined}
-*/
 static testVector() {
   startTest(VectorTest.groupName+'testVector');
   var v1 = new Vector(2.1, 3.2);
@@ -69,9 +66,6 @@ static testVector() {
   assertThrows(function() { new Vector(NaN, 1); });
 };
 
-/**
-@return {undefined}
-*/
 static  testVectorSimilar() {
   startTest(VectorTest.groupName+'testVectorSimilar');
   var v1 = new Vector(2, 3);
@@ -82,9 +76,6 @@ static  testVectorSimilar() {
   assertFalse(v1.nearEqual(v2));
 };
 
-/**
-@return {undefined}
-*/
 static  testVectorMath() {
   startTest(VectorTest.groupName+'testVectorMath');
   var v1 = new Vector(2, 3);

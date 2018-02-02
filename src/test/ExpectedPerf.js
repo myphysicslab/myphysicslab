@@ -23,8 +23,8 @@ goog.module('myphysicslab.test.ExpectedPerf');
 * different name on each machine.
 *
 * To understand how machine names and browser names are determined during the test
-* see {@link myphysicslab.test.Engine2DTestRig#getMachineName} and
-* {@link myphysicslab.test.Engine2DTestRig#getBrowserName}.
+* see {@link myphysicslab.test.TestRig#getMachineName} and
+* {@link myphysicslab.test.TestRig#getBrowserName}.
 *
 */
 const ExpectedPerf = {

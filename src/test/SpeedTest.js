@@ -27,6 +27,7 @@ const ImpulseSim = goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -34,8 +35,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Tests high speed collisions.  Some are between small object and thin walls.
 Some are between two small objects.
@@ -96,7 +98,7 @@ static ball_vs_wall_setup(sim, advance) {
 @private
 */
 static ball_vs_wall_0() {
-  Engine2DTestRig.testName = SpeedTest.groupName+'ball_vs_wall_0';
+  setTestName(SpeedTest.groupName+'ball_vs_wall_0');
   var sim = new ImpulseSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_wall_setup(sim, advance);
@@ -113,7 +115,7 @@ static ball_vs_wall_0() {
 @private
 */
 static ball_vs_wall_1() {
-  Engine2DTestRig.testName = SpeedTest.groupName+'ball_vs_wall_1';
+  setTestName(SpeedTest.groupName+'ball_vs_wall_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_wall_setup(sim, advance);
@@ -151,7 +153,7 @@ static ball_vs_circle_setup(sim, advance) {
 @private
 */
 static ball_vs_circle_0() {
-  Engine2DTestRig.testName = SpeedTest.groupName+'ball_vs_circle_0';
+  setTestName(SpeedTest.groupName+'ball_vs_circle_0');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_circle_setup(sim, advance);
@@ -205,7 +207,7 @@ static small_small_setup(sim, advance) {
 @private
 */
 static small_small() {
-  Engine2DTestRig.testName = SpeedTest.groupName+'small_small';
+  setTestName(SpeedTest.groupName+'small_small');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   SpeedTest.small_small_setup(sim, advance);

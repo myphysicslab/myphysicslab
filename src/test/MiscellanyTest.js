@@ -42,14 +42,16 @@ const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
 const PendulumClockConfig = goog.require('myphysicslab.sims.engine2D.PendulumClockConfig');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Miscellaneous tests of engine2D physics engine.
 */
@@ -115,7 +117,7 @@ static newtons_cradle_setup(sim, advance) {
 * @return {undefined}
 */
 static newtons_cradle() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'newtons_cradle';
+  setTestName(MiscellanyTest.groupName+'newtons_cradle');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.newtons_cradle_setup(sim, advance);
@@ -169,7 +171,7 @@ static chain_setup(sim, advance) {
 * @return {undefined}
 */
 static chain() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'chain';
+  setTestName(MiscellanyTest.groupName+'chain');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.chain_setup(sim, advance);
@@ -220,7 +222,7 @@ static clock_with_gears_setup(sim, advance) {
 * @return {undefined}
 */
 static clock_with_gears() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'clock_with_gears';
+  setTestName(MiscellanyTest.groupName+'clock_with_gears');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.clock_with_gears_setup(sim, advance);
@@ -236,15 +238,15 @@ static clock_with_gears() {
 */
 static clock_gears_perf() {
   var testName = 'clock_gears_perf';
-  var expected = Engine2DTestRig.perfExpected(testName);
+  var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
   MiscellanyTest.clock_with_gears();
-  Engine2DTestRig.testName = MiscellanyTest.groupName+testName;
+  setTestName(MiscellanyTest.groupName+testName);
   var endTime = Util.systemTime();
   var duration = endTime - startTime;
-  var s = Engine2DTestRig.perfResult(duration, expected);
-  var timeLimit = Engine2DTestRig.getPerfLimit(expected);
-  Engine2DTestRig.reportTestResults(duration <= timeLimit, 'performance', s);
+  var s = TestRig.perfResult(duration, expected);
+  var timeLimit = TestRig.getPerfLimit(expected);
+  TestRig.reportTestResults(duration <= timeLimit, 'performance', s);
 };
 
 /**
@@ -300,7 +302,7 @@ static non_collide_edges_setup(sim, advance) {
 * @return {undefined}
 */
 static non_collide_edges() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'non_collide_edges';
+  setTestName(MiscellanyTest.groupName+'non_collide_edges');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.non_collide_edges_setup(sim, advance);
@@ -346,7 +348,7 @@ static damping_standard_setup(sim, advance) {
 * @return {undefined}
 */
 static damping_standard() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'damping_standard';
+  setTestName(MiscellanyTest.groupName+'damping_standard');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.damping_standard_setup(sim, advance);
@@ -421,7 +423,7 @@ static three_body_spin_setup(sim, advance, damping) {
 * @return {undefined}
 */
 static three_body_spin_test1() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test1';
+  setTestName(MiscellanyTest.groupName+'three_body_spin_test1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
@@ -440,7 +442,7 @@ of 0.0025 and tolerance of 0.0001 for energy compared to 0.025 and 0.01.
 * @return {undefined}
 */
 static three_body_spin_test2() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test2';
+  setTestName(MiscellanyTest.groupName+'three_body_spin_test2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
@@ -463,7 +465,7 @@ time step is specified.
 * @return {undefined}
 */
 static three_body_spin_test3A() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test3A';
+  setTestName(MiscellanyTest.groupName+'three_body_spin_test3A');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
@@ -499,7 +501,7 @@ here.
 * @return {undefined}
 */
 static three_body_spin_test3B() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test3B';
+  setTestName(MiscellanyTest.groupName+'three_body_spin_test3B');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
@@ -535,7 +537,7 @@ needed to get the same accuracy as the AdaptiveStepSolver, see
 * @return {undefined}
 */
 static three_body_spin_test4A() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test4A';
+  setTestName(MiscellanyTest.groupName+'three_body_spin_test4A');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance, /*damping=*/0.1);
@@ -567,7 +569,7 @@ RungeKutta solver with a very small step size of 0.001, see
 * @return {undefined}
 */
 static three_body_spin_test4B() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'three_body_spin_test4B';
+  setTestName(MiscellanyTest.groupName+'three_body_spin_test4B');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance, /*damping=*/0.1);
@@ -825,7 +827,7 @@ TO DO: This error state should be fixed or prevented from happening.
 * @return {undefined}
 */
 static curved_test_error() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'curved_test_error';
+  setTestName(MiscellanyTest.groupName+'curved_test_error');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.curved_test_error_setup(sim, advance);
@@ -860,7 +862,7 @@ with a PathJoint.
 * @return {undefined}
 */
 static roller_hump_test() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'roller_hump_test';
+  setTestName(MiscellanyTest.groupName+'roller_hump_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.roller_hump_setup(sim, advance);
@@ -907,7 +909,7 @@ with a PathJoint; also there is a PathEndPoint that limits travel of the RigidBo
 * @return {undefined}
 */
 static roller_end_point_test() {
-  Engine2DTestRig.testName = MiscellanyTest.groupName+'roller_end_point_test';
+  setTestName(MiscellanyTest.groupName+'roller_end_point_test');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   MiscellanyTest.roller_end_point_setup(sim, advance);

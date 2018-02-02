@@ -33,6 +33,7 @@ const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RungeKutta = goog.require('myphysicslab.lab.model.RungeKutta');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const TestShapes = goog.require('myphysicslab.test.TestShapes');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -41,8 +42,9 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 const checkContactDistances = Engine2DTestRig.checkContactDistances;
 const makeVars = Engine2DTestRig.makeVars;
 const runTest = Engine2DTestRig.runTest;
-const schedule = Engine2DTestRig.schedule;
+const schedule = TestRig.schedule;
 const setBodyVars = Engine2DTestRig.setBodyVars;
+const setTestName = Engine2DTestRig.setTestName;
 
 /** Tests various configurations of Joints.
 
@@ -271,7 +273,7 @@ and joint tightness using 'small impacts' on joints  and ExtraAccel.VELOCITY.
 @return {undefined}
 */
 static pendulum_1_joint_1() {
-  Engine2DTestRig.testName = JointTest.groupName+'pendulum_1_joint_1';
+  setTestName(JointTest.groupName+'pendulum_1_joint_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_1_joint_setup(sim, advance);
@@ -291,7 +293,7 @@ is turned off.
 @return {undefined}
 */
 static pendulum_1_joint_2() {
-  Engine2DTestRig.testName = JointTest.groupName+'pendulum_1_joint_2';
+  setTestName(JointTest.groupName+'pendulum_1_joint_2');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_1_joint_setup(sim, advance);
@@ -327,7 +329,7 @@ static pendulum_2_joints_setup(sim, advance) {
 @return {undefined}
 */
 static pendulum_2_joints_1() {
-  Engine2DTestRig.testName = JointTest.groupName+'pendulum_2_joints_1';
+  setTestName(JointTest.groupName+'pendulum_2_joints_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_2_joints_setup(sim, advance);
@@ -380,7 +382,7 @@ static pendulum_2_joints_offset_setup(sim, advance) {
 */
 static pendulum_2_joints_offset_1() {
   const JointTestConfig = JointTest.JointTestConfig;
-  Engine2DTestRig.testName = JointTest.groupName+'pendulum_2_joints_offset_1';
+  setTestName(JointTest.groupName+'pendulum_2_joints_offset_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.pendulum_2_joints_offset_setup(sim, advance);
@@ -493,7 +495,7 @@ static two_blocks_2_dbl_joint_setup(sim, advance) {
 */
 static two_blocks_2_dbl_joint_1() {
   const JointTestConfig = JointTest.JointTestConfig;
-  Engine2DTestRig.testName = JointTest.groupName+'two_blocks_2_dbl_joint_1';
+  setTestName(JointTest.groupName+'two_blocks_2_dbl_joint_1');
   var sim = new ContactSim();
   var advance = new CollisionAdvance(sim);
   JointTest.two_blocks_2_dbl_joint_setup(sim, advance);

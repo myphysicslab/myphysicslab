@@ -17,7 +17,6 @@ goog.module('myphysicslab.test.Engine2DTests');
 const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
-const Engine2DTestRig = goog.require('myphysicslab.test.Engine2DTestRig');
 const JointTest = goog.require('myphysicslab.test.JointTest');
 const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
 const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
@@ -25,27 +24,24 @@ const PileTest = goog.require('myphysicslab.test.PileTest');
 const RopeTest = goog.require('myphysicslab.test.RopeTest');
 const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
 const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
-{@link Engine2DTestRig}.
+{@link TestRig}.
 
 `GOOG_DEBUG` flag: Check the makefile to see if it is setting `GOOG_DEBUG` to false
 for this test; usually `Util.DEBUG` should be false when this is compiled to avoid
 printing lots of debug messages to console.
 */
 class Engine2DTests {
-/**
-* @private
-*/
-constructor() { throw new Error(); };
 
 /**
 * @return {undefined}
 * @export
 */
 static runTests() {
-  Engine2DTestRig.startTests();
+  TestRig.startTests();
   StraightStraightTest.test();
   CircleStraightTest.test();
   CircleCircleTest.test();
@@ -56,8 +52,8 @@ static runTests() {
   MiscellanyTest.test();
   DoNothingTest.test();
   SpeedTest.test();
-  Engine2DTestRig.schedule(Engine2DTestRig.finishTests);
-  Engine2DTestRig.runTests();
+  TestRig.schedule(TestRig.finishTests);
+  TestRig.runTests();
 };
 
 } // end class

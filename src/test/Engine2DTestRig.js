@@ -23,6 +23,7 @@ const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
 const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
@@ -49,266 +50,11 @@ constructor() {
   throw new Error();
 };
 
-/** Returns the name of this machine, which should be stored in the global
-* variable `MYPHYSICSLAB_MACHINE_NAME`.  That global is set in the file
-* `MachineName.js` (which is not checked in to the source repository, see
-* the file `sampleMachineName.js`).
-* @return {string} the name of this machine, or `UNKNOWN_MACHINE`
-*/
-static getMachineName() {
-  if (window.hasOwnProperty(Engine2DTestRig.machineName)) {
-    var s = window[Engine2DTestRig.machineName];
-    if (goog.isString(s)) {
-      return s;
-    }
-  }
-  if (Util.DEBUG) {
-    console.log('Engine2DTestRig.getMachineName: not defined '
-        +Engine2DTestRig.machineName);
-  }
-  return 'UNKNOWN_MACHINE';
-};
-
-/** Returns name of the browser we are running under;  returns 'other' for
-unrecognized browsers.
-* @return {string}
-*/
-static getBrowserName() {
-  var nav = navigator;
-  if (nav == null)
-    return 'unknown';
-  if (nav.userAgent.match(/.*Chrome.*/) != null)
-    return Engine2DTestRig.BROWSER_CHROME;
-  else if (nav.userAgent.match(/.*Firefox.*/) != null)
-    return Engine2DTestRig.BROWSER_FIREFOX;
-  else if (nav.userAgent.match(/.*Safari.*/) != null)
-    return Engine2DTestRig.BROWSER_SAFARI;
-  else
-    return 'other';
-};
-
-/** Returns the length of time that a performance test should take; if the test
-* takes longer than this then an error should be reported.
-* @param {number} expected the expected length of time
-* @return {number} the maximum length of time the test should take in seconds
-*/
-static getPerfLimit(expected) {
-  return 1.20 * expected;
-};
-
-/** Returns string showing performance test results with the percentage that the test
-* was over (or under) the expected time.
-* @param {number} duration the actual length of time the test ran in seconds
-* @param {number} expected the expected length of time in seconds
-* @return {string} string showing performance test results
-*/
-static perfResult(duration, expected) {
-  return 'time='+Util.NF2(duration)+' expected='+Util.NF2(expected)
-    +'  ('+(Util.NF1S(100*duration/expected - 100))+'%)';
-};
-
-/** Returns expected running time for a test by looking up the time in
-* {@link myphysicslab.test.ExpectedPerf}, using the current machine name and
-* browser.  See {@link #getMachineName} and {@link #getBrowserName}.
-* @param {string} testName the name of the test
-* @param {number=} defaultTime the default expected running time to use when unable
-*     to find expected time
-* @return {number} the expected running time in seconds
-*/
-static perfExpected(testName, defaultTime) {
-  if (defaultTime === undefined) {
-    defaultTime = 10000;
-  }
-  var machine = Engine2DTestRig.getMachineName();
-  var browser = Engine2DTestRig.getBrowserName();
-  var compiled = Util.ADVANCED ? 'advanced' : 'simple';
-  var e0 = ExpectedPerf;
-  goog.asserts.assertObject(e0, 'not an object '+e0);
-  var err = 'no expected results for machine: '+machine;
-  var e1 = e0[machine];
-  if (!goog.isObject(e1)) {
-    Engine2DTestRig.myPrintln(err, /*error=*/true);
-    return defaultTime;
-  }
-  err += ', browser: '+browser;
-  var e2 = e1[browser];
-  if (!goog.isObject(e2)) {
-    Engine2DTestRig.myPrintln(err, /*error=*/true);
-    return defaultTime;
-  }
-  err += ', compiled: '+compiled;
-  var e3 = e2[compiled];
-  if (!goog.isObject(e3)) {
-    // 'all' property has results for either advanced or simple compile
-    e3 = e2['all'];
-    if (!goog.isObject(e3)) {
-      Engine2DTestRig.myPrintln(err, /*error=*/true);
-      return defaultTime;
-    }
-  }
-  err += ', test: '+testName;
-  var e4 = e3[testName];
-  if (!goog.isNumber(e4)) {
-    Engine2DTestRig.myPrintln(err, /*error=*/true);
-    return defaultTime;
-  } else {
-    return e4;
-  }
-};
-
-/** Executes the test function; catches and reports errors.
-* @param {!Function} testFunc
-*/
-static runFunction(testFunc) {
-  try {
-    testFunc();
-  } catch (e) {
-    Engine2DTestRig.testsFailed += 1;
-    Engine2DTestRig.myPrintln('***FAILED*** '+Engine2DTestRig.testName
-      +' '+e, /*error=*/true);
-    Engine2DTestRig.myPrintln(e.stack, /*error=*/true);
-  }
-};
-
-/** Schedules the test function to be run in a way that will catch and report errors.
-Tests will not start until `Engine2DTestRig.runTests` is called.
-* @param {!Function} testFunc
-*/
-static schedule(testFunc) {
-  Engine2DTestRig.testFns.push(goog.partial(Engine2DTestRig.runFunction, testFunc));
-};
-
-/** Run tests that have been scheduled with `Engine2DTestRig.schedule`. There is a small
-gap of time between each test so that the browser will update the page to show test
-results, and so that the user can interrupt the test.
-* @return {undefined}
-*/
-static runTests() {
-  var testFunc = Engine2DTestRig.testFns.shift();
-  if (goog.isFunction(testFunc)) {
-    testFunc();
-    setTimeout(Engine2DTestRig.runTests, 50);
-  }
-};
-
-/** Sets up reporting for a group of tests. Finds an Element named `test_results`
-for writing the results.
-* @return {undefined}
-*/
-static startTests() {
-  Engine2DTestRig.testsFailed = 0;
-  // Find the  element to show test results
-  var test_results = document.getElementById('test_results');
-  if (!goog.isObject(test_results)) {
-    throw new Error('<p> element with id="test_results" not found');
-  }
-  Engine2DTestRig.output = test_results;
-  var d = new Date();
-  Engine2DTestRig.myPrintln(d.toDateString()+' '+d.toTimeString());
-  Engine2DTestRig.myPrintln('compiled '+Util.COMPILE_TIME);
-  Engine2DTestRig.myPrintln('machine = '+Engine2DTestRig.getMachineName());
-  Engine2DTestRig.myPrintln('browser = '+Engine2DTestRig.getBrowserName());
-  // global variable COMPILED is created by goog.base
-  if (!COMPILED) {
-    Engine2DTestRig.myPrintln('COMPILE_LEVEL = debug (uncompiled)');
-  } else {
-    Engine2DTestRig.myPrintln('COMPILE_LEVEL = '
-      +(Util.ADVANCED ? 'advanced' : 'simple'));
-  }
-  Engine2DTestRig.myPrintln('goog.DEBUG = '+goog.DEBUG);
-  Engine2DTestRig.myPrintln('Util.DEBUG = '+Util.DEBUG);
-  Engine2DTestRig.myPrintln('myPhysicsLab version = '+Util.VERSION);
-  var nav = navigator;
-  if (nav != null) {
-    Engine2DTestRig.myPrintln('userAgent = '+nav.userAgent);
-    Engine2DTestRig.myPrintln('platform = '+nav.platform);
-  }
-  if (window['MSSTream']) {
-    // http://stackoverflow.com/questions/9038625/detect-if-device-is-ios
-    // "Microsoft injected the word iPhone in IE11's userAgent in order to try
-    // and fool Gmail somehow."
-    Engine2DTestRig.myPrintln('MSStream detected: probably on Internet Explorer'
-        +' for Windows Phone');
-  }
-  if (goog.DEBUG && !Util.ADVANCED) {
-    try {
-      var a = 1;
-      goog.asserts.assert(1 == 0);
-      a = 2;
-    } catch(e) {
-      Engine2DTestRig.myPrintln('asserts are working');
-    }
-    if (a == 2) {
-      throw new Error('asserts are not working');
-    }
-  } else {
-    Engine2DTestRig.myPrintln('NOTE: asserts are NOT enabled');
-  }
-};
-
-/**  Reports that a group of tests has finished.
-* @return {undefined}
-*/
-static finishTests() {
-  var f = Engine2DTestRig.testsFailed;
-  if (f > 0) {
-    Engine2DTestRig.myPrintln('Tests finished -- '+f+' TESTS FAILED', /*error=*/true);
-  } else {
-    Engine2DTestRig.myPrintln('Tests finished and passed.');
-  }
-  var d = new Date();
-  Engine2DTestRig.myPrintln(d.toDateString()+' '+d.toTimeString());
-};
-
-/** Sets the name of current test, and prints the name to results.
+/** Sets the name of current test.
 * @param {string} name name of the current test
 */
-static startTest(name) {
-  Engine2DTestRig.testName = name;
-  Engine2DTestRig.myPrintln(name);
-};
-
-/**  Prints a line of test results to the HTML page.
-
-Tests should schedule themselves to run immediately with setTimeout so that
-the test results can be written to the HTML page as they occur.  Otherwise (not using
-setTimeout) the page will not refresh until all the tests have finished.
-
-The warning flag is used to make visible those tests that reproduce errors which need
-to be fixed.
-* @param {string} s the string to print
-* @param {boolean=} opt_error if true then string is highlighted as an error
-* @param {boolean=} opt_warning if true then string is highlighted as a warning
-*/
-static myPrintln(s, opt_error, opt_warning) {
-  console.log(s);
-  if (Engine2DTestRig.output != null) {
-    if (opt_error) {
-      s = '<span class="error">'+s+'</span>';
-    }
-    if (opt_warning) {
-      s = '<span class="warning">'+s+'</span>';
-    }
-    Engine2DTestRig.output.innerHTML += s + '<br>';
-    var docElement = /** @type {!HTMLElement}*/(document.documentElement);
-    var documentHeight = docElement.offsetHeight;
-    var viewportHeight = window.innerHeight;
-    window.scrollTo(0, documentHeight - viewportHeight);
-  }
-};
-
-/** If the value does not match the expected value, then report a test failure.
-* @param {string} message  the failure message
-* @param {number} value  the value to test
-* @param {number} expected  the expected value
-* @param {number} tolerance  how much the value can differ from expected value
-*/
-static checkValue(message, value, expected, tolerance) {
-  if (Math.abs(expected - value) > tolerance) {
-    var s = message+' expected='+expected+' actual='+value
-                + ' tolerance='+tolerance;
-    Engine2DTestRig.reportTestResults(false, 'value', s);
-  }
+static setTestName(name) {
+  TestRig.testName = name;
 };
 
 /** Returns an array of doubles, all of which are NaN.
@@ -386,9 +132,23 @@ static checkResult(sim, expected, tolerance) {
     var s = 'vars['+idx+']='+vars[idx]+' != '+expected[idx]
         +' with tolerance='+tolerance
         +' diff='+Util.NF5E(maxDiff);
-    Engine2DTestRig.reportTestResults(false, 'vars', s);
+    TestRig.reportTestResults(false, 'vars', s);
   }
   return passed;
+};
+
+/** If the value does not match the expected value, then report a test failure.
+* @param {string} message  the failure message
+* @param {number} value  the value to test
+* @param {number} expected  the expected value
+* @param {number} tolerance  how much the value can differ from expected value
+*/
+static checkValue(message, value, expected, tolerance) {
+  if (Math.abs(expected - value) > tolerance) {
+    var s = message+' expected='+expected+' actual='+value
+                + ' tolerance='+tolerance;
+    TestRig.reportTestResults(false, 'value', s);
+  }
 };
 
 /** Runs the simulation until the given time, then compares the state variables
@@ -443,12 +203,12 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
       +' energyTol='+Util.NFE(energyTol)
       +' expectedCollisions='+expectedCollisions);
     // show all the settings on the simulation.
-    Engine2DTestRig.myPrintln(sim.toString());
+    TestRig.myPrintln(sim.toString());
   }
   /*
   console.log('RigidBodySim.getEstimateCollisionTime='
       +sim.getEstimateCollisionTime()
-      +' '+Engine2DTestRig.testName);
+      +' '+TestRig.testName);
   */
   if (advance.getTime() < 1E-12) {
     // This is a kluge to help tests that are looking for 'constant energy'
@@ -472,7 +232,7 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
 
   if (Engine2DTestRig.debug && !Engine2DTestRig.PRINT_ALL_VARS) {
     // print header that goes with printRigidBody format
-    Engine2DTestRig.myPrintln(' time      X        VX        Y       VY       W      VW     energy');
+    TestRig.myPrintln(' time      X        VX        Y       VY       W      VW     energy');
   }
   var lastReportTime = advance.getTime();
   var advanced = true;
@@ -529,7 +289,7 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
           +', energyTol='+energyTol
           +', error='+Util.NF9(e2-e1 - expectedEnergyDiff)
           +', energy='+Util.NF9(e2);
-      Engine2DTestRig.reportTestResults(false, testType, s);
+      TestRig.reportTestResults(false, testType, s);
       passed = false;
     }
     didTest = true;
@@ -541,7 +301,7 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
     var nc2 = advance.getCollisionTotals().getCollisions();
     if (nc2 - nc1 != expectedCollisions) {
       s = 'should have had '+expectedCollisions+' but had '+(nc2 - nc1)+' collisions';
-      Engine2DTestRig.reportTestResults(false, testType, s);
+      TestRig.reportTestResults(false, testType, s);
       passed = false;
     }
     didTest = true;
@@ -553,7 +313,7 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
     if (bs2 - bs1 != expectedSearches) {
       s = 'should have had '+expectedSearches+' but had '+(bs2 - bs1)
           +' collision searches';
-      Engine2DTestRig.reportTestResults(false, testType, s);
+      TestRig.reportTestResults(false, testType, s);
       passed = false;
     }
     didTest = true;
@@ -561,42 +321,7 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
   // Report that the test passed, but only if this was an 'actual' test;
   // (otherwise we are just running the sim without doing any tests.)
   if (passed && didTest) {
-    Engine2DTestRig.reportTestResults(true, testType);
-  }
-};
-
-/** The test suite version of `assert`, this prints whether the test passed or
-failed, along with the name of the test method; if the test failed, prints the reason
-and if `ABORT_ON_FAIL` is true throws an Error.
-
-Some tests reproduce errors which need to be fixed. To make these visible, any test
-whose name includes the word 'error' is printed with the 'warning' highlighting.
-
-@param {boolean} passed whether the test passed
-@param {string} testType type of test (variables, energy, number of collisions, etc.)
-@param {?string=} reason why the test failed: a string giving details of
-    test results, or `null`
-@throws {!Error} if `passed` is false and `ABORT_ON_FAIL` is true
-*/
-static reportTestResults(passed, testType, reason) {
-  var s = Engine2DTestRig.testName+' ['+testType+']';
-  if (passed) {
-    if (testType == 'performance') {
-      s += ' '+reason;
-    }
-    var warning = Engine2DTestRig.testName.match(/.*error.*/) != null;
-    Engine2DTestRig.myPrintln('passed: '+s, /*error=*/false, warning);
-  } else {
-    Engine2DTestRig.testsFailed += 1;
-    Engine2DTestRig.myPrintln('FAILED '+s, /*error=*/true);
-    if (goog.isString(reason) && reason.length > 0) {
-      Engine2DTestRig.myPrintln(reason, /*error=*/true);
-    }
-    // show stack trace in console, to help figure out what went wrong.
-    console.trace();
-    if (Engine2DTestRig.ABORT_ON_FAIL) {
-      throw(new Error());
-    }
+    TestRig.reportTestResults(true, testType);
   }
 };
 
@@ -614,11 +339,11 @@ static runExceptionTest(advance, time) {
       advance.advance(advance.getTimeStep());
     } catch (e) {
       // an exception occurred as expected
-      Engine2DTestRig.reportTestResults(true, testType);
+      TestRig.reportTestResults(true, testType);
       return;
     }
   }
-  Engine2DTestRig.reportTestResults(false, testType,
+  TestRig.reportTestResults(false, testType,
       'expected exception did not occur');
 };
 
@@ -634,13 +359,13 @@ static checkTightJoints(sim, tolerance) {
       var joint = joints[i];
       var dist = joint.getNormalDistance();
       if (Math.abs(dist) > tolerance) {
-        Engine2DTestRig.reportTestResults(false, 'joints', 'joint not tight, tolerance='
+        TestRig.reportTestResults(false, 'joints', 'joint not tight, tolerance='
             +Util.NF9(tolerance)+' dist='+Util.NF9(dist)+' joint='+joint);
         // stop at first bad joint
         return;
       }
     }
-    Engine2DTestRig.reportTestResults(true, 'joint_tightness');
+    TestRig.reportTestResults(true, 'joint_tightness');
   }
 };
 
@@ -659,14 +384,14 @@ static checkContactDistances(sim, tolerance) {
       var d = Math.abs(c.distanceToHalfGap());
       var isClose = d < tolerance;
       if (!isClose) {
-        Engine2DTestRig.reportTestResults(false, 'contact dist',
+        TestRig.reportTestResults(false, 'contact dist',
           'contact is not close, distanceToHalfGap='+Util.NFE(d)
           +' tolerance='+Util.NFE(tolerance)+' contact='+c);
         // stop at first bad contact
         return;
       }
     }
-    Engine2DTestRig.reportTestResults(true, 'contact_distance');
+    TestRig.reportTestResults(true, 'contact_distance');
   }
 };
 
@@ -682,7 +407,7 @@ static printVars(sim) {
   var numBods = sim.getBodies().length;
   for (var i=0; i<numBods; i++) {
     var idx = sim.getBody(i).getVarsIndex();
-    Engine2DTestRig.myPrintln(
+    TestRig.myPrintln(
       'Engine2DTestRig.setBodyVars(sim, vars, '+i+', '
       +Util.nf7(vars[idx + X])+', '
       +Util.nf7(vars[idx + VX])+', '
@@ -704,7 +429,7 @@ static printRigidBody(sim, index) {
   var offset = index*6;
   // @todo  fix this for when time is at the front of variable list.
   var X=0, VX=1, Y=2, VY=3, W=4, VW=5;
-  Engine2DTestRig.myPrintln(Util.NF5(sim.getTime())+' '
+  TestRig.myPrintln(Util.NF5(sim.getTime())+' '
         +Util.NF5(vars[offset + X])+' '
         +Util.NF5(vars[offset + VX])+' '
         +Util.NF5(vars[offset + Y])+' '
@@ -714,86 +439,12 @@ static printRigidBody(sim, index) {
         +Util.NF5(sim.getEnergyInfo().getTotalEnergy()));
 };
 
-/** If the value does not match the expected value, then report a test failure.
-* @param {*} expected  the expected value
-* @param {*} value  the value to test
-*/
-static assertEquals(expected, value) {
-  if (value !== expected) {
-    var s = 'expected='+expected+' but was actual='+value;
-    Engine2DTestRig.reportTestResults(false, 'value', s);
-  }
-};
-
-/** If the value does not match the expected value, then report a test failure.
-* @param {number} expected  the expected value
-* @param {number} value  the value to test
-* @param {number} tolerance  how much the value can differ from expected value
-*/
-static assertRoughlyEquals(expected, value, tolerance) {
-  if (Math.abs(expected - value) > tolerance) {
-    var s = 'expected='+expected+' but was actual='+value
-                + ' tolerance='+tolerance;
-    Engine2DTestRig.reportTestResults(false, 'value', s);
-  }
-};
-
-/** If the value is not true, then report a test failure.
-* @param {boolean} value  the value to test
-*/
-static assertTrue(value) {
-  if (!value) {
-    Engine2DTestRig.reportTestResults(false, 'boolean');
-  }
-};
-
-/** If the value is true, then report a test failure.
-* @param {boolean} value  the value to test
-*/
-static assertFalse(value) {
-  if (value) {
-    Engine2DTestRig.reportTestResults(false, 'boolean');
-  }
-};
-
-/** If the function does not throw an error, then report a test failure.
-* @param {function()} func  the function to test
-*/
-static assertThrows(func) {
-  try {
-    func();
-    Engine2DTestRig.reportTestResults(false, 'exception',
-        'expected exception did not occur');
-  } catch (e) {
-  }
-};
-
 } // end class
 
-/** ABORT_ON_FAIL = true means generate an exception to immediately stop the tests.
+/** Turn on this debug flag to see more information from tests.
 * @type {boolean}
-* @const
-* @private
 */
-Engine2DTestRig.ABORT_ON_FAIL = false;
-
-/** Identifier of Chrome browser.
-* @type {string}
-* @const
-*/
-Engine2DTestRig.BROWSER_CHROME = 'Chrome';
-
-/** Identifier of Firefox browser.
-* @type {string}
-* @const
-*/
-Engine2DTestRig.BROWSER_FIREFOX = 'Firefox';
-
-/** Identifier of Safari browser.
-* @type {string}
-* @const
-*/
-Engine2DTestRig.BROWSER_SAFARI = 'Safari';
+Engine2DTestRig.debug = false;
 
 /**
 * @type {boolean}
@@ -801,38 +452,5 @@ Engine2DTestRig.BROWSER_SAFARI = 'Safari';
 * @private
 */
 Engine2DTestRig.PRINT_ALL_VARS = false;
-
-/** Array of tests that have been scheduled to run.
-* @type {!Array<!Function>}
-*/
-Engine2DTestRig.testFns = new Array();
-
-/**  Number of tests that failed.
-* @type {number}
-*/
-Engine2DTestRig.testsFailed = 0;
-
-/**  Output will be written to this Element.  If this is null then
-* output goes to window.console.
-* @type {?Element}
-*/
-Engine2DTestRig.output = null;
-
-/** Turn on this debug flag to see more information from tests.
-* @type {boolean}
-*/
-Engine2DTestRig.debug = false;
-
-/** Name of currently running test, for reporting results.
-* @type {string}
-*/
-Engine2DTestRig.testName = '';
-
-/** Name of global variable that gives name of current machine.
-* @type {string}
-* @const
-* @private
-*/
-Engine2DTestRig.machineName = 'MYPHYSICSLAB_MACHINE_NAME';
 
 exports = Engine2DTestRig;
