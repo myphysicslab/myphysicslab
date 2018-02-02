@@ -67,3 +67,4 @@ test/SingleViewerApp
 test/StuckTestApp
 test/TestViewerApp
 test/UnitTest
+test/UnitTest2

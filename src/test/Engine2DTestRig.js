@@ -260,6 +260,14 @@ static finishTests() {
   Engine2DTestRig.myPrintln(d.toDateString()+' '+d.toTimeString());
 };
 
+/** Sets the name of current test, and prints the name to results.
+* @param {string} name name of the current test
+*/
+static startTest(name) {
+  Engine2DTestRig.testName = name;
+  Engine2DTestRig.myPrintln(name);
+};
+
 /**  Prints a line of test results to the HTML page.
 
 Tests should schedule themselves to run immediately with setTimeout so that
@@ -585,6 +593,7 @@ static reportTestResults(passed, testType, reason) {
     if (goog.isString(reason) && reason.length > 0) {
       Engine2DTestRig.myPrintln(reason, /*error=*/true);
     }
+    console.trace();
     if (Engine2DTestRig.ABORT_ON_FAIL) {
       throw(new Error());
     }
@@ -703,6 +712,60 @@ static printRigidBody(sim, index) {
         +Util.NF5(vars[offset + W])+' '
         +Util.NF5(vars[offset + VW])+' '
         +Util.NF5(sim.getEnergyInfo().getTotalEnergy()));
+};
+
+/** If the value does not match the expected value, then report a test failure.
+* @param {number} expected  the expected value
+* @param {number} value  the value to test
+*/
+static assertEquals(expected, value) {
+  if (value != expected) {
+    var s = 'expected='+expected+' but was actual='+value;
+    Engine2DTestRig.reportTestResults(false, 'value', s);
+  }
+};
+
+/** If the value does not match the expected value, then report a test failure.
+* @param {number} expected  the expected value
+* @param {number} value  the value to test
+* @param {number} tolerance  how much the value can differ from expected value
+*/
+static assertRoughlyEquals(expected, value, tolerance) {
+  if (Math.abs(expected - value) > tolerance) {
+    var s = 'expected='+expected+' but was actual='+value
+                + ' tolerance='+tolerance;
+    Engine2DTestRig.reportTestResults(false, 'value', s);
+  }
+};
+
+/** If the value is not true, then report a test failure.
+* @param {boolean} value  the value to test
+*/
+static assertTrue(value) {
+  if (!value) {
+    Engine2DTestRig.reportTestResults(false, 'boolean');
+  }
+};
+
+/** If the value is true, then report a test failure.
+* @param {boolean} value  the value to test
+*/
+static assertFalse(value) {
+  if (value) {
+    Engine2DTestRig.reportTestResults(false, 'boolean');
+  }
+};
+
+/** If the function does not throw an error, then report a test failure.
+* @param {function()} func  the function to test
+*/
+static assertThrows(func) {
+  try {
+    func();
+    Engine2DTestRig.reportTestResults(false, 'exception',
+        'expected exception did not occur');
+  } catch (e) {
+  }
 };
 
 } // end class

@@ -261,6 +261,7 @@ test: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/Engine2DTests-$(loc).html )
 testbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/TestBodyApp-$(loc).html )
 testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp-$(loc).html )
 unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest-$(loc).html )
+unittest2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest2-$(loc).html )
 unittestone: $(BUILD_DIR)/test/UnitTestOne.html
 vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp-$(loc).html )
 
@@ -283,7 +284,7 @@ doublespring molecule1 molecule3 molecule4 molecule5 molecule6 multispring \
 singlespring singlespring2 spring2d terminalspring terminalspring2d
 
 alltest: test perf singletest singleviewer stucktest testviewer unittest \
-unittestone
+unittestone unittest2
 
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
@@ -352,7 +353,8 @@ test/PerformanceTests \
 test/SingleTest \
 test/SingleViewerApp \
 test/StuckTestApp \
-test/TestViewerApp
+test/TestViewerApp \
+test/UnitTest2
 
 bld_apps := $(addprefix $(BUILD_DIR)/,$(app_names))
 
@@ -559,7 +561,9 @@ $(BUILD_DIR)/test/*.js : $(test_req)
 $(BUILD_DIR)/test/PerformanceTests*.js : override GOOG_DEBUG:=false
 # Turn on GOOG_DEBUG to ensure that assertions are working.
 $(BUILD_DIR)/test/Engine2DTests*.js : override GOOG_DEBUG:=true
+$(BUILD_DIR)/test/UnitTest2*.js : override GOOG_DEBUG:=true
 # Turn off UTIL_DEBUG to avoid seeing lots of debug messages during tests.
+$(BUILD_DIR)/test/UnitTest2*.js \
 $(BUILD_DIR)/test/PerformanceTests*.js \
 $(BUILD_DIR)/test/Engine2DTests*.js : override UTIL_DEBUG:=false
 
@@ -583,6 +587,7 @@ src/sims/pendulum/test/*.js
 	./compile_test.sh src $@ $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
 # Extra requirement for some HTML test files
+$(BUILD_DIR)/test/UnitTest2*.html \
 $(BUILD_DIR)/test/Engine2DTests*.html \
 $(BUILD_DIR)/test/PerformanceTests*.html \
 $(BUILD_DIR)/test/SingleTest*.html : src/test/macros_test.html

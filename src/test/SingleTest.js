@@ -27,6 +27,7 @@ const RopeTest = goog.require('myphysicslab.test.RopeTest');
 const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
 const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
 const Util = goog.require('myphysicslab.lab.util.Util');
+const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See
 [2D Physics Engine Overview](Engine2D.html).
@@ -55,7 +56,7 @@ static runTests() {
   //CircleStraightTest.elastic_balls();
   //CircleStraightTest.test();
   //CircleStraightTest.wedged_ball();
-  DoNothingTest.do_nothing_error();
+  //DoNothingTest.do_nothing_error();
   //JointTest.pendulum_1_joint_1();
   //JointTest.pendulum_1_joint_2();
   //JointTest.test();
@@ -101,6 +102,7 @@ static runTests() {
   //StraightStraightTest.six_blocks_performance(t);
   //StraightStraightTest.six_blocks_settle();
   //StraightStraightTest.test();
+  VectorTest.test();
 
   Engine2DTestRig.schedule(Engine2DTestRig.finishTests);
   Engine2DTestRig.runTests();

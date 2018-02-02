@@ -15,6 +15,7 @@
 goog.module('myphysicslab.lab.model.AdvanceStrategy');
 
 const Printable = goog.require('myphysicslab.lab.util.Printable');
+const MemoList = goog.require('myphysicslab.lab.util.MemoList');
 
 /** Advances the state of a Simulation thru time. This follows the [strategy design
 pattern](https://en.wikipedia.org/wiki/Strategy_pattern): a Simulation can be fitted
@@ -27,7 +28,7 @@ class AdvanceStrategy extends Printable {
 
 /** Advances the Simulation state by the specified amount of time.
 @param {number} timeStep  the amount of time to advance in seconds
-@param {!myphysicslab.lab.util.MemoList=} opt_memoList optional MemoList to call
+@param {!MemoList=} opt_memoList optional MemoList to call
     whenever the simulation state is advanced
 @throws {!Error} when unable to advance the simulation
 */
