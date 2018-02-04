@@ -336,44 +336,112 @@ static assertEquals(expected, value) {
 
 /** If the value does not match the expected value, then report a test failure.
 * @param {number} expected  the expected value
-* @param {number} value  the value to test
+* @param {*} value  the value to test
 * @param {number} tolerance  how much the value can differ from expected value
 */
 static assertRoughlyEquals(expected, value, tolerance) {
-  if (Math.abs(expected - value) > tolerance) {
-    var s = 'expected='+expected+' but was actual='+value
+  if (!goog.isNumber(value)) {
+    TestRig.reportTestResults(false, 'value', 'not a number '+value);
+    return;
+  }
+  var num = /** @type {number} */(value);
+  if (Math.abs(expected - num) > tolerance) {
+    var s = 'expected='+expected+' but was actual='+num
                 + ' tolerance='+tolerance;
     TestRig.reportTestResults(false, 'value', s);
   }
 };
 
 /** If the value is not true, then report a test failure.
-* @param {boolean} value  the value to test
+* @param {*} value  the value to test
 */
 static assertTrue(value) {
-  if (!value) {
+  if (!goog.isBoolean(value) || !value) {
     TestRig.reportTestResults(false, 'boolean');
   }
 };
 
+/** If the array elements are not equal, then report a test failure.
+* @param {!Array} expected  the expected array
+* @param {*} value  the array to test
+*/
+static assertElementsEquals(expected, value) {
+  if (!goog.isArray(value)) {
+    TestRig.reportTestResults(false, 'assert', 'not an array '+value);
+    return;
+  }
+  var arr = /** !Array */(value);
+  if (expected.length != arr.length) {
+    TestRig.reportTestResults(false, 'assert', 'array not expected length '+arr);
+    return;
+  }
+  for (var i=0, n=expected.length; i<n; i++) {
+    if (expected[i] != arr[i]) {
+      var s = 'expected='+expected[i]+' but was actual='+arr[i];
+      TestRig.reportTestResults(false, 'boolean', 'array elements not equal '+s);
+    }
+  }
+};
+
 /** If the value is true, then report a test failure.
-* @param {boolean} value  the value to test
+* @param {*} value  the value to test
 */
 static assertFalse(value) {
-  if (value) {
+  if (!goog.isBoolean(value) || value) {
     TestRig.reportTestResults(false, 'boolean');
+  }
+};
+
+/** If the value is null, then report a test failure.
+* @param {*} value  the value to test
+*/
+static assertNotNull(value) {
+  if (value === null) {
+    TestRig.reportTestResults(false, 'assert', 'value is null');
+  }
+};
+
+/** If the value is not null, then report a test failure.
+* @param {*} value  the value to test
+*/
+static assertNull(value) {
+  if (value !== null) {
+    TestRig.reportTestResults(false, 'assert', 'value is not null '+value);
+  }
+};
+
+/** If the function does throw an error, then report a test failure.
+* @param {function()} func  the function to test
+*/
+static assertNotThrows(func) {
+  try {
+    func();
+  } catch (e) {
+    TestRig.reportTestResults(false, 'exception',
+        'exception should not occur');
   }
 };
 
 /** If the function does not throw an error, then report a test failure.
 * @param {function()} func  the function to test
+* @return {Error|undefined}
 */
 static assertThrows(func) {
   try {
     func();
-    TestRig.reportTestResults(false, 'exception',
+    TestRig.reportTestResults(false, 'assert',
         'expected exception did not occur');
   } catch (e) {
+    return e;
+  }
+};
+
+/** If the value is not undefined, then report a test failure.
+* @param {*} value  the value to test
+*/
+static assertUndefined(value) {
+  if (value !== undefined) {
+    TestRig.reportTestResults(false, 'assert');
   }
 };
 

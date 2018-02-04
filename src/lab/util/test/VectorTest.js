@@ -66,7 +66,7 @@ static testVector() {
   assertThrows(function() { new Vector(NaN, 1); });
 };
 
-static  testVectorSimilar() {
+static testVectorSimilar() {
   startTest(VectorTest.groupName+'testVectorSimilar');
   var v1 = new Vector(2, 3);
   var v2 = new Vector(2.01, 3.02);
@@ -76,7 +76,7 @@ static  testVectorSimilar() {
   assertFalse(v1.nearEqual(v2));
 };
 
-static  testVectorMath() {
+static testVectorMath() {
   startTest(VectorTest.groupName+'testVectorMath');
   var v1 = new Vector(2, 3);
   var v2 = new Vector(1, 1);

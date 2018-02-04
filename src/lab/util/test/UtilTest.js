@@ -14,8 +14,9 @@
 
 goog.module('myphysicslab.lab.util.test.UtilTest');
 
-const TestRig = goog.require('myphysicslab.test.TestRig');
+goog.require('goog.asserts');
 const Util = goog.require('myphysicslab.lab.util.Util');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 
 const assertEquals = TestRig.assertEquals;
 const assertRoughlyEquals = TestRig.assertRoughlyEquals;

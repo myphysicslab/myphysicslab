@@ -14,10 +14,25 @@
 
 goog.module('myphysicslab.test.UnitTest2');
 
+const AbstractSubjectTest = goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
+const AffineTransformTest = goog.require('myphysicslab.lab.util.test.AffineTransformTest');
+const CircularListTest = goog.require('myphysicslab.lab.util.test.CircularListTest');
+const ClockTest = goog.require('myphysicslab.lab.util.test.ClockTest');
+const ConcreteMemoListTest = goog.require('myphysicslab.lab.util.test.ConcreteMemoListTest');
+const DoubleMathTest = goog.require('myphysicslab.lab.util.test.DoubleMathTest');
+const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
+const EasyScriptParserTest = goog.require('myphysicslab.lab.util.test.EasyScriptParserTest');
+const MutableVectorTest = goog.require('myphysicslab.lab.util.test.MutableVectorTest');
+const ParameterBooleanTest = goog.require('myphysicslab.lab.util.test.ParameterBooleanTest');
+const ParameterNumberTest = goog.require('myphysicslab.lab.util.test.ParameterNumberTest');
+const ParameterStringTest = goog.require('myphysicslab.lab.util.test.ParameterStringTest');
+const RandomLCGTest = goog.require('myphysicslab.lab.util.test.RandomLCGTest');
+const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
 const TestRig = goog.require('myphysicslab.test.TestRig');
-const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
+const TimerTest = goog.require('myphysicslab.lab.util.test.TimerTest');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
+const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link TestRig}.
@@ -34,8 +49,25 @@ class UnitTest2 {
 */
 static runTests() {
   TestRig.startTests();
-  VectorTest.test();
+
+  AbstractSubjectTest.test();
+  AffineTransformTest.test();
+  CircularListTest.test();
+  ClockTest.test();
+  ConcreteMemoListTest.test();
+  DoubleMathTest.test();
+  DoubleRectTest.test();
+  EasyScriptParserTest.test();
+  MutableVectorTest.test();
+  ParameterBooleanTest.test();
+  ParameterNumberTest.test();
+  ParameterStringTest.test();
+  RandomLCGTest.test();
+  TerminalTest.test();
+  TimerTest.test();
   UtilTest.test();
+  VectorTest.test();
+
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();
 };
