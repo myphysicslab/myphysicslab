@@ -14,13 +14,6 @@
 
 goog.module('myphysicslab.test.UnitTest2');
 
-const ConcreteLineTest = goog.require('myphysicslab.lab.model.test.ConcreteLineTest');
-const EnergyInfoTest = goog.require('myphysicslab.lab.model.test.EnergyInfoTest');
-const NumericalPathTest = goog.require('myphysicslab.lab.model.test.NumericalPathTest');
-const PointMassTest = goog.require('myphysicslab.lab.model.test.PointMassTest');
-const SimListTest = goog.require('myphysicslab.lab.model.test.SimListTest');
-const SpringTest = goog.require('myphysicslab.lab.model.test.SpringTest');
-const VarsListTest = goog.require('myphysicslab.lab.model.test.VarsListTest');
 
 const AbstractSubjectTest = goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
 const AffineTransformTest = goog.require('myphysicslab.lab.util.test.AffineTransformTest');
@@ -42,6 +35,22 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
 const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 
+const ConcreteLineTest = goog.require('myphysicslab.lab.model.test.ConcreteLineTest');
+const EnergyInfoTest = goog.require('myphysicslab.lab.model.test.EnergyInfoTest');
+const NumericalPathTest = goog.require('myphysicslab.lab.model.test.NumericalPathTest');
+const PointMassTest = goog.require('myphysicslab.lab.model.test.PointMassTest');
+const SimListTest = goog.require('myphysicslab.lab.model.test.SimListTest');
+const SpringTest = goog.require('myphysicslab.lab.model.test.SpringTest');
+const VarsListTest = goog.require('myphysicslab.lab.model.test.VarsListTest');
+
+const CircularEdgeTest = goog.require('myphysicslab.lab.engine2D.test.CircularEdgeTest');
+const EdgeSetTest = goog.require('myphysicslab.lab.engine2D.test.EdgeSetTest');
+const PolygonTest = goog.require('myphysicslab.lab.engine2D.test.PolygonTest');
+const RigidBodySimTest = goog.require('myphysicslab.lab.engine2D.test.RigidBodySimTest');
+const StraightEdgeTest = goog.require('myphysicslab.lab.engine2D.test.StraightEdgeTest');
+const UtilEngineTest = goog.require('myphysicslab.lab.engine2D.test.UtilEngineTest');
+const VertexTest = goog.require('myphysicslab.lab.engine2D.test.VertexTest');
+
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link TestRig}.
 
@@ -57,14 +66,6 @@ class UnitTest2 {
 */
 static runTests() {
   TestRig.startTests();
-
-  ConcreteLineTest.test();
-  EnergyInfoTest.test();
-  NumericalPathTest.test();
-  PointMassTest.test();
-  SimListTest.test();
-  SpringTest.test();
-  VarsListTest.test();
 
   AbstractSubjectTest.test();
   AffineTransformTest.test();
@@ -83,6 +84,22 @@ static runTests() {
   TimerTest.test();
   UtilTest.test();
   VectorTest.test();
+
+  ConcreteLineTest.test();
+  EnergyInfoTest.test();
+  NumericalPathTest.test();
+  PointMassTest.test();
+  SimListTest.test();
+  SpringTest.test();
+  VarsListTest.test();
+
+  CircularEdgeTest.test();
+  EdgeSetTest.test();
+  PolygonTest.test();
+  RigidBodySimTest.test();
+  StraightEdgeTest.test();
+  UtilEngineTest.test();
+  VertexTest.test();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();
