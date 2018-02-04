@@ -51,6 +51,15 @@ const StraightEdgeTest = goog.require('myphysicslab.lab.engine2D.test.StraightEd
 const UtilEngineTest = goog.require('myphysicslab.lab.engine2D.test.UtilEngineTest');
 const VertexTest = goog.require('myphysicslab.lab.engine2D.test.VertexTest');
 
+const CoordMapTest = goog.require('myphysicslab.lab.view.test.CoordMapTest');
+const DisplayLineTest = goog.require('myphysicslab.lab.view.test.DisplayLineTest');
+const DisplayListTest = goog.require('myphysicslab.lab.view.test.DisplayListTest');
+const DisplayShapeTest = goog.require('myphysicslab.lab.view.test.DisplayShapeTest');
+const DisplaySpringTest = goog.require('myphysicslab.lab.view.test.DisplaySpringTest');
+const LabCanvasTest = goog.require('myphysicslab.lab.view.test.LabCanvasTest');
+const ScreenRectTest = goog.require('myphysicslab.lab.view.test.ScreenRectTest');
+const SimViewTest = goog.require('myphysicslab.lab.view.test.SimViewTest');
+
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link TestRig}.
 
@@ -100,6 +109,15 @@ static runTests() {
   StraightEdgeTest.test();
   UtilEngineTest.test();
   VertexTest.test();
+
+  CoordMapTest.test();
+  DisplayLineTest.test();
+  DisplayListTest.test();
+  DisplayShapeTest.test();
+  DisplaySpringTest.test();
+  LabCanvasTest.test();
+  ScreenRectTest.test();
+  SimViewTest.test();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();

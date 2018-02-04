@@ -357,7 +357,7 @@ static assertRoughlyEquals(expected, value, tolerance) {
 */
 static assertTrue(value) {
   if (!goog.isBoolean(value) || !value) {
-    TestRig.reportTestResults(false, 'boolean');
+    TestRig.reportTestResults(false, 'assert');
   }
 };
 
@@ -372,13 +372,14 @@ static assertElementsEquals(expected, value) {
   }
   var arr = /** !Array */(value);
   if (expected.length != arr.length) {
-    TestRig.reportTestResults(false, 'assert', 'array not expected length '+arr);
+    TestRig.reportTestResults(false, 'assert', 'expected array length '
+        +expected.length+' but found '+arr.length);
     return;
   }
   for (var i=0, n=expected.length; i<n; i++) {
     if (expected[i] != arr[i]) {
       var s = 'expected='+expected[i]+' but was actual='+arr[i];
-      TestRig.reportTestResults(false, 'boolean', 'array elements not equal '+s);
+      TestRig.reportTestResults(false, 'assert', 'array elements not equal '+s);
     }
   }
 };
@@ -388,7 +389,7 @@ static assertElementsEquals(expected, value) {
 */
 static assertFalse(value) {
   if (!goog.isBoolean(value) || value) {
-    TestRig.reportTestResults(false, 'boolean');
+    TestRig.reportTestResults(false, 'assert');
   }
 };
 
