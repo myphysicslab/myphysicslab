@@ -207,12 +207,7 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #define #en_LANG_MENU_IDX 0
 #define #de_LANG_MENU_IDX 1
 
-#comment Whether the app uses goog.module or namespace (myphysicslab.sims.etc.)
-#comment default is traditional namespace, but can override this in each file.
-#define #MODULE_TYPE namespace
-#define #INSTANTIATE_APP ##MODULE_TYPE#_INSTANTIATE_APP
-#define #namespace_INSTANTIATE_APP app = new myphysicslab.#APP_PATH(elem_ids);
-#define #module_INSTANTIATE_APP app = make#APP_NAME(elem_ids);
+#define #INSTANTIATE_APP app = make#APP_NAME(elem_ids);
 
 #comment BUILD_APP notes:
 #comment In Browsers that support BFCache (FireFox and Safari) using the back-button

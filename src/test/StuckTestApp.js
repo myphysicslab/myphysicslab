@@ -66,7 +66,9 @@ constructor(elem_ids) {
   var ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   this.addControl(new ChoiceControl(ps));
   // show compile time so user can ensure loading latest version
-  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  if (Util.DEBUG) {
+    this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  }
 
   this.makeEasyScript();
   this.addURLScriptButton();

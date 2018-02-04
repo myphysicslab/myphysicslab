@@ -247,7 +247,9 @@ addStandardControls() {
   var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
   // show compile time so user can ensure loading latest version
-  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  if (Util.DEBUG) {
+    this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  }
 };
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced

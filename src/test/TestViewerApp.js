@@ -358,7 +358,9 @@ constructor(elem_ids) {
   this.addControl(new NumericControl(pn));
 
   // show compile time so user can ensure loading latest version
-  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  if (Util.DEBUG) {
+    this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  }
 
   br = new GroupControl('BR', document.createElement('BR'), []);
   this.addControl(br);

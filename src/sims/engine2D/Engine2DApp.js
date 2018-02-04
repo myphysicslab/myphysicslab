@@ -33,6 +33,7 @@ const ElasticitySetter = goog.require('myphysicslab.sims.engine2D.ElasticitySett
 const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
@@ -346,6 +347,10 @@ addStandardControls() {
   this.addControl(bm);
   //ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   //this.addControl(new ChoiceControl(ps));
+  // show compile time so user can ensure loading latest version
+  if (Util.DEBUG) {
+    this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  }
 };
 
 /** Add the control to the set of simulation controls.

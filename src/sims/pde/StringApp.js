@@ -241,7 +241,9 @@ constructor(elem_ids) {
   pn = this.clock.getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
   // show compile time so user can ensure loading latest version
-  this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  if (Util.DEBUG) {
+    this.addControl(new LabelControl('compiled '+Util.COMPILE_TIME));
+  }
 
   /** @type {!EnergyBarGraph} */
   this.energyGraph = new EnergyBarGraph(this.sim);
