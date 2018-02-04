@@ -14,6 +14,14 @@
 
 goog.module('myphysicslab.test.UnitTest2');
 
+const ConcreteLineTest = goog.require('myphysicslab.lab.model.test.ConcreteLineTest');
+const EnergyInfoTest = goog.require('myphysicslab.lab.model.test.EnergyInfoTest');
+const NumericalPathTest = goog.require('myphysicslab.lab.model.test.NumericalPathTest');
+const PointMassTest = goog.require('myphysicslab.lab.model.test.PointMassTest');
+const SimListTest = goog.require('myphysicslab.lab.model.test.SimListTest');
+const SpringTest = goog.require('myphysicslab.lab.model.test.SpringTest');
+const VarsListTest = goog.require('myphysicslab.lab.model.test.VarsListTest');
+
 const AbstractSubjectTest = goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
 const AffineTransformTest = goog.require('myphysicslab.lab.util.test.AffineTransformTest');
 const CircularListTest = goog.require('myphysicslab.lab.util.test.CircularListTest');
@@ -49,6 +57,14 @@ class UnitTest2 {
 */
 static runTests() {
   TestRig.startTests();
+
+  ConcreteLineTest.test();
+  EnergyInfoTest.test();
+  NumericalPathTest.test();
+  PointMassTest.test();
+  SimListTest.test();
+  SpringTest.test();
+  VarsListTest.test();
 
   AbstractSubjectTest.test();
   AffineTransformTest.test();

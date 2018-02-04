@@ -392,6 +392,15 @@ static assertFalse(value) {
   }
 };
 
+/** If the value is not NaN, then report a test failure.
+* @param {*} value  the value to test
+*/
+static assertNaN(value) {
+  if (!isNaN(value)) {
+    TestRig.reportTestResults(false, 'assert', 'value is not NaN '+value);
+  }
+};
+
 /** If the value is null, then report a test failure.
 * @param {*} value  the value to test
 */
