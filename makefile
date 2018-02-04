@@ -257,9 +257,7 @@ terminalspring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpri
 test: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/Engine2DTests-$(loc).html )
 testbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/TestBodyApp-$(loc).html )
 testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp-$(loc).html )
-unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest-$(loc).html )
 unittest2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest2-$(loc).html )
-unittestone: $(BUILD_DIR)/test/UnitTestOne.html
 vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp-$(loc).html )
 
 engine2d: billiards blank carsuspension cartpendulum2 chain contact curvedtest \
@@ -280,8 +278,7 @@ springs: chainofsprings collideblocks collidespring danglestick double2dspring \
 doublespring molecule1 molecule3 molecule4 molecule5 molecule6 multispring \
 singlespring singlespring2 spring2d terminalspring terminalspring2d
 
-alltest: test perf singletest singleviewer stucktest testviewer unittest \
-unittestone unittest2
+alltest: test perf singletest singleviewer stucktest testviewer unittest
 
 app_names := sims/engine2D/BilliardsApp \
 sims/engine2D/BlankApp \
@@ -552,6 +549,12 @@ src/macros_vert.html
 $(BUILD_DIR)/sims/*/*.js : $(sims_req)
 $(BUILD_DIR)/test/*.js : $(test_req)
 
+# Note that goog.DEBUG must be true for unittests because goog.testing.MockClock uses
+# goog.async.run which requires goog.DEBUG to be true.
+# The error message was something like `goog.async.run.resetQueue is undefined`
+# which happened while trying to uninstall a MockClock.
+# Also goog.DEBUG must be true for goog.asserts.asserts() to work.
+
 # The following use Target Specific Variable Values
 # https://www.gnu.org/software/make/manual/make.html#Target_002dspecific
 # Turn off GOOG_DEBUG for maximum performance
@@ -572,26 +575,16 @@ apps_js_de := $(addsuffix -de.js,$(bld_apps)) $(addsuffix -de.js,$(bld_combos))
 $(apps_js_de): $(BUILD_DIR)/%-de.js : src/%.js
 	./compile_js.sh $< $@ $(GOOG_DEBUG) $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
-unit_test := $(BUILD_DIR)/test/UnitTest-en $(BUILD_DIR)/test/UnitTest-de
-unit_test_js := $(addsuffix .js,$(unit_test))
-
-# UnitTest is built with a special shell script and prerequisites.
-# Note Oct 2015: MockClock requires goog.DEBUG to be true (unfortunately).
-$(unit_test_js) : $(BUILD_DIR)/test/UnitTest%.js : $(lab_js) \
-src/sims/roller/test/*.js \
+# Extra requirements for UnitTest
+$(BUILD_DIR)/test/UnitTest2*.js : src/sims/roller/test/*.js \
 src/sims/springs/test/*.js \
 src/sims/pendulum/test/*.js
-	./compile_test.sh src $@ $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
 # Extra requirement for some HTML test files
 $(BUILD_DIR)/test/UnitTest2*.html \
 $(BUILD_DIR)/test/Engine2DTests*.html \
 $(BUILD_DIR)/test/PerformanceTests*.html \
 $(BUILD_DIR)/test/SingleTest*.html : src/test/macros_test.html
-
-# UnitTestOne needs special options: debug (uncompiled), no index_order file, no locale
-$(BUILD_DIR)/test/UnitTestOne.html: src/test/UnitTestOne.html | $(BUILD_DIR)/deps.js
-	./prep_html.pl $< $@ "" debug
 
 ifeq "$(COMPILE_LEVEL)" "debug"
 # make HTML file that loads uncompiled (source) JavaScript. Needs deps.js.
@@ -697,7 +690,7 @@ else
 all: settings apps index unit-test combos
 endif
 
-unit-test: $(addsuffix .html,$(unit_test))
+unittest: unittest2
 
 # When a line starts with ‘@’, the echoing of that line is suppressed. The ‘@’ is
 # discarded before the line is passed to the shell.

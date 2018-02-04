@@ -520,23 +520,13 @@ compilation level and locale:
         make unittest COMPILE_LEVEL=advanced
         open adv-build/test/UnitTest-en.html
 
-Unit tests are compiled with a special shell script named `compile_test.sh`. See
-instructions there about adding new unit tests.
-
 Unit tests are contained in `/test` subdirectories of many namespaces, for example in
-`myphysicslab.lab.util.test`. By convention, the file name of these unit tests end with
-the word `_test`.
+`myphysicslab.lab.util.test`.
 
-The `goog.testing.jsunit` library is used to run the unit tests. See documentation
-about using `jsunit` in [*Closure: The Definitive Guide* by Michael Bolin][References].
-
-Each unit test must be stored in a global function whose name begins with the word
-`test`. This is required for the test to be automatically found and run by `jsunit`.
-It is necessary to [export test names][Exporting Symbols] when using advanced-compile.
-
-To debug a unit test more easily, run it uncompiled, see
-[Debugging (Running Uncompiled)][]. The error messages will then refer to line numbers
-in source files, which are far easier to interpret than line numbers in a compiled file.
+To debug a unit test more easily, run it uncompiled by itself (perhaps by modifying
+`SingleTest.js`). See [Debugging (Running Uncompiled)][]. The error messages will then
+refer to line numbers in source files, which are far easier to interpret than line
+numbers in a compiled file.
 
 *Note that the unit test coverage is far from complete!*
 
@@ -544,8 +534,7 @@ in source files, which are far easier to interpret than line numbers in a compil
 ## Engine2D Tests
 
 [Engine2DTests](myphysicslab.test.Engine2DTests.html) are a set of tests of the
-`myphysicslab.lab.engine2D` namespace. These tests do *not* use `jsunit`, instead they
-use [Engine2DTestRig](myphysicslab.test.Engine2DTestRig.html) to run the tests.
+`myphysicslab.lab.engine2D` namespace.
 
 To run simple-compiled engine2D tests execute the commands
 
@@ -623,11 +612,10 @@ for this reason.
 ## Performance Tests
 
 [PerformanceTests](myphysicslab.test.PerformanceTests.html) runs a small set of
-performance tests of the `myphysicslab.lab.engine2D` namespace. These tests are similar
-to those of Engine2DTests: they are run with Engine2DTestRig (*not* with `jsunit`).
+performance tests of the engine2D physics engine.
 
-**Copy the file `sampleMachineName.js`** to `MachineName.js` and edit the file to have a
-unique name for your development machine.
+**Copy the file `sampleMachineName.js`** to `MachineName.js` and edit the file to have
+a unique name for your development machine.
 
 To run uncompiled engine2D performance tests see [Debugging (Running Uncompiled)][]
 and execute the commands
@@ -645,7 +633,7 @@ To run advanced-compiled engine2D performance tests execute the commands
     make perf COMPILE_LEVEL=advanced
     open adv-build/test/PerformanceTests-en.html
 
-A performance test gets an **expected time limit** from global properties defined in
+A performance test gets an **expected time limit** from properties defined in
 `src/test/ExpectedPerf.js`. Each combination of test, browser, and machine has a
 different expected time limit. The test passes if the time to run the test is near the
 expected time.
@@ -1207,15 +1195,11 @@ Exporting can be done in two ways:
 
 The main usage of exporting symbols in myPhysicsLab is:
 
-+ for an application's constructor, so that it can be instantiated from HTML scripts
-    when advanced-compiled.
-    See [Start-Up HTML File](Architecture.html#start-uphtmlfile).
++ for an application's `makeApp` function, so that it can be instantiated from the
+    [Start-Up HTML File](Architecture.html#start-uphtmlfile).
 
 + for certain application methods such as `setup`, `start`, `eval` which are called
     from the start-up HTML file.
-
-+ in [Unit Tests][], so that the tests can be executed when advanced-compiled (the
-    jsunit framework looks for functions whose name starts with "test").
 
 + in [Engine2D Tests][], the functions whose name ends with '_setup' are added to the
     list of tests that can be run in [TestViewerApp][], even when advanced-compiled.

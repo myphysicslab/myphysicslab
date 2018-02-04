@@ -620,7 +620,7 @@ object which is stored in the `app` global variable.
             div_terminal: 'div_terminal',
             images_dir: '../../images/'
         };
-        app = new myphysicslab.sims.pendulum.DoublePendulumApp(elem_ids);
+        app = makeDoublePendulumApp(elem_ids);
         app.defineNames('app');
     }());
     </script>

@@ -18,7 +18,6 @@ const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
-const TestRig = goog.require('myphysicslab.test.TestRig');
 const JointTest = goog.require('myphysicslab.test.JointTest');
 const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
 const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
@@ -26,6 +25,7 @@ const PileTest = goog.require('myphysicslab.test.PileTest');
 const RopeTest = goog.require('myphysicslab.test.RopeTest');
 const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
 const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 
