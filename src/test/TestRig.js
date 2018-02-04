@@ -178,7 +178,7 @@ static runTests() {
   var testFunc = TestRig.testFns.shift();
   if (goog.isFunction(testFunc)) {
     testFunc();
-    setTimeout(TestRig.runTests, 50);
+    setTimeout(TestRig.runTests, 10);
   }
 };
 

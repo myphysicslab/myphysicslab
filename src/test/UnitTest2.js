@@ -60,6 +60,10 @@ const LabCanvasTest = goog.require('myphysicslab.lab.view.test.LabCanvasTest');
 const ScreenRectTest = goog.require('myphysicslab.lab.view.test.ScreenRectTest');
 const SimViewTest = goog.require('myphysicslab.lab.view.test.SimViewTest');
 
+const	DoublePendulumTest = goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
+const	RollerTest = goog.require('myphysicslab.sims.roller.test.RollerTest');
+const	SingleSpringTest = goog.require('myphysicslab.sims.springs.test.SingleSpringTest');
+
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link TestRig}.
 
@@ -118,6 +122,10 @@ static runTests() {
   LabCanvasTest.test();
   ScreenRectTest.test();
   SimViewTest.test();
+
+  DoublePendulumTest.test();
+  RollerTest.test();
+  SingleSpringTest.test();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();
