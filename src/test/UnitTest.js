@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.module('myphysicslab.test.UnitTest2');
+goog.module('myphysicslab.test.UnitTest');
 
 
 const AbstractSubjectTest = goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
@@ -71,7 +71,7 @@ const	SingleSpringTest = goog.require('myphysicslab.sims.springs.test.SingleSpri
 for this test; usually `Util.DEBUG` should be false when this is compiled to avoid
 printing lots of debug messages to console.
 */
-class UnitTest2 {
+class UnitTest {
   
 /**
 * @return {undefined}
@@ -133,5 +133,5 @@ static runTests() {
 
 } // end class
 
-goog.exportSymbol('runTests', UnitTest2.runTests);
-exports = UnitTest2;
+goog.exportSymbol('runTests', UnitTest.runTests);
+exports = UnitTest;

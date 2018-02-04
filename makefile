@@ -257,7 +257,7 @@ terminalspring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/TerminalSpri
 test: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/Engine2DTests-$(loc).html )
 testbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/TestBodyApp-$(loc).html )
 testviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/TestViewerApp-$(loc).html )
-unittest2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest2-$(loc).html )
+unittest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/UnitTest-$(loc).html )
 vectorgraphpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/VectorGraphPendulumApp-$(loc).html )
 
 engine2d: billiards blank carsuspension cartpendulum2 chain contact curvedtest \
@@ -348,7 +348,7 @@ test/SingleTest \
 test/SingleViewerApp \
 test/StuckTestApp \
 test/TestViewerApp \
-test/UnitTest2
+test/UnitTest
 
 bld_apps := $(addprefix $(BUILD_DIR)/,$(app_names))
 
@@ -561,9 +561,9 @@ $(BUILD_DIR)/test/*.js : $(test_req)
 $(BUILD_DIR)/test/PerformanceTests*.js : override GOOG_DEBUG:=false
 # Turn on GOOG_DEBUG to ensure that assertions are working.
 $(BUILD_DIR)/test/Engine2DTests*.js : override GOOG_DEBUG:=true
-$(BUILD_DIR)/test/UnitTest2*.js : override GOOG_DEBUG:=true
+$(BUILD_DIR)/test/UnitTest*.js : override GOOG_DEBUG:=true
 # Turn off UTIL_DEBUG to avoid seeing lots of debug messages during tests.
-$(BUILD_DIR)/test/UnitTest2*.js \
+$(BUILD_DIR)/test/UnitTest*.js \
 $(BUILD_DIR)/test/PerformanceTests*.js \
 $(BUILD_DIR)/test/Engine2DTests*.js : override UTIL_DEBUG:=false
 
@@ -576,12 +576,12 @@ $(apps_js_de): $(BUILD_DIR)/%-de.js : src/%.js
 	./compile_js.sh $< $@ $(GOOG_DEBUG) $(UTIL_DEBUG) $(COMPILE_LEVEL)
 
 # Extra requirements for UnitTest
-$(BUILD_DIR)/test/UnitTest2*.js : src/sims/roller/test/*.js \
+$(BUILD_DIR)/test/UnitTest*.js : src/sims/roller/test/*.js \
 src/sims/springs/test/*.js \
 src/sims/pendulum/test/*.js
 
 # Extra requirement for some HTML test files
-$(BUILD_DIR)/test/UnitTest2*.html \
+$(BUILD_DIR)/test/UnitTest*.html \
 $(BUILD_DIR)/test/Engine2DTests*.html \
 $(BUILD_DIR)/test/PerformanceTests*.html \
 $(BUILD_DIR)/test/SingleTest*.html : src/test/macros_test.html
@@ -689,8 +689,6 @@ all: settings apps index unit-test
 else
 all: settings apps index unit-test combos
 endif
-
-unittest: unittest2
 
 # When a line starts with ‘@’, the echoing of that line is suppressed. The ‘@’ is
 # discarded before the line is passed to the shell.
