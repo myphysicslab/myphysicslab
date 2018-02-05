@@ -16,7 +16,6 @@ goog.module('myphysicslab.lab.view.DisplayPath');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('goog.color');
 
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
