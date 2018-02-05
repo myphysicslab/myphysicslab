@@ -424,7 +424,7 @@ BrachistoSim.en = {
 @type {BrachistoSim.i18n_strings}
 */
 BrachistoSim.de_strings = {
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   GRAVITY: 'Gravitation',
   MASS: 'Masse',
   POSITION: 'Position',

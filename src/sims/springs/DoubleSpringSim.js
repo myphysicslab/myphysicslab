@@ -583,11 +583,11 @@ DoubleSpringSim.en = {
 */
 DoubleSpringSim.de_strings = {
   ACCELERATION: 'Beschleunigung',
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   MASS1: 'Masse-1',
   MASS2: 'Masse-2',
   POSITION: 'Position',
-  LENGTH: 'Federl\u00e4nge',
+  LENGTH: 'Federlänge',
   STIFFNESS: 'Federsteifheit',
   VELOCITY: 'Geschwindigkeit',
   REST_STATE: 'ruhe Zustand',

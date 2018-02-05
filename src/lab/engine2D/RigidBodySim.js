@@ -820,7 +820,7 @@ RigidBodySim.de_strings = {
   DISTANCE_TOL: 'Distanztoleranz',
   EXTRA_ACCEL: 'extra Beschleunigung',
   RANDOM_SEED: 'Zufallskern',
-  SHOW_FORCES: 'Kr\u00e4fte anzeigen',
+  SHOW_FORCES: 'Kräfte anzeigen',
   SHOW_COLLISIONS: 'Kollisionen anzeigen',
   VELOCITY_TOL: 'Geschwindigkeitstoleranz'
 };

@@ -358,9 +358,9 @@ CarSuspensionApp.en = {
 CarSuspensionApp.de_strings = {
   CAR_MASS: 'Auto Masse',
   FORMATION: 'Formation',
-  LENGTH: 'Federl\u00e4nge',
+  LENGTH: 'Federlänge',
   ROD_SPRING: 'Stange und Feder',
-  SPRING_DAMPING: 'Federd\u00e4mpfung',
+  SPRING_DAMPING: 'Federdämpfung',
   STIFFNESS: 'Federsteifheit',
   TWO_SPRINGS: 'zwei Feder',
   WHEEL_MASS: 'Rad Masse',

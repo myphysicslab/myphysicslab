@@ -39,7 +39,7 @@ Contents of this page:
     + [Localized Strings][]
     + [Language Independent Names][]
     + [How To Set Locale][]
-    + [Use only ASCII in Source Code][]
+    + [Non-ASCII Characters][]
     + [File Naming Convention][]
     + [Separate File Per Locale][]
     + [Language Menu in HTML File][]
@@ -777,19 +777,13 @@ or:
 
 
 
-## Use only ASCII in Source Code
+## Non-ASCII Characters
 
-Use only ASCII characters in source code for localized strings. Unicode characters
-should use the `\uxxxx` encoding. For example, here are some frequently used German
-characters:
+Because we use UTF-8 file encoding, it is appropriate to use non-ASCII characters in
+source code. Follow the
+[Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#special-characters)
+section about Special Characters.
 
-+ &szlig; = esszet `= \u00df`
-+ &auml; = umlaut-a `= \u00e4`
-+ &ouml; = umlaut-o `= \u00f6`
-+ &uuml; = umlaut-u `= \u00fc`
-
-The Java utility `native2ascii` can be helpful for converting between native-encoded
-and ASCII-Unicode.
 
 ## File Naming Convention
 
@@ -1306,7 +1300,7 @@ those style guidelines are mostly followed by myPhysicsLab code.
 
 + Continued lines are indented 4 spaces from the line it continues.
 
-+ [Use only ASCII in Source Code][]
++ [Non-ASCII Characters][]
 
 + Private and protected property names should end with a trailing underscore.
 
@@ -1493,6 +1487,8 @@ A set of HTML documentation for Closure Library (generated with Dossier).
 JavaScript source code comments. It uses [CommonMark](http://commonmark.org) to process
 the markdown within source code comments. CommonMark is a more rigorous version of
 [standard markdown](http://daringfireball.net/projects/markdown/syntax).
+
+[Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
 
 [LaTeX](https://en.wikipedia.org/wiki/LaTeX) is used to produce `.pdf` files from
 `.tex` files using the `pdflatex` command.

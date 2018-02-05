@@ -461,13 +461,13 @@ SingleSpringSim.en = {
 */
 SingleSpringSim.de_strings = {
   ACCELERATION: 'Beschleunigung',
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   MASS: 'Masse',
   POSITION: 'Position',
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit',
   VELOCITY: 'Geschwindigkeit',
-  WORK_FROM_DAMPING: 'Arbeit der D\u00e4mpfung',
+  WORK_FROM_DAMPING: 'Arbeit der Dämpfung',
   FIXED_POINT: 'Festpunkt'
 };
 

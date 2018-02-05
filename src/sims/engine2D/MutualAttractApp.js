@@ -235,8 +235,8 @@ MutualAttractApp.en = {
 @type {MutualAttractApp.i18n_strings}
 */
 MutualAttractApp.de_strings = {
-  NUMBER_BODIES: 'Anzahl von K\u00f6rpern',
-  OBJECTS: 'K\u00f6rpern'
+  NUMBER_BODIES: 'Anzahl von Körpern',
+  OBJECTS: 'Körpern'
 };
 
 /** Set of internationalized strings.

@@ -701,8 +701,8 @@ EasyScriptParser.en = {
 */
 EasyScriptParser.de_strings = {
   URL_SCRIPT: 'mitteilen',
-  PROMPT_URL: 'Dr\u00fccken Sie command-C um diesen URL in die Zwischenablage zu kopieren, dies beinhaltet die eingegebenen Parameter.',
-  WARN_URL_2048: 'Achtung: URL is l\u00e4nger als 2048 Zeichen.'
+  PROMPT_URL: 'Drücken Sie command-C um diesen URL in die Zwischenablage zu kopieren, dies beinhaltet die eingegebenen Parameter.',
+  WARN_URL_2048: 'Achtung: URL is länger als 2048 Zeichen.'
 };
 
 /** Set of internationalized strings.

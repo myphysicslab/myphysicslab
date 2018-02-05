@@ -538,8 +538,8 @@ Molecule3App.en = {
 Molecule3App.de_strings = {
   MASS: 'Masse',
   MASS_SPECIAL: 'rote Masse',
-  LENGTH: 'Federl\u00e4nge',
-  LENGTH_SPECIAL: 'rote Federl\u00e4nge',
+  LENGTH: 'Federlänge',
+  LENGTH_SPECIAL: 'rote Federlänge',
   STIFFNESS: 'Federsteifheit',
   STIFFNESS_SPECIAL: 'rote Federsteifheit',
   NUM_ATOMS: 'zahl Masse'

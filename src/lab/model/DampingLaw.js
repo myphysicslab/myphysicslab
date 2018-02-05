@@ -272,7 +272,7 @@ DampingLaw.en = {
 @type {DampingLaw.i18n_strings}
 */
 DampingLaw.de_strings = {
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   ROTATE_RATIO: 'Drehquotient'
 };
 

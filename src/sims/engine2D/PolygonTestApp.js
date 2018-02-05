@@ -320,7 +320,7 @@ PolygonTestApp.de_strings = {
   NUM_BODIES: 'Anzahl von Objekten',
   THRUST: 'Schubkraft',
   ROUND_CORNER: 'runde Ecke',
-  PIE_WEDGE: 'Kuchenst\u00fcck',
+  PIE_WEDGE: 'Kuchenstück',
   HEXAGON: 'Hexagon',
   L_SHAPE: 'L-Form',
   BALL: 'Ball',

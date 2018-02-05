@@ -476,9 +476,9 @@ ReactionPendulumSim.de_strings = {
   ANGLE: 'Winkel',
   ANGULAR_VELOCITY: 'Winkelgeschwindigkeit',
   START_ANGLE: 'anfangs Winkel',
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   GRAVITY: 'Gravitation',
-  LENGTH: 'L\u00e4nge',
+  LENGTH: 'Länge',
   MASS: 'Masse',
   TIME: 'Zeit',
   RADIUS: 'Radius'

@@ -328,11 +328,11 @@ PileConfig.en = {
 @type {PileConfig.i18n_strings}
 */
 PileConfig.de_strings = {
-  NUM_BLOCKS: 'Bl\u00f6ckezahl',
-  ADD_BLOCK: 'Block hinzu f\u00fcgen',
+  NUM_BLOCKS: 'Blöckezahl',
+  ADD_BLOCK: 'Block hinzu fügen',
   REBUILD: 'wieder aufbauen',
   TWO_PILES: 'zwei Haufen',
-  CONNECTED_BLOCKS: 'zusammenh\u00e4ngende Bl\u00f6cke',
+  CONNECTED_BLOCKS: 'zusammenhängende Blöcke',
   ENDLESS_LOOP: 'endliche Schleife',
   LOOP_TIME: 'Schleifezeit',
   RANDOM_SEED: 'Zufallskern',

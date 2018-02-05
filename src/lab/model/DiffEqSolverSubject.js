@@ -157,7 +157,7 @@ DiffEqSolverSubject.en = {
 @type {DiffEqSolverSubject.i18n_strings}
 */
 DiffEqSolverSubject.de_strings = {
-  DIFF_EQ_SOLVER: 'Diff Eq L\u00f6ser'
+  DIFF_EQ_SOLVER: 'Diff Eq Löser'
 };
 
 /** Set of internationalized strings.

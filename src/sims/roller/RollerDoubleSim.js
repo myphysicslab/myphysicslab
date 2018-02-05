@@ -557,14 +557,14 @@ RollerDoubleSim.en = {
 @type {RollerDoubleSim.i18n_strings}
 */
 RollerDoubleSim.de_strings = {
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   GRAVITY: 'Gravitation',
   MASS_1: 'Masse-1',
   MASS_2: 'Masse-2',
   POSITION_1: 'Position-1',
   POSITION_2: 'Position-2',
-  SPRING_DAMPING: 'Federd\u00e4mpfung',
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_DAMPING: 'Federdämpfung',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit',
   VELOCITY_1: 'Geschwindigkeit-1',
   VELOCITY_2: 'Geschwindigkeit-2'

@@ -284,7 +284,7 @@ PendulumSpringApp.en = {
 @type {PendulumSpringApp.i18n_strings}
 */
 PendulumSpringApp.de_strings = {
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit',
   BLOCK: 'Block',
   PENDULUM: 'Pendel'

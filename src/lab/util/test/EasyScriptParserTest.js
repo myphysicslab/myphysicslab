@@ -60,7 +60,7 @@ static testEasyScript1() {
   var i18n_names = [
     'Position',
     'Geschwindigkeit',
-    'Arbeit von D\u00e4mpfung',
+    'Arbeit von Dämpfung',
     'Zeit',
     'Beschleunigung',
     'kinetische Energie',

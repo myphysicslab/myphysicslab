@@ -567,14 +567,14 @@ CartPendulumSim.de_strings = {
   PENDULUM_ANGLE: 'Pendelwinkel',
   CART_VELOCITY: 'Wagengeschwindigkeit',
   PENDULUM_ANGLE_VELOCITY: 'Pendelwinkelgeschwindigkeit',
-  CART_DAMPING: 'Wagend\u00e4mpfung',
-  PENDULUM_DAMPING: 'Pendeld\u00e4mpfung',
+  CART_DAMPING: 'Wagendämpfung',
+  PENDULUM_DAMPING: 'Pendeldämpfung',
   GRAVITY: 'Gravitation',
   CART_MASS: 'Wagenmasse',
   PENDULUM_MASS: 'Pendelmasse',
-  PENDULUM_LENGTH: 'Pendell\u00e4nge',
+  PENDULUM_LENGTH: 'Pendellänge',
   SPRING_STIFFNESS: 'Federsteifheit',
-  WORK_FROM_DAMPING: 'Arbeit von D\u00e4mpfung'
+  WORK_FROM_DAMPING: 'Arbeit von Dämpfung'
 };
 
 /** Set of internationalized strings.

@@ -320,8 +320,8 @@ CartPendulum2App.en = {
 @type {CartPendulum2App.i18n_strings}
 */
 CartPendulum2App.de_strings = {
-  LENGTH: 'Federl\u00e4nge',
-  SPRING_DAMPING: 'Federd\u00e4mpfung',
+  LENGTH: 'Federlänge',
+  SPRING_DAMPING: 'Federdämpfung',
   STIFFNESS: 'Federsteifheit',
   CART: 'Wagen',
   PENDULUM: 'Pendel'

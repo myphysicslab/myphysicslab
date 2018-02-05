@@ -623,10 +623,10 @@ PendulumSim.de_strings = {
   ANGLE: 'Winkel',
   ANGULAR_ACCEL: 'Winkelbeschleunigung',
   ANGULAR_VELOCITY: 'Winkelgeschwindigkeit',
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   DRIVE_FREQUENCY: 'Antriebsfrequenz',
   GRAVITY: 'Gravitation',
-  LENGTH: 'L\u00e4nge',
+  LENGTH: 'Länge',
   LIMIT_ANGLE: 'Winkel begrenzen',
   MASS: 'Masse',
   TIME: 'Zeit'

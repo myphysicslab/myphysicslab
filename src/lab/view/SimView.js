@@ -634,12 +634,12 @@ SimView.en = {
 SimView.de_strings = {
   SCALE_TOGETHER: 'X-Y zusammen skalieren',
   WIDTH: 'Breite',
-  HEIGHT: 'H\u00f6he',
+  HEIGHT: 'Höhe',
   CENTER_X: 'Mitte X',
   CENTER_Y: 'Mitte Y',
   VERTICAL_ALIGN: 'Vertikalejustierung',
   HORIZONTAL_ALIGN: 'Horizontalejustierung',
-  ASPECT_RATIO: 'Querschnittsverh\u00e4ltnis'
+  ASPECT_RATIO: 'Querschnittsverhältnis'
 };
 
 /** Set of internationalized strings.

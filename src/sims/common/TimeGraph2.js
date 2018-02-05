@@ -260,7 +260,7 @@ TimeGraph2.en = {
 @type {TimeGraph2.i18n_strings}
 */
 TimeGraph2.de_strings = {
-  LIME: 'hell gr\u00fcn',
+  LIME: 'hell grün',
   RED: 'rot'
 };
 

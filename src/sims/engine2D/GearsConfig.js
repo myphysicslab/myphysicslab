@@ -155,9 +155,9 @@ GearsConfig.en = {
 GearsConfig.de_strings = {
   LEFT_GEAR: 'linkes Zahnrad',
   RIGHT_GEAR: 'rechtes Zahnrad',
-  PINNED_GEARS: 'verstiftet Zahnr\u00e4der',
+  PINNED_GEARS: 'verstiftet Zahnräder',
   TURNING_FORCE: 'drehende Kraft',
-  TWO_GEARS: 'zwei Zahnr\u00e4der'
+  TWO_GEARS: 'zwei Zahnräder'
 };
 
 /** Set of internationalized strings.

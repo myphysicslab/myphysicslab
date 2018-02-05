@@ -577,7 +577,7 @@ LabCanvas.en = {
 */
 LabCanvas.de_strings = {
   WIDTH: 'Breite',
-  HEIGHT: 'H\u00f6he',
+  HEIGHT: 'Höhe',
   ALPHA: 'alpha',
   BACKGROUND: 'Hintergrund'
 };

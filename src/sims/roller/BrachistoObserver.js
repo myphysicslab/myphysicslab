@@ -232,8 +232,8 @@ BrachistoObserver.en = {
 @type {BrachistoObserver.i18n_strings}
 */
 BrachistoObserver.de_strings = {
-  PATH: 'Pfad gew\u00e4hlt',
-  QUESTION: 'Welcher Pfad ist am schnellsten zum abrutschen?  W\u00e4hlen Sie ein Pfad um zu beginnen.',
+  PATH: 'Pfad gewählt',
+  QUESTION: 'Welcher Pfad ist am schnellsten zum abrutschen?  Wählen Sie ein Pfad um zu beginnen.',
   YOU_PICKED: 'Sie haben den'
 };
 

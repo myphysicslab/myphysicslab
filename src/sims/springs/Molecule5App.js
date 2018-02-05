@@ -746,7 +746,7 @@ Molecule5App.en = {
 */
 Molecule5App.de_strings = {
   MASS: 'Masse',
-  LENGTH: 'Federl\u00e4nge',
+  LENGTH: 'Federlänge',
   STIFFNESS: 'Federsteifheit',
   NUM_ATOMS: 'zahl Masse',
   SHOW_SPRINGS: 'zeige Federn',

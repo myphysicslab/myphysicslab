@@ -322,8 +322,8 @@ BilliardsApp.en = {
 */
 BilliardsApp.de_strings = {
   FORMATION: 'Formation',
-  ONE_HITS_THREE: 'eins schl\u00e4gt drei',
-  ONE_HITS_SIX: 'eins schl\u00e4gt sechs',
+  ONE_HITS_THREE: 'eins schlägt drei',
+  ONE_HITS_SIX: 'eins schlägt sechs',
   OFFSET: 'Abstand',
   SPEED: 'Geschwindigkeit',
   BALL: 'Ball'

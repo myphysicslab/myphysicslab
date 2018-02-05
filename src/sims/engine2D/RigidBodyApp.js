@@ -400,7 +400,7 @@ RigidBodyApp.en = {
 */
 RigidBodyApp.de_strings = {
   NUM_BODIES: 'Anzahl von Objekten',
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit',
   THRUST: 'Schubkraft',
   BLOCK: 'Block',

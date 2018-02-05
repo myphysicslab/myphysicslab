@@ -282,10 +282,10 @@ PendulumClockConfig.en = {
 PendulumClockConfig.de_strings = {
   ANCHOR: 'Anker',
   ESCAPE_WHEEL: 'escape Rad',
-  EXTRA_BODY: 'extra K\u00f6rper',
-  PENDULUM_LENGTH: 'Pendell\u00e4nge',
+  EXTRA_BODY: 'extra Körper',
+  PENDULUM_LENGTH: 'Pendellänge',
   TURNING_FORCE: 'drehende Kraft',
-  WITH_GEARS: 'mit Zahnr\u00e4dern',
+  WITH_GEARS: 'mit Zahnrädern',
   GEAR: 'Zahnrad'
 };
 

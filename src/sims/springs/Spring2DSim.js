@@ -483,10 +483,10 @@ Spring2DSim.de_strings = {
   Y_POSITION: 'Y Position',
   X_VELOCITY: 'X Geschwindigkeit',
   Y_VELOCITY: 'Y Geschwindigkeit',
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   GRAVITY: 'Gravitation',
   MASS: 'Masse',
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit',
   REST_STATE: 'ruhe Zustand'
 };

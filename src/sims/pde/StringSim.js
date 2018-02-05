@@ -579,7 +579,7 @@ StringSim.en = {
 @type {StringSim.i18n_strings}
 */
 StringSim.de_strings = {
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   DENSITY: 'Dichte',
   TENSION: 'Spannung',
   SHAPE: 'Form',

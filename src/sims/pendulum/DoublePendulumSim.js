@@ -550,8 +550,8 @@ DoublePendulumSim.de_strings = {
   GRAVITY: 'Gravitation',
   MASS_1: 'Masse-1',
   MASS_2: 'Masse-2',
-  ROD_1_LENGTH: 'Stange-1 L\u00e4nge',
-  ROD_2_LENGTH: 'Stange-2 L\u00e4nge'
+  ROD_1_LENGTH: 'Stange-1 Länge',
+  ROD_2_LENGTH: 'Stange-2 Länge'
 };
 
 /** Set of internationalized strings.

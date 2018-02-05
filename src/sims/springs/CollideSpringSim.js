@@ -636,16 +636,16 @@ CollideSpringSim.de_strings = {
   NUM_BLOCKS: 'Blockanzahl',
   POSITION: 'Position',
   VELOCITY: 'Geschwindigkeit',
-  DAMPING: 'D\u00e4mpfung',
-  SPRING_DAMPING: 'Federd\u00e4mpfung',
+  DAMPING: 'Dämpfung',
+  SPRING_DAMPING: 'Federdämpfung',
   GRAVITY: 'Gravitation',
   MASS: 'Masse',
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit',
   START_POSITION: 'Anfangspunkt',
   START_IN_MIDDLE: 'in der Mitte',
   START_ON_WALL: 'an der Mauer',
-  START_GAP: 'Anfangsabstand' // Anfangsl\u00fccke'
+  START_GAP: 'Anfangsabstand' // Anfangslücke'
 };
 
 /** Set of internationalized strings.

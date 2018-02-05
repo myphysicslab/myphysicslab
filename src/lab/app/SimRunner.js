@@ -660,7 +660,7 @@ SimRunner.de_strings = {
   RESUME: 'weiter',
   NON_STOP: 'durchgehend',
   STEP: 'kleine Schritte',
-  STUCK: 'Simulation hat sich aufgeh\u00e4ngt; dr\u00fccken Sie Neustart und Weiter um fort zu fahren.'
+  STUCK: 'Simulation hat sich aufgehängt; drücken Sie Neustart und Weiter um fort zu fahren.'
 };
 
 /** Set of internationalized strings.

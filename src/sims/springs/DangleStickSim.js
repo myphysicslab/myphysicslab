@@ -507,16 +507,16 @@ DangleStickSim.en = {
 DangleStickSim.de_strings = {
   SPRING_ANGLE: 'Federwinkel',
   SPRING_ANGULAR_VELOCITY: 'Federwinkelgeschwindigkeit',
-  SPRING_LENGTH: 'Federl\u00e4nge',
-  SPRING_LENGTH_VELOCITY: 'Federl\u00e4ngegeschwindigkeit',
+  SPRING_LENGTH: 'Federlänge',
+  SPRING_LENGTH_VELOCITY: 'Federlängegeschwindigkeit',
   STICK_ANGLE: 'Stangenwinkel',
   STICK_ANGULAR_VELOCITY: 'Stangenwinkelgeschwindigkeit',
   GRAVITY: 'Gravitation',
   MASS1: 'Masse-1',
   MASS2: 'Masse-2',
-  SPRING_REST_LENGTH: 'Federl\u00e4nge im Ruhezustand',
+  SPRING_REST_LENGTH: 'Federlänge im Ruhezustand',
   SPRING_STIFFNESS: 'Federsteifheit',
-  STICK_LENGTH: 'Stangenl\u00e4nge'
+  STICK_LENGTH: 'Stangenlänge'
 };
 
 /** Set of internationalized strings.

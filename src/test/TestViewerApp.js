@@ -820,7 +820,7 @@ TestViewerApp.en = {
 */
 TestViewerApp.de_strings = {
   GROUP: 'Gruppe',
-  TEST: 'Pr\u00fcfung',
+  TEST: 'Prüfung',
   START_ON_LOAD: 'beginn nach laden'
 };
 

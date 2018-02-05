@@ -823,8 +823,8 @@ Molecule3Sim.en = {
 @type {Molecule3Sim.i18n_strings}
 */
 Molecule3Sim.de_strings = {
-  DAMPING: 'D\u00e4mpfung',
-  ELASTICITY: 'Elastizit\u00e4t',
+  DAMPING: 'Dämpfung',
+  ELASTICITY: 'Elastizität',
   GRAVITY: 'Gravitation',
   POSITION: 'Position',
   VELOCITY: 'Geschwindigkeit',

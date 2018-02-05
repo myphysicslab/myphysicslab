@@ -768,12 +768,12 @@ Molecule1Sim.de_strings = {
   Y2_POSITION: 'Y2 Position',
   X2_VELOCITY: 'X2 Geschwindigkeit',
   Y2_VELOCITY: 'Y2 Geschwindigkeit',
-  DAMPING: 'D\u00e4mpfung',
-  ELASTICITY: 'Elastizit\u00e4t',
+  DAMPING: 'Dämpfung',
+  ELASTICITY: 'Elastizität',
   GRAVITY: 'Gravitation',
   MASS1: 'blaue Masse',
   MASS2: 'rote Masse',
-  SPRING_LENGTH: 'Federl\u00e4nge',
+  SPRING_LENGTH: 'Federlänge',
   SPRING_STIFFNESS: 'Federsteifheit'
 };
 

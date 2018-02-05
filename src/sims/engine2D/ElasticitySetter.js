@@ -150,7 +150,7 @@ ElasticitySetter.en = {
 @type {ElasticitySetter.i18n_strings}
 */
 ElasticitySetter.de_strings = {
-  ELASTICITY : 'Elastizit\u00e4t'
+  ELASTICITY : 'Elastizität'
 };
 
 /** Set of internationalized strings.

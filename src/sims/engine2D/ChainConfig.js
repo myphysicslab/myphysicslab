@@ -146,13 +146,13 @@ ChainConfig.en = {
 */
 ChainConfig.de_strings = {
   NUM_LINKS: 'Kettenglieder',
-  WALLS: 'W\u00e4nde',
-  EXTRA_BODY: 'extra K\u00f6rper',
+  WALLS: 'Wände',
+  EXTRA_BODY: 'extra Körper',
   FIXED_LEFT: 'Fixpunkt links',
   FIXED_RIGHT: 'Fixpunkt rechts',
   FIXED_LEFT_X: 'Fixpunkt links X',
   FIXED_LEFT_Y: 'Fixpunkt links Y',
-  BLOCK_LENGTH: 'Blockl\u00e4nge',
+  BLOCK_LENGTH: 'Blocklänge',
   BLOCK_WIDTH: 'Blockbreite',
   CHAIN: 'Kette',
   WALL_WIDTH: 'Wand breite'

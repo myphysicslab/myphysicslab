@@ -661,14 +661,14 @@ CollideBlocksSim.en = {
 */
 CollideBlocksSim.de_strings = {
   ACCELERATION: 'Beschleunigung',
-  DAMPING: 'D\u00e4mpfung',
+  DAMPING: 'Dämpfung',
   MASS_1: 'Masse 1',
   MASS_2: 'Masse 2',
   POSITION_1: 'Position 1',
   POSITION_2: 'Position 2',
-  LENGTH_1: 'Feder 1 L\u00e4nge',
+  LENGTH_1: 'Feder 1 Länge',
   STIFFNESS_1: 'Feder 1 Steifigkeit',
-  LENGTH_2: 'Feder 2 L\u00e4nge',
+  LENGTH_2: 'Feder 2 Länge',
   STIFFNESS_2: 'Feder 2 Steifigkeit',
   VELOCITY_1: 'Geschwindigkeit 1',
   VELOCITY_2: 'Geschwindigkeit 2'

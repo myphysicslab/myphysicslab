@@ -309,7 +309,7 @@ NewtonsCradleApp.de_strings = {
   GAP_DISTANCE: 'Zwischenraum',
   PENDULUM: 'Pendel',
   NUM_BODIES: 'Pendelanzahl',
-  LENGTH: 'Pendell\u00e4nge',
+  LENGTH: 'Pendellänge',
   RADIUS: 'Radius'
 };
 
