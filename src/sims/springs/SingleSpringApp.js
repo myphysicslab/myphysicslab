@@ -44,7 +44,7 @@ constructor(elem_ids, opt_name) {
   var sim = new SingleSpringSim();
   var advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
-      /*energySystem=*/sim);
+      /*energySystem=*/sim, opt_name);
 
   /** @type {!DisplayShape} */
   this.block = new DisplayShape(this.simList.getPointMass('block'))

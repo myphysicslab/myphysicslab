@@ -69,6 +69,9 @@ constructor(elem_ids) {
   this.x = 0;
 
   var div = GraphCalcApp.getElementById(elem_ids, 'graph_div');
+  if (div == null) {
+    throw new Error('graph_div not found');
+  }
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
   * @type {!LabCanvas}
@@ -78,9 +81,9 @@ constructor(elem_ids) {
   this.simCanvas.setSize(800, 800);
   div.appendChild(this.simCanvas.getCanvas());
 
-  var term_output = /** @type {!HTMLInputElement} */
+  var term_output = /** @type {?HTMLInputElement} */
       (GraphCalcApp.getElementById(elem_ids, 'term_output'));
-  var term_input = /** @type {!HTMLInputElement} */
+  var term_input = /** @type {?HTMLInputElement} */
       (GraphCalcApp.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
@@ -151,21 +154,21 @@ constructor(elem_ids) {
     }, this));
 };
 
-/** Finds the specified element in the HTML Document; throws an error if element
-* is not found.
-* @param {!GraphCalcApp.elementIds} elem_ids  set of elementId names to look for
-* @param {string} elementId specifies which elementId to get from elem_ids
-* @return {!Element} the element from the current HTML Document
+/** Finds the specified element in the HTML Document.
+* @param {!GraphCalcApp.elementIds} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
+* @return {?HTMLElement} the element from the current HTML Document, or null if
+*     not found
 */
 static getElementById(elem_ids, elementId) {
-  // note:  Google Closure Compiler will rename properties in advanced mode.
-  // Therefore, we need to get the property with a string which is not renamed.
+  // note:  Google Closure Compiler will rename properties in advanced mode,
+  // but indexing with a string is never renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e = document.getElementById(elem_ids[elementId]);
-  if (!goog.isObject(e)) {
-    throw new Error('elementId not found: '+elementId);
+  var e_id = elem_ids[elementId];
+  if (!goog.isString(e_id)) {
+    throw new Error('unknown elementId: '+elementId);
   }
-  return e;
+  return /** @type {!HTMLElement} */(document.getElementById(e_id));
 };
 
 /**

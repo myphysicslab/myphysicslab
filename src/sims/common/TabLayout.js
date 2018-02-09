@@ -842,8 +842,9 @@ showSim(visible) {
 showTerminal(visible) {
   this.div_term.style.display = visible ? 'block' : 'none';
   this.show_term_cb.checked = visible;
-  if (visible && !this.terminal.recalling) {
-    // move the focus to Terminal, for ease of typing
+  if (visible && this.terminalEnabled_ && !this.terminal.recalling) {
+    // Move the focus to Terminal, for ease of typing.
+    // (But not when executing a stored script that calls showTerminal).
     this.term_input.focus();
   }
 };

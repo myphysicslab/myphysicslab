@@ -32,8 +32,8 @@ To gather data a VarsHistory must be connected to a
 In most myPhysicsLab apps the following commands in
 {@link myphysicslab.lab.util.Terminal} will do this:
 
-    var hist = new VarsHistory(sim.getVarsList())
-    simRun.addMemo(hist)
+    var hist = new VarsHistory(sim.getVarsList());
+    simRun.addMemo(hist);
 
 After the simulation run is completed, print the data with this command in Terminal
 
