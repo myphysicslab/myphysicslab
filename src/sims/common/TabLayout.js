@@ -217,11 +217,14 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   goog.events.listen(window, goog.events.EventType.ORIENTATIONCHANGE,
       goog.bind(this.redoLayout, this));
 
-  var term_output = /**@type {!HTMLInputElement}*/
-      (TabLayout.getElementById(elem_ids, 'term_output'));
-   /**@type {!HTMLInputElement}*/
-  this.term_input = /**@type {!HTMLInputElement}*/
-      (TabLayout.getElementById(elem_ids, 'term_input'));
+  var term_output = /**@type {?HTMLInputElement}*/
+      (TabLayout.maybeElementById(elem_ids, 'term_output'));
+  /**
+  * @type {?HTMLInputElement}
+  * @private
+  */
+  this.term_input = /**@type {?HTMLInputElement}*/
+      (TabLayout.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal} */
   this.terminal = new Terminal(this.term_input, term_output);
   Terminal.stdRegex(this.terminal);
@@ -417,6 +420,23 @@ static getElementById(elem_ids, elementId) {
     throw new Error('not found: element with id='+e_id);
   }
   return e;
+};
+
+/** Finds the specified element in the HTML Document; returns null if element
+* is not found.
+* @param {!TabLayout.elementIds} elem_ids  set of elementId names to look for
+* @param {string} elementId specifies which elementId to get from elem_ids
+* @return {?HTMLElement} the element from the current HTML Document
+*/
+static maybeElementById(elem_ids, elementId) {
+  // note:  Google Closure Compiler will rename properties in advanced mode.
+  // Therefore, we need to get the property with a string which is not renamed.
+  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
+  var e_id = elem_ids[elementId];
+  if (!goog.isString(e_id)) {
+    throw new Error('unknown elementId: '+elementId);
+  }
+  return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
 
 /** Add the control to the set of simulation controls.
@@ -842,7 +862,7 @@ showSim(visible) {
 showTerminal(visible) {
   this.div_term.style.display = visible ? 'block' : 'none';
   this.show_term_cb.checked = visible;
-  if (visible && this.terminalEnabled_ && !this.terminal.recalling) {
+  if (visible && this.term_input && this.terminalEnabled_ && !this.terminal.recalling) {
     // Move the focus to Terminal, for ease of typing.
     // (But not when executing a stored script that calls showTerminal).
     this.term_input.focus();
