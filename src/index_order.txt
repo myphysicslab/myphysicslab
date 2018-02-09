@@ -24,6 +24,8 @@ sims/engine2D/TestBodyApp
 sims/experimental/BikeTimerApp
 sims/experimental/BlankSlateApp
 sims/experimental/GraphCalcApp
+sims/experimental/GraphCalc2App
+sims/experimental/MultiGraphCalc2App
 sims/experimental/SimpleApp
 sims/pde/StringApp
 sims/pendulum/CartPendulumApp

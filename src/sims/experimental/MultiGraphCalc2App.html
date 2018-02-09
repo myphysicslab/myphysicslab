@@ -1,0 +1,78 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.experimental.GraphCalc2App
+#include "#TOP_DIR/macros.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>sims.experimental.MultiGraphCalc2App #DEBUG_STATUS</h1>
+#HEADER_BAR
+
+<div id="graph_div1">
+</div>
+<div id="graph_controls1" class="control_group">
+</div>
+
+<p>This demonstrates using the myPhysicsLab library to draw multiple graphs on
+  a web page.
+</p>
+
+<p>NOTE: This will only work on
+<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
+of this app; advanced-compiled versions cannot execute JavaScript.
+</p>
+
+
+<div id="graph_div2">
+</div>
+<div id="graph_controls2" class="control_group">
+</div>
+
+#LOAD_APP
+  <script>
+    (function build() {
+      var elem_ids = {
+        graph_div: 'graph_div1',
+        graph_controls: 'graph_controls1',
+        term_output: '',
+        term_input: '',
+        images_dir: '#IMAGES_DIR',
+        b_max: 20,
+        b_min: 0.01,
+        b_multiply: true,
+        b_increments: 200,
+        b_value: 5
+      };
+      app = makeGraphCalc2App(elem_ids);
+      app.defineNames('app');
+      app.setBParam(5);
+      app.eval('plot("x*Math.sin(b*x)", -10, 10)');
+    }());
+  </script>
+  <script>
+    (function build() {
+      var elem_ids = {
+        graph_div: 'graph_div2',
+        graph_controls: 'graph_controls2',
+        term_output: '',
+        term_input: '',
+        images_dir: '#IMAGES_DIR'
+      };
+      app2 = makeGraphCalc2App(elem_ids);
+      app2.defineNames('app2');
+      app2.setBParam(3);
+      app2.eval('graphLine.setColor("blue");plot("x*Math.cos(b*x)", -10, 10)');
+    }());
+  </script>
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>

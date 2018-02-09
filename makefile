@@ -214,6 +214,7 @@ doublespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DoubleSpringApp-
 fastball: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/FastBallApp-$(loc).html )
 gears: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/GearsApp-$(loc).html )
 graphcalc: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalcApp-$(loc).html )
+graphcalc2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalc2App-$(loc).html )
 impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp-$(loc).html )
 index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index-$(loc).html )
 lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp-$(loc).html )
@@ -225,6 +226,7 @@ molecule5: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule5App-$(loc)
 molecule6: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule6App-$(loc).html )
 moveabledoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp-$(loc).html )
 moveablependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/MoveablePendulumApp-$(loc).html )
+multigraphcalc2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/MultiGraphCalc2App-$(loc).html )
 multiplecollision: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MultipleCollisionApp-$(loc).html )
 multispring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/MultiSpringApp-$(loc).html )
 mutualattract: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MutualAttractApp-$(loc).html )
@@ -306,6 +308,8 @@ sims/engine2D/TestBodyApp \
 sims/experimental/BikeTimerApp \
 sims/experimental/BlankSlateApp \
 sims/experimental/GraphCalcApp \
+sims/experimental/GraphCalc2App \
+sims/experimental/MultiGraphCalc2App \
 sims/experimental/SimpleApp \
 sims/pde/StringApp \
 sims/pendulum/CartPendulumApp \
@@ -595,14 +599,19 @@ $(BUILD_DIR)/%-de.html : src/%.html src/index_order.txt $(macros_req) | settings
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 else
-# special rule for HTML file which requires different-named JS file
+# special rules for HTML file which requires different-named JS file
+
+$(BUILD_DIR)/sims/experimental/MultiGraphCalc2App%.html : src/sims/experimental/MultiGraphCalc2App.html $(macros_req) | settings $(BUILD_DIR)/sims/experimental/GraphCalc2App%.js $(build_images) $(bld_css)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+
 $(BUILD_DIR)/sims/springs/TerminalSpring2DApp%.html : src/sims/springs/TerminalSpring2DApp.html $(macros_req) | settings $(BUILD_DIR)/sims/springs/TerminalSpringApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp.html $(macros_req) | settings $(BUILD_DIR)/sims/springs/SingleSpringApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
-# rule for HTML file which requires same-named JS file (most apps are like this)
+# rules for HTML file which requires same-named JS file (most apps are like this)
+
 $(BUILD_DIR)/%-en.html : src/%.html src/index_order.txt $(macros_req) | settings  $(BUILD_DIR)/%-en.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
