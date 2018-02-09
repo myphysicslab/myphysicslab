@@ -588,6 +588,34 @@ addRegex(names, prefix, opt_addToVars, opt_prepend) {
   return false;
 };
 
+/** Adds a regular expression rule for transforming scripts before they are executed.
+*
+* @param {!RegExp} regex the RegExp to find
+* @param {string} replace the replacement expression
+* @param {boolean=} opt_prepend if `true`, then the regex rule is added to the front
+*     of the list of regex's to execute; default is `false`
+* @return {boolean} whether the regex rule was added (returns `false` if the regex rule
+*     already exists)
+*/
+addRegex2(regex, replace, opt_prepend) {
+  if (!Util.ADVANCED) {
+    /** @type {!Terminal.regexPair} */
+    var re = {
+      regex: regex,
+      replace: replace
+    };
+    if (!this.hasRegex(re)) {
+      if (opt_prepend) {
+        this.regexs_.unshift(re);
+      } else {
+        this.regexs_.push(re);
+      }
+      return true;
+    }
+  }
+  return false;
+};
+
 /** Adds the string to white list of allowed expressions.
 * See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} name string to add to white list
@@ -1436,7 +1464,7 @@ static vetCommand(script, whiteList, opt_blackList) {
   // properties of Terminal.
   // Prohibit HTML Element and Node properties and methods that access parent or change
   // structure of the Document.
-  var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
+  var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
   if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
     throw new Error('prohibited name in script: '+script);
   }
