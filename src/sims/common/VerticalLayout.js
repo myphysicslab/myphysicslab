@@ -58,10 +58,10 @@ constructor(elem_ids) {
   this.debug_layout = false;
   /** @type {!Array<!LabControl>} */
   this.controls_ = [];
-  var term_output = /**@type {!HTMLInputElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'term_output'));
-  var term_input = /**@type {!HTMLInputElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'term_input'));
+  var term_output = /**@type {?HTMLInputElement}*/
+      (VerticalLayout.maybeElementById(elem_ids, 'term_output'));
+  var term_input = /**@type {?HTMLInputElement}*/
+      (VerticalLayout.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal} */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
@@ -157,7 +157,7 @@ constructor(elem_ids) {
     this.showTerminal = /** @type {function(boolean)}*/(goog.bind(function(visible) {
       form_term.style.display = visible ? 'block' : 'none';
       show_term_cb.checked = visible;
-      if (visible && !this.terminal.recalling) {
+      if (visible && term_input && !this.terminal.recalling) {
         // move the focus to Terminal, for ease of typing
         term_input.focus();
       }
@@ -186,9 +186,10 @@ toString() {
 
 /** Finds the specified element in the HTML Document; throws an error if element
 * is not found.
-* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to look for
-* @param {string} elementId specifies which elementId to get from elem_ids
+* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
 * @return {!Element} the element from the current HTML Document
+* @throws {!Error} if element is not found
 */
 static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
@@ -203,6 +204,23 @@ static getElementById(elem_ids, elementId) {
     throw new Error('not found: element with id='+e_id);
   }
   return e;
+};
+
+/** Finds the specified element in the HTML Document; returns null if element
+* is not found.
+* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
+* @return {?HTMLElement} the element from the current HTML Document, or null if not found
+*/
+static maybeElementById(elem_ids, elementId) {
+  // note:  Google Closure Compiler will rename properties in advanced mode.
+  // Therefore, we need to get the property with a string which is not renamed.
+  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
+  var e_id = elem_ids[elementId];
+  if (!goog.isString(e_id)) {
+    throw new Error('unknown elementId: '+elementId);
+  }
+  return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
 
 /** Add the control to the set of simulation controls.

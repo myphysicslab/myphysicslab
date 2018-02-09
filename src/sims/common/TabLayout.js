@@ -403,9 +403,10 @@ static getValues() {
 
 /** Finds the specified element in the HTML Document; throws an error if element
 * is not found.
-* @param {!TabLayout.elementIds} elem_ids  set of elementId names to look for
-* @param {string} elementId specifies which elementId to get from elem_ids
+* @param {!TabLayout.elementIds} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
 * @return {!HTMLElement} the element from the current HTML Document
+* @throws {!Error} if element is not found
 */
 static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
@@ -424,9 +425,9 @@ static getElementById(elem_ids, elementId) {
 
 /** Finds the specified element in the HTML Document; returns null if element
 * is not found.
-* @param {!TabLayout.elementIds} elem_ids  set of elementId names to look for
-* @param {string} elementId specifies which elementId to get from elem_ids
-* @return {?HTMLElement} the element from the current HTML Document
+* @param {!TabLayout.elementIds} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
+* @return {?HTMLElement} the element from the current HTML Document, or null if not found
 */
 static maybeElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
