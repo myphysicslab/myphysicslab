@@ -26,6 +26,7 @@ const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
 const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
 const Molecule3Sim = goog.require('myphysicslab.sims.springs.Molecule3Sim');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -70,7 +71,7 @@ constructor(elem_ids, numAtoms) {
   this.sim_ = sim;
 
   this.layout.simCanvas.setBackground('black');
-  this.simRun.setTimeStep(0.01);
+  this.simRun.setTimeStep(0.005);
   if (this.showEnergyParam != null) {
     this.showEnergyParam.setValue(true);
   }
@@ -84,19 +85,42 @@ constructor(elem_ids, numAtoms) {
   // Except for the walls.
   goog.asserts.assert(this.simList.length() == 1);
   this.simList.addObserver(this);
+  // observe the canvas so we can know when background changes
+  this.layout.simCanvas.addObserver(this);
   this.addBody(this.sim_.getWalls());
 
+  /**
+  * Mass-Spring-Mass matrix which says how springs & masses are connected.
+  * Each row corresponds to a spring; with indices of masses connected to that spring.
+  * @type {!Array<!Array<number>>}
+  * @private
+  */
+  this.msm_ = [[0,1],[0,2],[0,3],[0,4],[0,5],
+              [1,2],[1,3],[1,4],[1,5],
+              [2,3],[2,4],[2,5],
+              [3,4],[3,5],
+              [4,5]];
+  /**
+  * @type {!Array<!PointMass>}
+  * @private
+  */
+  this.atoms_ = [];
+  /**
+  * @type {!Array<!Spring>}
+  * @private
+  */
+  this.springsLinear_ = [];
+  /**
+  * @type {!Array<!Spring>}
+  * @private
+  */
+  this.springsNonLinear_ = [];
+  this.createAtoms();
   /**
   * @type {!RandomLCG}
   * @private
   */
   this.random_ = new RandomLCG(78597834798);
-  /** Mass-Spring-Mass matrix says how springs & masses are connected
-  * each row corresponds to a spring, with indices of masses connected to that spring.
-  * @type {!Array<!Array<number>>}
-  * @private
-  */
-  this.msm_ = [];
   /** Whether atom names should be displayed.
   * @type {boolean}
   * @private
@@ -121,7 +145,7 @@ constructor(elem_ids, numAtoms) {
   * @type {number}
   * @private
   */
-  this.attract_ = 30;
+  this.attract_ = 5;
   /** whether to specially color atoms with high KE percentage.
   * @type {boolean}
   * @private
@@ -204,6 +228,11 @@ constructor(elem_ids, numAtoms) {
       goog.bind(this.getAttractForce, this), goog.bind(this.setAttractForce, this)));
   this.addControl(new NumericControl(pn));
 
+  this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.WALL_SIZE,
+      Molecule6App.i18n.WALL_SIZE,
+      goog.bind(this.getWallSize, this), goog.bind(this.setWallSize, this)));
+  this.addControl(new NumericControl(pn));
+
   for (var i=1; i<=6; i++) {
     this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.MASS+' '+i,
         Molecule6App.i18n.MASS+' '+i,
@@ -211,7 +240,7 @@ constructor(elem_ids, numAtoms) {
     pn.setDecimalPlaces(5);
     this.addControl(new NumericControl(pn));
   }
-  var msm = Molecule6App.getMSM(6);
+  var msm = this.msm_;
   var len;
   for (i=0, len=msm.length; i<len; i++) {
     var idx1 = msm[i][0] + 1;
@@ -316,23 +345,51 @@ addBody(obj) {
       var walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
       this.displayList.add(walls);
     } else {
-      var cm = 'black';
-      switch (pm.getName()) {
-        case 'ATOM1': cm = 'red'; break;
-        case 'ATOM2': cm = 'blue'; break;
-        case 'ATOM3': cm = 'magenta'; break;
-        case 'ATOM4': cm = 'orange'; break;
-        case 'ATOM5': cm = 'gray'; break;
-        case 'ATOM6': cm = 'green'; break;
-        default: cm = 'pink';
+      var dispAtom = new DisplayShape(pm);
+      var cm = 'gray';
+      if (!this.show_ke_high_) {
+        switch (pm.getName()) {
+          case 'ATOM1': cm = 'red'; break;
+          case 'ATOM2': cm = 'blue'; break;
+          case 'ATOM3': cm = 'magenta'; break;
+          case 'ATOM4': cm = 'orange'; break;
+          case 'ATOM5': cm = 'gray'; break;
+          case 'ATOM6': cm = 'green'; break;
+          default: cm = 'pink';
+        }
       }
-      var atom = new DisplayShape(pm).setFillStyle(cm);
-      this.displayList.add(atom);
+      dispAtom.setFillStyle(cm);
+      // perhaps show name of the atom
+      if (this.showNames_) {
+        dispAtom.setNameFont('12pt sans-serif');
+        var bg = this.layout.simCanvas.getBackground();
+        dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
+      } else {
+        dispAtom.setNameFont('');
+      }
+      this.displayList.add(dispAtom);
     }
   } else if (obj instanceof Spring || obj instanceof SpringNonLinear2) {
-    var s = /** @type {!Spring} */(obj);
-    this.displayList.add(new DisplaySpring(s, this.protoSpring));
+    if (this.showSprings_) {
+      var s = /** @type {!Spring} */(obj);
+      var dispSpring = new DisplaySpring(s, this.protoSpring);
+      // display springs behind atoms.
+      dispSpring.setZIndex(-1);
+      this.displayList.add(dispSpring);
+    }
   }
+};
+
+/** Recreate all bodies, to match current selected styles.
+@return {undefined}
+@private
+*/
+rebuild() {
+  var atoms = this.sim_.getAtoms();
+  goog.array.forEach(atoms, function(atom) {
+    this.removeBody(atom);
+    this.addBody(atom);
+  }, this);
 };
 
 /**
@@ -355,6 +412,44 @@ observe(event) {
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
       this.removeBody(obj);
     }
+  } else if (event.getSubject() == this.layout.simCanvas) {
+    if (event.nameEquals(LabCanvas.en.BACKGROUND)) {
+      // change names to appear in black or white depending on background color
+      this.rebuild();
+    }
+  }
+};
+
+/**
+* @return {undefined}
+* @private
+*/
+createAtoms() {
+  // We make all 6 masses and all springs to interconnect, but we only add to
+  // the simulation the number of masses currently requested and their springs.
+  // Reason: we store the mass and stiffness in the mass and spring objects.
+  // This allows user choice of mass & stiffness to persist after changing
+  // number of masses.
+  for (var i=0; i<6; i++) {
+    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
+    this.atoms_.push(atom);
+  }
+  // Mass-Spring-Mass matrix says how springs & masses are connected
+  // each row corresponds to a spring, with indices of masses connected to that spring.
+  var msm = this.msm_;
+  for (i=0; i<msm.length; i++) {
+    var spring = new SpringNonLinear2('spring '+i,
+        this.atoms_[msm[i][0]], Vector.ORIGIN,
+        this.atoms_[msm[i][1]], Vector.ORIGIN,
+        /*restLength=*/3.0, /*stiffness=*/1.0, /*attract=*/this.attract_);
+    spring.setDamping(0);
+    this.springsNonLinear_.push(spring);
+    spring = new Spring('spring '+i,
+        this.atoms_[msm[i][0]], Vector.ORIGIN,
+        this.atoms_[msm[i][1]], Vector.ORIGIN,
+        /*restLength=*/3.0, /*stiffness=*/1.0);
+    spring.setDamping(0);
+    this.springsLinear_.push(spring);
   }
 };
 
@@ -369,38 +464,34 @@ config() {
   }
   this.sim_.cleanSlate();
   this.resetResidualEnergy();
-  // Mass-Spring-Mass matrix says how springs & masses are connected
-  // each row corresponds to a spring, with indices of masses connected to that spring.
-  this.msm_ = Molecule6App.getMSM(numAtoms);
+  // Add to simulation only the atoms requested.
   for (var i=0; i<numAtoms; i++) {
-    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
-    this.sim_.addAtom(atom);
+    this.sim_.addAtom(this.atoms_[i]);
   }
   var atoms = this.sim_.getAtoms();
-  for (i=0; i<this.msm_.length; i++) {
-    if (this.nonLinearSprings_) {
-      var spring = new SpringNonLinear2('spring '+i,
-        atoms[this.msm_[i][0]], Vector.ORIGIN,
-        atoms[this.msm_[i][1]], Vector.ORIGIN,
-        /*restLength=*/3.0, /*stiffness=*/6.0, /*attract=*/this.attract_);
-    } else {
-      var spring = new Spring('spring '+i,
-        atoms[this.msm_[i][0]], Vector.ORIGIN,
-        atoms[this.msm_[i][1]], Vector.ORIGIN,
-        /*restLength=*/3.0, /*stiffness=*/6.0);
-    }
-    spring.setDamping(0);
-    this.sim_.addSpring(spring);
+  // add all springs that connect atoms in that set
+  var springs = this.nonLinearSprings_ ? this.springsNonLinear_ : this.springsLinear_;
+  springs = goog.array.filter(springs, function(spr) {
+      if (!goog.array.contains(atoms, spr.getBody1())) {
+        return false;
+      } else if (!goog.array.contains(atoms, spr.getBody2())) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+  for (i=0; i<springs.length; i++) {
+    this.sim_.addSpring(springs[i]);
   }
   this.initialPositions(numAtoms);
   this.sim_.saveInitialState();
   this.sim_.modifyObjects();
+  this.calcMinPE();
   this.addKEVars();
 
   if (this.easyScript) {
     this.easyScript.update();
   }
-  this.broadcastAll();
 };
 
 /**
@@ -438,52 +529,7 @@ addKEVars()  {
   }
 };
 
-/** Broadcast all parameters that can potentially be changed when number of atoms
-changes.
-* @return {undefined}
-* @private
-*/
-broadcastAll()  {
-  for (var i=1; i<=6; i++) {
-    this.broadcastParameter(Molecule6App.en.MASS+' '+i);
-  }
-  var msm = Molecule6App.getMSM(6);
-  var len;
-  for (i=0, len=msm.length; i<len; i++) {
-    var idx1 = msm[i][0] + 1;
-    var idx2 = msm[i][1] + 1;
-    this.broadcastParameter(Molecule6App.en.STIFFNESS+' '+idx1+'-'+idx2);
-  }
-};
-
-/** Returns Mass-Spring-Mass matrix which says how springs & masses are connected.
-* Each row corresponds to a spring; with indices of masses connected to that spring.
-* @param {number} numAtoms  number of atoms in molecule
-* @return {!Array<!Array<number>>}
-* @private
-*/
-static getMSM(numAtoms) {
-  switch (numAtoms) {
-    case 1: return [];
-    case 2: return [[0,1]];
-    case 3: return [[0,1],[0,2],[1,2]];
-    case 4: return [[0,1],[0,2],[0,3],
-                    [1,2],[1,3],
-                    [2,3]];
-    case 5: return [[0,1],[0,2],[0,3],[0,4],
-                    [1,2],[1,3],[1,4],
-                    [2,3],[2,4],
-                    [3,4]];
-    case 6: return [[0,1],[0,2],[0,3],[0,4],[0,5],
-                    [1,2],[1,3],[1,4],[1,5],
-                    [2,3],[2,4],[2,5],
-                    [3,4],[3,5],
-                    [4,5]];
-  }
-  throw new Error();
-};
-
-/** Sets initial position of atoms.
+/** Sets initial position of atoms, and velocities to zero.
 * @param {number} numAtoms
 * @return {undefined}
 * @private
@@ -499,6 +545,8 @@ initialPositions(numAtoms)  {
     var rnd = 1.0 + 0.1 * this.random_.nextFloat();
     vars[idx + 0] = r * Math.cos(rnd*i*2*Math.PI/numAtoms);
     vars[idx + 1] = r * Math.sin(rnd*i*2*Math.PI/numAtoms);
+    vars[idx + 2] = 0;
+    vars[idx + 3] = 0;
   }
   this.sim_.getVarsList().setValues(vars);
 };
@@ -531,8 +579,10 @@ setNumAtoms(value) {
 @return {number} mass of specified atom
 */
 getMass(index) {
-  var atoms = this.sim_.getAtoms();
-  return (index >= 1 && index <= atoms.length) ? atoms[index-1].getMass() : 0;
+  if (index < 0 || index > 6) {
+    throw new Error();
+  }
+  return this.atoms_[index-1].getMass();
 };
 
 /** Sets mass of specified atom
@@ -540,7 +590,10 @@ getMass(index) {
 @param {number} value mass of atom
 */
 setMass(index, value) {
-  this.sim_.getAtoms()[index-1].setMass(value);
+  if (index < 0 || index > 6) {
+    throw new Error();
+  }
+  this.atoms_[index-1].setMass(value);
   // discontinuous change in energy
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
@@ -550,25 +603,26 @@ setMass(index, value) {
 };
 
 /** Returns spring connecting specified atoms
+@param {!Array<!Spring>} springs the set of springs to select from
 @param {number} index1 index number of atom, starting from 1
 @param {number} index2 index number of atom, starting from 1, must be greater than
     index1
 @return {?Spring} spring connecting specified atoms
+@private
 */
-getSpring(index1, index2) {
-  var atoms = this.sim_.getAtoms();
+getSpring(springs, index1, index2) {
   if (index2 < index1) {
     throw new Error('index2 must be > index1');
   }
-  if (index1 < 1 || index1 > atoms.length) {
+  if (index1 < 1 || index1 > this.atoms_.length) {
     return null;
   }
-  if (index2 < 1 || index2 > atoms.length) {
+  if (index2 < 1 || index2 > this.atoms_.length) {
     return null;
   }
-  var atom1 = this.sim_.getAtoms()[index1-1];
-  var atom2 = this.sim_.getAtoms()[index2-1];
-  return goog.array.find(this.sim_.getSprings(), function(spr) {
+  var atom1 = this.atoms_[index1-1];
+  var atom2 = this.atoms_[index2-1];
+  return goog.array.find(springs, function(spr) {
     if (spr.getBody1() == atom1 && spr.getBody2() == atom2) {
       return true;
     } else if (spr.getBody1() == atom2 && spr.getBody1() == atom1) {
@@ -585,7 +639,7 @@ getSpring(index1, index2) {
 @return {number} spring stiffness
 */
 getStiffness(index1, index2) {
-  var spr = this.getSpring(index1, index2);
+  var spr = this.getSpring(this.springsLinear_, index1, index2);
   return spr ? spr.getStiffness() : 0;
 };
 
@@ -595,9 +649,14 @@ getStiffness(index1, index2) {
 @param {number} value spring stiffness
 */
 setStiffness(index1, index2, value) {
-  var spr = this.getSpring(index1, index2);
+  var spr = this.getSpring(this.springsLinear_, index1, index2);
   if (!spr) {
     throw new Error('unknown spring connecting '+index1+'-'+index2);
+  }
+  spr.setStiffness(value);
+  spr = this.getSpring(this.springsNonLinear_, index1, index2);
+  if (!spr) {
+    throw new Error();
   }
   spr.setStiffness(value);
   // discontinuous change in energy
@@ -635,16 +694,7 @@ getShowNames() {
 setShowNames(value) {
   if (value != this.showNames_) {
     this.showNames_ = value;
-    goog.array.forEach(this.sim_.getAtoms(), function(atom) {
-      var dispAtom = this.displayList.findShape(atom);
-      if (value) {
-        dispAtom.setNameFont('12pt sans-serif');
-        var bg = this.layout.simCanvas.getBackground();
-        dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
-      } else {
-        dispAtom.setNameFont('');
-      }
-    }, this);
+    this.rebuild();
     this.broadcastParameter(Molecule6App.en.SHOW_NAMES);
   }
 };
@@ -723,7 +773,7 @@ getAttractForce() {
 setAttractForce(value) {
   if (this.attract_ != value) {
     this.attract_ = value;
-    goog.array.forEach(this.sim_.getSprings(), function(spr) {
+    goog.array.forEach(this.springsNonLinear_, function(spr) {
       if (spr instanceof SpringNonLinear2) {
         var s2 = /** SpringNonLinear2 */(spr);
         s2.setAttract(this.attract_);
@@ -750,15 +800,26 @@ setShowKEHigh(value) {
       this.simRun.addMemo(this.ke_high_memo_);
     } else {
       this.simRun.removeMemo(this.ke_high_memo_);
-      goog.array.forEach(this.sim_.getAtoms(), function(atom) {
-        this.removeBody(atom);
-      }, this);
-      goog.array.forEach(this.sim_.getAtoms(), function(atom) {
-        this.addBody(atom);
-      }, this);
     }
+    this.rebuild();
     this.broadcastParameter(Molecule6App.en.SHOW_KE_HIGH);
   }
+};
+
+/** Returns width (and height) of walls.
+@return {number}
+*/
+getWallSize() {
+  return this.sim_.getWalls().getWidth();
+};
+
+/** Set width and height of walls.
+@param {number} value
+*/
+setWallSize(value) {
+  this.sim_.getWalls().setWidth(value);
+  this.sim_.getWalls().setHeight(value);
+  this.broadcastParameter(Molecule6App.en.WALL_SIZE);
 };
 
 } // end class
@@ -774,7 +835,8 @@ setShowKEHigh(value) {
   KE_HIGH_PCT: string,
   SHOW_KE_HIGH: string,
   SHOW_NAMES: string,
-  ATTRACT_FORCE: string
+  ATTRACT_FORCE: string,
+  WALL_SIZE: string
   }}
 */
 Molecule6App.i18n_strings;
@@ -792,7 +854,8 @@ Molecule6App.en = {
   KE_HIGH_PCT: 'KE high pct',
   SHOW_KE_HIGH: 'show KE high pct',
   SHOW_NAMES: 'show names',
-  ATTRACT_FORCE: 'attract force'
+  ATTRACT_FORCE: 'attract force',
+  WALL_SIZE: 'wall size'
 };
 
 /**
@@ -809,7 +872,8 @@ Molecule6App.de_strings = {
   KE_HIGH_PCT: 'KE hoch prozent',
   SHOW_KE_HIGH: 'zeige KE hoch prozent',
   SHOW_NAMES: 'zeige Namen',
-  ATTRACT_FORCE: 'anziehen Kraft'
+  ATTRACT_FORCE: 'anziehen Kraft',
+  WALL_SIZE: 'Wand Größe'
 };
 
 /** Set of internationalized strings.
