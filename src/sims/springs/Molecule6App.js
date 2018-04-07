@@ -819,6 +819,7 @@ getWallSize() {
 setWallSize(value) {
   this.sim_.getWalls().setWidth(value);
   this.sim_.getWalls().setHeight(value);
+  this.simView.setSimRect(this.sim_.getWalls().getBoundsWorld());
   this.broadcastParameter(Molecule6App.en.WALL_SIZE);
 };
 
