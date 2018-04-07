@@ -197,6 +197,8 @@ fi
 # Note that under simple-compile the wrapper prevents names from being available,
 # therefore we don't use the wrapper under simple-compile.
 
+closure_lib=`readlink closure-library`
+working_dir=`pwd`
 # Using set -x shows the commands being executed, but the problem is that
 # the set +x always returns zero which means "success".
 set -x
@@ -209,7 +211,7 @@ java -jar "$CLOSURE_COMPILER" \
 --define=module\$exports\$myphysicslab\$lab\$util\$Util.DEBUG=$util_debug \
 --define=module\$exports\$myphysicslab\$lab\$util\$Util.COMPILE_TIME="`date +%F' '%T`" \
 --generate_exports \
---js=`readlink closure-library` \
+--js=$closure_lib \
 --js=$rootDir \
 --jscomp_error=accessControls \
 --jscomp_error=ambiguousFunctionDecl \
@@ -235,8 +237,8 @@ java -jar "$CLOSURE_COMPILER" \
 --jscomp_error=visibility \
 --new_type_inf \
 --jscomp_warning=newCheckTypes \
---hide_warnings_for=`readlink closure-library` \
---conformance_configs=`pwd`/conformance_config.textproto \
+--hide_warnings_for=$closure_lib \
+--conformance_configs=$working_dir/conformance_config.textproto \
 --emit_use_strict \
 --language_in=ECMASCRIPT6_STRICT \
 --language_out=ECMASCRIPT5_STRICT \
@@ -244,6 +246,8 @@ java -jar "$CLOSURE_COMPILER" \
 --warning_level=VERBOSE \
 $wrapper \
 > $target
+result=$?
+set +x
 
 # for simple-compile apps, do a search/replace to make shorter names
 # replace "module$exports$myphysicslab$" with "mpl$"
@@ -255,7 +259,6 @@ fi
 
 # Check the error code in $?, if non-zero then return non-zero error code.
 # This avoids the problem of `set +x` always returning "success".
-if [[ $? -ne 0 ]] ; then
+if [[ $result -ne 0 ]] ; then
     exit 1
 fi
-set +x
