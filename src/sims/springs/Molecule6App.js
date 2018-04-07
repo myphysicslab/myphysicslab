@@ -33,7 +33,6 @@ const Observer = goog.require('myphysicslab.lab.util.Observer');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
-const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 const SimList = goog.require('myphysicslab.lab.model.SimList');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
@@ -116,11 +115,6 @@ constructor(elem_ids, numAtoms) {
   */
   this.springsNonLinear_ = [];
   this.createAtoms();
-  /**
-  * @type {!RandomLCG}
-  * @private
-  */
-  this.random_ = new RandomLCG(78597834798);
   /** Whether atom names should be displayed.
   * @type {boolean}
   * @private
@@ -542,9 +536,10 @@ initialPositions(numAtoms)  {
   var r = 1.0; // radius
   for (var i=0; i<numAtoms; i++) {
     var idx = Molecule3Sim.START_VAR + 4*i;
-    var rnd = 1.0 + 0.1 * this.random_.nextFloat();
-    vars[idx + 0] = r * Math.cos(rnd*i*2*Math.PI/numAtoms);
-    vars[idx + 1] = r * Math.sin(rnd*i*2*Math.PI/numAtoms);
+    // note: don't set the positions randomly here. That destroys the ability to
+    // use the "share" button to save and share a configuration.
+    vars[idx + 0] = r * Math.cos(i*2*Math.PI/numAtoms);
+    vars[idx + 1] = r * Math.sin(i*2*Math.PI/numAtoms);
     vars[idx + 2] = 0;
     vars[idx + 3] = 0;
   }
@@ -819,7 +814,9 @@ getWallSize() {
 setWallSize(value) {
   this.sim_.getWalls().setWidth(value);
   this.sim_.getWalls().setHeight(value);
-  this.simView.setSimRect(this.sim_.getWalls().getBoundsWorld());
+  // Set the visible area to entire wall region, to help users understand.
+  this.simRect = this.sim_.getWalls().getBoundsWorld();
+  this.simView.setSimRect(this.simRect);
   this.broadcastParameter(Molecule6App.en.WALL_SIZE);
 };
 
