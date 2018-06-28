@@ -79,6 +79,11 @@ reset() {
   this.sim_.reset();
 };
 
+/** @override */
+save() {
+  this.sim_.saveInitialState();
+};
+
 } // end class
 
 exports = StringAdvance;

@@ -99,6 +99,11 @@ reset() {
 };
 
 /** @override */
+save() {
+  this.sim_.saveInitialState();
+};
+
+/** @override */
 setDiffEqSolver(diffEqSolver) {
   this.odeSolver_ = diffEqSolver;
 };

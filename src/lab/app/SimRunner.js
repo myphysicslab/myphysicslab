@@ -512,6 +512,17 @@ resume() {
   return this.clock_.getTime();
 };
 
+/** Save the initial conditions, which can be returned to with {@link #reset}.
+@return {number} the current time on the Clock
+*/
+save() {
+  goog.array.forEach(this.advanceList_, function(strategy) {
+    strategy.save();
+  });
+  // must return something besides 'undefined' to work with EasyScriptParser.
+  return this.clock_.getTime();
+};
+
 /** Set name of the application that created this SimRunner, for debugging.
 @param {string} name the name of the application that created this SimRunner
 */

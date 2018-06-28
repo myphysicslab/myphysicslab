@@ -310,6 +310,9 @@ static makeEasyScript(subjects, dependent, simRun, terminal) {
   easyScript.addCommand('reset', function() {
       return simRun.reset();
     }, 'sets simulation to initial conditions');
+  easyScript.addCommand('save', function() {
+      return simRun.save();
+    }, 'saves simulation initial conditions');
   easyScript.addCommand('step', function() {
       return simRun.step();
     }, 'advance simulation by a small time increment');

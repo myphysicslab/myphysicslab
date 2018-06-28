@@ -53,6 +53,11 @@ to the starting time.
 */
 reset() {}
 
+/** Save the initial conditions, which can be returned to with {@link #reset}.
+@return {undefined}
+*/
+save() {}
+
 /** Sets the default time step, the small increment of time by which to
 advance the simulation's state.
 

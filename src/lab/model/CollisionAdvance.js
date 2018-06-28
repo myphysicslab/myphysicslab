@@ -1100,6 +1100,11 @@ reset() {
   this.printTime_ = Util.NEGATIVE_INFINITY;
 };
 
+/** @override */
+save() {
+  this.sim_.saveInitialState();
+};
+
 /** Sets how much debugging information to show,
 see {@link CollisionAdvance.DebugLevel}.
 @param {!CollisionAdvance.DebugLevel} debugLevel specifies the
