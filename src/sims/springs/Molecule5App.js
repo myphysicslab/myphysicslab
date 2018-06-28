@@ -482,9 +482,8 @@ initialPositions(numAtoms)  {
   var r = 1.0; // radius
   for (var i=0; i<numAtoms; i++) {
     var idx = Molecule3Sim.START_VAR + 4*i;
-    var rnd = 1.0 + 0.1 * this.random_.nextFloat();
-    vars[idx + 0] = r * Math.cos(rnd*i*2*Math.PI/numAtoms);
-    vars[idx + 1] = r * Math.sin(rnd*i*2*Math.PI/numAtoms);
+    vars[idx + 0] = r * Math.cos(i*2*Math.PI/numAtoms);
+    vars[idx + 1] = r * Math.sin(i*2*Math.PI/numAtoms);
   }
   this.sim_.getVarsList().setValues(vars);
 };
