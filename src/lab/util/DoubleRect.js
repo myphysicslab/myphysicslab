@@ -249,6 +249,23 @@ getWidth() {
   return this.right_ - this.left_;
 };
 
+/**  Returns a rectangle that is the intersection of this and another rectangle.
+@param {!DoubleRect} rect the other rectangle to form the intersection with
+@return {!DoubleRect} the intersection of this and the other rectangle, possibly
+    an empty rectangle.
+*/
+intersection(rect) {
+  const left = Math.max(this.left_, rect.getLeft());
+  const bottom = Math.max(this.bottom_, rect.getBottom());
+  const right = Math.min(this.right_, rect.getRight());
+  const top = Math.min(this.top_, rect.getTop());
+  if (left > right || bottom > top) {
+    return DoubleRect.EMPTY_RECT;
+  } else {
+    return new DoubleRect(left, bottom, right, top);
+  }
+};
+
 /** Returns `true` if width or height of this DoubleRect are zero (within given
 * tolerance).
 * @param {number=} opt_tolerance optional tolerance for the test; a width or height

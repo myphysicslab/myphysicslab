@@ -130,6 +130,12 @@ static testDoubleRect() {
   assertFalse(r14.contains(new Vector(2, 2)));
   assertFalse(r14.contains(new Vector(0, 2)));
 
+  assertTrue(r2.equals(r2.intersection(r1)));
+  assertTrue(r2.intersection(r2.translate(10, 10)).isEmpty());
+  var r15 = DoubleRect.makeCentered(Vector.ORIGIN, /*width=*/4, /*height=*/4);
+  assertTrue(r15.intersection(r6).isEmpty());
+  var r16 = new DoubleRect(-1, 1, 4, 3);
+  assertTrue(r15.intersection(r16).nearEqual(new DoubleRect(-1, 1, 2, 2)));
 };
 
 } // end class

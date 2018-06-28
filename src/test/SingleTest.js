@@ -28,6 +28,7 @@ const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTes
 const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
+const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See
 [2D Physics Engine Overview](Engine2D.html).
@@ -102,7 +103,7 @@ static runTests() {
   //StraightStraightTest.six_blocks_performance(t);
   //StraightStraightTest.six_blocks_settle();
   //StraightStraightTest.test();
-  VectorTest.test();
+  DoubleRectTest.testDoubleRect();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();
