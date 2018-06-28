@@ -182,12 +182,6 @@ ifndef LOCALE
     LOCALE := en de
 endif
 
-# GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
-GOOG_DEBUG ?= false
-
-# UTIL_DEBUG is passed to compile_js, determines whether Util.DEBUG=true
-UTIL_DEBUG ?= false
-
 biketimer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BikeTimerApp-$(loc).html )
 billiards: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BilliardsApp-$(loc).html )
 blank: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BlankApp-$(loc).html )
@@ -566,10 +560,17 @@ $(BUILD_DIR)/test/PerformanceTests*.js : override GOOG_DEBUG:=false
 # Turn on GOOG_DEBUG to ensure that assertions are working.
 $(BUILD_DIR)/test/Engine2DTests*.js : override GOOG_DEBUG:=true
 $(BUILD_DIR)/test/UnitTest*.js : override GOOG_DEBUG:=true
+$(BUILD_DIR)/test/SingleTest*.js : override GOOG_DEBUG:=true
 # Turn off UTIL_DEBUG to avoid seeing lots of debug messages during tests.
 $(BUILD_DIR)/test/UnitTest*.js \
 $(BUILD_DIR)/test/PerformanceTests*.js \
 $(BUILD_DIR)/test/Engine2DTests*.js : override UTIL_DEBUG:=false
+
+# GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
+GOOG_DEBUG ?= false
+
+# UTIL_DEBUG is passed to compile_js, determines whether Util.DEBUG=true
+UTIL_DEBUG ?= false
 
 apps_js_en := $(addsuffix -en.js,$(bld_apps)) $(addsuffix -en.js,$(bld_combos))
 $(apps_js_en): $(BUILD_DIR)/%-en.js : src/%.js
