@@ -24,6 +24,10 @@ class Parser extends Printable {
 /** Adds a single-word command to this Parser. When the Parser sees this command during
 {@link #parse} it will execute the given function. The function result is returned as
 the result of `parse`.
+
+The function must return a value other than `undefined`, otherwise a script syntax
+error will be indicated to the user.
+
 * @param {string} commandName name of command
 * @param {function()} commandFnc function to execute
 * @param {string} helpText description of the command for help text

@@ -28,6 +28,23 @@ for a specified set of {@link Subject}s. Also executes some single word commands
 as `help`. Can generate a script to recreate the current state of an application/
 simulation.
 
+EasyScriptParser takes a “snapshot” of the starting parameters and variables. But there
+are two snapshots: independent and dependent. The independent parameters have no affect
+on each other. The dependent parameters and variables are usually determined by a
+"configuration" parameter (for example, the number of pendulums in NewtonsCradle). The
+dependent snapshot is retaken when the config parameter is altered. The dependent
+snapshot should be the exact state that follows from setting that config parameter
+(this implies no randomness when creating the simulation).
+
+Note that the EasyScriptParser "snapshot" is different from the "save initial
+conditions" feature in Simulation:
+
++ the EasyScriptParser "snapshot" is the "blank slate" starting conditions after
+    the Simulation is created.
+
++ the "save initial conditions" is used when doing "reset" on the Simulation. These
+    initial conditions can differ from the "blank slate" starting conditions.
+
 
 Execute EasyScript Commands
 ---------------------------
@@ -506,6 +523,8 @@ parse(script) {
   // if script is single-word command names, then execute that command function
   for (var i=0, len=this.commandNames_.length; i<len; i++) {
     if (script.toLowerCase() == this.commandNames_[i]) {
+      // Returning 'undefined' means 'did not recognize', therefore we must return
+      // a value other than 'undefined' here.
       return this.commandFns_[i]();
     }
   }
