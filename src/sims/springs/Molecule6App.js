@@ -816,6 +816,9 @@ setWallSize(value) {
   this.sim_.getWalls().setHeight(value);
   // Set the visible area to entire wall region, to help users understand.
   this.simRect = this.sim_.getWalls().getBoundsWorld();
+  // Limit size of simView, so that we can still see the atoms.
+  const max = 60;
+  this.simRect = this.simRect.intersection(new DoubleRect(-max, -max, max, max));
   this.simView.setSimRect(this.simRect);
   this.broadcastParameter(Molecule6App.en.WALL_SIZE);
 };
