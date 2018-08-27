@@ -16,6 +16,7 @@ goog.module('myphysicslab.sims.springs.Molecule6App');
 
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
+const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
@@ -38,6 +39,7 @@ const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
+const SpringNonLinear = goog.require('myphysicslab.sims.springs.SpringNonLinear');
 const SpringNonLinear2 = goog.require('myphysicslab.sims.springs.SpringNonLinear2');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -114,6 +116,11 @@ constructor(elem_ids, numAtoms) {
   * @private
   */
   this.springsNonLinear_ = [];
+  /**
+  * @type {!Array<!Spring>}
+  * @private
+  */
+  this.springsPseudoGravity_ = [];
   this.createAtoms();
   /** Whether atom names should be displayed.
   * @type {boolean}
@@ -125,11 +132,11 @@ constructor(elem_ids, numAtoms) {
   * @private
   */
   this.showSprings_ = true;
-  /** Whether to create linear or non-linear springs
-  * @type {boolean}
+  /** What type of spring to create: linear, non-linear, or pseudo-gravity
+  * @type {Molecule6App.SpringType}
   * @private
   */
-  this.nonLinearSprings_ = true;
+  this.springType_ = Molecule6App.SpringType.PSEUDO_GRAVITY;
   /** atoms with KE percentage (kinetic energy) above this amount are brightly colored.
   * @type {number}
   * @private
@@ -198,11 +205,17 @@ constructor(elem_ids, numAtoms) {
       goog.bind(this.setShowSprings, this)));
   this.addControl(new CheckBoxControl(pb));
 
-  this.addParameter(pb = new ParameterBoolean(this, Molecule6App.en.NON_LINEAR_SPRINGS,
-      Molecule6App.i18n.NON_LINEAR_SPRINGS,
-      goog.bind(this.getNonLinearSprings, this),
-      goog.bind(this.setNonLinearSprings, this)));
-  this.addControl(new CheckBoxControl(pb));
+  this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.SPRING_TYPE,
+      Molecule6App.i18n.SPRING_TYPE,
+      goog.bind(this.getSpringType, this),
+      goog.bind(this.setSpringType, this),
+      [ Molecule6App.i18n.LINEAR,
+        Molecule6App.i18n.NON_LINEAR,
+        Molecule6App.i18n.PSEUDO_GRAVITY ],
+      [ Molecule6App.SpringType.LINEAR,
+        Molecule6App.SpringType.NON_LINEAR,
+        Molecule6App.SpringType.PSEUDO_GRAVITY ]));
+  this.addControl(new ChoiceControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, Molecule6App.en.SHOW_KE_HIGH,
       Molecule6App.i18n.SHOW_KE_HIGH,
@@ -432,18 +445,23 @@ createAtoms() {
   // each row corresponds to a spring, with indices of masses connected to that spring.
   var msm = this.msm_;
   for (i=0; i<msm.length; i++) {
+    var atom1 = this.atoms_[msm[i][0]];
+    var atom2 = this.atoms_[msm[i][1]];
     var spring = new SpringNonLinear2('spring '+i,
-        this.atoms_[msm[i][0]], Vector.ORIGIN,
-        this.atoms_[msm[i][1]], Vector.ORIGIN,
+        atom1, Vector.ORIGIN, atom2, Vector.ORIGIN,
         /*restLength=*/3.0, /*stiffness=*/1.0, /*attract=*/this.attract_);
     spring.setDamping(0);
-    this.springsNonLinear_.push(spring);
+    this.springsPseudoGravity_.push(spring);
     spring = new Spring('spring '+i,
-        this.atoms_[msm[i][0]], Vector.ORIGIN,
-        this.atoms_[msm[i][1]], Vector.ORIGIN,
+        atom1, Vector.ORIGIN, atom2, Vector.ORIGIN,
         /*restLength=*/3.0, /*stiffness=*/1.0);
     spring.setDamping(0);
     this.springsLinear_.push(spring);
+    spring = new SpringNonLinear('spring '+i,
+        atom1, Vector.ORIGIN, atom2, Vector.ORIGIN,
+        /*restLength=*/3.0, /*stiffness=*/1.0);
+    spring.setDamping(0);
+    this.springsNonLinear_.push(spring);
   }
 };
 
@@ -464,14 +482,24 @@ config() {
   }
   var atoms = this.sim_.getAtoms();
   // add all springs that connect atoms in that set
-  var springs = this.nonLinearSprings_ ? this.springsNonLinear_ : this.springsLinear_;
+  var springs;
+  switch (this.springType_) {
+    case Molecule6App.SpringType.LINEAR:
+      springs = this.springsLinear_; break;
+    case Molecule6App.SpringType.NON_LINEAR:
+      springs = this.springsNonLinear_; break
+    case Molecule6App.SpringType.PSEUDO_GRAVITY:
+      springs = this.springsPseudoGravity_; break;
+    default:
+      throw new Error();
+  }
   springs = goog.array.filter(springs, function(spr) {
-      if (!goog.array.contains(atoms, spr.getBody1())) {
-        return false;
-      } else if (!goog.array.contains(atoms, spr.getBody2())) {
-        return false;
+      // both bodies of the spring must be in the set.
+      if (goog.array.contains(atoms, spr.getBody1()) &&
+          goog.array.contains(atoms, spr.getBody2())) {
+            return true;
       } else {
-        return true;
+        return false;
       }
     });
   for (i=0; i<springs.length; i++) {
@@ -649,6 +677,11 @@ setStiffness(index1, index2, value) {
     throw new Error('unknown spring connecting '+index1+'-'+index2);
   }
   spr.setStiffness(value);
+  spr = this.getSpring(this.springsPseudoGravity_, index1, index2);
+  if (!spr) {
+    throw new Error();
+  }
+  spr.setStiffness(value);
   spr = this.getSpring(this.springsNonLinear_, index1, index2);
   if (!spr) {
     throw new Error();
@@ -666,7 +699,7 @@ setStiffness(index1, index2, value) {
 @private
 */
 calcMinPE() {
-  if (this.nonLinearSprings_) {
+  if (this.springType_ == Molecule6App.SpringType.PSEUDO_GRAVITY) {
     goog.array.forEach(this.sim_.getSprings(), function(spr) {
       if (spr instanceof SpringNonLinear2) {
         var s2 = /** SpringNonLinear2 */(spr);
@@ -720,21 +753,21 @@ setShowSprings(value) {
   }
 };
 
-/** Whether to create linear or non-linear springs
-@return {boolean}
+/** What type of springs to create
+@return {number}
 */
-getNonLinearSprings() {
-  return this.nonLinearSprings_;
+getSpringType() {
+  return this.springType_;
 };
 
-/** Sets whether to create linear or non-linear springs/
-@param {boolean} value
+/** Sets type of springs to create
+@param {number} value
 */
-setNonLinearSprings(value) {
-  if (this.nonLinearSprings_ != value) {
-    this.nonLinearSprings_ = value;
+setSpringType(value) {
+  if (this.springType_ != value) {
+    this.springType_ = /** @type {Molecule6App.SpringType} */(value);
     this.config();
-    this.broadcastParameter(Molecule6App.en.NON_LINEAR_SPRINGS);
+    this.broadcastParameter(Molecule6App.en.SPRING_TYPE);
   }
 };
 
@@ -768,7 +801,7 @@ getAttractForce() {
 setAttractForce(value) {
   if (this.attract_ != value) {
     this.attract_ = value;
-    goog.array.forEach(this.springsNonLinear_, function(spr) {
+    goog.array.forEach(this.springsPseudoGravity_, function(spr) {
       if (spr instanceof SpringNonLinear2) {
         var s2 = /** SpringNonLinear2 */(spr);
         s2.setAttract(this.attract_);
@@ -825,6 +858,15 @@ setWallSize(value) {
 
 } // end class
 
+/**
+* @enum {number}
+*/
+Molecule6App.SpringType = {
+  LINEAR: 1,
+  NON_LINEAR: 2,
+  PSEUDO_GRAVITY: 3
+};
+
 /** Set of internationalized strings.
 @typedef {{
   MASS: string,
@@ -832,12 +874,15 @@ setWallSize(value) {
   STIFFNESS: string,
   NUM_ATOMS: string,
   SHOW_SPRINGS: string,
-  NON_LINEAR_SPRINGS: string,
   KE_HIGH_PCT: string,
   SHOW_KE_HIGH: string,
   SHOW_NAMES: string,
   ATTRACT_FORCE: string,
-  WALL_SIZE: string
+  WALL_SIZE: string,
+  LINEAR: string,
+  NON_LINEAR: string,
+  PSEUDO_GRAVITY: string,
+  SPRING_TYPE: string
   }}
 */
 Molecule6App.i18n_strings;
@@ -851,12 +896,15 @@ Molecule6App.en = {
   STIFFNESS: 'spring stiffness',
   NUM_ATOMS: 'number of atoms',
   SHOW_SPRINGS: 'show springs',
-  NON_LINEAR_SPRINGS: 'non-linear springs',
   KE_HIGH_PCT: 'KE high pct',
   SHOW_KE_HIGH: 'show KE high pct',
   SHOW_NAMES: 'show names',
   ATTRACT_FORCE: 'attract force',
-  WALL_SIZE: 'wall size'
+  WALL_SIZE: 'wall size',
+  LINEAR: 'linear',
+  NON_LINEAR: 'non-linear',
+  PSEUDO_GRAVITY: 'pseudo-gravity',
+  SPRING_TYPE: 'spring type'
 };
 
 /**
@@ -869,12 +917,15 @@ Molecule6App.de_strings = {
   STIFFNESS: 'Federsteifheit',
   NUM_ATOMS: 'zahl Masse',
   SHOW_SPRINGS: 'zeige Federn',
-  NON_LINEAR_SPRINGS: 'nicht linear Federn',
   KE_HIGH_PCT: 'KE hoch prozent',
   SHOW_KE_HIGH: 'zeige KE hoch prozent',
   SHOW_NAMES: 'zeige Namen',
   ATTRACT_FORCE: 'anziehen Kraft',
-  WALL_SIZE: 'Wand Größe'
+  WALL_SIZE: 'Wand Größe',
+  LINEAR: 'linear',
+  NON_LINEAR: 'nichtlinear',
+  PSEUDO_GRAVITY: 'pseudo-Gravitation',
+  SPRING_TYPE: 'FederTyp'
 };
 
 /** Set of internationalized strings.
