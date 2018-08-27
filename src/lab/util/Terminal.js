@@ -972,9 +972,13 @@ See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
 forget() {
-  var localStore = window.localStorage;
-  if (goog.isDefAndNotNull(localStore)) {
-    localStore.removeItem(this.pageKey());
+  try {
+    var localStore = window.localStorage;
+    if (goog.isDefAndNotNull(localStore)) {
+      localStore.removeItem(this.pageKey());
+    }
+  } catch (ex) {
+    this.println('//cannot access localStorage due to: '+ex);
   }
 };
 
@@ -1153,18 +1157,22 @@ the script if `opt_execute` is `true`. See [Script Storage](#scriptstorage).
 recall(opt_execute) {
   var execute = goog.isBoolean(opt_execute) ? opt_execute : true;
   this.recalling = true;
-  var localStore = window.localStorage;
-  if (goog.isDefAndNotNull(localStore)) {
-    var s = /** @type {string} */(localStore.getItem(this.pageKey()));
-    if (s) {
-      this.println('//start of stored scripts');
-      if (execute) {
-        goog.array.forEach(s.split('\n'), function(t) { this.eval(t); },this);
-      } else {
-        goog.array.forEach(s.split('\n'), function(t) { this.println(t); },this);
+  try {
+    var localStore = window.localStorage;
+    if (goog.isDefAndNotNull(localStore)) {
+      var s = /** @type {string} */(localStore.getItem(this.pageKey()));
+      if (s) {
+        this.println('//start of stored scripts');
+        if (execute) {
+          goog.array.forEach(s.split('\n'), function(t) { this.eval(t); },this);
+        } else {
+          goog.array.forEach(s.split('\n'), function(t) { this.println(t); },this);
+        }
+        this.println('//end of stored scripts');
       }
-      this.println('//end of stored scripts');
     }
+  } catch (ex) {
+    this.println('//cannot access localStorage due to: '+ex);
   }
   this.recalling = false;
 };
@@ -1184,11 +1192,15 @@ remember(opt_script) {
   if (goog.isArray(script)) {
     script = script.join('\n');
   }
-  var k = this.pageKey();
-  // store the script under the current file name
-  var localStore = window.localStorage;
-  if (goog.isDefAndNotNull(localStore)) {
-    localStore.setItem(this.pageKey(), script);
+  try {
+    var k = this.pageKey();
+    // store the script under the current file name
+    var localStore = window.localStorage;
+    if (goog.isDefAndNotNull(localStore)) {
+      localStore.setItem(this.pageKey(), script);
+    }
+  } catch (ex) {
+    this.println('//cannot access localStorage due to: '+ex);
   }
 };
 
