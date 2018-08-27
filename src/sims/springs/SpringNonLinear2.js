@@ -26,8 +26,10 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Represents a non-linear spring attached between two {@link MassObject}s, generates
-a {@link Force} which depends on how the SpringNonLinear2 is stretched and the masses. Damping is
-proportional to the relative velocity of the two objects.
+a {@link Force} which depends on how the SpringNonLinear2 is stretched and the masses.
+The attraction is a gravity-like force that decreases by distance squared and is
+proportional to the product of the two masses. Damping is proportional to the relative
+velocity of the two objects.
 
 The force equation is:
     f(x) = G*m1*m2*Math.pow(x,-2)-S*Math.pow(x, -3)
@@ -43,9 +45,8 @@ The potential energy is the integral of the force:
 The minimum PE occurs where the force is zero:
     G*m1*m2*Math.pow(x,-2) = S*Math.pow(x, -3)
     x_min = S/(G*m1*m2)
-    PE(x_min) = (6/S)*(G*m1*m2)^2
 
-We subtract that minimum PE from the reported PE so that PE is zero at it's minimum.
+We subtract the minimum PE from the reported PE so that PE is zero at it's minimum.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
 {@link myphysicslab.lab.engine2D.Scrim Scrim}.

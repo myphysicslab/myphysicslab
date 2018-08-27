@@ -29,6 +29,22 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 a {@link Force} which depends on how the SpringNonLinear is stretched. Damping is
 proportional to the relative velocity of the two objects.
 
+The force equation is:
+    f(x) = S(6*Math.pow(x,-1) - Math.pow(x/2, -3))
+    x = distance between masses
+    S = resisting force constant
+
+The potential energy is the integral of the force:
+    PE(x) = S(6 * Math.log(x) + 4*Math.pow(x, -2))
+
+The minimum PE occurs where the force is zero:
+    S(6*Math.pow(x,-1) = Math.pow(x/2, -3))
+    6/x = 8 x^-3
+    3/4 = x^-2
+    x_min = sqrt(4/3) = 2/sqrt(3)
+
+We subtract the minimum PE from the reported PE so that PE is zero at it's minimum.
+
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
 {@link myphysicslab.lab.engine2D.Scrim Scrim}.
 */
@@ -49,12 +65,11 @@ class SpringNonLinear extends Spring {
 constructor(name, body1, attach1_body, body2, attach2_body, restLength, stiffness) {
   super(name, body1, attach1_body, body2, attach2_body, restLength, stiffness,
       /*compressOnly=*/false);
-  var minLen = 2/Math.sqrt(3);
   /** minimum potential energy
   @type {number}
-  @const
   */
-  this.minPE_ = (6 * Math.log(minLen) + 4/(minLen*minLen));
+  this.minPE_ = 0
+  this.calcMinPE();
 };
 
 /** @override */
@@ -94,18 +109,31 @@ calculateForces() {
 
 /** @override */
 getPotentialEnergy() {
-  // The graph of potential energy reaches a minimum where force is zero.
-  // Find the offset so that potential energy is zero when force is zero.
-  // force = 0 = -k (6/x - 8 x^-3)
-  // 6/x = 8 x^-3
-  // 6/8 = x^-2
-  // x^2 = 4/3
-  // x = sqrt(4/3) = 2/sqrt(3)
-  // offset is minPE_ = PE(2/sqrt(3))
-
-  // spring potential energy is integral of force
   var len = this.getLength();
-  return this.getStiffness() * (6 * Math.log(len) + 4/(len*len) - this.minPE_);
+  return this.potentialEnergy(len) - this.minPE_;
+};
+
+/** Returns potential energy for a given length of spring.
+@param {number} len length of spring
+@return {number} potential energy
+*/
+potentialEnergy(len) {
+  var S = this.getStiffness();
+  return S * (6 * Math.log(len) + 4/(len*len));
+};
+
+/** Returns length of spring that has minimum potential energy.
+@return {number} length of spring that has minimum potential energy
+*/
+minPELen() {
+  return 2/Math.sqrt(3);
+};
+
+/** Calculate minimum potential energy.
+@return {undefined}
+*/
+calcMinPE() {
+  this.minPE_ = this.potentialEnergy(this.minPELen());
 };
 
 } // end class
