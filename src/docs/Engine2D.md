@@ -813,7 +813,7 @@ the slow drifting apart of the Joint. See also the section below [How to Stop Ji
 
 ## Ropes
 
-[Rope](myphysicslab.lab.engine.Rope.html) is similar to Joint in that it connects two
+[Rope](myphysicslab.lab.engine2D.Rope.html) is similar to Joint in that it connects two
 RigidBodys. The difference is that a Rope allows the two connected points to be a large
 distance apart. A Rope generates
 [ConnectorCollisions](myphysicslab.lab.engine2D.ConnectorCollision.html)
