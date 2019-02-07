@@ -59,15 +59,23 @@ constructor(elem_ids) {
   this.moonMass = 100;
   /** @type {number} */
   this.asteroidMass = 0.1;
+  /** @type {number} */
+  this.moonRadius = 3;
+  /** @type {number} */
+  this.asteroidRadius = 0.2;
   /** asteriod starting vertical velocity
   * @type {number}
   */
   this.velocity = 14;
+  /** asteriod starting distance
+  * @type {number}
+  */
+  this.distance = 0.8;
   /** ratio of axes of oval.  1.0 = circle.
   * @type {number}
   */
   this.ovalness = 1.0;
-  /** initial moon rotational velocity
+  /** initial moon rotational velocity.  Only relevant for oval shaped moon.
   * @type {number}
   */
   this.moonSpin = 0;
@@ -103,6 +111,22 @@ constructor(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.VELOCITY,
       MarsMoonApp.i18n.VELOCITY,
       goog.bind(this.getVelocity, this), goog.bind(this.setVelocity, this)));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.DISTANCE,
+      MarsMoonApp.i18n.DISTANCE,
+      goog.bind(this.getDistance, this), goog.bind(this.setDistance, this)));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.MOON_RADIUS,
+      MarsMoonApp.i18n.MOON_RADIUS,
+      goog.bind(this.getMoonRadius, this), goog.bind(this.setMoonRadius, this)));
+  this.addControl(new NumericControl(pn));
+
+  this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.ASTERIOD_RADIUS,
+      MarsMoonApp.i18n.ASTERIOD_RADIUS,
+      goog.bind(this.getAsteroidRadius, this),
+      goog.bind(this.setAsteroidRadius, this)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
@@ -165,7 +189,7 @@ config() {
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
   if (this.ovalness == 1.0) {
-    this.moon = Shapes.makeBall(/*radius=*/3, MarsMoonApp.en.MOON,
+    this.moon = Shapes.makeBall(this.moonRadius, MarsMoonApp.en.MOON,
       MarsMoonApp.i18n.MOON);
   } else {
     //this.moon = Shapes.makeOval('moon', 3, ovalness*3);
@@ -183,9 +207,10 @@ config() {
   this.displayList.findShape(this.moon).setFillStyle('#E0E0E0')
       .setDrawCenterOfMass(true);
 
-  this.asteroid = Shapes.makeBall(0.2, MarsMoonApp.en.ASTERIOD,
+  this.asteroid = Shapes.makeBall(this.asteroidRadius, MarsMoonApp.en.ASTERIOD,
       MarsMoonApp.i18n.ASTERIOD);
-  this.asteroid.setPosition(new Vector(4,  0),  0);
+  var dist = this.asteroidRadius + this.moonRadius + this.distance;
+  this.asteroid.setPosition(new Vector(dist,  0),  0);
   this.asteroid.setMass(this.asteroidMass);
   this.asteroid.setVelocity(new Vector(0,  this.velocity),  0);
   this.asteroid.setElasticity(elasticity);
@@ -211,6 +236,7 @@ getAsteroidMass() {
 */
 setAsteroidMass(value) {
   this.asteroidMass = value;
+  this.config();
   this.broadcastParameter(MarsMoonApp.en.ASTERIOD_MASS);
 };
 
@@ -226,7 +252,40 @@ getMoonMass() {
 */
 setMoonMass(value) {
   this.moonMass = value;
+  this.config();
   this.broadcastParameter(MarsMoonApp.en.MOON_MASS);
+};
+
+/**
+* @return {number}
+*/
+getAsteroidRadius() {
+  return this.asteroidRadius;
+};
+
+/**
+* @param {number} value
+*/
+setAsteroidRadius(value) {
+  this.asteroidRadius = value;
+  this.config();
+  this.broadcastParameter(MarsMoonApp.en.ASTERIOD_RADIUS);
+};
+
+/**
+* @return {number}
+*/
+getMoonRadius() {
+  return this.moonRadius;
+};
+
+/**
+* @param {number} value
+*/
+setMoonRadius(value) {
+  this.moonRadius = value;
+  this.config();
+  this.broadcastParameter(MarsMoonApp.en.MOON_RADIUS);
 };
 
 /**
@@ -245,18 +304,37 @@ setVelocity(value) {
   this.broadcastParameter(MarsMoonApp.en.VELOCITY);
 };
 
+/**
+* @return {number}
+*/
+getDistance() {
+  return this.distance;
+};
+
+/**
+* @param {number} value
+*/
+setDistance(value) {
+  this.distance = value;
+  this.config();
+  this.broadcastParameter(MarsMoonApp.en.DISTANCE);
+};
+
 } // end class
 
 /** Set of internationalized strings.
 @typedef {{
   ASTERIOD_MASS: string,
+  ASTERIOD_RADIUS: string,
   GRAVITY: string,
   MOON_MASS: string,
+  MOON_RADIUS: string,
   MOON_SPIN: string,
   OVALNESS: string,
   VELOCITY: string,
   MOON: string,
-  ASTERIOD: string
+  ASTERIOD: string,
+  DISTANCE: string
   }}
 */
 MarsMoonApp.i18n_strings;
@@ -266,13 +344,16 @@ MarsMoonApp.i18n_strings;
 */
 MarsMoonApp.en = {
   ASTERIOD_MASS: 'asteroid mass',
+  ASTERIOD_RADIUS: 'asteroid radius',
   GRAVITY: 'gravity',
   MOON_MASS: 'moon mass',
+  MOON_RADIUS: 'moon radius',
   MOON_SPIN: 'moon spin',
   OVALNESS: 'ovalness',
   VELOCITY: 'initial velocity',
   MOON: 'moon',
-  ASTERIOD: 'asteroid'
+  ASTERIOD: 'asteroid',
+  DISTANCE: 'distance'
 };
 
 /**
@@ -281,13 +362,16 @@ MarsMoonApp.en = {
 */
 MarsMoonApp.de_strings = {
   ASTERIOD_MASS: 'Asteroid Masse',
+  ASTERIOD_RADIUS: 'Asteroid Radius',
   GRAVITY: 'Gravitation',
   MOON_MASS: 'Mondmasse',
+  MOON_RADIUS: 'Mond Radius',
   MOON_SPIN: 'Mondrotation',
   OVALNESS: 'Oval-heit',
   VELOCITY: 'Anfangs Geschwindigkeit',
   MOON: 'Mond',
-  ASTERIOD: 'Asteroid'
+  ASTERIOD: 'Asteroid',
+  DISTANCE: 'Entfernung'
 };
 
 /** Set of internationalized strings.
