@@ -134,11 +134,32 @@ functions {@link Util#get} and {@link Util#set}:
     red,green,orange
 
 
+Long Names
+----------
+By "long name" we mean referring to a class by it's full pathname, for example
+
+    myphysicslab.lab.util.DoubleRect
+
+That is how the `DoubleRect` class is referred to in the source code.  However, after
+[simple-compilation](https://www.myphysicslab.com/develop/docs/Building.html#advancedvs.simplecompile)
+these pathnames are replaced by a single token like this
+
+    module$exports$myphysicslab$lab$util$DoubleRect
+
+In `compile_js.sh` we replace "module$exports$myphysicslab$" with "mpl$".
+This is done to reduce the size of the simple-compiled file. So the actual name will be
+
+    mpl$lab$util$DoubleRect
+
+That is the format of class names when simple-compiled code is running under JavaScript
+within the browser.
+
+
 <a id="shortnames"></a>
 Short Names
 -----------
-To allow for shorter scripts, we define a variety of regular expressions which
-convert short names to their proper long expanded form.
+To allow for shorter scripts, we define a variety of regular expressions in Terminal
+which convert short names to their proper long expanded form.
 
 Most class names will have their equivalent short-name defined. For example you can type
 
@@ -147,16 +168,17 @@ Most class names will have their equivalent short-name defined. For example you 
 
 instead of
 
-    > new myphysicslab.lab.util.DoubleRect(0,0,1,1)
+    > new mpl$lab$util$DoubleRect(0,0,1,1)
     DoubleRect{left_: 0, bottom_: 0, right_: 1, top_: 1}
 
-Applications will typically make their key objects available with short-names.
+Applications will typically also make their key objects available with short-names.
 So instead of `app.sim` you can just type `sim`.
-You can see this at work by using {@link #setVerbose}:
+
+You can see this short-name to long-name conversion by using {@link #setVerbose}:
 
     > terminal.setVerbose(true)
     > new Vector(2,3)
-    >> new myphysicslab.lab.util.Vector(2,3)
+    >> new mpl$lab$util$Vector(2,3)
     Vector{x: 2, y: 3}
 
 In verbose mode, the command is echoed a second time to show how it appears after
@@ -494,12 +516,10 @@ constructor(term_input, term_output) {
   this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal', 'find' ];
   /**
   * @type {?Parser}
-  * @private
   */
-  this.parser_ = null;
+  this.parser = null;
   /** The variables available to the user. Names separated by | symbol.
   * @type {string}
-  * @private
   */
   this.vars_ = '';
   /** Number of simultaneous calls to eval() for detecting recursion
@@ -522,7 +542,7 @@ toString() {
   return Util.ADVANCED ? '' : 'Terminal{history.length: '+this.history_.length
       +', regexs_.length: '+this.regexs_.length
       +', verbose_: '+this.verbose_
-      +', parser_: '+(this.parser_ != null ? this.parser_.toStringShort() : 'null')
+      +', parser: '+(this.parser != null ? this.parser.toStringShort() : 'null')
       +'}';
 };
 
@@ -810,7 +830,7 @@ eval(script, opt_output, opt_userInput) {
         if (output) {
           this.println(prompt + cmd);
         }
-        if (this.parser_ != null) {
+        if (this.parser != null) {
           // Let Parser evaluate the cmd before expanding with regex's.
           // For example: 'sim.gravity' is recognized by EasyScriptParser but
           // 'app.sim.gravity' is not.
@@ -818,7 +838,7 @@ eval(script, opt_output, opt_userInput) {
           // Script Safe Subset:
           // Note that unexpanded `cmd` has NOT gone thru vetCommand, but it is only
           // a string and should not be eval'd by the parser.
-          var parseResult = this.parser_.parse(cmd);
+          var parseResult = this.parser.parse(cmd);
           if (parseResult !== undefined) {
             // the parser was successful
             this.result = parseResult;
@@ -1103,8 +1123,8 @@ current settings.
 * @return {boolean} returns true if there was a URL query script
 */
 parseURL() {
-  if (this.parser_ != null) {
-    this.parser_.saveStart();
+  if (this.parser != null) {
+    this.parser.saveStart();
   }
   var loc = window.location.href;
   var queryIdx = loc.indexOf('?');
@@ -1258,7 +1278,7 @@ setAfterEval(afterEvalFn) {
 * @param {!Parser} parser the Parser to install.
 */
 setParser(parser) {
-  this.parser_ = parser;
+  this.parser = parser;
   if (!Util.ADVANCED) {
     parser.addCommand('vars', goog.bind(function() {return String(this.vars());}, this),
         'lists available variables');
@@ -1368,9 +1388,11 @@ static stdRegex(terminal) {
   terminal.addRegex('methodsOf|propertiesOf|prettyPrint',
        'Util.', /*addToVars=*/false);
   // replace 'println' with 'terminal.println'
-  terminal.addRegex('println|z',
+  terminal.addRegex('println',
        'terminal.', /*addToVars=*/false);
-  terminal.addRegex('result',
+  terminal.addRegex('getParameter|getSubject',
+       'terminal.parser.', /*addToVars=*/false);
+  terminal.addRegex('result|z|parser',
        'terminal.', /*addToVars=*/true);
 
   // note: $$ represents $ in regexp-replace string.
@@ -1450,7 +1472,9 @@ static vetBrackets(script) {
   if (r != null) {
     for (var i=0, n=r.length; i<n; i++) {
       if (!goodRegexp.test(r[i])) {
-        throw new Error('prohibited usage of square brackets in script: '+script);
+        throw new Error('prohibited usage of square brackets in script: '+script+
+          ' Only positive integer is allowed in brackets. '+
+          ' Try using Util.get(array, index) or Util.set(array, index, value).');
       }
     }
   }
@@ -1476,7 +1500,7 @@ static vetCommand(script, whiteList, opt_blackList) {
   // properties of Terminal.
   // Prohibit HTML Element and Node properties and methods that access parent or change
   // structure of the Document.
-  var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|parser_|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
+  var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
   if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
     throw new Error('prohibited name in script: '+script);
   }

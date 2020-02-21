@@ -29,7 +29,7 @@ as `help`. Can generate a script to recreate the current state of an application
 simulation.
 
 EasyScriptParser takes a “snapshot” of the starting parameters and variables. But there
-are two snapshots: independent and dependent. The independent parameters have no affect
+are two snapshots: independent and dependent. The independent parameters have no effect
 on each other. The dependent parameters and variables are usually determined by a
 "configuration" parameter (for example, the number of pendulums in NewtonsCradle). The
 dependent snapshot is retaken when the config parameter is altered. The dependent
@@ -325,7 +325,7 @@ constructor(subjects, dependent) {
       }, this), 'shows available parameters and their current values');
   this.addCommand('names', goog.bind(function() {
         return Util.prettyPrint(this.names().join(';'));
-      }, this), 'shows available parameter names');
+      }, this), 'shows available parameter names (format is SUBJECT.PARAMETER)');
   this.addCommand('help', goog.bind(function() {
         return this.help();
       }, this), 'prints this help text');
@@ -369,9 +369,11 @@ static checkUniqueNames(subjects) {
     });
 };
 
-/** Returns the Parameter corresponding to the given name, which can consist of either
-just the name of a Parameter (if unique among all Subjects) or be both Subject name and
-Parameter name separated by a dot.
+/** Returns the Parameter corresponding to the given EasyScriptParser name such as
+`X_Y_GRAPH_LINE.GRAPH_COLOR`. The name can consist of either just the name of a
+Parameter (if unique among all Subjects) or be both Subject name and Parameter name
+separated by a dot. This is used in Terminal scripts to find the Parameter, so that we
+can call methods like `getValue()` or `setValue()` on the Parameter.
 * @param {string} fullName name of Parameter, optionally preceded by name of Subject
 *    and a dot
 * @return {?Parameter} the Parameter corresponding to the given name, or `null` if
@@ -406,7 +408,7 @@ getParameter(fullName) {
   return idx > -1 ? this.allSubjects_[idx].getParameter(paramName) : null;
 };
 
-/** Returns the Subject with the given name.
+/** Returns the Subject with the given EasyScriptParser name.
 * @param {string} name name of Subject
 * @return {?Subject} the Subject corresponding to the given name, or `null` if
 *    no Subject found
@@ -436,10 +438,12 @@ help() {
   s += 'command-K            clear Terminal window\n'
   s += 'arrow up/down        retrieve previous or next command\n'
   if (!Util.ADVANCED) {
+    s += 'getParameter(name)   see "names" command, returns the named Parameter\n';
+    s += 'getSubject(name)     see "names" command, returns the named Subject\n';
     s += 'propertiesOf(app)    shows properties of that object\n';
     s += 'methodsOf(app)       shows methods defined on that object\n';
     s += 'prettyPrint(app)     prints the object nicely\n';
-    s += 'prettyPrint(app, 3)  prints the object even nicer\n';
+    s += 'prettyPrint(app, 3)  prints the object, expanding 3 levels of sub-objects\n';
     s += 'println(1+2)         prints to the Terminal window\n';
     s += 'result               the result of the previous command\n';
   }

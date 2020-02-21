@@ -572,7 +572,7 @@ a contact is not detected, because the objects are either separating or collidin
 
 ## Collision Detection
 
-Collisions and contacts and are found within
+Collisions and contacts are found within
 [`ImpulseSim.findCollisions`](myphysicslab.lab.engine2D.ImpulseSim.html#findCollisions)
 by calling
 [`Polygon.checkCollision`](myphysicslab.lab.engine2D.Polygon.html#checkCollision)

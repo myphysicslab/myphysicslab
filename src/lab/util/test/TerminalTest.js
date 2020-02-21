@@ -81,14 +81,14 @@ static testTerminal1() {
   // Test that escaped quotes in strings do not end the string.
   assertEquals('foo"bar', t.eval('"baz";"foo\\""+"bar"'));
 
-  assertEquals(1, t.vars().length);
-  assertEquals('result', t.vars()[0]);
+  assertEquals(3, t.vars().length);
+  assertEquals('parser', t.vars()[0]);
   window.foobar = '_FOOBAR_';
   window.baz = '_BAZ_';
   t.addWhiteList('foobar');
   t.addWhiteList('baz');
-  assertEquals(3, t.vars().length);
-  assertElementsEquals(['baz', 'foobar', 'result'], t.vars());
+  assertEquals(5, t.vars().length);
+  assertElementsEquals(['baz', 'foobar', 'parser', 'result', 'z'], t.vars());
   assertEquals('_FOOBAR_', t.eval('foobar'));
   assertEquals('_FOOBAR_', window.foobar);
   assertEquals('_BAZ_', t.eval('baz'));
@@ -203,19 +203,19 @@ static testTerminal3() {
   assertEquals(3, t.eval('var foo=3'));
   assertEquals(3, t.eval('foo'));
   assertEquals(3, t.eval('z.foo'));
-  assertEquals(2, t.vars().length);
-  assertElementsEquals(['foo', 'result'], t.vars());
+  assertEquals(4, t.vars().length);
+  assertElementsEquals(['foo', 'parser', 'result', 'z'], t.vars());
   assertEquals(7, t.eval('foo=7'));
   assertEquals(7, t.eval('foo'));
   assertEquals(7, t.eval('z.foo'));
   assertEquals(4, t.eval('var bar=4'));
-  assertEquals(3, t.vars().length);
-  assertElementsEquals(['bar', 'foo', 'result'], t.vars());
+  assertEquals(5, t.vars().length);
+  assertElementsEquals(['bar', 'foo', 'parser', 'result', 'z'], t.vars());
   assertEquals(28, t.eval('foo*bar'));
   // multiple var statments in one command
   assertEquals(42, t.eval('var a=6; var b=7; a*b'));
-  assertElementsEquals(['a', 'b', 'bar', 'foo', 'result'], t.vars());
-  assertEquals(5, t.vars().length);
+  assertElementsEquals(['a', 'b', 'bar', 'foo', 'parser', 'result', 'z'], t.vars());
+  assertEquals(7, t.vars().length);
   assertEquals(6, t.eval('a'));
   assertEquals(7, t.eval('b'));
   // declare a var a second time
