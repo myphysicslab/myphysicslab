@@ -503,9 +503,9 @@ of CollisionAdvance.
 
 # Collisions and Contacts
 
-Collisions and contacts are represented an instances of a sub-class of
+Collisions and contacts are represented as instances of a sub-class of
 [RigidBodyCollision](myphysicslab.lab.engine2D.RigidBodyCollision.html).
-Collisions and contacts and are found within
+Collisions and contacts are found within
 [`ImpulseSim.findCollisions`](myphysicslab.lab.engine2D.ImpulseSim.html#findCollisions)
 by calling
 [`Polygon.checkCollision`](myphysicslab.lab.engine2D.Polygon.html#checkCollision)
