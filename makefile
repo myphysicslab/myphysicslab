@@ -236,6 +236,7 @@ reactionpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ReactionPen
 rigidbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RigidBodyApp-$(loc).html )
 rigidbodyroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RigidBodyRollerApp-$(loc).html )
 rigiddoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp-$(loc).html )
+robotspeed: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RobotSpeedApp-$(loc).html )
 rollerdouble: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerDoubleApp-$(loc).html )
 rollerflight: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerFlightApp-$(loc).html )
 rollersingle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSingleApp-$(loc).html )
@@ -298,6 +299,7 @@ sims/engine2D/PileApp \
 sims/engine2D/PileAttractApp\
 sims/engine2D/PolygonTestApp \
 sims/engine2D/RigidBodyApp \
+sims/engine2D/RobotSpeedApp \
 sims/engine2D/TestBodyApp \
 sims/experimental/BikeTimerApp \
 sims/experimental/BlankSlateApp \
