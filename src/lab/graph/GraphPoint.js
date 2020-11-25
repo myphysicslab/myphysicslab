@@ -31,6 +31,9 @@ class GraphPoint {
 *   between successive GraphPoints it indicates there was a discontinuity in the graph
 */
 constructor(x, y, seqX, seqY) {
+  if (isNaN(x) || isNaN(y)) {
+    throw new Error('NaN in GraphPoint');
+  }
   /** @type {number} */
   this.x = x;
   /** @type {number} */

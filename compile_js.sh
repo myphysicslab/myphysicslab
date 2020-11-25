@@ -61,11 +61,11 @@ COMPILE_LEVEL="${5:-simple}"
 if [[ "$COMPILE_LEVEL" == "advanced" ]] ; then
 	comp_level="ADVANCED"
 	advanced="true"
-	wrapper="--output_wrapper=(/*Copyright_2016_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/function(){%output%}).call(window)"
+	wrapper="--output_wrapper=(/*Copyright_2020_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/function(){%output%}).call(window)"
 elif [[ "$COMPILE_LEVEL" == "simple" ]] ; then
 	comp_level="SIMPLE"
 	advanced="false"
-	wrapper="--output_wrapper=/*Copyright_2016_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/%output%"
+	wrapper="--output_wrapper=/*Copyright_2020_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/%output%"
 else
 	echo "COMPILE_LEVEL=$COMPILE_LEVEL, must be simple or advanced"
 	exit 1

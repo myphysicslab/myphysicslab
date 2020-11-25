@@ -212,6 +212,7 @@ graphcalc2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalc2App
 impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp-$(loc).html )
 index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index-$(loc).html )
 lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp-$(loc).html )
+magnetwheel: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/MagnetWheelApp-$(loc).html )
 marsmoon: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/MarsMoonApp-$(loc).html )
 molecule1: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule1App-$(loc).html )
 molecule3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Molecule3App-$(loc).html )
@@ -262,7 +263,7 @@ donothing doublependulum2 fastball gears impulse marsmoon multiplecollision \
 mutualattract newtonscradle pendulumclock pendulumspring pile pileattract \
 polygontest rigidbody testbody
 
-experimental: biketimer blankslate collisioncombo graphcalc simple
+experimental: biketimer blankslate collisioncombo graphcalc simple magnetwheel
 
 pendulums: cartpendulum comparedoublependulum comparependulum doublependulum \
 moveabledoublependulum moveablependulum pendulum reactionpendulum \
@@ -305,6 +306,7 @@ sims/experimental/BikeTimerApp \
 sims/experimental/BlankSlateApp \
 sims/experimental/GraphCalcApp \
 sims/experimental/GraphCalc2App \
+sims/experimental/MagnetWheelApp \
 sims/experimental/MultiGraphCalc2App \
 sims/experimental/SimpleApp \
 sims/pde/StringApp \
@@ -436,6 +438,10 @@ src/sims/springs/CollideSpringApp.js \
 src/sims/engine2D/Engine2DApp.js \
 src/sims/engine2D/ElasticitySetter.js \
 src/sims/engine2D/RigidBodyObserver.js
+
+$(BUILD_DIR)/sims/experimental/MagnetWheelApp*.js : src/sims/experimental/MagnetWheel.js \
+src/sims/experimental/MagnetWheelSim.js \
+src/sims/experimental/DisplayWheel.js
 
 # src/sims/pde prerequisites
 

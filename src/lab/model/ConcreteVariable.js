@@ -160,7 +160,7 @@ setComputed(value) {
 setFromString(value) {
   var v = Number(value);
   if (isNaN(v)) {
-    throw new Error('not a number: '+value+' (ConcreteVariable)');
+    throw new Error('not a number: '+value+' (ConcreteVariable.setFromString)');
   }
   this.setValue(v);
 };
@@ -168,6 +168,7 @@ setFromString(value) {
 /** @override */
 setValue(value) {
   if (this.value_ != value) {
+    //if (isNaN(value)) { throw new Error('NaN (ConcreteVariable.setValue)'); }
     this.value_ = value;
     this.seq_++;
     if (this.doesBroadcast_) {
@@ -178,6 +179,7 @@ setValue(value) {
 
 /** @override */
 setValueSmooth(value) {
+  //if (isNaN(value)) { throw new Error('NaN (ConcreteVariable.setValueSmooth)'); }
   this.value_ = value;
 };
 
