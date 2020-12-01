@@ -87,18 +87,6 @@ static make(radius, opt_name, opt_localName) {
 
 /** @override */
 createCanvasPath(context) {
-  context.beginPath();
-  var r = this.radius_;
-  if (goog.isFunction(context.ellipse)) {
-    context.moveTo(r, 0);
-    // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
-    context.ellipse(0, 0, r, r, 0, 0, 2*Math.PI, false);
-  } else {
-    // NOTE: until context.ellipse() is supported by browsers, we only
-    // draw a circle here, the smallest that will fit.
-    context.arc(0, 0, r, 0, 2*Math.PI, false);
-    context.closePath();
-  }
 };
 
 /** @override */

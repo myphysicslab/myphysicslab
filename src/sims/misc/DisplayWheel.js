@@ -67,6 +67,7 @@ draw(context, map) {
   if (this.wheel_ == null) {
     return;
   }
+  var r = this.wheel_.getRadius();
   context.save();
   /** @type {!AffineTransform} */
   var sim_to_screen = map.getAffineTransform(); // sim to screen transform
@@ -75,14 +76,26 @@ draw(context, map) {
   var body_to_screen =
       sim_to_screen.concatenate(this.wheel_.bodyToWorldTransform());
   body_to_screen.setTransform(context);
-  this.wheel_.createCanvasPath(context);
+
+  //draw the circle representing the wheel
+  context.beginPath();
+  if (goog.isFunction(context.ellipse)) {
+    context.moveTo(r, 0);
+    // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+    context.ellipse(0, 0, r, r, 0, 0, 2*Math.PI, false);
+  } else {
+    // NOTE: until context.ellipse() is supported by browsers, we only
+    // draw a circle here, the smallest that will fit.
+    context.arc(0, 0, r, 0, 2*Math.PI, false);
+    context.closePath();
+  }
   context.fillStyle = 'lightGray';
   context.fill();
   context.lineWidth = map.screenToSimScaleX(1);
   context.strokeStyle = 'red';
   context.stroke();
+
   // draw each magnet
-  var r = this.wheel_.getRadius();
   var mr = 0.1*r;  // radius of the little magnet circle
   var magnets = this.wheel_.getMagnets();
   for (var i=0, n=magnets.length; i<n; i++) {
@@ -104,6 +117,7 @@ draw(context, map) {
     context.fillStyle = 'darkGray';
     context.fill();
   }
+
   context.restore();
 };
 
