@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.module('myphysicslab.sims.experimental.DisplayWheel');
+goog.module('myphysicslab.sims.misc.DisplayWheel');
 
 goog.require('goog.asserts');
 
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
-const MagnetWheel = goog.require('myphysicslab.sims.experimental.MagnetWheel');
+const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');

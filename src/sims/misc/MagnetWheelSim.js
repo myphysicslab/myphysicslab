@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.module('myphysicslab.sims.experimental.MagnetWheelSim');
+goog.module('myphysicslab.sims.misc.MagnetWheelSim');
 
 goog.require('goog.events.KeyCodes');
 
@@ -22,7 +22,7 @@ const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
-const MagnetWheel = goog.require('myphysicslab.sims.experimental.MagnetWheel');
+const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');

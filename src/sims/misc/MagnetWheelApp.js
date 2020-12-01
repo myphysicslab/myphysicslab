@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.module('myphysicslab.sims.experimental.MagnetWheelApp');
+goog.module('myphysicslab.sims.misc.MagnetWheelApp');
 
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
-const DisplayWheel = goog.require('myphysicslab.sims.experimental.DisplayWheel');
+const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
-const MagnetWheel = goog.require('myphysicslab.sims.experimental.MagnetWheel');
+const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
-const MagnetWheelSim = goog.require('myphysicslab.sims.experimental.MagnetWheelSim');
+const MagnetWheelSim = goog.require('myphysicslab.sims.misc.MagnetWheelSim');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 

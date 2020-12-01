@@ -26,9 +26,9 @@ sims/experimental/BikeTimerApp
 sims/experimental/BlankSlateApp
 sims/experimental/GraphCalcApp
 sims/experimental/GraphCalc2App
-sims/experimental/MagnetWheelApp
 sims/experimental/MultiGraphCalc2App
 sims/experimental/SimpleApp
+sims/misc/MagnetWheelApp
 sims/pde/StringApp
 sims/pendulum/CartPendulumApp
 sims/pendulum/CompareDoublePendulumApp
