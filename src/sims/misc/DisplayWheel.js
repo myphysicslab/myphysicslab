@@ -73,11 +73,13 @@ draw(context, map) {
   var sim_to_screen = map.getAffineTransform(); // sim to screen transform
   // sim_to_screen_units = scaling factor to go from sim units to screen units (pixels)
   var sim_to_screen_units = 1/map.getScaleX();
+
+  // draw in body coords (rotated by angle of wheel).
   var body_to_screen =
       sim_to_screen.concatenate(this.wheel_.bodyToWorldTransform());
   body_to_screen.setTransform(context);
 
-  //draw the circle representing the wheel
+  // draw the circle representing the wheel
   context.beginPath();
   if (goog.isFunction(context.ellipse)) {
     context.moveTo(r, 0);
@@ -118,6 +120,24 @@ draw(context, map) {
     context.fill();
   }
 
+  // draw the fixed magnet
+  sim_to_screen.setTransform(context);  // draw in world coords
+  var fm = this.wheel_.getFixedMagnet();
+  var fmr = 0.1*r;  // radius of the fixed magnet circle
+  context.beginPath();
+  if (goog.isFunction(context.ellipse)) {
+    context.moveTo(fmr + fm.getX(), fm.getY());
+    // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+    context.ellipse(fm.getX(), fm.getY(), fmr, fmr, 0, 0, 2*Math.PI, false);
+  } else {
+    // NOTE: until context.ellipse() is supported by browsers, we only
+    // draw a circle here, the smallest that will fit.
+    context.arc(fm.getX(), fm.getY(), fmr, 0, 2*Math.PI, false);
+    context.closePath();
+  }
+  context.lineWidth = map.screenToSimScaleX(1);
+  context.strokeStyle = 'black';
+  context.stroke();
   context.restore();
 };
 
