@@ -238,18 +238,16 @@ evaluate(vars, change, timeStep) {
   
   this.moveObjects(vars);
   // the fixed magnet is at (xf, yf)
-  var xf = 0;
-  var yf = this.wheel_.getRadius() * 0.9;
+  var fm = this.wheel_.getFixedMagnet();
   var magnets = this.wheel_.getMagnets();
   for (var i=0, n=magnets.length; i<n; i++) {
-    var c = this.wheel_.bodyToWorld(magnets[i]); // center of the magnet
-    var x = c.getX();
-    var y = c.getY();
-    // force from magnet to fixed point is proportional to inverse square of distance
-    var f = new Vector(xf - x, yf - y);
+    // r = vector from center of wheel to magnet
+    var r = this.wheel_.bodyToWorld(magnets[i]);
+    // force from magnet to fixed magnet is proportional to inverse square of distance
+    var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
     f = f.multiply(this.magnetStrength_ / f.lengthSquared());
-    // cross product of c x f = the torque due to the magnet
-    var t = c.getX() * f.getY() - c.getY() * f.getX();
+    // cross product of r x f = the torque due to the magnet
+    var t = r.getX() * f.getY() - r.getY() * f.getX();
     change[1] += t/m;
   }
   

@@ -47,6 +47,11 @@ constructor(opt_name, opt_localName) {
   * @private
   */
   this.radius_ = 1;
+  /**
+  * @type {!Vector}
+  * @private
+  */
+  this.fixedMagnet_ = new Vector(0, 0.9);
   /** Locations of magnets in body coordinates.
   * @type {!Array<!Vector>}
   * @private
@@ -109,6 +114,13 @@ getLeftBody() {
   return -this.radius_;
 };
 
+/** Returns location of the fixed magnet.
+* @return {!Vector} location of the fixed magnet.
+*/
+getFixedMagnet() {
+  return this.fixedMagnet_;
+};
+
 /**
 * @return {!Array<!Vector>}
 */
@@ -145,9 +157,18 @@ getVerticesBody() {
   return [new Vector(-w, -h), new Vector(w, -h), new Vector(w, h), new Vector(-w, h)];
 };
 
+/** Set location of the fixed magnet.
+* @param {!Vector} loc the location of the fixed magnet
+* @return {!MagnetWheel} this object for chaining setters
+*/
+setFixedMagnet(loc) {
+  this.fixedMagnet_ = loc;
+  return this;
+};
+
 /** Set the mass of this MagnetWheel.
-@param {number} mass the mass of this MagnetWheel
-@return {!MagnetWheel} this object for chaining setters
+* @param {number} mass the mass of this MagnetWheel
+* @return {!MagnetWheel} this object for chaining setters
 */
 setMass(mass) {
   if (mass < 0 || !goog.isNumber(mass)) {
