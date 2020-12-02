@@ -57,12 +57,7 @@ constructor(opt_name, opt_localName) {
   * @private
   */
   this.magnets_ = [];
-  var r = this.radius_ * 0.85;
-  var i, n;
-  for (i = 0, n=12; i<n; i++) {
-    var a = i*Math.PI/6;
-    this.magnets_.push(new Vector(r * Math.cos(a), r * Math.sin(a)));
-  }
+  this.setNumMagnets(12);
 };
 
 /** @override */
@@ -175,6 +170,25 @@ setMass(mass) {
     throw new Error('mass must be non-negative '+mass);
   }
   this.mass_ = mass;
+  return this;
+};
+
+/** Set the number of magnets.
+* @param {number} value number of magnets
+* @return {!MagnetWheel} this object for chaining setters
+*/
+setNumMagnets(value) {
+  value = Math.floor(value);
+  if (value < 1 || value >12) {
+    throw new Error('number of magnets must be from 1 to 12');
+  }
+  goog.array.clear(this.magnets_);
+  var r = this.radius_ * 0.85;
+  var i, n;
+  for (i = 0, n=value; i<n; i++) {
+    var a = i*2*Math.PI/value;
+    this.magnets_.push(new Vector(r * Math.cos(a), r * Math.sin(a)));
+  }
   return this;
 };
 

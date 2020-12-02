@@ -19,10 +19,11 @@ const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
+const MagnetWheelSim = goog.require('myphysicslab.sims.misc.MagnetWheelSim');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
-const MagnetWheelSim = goog.require('myphysicslab.sims.misc.MagnetWheelSim');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
@@ -63,6 +64,9 @@ constructor(elem_ids, opt_name) {
 
   pn = sim.getParameterNumber(MagnetWheelSim.en.MAGNET_STRENGTH);
   this.addControl(new NumericControl(pn));
+
+  pn = sim.getParameterNumber(MagnetWheelSim.en.NUM_MAGNETS);
+  this.addControl(new SliderControl(pn, 1, 12, /*multiply=*/false));
 
   this.addStandardControls();
   this.makeEasyScript();

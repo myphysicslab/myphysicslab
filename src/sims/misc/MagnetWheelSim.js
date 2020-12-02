@@ -120,6 +120,10 @@ constructor(opt_name) {
       goog.bind(this.getMagnetStrength, this),
       goog.bind(this.setMagnetStrength, this))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
+  this.addParameter(new ParameterNumber(this, MagnetWheelSim.en.NUM_MAGNETS,
+      MagnetWheelSim.i18n.NUM_MAGNETS,
+      goog.bind(this.getNumMagnets, this), goog.bind(this.setNumMagnets, this))
+      .setDecimalPlaces(0));
 
 };
 
@@ -316,6 +320,21 @@ setMagnetStrength(value) {
   this.broadcastParameter(MagnetWheelSim.en.MAGNET_STRENGTH);
 };
 
+/**
+@return {number}
+*/
+getNumMagnets() {
+  return this.wheel_.getMagnets().length;
+};
+
+/**
+@param {number} value
+*/
+setNumMagnets(value) {
+  this.wheel_.setNumMagnets(value);
+  this.broadcastParameter(MagnetWheelSim.en.NUM_MAGNETS);
+};
+
 } // end class
 
 /** Set of internationalized strings.
@@ -324,7 +343,8 @@ setMagnetStrength(value) {
   MASS: string,
   ANGLE: string,
   ANGULAR_VELOCITY: string,
-  MAGNET_STRENGTH: string
+  MAGNET_STRENGTH: string,
+  NUM_MAGNETS: string
   }}
 */
 MagnetWheelSim.i18n_strings;
@@ -337,7 +357,8 @@ MagnetWheelSim.en = {
   MASS: 'mass',
   ANGLE: 'angle',
   ANGULAR_VELOCITY: 'angular velocity',
-  MAGNET_STRENGTH: 'magnet strength'
+  MAGNET_STRENGTH: 'magnet strength',
+  NUM_MAGNETS: 'number of magnets'
 };
 
 /**
@@ -349,7 +370,8 @@ MagnetWheelSim.de_strings = {
   MASS: 'Masse',
   ANGLE: 'Winkel',
   ANGULAR_VELOCITY: 'Winkel Geschwindigkeit',
-  MAGNET_STRENGTH: 'Magnet Stärke'
+  MAGNET_STRENGTH: 'Magnet Stärke',
+  NUM_MAGNETS: 'Anzahl Magnete'
 };
 
 /** Set of internationalized strings.
