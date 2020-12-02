@@ -61,6 +61,9 @@ constructor(elem_ids, opt_name) {
   pn = sim.getParameterNumber(MagnetWheelSim.en.DAMPING);
   this.addControl(new NumericControl(pn));
 
+  pn = sim.getParameterNumber(MagnetWheelSim.en.MAGNET_STRENGTH);
+  this.addControl(new NumericControl(pn));
+
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();
