@@ -245,14 +245,11 @@ evaluate(vars, change, timeStep) {
     var c = this.wheel_.bodyToWorld(magnets[i]); // center of the magnet
     var x = c.getX();
     var y = c.getY();
-    // force vector from magnet to fixed point
-    // is proportional to inverse square of distance
+    // force from magnet to fixed point is proportional to inverse square of distance
     var f = new Vector(xf - x, yf - y);
-    var f2 = f.multiply(this.magnetStrength_ / f.lengthSquared());
-    // cross product of f x c = the torque due to the magnet
-    var t = f2.getX() * c.getY() - f2.getY() * c.getX();
-    // fix the sign. (unclear why we have the wrong sign here)
-    t = -t;
+    f = f.multiply(this.magnetStrength_ / f.lengthSquared());
+    // cross product of c x f = the torque due to the magnet
+    var t = c.getX() * f.getY() - c.getY() * f.getX();
     change[1] += t/m;
   }
   
