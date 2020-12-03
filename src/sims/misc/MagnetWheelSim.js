@@ -66,7 +66,6 @@ constructor(opt_name) {
   * @private
   */
   this.wheel_ = MagnetWheel.make(1, 'wheel').setMass(1);
-  this.wheel_.setNumMagnets(12);
   /**
   * @type {number}
   * @private
@@ -123,10 +122,6 @@ constructor(opt_name) {
       goog.bind(this.getMagnetStrength, this),
       goog.bind(this.setMagnetStrength, this))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
-  this.addParameter(new ParameterNumber(this, MagnetWheelSim.en.NUM_MAGNETS,
-      MagnetWheelSim.i18n.NUM_MAGNETS,
-      goog.bind(this.getNumMagnets, this), goog.bind(this.setNumMagnets, this))
-      .setDecimalPlaces(0));
 
 };
 
@@ -333,18 +328,10 @@ setMagnetStrength(value) {
 };
 
 /**
-@return {number}
+* @return {!MagnetWheel}
 */
-getNumMagnets() {
-  return this.wheel_.getMagnets().length;
-};
-
-/**
-@param {number} value
-*/
-setNumMagnets(value) {
-  this.wheel_.setNumMagnets(value);
-  this.broadcastParameter(MagnetWheelSim.en.NUM_MAGNETS);
+getMagnetWheel() {
+  return this.wheel_;
 };
 
 } // end class

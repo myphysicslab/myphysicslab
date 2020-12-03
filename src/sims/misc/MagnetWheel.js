@@ -27,7 +27,8 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class MagnetWheel extends AbstractMassObject {
 /**
-* @param {string=} opt_name name of this MagnetWheel for scripting (language independent)
+* @param {string=} opt_name name of this MagnetWheel for scripting (language
+*   independent)
 * @param {string=} opt_localName localized name of this MagnetWheel, for display to user
 */
 constructor(opt_name, opt_localName) {
@@ -57,7 +58,6 @@ constructor(opt_name, opt_localName) {
   * @private
   */
   this.magnets_ = [];
-  this.setNumMagnets(12);
 };
 
 /** @override */
@@ -83,7 +83,6 @@ static make(radius, opt_name, opt_localName) {
   p.setRadius(radius);
   return p;
 };
-
 
 /** @override */
 createCanvasPath(context) {
@@ -116,8 +115,8 @@ getFixedMagnet() {
   return this.fixedMagnet_;
 };
 
-/**
-* @return {!Array<!Vector>}
+/** Returns the locations of magnets, in body coordinates.
+* @return {!Array<!Vector>} locations of magnets, in body coordinates.
 */
 getMagnets() {
   return this.magnets_;
@@ -173,24 +172,13 @@ setMass(mass) {
   return this;
 };
 
-/** Set the number of magnets.
-* @param {number} value number of magnets
-* @return {!MagnetWheel} this object for chaining setters
+/** Sets the locations of magnets, in body coordinates.
+* @param {!Array<!Vector>} locations locations of magnets, in body coordinates
+* @return {undefined}
 */
-setNumMagnets(value) {
-  value = Math.floor(value);
-  if (value < 1 || value >12) {
-    throw new Error('number of magnets must be from 1 to 12');
-  }
-  goog.array.clear(this.magnets_);
-  var r = this.radius_ * 0.85;
-  var i, n;
-  for (i = 0, n=value; i<n; i++) {
-    var a = i*2*Math.PI/value;
-    this.magnets_.push(new Vector(r * Math.cos(a), r * Math.sin(a)));
-  }
-  return this;
-};
+setMagnets(locations) {
+  this.magnets_ = locations;
+}
 
 /** Sets radius of this object.
 * @param {number} radius radius of this object.

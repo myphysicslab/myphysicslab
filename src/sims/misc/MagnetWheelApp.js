@@ -31,6 +31,7 @@ const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Displays the {@link MagnetWheelSim} simulation.
 * @implements {Observer}
@@ -50,13 +51,35 @@ constructor(elem_ids, opt_name) {
   var advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim, opt_name);
 
-  var mw = this.simList.get('wheel');
-  if (mw == null) {
-    throw new Error();
-  }
-  /** @type {!DisplayWheel} */
-  this.wheel = new DisplayWheel(/** @type {!MagnetWheel} */(mw));
-  this.displayList.add(this.wheel);
+  /**
+  * @type {!MagnetWheel}
+  * @private
+  */
+  this.magnetWheel_ = sim.getMagnetWheel();
+  /**
+  * @type {number}
+  * @private
+  */
+  this.numMagnets_ = 4;
+  /** Symmetric arrangement of magnets spaces them evenly around circle.
+  * Unsymmetric arrangement spaces them by this.angle_.
+  * @type {boolean}
+  * @private
+  */
+  this.symmetric_ = false;
+  /** Angle between magnets in degrees, used when symmetric flag is false.
+  * @type {number}
+  * @private
+  */
+  this.magnetAngle_ = 30;
+  this.makeMagnets();
+
+  /**
+  * @type {!DisplayWheel}
+  * @private
+  */
+  this.dispWheel_ = new DisplayWheel(this.magnetWheel_);
+  this.displayList.add(this.dispWheel_);
 
   this.sim.getSimList().addObserver(this);
   this.addPlaybackControls();
@@ -72,7 +95,10 @@ constructor(elem_ids, opt_name) {
   pn = sim.getParameterNumber(MagnetWheelSim.en.MAGNET_STRENGTH);
   this.addControl(new NumericControl(pn));
 
-  pn = sim.getParameterNumber(MagnetWheelSim.en.NUM_MAGNETS);
+  this.addParameter(pn = new ParameterNumber(this, MagnetWheelSim.en.NUM_MAGNETS,
+      MagnetWheelSim.i18n.NUM_MAGNETS,
+      goog.bind(this.getNumMagnets, this), goog.bind(this.setNumMagnets, this))
+      .setDecimalPlaces(0));
   this.addControl(new SliderControl(pn, 1, 12, /*multiply=*/false));
 
   this.addStandardControls();
@@ -83,7 +109,7 @@ constructor(elem_ids, opt_name) {
 /** @override */
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      +', wheel: '+this.wheel.toStringShort()
+      +', wheel: '+this.dispWheel_.toStringShort()
       + super.toString();
 };
 
@@ -123,6 +149,50 @@ observe(event) {
     }
   }
 };
+
+/**
+@return {number}
+*/
+getNumMagnets() {
+  return this.numMagnets_;
+};
+
+/**
+@param {number} value
+*/
+setNumMagnets(value) {
+  value = Math.floor(value);
+  if (value < 1 || value >12) {
+    throw new Error('number of magnets must be from 1 to 12');
+  }
+  this.numMagnets_ = value;
+  this.makeMagnets();
+  this.broadcastParameter(MagnetWheelSim.en.NUM_MAGNETS);
+};
+
+/** Makes magnets according to current parameters.
+* @return {undefined}
+* @private
+*/
+makeMagnets() {
+  var magnets = [];
+  var n = this.numMagnets_;
+  var r = this.magnetWheel_.getRadius() * 0.85;
+  var i;
+  for (i = 0; i<n; i++) {
+    var a = i * 2*Math.PI * (this.symmetric_ ? 1/n : this.magnetAngle_/360);
+    magnets.push(new Vector(r * Math.cos(a), r * Math.sin(a)));
+  }
+  this.magnetWheel_.setMagnets(magnets);
+};
+
+/**
+* @return {boolean}
+*/
+getSymmetric() {
+  return this.symmetric_;
+};
+
 
 
 } // end class
