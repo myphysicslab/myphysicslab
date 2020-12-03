@@ -202,7 +202,6 @@
 # accompanying JavaScript. It is equal to the last argument passed to
 # prep_html: "advanced", "simple" or "debug".
 # "debug" means uncompiled JavaScript.
-# .
 #
 #
 # ---------- Next/Previous Links ------------------

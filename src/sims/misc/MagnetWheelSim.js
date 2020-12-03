@@ -17,9 +17,11 @@ goog.module('myphysicslab.sims.misc.MagnetWheelSim');
 goog.require('goog.events.KeyCodes');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const Force = goog.require('myphysicslab.lab.model.Force');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
@@ -64,6 +66,7 @@ constructor(opt_name) {
   * @private
   */
   this.wheel_ = MagnetWheel.make(1, 'wheel').setMass(1);
+  this.wheel_.setNumMagnets(12);
   /**
   * @type {number}
   * @private
@@ -241,11 +244,11 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   // technically it's rotational inertia we should use here, not mass.
   var m = this.wheel_.getMass();
-  
+
   change[0] = vars[1];
   change[1] = -this.damping_*vars[1]/m;
   change[2] = 1.0;  // time
-  
+
   this.moveObjects(vars);
   // the fixed magnet is at (xf, yf)
   var fm = this.wheel_.getFixedMagnet();
@@ -259,8 +262,17 @@ evaluate(vars, change, timeStep) {
     // cross product of r x f = the torque due to the magnet
     var t = r.getX() * f.getY() - r.getY() * f.getX();
     change[1] += t/m;
+
+    // Add force to SimList, so that it can be displayed.
+    // new Force(name, body, location, locationCoordType, direction,
+    //           directionCoordType, opt_torque)
+    var v = new Force('magnet', this.wheel_, r, CoordType.WORLD, f.multiply(0.1),
+        CoordType.WORLD);
+    // The force should disappear immediately after it is displayed.
+    v.setExpireTime(this.getTime());
+    this.getSimList().add(v);
   }
-  
+
   // add constant force while left or right arrow key is pressed
   // (note that we are ignoring mass here).
   if (this.keyLeft_) {

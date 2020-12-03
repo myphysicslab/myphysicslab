@@ -16,18 +16,24 @@ goog.module('myphysicslab.sims.misc.MagnetWheelApp');
 
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Force = goog.require('myphysicslab.lab.model.Force');
 const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
 const MagnetWheelSim = goog.require('myphysicslab.sims.misc.MagnetWheelSim');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link MagnetWheelSim} simulation.
+* @implements {Observer}
 */
 class MagnetWheelApp extends AbstractApp {
 /**
@@ -52,6 +58,7 @@ constructor(elem_ids, opt_name) {
   this.wheel = new DisplayWheel(/** @type {!MagnetWheel} */(mw));
   this.displayList.add(this.wheel);
 
+  this.sim.getSimList().addObserver(this);
   this.addPlaybackControls();
 
   /** @type {!ParameterNumber} */
@@ -91,6 +98,32 @@ defineNames(myName) {
   this.terminal.addRegex('wheel',
       myName+'.');
 };
+
+/** @override */
+observe(event) {
+  if (event.getSubject() == this.sim.getSimList()) {
+    var obj = /** @type {!SimObject} */ (event.getValue());
+    if (event.nameEquals(SimList.OBJECT_ADDED)) {
+      if (this.displayList.find(obj) != null) {
+        // we already have a DisplayObject for this SimObject, don't add a new one.
+        return;
+      }
+      if (obj instanceof Force) {
+        var line = /** @type {!Force} */(obj);
+        var dl = new DisplayLine(line).setThickness(1);
+        dl.setColor('blue');
+        dl.setZIndex(10);
+        this.displayList.add(dl);
+      }
+    } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
+      var d = this.displayList.find(obj);
+      if (d != null) {
+        this.displayList.remove(d);
+      }
+    }
+  }
+};
+
 
 } // end class
 
