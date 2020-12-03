@@ -343,7 +343,9 @@ getMagnetWheel() {
   ANGLE: string,
   ANGULAR_VELOCITY: string,
   MAGNET_STRENGTH: string,
-  NUM_MAGNETS: string
+  NUM_MAGNETS: string,
+  SYMMETRIC: string,
+  MAGNET_ANGLE: string
   }}
 */
 MagnetWheelSim.i18n_strings;
@@ -357,7 +359,9 @@ MagnetWheelSim.en = {
   ANGLE: 'angle',
   ANGULAR_VELOCITY: 'angular velocity',
   MAGNET_STRENGTH: 'magnet strength',
-  NUM_MAGNETS: 'number of magnets'
+  NUM_MAGNETS: 'number of magnets',
+  SYMMETRIC: 'symmetric',
+  MAGNET_ANGLE: 'angle between magnets'
 };
 
 /**
@@ -370,7 +374,9 @@ MagnetWheelSim.de_strings = {
   ANGLE: 'Winkel',
   ANGULAR_VELOCITY: 'Winkel Geschwindigkeit',
   MAGNET_STRENGTH: 'Magnet Stärke',
-  NUM_MAGNETS: 'Anzahl Magnete'
+  NUM_MAGNETS: 'Anzahl Magnete',
+  SYMMETRIC: 'symmetrisch',
+  MAGNET_ANGLE: 'Winkel zwischen Magnete'
 };
 
 /** Set of internationalized strings.

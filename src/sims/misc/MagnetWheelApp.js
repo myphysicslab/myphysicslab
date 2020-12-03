@@ -15,6 +15,7 @@
 goog.module('myphysicslab.sims.misc.MagnetWheelApp');
 
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
+const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
@@ -24,6 +25,7 @@ const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
 const MagnetWheelSim = goog.require('myphysicslab.sims.misc.MagnetWheelSim');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const SimList = goog.require('myphysicslab.lab.model.SimList');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
@@ -101,6 +103,25 @@ constructor(elem_ids, opt_name) {
       .setDecimalPlaces(0));
   this.addControl(new SliderControl(pn, 1, 12, /*multiply=*/false));
 
+  /** @type {!ParameterBoolean} */
+  var pb;
+  this.addParameter(pb = new ParameterBoolean(this, MagnetWheelSim.en.SYMMETRIC,
+      MagnetWheelSim.i18n.SYMMETRIC,
+      goog.bind(this.getSymmetric, this), goog.bind(this.setSymmetric, this)));
+  this.addControl(new CheckBoxControl(pb));
+
+  this.addParameter(pn = new ParameterNumber(this, MagnetWheelSim.en.MAGNET_ANGLE,
+      MagnetWheelSim.i18n.MAGNET_ANGLE,
+      goog.bind(this.getMagnetAngle, this), goog.bind(this.setMagnetAngle, this))
+      .setDecimalPlaces(1));
+  /**
+  * @type {!NumericControl}
+  * @private
+  */
+  this.magnetAngleControl_ = new NumericControl(pn);
+  this.magnetAngleControl_.setEnabled(!this.symmetric_);
+  this.addControl(this.magnetAngleControl_);
+
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();
@@ -170,6 +191,43 @@ setNumMagnets(value) {
   this.broadcastParameter(MagnetWheelSim.en.NUM_MAGNETS);
 };
 
+/**
+* @return {boolean}
+*/
+getSymmetric() {
+  return this.symmetric_;
+};
+
+/**
+* @param {boolean} value
+*/
+setSymmetric(value) {
+  this.symmetric_ = value;
+  this.makeMagnets();
+  this.magnetAngleControl_.setEnabled(!this.symmetric_);
+  this.broadcastParameter(MagnetWheelSim.en.SYMMETRIC);
+};
+
+/**
+@return {number}
+*/
+getMagnetAngle() {
+  return this.magnetAngle_;
+};
+
+/**
+@param {number} value
+*/
+setMagnetAngle(value) {
+  if (value < 1 || value >360) {
+    throw new Error('magnet angle must be from 1 to 360');
+  }
+  this.magnetAngle_ = value;
+  this.makeMagnets();
+  this.broadcastParameter(MagnetWheelSim.en.MAGNET_ANGLE);
+};
+
+
 /** Makes magnets according to current parameters.
 * @return {undefined}
 * @private
@@ -185,15 +243,6 @@ makeMagnets() {
   }
   this.magnetWheel_.setMagnets(magnets);
 };
-
-/**
-* @return {boolean}
-*/
-getSymmetric() {
-  return this.symmetric_;
-};
-
-
 
 } // end class
 
