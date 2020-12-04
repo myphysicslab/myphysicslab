@@ -50,7 +50,11 @@ constructor(elem_ids, opt_name) {
   console.log('compiled '+Util.COMPILE_TIME);
   var simRect = new DoubleRect(-3, -2, 3, 2);
   var sim = new MagnetWheelSim();
+  sim.getVarsList().setValue(1, 3); // set initial angular velocity
   var advance = new SimpleAdvance(sim);
+  // Set smaller time step, because the interaction when magnets are close is
+  // very strong and fast.
+  advance.setTimeStep(0.01);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim, opt_name);
 
   /**
@@ -58,22 +62,23 @@ constructor(elem_ids, opt_name) {
   * @private
   */
   this.magnetWheel_ = sim.getMagnetWheel();
+  this.magnetWheel_.setMass(5);
   /**
   * @type {number}
   * @private
   */
-  this.numMagnets_ = 4;
+  this.numMagnets_ = 12;
   /** Symmetric arrangement of magnets spaces them evenly around circle.
   * Unsymmetric arrangement spaces them by this.angle_.
   * @type {boolean}
   * @private
   */
-  this.symmetric_ = false;
+  this.symmetric_ = true;
   /** Angle between magnets in degrees, used when symmetric flag is false.
   * @type {number}
   * @private
   */
-  this.magnetAngle_ = 30;
+  this.magnetAngle_ = 25;
   this.makeMagnets();
 
   /**

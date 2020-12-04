@@ -65,7 +65,7 @@ constructor(opt_name) {
   * @type {!MagnetWheel}
   * @private
   */
-  this.wheel_ = MagnetWheel.make(1, 'wheel').setMass(1);
+  this.wheel_ = MagnetWheel.make(1, 'wheel');
   /**
   * @type {number}
   * @private
@@ -107,7 +107,6 @@ constructor(opt_name) {
   */
   this.keyForce_ = 5;
 
-  this.getVarsList().setValue(1, 3); // initial angular velocity
   this.saveInitialState();
   this.getSimList().add(this.wheel_);
 
@@ -253,7 +252,7 @@ evaluate(vars, change, timeStep) {
     var r = this.wheel_.bodyToWorld(magnets[i]);
     // force from magnet to fixed magnet is proportional to inverse square of distance
     var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
-    f = f.multiply(this.magnetStrength_ / f.lengthSquared());
+    f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
     // cross product of r x f = the torque due to the magnet
     var t = r.getX() * f.getY() - r.getY() * f.getX();
     change[1] += t/m;
