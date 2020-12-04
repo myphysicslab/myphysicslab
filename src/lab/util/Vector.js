@@ -46,6 +46,16 @@ constructor(x, y, opt_z) {
   * @private
   */
   this.z_ = Util.testNumber(z);
+  /** Cache of length.
+  * @type {number}
+  * @private
+  */
+  this.length_ = Util.NaN;
+  /** Cache of lengthSquared.
+  * @type {number}
+  * @private
+  */
+  this.lengthSquared_ = Util.NaN;
 };
 
 /** @override */
@@ -186,7 +196,10 @@ involves taking a square root.
 @return {number} length of this Vector
 */
 length() {
-  return Math.sqrt(this.lengthSquared());
+  if (isNaN(this.length_)) {
+    this.length_ = Math.sqrt(this.lengthSquared());
+  }
+  return this.length_;
 };
 
 /** Computationally cheap version of {@link #length} which avoids the square root;
@@ -207,11 +220,14 @@ uses multiplication, no square root.
 @return {number} length squared of this Vector
 */
 lengthSquared() {
-  if (this.z_ === 0.0) {
-    return this.x_ * this.x_ + this.y_ * this.y_;
-  } else {
-    return this.x_ * this.x_ + this.y_ * this.y_ + this.z_ * this.z_;
+  if (isNaN(this.lengthSquared_)) {
+    if (this.z_ === 0.0) {
+      this.lengthSquared_ = this.x_ * this.x_ + this.y_ * this.y_;
+    } else {
+      this.lengthSquared_ = this.x_ * this.x_ + this.y_ * this.y_ + this.z_ * this.z_;
+    }
   }
+  return this.lengthSquared_;
 };
 
 /** Returns this Vector multiplied by the given factor.
