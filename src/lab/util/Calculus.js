@@ -44,18 +44,17 @@ static simp(f, a, b) {
 * @param {number} a starting x value
 * @param {number} b ending x value
 * @param {number} tol error tolerance
+* @param {number} S1 simpson's rule quadrature from a to b
 * @return {number} the integral of f from a to b
 */
-static aq(f, a, b, tol) {
-  //console.log('aq('+Util.NF7(a)+', '+Util.NF7(b)+' tol='+Util.NF7(tol));
-  var S1 = Calculus.simp(f, a, b);
+static aq(f, a, b, tol, S1) {
   var c = (a + b)/2;
   var S_left = Calculus.simp(f, a, c);
   var S_right = Calculus.simp(f, c, b);
   if (Math.abs(S1 - S_left - S_right) < tol) {
     return S_left + S_right;
   } else {
-    return Calculus.aq(f, a, c, tol/2) + Calculus.aq(f, c, b, tol/2);
+    return Calculus.aq(f, a, c, tol/2, S_left) + Calculus.aq(f, c, b, tol/2, S_right);
   }
 };
 
@@ -69,9 +68,11 @@ static aq(f, a, b, tol) {
 * @return {number} the integral of f from a to b
 */
 static adaptQuad(f, a, b, tol) {
-  var r = Calculus.aq(f, a, b, 10*tol);
-  //console.log('adaptQuad '+Util.NF7(r));
-  return r;
+  if (a >= b) {
+    throw new Error('adaptQuad a >= b'+a+' '+b);
+  }
+  var S1 = Calculus.simp(f, a, b);
+  return Calculus.aq(f, a, b, 10*tol, S1);
 };
 
 } // end class
