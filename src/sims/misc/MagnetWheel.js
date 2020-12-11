@@ -14,9 +14,13 @@
 
 goog.module('myphysicslab.sims.misc.MagnetWheel');
 
+goog.require('goog.array');
 const AbstractMassObject = goog.require('myphysicslab.lab.model.AbstractMassObject');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Force = goog.require('myphysicslab.lab.model.Force');
+const ForceLaw = goog.require('myphysicslab.lab.model.ForceLaw');
 const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
 const MassObject = goog.require('myphysicslab.lab.model.MassObject');
 const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
@@ -24,6 +28,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** A wheel with magnetic points around its circumference.
+* @implements {ForceLaw}
 */
 class MagnetWheel extends AbstractMassObject {
 /**
@@ -48,11 +53,16 @@ constructor(opt_name, opt_localName) {
   * @private
   */
   this.radius_ = 1;
-  /**
+  /**  location of fixed magnet in world coordinates.
   * @type {!Vector}
   * @private
   */
   this.fixedMagnet_ = new Vector(0, 0.9);
+  /**
+  * @type {number}
+  * @private
+  */
+  this.magnetStrength_ = 1;
   /** Locations of magnets in body coordinates.
   * @type {!Array<!Vector>}
   * @private
@@ -63,6 +73,9 @@ constructor(opt_name, opt_localName) {
 /** @override */
 toString() {
   return Util.ADVANCED ? '' : super.toString().slice(0, -1)
+      +', fixedMagnet_: ' + this.fixedMagnet_
+      +', magnetStrength_: ' + Util.NF(this.magnetStrength_)
+      +', num magnets: ' + this.magnets_.length
       +', radius_: ' + Util.NF(this.radius_)
       +'}';
 };
@@ -85,7 +98,35 @@ static make(radius, opt_name, opt_localName) {
 };
 
 /** @override */
+calculateForces() {
+  var fm = this.fixedMagnet_;
+  var forces = [];
+  for (var i=0, n=this.magnets_.length; i<n; i++) {
+    // r = vector from center of wheel to magnet
+    var r = this.bodyToWorld(this.magnets_[i]);
+    // force from magnet to fixed magnet is proportional to inverse square of distance
+    var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
+    f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
+    var t = r.getX() * f.getY() - r.getY() * f.getX();
+    // name, body, location, locationCoordType, direction, directionCoordType,
+    // opt_torque
+    var fc = new Force('magnet'+i, this, r, CoordType.WORLD, f, CoordType.WORLD, t);
+    forces.push(fc);
+  }
+  return forces;
+};
+
+/** @override */
 createCanvasPath(context) {
+};
+
+/** @override */
+disconnect() {
+};
+
+/** @override */
+getBodies() {
+  return [this];
 };
 
 /** @override */
@@ -119,12 +160,24 @@ getFixedMagnet() {
 * @return {!Array<!Vector>} locations of magnets, in body coordinates.
 */
 getMagnets() {
-  return this.magnets_;
+  return goog.array.clone(this.magnets_);
+};
+
+/** Returns the strength of each magnet.
+@return {number}
+*/
+getMagnetStrength() {
+  return this.magnetStrength_;
 };
 
 /** @override */
 getMinHeight() {
   return this.radius_;
+};
+
+/** @override */
+getPotentialEnergy() {
+  return 0;
 };
 
 /** Returns the radius of this object.
@@ -179,6 +232,13 @@ setMass(mass) {
 setMagnets(locations) {
   this.magnets_ = locations;
 }
+
+/** Set the strength of each magnet.
+@param {number} value
+*/
+setMagnetStrength(value) {
+  this.magnetStrength_ = value;
+};
 
 /** Sets radius of this object.
 * @param {number} radius radius of this object.

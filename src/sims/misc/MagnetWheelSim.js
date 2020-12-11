@@ -70,11 +70,6 @@ constructor(opt_name) {
   * @type {number}
   * @private
   */
-  this.magnetStrength_ = 1;
-  /**
-  * @type {number}
-  * @private
-  */
   this.damping_ = 0.7;
   /**
   * @type {number}
@@ -153,7 +148,7 @@ getEnergyInfo_(vars) {
   // 0  1   2     3   4   5
   // a, w, time,  ke, pe, te
   var ke = this.wheel_.getKineticEnergy();
-  var pe = 0;
+  var pe = this.wheel_.getPotentialEnergy();
   return new EnergyInfo(pe, ke, NaN, NaN, this.initialEnergy_);
 };
 
@@ -247,26 +242,13 @@ evaluate(vars, change, timeStep) {
   // the fixed magnet is at (xf, yf)
   var fm = this.wheel_.getFixedMagnet();
   var magnets = this.wheel_.getMagnets();
-  for (var i=0, n=magnets.length; i<n; i++) {
-    // r = vector from center of wheel to magnet
-    var r = this.wheel_.bodyToWorld(magnets[i]);
-    // force from magnet to fixed magnet is proportional to inverse square of distance
-    var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
-    f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
-    // cross product of r x f = the torque due to the magnet
-    var t = r.getX() * f.getY() - r.getY() * f.getX();
-    change[1] += t/m;
-
+  goog.array.forEach(this.wheel_.calculateForces(), function(f) {
+    change[1] += f.getTorque()/m;
     // Add force to SimList, so that it can be displayed.
-    // new Force(name, body, location, locationCoordType, direction,
-    //           directionCoordType, opt_torque)
-    var v = new Force('magnet', this.wheel_, r, CoordType.WORLD, f.multiply(0.1),
-        CoordType.WORLD);
     // The force should disappear immediately after it is displayed.
-    v.setExpireTime(this.getTime());
-    this.getSimList().add(v);
-  }
-
+    f.setExpireTime(this.getTime());
+    this.getSimList().add(f);
+  }, this);
   // add constant force while left or right arrow key is pressed
   // (note that we are ignoring mass here).
   if (this.keyLeft_) {
@@ -315,14 +297,14 @@ setDamping(value) {
 @return {number}
 */
 getMagnetStrength() {
-  return this.magnetStrength_;
+  return this.wheel_.getMagnetStrength();
 };
 
 /**
 @param {number} value
 */
 setMagnetStrength(value) {
-  this.magnetStrength_ = value;
+  this.wheel_.setMagnetStrength(value);
   this.broadcastParameter(MagnetWheelSim.en.MAGNET_STRENGTH);
 };
 
