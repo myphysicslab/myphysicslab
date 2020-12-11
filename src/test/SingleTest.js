@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.test.SingleTest');
 
+const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
 const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
@@ -105,7 +106,8 @@ static runTests() {
   //StraightStraightTest.six_blocks_settle();
   //StraightStraightTest.test();
   //DoubleRectTest.testDoubleRect();
-  TerminalTest.testTerminal1();
+  //TerminalTest.testTerminal1();
+  CalculusTest.testCalculus();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();

@@ -17,6 +17,7 @@ goog.module('myphysicslab.test.UnitTest');
 
 const AbstractSubjectTest = goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
 const AffineTransformTest = goog.require('myphysicslab.lab.util.test.AffineTransformTest');
+const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
 const CircularListTest = goog.require('myphysicslab.lab.util.test.CircularListTest');
 const ClockTest = goog.require('myphysicslab.lab.util.test.ClockTest');
 const ConcreteMemoListTest = goog.require('myphysicslab.lab.util.test.ConcreteMemoListTest');
@@ -82,6 +83,7 @@ static runTests() {
 
   AbstractSubjectTest.test();
   AffineTransformTest.test();
+  CalculusTest.test();
   CircularListTest.test();
   ClockTest.test();
   ConcreteMemoListTest.test();
