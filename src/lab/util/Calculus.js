@@ -68,8 +68,10 @@ static aq(f, a, b, tol, S1) {
 * @return {number} the integral of f from a to b
 */
 static adaptQuad(f, a, b, tol) {
-  if (a >= b) {
-    throw new Error('adaptQuad a >= b'+a+' '+b);
+  if (a > b) {
+    throw new Error('adaptQuad a > b'+a+' '+b);
+  } else if (a == b) {
+    return 0;
   }
   var S1 = Calculus.simp(f, a, b);
   return Calculus.aq(f, a, b, 10*tol, S1);
