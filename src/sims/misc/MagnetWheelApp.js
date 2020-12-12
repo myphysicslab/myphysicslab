@@ -21,6 +21,7 @@ const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const Force = goog.require('myphysicslab.lab.model.Force');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
 const MagnetWheelSim = goog.require('myphysicslab.sims.misc.MagnetWheelSim');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
@@ -130,6 +131,15 @@ constructor(elem_ids, opt_name) {
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();
+
+  // turn off the clock quickly, for debugging.
+  /*var memo = new GenericMemo(goog.bind(function(){
+    if (this.sim.getTime() > 0.1) {
+      this.simRun.pause();
+    }
+  }, this));
+  this.simRun.addMemo(memo);
+  */
 };
 
 /** @override */

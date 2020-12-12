@@ -17,6 +17,7 @@ goog.module('myphysicslab.sims.misc.MagnetWheel');
 goog.require('goog.array');
 const AbstractMassObject = goog.require('myphysicslab.lab.model.AbstractMassObject');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const Calculus = goog.require('myphysicslab.lab.util.Calculus');
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const Force = goog.require('myphysicslab.lab.model.Force');
@@ -27,7 +28,19 @@ const ShapeType = goog.require('myphysicslab.lab.model.ShapeType');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-/** A wheel with magnetic points around its circumference.
+/** A wheel with magnetic points around its circumference.  A fixed magnet causes the
+wheel to turn until one of the magnets is stuck being very close to the fixed magnet.
+
+Note that there should always be a slight gap between the fixed magnet and any of the
+magnet points. If there is no gap then infinite forces will result from the inverse
+square force law of magnetism.
+
+### Potential Energy Calculation
+
+For each magnet we numerically integrate the torque due to that magnet, as though the
+wheel rotated from the current position of the magnet until the magnet is as close as
+possible to the fixed magnet.
+
 * @implements {ForceLaw}
 */
 class MagnetWheel extends AbstractMassObject {
@@ -48,6 +61,7 @@ constructor(opt_name, opt_localName) {
   }
   super(name, localName);
   this.mass_ = 1;
+  this.moment_ = 1;  // maybe assume I = M R^2 /2 for solid disc?
   /**
   * @type {number}
   * @private
@@ -68,6 +82,11 @@ constructor(opt_name, opt_localName) {
   * @private
   */
   this.magnets_ = [];
+  /** Distance of each magnet from origin.
+  * @type {!Array<number>}
+  * @private
+  */
+  this.magnetDist_ = [];
 };
 
 /** @override */
@@ -108,8 +127,7 @@ calculateForces() {
     var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
     f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
     var t = r.getX() * f.getY() - r.getY() * f.getX();
-    // name, body, location, locationCoordType, direction, directionCoordType,
-    // opt_torque
+    // name, body, location, locationCoordType, direction, directionCoordType, torque
     var fc = new Force('magnet'+i, this, r, CoordType.WORLD, f, CoordType.WORLD, t);
     forces.push(fc);
   }
@@ -177,7 +195,26 @@ getMinHeight() {
 
 /** @override */
 getPotentialEnergy() {
-  return 0;
+  var pe = 0;
+  for (var i=0, n=this.magnets_.length; i<n; i++) {
+    // current position of the magnet
+    var r = this.bodyToWorld(this.magnets_[i]);
+    // convert this to angle from -pi to pi.
+    var a = r.getAngle();
+    if (a < -Math.PI/2) {
+      a = a + 2 * Math.PI;
+    }
+    // potential energy is integral of torque, from where magnet is now, to when
+    // magnet is closest to fixed magnet.
+    if (a < Math.PI/2) {
+      pe += Math.abs(Calculus.adaptQuad(
+          goog.bind(this.getTorque, this, i), a, Math.PI/2, 0.0001));
+    } else {
+      pe += Math.abs(Calculus.adaptQuad(
+          goog.bind(this.getTorque, this, i), Math.PI/2, a, 0.0001));
+    }
+  };
+  return pe;
 };
 
 /** Returns the radius of this object.
@@ -197,6 +234,28 @@ getTopBody() {
   return this.radius_;
 };
 
+/** Returns torque due to a given magnet when it is at the given angle.
+* @param {number} idx index of magnet
+* @param {number} angle angle in radians. Zero is east, pi/2 is north.
+* @return {number} torque due to that magnet at that angle
+* @private
+*/
+getTorque(idx, angle) {
+  if (idx < 0 || idx >= this.magnetDist_.length)
+      throw new Error();
+  var fm = this.fixedMagnet_;
+  // only thing that matters here is the magnet's distance from center
+  var d = this.magnetDist_[idx];
+  // r = vector from center of wheel to magnet at given angle
+  // NOTE: this assumes wheel's center is at the origin.
+  var r = new Vector(d * Math.cos(angle), d * Math.sin(angle));
+  // force from magnet to fixed magnet is proportional to inverse square of distance
+  var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
+  f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
+  var t = r.getX() * f.getY() - r.getY() * f.getX();
+  return t;
+};
+
 /** @override */
 getVerticesBody() {
   var w = this.radius_;
@@ -209,6 +268,10 @@ getVerticesBody() {
 * @return {!MagnetWheel} this object for chaining setters
 */
 setFixedMagnet(loc) {
+  if (loc.getX() != 0 || loc.getY() <= 0) {
+    // getPotentialEnergy assumes the following.  (This could be loosened).
+    throw new Error('fixed magnet must have X = 0, and Y > 0');
+  }
   this.fixedMagnet_ = loc;
   return this;
 };
@@ -230,14 +293,28 @@ setMass(mass) {
 * @return {undefined}
 */
 setMagnets(locations) {
-  this.magnets_ = locations;
-}
+  this.magnets_ = goog.array.clone(locations);
+  this.magnetDist_ = [];
+  // save the distance from origin for each magnet
+  goog.array.forEach(this.magnets_, function(m) {
+    this.magnetDist_.push(m.length());
+  }, this);
+};
 
 /** Set the strength of each magnet.
 @param {number} value
 */
 setMagnetStrength(value) {
   this.magnetStrength_ = value;
+};
+
+/** @override */
+setPosition(loc_world, angle) {
+  if (!Vector.ORIGIN.equals(loc_world)) {
+    // calculations in getTorque() assume MagnetWheel is at origin.
+    throw new Error('MagnetWheel can only be located at origin');
+  }
+  super.setPosition(loc_world, angle);
 };
 
 /** Sets radius of this object.
