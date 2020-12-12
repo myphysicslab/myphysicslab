@@ -71,11 +71,6 @@ constructor(opt_name) {
   * @private
   */
   this.damping_ = 0.7;
-  /**
-  * @type {number}
-  * @private
-  */
-  this.initialEnergy_ = 0;
   /** potential energy offset
   * @type {number}
   * @private
@@ -147,9 +142,9 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   // 0  1   2     3   4   5
   // a, w, time,  ke, pe, te
-  var ke = this.wheel_.getKineticEnergy();
-  var pe = this.wheel_.getPotentialEnergy();
-  return new EnergyInfo(pe, ke, NaN, NaN, this.initialEnergy_);
+  var re = this.wheel_.rotationalEnergy();
+  var pe = this.wheel_.getPotentialEnergy() + this.potentialOffset_;
+  return new EnergyInfo(pe, 0, re);
 };
 
 /** @override */
@@ -168,7 +163,7 @@ modifyObjects() {
   var rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   var ei = this.getEnergyInfo_(vars);
-  vars[3] = ei.getTranslational();
+  vars[3] = ei.getRotational();
   vars[4] = ei.getPotential();
   vars[5] = ei.getTotalEnergy();
   va.setValues(vars, /*continuous=*/true);
