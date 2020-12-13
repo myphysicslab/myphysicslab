@@ -128,6 +128,9 @@ constructor(elem_ids, opt_name) {
   this.magnetAngleControl_.setEnabled(!this.symmetric_);
   this.addControl(this.magnetAngleControl_);
 
+  pn = sim.getParameterNumber(MagnetWheelSim.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
+
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();

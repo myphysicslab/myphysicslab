@@ -111,7 +111,11 @@ constructor(opt_name) {
       goog.bind(this.getMagnetStrength, this),
       goog.bind(this.setMagnetStrength, this))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
-
+  this.addParameter(new ParameterNumber(this, MagnetWheelSim.en.PE_OFFSET,
+      MagnetWheelSim.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -151,6 +155,26 @@ getEnergyInfo_(vars) {
 setPotentialEnergy(value) {
   this.potentialOffset_ = 0;
   this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+};
+
+/**
+@return {number}
+*/
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** Sets radius of this object.
+* @param {number} value
+* @return {undefined}
+*/
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // 0  1   2     3   4   5
+  // a, w, time,  ke, pe, te
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(3, 4, 5);
+  this.broadcastParameter(MagnetWheelSim.en.PE_OFFSET);
 };
 
 /** @override */
@@ -321,7 +345,8 @@ getMagnetWheel() {
   MAGNET_STRENGTH: string,
   NUM_MAGNETS: string,
   SYMMETRIC: string,
-  MAGNET_ANGLE: string
+  MAGNET_ANGLE: string,
+  PE_OFFSET: string
   }}
 */
 MagnetWheelSim.i18n_strings;
@@ -337,7 +362,8 @@ MagnetWheelSim.en = {
   MAGNET_STRENGTH: 'magnet strength',
   NUM_MAGNETS: 'number of magnets',
   SYMMETRIC: 'symmetric',
-  MAGNET_ANGLE: 'angle between magnets'
+  MAGNET_ANGLE: 'angle between magnets',
+  PE_OFFSET: 'potential energy offset'
 };
 
 /**
@@ -352,7 +378,8 @@ MagnetWheelSim.de_strings = {
   MAGNET_STRENGTH: 'Magnet Stärke',
   NUM_MAGNETS: 'Anzahl Magnete',
   SYMMETRIC: 'symmetrisch',
-  MAGNET_ANGLE: 'Winkel zwischen Magnete'
+  MAGNET_ANGLE: 'Winkel zwischen Magnete',
+  PE_OFFSET: 'Potenzielle Energie Ausgleich'
 };
 
 /** Set of internationalized strings.
