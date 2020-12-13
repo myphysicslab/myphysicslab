@@ -19,6 +19,17 @@ const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** An object that provides information about its energy state. See {@link EnergyInfo}.
 
+### Potential Energy Offset
+
+It is only changes in potential energy that are meaningful. We can add a constant to
+the potential energy of a system, and still see the same pattern of changes.
+
+It is often desirable that potential energy be in a specific numerical range. For
+example, we might want an object resting on the ground to have zero potential energy.
+
+The potential energy reported in {@link #getEnergyInfo} is the sum of the calculated
+potential energy and the constant potential energy offset. See {@link #setPEOffset}.
+
 * @interface
 */
 class EnergySystem extends Printable {
@@ -29,10 +40,16 @@ class EnergySystem extends Printable {
 */
 getEnergyInfo() {}
 
-/** Sets the current potential energy of this system.
-* @param {number} value the current potential energy of this system
+/** Returns the potential energy offset.
+@return {number} the potential energy offset
 */
-setPotentialEnergy(value) {}
+getPEOffset() {}
+
+/** Sets the potential energy offset.
+* @param {number} value the potential energy offset
+* @return {undefined}
+*/
+setPEOffset(value) {}
 
 } // end class
 
@@ -43,7 +60,8 @@ setPotentialEnergy(value) {}
   KINETIC_ENERGY: string,
   ROTATIONAL_ENERGY: string,
   TOTAL: string,
-  TOTAL_ENERGY: string
+  TOTAL_ENERGY: string,
+  PE_OFFSET: string
   }}
 */
 EnergySystem.i18n_strings;
@@ -57,7 +75,8 @@ EnergySystem.en = {
   KINETIC_ENERGY: 'kinetic energy',
   ROTATIONAL_ENERGY: 'rotational energy',
   TOTAL: 'total',
-  TOTAL_ENERGY: 'total energy'
+  TOTAL_ENERGY: 'total energy',
+  PE_OFFSET: 'potential energy offset'
 };
 
 /**
@@ -70,7 +89,8 @@ EnergySystem.de_strings = {
   KINETIC_ENERGY: 'kinetische Energie',
   ROTATIONAL_ENERGY: 'Rotationsenergie',
   TOTAL: 'gesamt',
-  TOTAL_ENERGY: 'gesamte Energie'
+  TOTAL_ENERGY: 'gesamte Energie',
+  PE_OFFSET: 'Potenzielle Energie Ausgleich'
 };
 
 /** Set of internationalized strings.

@@ -20,6 +20,7 @@ const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const Force = goog.require('myphysicslab.lab.model.Force');
 const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');
@@ -128,7 +129,7 @@ constructor(elem_ids, opt_name) {
   this.magnetAngleControl_.setEnabled(!this.symmetric_);
   this.addControl(this.magnetAngleControl_);
 
-  pn = sim.getParameterNumber(MagnetWheelSim.en.PE_OFFSET);
+  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
