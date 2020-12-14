@@ -231,6 +231,11 @@ constructor(opt_name) {
   this.addParameter(new ParameterBoolean(this, RigidBodySim.en.SHOW_FORCES,
       RigidBodySim.i18n.SHOW_FORCES,
       goog.bind(this.getShowForces, this), goog.bind(this.setShowForces, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -601,9 +606,16 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
+  this.getVarsList().incrSequence(2, 3);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Update the RigidBodys to have the position and velocity specified by the given

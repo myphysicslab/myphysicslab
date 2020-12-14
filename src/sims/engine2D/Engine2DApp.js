@@ -31,6 +31,7 @@ const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const ElasticitySetter = goog.require('myphysicslab.sims.engine2D.ElasticitySetter');
 const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
@@ -343,6 +344,8 @@ addStandardControls() {
   this.addControl(new NumericControl(pn));
   var ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
+  pn = this.sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
   var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
   //ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
