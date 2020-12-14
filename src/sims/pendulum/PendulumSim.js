@@ -195,11 +195,6 @@ constructor(opt_name) {
   * @private
   */
   this.limitAngle_ = true;
-  /** potential energy offset
-  * @type {number}
-  * @private
-  */
-  this.potentialOffset_ = 0;
   /**
   * @type {!ConcreteLine}
   * @private
@@ -210,6 +205,11 @@ constructor(opt_name) {
   * @private
   */
   this.bob_ = PointMass.makeCircle(0.2, 'bob').setMass(1.0);
+  /** potential energy offset
+  * @type {number}
+  * @private
+  */
+  this.potentialOffset_ = this.bob_.getMass() * this.length_ * this.gravity_;
   /** the PhysicsArc tracks the drive frequency and amplitude
   * @type {!Arc}
   * @private
@@ -224,11 +224,7 @@ constructor(opt_name) {
   */
   this.isDragging_ = false;
   this.getSimList().add(this.rod_, this.drive_, this.bob_);
-  this.getVarsList().setValue(0, 0);
-  this.getVarsList().setValue(1, 0);
   this.modifyObjects();
-  this.setPotentialEnergy(0);
-  this.getVarsList().setValue(0, Math.PI/8);
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, PendulumSim.en.LENGTH,
       PendulumSim.i18n.LENGTH,
@@ -253,6 +249,11 @@ constructor(opt_name) {
   this.addParameter(new ParameterBoolean(this, PendulumSim.en.LIMIT_ANGLE,
       PendulumSim.i18n.LIMIT_ANGLE,
       goog.bind(this.getLimitAngle, this), goog.bind(this.setLimitAngle, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -264,6 +265,7 @@ toString() {
       +', frequency_: '+Util.NF(this.frequency_)
       +', amplitude_: '+Util.NF(this.amplitude_)
       +', limitAngle_: '+this.limitAngle_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       +', pivot_: '+this.pivot_
       +', rod_: '+this.rod_
       +', bob_: '+this.bob_
@@ -295,10 +297,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.modifyObjects();
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  //  0       1       2    3        4   5   6
+  // angle, angle', time, angle'', ke, pe, te
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(5, 6);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
@@ -367,8 +377,7 @@ moveObjects(vars) {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   // can't do 'live dragging' because everything is too connected!
   if (simObject == this.bob_) {
     this.isDragging_ = true;
@@ -458,6 +467,8 @@ setMass(value) {
   // discontinuous change in energy
   this.getVarsList().incrSequence(4, 5, 6);
   this.broadcastParameter(PendulumSim.en.MASS);
+  this.potentialOffset_ = this.getMass() * this.gravity_ * this.length_;
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Return gravity strength.
@@ -477,6 +488,8 @@ setGravity(value) {
   // discontinuous change in energy
   this.getVarsList().incrSequence(5, 6);
   this.broadcastParameter(PendulumSim.en.GRAVITY);
+  this.potentialOffset_ = this.getMass() * this.gravity_ * this.length_;
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Return frequency of the rotating driving force
@@ -530,6 +543,8 @@ setLength(value) {
   this.getVarsList().incrSequence(4, 5, 6);
   this.modifyObjects();
   this.broadcastParameter(PendulumSim.en.LENGTH);
+  this.potentialOffset_ = this.getMass() * this.gravity_ * this.length_;
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Return whether we limit the pendulum angle to +/- Pi
