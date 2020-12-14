@@ -221,6 +221,11 @@ constructor(shape, opt_simList) {
   this.addParameter(new ParameterNumber(this, StringSim.en.TIME_STEP,
       StringSim.i18n.TIME_STEP,
       goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
   this.initializeFromShape();
 };
 
@@ -229,6 +234,7 @@ toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
     +', density_: '+Util.NF(this.density_)
     +', tension_: '+this.tension_
+    +', potentialOffset_: '+Util.NF(this.potentialOffset_)
     + super.toString();
 };
 
@@ -432,9 +438,14 @@ getEnergyInfo() {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Returns a sequence number which changes when the data array changes.

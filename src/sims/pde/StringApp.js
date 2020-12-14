@@ -30,6 +30,7 @@ const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const DrawingStyle = goog.require('myphysicslab.lab.view.DrawingStyle');
 const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
 const EnergyBarGraph = goog.require('myphysicslab.lab.graph.EnergyBarGraph');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
@@ -239,6 +240,8 @@ constructor(elem_ids) {
   pn = this.sim.getParameterNumber(StringSim.en.TIME_STEP);
   this.addControl(new NumericControl(pn).setDecimalPlaces(7));
   pn = this.clock.getParameterNumber(Clock.en.TIME_RATE);
+  this.addControl(new NumericControl(pn));
+  pn = this.sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
   this.addControl(new NumericControl(pn));
   // show compile time so user can ensure loading latest version
   if (Util.DEBUG) {
