@@ -184,6 +184,11 @@ constructor(opt_name) {
       SingleSpringSim.i18n.FIXED_POINT,
       goog.bind(this.getFixedPoint, this), goog.bind(this.setFixedPoint, this))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -241,10 +246,20 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // 0  1   2       3     4    5   6   7
+  // x, v, work, time, accel, ke, pe, te
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(6, 7);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
+
 
 /** @override */
 modifyObjects() {
@@ -275,8 +290,7 @@ moveObjects(vars) {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.block_) {
     this.isDragging = true;
     return true;
