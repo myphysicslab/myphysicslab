@@ -466,7 +466,7 @@ $(BUILD_DIR)/sims/pendulum/MoveableDoublePendulumApp*.js : src/sims/pendulum/Mov
 
 $(BUILD_DIR)/sims/pendulum/MoveablePendulumApp*.js : src/sims/pendulum/MoveablePendulumSim.js
 
-$(BUILD_DIR)/sims/pendulum/PendulumApp_*.js : src/sims/pendulum/PendulumSim.js
+$(BUILD_DIR)/sims/pendulum/PendulumApp*.js : src/sims/pendulum/PendulumSim.js
 
 $(BUILD_DIR)/sims/pendulum/ReactionPendulumApp*.js : src/sims/pendulum/PendulumSim.js \
 src/sims/pendulum/ReactionPendulumSim.js \
