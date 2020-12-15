@@ -183,6 +183,7 @@ constructor(parts, opt_name, opt_simList) {
   */
   this.potentialOffset_ = 0;
   // find zero energy level by moving to rest state
+  // (for non-centered version, this is close to rest state, but not quite there).
   var vars = this.getVarsList().getValues();
   vars[0] = 0;
   vars[1] = 0;
@@ -190,7 +191,8 @@ constructor(parts, opt_name, opt_simList) {
   vars[3] = 0;
   this.getVarsList().setValues(vars);
   this.modifyObjects();
-  this.setPotentialEnergy(0);
+  // set potentialOffset so that PE is zero at rest state
+  this.potentialOffset_ = - this.getEnergyInfo().getPotential();
   // move to initial state
   vars[0] = theta1;
   vars[1] = theta1_velocity;
@@ -209,6 +211,11 @@ constructor(parts, opt_name, opt_simList) {
       RigidDoublePendulumSim.i18n.ANGLE_2,
       goog.bind(this.getAngle2, this), goog.bind(this.setAngle2, this))
       .setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
   this.getSimList().add(this.pendulum1_, this.pendulum2_, this.pivot1_, this.pivot2_);
 };
 
@@ -362,9 +369,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars  0        1        2       3      4   5   6   7
+  //      theta1, theta1', theta2, theta2', ke, pe, te, time
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(5, 6);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */

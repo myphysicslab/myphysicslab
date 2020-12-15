@@ -20,7 +20,9 @@ const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const DisplayConnector = goog.require('myphysicslab.lab.view.DisplayConnector');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const RigidDoublePendulumSim = goog.require('myphysicslab.sims.pendulum.RigidDoublePendulumSim');
@@ -86,6 +88,9 @@ constructor(elem_ids, centered) {
 
   pn = sim.getParameterNumber(RigidDoublePendulumSim.en.ANGLE_2);
   this.addControl(new SliderControl(pn, -Math.PI, Math.PI, /*multiply=*/false));
+
+  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
 
