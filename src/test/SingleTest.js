@@ -30,6 +30,7 @@ const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
 const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
+const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
 const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
 const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
 const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
@@ -111,6 +112,7 @@ static runTests() {
   //TerminalTest.testTerminal1();
   CalculusTest.test();
   DoublePendulumTest.test();
+  UtilTest.test();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();

@@ -200,6 +200,11 @@ constructor(hasSpring, opt_name) {
   this.addParameter(new ParameterNumber(this, LagrangeRollerSim.en.MASS,
       LagrangeRollerSim.i18n.MASS,
       goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -209,6 +214,7 @@ toString() {
       +', path_: '+this.path_
       +', gravity_: '+Util.NF(this.gravity_)
       +', lowestPoint_: '+Util.NF(this.lowestPoint_)
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -229,14 +235,15 @@ modifyObjects() {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   var va = this.getVarsList();
-  var vars = va.getValues();
+  // get variables, but get NaN for the many variables computed in modifyObjects()
+  var vars = va.getValues(/*computed=*/false);
   this.moveObjects(vars);
-  // update track velocity
-  //  ds/dt = sqrt(1 + (-(7/3) x + (2/3) x^3)^2) v
   var x = vars[0];
+  vars[2] = this.path_.map_x_to_p(x);
+  // update track velocity
+  // ds/dt = sqrt(1 + (-(7/3) x + (2/3) x^3)^2) v
   var d = -(7/3)*x + (2/3)*x*x*x;
   vars[3] = Math.sqrt(1 + d*d)*vars[1];
-  va.setValue(3, vars[3], /*continuous=*/true);
   var ei = this.getEnergyInfo_(vars);
   vars[4] = ei.getTranslational();
   vars[5] = ei.getPotential();
@@ -267,8 +274,9 @@ moveObjects(vars) {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
+  this.modifyObjects();
+  // get variables including the many variables computed in modifyObjects()
+  var vars = this.getVarsList().getValues(/*computed=*/true);
   return this.getEnergyInfo_(vars);
 };
 
@@ -293,9 +301,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+    // 0  1   2   3   4  5   6   7     8  9
+    // x, x', s, s', ke, pe, te, time, y, y'
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(5, 6);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
@@ -355,8 +372,10 @@ evaluate(vars, change, timeStep) {
     // s = integral (ds/dt) dt = integral (ds/dx) (dx/dt) dt
     // ds/dx = sqrt(1 + (dy/dx)^2)
     // ds/dt = sqrt(1 + (-(7/3) x + (2/3) x^3)^2) v
-    var d = -(7/3)*x + (2/3)*x2*x;
-    change[2] = Math.sqrt(1 + d*d) * v;
+    //var d = -(7/3)*x + (2/3)*x2*x;
+    //change[2] = Math.sqrt(1 + d*d) * v;
+    // This wasn't working in Dec 2020. Try to do it via pathPoint instead,
+    // inside of modifyObjects().
   }
   return null;
 };
