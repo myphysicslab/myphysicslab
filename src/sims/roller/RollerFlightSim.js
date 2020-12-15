@@ -316,6 +316,11 @@ constructor(thePath, opt_name) {
       RollerFlightSim.i18n.SPRING_STIFFNESS,
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -330,6 +335,7 @@ toString() {
       +', stickiness: '+Util.NF(this.stickiness_)
       +', elasticity: '+Util.NF(this.elasticity_)
       +', lowestPoint: '+Util.NF(this.lowestPoint_)
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -523,9 +529,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  //    0         1    2  3  4   5        6       7   8   9   10    11       12
+  // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(8, 9);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
