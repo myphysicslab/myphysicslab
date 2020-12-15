@@ -127,6 +127,11 @@ constructor(opt_name) {
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.LENGTH,
       ChainOfSpringsSim.i18n.LENGTH,
       goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -141,6 +146,7 @@ toString() {
       +', restLength_: '+Util.NF(this.restLength_)
       +', fixed1_: '+this.fixed1_
       +', fixed2_: '+this.fixed2_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -338,9 +344,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
+  // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(2, 3);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */

@@ -27,6 +27,7 @@ const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const DrawingMode = goog.require('myphysicslab.lab.view.DrawingMode');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
@@ -124,6 +125,9 @@ constructor(elem_ids, numAtoms, attachRight) {
 
   pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.STIFFNESS);
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
+
+  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
 
