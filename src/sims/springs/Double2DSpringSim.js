@@ -185,17 +185,8 @@ constructor(opt_name) {
   * @private
   */
   this.springs_ = [this.spring1_, this.spring2_];
-  this.restState();
   this.getSimList().add(this.topMass_, this.bob1_, this.bob2_, this.spring1_,
       this.spring2_);
-  // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
-  // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
-  // perturb slightly to get some initial motion
-  var vars = this.getVarsList().getValues();
-  vars[0] += 0.5;
-  vars[1] -= 0.5;
-  this.getVarsList().setValues(vars);
-  this.saveInitialState();
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.GRAVITY,
       Double2DSpringSim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
@@ -214,6 +205,21 @@ constructor(opt_name) {
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.STIFFNESS,
       Double2DSpringSim.i18n.STIFFNESS,
       goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
+  // do restState() to set the potential energy offset.
+  this.restState();
+  // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
+  // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
+  // perturb slightly to get some initial motion
+  var vars = this.getVarsList().getValues();
+  vars[0] += 0.5;
+  vars[1] -= 0.5;
+  this.getVarsList().setValues(vars);
+  this.saveInitialState();
 };
 
 /** @override */
@@ -226,6 +232,7 @@ toString() {
       +', spring1_: '+this.spring1_
       +', spring2_: '+this.spring2_
       +', topMass_: '+this.topMass_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -263,7 +270,8 @@ restState() {
   // because getEnergyInfo depends on objects being in their current state
   this.getVarsList().setValues(vars);
   this.moveObjects(vars);
-  this.setPotentialEnergy(0);
+  this.potentialOffset_ = 0;
+  this.setPEOffset(-this.getEnergyInfo().getPotential());
 };
 
 /** @override */
@@ -288,9 +296,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
+  // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(9, 10);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */

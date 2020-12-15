@@ -23,6 +23,8 @@ const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
 const Double2DSpringSim = goog.require('myphysicslab.sims.springs.Double2DSpringSim');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
@@ -91,6 +93,9 @@ constructor(elem_ids) {
 
   pn = sim.getParameterNumber(Double2DSpringSim.en.STIFFNESS);
   this.addControl(new SliderControl(pn, 0, 200, /*multiply=*/false));
+
+  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
 
