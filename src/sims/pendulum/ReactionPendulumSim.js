@@ -147,6 +147,11 @@ constructor(length, radius, startAngle,
   this.addParameter(new ParameterNumber(this, ReactionPendulumSim.en.GRAVITY,
       ReactionPendulumSim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -157,6 +162,7 @@ toString() {
       +', length_: '+Util.NF(this.length_)
       +', rod_: '+this.rod_
       +', bob_: '+this.bob_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -219,9 +225,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // 0  1   2  3     4      5       6    7   8   9
+  // x, x', y, y', angle, angle', time, ke, pe, te
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(8, 9);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */

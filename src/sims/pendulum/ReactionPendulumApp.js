@@ -230,10 +230,8 @@ constructor(elem_ids) {
   this.sim1.setDamping(0);
   this.sim1.setGravity(3);
   this.sim1.setMass(0.1);
-  va1.setValue(0, 0);
-  va1.setValue(1, 0);
-  this.sim1.setPotentialEnergy(0);
   va1.setValue(0, this.startAngle);
+  va1.setValue(1, 0);
   this.sim1.saveInitialState();
   /** @type {!SimList} */
   this.simList1 = this.sim1.getSimList();
