@@ -187,10 +187,6 @@ constructor(thirdSpring, opt_name) {
   * @private
   */
   this.dragBlock_ = -1;
-  this.restState();
-  this.setPotentialEnergy(0);
-  this.getVarsList().setValue(3, -2.3);
-  this.saveInitialState();
   this.getSimList().add(this.wall1_, this.wall2_, this.block1_, this.block2_,
       this.spring1_, this.spring2_, this.spring3_);
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.DAMPING,
@@ -211,6 +207,14 @@ constructor(thirdSpring, opt_name) {
   this.addParameter(new ParameterBoolean(this, DoubleSpringSim.en.THIRD_SPRING,
       DoubleSpringSim.i18n.THIRD_SPRING,
       goog.bind(this.getThirdSpring, this), goog.bind(this.setThirdSpring, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
+  this.restState();
+  this.getVarsList().setValue(3, -2.3);
+  this.saveInitialState();
 };
 
 /** @override */
@@ -222,6 +226,7 @@ toString() {
       +', damping_: '+Util.NF(this.damping_)
       +', stiffness_: '+Util.NF(this.stiffness_)
       +', thirdSpring_: '+this.thirdSpring_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -290,6 +295,8 @@ restState() {
   vars[2] = vars[3] = 0;  // velocity
   this.getVarsList().setValues(vars);
   this.moveObjects(vars);
+  this.potentialOffset_ = 0;
+  this.setPEOffset(-this.getEnergyInfo().getPotential());
 };
 
 /** @override */
@@ -316,9 +323,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars  0   1   2   3   4   5   6   7  8  9
+  //       U1  U2  V1  V2  A1  A2  KE  PE TE time
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(7, 8);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
