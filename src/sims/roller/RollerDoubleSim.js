@@ -165,6 +165,11 @@ constructor(opt_name) {
       RollerDoubleSim.i18n.SPRING_STIFFNESS,
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -177,6 +182,7 @@ toString() {
       +', damping_: '+Util.NF(this.damping_)
       +', gravity_: '+Util.NF(this.gravity_)
       +', lowestPoint_: '+Util.NF(this.lowestPoint_)
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -282,9 +288,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  //  0   1   2   3   4   5   6   7
+  // p1, v1, p2, v2, ke, pe, te, time
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(5, 6);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
