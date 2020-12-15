@@ -279,8 +279,8 @@ constructor(opt_name) {
       Molecule3Sim.i18n.ELASTICITY,
       goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
       .setSignifDigits(3).setUpperLimit(1));
-  this.addParameter(new ParameterNumber(this, Molecule3Sim.en.PE_OFFSET,
-      Molecule3Sim.i18n.PE_OFFSET,
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
       goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
@@ -294,6 +294,7 @@ toString() {
       +', elasticity_: '+Util.NF(this.elasticity_)
       +', number_of_atoms: '+this.atoms_.length
       +', walls_: '+this.walls_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -467,9 +468,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.setPEOffset(0);
-  this.setPEOffset(value - this.getEnergyInfo().getPotential());
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
+  //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(2, 3);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
@@ -767,22 +777,6 @@ setElasticity(value) {
   this.broadcastParameter(Molecule3Sim.en.ELASTICITY);
 };
 
-/** Return potential energy offset; this amount is added to the reported potential
-* energy.
-@return {number} potential energy offset
-*/
-getPEOffset() {
-  return this.potentialOffset_;
-};
-
-/** Set potential energy offset; this amount is added to the reported potential energy.
-@param {number} value potential energy offset
-*/
-setPEOffset(value) {
-  this.potentialOffset_ = value;
-  this.broadcastParameter(Molecule3Sim.en.PE_OFFSET);
-};
-
 } // end class
 
 /** Index in variables of first atom.
@@ -799,7 +793,6 @@ Molecule3Sim.START_VAR = 7;
   GRAVITY: string,
   POSITION: string,
   VELOCITY: string,
-  PE_OFFSET: string,
   FORCE: string
   }}
 */
@@ -814,7 +807,6 @@ Molecule3Sim.en = {
   GRAVITY: 'gravity',
   POSITION: 'position',
   VELOCITY: 'velocity',
-  PE_OFFSET: 'PE offset',
   FORCE: 'force'
 };
 
@@ -828,7 +820,6 @@ Molecule3Sim.de_strings = {
   GRAVITY: 'Gravitation',
   POSITION: 'Position',
   VELOCITY: 'Geschwindigkeit',
-  PE_OFFSET: 'PE offset',
   FORCE: 'Kraft'
 };
 

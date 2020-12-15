@@ -298,7 +298,6 @@ constructor(opt_name) {
   va.setValue(2, 1.5);
   va.setValue(5, 1.7);
   this.saveInitialState();
-  //this.modifyObjects();
 };
 
 /** @override */
