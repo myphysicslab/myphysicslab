@@ -235,7 +235,7 @@ static testSingleSpring() {
     assertRoughlyEquals(6.7, va.getValue(7), 0.1);
   }
 
-  sim.setPotentialEnergy(99);
+  sim.setPEOffset(99 - sim.getEnergyInfo().getPotential());
   var ei = sim.getEnergyInfo();
   assertEquals(99, ei.getPotential());
   assertRoughlyEquals(2.8621575302237665, ei.getTranslational(), 1e-10);

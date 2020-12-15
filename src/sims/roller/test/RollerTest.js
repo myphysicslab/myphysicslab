@@ -94,7 +94,7 @@ static testRoller1() {
     //console.log(va.getTime()+' '+va.getValue(0)+' '+va.getValue(1));
   }
 
-  sim.setPotentialEnergy(99);
+  sim.setPEOffset(99 - sim.getEnergyInfo().getPotential());
   var ei = sim.getEnergyInfo();
   assertEquals(99, ei.getPotential());
   assertRoughlyEquals(0.7860347478272578, ei.getTranslational(), 1e-10);

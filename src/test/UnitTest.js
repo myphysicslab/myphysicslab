@@ -15,19 +15,26 @@
 goog.module('myphysicslab.test.UnitTest');
 
 
-const AbstractSubjectTest = goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
-const AffineTransformTest = goog.require('myphysicslab.lab.util.test.AffineTransformTest');
+const AbstractSubjectTest =
+      goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
+const AffineTransformTest =
+      goog.require('myphysicslab.lab.util.test.AffineTransformTest');
 const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
 const CircularListTest = goog.require('myphysicslab.lab.util.test.CircularListTest');
 const ClockTest = goog.require('myphysicslab.lab.util.test.ClockTest');
-const ConcreteMemoListTest = goog.require('myphysicslab.lab.util.test.ConcreteMemoListTest');
+const ConcreteMemoListTest =
+      goog.require('myphysicslab.lab.util.test.ConcreteMemoListTest');
 const DoubleMathTest = goog.require('myphysicslab.lab.util.test.DoubleMathTest');
 const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
-const EasyScriptParserTest = goog.require('myphysicslab.lab.util.test.EasyScriptParserTest');
+const EasyScriptParserTest =
+      goog.require('myphysicslab.lab.util.test.EasyScriptParserTest');
 const MutableVectorTest = goog.require('myphysicslab.lab.util.test.MutableVectorTest');
-const ParameterBooleanTest = goog.require('myphysicslab.lab.util.test.ParameterBooleanTest');
-const ParameterNumberTest = goog.require('myphysicslab.lab.util.test.ParameterNumberTest');
-const ParameterStringTest = goog.require('myphysicslab.lab.util.test.ParameterStringTest');
+const ParameterBooleanTest =
+      goog.require('myphysicslab.lab.util.test.ParameterBooleanTest');
+const ParameterNumberTest =
+      goog.require('myphysicslab.lab.util.test.ParameterNumberTest');
+const ParameterStringTest =
+      goog.require('myphysicslab.lab.util.test.ParameterStringTest');
 const RandomLCGTest = goog.require('myphysicslab.lab.util.test.RandomLCGTest');
 const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
 const TestRig = goog.require('myphysicslab.test.TestRig');
@@ -44,11 +51,14 @@ const SimListTest = goog.require('myphysicslab.lab.model.test.SimListTest');
 const SpringTest = goog.require('myphysicslab.lab.model.test.SpringTest');
 const VarsListTest = goog.require('myphysicslab.lab.model.test.VarsListTest');
 
-const CircularEdgeTest = goog.require('myphysicslab.lab.engine2D.test.CircularEdgeTest');
+const CircularEdgeTest =
+      goog.require('myphysicslab.lab.engine2D.test.CircularEdgeTest');
 const EdgeSetTest = goog.require('myphysicslab.lab.engine2D.test.EdgeSetTest');
 const PolygonTest = goog.require('myphysicslab.lab.engine2D.test.PolygonTest');
-const RigidBodySimTest = goog.require('myphysicslab.lab.engine2D.test.RigidBodySimTest');
-const StraightEdgeTest = goog.require('myphysicslab.lab.engine2D.test.StraightEdgeTest');
+const RigidBodySimTest =
+      goog.require('myphysicslab.lab.engine2D.test.RigidBodySimTest');
+const StraightEdgeTest =
+      goog.require('myphysicslab.lab.engine2D.test.StraightEdgeTest');
 const UtilEngineTest = goog.require('myphysicslab.lab.engine2D.test.UtilEngineTest');
 const VertexTest = goog.require('myphysicslab.lab.engine2D.test.VertexTest');
 
@@ -61,9 +71,11 @@ const LabCanvasTest = goog.require('myphysicslab.lab.view.test.LabCanvasTest');
 const ScreenRectTest = goog.require('myphysicslab.lab.view.test.ScreenRectTest');
 const SimViewTest = goog.require('myphysicslab.lab.view.test.SimViewTest');
 
-const	DoublePendulumTest = goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
+const	DoublePendulumTest =
+      goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
 const	RollerTest = goog.require('myphysicslab.sims.roller.test.RollerTest');
-const	SingleSpringTest = goog.require('myphysicslab.sims.springs.test.SingleSpringTest');
+const	SingleSpringTest =
+      goog.require('myphysicslab.sims.springs.test.SingleSpringTest');
 
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link TestRig}.
