@@ -180,6 +180,11 @@ constructor(opt_name) {
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_LENGTH,
       CollideSpringSim.i18n.SPRING_LENGTH,
       goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -193,6 +198,7 @@ toString() {
       +', restLength_: '+Util.NF(this.restLength_)
       +', wall1_: '+this.wall1_
       +', wall2_: '+this.wall2_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -225,7 +231,7 @@ makeVarNames(numBlocks, localized) {
 */
 getVariableName(idx, numBlocks, localized) {
   if (idx < numBlocks*2) {
-  // vars: 0   1   2   3   4   5
+  // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
     var j = idx%2;
     var block = 1 + Math.floor(idx/2);
@@ -305,7 +311,7 @@ config(numBlocks, startPosition, startGap)  {
   spring.setDamping(this.springDamping_);
   this.springs_.push(spring);
   this.getSimList().addAll(this.springs_);
-  // vars: 0   1   2   3   4   5
+  // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   var vars = va.getValues();
   vars[0] = this.wall1_.getRightWorld() + this.restLength_ + this.blockWidth_/2
@@ -373,9 +379,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars: 0   1   2   3   4   5   6   7   8    9
+  //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(7, 8);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
@@ -395,7 +410,7 @@ modifyObjects() {
 @private
 */
 moveObjects(vars) {
-  // vars: 0   1   2   3   4   5
+  // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   goog.array.forEach(this.blocks_, function(block, i) {
     var idx = 2*i;
@@ -448,7 +463,7 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
-  // vars: 0   1   2   3   4   5
+  // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   change[this.blocks_.length*2+3] = 1; // time
   goog.array.forEach(this.blocks_, function(block, listIdx) {
