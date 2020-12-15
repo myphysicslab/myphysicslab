@@ -593,6 +593,11 @@ $(BUILD_DIR)/test/UnitTest*.js : src/sims/roller/test/*.js \
 src/sims/springs/test/*.js \
 src/sims/pendulum/test/*.js
 
+# Extra requirements for SingleTest
+$(BUILD_DIR)/test/SingleTest*.js : src/sims/roller/test/*.js \
+src/sims/springs/test/*.js \
+src/sims/pendulum/test/*.js
+
 # Extra requirement for some HTML test files
 $(BUILD_DIR)/test/UnitTest*.html \
 $(BUILD_DIR)/test/Engine2DTests*.html \
