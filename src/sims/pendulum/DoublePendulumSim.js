@@ -194,6 +194,11 @@ constructor(opt_name) {
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.GRAVITY,
       DoublePendulumSim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -206,6 +211,7 @@ toString() {
       +', bob1_: '+this.bob1_
       +', bob2_: '+this.bob2_
       +', gravity_: '+Util.NF(this.gravity_)
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -227,7 +233,6 @@ restState() {
   }
   va.setValues(vars);
   this.moveObjects(vars);
-  this.setPotentialEnergy(0);
 };
 
 /** @override */
@@ -256,9 +261,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  //   0        1       2        3        4      5      6   7   8    9
+  // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(7, 8);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
