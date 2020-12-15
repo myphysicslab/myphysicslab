@@ -106,10 +106,10 @@ so the `i`-th atom has variables for position and velocity:
 At the end of the VarsList are variables for time and energy.  If there are `n` atoms
 these will be at:
 
-    var[4*n + 0] = time
-    var[4*n + 1] = KE kinetic energy
-    var[4*n + 2] = PE potential energy
-    var[4*n + 3] = TE total energy
+    var[4*n + 0] = KE kinetic energy
+    var[4*n + 1] = PE potential energy
+    var[4*n + 2] = TE total energy
+    var[4*n + 3] = time
 
 Contact Force
 -------------------------
@@ -314,11 +314,6 @@ constructor(nm, opt_name) {
     this.springs_.push(spring);
     this.getSimList().add(spring);
   }
-  // vars: 0   1   2   3   4   5   6   7    8  9  10 11
-  //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
-  this.initialConfig();
-  this.saveInitialState();
-  this.modifyObjects();
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.GRAVITY,
       Molecule4Sim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
@@ -351,6 +346,16 @@ constructor(nm, opt_name) {
       Molecule4Sim.i18n.STIFFNESS_SPECIAL,
       goog.bind(this.getStiffnessSpecial, this),
       goog.bind(this.setStiffnessSpecial, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
+  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
+  this.initialConfig();
+  this.saveInitialState();
+  this.modifyObjects();
 };
 
 /** @override */
@@ -361,6 +366,7 @@ toString() {
       +', elasticity_: '+Util.NF(this.elasticity_)
       +', number_of_atoms: '+this.nm_
       +', walls_: '+this.walls_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -393,8 +399,8 @@ makeVarNames(nm, localized) {
 */
 getVariableName(idx, localized) {
   if (idx < this.nm_*4) {
-    // vars: 0   1   2   3   4   5   6   7   8   9  10  11  ...
-    //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y ...
+    // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+    //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
     var j = idx%4;
     var atom = 1 + Math.floor(idx/4);
     switch (j) {
@@ -493,8 +499,8 @@ static getNSG(num_springs, sg) {
 */
 initialConfig()  {
   var vars = this.getVarsList().getValues();
-  // vars: 0   1   2   3   4   5   6   7   8   9  10  11
-  //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   // arrange all masses around a circle
   var r = 1.0; // radius
   var n = this.atoms_.length;
@@ -555,9 +561,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(4*this.nm_ + 1, 4*this.nm_ + 2);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
@@ -575,8 +590,8 @@ modifyObjects() {
   this.evaluate(vars, rate, 0);
   var m = this.atoms_[0].getMass();
   // F = m a, we have accel, so multiply by mass
-  // vars: 0   1   2   3   4   5   6   7   8   9  10  11
-  //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   var fx = m * rate[2];
   var fy = m * rate[3];
   va.setValue(n+4, Math.sqrt(fx*fx + fy*fy), true);
@@ -599,8 +614,8 @@ modifyObjects() {
 @private
 */
 moveObjects(vars) {
-  // vars: 0   1   2   3   4   5   6   7   8   9  10  11
-  //      U0x U0y V0x V0y U1x U1y V1x V1y U2x U2y V2x V2y
+  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   goog.array.forEach(this.atoms_, function(atom, i) {
     var idx = 4*i;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
@@ -715,8 +730,8 @@ findCollisions(collisions, vars, stepSize) {
 
 /** @override */
 handleCollisions(collisions, opt_totals) {
-  // vars: 0   1   2   3   4   5   6   7    8  9  10 11
-  //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
+  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   var va = this.getVarsList();
   var vars = va.getValues();
   goog.array.forEach(collisions, function(collision) {

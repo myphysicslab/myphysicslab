@@ -20,17 +20,18 @@ const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const FunctionVariable = goog.require('myphysicslab.lab.model.FunctionVariable');
+const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const Molecule4Sim = goog.require('myphysicslab.sims.springs.Molecule4Sim');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
-const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
-const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
+const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const SpringNonLinear = goog.require('myphysicslab.sims.springs.SpringNonLinear');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
-const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 
 /** Displays the {@link Molecule4Sim} simulation which is an experimental version of
 the Molecule3 simulation. This uses a non-linear spring force. Note that the spring
@@ -48,7 +49,8 @@ constructor(elem_ids, numAtoms) {
   var simRect = new DoubleRect(-8, -8, 8, 8);
   var sim = new Molecule4Sim(numAtoms);
   // cludge: this makes the potential energy not so large.
-  sim.setPotentialEnergy(5 - 0.38559373);
+  sim.setPEOffset(0);
+  sim.setPEOffset(5 - 0.38559373 -sim.getEnergyInfo().getPotential());
   var advance = new CollisionAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
@@ -142,6 +144,9 @@ constructor(elem_ids, numAtoms) {
   this.addControl(new NumericControl(pn));
 
   pn = sim.getParameterNumber(Molecule4Sim.en.STIFFNESS_SPECIAL);
+  this.addControl(new NumericControl(pn));
+
+  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
