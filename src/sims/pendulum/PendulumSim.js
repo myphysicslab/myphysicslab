@@ -209,7 +209,7 @@ constructor(opt_name) {
   * @type {number}
   * @private
   */
-  this.potentialOffset_ = this.bob_.getMass() * this.length_ * this.gravity_;
+  this.potentialOffset_ = 0;
   /** the PhysicsArc tracks the drive frequency and amplitude
   * @type {!Arc}
   * @private
@@ -292,7 +292,9 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   var ke = this.bob_.getKineticEnergy();
   var y = this.bob_.getPosition().getY();
-  var pe = this.gravity_ * this.bob_.getMass() * y;
+  // center of pendulum is at origin. When bob.y = -length, this is lowest it can be.
+  // So PE is zero when bob.y = -length.
+  var pe = this.gravity_ * this.bob_.getMass() * (y + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
@@ -467,8 +469,6 @@ setMass(value) {
   // discontinuous change in energy
   this.getVarsList().incrSequence(4, 5, 6);
   this.broadcastParameter(PendulumSim.en.MASS);
-  this.potentialOffset_ = this.getMass() * this.gravity_ * this.length_;
-  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Return gravity strength.
@@ -488,8 +488,6 @@ setGravity(value) {
   // discontinuous change in energy
   this.getVarsList().incrSequence(5, 6);
   this.broadcastParameter(PendulumSim.en.GRAVITY);
-  this.potentialOffset_ = this.getMass() * this.gravity_ * this.length_;
-  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Return frequency of the rotating driving force
@@ -543,8 +541,6 @@ setLength(value) {
   this.getVarsList().incrSequence(4, 5, 6);
   this.modifyObjects();
   this.broadcastParameter(PendulumSim.en.LENGTH);
-  this.potentialOffset_ = this.getMass() * this.gravity_ * this.length_;
-  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** Return whether we limit the pendulum angle to +/- Pi

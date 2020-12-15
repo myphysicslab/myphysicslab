@@ -21,7 +21,6 @@ const DisplayArc = goog.require('myphysicslab.lab.view.DisplayArc');
 const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
-const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
@@ -80,9 +79,6 @@ constructor(elem_ids) {
 
   pn = sim.getParameterNumber(PendulumSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
-
-  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
-  this.addControl(new NumericControl(pn));
 
   /** @type {!ParameterBoolean} */
   var pb = sim.getParameterBoolean(PendulumSim.en.LIMIT_ANGLE);
