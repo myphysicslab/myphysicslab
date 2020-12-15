@@ -19,6 +19,8 @@ const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
+const DoublePendulumTest =
+        goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
 const JointTest = goog.require('myphysicslab.test.JointTest');
 const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
 const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
@@ -107,7 +109,8 @@ static runTests() {
   //StraightStraightTest.test();
   //DoubleRectTest.testDoubleRect();
   //TerminalTest.testTerminal1();
-  CalculusTest.testCalculus();
+  CalculusTest.test();
+  DoublePendulumTest.test();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();

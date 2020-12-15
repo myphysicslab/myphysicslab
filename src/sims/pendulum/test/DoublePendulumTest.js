@@ -218,7 +218,7 @@ static testDoublePendulum() {
     //Util.printArray(sim.getVarsList().getValues(/*computed=*/true));
   }
 
-  sim.setPotentialEnergy(99);
+  sim.setPEOffset(99 - sim.getEnergyInfo().getPotential());
   ei = sim.getEnergyInfo();
   assertEquals(99, ei.getPotential());
   assertRoughlyEquals(0.37563230349452903, ei.getTranslational(), 1e-10);
