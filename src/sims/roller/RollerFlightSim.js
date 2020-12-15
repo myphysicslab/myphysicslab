@@ -544,8 +544,7 @@ setPEOffset(value) {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-    mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.ball1_) {
     this.dragObj_ = simObject;
     return true;

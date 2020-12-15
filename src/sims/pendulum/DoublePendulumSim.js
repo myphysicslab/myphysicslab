@@ -339,8 +339,7 @@ moveObjects(vars) {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-    mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   // can't do 'live dragging' because everything is too connected!
   if (simObject == this.bob1_ || simObject == this.bob2_) {
     this.isDragging_ = true;

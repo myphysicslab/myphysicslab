@@ -304,8 +304,7 @@ setDebugPaint(fn) {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-    mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.block1_ || simObject == this.block2_) {
     this.isDragging = true;
     return true;

@@ -269,8 +269,7 @@ moveObjects(vars) {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.bob1_ || simObject == this.bob2_) {
     this.isDragging_ = true;
     return true;

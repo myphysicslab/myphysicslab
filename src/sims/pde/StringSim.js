@@ -278,8 +278,7 @@ reset() {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   return simObject == this.block_;
 };
 

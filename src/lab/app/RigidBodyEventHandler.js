@@ -180,8 +180,7 @@ setThrusters(thrusters, side) {
 };
 
 /** @override */
-startDrag(simObject, location, offset,
-    dragBody, mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   this.optionKey_ = mouseEvent.altKey || mouseEvent.metaKey || mouseEvent.ctrlKey;
   this.resetDrag();
   var numBods = this.sim_.getBodies().length;

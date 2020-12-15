@@ -382,8 +382,7 @@ getDragSpring() {
 };
 
 /** @override */
-startDrag(simObject, location, offset, dragBody,
-      mouseEvent) {
+startDrag(simObject, location, offset, dragBody, mouseEvent) {
   if (simObject == this.anchor_) {
     // Apply spring force on the anchor mass; can continue simulation while dragging.
     // But when not running, just move the anchor directly.
@@ -403,8 +402,7 @@ startDrag(simObject, location, offset, dragBody,
 };
 
 /** @override */
-mouseDrag(simObject, location, offset,
-    mouseEvent) {
+mouseDrag(simObject, location, offset, mouseEvent) {
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
   var va = this.getVarsList();
