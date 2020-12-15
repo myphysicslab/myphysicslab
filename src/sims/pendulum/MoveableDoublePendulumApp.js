@@ -21,8 +21,10 @@ const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplaySpring = goog.require('myphysicslab.lab.view.DisplaySpring');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const MoveableDoublePendulumSim = goog.require('myphysicslab.sims.pendulum.MoveableDoublePendulumSim');
+const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
@@ -131,6 +133,9 @@ constructor(elem_ids) {
 
   pn = sim.getParameterNumber(MoveableDoublePendulumSim.en.DRIVE_FREQUENCY);
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
+
+  pn = sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
+  this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
 
