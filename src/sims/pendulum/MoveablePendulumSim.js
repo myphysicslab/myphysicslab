@@ -195,8 +195,6 @@ constructor(opt_name) {
       this.anchor_, Vector.ORIGIN,
       /*restLength=*/0, /*stiffness=*/this.springStiffness_);
   this.getSimList().add(this.anchor_, this.bob_, this.rod_);
-  this.getVarsList().setValue(0, 0);
-  this.setPotentialEnergy(0);
   this.getVarsList().setValue(0, Math.PI * 0.95);
   this.saveInitialState();
   this.setAnchorYVelocity();
@@ -229,6 +227,11 @@ constructor(opt_name) {
       MoveablePendulumSim.i18n.SPRING_STIFFNESS,
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -243,6 +246,7 @@ toString() {
       +', springStiffness_: '+Util.NF(this.springStiffness_)
       +', anchor_: '+this.anchor_
       +', bob_: '+this.bob_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -308,14 +312,23 @@ getEnergyInfo_(vars) {
   var ke = this.bob_.getKineticEnergy();
   var anchorY = this.anchor_.getPosition().getY();
   var y = this.bob_.getPosition().getY();
-  var pe = this.gravity_ * this.bob_.getMass() *(y - anchorY);
+  var pe = this.gravity_ * this.bob_.getMass() *(y - anchorY + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars 0       1       2      3         4        5        6       7   8   9
+  //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(8, 9);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
