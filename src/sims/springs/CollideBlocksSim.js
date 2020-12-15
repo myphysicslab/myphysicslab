@@ -224,6 +224,11 @@ constructor(opt_name) {
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.DAMPING,
       CollideBlocksSim.i18n.DAMPING,
       goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
 };
 
 /** @override */
@@ -235,6 +240,7 @@ toString() {
       +', wallRight_: '+this.wallRight_
       +', spring1_: '+this.spring1_
       +', spring2_: '+this.spring2_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -262,9 +268,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // 0   1    2   3   4    5   6   7
+  // x1, v1, x2, v2, time, KE, PE, TE
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(6, 7);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
