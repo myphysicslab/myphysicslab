@@ -264,12 +264,6 @@ constructor(opt_name) {
       /*restLength=*/2.0, /*stiffness=*/6.0);
   this.spring_.setDamping(0);
   this.getSimList().add(this.walls_, this.atom1_, this.atom2_, this.spring_);
-  // vars: 0   1   2   3   4   5   6   7    8  9  10 11
-  //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
-  va.setValue(2, 1.5);
-  va.setValue(5, 1.7);
-  this.saveInitialState();
-  this.modifyObjects();
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.GRAVITY,
       Molecule1Sim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
@@ -294,6 +288,17 @@ constructor(opt_name) {
       Molecule1Sim.i18n.SPRING_STIFFNESS,
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
+  // vars: 0   1   2   3   4   5   6   7    8  9  10 11
+  //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
+  va.setValue(2, 1.5);
+  va.setValue(5, 1.7);
+  this.saveInitialState();
+  //this.modifyObjects();
 };
 
 /** @override */
@@ -306,6 +311,7 @@ toString() {
       +', atom1_: '+this.atom1_
       +', atom2_: '+this.atom2_
       +', walls_: '+this.walls_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -338,9 +344,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars: 0   1   2   3   4   5   6   7    8  9  10 11
+  //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(10, 11);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
