@@ -887,6 +887,9 @@ See [StackOverflow: How dangerous is it to compare floating point values?](http:
 */
 static veryDifferent(arg1, arg2, epsilon, magnitude) {
   epsilon = epsilon || 1E-14;
+  if (isNaN(arg1) || isNaN(arg2)) {
+    throw new Error('argument is NaN');
+  }
   if (epsilon <= 0) {
     throw new Error('epsilon must be positive '+epsilon);
   }

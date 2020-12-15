@@ -52,6 +52,9 @@ static testUtil() {
   assertFalse(Util.veryDifferent(small1, small2, 1e-8, 1e-8));
   assertTrue(Util.veryDifferent(small1, small2, 1e-10, 1e-8));
   assertTrue(Util.veryDifferent(small1, small2, undefined, 1e-8));
+  assertThrows(function() { Util.veryDifferent(NaN, 3.1); });
+  assertThrows(function() { Util.veryDifferent(99, NaN); });
+  assertThrows(function() { Util.veryDifferent(NaN, NaN); });
 
   assertEquals('1.12000', Util.NF5(1.12));
   assertEquals('1.001', Util.nf5(1.001));
