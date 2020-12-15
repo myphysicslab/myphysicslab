@@ -254,8 +254,10 @@ constructor(elem_ids, centered) {
   this.displayList.add(this.joint1);
   this.sim1.saveInitialState();
 
+  // adjust sim2 so that it matches potential energy of sim1
   var energyInfo1 = this.sim1.getEnergyInfo();
-  this.sim2.setPotentialEnergy(energyInfo1.getPotential());
+  var energyInfo2 = this.sim2.getEnergyInfo();
+  this.sim2.setPEOffset(energyInfo1.getPotential() - energyInfo2.getPotential() );
 
   /** @type {!ParameterBoolean} */
   var pb;
