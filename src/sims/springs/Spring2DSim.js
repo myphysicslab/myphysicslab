@@ -171,13 +171,7 @@ constructor(opt_name) {
       this.anchor_, Vector.ORIGIN,
       this.bob_, Vector.ORIGIN,
       /*restLength=*/2.5, /*stiffness=*/6.0);
-  this.restState();
   this.getSimList().add(this.anchor_, this.bob_, this.spring_);
-  // vars:   0   1   2   3   4   5   6    7      8        9
-  //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
-  va.setValue(2, 1.5);
-  va.setValue(3, 1.7);
-  this.saveInitialState();
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.GRAVITY,
       Spring2DSim.i18n.GRAVITY,
       goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
@@ -195,6 +189,17 @@ constructor(opt_name) {
       Spring2DSim.i18n.SPRING_STIFFNESS,
       goog.bind(this.getSpringStiffness, this),
       goog.bind(this.setSpringStiffness, this)));
+  this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
+      EnergySystem.i18n.PE_OFFSET,
+      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      .setLowerLimit(Util.NEGATIVE_INFINITY)
+      .setSignifDigits(5));
+  // vars:   0   1   2   3   4   5   6    7      8        9
+  //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
+  this.restState();
+  va.setValue(2, 1.5);
+  va.setValue(3, 1.7);
+  this.saveInitialState();
 };
 
 /** @override */
@@ -205,6 +210,7 @@ toString() {
       +', spring_: '+this.spring_
       +', bob_: '+this.bob_
       +', anchor_: '+this.anchor_
+      +', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + super.toString();
 };
 
@@ -229,7 +235,8 @@ restState() {
   vars[2] = vars[3] = 0;
   va.setValues(vars);
   this.modifyObjects();
-  this.setPotentialEnergy(0);
+  this.potentialOffset_ = 0;
+  this.setPEOffset(-this.getEnergyInfo().getPotential());
 };
 
 /** @override */
@@ -253,9 +260,18 @@ getEnergyInfo_(vars) {
 };
 
 /** @override */
-setPotentialEnergy(value) {
-  this.potentialOffset_ = 0;
-  this.potentialOffset_ = value - this.getEnergyInfo().getPotential();
+getPEOffset() {
+  return this.potentialOffset_;
+}
+
+/** @override */
+setPEOffset(value) {
+  this.potentialOffset_ = value;
+  // vars:   0   1   2   3   4   5   6    7      8        9
+  //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
+  // discontinuous change in energy
+  this.getVarsList().incrSequence(5, 6);
+  this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
 /** @override */
