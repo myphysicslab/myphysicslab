@@ -39,7 +39,7 @@ constructor(name) {
   * then that method cannot be overridden by a decorator.
   */
   if (!name) {
-    throw new Error('no name');
+    throw 'no name';
   }
   /**
   * @type {string}
@@ -130,7 +130,7 @@ addParameter(parameter) {
   var name = parameter.getName();
   var p = this.getParam(name);
   if (p != null) {
-    throw new Error('parameter '+name+' already exists: '+p);
+    throw 'parameter '+name+' already exists: '+p;
   }
   this.paramList_.push(parameter);
 };
@@ -156,7 +156,7 @@ broadcast(evt) {
 broadcastParameter(name) {
   var p = this.getParam(name);
   if (p == null) {
-    throw new Error('unknown Parameter '+name);
+    throw 'unknown Parameter '+name;
   }
   this.broadcast(p);
 };
@@ -205,7 +205,7 @@ getParameter(name) {
   if (p != null) {
     return p;
   }
-  throw new Error('Parameter not found '+name);
+  throw 'Parameter not found '+name;
 };
 
 /** @override */
@@ -214,7 +214,7 @@ getParameterBoolean(name) {
   if (p instanceof ParameterBoolean) {
     return p;
   }
-  throw new Error('ParameterBoolean not found '+name);
+  throw 'ParameterBoolean not found '+name;
 };
 
 /** @override */
@@ -223,7 +223,7 @@ getParameterNumber(name) {
   if (p instanceof ParameterNumber) {
     return p;
   }
-  throw new Error('ParameterNumber not found '+name);
+  throw 'ParameterNumber not found '+name;
 };
 
 /** @override */
@@ -232,7 +232,7 @@ getParameterString(name) {
   if (p instanceof ParameterString) {
     return p;
   }
-  throw new Error('ParameterString not found '+name);
+  throw 'ParameterString not found '+name;
 };
 
 /** @override */

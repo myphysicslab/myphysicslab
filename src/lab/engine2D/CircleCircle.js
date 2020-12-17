@@ -28,7 +28,7 @@ class CircleCircle {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
@@ -76,7 +76,7 @@ static improveAccuracy(rbc, other, normalCircle) {
     // other circle is concave
     rbc.distance = other.getRadius() - normalCircle.getRadius() - len;
   } else {
-    throw new Error();
+    throw '';
   }
   if (0 == 1 && rbc.distance > 0) {
     console.log('cnw '+cnw);
@@ -86,7 +86,7 @@ static improveAccuracy(rbc, other, normalCircle) {
     console.log('len '+len);
     console.log('other circle '+other);
     console.log('normal circle '+normalCircle);
-    throw new Error(Util.DEBUG ? ('distance should be negative '+rbc) : '');
+    throw Util.DEBUG ? ('distance should be negative '+rbc) : '';
   }
   // ne = normal in normalCircle's edge coords
   var ne = coe.multiply(1/len);

@@ -178,7 +178,7 @@ setDragable(dragable) {
 
 /** @override */
 setPosition(position) {
-  //throw new Error('unsupported operation');
+  //throw 'unsupported operation';
 };
 
 /** @override */

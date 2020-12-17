@@ -251,7 +251,7 @@ drawPath(path, context, map, style) {
         context.rect(scrX, scrY, w, w);
         break;
       default:
-        throw new Error();
+        throw '';
     }
   }
   switch (style.drawMode) {
@@ -268,7 +268,7 @@ drawPath(path, context, map, style) {
       context.fill();
       break;
     default:
-      throw new Error();
+      throw '';
   }
 };
 
@@ -319,7 +319,7 @@ getPath(arg) {
       return e;
     }
   }
-  throw new Error('DisplayPath did not find '+arg);
+  throw 'DisplayPath did not find '+arg;
 };
 
 /** @override */
@@ -347,7 +347,7 @@ getSimObjects() {
 */
 getStyle(idx) {
   if (idx < 0 || idx >= this.styles_.length) {
-    throw new Error();
+    throw '';
   }
   return this.styles_[idx];
 }
@@ -431,7 +431,7 @@ setScreenRect(screenRect) {
 */
 setStyle(idx, value) {
   if (idx < 0 || idx >= this.styles_.length) {
-    throw new Error();
+    throw '';
   }
   this.styles_[idx] = value;
   this.redraw_ = true;

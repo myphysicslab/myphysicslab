@@ -51,7 +51,7 @@ class RopeTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(RopeTest.pendulum_rope_test);

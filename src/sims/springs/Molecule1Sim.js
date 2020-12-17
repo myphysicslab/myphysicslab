@@ -507,7 +507,7 @@ handleCollisions(collisions, opt_totals) {
         va.setValue(3+idx, -this.elasticity_ * vars[3+idx]);
         break;
       default:
-        throw new Error();
+        throw '';
     }
     if (opt_totals) {
       opt_totals.addImpulses(1);

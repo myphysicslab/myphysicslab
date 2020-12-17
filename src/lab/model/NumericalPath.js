@@ -259,7 +259,7 @@ static binarySearch(arr, x) {
   var i_int, min, max;
   var n_int = arr.length;
   if (n_int<2)
-    throw new Error('array must have more than one element');
+    throw 'array must have more than one element';
   var dir = arr[0] < arr[n_int-1];  // sort direction of array
   i_int = Math.floor(n_int/2);
   if (dir) {
@@ -346,7 +346,7 @@ deriv3(yy, k, type) {
     case 0: xj = x0; break;
     case 1: xj = x1; break;
     case 2: xj = x2; break;
-    default: throw new Error();
+    default: throw '';
   }
   var r = yy[k]*(2*xj - x1 - x2) / ((x0 - x1)*(x0 - x2));
   r += yy[k+1]*(2*xj - x0 - x2) / ((x1 - x0)*(x1 - x2));
@@ -659,7 +659,7 @@ chapter 2 <cite>Polynomial Interpolation</cite> p. 77.
 static interp4(xx, yy, x, k, closedLoop) {
   var n = xx.length;
   if (yy.length != n)
-    throw new Error();
+    throw '';
   var i = k;
   // check if at either end point of the table, fix index if needed.
   if (i > n-4) {
@@ -702,7 +702,7 @@ isClosedLoop() {
 static isMonotonic(arr) {
   var n_int = arr.length;
   if (n_int<2)
-    throw new Error('array must have more than one element');
+    throw 'array must have more than one element';
   var dir = arr[0] < arr[n_int-1];  // sort direction of array
   for (var i=1; i<n_int; i++) {
     if (dir) {
@@ -945,7 +945,7 @@ map_p_to_y(p) {
 */
 map_x_to_p(x) {
   if (!this.x_monotonic)
-    throw new Error('x is not monotonic');
+    throw 'x is not monotonic';
   var k = NumericalPath.binarySearch(this.xvals, x);
   return NumericalPath.interp4(this.xvals, this.pvals, x, k-1, this.closedLoop);
 };
@@ -957,7 +957,7 @@ map_x_to_p(x) {
 */
 map_x_to_y(x) {
   if (!this.x_monotonic)
-    throw new Error('x is not monotonic');
+    throw 'x is not monotonic';
   var k = NumericalPath.binarySearch(this.xvals, x);
   return NumericalPath.interp4(this.xvals, this.yvals, x, k-1, this.closedLoop);
 };
@@ -971,7 +971,7 @@ interpolates to find corresponding `y` and `p` values.
 */
 map_x_to_y_p(ppt) {
   if (!this.x_monotonic)
-    throw new Error('x is not monotonic');
+    throw 'x is not monotonic';
   var k = NumericalPath.binarySearch(this.xvals, ppt.x);
   ppt.y = NumericalPath.interp4(this.xvals, this.yvals, ppt.x, k-1, this.closedLoop);
   ppt.p = NumericalPath.interp4(this.xvals, this.pvals, ppt.x, k-1, this.closedLoop);
@@ -1296,7 +1296,7 @@ constructor(path, numberOfPoints) {
   var p_first = path.getStartPValue();
   var p_final = path.getFinishPValue();
   if (p_final <= p_first)
-    throw new Error('path data is out of order');
+    throw 'path data is out of order';
   /** delta determines how finely the path is drawn
   * @type {number}
   * @private

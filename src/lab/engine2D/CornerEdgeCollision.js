@@ -35,7 +35,7 @@ class CornerEdgeCollision extends RigidBodyCollision {
 constructor(vertex, normalEdge) {
   var v_edge = vertex.getEdge1();
   if (v_edge == null) {
-    throw new Error('CornerEdgeCollision: null edge; vertex='+vertex);
+    throw 'CornerEdgeCollision: null edge; vertex='+vertex;
   }
   super(v_edge.getBody(), normalEdge.getBody(), /*joint=*/false);
   /** vertex of primary body, between primaryEdge and primaryEdge2

@@ -259,7 +259,7 @@ getVariableName(idx, numBlocks, localized) {
             VarsList.en.TIME;
     }
   }
-  throw new Error();
+  throw '';
 };
 
 /** Set number of blocks and set simulation to initial state.
@@ -270,7 +270,7 @@ getVariableName(idx, numBlocks, localized) {
 */
 config(numBlocks, startPosition, startGap)  {
   if (numBlocks < 1 || numBlocks > 3) {
-    throw new Error('too many blocks '+numBlocks);
+    throw 'too many blocks '+numBlocks;
   }
   this.getSimList().removeAll(this.blocks_);
   goog.array.clear(this.blocks_);
@@ -343,7 +343,7 @@ config(numBlocks, startPosition, startGap)  {
       }
       break;
     default:
-      throw new Error();
+      throw '';
   }
   va.setValues(vars);
   this.saveInitialState();

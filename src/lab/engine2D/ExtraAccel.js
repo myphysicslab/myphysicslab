@@ -75,7 +75,7 @@ ExtraAccel.choiceToEnum = function(value) {
       return ExtraAccel.getValues()[i];
     }
   }
-  throw new Error('ExtraAccel not found '+value);
+  throw 'ExtraAccel not found '+value;
 };
 
 /** Converts an enum to a localized choice string.
@@ -90,7 +90,7 @@ ExtraAccel.enumToChoice = function(value) {
       return ExtraAccel.getChoices()[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Returns the translated string versions of the enums in {@link #getValues}.
@@ -129,7 +129,7 @@ ExtraAccel.stringToEnum = function(value) {
       return vals[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Set of internationalized strings.

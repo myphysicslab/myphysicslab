@@ -74,7 +74,7 @@ VerticalAlign.stringToEnum = function(value) {
       return vals[i];
     }
   }
-  throw new Error('invalid VerticalAlign value: '+value);
+  throw 'invalid VerticalAlign value: '+value;
 };
 
 /** Set of internationalized strings.

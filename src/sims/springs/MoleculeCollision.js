@@ -147,7 +147,7 @@ getVelocity() {
     case MoleculeCollision.RIGHT_WALL:
       return -v.getX();
     default:
-      throw new Error('no such side '+this.side);
+      throw 'no such side '+this.side;
   }
 };
 
@@ -194,7 +194,7 @@ updateCollision(time) {
       this.distance_ = w.getRight() - a.getRight();
       break;
     default:
-      throw new Error('no such side '+this.side);
+      throw 'no such side '+this.side;
   }
 };
 

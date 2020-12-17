@@ -187,10 +187,10 @@ getPosition2() {
 /** @override */
 updateCollision(c) {
   if (c.primaryBody != this.body_ || c.normalBody != Scrim.getScrim()) {
-    throw new Error();
+    throw '';
   }
   if (c.getConnector() != this) {
-    throw new Error();
+    throw '';
   }
   var impact_world = this.body_.bodyToWorld(this.attach_body_);
   c.impact1 = impact_world;

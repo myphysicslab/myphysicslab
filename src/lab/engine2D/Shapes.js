@@ -31,7 +31,7 @@ class Shapes {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Makes a circular Polygon with given radius.
@@ -113,7 +113,7 @@ that angled straight lines are tested.
 */
 static makeDiamond(width, height, angle, opt_name, opt_localName) {
   if (angle < -Math.PI/2 || angle > Math.PI/2)
-    throw new Error('angle must be within +/- pi/2');
+    throw 'angle must be within +/- pi/2';
   var p = new Polygon(opt_name, opt_localName);
   var w = width/2;
   var h = height/2;
@@ -242,7 +242,7 @@ static makePendulum(width, length, radius, opt_name, opt_localName) {
 */
 static makePolygon(points, outIsUp, moment, opt_name, opt_localName) {
   if (points.length < 3 || points.length != outIsUp.length) {
-    throw new Error();
+    throw '';
   }
   var p = new Polygon(opt_name, opt_localName);
   var v0 = points[0];
@@ -322,7 +322,7 @@ static makeRandomPolygon(sides, radius, minAngle, maxAngle, opt_name, opt_localN
 */
 static makeRoundBlock(width, height, opt_name, opt_localName) {
   if (height < width) {
-    throw new Error('Height must be greater than width.');
+    throw 'Height must be greater than width.';
   }
   var p = new Polygon(opt_name, opt_localName);
   var w = width/2;
@@ -355,7 +355,7 @@ static makeRoundCornerBlock(width, height, radius, opt_name, opt_localName) {
   var h = height/2;
   var r = radius;
   if (r > w || r > h) {
-    throw new Error('radius must be less than half of width or height');
+    throw 'radius must be less than half of width or height';
   }
   var p = new Polygon(opt_name, opt_localName);
   p.startPath(new ConcreteVertex(new Vector(-w+r, -h)));
@@ -394,7 +394,7 @@ See {@link Polygon#getSpecialNormalWorld}.
 */
 static makeWall(width, height, edgeIndex, opt_name, opt_localName) {
   if (edgeIndex < 0 || edgeIndex > 3)
-    throw new Error();
+    throw '';
   var w = Shapes.makeBlock(width, height, opt_name, opt_localName);
   var r;
   if (edgeIndex == Shapes.BOTTOM_EDGE || edgeIndex == Shapes.TOP_EDGE) {

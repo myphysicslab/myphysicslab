@@ -53,7 +53,7 @@ toStringShort() {
 /** @override */
 addMemo(memorizable) {
   if (this.isMemorizing_) {
-    throw new Error('addMemo during memorize');
+    throw 'addMemo during memorize';
   }
   if (!goog.array.contains(this.memorizables_, memorizable)) {
     this.memorizables_.push(memorizable);
@@ -78,7 +78,7 @@ memorize() {
 /** @override */
 removeMemo(memorizable) {
   if (this.isMemorizing_) {
-    throw new Error('removeMemo during memorize');
+    throw 'removeMemo during memorize';
   }
   goog.array.remove(this.memorizables_, memorizable);
 };

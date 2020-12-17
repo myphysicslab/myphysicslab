@@ -29,10 +29,10 @@ class ScreenRect {
 constructor(left, top, width, height) {
   if (!goog.isNumber(left) || !goog.isNumber(top) || !goog.isNumber(width)
       || !goog.isNumber(height)) {
-    throw new Error();
+    throw '';
   }
   if (width < 0 || height < 0) {
-    throw new Error();
+    throw '';
   }
   /**
   * @type {number}

@@ -200,7 +200,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
       goog.bind(function(e) {
         var target = /** @type {Element} */(e.target);
         if (target === undefined) {
-          throw new Error('event target is undefined ');
+          throw 'event target is undefined ';
         }
         if (target == null || target.tagName != 'LI') {
           return;
@@ -258,7 +258,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
       (TabLayout.getElementById(elem_ids, 'show_sim'));
   var p = goog.dom.getParentElement(this.show_sim_cb);
   if (p == null || p.tagName != 'LABEL') {
-    throw new Error();
+    throw '';
   }
   /** @type {!HTMLLabelElement} */
   this.show_sim_label = /** @type {!HTMLLabelElement} */(p);
@@ -414,11 +414,11 @@ static getElementById(elem_ids, elementId) {
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
   if (!goog.isString(e_id)) {
-    throw new Error('unknown elementId: '+elementId);
+    throw 'unknown elementId: '+elementId;
   }
   var e = /** @type {!HTMLElement} */(document.getElementById(e_id));
   if (!goog.isObject(e)) {
-    throw new Error('not found: element with id='+e_id);
+    throw 'not found: element with id='+e_id;
   }
   return e;
 };
@@ -435,7 +435,7 @@ static maybeElementById(elem_ids, elementId) {
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
   if (!goog.isString(e_id)) {
-    throw new Error('unknown elementId: '+elementId);
+    throw 'unknown elementId: '+elementId;
   }
   return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
@@ -660,7 +660,7 @@ redoLayout() {
       this.show_sim_label.style.display = 'inline';
       break;
     default:
-      throw new Error('redoLayout: no such layout "'+this.layout_+'"');
+      throw 'redoLayout: no such layout "'+this.layout_+'"';
   }
 };
 
@@ -853,7 +853,7 @@ showSim(visible) {
       }
       break;
     default:
-      throw new Error('showSim: no such layout "'+this.layout_+'"');
+      throw 'showSim: no such layout "'+this.layout_+'"';
   }
 };
 

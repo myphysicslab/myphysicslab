@@ -31,7 +31,7 @@ class TestShapes {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**

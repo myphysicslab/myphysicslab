@@ -40,7 +40,7 @@ DrawingMode.choiceToEnum = function(value) {
       return DrawingMode.getValues()[i];
     }
   }
-  throw new Error('DrawingMode not found '+value);
+  throw 'DrawingMode not found '+value;
 };
 
 /** Converts an enum to a localized choice string.
@@ -55,7 +55,7 @@ DrawingMode.enumToChoice = function(value) {
       return DrawingMode.getChoices()[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Returns the localized string versions of the enums in {@link #getValues}.
@@ -88,7 +88,7 @@ DrawingMode.stringToEnum = function(value) {
       return vals[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Set of internationalized strings.

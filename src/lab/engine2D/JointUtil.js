@@ -30,7 +30,7 @@ class JointUtil {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Creates a single Joint to attach a RigidBody to a fixed point on the singleton

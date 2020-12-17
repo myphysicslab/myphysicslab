@@ -75,7 +75,7 @@ HorizAlign.stringToEnum = function(value) {
       return vals[i];
     }
   }
-  throw new Error('invalid HorizAlign value:  '+value);
+  throw 'invalid HorizAlign value:  '+value;
 };
 
 /** Set of internationalized strings.

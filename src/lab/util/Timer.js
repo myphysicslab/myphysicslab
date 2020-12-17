@@ -164,7 +164,7 @@ frames per second.
 */
 setPeriod(period) {
   if (period < 0) {
-    throw new Error();
+    throw '';
   }
   this.period_ = period;
 };

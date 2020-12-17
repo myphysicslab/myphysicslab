@@ -366,7 +366,7 @@ evaluate(vars, change, timeStep) {
         tangent = new Vector(1, k, 0);
         tangent = tangent.normalize().multiply(this.pathPoint_.direction);
         if (tangent == null)
-          throw new Error();
+          throw '';
       }
       var force = this.spring_.calculateForces()[0];
       goog.asserts.assert( force.getBody() == this.ball1_);

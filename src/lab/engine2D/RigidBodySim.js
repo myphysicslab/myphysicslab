@@ -478,7 +478,7 @@ getBody(numOrName) {
     }
   }
   if (bod == null)
-    throw new Error('no body '+numOrName);
+    throw 'no body '+numOrName;
   return bod;
 };
 
@@ -492,7 +492,7 @@ initializeFromBody(body) {
   body.eraseOldCoords();
   var idx = body.getVarsIndex();
   if (idx < 0) {
-    throw new Error("unknown body "+body);
+    throw "unknown body "+body;
   }
   var va = this.varsList_;
   va.setValue(RigidBodySim.X_ + idx, body.getPosition().getX());
@@ -536,7 +536,7 @@ addForceLaw(forceLaw) {
     }
   });
   if (sameLaw != null) {
-    throw new Error('cannot add DampingLaw or GravityLaw twice '+sameLaw);
+    throw 'cannot add DampingLaw or GravityLaw twice '+sameLaw;
   }
   if (!goog.array.contains(this.forceLaws_, forceLaw)) {
     this.forceLaws_.push(forceLaw);
@@ -748,7 +748,7 @@ Broadcasts a {@link #ELASTICITY_SET} event. See {@link RigidBody#setElasticity}.
 */
 setElasticity(value) {
   if (this.bods_.length == 0) {
-    throw new Error('setElasticity: no bodies');
+    throw 'setElasticity: no bodies';
   }
   goog.array.forEach(this.bods_, function(body) {
     body.setElasticity(value);

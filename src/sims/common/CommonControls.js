@@ -45,7 +45,7 @@ class CommonControls {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Makes a DisplayAxes which shows the simRect of a SimView, adding it to the SimView;
@@ -433,7 +433,7 @@ Presents the user with a prompt showing a text box with the URL + script.
 */
 static makeURLScriptButton(easyScript, simRun) {
   if (!goog.isDef(easyScript)) {
-    throw new Error();
+    throw '';
   }
   var copyURL = function() {
       var u = easyScript.scriptURL();

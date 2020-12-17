@@ -121,7 +121,7 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
     if (goog.isDefAndNotNull(opt_values)) {
       this.setChoices_(opt_choices, opt_values);
     } else {
-      throw new Error('values is not defined');
+      throw 'values is not defined';
     }
   }
 };
@@ -222,7 +222,7 @@ setChoices(choices, values) {
 setChoices_(choices, values) {
   this.choices_ = choices;
   if (values.length !== choices.length) {
-    throw new Error('different lengths choices:'+choices+' values:'+values);
+    throw 'different lengths choices:'+choices+' values:'+values;
   }
   this.values_ = values;
 };
@@ -257,7 +257,7 @@ trying to set a string longer than this.
 */
 setMaxLength(len) {
   if (len < this.getValue().length)
-    throw new Error('too long');
+    throw 'too long';
   this.maxLength_ = len;
   return this;
 };
@@ -279,15 +279,14 @@ setValue(value) {
     value = this.inputFunction_(value);
   }
   if (!goog.isString(value)) {
-    throw new Error('non-string value: '+value);
+    throw 'non-string value: '+value;
   }
   if (value.length > this.maxLength_) {
-    throw new Error('string too long: '+value+' maxLength='+this.maxLength_);
+    throw 'string too long: '+value+' maxLength='+this.maxLength_;
   }
   if (this.values_.length > 0) {
     if (!goog.array.contains(this.values_, value)) {
-      throw new Error('"'+value+'" is not an allowed value among: ['
-        +this.values_.join(',')+']');
+      throw '"'+value+'" is not an allowed value among: ['+this.values_.join(',')+']';
     }
   }
   if (value !== this.getValue()) {

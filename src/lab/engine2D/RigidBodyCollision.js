@@ -248,7 +248,7 @@ constructor(body, normalBody, joint) {
   this.targetGap_ = joint ? 0 : this.distanceTol_/2;
   var acc = Math.max(body.getAccuracy(), normalBody.getAccuracy());
   if (acc <= 0 || acc > 1) {
-    throw new Error('accuracy must be between 0 and 1, is '+acc);
+    throw 'accuracy must be between 0 and 1, is '+acc;
   }
   /** Collision distance accuracy: when the collision distance is within
   * accuracy of the target gap distance, then the collision is close enough to be
@@ -745,7 +745,7 @@ collision occurred.
 */
 setDetectedTime(time) {
   if (isFinite(this.detectedTime_)) {
-    throw new Error('detectedTime_ already set '+this);
+    throw 'detectedTime_ already set '+this;
   }
   this.detectedTime_ = time;
   this.detectedDistance_ = this.distance;
@@ -800,7 +800,7 @@ by for example {@link myphysicslab.lab.engine2D.RigidBodySim#modifyObjects}.
 */
 updateCollision(time) {
   if (!isFinite(this.distance))
-    throw new Error('distance is NaN '+this);
+    throw 'distance is NaN '+this;
   this.normalVelocity_ = Util.NaN; // invalidate cached value
   // experiment: May 11 2015
   // collisions with low velocity and close distance should be marked as a contact.

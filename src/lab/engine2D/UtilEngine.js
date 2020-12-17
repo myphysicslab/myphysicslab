@@ -39,7 +39,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class UtilEngine {
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**
@@ -60,7 +60,7 @@ static addColumnToMatrix(A, b) {
   var i, j;
   var n = A.length;
   if (b.length != n)
-    throw new Error();
+    throw '';
   var M = UtilEngine.newEmptyMatrix(n, n+1);
   for (i=0; i<n; i++)
     for (j=0; j<n; j++)
@@ -207,9 +207,9 @@ distance between points becoming small.
 static findMinimumSimplex(p, f, tolerance, info) {
   var i;
   if (info.length < 2)
-    throw new Error(Util.DEBUG ? 'info array length < 2' : '');
+    throw Util.DEBUG ? 'info array length < 2' : '';
   if (p.length != 3)
-    throw new Error(Util.DEBUG ? 'must pass 3 points' : '');
+    throw Util.DEBUG ? 'must pass 3 points' : '';
   /** @type {!Array<number>} */
   var v = new Array(3); // values of the three points
   for (i=0; i<3; i++) {
@@ -378,7 +378,7 @@ static formatArray(r, opt_start, opt_n, opt_nf) {
   var nf = opt_nf || Util.NF5E;
   var start = opt_start || 0;
   if (start >= r.length) {
-    throw new Error();
+    throw '';
   }
   var n = opt_n || r.length - start;
   var end = start + n;
@@ -1118,7 +1118,7 @@ used for detecting when a point is in contact.
 */
 static nearness(r1, r2, distTol) {
   if (r1 == Util.NaN || r2 == Util.NaN)
-    throw new Error();
+    throw '';
   var r = -1;
   if (r1 == Util.POSITIVE_INFINITY) {
     // r1 is a straight edge
@@ -1174,7 +1174,7 @@ static newEmptyMatrix(n, m) {
 */
 static newMatrixFromArray(n, a) {
   if (a.length < n*n)
-    throw new Error();
+    throw '';
   var M = UtilEngine.newEmptyMatrix(n);
   var k=0;
   for (var i = 0; i<n; i++) {
@@ -1200,7 +1200,7 @@ static newMatrixFromArray(n, a) {
 */
 static newMatrixFromArray2(n, a) {
   if (a.length < n*(n+1))
-    throw new Error('a.length='+a.length+' n='+n);
+    throw 'a.length='+a.length+' n='+n;
   var M = UtilEngine.newEmptyMatrix(n);
   var k=0;
   for (var i = 0; i<n; i++) {

@@ -112,7 +112,7 @@ x_func(t) {
   if (goog.isNumber(r) && isFinite(r)) {
     return r;
   } else {
-    throw new Error('not a finite number "'+this.equationX_+'" when t='+t);
+    throw 'not a finite number "'+this.equationX_+'" when t='+t;
   }
 };
 
@@ -123,7 +123,7 @@ y_func(t) {
   if (goog.isNumber(r) && isFinite(r)) {
     return r;
   } else {
-    throw new Error('not a finite number "'+this.equationY_+'" when t='+t);
+    throw 'not a finite number "'+this.equationY_+'" when t='+t;
   }
 };
 

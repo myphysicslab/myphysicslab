@@ -345,7 +345,7 @@ evaluate(vars, change, timeStep) {
   B[1] = -B[1];
   var err = UtilEngine.matrixSolve4(A, f, B);
   if (err != -1) {
-    throw new Error(err);
+    throw err;
   }
   // now apply the force f n to the pivot end.
   nx = n0x; ny = n0y;

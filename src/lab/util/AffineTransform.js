@@ -268,7 +268,7 @@ transform(x, y) {
     x1 = v.getX();
   }
   if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
-    throw new Error();
+    throw '';
   }
   var x2 = this.m11_ * x1 + this.m21_ * y1 + this.dx_;
   var y2 = this.m12_ * x1 + this.m22_ * y1 + this.dy_;
@@ -306,7 +306,7 @@ translate(x, y) {
     x1 = v.getX();
   }
   if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
-    throw new Error();
+    throw '';
   }
   var dx = this.dx_ + this.m11_*x1 + this.m21_*y1;
   var dy = this.dy_ + this.m12_*x1 + this.m22_*y1;

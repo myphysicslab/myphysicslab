@@ -272,14 +272,14 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
   verticalAlign = VerticalAlign.stringToEnum(verticalAlign || VerticalAlign.MIDDLE);
   aspectRatio = aspectRatio || 1.0;
   if (aspectRatio < CoordMap.MIN_SIZE || !isFinite(aspectRatio)) {
-    throw new Error('bad aspectRatio '+aspectRatio);
+    throw 'bad aspectRatio '+aspectRatio;
   }
   var simLeft = simRect.getLeft();
   var simBottom = simRect.getBottom();
   var sim_width = simRect.getRight() - simLeft;
   var sim_height = simRect.getTop() - simBottom;
   if (sim_width < CoordMap.MIN_SIZE || sim_height < CoordMap.MIN_SIZE) {
-    throw new Error('simRect cannot be empty '+simRect);
+    throw 'simRect cannot be empty '+simRect;
   }
   var screen_top = screenRect.getTop();
   var screen_left = screenRect.getLeft();
@@ -336,7 +336,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
           offset_x = (screen_width - ideal_width)/2; break;
         case HorizAlign.RIGHT:
           offset_x = screen_width - ideal_width; break;
-        default: throw new Error('unsupported alignment '+horizAlign);
+        default: throw 'unsupported alignment '+horizAlign;
       }
     } else {
       // x is 'full justified':  simRect matches the screenRect on x axis
@@ -350,7 +350,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
           offset_y = (screen_height - ideal_height)/2; break;
         case VerticalAlign.TOP:
           offset_y = screen_height - ideal_height; break;
-        default: throw new Error('unsupported alignment '+verticalAlign);
+        default: throw 'unsupported alignment '+verticalAlign;
       }
     }
   }
@@ -427,7 +427,7 @@ screenToSim(scr_x, scr_y) {
     sx = v.getX();
   }
   if (!goog.isNumber(sx) || !goog.isNumber(sy)) {
-    throw new Error();
+    throw '';
   }
   return new Vector(this.screenToSimX(sx), this.screenToSimY(sy));
 };

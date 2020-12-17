@@ -25,7 +25,7 @@ class Calculus {
 /**
 @private
 */
-constructor() { throw new Error(); }
+constructor() { throw ''; }
 
 
 /** Returns Simpson's rule for quadrature.
@@ -69,7 +69,7 @@ static aq(f, a, b, tol, S1) {
 */
 static adaptQuad(f, a, b, tol) {
   if (a > b) {
-    throw new Error('adaptQuad a > b'+a+' '+b);
+    throw 'adaptQuad a > b'+a+' '+b;
   } else if (a == b) {
     return 0;
   }

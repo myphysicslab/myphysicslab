@@ -81,7 +81,7 @@ class MouseTracker {
 */
 constructor(dragDispObj, view, loc_sim, drag_body, eventHandler) {
   if (dragDispObj == null && eventHandler == null) {
-    throw new Error();
+    throw '';
   }
   /** the DisplayObject currently being dragged.
   * @type {?DisplayObject}

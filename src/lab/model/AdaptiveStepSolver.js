@@ -187,7 +187,7 @@ step(stepSize) {
       goog.asserts.assert( Math.abs(e - startEnergy) < 1E-10 );
       d_t = d_t/5;  // reduce step size
       if (d_t < 1E-15)
-        throw new Error('time step too small '+d_t);
+        throw 'time step too small '+d_t;
     }
     steps = 0;  // only count steps of the last iteration
     // take multiple steps of size d_t to equal the entire requested stepSize

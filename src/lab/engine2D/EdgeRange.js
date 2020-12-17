@@ -33,14 +33,14 @@ class EdgeRange {
 */
 constructor(body, beginIdx, endIdx) {
   if (endIdx < beginIdx) {
-    throw new Error();
+    throw '';
   }
   var n = body.getEdges().length;
   if (beginIdx < 0 || beginIdx >= n) {
-    throw new Error();
+    throw '';
   }
   if (endIdx < 0 || endIdx >= n) {
-    throw new Error();
+    throw '';
   }
   /** the Polygon the Edges belong to
   * @type {!myphysicslab.lab.engine2D.Polygon}

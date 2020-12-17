@@ -60,7 +60,7 @@ class SixThrusters {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Creates a ThrusterSet with six thrusters that apply force at two points on a

@@ -184,7 +184,7 @@ getIndex() {
   if (this.index_ == -1) {
     this.index_ = goog.array.indexOf(this.body_.getEdges_(), this);
     if (this.index_ == -1) {
-      throw new Error();
+      throw '';
     }
   }
   return this.index_;

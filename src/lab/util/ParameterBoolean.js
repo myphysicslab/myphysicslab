@@ -88,7 +88,7 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
     if (goog.isDefAndNotNull(opt_values)) {
       this.setChoices_(opt_choices, opt_values);
     } else {
-      throw new Error('values not defined');
+      throw 'values not defined';
     }
   }
 };
@@ -170,7 +170,7 @@ setChoices(choices, values) {
 setChoices_(choices, values) {
   this.choices_ = choices;
   if (values.length !== choices.length) {
-    throw new Error('choices and values not same length');
+    throw 'choices and values not same length';
   }
   this.values_ = values;
 };
@@ -190,7 +190,7 @@ setFromString(value) {
 */
 setValue(value) {
   if (!goog.isBoolean(value))
-    throw new Error('non-boolean value: '+value);
+    throw 'non-boolean value: '+value;
   if (value !== this.getValue()) {
     this.setter_(value);
   }

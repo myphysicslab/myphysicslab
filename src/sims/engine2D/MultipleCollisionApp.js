@@ -228,7 +228,7 @@ makePuck() {
   } else if (this.shape == MultipleCollisionApp.Shape.CIRCLE) {
     return Shapes.makeBall(0.5);
   } else {
-    throw new Error('unknown shape');
+    throw 'unknown shape';
   }
 };
 
@@ -517,7 +517,7 @@ config() {
       break;
 
     default:
-      throw new Error();
+      throw '';
   }
 
   Walls.make(this.mySim, 2*this.space_half_width, 2*this.space_half_height,
@@ -547,7 +547,7 @@ setFormation(value) {
   value = Util.toName(value);
   if (this.formation != value) {
     if (!goog.array.contains(this.formations, value)) {
-      throw new Error('unknown formation: '+value);
+      throw 'unknown formation: '+value;
     }
     this.formation = value;
     this.config();

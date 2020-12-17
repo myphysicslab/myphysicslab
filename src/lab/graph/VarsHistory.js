@@ -151,7 +151,7 @@ setVariables(varIndex) {
   var numVars = this.variablesList_.numVariables();
   goog.array.forEach(varIndex, function(idx) {
     if (idx < 0 || idx > numVars) {
-      throw new Error('variable index '+idx+' not between 0 and '+numVars);
+      throw 'variable index '+idx+' not between 0 and '+numVars;
     }
   });
   this.varIndex_ = varIndex;

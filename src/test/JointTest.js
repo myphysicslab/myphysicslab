@@ -64,7 +64,7 @@ class JointTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(JointTest.pendulum_1_joint_1);
@@ -119,7 +119,7 @@ static buildJointTest(sim, testConfig, normalType) {
       JointTest.makeConnectedBlocks(sim, testConfig, normalType);
       break;
   default:
-    throw new Error();
+    throw '';
   }
 };
 
@@ -241,7 +241,7 @@ static makeConnectedBlocks(sim, testConfig, normalType) {
       JointUtil.addSingleJoint(sim, p1, attach1, p2, attach2, normalType, normal1);
       break;
 
-    default: throw new Error();
+    default: throw '';
 
   }
   sim.setElasticity(0.8);

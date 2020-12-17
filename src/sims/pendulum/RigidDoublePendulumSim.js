@@ -109,15 +109,15 @@ constructor(parts, opt_name, opt_simList) {
   this.pivot2_ = parts.joints[1];
   if (!(this.pivot1_.getBody1() instanceof Scrim)
       || this.pivot1_.getBody2() != this.pendulum1_) {
-    throw new Error();
+    throw '';
   }
   if (this.pivot2_.getBody1() != this.pendulum1_
       || this.pivot2_.getBody2() != this.pendulum2_) {
-    throw new Error();
+    throw '';
   }
   // might be able to loosen this requirement
   if (!this.pivot1_.getAttach1().equals(Vector.ORIGIN)) {
-    throw new Error();
+    throw '';
   }
   /** Angle of R1 with respect to vertical in body coords of pendulum 1.
   * Gamma adjustment angle is needed because vector R1 might not be vertical.
@@ -340,7 +340,7 @@ static getGamma(pendulum, pivot) {
   } else if (pivot.getBody2() == pendulum) {
     attach = pivot.getAttach2();
   } else {
-    throw new Error();
+    throw '';
   }
   var v = attach.subtract(pendulum.getCenterOfMassBody());
   return v.getAngle() - Math.PI/2;

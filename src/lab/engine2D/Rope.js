@@ -70,7 +70,7 @@ class Rope extends AbstractSimObject {
 constructor(body1, attach1_body, body2, attach2, length, ropeType) {
   super('rope'+(Rope.ropeNum++));
   if (!isFinite(body2.getMass())) {
-    throw new Error('body2 must have finite mass');
+    throw 'body2 must have finite mass';
   }
   /**
   @type {!RigidBody}
@@ -244,16 +244,16 @@ isTight() {
 /** @override */
 updateCollision(c) {
   if (c.primaryBody != this.body1_ || c.normalBody != this.body2_)
-    throw new Error();
+    throw '';
   if (c.getConnector() != this)
-    throw new Error();
+    throw '';
   // stretch = length - restLength
   c.distance = -this.getStretch();
   var normal = this.getVector().normalize();
   if (normal != null) {
     c.normal = normal;
   } else {
-    throw new Error();
+    throw '';
   }
   c.impact1 = this.body1_.bodyToWorld(this.attach1_body_);
   c.impact2 = this.body2_.bodyToWorld(this.attach2_body_);

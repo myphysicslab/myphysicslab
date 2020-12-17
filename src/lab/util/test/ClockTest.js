@@ -95,7 +95,7 @@ class MockObserver1 {
       } else if (event.nameEquals(Clock.CLOCK_SET_TIME)) {
         this.numSetTimeEvents++;
       } else {
-        throw new Error('unknown event '+event.getName());
+        throw 'unknown event '+event.getName();
       }
     } else if (event instanceof ParameterBoolean) {
       this.numBooleans++;

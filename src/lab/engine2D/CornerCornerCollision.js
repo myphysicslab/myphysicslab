@@ -32,8 +32,8 @@ constructor(vertex, normalVertex) {
   var v_edge = vertex.getEdge1();
   var nv_edge = normalVertex.getEdge1();
   if (v_edge == null || nv_edge == null) {
-    throw new Error("CornerCornerCollision: null edge; vertex="+vertex
-      +"; normalVertex="+normalVertex);
+    throw "CornerCornerCollision: null edge; vertex="+vertex
+      +"; normalVertex="+normalVertex;
   }
   super(v_edge.getBody(), nv_edge.getBody(), /*joint=*/false);
   /** the vertex of the primary object
@@ -93,12 +93,12 @@ updateCollision(time) {
   this.impact1 = this.normalBody.bodyToWorld(this.normalVertex.locBody());
   this.distance = this.normalVertex.locBody().distanceTo(pnb);
   if (!isFinite(this.distance)) {
-    throw new Error();
+    throw '';
   }
   // nw = normal in world coords
   var nv = pnb.subtract(this.normalVertex.locBody()).normalize();
   if (nv == null) {
-    throw new Error();
+    throw '';
   }
   this.normal = this.normalBody.rotateBodyToWorld(nv);
   super.updateCollision(time);

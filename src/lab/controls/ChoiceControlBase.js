@@ -239,8 +239,8 @@ setChoice(index) {
   if (this.currentIndex_ !== index) {
     var n = this.selectMenu_.options.length;
     if (this.values_.length != n) {
-      throw new Error('ChoiceControl: values_.length='+this.values_.length+
-          ' but menu.options.length='+n);
+      throw 'ChoiceControl: values_.length='+this.values_.length+
+          ' but menu.options.length='+n;
     }
     try {
       if (index < -1) {
@@ -277,7 +277,7 @@ state. The `setter` function is not called.
 */
 setChoices(choices, values) {
   if (choices.length != values.length) {
-    throw new Error();
+    throw '';
   }
   this.choices = choices;
   this.values_ = values;

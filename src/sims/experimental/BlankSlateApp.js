@@ -148,7 +148,7 @@ static getElementById(elem_ids, elementId) {
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e = document.getElementById(elem_ids[elementId]);
   if (!goog.isObject(e)) {
-    throw new Error('elementId not found: '+elementId);
+    throw 'elementId not found: '+elementId;
   }
   return e;
 };

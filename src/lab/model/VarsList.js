@@ -95,12 +95,12 @@ constructor(varNames, localNames, opt_name) {
   */
   this.timeIdx_ = -1;
   if (varNames.length != localNames.length) {
-    throw new Error('varNames and localNames are different lengths');
+    throw 'varNames and localNames are different lengths';
   }
   for (var i = 0, n=varNames.length; i<n; i++) {
     var s = varNames[i];
     if (!goog.isString(s)) {
-      throw new Error('variable name '+s+' is not a string i='+i);
+      throw 'variable name '+s+' is not a string i='+i;
     }
     s = Util.validName(Util.toName(s));
     varNames[i] = s;
@@ -110,7 +110,7 @@ constructor(varNames, localNames, opt_name) {
     }
   }
   if (!Util.uniqueElements(varNames)) {
-    throw new Error('duplicate variable names');
+    throw 'duplicate variable names';
   }
   /**
   * @type {!Array<!Variable>}
@@ -156,7 +156,7 @@ getClassName() {
 
 /** @override */
 addParameter(parameter) {
-  throw new Error('addParameter not allowed on VarsList');
+  throw 'addParameter not allowed on VarsList';
 };
 
 /** Add a Variable to this VarsList.
@@ -167,7 +167,7 @@ addParameter(parameter) {
 addVariable(variable) {
   var name = variable.getName();
   if (name == VarsList.DELETED) {
-    throw new Error('variable cannot be named "'+VarsList.DELETED+'"');
+    throw 'variable cannot be named "'+VarsList.DELETED+'"';
   }
   // add variable to first open slot
   var position = this.findOpenSlot_(1);
@@ -191,16 +191,16 @@ addVariable(variable) {
 addVariables(names, localNames) {
   var howMany = names.length;
   if (howMany == 0) {
-    throw new Error();
+    throw '';
   }
   if (names.length != localNames.length) {
-    throw new Error('names and localNames are different lengths');
+    throw 'names and localNames are different lengths';
   }
   var position = this.findOpenSlot_(howMany);
   for (var i=0; i<howMany; i++) {
     var name = Util.validName(Util.toName(names[i]));
     if (name == VarsList.DELETED) {
-      throw new Error("variable cannot be named ''+VarsList.DELETED+''");
+      throw "variable cannot be named ''+VarsList.DELETED+''";
     }
     var idx = position+i;
     this.varList_[idx] = new ConcreteVariable(this, name, localNames[i]);
@@ -219,7 +219,7 @@ addVariables(names, localNames) {
 */
 checkIndex_(index) {
   if (index < 0 || index >= this.varList_.length) {
-    throw new Error('bad variable index='+index+'; numVars='+this.varList_.length);
+    throw 'bad variable index='+index+'; numVars='+this.varList_.length;
   }
 };
 
@@ -235,7 +235,7 @@ deleteVariables(index, howMany) {
     return;
   }
   if (howMany < 0 || index < 0 || index+howMany > this.varList_.length) {
-    throw new Error('deleteVariables');
+    throw 'deleteVariables';
   }
   for (var i=index; i<index+howMany; i++) {
     this.varList_[i] = new ConcreteVariable(this, VarsList.DELETED,
@@ -252,7 +252,7 @@ if necessary.
 */
 findOpenSlot_(quantity) {
   if (quantity < 0) {
-    throw new Error();
+    throw '';
   }
   var found = 0;
   var startIdx = -1;
@@ -305,7 +305,7 @@ getParameter(name) {
   if (p != null) {
     return p;
   }
-  throw new Error('Parameter not found '+name);
+  throw 'Parameter not found '+name;
 };
 
 /** @override */
@@ -324,7 +324,7 @@ See [About Units Of Measurement](Architecture.html#aboutunitsofmeasurement).
 */
 getTime() {
   if (this.timeIdx_ < 0) {
-    throw new Error('no time variable');
+    throw 'no time variable';
   }
   return this.getValue(this.timeIdx_);
 };
@@ -368,10 +368,10 @@ getVariable(id) {
     index = goog.array.findIndex(this.varList_,
         function(v) { return v.getName() == id; });
     if (index < 0) {
-      throw new Error('unknown variable name '+id);
+      throw 'unknown variable name '+id;
     }
   } else {
-    throw new Error();
+    throw '';
   }
   this.checkIndex_(index);
   return this.varList_[index];
@@ -508,7 +508,7 @@ setValue(index, value, continuous) {
     return;
   }
   if (isNaN(value) && !variable.isComputed()) {
-    throw new Error('cannot set variable '+variable.getName()+' to NaN');
+    throw 'cannot set variable '+variable.getName()+' to NaN';
   }
   if (continuous) {
     variable.setValueSmooth(value);
@@ -533,7 +533,7 @@ setValues(vars, continuous) {
   var N = this.varList_.length;
   var n = vars.length;
   if (n > N) {
-    throw new Error('setValues bad length n='+n+' > N='+N);
+    throw 'setValues bad length n='+n+' > N='+N;
   }
   for (var i=0; i<N; i++) {
     if (i < n) {

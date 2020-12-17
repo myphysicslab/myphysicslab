@@ -52,7 +52,7 @@ class MultipleCollisionTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(goog.partial(MultipleCollisionTest.test1_0, CollisionHandling.SIMULTANEOUS));

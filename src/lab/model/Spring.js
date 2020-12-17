@@ -209,7 +209,7 @@ getDamping() {
 /** @override */
 getEndPoint() {
   if (this.attach2_ == null || this.body2_ == null)
-    throw new Error();
+    throw '';
   var p2 = this.body2_.bodyToWorld(this.attach2_);
   if (this.compressOnly_) {
     // 'compress only mode'
@@ -254,7 +254,7 @@ getRestLength() {
 /** @override */
 getStartPoint() {
   if (this.attach1_ == null || this.body1_ == null)
-    throw new Error();
+    throw '';
   return this.body1_.bodyToWorld(this.attach1_) ;
 };
 

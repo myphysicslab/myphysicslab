@@ -41,7 +41,7 @@ class BikeTimerApp {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**
@@ -53,7 +53,7 @@ static makeBikeTimerApp(sound_url) {
   Util.setErrorHandler();
   var simDiv = window.document.getElementById('sim_applet');
   if (simDiv === null)
-    throw new Error('cannot find sim_applet');
+    throw 'cannot find sim_applet';
   //var body = window.document.getElementById('body');
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   var simCanvas = new LabCanvas(canvas, 'canvas1');

@@ -47,7 +47,7 @@ class CircleCircleTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(CircleCircleTest.ball_ball_contact);

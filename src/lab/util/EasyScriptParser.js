@@ -363,7 +363,7 @@ static checkUniqueNames(subjects) {
   goog.array.forEach(subjects, function(subj) {
       var nm = subj.getName();
       if (goog.array.contains(names, nm)) {
-        throw new Error('duplicate Subject name: '+nm);
+        throw 'duplicate Subject name: '+nm;
       };
       names.push(nm);
     });
@@ -399,7 +399,7 @@ getParameter(fullName) {
     var count = goog.array.count(this.allParamNames_,
         function(p) { return p == paramName; });
     if (count > 1) {
-      throw new Error('multiple Subjects have Parameter '+paramName);
+      throw 'multiple Subjects have Parameter '+paramName;
     }
     idx = goog.array.indexOf(this.allParamNames_, paramName);
   } else {

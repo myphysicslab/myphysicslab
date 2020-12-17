@@ -131,7 +131,7 @@ setDiffEqSolver(value) {
       this.advanceStrategy_.setDiffEqSolver(solver);
       this.broadcastParameter(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
     } else {
-      throw new Error('unknown solver: '+value);
+      throw 'unknown solver: '+value;
     }
   }
 };

@@ -375,7 +375,7 @@ constructor(elem_ids) {
       case 4: return 7; // kinetic energy
       case 5: return 8; // potential energy
       case 6: return 9; // total energy
-      default: throw new Error();
+      default: throw '';
     }
   };
 

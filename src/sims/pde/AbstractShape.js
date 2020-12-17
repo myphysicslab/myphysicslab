@@ -28,7 +28,7 @@ class AbstractShape {
 */
 constructor(length, name, opt_localName) {
   if (length < 1e-16) {
-    throw new Error();
+    throw '';
   }
   /**
   * @type {number}

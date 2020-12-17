@@ -269,7 +269,7 @@ setDragable(dragable) {
 
 /** @override */
 setPosition(position) {
-  //throw new Error('unsupported operation');
+  //throw 'unsupported operation';
 };
 
 /** Thickness to use when drawing the line, in screen coordinates, so a unit

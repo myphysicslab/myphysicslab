@@ -212,7 +212,7 @@ static make(sim, displayList, formation, offset, speed) {
       displayList.findShape(body3).setFillStyle('blue');
       break;
     default:
-      throw new Error();
+      throw '';
   }
   var sz = 2 * BilliardsApp.WALL_DISTANCE;
   Walls.make(sim, /*width=*/sz, /*height=*/sz, /*thickness=*/1.0);

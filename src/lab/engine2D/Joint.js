@@ -299,9 +299,9 @@ getPosition2() {
 /** @override */
 updateCollision(c) {
   if (c.primaryBody != this.body1_ || c.normalBody != this.body2_)
-    throw new Error();
+    throw '';
   if (c.getConnector() != this)
-    throw new Error();
+    throw '';
   var impact_world = this.body1_.bodyToWorld(this.attach1_body_);
   c.impact1 = impact_world;
   c.normalFixed = this.normalType_ == CoordType.WORLD;

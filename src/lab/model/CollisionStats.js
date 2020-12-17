@@ -130,7 +130,7 @@ update(collisions) {
       this.numImminent++;
       var dist = c.getDistance();
       if (!isFinite(dist)) {
-        throw new Error('distance is NaN '+c);
+        throw 'distance is NaN '+c;
       }
       if (dist < this.minDistance) {
         this.minDistance = dist;

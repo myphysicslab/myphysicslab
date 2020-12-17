@@ -34,7 +34,7 @@ class CircleStraight {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
@@ -154,7 +154,7 @@ static testCollision(collisions, straight, circle, time) {
     // either both should be null or both should be non-null
     if (circleOldCoords == null || straightOldCoords == null) {
       if (straightOldCoords != null || circleOldCoords != null) {
-        throw new Error('problem with old copy in CircleStraight');
+        throw 'problem with old copy in CircleStraight';
       }
       return;
     }

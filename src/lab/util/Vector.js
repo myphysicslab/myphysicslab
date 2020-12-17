@@ -97,7 +97,7 @@ arranged so they start at the origin.
 */
 angleTo(vector) {
   if (this.getZ() != 0 || vector.getZ() != 0) {
-    throw new Error();
+    throw '';
   }
   var at = Math.atan2(this.y_, this.x_);
   var bt = Math.atan2(vector.getY(), vector.getX());
@@ -135,10 +135,9 @@ divide(factor) {
   if (factor === 1.0) {
     return this;
   } else if (factor < Vector.TINY_POSITIVE) {
-    throw new Error('Vector.divide by near zero factor '+Util.NFE(factor));
+    throw 'Vector.divide by near zero factor '+Util.NFE(factor);
   } else {
-    return new Vector(this.x_ / factor,
-          this.y_ / factor,  this.z_ / factor);
+    return new Vector(this.x_ / factor, this.y_ / factor,  this.z_ / factor);
   }
 };
 
@@ -149,7 +148,7 @@ divide(factor) {
 dotProduct(vector) {
   var r = this.x_ * vector.getX() + this.y_ * vector.getY() + this.z_ * vector.getZ();
   if (isNaN(r)) {
-    throw new Error(Util.DEBUG ? ('dotproduct is not a number '+this+' '+vector) : '');
+    throw Util.DEBUG ? ('dotproduct is not a number '+this+' '+vector) : '';
   }
   return r;
 };
@@ -290,7 +289,7 @@ rotate(angle, sineAngle) {
     sineAngle = Math.sin(angle);
   }
   if (Math.abs(cosAngle*cosAngle + sineAngle*sineAngle - 1.0) > 1E-12)
-    throw new Error();
+    throw '';
   return new Vector(this.x_ * cosAngle - this.y_ * sineAngle,
                     this.x_ * sineAngle + this.y_ * cosAngle, this.z_);
 };

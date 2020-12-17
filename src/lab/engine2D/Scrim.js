@@ -66,7 +66,7 @@ addNonCollide(bodies) {
 
 /** @override */
 alignTo(p_body, p_world, opt_angle) {
-  throw new Error();
+  throw '';
 };
 
 /** @override */
@@ -346,7 +346,7 @@ setExpireTime(time) {
 
 /** @override */
 setMass(mass) {
-  throw new Error();
+  throw '';
 };
 
 /** @override */
@@ -360,20 +360,20 @@ setMomentAboutCM(moment) {
 /** @override */
 setPosition(loc_world, angle) {
   if (loc_world.getX() != 0 || loc_world.getY() != 0) {
-    throw new Error();
+    throw '';
   }
   if (goog.isDef(angle) && angle != 0) {
-    throw new Error();
+    throw '';
   }
 };
 
 /** @override */
 setVelocity(velocity_world, angular_velocity) {
   if (velocity_world.getX() != 0 || velocity_world.getY() != 0) {
-    throw new Error();
+    throw '';
   }
   if (goog.isDef(angular_velocity) && angular_velocity != 0) {
-    throw new Error();
+    throw '';
   }
 };
 

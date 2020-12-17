@@ -70,7 +70,7 @@ advance(timeStep, opt_memoList) {
   this.sim_.getSimList().removeTemporary(this.sim_.getTime());
   var err = this.odeSolver_.step(timeStep);
   if (err != null) {
-    throw new Error('error during advance '+err);
+    throw 'error during advance '+err;
   }
   this.sim_.modifyObjects();
   if (opt_memoList !== undefined) {

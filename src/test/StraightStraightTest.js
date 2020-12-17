@@ -52,7 +52,7 @@ class StraightStraightTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(StraightStraightTest.six_blocks_settle);
@@ -245,7 +245,7 @@ static six_blocks_1_setup(sim, advance) {
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   if (!goog.isDefAndNotNull(block1))
-    throw new Error();
+    throw '';
   var idx = block1.getVarsIndex() - 24;
   var vars = sim.getVarsList();
   vars.setValue(idx + 24, -4.490076631581924);
@@ -330,7 +330,7 @@ static six_blocks_2_setup(sim, advance) {
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   if (!goog.isDefAndNotNull(block1))
-    throw new Error();
+    throw '';
   var idx = block1.getVarsIndex() - 24;
   var vars = sim.getVarsList();
   vars.setValue(idx + 24, -4.4894873151917505);
@@ -416,7 +416,7 @@ static six_blocks_3_setup(sim, advance) {
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   if (!goog.isDefAndNotNull(block1))
-    throw new Error();
+    throw '';
   var idx = block1.getVarsIndex() - 24;
   var vars = sim.getVarsList();
   vars.setValue(idx + 24, -5.490049008239955);
@@ -508,7 +508,7 @@ static setup_six_blocks(sim, advance, v, wallsFirst) {
   }
   goog.asserts.assert( v.length >= 36 );
   if (!goog.isDefAndNotNull(block1))
-    throw new Error();
+    throw '';
   var idx = block1.getVarsIndex();
   var vars = sim.getVarsList();
   for (var i=0; i<36; i++) {

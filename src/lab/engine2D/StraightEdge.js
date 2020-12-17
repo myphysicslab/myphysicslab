@@ -131,7 +131,7 @@ distanceToEdge(edge) {
   if (edge.isStraight) {
     // no edge-edge contact between straight edges;
     // these are handled by corner-edge contacts. See Polygon.checkCollision.
-    throw new Error();
+    throw '';
   } else {
     return edge.distanceToEdge(this);
   }
@@ -165,8 +165,7 @@ distanceToLine(p_body) {
     r = this.outsideIsUp_ ? d : -d;
   }
   if (isNaN(r)) {
-    throw new Error(Util.DEBUG ?
-        ('distanceToLine NaN '+p_body+' '+this.v1_+' '+this.v2_) : '');
+    throw Util.DEBUG ? ('distanceToLine NaN '+p_body+' '+this.v1_+' '+this.v2_) : '';
   }
   return r;
 };

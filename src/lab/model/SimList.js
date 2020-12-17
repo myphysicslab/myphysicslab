@@ -111,7 +111,7 @@ add(simObjs) {
     /** @type {!SimObject} */
     var element = arguments[i];
     if (!goog.isDefAndNotNull(element)) {
-      throw new Error('cannot add invalid SimObject');
+      throw 'cannot add invalid SimObject';
     }
     var expire = element.getExpireTime();
     if (isFinite(expire)) {
@@ -176,7 +176,7 @@ get(arg) {
       return e;
     }
   }
-  throw new Error('SimList did not find '+arg);
+  throw 'SimList did not find '+arg;
 };
 
 /** Returns the Arc with the given name, if found in this SimList.
@@ -189,7 +189,7 @@ getArc(name) {
   if (obj instanceof Arc) {
     return /** @type {!Arc} */(obj);
   } else {
-    throw new Error('no Arc named '+name);
+    throw 'no Arc named '+name;
   }
 };
 
@@ -203,7 +203,7 @@ getConcreteLine(name) {
   if (obj instanceof ConcreteLine) {
     return /** @type {!ConcreteLine} */(obj);
   } else {
-    throw new Error('no ConcreteLine named '+name);
+    throw 'no ConcreteLine named '+name;
   }
 };
 
@@ -217,7 +217,7 @@ getPointMass(name) {
   if (obj instanceof PointMass) {
     return /** @type {!PointMass} */(obj);
   } else {
-    throw new Error('no PointMass named '+name);
+    throw 'no PointMass named '+name;
   }
 };
 
@@ -247,7 +247,7 @@ getSpring(name) {
   if (obj instanceof Spring) {
     return /** @type {!Spring} */(obj);
   } else {
-    throw new Error('no Spring named '+name);
+    throw 'no Spring named '+name;
   }
 };
 

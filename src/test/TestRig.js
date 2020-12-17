@@ -37,7 +37,7 @@ class TestRig {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Returns the name of this machine, which should be stored in the global
@@ -191,7 +191,7 @@ static startTests() {
   // Find the  element to show test results
   var test_results = document.getElementById('test_results');
   if (!goog.isObject(test_results)) {
-    throw new Error('<p> element with id="test_results" not found');
+    throw '<p> element with id="test_results" not found';
   }
   TestRig.output = test_results;
   var d = new Date();
@@ -230,7 +230,7 @@ static startTests() {
       TestRig.myPrintln('asserts are working');
     }
     if (a == 2) {
-      throw new Error('asserts are not working');
+      throw 'asserts are not working';
     }
   } else {
     TestRig.myPrintln('NOTE: asserts are NOT enabled');

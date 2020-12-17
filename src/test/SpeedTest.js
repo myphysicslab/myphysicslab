@@ -46,7 +46,7 @@ class SpeedTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(SpeedTest.ball_vs_wall_0);

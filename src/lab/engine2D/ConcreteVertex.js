@@ -129,7 +129,7 @@ getEdge1() {
   if (this.edge_ != null) {
     return this.edge_;
   } else {
-    throw new Error();
+    throw '';
   }
 };
 
@@ -140,7 +140,7 @@ getEdge2() {
   } else if (this.edge_ != null) {
     return this.edge_;
   } else {
-    throw new Error();
+    throw '';
   }
 };
 
@@ -154,7 +154,7 @@ setEdge1(edge) {
   if (this.edge_ == null) {
     this.edge_ = edge;
   } else {
-    throw new Error();
+    throw '';
   }
 };
 
@@ -163,7 +163,7 @@ setEdge2(edge) {
   if (this.edge2_ == null) {
     this.edge2_ = edge;
   } else {
-    throw new Error();
+    throw '';
   }
 };
 

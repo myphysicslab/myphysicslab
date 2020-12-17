@@ -45,7 +45,7 @@ class DoNothingTest {
 /**
 @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(DoNothingTest.do_nothing_grinder_test1);

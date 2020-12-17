@@ -33,7 +33,7 @@ class UtilityCollision {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Adds the given collision only if it there is not already a deeper collision
@@ -85,14 +85,14 @@ Joints are a special case, they should always be added, never removed.
 */
 static addCollision(collisions, c2) {
   if (c2==null) {
-    throw new Error();
+    throw '';
   }
   var removeMe = new Array();
   var better = null; // it is a RigidBodyCollision
   var shouldAdd = true;
   if (!c2.joint) {
     if (!isFinite(c2.distance)) {
-      throw new Error('distance is NaN '+c2);
+      throw 'distance is NaN '+c2;
     }
     goog.array.forEach(collisions, function(c1) {
       if (!c2.similarTo(c1)) {
@@ -190,7 +190,7 @@ static checkVertexes(collisions, body1, body2, time) {
       // with square of distance.
       travelDistSqr = nowVertex.distanceSquaredTo(oldVertex);
     } else if (bodyOld1 != null || bodyOld2 != null) {
-      throw new Error('problem with old copy in checkVertexes');
+      throw 'problem with old copy in checkVertexes';
     }
     // In many/most cases the travel distance is small,
     // so we can avoid computationally expensive sqrt()
@@ -278,7 +278,7 @@ distance that is normal to the edge.
 static intersectionPossibleSpecial(poly1, poly2, swellage) {
   var specialNormal = poly1.getSpecialNormalWorld();
   if (specialNormal == null)
-    throw new Error();
+    throw '';
   var dist1 = poly2.getCentroidWorld().subtract(poly1.getCentroidWorld())
                 .dotProduct(specialNormal);
   // use the special maximum radius for this test
@@ -302,7 +302,7 @@ static makeCollision(collisions, edge, vertex, e_body, p_body, time) {
   var c = new CornerEdgeCollision(vertex, edge);
   var v_edge = vertex.getEdge1();
   if (v_edge == null) {
-    throw new Error();
+    throw '';
   }
   var primaryBody = v_edge.getBody();
   var normalBody = edge.getBody();
@@ -555,7 +555,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
   }
   var edge2 = vertex2.getEdge1();
   if (edge2 == null) {
-    throw new Error(Util.DEBUG ? 'vertex2 has no edge: '+vertex2 : '');
+    throw Util.DEBUG ? 'vertex2 has no edge: '+vertex2 : '';
   }
   // type needed for NTI?
   /** @type {!myphysicslab.lab.engine2D.Polygon} */
@@ -586,7 +586,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
     }
     if (Util.DEBUG && body1.probablyPointInside(v_body)) {
       // sanity check
-      throw new Error('probablyPointInside: '+v_body+' '+body1);
+      throw 'probablyPointInside: '+v_body+' '+body1;
     }
     // no possible collision
     return;
@@ -758,8 +758,8 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
         }
         // At end of second pass throw an error
         if (debugPenetration) {
-          throw new Error('probablyPointInside: v_body='+v_body
-                +'\nvertex2='+vertex2+'\nbody1='+body1+'\nbody2='+body2);
+          throw 'probablyPointInside: v_body='+v_body
+                +'\nvertex2='+vertex2+'\nbody1='+body1+'\nbody2='+body2;
         }
         // There is penetration, but no intersection/collision found -- trouble!
         // Go back thru the above code a second time and print debug info.

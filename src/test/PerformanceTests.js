@@ -68,7 +68,7 @@ class PerformanceTests {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**

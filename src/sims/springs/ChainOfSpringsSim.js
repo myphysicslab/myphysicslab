@@ -227,7 +227,7 @@ static getVariableName(idx, numAtoms, localized) {
             ChainOfSpringsSim.en.ANCHOR2_Y;
     }
   }
-  throw new Error();
+  throw '';
 };
 
 /** Set number of atoms and set simulation to initial state.

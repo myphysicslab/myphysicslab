@@ -461,7 +461,7 @@ handleCollisions(collisions, opt_totals) {
       va.setValue(1, -vars[1] + 2*vcm);
       va.setValue(3, -vars[3] + 2*vcm);
     } else {
-      throw new Error('illegal collision '+c);
+      throw 'illegal collision '+c;
     }
     if (opt_totals) {
       opt_totals.addImpulses(1);

@@ -34,7 +34,7 @@ class PileConfig {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Makes a single V-shaped 'pit' for blocks to fall into.

@@ -89,7 +89,7 @@ constructor(elem_ids, opt_name) {
 
   var div = GraphCalc2App.getElementById(elem_ids, 'graph_div');
   if (div == null) {
-    throw new Error('graph_div not found');
+    throw 'graph_div not found';
   }
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
@@ -256,7 +256,7 @@ static getElementById(elem_ids, elementId) {
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
   if (!goog.isString(e_id)) {
-    throw new Error('unknown elementId: '+elementId);
+    throw 'unknown elementId: '+elementId;
   }
   return /** @type {!HTMLElement} */(document.getElementById(e_id));
 };

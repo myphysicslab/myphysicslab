@@ -449,7 +449,7 @@ observers that the focus has changed by broadcasting the GenericEvent named
 */
 setFocusView(view) {
   if (view != null && !goog.array.contains(this.labViews_, view))
-    throw new Error('cannot set focus to unknown view '+view);
+    throw 'cannot set focus to unknown view '+view;
   if (this.focusView_ != view) {
     if (this.focusView_ != null) {
       this.focusView_.loseFocus();
@@ -481,10 +481,10 @@ setHeight(value) {
 */
 setScreenRect(sr) {
   if (!ScreenRect.isDuckType(sr)) {
-    throw new Error('not a ScreenRect '+sr);
+    throw 'not a ScreenRect '+sr;
   }
   if (sr.getTop() != 0 || sr.getLeft() != 0) {
-    throw new Error('top left must be 0,0, was: '+sr);
+    throw 'top left must be 0,0, was: '+sr;
   }
   this.setSize(sr.getWidth(), sr.getHeight());
 };
@@ -497,7 +497,7 @@ Notifies any Observers by broadcasting a GenericEvent named {@link #SIZE_CHANGED
 */
 setSize(width, height) {
   if (!goog.isNumber(width) || width <= 0 || !goog.isNumber(height) || height <= 0) {
-    throw new Error('bad size '+width+', '+height);
+    throw 'bad size '+width+', '+height;
   }
   this.canvas_.width = width;
   this.canvas_.height = height;

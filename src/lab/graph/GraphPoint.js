@@ -32,7 +32,7 @@ class GraphPoint {
 */
 constructor(x, y, seqX, seqY) {
   if (isNaN(x) || isNaN(y)) {
-    throw new Error('NaN in GraphPoint');
+    throw 'NaN in GraphPoint';
   }
   /** @type {number} */
   this.x = x;

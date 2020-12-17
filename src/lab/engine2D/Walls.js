@@ -34,7 +34,7 @@ class Walls {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Makes four walls of given thickness, with interior rectangle of given width and

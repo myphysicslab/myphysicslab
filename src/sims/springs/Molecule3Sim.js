@@ -348,7 +348,7 @@ getVarName(atom, index, localized) {
       (localized ? Molecule3Sim.i18n.VELOCITY : Molecule3Sim.en.VELOCITY);
       break;
     default:
-      throw new Error();
+      throw '';
   }
   return s;
 };
@@ -361,7 +361,7 @@ getVarName(atom, index, localized) {
 initializeFromAtom(atom) {
   var idx = goog.array.indexOf(this.atoms_, atom);
   if (idx < 0) {
-    throw new Error("atom not found: "+atom);
+    throw "atom not found: "+atom;
   }
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
@@ -656,7 +656,7 @@ handleCollisions(collisions, opt_totals) {
         va.setValue(3+idx, -this.elasticity_ * vars[3+idx]);
         break;
       default:
-        throw new Error();
+        throw '';
     }
     if (opt_totals) {
       opt_totals.addImpulses(1);

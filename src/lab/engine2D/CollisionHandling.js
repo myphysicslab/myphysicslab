@@ -120,7 +120,7 @@ CollisionHandling.choiceToEnum = function(value) {
       return CollisionHandling.getValues()[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Converts an enum to a localized choice string.
@@ -135,7 +135,7 @@ CollisionHandling.enumToChoice = function(value) {
       return CollisionHandling.getChoices()[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Returns array containing all localized enum choices.
@@ -172,7 +172,7 @@ CollisionHandling.stringToEnum = function(value) {
       return vals[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 exports = CollisionHandling;

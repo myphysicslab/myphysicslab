@@ -160,8 +160,8 @@ constructor(parameter, min, max, multiply, increments) {
   this.min_ = min;
   var lowerLimit = parameter.getLowerLimit();
   if (lowerLimit > min) {
-    throw new Error('lower limit on slider ='+Util.NF(min)
-        +' is less than parameter lower limit ='+Util.NF(lowerLimit));
+    throw 'lower limit on slider ='+Util.NF(min)
+        +' is less than parameter lower limit ='+Util.NF(lowerLimit);
   }
   /**
   * @type {number}
@@ -169,12 +169,12 @@ constructor(parameter, min, max, multiply, increments) {
   */
   this.max_ = max;
   if (min >= max) {
-    throw new Error('min >= max');
+    throw 'min >= max';
   }
   var upperLimit = parameter.getUpperLimit();
   if (upperLimit < max) {
-    throw new Error('upper limit on slider ='+Util.NF(max)
-        +' is greater than parameter upper limit ='+Util.NF(upperLimit));
+    throw 'upper limit on slider ='+Util.NF(max)
+        +' is greater than parameter upper limit ='+Util.NF(upperLimit);
   }
   /**
   * @type {number}
@@ -182,7 +182,7 @@ constructor(parameter, min, max, multiply, increments) {
   */
   this.increments_ = increments || 100;
   if (increments < 2) {
-    throw new Error('increments < 2');
+    throw 'increments < 2';
   }
   /**
   * @type {boolean}
@@ -191,7 +191,7 @@ constructor(parameter, min, max, multiply, increments) {
   this.multiply_ = multiply == true;
   if (multiply && min <= 0) {
     // cannot have exponential control that goes to zero or negative
-    throw new Error('slider cannot have min <= 0 and also exponential scale');
+    throw 'slider cannot have min <= 0 and also exponential scale';
   }
   /**
   * @type {number}
@@ -227,7 +227,7 @@ constructor(parameter, min, max, multiply, increments) {
   this.slider_ = /** @type {!HTMLInputElement} */(document.createElement('input'));
   this.slider_.type = 'range';
   if (this.slider_.type == 'text') {
-    throw new Error('cannot make slider');
+    throw 'cannot make slider';
   };
   this.slider_.min = '0';
   this.slider_.max = String(this.increments_);
@@ -555,7 +555,7 @@ setValue(value) {
   if (value != this.paramValue_) {
     //console.log('SliderControl.setValue value='+value+' vs '+this.paramValue_);
     if (isNaN(value)) {
-      throw new Error('not a number: '+value);
+      throw 'not a number: '+value;
     }
     try {
       // set this.paramValue_ first to prevent the observe() coming here twice

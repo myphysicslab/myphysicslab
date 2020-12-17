@@ -24,7 +24,7 @@ class Util {
 /**
 @private
 */
-constructor() { throw new Error(); }
+constructor() { throw ''; }
 
 /** Converts an array of numbers to string, with commas between each number.
 * @param {!(Array<number>|Float64Array)} r  the array to print
@@ -141,7 +141,7 @@ that contain anything other than numbers. See {@link #set}.
 */
 static get(array, index) {
   if (!goog.isNumber(index) || index < 0 || index != Math.floor(index)) {
-    throw new Error('index is not a non-negative integer: '+index);
+    throw 'index is not a non-negative integer: '+index;
   }
   return array[index];
 };
@@ -573,7 +573,7 @@ static prettyPrint(input, level, indent) {
       }
       closeSymbol = closeList.pop();
       if (lvl < 0)
-        throw new Error('unbalanced '+closeSymbol+' at '+i+' in '+input);
+        throw 'unbalanced '+closeSymbol+' at '+i+' in '+input;
     } else if (c == '"' || c == '\'') {
       var q = c;
       var k = i;  // index of starting quote
@@ -587,7 +587,7 @@ static prettyPrint(input, level, indent) {
           continue next_char;
         }
       }
-      throw new Error('unbalanced quote at '+k+' in '+input);
+      throw 'unbalanced quote at '+k+' in '+input;
     } else if ((c == ',' || c == ';') && lvl <= level) {
       // after every comma, insert a new line and some spaces
       out += c+'\n';
@@ -694,7 +694,7 @@ that contain anything other than numbers. See {@link #get}.
 */
 static set(array, index, value) {
   if (!goog.isNumber(index) || index < 0 || index != Math.floor(index)) {
-    throw new Error('index is not a non-negative integer: '+index);
+    throw 'index is not a non-negative integer: '+index;
   }
   return array[index] = value;
 };
@@ -724,7 +724,7 @@ static setErrorHandler() {
       console.log('asserts are working');
     }
     if (a == 2) {
-      throw new Error('asserts are not working');
+      throw 'asserts are not working';
     }
   } else if (Util.DEBUG) {
     console.log('WARNING: asserts are NOT enabled!');
@@ -777,7 +777,7 @@ static take(text, n) {
 */
 static testFinite(value) {
   if (!isFinite(value)) {
-    throw new Error('not a finite number '+value);
+    throw 'not a finite number '+value;
   }
   return value;
 };
@@ -789,7 +789,7 @@ static testFinite(value) {
 */
 static testNumber(value) {
   if (isNaN(value)) {
-    throw new Error('not a number '+value);
+    throw 'not a number '+value;
   }
   return value;
 };
@@ -839,7 +839,7 @@ static uniqueElements(arr) {
 */
 static validName(text) {
   if (!text.match(/^[A-Z_][A-Z_0-9]*$/)) {
-    throw new Error('not a valid name: '+text);
+    throw 'not a valid name: '+text;
   }
   return text;
 };
@@ -888,14 +888,14 @@ See [StackOverflow: How dangerous is it to compare floating point values?](http:
 static veryDifferent(arg1, arg2, epsilon, magnitude) {
   epsilon = epsilon || 1E-14;
   if (isNaN(arg1) || isNaN(arg2)) {
-    throw new Error('argument is NaN');
+    throw 'argument is NaN';
   }
   if (epsilon <= 0) {
-    throw new Error('epsilon must be positive '+epsilon);
+    throw 'epsilon must be positive '+epsilon;
   }
   magnitude = magnitude || 1.0;
   if (magnitude <= 0) {
-    throw new Error('magnitude must be positive '+magnitude);
+    throw 'magnitude must be positive '+magnitude;
   }
   var maxArg = Math.max(Math.abs(arg1), Math.abs(arg2));
   var max = maxArg > magnitude ? maxArg : magnitude;

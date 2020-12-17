@@ -94,7 +94,7 @@ class AutoScale extends AbstractSubject {
 constructor(name, graphLine, simView) {
   super(name);
   if (goog.isDef(graphLine) && !GraphLine.isDuckType(graphLine)) {
-    throw new Error('not a GraphLine '+graphLine);
+    throw 'not a GraphLine '+graphLine;
   }
   /** The GraphLines to auto-scale.
   * @type {!Array<!GraphLine>}
@@ -234,7 +234,7 @@ addGraphLine(graphLine) {
       this.lastIndex_.push(-1);
     }
   } else {
-    throw new Error('not a GraphLine '+graphLine);
+    throw 'not a GraphLine '+graphLine;
   }
 };
 
@@ -386,7 +386,7 @@ removeGraphLine(graphLine) {
     goog.asserts.assert(!goog.array.contains(this.graphLines_, graphLine));
     this.reset();
   } else {
-    throw new Error('not a GraphLine '+graphLine);
+    throw 'not a GraphLine '+graphLine;
   }
 };
 
@@ -439,7 +439,7 @@ setAxis(value) {
     this.axis_ = value;
     this.broadcastParameter(AutoScale.en.AXIS);
   } else {
-    throw new Error('unknown '+value);
+    throw 'unknown '+value;
   }
 };
 

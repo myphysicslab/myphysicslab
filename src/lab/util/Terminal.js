@@ -574,7 +574,7 @@ addRegex(names, prefix, opt_addToVars, opt_prepend) {
   var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
   if (!Util.ADVANCED) {
     if (names.length == 0) {
-      throw new Error();
+      throw '';
     }
     if (addToVars) {
       var nms = names.split('|');
@@ -786,7 +786,8 @@ eval(script, opt_output, opt_userInput) {
   var output = goog.isBoolean(opt_output) ? opt_output : true;
   var userInput = opt_userInput || false;
   if (userInput && !output) {
-    throw new Error(); // if user input the script then must have output==true
+    // if user input the script then must have output==true
+    throw '';
   }
   script = Terminal.deUnicode(script).trim();
   if (script.match(/^\s*$/)) {
@@ -900,7 +901,7 @@ expand(script) {
   while (c) {
     if (++count > 10000) {
       // prevent infinite loop
-      throw new Error('Terminal.expand');
+      throw 'Terminal.expand';
     }
     // process non-quoted string at start of c
     var a = c.match(/^[^'"/]+/);
@@ -1472,9 +1473,9 @@ static vetBrackets(script) {
   if (r != null) {
     for (var i=0, n=r.length; i<n; i++) {
       if (!goodRegexp.test(r[i])) {
-        throw new Error('prohibited usage of square brackets in script: '+script+
+        throw 'prohibited usage of square brackets in script: '+script+
           ' Only positive integer is allowed in brackets. '+
-          ' Try using Util.get(array, index) or Util.set(array, index, value).');
+          ' Try using Util.get(array, index) or Util.set(array, index, value).';
       }
     }
   }
@@ -1493,7 +1494,7 @@ static vetCommand(script, whiteList, opt_blackList) {
   // except for those on whiteList_.
   for (var p in window) {
     if (Terminal.badCommand(script, p, whiteList)) {
-      throw new Error('prohibited name: "' + p + '" found in script: ' + script);
+      throw 'prohibited name: "' + p + '" found in script: ' + script;
     }
   }
   // Prohibit JavaScript features that allow executing code and access to most
@@ -1502,7 +1503,7 @@ static vetCommand(script, whiteList, opt_blackList) {
   // structure of the Document.
   var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
   if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
-    throw new Error('prohibited name in script: '+script);
+    throw 'prohibited name in script: '+script;
   }
 };
 

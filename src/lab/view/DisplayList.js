@@ -76,7 +76,7 @@ the same (or lower) `zIndex`.
 */
 add(dispObj) {
   if (!goog.isObject(dispObj)) {
-    throw new Error('non-object passed to DisplayList.add');
+    throw 'non-object passed to DisplayList.add';
   }
   var zIndex = dispObj.getZIndex();
   if (Util.DEBUG) {
@@ -102,7 +102,7 @@ add(dispObj) {
 */
 contains(dispObj) {
   if (!goog.isObject(dispObj)) {
-    throw new Error('non-object passed to DisplayList.contains');
+    throw 'non-object passed to DisplayList.contains';
   }
   return goog.array.contains(this.drawables_, dispObj);
 };
@@ -172,7 +172,7 @@ findShape(search) {
   if (ds instanceof DisplayShape) {
     return /**!DisplayShape*/(ds);
   }
-  throw new Error('DisplayShape not found: '+search);
+  throw 'DisplayShape not found: '+search;
 };
 
 /** Returns the DisplaySpring that shows the given SimObject.
@@ -188,7 +188,7 @@ findSpring(search) {
   if (ds instanceof DisplaySpring) {
     return /**!DisplaySpring*/(ds);
   }
-  throw new Error('DisplaySpring not found: '+search);
+  throw 'DisplaySpring not found: '+search;
 };
 
 /** Returns the DisplayObject at the specified position in this DisplayList
@@ -200,7 +200,7 @@ findSpring(search) {
 get(index) {
   var n = this.drawables_.length;
   if (index < 0 || index >= n) {
-    throw new Error(index+' is not in range 0 to '+(n-1));
+    throw index+' is not in range 0 to '+(n-1);
   }
   this.sort();
   return this.drawables_[index];
@@ -227,7 +227,7 @@ preExist(dispObj) {
         console.log('*** WARNING PRE-EXISTING DISPLAYOBJECT '+preExist);
         console.log('*** FOR SIMOBJECT=' + obj);
         console.log('*** WHILE ADDING '+dispObj);
-        throw new Error('pre-existing object '+preExist+' for '+obj+' adding '+dispObj);
+        throw 'pre-existing object '+preExist+' for '+obj+' adding '+dispObj;
       }
     }
   }
@@ -240,7 +240,7 @@ the same (or higher) `zIndex`.
 */
 prepend(dispObj) {
   if (!goog.isObject(dispObj)) {
-    throw new Error('non-object passed to DisplayList.add');
+    throw 'non-object passed to DisplayList.add';
   }
   var zIndex = dispObj.getZIndex();
   if (Util.DEBUG) {
@@ -265,7 +265,7 @@ prepend(dispObj) {
 */
 remove(dispObj) {
   if (!goog.isObject(dispObj)) {
-    throw new Error('non-object passed to DisplayList.remove');
+    throw 'non-object passed to DisplayList.remove';
   }
   var idx = goog.array.indexOf(this.drawables_, dispObj);
   if (idx > -1) {

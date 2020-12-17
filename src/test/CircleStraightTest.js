@@ -52,7 +52,7 @@ class CircleStraightTest {
 /**
 @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(CircleStraightTest.ball_block_collide);

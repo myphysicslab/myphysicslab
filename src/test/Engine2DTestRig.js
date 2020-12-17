@@ -47,7 +47,7 @@ class Engine2DTestRig {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Sets the name of current test.
@@ -107,7 +107,7 @@ which variable was out of tolerance.
 */
 static checkResult(sim, expected, tolerance) {
   if (expected == null || isNaN(tolerance))
-    throw new Error();
+    throw '';
   var passed = true;
   // Find variable with biggest difference to show in error result message
   var idx = -1; // index of variable with error

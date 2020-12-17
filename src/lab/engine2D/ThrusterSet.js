@@ -143,7 +143,7 @@ thruster.
 */
 getDirectionBody(index) {
   if (index < 0 || index >= this.directions_body_.length)
-    throw new Error();
+    throw '';
   return this.directions_body_[index].multiply(this.magnitude_);
 };
 
@@ -155,7 +155,7 @@ Returns default value `Vector.ORIGIN` if location not yet defined for that thrus
 */
 getLocationBody(index) {
   if (index < 0 || index >= this.locations_body_.length)
-    throw new Error();
+    throw '';
   return this.locations_body_[index];
 };
 
@@ -199,7 +199,7 @@ setMagnitude(magnitude) {
 */
 setThruster(index, location_body, direction_body) {
   if (index < 0 || index >= this.locations_body_.length)
-    throw new Error();
+    throw '';
   this.locations_body_[index] = location_body;
   this.directions_body_[index] = direction_body;
 };

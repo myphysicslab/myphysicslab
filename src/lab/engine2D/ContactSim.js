@@ -428,18 +428,18 @@ addConnector(connector, follow) {
   }
   var b = connector.getBody1();
   if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
-    throw new Error('body not found '+b);
+    throw 'body not found '+b;
   }
   b = connector.getBody2();
   if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
-    throw new Error('body not found '+b);
+    throw 'body not found '+b;
   }
   if (goog.isNull(follow)) {
     this.connectors_.unshift(connector);
   } else if (goog.isDefAndNotNull(follow)) {
     var idx = goog.array.indexOf(this.connectors_, follow);
     if (idx < 0) {
-      throw new Error('connector not found '+follow);
+      throw 'connector not found '+follow;
     }
     goog.array.insertAt(this.connectors_, connector, idx+1);
   } else {
@@ -631,7 +631,7 @@ removeNonContacts(contactsFound) {
     // because those should have been handled by the collision handling mechanism.
     // See handleCollisions and findCollisions.
     if (c.illegalState()) {
-      throw new Error('unexpected collision at time='+this.getTime()+' '+c);
+      throw 'unexpected collision at time='+this.getTime()+' '+c;
     }
     if (!c.contact()) {
       // remove non-contacts (imminent collisions) from the list
@@ -763,7 +763,7 @@ static calculate_a_matrix(contacts) {
         console.log('ci= '+ci);
         console.log('cj= '+cj);
         Util.printNums5('nums ', Rx, Ry, Rxj, Ryj, R2x, R2y, R2xj, R2yj, m1, I1, m2, I2);
-        throw new Error('possible zero mass object');
+        throw 'possible zero mass object';
       }
     }
   }
@@ -998,7 +998,7 @@ calculate_b_vector(contacts, change, vars) {
     if (!isFinite(b[i])) {
       console.log('c= '+c);
       Util.printNums5('nums ', Rx, Ry, R2x, R2y, w1, w2, vx1, vy1, vx2, vy2);
-      throw new Error();
+      throw '';
     }
   }
   return b;
@@ -1089,9 +1089,8 @@ reportError(error, tol, A, f, b, joint) {
     if (Util.DEBUG) {
       console.log(this.varsList_.printHistory());
     }
-    throw new Error(Util.NF7(this.getTime())
-        +' compute_forces failed error='+error
-        +' with tol='+Util.NFE(tol));
+    throw Util.NF7(this.getTime())+' compute_forces failed error='+error
+        +' with tol='+Util.NFE(tol);
   } else if (error != -1 && Util.DEBUG) {
     this.myPrint('warning: compute_forces failed error='+error
         +' but is within tol='+Util.NFE(tol));

@@ -45,7 +45,7 @@ static makeSimpleApp() {
   // create a canvas for displaying the view objects
   var canvas_div = window.document.getElementById('canvas_div');
   if (!canvas_div) {
-    throw new Error();
+    throw '';
   }
   var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   var simCanvas = new LabCanvas(canvas, 'canvas1');

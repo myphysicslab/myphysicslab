@@ -108,7 +108,7 @@ the following code calculates and checks the acceleration from the calculated fo
       var accel = UtilEngine.matrixMultiply(A, f);
       accel = UtilEngine.vectorAdd(accel, b);
       if (!computeForces.checkForceAccel(1E-8, f, accel, joint)) {
-        throw new Error();
+        throw '';
       }
     }
 
@@ -550,7 +550,7 @@ compute_forces(A, f, b, joint, debug, time) {
       case ComputeForces.NEXT_CONTACT_PRE_ORDERED:
         d = this.nextContactOrdered();
         break;
-      default: throw new Error();
+      default: throw '';
     }
     if (Util.DEBUG && this.debugCF) {
       this.print('\n--------- in compute_forces, d='+d
@@ -993,7 +993,7 @@ static checkForceAccel(tolerance, force, accel, joint) {
   var n = force.length;
   var i;
   if (accel.length < n)
-    throw new Error();
+    throw '';
   var r = true;
   for (i=0; i<n; i++) {
     if (joint[i] || Math.abs(force[i]) > 1E-10) {
@@ -1260,8 +1260,7 @@ drive_to_zero(d) {
         this.debugCF = true;
         this.print('drive_to_zero() loopCtr='+loopCtr+' d='+d+' a[d]='+this.a[d]);
       } else if (loopCtr > 1000*this.n) {
-        throw new Error('drive_to_zero() loopCtr='+loopCtr
-          +' d='+d+' a[d]='+this.a[d]);
+        throw 'drive_to_zero() loopCtr='+loopCtr+' d='+d+' a[d]='+this.a[d];
       }
     }
     if (this.DEFER_SINGULAR && this.NC[j]) {
@@ -1316,7 +1315,7 @@ drive_to_zero(d) {
           if (Util.DEBUG)
             this.printEverything(s);
           else
-            throw new Error(s);
+            throw s;
         }
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.printContact(' redo C', false, j, d, loopCtr);

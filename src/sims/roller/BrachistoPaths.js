@@ -29,7 +29,7 @@ class BrachistoPaths {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 } // end class

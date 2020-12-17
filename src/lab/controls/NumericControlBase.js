@@ -103,7 +103,7 @@ constructor(label, getter, setter, textField) {
   */
   this.value_ = getter();
   if (!goog.isNumber(this.value_)) {
-    throw new Error('not a number '+this.value_);
+    throw 'not a number '+this.value_;
   }
   /** The number of significant digits to display.
   * @type {number}
@@ -384,7 +384,7 @@ setValue(value) {
     }
     try {
       if (isNaN(value)) {
-        throw new Error('not a number '+value);
+        throw 'not a number '+value;
       }
       // set this.value_ first to prevent the observe() coming here twice
       this.value_ = value;

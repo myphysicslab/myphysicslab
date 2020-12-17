@@ -32,7 +32,7 @@ class GearsConfig {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**

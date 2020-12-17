@@ -273,7 +273,7 @@ advanceSims(strategy, targetTime) {
     var lastSimTime = simTime;
     simTime = strategy.getTime();
     if (simTime - lastSimTime <= 1e-15) {
-      throw new Error('SimRunner: time did not advance');
+      throw 'SimRunner: time did not advance';
     }
     // Avoid multiple timesteps so that each frame can draw.
     // This makes the "trails" look continuous with no missing frames.

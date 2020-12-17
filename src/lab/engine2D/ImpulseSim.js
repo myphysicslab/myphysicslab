@@ -370,7 +370,7 @@ the collision is considered close enough to handle (apply an impulse).
 */
 setCollisionAccuracy(value) {
   if (value <= 0 || value > 1) {
-    throw new Error('accuracy must be between 0 and 1, is '+value);
+    throw 'accuracy must be between 0 and 1, is '+value;
   }
   this.collisionAccuracy_ = value;
   goog.array.forEach(this.bods_, function(b, index, array) {
@@ -476,8 +476,8 @@ checkInfiniteMassVelocity(vars) {
       var vw = vars[idx + RigidBodySim.VW_];
       if (vx != 0 || vy != 0 || vw != 0) {
         console.log(this.formatVars());
-        throw new Error(Util.DEBUG ? ('infinite mass object must remain at rest '
-            +vx+' '+vy+' '+vw+' '+b): '');
+        throw Util.DEBUG ? ('infinite mass object must remain at rest '
+            +vx+' '+vy+' '+vw+' '+b): '';
       }
     }
   }, this);
@@ -555,7 +555,7 @@ findCollisions(collisions, vars, stepSize) {
       if (1 == 0 && Util.DEBUG) this.myPrint('bods['+i+'] '+bod1);
       if (1 == 0 && Util.DEBUG) this.myPrint('bods['+i+'].body_old '+bod1.body_old);
     }
-    throw new Error(Util.DEBUG ? 'point is outside but no collision detected' : '');
+    throw Util.DEBUG ? 'point is outside but no collision detected' : '';
   }
   */
   //var time = this.getTime() + stepSize;  // alternative way to get time
@@ -729,7 +729,7 @@ handleCollisions(collisions, opt_totals) {
   var rbcs = /** @type !Array<!RigidBodyCollision>*/(collisions);
   var energy = 0;  // for debugging
   if (collisions.length==0) {
-    throw new Error('empty array passed to handleCollisions');
+    throw 'empty array passed to handleCollisions';
   }
   if (Util.DEBUG) {
     goog.array.forEach(rbcs, function(c, index, array) {
@@ -763,8 +763,7 @@ handleCollisions(collisions, opt_totals) {
           /*grouped=*/true, /*lastPass=*/true);
       break;
     default:
-      throw new Error(Util.DEBUG ?
-        ('unknown collision handler '+this.collisionHandling_) : '');
+      throw Util.DEBUG ? ('unknown collision handler '+this.collisionHandling_) : '';
   }
   if (0 == 1 && Util.DEBUG) {
     var energy2 = this.getEnergyInfo().getTotalEnergy();
@@ -816,9 +815,9 @@ handleCollisionsSimultaneous(collisions, opt_totals) {
     accel = UtilEngine.vectorAdd(accel, b);
     var tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j, accel, joint)) {
-      throw new Error(Util.DEBUG ? (Util.NF7(this.getTime())
+      throw Util.DEBUG ? (Util.NF7(this.getTime())
           +' compute_impulses failed error='+error
-          +' with tol='+Util.NFE(tol)) : '');
+          +' with tol='+Util.NFE(tol)) : '';
     } else {
       this.myPrint('warning: compute_impulses failed error='+error
           +' but is within tol='+Util.NFE(tol));
@@ -1314,9 +1313,9 @@ hcs_handle(hybrid, grouped, debugHCS,
     accel = UtilEngine.vectorAdd(accel, b1);
     var tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j1, accel, joint1)) {
-      throw new Error(Util.DEBUG ? (Util.NF7(this.getTime())
+      throw Util.DEBUG ? (Util.NF7(this.getTime())
           +' compute_impulses failed error='+error
-          +' with tolerance='+Util.NFE(tol)) : '');
+          +' with tolerance='+Util.NFE(tol)) : '';
     } else if (Util.DEBUG) {
       console.log('warning: compute_impulses failed error='+error
               +' but is within tolerance='+Util.NFE(tol));
@@ -1378,7 +1377,7 @@ hcs_handle(hybrid, grouped, debugHCS,
 applyCollisionImpulse(cd, j) {
   if (!cd.joint && j < 0) {
     if (j < -ImpulseSim.TINY_IMPULSE) {
-      throw new Error(Util.DEBUG ? ('negative impulse is impossible '+j+' '+cd) : '');
+      throw Util.DEBUG ? ('negative impulse is impossible '+j+' '+cd) : '';
     } else {
       // change tiny negative impulse to zero impulse; due to tiny numerical error
       j = 0;

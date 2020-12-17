@@ -64,7 +64,7 @@ constructor(label, getter, setter, textField) {
   */
   this.value_ = getter();
   if (!goog.isString(this.value_)) {
-    throw new Error('not a string '+this.value_);
+    throw 'not a string '+this.value_;
   }
   /** The number of columns (characters) shown in the text field.
   * @type {number}
@@ -246,7 +246,7 @@ setValue(value) {
     }
     try {
       if (!goog.isString(value)) {
-        throw new Error('not a string '+value);
+        throw 'not a string '+value;
       }
       // set this.value_ first to prevent the observe() coming here twice
       this.value_ = value;

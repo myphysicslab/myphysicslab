@@ -412,15 +412,15 @@ addCircularEdge2(p_body, radius, aboveRight, clockwise, outsideIsOut) {
 */
 addEdge(edge) {
   if (this.finished_) {
-    throw new Error('cannot add edges to finished Polygon');
+    throw 'cannot add edges to finished Polygon';
   }
   if (this.startVertex_ == null) {
-    throw new Error(Polygon.OPEN_PATH_ERROR);
+    throw Polygon.OPEN_PATH_ERROR;
   }
   // the new Edge should already be linked in to this linked list:
   // startVertex_ -> edge -> vertex -> edge -> vertex -> edge -> vertex
   if (edge.getVertex2() != this.lastOpenVertex()) {
-    throw new Error('edge is not connected to open path');
+    throw 'edge is not connected to open path';
   }
   this.edges_.push(edge);
   goog.array.extend(this.vertices_, edge.getDecoratedVertexes());
@@ -531,7 +531,7 @@ checkCollision(collisions, body, time) {
 */
 checkConsistent() {
   if (!this.finished_) {
-    throw new Error('Polygon construction is not finished.');
+    throw 'Polygon construction is not finished.';
   }
   // v0 = starting Vertex of the current path being examined
   goog.array.forEach(this.paths_, function(v0) {
@@ -540,7 +540,7 @@ checkConsistent() {
       // find the next Edge
       var e = v.getEdge2();
       if (e == null) {
-        throw new Error();
+        throw '';
       }
       goog.asserts.assertObject(e);
       goog.asserts.assert(e.getVertex1() == v); // starting Vertex of this Edge
@@ -560,7 +560,7 @@ and {@link #getStartVertex}.
 */
 closePath() {
   if (this.finished_) {
-    throw new Error('Polygon construction is finished.');
+    throw 'Polygon construction is finished.';
   }
   if (this.startVertex_ == null) {
     return false;
@@ -605,12 +605,11 @@ and Vertex v2 is deleted.
 */
 closePath_(v1, v2) {
   if (v1.locBody().distanceTo(v2.locBody()) > 1E-8) {
-    throw new Error(Util.DEBUG ?
-      ('Vertexes must be at same location '+v1+' '+v2) : '');
+    throw Util.DEBUG ? ('Vertexes must be at same location '+v1+' '+v2) : '';
   }
   var v2_edge1 = v2.getEdge1();
   if (v2_edge1 == null) {
-    throw new Error('v2.edge1 is null; v2='+v2+'; this='+this);
+    throw 'v2.edge1 is null; v2='+v2+'; this='+this;
   }
   v1.setEdge1(v2_edge1);
   v2_edge1.setVertex2(v1);
@@ -630,7 +629,7 @@ createCanvasPath(context) {
       // find the next Edge
       var e = v.getEdge2();
       if (e == null) {
-        throw new Error();
+        throw '';
       }
       goog.asserts.assertObject(e);
       goog.asserts.assert(e.getVertex1() == v); // starting Vertex of this Edge
@@ -685,7 +684,7 @@ findCentroid() {
       return thisPolygon.maxRadiusSquared(Vector.clone(p_body));
     }, NEARNESS_TOLERANCE, info);
   if (info[1] != 0) {
-    throw new Error(Util.DEBUG ? ('could not find centroid, iterations='+info[0]) : '');
+    throw Util.DEBUG ? ('could not find centroid, iterations='+info[0]) : '';
   }
   return centroid;
 };
@@ -697,7 +696,7 @@ drag point.
 */
 finish() {
   if (this.finished_) {
-    throw new Error('Polygon construction is finished.');
+    throw 'Polygon construction is finished.';
   }
   if (this.startVertex_ != null) {
     this.closePath();
@@ -937,7 +936,7 @@ getVarName(index, localized) {
         Polygon.en.ANGULAR_VELOCITY;
       break;
     default:
-      throw new Error();
+      throw '';
   }
   return s;
 };
@@ -972,7 +971,7 @@ open path.
 */
 lastOpenEdge() {
   if (this.startVertex_ == null) {
-    throw new Error();
+    throw '';
   }
   var edge = this.startVertex_.safeGetEdge2();
   if (edge == null)
@@ -986,7 +985,7 @@ lastOpenEdge() {
     edge = e;
     // detect infinite loop
     if (v == this.startVertex_)
-      throw new Error();
+      throw '';
   }
   return edge;
 };
@@ -1000,7 +999,7 @@ then this is the starting Vertex, see {@link #startPath} and {@link #getStartVer
 */
 lastOpenVertex() {
   if (this.startVertex_ == null) {
-    throw new Error(Polygon.OPEN_PATH_ERROR);
+    throw Polygon.OPEN_PATH_ERROR;
   }
   var lastEdge = this.lastOpenEdge();
   if (lastEdge == null) {
@@ -1112,7 +1111,7 @@ saveOldCoords() {
 /** @override */
 setAccuracy(accuracy) {
   if (accuracy <= 0 || accuracy > 1) {
-    throw new Error('accuracy must be between 0 and 1, is '+accuracy);
+    throw 'accuracy must be between 0 and 1, is '+accuracy;
   }
   this.accuracy_ = accuracy;
 };
@@ -1128,7 +1127,7 @@ proximity testing in world coords, in body coordinates
 */
 setCentroid(centroid_body) {
   if (this.startVertex_ != null) {
-    throw new Error('setCentroid called before finish, while creating Polygon');
+    throw 'setCentroid called before finish, while creating Polygon';
   }
   this.centroid_body_ = centroid_body;
   // check that the assigned centroid is reasonable
@@ -1167,7 +1166,7 @@ setElasticity(value) {
 */
 setMass(mass) {
   if (mass <= 0 || !goog.isNumber(mass)) {
-    throw new Error('mass must be positive '+mass);
+    throw 'mass must be positive '+mass;
   }
   this.mass_ = mass;
   return this;
@@ -1215,9 +1214,9 @@ See {@link #getSpecialNormalWorld}.
 */
 setSpecialEdge(edgeIndex, radius) {
   if (this.edges_.length != 4)
-    throw new Error(Util.DEBUG ? 'can only set special edge on rectangle' : '');
+    throw Util.DEBUG ? 'can only set special edge on rectangle' : '';
   if (edgeIndex < 0 || edgeIndex > 3)
-    throw new Error();
+    throw '';
   this.specialEdge_ = this.edges_[edgeIndex];
   this.centroidRadius_ = radius;
   // Set centroid radius of all non-special edges to zero.
@@ -1257,10 +1256,10 @@ setVelocityTol(value) {
 */
 startPath(vertexOrEdge) {
   if (this.finished_) {
-    throw new Error('Polygon construction is finished.');
+    throw 'Polygon construction is finished.';
   }
   if (this.startVertex_ != null) {
-    throw new Error('there is already an open path');
+    throw 'there is already an open path';
   }
   if (vertexOrEdge instanceof ConcreteVertex) {
     var vertex = /** @type {!Vertex}*/(vertexOrEdge);

@@ -46,7 +46,7 @@ class SingleTest {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**

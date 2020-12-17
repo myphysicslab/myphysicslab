@@ -32,7 +32,7 @@ class DoubleMath {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 }
 
 /** Convert a string of binary 1's and 0's to equivalent hexadecimal number
@@ -41,7 +41,7 @@ constructor() {
 */
 static binaryToHex(binary) {
   if (binary.length % 4 != 0) {
-    throw new Error();
+    throw '';
   }
   var s = '';
   var i, v = 0;
@@ -63,7 +63,7 @@ static binaryToHex(binary) {
 static binaryToNum(s) {
   var i;
   if (s.length != 64)
-    throw new Error();
+    throw '';
   // sign is bit 0
   var sign = s[0] == '0' ? 1 : -1;
   // exponent is bits 1 to 11
@@ -115,7 +115,7 @@ static hexToBinary(hex) {
   for (i = 0; i < hex.length; i++) {
     j = DoubleMath.HEX_DIGITS.indexOf(hex[i]);
     if (j < 0) {
-      throw new Error();
+      throw '';
     }
     // 0 = 0000
     // 1 = 0001
@@ -143,7 +143,7 @@ static hexToBinary(hex) {
 */
 static hexToNum(hex) {
   if (hex.length != 16)
-    throw new Error();
+    throw '';
   var s = DoubleMath.hexToBinary(hex);
   goog.asserts.assert( s.length == 64 );
   return DoubleMath.binaryToNum(s);

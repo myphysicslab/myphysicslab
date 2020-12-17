@@ -192,7 +192,7 @@ class Molecule4Sim extends AbstractODESim {
 */
 constructor(nm, opt_name) {
   if (nm < 2 || nm > 6) {
-    throw new Error('number of atoms '+nm);
+    throw 'number of atoms '+nm;
   }
   super(opt_name);
   /** Number of atoms.
@@ -439,7 +439,7 @@ getVariableName(idx, localized) {
         return (localized ? Molecule4Sim.i18n.FORCE : Molecule4Sim.en.FORCE) + ' 3';
     }
   }
-  throw new Error('unknown variable');
+  throw 'unknown variable';
 };
 
 /** Returns Mass-SpringNonLinear-Mass matrix which says how springs & masses are connected.
@@ -458,7 +458,7 @@ static getMSM(nm) {
     case 6: return [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,2],[2,4],
                        [4,0],[1,3],[3,5],[5,1],[0,3],[1,4],[2,5]];
   }
-  throw new Error();
+  throw '';
 };
 
 /** Returns Special Groups of springs, these are indices into msm[].
@@ -474,7 +474,7 @@ static getSG(nm) {
     case 5: return [0,4,7,9];
     case 6: return [12,13,14];
   }
-  throw new Error();
+  throw '';
 };
 
 /** Returns Non-Special Groups of springs, these are indices into msm[].
@@ -747,7 +747,7 @@ handleCollisions(collisions, opt_totals) {
         va.setValue(3+idx, -this.elasticity_ * vars[3+idx]);
         break;
       default:
-        throw new Error();
+        throw '';
     }
     if (opt_totals) {
       opt_totals.addImpulses(1);

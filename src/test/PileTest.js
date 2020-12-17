@@ -47,7 +47,7 @@ class PileTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(PileTest.pile_config_1_test);
@@ -651,7 +651,7 @@ static pile_20_random_blocks() {
   PileTest.pile_20_random_blocks_setup(sim, advance);
   if (!Util.isChrome()) {
     // this test takes too long on non-Chrome browsers
-    throw new Error();
+    throw '';
   }
   var startTime = Util.systemTime();
   runTest(sim, advance, /*runUntil=*/9.0,

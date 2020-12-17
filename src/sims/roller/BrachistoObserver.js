@@ -152,7 +152,7 @@ addBody(obj) {
       this.displayList_.add(dp);
     }
   } else {
-    throw new Error('BrachistoObserver unknown object '+obj);
+    throw 'BrachistoObserver unknown object '+obj;
   }
 };
 

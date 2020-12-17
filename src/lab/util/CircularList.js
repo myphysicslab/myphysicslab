@@ -115,7 +115,7 @@ constructor(capacity) {
   */
   this.capacity_ = capacity || 3000;
   if (this.capacity_ < 2) {
-    throw new Error();
+    throw '';
   }
   /** number of items now in memory list <= capacity
   * @type {number}
@@ -236,7 +236,7 @@ pointerToIndex(pointer) {
   var idx = pointer +
       (this.cycles_ - (pointer < this.nextPtr_ ? 0 : 1)) * this.capacity_;
   if (idx >= Util.MAX_INTEGER)
-    throw new Error(CircularList.MAX_INDEX_ERROR);
+    throw CircularList.MAX_INDEX_ERROR;
   return idx;
 };
 
@@ -307,7 +307,7 @@ constructor(cList, startIndex) {
   // index to be in range.
   if (cList.size_ > 0 &&
       (startIndex < cList.getStartIndex() || startIndex > cList.getEndIndex())) {
-    throw new Error('out of range startIndex='+startIndex);
+    throw 'out of range startIndex='+startIndex;
   }
   /**
   * @type {number}
@@ -324,14 +324,14 @@ constructor(cList, startIndex) {
 /** @override */
 getIndex() {
   if (this.cList_.size_ == 0)
-    throw new Error('no data');
+    throw 'no data';
   return this.index_;
 };
 
 /** @override */
 getValue() {
   if (this.cList_.size_ == 0)
-    throw new Error('no data');
+    throw 'no data';
   return this.cList_.values_[this.pointer_];
 };
 
@@ -348,13 +348,13 @@ hasPrevious() {
 /** @override */
 nextValue() {
   if (this.cList_.size_ === 0)
-    throw new Error('no data');
+    throw 'no data';
   if (this.first_) {
     // first 'nextPoint' does nothing except clear this flag
     this.first_ = false;
   } else {
     if (this.index_ + 1 > this.cList_.getEndIndex()) {
-      throw new Error('cannot iterate past end of list');
+      throw 'cannot iterate past end of list';
     }
     this.index_++;
     this.pointer_ = this.cList_.indexToPointer(this.index_);
@@ -365,13 +365,13 @@ nextValue() {
 /** @override */
 previousValue() {
   if (this.cList_.size_ === 0)
-    throw new Error('no data');
+    throw 'no data';
   if (this.first_) {
     // first 'previousPoint' does nothing except clear this flag
     this.first_ = false;
   } else {
     if (this.index_ - 1 < this.cList_.getStartIndex()) {
-      throw new Error('cannot iterate prior to start of list');
+      throw 'cannot iterate prior to start of list';
     }
     this.index_--;
     this.pointer_ = this.cList_.indexToPointer(this.index_);

@@ -168,7 +168,7 @@ createCanvasPath(context) {
       context.closePath();
     }
   } else {
-    throw new Error();
+    throw '';
   }
 };
 
@@ -256,7 +256,7 @@ setHeight(height) {
 */
 setMass(mass) {
   if (mass < 0 || !goog.isNumber(mass)) {
-    throw new Error('mass must be non-negative '+mass);
+    throw 'mass must be non-negative '+mass;
   }
   this.mass_ = mass;
   return this;

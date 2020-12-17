@@ -242,7 +242,7 @@ getTopBody() {
 */
 getTorque(idx, angle) {
   if (idx < 0 || idx >= this.magnetDist_.length)
-      throw new Error();
+      throw '';
   var fm = this.fixedMagnet_;
   // only thing that matters here is the magnet's distance from center
   var d = this.magnetDist_[idx];
@@ -270,7 +270,7 @@ getVerticesBody() {
 setFixedMagnet(loc) {
   if (loc.getX() != 0 || loc.getY() <= 0) {
     // getPotentialEnergy assumes the following.  (This could be loosened).
-    throw new Error('fixed magnet must have X = 0, and Y > 0');
+    throw 'fixed magnet must have X = 0, and Y > 0';
   }
   this.fixedMagnet_ = loc;
   return this;
@@ -282,7 +282,7 @@ setFixedMagnet(loc) {
 */
 setMass(mass) {
   if (mass < 0 || !goog.isNumber(mass)) {
-    throw new Error('mass must be non-negative '+mass);
+    throw 'mass must be non-negative '+mass;
   }
   this.mass_ = mass;
   return this;
@@ -312,7 +312,7 @@ setMagnetStrength(value) {
 setPosition(loc_world, angle) {
   if (!Vector.ORIGIN.equals(loc_world)) {
     // calculations in getTorque() assume MagnetWheel is at origin.
-    throw new Error('MagnetWheel can only be located at origin');
+    throw 'MagnetWheel can only be located at origin';
   }
   super.setPosition(loc_world, angle);
 };

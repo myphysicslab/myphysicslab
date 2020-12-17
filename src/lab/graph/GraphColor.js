@@ -103,7 +103,7 @@ GraphColor.stringToEnum = function(value) {
       return vals[i];
     }
   }
-  throw new Error('not found '+value);
+  throw 'not found '+value;
 };
 
 /** Set of internationalized strings.

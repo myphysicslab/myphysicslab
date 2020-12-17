@@ -34,7 +34,7 @@ class PendulumClockConfig {
 /**
 */
 constructor(builder) {
-  throw new Error();
+  throw '';
 };
 
 /**  Creates the anchor with pendulum that engages the escape wheel in a

@@ -367,7 +367,7 @@ constructor(elem_ids, centered) {
       case 5: return 2; // potential energy
       case 6: return 3; // total energy
       case 7: return 0; // time
-      default: throw new Error();
+      default: throw '';
     }
   };
 

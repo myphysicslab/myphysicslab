@@ -29,7 +29,7 @@ class ChainConfig {
 * @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /**

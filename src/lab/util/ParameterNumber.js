@@ -111,7 +111,7 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
     if (goog.isDefAndNotNull(opt_values)) {
       this.setChoices_(opt_choices, opt_values);
     } else {
-      throw new Error('values is not defined');
+      throw 'values is not defined';
     }
   }
 };
@@ -229,7 +229,7 @@ setChoices(choices, values) {
 */
 setChoices_(choices, values) {
   if (values.length !== choices.length) {
-    throw new Error('choices and values not same length');
+    throw 'choices and values not same length';
   }
   this.choices_ = choices;
   this.values_ = values;
@@ -253,7 +253,7 @@ setDecimalPlaces(decimals) {
 setFromString(value) {
   var v = Number(value);
   if (isNaN(v)) {
-    throw new Error('not a number: '+value);
+    throw 'not a number: '+value;
   }
   this.setValue(v);
 };
@@ -267,8 +267,8 @@ setFromString(value) {
 */
 setLowerLimit(lowerLimit) {
   if (lowerLimit > this.getValue() || lowerLimit > this.upperLimit_)
-    throw new Error('out of range: '+lowerLimit+' value='+this.getValue()
-        +' upper='+this.upperLimit_);
+    throw 'out of range: '+lowerLimit+' value='+this.getValue()
+        +' upper='+this.upperLimit_;
   this.lowerLimit_ = lowerLimit;
   return this;
 };
@@ -294,8 +294,8 @@ setSignifDigits(signifDigits) {
 */
 setUpperLimit(upperLimit) {
   if (upperLimit < this.getValue() || upperLimit < this.lowerLimit_)
-    throw new Error('out of range: '+upperLimit+' value='+this.getValue()
-        +' lower='+this.lowerLimit_);
+    throw 'out of range: '+upperLimit+' value='+this.getValue()
+        +' lower='+this.lowerLimit_;
   this.upperLimit_ = upperLimit;
   return this;
 };
@@ -305,16 +305,15 @@ setUpperLimit(upperLimit) {
 */
 setValue(value) {
   if (!goog.isNumber(value)) {
-    throw new Error('not a number: '+value);
+    throw 'not a number: '+value;
   }
   if (value < this.lowerLimit_ || value > this.upperLimit_) {
-    throw new Error('out of range. '+value+' is not between '+this.lowerLimit_
-        +' and '+this.upperLimit_);
+    throw 'out of range. '+value+' is not between '+this.lowerLimit_
+        +' and '+this.upperLimit_;
   }
   if (this.values_.length > 0) {
     if (!goog.array.contains(this.values_, value)) {
-      throw new Error(value+' is not an allowed value among: ['
-        +this.values_.join(',')+']');
+      throw value+' is not an allowed value among: ['+this.values_.join(',')+']';
     }
   }
   if (value !== this.getValue()) {

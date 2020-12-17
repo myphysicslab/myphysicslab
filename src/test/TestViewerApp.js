@@ -478,8 +478,8 @@ getGroup() {
 */
 setGroup(groupIndex) {
   if (groupIndex < 0 || groupIndex >= this.groupNames_.length) {
-    throw new Error('setGroup: groupIndex='+groupIndex
-        +' range=' +this.groupNames_.length);
+    throw 'setGroup: groupIndex='+groupIndex
+        +' range=' +this.groupNames_.length;
   }
   if (this.groupSelected_ != groupIndex) {
     this.groupSelected_ = groupIndex;
@@ -506,7 +506,7 @@ getTest() {
 */
 setTest(index) {
   if (index < 0 || index >= this.testNames_.length) {
-    throw new Error('setTest: index='+index+' range='+this.testNames_.length);
+    throw 'setTest: index='+index+' range='+this.testNames_.length;
   }
   if (this.testSelected_ != index) {
     this.testSelected_ = index;
@@ -653,7 +653,7 @@ makeGravityControl_() {
   });
   var e = /** @type {!HTMLInputElement} */(document.getElementById('gravity_control'));
   if (!goog.isObject(e)) {
-    throw new Error('gravity_control not found');
+    throw 'gravity_control not found';
   }
   if (g == null) {
     e.value = '';
@@ -677,7 +677,7 @@ makeDampingControl_() {
   });
   var e = /** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
   if (!goog.isObject(e)) {
-    throw new Error('damping_control not found');
+    throw 'damping_control not found';
   }
   if (g == null) {
     e.value = '';
@@ -761,7 +761,7 @@ prependControl(control) {
   // add playback controls before the pre-existing damping and gravity controls
   var e = /** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
   if (!goog.isObject(e)) {
-    throw new Error('damping_control not found');
+    throw 'damping_control not found';
   }
   // the damping control is wrapped in a LABEL, so need to get its parentNode
   this.layout.sim_controls.insertBefore(element, e.parentNode);

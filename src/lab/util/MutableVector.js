@@ -107,7 +107,7 @@ divide(factor) {
   if (factor === 1.0) {
     return this;
   } else if (factor < Vector.TINY_POSITIVE) {
-    throw new Error('div by zero');
+    throw 'div by zero';
   } else {
     this.x_ /= factor;
     this.y_ /= factor;
@@ -215,7 +215,7 @@ and the same direction.
 normalize() {
   var len = this.length();
   if (len < Vector.TINY_POSITIVE) {
-    throw new Error();
+    throw '';
   } else {
     return new Vector(this.x_ /len, this.y_ /len, this.z_ /len);
   }

@@ -229,7 +229,7 @@ observe(event) {
 config()  {
   var numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
-    throw new Error('too many atoms '+numAtoms);
+    throw 'too many atoms '+numAtoms;
   }
   this.sim_.cleanSlate();
   // Mass-Spring-Mass matrix says how springs & masses are connected
@@ -279,7 +279,7 @@ static getMSM(numAtoms) {
     case 6: return [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,2],[2,4],
                        [4,0],[1,3],[3,5],[5,1],[0,3],[1,4],[2,5]];
   }
-  throw new Error();
+  throw '';
 };
 
 /** Returns Special Groups of springs, these are indices into msm[].
@@ -296,7 +296,7 @@ static getSG(numAtoms) {
     case 5: return [0,4,7,9];
     case 6: return [12,13,14];
   }
-  throw new Error();
+  throw '';
 };
 
 /** Returns Non-Special Groups of springs, these are indices into msm[].
@@ -362,7 +362,7 @@ getNumAtoms() {
 */
 setNumAtoms(value) {
   if (value < 1 || value > 6) {
-    throw new Error('too many atoms '+value);
+    throw 'too many atoms '+value;
   }
   this.numAtoms_ = value;
   this.config();

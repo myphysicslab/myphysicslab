@@ -59,7 +59,7 @@ class MiscellanyTest {
 /**
 * @private
 */
-constructor() { throw new Error(); };
+constructor() { throw ''; };
 
 static test() {
   schedule(MiscellanyTest.non_collide_edges);

@@ -60,10 +60,10 @@ constructor(left, bottom, right, top) {
   */
   this.top_ = Util.testNumber(top);
   if (left > right) {
-    throw new Error('DoubleRect: left > right '+left+' > '+right);
+    throw 'DoubleRect: left > right '+left+' > '+right;
   }
   if (bottom > top) {
-    throw new Error('DoubleRect: bottom > top '+bottom+' > '+top);
+    throw 'DoubleRect: bottom > top '+bottom+' > '+top;
   }
 };
 
@@ -377,7 +377,7 @@ translate(x, y) {
     x1 = v.getX();
   }
   if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
-    throw new Error();
+    throw '';
   }
   return new DoubleRect(this.left_ + x1, this.bottom_ + y1,
       this.right_ + x1, this.top_ + y1);

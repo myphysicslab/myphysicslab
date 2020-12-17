@@ -175,7 +175,7 @@ setThrusters(thrusters, side) {
   } else if (side == 'left') {
     this.thrustLeft_ = thrusters;
   } else {
-    throw new Error('unknown side '+side);
+    throw 'unknown side '+side;
   }
 };
 

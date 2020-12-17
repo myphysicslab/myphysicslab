@@ -243,7 +243,7 @@ configure() {
           this.mySim.alignConnectors();
       break;
     default:
-      throw new Error();
+      throw '';
   }
   Walls.make(this.mySim, /*width=*/14, /*height=*/10, /*thickness=*/1.0);
   this.mySim.addForceLaw(this.dampingLaw);

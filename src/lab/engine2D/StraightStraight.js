@@ -32,7 +32,7 @@ class StraightStraight {
 @private
 */
 constructor() {
-  throw new Error();
+  throw '';
 };
 
 /** Returns intersection point of the two StraightEdges.
@@ -112,7 +112,7 @@ static improveAccuracy(rbc, edge1, edge2) {
       rbc.impact1 = pt;
       rbc.normal = e.getBody().rotateBodyToWorld(e.getNormalBody(pt));
     } else {
-      throw new Error('StraightStraight.improveAccuracy failed');
+      throw 'StraightStraight.improveAccuracy failed';
     }
   }
 };

@@ -342,7 +342,7 @@ setAngle(angle) {
 /** @override */
 setAngularVelocity(angular_velocity) {
   if (!isFinite(angular_velocity)) {
-    throw new Error('angular velocity must be finite '+angular_velocity);
+    throw 'angular velocity must be finite '+angular_velocity;
   }
   this.angular_velocity_ = angular_velocity;
 };
@@ -362,7 +362,7 @@ setDragPoints(dragPts) {
 /** @override */
 setMass(mass) {
   if (mass <= 0 || !goog.isNumber(mass)) {
-    throw new Error('mass must be positive '+mass);
+    throw 'mass must be positive '+mass;
   }
   this.mass_ = mass;
   return this;

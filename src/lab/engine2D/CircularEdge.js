@@ -148,7 +148,7 @@ constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_sp
   this.radius_ = center_body.distanceTo(vertex1.locBody());
   var r2 = vertex2.locBody().distanceTo(center_body);
   if (Math.abs(this.radius_ - r2 > CircularEdge.TINY_POSITIVE)) {
-    throw new Error('center is not equidistant from the two end points');
+    throw 'center is not equidistant from the two end points';
   }
   /** when true, arc goes clockwise from startAngle to finishAngle.
   * @type {boolean}
@@ -306,7 +306,7 @@ static make(body, vertex1, vertex2, radius, aboveRight, clockwise, outsideIsOut)
   var a = Util.hypot(vertex1.locBodyX() - mx, vertex1.locBodyY() - my);
   var d = radius*radius - a*a;
   if (d < CircularEdge.TINY_POSITIVE) {
-    throw new Error('radius '+radius+' is too small, must be >= '+a);
+    throw 'radius '+radius+' is too small, must be >= '+a;
   }
   // distance from midpoint to center
   var b = Math.sqrt(d);
@@ -429,7 +429,7 @@ distanceToEdge(edge) {
     var concave = !edge.outsideIsOut_ || !this.outsideIsOut_;
     return concave ? Math.abs(r1 + r2) - len : len - (r1 + r2);
   } else {
-    throw new Error();
+    throw '';
   }
 };
 
@@ -546,7 +546,7 @@ findVertexContact(v, p_body, distTol) {
   var rbc = new CornerEdgeCollision(v, this);
   rbc.distance = dist;
   if (h < CircularEdge.TINY_POSITIVE)
-    throw new Error('cannot get normal for point at center of circle');
+    throw 'cannot get normal for point at center of circle';
   // ne = normal in edge coords (concave has reversed normal)
   var ne = p_edge.multiply((this.outsideIsOut_ ? 1 : -1) * (1/h));
   // note: because bodyToEdge does not rotate, the normal is same in edge or body coords
@@ -628,7 +628,7 @@ getNormalBody(p_body) {
   var p_edge = this.bodyToEdge(p_body);
   var h = p_edge.length();
   if (h < CircularEdge.TINY_POSITIVE) {
-    throw new Error(Util.DEBUG ? ('cannot get normal at point '+p_body) : '');
+    throw Util.DEBUG ? ('cannot get normal at point '+p_body) : '';
   }
   // note: because bodyToEdge does not rotate, the normal is same in edge or body coords
   return p_edge.multiply(this.outsideIsOut_ ? 1/h : -1/h);
@@ -688,7 +688,7 @@ improveAccuracyEdge(rbc, edge) {
       CircleCircle.improveAccuracy(rbc, edge, this);
     }
   } else {
-    throw new Error();
+    throw '';
   }
 };
 
@@ -936,7 +936,7 @@ testCollisionEdge(collisions, edge, time) {
     }
     CircleCircle.testCollision(collisions, edge, this, time);
   } else {
-    throw new Error();
+    throw '';
   }
 };
 

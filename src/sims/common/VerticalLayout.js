@@ -197,11 +197,11 @@ static getElementById(elem_ids, elementId) {
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
   if (!goog.isString(e_id)) {
-    throw new Error('unknown elementId: '+elementId);
+    throw 'unknown elementId: '+elementId;
   }
   var e = document.getElementById(e_id);
   if (!goog.isObject(e)) {
-    throw new Error('not found: element with id='+e_id);
+    throw 'not found: element with id='+e_id;
   }
   return e;
 };
@@ -218,7 +218,7 @@ static maybeElementById(elem_ids, elementId) {
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
   if (!goog.isString(e_id)) {
-    throw new Error('unknown elementId: '+elementId);
+    throw 'unknown elementId: '+elementId;
   }
   return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };

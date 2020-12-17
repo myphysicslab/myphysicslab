@@ -185,7 +185,7 @@ config() {
       this.displayList.findShape(body).setFillStyle('orange');
       break;
     default:
-      throw new Error('too many bodies');
+      throw 'too many bodies';
     }
   }
   this.mySim.setElasticity(elasticity);

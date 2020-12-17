@@ -304,7 +304,7 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 */
 getPoint(idx, point) {
   if (idx < 0 || idx > this.w_.length) {
-    throw new Error();
+    throw '';
   }
   point.setTo(idx*this.length_/this.numPoints_, this.w_[idx]);
 };
@@ -375,7 +375,7 @@ advance() {
       this.wIdx_ = 1;
       break;
     default:
-      throw new Error();
+      throw '';
   }
   var N = this.numPoints_-1;
   wNew[0] = 0;
@@ -420,7 +420,7 @@ getEnergyInfo() {
       w = this.w2_;
       break;
     default:
-      throw new Error();
+      throw '';
   }
   var ke = 0;
   var pe = 0;

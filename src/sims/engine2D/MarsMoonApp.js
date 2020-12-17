@@ -193,7 +193,7 @@ config() {
       MarsMoonApp.i18n.MOON);
   } else {
     //this.moon = Shapes.makeOval('moon', 3, ovalness*3);
-    throw new Error('oval shape not implemented');
+    throw 'oval shape not implemented';
   }
   // Set moon velocity so the combined bodies have zero momentum.
   // asteroid momentum = asteroid_v * asteroid_mass

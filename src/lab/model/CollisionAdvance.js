@@ -308,8 +308,7 @@ advance(timeStep, opt_memoList) {
         }
         if (this.stuckCount_ >= CollisionAdvance.MAX_STUCK_COUNT) {
           this.print(WayPoint.STUCK);
-          throw new Error('collision was not resolved after '+this.stuckCount_
-            +' tries');
+          throw 'collision was not resolved after '+this.stuckCount_+' tries';
         }
       }
     }
@@ -468,7 +467,7 @@ checkNoneCollide() {
       this.myPrint('stats '+this.stats_);
       this.printCollisions('TROUBLE', true);
       console.log(this.sim_.getVarsList().printHistory());
-      throw new Error('checkNoneCollide numIllegal='+numIllegal);
+      throw 'checkNoneCollide numIllegal='+numIllegal;
     }
   }
 };

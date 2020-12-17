@@ -373,7 +373,7 @@ evaluate(vars, change, timeStep) {
       tangent = new Vector(1, k, 0);
       tangent = tangent.normalize().multiply(this.pathPoint1_.direction);
       if (tangent == null)
-        throw new Error();
+        throw '';
     }
     force = springForces[0];
     goog.asserts.assert( force.getBody() == this.ball1_);
@@ -396,7 +396,7 @@ evaluate(vars, change, timeStep) {
       tangent = new Vector(1, k, 0);
       tangent = tangent.normalize().multiply(this.pathPoint2_.direction);
       if (tangent == null)
-        throw new Error();
+        throw '';
     }
     force = springForces[1];
     goog.asserts.assert( force.getBody() == this.ball2_);

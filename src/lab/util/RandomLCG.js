@@ -125,13 +125,13 @@ toString() {
 static checkSeed(seed) {
   var err = 'random seed must be '
   if (seed < 0) {
-    throw new Error(err + '0 or greater '+seed);
+    throw err + '0 or greater '+seed;
   }
   if (seed >= RandomLCG.m) {
-    throw new Error(err + 'less than '+RandomLCG.m+' was '+seed);
+    throw err + 'less than '+RandomLCG.m+' was '+seed;
   }
   if (seed != Math.floor(seed)) {
-    throw new Error(err + 'an integer '+seed);
+    throw err + 'an integer '+seed;
   }
 };
 
@@ -194,7 +194,7 @@ nextRange(n) {
 */
 nextRange_(n) {
   if (n <= 0)
-    throw new Error('n must be positive');
+    throw 'n must be positive';
   // We don't use modulu because of weak randomness in lower bits.
   var randomUnder1 = this.nextInt_() / RandomLCG.m;
   return Math.floor(randomUnder1 * n);

@@ -460,7 +460,7 @@ jumpOffTrack(pathPoint1) {
     // calculate sin(theta) from cos(theta)
     var sinth = Math.sqrt(1 - costh*costh);
     if (isNaN(sinth) || sinth > 1 || sinth < 0) {
-      throw new Error('sin(theta) out of range '+sinth);
+      throw 'sin(theta) out of range '+sinth;
     }
     // Component due to spring is
     var as = (sinth*this.spring_.getStretch() * this.spring_.getStiffness()) /
@@ -647,7 +647,7 @@ evaluate(vars, change, timeStep) {
     // do moveObjects() so that we can reference spring position directly
     var pathPoint = this.moveObjects(vars);
     if (pathPoint == null) {
-      throw new Error();
+      throw '';
     }
     change[0] = vars[1];  // p' = v
     // see Mathematica file 'roller.nb' for derivation of the following
@@ -667,7 +667,7 @@ evaluate(vars, change, timeStep) {
              (this.spring_.getLength() * Math.sqrt(1+k*k));
       }
       if (isNaN(cosTheta) || cosTheta > 1 || cosTheta < -1) {
-        throw new Error('cosTheta out of range '+cosTheta);
+        throw 'cosTheta out of range '+cosTheta;
       }
       change[1] += this.spring_.getStiffness()*cosTheta*this.spring_.getStretch() /
            this.ball1_.getMass();

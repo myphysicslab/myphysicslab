@@ -292,7 +292,7 @@ getEnergyInfo_(vars) {
   var ke = 0.5 * this.ball1_.getMass() * vars[3] * vars[3];
   var ke2 = this.ball1_.getKineticEnergy();
   if (Util.veryDifferent(ke, ke2)) {
-    throw new Error('kinetic energy calcs differ '+ke+' vs '+ke2);
+    throw 'kinetic energy calcs differ '+ke+' vs '+ke2;
   }
   // gravity potential = m g y
   var pe = this.ball1_.getMass() * this.gravity_ *

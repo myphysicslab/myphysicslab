@@ -294,7 +294,7 @@ setDragable(dragable) {
 
 /** @override */
 setPosition(position) {
-  //throw new Error(); // unsupported
+  //throw ''; // unsupported
 };
 
 /** Sets the screen rectangle that this VectorGraph should occupy within the

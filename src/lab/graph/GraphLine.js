@@ -324,7 +324,7 @@ getGraphPoints() {
 getGraphStyle(index) {
   var styles = this.styles_;
   if (styles.length == 0) {
-    throw new Error('graph styles list is empty');
+    throw 'graph styles list is empty';
   }
   // Find the latest style in the styles list with an index less than or
   // equal to the given index.
@@ -499,7 +499,7 @@ over with a new HistoryList. Broadcasts the ParameterNumber named
 */
 setXVariable(xVar) {
   if (xVar < -1 || xVar > this.varsList_.numVariables()-1) {
-    throw new Error('setXVariable bad index '+xVar);
+    throw 'setXVariable bad index '+xVar;
   }
   if (xVar != this.xVar_) {
     this.xVar_ = xVar;
@@ -516,7 +516,7 @@ over with a new HistoryList. Broadcasts the ParameterNumber named
 */
 setYVariable(yVar) {
   if (yVar < -1 || yVar > this.varsList_.numVariables()-1) {
-    throw new Error('setYVariable bad index '+yVar);
+    throw 'setYVariable bad index '+yVar;
   }
   if (yVar != this.yVar_) {
     this.yVar_ = yVar;

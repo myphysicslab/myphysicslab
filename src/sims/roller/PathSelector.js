@@ -115,7 +115,7 @@ setPathName(value) {
         return;
       }
     }
-    throw new Error('unknown path '+value);
+    throw 'unknown path '+value;
   };
 };
 
@@ -132,7 +132,7 @@ update() {
       return;
     }
   }
-  throw new Error('unknown path '+this.pathName_);
+  throw 'unknown path '+this.pathName_;
 };
 
 } // end class

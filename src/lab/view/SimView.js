@@ -108,7 +108,7 @@ class SimView extends AbstractSubject {
 constructor(name, simRect) {
   super(name);
   if (!(simRect instanceof DoubleRect) || simRect.isEmpty()) {
-    throw new Error('bad simRect: '+simRect);
+    throw 'bad simRect: '+simRect;
   }
   /** when panning vertically, this is percentage of height to move.
   * @type {number}
@@ -480,7 +480,7 @@ setCenterY(value) {
 /** @override */
 setCoordMap(map) {
   if (!CoordMap.isDuckType(map))
-    throw new Error('not a CoordMap: '+map);
+    throw 'not a CoordMap: '+map;
   this.coordMap_ = map;
   this.broadcast(new GenericEvent(this, LabView.COORD_MAP_CHANGED));
 };
@@ -527,9 +527,9 @@ setScaleTogether(value) {
 /** @override */
 setScreenRect(screenRect) {
   if (!ScreenRect.isDuckType(screenRect))
-    throw new Error('not a ScreenRect: '+screenRect);
+    throw 'not a ScreenRect: '+screenRect;
   if (screenRect.isEmpty()) {
-    throw new Error('empty screenrect');
+    throw 'empty screenrect';
   }
   if (!this.screenRect_.equals(screenRect)) {
     this.screenRect_ = screenRect;
@@ -541,7 +541,7 @@ setScreenRect(screenRect) {
 /** @override */
 setSimRect(simRect) {
   if (!DoubleRect.isDuckType(simRect))
-    throw new Error('not a DoubleRect: '+simRect);
+    throw 'not a DoubleRect: '+simRect;
   if (!simRect.equals(this.simRect_)) {
     this.simRect_ = simRect;
     this.realign();

@@ -85,13 +85,13 @@ class MockSubject1 {
   /** @override */
   getParameters() { return []; };
   /** @override */
-  getParameter(name) { throw new Error(); };
+  getParameter(name) { throw ''; };
   /** @override */
-  getParameterBoolean(name) { throw new Error(); };
+  getParameterBoolean(name) { throw ''; };
   /** @override */
-  getParameterNumber(name) { throw new Error(); };
+  getParameterNumber(name) { throw ''; };
   /** @override */
-  getParameterString(name) { throw new Error(); };
+  getParameterString(name) { throw ''; };
   /** @override */
   broadcastParameter(name) {};
   /** @override */

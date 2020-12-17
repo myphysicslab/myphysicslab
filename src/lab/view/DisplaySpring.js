@@ -322,7 +322,7 @@ setDrawMode(drawMode) {
 
 /** @override */
 setPosition(position) {
-  //throw new Error('unsupported operation');
+  //throw 'unsupported operation';
 };
 
 /** Set the prototype DisplaySpring for this object. Display parameters are inherited

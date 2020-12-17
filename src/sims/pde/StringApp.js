@@ -333,7 +333,7 @@ setShape(value) {
       return;
     }
   }
-  throw new Error('unknown shape '+value);
+  throw 'unknown shape '+value;
 }
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced

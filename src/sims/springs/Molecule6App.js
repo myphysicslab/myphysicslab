@@ -472,7 +472,7 @@ createAtoms() {
 config() {
   var numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
-    throw new Error('too many atoms '+numAtoms);
+    throw 'too many atoms '+numAtoms;
   }
   this.sim_.cleanSlate();
   this.resetResidualEnergy();
@@ -491,7 +491,7 @@ config() {
     case Molecule6App.SpringType.PSEUDO_GRAVITY:
       springs = this.springsPseudoGravity_; break;
     default:
-      throw new Error();
+      throw '';
   }
   springs = goog.array.filter(springs, function(spr) {
       // both bodies of the spring must be in the set.
@@ -586,7 +586,7 @@ getNumAtoms() {
 */
 setNumAtoms(value) {
   if (value < 1 || value > 6) {
-    throw new Error('too many atoms '+value);
+    throw 'too many atoms '+value;
   }
   this.numAtoms_ = value;
   this.config();
@@ -603,7 +603,7 @@ setNumAtoms(value) {
 */
 getMass(index) {
   if (index < 0 || index > 6) {
-    throw new Error();
+    throw '';
   }
   return this.atoms_[index-1].getMass();
 };
@@ -614,7 +614,7 @@ getMass(index) {
 */
 setMass(index, value) {
   if (index < 0 || index > 6) {
-    throw new Error();
+    throw '';
   }
   this.atoms_[index-1].setMass(value);
   // discontinuous change in energy
@@ -635,7 +635,7 @@ setMass(index, value) {
 */
 getSpring(springs, index1, index2) {
   if (index2 < index1) {
-    throw new Error('index2 must be > index1');
+    throw 'index2 must be > index1';
   }
   if (index1 < 1 || index1 > this.atoms_.length) {
     return null;
@@ -674,17 +674,17 @@ getStiffness(index1, index2) {
 setStiffness(index1, index2, value) {
   var spr = this.getSpring(this.springsLinear_, index1, index2);
   if (!spr) {
-    throw new Error('unknown spring connecting '+index1+'-'+index2);
+    throw 'unknown spring connecting '+index1+'-'+index2;
   }
   spr.setStiffness(value);
   spr = this.getSpring(this.springsPseudoGravity_, index1, index2);
   if (!spr) {
-    throw new Error();
+    throw '';
   }
   spr.setStiffness(value);
   spr = this.getSpring(this.springsNonLinear_, index1, index2);
   if (!spr) {
-    throw new Error();
+    throw '';
   }
   spr.setStiffness(value);
   // discontinuous change in energy

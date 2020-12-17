@@ -203,7 +203,7 @@ getNumMagnets() {
 setNumMagnets(value) {
   value = Math.floor(value);
   if (value < 1 || value >12) {
-    throw new Error('number of magnets must be from 1 to 12');
+    throw 'number of magnets must be from 1 to 12';
   }
   this.numMagnets_ = value;
   this.makeMagnets();
@@ -239,7 +239,7 @@ getMagnetAngle() {
 */
 setMagnetAngle(value) {
   if (value < 1 || value >360) {
-    throw new Error('magnet angle must be from 1 to 360');
+    throw 'magnet angle must be from 1 to 360';
   }
   this.magnetAngle_ = value;
   this.makeMagnets();

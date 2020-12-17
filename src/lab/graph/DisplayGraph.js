@@ -56,7 +56,7 @@ class DisplayGraph {
 */
 constructor(opt_graphLine) {
   if (goog.isDef(opt_graphLine) && !GraphLine.isDuckType(opt_graphLine)) {
-    throw new Error('not a GraphLine '+opt_graphLine);
+    throw 'not a GraphLine '+opt_graphLine;
   }
   /** The GraphLines to draw.
   * @type {!Array<!GraphLine>}
@@ -125,7 +125,7 @@ addGraphLine(graphLine) {
       this.memDraw_.push(-1);
     }
   } else {
-    throw new Error('not a GraphLine '+graphLine);
+    throw 'not a GraphLine '+graphLine;
   }
 };
 
@@ -381,7 +381,7 @@ removeGraphLine(graphLine) {
     goog.asserts.assert(!goog.array.contains(this.graphLines_, graphLine));
     this.needRedraw_ = true;
   } else {
-    throw new Error('not a GraphLine '+graphLine);
+    throw 'not a GraphLine '+graphLine;
   }
 };
 
@@ -399,7 +399,7 @@ setDragable(dragable) {
 
 /** @override */
 setPosition(position) {
-  //throw new Error(); // unsupported
+  //throw ''; // unsupported
 };
 
 /** Sets the screen rectangle that this DisplayGraph should occupy within the
