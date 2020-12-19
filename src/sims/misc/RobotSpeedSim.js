@@ -154,10 +154,10 @@ modifyObjects() {
   this.wheelf_.setAngle(this.slope_);
   this.wheelr_.setPosition(at.transform(-0.125, -0.075));
   this.wheelr_.setAngle(this.slope_);
-  // vector from body center to center of ramp is (3.5, -0.15 + 0.0125)
+  // vector from body center to center of ramp is (2.5, -0.15 + 0.0125)
   // But we only rotate the ramp, it doesn't move with the body.
   at = new AffineTransform(cs, ss, -ss, cs, 0, 0);
-  this.ramp_.setPosition(at.transform(3.3, -0.15 + 0.0125));
+  this.ramp_.setPosition(at.transform(2.5, -0.15 + 0.0125));
   this.ramp_.setAngle(this.slope_);
   // 0  1    2     3
   // x, v, time, rpm

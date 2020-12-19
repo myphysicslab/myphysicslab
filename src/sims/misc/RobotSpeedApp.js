@@ -17,6 +17,7 @@ goog.module('myphysicslab.sims.misc.RobotSpeedApp');
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
+const DisplayRobotWheel = goog.require('myphysicslab.sims.misc.DisplayRobotWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
@@ -37,7 +38,7 @@ class RobotSpeedApp extends AbstractApp {
 */
 constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-0.5, -0.2, 7.5, 5);
+  var simRect = new DoubleRect(-0.3, -0.2, 3.9, 2.0);
   var sim = new RobotSpeedSim();
   var advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/null,
@@ -51,13 +52,11 @@ constructor(elem_ids, opt_name) {
   this.body = new DisplayShape(this.simList.getPointMass('body'))
       .setFillStyle('blue');
   this.displayList.add(this.body);
-  /** @type {!DisplayShape} */
-  this.wheelf = new DisplayShape(this.simList.getPointMass('wheelf'))
-      .setFillStyle('purple');
+  /** @type {!DisplayRobotWheel} */
+  this.wheelf = new DisplayRobotWheel(this.simList.getPointMass('wheelf'));
   this.displayList.add(this.wheelf);
-  /** @type {!DisplayShape} */
-  this.wheelr = new DisplayShape(this.simList.getPointMass('wheelr'))
-      .setFillStyle('purple');
+  /** @type {!DisplayRobotWheel} */
+  this.wheelr = new DisplayRobotWheel(this.simList.getPointMass('wheelr'));
   this.displayList.add(this.wheelr);
 
   this.addPlaybackControls();
@@ -82,8 +81,8 @@ toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', body: '+this.body.toStringShort()
       +', ramp: '+this.ramp.toStringShort()
-      +', wheelf: '+this.ramp.toStringShort()
-      +', wheelr: '+this.ramp.toStringShort()
+      +', wheelf: '+this.wheelf.toStringShort()
+      +', wheelr: '+this.wheelr.toStringShort()
       + super.toString();
 };
 
