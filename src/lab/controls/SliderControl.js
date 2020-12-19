@@ -255,7 +255,7 @@ constructor(parameter, min, max, multiply, increments) {
   this.label_ = document.createElement('DIV');
   this.label_.className = 'slider';
   this.label_.appendChild(document.createTextNode(
-      parameter.getName(/*localized=*/true))+parameter.getUnits());
+      parameter.getName(/*localized=*/true)+parameter.getUnits()));
   this.label_.appendChild(this.slider_);
   this.label_.appendChild(this.textField_);
   /** The last value that the text field was set to, used to detect when user has
