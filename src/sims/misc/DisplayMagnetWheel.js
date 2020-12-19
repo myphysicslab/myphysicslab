@@ -29,14 +29,14 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class DisplayMagnetWheel {
 /**
-* @param {?MagnetWheel=} wheel the MagnetWheel to display
+* @param {!MagnetWheel} wheel the MagnetWheel to display
 */
 constructor(wheel) {
   /**
-  * @type {?MagnetWheel}
+  * @type {!MagnetWheel}
   * @private
   */
-  this.wheel_ = goog.isDefAndNotNull(wheel) ? wheel : null;
+  this.wheel_ = wheel;
   /**
   * @type {number|undefined}
   * @private
@@ -53,20 +53,18 @@ toString() {
 
 /** @override */
 toStringShort() {
-  return Util.ADVANCED ? '' : 'DisplaySpring{wheel_: '+
-      (this.wheel_ != null ? this.wheel_.toStringShort() : 'null')+'}';
+  return Util.ADVANCED ? '' : 'DisplayMagnetWheel{wheel_: '+
+      this.wheel_.toStringShort()+'}';
 };
 
 /** @override */
 contains(p_world) {
-  return false;
+  var p_body = this.wheel_.worldToBody(p_world);
+  return this.wheel_.getBoundsBody().contains(p_body);
 };
 
 /** @override */
 draw(context, map) {
-  if (this.wheel_ == null) {
-    return;
-  }
   var r = this.wheel_.getRadius();
   context.save();
   /** @type {!AffineTransform} */
@@ -143,18 +141,18 @@ draw(context, map) {
 
 /** @override */
 getMassObjects() {
-  return this.wheel_ == null ? [ ] : [ this.wheel_ ];
+  return [ this.wheel_ ];
 };
 
 /** @override */
 getPosition() {
   // return midpoint of the line
-  return this.wheel_ == null ? Vector.ORIGIN : this.wheel_.getPosition();
+  return this.wheel_.getPosition();
 };
 
 /** @override */
 getSimObjects() {
-  return this.wheel_ == null ? [ ] : [ this.wheel_ ];
+  return [ this.wheel_ ];
 };
 
 /** @override */

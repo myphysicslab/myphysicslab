@@ -444,7 +444,8 @@ $(BUILD_DIR)/sims/misc/MagnetWheelApp*.js : src/sims/misc/MagnetWheel.js \
 src/sims/misc/MagnetWheelSim.js \
 src/sims/misc/DisplayMagnetWheel.js
 
-$(BUILD_DIR)/sims/misc/RobotSpeedApp*.js : src/sims/misc/RobotSpeedSim.js
+$(BUILD_DIR)/sims/misc/RobotSpeedApp*.js : src/sims/misc/RobotSpeedSim.js \
+src/sims/misc/DisplayRobotWheel.js
 
 # src/sims/pde prerequisites
 
