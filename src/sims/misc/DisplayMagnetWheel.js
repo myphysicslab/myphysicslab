@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.module('myphysicslab.sims.misc.DisplayWheel');
+goog.module('myphysicslab.sims.misc.DisplayMagnetWheel');
 
 goog.require('goog.asserts');
 
@@ -27,7 +27,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 * @implements {DisplayObject}
 */
-class DisplayWheel {
+class DisplayMagnetWheel {
 /**
 * @param {?MagnetWheel=} wheel the MagnetWheel to display
 */
@@ -188,4 +188,4 @@ setZIndex(zIndex) {
 
 } // end class
 
-exports = DisplayWheel;
+exports = DisplayMagnetWheel;

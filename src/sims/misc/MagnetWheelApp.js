@@ -18,7 +18,7 @@ const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
-const DisplayWheel = goog.require('myphysicslab.sims.misc.DisplayWheel');
+const DisplayMagnetWheel = goog.require('myphysicslab.sims.misc.DisplayMagnetWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const Force = goog.require('myphysicslab.lab.model.Force');
@@ -84,10 +84,10 @@ constructor(elem_ids, opt_name) {
   this.makeMagnets();
 
   /**
-  * @type {!DisplayWheel}
+  * @type {!DisplayMagnetWheel}
   * @private
   */
-  this.dispWheel_ = new DisplayWheel(this.magnetWheel_);
+  this.dispWheel_ = new DisplayMagnetWheel(this.magnetWheel_);
   this.displayList.add(this.dispWheel_);
 
   this.sim.getSimList().addObserver(this);
