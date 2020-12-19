@@ -62,6 +62,12 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   @private
   */
   this.localName_ = localName;
+  /** units string such as ' (kg)', to be appended to name when displayed in a
+  user interface control.
+  @type {string}
+  @private
+  */
+  this.units_ = '';
   /** A method of Subject with no arguments that returns the value of this Parameter
   @type {function(): number}
   @private
@@ -122,6 +128,7 @@ toString() {
       +', isComputed_: '+this.isComputed_
       +', subject_: '+this.subject_.toStringShort()
       +', localName_: "'+this.localName_+'"'
+      +', units_: "'+this.units_+'"'
       +', lowerLimit_: '+Util.NF(this.lowerLimit_)
       +', upperLimit_: '+Util.NF(this.upperLimit_)
       +', decimalPlaces_: '+this.decimalPlaces_
@@ -178,6 +185,14 @@ getSignifDigits() {
 /** @override */
 getSubject() {
   return this.subject_;
+};
+
+/** Returns the units string such as " (kg)", to be appended to name when displayed
+in a user interface control.
+@return {string}
+*/
+getUnits() {
+  return this.units_;
 };
 
 /** Returns the upper limit; the Parameter value is not allowed to be greater than
@@ -281,6 +296,16 @@ show numbers as: 12345, 1234, 123, 12.3, 1.23, 0.123, 0.0123, 0.00123.
 */
 setSignifDigits(signifDigits) {
   this.signifDigits_ = signifDigits;
+  return this;
+};
+
+/** Sets the units string such as " (kg)", to be appended to name when displayed
+in a user interface control.
+@param {string} value
+@return {!ParameterNumber} this Parameter for chaining setters
+*/
+setUnits(value) {
+  this.units_ = value;
   return this;
 };
 

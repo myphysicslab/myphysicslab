@@ -104,16 +104,20 @@ constructor(opt_name) {
 
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.MASS,
       RobotSpeedSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      goog.bind(this.getMass, this), goog.bind(this.setMass, this))
+      .setUnits(' (kg)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.TORQUE,
       RobotSpeedSim.i18n.TORQUE,
-      goog.bind(this.getTorque, this), goog.bind(this.setTorque, this)));
+      goog.bind(this.getTorque, this), goog.bind(this.setTorque, this))
+      .setUnits(' (Nm)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.FREE_SPEED,
       RobotSpeedSim.i18n.FREE_SPEED,
-      goog.bind(this.getFreeSpeed, this), goog.bind(this.setFreeSpeed, this)));
+      goog.bind(this.getFreeSpeed, this), goog.bind(this.setFreeSpeed, this))
+      .setUnits(' (RPM)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.SLOPE,
       RobotSpeedSim.i18n.SLOPE,
-      goog.bind(this.getSlope, this), goog.bind(this.setSlope, this)));
+      goog.bind(this.getSlope, this), goog.bind(this.setSlope, this))
+      .setUnits(' (degrees)'));
 
 };
 
@@ -280,7 +284,7 @@ RobotSpeedSim.en = {
   VELOCITY: 'velocity',
   RPM: 'RPM',
   TORQUE: 'stall torque',
-  FREE_SPEED: 'free speed RPM',
+  FREE_SPEED: 'free speed',
   MASS: 'mass',
   ROBOT: 'robot',
   SLOPE: 'slope'
@@ -295,7 +299,7 @@ RobotSpeedSim.de_strings = {
   VELOCITY: 'Geschwindigkeit',
   RPM: 'RPM',
   TORQUE: 'stehenbleibenes Drehmoment',
-  FREE_SPEED: 'freie Geschwindigkeit RPM',
+  FREE_SPEED: 'freie Geschwindigkeit',
   MASS: 'Masse',
   ROBOT: 'Roboter',
   SLOPE: 'Neigung'

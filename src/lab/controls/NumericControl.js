@@ -28,7 +28,7 @@ class NumericControl extends NumericControlBase {
 *     a text field is created.
 */
 constructor(parameter, textField) {
-  super(parameter.getName(/*localized=*/true),
+  super(parameter.getName(/*localized=*/true)+parameter.getUnits(),
       goog.bind(parameter.getValue, parameter),
       goog.bind(parameter.setValue, parameter),
       textField);
