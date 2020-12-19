@@ -237,7 +237,7 @@ reactionpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ReactionPen
 rigidbody: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RigidBodyApp-$(loc).html )
 rigidbodyroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RigidBodyRollerApp-$(loc).html )
 rigiddoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/RigidDoublePendulumApp-$(loc).html )
-robotspeed: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RobotSpeedApp-$(loc).html )
+robotspeed: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/misc/RobotSpeedApp-$(loc).html )
 rollerdouble: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerDoubleApp-$(loc).html )
 rollerflight: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerFlightApp-$(loc).html )
 rollersingle: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/RollerSingleApp-$(loc).html )
@@ -309,6 +309,7 @@ sims/experimental/GraphCalc2App \
 sims/experimental/MultiGraphCalc2App \
 sims/experimental/SimpleApp \
 sims/misc/MagnetWheelApp \
+sims/misc/RobotSpeedApp \
 sims/pde/StringApp \
 sims/pendulum/CartPendulumApp \
 sims/pendulum/CompareDoublePendulumApp \
@@ -442,6 +443,8 @@ src/sims/engine2D/RigidBodyObserver.js
 $(BUILD_DIR)/sims/misc/MagnetWheelApp*.js : src/sims/misc/MagnetWheel.js \
 src/sims/misc/MagnetWheelSim.js \
 src/sims/misc/DisplayWheel.js
+
+$(BUILD_DIR)/sims/misc/RobotSpeedApp*.js : src/sims/misc/RobotSpeedSim.js
 
 # src/sims/pde prerequisites
 
