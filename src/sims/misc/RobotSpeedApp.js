@@ -62,6 +62,8 @@ constructor(elem_ids, opt_name) {
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
   var pn;
+  pn = sim.getParameterNumber(RobotSpeedSim.en.DIAMETER);
+  this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.MASS);
   this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.TORQUE);

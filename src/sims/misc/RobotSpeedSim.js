@@ -106,6 +106,10 @@ constructor(opt_name) {
       RobotSpeedSim.i18n.MASS,
       goog.bind(this.getMass, this), goog.bind(this.setMass, this))
       .setUnits(' (kg)'));
+  this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.DIAMETER,
+      RobotSpeedSim.i18n.DIAMETER,
+      goog.bind(this.getDiameter, this), goog.bind(this.setDiameter, this))
+      .setUnits(' (mm)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.TORQUE,
       RobotSpeedSim.i18n.TORQUE,
       goog.bind(this.getTorque, this), goog.bind(this.setTorque, this))
@@ -139,6 +143,8 @@ getClassName() {
 
 /** @override */
 modifyObjects() {
+  // 0  1    2     3
+  // x, v, time, rpm
   var va = this.getVarsList();
   var vars = va.getValues();
   var p = this.map_p_to_vector(vars[0]);
@@ -152,6 +158,7 @@ modifyObjects() {
   // We transform that to position and angle of body.
   this.wheelf_.setPosition(at.transform(0.125, -0.075));
   this.wheelr_.setPosition(at.transform(-0.125, -0.075));
+  // Set angle of wheels based on distance travelled, and slope.
   // let distance travelled = x
   // the wheel rotates in opposite direction
   // rotations = -x / (2 pi r)
@@ -162,13 +169,16 @@ modifyObjects() {
   a = 2 * Math.PI * a;
   this.wheelf_.setAngle(a + this.slope_);
   this.wheelr_.setAngle(a + this.slope_);
-  // vector from body center to center of ramp is (2.5, -0.15 + 0.0125)
+  // vector from body center to center of ramp is (2.5, -0.075 -0.045 -0.0125)
+  // Measure vertical from bottom of wheel, then go half ramp height down more.
   // But we only rotate the ramp, it doesn't move with the body.
   at = new AffineTransform(cs, ss, -ss, cs, 0, 0);
-  this.ramp_.setPosition(at.transform(2.5, -0.15 + 0.0125));
+  this.ramp_.setPosition(at.transform(2.5, -0.075 -this.radius_
+      - 0.5*this.ramp_.getHeight()));
   this.ramp_.setAngle(this.slope_);
-  // 0  1    2     3
-  // x, v, time, rpm
+  // change linear velocity to rpm.  One revolution is 2 pi radius.
+  // Linear velocity is in meters / second.  Change to revolutions / minute.
+  // 1 m/s = 60 m / minute = 60 m / minute * (1 rev / 2 pi r meter)
   vars[3] = vars[1] * 60 / (2 * Math.PI * this.radius_ * 100);
   va.setValues(vars, /*continuous=*/true);
 };
@@ -204,6 +214,27 @@ evaluate(vars, change, timeStep) {
 map_p_to_vector(p) {
   var s = this.slope_;
   return this.start_.add(new Vector(p*Math.cos(s), p*Math.sin(s)));
+};
+
+/** Returns wheel diameter in mm
+@return {number} wheel diameter in mm
+*/
+getDiameter() {
+  // translate radius in meters to diameter in mm
+  return 2*this.radius_*1000;
+};
+
+/** Sets wheel diameter in mm.
+@param {number} value wheel diameter in mm
+*/
+setDiameter(value) {
+  // translate diameter in mm to radius in meters
+  this.radius_ = value / 2000;
+  this.wheelf_.setWidth(2*this.radius_);
+  this.wheelf_.setHeight(2*this.radius_);
+  this.wheelr_.setWidth(2*this.radius_);
+  this.wheelr_.setHeight(2*this.radius_);
+  this.broadcastParameter(RobotSpeedSim.en.DIAMETER);
 };
 
 /**
@@ -279,7 +310,8 @@ setFreeSpeed(value) {
   FREE_SPEED: string,
   MASS: string,
   ROBOT: string,
-  SLOPE: string
+  SLOPE: string,
+  DIAMETER: string
   }}
 */
 RobotSpeedSim.i18n_strings;
@@ -295,7 +327,8 @@ RobotSpeedSim.en = {
   FREE_SPEED: 'free speed',
   MASS: 'mass',
   ROBOT: 'robot',
-  SLOPE: 'slope'
+  SLOPE: 'slope',
+  DIAMETER: 'diameter'
 };
 
 /**
@@ -310,7 +343,8 @@ RobotSpeedSim.de_strings = {
   FREE_SPEED: 'freie Geschwindigkeit',
   MASS: 'Masse',
   ROBOT: 'Roboter',
-  SLOPE: 'Neigung'
+  SLOPE: 'Neigung',
+  DIAMETER: 'Durchmesser'
 };
 
 /** Set of internationalized strings.
