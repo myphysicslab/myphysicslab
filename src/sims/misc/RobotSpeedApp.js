@@ -61,17 +61,26 @@ constructor(elem_ids, opt_name) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
-  pn = sim.getParameterNumber(RobotSpeedSim.en.DIAMETER);
+  var pn = sim.getParameterNumber(RobotSpeedSim.en.DIAMETER);
   this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.MASS);
   this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.TORQUE);
   this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.FREE_SPEED);
   this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.SLOPE);
   this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
 
   this.simRun.setTimeStep(0.01);
   this.addStandardControls();
