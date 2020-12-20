@@ -151,9 +151,17 @@ modifyObjects() {
   // vector from body center to wheelf is (0.125, -0.075)
   // We transform that to position and angle of body.
   this.wheelf_.setPosition(at.transform(0.125, -0.075));
-  this.wheelf_.setAngle(this.slope_);
   this.wheelr_.setPosition(at.transform(-0.125, -0.075));
-  this.wheelr_.setAngle(this.slope_);
+  // let distance travelled = x
+  // the wheel rotates in opposite direction
+  // rotations = -x / (2 pi r)
+  var a = -vars[0] / (2 * Math.PI * this.radius_);
+  // ignore multiple rotations, only want fraction from 0 to 1
+  a = a - Math.floor(a);
+  // convert rotations to angle in radians
+  a = 2 * Math.PI * a;
+  this.wheelf_.setAngle(a + this.slope_);
+  this.wheelr_.setAngle(a + this.slope_);
   // vector from body center to center of ramp is (2.5, -0.15 + 0.0125)
   // But we only rotate the ramp, it doesn't move with the body.
   at = new AffineTransform(cs, ss, -ss, cs, 0, 0);

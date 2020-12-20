@@ -30,8 +30,9 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 class DisplayRobotWheel {
 /**
 * @param {!PointMass} wheel the PointMass to display
+* @param {number=} spokes number of spokes
 */
-constructor(wheel) {
+constructor(wheel, spokes) {
   if (wheel.getShape() != ShapeType.OVAL || wheel.getWidth() != wheel.getHeight()) {
     throw 'PointMass must be a circle';
   }
@@ -40,6 +41,17 @@ constructor(wheel) {
   * @private
   */
   this.wheel_ = wheel;
+  if (spokes === undefined) {
+    spokes = 8;
+  }
+  if (spokes < 0) {
+    throw 'spokes must be positive '+spokes;
+  }
+  /**
+  * @type {number}
+  * @private
+  */
+  this.spokes_ = spokes;
   /**
   * @type {number|undefined}
   * @private
@@ -96,6 +108,15 @@ draw(context, map) {
   context.lineWidth = map.screenToSimScaleX(1);
   context.strokeStyle = 'red';
   context.stroke();
+  // draw spokes
+  for (var i=0; i<this.spokes_; i++) {
+    context.beginPath();
+    context.moveTo(0, 0);
+    var a = i * 2 * Math.PI / this.spokes_;
+    context.lineTo(r * Math.cos(a), r * Math.sin(a));
+    context.strokeStyle = i == 0 ? 'red' : 'black';
+    context.stroke();
+  }
   context.restore();
 };
 

@@ -71,6 +71,7 @@ constructor(elem_ids, opt_name) {
   pn = sim.getParameterNumber(RobotSpeedSim.en.SLOPE);
   this.addControl(new NumericControl(pn));
 
+  this.simRun.setTimeStep(0.01);
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();
