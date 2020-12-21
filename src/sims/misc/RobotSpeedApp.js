@@ -96,6 +96,13 @@ constructor(elem_ids, opt_name) {
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();
+  // 0  1    2     3
+  // x, v, time, rpm
+  this.graph.line.setXVariable(2);
+  this.graph.line.setYVariable(1);
+  this.timeGraph.line1.setYVariable(1);
+  this.timeGraph.line2.setYVariable(-1);
+  this.timeGraph.line3.setYVariable(-1);
 };
 
 /** @override */
