@@ -34,22 +34,26 @@ class RobotSpeedSim extends AbstractODESim {
 */
 constructor(opt_name) {
   super(opt_name);
-  // 0  1    2     3
-  // x, v, time, rpm
+  // 0  1    2     3       4          5
+  // x, v, time, rpm, wheel_force, gravity
   var var_names = [
     RobotSpeedSim.en.POSITION,
     RobotSpeedSim.en.VELOCITY,
     VarsList.en.TIME,
-    RobotSpeedSim.en.RPM
+    RobotSpeedSim.en.RPM,
+    RobotSpeedSim.en.WHEEL_FORCE,
+    RobotSpeedSim.en.GRAVITY_FORCE
   ];
   var i18n_names = [
     RobotSpeedSim.i18n.POSITION,
     RobotSpeedSim.i18n.VELOCITY,
     VarsList.i18n.TIME,
-    RobotSpeedSim.i18n.RPM
+    RobotSpeedSim.i18n.RPM,
+    RobotSpeedSim.i18n.WHEEL_FORCE,
+    RobotSpeedSim.i18n.GRAVITY_FORCE
   ];
   this.setVarsList(new VarsList(var_names, i18n_names, this.getName()+'_VARS'));
-  this.getVarsList().setComputed(3);
+  this.getVarsList().setComputed(3, 4, 5);
   /** radius of wheel, in meters
   * @type {number}
   * @private
@@ -80,6 +84,16 @@ constructor(opt_name) {
   * @private
   */
   this.start_ = Vector.ORIGIN;
+  /** Force applied at the wheel.
+  * @type {number}
+  * @private
+  */
+  this.force_ = 0;
+  /** Gravity force on robot.
+  * @type {number}
+  * @private
+  */
+  this.gravityForce_ = 0;
   /**
   * @type {!PointMass}
   * @private
@@ -143,8 +157,8 @@ getClassName() {
 
 /** @override */
 modifyObjects() {
-  // 0  1    2     3
-  // x, v, time, rpm
+  // 0  1    2     3       4          5
+  // x, v, time, rpm, wheel_force, gravity
   var va = this.getVarsList();
   var vars = va.getValues();
   var p = this.map_p_to_vector(vars[0]);
@@ -179,30 +193,34 @@ modifyObjects() {
   // change linear velocity to rpm.  One revolution is 2 pi radius.
   // Linear velocity is in meters / second.  Change to revolutions / minute.
   // 1 m/s = 60 m / minute = 60 m / minute * (1 rev / 2 pi r meter)
-  vars[3] = vars[1] * 60 / (2 * Math.PI * this.radius_ * 100);
+  vars[3] = vars[1]*60 / (2*Math.PI*this.radius_*100);
+  vars[4] = this.force_;
+  vars[5] = -this.gravityForce_;
   va.setValues(vars, /*continuous=*/true);
 };
 
 /** @override */
 evaluate(vars, change, timeStep) {
-  // 0  1    2     3
-  // x, v, time, rpm
+  // 0  1    2     3       4          5
+  // x, v, time, rpm, wheel_force, gravity
   Util.zeroArray(change);
   change[0] = vars[1];
   // Motor delivers torque based on current rpm, linear relationship.
   // Find current rpm, based on wheel radius of 45 mm.
   // vars[1] is velocity in meters / second
-  var rpm = vars[1] * 60 / (2 * Math.PI * this.radius_);
+  var rpm = vars[1]*60 / (2*Math.PI*this.radius_);
   // ultra planetary 2 cartridge (20:1). Free speed rpm = 317. Stall torque = 1.98 N m
   // equation for torque given rpm = x
   // torque (x) = (-1.98 Nm / 317 rpm) * x + 1.98 Nm
-  var t = rpm * -this.torque_ / this.freeSpeed_ + this.torque_;
+  var t = (-this.torque_/this.freeSpeed_)*rpm + this.torque_;
   // torque = force x radius;  force = torque / radius
-  var f = t / this.radius_;
+  var f = t/this.radius_;
+  this.force_ = f;
   // gravity force because on slope
-  var g = -this.mass_ * 9.81 * Math.sin(this.slope_);
-  // a = F/m
-  change[1] = f / this.mass_ + g;
+  var g = -this.mass_*9.81*Math.sin(this.slope_);
+  this.gravityForce_ = g;
+  // acceleration = force/mass
+  change[1] = (f + g) / this.mass_;
   change[2] = 1.0;  // time
   return null;
 };
@@ -311,7 +329,9 @@ setFreeSpeed(value) {
   MASS: string,
   ROBOT: string,
   SLOPE: string,
-  DIAMETER: string
+  DIAMETER: string,
+  WHEEL_FORCE: string,
+  GRAVITY_FORCE: string
   }}
 */
 RobotSpeedSim.i18n_strings;
@@ -328,7 +348,9 @@ RobotSpeedSim.en = {
   MASS: 'mass',
   ROBOT: 'robot',
   SLOPE: 'slope',
-  DIAMETER: 'diameter'
+  DIAMETER: 'diameter',
+  WHEEL_FORCE: 'wheel force',
+  GRAVITY_FORCE: 'gravity force'
 };
 
 /**
@@ -344,7 +366,9 @@ RobotSpeedSim.de_strings = {
   MASS: 'Masse',
   ROBOT: 'Roboter',
   SLOPE: 'Neigung',
-  DIAMETER: 'Durchmesser'
+  DIAMETER: 'Durchmesser',
+  WHEEL_FORCE: 'Kraft am Rad',
+  GRAVITY_FORCE: 'Schwerkraft'
 };
 
 /** Set of internationalized strings.

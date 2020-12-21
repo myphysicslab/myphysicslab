@@ -96,13 +96,15 @@ constructor(elem_ids, opt_name) {
   this.addStandardControls();
   this.makeEasyScript();
   this.addURLScriptButton();
-  // 0  1    2     3
-  // x, v, time, rpm
+  // 0  1    2     3       4          5
+  // x, v, time, rpm, wheel_force, gravity
   this.graph.line.setXVariable(2);
   this.graph.line.setYVariable(1);
   this.timeGraph.line1.setYVariable(1);
-  this.timeGraph.line2.setYVariable(-1);
-  this.timeGraph.line3.setYVariable(-1);
+  this.timeGraph.line2.setYVariable(4);
+  this.timeGraph.line3.setYVariable(5);
+  this.timeGraph.autoScale.setTimeWindow(2);
+  this.layout.setLayout(TabLayout.Layout.TIME_GRAPH_AND_SIM);
 };
 
 /** @override */
