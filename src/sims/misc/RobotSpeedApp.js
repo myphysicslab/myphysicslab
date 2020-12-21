@@ -19,6 +19,7 @@ const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplayRobotWheel = goog.require('myphysicslab.sims.misc.DisplayRobotWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
@@ -48,9 +49,9 @@ constructor(elem_ids, opt_name) {
   this.ramp = new DisplayShape(this.simList.getPointMass('ramp'))
       .setFillStyle('black');
   this.displayList.add(this.ramp);
+  var bot = this.simList.getPointMass('robot');
   /** @type {!DisplayShape} */
-  this.robot = new DisplayShape(this.simList.getPointMass('robot'))
-      .setFillStyle('blue');
+  this.robot = new DisplayShape(bot).setFillStyle('blue');
   this.displayList.add(this.robot);
   /** @type {!DisplayRobotWheel} */
   this.wheelf = new DisplayRobotWheel(this.simList.getPointMass('wheelf'));
@@ -82,6 +83,15 @@ constructor(elem_ids, opt_name) {
   this.graph.addControl(new NumericControl(pn));
   this.timeGraph.addControl(new NumericControl(pn));
 
+  var sr = this.simRun;
+  // pause simulation when bot goes too far in either direction
+  /** @type {!GenericMemo} */
+  this.memo = new GenericMemo(function() {
+    var p = bot.getPosition().getX();
+    if (p < -0.5 || p > 7)
+      sr.pause();
+  });
+  this.simRun.addMemo(this.memo);
   this.simRun.setTimeStep(0.01);
   this.addStandardControls();
   this.makeEasyScript();
