@@ -98,7 +98,8 @@ constructor(opt_name) {
   * @type {!PointMass}
   * @private
   */
-  this.robot_ = PointMass.makeRectangle(0.300, 0.075, 'robot');
+  this.robot_ = PointMass.makeRectangle(0.3, 0.1, 'robot');
+  this.robot_.setCenterOfMass(0.075, 0);
   /** front wheel
   * @type {!PointMass}
   * @private
@@ -114,6 +115,20 @@ constructor(opt_name) {
   * @private
   */
   this.ramp_ = PointMass.makeRectangle(7, 0.025, 'ramp');
+  var cg = this.robot_.getCenterOfMassBody();
+  // vector from body center to wheelf is (0.125, -0.075)
+  // Subtract center of mass, to be in coordinates of geometric center of robot.
+  /** Vector to front wheel, from center of mass, in body coords.
+  * @type {!Vector}
+  * @private
+  */
+  this.vwf_ = new Vector(0.125, -0.075).subtract(cg);
+  /** Vector to rear wheel, from center of mass, in body coords.
+  * @type {!Vector}
+  * @private
+  */
+  this.vwr_ = new Vector(-0.125, -0.075).subtract(cg);
+
   this.getSimList().add(this.ramp_, this.robot_, this.wheelf_, this.wheelr_);
 
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.MASS,
@@ -168,10 +183,9 @@ modifyObjects() {
   var at = new AffineTransform(cs, ss, -ss, cs, p.getX(), p.getY());
   this.robot_.setPosition(p);
   this.robot_.setAngle(this.slope_);
-  // vector from body center to wheelf is (0.125, -0.075)
-  // We transform that to position and angle of body.
-  this.wheelf_.setPosition(at.transform(0.125, -0.075));
-  this.wheelr_.setPosition(at.transform(-0.125, -0.075));
+  // Transform wheels to position and angle of robot.
+  this.wheelf_.setPosition(at.transform(this.vwf_));
+  this.wheelr_.setPosition(at.transform(this.vwr_));
   // Set angle of wheels based on distance travelled, and slope.
   // let distance travelled = x
   // the wheel rotates in opposite direction

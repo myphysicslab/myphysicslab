@@ -51,7 +51,8 @@ constructor(elem_ids, opt_name) {
   this.displayList.add(this.ramp);
   var bot = this.simList.getPointMass('robot');
   /** @type {!DisplayShape} */
-  this.robot = new DisplayShape(bot).setFillStyle('blue');
+  this.robot = new DisplayShape(bot).setFillStyle('lightGray')
+      .setDrawCenterOfMass(true);
   this.displayList.add(this.robot);
   /** @type {!DisplayRobotWheel} */
   this.wheelf = new DisplayRobotWheel(this.simList.getPointMass('wheelf'));
