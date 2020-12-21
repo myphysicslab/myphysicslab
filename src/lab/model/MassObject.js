@@ -69,7 +69,7 @@ orientation.
     move the specified `p_body` point to
 @param {number=} opt_angle the angle in radians to rotate this body counter-clockwise
     from 'body coordinates' orientation;  if not specified then leave the angle as is.
-@throws {!Error} if this RigidBody is immoveable
+@throws {!Error} if this MassObject is immoveable
 */
 alignTo(p_body, p_world, opt_angle) {}
 
@@ -137,7 +137,7 @@ getCenterOfMassBody() {}
 
 /** Returns the center of the circle to use for proximity testing, in body coords. A
 circle centered at this location with radius `getCentroidRadius()` should enclose this
-RigidBody. See {@link #getCentroidRadius}, {@link #getCentroidWorld}.
+MassObject. See {@link #getCentroidRadius}, {@link #getCentroidWorld}.
 
 @return {!Vector} the center of the circle to use for proximity
     testing, in body coords
@@ -145,7 +145,7 @@ RigidBody. See {@link #getCentroidRadius}, {@link #getCentroidWorld}.
 getCentroidBody() {}
 
 /** Returns the radius of the circle to use for proximity testing. A circle
-centered at `getCentroidBody()` with this radius should enclose this RigidBody.
+centered at `getCentroidBody()` with this radius should enclose this MassObject.
 See {@link #getCentroidBody}, {@link #getCentroidWorld}.
 
 @return {number} the radius of the circle to use for proximity testing.
@@ -154,7 +154,7 @@ getCentroidRadius() {}
 
 /** Returns the center of the circle to use for proximity testing, in world coords. A
 circle centered at this location with radius `getCentroidRadius()` should enclose this
-RigidBody. See {@link #getCentroidBody}, {@link #getCentroidRadius}.
+MassObject. See {@link #getCentroidBody}, {@link #getCentroidRadius}.
 
 @return {!Vector} the center of the circle to use for proximity
 testing, in world coords
@@ -358,6 +358,10 @@ setCenterOfMass(x_body, y_body) {}
 setDragPoints(dragPts) {}
 
 /** Set the mass of this MassObject.
+
+Note that when setting the mass on a MassObject you should also set accordingly the
+moment of inertia about center of mass, see {@link #setMomentAboutCM}.
+
 @param {number} mass the mass of this MassObject
 @return {!MassObject} this object for chaining setters
 */
@@ -392,10 +396,6 @@ setMomentAboutCM(moment) {}
 /** Moves this body so that the center of mass is at the given world coordinates
 location; rotates this body counter-clockwise about center of mass from
 'body coordinates' orientation by the given angle in radians.
-
-Note that when setting the mass on a RigidBody you should also set accordingly the
-{@link myphysicslab.lab.engine2D.RigidBody#setMomentAboutCM moment about center of
-mass}.
 
 @param {!GenericVector} loc_world the location in world coordinates
 @param {number=} angle the angle in radians to rotate this body counter-clockwise
