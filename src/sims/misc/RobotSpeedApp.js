@@ -49,9 +49,9 @@ constructor(elem_ids, opt_name) {
       .setFillStyle('black');
   this.displayList.add(this.ramp);
   /** @type {!DisplayShape} */
-  this.body = new DisplayShape(this.simList.getPointMass('body'))
+  this.robot = new DisplayShape(this.simList.getPointMass('robot'))
       .setFillStyle('blue');
-  this.displayList.add(this.body);
+  this.displayList.add(this.robot);
   /** @type {!DisplayRobotWheel} */
   this.wheelf = new DisplayRobotWheel(this.simList.getPointMass('wheelf'));
   this.displayList.add(this.wheelf);
@@ -91,7 +91,7 @@ constructor(elem_ids, opt_name) {
 /** @override */
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      +', body: '+this.body.toStringShort()
+      +', robot: '+this.robot.toStringShort()
       +', ramp: '+this.ramp.toStringShort()
       +', wheelf: '+this.wheelf.toStringShort()
       +', wheelr: '+this.wheelr.toStringShort()
