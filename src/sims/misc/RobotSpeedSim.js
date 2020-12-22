@@ -101,7 +101,12 @@ constructor(opt_name) {
   * @private
   */
   this.robot_ = PointMass.makeRectangle(0.3, 0.1, 'robot');
-  this.robot_.setCenterOfMass(0, 0);
+  /** center of mass, as percentage.  50% is midway between wheels.
+  Higher percentage means closer to rear wheel.
+  * @type {number}
+  * @private
+  */
+  this.cm_pct_ = 50;
   /** front wheel
   * @type {!PointMass}
   * @private
@@ -117,19 +122,16 @@ constructor(opt_name) {
   * @private
   */
   this.ramp_ = PointMass.makeRectangle(7, 0.025, 'ramp');
-  var cg = this.robot_.getCenterOfMassBody();
-  // vector from body center to wheelf is (0.125, -0.075)
-  // Subtract center of mass, to be in coordinates of geometric center of robot.
   /** Vector to front wheel axle, from center of mass, in body coords.
   * @type {!Vector}
   * @private
   */
-  this.vwf_ = new Vector(0.125, -0.075).subtract(cg);
+  this.vwf_ = Vector.ORIGIN;
   /** Vector to rear wheel axle, from center of mass, in body coords.
   * @type {!Vector}
   * @private
   */
-  this.vwr_ = new Vector(-0.125, -0.075).subtract(cg);
+  this.vwr_ = Vector.ORIGIN;
   /** Normal force at front axle.
   * @type {number}
   * @private
@@ -140,6 +142,11 @@ constructor(opt_name) {
   * @private
   */
   this.Nr_ = 0;
+  /** coefficient of static friction
+  * @type {number}
+  * @private
+  */
+  this.friction_ = 1;
 
   this.getSimList().add(this.ramp_, this.robot_, this.wheelf_, this.wheelr_);
 
@@ -163,7 +170,15 @@ constructor(opt_name) {
       RobotSpeedSim.i18n.SLOPE,
       goog.bind(this.getSlope, this), goog.bind(this.setSlope, this))
       .setUnits(' (degrees)'));
+  this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.COEF_FRICTION,
+      RobotSpeedSim.i18n.COEF_FRICTION,
+      goog.bind(this.getFriction, this), goog.bind(this.setFriction, this)));
+  this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.CENTER_OF_MASS,
+      RobotSpeedSim.i18n.CENTER_OF_MASS,
+      goog.bind(this.getCenterOfMass, this), goog.bind(this.setCenterOfMass, this))
+      .setUnits(' (%)'));
 
+  this.setCenterOfMass(50);
 };
 
 /** @override */
@@ -276,6 +291,11 @@ evaluate(vars, change, timeStep) {
   }
   // torque = force x radius;  force = torque / radius
   var f = t/this.radius_;
+  // limit force by coef static friction * normal force
+  var limit = this.friction_ * this.Nr_;
+  if (f > limit) {
+    f = limit;
+  }
   this.force_ = f;
   // gravity force because on slope
   var g = -this.mass_*9.81*Math.sin(this.slope_);
@@ -376,7 +396,50 @@ setFreeSpeed(value) {
   this.broadcastParameter(RobotSpeedSim.en.FREE_SPEED);
 };
 
+/**
+@return {number}
+*/
+getFriction() {
+  return this.friction_;
+};
 
+/**
+@param {number} value
+*/
+setFriction(value) {
+  this.friction_ = value;
+  this.broadcastParameter(RobotSpeedSim.en.COEF_FRICTION);
+};
+
+/** Returns center of mass as percentage from rear wheel to front wheel.
+99% means almost all the way to rear wheel.  1% means almost all the way to front
+wheel.
+@return {number} percentage between 1% and 99%
+*/
+getCenterOfMass() {
+  return this.cm_pct_;
+};
+
+/** Sets center of mass as percentage from rear wheel to front wheel.
+99% means almost all the way to rear wheel.  1% means almost all the way to front
+wheel.
+@param {number} value percentage between 1% and 99%
+*/
+setCenterOfMass(value) {
+  if (value < 1 || value > 99) {
+    throw 'center of gravity percentage must be > 1 and < 99, was '+value;
+  }
+  this.cm_pct_ = value;
+  // wheels are 0.25 apart horizontally.
+  // rear wheel is at x = -0.125 in body coords. Corresponds to 100%
+  // front wheel is at x = 0.125 in body coords. Corresponds to 0
+  this.robot_.setCenterOfMass(0.125 - (value/100)*0.25, 0);
+  // Find vector from robot center of mass to each wheel, in body coords.
+  var cm = this.robot_.getCenterOfMassBody();
+  this.vwf_ = new Vector(0.125, -0.075).subtract(cm);
+  this.vwr_ = new Vector(-0.125, -0.075).subtract(cm);
+  this.broadcastParameter(RobotSpeedSim.en.CENTER_OF_MASS);
+};
 
 } // end class
 
@@ -392,7 +455,9 @@ setFreeSpeed(value) {
   SLOPE: string,
   DIAMETER: string,
   WHEEL_FORCE: string,
-  GRAVITY_FORCE: string
+  GRAVITY_FORCE: string,
+  COEF_FRICTION: string,
+  CENTER_OF_MASS: string
   }}
 */
 RobotSpeedSim.i18n_strings;
@@ -411,7 +476,9 @@ RobotSpeedSim.en = {
   SLOPE: 'slope',
   DIAMETER: 'diameter',
   WHEEL_FORCE: 'wheel force',
-  GRAVITY_FORCE: 'gravity force'
+  GRAVITY_FORCE: 'gravity force',
+  COEF_FRICTION: 'coef static friction',
+  CENTER_OF_MASS: 'center of mass'
 };
 
 /**
@@ -429,7 +496,9 @@ RobotSpeedSim.de_strings = {
   SLOPE: 'Neigung',
   DIAMETER: 'Durchmesser',
   WHEEL_FORCE: 'Kraft am Rad',
-  GRAVITY_FORCE: 'Schwerkraft'
+  GRAVITY_FORCE: 'Schwerkraft',
+  COEF_FRICTION: 'Koeff Statisch Reibung',
+  CENTER_OF_MASS: 'Zentrum der Masse'
 };
 
 /** Set of internationalized strings.

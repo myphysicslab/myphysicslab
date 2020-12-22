@@ -45,7 +45,7 @@ class RobotSpeedApp extends AbstractApp {
 */
 constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-0.3, -0.2, 3.9, 2.0);
+  var simRect = new DoubleRect(-0.7, -0.4, 6, 3.0);
   var sim = new RobotSpeedSim();
   var advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/null,
@@ -86,6 +86,14 @@ constructor(elem_ids, opt_name) {
   this.graph.addControl(new NumericControl(pn));
   this.timeGraph.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RobotSpeedSim.en.SLOPE);
+  this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
+  pn = sim.getParameterNumber(RobotSpeedSim.en.COEF_FRICTION);
+  this.addControl(new NumericControl(pn));
+  this.graph.addControl(new NumericControl(pn));
+  this.timeGraph.addControl(new NumericControl(pn));
+  pn = sim.getParameterNumber(RobotSpeedSim.en.CENTER_OF_MASS);
   this.addControl(new NumericControl(pn));
   this.graph.addControl(new NumericControl(pn));
   this.timeGraph.addControl(new NumericControl(pn));
