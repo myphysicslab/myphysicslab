@@ -90,8 +90,13 @@ constructor(opt_name) {
   * @type {number}
   * @private
   */
-  this.force_ = 0;
-  /** Gravity force on robot.
+  this.engineForce_ = 0;
+  /** Gravity force on robot, along direction of ramp.
+  * @type {number}
+  * @private
+  */
+  this.gravityRampForce_ = 0;
+  /** Gravity force on robot, full downward force.
   * @type {number}
   * @private
   */
@@ -198,6 +203,16 @@ getClassName() {
 };
 
 /** @override */
+reset() {
+  this.Nf_ = 0;
+  this.Nr_ = 0;
+  this.engineForce_ = 0;
+  this.gravityRampForce_ = 0;
+  this.gravityForce_ = 0;
+  super.reset();
+};
+
+/** @override */
 modifyObjects() {
   // 0  1    2     3       4          5
   // x, v, time, rpm, wheel_force, gravity
@@ -229,12 +244,12 @@ modifyObjects() {
   this.getSimList().add(f);
   // Display gravity force at center of mass
   f = new Force('gravity', this.robot_, this.robot_.getPosition(), CoordType.WORLD,
-        Vector.SOUTH.multiply(0.1*this.mass_*9.81), CoordType.WORLD);
+        Vector.SOUTH.multiply(0.1*this.gravityForce_), CoordType.WORLD);
   f.setExpireTime(this.getTime());
   this.getSimList().add(f);
   // Display engine friction force at rear wheel
   f = new Force('engine', this.robot_, this.wheelr_.getPosition(), CoordType.WORLD,
-        new Vector(cs, ss).multiply(0.1*this.force_), CoordType.WORLD);
+        new Vector(cs, ss).multiply(0.1*this.engineForce_), CoordType.WORLD);
   f.setExpireTime(this.getTime());
   this.getSimList().add(f);
   // Set angle of wheels based on distance travelled, and slope.
@@ -259,8 +274,8 @@ modifyObjects() {
   // Linear velocity is in meters / second.  Change to revolutions / minute.
   // 1 m/s = 60 m / minute = 60 m / minute * (1 rev / 2 pi r meter)
   vars[3] = vars[1]*60 / (2*Math.PI*this.radius_*100);
-  vars[4] = this.force_;
-  vars[5] = -this.gravityForce_;
+  vars[4] = this.engineForce_;
+  vars[5] = -this.gravityRampForce_;
   va.setValues(vars, /*continuous=*/true);
 };
 
@@ -296,10 +311,11 @@ evaluate(vars, change, timeStep) {
   if (f > limit) {
     f = limit;
   }
-  this.force_ = f;
-  // gravity force because on slope
-  var g = -this.mass_*9.81*Math.sin(this.slope_);
-  this.gravityForce_ = g;
+  this.engineForce_ = f;
+  this.gravityForce_ = -this.mass_ * 9.81;
+  // gravity force in direction of slope
+  var g = this.gravityForce_ * Math.sin(this.slope_);
+  this.gravityRampForce_ = g;
   // acceleration = force/mass
   change[1] = (f + g) / this.mass_;
   change[2] = 1.0;  // time

@@ -45,7 +45,7 @@ class RobotSpeedApp extends AbstractApp {
 */
 constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-0.7, -0.4, 6, 3.0);
+  var simRect = new DoubleRect(-0.7, -0.4, 2.5, 1.3);
   var sim = new RobotSpeedSim();
   var advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/null,
@@ -121,6 +121,7 @@ constructor(elem_ids, opt_name) {
   this.timeGraph.autoScale.setTimeWindow(2);
   this.layout.setLayout(TabLayout.Layout.TIME_GRAPH_AND_SIM);
   this.sim.getSimList().addObserver(this);
+  this.getParameterBoolean('PAN_ZOOM').setValue(true);
 };
 
 /** @override */
