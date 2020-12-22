@@ -43,7 +43,7 @@ constructor(opt_name) {
     RobotSpeedSim.en.VELOCITY,
     VarsList.en.TIME,
     RobotSpeedSim.en.RPM,
-    RobotSpeedSim.en.WHEEL_FORCE,
+    RobotSpeedSim.en.ENGINE_FORCE,
     RobotSpeedSim.en.GRAVITY_FORCE
   ];
   var i18n_names = [
@@ -51,7 +51,7 @@ constructor(opt_name) {
     RobotSpeedSim.i18n.VELOCITY,
     VarsList.i18n.TIME,
     RobotSpeedSim.i18n.RPM,
-    RobotSpeedSim.i18n.WHEEL_FORCE,
+    RobotSpeedSim.i18n.ENGINE_FORCE,
     RobotSpeedSim.i18n.GRAVITY_FORCE
   ];
   this.setVarsList(new VarsList(var_names, i18n_names, this.getName()+'_VARS'));
@@ -470,7 +470,7 @@ setCenterOfMass(value) {
   ROBOT: string,
   SLOPE: string,
   DIAMETER: string,
-  WHEEL_FORCE: string,
+  ENGINE_FORCE: string,
   GRAVITY_FORCE: string,
   COEF_FRICTION: string,
   CENTER_OF_MASS: string
@@ -491,7 +491,7 @@ RobotSpeedSim.en = {
   ROBOT: 'robot',
   SLOPE: 'slope',
   DIAMETER: 'diameter',
-  WHEEL_FORCE: 'wheel force',
+  ENGINE_FORCE: 'engine force',
   GRAVITY_FORCE: 'gravity force',
   COEF_FRICTION: 'coef static friction',
   CENTER_OF_MASS: 'center of mass'
@@ -511,7 +511,7 @@ RobotSpeedSim.de_strings = {
   ROBOT: 'Roboter',
   SLOPE: 'Neigung',
   DIAMETER: 'Durchmesser',
-  WHEEL_FORCE: 'Kraft am Rad',
+  ENGINE_FORCE: 'Triebkraft',
   GRAVITY_FORCE: 'Schwerkraft',
   COEF_FRICTION: 'Koeff Statisch Reibung',
   CENTER_OF_MASS: 'Zentrum der Masse'
