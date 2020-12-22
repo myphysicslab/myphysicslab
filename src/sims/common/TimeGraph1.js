@@ -230,9 +230,9 @@ TimeGraph1.i18n_strings;
 @type {TimeGraph1.i18n_strings}
 */
 TimeGraph1.en = {
-  LINE1: 'line 1',
-  LINE2: 'line 2',
-  LINE3: 'line 3'
+  LINE1: 'green',
+  LINE2: 'red',
+  LINE3: 'blue'
 };
 
 /**
@@ -240,9 +240,9 @@ TimeGraph1.en = {
 @type {TimeGraph1.i18n_strings}
 */
 TimeGraph1.de_strings = {
-  LINE1: 'linie 1',
-  LINE2: 'linie 2',
-  LINE3: 'linie 3'
+  LINE1: 'grün',
+  LINE2: 'rot',
+  LINE3: 'blau'
 };
 
 /** Set of internationalized strings.
