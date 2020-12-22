@@ -16,19 +16,25 @@ goog.module('myphysicslab.sims.misc.RobotSpeedApp');
 
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
+const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplayRobotWheel = goog.require('myphysicslab.sims.misc.DisplayRobotWheel');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const Force = goog.require('myphysicslab.lab.model.Force');
 const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
+const Observer = goog.require('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const SimList = goog.require('myphysicslab.lab.model.SimList');
+const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const RobotSpeedSim = goog.require('myphysicslab.sims.misc.RobotSpeedSim');
 const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link RobotSpeedSim} simulation.
+* @implements {Observer}
 */
 class RobotSpeedApp extends AbstractApp {
 /**
@@ -89,7 +95,7 @@ constructor(elem_ids, opt_name) {
   /** @type {!GenericMemo} */
   this.memo = new GenericMemo(function() {
     var p = bot.getPosition().getX();
-    if (p < -0.5 || p > 7)
+    if (p < -0.5 || p > 6)
       sr.pause();
   });
   this.simRun.addMemo(this.memo);
@@ -106,6 +112,7 @@ constructor(elem_ids, opt_name) {
   this.timeGraph.line3.setYVariable(5);
   this.timeGraph.autoScale.setTimeWindow(2);
   this.layout.setLayout(TabLayout.Layout.TIME_GRAPH_AND_SIM);
+  this.sim.getSimList().addObserver(this);
 };
 
 /** @override */
@@ -128,6 +135,31 @@ defineNames(myName) {
   super.defineNames(myName);
   this.terminal.addRegex('body|ramp|wheelf|wheelr',
       myName+'.');
+};
+
+/** @override */
+observe(event) {
+  if (event.getSubject() == this.sim.getSimList()) {
+    var obj = /** @type {!SimObject} */ (event.getValue());
+    if (event.nameEquals(SimList.OBJECT_ADDED)) {
+      if (this.displayList.find(obj) != null) {
+        // we already have a DisplayObject for this SimObject, don't add a new one.
+        return;
+      }
+      if (obj instanceof Force) {
+        var line = /** @type {!Force} */(obj);
+        var dl = new DisplayLine(line).setThickness(1);
+        dl.setColor('blue');
+        dl.setZIndex(10);
+        this.displayList.add(dl);
+      }
+    } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
+      var d = this.displayList.find(obj);
+      if (d != null) {
+        this.displayList.remove(d);
+      }
+    }
+  }
 };
 
 } // end class

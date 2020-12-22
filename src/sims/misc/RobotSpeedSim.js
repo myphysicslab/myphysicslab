@@ -16,9 +16,11 @@ goog.module('myphysicslab.sims.misc.RobotSpeedSim');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const CoordType = goog.require('myphysicslab.lab.model.CoordType');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
+const Force = goog.require('myphysicslab.lab.model.Force');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -99,7 +101,7 @@ constructor(opt_name) {
   * @private
   */
   this.robot_ = PointMass.makeRectangle(0.3, 0.1, 'robot');
-  this.robot_.setCenterOfMass(0.075, 0);
+  this.robot_.setCenterOfMass(0, 0);
   /** front wheel
   * @type {!PointMass}
   * @private
@@ -118,16 +120,26 @@ constructor(opt_name) {
   var cg = this.robot_.getCenterOfMassBody();
   // vector from body center to wheelf is (0.125, -0.075)
   // Subtract center of mass, to be in coordinates of geometric center of robot.
-  /** Vector to front wheel, from center of mass, in body coords.
+  /** Vector to front wheel axle, from center of mass, in body coords.
   * @type {!Vector}
   * @private
   */
   this.vwf_ = new Vector(0.125, -0.075).subtract(cg);
-  /** Vector to rear wheel, from center of mass, in body coords.
+  /** Vector to rear wheel axle, from center of mass, in body coords.
   * @type {!Vector}
   * @private
   */
   this.vwr_ = new Vector(-0.125, -0.075).subtract(cg);
+  /** Normal force at front axle.
+  * @type {number}
+  * @private
+  */
+  this.Nf_ = 0;
+  /** Normal force at rear axle.
+  * @type {number}
+  * @private
+  */
+  this.Nr_ = 0;
 
   this.getSimList().add(this.ramp_, this.robot_, this.wheelf_, this.wheelr_);
 
@@ -186,6 +198,30 @@ modifyObjects() {
   // Transform wheels to position and angle of robot.
   this.wheelf_.setPosition(at.transform(this.vwf_));
   this.wheelr_.setPosition(at.transform(this.vwr_));
+  // Display normal force at each wheel.
+  var n = new Vector(-ss, cs);
+  var f = new Force('normal_f', this.wheelf_,
+        this.wheelf_.getPosition(), CoordType.WORLD,
+        n.multiply(0.1 * this.Nf_), CoordType.WORLD);
+  // Add force to SimList, so that it can be displayed.
+  // The force should disappear immediately after it is displayed.
+  f.setExpireTime(this.getTime());
+  this.getSimList().add(f);
+  f = new Force('normal_r', this.wheelr_,
+        this.wheelr_.getPosition(), CoordType.WORLD,
+        n.multiply(0.1 * this.Nr_), CoordType.WORLD);
+  f.setExpireTime(this.getTime());
+  this.getSimList().add(f);
+  // Display gravity force at center of mass
+  f = new Force('gravity', this.robot_, this.robot_.getPosition(), CoordType.WORLD,
+        Vector.SOUTH.multiply(0.1*this.mass_*9.81), CoordType.WORLD);
+  f.setExpireTime(this.getTime());
+  this.getSimList().add(f);
+  // Display engine friction force at rear wheel
+  f = new Force('engine', this.robot_, this.wheelr_.getPosition(), CoordType.WORLD,
+        new Vector(cs, ss).multiply(0.1*this.force_), CoordType.WORLD);
+  f.setExpireTime(this.getTime());
+  this.getSimList().add(f);
   // Set angle of wheels based on distance travelled, and slope.
   // let distance travelled = x
   // the wheel rotates in opposite direction
@@ -219,6 +255,10 @@ evaluate(vars, change, timeStep) {
   // x, v, time, rpm, wheel_force, gravity
   Util.zeroArray(change);
   change[0] = vars[1];
+  // Find normal force at each wheel. Nr at rear wheel, Nf at front wheel.
+  this.Nr_ = this.mass_*9.81*Math.cos(this.slope_) /
+             (1 - this.vwr_.getX() / this.vwf_.getX());
+  this.Nf_ = - (this.vwr_.getX() / this.vwf_.getX()) * this.Nr_;
   // Motor delivers torque based on current rpm, linear relationship.
   // Find current rpm, based on wheel radius of 45 mm.
   // vars[1] is velocity in meters / second
@@ -227,6 +267,13 @@ evaluate(vars, change, timeStep) {
   // equation for torque given rpm = x
   // torque (x) = (-1.98 Nm / 317 rpm) * x + 1.98 Nm
   var t = (-this.torque_/this.freeSpeed_)*rpm + this.torque_;
+  // limit torque at extremes
+  if (rpm < 0) {
+    // or maybe zero torque when rpm is negative?
+    t = this.torque_;
+  } else if (rpm > this.freeSpeed_) {
+    t = 0;
+  }
   // torque = force x radius;  force = torque / radius
   var f = t/this.radius_;
   this.force_ = f;
