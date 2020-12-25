@@ -123,18 +123,11 @@ fi
 #
 # Note that the compiler arranges the order of files using a "dependency analysis"
 # in order to run the target closure_entry_point.
-# See https://github.com/google/closure-compiler/wiki/Manage-Closure-Dependencies
-# See the compiler --help about options --manage_closure_dependencies option,
-# --only_closure_dependencies and --closure_entry_point.
+# See https://github.com/google/closure-compiler/wiki/Managing-Dependencies
+# See the compiler --help about options --dependency_mode, and --closure_entry_point.
 #
-# May 14 2014:  adding compiler option: --language_in=ECMASCRIPT5
-# to allow setting property names like this:  canvas2.style.float = 'left';
-# Otherwise I get this error:
-#    WARNING - Keywords and reserved words are not allowed as unquoted property names
-#    in older versions of JavaScript. If you are targeting newer versions of
-#    JavaScript, set the appropriate language_in option.
-#
-# see:  https://code.google.com/p/closure-compiler/wiki/Warnings
+# Dec 25, 2020: Change language_in to ECMASCRIPT_2017 to use the mock clock stuff 
+# (which I use in ClockTest.js).
 #
 # The myphysicslab.lab.util.Util.ADVANCED flag should be set 'true' when
 # ADVANCED_OPTIMIZATIONS is used.
@@ -159,9 +152,6 @@ fi
 # --version  displays compiler version to stdout and quit
 # --help  displays compiler options to stdout and quit
 #
-# --only_closure_dependencies
-# --manage_closure_dependencies  gives compile errors
-#
 # This option gives LOTS of errors, mostly in closure-library.  This option is
 # "intended for the compiler team to debug issues in the typechecker, not for users".
 # --jscomp_error=reportUnknownTypes \
@@ -170,21 +160,12 @@ fi
 # --output_manifest="${target%.js}.MF" \
 #
 # To see compiler options:
-#  java -jar ../javascript/closure-compiler/build/compiler.jar --help
+#  java -jar ../compiler-latest/closure-compiler-v20201207.jar --help
 # To see compiler version:
-#  java -jar ../javascript/closure-compiler/build/compiler.jar --version
-#
-# The option --new_type_inf does "new type inference" (NTI) which treats @interface
-# more strictly, but it also gives LOTS of errors on closure-library.
-# Without --new_type_inf, interfaces are loosely checked, and any possible
-# property is OK when used on an interface.  See issue #826 and notes/test20150216.
-#
-# These options turn on NTI (new type inference):
-#--new_type_inf \
-#--jscomp_warning=newCheckTypes \
+#  java -jar ../compiler-latest/closure-compiler-v20201207.jar --version
 #
 # Use this to turn conformance violations from warning to error:
-#--jscomp_error=conformanceViolations \
+# --jscomp_error=conformanceViolations \
 #
 # We use `readlink` to convert a symbolic link to a regular file reference.
 # See this discussion:
