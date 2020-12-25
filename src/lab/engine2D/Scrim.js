@@ -362,7 +362,7 @@ setPosition(loc_world, angle) {
   if (loc_world.getX() != 0 || loc_world.getY() != 0) {
     throw '';
   }
-  if (goog.isDef(angle) && angle != 0) {
+  if (angle !== undefined && angle != 0) {
     throw '';
   }
 };
@@ -372,7 +372,7 @@ setVelocity(velocity_world, angular_velocity) {
   if (velocity_world.getX() != 0 || velocity_world.getY() != 0) {
     throw '';
   }
-  if (goog.isDef(angular_velocity) && angular_velocity != 0) {
+  if (angular_velocity !== undefined && angular_velocity != 0) {
     throw '';
   }
 };

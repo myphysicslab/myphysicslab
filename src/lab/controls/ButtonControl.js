@@ -47,7 +47,7 @@ constructor(label, clickFunction, opt_image) {
   */
   this.button_ = /** @type {!HTMLButtonElement} */(document.createElement('button'));
   this.button_.type = 'button';
-  if (!goog.isDef(opt_image)) {
+  if (opt_image === undefined) {
     this.button_.appendChild(document.createTextNode(label));
   } else {
     this.button_.className = 'icon';
@@ -138,7 +138,7 @@ handleClick(evt) {
 * @private
 */
 handleMouseUp(evt) {
-  if (goog.isDef(this.timeoutID_)) {
+  if (this.timeoutID_ !== undefined) {
     clearTimeout(this.timeoutID_);
     this.timeoutID_ = undefined;
   }
@@ -152,9 +152,9 @@ holdClick() {
   this.clickFunction_();
   if (this.repeatDelay > 0) {
     // make the first delay longer to avoid unwanted held-button repeats.
-    var d = goog.isDef(this.timeoutID_) ?
+    var d = this.timeoutID_ !== undefined ?
         this.repeatDelay : this.repeatFirst * this.repeatDelay;
-    this.timeoutID_ = setTimeout(goog.bind(this.holdClick, this), d);
+    this.timeoutID_ = setTimeout( () => this.holdClick(), d);
   }
 };
 

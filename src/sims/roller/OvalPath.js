@@ -39,7 +39,7 @@ constructor(straight, name, localName) {
   name = name || OvalPath.en.NAME;
   localName = localName || OvalPath.i18n.NAME;
   super(name, localName, /*start=*/0, /*finish=*/0, /*closedLoop=*/true);
-  if (!goog.isNumber(straight)) {
+  if (typeof straight !== 'number') {
     straight = 2.0;
   }
   /** length of straight section

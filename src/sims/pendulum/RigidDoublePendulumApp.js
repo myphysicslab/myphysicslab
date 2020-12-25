@@ -56,11 +56,11 @@ constructor(elem_ids, centered) {
   // This Observer ensures that when initial angles are changed in sim, then clock
   // time is also reset.  This helps with feedback when dragging angle slider,
   // especially if the clock is running.
-  new GenericObserver(sim, goog.bind(function(evt) {
+  new GenericObserver(sim, evt => {
     if (evt.nameEquals(Simulation.RESET)) {
       this.clock.setTime(sim.getTime());
     }
-  }, this), 'sync clock time on reset');
+  }, 'sync clock time on reset');
   /** @type {!DisplayShape} */
   this.protoBob = new DisplayShape().setFillStyle('').setStrokeStyle('blue')
       .setDrawCenterOfMass(true).setThickness(3);

@@ -92,7 +92,7 @@ constructor(elem_ids) {
   this.pathSelect = new PathSelector(sim, this.paths);
   /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
-      goog.bind(this.setSimRect, this));
+      a => this.setSimRect(a));
   this.pathSelect.setPathName(HumpPath.en.NAME);
 
   this.addPlaybackControls();

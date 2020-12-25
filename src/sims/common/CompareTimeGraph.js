@@ -82,14 +82,14 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
 
   /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
-  new GenericObserver(line1, goog.bind(function(evt) {
+  new GenericObserver(line1, evt => {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
       this.axes.setHorizName(this.line1.getXVarName());
     }
     if (evt.nameEquals(GraphLine.en.Y_VARIABLE)) {
       this.axes.setVerticalName(this.line1.getYVarName());
     }
-  }, this), 'update axes names');
+  }, 'update axes names');
 
   /** @type {!AutoScale} */
   this.autoScale = new AutoScale('TIME_GRAPH_AUTO_SCALE', line1, this.view);
@@ -105,11 +105,11 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   this.displayGraph.setUseBuffer(false);
   this.view.getDisplayList().prepend(this.displayGraph);
   // inform displayGraph when the screen rect changes.
-  new GenericObserver(this.view, goog.bind(function(evt) {
+  new GenericObserver(this.view, evt => {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.displayGraph.setScreenRect(this.view.getScreenRect());
       }
-    }, this), 'resize DisplayGraph');
+    }, 'resize DisplayGraph');
 
   var timeIdx = line1.getVarsList().timeIndex();
   line1.setXVariable(timeIdx);
@@ -130,11 +130,11 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(new NumericControl(pn));
 
   var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
-      goog.bind(function() {
+      () => {
         line1.reset();
         line2.reset();
         this.autoScale.reset();
-      }, this));
+      });
   this.addControl(bc);
 
   /** @type {!ParameterString} */
@@ -156,9 +156,7 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   // Use TIME_WINDOW control for changing horizontal axis, separately.
   this.view.setScaleTogether(false);
   var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
-      /*resetFunc=*/goog.bind(function() {
-        this.autoScale.setActive(true);
-      },this));
+      /*resetFunc=*/ () => this.autoScale.setActive(true) );
   div_graph.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   var pb = CommonControls.makeShowPanZoomParam(panzoom, this);

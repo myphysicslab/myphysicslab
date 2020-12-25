@@ -244,11 +244,10 @@ constructor(elem_ids) {
   var div_sim = this.layout.div_sim;
   /** @type {!ContactSim} */
   this.sim = new ContactSim();
-  this.terminal.setAfterEval(goog.bind(this.sim.modifyObjects, this.sim));
+  this.terminal.setAfterEval(() => this.sim.modifyObjects());
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim, goog.bind(function(evt) {
-    this.sim.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim, evt => this.sim.modifyObjects(),
+      'modifyObjects after parameter or variable change');
   // note that each test should be setting these various parameters.
   this.sim.setShowForces(true);
   this.sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
@@ -291,7 +290,7 @@ constructor(elem_ids) {
   /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
       /*simRectSetter=*/null);
-  //this.advance.setDebugPaint(goog.bind(this.simRun.paintAll, this.simRun));
+  //this.advance.setDebugPaint( () => this.simRun.paintAll());
 
    /** @type {!DampingLaw} */
   this.dampingLaw;
@@ -325,7 +324,7 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, TestViewerApp.en.GROUP,
       TestViewerApp.i18n.GROUP,
-      goog.bind(this.getGroup, this), goog.bind(this.setGroup, this),
+      () => this.getGroup(), a => this.setGroup(a),
       this.groupNames_, goog.array.range(this.groupNames_.length)));
   // The menu showing the available groups of tests.
   this.prependControl(new ChoiceControl(pn, /*label=*/''));
@@ -336,7 +335,7 @@ constructor(elem_ids) {
   */
   this.testParam_ = new ParameterNumber(this, TestViewerApp.en.TEST,
       TestViewerApp.i18n.TEST,
-      goog.bind(this.getTest, this), goog.bind(this.setTest, this),
+      () => this.getTest(), a => this.setTest(a),
       this.testNames_, goog.array.range(this.testNames_.length));
   this.addParameter(this.testParam_);
   // The menu showing the available test functions for the current group.
@@ -344,7 +343,7 @@ constructor(elem_ids) {
 
   this.addParameter(pb = new ParameterBoolean(this, TestViewerApp.en.START_ON_LOAD,
       TestViewerApp.i18n.START_ON_LOAD,
-      goog.bind(this.getStartOnLoad, this), goog.bind(this.setStartOnLoad, this)));
+      () => this.getStartOnLoad(), a => this.setStartOnLoad(a)));
   this.prependControl(new CheckBoxControl(pb));
 
   br = new GroupControl('BR', document.createElement('BR'), []);
@@ -376,8 +375,8 @@ constructor(elem_ids) {
   this.addControl(new CheckBoxControl(this.showEnergyParam));
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(this.sim.getTime, this.sim),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock(() => this.sim.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   /** @type {!ParameterBoolean} */
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
@@ -386,7 +385,7 @@ constructor(elem_ids) {
 
   var panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
@@ -554,14 +553,12 @@ the '_setup' suffix.
 * @private
 */
 addTestsFrom_(c) {
-  //console.log('addTestsFrom_ '+c);
-  for (var p in c) {
-    //console.log('addTestsFrom_ p='+p);
-    if (!c.hasOwnProperty(p)) continue;  // skip inherited properties
+  var nms = Object.getOwnPropertyNames(c);
+  for (let i=0; i<nms.length; i++) {
+    let p = nms[i];
     if (typeof c[p] !== 'function') continue;  // skip non-functions
     if (!p.match(/.*_setup$/)) continue;  // skip non-setup functions
     var nm = p.replace(/_setup$/, '').replace(/_/g, ' ');
-    //console.log('testName='+nm);
     this.testNames_.push(nm);
     this.tests_.push(c[p]);
   }
@@ -578,7 +575,7 @@ reset method is re-using the ContactSim and not rebuilding controls etc.
 * @private
 */
 startTest_(testIndex) {
-  goog.asserts.assert(goog.isNumber(testIndex));
+  goog.asserts.assert(typeof testIndex === 'number');
 
   this.sim.setDistanceTol(0.01);
   this.sim.setVelocityTol(0.5);

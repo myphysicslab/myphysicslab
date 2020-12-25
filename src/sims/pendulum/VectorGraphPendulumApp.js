@@ -69,7 +69,7 @@ constructor(elem_ids) {
 
   // remove the VectorGraph when the variables are any other than
   // the specific 2 variables it works with.
-  new GenericObserver(this.graph.line, goog.bind(function(evt) {
+  new GenericObserver(this.graph.line, evt => {
     var yVar = this.graph.line.getYVariable();
     var xVar = this.graph.line.getXVariable();
     var isOK = yVar == 1 && xVar == 0;
@@ -79,7 +79,7 @@ constructor(elem_ids) {
     } else if (!isOK && isVis) {
       this.graph.displayList.remove(this.vectorGraph);
     }
-  },this), 'remove VectorGraph when other variables shown');
+  }, 'remove VectorGraph when other variables shown');
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */

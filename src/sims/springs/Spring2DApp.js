@@ -89,7 +89,7 @@ constructor(elem_ids) {
   this.addStandardControls();
 
   var bc = new ButtonControl(Spring2DSim.i18n.REST_STATE,
-      goog.bind(sim.restState, sim));
+      () => sim.restState());
   this.addControl(bc);
 
   this.makeEasyScript();

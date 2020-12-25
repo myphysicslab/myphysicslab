@@ -196,13 +196,13 @@ constructor(hasSpring, opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, LagrangeRollerSim.en.GRAVITY,
       LagrangeRollerSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, LagrangeRollerSim.en.MASS,
       LagrangeRollerSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

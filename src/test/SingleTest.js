@@ -14,26 +14,30 @@
 
 goog.module('myphysicslab.test.SingleTest');
 
-const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
-const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
-const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
-const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
-const DoublePendulumTest =
-        goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
-const JointTest = goog.require('myphysicslab.test.JointTest');
-const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
-const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
-const PileTest = goog.require('myphysicslab.test.PileTest');
-const RopeTest = goog.require('myphysicslab.test.RopeTest');
-const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
-const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
-const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
-const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
-const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
-const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
+
+//const AbstractSubjectTest =
+//     goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
+const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
+//const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
+//const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
+//const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
+//const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
+//const DoublePendulumTest =
+//        goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
+//const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
+//const JointTest = goog.require('myphysicslab.test.JointTest');
+//const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
+//const MultipleCollisionTest = goog.require('myphysicslab.test.MultipleCollisionTest');
+//const PileTest = goog.require('myphysicslab.test.PileTest');
+//const RopeTest = goog.require('myphysicslab.test.RopeTest');
+//const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
+//const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+//const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
+//const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
+//const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
+
 
 /** Runs a single test of the rigid body physics engine, useful for debugging. See
 [2D Physics Engine Overview](Engine2D.html).
@@ -56,13 +60,17 @@ constructor() {
 static runTests() {
   TestRig.startTests();
 
+  //AbstractSubjectTest.test();
+  //CalculusTest.test();
   //CircleCircleTest.test();
   //CircleStraightTest.ball_falls_on_floor_stuck()
   //CircleStraightTest.concave_ball_block_contact();
   //CircleStraightTest.elastic_balls();
   //CircleStraightTest.test();
   //CircleStraightTest.wedged_ball();
-  //DoNothingTest.do_nothing_error();
+  //DoNothingTest.test();
+  //DoublePendulumTest.test();
+  //DoubleRectTest.testDoubleRect();
   //JointTest.pendulum_1_joint_1();
   //JointTest.pendulum_1_joint_2();
   //JointTest.test();
@@ -108,11 +116,8 @@ static runTests() {
   //StraightStraightTest.six_blocks_performance(t);
   //StraightStraightTest.six_blocks_settle();
   //StraightStraightTest.test();
-  //DoubleRectTest.testDoubleRect();
   //TerminalTest.testTerminal1();
-  CalculusTest.test();
-  DoublePendulumTest.test();
-  UtilTest.test();
+  //UtilTest.test();
 
   TestRig.schedule(TestRig.finishTests);
   TestRig.runTests();

@@ -113,7 +113,7 @@ constructor(elem_ids) {
   this.pathSelect = new PathSelector(this, this.paths);
   /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
-      goog.bind(this.setSimRect, this), /*expansionFactor=*/1.5);
+      a => this.setSimRect(a), /*expansionFactor=*/1.5);
   /** @type {!Polygon} */
   this.block = Shapes.makeBlock(1, 3, RigidBodyRollerApp.en.BLOCK,
       RigidBodyRollerApp.i18n.BLOCK);
@@ -195,7 +195,7 @@ graphSetup(body) {
 * @return {undefined}
 */
 config() {
-  goog.asserts.assert(goog.isDefAndNotNull(this.path));
+  goog.asserts.assert(this.path != null);
   if (this.resetObserver != null) {
     this.resetObserver.disconnect();
     this.resetObserver = null;
@@ -242,41 +242,39 @@ config() {
     // This demonstrates disconnecting the block from path when the block reaches
     // a certain point on the path.
     var disconnectPt = 3*this.path.getFinishPValue()/4;
-    this.pathAction = new GenericMemo(goog.bind(function() {
+    this.pathAction = new GenericMemo(() => {
       var ppt = this.pathJoint.getPathPoint();
       if (ppt.p > disconnectPt) {
         // disconnect the block from the path
         this.mySim.removeConnector(this.pathJoint);
       }
-    },this), 'disconnect block from path');
+    }, 'disconnect block from path');
     this.simRun.addMemo(this.pathAction);
     // add a dummy joint to show where the 'disconnect block' happens
     var dpt = this.path.map_p_to_vector(disconnectPt);
     var dj = new PathJoint(this.path, Scrim.getScrim(), dpt);
     this.mySim.getSimList().add(dj);
     // Add back the PathJoint when a RESET event occurs.
-    this.resetObserver = new GenericObserver(this.mySim, goog.bind(function(evt) {
+    this.resetObserver = new GenericObserver(this.mySim, evt => {
       if (evt.nameEquals(Simulation.RESET)) {
         this.mySim.addConnector(this.pathJoint);
         this.mySim.alignConnectors();
       }
-    },this), 'Add back PathJoint on RESET event');
+    }, 'Add back PathJoint on RESET event');
   }
   // add variables that tell path distance & velocity
   var va = this.mySim.getVarsList();
   var varP = new FunctionVariable(va, RigidBodyRollerApp.en.PATH_POSITION,
       RigidBodyRollerApp.i18n.PATH_POSITION,
-      goog.bind(function() {
-        return this.pathJoint.getPathPoint().p;
-      },this));
+      () => this.pathJoint.getPathPoint().p);
   va.addVariable(varP);
   var varPV = new FunctionVariable(va, RigidBodyRollerApp.en.PATH_VELOCITY,
       RigidBodyRollerApp.i18n.PATH_VELOCITY,
-      goog.bind(function() {
+      () => {
         var ppt = this.pathJoint.getPathPoint();
         var vel = this.block.getVelocity(this.pathJoint.getAttach1());
         return vel.dotProduct(new Vector(ppt.slopeX, ppt.slopeY));
-      },this));
+      });
   va.addVariable(varPV);
   this.mySim.setElasticity(elasticity);
   this.mySim.saveInitialState();

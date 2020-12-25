@@ -197,7 +197,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
 
   // when click on a tab (other than current selected tab) we switch to that layout.
   goog.events.listen(this.tab_list, goog.events.EventType.CLICK,
-      goog.bind(function(e) {
+      e => {
         var target = /** @type {Element} */(e.target);
         if (target === undefined) {
           throw 'event target is undefined ';
@@ -210,12 +210,12 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
           return;
         }
         this.setLayoutFromTab(target.className);
-      }, this));
+      });
 
   goog.events.listen(window, goog.events.EventType.RESIZE,
-      goog.bind(this.redoLayout, this));
+      () => this.redoLayout() );
   goog.events.listen(window, goog.events.EventType.ORIENTATIONCHANGE,
-      goog.bind(this.redoLayout, this));
+      () => this.redoLayout() );
 
   var term_output = /**@type {?HTMLInputElement}*/
       (TabLayout.maybeElementById(elem_ids, 'term_output'));
@@ -263,9 +263,9 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   /** @type {!HTMLLabelElement} */
   this.show_sim_label = /** @type {!HTMLLabelElement} */(p);
   goog.events.listen(this.show_sim_cb, goog.events.EventType.CLICK,
-    goog.bind(function(e) {
+    e => {
       this.showSim(this.show_sim_cb.checked);
-    }, this));
+    });
 
   /** @type {!HTMLElement} */
   this.div_graph = TabLayout.getElementById(elem_ids, 'div_graph');
@@ -322,7 +322,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
     this.show_term_cb = /**@type {!HTMLInputElement}*/
         (TabLayout.getElementById(elem_ids, 'show_terminal'));
     goog.events.listen(this.show_term_cb, goog.events.EventType.CLICK,
-      goog.bind(function(e) {this.showTerminal(this.show_term_cb.checked);}, this));
+      e => this.showTerminal(this.show_term_cb.checked) );
   }
 
   /** @type {!HTMLElement} */
@@ -345,22 +345,22 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
 
   this.redoLayout();
   this.addParameter(new ParameterNumber(this, TabLayout.en.SIM_WIDTH,
-      TabLayout.i18n.SIM_WIDTH, goog.bind(this.getSimWidth, this),
-      goog.bind(this.setSimWidth, this)));
+      TabLayout.i18n.SIM_WIDTH, () => this.getSimWidth(),
+      a => this.setSimWidth(a)));
   this.addParameter(new ParameterNumber(this, TabLayout.en.GRAPH_WIDTH,
-      TabLayout.i18n.GRAPH_WIDTH, goog.bind(this.getGraphWidth, this),
-      goog.bind(this.setGraphWidth, this)));
+      TabLayout.i18n.GRAPH_WIDTH, () => this.getGraphWidth(),
+      a => this.setGraphWidth(a)));
   this.addParameter(new ParameterNumber(this, TabLayout.en.TIME_GRAPH_WIDTH,
-      TabLayout.i18n.TIME_GRAPH_WIDTH, goog.bind(this.getTimeGraphWidth, this),
-      goog.bind(this.setTimeGraphWidth, this)));
+      TabLayout.i18n.TIME_GRAPH_WIDTH, () => this.getTimeGraphWidth(),
+      a => this.setTimeGraphWidth(a)));
   this.addParameter(new ParameterString(this, TabLayout.en.LAYOUT,
-      TabLayout.i18n.LAYOUT, goog.bind(this.getLayout, this),
-      goog.bind(this.setLayout, this),
+      TabLayout.i18n.LAYOUT, () => this.getLayout(),
+      a => this.setLayout(a),
       TabLayout.getValues(), TabLayout.getValues()));
   this.addParameter(new ParameterBoolean(this, TabLayout.en.SHOW_TERMINAL,
       TabLayout.i18n.SHOW_TERMINAL,
-      goog.bind(function() { return this.show_term_cb.checked; }, this),
-      goog.bind(this.showTerminal, this)));
+      () => this.show_term_cb.checked,
+      a => this.showTerminal(a) ));
 };
 
 /** @override */
@@ -413,7 +413,7 @@ static getElementById(elem_ids, elementId) {
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
+  if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
   var e = /** @type {!HTMLElement} */(document.getElementById(e_id));
@@ -434,7 +434,7 @@ static maybeElementById(elem_ids, elementId) {
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
+  if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
   return /** @type {?HTMLElement} */(document.getElementById(e_id));
@@ -477,7 +477,7 @@ alignCanvasControls(canvas, controls, canvas2) {
   cvs_width = canvas.offsetWidth || canvas.getBoundingClientRect().width;
   // When both canvas are visible, use sum of their widths to calculate
   // available width for controls-div.
-  if (goog.isDefAndNotNull(canvas2)) {
+  if (canvas2 != null) {
     canvas2.style.display = 'block';
     cvs_width += canvas2.offsetWidth || canvas2.getBoundingClientRect().width;
   }

@@ -236,9 +236,8 @@ constructor(elem_ids) {
   /** @type {!SimList} */
   this.simList1 = this.sim1.getSimList();
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
-    this.sim1.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim1, evt => this.sim1.modifyObjects(),
+      'modifyObjects after parameter or variable change');
 
   var displayBob1 = new DisplayShape(this.simList1.getPointMass('bob'))
       .setFillStyle('#3cf');
@@ -257,14 +256,13 @@ constructor(elem_ids) {
   this.sim2.setMass(this.sim1.getMass());
   this.sim2.setGravity(this.sim1.getGravity());
   this.sim2.setDamping(0);
-  this.terminal.setAfterEval(goog.bind(function() {
+  this.terminal.setAfterEval(() => {
       this.sim1.modifyObjects();
       this.sim2.modifyObjects();
-    }, this));
+    });
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim2, goog.bind(function(evt) {
-    this.sim2.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim2, evt => this.sim2.modifyObjects(),
+      'modifyObjects after parameter or variable change');
 
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/null);
@@ -293,19 +291,19 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumSim.en.START_ANGLE,
       ReactionPendulumSim.i18n.START_ANGLE,
-      goog.bind(this.getStartAngle, this), goog.bind(this.setStartAngle, this)));
+      () => this.getStartAngle(), a => this.setStartAngle(a)));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumSim.en.LENGTH,
       ReactionPendulumSim.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumSim.en.RADIUS,
       ReactionPendulumSim.i18n.RADIUS,
-      goog.bind(this.getRadius, this), goog.bind(this.setRadius, this)));
+      () => this.getRadius(), a => this.setRadius(a)));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, ReactionPendulumApp.en.SEPARATION,
       ReactionPendulumApp.i18n.SEPARATION,
-      goog.bind(this.getSeparation, this), goog.bind(this.setSeparation, this)));
+      () => this.getSeparation(), a => this.setSeparation(a)));
   this.addControl(new SliderControl(pn, 0, 2, /*multiply=*/false));
   pn = this.sim1.getParameterNumber(PendulumSim.en.MASS);
   this.addControl(new SliderControl(pn, 0.001, 10, /*multiply=*/true));
@@ -335,15 +333,14 @@ constructor(elem_ids) {
   this.addControl(new CheckBoxControl(this.showEnergyParam2));
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(this.sim1.getTime, this.sim1),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock(() => this.sim1.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
   var panzoom_simview = CommonControls.makePanZoomControls(this.simView,
-      /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      /*overlay=*/true, () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
   pb.setValue(false);
@@ -431,7 +428,7 @@ constructor(elem_ids) {
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
   // synchronize sim2 parameters to match parameters of sim1
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
+  new GenericObserver(this.sim1, evt => {
     if (evt instanceof ParameterNumber) {
       if (evt.nameEquals(PendulumSim.en.GRAVITY)) {
         this.sim2.setGravity(evt.getValue());
@@ -441,7 +438,7 @@ constructor(elem_ids) {
     } else if (evt.nameEquals(Simulation.RESET)) {
       this.sim2.reset();
     }
-  }, this), 'synchronize sim2 parameters to match parameters of sim1');
+  }, 'synchronize sim2 parameters to match parameters of sim1');
 
   var subjects = [
     this,

@@ -302,7 +302,7 @@ static findNearestDragable(labCanvas, start_screen, eventHandler) {
       return null;
     }
   }
-  if (goog.isDef(view) && goog.isDef(start_sim)) {
+  if (view !== undefined && start_sim !== undefined) {
     return new MouseTracker(dragDispObj, view, start_sim, dragPt, eventHandler);
   }
   return null;

@@ -166,7 +166,7 @@ constructor(sim, opt_diffEqSolver) {
   * Note that RigidBodySim has a debugPaint_, it is called inside moveObjects()
   * Note that CollisionAdvance has a debugPaint_; ensure it calls sim.setDebugPaint().
   * Ensure that advance.setDebugPaint is called at startup in SimRunner:
-  *    advance.setDebugPaint(goog.bind(this.paintAll, this));
+  *    advance.setDebugPaint( () => this.paintAll() );
   * Ensure the moving object is drawn above walls (otherwise can't see overlap).
   * Ensure test does not start running when loaded:  do clock.pause() at start.
   * Ensure you are zoomed in enough to see the overlap of the objects.
@@ -1217,7 +1217,7 @@ an example and more information.
 Here is example code where `simRun.paintAll` is the SimRunner method
 {@link myphysicslab.lab.app.SimRunner#paintAll} which paints all the LabCanvas's.
 
-    advance.setDebugPaint(goog.bind(simRun.paintAll, simRun));
+    advance.setDebugPaint( () => simRun.paintAll() );
 
 @param {?function():undefined} fn function that will paint canvases
 */

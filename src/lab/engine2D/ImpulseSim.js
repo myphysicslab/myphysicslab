@@ -261,28 +261,26 @@ constructor(opt_name) {
   // the enum type `CollisionHandling`, not of type `string`.
   this.addParameter(new ParameterString(this, RigidBodySim.en.COLLISION_HANDLING,
       RigidBodySim.i18n.COLLISION_HANDLING,
-      goog.bind(this.getCollisionHandling, this),
-      goog.bind(function(s) {
-          this.setCollisionHandling(CollisionHandling.stringToEnum(s));
-      }, this),
+      () => this.getCollisionHandling(),
+      a => this.setCollisionHandling(CollisionHandling.stringToEnum(a)),
       CollisionHandling.getChoices(), CollisionHandling.getValues()));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.DISTANCE_TOL,
       RigidBodySim.i18n.DISTANCE_TOL,
-      goog.bind(this.getDistanceTol, this), goog.bind(this.setDistanceTol, this))
+      () => this.getDistanceTol(), a => this.setDistanceTol(a))
       .setSignifDigits(5));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.VELOCITY_TOL,
       RigidBodySim.i18n.VELOCITY_TOL,
-      goog.bind(this.getVelocityTol, this), goog.bind(this.setVelocityTol, this))
+      () => this.getVelocityTol(), a => this.setVelocityTol(a))
       .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.COLLISION_ACCURACY,
       RigidBodySim.i18n.COLLISION_ACCURACY,
-      goog.bind(this.getCollisionAccuracy, this),
-      goog.bind(this.setCollisionAccuracy, this))
+      () => this.getCollisionAccuracy(),
+      a => this.setCollisionAccuracy(a))
       .setSignifDigits(3)
       .setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, RigidBodySim.en.RANDOM_SEED,
       RigidBodySim.i18n.RANDOM_SEED,
-      goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
+      () => this.getRandomSeed(), a => this.setRandomSeed(a))
       .setDecimalPlaces(0)
       .setLowerLimit(Util.NEGATIVE_INFINITY));
 };
@@ -958,10 +956,10 @@ in the solution is poor, or some other reason.
 */
 handleCollisionsSerial(collisions, hybrid, opt_totals,
       grouped, lastPass, small_velocity, doPanic) {
-  grouped = goog.isDef(grouped) ? grouped : true;
-  lastPass = goog.isDef(lastPass) ? lastPass : true;
+  grouped = grouped !== undefined ? grouped : true;
+  lastPass = lastPass !== undefined ? lastPass : true;
   small_velocity = small_velocity || 0.00001;
-  doPanic = goog.isDef(doPanic) ? doPanic : true;
+  doPanic = doPanic !== undefined ? doPanic : true;
   var n = collisions.length;
   var i;
   var loopCtr = 0; // number of times doing the handle collisions loop below
@@ -1454,7 +1452,7 @@ ImpulseSim.COLLISIONS_DISABLED = false;
 * @const
 * @private
 */
-ImpulseSim.DEBUG_IMPULSE = false && Util.DEBUG;
+ImpulseSim.DEBUG_IMPULSE = false;
 
 /** Impulse smaller than this is regarded as insignificant at various points
 * in the collision handling algorithm.

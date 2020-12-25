@@ -35,7 +35,7 @@ constructor(opt_edgeRange) {
   * @private
   */
   this.ranges_ = [];
-  if (goog.isDef(opt_edgeRange)) {
+  if (opt_edgeRange !== undefined) {
     this.ranges_.push(opt_edgeRange);
   }
 };

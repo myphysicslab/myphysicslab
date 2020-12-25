@@ -256,10 +256,11 @@ Result is:
 * @param {!GenericVector|number} x the x coordinate or Vector containing both x and y
 * @param {number=} y the y coordinate
 * @return {!Vector} the transformation of the given point.
+* @throws {string} if x is not a GenericVector, or x, y are not numbers
 */
 transform(x, y) {
   var x1, y1;
-  if (goog.isNumber(x)) {
+  if (typeof x === 'number') {
     x1 = x;
     y1 = y;
   } else {
@@ -267,8 +268,8 @@ transform(x, y) {
     y1 = v.getY();
     x1 = v.getX();
   }
-  if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
-    throw '';
+  if (typeof x1 !== 'number' || typeof y1 !== 'number') {
+    throw 'need a Vector or two numbers';
   }
   var x2 = this.m11_ * x1 + this.m21_ * y1 + this.dx_;
   var y2 = this.m12_ * x1 + this.m22_ * y1 + this.dy_;
@@ -294,10 +295,11 @@ Result is:
 * @param {number=} y the y coordinate
 * @return {!AffineTransform} a new AffineTransform equal to
 *     this AffineTransform  translated by the given amount
+* @throws {string} if x is not a GenericVector, or x, y are not numbers
 */
 translate(x, y) {
   var x1, y1;
-  if (goog.isNumber(x)) {
+  if (typeof x === 'number') {
     x1 = x;
     y1 = y;
   } else {
@@ -305,8 +307,8 @@ translate(x, y) {
     y1 = v.getY();
     x1 = v.getX();
   }
-  if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
-    throw '';
+  if (typeof x1 !== 'number' || typeof y1 !== 'number') {
+    throw 'need a Vector or two numbers';
   }
   var dx = this.dx_ + this.m11_*x1 + this.m21_*y1;
   var dy = this.dy_ + this.m12_*x1 + this.m22_*y1;

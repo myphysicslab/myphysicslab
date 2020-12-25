@@ -86,12 +86,12 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, CartPendulum2App.en.SPRING_DAMPING,
       CartPendulum2App.i18n.SPRING_DAMPING,
-     goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
+     () => this.getSpringDamping(), a => this.setSpringDamping(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, CartPendulum2App.en.STIFFNESS,
       CartPendulum2App.i18n.STIFFNESS,
-     goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+     () => this.getStiffness(), a => this.setStiffness(a)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

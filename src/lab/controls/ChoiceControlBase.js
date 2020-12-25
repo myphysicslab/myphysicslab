@@ -127,7 +127,7 @@ constructor(choices, values, getter, setter, opt_label) {
   * @type {string}
   * @private
   */
-  this.label_ = goog.isString(opt_label) ? opt_label : '';
+  this.label_ = typeof opt_label === 'string' ? opt_label : '';
   /** text label to show next to the choice control, or null if no label desired.
   * @type {?HTMLLabelElement}
   */

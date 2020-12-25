@@ -44,7 +44,7 @@ class PointMass extends AbstractMassObject {
 */
 constructor(opt_name, opt_localName) {
   var name, localName;
-  if (!goog.isDef(opt_name) || opt_name == '') {
+  if (opt_name === undefined || opt_name == '') {
     var id = PointMass.ID++;
     name = PointMass.en.POINT_MASS + id;
     localName = PointMass.i18n.POINT_MASS + id;
@@ -156,7 +156,7 @@ createCanvasPath(context) {
     context.closePath(); // adds a line to start of path at (-w, -h)
     */
   } else if (this.shape_ == ShapeType.OVAL) {
-    if (goog.isFunction(context.ellipse)) {
+    if (typeof context.ellipse === 'function') {
       context.moveTo(w, 0);
       // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
       context.ellipse(0, 0, w, h, 0, 0, 2*Math.PI, false);
@@ -255,7 +255,7 @@ setHeight(height) {
 @return {!PointMass} this object for chaining setters
 */
 setMass(mass) {
-  if (mass < 0 || !goog.isNumber(mass)) {
+  if (mass < 0 || typeof mass !== 'number') {
     throw 'mass must be non-negative '+mass;
   }
   this.mass_ = mass;

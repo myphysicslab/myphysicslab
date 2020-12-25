@@ -193,7 +193,7 @@ class Polygon extends AbstractMassObject {
 */
 constructor(opt_name, opt_localName) {
   var name, localName;
-  if (!goog.isDef(opt_name) || opt_name == '') {
+  if (opt_name === undefined || opt_name == '') {
     var id = Polygon.ID++;
     name = Polygon.en.POLYGON+id;
     localName = Polygon.i18n.POLYGON+id;
@@ -1165,7 +1165,7 @@ setElasticity(value) {
 @return {!Polygon} this object for chaining setters
 */
 setMass(mass) {
-  if (mass <= 0 || !goog.isNumber(mass)) {
+  if (mass <= 0 || typeof mass !== 'number') {
     throw 'mass must be positive '+mass;
   }
   this.mass_ = mass;
@@ -1187,7 +1187,7 @@ setNonCollideEdge(nonCollideSet) {
 /** @override */
 setPosition(loc_world, angle) {
   this.loc_world_ = Vector.clone(loc_world);
-  if (goog.isDef(angle) && isFinite(angle) && this.angle_ != angle) {
+  if (angle !== undefined && isFinite(angle) && this.angle_ != angle) {
     this.angle_ = angle;
     this.sinAngle_ = Math.sin(angle);
     this.cosAngle_ = Math.cos(angle);

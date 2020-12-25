@@ -81,11 +81,11 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.displayGraph.setScreenRect(this.view.getScreenRect());
   this.view.getDisplayList().prepend(this.displayGraph);
   // inform displayGraph when the screen rect changes.
-  new GenericObserver(this.view, goog.bind(function(evt) {
+  new GenericObserver(this.view, evt => {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.displayGraph.setScreenRect(this.view.getScreenRect());
       }
-    }, this), 'resize DisplayGraph');
+    }, 'resize DisplayGraph');
 
   var timeIdx = this.line1.getVarsList().timeIndex();
   this.line1.setXVariable(timeIdx);
@@ -131,24 +131,25 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   pn = this.autoScale.getParameterNumber(AutoScale.en.TIME_WINDOW)
   this.addControl(new NumericControl(pn));
   var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
-      goog.bind(function() {
+      () => {
         this.line1.reset();
         this.line2.reset();
         this.line3.reset();
-      }, this)
+      }
     );
   this.addControl(bc);
 
   /** GenericObserver ensures line2, line3 have same X variable as line1.
   * @type {!GenericObserver}
   */
-  this.line1Obs = new GenericObserver(this.line1, goog.bind(function(e) {
+  this.line1Obs = new GenericObserver(this.line1, 
+    e => {
       // Don't use off-screen buffer with time variable because the auto-scale causes
       // graph to redraw every frame.
       this.displayGraph.setUseBuffer(this.line1.getXVariable() != timeIdx);
       this.line2.setXVariable(this.line1.getXVariable());
       this.line3.setXVariable(this.line1.getXVariable());
-    }, this), 'ensure line2, line3 have same X variable as line1');
+    }, 'ensure line2, line3 have same X variable as line1');
   /** SimController which pans the graph with no modifier keys pressed.
   * @type {!SimController}
   */
@@ -160,18 +161,16 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.view.setScaleTogether(false);
 
   // after clicking the "rewind" button, the timeGraph should go to time zero.
-  new GenericObserver(simRun, goog.bind(function(evt) {
+  new GenericObserver(simRun, evt => {
     if (evt.nameEquals(SimRunner.RESET)) {
       var vw = this.view.getWidth();
       this.view.setCenterX(vw/2);
       this.autoScale.setActive(true);
     }
-  }, this));
+  });
 
   var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
-      /*resetFunc=*/goog.bind(function() {
-        this.autoScale.setActive(true);
-      },this));
+      /*resetFunc=*/ () => this.autoScale.setActive(true) );
   div_graph.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   var pb = CommonControls.makeShowPanZoomParam(panzoom, this);

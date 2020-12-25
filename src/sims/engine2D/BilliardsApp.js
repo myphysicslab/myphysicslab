@@ -86,7 +86,7 @@ constructor(elem_ids) {
   var ps;
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.FORMATION,
       BilliardsApp.i18n.FORMATION,
-      goog.bind(this.getFormation, this), goog.bind(this.setFormation, this),
+      () => this.getFormation(), a => this.setFormation(a),
       [ BilliardsApp.i18n.ONE_HITS_THREE, BilliardsApp.i18n.ONE_HITS_SIX ],
       [ BilliardsApp.Formation.ONE_HITS_THREE,
         BilliardsApp.Formation.ONE_HITS_SIX ]));
@@ -94,12 +94,12 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.OFFSET,
       BilliardsApp.i18n.OFFSET,
-      goog.bind(this.getOffset, this), goog.bind(this.setOffset, this)));
+      () => this.getOffset(), a => this.setOffset(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.SPEED,
       BilliardsApp.i18n.SPEED,
-      goog.bind(this.getSpeed, this), goog.bind(this.setSpeed, this)));
+      () => this.getSpeed(), a => this.setSpeed(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);

@@ -253,7 +253,7 @@ constructor(subjects, dependent) {
   * @type {!Array<!Subject>}
   * @private
   */
-  this.dependent_ = goog.isArray(dependent) ? dependent : [];
+  this.dependent_ = Array.isArray(dependent) ? dependent : [];
   /* Ensure that dependent Subjects are at the end of the list of Subjects.
   * Because when generating a script, we add commands in order of Subjects list
   * and "configuration Parameters" can change the dependent Subjects.
@@ -314,21 +314,16 @@ constructor(subjects, dependent) {
   * @private
   */
   this.commandHelp_ = [];
-  this.addCommand('url', goog.bind(function() {
-        return this.scriptURL();
-      }, this), 'prints URL with script to recreate current state');
-  this.addCommand('script', goog.bind(function() {
-        return this.script();
-      }, this), 'prints script to recreate current state');
-  this.addCommand('values', goog.bind(function() {
-        return Util.prettyPrint(this.values());
-      }, this), 'shows available parameters and their current values');
-  this.addCommand('names', goog.bind(function() {
-        return Util.prettyPrint(this.names().join(';'));
-      }, this), 'shows available parameter names (format is SUBJECT.PARAMETER)');
-  this.addCommand('help', goog.bind(function() {
-        return this.help();
-      }, this), 'prints this help text');
+  this.addCommand('url', () => this.scriptURL(),
+      'prints URL with script to recreate current state');
+  this.addCommand('script', () => this.script(),
+      'prints script to recreate current state');
+  this.addCommand('values', () => Util.prettyPrint(this.values()),
+      'shows available parameters and their current values');
+  this.addCommand('names', () => Util.prettyPrint(this.names().join(';')),
+      'shows available parameter names (format is SUBJECT.PARAMETER)');
+  this.addCommand('help', () => this.help(),
+      'prints this help text');
   this.update();
 };
 
@@ -503,7 +498,7 @@ namesAndValues(dependent, includeComputed, fullName) {
         var paramName = Util.toName(p.getName());
         var idx = goog.array.indexOf(allParams, p);
         var v = p.getValue();
-        if (goog.isString(v) && !re.test(v)) {
+        if (typeof v === 'string' && !re.test(v)) {
           // add quotes when string has non-alphanumeric characters
           v = '"' + v + '"';
         }

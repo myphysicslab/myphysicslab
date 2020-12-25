@@ -518,7 +518,7 @@ simulation rectangle, or go thru a particular value of the Y-axis.
 */
 setXAxisAlignment(alignment, value) {
   this.horizAxisAlignment_ = alignment;
-  if (goog.isNumber(value)) {
+  if (typeof value === 'number') {
     this.horizAlignValue_ = value;
   }
   this.needRedraw_ = true;
@@ -534,7 +534,7 @@ simulation rectangle, or go thru a particular value of the X-axis.
 */
 setYAxisAlignment(alignment, value) {
   this.vertAxisAlignment_ = alignment;
-  if (goog.isNumber(value)) {
+  if (typeof value === 'number') {
     this.vertAlignValue_ = value;
   }
   this.needRedraw_ = true;
@@ -543,7 +543,7 @@ setYAxisAlignment(alignment, value) {
 
 /** @override */
 setZIndex(zIndex) {
-  if (goog.isDef(zIndex)) {
+  if (zIndex !== undefined) {
     this.zIndex = zIndex;
   }
 };

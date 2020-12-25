@@ -294,31 +294,31 @@ constructor(thePath, opt_name) {
 
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.STICKINESS,
       RollerFlightSim.i18n.STICKINESS,
-      goog.bind(this.getStickiness, this), goog.bind(this.setStickiness, this))
+      () => this.getStickiness(), a => this.setStickiness(a))
       .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.ELASTICITY,
       RollerFlightSim.i18n.ELASTICITY,
-      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      () => this.getElasticity(), a => this.setElasticity(a))
       .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.DAMPING,
       RollerFlightSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.GRAVITY,
       RollerFlightSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.MASS,
       RollerFlightSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.SPRING_LENGTH,
       RollerFlightSim.i18n.SPRING_LENGTH,
-      goog.bind(this.getSpringLength, this), goog.bind(this.setSpringLength, this)));
+      () => this.getSpringLength(), a => this.setSpringLength(a)));
   this.addParameter(new ParameterNumber(this, RollerFlightSim.en.SPRING_STIFFNESS,
       RollerFlightSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

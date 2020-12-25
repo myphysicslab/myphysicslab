@@ -90,18 +90,18 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.NUM_BODIES,
       ContactApp.i18n.NUM_BODIES,
-      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      () => this.getNumBodies(), a => this.setNumBodies(a))
       .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.THRUST,
       ContactApp.i18n.THRUST,
-      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
+      () => this.getThrust(), a => this.setThrust(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.MASS1,
       ContactApp.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

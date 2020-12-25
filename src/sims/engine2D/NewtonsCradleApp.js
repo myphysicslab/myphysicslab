@@ -79,7 +79,7 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.NUM_BODIES,
       NewtonsCradleApp.i18n.NUM_BODIES,
-      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      () => this.getNumBodies(), a => this.setNumBodies(a))
       .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
@@ -92,18 +92,18 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.LENGTH,
       NewtonsCradleApp.i18n.LENGTH,
-      goog.bind(this.getStickLength, this), goog.bind(this.setStickLength, this)));
+      () => this.getStickLength(), a => this.setStickLength(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(
       pn = new ParameterNumber(this, NewtonsCradleApp.en.GAP_DISTANCE,
       NewtonsCradleApp.i18n.GAP_DISTANCE,
-      goog.bind(this.getGapDistance, this), goog.bind(this.setGapDistance, this)));
+      () => this.getGapDistance(), a => this.setGapDistance(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.RADIUS,
       NewtonsCradleApp.i18n.RADIUS,
-      goog.bind(this.getRadius, this), goog.bind(this.setRadius, this)));
+      () => this.getRadius(), a => this.setRadius(a)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

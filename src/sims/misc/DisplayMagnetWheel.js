@@ -79,7 +79,7 @@ draw(context, map) {
 
   // draw the circle representing the wheel
   context.beginPath();
-  if (goog.isFunction(context.ellipse)) {
+  if (typeof context.ellipse === 'function') {
     context.moveTo(r, 0);
     // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
     context.ellipse(0, 0, r, r, 0, 0, 2*Math.PI, false);
@@ -104,7 +104,7 @@ draw(context, map) {
     var y = c.getY();
     //console.log('magnet '+i+' '+c.toString());
     context.beginPath();
-    if (goog.isFunction(context.ellipse)) {
+    if (typeof context.ellipse === 'function') {
       //context.moveTo(w, 0);
       // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
       context.ellipse(x, y, mr, mr, 0, 0, 2*Math.PI, false);
@@ -123,7 +123,7 @@ draw(context, map) {
   var fm = this.wheel_.getFixedMagnet();
   var fmr = 0.1*r;  // radius of the fixed magnet circle
   context.beginPath();
-  if (goog.isFunction(context.ellipse)) {
+  if (typeof context.ellipse === 'function') {
     context.moveTo(fmr + fm.getX(), fm.getY());
     // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
     context.ellipse(fm.getX(), fm.getY(), fmr, fmr, 0, 0, 2*Math.PI, false);

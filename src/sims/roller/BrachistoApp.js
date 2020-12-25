@@ -75,7 +75,7 @@ constructor(elem_ids) {
   this.task;
 
   // start clock running when path is chosen; or pause clock in 'choose path' state
-  new GenericObserver(sim, goog.bind(function(evt) {
+  new GenericObserver(sim, evt => {
     if (evt.nameEquals(BrachistoSim.PATH_CHOSEN)) {
       this.clock.setTime(0);
       this.clock.setRealTime(0);
@@ -86,14 +86,14 @@ constructor(elem_ids) {
         this.clock.resume();
       }
     }
-  }, this), 'start clock when path chosen');
+  }, 'start clock when path chosen');
 
   // reset path choice when 'restart' button is pressed
-  new GenericObserver(this.simRun, goog.bind(function(evt) {
+  new GenericObserver(this.simRun, evt => {
     if (evt.nameEquals(SimRunner.RESET)) {
       sim.setPathChoice(-1);
     }
-  }, this), 'reset path choice when reset occurs');
+  }, 'reset path choice when reset occurs');
 
   sim.setPathChoice(-1);
 
@@ -111,7 +111,7 @@ constructor(elem_ids) {
   this.clock.addTask(this.task);
   this.addParameter(pn = new ParameterNumber(this, BrachistoApp.en.REPEAT_TIME,
       BrachistoApp.i18n.REPEAT_TIME,
-      goog.bind(this.getRepeatTime, this), goog.bind(this.setRepeatTime, this))
+      () => this.getRepeatTime(), a => this.setRepeatTime(a))
       .setSignifDigits(0));
   this.addControl(new NumericControl(pn));
 
@@ -152,11 +152,11 @@ getRepeatTime() {
 * @private
 */
 makeTask(time) {
-  return new ClockTask(time, goog.bind(function() {
+  return new ClockTask(time, () => {
       this.sim.reset();
       this.clock.setTime(0);
       this.clock.setRealTime(0);
-  }, this));
+  });
 };
 
 /** Restart sim when reaching the repeat time.

@@ -321,8 +321,8 @@ constructor(opt_name) {
   // the enum type `ExtraAccel`, not of type `string`.
   this.addParameter(new ParameterString(this, RigidBodySim.en.EXTRA_ACCEL,
       RigidBodySim.i18n.EXTRA_ACCEL,
-      goog.bind(this.getExtraAccel, this),
-      goog.bind(function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); }, this),
+      () => this.getExtraAccel(),
+      a => this.setExtraAccel(ExtraAccel.stringToEnum(a)),
       ExtraAccel.getChoices(), ExtraAccel.getValues()));
 };
 
@@ -434,9 +434,9 @@ addConnector(connector, follow) {
   if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
     throw 'body not found '+b;
   }
-  if (goog.isNull(follow)) {
+  if (follow === null) {
     this.connectors_.unshift(connector);
-  } else if (goog.isDefAndNotNull(follow)) {
+  } else if (follow != null) {
     var idx = goog.array.indexOf(this.connectors_, follow);
     if (idx < 0) {
       throw 'connector not found '+follow;

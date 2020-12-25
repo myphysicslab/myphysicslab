@@ -115,11 +115,10 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
 
   /** @type {!RigidBodySim} */
   this.sim = sim;
-  this.terminal.setAfterEval(goog.bind(sim.modifyObjects, sim));
+  this.terminal.setAfterEval( () => sim.modifyObjects() );
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(sim, goog.bind(function(evt) {
-    sim.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(sim, evt => sim.modifyObjects(),
+      'modifyObjects after parameter or variable change');
   sim.setShowForces(false);
   /** @type {!SimList} */
   this.simList = sim.getSimList();
@@ -161,16 +160,15 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
       this.statusView, this);
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(sim.getTime, sim),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock( () => sim.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   /** @type {!ParameterBoolean} */
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
   var panzoom = CommonControls.makePanZoomControls(this.simView,
-      /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      /*overlay=*/true, () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
@@ -239,7 +237,7 @@ defineNames(myName) {
 * @param {!Parameter} parameter the Parameter to watch
 */
 watchEnergyChange(parameter) {
-  new GenericObserver(parameter.getSubject(), goog.bind(function(evt) {
+  new GenericObserver(parameter.getSubject(), evt => {
     if (evt == parameter) {
       // Ensure that energy is updated now, so that the next time the data is
       // memorized the new sequence number goes with the new energy value.
@@ -247,7 +245,7 @@ watchEnergyChange(parameter) {
       // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
       this.sim.getVarsList().incrSequence(2, 3);
     }
-  }, this), 'record discontinuous energy changes');
+  }, 'record discontinuous energy changes');
 };
 
 /** @override */
@@ -274,7 +272,7 @@ in EasyScriptParser documentation.
 */
 makeEasyScript(opt_dependent) {
   var dependent = [ this.varsList ];
-  if (goog.isArray(opt_dependent)) {
+  if (Array.isArray(opt_dependent)) {
     dependent = goog.array.concat(dependent, opt_dependent);
   }
   this.easyScript = CommonControls.makeEasyScript(this.getSubjects(), dependent,
@@ -287,7 +285,7 @@ makeEasyScript(opt_dependent) {
 * @export
 */
 graphSetup(body) {
-  if (!goog.isDefAndNotNull(body)) {
+  if (!body) {
     // find first body with finite mass
     body = goog.array.find(this.sim.getBodies(),
       function(bod) {

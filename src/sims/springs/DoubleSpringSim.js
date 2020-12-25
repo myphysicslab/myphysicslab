@@ -191,25 +191,25 @@ constructor(thirdSpring, opt_name) {
       this.spring1_, this.spring2_, this.spring3_);
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.DAMPING,
       DoubleSpringSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.LENGTH,
       DoubleSpringSim.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.MASS1,
       DoubleSpringSim.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.MASS2,
       DoubleSpringSim.i18n.MASS2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, DoubleSpringSim.en.STIFFNESS,
       DoubleSpringSim.i18n.STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addParameter(new ParameterBoolean(this, DoubleSpringSim.en.THIRD_SPRING,
       DoubleSpringSim.i18n.THIRD_SPRING,
-      goog.bind(this.getThirdSpring, this), goog.bind(this.setThirdSpring, this)));
+      () => this.getThirdSpring(), a => this.setThirdSpring(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   this.restState();

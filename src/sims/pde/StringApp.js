@@ -111,7 +111,7 @@ constructor(elem_ids) {
     ];
   /** @type {!StringSim} */
   this.sim = new StringSim(this.shapes[1]);
-  this.terminal.setAfterEval(goog.bind(this.sim.modifyObjects, this.sim));
+  this.terminal.setAfterEval( () => this.sim.modifyObjects() );
   this.simList = this.sim.getSimList();
   /** @type {!SimController} */
   this.simCtrl = new SimController(simCanvas, /*eventHandler=*/this.sim);
@@ -151,12 +151,12 @@ constructor(elem_ids) {
   this.blockText = new DisplayText('drag').setFillStyle('rgba(255,255,255,0.7)')
       .setTextAlign('center');
   this.statusView.getDisplayList().add(this.blockText);
-  this.statusView.addMemo(new GenericMemo(goog.bind(function() {
+  this.statusView.addMemo(new GenericMemo( () => {
     var map1 = this.simView.getCoordMap();
     var map2 = this.statusView.getCoordMap();
     var loc = map1.simToScreen(this.blockMass.getPosition());
     this.blockText.setPosition(map2.screenToSim(loc));
-  }, this), 'blockText follows blockMass'));
+  }, 'blockText follows blockMass'));
 
   // Because the SimView is so distorted (aspect ratio is like 1:30), we set
   // up a PointMass and DisplayShape to follow the block. This allows us to
@@ -168,7 +168,7 @@ constructor(elem_ids) {
   this.showShadow = new DisplayShape(this.shadow).setFillStyle('')
       .setStrokeStyle('gray');
   this.statusView.getDisplayList().add(this.showShadow);
-  this.statusView.addMemo(new GenericMemo(goog.bind(function() {
+  this.statusView.addMemo(new GenericMemo( () => {
     var map1 = this.simView.getCoordMap();
     var map2 = this.statusView.getCoordMap();
     // set width and height of shadow to match blockMass
@@ -181,7 +181,7 @@ constructor(elem_ids) {
     // set position of shadow to match blockMass
     var loc = map1.simToScreen(this.blockMass.getPosition());
     this.shadow.setPosition(map2.screenToSim(loc));
-  }, this), 'shadow outline follows blockMass'));
+  }, 'shadow outline follows blockMass'));
 
   // Show the stability condition as text
   /** @type {number} */
@@ -191,7 +191,7 @@ constructor(elem_ids) {
   this.stabilityText.setPosition(new Vector(-5, -7));
   this.statusView.getDisplayList().add(this.stabilityText);
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim, goog.bind(function(evt) {
+  new GenericObserver(this.sim, evt => {
     this.sim.modifyObjects();
     var s = this.sim.getStability();
     if (this.stability != s) {
@@ -199,7 +199,7 @@ constructor(elem_ids) {
       this.stability = s;
       this.stabilityText.setFillStyle(s < 1 ? 'rgb(160,160,160)' : 'red');
     }
-  }, this), 'modifyObjects after parameter or variable change');
+  }, 'modifyObjects after parameter or variable change');
   // broadcast an event to get the stability to appear
   this.sim.broadcast(new GenericEvent(this.sim, /*name=*/'event'));
 
@@ -225,7 +225,7 @@ constructor(elem_ids) {
   }
   var ps = new ParameterString(this, StringSim.en.SHAPE,
       StringSim.i18n.SHAPE,
-      goog.bind(this.getShape, this), goog.bind(this.setShape, this), snl, sn);
+      () => this.getShape(), a => this.setShape(a), snl, sn);
   this.addParameter(ps);
   this.addControl(new ChoiceControl(ps));
 
@@ -256,8 +256,8 @@ constructor(elem_ids) {
   this.addControl(new CheckBoxControl(this.showEnergyParam));
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(this.sim.getTime, this.sim),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock( () => this.sim.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   /** @type {!ParameterBoolean} */
   var pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
@@ -265,7 +265,7 @@ constructor(elem_ids) {
 
   var panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom);
   pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   pb.setValue(false);
@@ -274,11 +274,11 @@ constructor(elem_ids) {
   this.addControl(bm);
 
   // keep the SimRunner's timeStep to be same as the Simulation's timeStep
-  new GenericObserver(this.sim, goog.bind(function(evt) {
+  new GenericObserver(this.sim, evt => {
     if (evt.nameEquals(StringSim.en.TIME_STEP)) {
       this.simRun.setTimeStep(this.sim.getTimeStep());
     }
-  }, this), 'keep SimRunner\'s timeStep same as Simulation\'s');
+  }, 'keep SimRunner\'s timeStep same as Simulation\'s');
 
   var subjects = [
     this,

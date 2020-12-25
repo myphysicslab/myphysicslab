@@ -33,9 +33,9 @@ class CustomPath extends AbstractPath {
 * @param {string=} localName
 */
 constructor(start_t, finish_t, name, localName) {
-  if (!goog.isNumber(start_t))
+  if (typeof start_t !== 'number')
     start_t = -3;
-  if (!goog.isNumber(finish_t))
+  if (typeof finish_t !== 'number')
     finish_t = 3;
   name = name || CustomPath.en.NAME;
   localName = localName || CustomPath.i18n.NAME;
@@ -109,7 +109,7 @@ setYEquation(value) {
 x_func(t) {
   window['t'] = t;
   var r = eval('"use strict"; '+this.equationX_);
-  if (goog.isNumber(r) && isFinite(r)) {
+  if (typeof r === 'number' && isFinite(r)) {
     return r;
   } else {
     throw 'not a finite number "'+this.equationX_+'" when t='+t;
@@ -120,7 +120,7 @@ x_func(t) {
 y_func(t) {
   window['t'] = t;
   var r = eval('"use strict"; '+this.equationY_);
-  if (goog.isNumber(r) && isFinite(r)) {
+  if (typeof r === 'number' && isFinite(r)) {
     return r;
   } else {
     throw 'not a finite number "'+this.equationY_+'" when t='+t;

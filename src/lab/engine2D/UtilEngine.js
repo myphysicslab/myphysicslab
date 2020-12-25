@@ -622,7 +622,7 @@ static printArray3(s, r, delim) {
       var ns;
       /** @type {number} */
       var num = r[i];
-      if (goog.isDef(num)) {
+      if (num !== undefined) {
         ns = num.toFixed(2);
         if (ns === '0.00') {
           ns = '     ';

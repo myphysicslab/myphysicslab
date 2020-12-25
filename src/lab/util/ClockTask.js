@@ -92,7 +92,7 @@ cancel() {
 @return {undefined}
 */
 execute() {
-  if (goog.isFunction(this.callBack_)) {
+  if (typeof this.callBack_ === 'function') {
     this.callBack_();
   }
 };
@@ -110,7 +110,7 @@ system time
 */
 schedule(delay) {
   this.cancel();
-  if (goog.isFunction(this.callBack_)) {
+  if (typeof this.callBack_ === 'function') {
     var delay_ms = Math.round(delay*1000);
     this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
   }

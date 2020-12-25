@@ -31,13 +31,13 @@ const TestRig = goog.require('myphysicslab.test.TestRig');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 class RigidBodySimTest {
 

@@ -272,10 +272,10 @@ on a circle with given radius centered at origin.
 @return {!Polygon} a block with round corners
 */
 static makeRandomPolygon(sides, radius, minAngle, maxAngle, opt_name, opt_localName) {
-  if (!goog.isDef(minAngle)) {
+  if (minAngle === undefined) {
     minAngle = Math.PI/sides;
   }
-  if (!goog.isDef(maxAngle)) {
+  if (maxAngle === undefined) {
     maxAngle = 3*Math.PI/sides;
   }
   var angles = [0];

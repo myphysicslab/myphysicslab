@@ -35,12 +35,11 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /** Tests interactions between polygons with circular and straight edges.
 
@@ -121,7 +120,7 @@ static ball_block_collide() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.135972, 0.0179439, 1.1812653, 0.0028806, 3.1087039, 1.0499788);
   setBodyVars(sim, vars, 1, 2.135972, 0.9820561, -2.1812653, -1.0028806, 0.1358799, 0.0624735);
-  runTest(sim, advance, /*runUntil=*/3.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -176,7 +175,7 @@ static ball_block_attract() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.3699699, 0.2138555, 1.5307076, -0.2372712, 33.3931299, 1.7136164);
   setBodyVars(sim, vars, 1, -0.6300301, -0.2138555, 0.4692924, 0.2372712, -7.2779759, -1.8957024);
-  runTest(sim, advance, /*runUntil=*/20.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
               /*expectedVars=*/vars, /*tolerance=*/0.0001);
 };
 
@@ -218,11 +217,11 @@ static ball_block_contact() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -0.2749218, 0.0874195, 0.4044095, 0.1208178, 0.4380613, 0.0903604);
   setBodyVars(sim, vars, 1, 1.0224218, -0.0874195, -0.4044095, -0.1208178, -0.0766021, -0.3218581);
-  runTest(sim, advance, /*runUntil=*/1.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
           /*expectedVars=*/vars, /*tolerance=*/0.00001);
   setBodyVars(sim, vars, 0, -0.0405174, -0.1600652, 0.4408221, -0.0927029, -2.9119182, -1.956407);
   setBodyVars(sim, vars, 1, 0.7880174, 0.1600652, -0.4408221, 0.0927029, -0.4529687, -0.165526);
-  runTest(sim, advance, /*runUntil=*/4.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
           /*expectedVars=*/vars, /*tolerance=*/0.00001,
           /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
           /*expectedCollisions=*/0);
@@ -259,11 +258,11 @@ static circle_arc_block() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.8343664, 0.164365, -0.7928884, -0.2694134, -1.0677983, -0.8300614);
   setBodyVars(sim, vars, 1, 1.6656336, -0.164365, 0.0928884, 0.2694134, 0.5765963, 0.188213);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/vars, /*tolerance=*/0.0001);
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
-  runTest(sim, advance, /*runUntil=*/12.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
       /*expectedCollisions=*/0);
@@ -301,11 +300,11 @@ static concave_ball_block_collide() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.3091927, 0.5475717, -1.5539282, 0.0193363, 0.084485, -0.2984758);
   setBodyVars(sim, vars, 1, 0.1908073, -0.5475717, -0.6660718, -0.0193363, -1.5117501, -1.2518051);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
-  runTest(sim, advance, /*runUntil=*/12.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
       /*expectedCollisions=*/0);
@@ -385,7 +384,7 @@ static concave_ball_block_contact() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.0976832, -0.7068779, -2.3078333, 0.0053314, -0.0510627, 0.3847691);
   setBodyVars(sim, vars, 1, 0.1813533, 0.7068779, -1.417854, -0.0053314, -0.0243965, 1.6129892);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
           /*expectedVars=*/vars, /*tolerance=*/0.0001,
           /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
           /*expectedCollisions=*/0);
@@ -405,7 +404,7 @@ static concave_ball_block_contact_2() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.0976759, -0.7068614, -2.3078333, 0.0053102, -0.0510571, 0.3847591);
   setBodyVars(sim, vars, 1, 0.1813607, 0.7068614, -1.417854, -0.0053102, -0.024377, 1.6129487);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
           /*expectedVars=*/vars, /*tolerance=*/0.000001,
           /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
           /*expectedCollisions=*/0);
@@ -462,7 +461,7 @@ static rotating_block_vs_ball_1() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.6324684, -0.2331973, -0.7357376, -0.1458555, -0, -0);
   setBodyVars(sim, vars, 1, 1.1324684, 0.0331973, 0.7357376, 0.1458555, 1.965865, 0.2512581);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001);
 };
 
@@ -488,7 +487,7 @@ static rotating_block_vs_ball_0() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.6274159, -0.2325424, -0.7371557, -0.1463887, -0, -0);
   setBodyVars(sim, vars, 1, 1.1274159, 0.0325424, 0.7371557, 0.1463887, 1.964511, 0.2505587);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001);
 };
 
@@ -568,10 +567,10 @@ static wedged_ball() {
   CircleStraightTest.wedged_ball_setup(sim, advance);
   var vars = makeVars(1*6);
   setBodyVars(sim, vars, 0, -4.9277059, -0.1631422, -4.4398357, 0.6282979, -3.3497083, -1.4515518);
-  runTest(sim, advance, /*runUntil=*/3,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // run for a few more seconds: there should be no more collision searches
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0002,
       /*expectedCollisions=*/0);
@@ -630,7 +629,7 @@ static elastic_balls() {
   setBodyVars(sim, vars, 3, 1, 0, -5.195, 0, 0, 0);
   setBodyVars(sim, vars, 4, 3, 0, -5.195, -0, 0, 0);
   setBodyVars(sim, vars, 5, 5, 0, -5.195, -0, 0, 0);
-  runTest(sim, advance, /*runUntil=*/10,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/NaN,
       /*expectedCollisions=*/17);

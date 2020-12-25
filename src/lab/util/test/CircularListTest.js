@@ -21,15 +21,15 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
-const assertNotNull = TestRig.assertNotNull;
-const assertNull = TestRig.assertNull;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
+const assertNotNull = v => TestRig.assertNotNull(v);
+const assertNull = v => TestRig.assertNull(v);
 
 
 /*
@@ -240,8 +240,7 @@ static testUtilCircularList2() {
       j = cList.store(new Vector(i*0.1, i*10));
     }
   });
-  var err = /** @type {!Error} */(e);
-  assertEquals(CircularList.MAX_INDEX_ERROR, err.message);
+  assertEquals(CircularList.MAX_INDEX_ERROR, e);
   assertTrue(j >= Util.MAX_INTEGER - 2);
   // show that we can still do reset after this error
   cList.reset();

@@ -32,12 +32,11 @@ const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /** Defines tests involving {@link DoNothingApp}.
 */
@@ -98,7 +97,7 @@ static do_nothing_variable_test() {
   setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
   setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
   setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
-  runTest(sim, advance, /*runUntil=*/40.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/40.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // check that joints are tight
   Engine2DTestRig.checkTightJoints(sim, 0.005);
@@ -158,7 +157,7 @@ static do_nothing_grinder_test1() {
   setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
   setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
   setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
-  runTest(sim, advance, /*runUntil=*/20.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   Engine2DTestRig.checkTightJoints(sim, 0.005);
 };
@@ -201,7 +200,7 @@ static do_nothing_grinder_test1b() {
   setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
   setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
   setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
-  runTest(sim, advance, /*runUntil=*/20.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // check that joints are reasonably tight
   Engine2DTestRig.checkTightJoints(sim, 0.01);
@@ -216,7 +215,7 @@ static do_nothing_grinder_test2() {
   var advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
   // run for several seconds with handle force, to get it up to speed.
-  runTest(sim, advance, /*runUntil=*/10);
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10);
   // turn off the constant handle turning force, and damping
   var fls = sim.getForceLaws();
   for (var i=0; i<fls.length; i++) {
@@ -231,7 +230,7 @@ static do_nothing_grinder_test2() {
   setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);
   setBodyVars(sim, vars, 6, -2.507, 0, -2.507, 0, 0, 0);
   // let it coast for a while, and check that energy is constant
-  runTest(sim, advance, /*runUntil=*/40.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/40.0,
      /*expectedVars=*/vars, /*tolerance=*/0.00001,
      /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
      /*expectedCollisions=*/-1);

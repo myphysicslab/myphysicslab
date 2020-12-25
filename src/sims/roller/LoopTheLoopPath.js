@@ -30,10 +30,10 @@ class LoopTheLoopPath extends AbstractPath {
 * @param {string=} localName
 */
 constructor(start, finish, name, localName) {
-  if (!goog.isNumber(start)) {
+  if (typeof start !== 'number') {
     start = -3.7;
   }
-  if (!goog.isNumber(finish)) {
+  if (typeof finish !== 'number') {
     finish = 8.5;
   }
   name = name || LoopTheLoopPath.en.NAME;

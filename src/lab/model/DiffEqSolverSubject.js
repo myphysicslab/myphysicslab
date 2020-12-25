@@ -90,7 +90,7 @@ constructor(sim, energySystem, advanceStrategy, opt_name) {
   this.addParameter(
     new ParameterString(this, DiffEqSolverSubject.en.DIFF_EQ_SOLVER,
         DiffEqSolverSubject.i18n.DIFF_EQ_SOLVER,
-        goog.bind(this.getDiffEqSolver, this), goog.bind(this.setDiffEqSolver, this),
+        () => this.getDiffEqSolver(), a => this.setDiffEqSolver(a),
         choices, values));
 };
 

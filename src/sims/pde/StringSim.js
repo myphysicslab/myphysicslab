@@ -208,22 +208,22 @@ constructor(shape, opt_simList) {
   this.potentialOffset_ = 0;
   this.addParameter(new ParameterNumber(this, StringSim.en.DAMPING,
       StringSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, StringSim.en.DENSITY,
       StringSim.i18n.DENSITY,
-      goog.bind(this.getDensity, this), goog.bind(this.setDensity, this)));
+      () => this.getDensity(), a => this.setDensity(a)));
   this.addParameter(new ParameterNumber(this, StringSim.en.TENSION,
       StringSim.i18n.TENSION,
-      goog.bind(this.getTension, this), goog.bind(this.setTension, this)));
+      () => this.getTension(), a => this.setTension(a)));
   this.addParameter(new ParameterNumber(this, StringSim.en.NUM_POINTS,
       StringSim.i18n.NUM_POINTS,
-      goog.bind(this.getNumPoints, this), goog.bind(this.setNumPoints, this)));
+      () => this.getNumPoints(), a => this.setNumPoints(a)));
   this.addParameter(new ParameterNumber(this, StringSim.en.TIME_STEP,
       StringSim.i18n.TIME_STEP,
-      goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this)));
+      () => this.getTimeStep(), a => this.setTimeStep(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   this.initializeFromShape();

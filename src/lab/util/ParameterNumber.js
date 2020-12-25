@@ -113,8 +113,8 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   @private
   */
   this.values_ = [];
-  if (goog.isDefAndNotNull(opt_choices)) {
-    if (goog.isDefAndNotNull(opt_values)) {
+  if (opt_choices != null) {
+    if (opt_values != null) {
       this.setChoices_(opt_choices, opt_values);
     } else {
       throw 'values is not defined';
@@ -329,7 +329,7 @@ setUpperLimit(upperLimit) {
 @param {number} value the value to set this ParameterNumber to
 */
 setValue(value) {
-  if (!goog.isNumber(value)) {
+  if (typeof value !== 'number') {
     throw 'not a number: '+value;
   }
   if (value < this.lowerLimit_ || value > this.upperLimit_) {

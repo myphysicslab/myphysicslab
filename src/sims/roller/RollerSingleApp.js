@@ -89,7 +89,7 @@ constructor(elem_ids) {
   this.pathSelect = new PathSelector(sim, this.paths);
   /** @type {!PathObserver} */
   this.pathObserver = new PathObserver(this.simList, this.simView,
-      goog.bind(this.setSimRect, this));
+      a => this.setSimRect(a));
   this.pathSelect.setPathName(HumpPath.en.NAME);
 
   this.addPlaybackControls();
@@ -108,22 +108,22 @@ constructor(elem_ids) {
 
   this.addParameter(ps = new ParameterString(this, RollerSingleApp.en.EQUATION_X,
       RollerSingleApp.i18n.EQUATION_X,
-      goog.bind(this.getXEquation, this), goog.bind(this.setXEquation, this))
+      () => this.getXEquation(), a => this.setXEquation(a))
       .setSuggestedLength(30));
   this.addControl(new TextControl(ps));
   this.addParameter(ps = new ParameterString(this, RollerSingleApp.en.EQUATION_Y,
       RollerSingleApp.i18n.EQUATION_Y,
-      goog.bind(this.getYEquation, this), goog.bind(this.setYEquation, this))
+      () => this.getYEquation(), a => this.setYEquation(a))
       .setSuggestedLength(30));
   this.addControl(new TextControl(ps));
   this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.START_T_VALUE,
       RollerSingleApp.i18n.START_T_VALUE,
-      goog.bind(this.getStartTValue, this), goog.bind(this.setStartTValue, this))
+      () => this.getStartTValue(), a => this.setStartTValue(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
   this.addParameter(pn = new ParameterNumber(this, RollerSingleApp.en.FINISH_T_VALUE,
       RollerSingleApp.i18n.FINISH_T_VALUE,
-      goog.bind(this.getFinishTValue, this), goog.bind(this.setFinishTValue, this))
+      () => this.getFinishTValue(), a => this.setFinishTValue(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 

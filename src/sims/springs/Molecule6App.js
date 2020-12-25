@@ -176,7 +176,7 @@ constructor(elem_ids, numAtoms) {
   this.addPlaybackControls();
   this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.NUM_ATOMS,
       Molecule6App.i18n.NUM_ATOMS,
-      goog.bind(this.getNumAtoms, this), goog.bind(this.setNumAtoms, this)));
+      () => this.getNumAtoms(), a => this.setNumAtoms(a)));
   this.addControl(new SliderControl(pn, 1, 6, /*multiply=*/false, 5));
 
   pn = this.sim_.getParameterNumber(Molecule3Sim.en.GRAVITY);
@@ -188,27 +188,27 @@ constructor(elem_ids, numAtoms) {
   pn = this.sim_.getParameterNumber(Molecule3Sim.en.ELASTICITY);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
 
-  pn = this.sim_.getParameterNumber(Molecule3Sim.en.PE_OFFSET);
+  pn = this.sim_.getParameterNumber(EnergySystem.en.PE_OFFSET);
   this.addControl(new NumericControl(pn));
 
   /** @type {!ParameterBoolean} */
   var pb;
   this.addParameter(pb = new ParameterBoolean(this, Molecule6App.en.SHOW_NAMES,
       Molecule6App.i18n.SHOW_NAMES,
-      goog.bind(this.getShowNames, this),
-      goog.bind(this.setShowNames, this)));
+      () => this.getShowNames(),
+      a => this.setShowNames(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, Molecule6App.en.SHOW_SPRINGS,
       Molecule6App.i18n.SHOW_SPRINGS,
-      goog.bind(this.getShowSprings, this),
-      goog.bind(this.setShowSprings, this)));
+      () => this.getShowSprings(),
+      a => this.setShowSprings(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.SPRING_TYPE,
       Molecule6App.i18n.SPRING_TYPE,
-      goog.bind(this.getSpringType, this),
-      goog.bind(this.setSpringType, this),
+      () => this.getSpringType(),
+      a => this.setSpringType(a),
       [ Molecule6App.i18n.LINEAR,
         Molecule6App.i18n.NON_LINEAR,
         Molecule6App.i18n.PSEUDO_GRAVITY ],
@@ -219,44 +219,44 @@ constructor(elem_ids, numAtoms) {
 
   this.addParameter(pb = new ParameterBoolean(this, Molecule6App.en.SHOW_KE_HIGH,
       Molecule6App.i18n.SHOW_KE_HIGH,
-      goog.bind(this.getShowKEHigh, this),
-      goog.bind(this.setShowKEHigh, this)));
+      () => this.getShowKEHigh(),
+      a => this.setShowKEHigh(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.KE_HIGH_PCT,
       Molecule6App.i18n.KE_HIGH_PCT,
-      goog.bind(this.getKEHighPct, this), goog.bind(this.setKEHighPct, this)));
+      () => this.getKEHighPct(), a => this.setKEHighPct(a)));
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
 
   this.addStandardControls();
 
   this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.ATTRACT_FORCE,
       Molecule6App.i18n.ATTRACT_FORCE,
-      goog.bind(this.getAttractForce, this), goog.bind(this.setAttractForce, this)));
+      () => this.getAttractForce(), a => this.setAttractForce(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.WALL_SIZE,
       Molecule6App.i18n.WALL_SIZE,
-      goog.bind(this.getWallSize, this), goog.bind(this.setWallSize, this)));
+      () => this.getWallSize(), a => this.setWallSize(a)));
   this.addControl(new NumericControl(pn));
 
-  for (var i=1; i<=6; i++) {
+  for (let i=1; i<=6; i++) {
     this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.MASS+' '+i,
         Molecule6App.i18n.MASS+' '+i,
-        goog.bind(this.getMass, this, i), goog.bind(this.setMass, this, i)));
+        () => this.getMass(i), a => this.setMass(i, a)));
     pn.setDecimalPlaces(5);
     this.addControl(new NumericControl(pn));
   }
   var msm = this.msm_;
   var len;
-  for (i=0, len=msm.length; i<len; i++) {
-    var idx1 = msm[i][0] + 1;
-    var idx2 = msm[i][1] + 1;
+  for (let i=0, len=msm.length; i<len; i++) {
+    let idx1 = msm[i][0] + 1;
+    let idx2 = msm[i][1] + 1;
     this.addParameter(pn = new ParameterNumber(this,
         Molecule6App.en.STIFFNESS+' '+idx1+'-'+idx2,
         Molecule6App.i18n.STIFFNESS+' '+idx1+'-'+idx2,
-        goog.bind(this.getStiffness, this, idx1, idx2),
-        goog.bind(this.setStiffness, this, idx1, idx2)));
+        () => this.getStiffness(idx1, idx2),
+        a => this.setStiffness(idx1, idx2, a)));
     this.addControl(new NumericControl(pn));
   }
 
@@ -271,17 +271,17 @@ constructor(elem_ids, numAtoms) {
   this.addURLScriptButton();
 
   // after clicking the "rewind" button, call resetResidualEnergy
-  new GenericObserver(this.simRun, goog.bind(function(evt) {
+  new GenericObserver(this.simRun, evt => {
     if (evt.nameEquals(SimRunner.RESET)) {
       this.resetResidualEnergy();
     }
-  }, this));
+  });
 
   /** Causes atoms with high KE percentage (kinetic energy) to be brightly colored.
   * @type {!GenericMemo}
   * @private
   */
-  this.ke_high_memo_ = new GenericMemo(goog.bind(function() {
+  this.ke_high_memo_ = new GenericMemo(() => {
     goog.array.forEach(this.sim_.getAtoms(), function(atom, idx) {
       var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
       var ke_pct = ke_var.getValue();
@@ -292,14 +292,14 @@ constructor(elem_ids, numAtoms) {
         dispAtom.setFillStyle('gray');
       }
     }, this);
-  }, this));
+  });
   this.simRun.addMemo(this.ke_high_memo_);
 
   /** When kinetic energy is near zero, display current potential energy.
   * @type {!GenericMemo}
   * @private
   */
-  this.residualEnergy_memo_ = new GenericMemo(goog.bind(function() {
+  this.residualEnergy_memo_ = new GenericMemo(() => {
     if (!this.residualEnergySet_) {
       var ei = this.sim_.getEnergyInfo();
       this.residualEnergySamples_.push(ei.getTranslational());
@@ -316,7 +316,7 @@ constructor(elem_ids, numAtoms) {
         this.residualEnergySet_ = true;
       }
     }
-  }, this));
+  });
   this.simRun.addMemo(this.residualEnergy_memo_);
 };
 
@@ -533,20 +533,20 @@ resetResidualEnergy() {
 addKEVars()  {
   var sim = this.sim_;
   var va = sim.getVarsList();
-  for (var i=1; i<=this.numAtoms_; i++) {
+  for (let i=1; i<=this.numAtoms_; i++) {
     var nm = 'ke'+i;
     va.addVariable(new FunctionVariable(va, nm, nm,
-      goog.bind(function(idx) {
-        var atom1 = sim.getSimList().getPointMass('atom'+idx);
+      () => {
+        var atom1 = sim.getSimList().getPointMass('atom'+i);
         return atom1.getKineticEnergy();
-      }, null, i)
+      }
     ));
     var nm2 = 'ke'+i+' pct';
     va.addVariable(new FunctionVariable(va, nm2, nm2,
-      goog.bind(function(idx) {
-        var atom = sim.getSimList().getPointMass('atom'+idx);
+      () => {
+        var atom = sim.getSimList().getPointMass('atom'+i);
         return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
-      }, null, i)
+      }
     ));
   }
 };

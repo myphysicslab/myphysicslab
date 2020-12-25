@@ -53,11 +53,11 @@ class LemniscatePath extends AbstractPath {
 */
 constructor(size, start, finish,
       closedLoop, name, localName) {
-  if (!goog.isNumber(start))
+  if (typeof start !== 'number')
     start = -Math.PI/4;
-  if (!goog.isNumber(finish))
+  if (typeof finish !== 'number')
     finish = 3*Math.PI/4;
-  if (!goog.isDef(closedLoop))
+  if (closedLoop === undefined)
     closedLoop = true;
   name = name || LemniscatePath.en.NAME;
   localName = localName || LemniscatePath.i18n.NAME;

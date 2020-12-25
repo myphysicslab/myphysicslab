@@ -44,7 +44,7 @@ constructor(opt_legacy) {
   * @const
   * @private
   */
-  this.legacy_ = opt_legacy || !goog.isFunction(requestAnimationFrame);
+  this.legacy_ = opt_legacy || typeof requestAnimationFrame !== 'function';
   /** the ID used to cancel the callback
   * @type {number|undefined}
   * @private
@@ -59,7 +59,7 @@ constructor(opt_legacy) {
   * @type {function()}
   * @private
   */
-  this.timerCallback_ = goog.bind(this.timerCallback, this);
+  this.timerCallback_ = () => this.timerCallback();
   /** period between callbacks, in seconds
   * @type {number}
   * @private
@@ -187,7 +187,7 @@ startFiring() {
 */
 stopFiring() {
   this.firing_ = false;
-  if (goog.isDef(this.timeoutID_)) {
+  if (this.timeoutID_ !== undefined) {
     if (this.legacy_) {
       clearTimeout(this.timeoutID_);
     } else {

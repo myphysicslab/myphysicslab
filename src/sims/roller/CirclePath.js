@@ -30,11 +30,11 @@ class CirclePath extends AbstractPath {
 */
 constructor(radius, start, finish,
       closedLoop, name, localName) {
-  if (!goog.isNumber(start))
+  if (typeof start !== 'number')
     start = -3*Math.PI/2;
-  if (!goog.isNumber(finish))
+  if (typeof finish !== 'number')
     finish = Math.PI/2;
-  if (!goog.isDef(closedLoop))
+  if (closedLoop === undefined)
     closedLoop = true;
   name = name || CirclePath.en.NAME;
   localName = localName || CirclePath.i18n.NAME;

@@ -107,13 +107,12 @@ constructor(elem_ids) {
   var show_graph_cb = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_graph'));
   /** @type {function(boolean)} */
-  this.showGraph = goog.bind(function(visible) {
+  this.showGraph = visible => {
     this.div_graph.style.display = visible ? 'block' : 'none';
     show_graph_cb.checked = visible;
-  }, this);
+  };
   goog.events.listen(show_graph_cb, goog.events.EventType.CLICK,
-      goog.bind(function(e) { this.showGraph(show_graph_cb.checked); }, this)
-  );
+      e => this.showGraph(show_graph_cb.checked) );
 
   /* <form> for sim controls */
   /** @type {!Element} */
@@ -128,12 +127,12 @@ constructor(elem_ids) {
       (VerticalLayout.getElementById(elem_ids, 'show_controls'));
   this.sim_controls.style.display = 'none';
   /** @type {function(boolean)} */
-  this.showControls = /** @type {function(boolean)}*/(goog.bind(function(visible) {
+  this.showControls = /** @type {function(boolean)}*/(visible => {
     this.sim_controls.style.display = visible ? 'block' : 'none';
     show_controls_cb.checked = visible;
-  }, this));
+  });
   goog.events.listen(show_controls_cb, goog.events.EventType.CLICK,
-      goog.bind(function(e) {this.showControls(show_controls_cb.checked); },this));
+      e => this.showControls(show_controls_cb.checked) );
 
   /* <form> element for Terminal */
   var form_term = /**@type {!HTMLFormElement}*/
@@ -154,16 +153,16 @@ constructor(elem_ids) {
     /* 'show terminal' checkbox. */
     var show_term_cb = /**@type {!HTMLInputElement}*/
         (VerticalLayout.getElementById(elem_ids, 'show_terminal'));
-    this.showTerminal = /** @type {function(boolean)}*/(goog.bind(function(visible) {
+    this.showTerminal = /** @type {function(boolean)}*/(visible => {
       form_term.style.display = visible ? 'block' : 'none';
       show_term_cb.checked = visible;
       if (visible && term_input && !this.terminal.recalling) {
         // move the focus to Terminal, for ease of typing
         term_input.focus();
       }
-    }, this));
+    });
     goog.events.listen(show_term_cb, goog.events.EventType.CLICK,
-      goog.bind(function(e) {this.showTerminal(show_term_cb.checked);}, this));
+      e => this.showTerminal(show_term_cb.checked) );
   }
 
   var show_hide_form = /**@type {!HTMLFormElement}*/
@@ -196,7 +195,7 @@ static getElementById(elem_ids, elementId) {
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
+  if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
   var e = document.getElementById(e_id);
@@ -217,7 +216,7 @@ static maybeElementById(elem_ids, elementId) {
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
+  if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
   return /** @type {?HTMLElement} */(document.getElementById(e_id));

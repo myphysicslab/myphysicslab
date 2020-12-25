@@ -83,18 +83,18 @@ constructor(elem_ids) {
 
   // change color of ball depending on whether on track or in free flight
   var trackVar = sim.getVarsList().getVariable(6);
-  new GenericObserver(sim.getVarsList(), goog.bind(function(evt) {
+  new GenericObserver(sim.getVarsList(), evt => {
     if (evt == trackVar) {
       this.ball1.setFillStyle(trackVar.getValue() > 0 ? 'blue' : 'red');
     }
-  }, this), 'change color of ball when in free flight');
+  }, 'change color of ball when in free flight');
 
   // adjust path display when SimView size changes
-  new GenericObserver(this.simView, goog.bind(function(evt) {
+  new GenericObserver(this.simView, evt => {
     if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
       this.displayPath.setScreenRect(this.simView.getScreenRect());
     }
-  }, this), 'resize displayPath when screen rect changes');
+  }, 'resize displayPath when screen rect changes');
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */

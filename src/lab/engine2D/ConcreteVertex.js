@@ -42,12 +42,12 @@ constructor(v_body, opt_endPoint, opt_edge) {
   * @type {boolean}
   * @private
   */
-  this.endPoint_ = goog.isDef(opt_endPoint) ? opt_endPoint : true;
+  this.endPoint_ = opt_endPoint !== undefined ? opt_endPoint : true;
   /** the previous edge in list of edges
   * @type {?Edge}
   * @private
   */
-  this.edge_ = goog.isDef(opt_edge) ? opt_edge : null;
+  this.edge_ = opt_edge !== undefined ? opt_edge : null;
   /** the next edge in list of edges -- null for mid-point Vertexes
   * @type {?Edge}
   * @private

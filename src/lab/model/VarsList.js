@@ -87,7 +87,7 @@ class VarsList extends AbstractSubject {
 *     anything other than strings, or have duplicate values
 */
 constructor(varNames, localNames, opt_name) {
-  var name = goog.isDef(opt_name) ? opt_name : 'VARIABLES';
+  var name = opt_name !== undefined ? opt_name : 'VARIABLES';
   super(name);
   /**  Index of time variable, or -1 if there is no time variable.
   * @type {number}
@@ -99,7 +99,7 @@ constructor(varNames, localNames, opt_name) {
   }
   for (var i = 0, n=varNames.length; i<n; i++) {
     var s = varNames[i];
-    if (!goog.isString(s)) {
+    if (typeof s !== 'string') {
       throw 'variable name '+s+' is not a string i='+i;
     }
     s = Util.validName(Util.toName(s));
@@ -361,9 +361,9 @@ getValues(computed) {
 */
 getVariable(id) {
   var index;
-  if (goog.isNumber(id)) {
+  if (typeof id === 'number') {
     index = id;
-  } else if (goog.isString(id)) {
+  } else if (typeof id === 'string') {
     id = Util.toName(id);
     index = goog.array.findIndex(this.varList_,
         function(v) { return v.getName() == id; });
@@ -433,7 +433,7 @@ the snapshot previous to the most recent, etc. See {@link #saveHistory}.
 @return {string} the history variables formatted as code to recreate the situation
 */
 printHistory(index) {
-  if (goog.isNumber(index)) {
+  if (typeof index === 'number') {
     return this.printOneHistory(index);
   } else {
     var r = this.printOneHistory(10);

@@ -145,7 +145,7 @@ constructor(name, varsList, opt_capacity) {
   */
   this.yVarParam_ = new ParameterNumber(this, GraphLine.en.Y_VARIABLE,
       GraphLine.i18n.Y_VARIABLE,
-      goog.bind(this.getYVariable, this), goog.bind(this.setYVariable, this))
+      () => this.getYVariable(), a => this.setYVariable(a))
       .setLowerLimit(-1);
   this.addParameter(this.yVarParam_);
   /** Parameter that represents which variable is shown on X-axis, and the available
@@ -155,7 +155,7 @@ constructor(name, varsList, opt_capacity) {
   */
   this.xVarParam_ = new ParameterNumber(this, GraphLine.en.X_VARIABLE,
       GraphLine.i18n.X_VARIABLE,
-      goog.bind(this.getXVariable, this), goog.bind(this.setXVariable, this))
+      () => this.getXVariable(), a => this.setXVariable(a))
       .setLowerLimit(-1);
   this.addParameter(this.xVarParam_);
   this.buildMenu();
@@ -205,18 +205,17 @@ constructor(name, varsList, opt_capacity) {
   this.yTransform = function(x, y) { return y; };
   this.addParameter(new ParameterNumber(this, GraphLine.en.LINE_WIDTH,
       GraphLine.i18n.LINE_WIDTH,
-      goog.bind(this.getLineWidth, this), goog.bind(this.setLineWidth, this)));
+      () => this.getLineWidth(), a => this.setLineWidth(a)));
   // Need a special 'setter' because `setDrawingMode` takes an argument of
   // the enum type `DrawingMode`, not of type `number`.
   this.addParameter(new ParameterString(this, GraphLine.en.DRAWING_MODE,
       GraphLine.i18n.DRAWING_MODE,
-      goog.bind(this.getDrawingMode, this),
-      goog.bind(function(s) { this.setDrawingMode(DrawingMode.stringToEnum(s)); },
-          this),
+      () => this.getDrawingMode(),
+      a => this.setDrawingMode(DrawingMode.stringToEnum(a)),
       DrawingMode.getChoices(), DrawingMode.getValues()));
   this.addParameter(new ParameterString(this, GraphLine.en.GRAPH_COLOR,
       GraphLine.i18n.GRAPH_COLOR,
-      goog.bind(this.getColor, this), goog.bind(this.setColor, this)));
+      () => this.getColor(), a => this.setColor(a)));
 };
 
 /** @override */

@@ -221,45 +221,45 @@ constructor(opt_name) {
   this.modifyObjects();
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.LENGTH_1,
       MoveableDoublePendulumSim.i18n.LENGTH_1,
-      goog.bind(this.getLength1, this), goog.bind(this.setLength1, this)));
+      () => this.getLength1(), a => this.setLength1(a)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.LENGTH_2,
       MoveableDoublePendulumSim.i18n.LENGTH_2,
-      goog.bind(this.getLength2, this), goog.bind(this.setLength2, this)));
+      () => this.getLength2(), a => this.setLength2(a)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.DAMPING,
       MoveableDoublePendulumSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.MASS_1,
       MoveableDoublePendulumSim.i18n.MASS_1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.MASS_2,
       MoveableDoublePendulumSim.i18n.MASS_2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, MoveableDoublePendulumSim.en.GRAVITY,
       MoveableDoublePendulumSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.DRIVE_AMPLITUDE,
       MoveableDoublePendulumSim.i18n.DRIVE_AMPLITUDE,
-      goog.bind(this.getDriveAmplitude, this),
-      goog.bind(this.setDriveAmplitude, this)));
+      () => this.getDriveAmplitude(),
+      a => this.setDriveAmplitude(a)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.DRIVE_FREQUENCY,
       MoveableDoublePendulumSim.i18n.DRIVE_FREQUENCY,
-      goog.bind(this.getDriveFrequency, this),
-      goog.bind(this.setDriveFrequency, this)));
+      () => this.getDriveFrequency(),
+      a => this.setDriveFrequency(a)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.ANCHOR_DAMPING,
       MoveableDoublePendulumSim.i18n.ANCHOR_DAMPING,
-      goog.bind(this.getAnchorDamping, this),
-      goog.bind(this.setAnchorDamping, this)));
+      () => this.getAnchorDamping(),
+      a => this.setAnchorDamping(a)));
   this.addParameter(
       new ParameterNumber(this, MoveableDoublePendulumSim.en.SPRING_STIFFNESS,
       MoveableDoublePendulumSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

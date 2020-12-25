@@ -80,7 +80,7 @@ constructor(elem_ids, opt_name) {
   * @type {number}
   * @private
   */
-  this.bParam_ = goog.isNumber(elem_ids.b_value) ? elem_ids.b_value : 0;
+  this.bParam_ = typeof elem_ids.b_value === 'number' ? elem_ids.b_value : 0;
   /**
   * @type {string}
   * @private
@@ -158,7 +158,7 @@ constructor(elem_ids, opt_name) {
   this.axes = new DisplayAxes(this.simView.getCoordMap().screenToSimRect(screenrect));
   this.simView.getDisplayList().add(this.axes);
   // inform displayGraph when the screen rect changes.
-  new GenericObserver(this.simView, goog.bind(function(evt) {
+  new GenericObserver(this.simView, evt => {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.graph.setScreenRect(this.simView.getScreenRect());
       } else if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
@@ -166,29 +166,29 @@ constructor(elem_ids, opt_name) {
         var simrect = this.simView.getCoordMap().screenToSimRect(screenrect);
         this.axes.setSimRect(simrect);
       }
-    }, this), 'adjust when screen rect changes');
+    }, 'adjust when screen rect changes');
   /**
   * @type {!SimController}
   * @private
   */
   this.simCtrl = new SimController(this.simCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:true, control:false, meta:false, shift:false});
-  this.terminal.setAfterEval(goog.bind(function() {
+  this.terminal.setAfterEval( () => {
       this.graph.reset();
       this.simCanvas.paint();
-    }, this));
+    });
 
   /** @type {!ParameterNumber} */
   var pn;
   this.addParameter(pn = new ParameterNumber(this, GraphCalc2App.en.B_PARAM,
       GraphCalc2App.i18n.B_PARAM,
-      goog.bind(this.getBParam, this), goog.bind(this.setBParam, this))
+      () => this.getBParam(), a => this.setBParam(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(3));
-  var b_max = goog.isNumber(elem_ids.b_max) ? elem_ids.b_max : 10;
-  var b_min = goog.isNumber(elem_ids.b_min) ? elem_ids.b_min : -10;
-  var b_multiply = goog.isBoolean(elem_ids.b_multiply) ? elem_ids.b_multiply : false;
-  var b_increments = goog.isNumber(elem_ids.b_increments) ? elem_ids.b_increments : 200;
+  var b_max = typeof elem_ids.b_max === 'number' ? elem_ids.b_max : 10;
+  var b_min = typeof elem_ids.b_min === 'number' ? elem_ids.b_min : -10;
+  var b_multiply = typeof elem_ids.b_multiply === 'boolean' ? elem_ids.b_multiply : false;
+  var b_increments = typeof elem_ids.b_increments === 'number' ? elem_ids.b_increments : 200;
   this.addControl(new SliderControl(pn, b_min, b_max, /*multiply=*/b_multiply,
       /*increments=*/b_increments));
 
@@ -255,7 +255,7 @@ static getElementById(elem_ids, elementId) {
   // but indexing with a string is never renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
+  if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
   return /** @type {!HTMLElement} */(document.getElementById(e_id));
@@ -273,10 +273,10 @@ plot(expr, range1, range2, numPts) {
   expr = this.expr_ = expr || this.expr_;
   numPts = numPts || 1000;
   var r = this.simView.getSimRect();
-  if (!goog.isDef(range1)) {
+  if (range1 === undefined) {
     range1 = r.getLeft();
   }
-  if (!goog.isDef(range2)) {
+  if (range2 === undefined) {
     range2 = r.getRight();
   }
   var incr = (range2 - range1)/numPts;
@@ -299,7 +299,7 @@ plot(expr, range1, range2, numPts) {
   if (expr) {
     for (var i=0; i<numPts; i++) {
       y = this.terminal.eval(expr, /*output=*/false);
-      if (goog.isNumber(y) && isFinite(y)) {
+      if (typeof y === 'number' && isFinite(y)) {
         this.vars.setValue(0, this.x, /*continuous=*/true);
         this.vars.setValue(1, y, /*continuous=*/true);
         this.graphLine.memorize();

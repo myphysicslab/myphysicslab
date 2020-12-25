@@ -65,7 +65,7 @@ constructor(hasPath, paths) {
       return p.getName(/*localized=*/true);
   });
   var ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
-      goog.bind(this.getPathName, this), goog.bind(this.setPathName, this),
+      () => this.getPathName(), a => this.setPathName(a),
       localNames, names);
   // the input function allows passing in lowercase path names.
   //ps.setInputFunction(Util.toName);

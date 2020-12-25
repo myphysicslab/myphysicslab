@@ -29,7 +29,7 @@ class MutableVector {
 * @param {number=} opt_z the Z value of the Vector (optional, zero is default value)
 */
 constructor(x, y, opt_z) {
-  const z = goog.isNumber(opt_z) ? opt_z : 0;
+  const z = typeof opt_z === 'number' ? opt_z : 0;
   /**
   * @type {number}
   * @private
@@ -122,7 +122,7 @@ values.
 @return {boolean}  true iff the other object is a GenericVector with the same values.
 */
 equals(vector)  {
-  if (goog.isNull(vector))
+  if (vector === null)
     return false;
   return vector.getX() === this.x_ &&
          vector.getY() === this.y_ &&

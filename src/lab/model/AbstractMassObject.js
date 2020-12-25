@@ -279,7 +279,7 @@ getWidth() {
 
 /** @override */
 getVelocity(p_body) {
-  if (goog.isDef(p_body)) {
+  if (p_body !== undefined) {
     var r = this.rotateBodyToWorld(Vector.clone(p_body).subtract(this.cm_body_));
     return new Vector(this.velocity_.getX() - r.getY()*this.angular_velocity_,
                     this.velocity_.getY() + r.getX()*this.angular_velocity_);
@@ -361,7 +361,7 @@ setDragPoints(dragPts) {
 
 /** @override */
 setMass(mass) {
-  if (mass <= 0 || !goog.isNumber(mass)) {
+  if (mass <= 0 || typeof mass !== 'number') {
     throw 'mass must be positive '+mass;
   }
   this.mass_ = mass;
@@ -381,7 +381,7 @@ setMomentAboutCM(moment) {
 /** @override */
 setPosition(loc_world, angle) {
   this.loc_world_ = Vector.clone(loc_world);
-  if (goog.isDef(angle) && this.angle_ != angle) {
+  if (angle !== undefined && this.angle_ != angle) {
     this.angle_ = angle;
     this.sinAngle_ = Math.sin(angle);
     this.cosAngle_ = Math.cos(angle);
@@ -391,14 +391,14 @@ setPosition(loc_world, angle) {
 /** @override */
 setVelocity(velocity_world, angular_velocity) {
   this.velocity_ = Vector.clone(velocity_world);
-  if (goog.isDef(angular_velocity)) {
+  if (angular_velocity !== undefined) {
     this.setAngularVelocity(angular_velocity);
   }
 };
 
 /** @override */
 setZeroEnergyLevel(height) {
-  this.zeroEnergyLevel_ = goog.isDef(height) ? height :
+  this.zeroEnergyLevel_ = height !== undefined ? height :
     this.loc_world_.getY();
   return this;
 };

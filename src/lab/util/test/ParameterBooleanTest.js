@@ -19,13 +19,13 @@ const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 class MockSubject1 extends AbstractSubject {
   constructor() {
@@ -89,8 +89,8 @@ static testParameterBoolean1() {
   // now make parameters
   var paramFoo = new ParameterBoolean(mockSubj1, MockSubject1.FOONESS,
       MockSubject1.FOONESS,
-      goog.bind(mockSubj1.getFooness, mockSubj1),
-      goog.bind(mockSubj1.setFooness, mockSubj1));
+      () => mockSubj1.getFooness(),
+      a => mockSubj1.setFooness(a));
   mockSubj1.addParameter(paramFoo);
   assertEquals('FOONESS', paramFoo.getName());
   assertTrue(paramFoo.nameEquals('fooness'));
@@ -113,8 +113,8 @@ static testParameterBoolean1() {
   // make a parameter with choices
   var paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
-      goog.bind(mockSubj1.getFooBarness, mockSubj1),
-      goog.bind(mockSubj1.setFooBarness, mockSubj1),
+      () => mockSubj1.getFooBarness(),
+      a => mockSubj1.setFooBarness(a),
       ['on', 'off'], [true, false]);
   mockSubj1.addParameter(paramFooBar);
   assertEquals(MockSubject1.FOOBARNESS, paramFooBar.getName());

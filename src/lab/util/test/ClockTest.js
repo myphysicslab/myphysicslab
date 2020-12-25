@@ -26,13 +26,13 @@ const Clock = goog.require('myphysicslab.lab.util.Clock');
 const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 
 /**  Observer that counts number of times that parameters are changed or
@@ -192,8 +192,8 @@ static testClock1() {
     assertEquals(0, mockObsvr1.numDoubles);
     assertEquals(0, mockObsvr1.numStrings);
 
-    // Note that installing goog.testing.MockClock redefines goog.now()
-    assertEquals(0, goog.now());
+    // Note that installing goog.testing.MockClock redefines Date.now()
+    assertEquals(0, Date.now());
     assertRoughlyEquals(0, Util.systemTime(), tol);
 
     // 1. initial conditions
@@ -217,7 +217,7 @@ static testClock1() {
 
     // 3. advance time to just before when callback should fire, should be no change
     mockClock.tick(49);
-    assertEquals(49, goog.now());
+    assertEquals(49, Date.now());
     assertRoughlyEquals(0.049, Util.systemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertRoughlyEquals(0.049, myClock.getTime(), tol);
@@ -226,7 +226,7 @@ static testClock1() {
 
     // 4. advance one more tick and callback should fire
     mockClock.tick(1);
-    assertEquals(50, goog.now());
+    assertEquals(50, Date.now());
     assertRoughlyEquals(0.050, Util.systemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
@@ -235,7 +235,7 @@ static testClock1() {
 
     // 5. advance time to just before when callback should fire, should be no change
     mockClock.tick(49);
-    assertEquals(99, goog.now());
+    assertEquals(99, Date.now());
     assertRoughlyEquals(0.099, Util.systemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertRoughlyEquals(0.099, myClock.getTime(), tol);
@@ -244,7 +244,7 @@ static testClock1() {
 
     // 6. advance one more tick and callback should fire
     mockClock.tick(1);
-    assertEquals(100, goog.now());
+    assertEquals(100, Date.now());
     assertRoughlyEquals(0.100, Util.systemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
@@ -263,7 +263,7 @@ static testClock1() {
     // 8. pause mode.  callback should fire, but time doesn't advance
     mockClock.tick(50);
     assertFalse(myClock.isRunning());
-    assertEquals(150, goog.now());
+    assertEquals(150, Date.now());
     assertRoughlyEquals(0.150, Util.systemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
@@ -280,7 +280,7 @@ static testClock1() {
 
     // 10. not firing & paused mode.  Time doesn't advance and callbacks don't fire.
     mockClock.tick(50);  // no callback scheduled
-    assertEquals(200, goog.now());
+    assertEquals(200, Date.now());
     assertRoughlyEquals(0.200, Util.systemTime(), tol);
     assertFalse(myClock.isRunning());
     assertEquals(2, mockObsvr1.numEvents);
@@ -319,14 +319,14 @@ static testClock1() {
 
     // 13. not firing & paused mode.  Time doesn't advance and callbacks don't fire.
     mockClock.tick(50);  // no callback scheduled
-    assertEquals(250, goog.now());
+    assertEquals(250, Date.now());
     assertRoughlyEquals(0.250, Util.systemTime(), tol);
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertRoughlyEquals(0.100, myClock.getRealTime(), tol);
     assertFalse(myClock.isRunning());
 
     // 14. start when not firing and paused  -->  firing & paused mode.
-    //assertEquals(250, goog.now());
+    //assertEquals(250, Date.now());
     //assertRoughlyEquals(0.250, Util.systemTime(), tol);
     assertEquals(2, mockObsvr1.numPauseEvents);
     assertEquals(2, mockObsvr1.numResumeEvents);
@@ -346,7 +346,7 @@ static testClock1() {
 
     // 16. firing & not-paused mode.  Time advances and callbacks fire.
     mockClock.tick(50);  // fires callback, reschedules for sys:0.350
-    assertEquals(300, goog.now());
+    assertEquals(300, Date.now());
     assertRoughlyEquals(0.300, Util.systemTime(), tol);
     assertRoughlyEquals(0.150, myClock.getTime(), tol);
     assertRoughlyEquals(0.150, myClock.getRealTime(), tol);
@@ -365,7 +365,7 @@ static testClock1() {
 
     // 18. change the delay and advance time
     mockClock.tick(50);   // fires callback, reschedules for sys:390
-    assertEquals(350, goog.now());
+    assertEquals(350, Date.now());
     assertRoughlyEquals(0.350, Util.systemTime(), tol);
     assertEquals(6, mockObsvr1.numEvents);
     assertRoughlyEquals(0.175, myClock.getTime(), tol);
@@ -382,7 +382,7 @@ static testClock1() {
     assertEquals(1, mockObsvr1.numStepEvents); // one more
     assertEquals(1, mockObsvr1.numSetTimeEvents);
     assertEquals(8, mockObsvr1.numEvents);  // pause and step events happened
-    assertEquals(350, goog.now());  // no change
+    assertEquals(350, Date.now());  // no change
     assertRoughlyEquals(0.350, Util.systemTime(), tol);  // no change
     assertRoughlyEquals(0.215, myClock.getTime(), tol);  // step() changeded this
     assertRoughlyEquals(0.240, myClock.getRealTime(), tol); // realtime is 0.025 ahead
@@ -393,7 +393,7 @@ static testClock1() {
 
     // 20. pause mode.  Advance system time, and callback happens, but time doesn't advance.
     mockClock.tick(40);  // fires callback, reschedules for sys:430, sim:255
-    assertEquals(390, goog.now());
+    assertEquals(390, Date.now());
     assertRoughlyEquals(0.390, Util.systemTime(), tol);
     assertEquals(8, mockObsvr1.numEvents);  // pause and step events happened
     assertRoughlyEquals(0.215, myClock.getTime(), tol);
@@ -409,7 +409,7 @@ static testClock1() {
     assertEquals(2, mockObsvr1.numStepEvents); // one more
     assertEquals(1, mockObsvr1.numSetTimeEvents);
     assertEquals(9, mockObsvr1.numEvents);
-    assertEquals(390, goog.now());
+    assertEquals(390, Date.now());
     assertRoughlyEquals(0.390, Util.systemTime(), tol);
     assertRoughlyEquals(0.255, myClock.getTime(), tol);
     assertRoughlyEquals(0.280, myClock.getRealTime(), tol);
@@ -420,7 +420,7 @@ static testClock1() {
 
     // 22. advance the system clock, and the callback occurs
     mockClock.tick(40); // fires callback, reschedules for sys:470, sim:295
-    assertEquals(430, goog.now());
+    assertEquals(430, Date.now());
     assertRoughlyEquals(0.430, Util.systemTime(), tol);
     assertEquals(9, mockObsvr1.numEvents);
     assertRoughlyEquals(0.255, myClock.getTime(), tol);
@@ -485,8 +485,8 @@ static testClock2() {
     assertEquals(0, mockObsvr1.numDoubles);
     assertEquals(0, mockObsvr1.numStrings);
 
-    // Note how installing goog.testing.MockClock redefines goog.now()
-    assertEquals(0, goog.now());
+    // Note how installing goog.testing.MockClock redefines Date.now()
+    assertEquals(0, Date.now());
     assertRoughlyEquals(0, Util.systemTime(), tol);
 
     // 1. initial conditions
@@ -510,7 +510,7 @@ static testClock2() {
 
     // 3. advance sysTime
     mockClock.tick(50);
-    assertEquals(50, goog.now());
+    assertEquals(50, Date.now());
     assertRoughlyEquals(0.050, Util.systemTime(), tol);
     assertEquals(1, mockObsvr1.numEvents);
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
@@ -520,7 +520,7 @@ static testClock2() {
     // 4. change so Clock goes at twice system time rate
     myClock.setTimeRate(2);
     assertEquals(2, myClock.getTimeRate());
-    assertEquals(50, goog.now());
+    assertEquals(50, Date.now());
     assertRoughlyEquals(0.050, Util.systemTime(), tol);
     assertEquals(0, mockObsvr1.numPauseEvents);
     assertEquals(1, mockObsvr1.numResumeEvents);
@@ -534,7 +534,7 @@ static testClock2() {
 
     // 5. advance sysTime
     mockClock.tick(50);
-    assertEquals(100, goog.now());
+    assertEquals(100, Date.now());
     assertRoughlyEquals(0.100, Util.systemTime(), tol);
     assertEquals(2, mockObsvr1.numEvents);
     assertRoughlyEquals(0.150, myClock.getTime(), tol);
@@ -543,7 +543,7 @@ static testClock2() {
 
     // 6. advance sysTime
     mockClock.tick(50);
-    assertEquals(150, goog.now());
+    assertEquals(150, Date.now());
     assertRoughlyEquals(0.150, Util.systemTime(), tol);
     assertEquals(2, mockObsvr1.numEvents);
     assertRoughlyEquals(0.250, myClock.getTime(), tol);
@@ -553,7 +553,7 @@ static testClock2() {
     // 7. change so Clock goes at half system time rate
     myClock.setTimeRate(0.5);
     assertRoughlyEquals(0.5, myClock.getTimeRate(), tol);
-    assertEquals(150, goog.now());
+    assertEquals(150, Date.now());
     assertRoughlyEquals(0.150, Util.systemTime(), tol);
     assertEquals(0, mockObsvr1.numPauseEvents);
     assertEquals(1, mockObsvr1.numResumeEvents);
@@ -567,7 +567,7 @@ static testClock2() {
 
     // 8. advance sysTime
     mockClock.tick(50);
-    assertEquals(200, goog.now());
+    assertEquals(200, Date.now());
     assertRoughlyEquals(0.200, Util.systemTime(), tol);
     assertEquals(3, mockObsvr1.numEvents);
     assertRoughlyEquals(0.275, myClock.getTime(), tol);
@@ -587,7 +587,7 @@ static testClock2() {
 
     // 10. advance sysTime
     mockClock.tick(50);
-    assertEquals(250, goog.now());
+    assertEquals(250, Date.now());
     assertRoughlyEquals(0.250, Util.systemTime(), tol);
     assertEquals(4, mockObsvr1.numEvents);
     assertRoughlyEquals(0.275, myClock.getTime(), tol);
@@ -596,7 +596,7 @@ static testClock2() {
 
     // 11. advance sysTime
     mockClock.tick(50);
-    assertEquals(300, goog.now());
+    assertEquals(300, Date.now());
     assertRoughlyEquals(0.300, Util.systemTime(), tol);
     assertEquals(4, mockObsvr1.numEvents);
     assertRoughlyEquals(0.300, myClock.getTime(), tol);
@@ -615,7 +615,7 @@ static testClock2() {
 
     // 13. advance sysTime
     mockClock.tick(50);
-    assertEquals(350, goog.now());
+    assertEquals(350, Date.now());
     assertRoughlyEquals(0.350, Util.systemTime(), tol);
     assertRoughlyEquals(0.350, myClock.getTime(), tol);
     assertRoughlyEquals(0.375, myClock.getRealTime(), tol);
@@ -623,7 +623,7 @@ static testClock2() {
 
     // 14. advance sysTime
     mockClock.tick(50);
-    assertEquals(400, goog.now());
+    assertEquals(400, Date.now());
     assertRoughlyEquals(0.400, Util.systemTime(), tol);
     assertEquals(5, mockObsvr1.numEvents);
     assertRoughlyEquals(0.400, myClock.getTime(), tol);
@@ -657,8 +657,8 @@ static testClock3() {
     myClock.addTask(myTask_B);
     myClock.addTask(myTask_C);
 
-    // Note how installing goog.testing.MockClock redefines goog.now()
-    assertEquals(0, goog.now());
+    // Note how installing goog.testing.MockClock redefines Date.now()
+    assertEquals(0, Date.now());
     assertRoughlyEquals(0, Util.systemTime(), tol);
 
     assertEquals(0, myClock.getTime());
@@ -671,13 +671,13 @@ static testClock3() {
 
     // Observe tasks happening.
     mockClock.tick(50);
-    assertEquals(50, goog.now());
+    assertEquals(50, Date.now());
     assertRoughlyEquals(0.050, Util.systemTime(), tol);
     assertRoughlyEquals(0.050, myClock.getTime(), tol);
     assertTrue(myClock.isRunning());
     assertEquals('', testVar);
     mockClock.tick(50);
-    assertEquals(100, goog.now());
+    assertEquals(100, Date.now());
     assertRoughlyEquals(0.100, myClock.getTime(), tol);
     assertEquals('A', testVar);
     mockClock.tick(50);

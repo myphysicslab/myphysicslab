@@ -87,7 +87,7 @@ constructor(elem_ids) {
   */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
-  this.terminal.setAfterEval(goog.bind(this.simCanvas.paint, this.simCanvas));
+  this.terminal.setAfterEval( () => this.simCanvas.paint() );
 
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-6, -6, 6, 6);
@@ -113,7 +113,7 @@ constructor(elem_ids) {
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
   var panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      () => this.simView.setSimRect(this.simRect) );
   div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
@@ -129,9 +129,7 @@ constructor(elem_ids) {
   * @private
   */
   this.timer = new Timer();
-  var callback = goog.bind(function () {
-      this.simCanvas.paint();
-  }, this);
+  var callback = () => this.simCanvas.paint();
   this.timer.setCallBack(callback);
   this.timer.startFiring();
 };

@@ -174,24 +174,24 @@ constructor(opt_name) {
   this.getSimList().add(this.anchor_, this.bob_, this.spring_);
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.GRAVITY,
       Spring2DSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.MASS,
       Spring2DSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.DAMPING,
       Spring2DSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.SPRING_LENGTH,
       Spring2DSim.i18n.SPRING_LENGTH,
-      goog.bind(this.getSpringRestLength, this),
-      goog.bind(this.setSpringRestLength, this)));
+      () => this.getSpringRestLength(),
+      a => this.setSpringRestLength(a)));
   this.addParameter(new ParameterNumber(this, Spring2DSim.en.SPRING_STIFFNESS,
       Spring2DSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   // vars:   0   1   2   3   4   5   6    7      8        9

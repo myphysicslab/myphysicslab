@@ -27,9 +27,9 @@ class FlatPath extends AbstractPath {
 * @param {string=} localName
 */
 constructor(start, finish, name, localName) {
-  if (!goog.isNumber(start))
+  if (typeof start !== 'number')
     start = -5;
-  if (!goog.isNumber(finish))
+  if (typeof finish !== 'number')
     finish = 5;
   name = name || FlatPath.en.NAME;
   localName = localName || FlatPath.i18n.NAME;

@@ -24,13 +24,13 @@ const TestRig = goog.require('myphysicslab.test.TestRig');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 /**  mock CanvasRenderingContext2D
 */
@@ -66,7 +66,7 @@ class MockContext {
    * @return {undefined}
    */
   moveTo(x, y) {
-    if (!goog.isNull(this.startPoint)) {
+    if (this.startPoint != null) {
       // check that the point being drawn matches expected point
       assertRoughlyEquals(this.startPoint.getX(), x, this.tol);
       assertRoughlyEquals(this.startPoint.getY(), y, this.tol);

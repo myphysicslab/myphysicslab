@@ -1319,8 +1319,6 @@ The order of items in a JavaScript source code file is as follows:
 
 + `goog.module` and `goog.require` statements
 
-+ `goog.scope` shortcuts
-
 + Constructor.  The comment for the constructor is the summary documentation
     for the class.
 

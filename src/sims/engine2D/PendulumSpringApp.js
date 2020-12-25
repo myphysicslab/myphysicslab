@@ -139,13 +139,13 @@ constructor(elem_ids) {
   this.addParameter(
       pn = new ParameterNumber(this, PendulumSpringApp.en.SPRING_STIFFNESS,
       PendulumSpringApp.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(
       pn = new ParameterNumber(this, PendulumSpringApp.en.SPRING_LENGTH,
       PendulumSpringApp.i18n.SPRING_LENGTH,
-      goog.bind(this.getRestLength, this), goog.bind(this.setRestLength, this)));
+      () => this.getRestLength(), a => this.setRestLength(a)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

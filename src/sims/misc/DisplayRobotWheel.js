@@ -93,7 +93,7 @@ draw(context, map) {
   body_to_screen.setTransform(context);
   // draw the circle representing the wheel
   context.beginPath();
-  if (goog.isFunction(context.ellipse)) {
+  if (typeof context.ellipse === 'function') {
     context.moveTo(r, 0);
     // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
     context.ellipse(0, 0, r, r, 0, 0, 2*Math.PI, false);

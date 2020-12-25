@@ -110,7 +110,7 @@ constructor(elem_ids) {
   this.endlessLoop = false;
   /* make a 'repeat' ClockTask which resets the sim every 6 seconds. */
   /** @type {!ClockTask} */
-  this.task = new ClockTask(6, goog.bind(this.config, this));
+  this.task = new ClockTask(6, () => this.config());
   /** @type {number} */
   this.randomSeed = 0;
   /** @type {!RandomLCG} */
@@ -125,40 +125,40 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.NUM_BLOCKS,
       PileConfig.i18n.NUM_BLOCKS,
-      goog.bind(this.getNumBlocks, this), goog.bind(this.setNumBlocks, this))
+      () => this.getNumBlocks(), a => this.setNumBlocks(a))
       .setDecimalPlaces(0));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.TWO_PILES,
       PileConfig.i18n.TWO_PILES,
-      goog.bind(this.getTwoPiles, this), goog.bind(this.setTwoPiles, this)));
+      () => this.getTwoPiles(), a => this.setTwoPiles(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.CONNECTED_BLOCKS,
       PileConfig.i18n.CONNECTED_BLOCKS,
-      goog.bind(this.getConnectedBlocks, this),
-      goog.bind(this.setConnectedBlocks, this)));
+      () => this.getConnectedBlocks(),
+      a => this.setConnectedBlocks(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.SQUARE_BLOCKS,
       PileConfig.i18n.SQUARE_BLOCKS,
-      goog.bind(this.getSquareBlocks, this), goog.bind(this.setSquareBlocks, this)));
+      () => this.getSquareBlocks(), a => this.setSquareBlocks(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.ENDLESS_LOOP,
       PileConfig.i18n.ENDLESS_LOOP,
-      goog.bind(this.getEndlessLoop, this), goog.bind(this.setEndlessLoop, this)));
+      () => this.getEndlessLoop(), a => this.setEndlessLoop(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.LOOP_TIME,
       PileConfig.i18n.LOOP_TIME,
-      goog.bind(this.getLoopTime, this), goog.bind(this.setLoopTime, this))
+      () => this.getLoopTime(), a => this.setLoopTime(a))
       .setDecimalPlaces(1));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.RANDOM_SEED,
       PileConfig.i18n.RANDOM_SEED,
-      goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
+      () => this.getRandomSeed(), a => this.setRandomSeed(a))
       .setDecimalPlaces(0).setLowerLimit(Util.NEGATIVE_INFINITY));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -171,10 +171,10 @@ constructor(elem_ids) {
   this.addStandardControls();
 
   /** @type {!ButtonControl} */
-  var c = new ButtonControl(PileConfig.i18n.REBUILD, goog.bind(this.config, this));
+  var c = new ButtonControl(PileConfig.i18n.REBUILD, () => this.config());
   this.addControl(c);
 
-  c = new ButtonControl(PileConfig.i18n.ADD_BLOCK, goog.bind(this.addBlock, this));
+  c = new ButtonControl(PileConfig.i18n.ADD_BLOCK, () => this.addBlock());
   this.addControl(c);
 
   this.makeEasyScript();
@@ -295,7 +295,7 @@ getLoopTime() {
 */
 setLoopTime(value) {
   this.clock.removeTask(this.task);
-  this.task = new ClockTask(value, goog.bind(this.config, this));
+  this.task = new ClockTask(value, () => this.config());
   this.clock.addTask(this.task);
   if (this.clock.getTime() > value) {
     this.config();

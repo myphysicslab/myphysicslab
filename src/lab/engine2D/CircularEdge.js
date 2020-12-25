@@ -944,12 +944,6 @@ testCollisionEdge(collisions, edge, time) {
 
 /**
 * @type {number}
-* @const
-*/
-CircularEdge.TINY_POSITIVE = 1E-10;
-
-/**
-* @type {number}
 * @private
 * @const
 */

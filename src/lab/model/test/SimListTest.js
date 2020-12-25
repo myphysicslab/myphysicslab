@@ -25,14 +25,14 @@ const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
-const assertNull = TestRig.assertNull;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
+const assertNull = v => TestRig.assertNull(v);
 
 
 /** observer that tracks the number of each type of SimObject in list
@@ -222,9 +222,8 @@ static testSimListThrows() {
   startTest(SimListTest.groupName+'testSimListThrows');
   var simList = new SimList();
   var e = assertThrows(function() {simList.add(null);}  );
-  assertTrue(e instanceof Error);
-  var err = /** @type {!Error} */(e);
-  assertEquals('cannot add invalid SimObject', err.message);
+  assertTrue(typeof e === 'string');
+  assertEquals('cannot add invalid SimObject', e);
   var p1 = new PointMass('point1');
   simList.add(p1);
   assertEquals(p1, simList.get('point1'));

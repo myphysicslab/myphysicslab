@@ -62,8 +62,8 @@ constructor(parameter, opt_label, opt_choices, opt_values) {
   var label = opt_label !== undefined ?
       opt_label : parameter.getName(/*localized=*/true);
   super(choices, values,
-      goog.bind(parameter.getAsString, parameter),
-      goog.bind(parameter.setFromString, parameter),
+      () => parameter.getAsString(),
+      a => parameter.setFromString(a),
       label);
   /**
   * @type {!Parameter}
@@ -109,7 +109,7 @@ observe(event) {
     // Example: adding several bodies by calling RigidBodySim.addBody().
     // That results in VarsList.addVariables() broadcasting VARS_MODIFIED event each
     // time a body is added.
-    setTimeout(goog.bind(this.rebuildMenu, this), 50);
+    setTimeout( () => this.rebuildMenu(), 50);
   } else if (event == this.parameter_) {
     // only update when this parameter has changed
     super.observe(event);

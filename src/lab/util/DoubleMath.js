@@ -154,7 +154,7 @@ static hexToNum(hex) {
 * @return {string} the number in IEEE 754 hexadecimal format.
 */
 static NFHEX(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return DoubleMath.numToHex(num);
   else
     return num === null ? 'null' : 'undefined';

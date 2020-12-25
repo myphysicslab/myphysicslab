@@ -129,7 +129,7 @@ draw(context, map) {
     the given SimObject, or null if not found
 */
 find(search) {
-  if (goog.isNumber(search)) {
+  if (typeof search === 'number') {
     var index = /** @type {number}*/(search);
     var n = this.drawables_.length;
     if (index < 0 || index >= n) {
@@ -138,7 +138,7 @@ find(search) {
       this.sort();
       return this.drawables_[index];
     }
-  } else if (goog.isString(search)) {
+  } else if (typeof search === 'string') {
     var objName = Util.toName(search);
     return goog.array.find(this.drawables_, function(element, index, array) {
       var simObjs = element.getSimObjects();

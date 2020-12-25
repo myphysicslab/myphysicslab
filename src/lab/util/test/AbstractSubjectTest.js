@@ -24,13 +24,13 @@ const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 class MockSubject1 extends AbstractSubject {
   constructor() {
@@ -140,7 +140,7 @@ class MockObserver1 {
       assertTrue(event instanceof ParameterBoolean);
       assertEquals(this.mockSubj1, event.getSubject());
       var val = event.getValue();
-      assertTrue(goog.isBoolean(val));
+      assertTrue(typeof val === 'boolean');
     } else if (event instanceof ParameterNumber) {
       this.numDoubles++;
       assertEquals('FOONESS', event.getName());
@@ -148,14 +148,14 @@ class MockObserver1 {
       assertTrue(event instanceof ParameterNumber);
       assertEquals(this.mockSubj1, event.getSubject());
       var val = event.getValue();
-      assertTrue(goog.isNumber(val));
+      assertTrue(typeof val === 'number');
     } else if (event instanceof ParameterString) {
       this.numStrings++;
       assertEquals('QUX', event.getName());
       assertTrue(event.nameEquals('qux'));
       assertTrue(event instanceof ParameterString);
       assertEquals(this.mockSubj1, event.getSubject());
-      assertTrue(goog.isString(event.getValue()));
+      assertTrue(typeof event.getValue() === 'string');
     }
   };
   toStringShort() {
@@ -208,7 +208,7 @@ class MockObserver2 {
       assertTrue(event instanceof ParameterBoolean);
       assertEquals(this.mockSubj1, event.getSubject());
       var val = event.getValue();
-      assertTrue(goog.isBoolean(val));
+      assertTrue(typeof val === 'boolean');
     } else if (event instanceof ParameterNumber) {
       this.numDoubles++;
       assertEquals('FOONESS', event.getName());
@@ -216,14 +216,14 @@ class MockObserver2 {
       assertTrue(event instanceof ParameterNumber);
       assertEquals(this.mockSubj1, event.getSubject());
       var val = event.getValue();
-      assertTrue(goog.isNumber(val));
+      assertTrue(typeof val === 'number');
     } else if (event instanceof ParameterString) {
       this.numStrings++;
       assertEquals('QUX', event.getName());
       assertTrue(event.nameEquals('qux'));
       assertTrue(event instanceof ParameterString);
       assertEquals(this.mockSubj1, event.getSubject());
-      assertTrue(goog.isString(event.getValue()));
+      assertTrue(typeof event.getValue() === 'string');
     }
   };
   toStringShort() {
@@ -248,23 +248,23 @@ static testAbstractSubject1() {
   var paramFoo = new ParameterNumber(mockSubj1,
       MockSubject1.FOONESS,
       MockSubject1.FOONESS,
-      goog.bind(mockSubj1.getFooness, mockSubj1),
-      goog.bind(mockSubj1.setFooness, mockSubj1));
+      () => mockSubj1.getFooness(),
+      a => mockSubj1.setFooness(a));
   mockSubj1.addParameter(paramFoo);
   assertEquals(0, paramFoo.getValue());
 
   var paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
-      goog.bind(mockSubj1.getFooBarness, mockSubj1),
-      goog.bind(mockSubj1.setFooBarness, mockSubj1));
+      () => mockSubj1.getFooBarness(),
+      a => mockSubj1.setFooBarness(a));
   mockSubj1.addParameter(paramFooBar);
   assertFalse(paramFooBar.getValue());
 
   var paramQux = new ParameterString(mockSubj1,
       MockSubject1.QUX,
       MockSubject1.QUX,
-      goog.bind(mockSubj1.getQux, mockSubj1),
-      goog.bind(mockSubj1.setQux, mockSubj1));
+      () => mockSubj1.getQux(),
+      a => mockSubj1.setQux(a) );
   mockSubj1.addParameter(paramQux);
   assertEquals('corge', paramQux.getValue());
 

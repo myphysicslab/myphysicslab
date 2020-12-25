@@ -93,7 +93,7 @@ class AutoScale extends AbstractSubject {
 */
 constructor(name, graphLine, simView) {
   super(name);
-  if (goog.isDef(graphLine) && !GraphLine.isDuckType(graphLine)) {
+  if (graphLine !== undefined && !GraphLine.isDuckType(graphLine)) {
     throw 'not a GraphLine '+graphLine;
   }
   /** The GraphLines to auto-scale.
@@ -188,18 +188,18 @@ constructor(name, graphLine, simView) {
   this.minSize = 1E-14;
   this.addParameter(new ParameterNumber(this, AutoScale.en.TIME_WINDOW,
       AutoScale.i18n.TIME_WINDOW,
-      goog.bind(this.getTimeWindow, this), goog.bind(this.setTimeWindow, this))
+      () => this.getTimeWindow(), a => this.setTimeWindow(a))
       .setSignifDigits(3));
   var choices = [AutoScale.VERTICAL, AutoScale.HORIZONTAL, AutoScale.BOTH_AXES];
   this.addParameter(new ParameterString(this, AutoScale.en.AXIS,
       AutoScale.i18n.AXIS,
-      goog.bind(this.getAxis, this), goog.bind(this.setAxis, this), choices, choices));
+      () => this.getAxis(), a => this.setAxis(a), choices, choices));
   this.addParameter(new ParameterBoolean(this, AutoScale.en.ACTIVE,
       AutoScale.i18n.ACTIVE,
-      goog.bind(this.getActive, this), goog.bind(this.setActive, this)));
+      () => this.getActive(), a => this.setActive(a)));
   this.addParameter(new ParameterBoolean(this, AutoScale.en.ENABLED,
       AutoScale.i18n.ENABLED,
-      goog.bind(this.getEnabled, this), goog.bind(this.setEnabled, this)));
+      () => this.getEnabled(), a => this.setEnabled(a)));
   this.setComputed(this.isActive_);
 };
 
@@ -451,10 +451,10 @@ depending on whether this AutoScale is active.
 setComputed(value) {
   var names = [SimView.en.WIDTH, SimView.en.HEIGHT, SimView.en.CENTER_X,
       SimView.en.CENTER_Y];
-  goog.array.forEach(names, goog.bind(function(name) {
-      var p = this.simView_.getParameter(name);
+  goog.array.forEach(names, nm => {
+      var p = this.simView_.getParameter(nm);
       p.setComputed(value);
-    }, this));
+    });
 };
 
 /** Sets whether this AutoScale is enabled. The AutoScale must be enabled in order

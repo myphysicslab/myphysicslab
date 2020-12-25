@@ -174,13 +174,13 @@ constructor(massObject, proto) {
   * @type {!MassObject}
   * @private
   */
-  this.massObject_ = goog.isDefAndNotNull(massObject) ?
+  this.massObject_ = massObject != null ?
       massObject : new PointMass('proto');
   /**
   * @type {?DisplayShape}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
   /** Whether the MassObject is dragable.
   * @type {boolean}
   * @private
@@ -327,7 +327,7 @@ contains(p_world) {
 * @private
 */
 static darkColor(color) {
-  if (!goog.isString(color))
+  if (typeof color !== 'string')
     return false;
   if (color == '')
     return false;
@@ -368,7 +368,7 @@ draw(context, map) {
   if (strokeStyle) {
     context.lineWidth = map.screenToSimScaleX(this.getThickness());
     var borderDash = this.getBorderDash();
-    if (borderDash.length > 0 && goog.isFunction(context.setLineDash)) {
+    if (borderDash.length > 0 && typeof context.setLineDash === 'function') {
       // convert the borderDash to be in sim coords
       var ld = goog.array.map(borderDash, function(n) {
           return map.screenToSimScaleX(n);

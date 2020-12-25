@@ -40,13 +40,13 @@ class CardioidPath extends AbstractPath {
 * @param {string=} localName
 */
 constructor(radius, start, finish, closedLoop, name, localName) {
-  if (!goog.isNumber(start)) {
+  if (typeof start !== 'number') {
     start = -Math.PI;
   }
-  if (!goog.isNumber(finish)) {
+  if (typeof finish !== 'number') {
     finish = Math.PI;
   }
-  if (!goog.isDef(closedLoop)) {
+  if (closedLoop === undefined) {
     closedLoop = false;
   }
   name = name || CardioidPath.en.NAME;

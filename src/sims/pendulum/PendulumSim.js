@@ -228,30 +228,30 @@ constructor(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, PendulumSim.en.LENGTH,
       PendulumSim.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.DAMPING,
       PendulumSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.MASS,
       PendulumSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.DRIVE_AMPLITUDE,
       PendulumSim.i18n.DRIVE_AMPLITUDE,
-      goog.bind(this.getDriveAmplitude, this),
-      goog.bind(this.setDriveAmplitude, this)));
+      () => this.getDriveAmplitude(),
+      a => this.setDriveAmplitude(a)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.DRIVE_FREQUENCY,
       PendulumSim.i18n.DRIVE_FREQUENCY,
-      goog.bind(this.getDriveFrequency, this),
-      goog.bind(this.setDriveFrequency, this)));
+      () => this.getDriveFrequency(),
+      a => this.setDriveFrequency(a)));
   this.addParameter(new ParameterNumber(this, PendulumSim.en.GRAVITY,
       PendulumSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterBoolean(this, PendulumSim.en.LIMIT_ANGLE,
       PendulumSim.i18n.LIMIT_ANGLE,
-      goog.bind(this.getLimitAngle, this), goog.bind(this.setLimitAngle, this)));
+      () => this.getLimitAngle(), a => this.setLimitAngle(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

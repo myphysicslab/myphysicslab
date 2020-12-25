@@ -133,13 +133,13 @@ constructor(paths, opt_name, opt_simList) {
 
   this.addParameter(new ParameterNumber(this, BrachistoSim.en.DAMPING,
       BrachistoSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, BrachistoSim.en.GRAVITY,
       BrachistoSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, BrachistoSim.en.MASS,
       BrachistoSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
 };
 
 /** @override */

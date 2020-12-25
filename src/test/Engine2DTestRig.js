@@ -192,11 +192,11 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
   }
   //console.log('Engine2DTestRig.runTest sim='+sim);
   //console.log('Engine2DTestRig.runTest seed='+sim.getRandomSeed());
-  expectedVars = goog.isDef(expectedVars) ? expectedVars : null;
+  expectedVars = expectedVars !== undefined ? expectedVars : null;
 
-  energyTol = goog.isDef(energyTol) ? energyTol : 0;
-  expectedCollisions = goog.isDef(expectedCollisions) ? expectedCollisions : -1;
-  expectedSearches = goog.isDef(expectedSearches) ? expectedSearches : 0;
+  energyTol = energyTol !== undefined ? energyTol : 0;
+  expectedCollisions = expectedCollisions !== undefined ? expectedCollisions : -1;
+  expectedSearches = expectedSearches !== undefined ? expectedSearches : 0;
   if (Util.DEBUG && Engine2DTestRig.debug) {
     console.log(
       'Engine2DTestRig.runTest expectedEnergyDiff='+Util.NFE(expectedEnergyDiff)
@@ -272,14 +272,14 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
   var testType = '';
 
   // expected variables test
-  if (expectedVars != null && goog.isDef(tolerance)) {
+  if (expectedVars != null && tolerance !== undefined) {
     passed = Engine2DTestRig.checkResult(sim, expectedVars, tolerance);
     testType += (testType != '' ? '+' : '') + 'vars';
     didTest = true;
   }
 
   // expected energy test
-  if (goog.isDef(expectedEnergyDiff) && !isNaN(expectedEnergyDiff)) {
+  if (expectedEnergyDiff !== undefined && !isNaN(expectedEnergyDiff)) {
     testType += (testType != '' ? '+' : '') + 'energy';
     var e2 = sim.getEnergyInfo().getTotalEnergy();
     var energyEqual = Math.abs(e2 - e1 - expectedEnergyDiff) < energyTol;

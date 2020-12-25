@@ -121,19 +121,17 @@ constructor(elem_ids) {
   /** @type {!SimList} */
   this.simList = this.sim1.getSimList();
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
-    this.sim1.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim1, evt => this.sim1.modifyObjects(),
+      'modifyObjects after parameter or variable change');
   /** @type {!PendulumSim} */
   this.sim2 = new PendulumSim('SIM_2');
-  this.terminal.setAfterEval(goog.bind(function() {
+  this.terminal.setAfterEval( () => {
       this.sim1.modifyObjects();
       this.sim2.modifyObjects();
-    }, this));
+    });
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim2, goog.bind(function(evt) {
-    this.sim2.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim2, evt => this.sim2.modifyObjects(),
+      'modifyObjects after parameter or variable change');
   var va2 = this.sim2.getVarsList();
   va2.setValue(0, startAngle + this.angleDelta);
   this.sim2.saveInitialState();
@@ -192,7 +190,7 @@ constructor(elem_ids) {
 
   pn = new ParameterNumber(this, ComparePendulumApp.en.ANGLE_DELTA,
       ComparePendulumApp.i18n.ANGLE_DELTA,
-      goog.bind(this.getAngleDelta, this), goog.bind(this.setAngleDelta, this))
+      () => this.getAngleDelta(), a => this.setAngleDelta(a))
       .setDecimalPlaces(7);
   this.addParameter(pn);
   this.addControl(new NumericControl(pn));
@@ -223,15 +221,15 @@ constructor(elem_ids) {
   this.addControl(new CheckBoxControl(this.showEnergyParam));
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(this.sim1.getTime, this.sim1),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock( () => this.sim1.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
   var panzoom_simview = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
   pb.setValue(false);
@@ -297,7 +295,7 @@ constructor(elem_ids) {
       this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
+  new GenericObserver(this.sim1, evt => {
     if (evt instanceof ParameterNumber) {
       // match the parameters on sim2 to those of sim
       var pn = this.sim2.getParameterNumber(evt.getName());
@@ -324,7 +322,7 @@ constructor(elem_ids) {
     } else if (evt.nameEquals(Simulation.RESET)) {
       this.sim2.reset();
     }
-  }, this), 'sim2 follows sim1 when mouse dragging');
+  }, 'sim2 follows sim1 when mouse dragging');
 
   var subjects = [
     this,

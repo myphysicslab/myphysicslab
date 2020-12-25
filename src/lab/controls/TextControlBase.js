@@ -63,7 +63,7 @@ constructor(label, getter, setter, textField) {
   * @private
   */
   this.value_ = getter();
-  if (!goog.isString(this.value_)) {
+  if (typeof this.value_ !== 'string') {
     throw 'not a string '+this.value_;
   }
   /** The number of columns (characters) shown in the text field.
@@ -245,7 +245,7 @@ setValue(value) {
       console.log('TextControlBase.setValue value='+value+' vs '+this.value_);
     }
     try {
-      if (!goog.isString(value)) {
+      if (typeof value !== 'string') {
         throw 'not a string '+value;
       }
       // set this.value_ first to prevent the observe() coming here twice
@@ -273,7 +273,7 @@ validate(event) {
   // of rounding.
   if (nowValue != this.lastValue_) {
     var value = nowValue;
-    if (!goog.isString(value)) {
+    if (typeof value !== 'string') {
       alert('not a string: '+nowValue);
       this.formatTextField();
     } else {

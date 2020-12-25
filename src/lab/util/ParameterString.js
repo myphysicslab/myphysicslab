@@ -34,8 +34,8 @@ from {@link myphysicslab.lab.engine2D.ContactSim}:
 
     new ParameterString(this, RigidBodySim.en.EXTRA_ACCEL,
       RigidBodySim.i18n.EXTRA_ACCEL,
-      goog.bind(this.getExtraAccel, this),
-      goog.bind(function(s) { this.setExtraAccel(ExtraAccel.stringToEnum(s)); }, this),
+      () => this.getExtraAccel(),
+      s => this.setExtraAccel(ExtraAccel.stringToEnum(s)),
       ExtraAccel.getChoices(), ExtraAccel.getValues());
 
 This defines a special setter function because `setExtraAccel` takes an argument
@@ -117,8 +117,8 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   @private
   */
   this.inputFunction_ = null;
-  if (goog.isDefAndNotNull(opt_choices)) {
-    if (goog.isDefAndNotNull(opt_values)) {
+  if (opt_choices != null) {
+    if (opt_values != null) {
       this.setChoices_(opt_choices, opt_values);
     } else {
       throw 'values is not defined';
@@ -278,7 +278,7 @@ setValue(value) {
   if (this.inputFunction_ != null) {
     value = this.inputFunction_(value);
   }
-  if (!goog.isString(value)) {
+  if (typeof value !== 'string') {
     throw 'non-string value: '+value;
   }
   if (value.length > this.maxLength_) {

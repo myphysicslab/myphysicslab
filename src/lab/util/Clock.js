@@ -175,8 +175,8 @@ constructor(opt_name) {
   this.clockDebug_ = false;
   this.addParameter(new ParameterNumber(this, Clock.en.TIME_RATE,
       Clock.i18n.TIME_RATE,
-      goog.bind(this.getTimeRate, this),
-      goog.bind(this.setTimeRate, this)));
+      () => this.getTimeRate(),
+      a => this.setTimeRate(a)));
 };
 
 /** @override */
@@ -424,7 +424,7 @@ setTimePrivate(time_secs) {
   if (this.isRunning_) {
     this.clockStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
     // schedule all ClockTasks
-    goog.array.forEach(this.tasks_, goog.bind(this.scheduleTask, this));
+    goog.array.forEach(this.tasks_, task => this.scheduleTask(task) );
   } else {
     this.saveTime_secs_ = time_secs;
   }

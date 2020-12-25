@@ -32,12 +32,11 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /** Tests high speed collisions.  Some are between small object and thin walls.
 Some are between two small objects.
@@ -104,7 +103,7 @@ static ball_vs_wall_0() {
   SpeedTest.ball_vs_wall_setup(sim, advance);
   var vars = makeVars(6*1);
   setBodyVars(sim, vars, 0, -4.349276, 0.4830918, 4.4247788, -0.4310427, 0, 0);
-  runTest(sim, advance, /*runUntil=*/10.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/37);
@@ -121,7 +120,7 @@ static ball_vs_wall_1() {
   SpeedTest.ball_vs_wall_setup(sim, advance);
   var vars = makeVars(6*1);
   setBodyVars(sim, vars, 0, -4.3493183, 0.4830918, 4.4248186, -0.4310427, 0, 0);
-  runTest(sim, advance, /*runUntil=*/10.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/Util.NaN, /*energyTol=*/Util.NaN,
       /*expectedCollisions=*/37);
@@ -166,7 +165,7 @@ static ball_vs_circle_0() {
     setBodyVars(sim, vars, 0, 4.2864427, 0.1090598, 5.7947777, -0.0042925, -0.0000012, -0);
     expectedCollisions = 52;
   }
-  runTest(sim, advance, /*runUntil=*/10,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/expectedCollisions, /*expectedSearches=*/6);
@@ -215,7 +214,7 @@ static small_small() {
   setBodyVars(sim, vars, 0, 3.7878932, 0, 0, 0, 0.7853982, -0);
   setBodyVars(sim, vars, 1, 71.2121068, 100, 0, 0, 0, 0);
   // use large time step of 0.1 to ensure that object passes thru in single step
-  runTest(sim, advance, /*runUntil=*/1.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
       /*expectedCollisions=*/1);

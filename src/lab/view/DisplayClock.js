@@ -53,12 +53,12 @@ constructor(simTimeFn, realTimeFn, period, radius, location) {
   * @type {number}
   * @private
   */
-  this.period_ = goog.isNumber(period) ? period : 2.0;
+  this.period_ = typeof period === 'number' ? period : 2.0;
   /** Radius of clock in simulation coords
   * @type {number}
   * @private
   */
-  this.radius_ = goog.isNumber(radius) ? radius : 1.0;
+  this.radius_ = typeof radius === 'number' ? radius : 1.0;
   /**
   * @type {!Vector}
   * @private
@@ -353,7 +353,7 @@ setTextColor(value) {
 
 /** @override */
 setZIndex(zIndex) {
-  this.zIndex_ = goog.isDef(zIndex) ? zIndex : 0;
+  this.zIndex_ = zIndex !== undefined ? zIndex : 0;
 };
 
 } // end class

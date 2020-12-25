@@ -84,22 +84,22 @@ constructor(elem_ids) {
   var ps;
   this.addParameter(pb = new ParameterBoolean(this, PendulumClockConfig.en.WITH_GEARS,
       PendulumClockConfig.i18n.WITH_GEARS,
-      goog.bind(this.getWithGears, this), goog.bind(this.setWithGears, this)));
+      () => this.getWithGears(), a => this.setWithGears(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, PendulumClockConfig.en.EXTRA_BODY,
       PendulumClockConfig.i18n.EXTRA_BODY,
-      goog.bind(this.getExtraBody, this), goog.bind(this.setExtraBody, this)));
+      () => this.getExtraBody(), a => this.setExtraBody(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn=new ParameterNumber(this, PendulumClockConfig.en.PENDULUM_LENGTH,
       PendulumClockConfig.i18n.PENDULUM_LENGTH,
-      goog.bind(this.getPendulumLength, this), goog.bind(this.setPendulumLength, this)));
+      () => this.getPendulumLength(), a => this.setPendulumLength(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, PendulumClockConfig.en.TURNING_FORCE,
       PendulumClockConfig.i18n.TURNING_FORCE,
-      goog.bind(this.getTurningForce, this), goog.bind(this.setTurningForce, this)));
+      () => this.getTurningForce(), a => this.setTurningForce(a)));
   pn.setLowerLimit(Util.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 

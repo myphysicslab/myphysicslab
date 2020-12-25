@@ -178,17 +178,17 @@ constructor(canvas, name) {
   */
   this.debug_ = false;
   this.addParameter(new ParameterNumber(this, LabCanvas.en.WIDTH,
-      LabCanvas.i18n.WIDTH, goog.bind(this.getWidth, this),
-      goog.bind(this.setWidth, this)));
+      LabCanvas.i18n.WIDTH, () => this.getWidth(),
+      a => this.setWidth(a)));
   this.addParameter(new ParameterNumber(this, LabCanvas.en.HEIGHT,
-      LabCanvas.i18n.HEIGHT, goog.bind(this.getHeight, this),
-      goog.bind(this.setHeight, this)));
+      LabCanvas.i18n.HEIGHT, () => this.getHeight(),
+      a => this.setHeight(a)));
   this.addParameter(new ParameterNumber(this, LabCanvas.en.ALPHA,
-      LabCanvas.i18n.ALPHA, goog.bind(this.getAlpha, this),
-      goog.bind(this.setAlpha, this)));
+      LabCanvas.i18n.ALPHA, () => this.getAlpha(),
+      a => this.setAlpha(a)));
   this.addParameter(new ParameterString(this, LabCanvas.en.BACKGROUND,
-      LabCanvas.i18n.BACKGROUND, goog.bind(this.getBackground, this),
-      goog.bind(this.setBackground, this)));
+      LabCanvas.i18n.BACKGROUND, () => this.getBackground(),
+      a => this.setBackground(a)));
 };
 
 /** @override */
@@ -496,7 +496,7 @@ Notifies any Observers by broadcasting a GenericEvent named {@link #SIZE_CHANGED
 @param {number} height  the height of the canvas, in screen coords (pixels)
 */
 setSize(width, height) {
-  if (!goog.isNumber(width) || width <= 0 || !goog.isNumber(height) || height <= 0) {
+  if (typeof width !== 'number' || width <= 0 || typeof height !== 'number' || height <= 0) {
     throw 'bad size '+width+', '+height;
   }
   this.canvas_.width = width;

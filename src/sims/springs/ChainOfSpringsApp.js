@@ -58,8 +58,8 @@ class ChainOfSpringsApp extends AbstractApp {
 */
 constructor(elem_ids, numAtoms, attachRight) {
   Util.setErrorHandler();
-  numAtoms = goog.isNumber(numAtoms) ? numAtoms : 10;
-  attachRight = goog.isDef(attachRight) ? attachRight : true;
+  numAtoms = typeof numAtoms === 'number' ? numAtoms : 10;
+  attachRight = attachRight !== undefined ? attachRight : true;
   var simRect = new DoubleRect(-6.4, -6, 6.4, 6);
   var sim = new ChainOfSpringsSim();
   sim.makeChain(numAtoms, attachRight);
@@ -99,13 +99,13 @@ constructor(elem_ids, numAtoms, attachRight) {
 
   this.addParameter(pn = new ParameterNumber(this, ChainOfSpringsSim.en.NUM_LINKS,
       ChainOfSpringsSim.i18n.NUM_LINKS,
-      goog.bind(this.getNumLinks, this), goog.bind(this.setNumLinks, this))
+      () => this.getNumLinks(), a => this.setNumLinks(a))
       .setDecimalPlaces(0));
   this.addControl(new SliderControl(pn, 0, 30, /*multiply=*/false));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainOfSpringsSim.en.ATTACH_RIGHT,
       ChainOfSpringsSim.i18n.ATTACH_RIGHT,
-      goog.bind(this.getAttachRight, this), goog.bind(this.setAttachRight, this)));
+      () => this.getAttachRight(), a => this.setAttachRight(a)));
   this.addControl(new CheckBoxControl(pb));
 
   pn = this.mySim.getParameterNumber(ChainOfSpringsSim.en.GRAVITY);
@@ -133,7 +133,7 @@ constructor(elem_ids, numAtoms, attachRight) {
 
   /** @type {!ButtonControl} */
   var bc = new ButtonControl(ChainOfSpringsSim.i18n.STRAIGHT_LINE,
-      goog.bind(this.mySim.straightLine, this.mySim));
+      () => this.mySim.straightLine());
   this.addControl(bc);
 
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...

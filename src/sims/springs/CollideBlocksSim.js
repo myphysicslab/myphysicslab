@@ -203,30 +203,30 @@ constructor(opt_name) {
       this.block1_, this.block2_);
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.MASS_1,
       CollideBlocksSim.i18n.MASS_1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.MASS_2,
       CollideBlocksSim.i18n.MASS_2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.LENGTH_1,
       CollideBlocksSim.i18n.LENGTH_1,
-      goog.bind(this.getSpring1Length, this), goog.bind(this.setSpring1Length, this)));
+      () => this.getSpring1Length(), a => this.setSpring1Length(a)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.STIFFNESS_1,
       CollideBlocksSim.i18n.STIFFNESS_1,
-      goog.bind(this.getSpring1Stiffness, this),
-      goog.bind(this.setSpring1Stiffness, this)));
+      () => this.getSpring1Stiffness(),
+      a => this.setSpring1Stiffness(a)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.LENGTH_2,
       CollideBlocksSim.i18n.LENGTH_2,
-      goog.bind(this.getSpring2Length, this), goog.bind(this.setSpring2Length, this)));
+      () => this.getSpring2Length(), a => this.setSpring2Length(a)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.STIFFNESS_2,
       CollideBlocksSim.i18n.STIFFNESS_2,
-      goog.bind(this.getSpring2Stiffness, this),
-      goog.bind(this.setSpring2Stiffness, this)));
+      () => this.getSpring2Stiffness(),
+      a => this.setSpring2Stiffness(a)));
   this.addParameter(new ParameterNumber(this, CollideBlocksSim.en.DAMPING,
       CollideBlocksSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

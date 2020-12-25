@@ -571,7 +571,7 @@ toString() {
 *     already exists)
 */
 addRegex(names, prefix, opt_addToVars, opt_prepend) {
-  var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
+  var addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
   if (!Util.ADVANCED) {
     if (names.length == 0) {
       throw '';
@@ -643,7 +643,7 @@ addRegex2(regex, replace, opt_prepend) {
 *     set of defined names returned by {@link #vars}; default is `true`
 */
 addWhiteList(name, opt_addToVars) {
-  var addToVars = goog.isDef(opt_addToVars) ? opt_addToVars : true;
+  var addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
   if (!goog.array.contains(this.whiteList_, name)) {
     this.whiteList_.push(name);
     if (addToVars) {
@@ -783,7 +783,7 @@ script that caused the error).
 *    is false
 */
 eval(script, opt_output, opt_userInput) {
-  var output = goog.isBoolean(opt_output) ? opt_output : true;
+  var output = typeof opt_output === 'boolean' ? opt_output : true;
   var userInput = opt_userInput || false;
   if (userInput && !output) {
     // if user input the script then must have output==true
@@ -854,10 +854,10 @@ eval(script, opt_output, opt_userInput) {
       }
     }
     // don't show results when cmd ends with semicolon, or undefined result
-    if (output && goog.isDef(this.result) && script.slice(-1) != ';') {
+    if (output && this.result !== undefined && script.slice(-1) != ';') {
       this.println(String(this.result));
     }
-    if (output && goog.isDef(this.afterEvalFn_)) {
+    if (output && this.afterEvalFn_ !== undefined) {
       this.afterEvalFn_();
     }
   } catch (ex) {
@@ -995,7 +995,7 @@ See [Script Storage](#scriptstorage).
 forget() {
   try {
     var localStore = window.localStorage;
-    if (goog.isDefAndNotNull(localStore)) {
+    if (localStore != null) {
       localStore.removeItem(this.pageKey());
     }
   } catch (ex) {
@@ -1176,11 +1176,11 @@ the script if `opt_execute` is `true`. See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
 recall(opt_execute) {
-  var execute = goog.isBoolean(opt_execute) ? opt_execute : true;
+  var execute = typeof opt_execute === 'boolean' ? opt_execute : true;
   this.recalling = true;
   try {
     var localStore = window.localStorage;
-    if (goog.isDefAndNotNull(localStore)) {
+    if (localStore != null) {
       var s = /** @type {string} */(localStore.getItem(this.pageKey()));
       if (s) {
         this.println('//start of stored scripts');
@@ -1209,15 +1209,15 @@ stored, as returned by {@link #commands}.
 * @return {undefined}
 */
 remember(opt_script) {
-  var script = goog.isDef(opt_script) ? opt_script : this.commands();
-  if (goog.isArray(script)) {
+  var script = opt_script !== undefined ? opt_script : this.commands();
+  if (Array.isArray(script)) {
     script = script.join('\n');
   }
   try {
     var k = this.pageKey();
     // store the script under the current file name
     var localStore = window.localStorage;
-    if (goog.isDefAndNotNull(localStore)) {
+    if (localStore != null) {
       localStore.setItem(this.pageKey(), script);
     }
   } catch (ex) {
@@ -1281,7 +1281,7 @@ setAfterEval(afterEvalFn) {
 setParser(parser) {
   this.parser = parser;
   if (!Util.ADVANCED) {
-    parser.addCommand('vars', goog.bind(function() {return String(this.vars());}, this),
+    parser.addCommand('vars', () => String(this.vars()),
         'lists available variables');
   }
 };

@@ -110,7 +110,7 @@ add(simObjs) {
   for (var i=0; i<arguments.length; i++) {
     /** @type {!SimObject} */
     var element = arguments[i];
-    if (!goog.isDefAndNotNull(element)) {
+    if (!element) {
       throw 'cannot add invalid SimObject';
     }
     var expire = element.getExpireTime();
@@ -162,11 +162,11 @@ SimObject in this SimList with the given name.
 @throws {!Error} if SimObject not found or index out of range
 */
 get(arg) {
-  if (goog.isNumber(arg)) {
+  if (typeof arg === 'number') {
     if (arg >= 0 && arg < this.elements_.length) {
       return this.elements_[arg];
     }
-  } else if (goog.isString(arg)) {
+  } else if (typeof arg === 'string') {
     arg = Util.toName(arg);
     var e = goog.array.find(this.elements_,
       function (/** !SimObject */obj, index, array) {

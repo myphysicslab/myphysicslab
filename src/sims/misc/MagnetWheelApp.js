@@ -106,7 +106,7 @@ constructor(elem_ids, opt_name) {
 
   this.addParameter(pn = new ParameterNumber(this, MagnetWheelSim.en.NUM_MAGNETS,
       MagnetWheelSim.i18n.NUM_MAGNETS,
-      goog.bind(this.getNumMagnets, this), goog.bind(this.setNumMagnets, this))
+      () => this.getNumMagnets(), a => this.setNumMagnets(a))
       .setDecimalPlaces(0));
   this.addControl(new SliderControl(pn, 1, 12, /*multiply=*/false));
 
@@ -114,12 +114,12 @@ constructor(elem_ids, opt_name) {
   var pb;
   this.addParameter(pb = new ParameterBoolean(this, MagnetWheelSim.en.SYMMETRIC,
       MagnetWheelSim.i18n.SYMMETRIC,
-      goog.bind(this.getSymmetric, this), goog.bind(this.setSymmetric, this)));
+      () => this.getSymmetric(), a => this.setSymmetric(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, MagnetWheelSim.en.MAGNET_ANGLE,
       MagnetWheelSim.i18n.MAGNET_ANGLE,
-      goog.bind(this.getMagnetAngle, this), goog.bind(this.setMagnetAngle, this))
+      () => this.getMagnetAngle(), a => this.setMagnetAngle(a))
       .setDecimalPlaces(1));
   /**
   * @type {!NumericControl}
@@ -137,11 +137,11 @@ constructor(elem_ids, opt_name) {
   this.addURLScriptButton();
 
   // turn off the clock quickly, for debugging.
-  /*var memo = new GenericMemo(goog.bind(function(){
+  /*var memo = new GenericMemo( () => {
     if (this.sim.getTime() > 0.1) {
       this.simRun.pause();
     }
-  }, this));
+  });
   this.simRun.addMemo(memo);
   */
 };

@@ -202,18 +202,18 @@ constructor(parts, opt_name, opt_simList) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, RigidDoublePendulumSim.en.GRAVITY,
       RigidDoublePendulumSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, RigidDoublePendulumSim.en.ANGLE_1,
       RigidDoublePendulumSim.i18n.ANGLE_1,
-      goog.bind(this.getAngle1, this), goog.bind(this.setAngle1, this))
+      () => this.getAngle1(), a => this.setAngle1(a))
       .setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
   this.addParameter(new ParameterNumber(this, RigidDoublePendulumSim.en.ANGLE_2,
       RigidDoublePendulumSim.i18n.ANGLE_2,
-      goog.bind(this.getAngle2, this), goog.bind(this.setAngle2, this))
+      () => this.getAngle2(), a => this.setAngle2(a))
       .setLowerLimit(-Math.PI).setUpperLimit(Math.PI));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   this.getSimList().add(this.pendulum1_, this.pendulum2_, this.pivot1_, this.pivot2_);

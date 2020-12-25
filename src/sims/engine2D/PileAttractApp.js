@@ -92,18 +92,18 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.NUM_BLOCKS,
       PileConfig.i18n.NUM_BLOCKS,
-      goog.bind(this.getNumBlocks, this), goog.bind(this.setNumBlocks, this))
+      () => this.getNumBlocks(), a => this.setNumBlocks(a))
       .setDecimalPlaces(0));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, PileConfig.en.SQUARE_BLOCKS,
       PileConfig.i18n.SQUARE_BLOCKS,
-      goog.bind(this.getSquareBlocks, this), goog.bind(this.setSquareBlocks, this)));
+      () => this.getSquareBlocks(), a => this.setSquareBlocks(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.RANDOM_SEED,
       PileConfig.i18n.RANDOM_SEED,
-      goog.bind(this.getRandomSeed, this), goog.bind(this.setRandomSeed, this))
+      () => this.getRandomSeed(), a => this.setRandomSeed(a))
       .setDecimalPlaces(0).setLowerLimit(Util.NEGATIVE_INFINITY));
 
   pn = this.gravityLaw.getParameterNumber(Gravity2Law.en.GRAVITY);
@@ -115,7 +115,7 @@ constructor(elem_ids) {
 
   this.addStandardControls();
 
-  var c = new ButtonControl(PileConfig.i18n.REBUILD, goog.bind(this.config, this));
+  var c = new ButtonControl(PileConfig.i18n.REBUILD, () => this.config());
   this.addControl(c);
 
   this.makeEasyScript();

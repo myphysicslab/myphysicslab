@@ -84,14 +84,14 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.axes1.setColor('lime');
   /** @type {!GraphLine} */
   this.line1 = new GraphLine('TIME_LINE_1', varsList);
-  new GenericObserver(this.line1, goog.bind(function(evt) {
+  new GenericObserver(this.line1, evt => {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
       this.axes1.setHorizName(this.line1.getXVarName());
     }
     if (evt.nameEquals(GraphLine.en.Y_VARIABLE)) {
       this.axes1.setVerticalName(this.line1.getYVarName());
     }
-  }, this), 'update axes1 names');
+  }, 'update axes1 names');
   this.line1.setColor('lime');
   this.view1.addMemo(this.line1);
   /** @type {!AutoScale} */
@@ -105,11 +105,11 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.displayGraph1.setUseBuffer(false);
   this.displayList1.prepend(this.displayGraph1);
   // inform displayGraph1 when the screen rect changes.
-  new GenericObserver(this.view1, goog.bind(function(evt) {
+  new GenericObserver(this.view1, evt => {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.displayGraph1.setScreenRect(this.view1.getScreenRect());
       }
-    }, this), 'resize DisplayGraph1');
+    }, 'resize DisplayGraph1');
 
   var timeIdx = this.line1.getVarsList().timeIndex();
   this.line1.setXVariable(timeIdx);
@@ -127,14 +127,14 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.axes2.setYAxisAlignment(HorizAlign.RIGHT);
   /** @type {!GraphLine} */
   this.line2 = new GraphLine('TIME_LINE_2', varsList);
-  new GenericObserver(this.line2, goog.bind(function(evt) {
+  new GenericObserver(this.line2, evt => {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
       this.axes2.setHorizName(this.line2.getXVarName());
     }
     if (evt.nameEquals(GraphLine.en.Y_VARIABLE)) {
       this.axes2.setVerticalName(this.line2.getYVarName());
     }
-  }, this), 'update axes2 names');
+  }, 'update axes2 names');
   this.view2.addMemo(this.line2);
   this.line2.setXVariable(timeIdx);
   this.line2.setYVariable(1);
@@ -150,11 +150,11 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.displayGraph2.setUseBuffer(false);
   this.displayList2.prepend(this.displayGraph2);
   // inform displayGraph2 when the screen rect changes.
-  new GenericObserver(this.view2, goog.bind(function(evt) {
+  new GenericObserver(this.view2, evt => {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.displayGraph2.setScreenRect(this.view2.getScreenRect());
       }
-    }, this), 'resize DisplayGraph2');
+    }, 'resize DisplayGraph2');
 
   /** @type {!Array<!LabControl>} */
   this.controls_ = [];
@@ -172,29 +172,28 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   pn = this.autoScale1.getParameterNumber(AutoScale.en.TIME_WINDOW)
   this.addControl(new NumericControl(pn));
   var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
-      goog.bind(function() {
+      () => {
         this.line1.reset();
         this.line2.reset();
-      }, this)
-    );
+      });
   this.addControl(bc);
   /** GenericObserver ensures autoScale2 has same time window as autoScale1
   * @type {!GenericObserver}
   */
-  this.auto1Obs = new GenericObserver(this.autoScale1, goog.bind(function(e) {
-      this.autoScale2.setTimeWindow(this.autoScale1.getTimeWindow());
-    }, this), 'ensures autoScale2 has same time window as autoScale1');
+  this.auto1Obs = new GenericObserver(this.autoScale1,
+      e => this.autoScale2.setTimeWindow(this.autoScale1.getTimeWindow()),
+      'ensures autoScale2 has same time window as autoScale1');
   /** GenericObserver ensures line2 has same X variable as line1.
   * @type {!GenericObserver}
   */
-  this.line1Obs = new GenericObserver(this.line1, goog.bind(function(e) {
+  this.line1Obs = new GenericObserver(this.line1, e => {
       // Don't use off-screen buffer with time variable because the auto-scale causes
       // graph to redraw every frame.
       var isTimeGraph = this.line1.getXVariable() == timeIdx;
       this.displayGraph1.setUseBuffer(!isTimeGraph);
       this.displayGraph2.setUseBuffer(!isTimeGraph);
       this.line2.setXVariable(this.line1.getXVariable());
-    }, this), 'ensures line2 has same X variable as line1');
+    }, 'ensures line2 has same X variable as line1');
 };
 
 /** @override */

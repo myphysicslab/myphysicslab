@@ -30,13 +30,13 @@ const Subject = goog.require('myphysicslab.lab.util.Subject');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 /**  Observer that counts number of times that parameters are changed or events fire.
 @implements {Observer}
@@ -76,16 +76,16 @@ class MockObserver1 {
       this.numBooleans++;
       assertEquals(this.sim, event.getSubject());
       var val = event.getValue();
-      assertTrue(goog.isBoolean(val));
+      assertTrue(typeof val === 'boolean');
     } else if (event instanceof ParameterNumber) {
       this.numDoubles++;
       assertEquals(this.sim, event.getSubject());
       var val = event.getValue();
-      assertTrue(goog.isNumber(val));
+      assertTrue(typeof val === 'number');
     } else if (event instanceof ParameterString) {
       this.numStrings++;
       assertEquals(this.sim, event.getSubject());
-      assertTrue(goog.isString(event.getValue()));
+      assertTrue(typeof event.getValue() === 'string');
     }
   };
   /** @override */

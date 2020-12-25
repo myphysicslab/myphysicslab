@@ -74,7 +74,7 @@ constructor(elem_ids) {
   }
   this.addParameter(pn = new ParameterNumber(this, MutualAttractApp.en.NUMBER_BODIES,
       MutualAttractApp.i18n.NUMBER_BODIES,
-      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this), choices, values)
+      () => this.getNumBodies(), a => this.setNumBodies(a), choices, values)
       .setLowerLimit(1).setUpperLimit(6));
   this.addControl(new ChoiceControl(pn));
 

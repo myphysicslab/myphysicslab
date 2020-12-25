@@ -207,7 +207,7 @@ constructor(opt_name) {
   * Note that RigidBodySim has a debugPaint_, it is called inside moveObjects()
   * Note that CollisionAdvance has a debugPaint_; ensure it calls sim.setDebugPaint().
   * Ensure that advance.setDebugPaint is called at startup in SimRunner:
-  *    advance.setDebugPaint(goog.bind(this.paintAll, this));
+  *    advance.setDebugPaint( () => this.paintAll() );
   * Ensure the moving object is drawn above walls (otherwise can't see overlap).
   * Ensure test does not start running when loaded:  do clock.pause() at start.
   * Ensure you are zoomed in enough to see the overlap of the objects.
@@ -230,10 +230,10 @@ constructor(opt_name) {
   UtilEngine.debugEngine2D = this;
   this.addParameter(new ParameterBoolean(this, RigidBodySim.en.SHOW_FORCES,
       RigidBodySim.i18n.SHOW_FORCES,
-      goog.bind(this.getShowForces, this), goog.bind(this.setShowForces, this)));
+      () => this.getShowForces(), a => this.setShowForces(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };
@@ -465,7 +465,7 @@ getBodies() {
 getBody(numOrName) {
   /** @type {Polygon} */
   var bod = null;
-  if (goog.isString(numOrName)) {
+  if (typeof numOrName === 'string') {
     var bodName = Util.toName(numOrName);
     bod = goog.array.find(this.bods_,
       function(body, index, array) {

@@ -270,18 +270,18 @@ constructor(opt_name) {
   this.springs_ = [];
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.GRAVITY,
       Molecule3Sim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.DAMPING,
       Molecule3Sim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this))
+      () => this.getDamping(), a => this.setDamping(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.ELASTICITY,
       Molecule3Sim.i18n.ELASTICITY,
-      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      () => this.getElasticity(), a => this.setElasticity(a))
       .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

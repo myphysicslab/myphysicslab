@@ -111,25 +111,25 @@ constructor(opt_name) {
   this.springs_ = [];
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.GRAVITY,
       ChainOfSpringsSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.MASS,
       ChainOfSpringsSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.STIFFNESS,
       ChainOfSpringsSim.i18n.STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.DAMPING,
       ChainOfSpringsSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.SPRING_DAMPING,
       ChainOfSpringsSim.i18n.SPRING_DAMPING,
-      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
+      () => this.getSpringDamping(), a => this.setSpringDamping(a)));
   this.addParameter(new ParameterNumber(this, ChainOfSpringsSim.en.LENGTH,
       ChainOfSpringsSim.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

@@ -21,13 +21,13 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Subject = goog.require('myphysicslab.lab.util.Subject');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
-const assertEquals = TestRig.assertEquals;
-const assertRoughlyEquals = TestRig.assertRoughlyEquals;
-const assertTrue = TestRig.assertTrue;
-const assertFalse = TestRig.assertFalse;
-const assertThrows = TestRig.assertThrows;
-const schedule = TestRig.schedule;
-const startTest = TestRig.startTest;
+const assertEquals = (e, v) => TestRig.assertEquals(e, v);
+const assertRoughlyEquals = (e, v, t) => TestRig.assertRoughlyEquals(e, v, t);
+const assertTrue = v => TestRig.assertTrue(v);
+const assertFalse = v => TestRig.assertFalse(v);
+const assertThrows = f => TestRig.assertThrows(f);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const startTest = n => TestRig.startTest(n);
 
 /**
 @implements {Subject}
@@ -277,8 +277,8 @@ static testParameterNumber1() {
   // now make parameters
   var paramFoo = new ParameterNumber(mockSubj1, MockSubject1.FOONESS,
       MockSubject1.FOONESS,
-      goog.bind(mockSubj1.getFooness, mockSubj1),
-      goog.bind(mockSubj1.setFooness, mockSubj1));
+      () => mockSubj1.getFooness(),
+      a => mockSubj1.setFooness(a));
   assertEquals('FOONESS', paramFoo.getName());
   assertTrue(paramFoo.nameEquals('fooness'));
   assertEquals(mockSubj1, paramFoo.getSubject());
@@ -319,8 +319,8 @@ static testParameterNumber1() {
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
-      goog.bind(mockSubj1.getFooBarness, mockSubj1),
-      goog.bind(mockSubj1.setFooBarness, mockSubj1));
+      () => mockSubj1.getFooBarness(),
+      a => mockSubj1.setFooBarness(a));
   assertEquals(Util.toName(MockSubject1.FOOBARNESS), paramFooBar.getName());
   assertTrue(paramFooBar.nameEquals(MockSubject1.FOOBARNESS));
   assertEquals(mockSubj1, paramFooBar.getSubject());
@@ -345,8 +345,8 @@ static testParameterNumber2() {
   // now make parameters
   var paramFoo = new ParameterNumber(mockSubj2, MockSubject2.FOONESS,
       MockSubject2.FOONESS,
-      goog.bind(mockSubj2.getFooness, mockSubj2),
-      goog.bind(mockSubj2.setFooness, mockSubj2));
+      () => mockSubj2.getFooness(),
+      a => mockSubj2.setFooness(a));
   mockSubj2.addParameter(paramFoo);
   assertEquals('FOONESS', paramFoo.getName());
   assertEquals(mockSubj2, paramFoo.getSubject());
@@ -366,8 +366,8 @@ static testParameterNumber2() {
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
-      goog.bind(mockSubj2.getFooBarness, mockSubj2),
-      goog.bind(mockSubj2.setFooBarness, mockSubj2));
+      () => mockSubj2.getFooBarness(),
+      a => mockSubj2.setFooBarness(a));
   mockSubj2.addParameter(paramFooBar);
   assertEquals(Util.toName(MockSubject2.FOOBARNESS), paramFooBar.getName());
   assertEquals(mockSubj2, paramFooBar.getSubject());
@@ -386,8 +386,8 @@ static testParameterNumber3() {
   // now make parameters
   var paramFoo = new ParameterNumber(mockSubj3, MockSubject3.FOONESS,
       MockSubject3.FOONESS,
-      goog.bind(mockSubj3.getFooness, mockSubj3),
-      goog.bind(mockSubj3.setFooness, mockSubj3));
+      () => mockSubj3.getFooness(),
+      a => mockSubj3.setFooness(a));
   assertEquals('FOONESS', paramFoo.getName());
   assertEquals(mockSubj3, paramFoo.getSubject());
   assertTrue(paramFoo instanceof ParameterNumber);
@@ -403,8 +403,8 @@ static testParameterNumber3() {
   // test making a param from a name with an underbar in it, here 'foo_barness'
   var paramFooBar = new ParameterNumber(mockSubj3, MockSubject3.FOOBARNESS,
       MockSubject3.FOOBARNESS,
-      goog.bind(mockSubj3.getFooBarness, mockSubj3),
-      goog.bind(mockSubj3.setFooBarness, mockSubj3));
+      () => mockSubj3.getFooBarness(),
+      a => mockSubj3.setFooBarness(a));
   assertEquals(MockSubject3.FOOBARNESS, paramFooBar.getName());
   assertEquals(mockSubj3, paramFooBar.getSubject());
   assertTrue(paramFooBar instanceof ParameterNumber);
@@ -425,8 +425,8 @@ static testParameterNumber4() {
   var sqrt2 = Math.sqrt(2); //1.4142135623730951;
   var paramFooness = new ParameterNumber(mockSubj2, MockSubject4.FOONESS,
       MockSubject4.FOONESS,
-      goog.bind(mockSubj2.getFooness, mockSubj2),
-      goog.bind(mockSubj2.setFooness, mockSubj2),
+      () => mockSubj2.getFooness(),
+      a => mockSubj2.setFooness(a),
     ['pi', 'e', 'sqrt(2)'], [pi, e, sqrt2]);
   mockSubj2.addParameter(paramFooness);
   assertEquals(MockSubject4.FOONESS, paramFooness.getName());
@@ -460,8 +460,8 @@ static testParameterNumber4() {
   // make a parameter with choices and integer values
   var paramFooBar = new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
       MockSubject4.FOOBARNESS,
-      goog.bind(mockSubj2.getFooBarness, mockSubj2),
-      goog.bind(mockSubj2.setFooBarness, mockSubj2),
+      () => mockSubj2.getFooBarness(),
+      a => mockSubj2.setFooBarness(a),
       ['none', 'some', 'lots'], [0, 5, 1000]);
   mockSubj2.addParameter(paramFooBar);
   assertEquals(MockSubject4.FOOBARNESS, paramFooBar.getName());
@@ -495,8 +495,8 @@ static testParameterNumber4() {
   var bazChoices = ['red', 'green', 'blue', 'black'];
   var paramBaz = new ParameterNumber(mockSubj2, MockSubject4.BAZ,
       MockSubject4.BAZ,
-      goog.bind(mockSubj2.getBaz, mockSubj2),
-      goog.bind(mockSubj2.setBaz, mockSubj2),
+      () => mockSubj2.getBaz(),
+      a => mockSubj2.setBaz(a),
       bazChoices, goog.array.range(bazChoices.length)
       );
   mockSubj2.addParameter(paramBaz);
@@ -538,8 +538,8 @@ static testParameterNumber4() {
   assertThrows( function() {
       new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
       MockSubject4.FOOBARNESS,
-      goog.bind(mockSubj2.getFooBarness, mockSubj2),
-      goog.bind(mockSubj2.setFooBarness, mockSubj2),
+      () => mockSubj2.getFooBarness(),
+      a => mockSubj2.setFooBarness(a),
       ['none', 'some', 'lots', 'too many'], [0, 5, 1000]);
   });
 };

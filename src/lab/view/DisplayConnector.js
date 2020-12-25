@@ -39,7 +39,7 @@ constructor(connector, proto) {
   * @type {?Connector}
   * @private
   */
-  this.connector_ = goog.isDefAndNotNull(connector) ? connector : null;
+  this.connector_ = connector != null ? connector : null;
   /** Color to draw the joint, a CSS3 color value.
   * @type {string|undefined}
   * @private
@@ -59,7 +59,7 @@ constructor(connector, proto) {
   * @type {?DisplayConnector}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */

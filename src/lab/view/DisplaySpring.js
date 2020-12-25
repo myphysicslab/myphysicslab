@@ -44,7 +44,7 @@ constructor(spring, proto) {
   * @type {?Spring}
   * @private
   */
-  this.spring_ = goog.isDefAndNotNull(spring) ? spring : null;
+  this.spring_ = spring != null ? spring : null;
   /** How wide back-and-forth the jagged lines go when drawing the Spring,
   * in simulation coordinates.
   * @type {number|undefined}
@@ -83,7 +83,7 @@ constructor(spring, proto) {
   * @type {?DisplaySpring}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */

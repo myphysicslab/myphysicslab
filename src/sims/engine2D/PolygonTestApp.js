@@ -78,13 +78,13 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.NUM_BODIES,
       PolygonTestApp.i18n.NUM_BODIES,
-      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      () => this.getNumBodies(), a => this.setNumBodies(a))
       .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(8));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.THRUST,
       PolygonTestApp.i18n.THRUST,
-      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
+      () => this.getThrust(), a => this.setThrust(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

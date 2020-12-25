@@ -161,13 +161,13 @@ addPath(np) {
     }
     this.simRectSetter_(r);
   }
-  var obs = new GenericObserver(this.simView_, goog.bind(function(event) {
+  var obs = new GenericObserver(this.simView_, event => {
     if (event.getSubject() == this.simView_) {
       if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         displayPath.setScreenRect(this.simView_.getScreenRect());
       }
     }
-  }, this), 'resize displayPath when screenRect changes');
+  }, 'resize displayPath when screenRect changes');
   // Remember the combo of NumericalPath, GenericObserver and DisplayPath.
   this.memObjs_.push({simObj: np, obs: obs, dispPath: displayPath});
 };

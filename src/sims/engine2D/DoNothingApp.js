@@ -89,22 +89,22 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pb = new ParameterBoolean(this, DoNothingApp.en.TIGHT_FIT,
       DoNothingApp.i18n.TIGHT_FIT,
-      goog.bind(this.getTightFit, this), goog.bind(this.setTightFit, this)));
+      () => this.getTightFit(), a => this.setTightFit(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb= new ParameterBoolean(this, DoNothingApp.en.EXTRA_BLOCK,
       DoNothingApp.i18n.EXTRA_BLOCK,
-      goog.bind(this.getExtraBlock, this), goog.bind(this.setExtraBlock, this)));
+      () => this.getExtraBlock(), a => this.setExtraBlock(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn=new ParameterNumber(this, DoNothingApp.en.HANDLE_FORCE,
       DoNothingApp.i18n.HANDLE_FORCE,
-      goog.bind(this.getHandleForce, this), goog.bind(this.setHandleForce, this)));
+      () => this.getHandleForce(), a => this.setHandleForce(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn= new ParameterNumber(this, DoNothingApp.en.ROTATE_RATE,
       DoNothingApp.i18n.ROTATE_RATE,
-      goog.bind(this.getRotateRate, this), goog.bind(this.setRotateRate, this)));
+      () => this.getRotateRate(), a => this.setRotateRate(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);

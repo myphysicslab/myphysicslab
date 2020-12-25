@@ -109,49 +109,49 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.NUM_LINKS,
       ChainConfig.i18n.NUM_LINKS,
-      goog.bind(this.getNumLinks, this), goog.bind(this.setNumLinks, this))
+      () => this.getNumLinks(), a => this.setNumLinks(a))
       .setDecimalPlaces(0));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.WALLS,
       ChainConfig.i18n.WALLS,
-      goog.bind(this.getWalls, this), goog.bind(this.setWalls, this)));
+      () => this.getWalls(), a => this.setWalls(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.WALL_WIDTH,
       ChainConfig.i18n.WALL_WIDTH,
-      goog.bind(this.getWallWidth, this), goog.bind(this.setWallWidth, this)));
+      () => this.getWallWidth(), a => this.setWallWidth(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.EXTRA_BODY,
       ChainConfig.i18n.EXTRA_BODY,
-      goog.bind(this.getExtraBody, this), goog.bind(this.setExtraBody, this)));
+      () => this.getExtraBody(), a => this.setExtraBody(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.FIXED_LEFT,
       ChainConfig.i18n.FIXED_LEFT,
-      goog.bind(this.getFixedLeft, this), goog.bind(this.setFixedLeft, this)));
+      () => this.getFixedLeft(), a => this.setFixedLeft(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, ChainConfig.en.FIXED_RIGHT,
       ChainConfig.i18n.FIXED_RIGHT,
-      goog.bind(this.getFixedRight, this), goog.bind(this.setFixedRight, this)));
+      () => this.getFixedRight(), a => this.setFixedRight(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.FIXED_LEFT_X,
       ChainConfig.i18n.FIXED_LEFT_X,
-      goog.bind(this.getFixedLeftX, this), goog.bind(this.setFixedLeftX, this))
+      () => this.getFixedLeftX(), a => this.setFixedLeftX(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.BLOCK_LENGTH,
       ChainConfig.i18n.BLOCK_LENGTH,
-      goog.bind(this.getBlockLength, this), goog.bind(this.setBlockLength, this)));
+      () => this.getBlockLength(), a => this.setBlockLength(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.BLOCK_WIDTH,
       ChainConfig.i18n.BLOCK_WIDTH,
-      goog.bind(this.getBlockWidth, this), goog.bind(this.setBlockWidth, this)));
+      () => this.getBlockWidth(), a => this.setBlockWidth(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -174,11 +174,11 @@ constructor(elem_ids) {
     // Note that you can still use the pan-zoom controls on the graph, but
     // they are overridden whenever you pan-zoom the simView.
     var matcher = new GenericObserver(this.simView,
-      goog.bind(function(evt) {
+      evt => {
         if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
           this.graph.view.setSimRect(this.simView.getSimRect());
         }
-      }, this), 'ensure graph\'s simRect matches simView');
+      }, 'ensure graph\'s simRect matches simView');
     this.graph.view.setSimRect(this.simView.getSimRect());
   }
 

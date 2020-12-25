@@ -49,7 +49,7 @@ constructor() {
 static getMachineName() {
   if (window.hasOwnProperty(TestRig.machineName)) {
     var s = window[TestRig.machineName];
-    if (goog.isString(s)) {
+    if (typeof s === 'string') {
       return s;
     }
   }
@@ -139,7 +139,7 @@ static perfExpected(testName, defaultTime) {
   }
   err += ', test: '+testName;
   var e4 = e3[testName];
-  if (!goog.isNumber(e4)) {
+  if (typeof e4 !== 'number') {
     TestRig.myPrintln(err, /*error=*/true);
     return defaultTime;
   } else {
@@ -176,7 +176,7 @@ results, and so that the user can interrupt the test.
 */
 static runTests() {
   var testFunc = TestRig.testFns.shift();
-  if (goog.isFunction(testFunc)) {
+  if (typeof testFunc === 'function') {
     testFunc();
     setTimeout(TestRig.runTests, 10);
   }
@@ -312,7 +312,7 @@ static reportTestResults(passed, testType, reason) {
   } else {
     TestRig.testsFailed += 1;
     TestRig.myPrintln('FAILED '+s, /*error=*/true);
-    if (goog.isString(reason) && reason.length > 0) {
+    if (typeof reason === 'string' && reason.length > 0) {
       TestRig.myPrintln(reason, /*error=*/true);
     }
     // show stack trace in console, to help figure out what went wrong.
@@ -340,7 +340,7 @@ static assertEquals(expected, value) {
 * @param {number} tolerance  how much the value can differ from expected value
 */
 static assertRoughlyEquals(expected, value, tolerance) {
-  if (!goog.isNumber(value)) {
+  if (typeof value !== 'number') {
     TestRig.reportTestResults(false, 'value', 'not a number '+value);
     return;
   }
@@ -356,7 +356,7 @@ static assertRoughlyEquals(expected, value, tolerance) {
 * @param {*} value  the value to test
 */
 static assertTrue(value) {
-  if (!goog.isBoolean(value) || !value) {
+  if (typeof value !== 'boolean' || !value) {
     TestRig.reportTestResults(false, 'assert');
   }
 };
@@ -366,7 +366,7 @@ static assertTrue(value) {
 * @param {*} value  the array to test
 */
 static assertElementsEquals(expected, value) {
-  if (!goog.isArray(value)) {
+  if (!Array.isArray(value)) {
     TestRig.reportTestResults(false, 'assert', 'not an array '+value);
     return;
   }
@@ -388,7 +388,7 @@ static assertElementsEquals(expected, value) {
 * @param {*} value  the value to test
 */
 static assertFalse(value) {
-  if (!goog.isBoolean(value) || value) {
+  if (typeof value !== 'boolean' || value) {
     TestRig.reportTestResults(false, 'assert');
   }
 };
@@ -434,7 +434,7 @@ static assertNotThrows(func) {
 
 /** If the function does not throw an error, then report a test failure.
 * @param {function()} func  the function to test
-* @return {Error|undefined}
+* @return {string|undefined}
 */
 static assertThrows(func) {
   try {
@@ -442,7 +442,7 @@ static assertThrows(func) {
     TestRig.reportTestResults(false, 'assert',
         'expected exception did not occur');
   } catch (e) {
-    return e;
+    return String(e);
   }
 };
 

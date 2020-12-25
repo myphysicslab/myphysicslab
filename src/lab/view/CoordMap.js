@@ -418,7 +418,7 @@ getScaleY() {
 */
 screenToSim(scr_x, scr_y) {
   var sx, sy;
-  if (goog.isNumber(scr_x)) {
+  if (typeof scr_x === 'number') {
     sx = scr_x;
     sy = scr_y;
   } else {
@@ -426,7 +426,7 @@ screenToSim(scr_x, scr_y) {
     sy = v.getY();
     sx = v.getX();
   }
-  if (!goog.isNumber(sx) || !goog.isNumber(sy)) {
+  if (typeof sx !== 'number' || typeof sy !== 'number') {
     throw '';
   }
   return new Vector(this.screenToSimX(sx), this.screenToSimY(sy));

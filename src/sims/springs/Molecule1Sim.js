@@ -266,31 +266,31 @@ constructor(opt_name) {
   this.getSimList().add(this.walls_, this.atom1_, this.atom2_, this.spring_);
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.GRAVITY,
       Molecule1Sim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.MASS1,
       Molecule1Sim.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.MASS2,
       Molecule1Sim.i18n.MASS2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.DAMPING,
       Molecule1Sim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.ELASTICITY,
       Molecule1Sim.i18n.ELASTICITY,
-      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      () => this.getElasticity(), a => this.setElasticity(a))
       .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.SPRING_LENGTH,
       Molecule1Sim.i18n.SPRING_LENGTH,
-      goog.bind(this.getSpringRestLength, this),
-      goog.bind(this.setSpringRestLength, this)));
+      () => this.getSpringRestLength(),
+      a => this.setSpringRestLength(a)));
   this.addParameter(new ParameterNumber(this, Molecule1Sim.en.SPRING_STIFFNESS,
       Molecule1Sim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11

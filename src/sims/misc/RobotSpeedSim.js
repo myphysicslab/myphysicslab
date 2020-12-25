@@ -157,31 +157,33 @@ constructor(opt_name) {
 
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.MASS,
       RobotSpeedSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this))
+      () => this.getMass(), a => this.setMass(a))
       .setUnits(' (kg)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.DIAMETER,
       RobotSpeedSim.i18n.DIAMETER,
-      goog.bind(this.getDiameter, this), goog.bind(this.setDiameter, this))
+      () => this.getDiameter(), a => this.setDiameter(a))
       .setUnits(' (mm)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.TORQUE,
       RobotSpeedSim.i18n.TORQUE,
-      goog.bind(this.getTorque, this), goog.bind(this.setTorque, this))
+      () => this.getTorque(), a => this.setTorque(a))
       .setUnits(' (Nm)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.FREE_SPEED,
       RobotSpeedSim.i18n.FREE_SPEED,
-      goog.bind(this.getFreeSpeed, this), goog.bind(this.setFreeSpeed, this))
+      () => this.getFreeSpeed(), a => this.setFreeSpeed(a))
       .setUnits(' (RPM)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.SLOPE,
       RobotSpeedSim.i18n.SLOPE,
-      goog.bind(this.getSlope, this), goog.bind(this.setSlope, this))
+      () => this.getSlope(), a => this.setSlope(a))
       .setUnits(' (degrees)'));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.COEF_FRICTION,
       RobotSpeedSim.i18n.COEF_FRICTION,
-      goog.bind(this.getFriction, this), goog.bind(this.setFriction, this)));
+      () => this.getFriction(), a => this.setFriction(a)));
   this.addParameter(new ParameterNumber(this, RobotSpeedSim.en.CENTER_OF_MASS,
       RobotSpeedSim.i18n.CENTER_OF_MASS,
-      goog.bind(this.getCenterOfMass, this), goog.bind(this.setCenterOfMass, this))
+      () => this.getCenterOfMass(), a => this.setCenterOfMass(a))
       .setUnits(' (%)'));
+
+      //() => this.getCenterOfMass(), a => this.setCenterOfMass(a))
 
   this.setCenterOfMass(50);
 };

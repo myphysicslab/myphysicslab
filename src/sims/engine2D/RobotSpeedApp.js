@@ -100,12 +100,12 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, RobotSpeedApp.en.THRUST,
       RobotSpeedApp.i18n.THRUST,
-      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
+      () => this.getThrust(), a => this.setThrust(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, RobotSpeedApp.en.MASS1,
       RobotSpeedApp.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);

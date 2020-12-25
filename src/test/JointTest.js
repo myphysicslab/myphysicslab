@@ -39,12 +39,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const checkContactDistances = (s,t) => Engine2DTestRig.checkContactDistances(s,t);
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) => 
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /** Tests various configurations of Joints.
 
@@ -279,7 +279,7 @@ static pendulum_1_joint_1() {
   JointTest.pendulum_1_joint_setup(sim, advance);
   var vars = makeVars(6);
   setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3687651, -1.3515045, -0.8170398, 0.9268013);
-  runTest(sim, advance, /*runUntil=*/15.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -303,7 +303,7 @@ static pendulum_1_joint_2() {
   var vars = makeVars(6);
   setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3680947, -1.3501097, -0.8175124, 0.9262573);
   // loose tolerance for energy
-  runTest(sim, advance, /*runUntil=*/15.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/-1);
@@ -335,7 +335,7 @@ static pendulum_2_joints_1() {
   JointTest.pendulum_2_joints_setup(sim, advance);
   var vars = makeVars(6);
   setBodyVars(sim, vars, 0, -1.7297436, 0.0807141, -1.0039856, -0.1390604, -1.0448949, 0.0803936);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -388,7 +388,7 @@ static pendulum_2_joints_offset_1() {
   JointTest.pendulum_2_joints_offset_setup(sim, advance);
   var vars = makeVars(6);
   setBodyVars(sim, vars, 0, 1.7320508, 0, -1.1100682, 0.7857346, 0.9823923, 0.4722942);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);
@@ -502,7 +502,7 @@ static two_blocks_2_dbl_joint_1() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.4674208, 0.1861004, -0.2921196, 0.5402443, 16.1616176, 2.0202021);
   setBodyVars(sim, vars, 1, -0.0674208, -0.1861004, -0.1078804, -0.5402443, 16.1616176, 2.0202021);
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/-1);

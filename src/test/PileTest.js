@@ -34,12 +34,11 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /**  Tests involving piles of many objects with engine2D physics engine.
 */
@@ -124,12 +123,12 @@ static connected_blocks_pile_test() {
   var advance = new CollisionAdvance(sim);
   PileTest.connected_blocks_pile_setup(sim, advance);
   // run until collisions end; ignore binary searches
-  runTest(sim, advance, /*runUntil=*/10.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/null, /*tolerance=*/NaN,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
-  runTest(sim, advance, /*runUntil=*/15.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
                /*expectedCollisions=*/0);
@@ -233,7 +232,7 @@ static stable_connected_blocks_pile_test() {
   setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, 0, -0.7853982, -0);
   setBodyVars(sim, vars, 9, 0.7732429, -0, -7.8054725, 0, 3.9269908, -0);
   setBodyVars(sim, vars, 10, 0.1992863, -0, -7.7913917, 0, 3.9269908, 0);
-  runTest(sim, advance, /*runUntil=*/10,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
       /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
       /*expectedCollisions=*/0);
@@ -361,12 +360,12 @@ static near_stable_connected_blocks_pile_test() {
     setBodyVars(sim, vars, 10, 0.1992748, -0, -7.7913801, 0, 3.9269908, -0);
   }
   // run until collisions end; ignore binary searches
-  runTest(sim, advance, /*runUntil=*/6.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/6.0,
       /*expectedVars=*/vars, /*tolerance=*/0.001,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
-  runTest(sim, advance, /*runUntil=*/10.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
@@ -466,12 +465,12 @@ static pile_config_1_test() {
   var advance = new CollisionAdvance(sim);
   PileTest.pile_config_1_setup(sim, advance);
   // run until collisions are done; ignore binary searches
-  runTest(sim, advance, /*runUntil=*/9.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
       /*expectedVars=*/null, /*tolerance=*/NaN,
       /*expectedEnergyDiff=*/NaN, /*energyTol=*/0,
       /*expectedCollisions=*/-1, /*expectedSearches=*/-1);
   // run another few seconds to have lots of contact calculations as well
-  runTest(sim, advance, /*runUntil=*/15.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);
@@ -533,10 +532,10 @@ static pile_10_random_blocks() {
   setBodyVars(sim, vars, 13, 0.3485821, 0, -6.9817453, -0, 2.3673243, -0);
   var startTime = Util.systemTime();
   // run until all collisions are done and energy is stable.
-  runTest(sim, advance, /*runUntil=*/8.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
               /*expectedVars=*/vars, /*tolerance=*/0.01);
   // run another few seconds to have lots of contact calculations as well
-  runTest(sim, advance, /*runUntil=*/10.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0); // new Jan '13: test expected collisions
@@ -654,10 +653,10 @@ static pile_20_random_blocks() {
     throw '';
   }
   var startTime = Util.systemTime();
-  runTest(sim, advance, /*runUntil=*/9.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
               /*expectedVars=*/null, /*tolerance=*/NaN);
   // run another few seconds to have lots of contact calculations as well
-  runTest(sim, advance, /*runUntil=*/12.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0);
@@ -777,7 +776,7 @@ static add_block_and_run(sim, advance, runUntil, square) {
   p.setElasticity(0.5);
   sim.addBody(p);
   // run till requested time, without any expected results
-  runTest(sim, advance, /*runUntil=*/runUntil);
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/runUntil);
   return (Util.systemTime() - startTime);
 };
 

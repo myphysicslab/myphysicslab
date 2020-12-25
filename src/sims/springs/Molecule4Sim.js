@@ -316,39 +316,39 @@ constructor(nm, opt_name) {
   }
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.GRAVITY,
       Molecule4Sim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.DAMPING,
       Molecule4Sim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this))
+      () => this.getDamping(), a => this.setDamping(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.ELASTICITY,
       Molecule4Sim.i18n.ELASTICITY,
-      goog.bind(this.getElasticity, this), goog.bind(this.setElasticity, this))
+      () => this.getElasticity(), a => this.setElasticity(a))
       .setSignifDigits(3).setUpperLimit(1));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.MASS,
       Molecule4Sim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this))
+      () => this.getMass(), a => this.setMass(a))
       .setSignifDigits(5));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.MASS_SPECIAL,
       Molecule4Sim.i18n.MASS_SPECIAL,
-      goog.bind(this.getMassSpecial, this), goog.bind(this.setMassSpecial, this))
+      () => this.getMassSpecial(), a => this.setMassSpecial(a))
       .setSignifDigits(5));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.LENGTH,
       Molecule4Sim.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.LENGTH_SPECIAL,
       Molecule4Sim.i18n.LENGTH_SPECIAL,
-      goog.bind(this.getLengthSpecial, this), goog.bind(this.setLengthSpecial, this)));
+      () => this.getLengthSpecial(), a => this.setLengthSpecial(a)));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.STIFFNESS,
       Molecule4Sim.i18n.STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addParameter(new ParameterNumber(this, Molecule4Sim.en.STIFFNESS_SPECIAL,
       Molecule4Sim.i18n.STIFFNESS_SPECIAL,
-      goog.bind(this.getStiffnessSpecial, this),
-      goog.bind(this.setStiffnessSpecial, this)));
+      () => this.getStiffnessSpecial(),
+      a => this.setStiffnessSpecial(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3

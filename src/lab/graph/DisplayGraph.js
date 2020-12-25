@@ -55,14 +55,14 @@ class DisplayGraph {
 * @param {!GraphLine=} opt_graphLine a GraphLine to display
 */
 constructor(opt_graphLine) {
-  if (goog.isDef(opt_graphLine) && !GraphLine.isDuckType(opt_graphLine)) {
+  if (opt_graphLine !== undefined && !GraphLine.isDuckType(opt_graphLine)) {
     throw 'not a GraphLine '+opt_graphLine;
   }
   /** The GraphLines to draw.
   * @type {!Array<!GraphLine>}
   * @private
   */
-  this.graphLines_ = goog.isDef(opt_graphLine) ? [opt_graphLine] : [];
+  this.graphLines_ = opt_graphLine !== undefined ? [opt_graphLine] : [];
   /** Index of last point drawn within GraphPoints list of each GraphLine
   * @type {!Array<number>}
   * @private
@@ -425,7 +425,7 @@ setUseBuffer(value) {
 
 /** @override */
 setZIndex(zIndex) {
-  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
+  this.zIndex = zIndex !== undefined ? zIndex : 0;
 };
 
 } // end class

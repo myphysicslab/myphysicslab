@@ -368,7 +368,7 @@ scale(factorX, factorY) {
 */
 translate(x, y) {
   var x1, y1;
-  if (goog.isNumber(x)) {
+  if (typeof x === 'number') {
     x1 = x;
     y1 = y;
   } else {
@@ -376,7 +376,7 @@ translate(x, y) {
     y1 = v.getY();
     x1 = v.getX();
   }
-  if (!goog.isNumber(x1) || !goog.isNumber(y1)) {
+  if (typeof x1 !== 'number' || typeof y1 !== 'number') {
     throw '';
   }
   return new DoubleRect(this.left_ + x1, this.bottom_ + y1,

@@ -105,7 +105,7 @@ constructor(elem_ids, numAtoms) {
   this.addPlaybackControls();
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.NUM_ATOMS,
       Molecule3App.i18n.NUM_ATOMS,
-      goog.bind(this.getNumAtoms, this), goog.bind(this.setNumAtoms, this)));
+      () => this.getNumAtoms(), a => this.setNumAtoms(a)));
   this.addControl(new SliderControl(pn, 1, 6, /*multiply=*/false, 5));
 
   pn = this.sim_.getParameterNumber(Molecule3Sim.en.GRAVITY);
@@ -121,28 +121,28 @@ constructor(elem_ids, numAtoms) {
 
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.MASS,
       Molecule3App.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addControl(new SliderControl(pn, 0.2, 20.2, /*multiply=*/true));
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.MASS_SPECIAL,
       Molecule3App.i18n.MASS_SPECIAL,
-      goog.bind(this.getMassSpecial, this), goog.bind(this.setMassSpecial, this)));
+      () => this.getMassSpecial(), a => this.setMassSpecial(a)));
   this.addControl(new SliderControl(pn, 0.2, 20.2, /*multiply=*/true));
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.LENGTH,
       Molecule3App.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.LENGTH_SPECIAL,
       Molecule3App.i18n.LENGTH_SPECIAL,
-      goog.bind(this.getLengthSpecial, this), goog.bind(this.setLengthSpecial, this)));
+      () => this.getLengthSpecial(), a => this.setLengthSpecial(a)));
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.STIFFNESS,
       Molecule3App.i18n.STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.STIFFNESS_SPECIAL,
       Molecule3App.i18n.STIFFNESS_SPECIAL,
-      goog.bind(this.getStiffnessSpecial, this),
-      goog.bind(this.setStiffnessSpecial, this)));
+      () => this.getStiffnessSpecial(),
+      a => this.setStiffnessSpecial(a)));
   this.addControl(new SliderControl(pn, 0, 100, /*multiply=*/false));
 
   this.makeEasyScript();

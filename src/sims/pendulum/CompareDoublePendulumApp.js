@@ -132,22 +132,20 @@ constructor(elem_ids, centered) {
   /** @type {!SimpleAdvance} */
   this.advance1 = new SimpleAdvance(this.sim1);
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
-    this.sim1.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim1, evt => this.sim1.modifyObjects(),
+      'modifyObjects after parameter or variable change');
 
   /** @type {!ContactSim} */
   this.sim2 = new ContactSim('SIM_2');
   /** @type {!CollisionAdvance} */
   this.advance2 = new CollisionAdvance(this.sim2);
-  this.terminal.setAfterEval(goog.bind(function() {
+  this.terminal.setAfterEval( () => {
       this.sim1.modifyObjects();
       this.sim2.modifyObjects();
-    }, this));
+    });
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim2, goog.bind(function(evt) {
-    this.sim2.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(this.sim2, evt => this.sim2.modifyObjects(),
+      'modifyObjects after parameter or variable change');
   // These settings are important to stop joints from drifting apart,
   // and have energy be stable.
   this.sim2.setCollisionHandling(CollisionHandling.SERIAL_GROUPED);
@@ -202,7 +200,7 @@ constructor(elem_ids, centered) {
 
   var angle1Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_1);
   var angle2Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_2);
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
+  new GenericObserver(this.sim1, evt => {
     if (evt.nameEquals(Simulation.RESET)) {
       // When initial angles are changed in sim, then clock time is also reset.
       // This helps with feedback when dragging angle slider,
@@ -223,16 +221,16 @@ constructor(elem_ids, centered) {
       this.sim2.alignConnectors();
       this.sim2.saveInitialState();
     }
-  }, this), 'match initial angles');
+  }, 'match initial angles');
 
   // Changing separation doesn't modify initial conditions; so we have to
   // set the separation after a RESET occurs.
-  new GenericObserver(this.simRun, goog.bind(function(evt) {
+  new GenericObserver(this.simRun, evt => {
     if (evt.nameEquals(SimRunner.RESET)) {
       this.setSeparation_();
       this.sim2.saveInitialState();
     }
-  }, this), 'set separation after reset');
+  }, 'set separation after reset');
 
   /** @type {!DisplayShape} */
   this.protoRigidBody = new DisplayShape().setDrawCenterOfMass(true);
@@ -271,7 +269,7 @@ constructor(elem_ids, centered) {
 
   pn = new ParameterNumber(this, CompareDoublePendulumApp.en.SEPARATION,
       CompareDoublePendulumApp.i18n.SEPARATION,
-      goog.bind(this.getSeparation, this), goog.bind(this.setSeparation, this));
+      () => this.getSeparation(), a => this.setSeparation(a));
   this.addParameter(pn);
   this.addControl(new SliderControl(pn, 0, 1, /*multiply=*/false));
 
@@ -279,11 +277,11 @@ constructor(elem_ids, centered) {
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
 
   // sync gravity in both sims
-  new GenericObserver(this.sim1, goog.bind(function(evt) {
+  new GenericObserver(this.sim1, evt => {
     if (evt.nameEquals(RigidDoublePendulumSim.en.GRAVITY)) {
       this.gravityLaw.setGravity(this.sim1.getGravity());
     }
-  }, this), 'sync gravity in both sims');
+  }, 'sync gravity in both sims');
 
   pn = this.sim1.getParameterNumber(RigidDoublePendulumSim.en.ANGLE_1);
   this.addControl(new SliderControl(pn, -Math.PI, Math.PI, /*multiply=*/false));
@@ -317,15 +315,14 @@ constructor(elem_ids, centered) {
   this.addControl(new CheckBoxControl(this.showEnergyParam2));
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(this.sim1.getTime, this.sim1),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock( () => this.sim1.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
   var panzoom_simview = CommonControls.makePanZoomControls(this.simView,
-      /*overlay=*/true,
-      goog.bind(function () { this.simView.setSimRect(this.simRect); }, this));
+      /*overlay=*/true, () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
   pb.setValue(false);

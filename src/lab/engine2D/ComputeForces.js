@@ -1469,7 +1469,7 @@ fdirection(d) {
         if (maxError < accelTolerance) {
           break;
         } else {
-          if ((true || this.WARNINGS || this.debugCF) && Util.DEBUG) {
+          if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
             this.print(' %%% maxtrix solve error = '+Util.NFE(maxError)
               +' not within accel tol='+Util.NFE(accelTolerance)
               +' using solve tol='+Util.NFE(tolerance)
@@ -1742,7 +1742,7 @@ wouldBeSingular2(d, e) {
   var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
   var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
       this.SINGULAR_MATRIX_LIMIT);
-  if (this.debugCF && Util.DEBUG && (true || isSingular)) {
+  if (this.debugCF && Util.DEBUG && isSingular) {
     // print the matrix in triangular form after Gaussian Elimination
     var ncol = new Array(c+1);
     for (i=0; i<c+1; i++)

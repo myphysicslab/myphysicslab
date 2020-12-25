@@ -68,7 +68,7 @@ constructor(elem_ids) {
   // make observer which will add/remove the spring during mouse drag
   var dragSpring = sim.getDragSpring();
   var dispSpring = new DisplaySpring(dragSpring).setWidth(0.2);
-  new GenericObserver(this.simList, goog.bind(function(evt) {
+  new GenericObserver(this.simList, evt => {
     if (evt.getValue() == dragSpring) {
       if (evt.nameEquals(SimList.OBJECT_ADDED)) {
         this.displayList.add(dispSpring);
@@ -76,12 +76,12 @@ constructor(elem_ids) {
         this.displayList.remove(dispSpring);
       }
     }
-  }, this), 'add/remove spring during mouse drag');
+  }, 'add/remove spring during mouse drag');
 
   // Make observer which resets initial conditions when starting to run at time 0.
   // The idea is you can move the pendulum to desired angle while paused at time 0,
   // and then that is saved as initial conditions when you start running.
-  new GenericObserver(this.simRun, goog.bind(function(evt) {
+  new GenericObserver(this.simRun, evt => {
     if (evt.nameEquals(SimRunner.en.RUNNING)) {
       var bp = /** @type {!ParameterBoolean} */(evt);
       sim.setRunning(bp.getValue());
@@ -89,7 +89,7 @@ constructor(elem_ids) {
         sim.saveInitialState();
       }
     }
-  }, this), 'save initial conditions when starting to run at time 0');
+  }, 'save initial conditions when starting to run at time 0');
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */

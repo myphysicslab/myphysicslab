@@ -153,7 +153,7 @@ constructor(advance, opt_name) {
   */
   this.timer_ = new Timer();
   this.timer_.setPeriod(this.displayPeriod_);
-  this.timer_.setCallBack(goog.bind(this.callback, this));
+  this.timer_.setCallBack(() => this.callback());
   // Clock name should be just 'CLOCK' when opt_name is not specified.
   // When opt_name is specified, prefix it to the clock name.
   var clockName = (opt_name ? opt_name + '_' : '')+'CLOCK';
@@ -184,21 +184,21 @@ constructor(advance, opt_name) {
   this.errorObservers_ = [];
   this.addParameter(new ParameterNumber(this, SimRunner.en.TIME_STEP,
       SimRunner.i18n.TIME_STEP,
-      goog.bind(this.getTimeStep, this), goog.bind(this.setTimeStep, this))
+      () => this.getTimeStep(), a => this.setTimeStep(a))
       .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, SimRunner.en.DISPLAY_PERIOD,
       SimRunner.i18n.DISPLAY_PERIOD,
-      goog.bind(this.getDisplayPeriod, this), goog.bind(this.setDisplayPeriod, this))
+      () => this.getDisplayPeriod(), a => this.setDisplayPeriod(a))
       .setSignifDigits(3));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.RUNNING,
       SimRunner.i18n.RUNNING,
-      goog.bind(this.getRunning, this), goog.bind(this.setRunning, this)));
+      () => this.getRunning(), a => this.setRunning(a)));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.FIRING,
       SimRunner.i18n.FIRING,
-      goog.bind(this.getFiring, this), goog.bind(this.setFiring, this)));
+      () => this.getFiring(), a => this.setFiring(a)));
   this.addParameter(new ParameterBoolean(this, SimRunner.en.NON_STOP,
       SimRunner.i18n.NON_STOP,
-      goog.bind(this.getNonStop, this), goog.bind(this.setNonStop, this)));
+      () => this.getNonStop(), a => this.setNonStop(a)));
 };
 
 /** @override */
@@ -403,7 +403,7 @@ handleException(error) {
   this.pause();
   this.timer_.stopFiring();
   goog.array.forEach(this.errorObservers_, function(e) { e.notifyError(error); });
-  var s = goog.isDefAndNotNull(error) ? ' '+error : '';
+  var s = error != null ? ' '+error : '';
   alert(SimRunner.i18n.STUCK + s);
 };
 
@@ -451,10 +451,10 @@ resumes advancing the Simulation, and creates a ClockTask to stop the Clock.
 */
 playUntil(pauseTime) {
   var pauseTask = new ClockTask(pauseTime, null);
-  pauseTask.setCallback(goog.bind(function() {
+  pauseTask.setCallback( () => {
       this.clock_.pause();
       this.clock_.removeTask(pauseTask);
-    }, this));
+  });
   this.clock_.addTask(pauseTask);
   return this.resume();
 };

@@ -200,38 +200,37 @@ constructor(name, simRect) {
   */
   this.memoList_ = new ConcreteMemoList();
   this.addParameter(new ParameterNumber(this, SimView.en.WIDTH, SimView.i18n.WIDTH,
-      goog.bind(this.getWidth, this), goog.bind(this.setWidth, this)));
+      () => this.getWidth(), a => this.setWidth(a)));
   this.addParameter(new ParameterNumber(this, SimView.en.HEIGHT, SimView.i18n.HEIGHT,
-      goog.bind(this.getHeight, this), goog.bind(this.setHeight, this)));
+      () => this.getHeight(), a => this.setHeight(a)));
   this.addParameter(new ParameterNumber(this, SimView.en.CENTER_X,
       SimView.i18n.CENTER_X,
-      goog.bind(this.getCenterX, this), goog.bind(this.setCenterX, this))
+      () => this.getCenterX(), a => this.setCenterX(a))
       .setLowerLimit(Number.NEGATIVE_INFINITY));
   this.addParameter(new ParameterNumber(this, SimView.en.CENTER_Y,
       SimView.i18n.CENTER_Y,
-      goog.bind(this.getCenterY, this), goog.bind(this.setCenterY, this))
+      () => this.getCenterY(), a => this.setCenterY(a))
       .setLowerLimit(Number.NEGATIVE_INFINITY));
   this.addParameter(new ParameterBoolean(this, SimView.en.SCALE_TOGETHER,
       SimView.i18n.SCALE_TOGETHER,
-      goog.bind(this.getScaleTogether, this), goog.bind(this.setScaleTogether, this)));
+      () => this.getScaleTogether(), a => this.setScaleTogether(a)));
   // Need a special 'setter' because `setVerticalAlign` takes an argument of
   // the enum type `VerticalAlign`, not of type `string`.
   this.addParameter(new ParameterString(this, SimView.en.VERTICAL_ALIGN,
       SimView.i18n.VERTICAL_ALIGN,
-      goog.bind(this.getVerticalAlign, this),
-      goog.bind(function(s) { this.setVerticalAlign(VerticalAlign.stringToEnum(s)); },
-      this),
+      () => this.getVerticalAlign(),
+      s => this.setVerticalAlign(VerticalAlign.stringToEnum(s)),
       VerticalAlign.getChoices(), VerticalAlign.getValues()));
   // Need a special 'setter' because `setHorizAlign` takes an argument of
   // the enum type `HorizAlign`, not of type `string`.
   this.addParameter(new ParameterString(this, SimView.en.HORIZONTAL_ALIGN,
       SimView.i18n.HORIZONTAL_ALIGN,
-      goog.bind(this.getHorizAlign, this),
-      goog.bind(function(s) { this.setHorizAlign(HorizAlign.stringToEnum(s)); }, this),
+      () => this.getHorizAlign(),
+      s => this.setHorizAlign(HorizAlign.stringToEnum(s)),
       HorizAlign.getChoices(), HorizAlign.getValues()));
   this.addParameter(new ParameterNumber(this, SimView.en.ASPECT_RATIO,
       SimView.i18n.ASPECT_RATIO,
-      goog.bind(this.getAspectRatio, this), goog.bind(this.setAspectRatio, this)));
+      () => this.getAspectRatio(), a => this.setAspectRatio(a)));
 };
 
 /** @override */

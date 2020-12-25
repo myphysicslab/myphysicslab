@@ -102,7 +102,7 @@ constructor(label, getter, setter, textField) {
   * @private
   */
   this.value_ = getter();
-  if (!goog.isNumber(this.value_)) {
+  if (typeof this.value_ !== 'number') {
     throw 'not a number '+this.value_;
   }
   /** The number of significant digits to display.

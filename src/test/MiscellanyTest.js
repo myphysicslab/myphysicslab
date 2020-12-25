@@ -46,12 +46,11 @@ const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /** Miscellaneous tests of engine2D physics engine.
 */
@@ -127,7 +126,7 @@ static newtons_cradle() {
   setBodyVars(sim, vars, 2, 0.0083218, 0.0000096, -1, 0, 0.000001, 0.0000032);
   setBodyVars(sim, vars, 3, 1.2174815, 0.0000096, -1, 0, 0.0000011, 0.0000032);
   setBodyVars(sim, vars, 4, 2.6955475, -7.3437744, -0.9879222, -0.6609408, 0.0897584, -2.4578176);
-  runTest(sim, advance, /*runUntil=*/3.5,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.5,
        /*expectedVars=*/vars, /*tolerance=*/0.0001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0002,
        /*expectedCollisions=*/3);
@@ -183,7 +182,7 @@ static chain() {
   setBodyVars(sim, vars, 4, 2.185566, -0.0725155, 0.0309382, -0.0300434, -0.954555, 0.1194908);
   setBodyVars(sim, vars, 5, 3.6917114, -0.3464645, 1.4629927, 0.230839, -0.6666634, 0.2441076);
   setBodyVars(sim, vars, 6, 4.9492051, -0.2739491, 3.1440884, 0.1946673, -0.6178024, -0.3200672);
-  runTest(sim, advance, /*runUntil=*/3.5,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.5,
        /*expectedVars=*/vars, /*tolerance=*/0.0001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0002,
        /*expectedCollisions=*/0);
@@ -230,7 +229,7 @@ static clock_with_gears() {
   setBodyVars(sim, vars, 0, 0.2576836, 0.7900146, 0.0072232, 0.0443248, 0.0560475, 0.1720124);
   setBodyVars(sim, vars, 1, 4.728, 0, -0, -0, 0.190146, 0.1462387);
   setBodyVars(sim, vars, 2, -0, -0, -0, 0, -0.2306657, -0.1377898);
-  runTest(sim, advance, /*runUntil=*/3.5,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.5,
               /*expectedVars=*/vars, /*tolerance=*/0.0001);
 };
 
@@ -309,7 +308,7 @@ static non_collide_edges() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 2.677745, 0.67036, -4.8452014, -0.4877325, 7.9760692, 2.9017526);
   setBodyVars(sim, vars, 1, -3.776975, -0.8291956, -4.2064328, -0.4007804, -0, -0);
-  runTest(sim, advance, /*runUntil=*/5.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/5.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
 };
 
@@ -355,7 +354,7 @@ static damping_standard() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 2, 0, 0, 0, 6.3536101, 1.2375668);
   setBodyVars(sim, vars, 1, -2, 0, 0, 0, 7.5386376, 1.7738409);
-  runTest(sim, advance, /*runUntil=*/4.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
 };
 
@@ -431,7 +430,7 @@ static three_body_spin_test1() {
   setBodyVars(sim, vars, 0, 2.3679591, 2.5231233, 0.1758214, 4.7692645, 11.1720974, 6.6244896);
   setBodyVars(sim, vars, 1, -1.070704, -0.9423498, 1.5687438, -10.3375145, 10.3514746, 3.0702532);
   setBodyVars(sim, vars, 2, -4.5217775, -4.8577766, 3.3346085, -7.4710261, 14.0257479, -7.3496166);
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001);
   Engine2DTestRig.checkTightJoints(sim, 0.005);
 };
@@ -451,7 +450,7 @@ static three_body_spin_test2() {
   setBodyVars(sim, vars, 0, 2.3693978, 2.5157571, 0.1774004, 4.7723935, 11.1720697, 6.6244608);
   setBodyVars(sim, vars, 1, -1.0715336, -0.9428909, 1.5676422, -10.3428559, 10.3527691, 3.0711914);
   setBodyVars(sim, vars, 2, -4.5244888, -4.8429361, 3.3316707, -7.4762159, 14.0249841, -7.3569172);
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
        /*expectedCollisions=*/-1);
@@ -482,7 +481,7 @@ static three_body_spin_test3A() {
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
   var startEnergy = sim.getEnergyInfo().getTotalEnergy();
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
        /*expectedCollisions=*/-1);
@@ -518,7 +517,7 @@ static three_body_spin_test3B() {
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
   var startEnergy = sim.getEnergyInfo().getTotalEnergy();
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
        /*expectedCollisions=*/-1);
@@ -552,7 +551,7 @@ static three_body_spin_test4A() {
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
   var startEnergy = sim.getEnergyInfo().getTotalEnergy();
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   if (0 == 1 && Util.DEBUG) {
     console.log('start energy '+Util.NF7(startEnergy)
@@ -586,7 +585,7 @@ static three_body_spin_test4B() {
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
   var startEnergy = sim.getEnergyInfo().getTotalEnergy();
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   if (0 == 1 && Util.DEBUG) {
     console.log('start energy '+Util.NF7(startEnergy)
@@ -868,7 +867,7 @@ static roller_hump_test() {
   MiscellanyTest.roller_hump_setup(sim, advance);
   var vars = makeVars(1*6);
   setBodyVars(sim, vars, 0, 0.9930475, 0.7033436, 3.1804777, -2.0938717, 6.084699, 0.8542802);
-  runTest(sim, advance, /*runUntil=*/4,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.002,
        /*expectedCollisions=*/-1);
@@ -915,9 +914,9 @@ static roller_end_point_test() {
   MiscellanyTest.roller_end_point_setup(sim, advance);
   var vars = makeVars(1*6);
   setBodyVars(sim, vars, 0, -1.7363317, 0.5083806, -2.9337104, 0.2411583, 9.8677229, 0.6252024);
-  runTest(sim, advance, /*runUntil=*/10,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
        /*expectedVars=*/vars, /*tolerance=*/0.00001);
-  runTest(sim, advance, /*runUntil=*/15,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15,
        /*expectedVars=*/null, /*tolerance=*/NaN,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.002,
        /*expectedCollisions=*/-1);

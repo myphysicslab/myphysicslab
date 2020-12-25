@@ -79,7 +79,7 @@ constructor(opt_text, opt_position, proto) {
   * @type {?DisplayText}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */

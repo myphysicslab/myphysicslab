@@ -43,7 +43,7 @@ constructor() {
 @return {number} suggested zero energy level for blocks
 */
 static makeVPit(sim, opt_offset) {
-  var offset = goog.isDef(opt_offset) ? opt_offset : 0;
+  var offset = opt_offset !== undefined ? opt_offset : 0;
   var p1 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.LEFT,
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.LEFT);
@@ -81,7 +81,7 @@ static makeVPit(sim, opt_offset) {
 @return {number} suggested zero energy level for blocks
 */
 static makeDoubleVPit(sim, opt_offset) {
-  var offset = goog.isDef(opt_offset) ? opt_offset : 0;
+  var offset = opt_offset !== undefined ? opt_offset : 0;
   var walls = [];
   var b = 1.0/(2*Math.sqrt(2.0));  // to get center of block, = 1 / (2 * sqrt(2))
   var h = -2.5 - b;
@@ -182,7 +182,7 @@ side.
 @return {!Array<!Polygon>} the blocks that were created
 */
 static makeRandomBlocks(sim, n, x, y, random, rightAngle) {
-  rightAngle = goog.isDef(rightAngle) ? rightAngle : true;
+  rightAngle = rightAngle !== undefined ? rightAngle : true;
   var bods = [];
   for (var i=0; i<n; i++) {
     var width = 0.2+ random.nextFloat();

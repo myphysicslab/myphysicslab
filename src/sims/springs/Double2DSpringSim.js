@@ -189,25 +189,25 @@ constructor(opt_name) {
       this.spring2_);
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.GRAVITY,
       Double2DSpringSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.DAMPING,
       Double2DSpringSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.LENGTH,
       Double2DSpringSim.i18n.LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.MASS1,
       Double2DSpringSim.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.MASS2,
       Double2DSpringSim.i18n.MASS2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, Double2DSpringSim.en.STIFFNESS,
       Double2DSpringSim.i18n.STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
   // do restState() to set the potential energy offset.

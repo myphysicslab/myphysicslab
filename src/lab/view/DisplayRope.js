@@ -43,7 +43,7 @@ constructor(rope, proto) {
   * @type {?Rope}
   * @private
   */
-  this.rope_ = goog.isDefAndNotNull(rope) ? rope : null;
+  this.rope_ = rope != null ? rope : null;
   /** Color when rope is tight; a CSS3 color value
   * @type {string|undefined}
   * @private
@@ -69,7 +69,7 @@ constructor(rope, proto) {
   * @type {?DisplayRope}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */

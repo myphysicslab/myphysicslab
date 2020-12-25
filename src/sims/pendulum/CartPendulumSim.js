@@ -183,31 +183,31 @@ constructor(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.GRAVITY,
       CartPendulumSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.CART_MASS,
       CartPendulumSim.i18n.CART_MASS,
-      goog.bind(this.getCartMass, this), goog.bind(this.setCartMass, this)));
+      () => this.getCartMass(), a => this.setCartMass(a)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.PENDULUM_MASS,
       CartPendulumSim.i18n.PENDULUM_MASS,
-      goog.bind(this.getPendulumMass, this), goog.bind(this.setPendulumMass, this)));
+      () => this.getPendulumMass(), a => this.setPendulumMass(a)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.CART_DAMPING,
       CartPendulumSim.i18n.CART_DAMPING,
-      goog.bind(this.getCartDamping, this), goog.bind(this.setCartDamping, this)));
+      () => this.getCartDamping(), a => this.setCartDamping(a)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.PENDULUM_DAMPING,
       CartPendulumSim.i18n.PENDULUM_DAMPING,
-      goog.bind(this.getPendulumDamping, this),
-       goog.bind(this.setPendulumDamping, this)));
+      () => this.getPendulumDamping(),
+       a => this.setPendulumDamping(a)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.PENDULUM_LENGTH,
       CartPendulumSim.i18n.PENDULUM_LENGTH,
-      goog.bind(this.getPendulumLength, this),
-      goog.bind(this.setPendulumLength, this)));
+      () => this.getPendulumLength(),
+      a => this.setPendulumLength(a)));
   this.addParameter(new ParameterNumber(this, CartPendulumSim.en.SPRING_STIFFNESS,
       CartPendulumSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

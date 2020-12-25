@@ -142,31 +142,31 @@ constructor(elem_ids, opt_name) {
   var ps;
   this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.FORMATION,
       MultipleCollisionApp.i18n.FORMATION,
-      goog.bind(this.getFormation, this),
-      goog.bind(this.setFormation, this), choices, this.formations));
+      () => this.getFormation(),
+      a => this.setFormation(a), choices, this.formations));
   this.addControl(new ChoiceControl(ps));
 
   this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.SHAPE,
       MultipleCollisionApp.i18n.SHAPE,
-      goog.bind(this.getShape, this), goog.bind(this.setShape, this),
+      () => this.getShape(), a => this.setShape(a),
       [ MultipleCollisionApp.i18n.SQUARE, MultipleCollisionApp.i18n.CIRCLE ],
       [ MultipleCollisionApp.Shape.SQUARE, MultipleCollisionApp.Shape.CIRCLE ]));
   this.addControl(new ChoiceControl(ps));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.OFFSET,
       MultipleCollisionApp.i18n.OFFSET,
-      goog.bind(this.getOffset, this), goog.bind(this.setOffset, this)));
+      () => this.getOffset(), a => this.setOffset(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.ANGLE,
       MultipleCollisionApp.i18n.ANGLE,
-      goog.bind(this.getAngle, this), goog.bind(this.setAngle, this)));
+      () => this.getAngle(), a => this.setAngle(a)));
   pn.setLowerLimit(Util.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MultipleCollisionApp.en.SPEED,
       MultipleCollisionApp.i18n.SPEED,
-      goog.bind(this.getSpeed, this), goog.bind(this.setSpeed, this)));
+      () => this.getSpeed(), a => this.setSpeed(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);

@@ -109,7 +109,7 @@ constructor(elem_ids) {
 
   /** @type {!ButtonControl} */
   var bc = new ButtonControl(DoubleSpringSim.i18n.REST_STATE,
-      goog.bind(sim.restState, sim));
+      () => sim.restState());
   this.addControl(bc);
 
   this.makeEasyScript();

@@ -27,8 +27,8 @@ class ScreenRect {
 @param {number} height the height of the rectangle
 */
 constructor(left, top, width, height) {
-  if (!goog.isNumber(left) || !goog.isNumber(top) || !goog.isNumber(width)
-      || !goog.isNumber(height)) {
+  if (typeof left !== 'number' || typeof top !== 'number' || typeof width !== 'number'
+      || typeof height !== 'number') {
     throw '';
   }
   if (width < 0 || height < 0) {
@@ -162,7 +162,7 @@ isEmpty(opt_tol) {
 makeOval(context) {
     var w = this.width_/2;
     var h = this.height_/2;
-  if (goog.isFunction(context.ellipse)) {
+  if (typeof context.ellipse === 'function') {
     context.beginPath();
     context.moveTo(this.left_ + this.width_, this.top_ + h);
     // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);

@@ -108,12 +108,12 @@ static makeBikeTimerApp(sound_url) {
 
   var stopButton = document.getElementById('stop_button');
   if (stopButton != null) {
-    stopButton.onclick = goog.bind(clock.pause, clock);
+    stopButton.onclick = () => clock.pause();
   };
 
   var startButton = document.getElementById('start_button');
   if (startButton != null) {
-    startButton.onclick = goog.bind(clock.resume, clock);
+    startButton.onclick = () => clock.resume();
   };
 
   // Find the period field which is defined in HTML

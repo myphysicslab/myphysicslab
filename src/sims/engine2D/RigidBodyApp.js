@@ -85,18 +85,18 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
       RigidBodyApp.i18n.NUM_BODIES,
-      goog.bind(this.getNumBodies, this), goog.bind(this.setNumBodies, this))
+      () => this.getNumBodies(), a => this.setNumBodies(a))
       .setDecimalPlaces(0).setLowerLimit(1).setUpperLimit(6));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.THRUST,
       RigidBodyApp.i18n.THRUST,
-      goog.bind(this.getThrust, this), goog.bind(this.setThrust, this)));
+      () => this.getThrust(), a => this.setThrust(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.MASS1,
       RigidBodyApp.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addControl(new NumericControl(pn));
 
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
@@ -109,13 +109,13 @@ constructor(elem_ids) {
   this.addParameter(
       pn = new ParameterNumber(this, RigidBodyApp.en.SPRING_STIFFNESS,
       RigidBodyApp.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(
       pn = new ParameterNumber(this, RigidBodyApp.en.SPRING_LENGTH,
       RigidBodyApp.i18n.SPRING_LENGTH,
-      goog.bind(this.getRestLength, this), goog.bind(this.setRestLength, this)));
+      () => this.getRestLength(), a => this.setRestLength(a)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

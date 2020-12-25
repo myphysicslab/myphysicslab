@@ -144,30 +144,30 @@ constructor(opt_name) {
   this.dragObj_ = null;
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.DAMPING,
       RollerDoubleSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.GRAVITY,
       RollerDoubleSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.MASS_1,
       RollerDoubleSim.i18n.MASS_1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.MASS_2,
       RollerDoubleSim.i18n.MASS_2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.SPRING_DAMPING,
       RollerDoubleSim.i18n.SPRING_DAMPING,
-      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
+      () => this.getSpringDamping(), a => this.setSpringDamping(a)));
   this.addParameter(new ParameterNumber(this, RollerDoubleSim.en.SPRING_LENGTH,
       RollerDoubleSim.i18n.SPRING_LENGTH,
-      goog.bind(this.getSpringLength, this), goog.bind(this.setSpringLength, this)));
+      () => this.getSpringLength(), a => this.setSpringLength(a)));
   this.addParameter(new ParameterNumber(this,
       RollerDoubleSim.en.SPRING_STIFFNESS,
       RollerDoubleSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

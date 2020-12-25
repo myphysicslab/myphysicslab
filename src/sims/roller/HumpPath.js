@@ -32,9 +32,9 @@ class HumpPath extends AbstractPath {
 * @param {string=} localName
 */
 constructor(start, finish, name, localName) {
-  if (!goog.isNumber(start))
+  if (typeof start !== 'number')
     start = -3;
-  if (!goog.isNumber(finish))
+  if (typeof finish !== 'number')
     finish = 3;
   name = name || HumpPath.en.NAME;
   localName = localName || HumpPath.i18n.NAME;

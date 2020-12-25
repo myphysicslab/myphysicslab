@@ -182,7 +182,7 @@ static makePanZoomControls(simView, overlay, resetFunc) {
   up_div.style.width = (sz*3.2)+'px';
   var img = Util.createImage(imagesPath+'up_gray.png', sz);
   /** @type {!ButtonControl} */
-  var bc = new ButtonControl('up', goog.bind(simView.panUp, simView), img);
+  var bc = new ButtonControl('up', () => simView.panUp(), img);
   bc.repeatDelay = 100;
   up_div.appendChild(bc.getElement());
 
@@ -190,20 +190,20 @@ static makePanZoomControls(simView, overlay, resetFunc) {
   if (debug) mid_div.style.border = 'dashed red thin';
   mid_div.style.width = up_div.style.width;
   img = Util.createImage(imagesPath+'backward_gray.png', sz);
-  bc = new ButtonControl('left', goog.bind(simView.panLeft, simView), img);
+  bc = new ButtonControl('left', () => simView.panLeft(), img);
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
   img = Util.createImage(imagesPath+'target_gray.png', sz);
   bc = new ButtonControl('reset', resetFunc, img);
   mid_div.appendChild(bc.getElement());
   img = Util.createImage(imagesPath+'forward_gray.png', sz);
-  bc = new ButtonControl('right', goog.bind(simView.panRight, simView), img);
+  bc = new ButtonControl('right', () => simView.panRight(), img);
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
 
   var down_div = /** @type {!Element}*/(document.createElement('div'));
   img = Util.createImage(imagesPath+'down_gray.png', sz);
-  bc = new ButtonControl('down', goog.bind(simView.panDown, simView), img);
+  bc = new ButtonControl('down', () => simView.panDown(), img);
   bc.repeatDelay = 100;
   down_div.appendChild(bc.getElement());
   if (debug) down_div.style.border = 'dashed red thin';
@@ -218,12 +218,12 @@ static makePanZoomControls(simView, overlay, resetFunc) {
 
   var zoom_div = /** @type {!Element}*/(document.createElement('div'));
   img = Util.createImage(imagesPath+'plus_gray.png', sz);
-  bc = new ButtonControl('zoomIn', goog.bind(simView.zoomIn, simView), img);
+  bc = new ButtonControl('zoomIn', () => simView.zoomIn(), img);
   bc.repeatDelay = 100;
   zoom_div.appendChild(bc.getElement());
   zoom_div.appendChild(document.createElement('BR'));
   img = Util.createImage(imagesPath+'minus_gray.png', sz);
-  bc = new ButtonControl('zoomOut', goog.bind(simView.zoomOut, simView), img);
+  bc = new ButtonControl('zoomOut', () => simView.zoomOut(), img);
   bc.repeatDelay = 100;
   zoom_div.appendChild(bc.getElement());
   // When a CSS property, such as the float property, has a name that is a reserved
@@ -278,15 +278,14 @@ static makePlaybackControls(simrun, opt_overlay) {
   var sz = 30;
   var img = Util.createImage(imagesPath+'rewind.png', sz);
   /** @type {!ButtonControl} */
-  var bc1 = new ButtonControl(SimRunner.i18n.RESTART, goog.bind(simrun.reset, simrun),
-      img);
+  var bc1 = new ButtonControl(SimRunner.i18n.RESTART, () => simrun.reset(), img);
   timer_div.appendChild(bc1.getElement());
   img =  Util.createImage(imagesPath+'forward.png', sz);
   var img2 =  Util.createImage(imagesPath+'pause.png', sz);
   var tc = new ToggleControl(simrun.getParameterBoolean(SimRunner.en.RUNNING), img, img2);
   timer_div.appendChild(tc.getElement());
   img =  Util.createImage(imagesPath+'next.png', sz);
-  var bc2 = new ButtonControl(SimRunner.i18n.STEP, goog.bind(simrun.step, simrun), img);
+  var bc2 = new ButtonControl(SimRunner.i18n.STEP, () => simrun.step(), img);
   bc2.repeatDelay = 100;
   timer_div.appendChild(bc2.getElement());
   var gc = new GroupControl('playback', timer_div, [bc1, tc, bc2]);
@@ -342,8 +341,8 @@ static makeShowClockParam(displayClock, targetView, subject) {
   var displayList = targetView.getDisplayList();
   var pb = new ParameterBoolean(subject, DisplayClock.en.SHOW_CLOCK,
       DisplayClock.i18n.SHOW_CLOCK,
-      /* getter=*/goog.bind(displayList.contains, displayList, displayClock),
-      /* setter=*/function(value) {
+      () => displayList.contains(displayClock),
+      (value) => {
         if (value) {
           displayList.add(displayClock);
         } else {
@@ -376,16 +375,16 @@ ParameterBoolean whenever the EnergyBarGraph is added or removed from the target
 * @return {!ParameterBoolean}
 */
 static makeShowEnergyParam(energyGraph, targetView, subject, opt_name, opt_i18n_name) {
-  var paramName = goog.isString(opt_name) ? opt_name : EnergyBarGraph.en.SHOW_ENERGY;
-  var i18nName = goog.isString(opt_i18n_name) ? opt_i18n_name :
+  var paramName = typeof opt_name === 'string' ? opt_name : EnergyBarGraph.en.SHOW_ENERGY;
+  var i18nName = typeof opt_i18n_name === 'string' ? opt_i18n_name :
       EnergyBarGraph.i18n.SHOW_ENERGY;
   var r = targetView.getCoordMap().screenToSimRect(targetView.getScreenRect());
   energyGraph.setVisibleArea(r);
   var displayList = targetView.getDisplayList();
   var pb = new ParameterBoolean(subject, paramName,
       i18nName,
-      /* getter=*/goog.bind(displayList.contains, displayList, energyGraph),
-      /* setter=*/function(value) {
+      () => displayList.contains(energyGraph),
+      (value) => {
         if (value) {
           displayList.add(energyGraph);
         } else {
@@ -432,7 +431,7 @@ Presents the user with a prompt showing a text box with the URL + script.
 * @return {!ButtonControl}
 */
 static makeURLScriptButton(easyScript, simRun) {
-  if (!goog.isDef(easyScript)) {
+  if (easyScript === undefined) {
     throw '';
   }
   var copyURL = function() {

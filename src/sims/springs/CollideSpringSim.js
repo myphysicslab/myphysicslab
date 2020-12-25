@@ -167,22 +167,22 @@ constructor(opt_name) {
 
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.MASS,
       CollideSpringSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_STIFFNESS,
       CollideSpringSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getStiffness, this), goog.bind(this.setStiffness, this)));
+      () => this.getStiffness(), a => this.setStiffness(a)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.DAMPING,
       CollideSpringSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_DAMPING,
       CollideSpringSim.i18n.SPRING_DAMPING,
-      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
+      () => this.getSpringDamping(), a => this.setSpringDamping(a)));
   this.addParameter(new ParameterNumber(this, CollideSpringSim.en.SPRING_LENGTH,
       CollideSpringSim.i18n.SPRING_LENGTH,
-      goog.bind(this.getLength, this), goog.bind(this.setLength, this)));
+      () => this.getLength(), a => this.setLength(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

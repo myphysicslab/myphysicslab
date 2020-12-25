@@ -78,7 +78,7 @@ getClassName() {
 /** @override */
 getValue() {
   var r = this.terminal_.eval(this.expression_, /*output=*/false);
-  return goog.isNumber(r) ? r : Number.NaN;
+  return typeof r === 'number' ? r : Number.NaN;
 };
 
 /** @override */

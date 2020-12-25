@@ -36,7 +36,7 @@ constructor(arc, proto) {
   * @type {?Arc}
   * @private
   */
-  this.arc_ = goog.isDefAndNotNull(arc) ? arc : null;
+  this.arc_ = arc != null ? arc : null;
   /** Color used when drawing the line, a CSS3 color value.
   * @type {string|undefined}
   * @private
@@ -69,7 +69,7 @@ constructor(arc, proto) {
   * @type {?DisplayArc}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */

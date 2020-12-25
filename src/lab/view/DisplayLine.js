@@ -41,7 +41,7 @@ constructor(line, proto) {
   * @type {!Line}
   * @private
   */
-  this.line_ = goog.isDefAndNotNull(line) ? line : new ConcreteLine('proto');
+  this.line_ = line != null ? line : new ConcreteLine('proto');
   /** Color used when drawing the line, a CSS3 color value.
   * @type {string|undefined}
   * @private
@@ -69,7 +69,7 @@ constructor(line, proto) {
   * @type {?DisplayLine}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */

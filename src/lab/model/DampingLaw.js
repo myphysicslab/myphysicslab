@@ -92,16 +92,16 @@ constructor(damping, rotateRatio, opt_simList) {
   * @private
   */
   this.simList_ = null;
-  if (goog.isDefAndNotNull(opt_simList)) {
+  if (opt_simList != null) {
     this.connect(opt_simList);
   };
   this.addParameter(new ParameterNumber(this, DampingLaw.en.DAMPING,
       DampingLaw.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this))
+      () => this.getDamping(), a => this.setDamping(a))
       .setSignifDigits(3));
   this.addParameter(new ParameterNumber(this, DampingLaw.en.ROTATE_RATIO,
       DampingLaw.i18n.ROTATE_RATIO,
-      goog.bind(this.getRotateRatio, this), goog.bind(this.setRotateRatio, this))
+      () => this.getRotateRatio(), a => this.setRotateRatio(a))
       .setSignifDigits(3));
 };
 
@@ -131,7 +131,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, goog.bind(this.addBody, this));
+  goog.array.forEach(bodies, b => this.addBody(b) );
 };
 
 /** Adds the SimObject to list of objects that DampingLaw applies forces to, but only

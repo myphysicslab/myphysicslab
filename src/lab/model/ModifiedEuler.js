@@ -95,7 +95,7 @@ step(stepSize) {
   }
   Util.zeroArray(k1);
   error = this.ode_.evaluate(inp, k1, 0);
-  if (!goog.isNull(error))
+  if (error != null)
     return error;
   // evaluate at time t+stepSize
   for (i=0; i<N; i++) {
@@ -103,7 +103,7 @@ step(stepSize) {
   }
   Util.zeroArray(k2);
   error = this.ode_.evaluate(inp, k2, stepSize);
-  if (!goog.isNull(error))
+  if (error != null)
     return error;
   for (i=0; i<N; i++) {
       vars[i] += (k1[i] + k2[i])*stepSize/2;

@@ -51,7 +51,7 @@ class MagnetWheel extends AbstractMassObject {
 */
 constructor(opt_name, opt_localName) {
   var name, localName;
-  if (!goog.isDef(opt_name) || opt_name == '') {
+  if (opt_name === undefined || opt_name == '') {
     var id = MagnetWheel.ID++;
     name = MagnetWheel.en.MAGNET_WHEEL + id;
     localName = MagnetWheel.i18n.MAGNET_WHEEL + id;
@@ -208,10 +208,10 @@ getPotentialEnergy() {
     // magnet is closest to fixed magnet.
     if (a < Math.PI/2) {
       pe += Math.abs(Calculus.adaptQuad(
-          goog.bind(this.getTorque, this, i), a, Math.PI/2, 0.0001));
+          angle => this.getTorque(i, angle), a, Math.PI/2, 0.0001));
     } else {
       pe += Math.abs(Calculus.adaptQuad(
-          goog.bind(this.getTorque, this, i), Math.PI/2, a, 0.0001));
+          angle => this.getTorque(i, angle), Math.PI/2, a, 0.0001));
     }
   };
   return pe;
@@ -281,7 +281,7 @@ setFixedMagnet(loc) {
 * @return {!MagnetWheel} this object for chaining setters
 */
 setMass(mass) {
-  if (mass < 0 || !goog.isNumber(mass)) {
+  if (mass < 0 || typeof mass !== 'number') {
     throw 'mass must be non-negative '+mass;
   }
   this.mass_ = mass;

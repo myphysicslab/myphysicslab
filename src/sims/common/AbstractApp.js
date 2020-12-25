@@ -117,11 +117,10 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
 
   /** @type {!ODESim} */
   this.sim = sim;
-  this.terminal.setAfterEval(goog.bind(sim.modifyObjects, sim));
+  this.terminal.setAfterEval( () => sim.modifyObjects() );
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(sim, goog.bind(function(evt) {
-    sim.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  new GenericObserver(sim, evt => sim.modifyObjects(),
+      'modifyObjects after parameter or variable change');
   /** @type {!ODEAdvance} */
   this.advance  = advance;
   /** @type {!SimList} */
@@ -151,25 +150,22 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
   this.energyGraph = null;
   /** @type {?ParameterBoolean} */
   this.showEnergyParam = null;
-  if (goog.isDefAndNotNull(energySystem)) {
+  if (energySystem != null) {
     this.energyGraph = new EnergyBarGraph(energySystem);
     this.showEnergyParam = CommonControls.makeShowEnergyParam(this.energyGraph,
         this.statusView, this);
   }
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(sim.getTime, sim),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock( () => sim.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   /** @type {!ParameterBoolean} */
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
   var panzoom = CommonControls.makePanZoomControls(this.simView,
-      /*overlay=*/true,
-      /*resetFunc=*/goog.bind(function () {
-          this.simView.setSimRect(this.simRect);
-      }, this));
+      /*overlay=*/true, () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
@@ -277,7 +273,7 @@ in EasyScriptParser documentation.
 */
 makeEasyScript(opt_dependent) {
   var dependent = [ this.varsList ];
-  if (goog.isArray(opt_dependent)) {
+  if (Array.isArray(opt_dependent)) {
     dependent = goog.array.concat(dependent, opt_dependent);
   }
   this.easyScript = CommonControls.makeEasyScript(this.getSubjects(), dependent,

@@ -58,8 +58,8 @@ constructor(sim) {
   sim.addObserver(this);
   this.addParameter(new ParameterNumber(this, ElasticitySetter.en.ELASTICITY,
       ElasticitySetter.i18n.ELASTICITY,
-      goog.bind(this.getElasticity, this),
-      goog.bind(this.setElasticity, this)).setSignifDigits(3).setUpperLimit(1));
+      () => this.getElasticity(),
+      a => this.setElasticity(a)).setSignifDigits(3).setUpperLimit(1));
 };
 
 /** @override */

@@ -93,11 +93,11 @@ constructor(elem_ids, opt_name) {
 
   /** @type {!SingleSpringSim} */
   this.sim = new SingleSpringSim();
-  this.terminal.setAfterEval(goog.bind(this.sim.modifyObjects, this.sim));
+  this.terminal.setAfterEval( () => this.sim.modifyObjects());
   // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(this.sim, goog.bind(function(evt) {
+  new GenericObserver(this.sim, evt => {
     this.sim.modifyObjects();
-  }, this), 'modifyObjects after parameter or variable change');
+  }, 'modifyObjects after parameter or variable change');
   /** @type {!SimList} */
   this.simList = this.sim.getSimList();
   /** @type {!VarsList} */
@@ -129,8 +129,8 @@ constructor(elem_ids, opt_name) {
       this.statusView, this);
 
   /** @type {!DisplayClock} */
-  this.displayClock = new DisplayClock(goog.bind(this.sim.getTime, this.sim),
-      goog.bind(this.clock.getRealTime, this.clock), /*period=*/2, /*radius=*/2);
+  this.displayClock = new DisplayClock( () => this.sim.getTime(),
+      () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   /** @type {!ParameterBoolean} */
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
@@ -138,9 +138,7 @@ constructor(elem_ids, opt_name) {
 
   var panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
-      /*resetFunc=*/goog.bind(function () {
-          this.simView.setSimRect(this.simRect);
-      }, this));
+      /*resetFunc=*/ () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom);
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);

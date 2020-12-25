@@ -34,12 +34,11 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
-const checkContactDistances = Engine2DTestRig.checkContactDistances;
-const makeVars = Engine2DTestRig.makeVars;
-const runTest = Engine2DTestRig.runTest;
-const schedule = TestRig.schedule;
-const setBodyVars = Engine2DTestRig.setBodyVars;
-const setTestName = Engine2DTestRig.setTestName;
+const makeVars = n => Engine2DTestRig.makeVars(n);
+const schedule = testFunc => TestRig.schedule(testFunc);
+const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
+    Engine2DTestRig.setBodyVars(sim, vars, i, x, vx, y, vy, w, vw);
+const setTestName = nm => Engine2DTestRig.setTestName(nm);
 
 /** Tests interactions between circular edges.
 */
@@ -110,11 +109,11 @@ static ball_ball_contact() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -0.7845976, 0.0291469, -0.1822277, 0.0576237, 0.6655733, 0.4093619);
   setBodyVars(sim, vars, 1, 0.9805976, -0.0291469, 0.2822277, -0.0576237, 3.4239727, 0.5085931);
-  runTest(sim, advance, /*runUntil=*/1.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001);
   setBodyVars(sim, vars, 0, -0.5864811, 0.094376, -0.1374326, -0.3109941, -1.0070382, -1.6390627);
   setBodyVars(sim, vars, 1, 0.7824811, -0.094376, 0.2374326, 0.3109941, 6.1598454, 0.562238);
-  runTest(sim, advance, /*runUntil=*/4.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0);
@@ -150,11 +149,11 @@ static concave_circle_and_ball() {
   var vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.1967144, -0.8904188, -1.4219796, 0.1258683, -0.10235, 0.1459626);
   setBodyVars(sim, vars, 1, 0.3032856, 0.8904188, -0.7980204, -0.1258683, -1.8963003, 3.4576941);
-  runTest(sim, advance, /*runUntil=*/6.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/6.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001);
   // run for a few more seconds: there should be no more collision searches,
   // and energy should be constant
-  runTest(sim, advance, /*runUntil=*/9.0,
+  Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.001,
                /*expectedCollisions=*/0);

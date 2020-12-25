@@ -849,7 +849,7 @@ setVisibleArea(visibleArea) {
 
 /** @override */
 setZIndex(zIndex) {
-  this.zIndex = goog.isDef(zIndex) ? zIndex : 0;
+  this.zIndex = zIndex !== undefined ? zIndex : 0;
 };
 
 /**

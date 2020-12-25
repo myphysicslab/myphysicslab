@@ -73,12 +73,12 @@ constructor(gravity, opt_simList) {
   * @private
   */
   this.simList_ = null;
-  if (goog.isDefAndNotNull(opt_simList)) {
+  if (opt_simList != null) {
     this.connect(opt_simList);
   };
   this.addParameter(new ParameterNumber(this, Gravity2Law.en.GRAVITY,
       Gravity2Law.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this))
+      () => this.getGravity(), a => this.setGravity(a))
       .setSignifDigits(4));
 };
 
@@ -106,7 +106,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, goog.bind(this.addBody, this));
+  goog.array.forEach(bodies, body => this.addBody(body) );
 };
 
 /** Adds the SimObject to list of objects that Gravity2Law applies

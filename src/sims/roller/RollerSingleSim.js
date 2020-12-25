@@ -142,26 +142,26 @@ constructor(hasSpring, opt_name) {
 
   this.addParameter(new ParameterNumber(this, RollerSingleSim.en.DAMPING,
       RollerSingleSim.i18n.DAMPING,
-      goog.bind(this.getDamping, this), goog.bind(this.setDamping, this)));
+      () => this.getDamping(), a => this.setDamping(a)));
   this.addParameter(new ParameterNumber(this, RollerSingleSim.en.GRAVITY,
       RollerSingleSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, RollerSingleSim.en.MASS,
       RollerSingleSim.i18n.MASS,
-      goog.bind(this.getMass, this), goog.bind(this.setMass, this)));
+      () => this.getMass(), a => this.setMass(a)));
   this.addParameter(new ParameterNumber(this, RollerSingleSim.en.SPRING_DAMPING,
       RollerSingleSim.i18n.SPRING_DAMPING,
-      goog.bind(this.getSpringDamping, this), goog.bind(this.setSpringDamping, this)));
+      () => this.getSpringDamping(), a => this.setSpringDamping(a)));
   this.addParameter(new ParameterNumber(this, RollerSingleSim.en.SPRING_LENGTH,
       RollerSingleSim.i18n.SPRING_LENGTH,
-      goog.bind(this.getSpringLength, this), goog.bind(this.setSpringLength, this)));
+      () => this.getSpringLength(), a => this.setSpringLength(a)));
   this.addParameter(new ParameterNumber(this, RollerSingleSim.en.SPRING_STIFFNESS,
       RollerSingleSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

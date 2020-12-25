@@ -84,8 +84,8 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
   @private
   */
   this.values_ = [];
-  if (goog.isDefAndNotNull(opt_choices)) {
-    if (goog.isDefAndNotNull(opt_values)) {
+  if (opt_choices != null) {
+    if (opt_values != null) {
       this.setChoices_(opt_choices, opt_values);
     } else {
       throw 'values not defined';
@@ -189,7 +189,7 @@ setFromString(value) {
 @param {boolean} value the value to set this ParameterBoolean to
 */
 setValue(value) {
-  if (!goog.isBoolean(value))
+  if (typeof value !== 'boolean')
     throw 'non-boolean value: '+value;
   if (value !== this.getValue()) {
     this.setter_(value);

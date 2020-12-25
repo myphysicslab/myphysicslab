@@ -100,33 +100,33 @@ constructor(elem_ids) {
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.MOON_MASS,
       MarsMoonApp.i18n.MOON_MASS,
-      goog.bind(this.getMoonMass, this), goog.bind(this.setMoonMass, this)));
+      () => this.getMoonMass(), a => this.setMoonMass(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.ASTERIOD_MASS,
       MarsMoonApp.i18n.ASTERIOD_MASS,
-      goog.bind(this.getAsteroidMass, this), goog.bind(this.setAsteroidMass, this)));
+      () => this.getAsteroidMass(), a => this.setAsteroidMass(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.VELOCITY,
       MarsMoonApp.i18n.VELOCITY,
-      goog.bind(this.getVelocity, this), goog.bind(this.setVelocity, this)));
+      () => this.getVelocity(), a => this.setVelocity(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.DISTANCE,
       MarsMoonApp.i18n.DISTANCE,
-      goog.bind(this.getDistance, this), goog.bind(this.setDistance, this)));
+      () => this.getDistance(), a => this.setDistance(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.MOON_RADIUS,
       MarsMoonApp.i18n.MOON_RADIUS,
-      goog.bind(this.getMoonRadius, this), goog.bind(this.setMoonRadius, this)));
+      () => this.getMoonRadius(), a => this.setMoonRadius(a)));
   this.addControl(new NumericControl(pn));
 
   this.addParameter(pn = new ParameterNumber(this, MarsMoonApp.en.ASTERIOD_RADIUS,
       MarsMoonApp.i18n.ASTERIOD_RADIUS,
-      goog.bind(this.getAsteroidRadius, this),
-      goog.bind(this.setAsteroidRadius, this)));
+      () => this.getAsteroidRadius(),
+      a => this.setAsteroidRadius(a)));
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();

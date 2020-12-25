@@ -63,8 +63,8 @@ creating a ParameterNumber. This is from the
 
     this.addParameter(new ParameterNumber(this, SingleSpringSim.en.MASS,
         SingleSpringSim.i18n.MASS,
-        goog.bind(this.getMass, this),
-        goog.bind(this.setMass, this)));
+        () => this.getMass(),
+        a => this.setMass(a)));
 
 
 Choices and Values

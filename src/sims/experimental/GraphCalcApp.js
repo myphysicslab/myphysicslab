@@ -133,7 +133,7 @@ constructor(elem_ids) {
   this.axes = new DisplayAxes(this.simView.getCoordMap().screenToSimRect(screenrect));
   this.simView.getDisplayList().add(this.axes);
   // inform displayGraph when the screen rect changes.
-  new GenericObserver(this.simView, goog.bind(function(evt) {
+  new GenericObserver(this.simView, evt => {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.graph.setScreenRect(this.simView.getScreenRect());
       } else if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
@@ -141,17 +141,17 @@ constructor(elem_ids) {
         var simrect = this.simView.getCoordMap().screenToSimRect(screenrect);
         this.axes.setSimRect(simrect);
       }
-    }, this), 'adjust when screen rect changes');
+    }, 'adjust when screen rect changes');
   /**
   * @type {!SimController}
   * @private
   */
   this.simCtrl = new SimController(this.simCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:true, control:false, meta:false, shift:false});
-  this.terminal.setAfterEval(goog.bind(function() {
+  this.terminal.setAfterEval( () => {
       this.graph.reset();
       this.simCanvas.paint();
-    }, this));
+    });
 };
 
 /** Finds the specified element in the HTML Document.
@@ -165,7 +165,7 @@ static getElementById(elem_ids, elementId) {
   // but indexing with a string is never renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
   var e_id = elem_ids[elementId];
-  if (!goog.isString(e_id)) {
+  if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
   return /** @type {!HTMLElement} */(document.getElementById(e_id));
@@ -181,10 +181,10 @@ static getElementById(elem_ids, elementId) {
 plot(expr, range1, range2, numPts) {
     numPts = numPts || 200;
     var r = this.simView.getSimRect();
-    if (!goog.isDef(range1)) {
+    if (range1 === undefined) {
       range1 = r.getLeft();
     }
-    if (!goog.isDef(range2)) {
+    if (range2 === undefined) {
       range2 = r.getRight();
     }
     var incr = (range2 - range1)/numPts;
@@ -206,7 +206,7 @@ plot(expr, range1, range2, numPts) {
     var y = NaN;
     for (var i=0; i<numPts; i++) {
       y = this.terminal.eval(expr, /*output=*/false);
-      if (goog.isNumber(y) && isFinite(y)) {
+      if (typeof y === 'number' && isFinite(y)) {
         this.vars.setValue(0, this.x, /*continuous=*/true);
         this.vars.setValue(1, y, /*continuous=*/true);
         this.graphLine.memorize();

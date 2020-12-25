@@ -219,7 +219,7 @@ constructor(parameter, min, max, multiply, increments) {
   * @private
   */
   this.paramValue_ = parameter.getValue();
-  goog.asserts.assert( goog.isNumber(this.paramValue_) );
+  goog.asserts.assert( typeof this.paramValue_ === 'number' );
   /**
   * @type {!HTMLInputElement}
   * @private

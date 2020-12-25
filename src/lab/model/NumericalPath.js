@@ -761,9 +761,10 @@ linearSearch(p, k) {
   // for closedLoop, we might have gone past the stitch point (wrap around end)
   // so switch to binary search if pval is very far away
   if (Math.abs(this.pvals[j] - p) > this.plen/20) {
-    if (true && Util.DEBUG)
+    if (Util.DEBUG) {
       console.log('use binary not linear search '+Util.NF5(p)
         +' '+Util.NF5(this.pvals[j]));
+    }
     j = NumericalPath.binarySearch(this.pvals, p);
   } else {
     while (true) {

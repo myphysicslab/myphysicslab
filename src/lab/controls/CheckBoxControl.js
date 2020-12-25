@@ -30,8 +30,8 @@ class CheckBoxControl extends CheckBoxControlBase {
 */
 constructor(parameter, checkBox) {
   super(parameter.getName(/*localized=*/true),
-      goog.bind(parameter.getValue, parameter),
-      goog.bind(parameter.setValue, parameter),
+      () => parameter.getValue(),
+      a => parameter.setValue(a),
       checkBox);
   /**
   * @type {!ParameterBoolean}

@@ -174,30 +174,30 @@ constructor(labCanvas, eventHandler, panModifier) {
   * @type {boolean}
   * @private
   */
-  this.enablePanning_ = !goog.isNull(panModifier);
+  this.enablePanning_ = panModifier != null;
   /** True means the control key must be down to start LabView panning.
   * @type {boolean}
   * @private
   */
-  this.panControl_ = goog.isDefAndNotNull(panModifier) ?
+  this.panControl_ = panModifier != null ?
       panModifier.control==true : false;
   /** True means the meta key must be down to start LabView panning.  On Mac OS X,
   * this is the 'command' key.
   * @type {boolean}
   * @private
   */
-  this.panMeta_ = goog.isDefAndNotNull(panModifier) ? panModifier.meta==true : false;
+  this.panMeta_ = panModifier != null ? panModifier.meta==true : false;
   /** True means the shift key must be down to start LabView panning.
   * @type {boolean}
   * @private
   */
-  this.panShift_ = goog.isDefAndNotNull(panModifier) ? panModifier.shift==true : false;
+  this.panShift_ = panModifier != null ? panModifier.shift==true : false;
   /** True means the alt key must be down to start LabView panning.  On Mac OS X,
   * this is called the 'option' key.
   * @type {boolean}
   * @private
   */
-  this.panAlt_ = goog.isDefAndNotNull(panModifier) ? panModifier.alt==true : true;
+  this.panAlt_ = panModifier != null ? panModifier.alt==true : true;
   /** true when a mouse drag operation is in progress
   * @type {boolean}
   * @private
@@ -547,7 +547,7 @@ mouse-move event.  Multiple touch cancels an ongoing mouse drag by calling
 */
 touchMove(evt) {
   var e = /** @type {!TouchEvent} */(evt.getBrowserEvent());
-  var touches = goog.isDefAndNotNull(e) ? e.touches : [];
+  var touches = e != null ? e.touches : [];
   if (this.mouseDrag_ && touches && touches.length == 1) {
     // single touch in our canvas is treated as mouseMove.
     this.doMouseMove(evt, touches[0].clientX, touches[0].clientY);

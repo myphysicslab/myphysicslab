@@ -100,7 +100,7 @@ constructor(proto) {
   * @type {?DisplayPath}
   * @private
   */
-  this.proto_ = goog.isDefAndNotNull(proto) ? proto : null;
+  this.proto_ = proto != null ? proto : null;
 };
 
 /** @override */
@@ -130,7 +130,7 @@ toStringShort() {
 addPath(path, opt_style) {
   if (!this.containsPath(path)) {
     this.paths_.push(path);
-    if (goog.isDefAndNotNull(opt_style)) {
+    if (opt_style != null) {
       this.styles_.push(opt_style);
     } else {
       this.styles_.push(this.getDefaultStyle());
@@ -258,7 +258,7 @@ drawPath(path, context, map, style) {
     case DrawingMode.LINES:
       context.strokeStyle = style.color;
       context.lineWidth = style.lineWidth;
-      if (style.lineDash.length > 0 && goog.isFunction(context.setLineDash)) {
+      if (style.lineDash.length > 0 && typeof context.setLineDash === 'function') {
         context.setLineDash(style.lineDash);
       }
       context.stroke();
@@ -305,11 +305,11 @@ getMassObjects() {
 * @return {!Path} path the Path of interest
 */
 getPath(arg) {
-  if (goog.isNumber(arg)) {
+  if (typeof arg === 'number') {
     if (arg >= 0 && arg < this.paths_.length) {
       return this.paths_[arg];
     }
-  } else if (goog.isString(arg)) {
+  } else if (typeof arg === 'string') {
     arg = Util.toName(arg);
     var e = goog.array.find(this.paths_,
       function (/** !Path */obj) {

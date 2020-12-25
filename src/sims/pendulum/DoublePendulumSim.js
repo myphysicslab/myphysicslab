@@ -181,22 +181,22 @@ constructor(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.ROD_1_LENGTH,
       DoublePendulumSim.i18n.ROD_1_LENGTH,
-      goog.bind(this.getRod1Length, this), goog.bind(this.setRod1Length, this)));
+      () => this.getRod1Length(), a => this.setRod1Length(a)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.ROD_2_LENGTH,
       DoublePendulumSim.i18n.ROD_2_LENGTH,
-      goog.bind(this.getRod2Length, this), goog.bind(this.setRod2Length, this)));
+      () => this.getRod2Length(), a => this.setRod2Length(a)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.MASS_1,
       DoublePendulumSim.i18n.MASS_1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.MASS_2,
       DoublePendulumSim.i18n.MASS_2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, DoublePendulumSim.en.GRAVITY,
       DoublePendulumSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, EnergySystem.en.PE_OFFSET,
       EnergySystem.i18n.PE_OFFSET,
-      goog.bind(this.getPEOffset, this), goog.bind(this.setPEOffset, this))
+      () => this.getPEOffset(), a => this.setPEOffset(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(5));
 };

@@ -85,17 +85,17 @@ constructor(elem_ids) {
   var pn;
   this.addParameter(pb = new ParameterBoolean(this, GearsConfig.en.PINNED_GEARS,
       GearsConfig.i18n.PINNED_GEARS,
-      goog.bind(this.getPinnedGears, this), goog.bind(this.setPinnedGears, this)));
+      () => this.getPinnedGears(), a => this.setPinnedGears(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pb = new ParameterBoolean(this, GearsConfig.en.TWO_GEARS,
       GearsConfig.i18n.TWO_GEARS,
-      goog.bind(this.getTwoGears, this), goog.bind(this.setTwoGears, this)));
+      () => this.getTwoGears(), a => this.setTwoGears(a)));
   this.addControl(new CheckBoxControl(pb));
 
   this.addParameter(pn = new ParameterNumber(this, GearsConfig.en.TURNING_FORCE,
       GearsConfig.i18n.TURNING_FORCE,
-      goog.bind(this.getTurningForce, this), goog.bind(this.setTurningForce, this)));
+      () => this.getTurningForce(), a => this.setTurningForce(a)));
   pn.setLowerLimit(Util.NEGATIVE_INFINITY);
   this.addControl(new NumericControl(pn));
 

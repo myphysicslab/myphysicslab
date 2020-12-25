@@ -169,24 +169,24 @@ constructor(opt_name) {
   this.saveInitialState();
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.GRAVITY,
       DangleStickSim.i18n.GRAVITY,
-      goog.bind(this.getGravity, this), goog.bind(this.setGravity, this)));
+      () => this.getGravity(), a => this.setGravity(a)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.MASS1,
       DangleStickSim.i18n.MASS1,
-      goog.bind(this.getMass1, this), goog.bind(this.setMass1, this)));
+      () => this.getMass1(), a => this.setMass1(a)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.MASS2,
       DangleStickSim.i18n.MASS2,
-      goog.bind(this.getMass2, this), goog.bind(this.setMass2, this)));
+      () => this.getMass2(), a => this.setMass2(a)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.SPRING_REST_LENGTH,
       DangleStickSim.i18n.SPRING_REST_LENGTH,
-      goog.bind(this.getSpringRestLength, this),
-      goog.bind(this.setSpringRestLength, this)));
+      () => this.getSpringRestLength(),
+      a => this.setSpringRestLength(a)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.SPRING_STIFFNESS,
       DangleStickSim.i18n.SPRING_STIFFNESS,
-      goog.bind(this.getSpringStiffness, this),
-      goog.bind(this.setSpringStiffness, this)));
+      () => this.getSpringStiffness(),
+      a => this.setSpringStiffness(a)));
   this.addParameter(new ParameterNumber(this, DangleStickSim.en.STICK_LENGTH,
       DangleStickSim.i18n.STICK_LENGTH,
-      goog.bind(this.getStickLength, this), goog.bind(this.setStickLength, this)));
+      () => this.getStickLength(), a => this.setStickLength(a)));
 };
 
 /** @override */

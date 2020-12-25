@@ -35,7 +35,7 @@ constructor() { throw ''; }
 */
 static array2string(r, nf, separator) {
   nf = nf || Util.NF7E;
-  if (!goog.isDef(separator)) {
+  if (separator === undefined) {
     separator = ', ';
   }
   var n = r.length;
@@ -112,7 +112,7 @@ static createImage(url, width, opt_height) {
   var img =  /** @type {!HTMLImageElement} */(document.createElement('img'));
   img.src = url;
   img.width = width;
-  img.height = goog.isDef(opt_height) ? opt_height : width;
+  img.height = opt_height !== undefined ? opt_height : width;
   return img;
 };
 
@@ -140,7 +140,7 @@ that contain anything other than numbers. See {@link #set}.
 * @throws {!Error} if index is not a non-negative integer
 */
 static get(array, index) {
-  if (!goog.isNumber(index) || index < 0 || index != Math.floor(index)) {
+  if (typeof index !== 'number' || index < 0 || index != Math.floor(index)) {
     throw 'index is not a non-negative integer: '+index;
   }
   return array[index];
@@ -202,9 +202,17 @@ static limitAngle(angle) {
 */
 static methodsOf(obj) {
   var s = [];
-  for (var p in obj) {
-    if (goog.isFunction(obj[p])) {
-      s.push(p);
+  var proto = Object.getPrototypeOf(obj);
+  if (proto) {
+    var nms = Object.getOwnPropertyNames(proto);
+    for (let i=0; i<nms.length; i++) {
+      let p = nms[i];
+      if (p === 'constructor') {
+        continue;
+      }
+      if (typeof obj[p] === 'function') {
+        s.push(p);
+      }
     }
   }
   goog.array.sort(s);
@@ -255,7 +263,7 @@ static newNumberArray(n) {
 * @return {string} the number with 0 decimal places; or `null` or `undefined`
 */
 static NF0(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(0);
   else
     return num === null ? 'null' : 'undefined';
@@ -266,7 +274,7 @@ static NF0(num) {
 * @return {string} the number with 18 decimal places; or `null` or `undefined`
 */
 static NF18(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(18);
   else
     return num === null ? 'null' : 'undefined';
@@ -278,7 +286,7 @@ static NF18(num) {
 *    or `null` or `undefined`
 */
 static NF1S(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return (num > 0 ? '+' : '') + num.toFixed(1);
   else
     return num === null ? 'null' : 'undefined';
@@ -289,7 +297,7 @@ static NF1S(num) {
 * @return {string} the number with 2 decimal places; or `null` or `undefined`
 */
 static NF2(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(2);
   else
     return num === null ? 'null' : 'undefined';
@@ -300,7 +308,7 @@ static NF2(num) {
 * @return {string} the number with 3 decimal places; or `null` or `undefined`
 */
 static NF3(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(3);
   else
     return num === null ? 'null' : 'undefined';
@@ -311,7 +319,7 @@ static NF3(num) {
 * @return {string} the number with 5 decimal places; or `null` or `undefined`
 */
 static NF5(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(5);
   else
     return num === null ? 'null' : 'undefined';
@@ -323,7 +331,7 @@ static NF5(num) {
 * @return {string} the number with 5 decimal places; or `null` or `undefined`
 */
 static NF5E(num) {
-  if (goog.isDefAndNotNull(num)) {
+  if (num != null) {
     if (Math.abs(num) > 2E-4 || num == 0) {
       return num.toFixed(5);
     } else {
@@ -339,7 +347,7 @@ static NF5E(num) {
 * @return {string} the number with zero to 5 decimal places; or `null` or `undefined`
 */
 static nf5(num) {
-  if (goog.isDefAndNotNull(num)) {
+  if (num != null) {
     var s = num.toFixed(5);
     // remove trailing zeros, and possibly decimal point
     return s.replace(/\.?0+$/, '');
@@ -353,7 +361,7 @@ static nf5(num) {
 * @return {string} the number with 7 decimal places; or `null` or `undefined`
 */
 static NF7(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(7);
   else
     return num === null ? 'null' : 'undefined';
@@ -365,7 +373,7 @@ static NF7(num) {
 * @return {string} the number with 7 decimal places; or `null` or `undefined`
 */
 static NF7E(num) {
-  if (goog.isDefAndNotNull(num)) {
+  if (num != null) {
     if (Math.abs(num) > 2E-6) {
       return num.toFixed(7);
     } else {
@@ -381,7 +389,7 @@ static NF7E(num) {
 * @return {string} the number with zero to 7 decimal places; or `null` or `undefined`
 */
 static nf7(num) {
-  if (goog.isDefAndNotNull(num)) {
+  if (num != null) {
     var s = num.toFixed(7);
     // remove trailing zeros, and possibly decimal point
     return s.replace(/\.?0+$/, '');
@@ -395,7 +403,7 @@ static nf7(num) {
 * @return {string} the number with 9 decimal places; or `null` or `undefined`
 */
 static NF9(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toFixed(9);
   else
     return num === null ? 'null' : 'undefined';
@@ -406,7 +414,7 @@ static NF9(num) {
 * @return {string} the number in 7 digit exponential notation; or `null` or `undefined`
 */
 static NFE(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toExponential(7);
   else
     return num === null ? 'null' : 'undefined';
@@ -417,7 +425,7 @@ static NFE(num) {
 * @return {string} the number in 17 digit exponential notation; or `null` or `undefined`
 */
 static NFSCI(num) {
-  if (goog.isDefAndNotNull(num))
+  if (num != null)
     return num.toExponential(17);
   else
     return num === null ? 'null' : 'undefined';
@@ -516,10 +524,10 @@ Anything in quotes is ignored.  Works for arrays also.
 * @return {string} the input string formatted to be more readable
 */
 static prettyPrint(input, level, indent) {
-  if (!goog.isNumber(level)) {
+  if (typeof level !== 'number') {
     level = 2;
   }
-  if (!goog.isString(indent)) {
+  if (typeof indent !== 'string') {
     indent = '  ';
   }
   var inp = String(input);
@@ -670,7 +678,7 @@ static propertiesOf(obj, showValues) {
   /** @type {string} */
   var p;
   for (p in obj) {
-    if (goog.isFunction(obj[p])) {
+    if (typeof obj[p] === 'function') {
       continue;
     }
     if (showValues) {
@@ -693,7 +701,7 @@ that contain anything other than numbers. See {@link #get}.
 * @throws {!Error} if index is not a non-negative integer
 */
 static set(array, index, value) {
-  if (!goog.isNumber(index) || index < 0 || index != Math.floor(index)) {
+  if (typeof index !== 'number' || index < 0 || index != Math.floor(index)) {
     throw 'index is not a non-negative integer: '+index;
   }
   return array[index] = value;
@@ -750,7 +758,7 @@ static systemTime() {
     // use high resolution time if available and not running tests with mock clock
     return performance.now()*1E-3;
   } else {
-    return goog.now()*1E-3;
+    return Date.now()*1E-3;
   }
 };
 
@@ -977,7 +985,7 @@ Util.MOCK_CLOCK = false;
 * @type {boolean}
 * @const
 */
-Util.MODERN_CLOCK = goog.isObject(performance) && goog.isFunction(performance.now);
+Util.MODERN_CLOCK = goog.isObject(performance) && typeof performance.now === 'function';
 
 /** Using this constant allows the compiler to rename and minify.
 * @type {number}
