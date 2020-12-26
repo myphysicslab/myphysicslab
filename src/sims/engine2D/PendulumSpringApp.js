@@ -232,8 +232,7 @@ getStiffness() {
 * @param {number} value
 */
 setStiffness(value) {
-  goog.array.forEach(this.springs_, function(s){
-    s.setStiffness(value);});
+  goog.array.forEach(this.springs_, s =>  s.setStiffness(value));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(PendulumSpringApp.en.SPRING_STIFFNESS);
@@ -250,8 +249,7 @@ getRestLength() {
 * @param {number} value
 */
 setRestLength(value) {
-  goog.array.forEach(this.springs_, function(s){
-    s.setRestLength(value);});
+  goog.array.forEach(this.springs_, s =>  s.setRestLength(value));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(PendulumSpringApp.en.SPRING_LENGTH);

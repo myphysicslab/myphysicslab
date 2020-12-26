@@ -94,7 +94,7 @@ static addCollision(collisions, c2) {
     if (!isFinite(c2.distance)) {
       throw 'distance is NaN '+c2;
     }
-    goog.array.forEach(collisions, function(c1) {
+    goog.array.forEach(collisions, c1 => {
       if (!c2.similarTo(c1)) {
         return;
       }
@@ -132,13 +132,9 @@ static addCollision(collisions, c2) {
     if (1 == 0 && Util.DEBUG) {
       if (removeMe.length > 1)
         console.log('**** removeMe.length='+removeMe.length);
-      goog.array.forEach(removeMe, function(c) {
-        console.log('---- addCollision removing '+c);
-      });
+      goog.array.forEach(removeMe, c => console.log('---- addCollision removing '+c));
     }
-    goog.array.forEach(removeMe, function(obj) {
-      goog.array.remove(collisions, obj);
-    });
+    goog.array.forEach(removeMe, obj => goog.array.remove(collisions, obj));
   }
   if (shouldAdd) {
     collisions.push(c2);
@@ -617,7 +613,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
     var distance_old = Util.POSITIVE_INFINITY;
     // A corner might pass through multiple edges of an object;
     // we look for the first edge that it passes through.
-    goog.array.forEach(body1.getEdges_(), function findEdgePassThru(e1) {
+    goog.array.forEach(body1.getEdges_(), e1 => {
       //checkPrint('test edge ', body2, vertex2, e1, v_body);
       if (Util.DEBUG && debugPenetration) {
         console.log('\n===== test edge '+e1);
@@ -695,7 +691,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       // that it passed thru.
       // When we find a closer intersection point to the old vertex2 position
       // we choose that edge.
-      goog.array.forEach(r1_array, function(r1b) {
+      goog.array.forEach(r1_array, r1b => {
         // r1b = intersection point on edge, in body1 coords
         if (Util.DEBUG && debugPenetration && UtilEngine.debugEngine2D != null) {
           var t = body1.bodyToWorld(r1b);
@@ -715,7 +711,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
           }
         }
       }); // forEach in r1_array
-    }); // forEach in body1.getEdges_()
+    }); // end of forEach in body1.getEdges_()
     // We have found the edge on body1 that the corner of body2 passed thru.
     if (edge1 != null && e1_body != null) {
       // the type-casting is only needed when NOT using NTI compiler option.

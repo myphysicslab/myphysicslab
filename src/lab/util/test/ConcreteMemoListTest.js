@@ -40,8 +40,8 @@ static testConcreteMemoList1() {
   var memVec1 = MutableVector.clone(vec1);
   var vec2 = new MutableVector(2, 2);
   var memVec2 = MutableVector.clone(vec2);
-  var mem1 = new GenericMemo(function(){ memVec1.setToVector(vec1); });
-  var mem2 = new GenericMemo(function(){ memVec2.setToVector(vec2); });
+  var mem1 = new GenericMemo(() => memVec1.setToVector(vec1));
+  var mem2 = new GenericMemo(() => memVec2.setToVector(vec2));
   var memList1 = new ConcreteMemoList();
   var memList2 = new ConcreteMemoList();
   memList1.addMemo(mem1);
@@ -60,11 +60,11 @@ static testConcreteMemoList1() {
   assertTrue(memVec2.equals(vec2));
 
   // should not be able to add/remove memos within a memorize() method.
-  var mem3 = new GenericMemo(function(){ memList1.removeMemo(mem1); });
+  var mem3 = new GenericMemo(() => memList1.removeMemo(mem1));
   memList2.addMemo(mem3);
   assertEquals(2, memList1.getMemos().length);
   assertEquals(2, memList2.getMemos().length);
-  assertThrows(function() { memList1.memorize(); });
+  assertThrows(() => memList1.memorize());
   // remove the bad memo, confirm things still work
   memList2.removeMemo(mem3);
   vec1.setTo(10, 15);
@@ -74,9 +74,9 @@ static testConcreteMemoList1() {
   assertTrue(memVec2.equals(vec2));
 
   // should not be able to add/remove memos within a memorize() method.
-  var mem4 = new GenericMemo(function(){ memList2.addMemo(memList1); });
+  var mem4 = new GenericMemo(() => memList2.addMemo(memList1));
   memList2.addMemo(mem4);
-  assertThrows(function() { memList1.memorize(); });
+  assertThrows(() => memList1.memorize());
   // remove the bad memo, confirm things still work
   memList2.removeMemo(mem4);
   vec1.setTo(0.10, 0.15);

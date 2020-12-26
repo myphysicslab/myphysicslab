@@ -27,12 +27,10 @@ Example 1
 Here is an example of a GenericObserver that prints any event broadcast by a
 {@link myphysicslab.lab.util.Clock}:
 
-    var obs = new GenericObserver(clock, function(evt) {
-      println('event='+evt);
-    });
+    var obs = new GenericObserver(clock, evt => println('event='+evt));
 
 Paste that code into the Terminal command line of any [simple-compiled application](https://www.myphysicslab.com/develop/build/index-en.html), or
-[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs=new%20GenericObserver(clock,function(evt){println('event='+evt);});layout.showTerminal(true);>)
+[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs=new%20GenericObserver(clock,evt => println('event='+evt));layout.showTerminal(true);>)
 which contains the above code running in the simple-compiled pendulum simulation. Click
 the rewind, play, and step buttons to see events in the Terminal output area.
 
@@ -44,7 +42,7 @@ Example 2
 ---------
 This prints only when a particular Clock event occurs:
 
-    var obs = new GenericObserver(clock, function(evt) {
+    var obs = new GenericObserver(clock, evt => {
         if (evt.nameEquals(Clock.CLOCK_PAUSE)) {
           println('event='+evt);
         }
@@ -61,7 +59,7 @@ This sets color of a contact force line according to gap distance: red = zero di
 green = max distance. This is useful to study the effects of using different settings
 for {@link myphysicslab.lab.engine2D.ExtraAccel}.
 
-    new GenericObserver(displayList, function(evt) {
+    new GenericObserver(displayList, evt => {
       if (evt.nameEquals(DisplayList.OBJECT_ADDED)) {
         var obj = evt.getValue();
         if (obj instanceof DisplayLine) {

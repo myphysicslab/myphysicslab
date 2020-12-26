@@ -51,7 +51,7 @@ static testScreenRect() {
   assertFalse(sr3.equals(sr1));
   assertFalse(sr3.nearEqual(sr1));
 
-  assertThrows(function() { new ScreenRect(0, 0, -100, 100); });
+  assertThrows(() => new ScreenRect(0, 0, -100, 100));
 };
 
 } // end class

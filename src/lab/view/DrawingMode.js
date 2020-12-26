@@ -33,7 +33,7 @@ const DrawingMode = {
 * @return {!DrawingMode} the enum corresponding to the choice
 * @throws {!Error} if the value does not represent a valid enum
 */
-DrawingMode.choiceToEnum = function(value) {
+DrawingMode.choiceToEnum = value => {
   var choices = DrawingMode.getChoices();
   for (var i=0, len=choices.length; i<len; i++) {
     if (value == choices[i]) {
@@ -48,7 +48,7 @@ DrawingMode.choiceToEnum = function(value) {
 * @return {string} the localized choice string corresponding to the enum
 * @throws {!Error} if the value does not represent a valid enum
 */
-DrawingMode.enumToChoice = function(value) {
+DrawingMode.enumToChoice = value => {
   var vals = DrawingMode.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value == vals[i]) {
@@ -61,27 +61,23 @@ DrawingMode.enumToChoice = function(value) {
 /** Returns the localized string versions of the enums in {@link #getValues}.
 * @return {!Array<string>} the translated string versions of the enums
 */
-DrawingMode.getChoices = function() {
-  return [
-    DrawingMode.i18n.DOTS,
-    DrawingMode.i18n.LINES
-  ];
-};
+DrawingMode.getChoices = () =>
+  [ DrawingMode.i18n.DOTS,
+    DrawingMode.i18n.LINES ];
 
 /** Returns the set of valid enums.
 * @return {!Array<!DrawingMode>} the set of valid enums.
 */
-DrawingMode.getValues = function() {
-  return [DrawingMode.DOTS,
-          DrawingMode.LINES];
-};
+DrawingMode.getValues = () =>
+  [ DrawingMode.DOTS,
+    DrawingMode.LINES ];
 
 /** Converts a number to an enum.
 * @param {string} value the number to convert
 * @return {!DrawingMode} the enum corresponding to the value
 * @throws {!Error} if the value does not represent a valid enum
 */
-DrawingMode.stringToEnum = function(value) {
+DrawingMode.stringToEnum = value => {
   var vals = DrawingMode.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value == vals[i]) {

@@ -149,9 +149,7 @@ static drawRope(context, at) {
   Returns the height the rope should be away from x-axis at that point.
   @type {function(number):number}
   */
-  var ropeHeight = function(x) {
-    return DisplayRope.pathWidth * Math.sin(Math.PI*x/DisplayRope.pathLength);
-  };
+  var ropeHeight = x => DisplayRope.pathWidth * Math.sin(Math.PI*x/DisplayRope.pathLength);
 
   var size = DisplayRope.pathLength;
   var t = DisplayRope.pathWidth/2; // half thickness of rope

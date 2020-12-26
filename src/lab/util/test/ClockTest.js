@@ -648,10 +648,10 @@ static testClock3() {
 
     var myClock = new Clock();
     var testVar = '';
-    var myTask_0 = new ClockTask(0, function() { testVar=''; });
-    var myTask_A = new ClockTask(0.1, function() { testVar='A'; });
-    var myTask_B = new ClockTask(0.2, function() { testVar='B'; });
-    var myTask_C = new ClockTask(0.3, function() { testVar='C'; myClock.setTime(0); });
+    var myTask_0 = new ClockTask(0, () => testVar='');
+    var myTask_A = new ClockTask(0.1, () => testVar='A');
+    var myTask_B = new ClockTask(0.2, () => testVar='B');
+    var myTask_C = new ClockTask(0.3, () => { testVar='C'; myClock.setTime(0) });
     myClock.addTask(myTask_0);
     myClock.addTask(myTask_A);
     myClock.addTask(myTask_B);

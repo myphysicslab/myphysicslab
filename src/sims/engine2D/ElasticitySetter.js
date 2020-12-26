@@ -110,9 +110,7 @@ perfect elasticity where the kinetic energy after collision is the same as befor
 *    a number from 0 to 1.
 */
 setElasticity(value) {
-  goog.array.forEach(this.sim_.getBodies(), function(body) {
-    body.setElasticity(value);
-  });
+  goog.array.forEach(this.sim_.getBodies(), body => body.setElasticity(value));
   this.lastValue_ = value;
   this.broadcastParameter(ElasticitySetter.en.ELASTICITY);
 };

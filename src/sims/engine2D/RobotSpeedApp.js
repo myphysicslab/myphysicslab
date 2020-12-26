@@ -124,7 +124,11 @@ constructor(elem_ids) {
   var r = this.robot;
   var sr = this.simRun;
   /** @type {!GenericMemo} */
-  this.memo = new GenericMemo(function() { if (r.getPosition().getX() > 40) sr.pause();});
+  this.memo = new GenericMemo(() => {
+    if (r.getPosition().getX() > 40) {
+      sr.pause()
+    }
+  });
   this.simRun.addMemo(this.memo);
   this.graphSetup();
   this.graph.line.setYVariable(28);

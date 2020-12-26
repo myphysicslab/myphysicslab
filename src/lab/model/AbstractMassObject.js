@@ -166,11 +166,11 @@ getBottomBody() {};
 /** @override */
 getBottomWorld() {
   var min = Util.POSITIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), function(v) {
+  goog.array.forEach(this.getVerticesBody(), v => {
     var p = this.bodyToWorld(v);
     if (p.getY() < min)
       min = p.getY();
-  }, this);
+  });
   return min;
 };
 
@@ -223,11 +223,11 @@ getLeftBody() {};
 /** @override */
 getLeftWorld() {
   var min = Util.POSITIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), function(v) {
+  goog.array.forEach(this.getVerticesBody(), v => {
     var p = this.bodyToWorld(v);
     if (p.getX() < min)
       min = p.getX();
-  }, this);
+  });
   return min;
 };
 
@@ -250,11 +250,11 @@ getRightBody() {};
 /** @override */
 getRightWorld() {
   var max = Util.NEGATIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), function(v) {
+  goog.array.forEach(this.getVerticesBody(), v => {
     var p = this.bodyToWorld(v);
     if (p.getX() > max)
       max = p.getX();
-  }, this);
+  });
   return max;
 };
 
@@ -264,11 +264,11 @@ getTopBody() {};
 /** @override */
 getTopWorld() {
   var max = Util.NEGATIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), function(v) {
+  goog.array.forEach(this.getVerticesBody(), v => {
     var p = this.bodyToWorld(v);
     if (p.getY() > max)
       max = p.getY();
-  }, this);
+  });
   return max;
 };
 

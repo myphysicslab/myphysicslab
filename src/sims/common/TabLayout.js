@@ -375,7 +375,7 @@ toString() {
       +', timeGraphCanvas: '+this.timeGraphCanvas.toStringShort()
       +', terminal: '+this.terminal
       +', controls_: ['
-      + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
+      + goog.array.map(this.controls_, a => a.toStringShort())
       +']'
       + super.toString();
 };
@@ -765,29 +765,28 @@ setLayoutFromTab(layout) {
 */
 setSelectedTab(layout) {
   if (this.getSelectedTab() != layout) {
-    goog.array.forEach(this.tab_list.childNodes,
-      function(/** !Node */node) {
-        if (node.nodeType != Node.ELEMENT_NODE) {
-          // it's not an Element
-          return;
+    goog.array.forEach(this.tab_list.childNodes, node => {
+      if (node.nodeType != Node.ELEMENT_NODE) {
+        // it's not an Element
+        return;
+      }
+      var elem = /** @type {!Element} */(node);
+      if (elem.tagName != 'LI') {
+        // ignore text elements between the LI elements (usually whitespace)
+        return;
+      }
+      if (elem.className.trim() == layout) {
+        // add 'selected' to the className of target Element
+        //console.log('* '+li_elem.className);
+        elem.className += ' selected';
+      } else {
+        // remove 'selected' from className of all other elements
+        //console.log('> '+li_elem.className);
+        if (elem.className.indexOf('selected') > -1) {
+          elem.className = elem.className.replace(/[ ]*selected/, '');
         }
-        var elem = /** @type {!Element} */(node);
-        if (elem.tagName != 'LI') {
-          // ignore text elements between the LI elements (usually whitespace)
-          return;
-        }
-        if (elem.className.trim() == layout) {
-          // add 'selected' to the className of target Element
-          //console.log('* '+li_elem.className);
-          elem.className += ' selected';
-        } else {
-          // remove 'selected' from className of all other elements
-          //console.log('> '+li_elem.className);
-          if (elem.className.indexOf('selected') > -1) {
-            elem.className = elem.className.replace(/[ ]*selected/, '');
-          }
-        }
-      }, this);
+      }
+    });
   }
 };
 

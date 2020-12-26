@@ -455,7 +455,7 @@ variable into the Terminal output area. Here `simRun` is an instance of
 [SimRunner](myphysicslab.lab.app.SimRunner.html).
 
     var angle = sim.getVarsList().getVariable('ANGLE');
-    var memo = new GenericMemo(function(){println('angle: '+angle.getValue())});
+    var memo = new GenericMemo(()=> println('angle: '+angle.getValue()));
     simRun.addMemo(memo);
 
 That code can be entered as Terminal commands in
@@ -488,7 +488,7 @@ executed at a specified time; it is used with a
 [Clock](myphysicslab.lab.util.Clock.html). The documentation of ClockTask shows an
 example that pauses the Clock after 5 seconds:
 
-    var task = new ClockTask(5, function() { clock.pause(); });
+    var task = new ClockTask(5, () => clock.pause());
     clock.addTask(task);
 
 This can be entered in Terminal if using simple-compile.
@@ -505,10 +505,9 @@ Here is an example of a GenericObserver that prints
 any event broadcast by a [Clock](myphysicslab.lab.util.Clock.html).
 This code can be entered in Terminal if using simple-compile.
 
-    var obs = new GenericObserver(clock, function(evt) { println('event='+evt); });
+    var obs = new GenericObserver(clock, evt =>  println('event='+evt));
 
 The next example prints only when a particular event occurs:
 
-    var obs = new GenericObserver(clock, function(evt) {
-        if (evt.nameEquals(Clock.CLOCK_PAUSE)) { println('event='+evt);}
-    });
+    var obs = new GenericObserver(clock, evt => {
+        if (evt.nameEquals(Clock.CLOCK_PAUSE)) println('event='+evt)});

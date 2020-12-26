@@ -113,7 +113,7 @@ const CollisionHandling = {
 * @return {!CollisionHandling} the enum corresponding to the choice
 * @throws {!Error} if the value does not represent a valid enum
 */
-CollisionHandling.choiceToEnum = function(value) {
+CollisionHandling.choiceToEnum = value => {
   var choices = CollisionHandling.getChoices();
   for (var i=0, len=choices.length; i<len; i++) {
     if (value == choices[i]) {
@@ -128,7 +128,7 @@ CollisionHandling.choiceToEnum = function(value) {
 * @return {string} the localized choice string corresponding to the enum
 * @throws {!Error} if the value does not represent a valid enum
 */
-CollisionHandling.enumToChoice = function(value) {
+CollisionHandling.enumToChoice = value => {
   var vals = CollisionHandling.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
@@ -141,31 +141,25 @@ CollisionHandling.enumToChoice = function(value) {
 /** Returns array containing all localized enum choices.
 * @return {!Array<string>} array containing all localized enum choices.
 */
-CollisionHandling.getChoices = function() {
-  // no translations, just use values
-  return CollisionHandling.getValues();
-};
+CollisionHandling.getChoices = () => CollisionHandling.getValues();
 
 /** Returns array containing all possible enum values.
 * @return {!Array<!CollisionHandling>} array containing all possible enum values.
 */
-CollisionHandling.getValues = function() {
-  return [
-          CollisionHandling.SIMULTANEOUS,
-          CollisionHandling.HYBRID,
-          CollisionHandling.SERIAL_GROUPED,
-          CollisionHandling.SERIAL_GROUPED_LASTPASS,
-          CollisionHandling.SERIAL_SEPARATE,
-          CollisionHandling.SERIAL_SEPARATE_LASTPASS
-          ];
-};
+CollisionHandling.getValues = () =>
+  [ CollisionHandling.SIMULTANEOUS,
+    CollisionHandling.HYBRID,
+    CollisionHandling.SERIAL_GROUPED,
+    CollisionHandling.SERIAL_GROUPED_LASTPASS,
+    CollisionHandling.SERIAL_SEPARATE,
+    CollisionHandling.SERIAL_SEPARATE_LASTPASS ];
 
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!CollisionHandling} the enum corresponding to the value
 * @throws {!Error} if the value does not represent a valid enum
 */
-CollisionHandling.stringToEnum = function(value) {
+CollisionHandling.stringToEnum = value => {
   var vals = CollisionHandling.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value == vals[i]) {

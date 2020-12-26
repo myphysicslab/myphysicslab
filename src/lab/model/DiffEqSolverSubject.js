@@ -83,10 +83,8 @@ constructor(sim, energySystem, advanceStrategy, opt_name) {
         new RungeKutta(this.sim_));
     this.solvers_.push(solver);
   };
-  var choices = goog.array.map(this.solvers_, function(s) {
-      return s.getName(/*localized=*/true);
-  });
-  var values = goog.array.map(this.solvers_, function(s) { return s.getName(); });
+  var choices = goog.array.map(this.solvers_, s => s.getName(/*localized=*/true));
+  var values = goog.array.map(this.solvers_, s => s.getName());
   this.addParameter(
     new ParameterString(this, DiffEqSolverSubject.en.DIFF_EQ_SOLVER,
         DiffEqSolverSubject.i18n.DIFF_EQ_SOLVER,
@@ -102,7 +100,7 @@ toString() {
           : this.energySystem_.toStringShort())
       +', advanceStrategy_: '+this.advanceStrategy_
       +', solvers_: [ '
-      + goog.array.map(this.solvers_, function(s) { return s.toStringShort(); })
+      + goog.array.map(this.solvers_, s => s.toStringShort())
       +']'
       + super.toString();
 };
@@ -124,9 +122,7 @@ getDiffEqSolver() {
 */
 setDiffEqSolver(value) {
   if (!this.advanceStrategy_.getDiffEqSolver().nameEquals(value)) {
-    var solver = goog.array.find(this.solvers_, function(s) {
-        return s.nameEquals(value);
-    });
+    var solver = goog.array.find(this.solvers_, s => s.nameEquals(value));
     if (solver != null) {
       this.advanceStrategy_.setDiffEqSolver(solver);
       this.broadcastParameter(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);

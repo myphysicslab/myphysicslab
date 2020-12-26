@@ -321,10 +321,10 @@ advance(timeStep, opt_memoList) {
     //
     // Find the number of collisions that are close enough (in distance) to the point
     // of collision to be able to handle the collision (apply an impulse).
-    this.numClose_ = goog.array.count(this.collisions_, function(c) {
-      return (c.needsHandling() || !c.contact())
-        && c.getVelocity() < 0 && c.closeEnough(/*allowTiny=*/didBackup);
-    });
+    this.numClose_ = goog.array.count(this.collisions_, c =>
+       (c.needsHandling() || !c.contact())
+        && c.getVelocity() < 0 && c.closeEnough(/*allowTiny=*/didBackup)
+    );
     if (this.numClose_ > 0) {
       this.removedCollisions_ = [];
       if (this.removeDistant(didBackup)) {
@@ -455,10 +455,10 @@ collisions
 checkNoneCollide() {
   if (Util.DEBUG) {
     var numIllegal = 0;
-    goog.array.forEach(this.collisions_, function(c) {
+    goog.array.forEach(this.collisions_, c => {
       if (c.illegalState())
         numIllegal++;
-    }, this);
+      });
     if (numIllegal > 0) {
       if (this.debugPaint_ != null) {
         this.debugPaint_();
@@ -549,9 +549,7 @@ do_advance_sim(stepSize) {
     else
       return 0;
     });
-  goog.array.forEach(this.collisions_, function(c) {
-    c.setNeedsHandling(c.isColliding());
-  });
+  goog.array.forEach(this.collisions_, c => c.setNeedsHandling(c.isColliding()));
   return error == null;
 };
 
@@ -613,11 +611,9 @@ do_handle_collision(numClose) {
   if (this.sim_.handleCollisions(this.collisions_, this.collisionTotals_)) {
     this.sim_.modifyObjects(); // updates velocities stored in RigidBody
     var time = this.sim_.getTime();
-    goog.array.forEach(this.collisions_, function(c) {
-      // Update the collisions to see new velocity (gets velocity from RigidBody)
-      // (for debugging).
-      c.updateCollision(time);
-    });
+    // Update the collisions to see new velocity (gets velocity from RigidBody)
+    // (for debugging).
+    goog.array.forEach(this.collisions_, c => c.updateCollision(time));
     this.print(WayPoint.HANDLE_COLLISION_SUCCESS);
     // count number of binary searches completed
     if (this.binarySearch_) {
@@ -681,10 +677,8 @@ do_small_impacts() {
     this.sim_.modifyObjects();
     if (Util.DEBUG) {
       var time = this.sim_.getTime();
-      goog.array.forEach(this.collisions_, function(c) {
-        // update the collisions to see new velocity when debugging
-        c.updateCollision(time);
-      });
+      // update the collisions to see new velocity when debugging
+      goog.array.forEach(this.collisions_, c => c.updateCollision(time));
     }
     this.print(WayPoint.SMALL_IMPACTS_FINISH);
     this.print(WayPoint.SMALL_IMPACTS);
@@ -811,9 +805,7 @@ print(wayPoint) {
       break;
 
     case WayPoint.ADVANCE_SIM_FAIL:
-      ccount = goog.array.count(this.collisions_, function(c) {
-          return c.isColliding();
-        });
+      ccount = goog.array.count(this.collisions_, c => c.isColliding());
       this.myPrint('ADVANCE_SIM_FAIL couldnt advance to '
           +Util.NF7(this.sim_.getTime() + this.currentStep_)
           +' odeSolver.step found '+ccount+' colliding'
@@ -822,9 +814,7 @@ print(wayPoint) {
       break;
 
     case WayPoint.ADVANCE_SIM_COLLIDING:
-      ccount = goog.array.count(this.collisions_, function(c) {
-          return c.isColliding();
-        });
+      ccount = goog.array.count(this.collisions_, c => c.isColliding());
       if (ccount > 0) {
         this.myPrint('ADVANCE_SIM_COLLIDING advanced by '+Util.NF7(this.currentStep_)
             +' but found '+ccount+' colliding'
@@ -859,10 +849,9 @@ print(wayPoint) {
       break;
 
     case WayPoint.HANDLE_REMOVE_DISTANT:
-      goog.array.forEach(this.removedCollisions_, function(c) {
+      goog.array.forEach(this.removedCollisions_, c =>
           CollisionAdvance.printCollision(this.sim_.getTime(),
-            'HANDLE_REMOVE_DISTANT:', c);
-        }, this);
+            'HANDLE_REMOVE_DISTANT:', c));
       break;
 
     case WayPoint.HANDLE_COLLISION_SUCCESS:
@@ -1024,11 +1013,11 @@ static printCollision(time, msg, c) {
 printCollisions(msg, printAll) {
   if (Util.DEBUG) {
     var time = this.sim_.getTime();
-    goog.array.forEach(this.collisions_, function(c, i) {
+    goog.array.forEach(this.collisions_, (c, i) => {
       if (printAll || c.needsHandling() || !c.contact()) {
         CollisionAdvance.printCollision(time, msg+' ['+i+']', c);
       }
-    }, this);
+    });
   }
 };
 
@@ -1040,11 +1029,11 @@ printCollisions(msg, printAll) {
 printCollisions2(msg, impulse) {
   if (Util.DEBUG) {
     var time = this.sim_.getTime();
-    goog.array.forEach(this.collisions_, function(c, i) {
+    goog.array.forEach(this.collisions_, (c, i) => {
       if (Math.abs(c.getImpulse()) > impulse) {
         CollisionAdvance.printCollision(time, msg+' ['+i+']', c);
       }
-    }, this);
+    });
   }
 };
 

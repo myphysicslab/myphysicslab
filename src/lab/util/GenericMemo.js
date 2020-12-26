@@ -26,12 +26,12 @@ into the {@link myphysicslab.lab.util.Terminal} output area.
 Here `simRun` is an instance of {@link myphysicslab.lab.app.SimRunner}.
 
     var angle = sim.getVarsList().getVariable('ANGLE');
-    var memo = new GenericMemo(function(){println('angle: '+angle.getValue())});
+    var memo = new GenericMemo(()=> println('angle: '+angle.getValue()));
     simRun.addMemo(memo);
 
 This code can be entered as Terminal commands in
 [simple-compiled PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html).
-Try this [query script](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20angle%20=%20sim.getVarsList().getVariable('ANGLE');var%20memo%20=%20new%20GenericMemo(function(){println('angle:%20'+angle.getValue())});simRun.addMemo(memo);layout.showTerminal(true);>)
+Try this [query script](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20angle%20=%20sim.getVarsList().getVariable('ANGLE');var%20memo%20=%20new%20GenericMemo(()=> println('angle:%20'+angle.getValue()));simRun.addMemo(memo);layout.showTerminal(true);>)
 which contains the above code.
 
 Use the following to turn off the GenericMemo:

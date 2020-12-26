@@ -356,7 +356,7 @@ constructor(elem_ids) {
   /** translate variable index of sim1 to equivalent variable of sim2
   * @type {function(number): number}
   */
-  var translate = function(v1) {
+  var translate = v1 => {
     // sim1: PendulumSim
     //  0       1       2    3        4   5   6
     // angle, angle', time, angle'', ke, pe, te
@@ -394,7 +394,7 @@ constructor(elem_ids) {
   // keep line1's X and Y variable in sync with line2
   var paramY1 = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   var paramX1 = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
-  new GenericObserver(line1, function(evt) {
+  new GenericObserver(line1, evt => {
     if (evt == paramY1) {
       line2.setYVariable(translate(paramY1.getValue()));
     } else if (evt == paramX1) {
@@ -417,7 +417,7 @@ constructor(elem_ids) {
   timeLine2.setDrawingMode(DrawingMode.LINES);
   // keep timeLine2's Y variable in sync with timeLine1
   var timeParamY1 = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  new GenericObserver(timeLine1, function(evt) {
+  new GenericObserver(timeLine1, evt => {
     if (evt == timeParamY1) {
       timeLine2.setYVariable(translate(timeParamY1.getValue()));
     }

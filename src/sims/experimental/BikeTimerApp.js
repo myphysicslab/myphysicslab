@@ -81,7 +81,7 @@ static makeBikeTimerApp(sound_url) {
   var shouldBeep = true;
 
   clock.setTime(-startTime);
-  timer.setCallBack(function() {
+  timer.setCallBack(() => {
     var now = clock.getTime();
     var t = period*Math.ceil(now/period) - now;
     dtext1.setText(t.toFixed(1));
@@ -99,7 +99,7 @@ static makeBikeTimerApp(sound_url) {
 
   var resetButton = document.getElementById('reset_button');
   if (resetButton != null) {
-    resetButton.onclick = function() {
+    resetButton.onclick = () => {
       clock.pause();
       clock.setTime(-startTime);
       shouldBeep = true;
@@ -123,7 +123,7 @@ static makeBikeTimerApp(sound_url) {
     field_period.textAlign = 'right'; // this is not working
     field_period.value = period.toFixed(1);
     goog.events.listen(field_period, goog.events.EventType.CHANGE,
-      /*callback=*/function(event) {
+      /*callback=*/event => {
         //console.log('period change '+field_period.value);
         var value = parseFloat(field_period.value);
         if (isNaN(value)) {
@@ -140,7 +140,7 @@ static makeBikeTimerApp(sound_url) {
     field_start.textAlign = 'right'; // this is not working
     field_start.value = startTime.toFixed(1);
     goog.events.listen(field_start, goog.events.EventType.CHANGE,
-      /*callback=*/function(event) {
+      /*callback=*/event => {
         //console.log('startTime change '+field_start.value);
         var value = parseFloat(field_start.value);
         if (isNaN(value)) {

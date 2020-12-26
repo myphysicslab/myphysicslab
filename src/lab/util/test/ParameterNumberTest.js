@@ -300,18 +300,18 @@ static testParameterNumber1() {
   assertEquals(0, paramFoo.getLowerLimit());
   assertEquals(Util.POSITIVE_INFINITY, paramFoo.getUpperLimit());
   // can't set value less than lowerLimit
-  assertThrows(function() { paramFoo.setValue(-1); });
+  assertThrows(() => paramFoo.setValue(-1));
   // can't set lowerLimit more than value
-  assertThrows(function() { paramFoo.setLowerLimit(10); });
+  assertThrows(() => paramFoo.setLowerLimit(10));
   // can't set upperLimt less than value
-  assertThrows(function() { paramFoo.setUpperLimit(1); });
+  assertThrows(() => paramFoo.setUpperLimit(1));
   assertEquals(paramFoo, paramFoo.setLowerLimit(-100));
   assertEquals(-100, paramFoo.getLowerLimit());
   assertEquals(undefined, paramFoo.setValue(-10));
   assertEquals(-10, paramFoo.getValue());
   assertEquals(paramFoo, paramFoo.setUpperLimit(0));
   assertEquals(0, paramFoo.getUpperLimit());
-  assertThrows(function() { paramFoo.setValue(1); });
+  assertThrows(() => paramFoo.setValue(1));
   assertEquals(paramFoo, paramFoo.setLowerLimit(Util.NEGATIVE_INFINITY));
   assertEquals(undefined, paramFoo.setValue(-1e200));
   // compare to the next representable number that is more negative
@@ -333,7 +333,7 @@ static testParameterNumber1() {
   paramFoo.setFromString('-2e-5');
   assertEquals(-2e-5, paramFoo.getValue());
   // set to non-numeric value
-  assertThrows(function() { paramFoo.setFromString('foo'); });
+  assertThrows(() => paramFoo.setFromString('foo'));
 };
 
 static testParameterNumber2() {
@@ -352,7 +352,7 @@ static testParameterNumber2() {
   assertEquals(mockSubj2, paramFoo.getSubject());
   assertTrue(paramFoo instanceof ParameterNumber);
   assertEquals(paramFoo, mockSubj2.getParameterNumber(MockSubject2.FOONESS));
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject2.FOONESS) });
+  assertThrows(()=>  mockSubj2.getParameterBoolean(MockSubject2.FOONESS) );
   assertEquals(0, paramFoo.getValue());
   assertEquals(undefined, paramFoo.setValue(10));
   assertEquals(10, paramFoo.getValue());
@@ -435,12 +435,12 @@ static testParameterNumber4() {
   // we can start with a non-allowed value
   assertRoughlyEquals(0.1, paramFooness.getValue(), 1E-15);
   // set to a non-allowed value
-  assertThrows(function() { paramFooness.setValue(10); });
+  assertThrows(() => paramFooness.setValue(10));
   assertRoughlyEquals(0.1, paramFooness.getValue(), 1E-15);
   assertEquals(paramFooness, mockSubj2.getParameter(MockSubject4.FOONESS));
   assertEquals(paramFooness, mockSubj2.getParameterNumber(MockSubject4.FOONESS));
-  assertThrows(function() { mockSubj2.getParameterString(MockSubject4.FOONESS) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject4.FOONESS) });
+  assertThrows(()=>  mockSubj2.getParameterString(MockSubject4.FOONESS) );
+  assertThrows(()=>  mockSubj2.getParameterBoolean(MockSubject4.FOONESS) );
   // check the list of choices/values
   assertEquals(3, paramFooness.getChoices().length);
   assertEquals(3, paramFooness.getValues().length);
@@ -470,11 +470,11 @@ static testParameterNumber4() {
   // we can start with a non-allowed value
   assertEquals(1000000, paramFooBar.getValue());
   // set to a non-allowed value
-  assertThrows(function() { paramFooBar.setValue(10); });
+  assertThrows(() => paramFooBar.setValue(10));
   assertEquals(1000000, paramFooBar.getValue());
   assertEquals(paramFooBar, mockSubj2.getParameterNumber(MockSubject4.FOOBARNESS));
-  assertThrows(function() { mockSubj2.getParameterString(MockSubject4.FOONESS) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject4.FOONESS) });
+  assertThrows(()=>  mockSubj2.getParameterString(MockSubject4.FOONESS) );
+  assertThrows(()=>  mockSubj2.getParameterBoolean(MockSubject4.FOONESS) );
   // check the list of choices/values
   assertEquals(3, paramFooBar.getChoices().length);
   assertEquals(3, paramFooBar.getValues().length);
@@ -505,11 +505,11 @@ static testParameterNumber4() {
   assertTrue(paramBaz instanceof ParameterNumber);
   assertEquals(0, paramBaz.getValue());
   // set to a non-allowed value
-  assertThrows(function() { paramBaz.setValue(10); });
+  assertThrows(() => paramBaz.setValue(10));
   assertEquals(0, paramBaz.getValue());
   assertEquals(paramBaz, mockSubj2.getParameterNumber(MockSubject4.BAZ));
-  assertThrows(function() { mockSubj2.getParameterString(MockSubject4.BAZ) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject4.BAZ) });
+  assertThrows(()=>  mockSubj2.getParameterString(MockSubject4.BAZ) );
+  assertThrows(()=>  mockSubj2.getParameterBoolean(MockSubject4.BAZ) );
   // check the list of choices/values
   assertEquals(4, paramBaz.getChoices().length);
   assertEquals(4, paramBaz.getValues().length);
@@ -535,7 +535,7 @@ static testParameterNumber4() {
   assertEquals(3, paramBaz.getValue());
 
   // check for exception when different number of choices and values
-  assertThrows( function() {
+  assertThrows( () => {
       new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
       MockSubject4.FOOBARNESS,
       () => mockSubj2.getFooBarness(),

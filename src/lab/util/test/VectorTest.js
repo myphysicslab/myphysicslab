@@ -61,9 +61,9 @@ static testVector() {
   var v7 = Vector.clone(v6);
   assertTrue(v7.equals(v6));
   assertTrue(v6.equals(v7));
-  assertThrows(function() { new Vector(NaN, NaN); });
-  assertThrows(function() { new Vector(1, NaN); });
-  assertThrows(function() { new Vector(NaN, 1); });
+  assertThrows(() => new Vector(NaN, NaN));
+  assertThrows(() => new Vector(1, NaN));
+  assertThrows(() => new Vector(NaN, 1));
 };
 
 static testVectorSimilar() {

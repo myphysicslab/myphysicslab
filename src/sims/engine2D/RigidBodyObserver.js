@@ -215,7 +215,7 @@ add_(dispObj, simObj) {
 * @private
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, obj => this.addBody(obj) );
+  goog.array.forEach(bodies, obj => this.addBody(obj));
 };
 
 /** Creates DisplayObject for the SimObject, and adds DisplayObject to DisplayList.
@@ -298,9 +298,7 @@ addBody(obj) {
 * @private
 */
 removeBody(obj) {
-  var pair = goog.array.find(this.memPairs_, function(element) {
-    return element.simObj == obj;
-  });
+  var pair = goog.array.find(this.memPairs_, element => element.simObj == obj);
   if (pair != null) {
     this.displayList_.remove(pair.dispObj);
     goog.array.remove(this.memPairs_, pair);

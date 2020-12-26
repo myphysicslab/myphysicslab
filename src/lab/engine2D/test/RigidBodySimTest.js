@@ -86,8 +86,8 @@ static testRigidBodySim1() {
   assertEquals(1, sim.getBodies().length);
   assertEquals(p2, sim.getBody(0));
   assertEquals(p2, sim.getBody('block2'));
-  assertThrows(function() { sim.getBody('block1'); });
-  assertThrows(function() { sim.getBody(1); });
+  assertThrows(() => sim.getBody('block1'));
+  assertThrows(() => sim.getBody(1));
   assertEquals(10, p2.getVarsIndex());
   assertEquals(16, sim.getVarsList().getValues().length);
 };

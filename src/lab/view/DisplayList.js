@@ -116,9 +116,7 @@ list).
 */
 draw(context, map) {
   this.sort();
-  goog.array.forEach(this.drawables_, function(dispObj) {
-    dispObj.draw(context, map);
-  });
+  goog.array.forEach(this.drawables_, dispObj => dispObj.draw(context, map));
 };
 
 /** Returns the DisplayObject that shows the given SimObject.
@@ -278,9 +276,7 @@ remove(dispObj) {
 * @return {undefined}
 */
 removeAll() {
-  goog.array.forEachRight(this.drawables_, function(dispObj) {
-    this.remove(dispObj);
-  }, this);
+  goog.array.forEachRight(this.drawables_, dispObj => this.remove(dispObj));
 };
 
 /** Sorts the DisplayList by zIndex. Avoids sorting if the list is already sorted.

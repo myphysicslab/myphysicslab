@@ -402,12 +402,11 @@ reset() {
 removeBody(body) {
   super.removeBody(body);
   // remove any Connectors attached to the removed body
-  goog.array.forEachRight(this.connectors_,
-    function(connect, index, array) {
-      if (connect.getBody1() == body || connect.getBody2() == body) {
-        this.removeConnector(connect);
-      }
-    }, this);
+  goog.array.forEachRight(this.connectors_, connect => {
+    if (connect.getBody1() == body || connect.getBody2() == body) {
+      this.removeConnector(connect);
+    }
+  });
 };
 
 /** Adds a Connector to the list of active Connectors and to the
@@ -519,9 +518,7 @@ evaluate(vars, change, timeStep) {
   this.findCollisions(contactsFound, vars, timeStep);
   // If there are penetrating collisions, these must be handled before
   // doing contact calculations.
-  var ccount = goog.array.count(contactsFound, function(c) {
-    return c.illegalState();
-  });
+  var ccount = goog.array.count(contactsFound, c => c.illegalState());
   if (ccount > 0) {
     return contactsFound;
   }
@@ -583,7 +580,7 @@ calcContactForces(vars, change, subset) {
   /** @type {!Array<number>} */
   var b = this.calculate_b_vector(subset, change, vars);
   /** @type {!Array<boolean>} */
-  var joint = goog.array.map(subset, function(c) { return c.joint; });
+  var joint = goog.array.map(subset, c => c.joint);
   /** @type {!Array<number>} */
   var f = Util.newNumberArray(b.length);
   if (Util.DEBUG && pileDebug) {

@@ -131,7 +131,7 @@ static testPointMass() {
   p2.setExpireTime(99);
   assertEquals(99, p2.getExpireTime());
   // first character of name cannot be a number
-  assertThrows(function() { new PointMass('1') });
+  assertThrows(()=>  new PointMass('1') );
 };
 
 static testPointMassSimilar() {
@@ -167,10 +167,10 @@ static testPointMassSimilar() {
 static testPointMassThrows() {
   startTest(PointMassTest.groupName+'testPointMassThrows');
   var p1 = new PointMass('point1', 0);
-  assertThrows(function() {p1.setPosition(3);} );
-  assertThrows(function() {p1.setPosition(null);} );
-  assertThrows(function() {p1.setPosition('0');} );
-  assertThrows(function() {p1.setPosition(p1);} );
+  assertThrows(() => p1.setPosition(3) );
+  assertThrows(() => p1.setPosition(null) );
+  assertThrows(() => p1.setPosition('0') );
+  assertThrows(() => p1.setPosition(p1) );
 };
 
 } // end class

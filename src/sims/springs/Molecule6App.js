@@ -281,8 +281,8 @@ constructor(elem_ids, numAtoms) {
   * @type {!GenericMemo}
   * @private
   */
-  this.ke_high_memo_ = new GenericMemo(() => {
-    goog.array.forEach(this.sim_.getAtoms(), function(atom, idx) {
+  this.ke_high_memo_ = new GenericMemo(() =>
+    goog.array.forEach(this.sim_.getAtoms(), (atom, idx) => {
       var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
       var ke_pct = ke_var.getValue();
       var dispAtom = this.displayList.findShape(atom);
@@ -291,8 +291,7 @@ constructor(elem_ids, numAtoms) {
       } else {
         dispAtom.setFillStyle('gray');
       }
-    }, this);
-  });
+    }));
   this.simRun.addMemo(this.ke_high_memo_);
 
   /** When kinetic energy is near zero, display current potential energy.
@@ -393,10 +392,10 @@ addBody(obj) {
 */
 rebuild() {
   var atoms = this.sim_.getAtoms();
-  goog.array.forEach(atoms, function(atom) {
+  goog.array.forEach(atoms, atom => {
     this.removeBody(atom);
     this.addBody(atom);
-  }, this);
+  });
 };
 
 /**
@@ -493,7 +492,7 @@ config() {
     default:
       throw '';
   }
-  springs = goog.array.filter(springs, function(spr) {
+  springs = goog.array.filter(springs, spr => {
       // both bodies of the spring must be in the set.
       if (goog.array.contains(atoms, spr.getBody1()) &&
           goog.array.contains(atoms, spr.getBody2())) {
@@ -645,7 +644,7 @@ getSpring(springs, index1, index2) {
   }
   var atom1 = this.atoms_[index1-1];
   var atom2 = this.atoms_[index2-1];
-  return goog.array.find(springs, function(spr) {
+  return goog.array.find(springs, spr => {
     if (spr.getBody1() == atom1 && spr.getBody2() == atom2) {
       return true;
     } else if (spr.getBody1() == atom2 && spr.getBody1() == atom1) {
@@ -700,7 +699,7 @@ setStiffness(index1, index2, value) {
 */
 calcMinPE() {
   if (this.springType_ == Molecule6App.SpringType.PSEUDO_GRAVITY) {
-    goog.array.forEach(this.sim_.getSprings(), function(spr) {
+    goog.array.forEach(this.sim_.getSprings(), spr => {
       if (spr instanceof SpringNonLinear2) {
         var s2 = /** SpringNonLinear2 */(spr);
         s2.calcMinPE();
@@ -741,13 +740,9 @@ setShowSprings(value) {
   if (value != this.showSprings_) {
     this.showSprings_ = value;
     if (value) {
-      goog.array.forEach(this.sim_.getSprings(), function(spr) {
-        this.addBody(spr);
-      }, this);
+      goog.array.forEach(this.sim_.getSprings(), spr => this.addBody(spr));
     } else {
-      goog.array.forEach(this.sim_.getSprings(), function(spr) {
-        this.removeBody(spr);
-      }, this);
+      goog.array.forEach(this.sim_.getSprings(), spr => this.removeBody(spr));
     }
     this.broadcastParameter(Molecule6App.en.SHOW_SPRINGS);
   }
@@ -801,12 +796,12 @@ getAttractForce() {
 setAttractForce(value) {
   if (this.attract_ != value) {
     this.attract_ = value;
-    goog.array.forEach(this.springsPseudoGravity_, function(spr) {
+    goog.array.forEach(this.springsPseudoGravity_, spr => {
       if (spr instanceof SpringNonLinear2) {
         var s2 = /** SpringNonLinear2 */(spr);
         s2.setAttract(this.attract_);
       }
-    }, this);
+    });
     this.broadcastParameter(Molecule6App.en.ATTRACT_FORCE);
   }
 };

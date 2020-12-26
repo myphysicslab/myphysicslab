@@ -90,10 +90,10 @@ static testAffineTransform() {
   assertTrue(at3.transform(Vector.EAST).nearEqual(new Vector(2, 4), tol));
 
   // these methods require 2 numbers or a GenericVector
-  assertThrows(function() { at.transform(0); });
-  assertThrows(function() { at.transform('foo'); });
-  assertThrows(function() { at.translate(0); });
-  assertThrows(function() { at.translate('foo'); });
+  assertThrows(() => at.transform(0));
+  assertThrows(() => at.transform('foo'));
+  assertThrows(() => at.translate(0));
+  assertThrows(() => at.translate('foo'));
 };
 
 } // end class

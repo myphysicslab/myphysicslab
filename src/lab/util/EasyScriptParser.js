@@ -258,9 +258,7 @@ constructor(subjects, dependent) {
   * Because when generating a script, we add commands in order of Subjects list
   * and "configuration Parameters" can change the dependent Subjects.
   */
-  goog.array.removeAllIf(this.subjects_, function(s) {
-      return goog.array.contains(this.dependent_, s);
-    }, this);
+  goog.array.removeAllIf(this.subjects_, s => goog.array.contains(this.dependent_, s), this);
   this.subjects_ = goog.array.concat(this.subjects_, this.dependent_);
   /** Names and initial values of non-dependent Parameters. Used for making the script
   * shorter.
@@ -331,7 +329,7 @@ constructor(subjects, dependent) {
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', subjects_: ['
-      + goog.array.map(this.subjects_, function(s) { return s.toStringShort(); })
+      + goog.array.map(this.subjects_, s => s.toStringShort())
       +']}';
 };
 
@@ -355,13 +353,13 @@ addCommand(commandName, commandFnc, helpText) {
 static checkUniqueNames(subjects) {
   /** @type !Array<string> */
   var names = [];
-  goog.array.forEach(subjects, function(subj) {
-      var nm = subj.getName();
-      if (goog.array.contains(names, nm)) {
-        throw 'duplicate Subject name: '+nm;
-      };
-      names.push(nm);
-    });
+  goog.array.forEach(subjects, subj => {
+    var nm = subj.getName();
+    if (goog.array.contains(names, nm)) {
+      throw 'duplicate Subject name: '+nm;
+    };
+    names.push(nm);
+  });
 };
 
 /** Returns the Parameter corresponding to the given EasyScriptParser name such as
@@ -392,7 +390,7 @@ getParameter(fullName) {
   var idx;
   if (subjectName == '') {
     var count = goog.array.count(this.allParamNames_,
-        function(p) { return p == paramName; });
+        p => p == paramName);
     if (count > 1) {
       throw 'multiple Subjects have Parameter '+paramName;
     }
@@ -410,9 +408,7 @@ getParameter(fullName) {
 */
 getSubject(name) {
   var subjectName = Util.toName(name);
-  return goog.array.find(this.subjects_, function(s) {
-      return s.getName() == subjectName;
-    });
+  return goog.array.find(this.subjects_, s => s.getName() == subjectName);
 };
 
 /** Returns list of Subjects being parsed.
@@ -480,36 +476,33 @@ that are being automatically computed, unless `includeComputed` is `true`.
 */
 namesAndValues(dependent, includeComputed, fullName) {
   dependent = dependent == true;
-  var allParams = goog.array.map(this.allSubjects_,
-      function(s, idx) { return s.getParameter(this.allParamNames_[idx]); }, this);
+  var allParams = goog.array.map(this.allSubjects_, (s, idx) =>
+      s.getParameter(this.allParamNames_[idx]));
   var params = allParams;
   if (!includeComputed) {
     // filter out Parameters that are automatically computed
-    params = goog.array.filter(params, function(p) { return !p.isComputed(); });
+    params = goog.array.filter(params, p => !p.isComputed());
   }
   // Keep only Parameters of dependent or non-dependent Subjects as requested.
   params = goog.array.filter(params,
-      function(p) {
-        return goog.array.contains(this.dependent_, p.getSubject()) == dependent;
-      }, this);
+      p => goog.array.contains(this.dependent_, p.getSubject()) == dependent, this);
   var re = /^[a-zA-Z0-9_]+$/;
-  var s = goog.array.map(params,
-      function(p) {
-        var paramName = Util.toName(p.getName());
-        var idx = goog.array.indexOf(allParams, p);
-        var v = p.getValue();
-        if (typeof v === 'string' && !re.test(v)) {
-          // add quotes when string has non-alphanumeric characters
-          v = '"' + v + '"';
-        }
-        // don't include Subject name when Parameter name is unique
-        if (!fullName && this.unique_[idx]) {
-          return paramName + '=' + v;
-        } else {
-          var subjName = Util.toName(p.getSubject().getName());
-          return subjName + '.' + paramName + '=' + v;
-        }
-      }, this);
+  var s = goog.array.map(params, p => {
+      var paramName = Util.toName(p.getName());
+      var idx = goog.array.indexOf(allParams, p);
+      var v = p.getValue();
+      if (typeof v === 'string' && !re.test(v)) {
+        // add quotes when string has non-alphanumeric characters
+        v = '"' + v + '"';
+      }
+      // don't include Subject name when Parameter name is unique
+      if (!fullName && this.unique_[idx]) {
+        return paramName + '=' + v;
+      } else {
+        var subjName = Util.toName(p.getSubject().getName());
+        return subjName + '.' + paramName + '=' + v;
+      }
+    });
   return s.length > 0 ? s.join(';') + ';' : '';
 };
 
@@ -572,9 +565,7 @@ script() {
   var initSettings = goog.array.concat(this.initialNonDependent_,
       this.initialDependent_);
   // strip out any settings that are identical to initial settings
-  goog.array.removeAllIf(ar, function(s) {
-      return goog.array.contains(initSettings, s);
-    });
+  goog.array.removeAllIf(ar, s => goog.array.contains(initSettings, s));
   return ar.join(';')+(ar.length > 0 ? ';' : '');
 };
 
@@ -661,25 +652,21 @@ update() {
       function(/** !Array<!Parameter>*/result, subj) {
         // filter out params with name 'DELETED'
         var s_params = goog.array.filter(subj.getParameters(),
-            function(p) { return p.getName() != 'DELETED'; });
+            p => p.getName() != 'DELETED');
         return result.concat(s_params);
       }, []);
 
   this.allSubjects_ = goog.array.map(params,
-      function(p) { return p.getSubject(); });
+      p => p.getSubject());
 
   this.allParamNames_ = goog.array.map(params,
-      function(p) { return Util.toName(p.getName()); });
+      p => Util.toName(p.getName()));
 
   this.allSubjParamNames_ = goog.array.map(params,
-      function(p) {
-        return Util.toName(p.getSubject().getName()+'.'+p.getName());
-      });
+      p => Util.toName(p.getSubject().getName()+'.'+p.getName()));
 
   this.unique_ = goog.array.map(this.allParamNames_,
-      function(p) { return 1 == goog.array.count(this.allParamNames_,
-          function(q) { return q == p; });
-      }, this);
+      p => 1 == goog.array.count(this.allParamNames_, q => q == p) );
 
   this.initialDependent_ = this.namesAndValues(true).split(';');
 };

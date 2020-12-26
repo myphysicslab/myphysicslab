@@ -579,11 +579,11 @@ addRegex(names, prefix, opt_addToVars, opt_prepend) {
     if (addToVars) {
       var nms = names.split('|');
       var vrs = this.vars_.split('|');
-      goog.array.forEach(nms, function(nm) {
+      goog.array.forEach(nms, nm => {
         if (!goog.array.contains(vrs, nm)) {
           this.vars_ += (this.vars_.length > 0 ? '|' : '') + nm;
         }
-      }, this);
+      });
     }
     // This regexp look for words that are NOT preceded by a dot or dollar sign.
     // (^|[^\w.$]) means:  either start of line, or a not-word-or-dot-or-$ character.
@@ -695,13 +695,13 @@ commands() {
     var t = this.term_output_.value;
     t = t.split('\n');
     // remove leading and trailing whitespace on each command
-    t = goog.array.map(t, function(e) { return e.trim(); });
+    t = goog.array.map(t, e => e.trim());
     // filter out non-commands, and the 'terminal.remember()' command
     t = goog.array.filter(t, function(/** string */e) {
       return e.length>2 && e.substr(0,2)== '> '
           && !e.match(/^> (terminal|this).(remember|commands)\(\s*\);?$/);
       });
-    t = goog.array.map(t, function(e) { return e.substr(2); });
+    t = goog.array.map(t, e => e.substr(2));
     return t;
   } else {
     return [];
@@ -738,9 +738,7 @@ that contains those characters.
 * @return {string} the encoded string
 */
 static encodeURIComponent(str) {
-  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
-    return '%' + c.charCodeAt(0).toString(16);
-  });
+  return encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
 }
 
 /** Executes the given script and returns the result. Advanced compilation disables
@@ -1061,9 +1059,7 @@ hasRegex(q) {
   var regex = q.regex.toString();
   var replace = q.replace;
   return goog.array.some(this.regexs_,
-    function(r) {
-    return r.replace == replace && r.regex.toString() == regex;
-  });
+    r => r.replace == replace && r.regex.toString() == regex);
 };
 
 /** This callback fires when the textbox 'changes' (usually from focus lost).
@@ -1185,9 +1181,9 @@ recall(opt_execute) {
       if (s) {
         this.println('//start of stored scripts');
         if (execute) {
-          goog.array.forEach(s.split('\n'), function(t) { this.eval(t); },this);
+          goog.array.forEach(s.split('\n'), t => this.eval(t));
         } else {
-          goog.array.forEach(s.split('\n'), function(t) { this.println(t); },this);
+          goog.array.forEach(s.split('\n'), t => this.println(t));
         }
         this.println('//end of stored scripts');
       }

@@ -43,31 +43,29 @@ const VerticalAlign = {
 /** Returns array containing all localized enum choices.
 * @return {!Array<string>} array containing all localized enum choices.
 */
-VerticalAlign.getChoices = function() {
-  return [VerticalAlign.i18n.TOP,
-      VerticalAlign.i18n.MIDDLE,
-      VerticalAlign.i18n.BOTTOM,
-      VerticalAlign.i18n.FULL,
-      VerticalAlign.i18n.VALUE];
-};
+VerticalAlign.getChoices = () =>
+  [ VerticalAlign.i18n.TOP,
+    VerticalAlign.i18n.MIDDLE,
+    VerticalAlign.i18n.BOTTOM,
+    VerticalAlign.i18n.FULL,
+    VerticalAlign.i18n.VALUE ];
 
 /** Returns array containing all possible enum values.
 * @return {!Array<!VerticalAlign>} array containing all possible enum values.
 */
-VerticalAlign.getValues = function() {
-  return [VerticalAlign.TOP,
-          VerticalAlign.MIDDLE,
-          VerticalAlign.BOTTOM,
-          VerticalAlign.FULL,
-          VerticalAlign.VALUE];
-};
+VerticalAlign.getValues = () =>
+  [ VerticalAlign.TOP,
+    VerticalAlign.MIDDLE,
+    VerticalAlign.BOTTOM,
+    VerticalAlign.FULL,
+    VerticalAlign.VALUE ];
 
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!VerticalAlign} the enum corresponding to the value
 * @throws {!Error} if the value does not represent a valid enum
 */
-VerticalAlign.stringToEnum = function(value) {
+VerticalAlign.stringToEnum = value => {
   var vals = VerticalAlign.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {

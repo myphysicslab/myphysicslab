@@ -403,9 +403,7 @@ static testLabCanvas1() {
   assertEquals(1, goog.array.indexOf(labCanvas.getViews(), simView2));
 
   // cannot set focus to an unknown view
-  assertThrows(function() {
-    labCanvas.setFocusView(new SimView('unknown', simRect2));
-  });
+  assertThrows(() => labCanvas.setFocusView(new SimView('unknown', simRect2)) );
 
   // change focus to simView2
   labCanvas.setFocusView(simView2);
@@ -427,11 +425,11 @@ static testLabCanvas1() {
   assertEquals(1, labCanvas.getViews().length);
   assertEquals(0, goog.array.indexOf(labCanvas.getViews(), simView2));
 
-  assertThrows(function() { labCanvas.setSize(0, 0); });
-  assertThrows(function() { labCanvas.setSize(100, 0); });
-  assertThrows(function() { labCanvas.setSize(0, 100); });
-  assertThrows(function() { labCanvas.setSize(100, -1); });
-  assertThrows(function() { labCanvas.setSize(-1, 100); });
+  assertThrows(() => labCanvas.setSize(0, 0));
+  assertThrows(() => labCanvas.setSize(100, 0));
+  assertThrows(() => labCanvas.setSize(0, 100));
+  assertThrows(() => labCanvas.setSize(100, -1));
+  assertThrows(() => labCanvas.setSize(-1, 100));
 };
 
 } // end class

@@ -137,9 +137,9 @@ static testParameterBoolean1() {
   assertFalse(paramFooBar.getValue());
   // remove parameters from subject
   mockSubj1.removeParameter(paramFoo);
-  assertThrows(function() { mockSubj1.getParameterBoolean(MockSubject1.FOONESS) });
+  assertThrows(()=>  mockSubj1.getParameterBoolean(MockSubject1.FOONESS) );
   mockSubj1.removeParameter(paramFooBar);
-  assertThrows(function() { mockSubj1.getParameterBoolean(MockSubject1.FOOBARNESS) });
+  assertThrows(()=>  mockSubj1.getParameterBoolean(MockSubject1.FOOBARNESS) );
 };
 
 

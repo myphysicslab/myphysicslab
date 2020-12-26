@@ -77,9 +77,9 @@ constructor(name) {
 toString() {
   // assumes that className and name are displayed by sub-class
   return Util.ADVANCED ? '' : ', parameters: ['
-      + goog.array.map(this.paramList_, function(p) { return p.toStringShort(); })
+      + goog.array.map(this.paramList_, p => p.toStringShort())
       +'], observers: ['
-      + goog.array.map(this.observers_, function(p) { return p.toStringShort(); })
+      + goog.array.map(this.observers_, p => p.toStringShort())
       +']}';
 };
 
@@ -142,7 +142,7 @@ broadcast(evt) {
     try {
       // For debugging: can see events being broadcast here.
       //if (!this.getName().match(/.*GRAPH.*/i)) { console.log('broadcast '+evt); }
-      goog.array.forEach(this.observers_, function(o) { o.observe(evt); });
+      goog.array.forEach(this.observers_, o => o.observe(evt));
     } finally {
       this.isBroadcasting_ = false;
       // do add/remove commands afterwards, in case an Observer called addObserver or
@@ -194,9 +194,7 @@ getObservers() {
 */
 getParam(name) {
   name = Util.toName(name);
-  return goog.array.find(this.paramList_, function(p) {
-    return p.getName() == name;
-  });
+  return goog.array.find(this.paramList_, p => p.getName() == name);
 };
 
 /** @override */

@@ -596,22 +596,22 @@ startTest_(testIndex) {
   this.tests_[testIndex](this.sim, this.advance);
 
   // Set moveable blocks to random colors. Helps distinguish them visually.
-  goog.array.forEach(this.displayList.toArray(), function(d) {
-      if (d instanceof DisplayShape) {
-        var ds = /** @type {!DisplayShape} */(d);
-        var p = ds.getMassObjects()[0];
-        if (isFinite(p.getMass())) {
-          ds.setFillStyle(PileConfig.getRandomColor());
-        }
-        // clock-with-gears needs special display
-        if (groupName == 'Miscellany' && testName == 'clock with gears') {
-          ds.setStrokeStyle('black');
-          if (p.nameEquals('escape wheel')) {
-            ds.setZIndex(-1);
-          }
+  goog.array.forEach(this.displayList.toArray(), d => {
+    if (d instanceof DisplayShape) {
+      var ds = /** @type {!DisplayShape} */(d);
+      var p = ds.getMassObjects()[0];
+      if (isFinite(p.getMass())) {
+        ds.setFillStyle(PileConfig.getRandomColor());
+      }
+      // clock-with-gears needs special display
+      if (groupName == 'Miscellany' && testName == 'clock with gears') {
+        ds.setStrokeStyle('black');
+        if (p.nameEquals('escape wheel')) {
+          ds.setZIndex(-1);
         }
       }
-    });
+    }
+  });
 
   // ensure that we use same timestep that is used in the Engine2DTestRig
   this.simRun.setTimeStep(this.advance.getTimeStep());
@@ -706,7 +706,7 @@ setSimRect_() {
     }
     var rect = bods[0].getBoundsWorld();
     var walls = false;
-    goog.array.forEach(bods, function(b, index, array) {
+    goog.array.forEach(bods, b => {
       rect = rect.union(b.getBoundsWorld());
       walls = walls || b.getName().match(/^WALL*/);
     });

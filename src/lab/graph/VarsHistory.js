@@ -113,7 +113,7 @@ getVariables() {
 /** @override */
 memorize() {
   var vars = this.variablesList_.getValues(/*computed=*/true);
-  var data = goog.array.map(this.varIndex_, function(idx) { return vars[idx]; });
+  var data = goog.array.map(this.varIndex_, idx => vars[idx]);
   // only store if the new point is different from the last point
   var last = this.dataPoints_.getEndValue();
   if (last == null || !goog.array.equals(data, last)) {
@@ -149,7 +149,7 @@ reset() {
 */
 setVariables(varIndex) {
   var numVars = this.variablesList_.numVariables();
-  goog.array.forEach(varIndex, function(idx) {
+  goog.array.forEach(varIndex, idx => {
     if (idx < 0 || idx > numVars) {
       throw 'variable index '+idx+' not between 0 and '+numVars;
     }

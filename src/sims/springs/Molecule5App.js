@@ -232,7 +232,7 @@ constructor(elem_ids, numAtoms) {
   * @private
   */
   this.ke_high_memo_ = new GenericMemo(() => {
-    goog.array.forEach(this.sim_.getAtoms(), function(atom, idx) {
+    goog.array.forEach(this.sim_.getAtoms(), (atom, idx) => {
       var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
       var ke_pct = ke_var.getValue();
       var dispAtom = this.displayList.findShape(atom);
@@ -241,7 +241,7 @@ constructor(elem_ids, numAtoms) {
       } else {
         dispAtom.setFillStyle('gray');
       }
-    }, this);
+    });
   });
   this.simRun.addMemo(this.ke_high_memo_);
 
@@ -552,7 +552,7 @@ getSpring(index1, index2) {
   }
   var atom1 = this.sim_.getAtoms()[index1-1];
   var atom2 = this.sim_.getAtoms()[index2-1];
-  return goog.array.find(this.sim_.getSprings(), function(spr) {
+  return goog.array.find(this.sim_.getSprings(), spr => {
     if (spr.getBody1() == atom1 && spr.getBody2() == atom2) {
       return true;
     } else if (spr.getBody1() == atom2 && spr.getBody1() == atom1) {
@@ -604,7 +604,7 @@ getShowNames() {
 setShowNames(value) {
   if (value != this.showNames_) {
     this.showNames_ = value;
-    goog.array.forEach(this.sim_.getAtoms(), function(atom) {
+    goog.array.forEach(this.sim_.getAtoms(), atom => {
       var dispAtom = this.displayList.findShape(atom);
       if (value) {
         dispAtom.setNameFont('12pt sans-serif');
@@ -613,7 +613,7 @@ setShowNames(value) {
       } else {
         dispAtom.setNameFont('');
       }
-    }, this);
+    });
     this.broadcastParameter(Molecule5App.en.SHOW_NAMES);
   }
 };
@@ -632,13 +632,9 @@ setShowSprings(value) {
   if (value != this.showSprings_) {
     this.showSprings_ = value;
     if (value) {
-      goog.array.forEach(this.sim_.getSprings(), function(spr) {
-        this.addBody(spr);
-      }, this);
+      goog.array.forEach(this.sim_.getSprings(), spr => this.addBody(spr));
     } else {
-      goog.array.forEach(this.sim_.getSprings(), function(spr) {
-        this.removeBody(spr);
-      }, this);
+      goog.array.forEach(this.sim_.getSprings(), spr => this.removeBody(spr));
     }
     this.broadcastParameter(Molecule5App.en.SHOW_SPRINGS);
   }
@@ -696,12 +692,8 @@ setShowKEHigh(value) {
       this.simRun.addMemo(this.ke_high_memo_);
     } else {
       this.simRun.removeMemo(this.ke_high_memo_);
-      goog.array.forEach(this.sim_.getAtoms(), function(atom) {
-        this.removeBody(atom);
-      }, this);
-      goog.array.forEach(this.sim_.getAtoms(), function(atom) {
-        this.addBody(atom);
-      }, this);
+      goog.array.forEach(this.sim_.getAtoms(), atom => this.removeBody(atom));
+      goog.array.forEach(this.sim_.getAtoms(), atom => this.addBody(atom));
     }
     this.broadcastParameter(Molecule5App.en.SHOW_KE_HIGH);
   }

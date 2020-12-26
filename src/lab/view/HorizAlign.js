@@ -43,32 +43,30 @@ const HorizAlign = {
 /** Returns array containing all localized enum choices.
 * @return {!Array<string>} array containing all localized enum choices.
 */
-HorizAlign.getChoices = function() {
-  return [HorizAlign.i18n.LEFT,
-      HorizAlign.i18n.MIDDLE,
-      HorizAlign.i18n.RIGHT,
-      HorizAlign.i18n.FULL,
-      HorizAlign.i18n.VALUE];
-};
+HorizAlign.getChoices = () =>
+  [ HorizAlign.i18n.LEFT,
+    HorizAlign.i18n.MIDDLE,
+    HorizAlign.i18n.RIGHT,
+    HorizAlign.i18n.FULL,
+    HorizAlign.i18n.VALUE ];
 
 /** Returns array containing all possible enum values.
 * @return {!Array<!HorizAlign>} array containing all
 *    possible enum values.
 */
-HorizAlign.getValues = function() {
-  return [HorizAlign.LEFT,
-          HorizAlign.MIDDLE,
-          HorizAlign.RIGHT,
-          HorizAlign.FULL,
-          HorizAlign.VALUE];
-};
+HorizAlign.getValues = () =>
+  [ HorizAlign.LEFT,
+    HorizAlign.MIDDLE,
+    HorizAlign.RIGHT,
+    HorizAlign.FULL,
+    HorizAlign.VALUE ];
 
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!HorizAlign} the enum corresponding to the value
 * @throws {!Error} if the value does not represent a valid enum
 */
-HorizAlign.stringToEnum = function(value) {
+HorizAlign.stringToEnum = value => {
   var vals = HorizAlign.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {

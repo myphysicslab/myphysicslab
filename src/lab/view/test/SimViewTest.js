@@ -287,12 +287,11 @@ static testSimView1() {
   assertTrue(simView2.getScreenRect().equals(screenRect));
 
   // this GenericObserver forces simView2 to have same simRect as simView1
-  var matcher = new GenericObserver(simView1,
-      function(evt) {
-        if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
-          simView2.setSimRect(simView1.getSimRect());
-        }
-      }, 'match simRect');
+  var matcher = new GenericObserver(simView1, evt => {
+      if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
+        simView2.setSimRect(simView1.getSimRect());
+      }
+    }, 'match simRect');
 
   // change simRect1 and check that SimView2 matches
   assertEquals(0, mockObsvr1.numSimRectEvents);
@@ -333,10 +332,8 @@ static testSimView1() {
   assertRoughlyEquals(1.5, simView1.getAspectRatio(), 1E-15);
   //check that setting bad alignment value throws an exception
   // (The type casting is needed to fool the compiler into passing bad values).
-  assertThrows(function() {
-    simView1.setHorizAlign((/** @type {!HorizAlign}*/('foo'))); });
-  assertThrows(function() {
-    simView1.setVerticalAlign((/** @type {!VerticalAlign}*/('foo'))); });
+  assertThrows(() => simView1.setHorizAlign(/** @type {!HorizAlign}*/('foo')));
+  assertThrows(() => simView1.setVerticalAlign(/** @type {!VerticalAlign}*/('foo')));
 
   // remove DisplayObjects from simView1's list of DisplayObjects
   displayList1.remove(shape1);
@@ -349,7 +346,7 @@ static testSimView1() {
   assertEquals(0, displayList1.toArray().length);
   assertFalse(goog.array.contains(displayList1.toArray(), dspring1));
 
-  assertThrows(function() { new SimView('badView', DoubleRect.EMPTY_RECT); });
+  assertThrows(() => new SimView('badView', DoubleRect.EMPTY_RECT));
 };
 
 } // end class

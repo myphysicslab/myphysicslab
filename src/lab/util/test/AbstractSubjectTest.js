@@ -271,22 +271,22 @@ static testAbstractSubject1() {
   // get parameters by name
   assertEquals(paramFoo, mockSubj1.getParameter(MockSubject1.FOONESS));
   assertEquals(paramFoo, mockSubj1.getParameterNumber(MockSubject1.FOONESS));
-  assertThrows(function() { mockSubj1.getParameterBoolean(MockSubject1.FOONESS) });
-  assertThrows(function() { mockSubj1.getParameterString(MockSubject1.FOONESS) });
+  assertThrows(()=>  mockSubj1.getParameterBoolean(MockSubject1.FOONESS) );
+  assertThrows(()=>  mockSubj1.getParameterString(MockSubject1.FOONESS) );
 
   assertEquals(paramFooBar, mockSubj1.getParameter(MockSubject1.FOOBARNESS));
   assertEquals(paramFooBar, mockSubj1.getParameterBoolean(MockSubject1.FOOBARNESS));
-  assertThrows(function() { mockSubj1.getParameterNumber(MockSubject1.FOOBARNESS) });
-  assertThrows(function() { mockSubj1.getParameterString(MockSubject1.FOOBARNESS) });
+  assertThrows(()=>  mockSubj1.getParameterNumber(MockSubject1.FOOBARNESS) );
+  assertThrows(()=>  mockSubj1.getParameterString(MockSubject1.FOOBARNESS) );
 
   assertEquals(paramQux, mockSubj1.getParameter(MockSubject1.QUX));
   assertEquals(paramQux, mockSubj1.getParameterString(MockSubject1.QUX));
-  assertThrows(function() { mockSubj1.getParameterNumber(MockSubject1.QUX) });
-  assertThrows(function() { mockSubj1.getParameterBoolean(MockSubject1.QUX) });
+  assertThrows(()=>  mockSubj1.getParameterNumber(MockSubject1.QUX) );
+  assertThrows(()=>  mockSubj1.getParameterBoolean(MockSubject1.QUX) );
 
   // ask for non-existant parameter
-  assertThrows(function() { mockSubj1.getParameter('BLARG') });
-  assertThrows(function() { mockSubj1.getParameterNumber('BLARG') });
+  assertThrows(()=>  mockSubj1.getParameter('BLARG') );
+  assertThrows(()=>  mockSubj1.getParameterNumber('BLARG') );
 
   /** @type {!Array<!myphysicslab.lab.util.Parameter>} */
   var params = mockSubj1.getParameters();

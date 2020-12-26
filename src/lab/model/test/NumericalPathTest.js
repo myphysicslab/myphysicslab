@@ -127,10 +127,10 @@ static testNumericalPath1() {
 
   // Because x values are not monotonically increasing or decreasing,
   // these methods should throw exceptions.
-  assertThrows(function() { path.map_x_to_p(1); });
-  assertThrows(function() { path.map_x_to_y(0); });
+  assertThrows(() => path.map_x_to_p(1));
+  assertThrows(() => path.map_x_to_y(0));
   pp.x = 1;
-  assertThrows(function() { path.map_x_to_y_p(pp); });
+  assertThrows(() => path.map_x_to_y_p(pp));
 };
 
 /** Test a parabola shaped path. Tests the straight line extension beyond the parabola
@@ -206,7 +206,7 @@ static testNumericalPath2() {
   var tol = 1E-6;
   var tol2 = 1E-4;
   /** @type {function(number):number} */
-  var invsinh = function(x) { return Math.log(x + Math.sqrt(x*x + 1)); };
+  var invsinh = x => Math.log(x + Math.sqrt(x*x + 1));
   var parabola = new CustomPath(/*start_t=*/-1, /*finish_t=*/1);
   parabola.setXEquation('t');
   parabola.setYEquation('t*t');

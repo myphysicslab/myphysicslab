@@ -214,7 +214,7 @@ toString() {
       +', timeWindow_: '+Util.NF(this.timeWindow_)
       +', simView_: '+this.simView_.toStringShort()
       +', graphLines_: ['
-      + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
+      + goog.array.map(this.graphLines_, g => g.toStringShort())
       + ']' + super.toString();
 };
 
@@ -451,10 +451,7 @@ depending on whether this AutoScale is active.
 setComputed(value) {
   var names = [SimView.en.WIDTH, SimView.en.HEIGHT, SimView.en.CENTER_X,
       SimView.en.CENTER_Y];
-  goog.array.forEach(names, nm => {
-      var p = this.simView_.getParameter(nm);
-      p.setComputed(value);
-    });
+  goog.array.forEach(names, nm => this.simView_.getParameter(nm).setComputed(value));
 };
 
 /** Sets whether this AutoScale is enabled. The AutoScale must be enabled in order

@@ -52,9 +52,9 @@ static testUtil() {
   assertFalse(Util.veryDifferent(small1, small2, 1e-8, 1e-8));
   assertTrue(Util.veryDifferent(small1, small2, 1e-10, 1e-8));
   assertTrue(Util.veryDifferent(small1, small2, undefined, 1e-8));
-  assertThrows(function() { Util.veryDifferent(NaN, 3.1); });
-  assertThrows(function() { Util.veryDifferent(99, NaN); });
-  assertThrows(function() { Util.veryDifferent(NaN, NaN); });
+  assertThrows(() => Util.veryDifferent(NaN, 3.1));
+  assertThrows(() => Util.veryDifferent(99, NaN));
+  assertThrows(() => Util.veryDifferent(NaN, NaN));
 
   assertEquals('1.12000', Util.NF5(1.12));
   assertEquals('1.001', Util.nf5(1.001));
@@ -118,11 +118,11 @@ static testUtil() {
   assertEquals('FOO', Util.validName('FOO'));
   assertEquals('FOO2', Util.validName('FOO2'));
   assertEquals('FOO_BAR', Util.validName('FOO_BAR'));
-  assertThrows(function() { Util.validName('1FOO'); });
-  assertThrows(function() { Util.validName('foo'); });
-  assertThrows(function() { Util.validName('FOO BAR'); });
-  assertThrows(function() { Util.validName('FOO-BAR'); });
-  assertThrows(function() { Util.validName('FOO+'); });
+  assertThrows(() => Util.validName('1FOO'));
+  assertThrows(() => Util.validName('foo'));
+  assertThrows(() => Util.validName('FOO BAR'));
+  assertThrows(() => Util.validName('FOO-BAR'));
+  assertThrows(() => Util.validName('FOO+'));
 
   var txt = 'abcdefghijklmnopqrstuvwxyz';
   assertEquals('abcd', Util.take(txt, 4));
@@ -130,16 +130,16 @@ static testUtil() {
   assertEquals('abcd', Util.drop(txt, -22));
   assertEquals('wxyz', Util.drop(txt, 22));
 
-  assertThrows(function() { Util.testNumber(NaN); });
+  assertThrows(() => Util.testNumber(NaN));
   assertEquals(0, Util.testNumber(0));
   assertEquals(Number.POSITIVE_INFINITY,
       Util.testNumber(Number.POSITIVE_INFINITY));
   assertEquals(Number.NEGATIVE_INFINITY,
       Util.testNumber(Number.NEGATIVE_INFINITY));
   assertEquals(0, Util.testFinite(0));
-  assertThrows(function() { Util.testFinite(NaN); });
-  assertThrows(function() { Util.testFinite(Number.POSITIVE_INFINITY); });
-  assertThrows(function() { Util.testFinite(Number.NEGATIVE_INFINITY); });
+  assertThrows(() => Util.testFinite(NaN));
+  assertThrows(() => Util.testFinite(Number.POSITIVE_INFINITY));
+  assertThrows(() => Util.testFinite(Number.NEGATIVE_INFINITY));
 
   assertEquals(1, Util.limitAngle(1));
   assertEquals(-1, Util.limitAngle(-1));
@@ -197,10 +197,10 @@ static testUtil() {
   assertEquals(a[2], Util.get(a, 2));
   assertEquals('orange', Util.set(a, 2, 'orange'));
   assertEquals('orange', Util.get(a, 2));
-  assertThrows(function() { Util.set(a, -1, 'marooon'); });
-  assertThrows(function() { Util.set(a, 3.1, 'marooon'); });
-  assertThrows(function() { Util.get(a, -1); });
-  assertThrows(function() { Util.get(a, 3.1); });
+  assertThrows(() => Util.set(a, -1, 'marooon'));
+  assertThrows(() => Util.set(a, 3.1, 'marooon'));
+  assertThrows(() => Util.get(a, -1));
+  assertThrows(() => Util.get(a, 3.1));
 
   // ensure that goog.asserts is working
   if (!Util.ADVANCED) {

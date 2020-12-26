@@ -131,7 +131,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, b => this.addBody(b) );
+  goog.array.forEach(bodies, b => this.addBody(b));
 };
 
 /** Adds the SimObject to list of objects that DampingLaw applies forces to, but only
@@ -156,19 +156,18 @@ calculateForces() {
   if (this.damping_ == 0) {
     return forces;
   }
-  goog.array.forEach(this.bods_,
-    function(bod) {
-      if (!isFinite(bod.getMass())) // skip infinite mass objects
-        return;
-      // translational damping: location is center of mass;
-      // direction/magnitude is  -k*body.vx, -k*body.vy
-      var cm = bod.getPosition();
-      var f = new Force('damping', bod,
-          /*location=*/cm, CoordType.WORLD,
-          /*direction=*/bod.getVelocity().multiply(-this.damping_), CoordType.WORLD,
-          /*torque=*/-this.damping_*this.rotateRatio_* bod.getAngularVelocity());
-      forces.push(f);
-    }, this);
+  goog.array.forEach(this.bods_, bod => {
+    if (!isFinite(bod.getMass())) // skip infinite mass objects
+      return;
+    // translational damping: location is center of mass;
+    // direction/magnitude is  -k*body.vx, -k*body.vy
+    var cm = bod.getPosition();
+    var f = new Force('damping', bod,
+        /*location=*/cm, CoordType.WORLD,
+        /*direction=*/bod.getVelocity().multiply(-this.damping_), CoordType.WORLD,
+        /*torque=*/-this.damping_*this.rotateRatio_* bod.getAngularVelocity());
+    forces.push(f);
+  });
   return forces;
 };
 

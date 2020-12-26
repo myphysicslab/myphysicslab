@@ -106,7 +106,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, body => this.addBody(body) );
+  goog.array.forEach(bodies, body => this.addBody(body));
 };
 
 /** Adds the SimObject to list of objects that Gravity2Law applies
@@ -133,7 +133,7 @@ calculateForces() {
   var forces = [];
   var j = 0;
   var n = bodies2.length;
-  goog.array.forEach(this.bods_, function(body1) {
+  goog.array.forEach(this.bods_, body1 => {
     j++;
     var m1 = body1.getMass();
     if (m1 <= 0 || !isFinite(m1)) // skip infinite mass and zero mass objects
@@ -157,7 +157,7 @@ calculateForces() {
             /*direction=*/direction, CoordType.WORLD));
       }
     }
-  }, this);
+  });
   return forces;
 };
 
@@ -239,7 +239,7 @@ getPotentialEnergy() {
   var bodies2 = goog.array.toArray(this.bods_);
   var j = 0;
   var n = bodies2.length;
-  goog.array.forEach(this.bods_, function(body1) {
+  goog.array.forEach(this.bods_, body1 => {
     j++;
     var m1 = body1.getMass();
     if (m1 <= 0 || !isFinite(m1)) // skip infinite mass and zero mass objects
@@ -257,7 +257,7 @@ getPotentialEnergy() {
       pe += this.gravity_ * m1 * m2 * ((1 / (h1 + h2)) - (1 / r)) ;
       //console.log('pe='+pe+' r='+r+' h1+h2='+(h1+h2));
     }
-  }, this);
+  });
   return pe;
 };
 

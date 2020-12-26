@@ -204,7 +204,7 @@ static testSimList() {
 
   simList.removeTemporary(/*time=*/10); // removes l1, l4
   assertFalse(simList.contains(l4));
-  assertThrows(function() { simList.get('line4') });
+  assertThrows(()=>  simList.get('line4') );
   assertEquals(0, myMockObserver.numLines);
 
   simList.clear();
@@ -221,18 +221,18 @@ static testSimList() {
 static testSimListThrows() {
   startTest(SimListTest.groupName+'testSimListThrows');
   var simList = new SimList();
-  var e = assertThrows(function() {simList.add(null);}  );
+  var e = assertThrows(() => simList.add(null)  );
   assertTrue(typeof e === 'string');
   assertEquals('cannot add invalid SimObject', e);
   var p1 = new PointMass('point1');
   simList.add(p1);
   assertEquals(p1, simList.get('point1'));
   assertEquals(p1, simList.getPointMass('point1'));
-  assertThrows(function() {simList.getSpring('point1');} );
-  assertThrows(function() {simList.getConcreteLine('point1');} );
-  assertThrows(function() {simList.get(p1);} );
-  assertThrows(function() {simList.get([0]);} );
-  assertThrows(function() {simList.get(true);} );
+  assertThrows(() => simList.getSpring('point1') );
+  assertThrows(() => simList.getConcreteLine('point1') );
+  assertThrows(() => simList.get(p1) );
+  assertThrows(() => simList.get([0]) );
+  assertThrows(() => simList.get(true) );
 };
 
 } // end class

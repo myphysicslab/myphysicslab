@@ -142,13 +142,13 @@ static testTerminal2() {
   // output_elem should be unchanged
   assertEquals(out, output_elem.value);
   // test that unsafe scripts are rejected
-  assertThrows(function() { t.eval('window', /*output=*/false); });
-  assertThrows(function() { t.eval('"eval"(foo(window))', /*output=*/false); });
-  assertThrows(function() { t.eval('z.a=1; window', /*output=*/false); });
-  assertThrows(function() { t.eval('this["white"+"List_"]', /*output=*/false); });
-  assertThrows(function() { Terminal.vetBrackets('this["white"+"List_"]'); });
-  assertThrows(function() { t.eval('this.myEval("foo")', /*output=*/false); });
-  assertThrows(function() { t.eval('this.whiteList_.push("foo")', /*output=*/false); });
+  assertThrows(() => t.eval('window', /*output=*/false));
+  assertThrows(() => t.eval('"eval"(foo(window))', /*output=*/false));
+  assertThrows(() => t.eval('z.a=1; window', /*output=*/false));
+  assertThrows(() => t.eval('this["white"+"List_"]', /*output=*/false));
+  assertThrows(() => Terminal.vetBrackets('this["white"+"List_"]'));
+  assertThrows(() => t.eval('this.myEval("foo")', /*output=*/false));
+  assertThrows(() => t.eval('this.whiteList_.push("foo")', /*output=*/false));
   // when words are in quotes they are OK
   assertEquals('window', t.eval('"window"', /*output=*/false));
   assertEquals('foowhiteList_', t.eval('"foo"+"whiteList_"', /*output=*/false));
@@ -157,7 +157,7 @@ static testTerminal2() {
   // output_elem should be unchanged
   assertEquals(out, output_elem.value);
   // test addWhiteList() function
-  assertThrows(function() { t.eval('self', /*output=*/false); });
+  assertThrows(() => t.eval('self', /*output=*/false));
   t.addWhiteList('self');
   assertEquals(window, t.eval('self', /*output=*/false));
   // square brackets with numbers are OK
@@ -166,10 +166,10 @@ static testTerminal2() {
       /**@type {Object}*/(t.eval('z.a=[2, 7]', /*output=*/false)));
   assertElementsEquals([-2, 1.7],
       /**@type {Object}*/(t.eval('[-2, 1.7]', /*output=*/false)));
-  assertNotThrows(function() { Terminal.vetBrackets('[-2, 1.7]'); });
+  assertNotThrows(() => Terminal.vetBrackets('[-2, 1.7]'));
   // test afterEval function; should only fire when output==true
   var r = 0;
-  var afterFn = function() { r++; };
+  var afterFn = () => r++;
   t.setAfterEval(afterFn);
   assertEquals(5, t.eval('2+3', /*output=*/true));
   assertEquals(1, r);
@@ -180,9 +180,9 @@ static testTerminal2() {
   // we allow using eval because it is replaced by terminal.eval
   assertEquals(4, t.eval('eval("2+2")', /*output=*/false));
   // but unsafe scripts are still rejected
-  assertThrows(function() { t.eval('eval("window")', /*output=*/false); });
-  assertThrows(function() { t.eval('eval("win"+"dow")', /*output=*/false); });
-  assertThrows(function() { t.eval('eval("white"+"List_")', /*output=*/false); });
+  assertThrows(() => t.eval('eval("window")', /*output=*/false));
+  assertThrows(() => t.eval('eval("win"+"dow")', /*output=*/false));
+  assertThrows(() => t.eval('eval("white"+"List_")', /*output=*/false));
   delete window.terminal;
 };
 
@@ -262,7 +262,7 @@ static testTerminal3() {
 
   // Should get "SyntaxError: Unexpected number '456'. Parse error."
   // But the error message could vary in different browsers.
-  var err = String(assertThrows(function(){ t.eval('123/*foo*/456'); }));
+  var err = String(assertThrows(() => t.eval('123/*foo*/456')));
   assertNotNull(err.match(/.*SyntaxError.*/i));
   t.setVerbose(false);
 
@@ -286,25 +286,23 @@ static testTerminal4() {
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   // test blacklist. These are variant spellings of "window".
-  assertThrows(function(){ t.eval('window'); });
-  assertThrows(function(){ t.eval('win\u0064ow'); });
-  assertThrows(function(){ t.eval('win\x64ow'); });
-  assertThrows(function(){ t.eval('win\u0064\u006Fw'); });
-  assertThrows(function(){ t.eval('win\u0064\u006fw'); });
-  assertThrows(function(){ t.eval('win\u0064\x6Fw'); });
-  assertThrows(function(){ t.eval('win\u0064\x6fw'); });
-  assertThrows(function(){ t.eval('foo;top'); });
-  assertThrows(function(){ t.eval('alert("foo")'); });
-  assertThrows(function(){ t.eval('foo;document'); });
-  assertThrows(function(){ t.eval('goog.globalEval("foo")'); });
+  assertThrows(() => t.eval('window'));
+  assertThrows(() => t.eval('win\u0064ow'));
+  assertThrows(() => t.eval('win\x64ow'));
+  assertThrows(() => t.eval('win\u0064\u006Fw'));
+  assertThrows(() => t.eval('win\u0064\u006fw'));
+  assertThrows(() => t.eval('win\u0064\x6Fw'));
+  assertThrows(() => t.eval('win\u0064\x6fw'));
+  assertThrows(() => t.eval('foo;top'));
+  assertThrows(() => t.eval('alert("foo")'));
+  assertThrows(() => t.eval('foo;document'));
+  assertThrows(() => t.eval('goog.globalEval("foo")'));
 
   // these hacks were found by reddit
   // see https://www.reddit.com/r/AskNetsec/comments/64erdg/
   // is_my_javascript_physics_simulation_app_hackproof/
-  assertThrows(function(){
-      t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'); });
-  assertThrows(function(){
-      t.eval('win\u0064ow.lo\u0063ation=\'https://www.reddit.com\''); });
+  assertThrows(() => t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'));
+  assertThrows(() => t.eval('win\u0064ow.lo\u0063ation=\'https://www.reddit.com\''));
   delete window.terminal;
 };
 
@@ -314,25 +312,24 @@ static testTerminal5() {
   // test blacklist. These are variant spellings of "window".
   // to do: Possible closure compiler issue: had to move these static tests to a
   //    separate test function to avoid compiler errors.
-  assertThrows(function(){ Terminal.vetCommand('window', []); });
+  assertThrows(() => Terminal.vetCommand('window', []));
   assertEquals('window', Terminal.deUnicode('win\u0064ow'));
   assertEquals('window', Terminal.deUnicode('win\x64ow'));
   assertEquals('window', Terminal.deUnicode('win\u0064\u006Fw'));
   assertEquals('window', Terminal.deUnicode('win\u0064\u006fw'));
   assertEquals('window', Terminal.deUnicode('win\u0064\x6Fw'));
   assertEquals('window', Terminal.deUnicode('win\u0064\x6fw'));
-  assertThrows(function(){ Terminal.vetCommand('foo;top', []); });
-  assertThrows(function(){ Terminal.vetCommand('alert("foo")', []); });
-  assertThrows(function(){ Terminal.vetCommand('foo;document', []); });
-  assertThrows(function(){ Terminal.vetCommand('goog.globalEval("foo")', []); });
-  assertThrows(function(){ Terminal.vetCommand('eval("1+2")', [], /\beval\b/g); });
+  assertThrows(() => Terminal.vetCommand('foo;top', []));
+  assertThrows(() => Terminal.vetCommand('alert("foo")', []));
+  assertThrows(() => Terminal.vetCommand('foo;document', []));
+  assertThrows(() => Terminal.vetCommand('goog.globalEval("foo")', []));
+  assertThrows(() => Terminal.vetCommand('eval("1+2")', [], /\beval\b/g));
   // test vetBrackets
-  assertThrows(function(){ Terminal.vetBrackets("terminal['white'+'List_']"); });
-  assertThrows(function(){ Terminal.vetBrackets("terminal[idx]"); });
-  assertNotThrows(function() {
-      Terminal.vetBrackets('var a = ["red", "green", "blue"]'); });
-  assertNotThrows(function() { Terminal.vetBrackets('a[2]'); });
-  assertThrows(function() { Terminal.vetBrackets('a[1+1]'); });
+  assertThrows(() => Terminal.vetBrackets("terminal['white'+'List_']"));
+  assertThrows(() => Terminal.vetBrackets("terminal[idx]"));
+  assertNotThrows(() => Terminal.vetBrackets('var a = ["red", "green", "blue"]'));
+  assertNotThrows(() => Terminal.vetBrackets('a[2]'));
+  assertThrows(() => Terminal.vetBrackets('a[1+1]'));
 };
 
 static testTerminal6() {
@@ -366,9 +363,9 @@ static testTerminal7() {
   Terminal.stdRegex(t);
   // Property access with square brackets is prohibited,
   // except for accessing array elements with explicit numbers.
-  assertThrows(function(){ t.eval("terminal['white'+'List_']"); });
+  assertThrows(() => t.eval("terminal['white'+'List_']"));
   assertEquals('whiteList_', t.eval("var idx = 'whiteList_'"));
-  assertThrows(function(){ t.eval("terminal[idx]"); });
+  assertThrows(() => t.eval("terminal[idx]"));
   //Array access can be done with non-negative integer numbers
   assertElementsEquals(['red', 'green', 'blue'],
       /**@type {Object}*/(t.eval('var a = ["red", "green", "blue"]')));
@@ -377,12 +374,12 @@ static testTerminal7() {
   assertEquals('blue', t.eval('a[2 ]'));
   assertEquals('blue', t.eval('a[ 2 ]'));
   assertEquals('blue', t.eval('a [ 2 ]'));
-  assertThrows(function(){ t.eval('a[2.1]'); });
-  assertThrows(function(){ t.eval('a[-1]'); });
-  assertThrows(function(){ t.eval('a[1,2]'); });
+  assertThrows(() => t.eval('a[2.1]'));
+  assertThrows(() => t.eval('a[-1]'));
+  assertThrows(() => t.eval('a[1,2]'));
   // Array access cannot be done with a variable or expression, but you can use the
   // built-in functions Util.get and Util.set
-  assertThrows(function(){ t.eval('a[1+1]'); });
+  assertThrows(() => t.eval('a[1+1]'));
   assertEquals('blue', t.eval('Util.get(a, 1+1)'));
   assertEquals('orange', t.eval('Util.set(a, 1+1, "orange")'));
   assertElementsEquals(['red', 'green', 'orange'],
@@ -419,9 +416,9 @@ static testTerminal8() {
   assertRoughlyEquals(3/8, t.eval('(1\t/8);(3 /8)'), 1E-10);
   // incomplete string gives "SyntaxError: Unexpected EOF" in Safari.
   // In Firefox and Chrome get "SyntaxError: unterminated string literal"
-  var err = String(assertThrows(function(){ t.eval('foo"bar'); }));
+  var err = String(assertThrows(() => t.eval('foo"bar')));
   assertNotNull(err.match(/^SyntaxError.*/i));
-  err = String(assertThrows(function(){ t.eval('\'incomplete string'); }));
+  err = String(assertThrows(() => t.eval('\'incomplete string')));
   assertNotNull(err.match(/^SyntaxError.*/i));
   // regex containing a slash
   txt = 'foo/bar';

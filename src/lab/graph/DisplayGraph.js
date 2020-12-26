@@ -106,7 +106,7 @@ toString() {
       +', useBuffer_: '+this.useBuffer_
       +', zIndex: '+this.zIndex
       +', graphLines_: ['
-      + goog.array.map(this.graphLines_, function(g) { return g.toStringShort(); })
+      + goog.array.map(this.graphLines_, g => g.toStringShort())
       +']}';
 };
 

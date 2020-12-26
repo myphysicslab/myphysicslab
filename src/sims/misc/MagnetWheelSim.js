@@ -250,13 +250,13 @@ evaluate(vars, change, timeStep) {
   // the fixed magnet is at (xf, yf)
   var fm = this.wheel_.getFixedMagnet();
   var magnets = this.wheel_.getMagnets();
-  goog.array.forEach(this.wheel_.calculateForces(), function(f) {
+  goog.array.forEach(this.wheel_.calculateForces(), f => {
     change[1] += f.getTorque()/m;
     // Add force to SimList, so that it can be displayed.
     // The force should disappear immediately after it is displayed.
     f.setExpireTime(this.getTime());
     this.getSimList().add(f);
-  }, this);
+  });
   // add constant force while left or right arrow key is pressed
   // (note that we are ignoring mass here).
   if (this.keyLeft_) {

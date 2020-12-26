@@ -120,7 +120,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, body => this.addBody(body) );
+  goog.array.forEach(bodies, body => this.addBody(body));
 };
 
 /** Adds the SimObject to list of objects that GravityLaw applies forces to, but only
@@ -141,16 +141,14 @@ addBody(obj) {
 /** @override */
 calculateForces() {
   var forces = [];
-  /** @type {function(this:GravityLaw, !MassObject)} */
-  var f = (body) => {
+  goog.array.forEach(this.bods_, body => {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       forces.push(new Force('gravity', body,
         /*location=*/body.getPosition(), CoordType.WORLD,
         /*direction=*/new Vector(0, -this.gravity_ * body.getMass(), 0),
         CoordType.WORLD));
     }
-  };
-  goog.array.forEach(this.bods_, f);
+  });
   return forces;
 };
 
@@ -187,7 +185,7 @@ getGravity() {
 /** @override */
 getPotentialEnergy() {
   var pe = 0;
-  goog.array.forEach(this.bods_, function(body) {
+  goog.array.forEach(this.bods_, body => {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       if (0 == 1 && Util.DEBUG) {
         console.log('body '+body.getName()
@@ -199,7 +197,7 @@ getPotentialEnergy() {
       zel = zel != null ? zel : this.zeroEnergyLevel_;
       pe += (body.getPosition().getY() - zel) * body.getMass() * this.gravity_;
     }
-  }, this);
+  });
   return pe;
 };
 

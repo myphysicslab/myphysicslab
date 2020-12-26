@@ -138,7 +138,7 @@ getValue() {
 
 /** @override */
 getValues() {
-  return goog.array.map(this.values_, function(v) { return v.toString(); });
+  return goog.array.map(this.values_, v => v.toString());
 };
 
 /** @override */

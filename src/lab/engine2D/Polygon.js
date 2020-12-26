@@ -466,7 +466,7 @@ calculateSize() {
   var xmax = Util.NEGATIVE_INFINITY;
   var ymin = Util.POSITIVE_INFINITY;
   var ymax = Util.NEGATIVE_INFINITY;
-  goog.array.forEach(this.edges_, function(e) {
+  goog.array.forEach(this.edges_, e => {
     if (e.getLeftBody() < xmin)
       xmin = e.getLeftBody();
     if (e.getRightBody() > xmax)
@@ -499,10 +499,10 @@ a new RigidBodyCollision to the list of collisions.
 checkCollision(collisions, body, time) {
   UtilityCollision.checkVertexes(collisions, this, body, time);
   UtilityCollision.checkVertexes(collisions, body, this, time);
-  goog.array.forEach(this.edges_, function checkEdgeCollision1(e1) {
+  goog.array.forEach(this.edges_, e1 => {
     if (body.nonCollideEdge(e1))
       return;
-    goog.array.forEach(body.getEdges(), function checkEdgeCollision2(e2) {
+    goog.array.forEach(body.getEdges(), e2 => {
       if (this.nonCollideEdge(e2))
         return;
       // can't do this proximity test, unless you calculate a new speed limit
@@ -521,8 +521,8 @@ checkCollision(collisions, body, time) {
         e2.highlight();
       }
       e1.testCollisionEdge(collisions, e2, time);
-    }, this);
-  }, this);
+    });
+  });
 };
 
 /**
@@ -534,7 +534,7 @@ checkConsistent() {
     throw 'Polygon construction is not finished.';
   }
   // v0 = starting Vertex of the current path being examined
-  goog.array.forEach(this.paths_, function(v0) {
+  goog.array.forEach(this.paths_, v0 => {
     var v = v0; // v = current Vertex being examined
     do {
       // find the next Edge
@@ -621,7 +621,7 @@ closePath_(v1, v2) {
 createCanvasPath(context) {
   context.beginPath();
   // v0 = starting Vertex of the current path being examined
-  goog.array.forEach(this.paths_, function(v0) {
+  goog.array.forEach(this.paths_, v0 => {
     context.moveTo(v0.locBodyX(), v0.locBodyY());
     /** @type {!Vertex} */
     var v = v0; // v = current Vertex being examined
@@ -645,7 +645,7 @@ createCanvasPath(context) {
   });
   if (Util.DEBUG && (Polygon.SHOW_VERTICES || Polygon.SHOW_ALL_VERTICES)) {
     // put a small circle at each Vertex
-    goog.array.forEach(this.vertices_, function(v) {
+    goog.array.forEach(this.vertices_, v => {
       context.moveTo(v.locBodyX(), v.locBodyY());
       if (Polygon.SHOW_ALL_VERTICES || v.isEndPoint()) {
         context.arc(v.locBodyX(), v.locBodyY(), 0.1, 0, 2*Math.PI,
@@ -680,9 +680,9 @@ findCentroid() {
   s[1] = new MutableVector(this.cm_body_.getX(), this.cm_body_.getY()+delta);
   s[2] = new MutableVector(this.cm_body_.getX()-delta, this.cm_body_.getY()-delta);
   var thisPolygon = this;
-  var centroid = UtilEngine.findMinimumSimplex(s, function(p_body) {
-      return thisPolygon.maxRadiusSquared(Vector.clone(p_body));
-    }, NEARNESS_TOLERANCE, info);
+  var centroid = UtilEngine.findMinimumSimplex(s,
+    p_body => thisPolygon.maxRadiusSquared(Vector.clone(p_body)),
+    NEARNESS_TOLERANCE, info);
   if (info[1] != 0) {
     throw Util.DEBUG ? ('could not find centroid, iterations='+info[0]) : '';
   }
@@ -795,30 +795,29 @@ getMinHeight() {
   if (isNaN(this.minHeight_)) {
     var dist = Util.POSITIVE_INFINITY;
     // find minimum distance to an Edge.
-    goog.array.forEach(this.edges_,
-      function(e) {
-        var d = e.distanceToPoint(this.cm_body_);
-        if (1 == 0 && Util.DEBUG)
-          console.log('d='+Util.NF(d)+' cm='+this.cm_body_+' '+e);
-        // Distance of infinity means the point is 'beyond' the Edge, ie.
-        // not in the region perpendicular to the Edge.
-        if (d == Util.POSITIVE_INFINITY)
-          return;
-        // if the distance to Edge is positive, then center of mass is 'outside'
-        // in relation to this Edge.  This indicates the object has a more
-        // complicated geometry, and we can't reliably calculate the min height.
-        // But we return zero for the minHeight in this case,
-        // on the theory that the CM is outside of the body, so the minimum
-        // possible distance to the CM is zero.
-        if (d > 0) {
-          dist = 0;
-          return;
-        }
-        // distance to Edge regards negative as inside, flip this around
-        d = -d;
-        if (d < dist)
-          dist = d;
-      }, this);
+    goog.array.forEach(this.edges_, e => {
+      var d = e.distanceToPoint(this.cm_body_);
+      if (1 == 0 && Util.DEBUG)
+        console.log('d='+Util.NF(d)+' cm='+this.cm_body_+' '+e);
+      // Distance of infinity means the point is 'beyond' the Edge, ie.
+      // not in the region perpendicular to the Edge.
+      if (d == Util.POSITIVE_INFINITY)
+        return;
+      // if the distance to Edge is positive, then center of mass is 'outside'
+      // in relation to this Edge.  This indicates the object has a more
+      // complicated geometry, and we can't reliably calculate the min height.
+      // But we return zero for the minHeight in this case,
+      // on the theory that the CM is outside of the body, so the minimum
+      // possible distance to the CM is zero.
+      if (d > 0) {
+        dist = 0;
+        return;
+      }
+      // distance to Edge regards negative as inside, flip this around
+      d = -d;
+      if (d < dist)
+        dist = d;
+    });
     // If the above didn't work, then use the method
     // which looks at the body as a rectangle.
     if (dist == Util.POSITIVE_INFINITY)
@@ -961,7 +960,7 @@ getVertexes_() {
 
 /** @override */
 getVerticesBody() {
-  return goog.array.map(this.vertices_, function(v) { return v.locBody(); });
+  return goog.array.map(this.vertices_, v => v.locBody());
 };
 
 /** Returns last Edge in current open path or `null` when there is no last Edge or no
@@ -1018,7 +1017,7 @@ any Vertex of this Polygon.
 */
 maxRadiusSquared(p_body) {
   var maxR = 0;
-  goog.array.forEach(this.vertices_, function(v) {
+  goog.array.forEach(this.vertices_, v => {
     var d = p_body.distanceTo(v.locBody());
     if (d > maxR)
       maxR = d;
@@ -1027,7 +1026,7 @@ maxRadiusSquared(p_body) {
   // can be in error by, because we are only looking at the 'decorated Vertexes'
   // on the curved Edge.
   var mce = 0;  // maximum chord error
-  goog.array.forEach(this.edges_, function(e) {
+  goog.array.forEach(this.edges_, e => {
     var ce = e.chordError();
     if (ce > mce)
       mce = ce;
@@ -1062,16 +1061,12 @@ printAll() {
     console.log(this.toString());
     /** @type {!Vertex} */
     var vLast = this.vertices_[this.vertices_.length - 1];
-    goog.array.forEach(this.vertices_,
-      function(v, k) {
-        var d = v.locBody().distanceTo(vLast.locBody());
-        console.log('('+(k)+') '+v+' dist to prev vertex = '+Util.NF(d));
-        vLast = v;
-      }
-    );
-    goog.array.forEach(this.edges_, function(e, k) {
-      console.log('('+(k)+') '+e);
+    goog.array.forEach(this.vertices_, (v, k) => {
+      var d = v.locBody().distanceTo(vLast.locBody());
+      console.log('('+(k)+') '+v+' dist to prev vertex = '+Util.NF(d));
+      vLast = v;
     });
+    goog.array.forEach(this.edges_, (e, k) => console.log('('+(k)+') '+e));
   };
 };
 
@@ -1221,11 +1216,11 @@ setSpecialEdge(edgeIndex, radius) {
   this.centroidRadius_ = radius;
   // Set centroid radius of all non-special edges to zero.
   // This makes all those edges non-operative for collision detection.
-  goog.array.forEach(this.edges_, function(e) {
+  goog.array.forEach(this.edges_, e => {
     if (e != this.specialEdge_) {
       e.setCentroidRadius(0);
     }
-  }, this);
+  });
 };
 
 /** Sets the index into the {@link myphysicslab.lab.model.VarsList VarsList} for this

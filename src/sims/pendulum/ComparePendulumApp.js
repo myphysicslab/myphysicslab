@@ -261,7 +261,7 @@ constructor(elem_ids) {
   var paramX = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   var py2 = line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
   var px2 = line2.getParameterNumber(GraphLine.en.X_VARIABLE);
-  new GenericObserver(line1, function(evt) {
+  new GenericObserver(line1, evt => {
     if (evt == paramY) {
       py2.setValue(paramY.getValue());
     } else if (evt == paramX) {
@@ -285,7 +285,7 @@ constructor(elem_ids) {
   // keep timeLine2's Y variable in sync with timeLine1
   var timeParamY = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   var time_py2 = timeLine2.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  new GenericObserver(timeLine1, function(evt) {
+  new GenericObserver(timeLine1, evt => {
     if (evt == timeParamY) {
       time_py2.setValue(timeParamY.getValue());
     }

@@ -129,9 +129,7 @@ constructor(elem_ids, opt_name) {
       MultipleCollisionApp.en.ONE_HITS_TWO_IN_BOX,
       MultipleCollisionApp.en.TWO_ON_WALL
     ];
-  this.formations = goog.array.map(this.formations, function(v) {
-        return Util.toName(v);
-      });
+  this.formations = goog.array.map(this.formations, v => Util.toName(v));
   /** @type {string} */
   this.formation = this.formations[0];
 

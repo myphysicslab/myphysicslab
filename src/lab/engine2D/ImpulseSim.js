@@ -371,9 +371,7 @@ setCollisionAccuracy(value) {
     throw 'accuracy must be between 0 and 1, is '+value;
   }
   this.collisionAccuracy_ = value;
-  goog.array.forEach(this.bods_, function(b, index, array) {
-    b.setAccuracy(value);
-  });
+  goog.array.forEach(this.bods_, b => b.setAccuracy(value));
   this.broadcastParameter(RigidBodySim.en.COLLISION_ACCURACY);
 };
 
@@ -393,9 +391,7 @@ object
 */
 setDistanceTol(value) {
   this.distanceTol_ = value;
-  goog.array.forEach(this.bods_, function(b, index, array) {
-    b.setDistanceTol(value);
-  });
+  goog.array.forEach(this.bods_, b => b.setDistanceTol(value));
   this.broadcastParameter(RigidBodySim.en.DISTANCE_TOL);
 };
 
@@ -415,9 +411,7 @@ object
 */
 setVelocityTol(value) {
   this.velocityTol_ = value;
-  goog.array.forEach(this.bods_, function(b, index, array) {
-    b.setVelocityTol(value);
-  });
+  goog.array.forEach(this.bods_, b => b.setVelocityTol(value));
   this.broadcastParameter(RigidBodySim.en.VELOCITY_TOL);
 };
 
@@ -465,7 +459,7 @@ cleanSlate() {
 * @private
 */
 checkInfiniteMassVelocity(vars) {
-  goog.array.forEach(this.bods_, function(b) {
+  goog.array.forEach(this.bods_, b => {
     var idx = b.getVarsIndex();
     goog.asserts.assert(idx >= 0);
     if (b.getMass() == Util.POSITIVE_INFINITY) {
@@ -478,7 +472,7 @@ checkInfiniteMassVelocity(vars) {
             +vx+' '+vy+' '+vw+' '+b): '';
       }
     }
-  }, this);
+  });
 };
 
 /** @override */
@@ -730,9 +724,7 @@ handleCollisions(collisions, opt_totals) {
     throw 'empty array passed to handleCollisions';
   }
   if (Util.DEBUG) {
-    goog.array.forEach(rbcs, function(c, index, array) {
-      c.checkConsistent();
-    });
+    goog.array.forEach(rbcs, c => c.checkConsistent());
   }
   if (1 == 0 && Util.DEBUG)
     energy = this.getEnergyInfo().getTotalEnergy();
@@ -1024,9 +1016,7 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
       debugHCS = true;
       console.log('handleCollisionsSerial loopCtr='+loopCtr);
       if (loopCtr <= LOOP_LIMIT+2) {
-        goog.array.forEach(collisions, function(c, i) {
-          console.log('c['+(i)+'] '+c);
-        }, this);
+        goog.array.forEach(collisions, (c, i) => console.log('c['+(i)+'] '+c));
         UtilEngine.printArray('nv ',nv, Util.NFE);
       }
     }

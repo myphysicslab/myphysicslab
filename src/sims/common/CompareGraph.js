@@ -137,9 +137,7 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(new ChoiceControl(ps));
 
   // use same drawing mode on line2
-  new GenericObserver(line1, function(evt) {
-    line2.setDrawingMode(line1.getDrawingMode());
-  }, 'match drawing mode on GraphLine');
+  new GenericObserver(line1, evt => line2.setDrawingMode(line1.getDrawingMode()), 'match drawing mode on GraphLine');
 
   /** SimController which pans the graph with no modifier keys pressed.
   * @type {!SimController}

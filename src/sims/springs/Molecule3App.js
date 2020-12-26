@@ -384,7 +384,7 @@ getMass() {
 @param {number} value mass of atoms
 */
 setMass(value) {
-  goog.array.forEach(this.sim_.getAtoms(), function(atom, idx) {
+  goog.array.forEach(this.sim_.getAtoms(), (atom, idx) => {
     if (idx > 0) {
       atom.setMass(value);
     }

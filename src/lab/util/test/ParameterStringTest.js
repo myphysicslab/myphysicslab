@@ -97,8 +97,8 @@ static testParameterString1() {
   assertEquals(mockSubj2, paramFoo.getSubject());
   assertTrue(paramFoo instanceof ParameterString);
   assertEquals(paramFoo, mockSubj2.getParameterString(MockSubject2.FOONESS));
-  assertThrows(function() { mockSubj2.getParameterNumber(MockSubject2.FOONESS) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject2.FOONESS) });
+  assertThrows(()=>  mockSubj2.getParameterNumber(MockSubject2.FOONESS) );
+  assertThrows(()=>  mockSubj2.getParameterBoolean(MockSubject2.FOONESS) );
   assertEquals('foo', paramFoo.getValue());
   assertEquals(undefined, paramFoo.setValue('baz'));
   assertEquals('baz', paramFoo.getValue());
@@ -109,10 +109,10 @@ static testParameterString1() {
   assertEquals(10, paramFoo.getSuggestedLength());
   assertEquals(Util.POSITIVE_INFINITY, paramFoo.getMaxLength());
   // can't set max length to less than length of current string value
-  assertThrows(function() { paramFoo.setMaxLength(2); });
+  assertThrows(() => paramFoo.setMaxLength(2));
   assertEquals(paramFoo, paramFoo.setMaxLength(10));
   assertEquals(10, paramFoo.getMaxLength());
-  assertThrows(function() { paramFoo.setValue('very long string'); });
+  assertThrows(() => paramFoo.setValue('very long string'));
   assertEquals(undefined, paramFoo.setValue('grault'));
   assertEquals('grault', paramFoo.getValue());
   paramFoo.setFromString('blarg');
@@ -131,12 +131,12 @@ static testParameterString1() {
   assertTrue(paramFooBar instanceof ParameterString);
   assertEquals('none', paramFooBar.getValue());
   // set to a non-allowed value
-  assertThrows(function() { paramFooBar.setValue('any'); });
+  assertThrows(() => paramFooBar.setValue('any'));
   assertEquals('none', paramFooBar.getValue());
   // find param by its name
   assertEquals(paramFooBar, mockSubj2.getParameterString(MockSubject2.FOOBARNESS));
-  assertThrows(function() { mockSubj2.getParameterNumber(MockSubject2.FOOBARNESS) });
-  assertThrows(function() { mockSubj2.getParameterBoolean(MockSubject2.FOOBARNESS) });
+  assertThrows(()=>  mockSubj2.getParameterNumber(MockSubject2.FOOBARNESS) );
+  assertThrows(()=>  mockSubj2.getParameterBoolean(MockSubject2.FOOBARNESS) );
   paramFooBar.setValue('some');
   assertEquals('some', paramFooBar.getValue());
 

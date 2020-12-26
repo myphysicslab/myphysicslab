@@ -296,9 +296,7 @@ setMagnets(locations) {
   this.magnets_ = goog.array.clone(locations);
   this.magnetDist_ = [];
   // save the distance from origin for each magnet
-  goog.array.forEach(this.magnets_, function(m) {
-    this.magnetDist_.push(m.length());
-  }, this);
+  goog.array.forEach(this.magnets_, m => this.magnetDist_.push(m.length()));
 };
 
 /** Set the strength of each magnet.

@@ -252,9 +252,9 @@ toString_() {
       + ', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + ', varsList_: '+ this.varsList_.toStringShort()
       + ', forceLaws_: ['
-      + goog.array.map(this.forceLaws_, function(f) { return f.toStringShort();})
+      + goog.array.map(this.forceLaws_, f => f.toStringShort())
       + '], bods_: ['
-      + goog.array.map(this.bods_, function(b) { return b.toStringShort();})
+      + goog.array.map(this.bods_, b => b.toStringShort())
       + ']'
       + super.toString();
 };
@@ -336,9 +336,7 @@ reset() {
       this.initialState_.length == this.varsList_.numVariables()) {
     this.varsList_.setValues(this.initialState_);
   }
-  goog.array.forEach(this.bods_, function(b) {
-    b.eraseOldCoords();
-  });
+  goog.array.forEach(this.bods_, b => b.eraseOldCoords());
   this.getSimList().removeTemporary(Util.POSITIVE_INFINITY);
   this.modifyObjects();
   this.broadcast(new GenericEvent(this, Simulation.RESET));
@@ -386,9 +384,7 @@ cleanSlate() {
 /** @override */
 saveState() {
   this.recentState_ = this.varsList_.getValues();
-  goog.array.forEach(this.bods_, function(b) {
-    b.saveOldCoords();
-  });
+  goog.array.forEach(this.bods_, b => b.saveOldCoords());
 };
 
 /** @override */
@@ -396,9 +392,7 @@ restoreState() {
   if (this.recentState_ != null) {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
   }
-  goog.array.forEach(this.bods_, function(b) {
-    b.eraseOldCoords();
-  });
+  goog.array.forEach(this.bods_, b => b.eraseOldCoords());
 };
 
 /** Add the Polygon to the simulation and SimList, adds a set of variables to the
@@ -426,9 +420,7 @@ addBody(body) {
     this.getSimList().add(body);
   }
   this.initializeFromBody(body);
-  goog.array.forEach(this.bods_, function(b) {
-    b.eraseOldCoords();
-  });
+  goog.array.forEach(this.bods_, b => b.eraseOldCoords());
 };
 
 /** Removes the Polygon from the simulation and SimList, and removes the corresponding
@@ -560,7 +552,7 @@ removeForceLaw(forceLaw) {
 * @return {undefined}
 */
 clearForceLaws() {
-  goog.array.forEachRight(this.forceLaws_, this.removeForceLaw, this);
+  goog.array.forEachRight(this.forceLaws_, fl => this.removeForceLaw(fl));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
 };
@@ -593,15 +585,13 @@ getEnergyInfo_(vars) {
   var re = 0;
   /** @type {number} */
   var te = 0;
-  goog.array.forEach(this.bods_, function(b) {
+  goog.array.forEach(this.bods_, b => {
     if (isFinite(b.getMass())) {
       re += b.rotationalEnergy();
       te += b.translationalEnergy();
     }
   });
-  goog.array.forEach(this.forceLaws_, function(forceLaw) {
-    pe += forceLaw.getPotentialEnergy();
-  });
+  goog.array.forEach(this.forceLaws_, fl => pe += fl.getPotentialEnergy());
   return new EnergyInfo(pe + this.potentialOffset_, te, re);
 };
 
@@ -624,7 +614,7 @@ setPEOffset(value) {
 * @protected
 */
 moveObjects(vars) {
-  goog.array.forEach(this.bods_, function(b) {
+  goog.array.forEach(this.bods_, b => {
     var idx = b.getVarsIndex();
     if (idx < 0)
       return;
@@ -632,7 +622,7 @@ moveObjects(vars) {
         vars[idx +RigidBodySim.W_]);
     b.setVelocity(new Vector(vars[idx +RigidBodySim.VX_], vars[idx +RigidBodySim.VY_]),
         vars[idx +RigidBodySim.VW_]);
-  }, this);
+  });
   if (this.debugPaint_ != null) {
     this.debugPaint_();
   }
@@ -641,7 +631,7 @@ moveObjects(vars) {
 /** @override */
 evaluate(vars, change, timeStep) {
   this.moveObjects(vars);  // so that rigid body objects know their current state.
-  goog.array.forEach(this.bods_, function(body) {
+  goog.array.forEach(this.bods_, body => {
     var idx = body.getVarsIndex();
     if (idx < 0)
       return;
@@ -657,13 +647,11 @@ evaluate(vars, change, timeStep) {
       change[idx + RigidBodySim.VY_] = 0;
       change[idx + RigidBodySim.VW_] = 0;
     }
-  }, this);
-  goog.array.forEach(this.forceLaws_, function(forceLaw) {
-    var forces = forceLaw.calculateForces();
-    goog.array.forEach(forces, function(force) {
-      this.applyForce(change, force);
-    }, this);
-  }, this);
+  });
+  goog.array.forEach(this.forceLaws_, fl => {
+    var forces = fl.calculateForces();
+    goog.array.forEach(forces, f => this.applyForce(change, f));
+  });
   change[this.varsList_.timeIndex()] = 1; // time variable
   return null;
 };
@@ -750,9 +738,7 @@ setElasticity(value) {
   if (this.bods_.length == 0) {
     throw 'setElasticity: no bodies';
   }
-  goog.array.forEach(this.bods_, function(body) {
-    body.setElasticity(value);
-  });
+  goog.array.forEach(this.bods_, body => body.setElasticity(value));
   this.broadcast(new GenericEvent(this, RigidBodySim.ELASTICITY_SET, value));
 };
 

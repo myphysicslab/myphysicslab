@@ -99,8 +99,8 @@ static testDisplayList() {
   assertElementsEquals([s6, s3, s7, s9, s2, s5, s10, s4, s8], displayList.toArray());
   assertEquals(s9, displayList.get(3));
   assertEquals(9, displayList.length());
-  assertThrows(function() { displayList.get(-1); });
-  assertThrows(function() { displayList.get(9); });
+  assertThrows(() => displayList.get(-1));
+  assertThrows(() => displayList.get(9));
   s10.setZIndex(-1);
   assertElementsEquals([s6, s3, s7, s10, s9, s2, s5, s4, s8], displayList.toArray());
   s10.setZIndex(1);

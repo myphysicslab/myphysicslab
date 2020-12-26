@@ -76,10 +76,10 @@ properties that affect how the name is drawn. Example code:
 
 Here is a script that can be executed in Terminal to show names on all DisplayShapes:
 
-    goog.array.forEach(displayList.toArray(), function(d) {
-        if (d instanceof DisplayShape) {
-          d.setNameFont('12pt sans-serif');
-        }
+    goog.array.forEach(displayList.toArray(), d => {
+      if (d instanceof DisplayShape) {
+        d.setNameFont('12pt sans-serif');
+      }
     })
 
 Or, if the objects of interest have the same prototype, then you can just change
@@ -370,9 +370,7 @@ draw(context, map) {
     var borderDash = this.getBorderDash();
     if (borderDash.length > 0 && typeof context.setLineDash === 'function') {
       // convert the borderDash to be in sim coords
-      var ld = goog.array.map(borderDash, function(n) {
-          return map.screenToSimScaleX(n);
-          });
+      var ld = goog.array.map(borderDash, n => map.screenToSimScaleX(n));
       context.setLineDash(ld);
     }
     context.strokeStyle = strokeStyle;
@@ -436,7 +434,7 @@ draw(context, map) {
       if (sz < d) {
         d = sz;
       }
-      goog.array.forEach(this.massObject_.getDragPoints(), function(dpt) {
+      goog.array.forEach(this.massObject_.getDragPoints(), dpt => {
         if (this.isDarkColor_) {
           context.fillStyle = '#ccc'; //lightGray;
         } else {
@@ -446,7 +444,7 @@ draw(context, map) {
         context.arc(dpt.getX(), dpt.getY(), d, 0, 2*Math.PI, /*clockwise=*/false);
         context.closePath();
         context.fill();
-      }, this);
+      });
     }
   }
   if (this.getNameFont()) {

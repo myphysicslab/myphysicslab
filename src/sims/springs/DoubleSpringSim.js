@@ -316,9 +316,7 @@ getEnergyInfo_(vars) {
   var ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
   /** @type {number} */
   var pe = this.potentialOffset_;
-  goog.array.forEach(this.springs_, function(spr) {
-    pe += spr.getPotentialEnergy();
-  });
+  goog.array.forEach(this.springs_, spr => pe += spr.getPotentialEnergy());
   return new EnergyInfo(pe, ke);
 };
 

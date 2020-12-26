@@ -232,9 +232,7 @@ static testVarsList2() {
   assertEquals(0, var2.getValue());
 
   // variable names must be unique
-  assertThrows(function() {
-      new VarsList(['foo', 'foo'], ['foo', 'foo']);
-    });
+  assertThrows(() => new VarsList(['foo', 'foo'], ['foo', 'foo']) );
 };
 
 } // end class

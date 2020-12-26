@@ -332,14 +332,12 @@ getEnergyInfo_(vars) {
   var ke = 0;
   /** @type {number} */
   var pe = 0;
-  goog.array.forEach(this.springs_, function(spr) {
-    pe += spr.getPotentialEnergy();
-  });
-  goog.array.forEach(this.atoms_, function(atom) {
+  goog.array.forEach(this.springs_, spr => pe += spr.getPotentialEnergy());
+  goog.array.forEach(this.atoms_, atom => {
     ke += atom.getKineticEnergy();
     // gravity potential = m g (y - floor)
     pe += this.gravity_ * atom.getMass() * atom.getPosition().getY();
-  }, this);
+  });
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
@@ -377,7 +375,7 @@ modifyObjects() {
 moveObjects(vars) {
   // 0    1  2  3    4     5     6    7     8   9  10  11  12  13  14  15  16 ...
   // time KE PE TE fix1x fix1y fix2x fix2y U0x U0y V0x V0y U1x U1y V1x V1y U2x ...
-  goog.array.forEach(this.atoms_, function(atom, i) {
+  goog.array.forEach(this.atoms_, (atom, i) => {
     var idx = 4*i + 8;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
     atom.setVelocity(new Vector(vars[2 + idx], vars[3 + idx], 0));
@@ -435,7 +433,7 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[0] = 1; // time
-  goog.array.forEach(this.atoms_, function(atom, listIdx) {
+  goog.array.forEach(this.atoms_, (atom, listIdx) => {
     if (this.dragAtom_ == listIdx) {
       return;
     }
@@ -445,7 +443,7 @@ evaluate(vars, change, timeStep) {
     var mass = atom.getMass();
     // for each spring, get force from spring,
     var force = new MutableVector(0, 0);
-    goog.array.forEach(this.springs_, function(spr) {
+    goog.array.forEach(this.springs_, spr => {
       if (spr.getBody1() == atom) {
         force.add(spr.calculateForces()[0].getVector());
       } else if (spr.getBody2() == atom) {
@@ -457,7 +455,7 @@ evaluate(vars, change, timeStep) {
     force.add(new Vector(vars[idx+2], vars[idx+3]).multiply(-this.damping_));
     change[idx+2] = force.getX()/mass; // Vx'
     change[idx+3] = force.getY()/mass; // Vy'
-  }, this);
+  });
   return null;
 };
 
@@ -506,9 +504,7 @@ getSpringDamping() {
 */
 setSpringDamping(value) {
   this.springDamping_ = value;
-  goog.array.forEach(this.springs_, function(spr) {
-    spr.setDamping(value);
-  });
+  goog.array.forEach(this.springs_, spr => spr.setDamping(value));
   this.broadcastParameter(ChainOfSpringsSim.en.SPRING_DAMPING);
 };
 
@@ -525,9 +521,7 @@ getMass() {
 setMass(value) {
   this.mass_ = value;
   var mass = this.mass_/this.atoms_.length;
-  goog.array.forEach(this.atoms_, function(atom, idx) {
-      atom.setMass(mass);
-  });
+  goog.array.forEach(this.atoms_, atom => atom.setMass(mass));
   // discontinuous change in energy
   // vars[1] = KE, vars[2] = PE, vars[3] = TE
   this.getVarsList().incrSequence(1, 2, 3);

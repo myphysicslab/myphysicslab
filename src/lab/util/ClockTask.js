@@ -27,19 +27,19 @@ script can be entered in the
 [simple-compiled](Building.html#advancedvs.simplecompile) apps, for example in
 [Single Spring App](https://www.myphysicslab.com/develop/build/sims/springs/SingleSpringApp-en.html)
 
-    var task = function() { sim.reset(); };
+    var task = () => sim.reset();
     clock.addTask(new ClockTask(5, task));
     sim.reset();
 
 Example of a ClockTask that pauses the Clock after 5 seconds:
 
-    var task = new ClockTask(5, function() { clock.pause(); });
+    var task = new ClockTask(5, () => clock.pause());
     clock.addTask(task);
     sim.reset();
 
 Example of a ClockTask that slows the time rate the Clock after 5 seconds:
 
-    var task = new ClockTask(5, function() { clock.setTimeRate(0.1); });
+    var task = new ClockTask(5, () => clock.setTimeRate(0.1));
     clock.addTask(task);
     sim.reset();
 

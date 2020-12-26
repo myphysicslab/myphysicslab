@@ -299,9 +299,7 @@ getHistory() {
 /** @override */
 getParameter(name) {
   name = Util.toName(name);
-  var p = goog.array.find(this.varList_, function(p) {
-    return p.getName() == name;
-  });
+  var p = goog.array.find(this.varList_, p => p.getName() == name);
   if (p != null) {
     return p;
   }
@@ -345,7 +343,7 @@ getValue(index) {
     Computed variables have value of NaN unless requested.
 */
 getValues(computed) {
-  return goog.array.map(this.varList_, function(v) {
+  return goog.array.map(this.varList_, v => {
     if (!computed && v.isComputed()) {
       return NaN;
     } else {
@@ -366,7 +364,7 @@ getVariable(id) {
   } else if (typeof id === 'string') {
     id = Util.toName(id);
     index = goog.array.findIndex(this.varList_,
-        function(v) { return v.getName() == id; });
+        v => v.getName() == id);
     if (index < 0) {
       throw 'unknown variable name '+id;
     }

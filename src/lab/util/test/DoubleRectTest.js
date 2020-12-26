@@ -110,10 +110,10 @@ static testDoubleRect() {
   assertEquals(-2.5, r11.getBottom());
   assertEquals(-1.5, r11.getTop());
 
-  assertThrows(function() { r2.translate(3); });
-  assertThrows(function() { new DoubleRect(1, -1, -1, 1); });
-  assertThrows(function() { new DoubleRect(-1, 1, 1, -1); });
-  assertThrows(function() { new DoubleRect(-1, -1, 1, NaN); });
+  assertThrows(() => r2.translate(3));
+  assertThrows(() => new DoubleRect(1, -1, -1, 1));
+  assertThrows(() => new DoubleRect(-1, 1, 1, -1));
+  assertThrows(() => new DoubleRect(-1, -1, 1, NaN));
 
   // infinite values are allowed
   var neg_inf = Number.NEGATIVE_INFINITY;

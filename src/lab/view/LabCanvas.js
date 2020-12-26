@@ -201,7 +201,7 @@ toString() {
       +', focusView_: '
       + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
       +', labViews_: ['
-      + goog.array.map(this.labViews_, function(v) { return v.toStringShort(); })
+      + goog.array.map(this.labViews_, v => v.toStringShort())
       +'], memoList_: '+this.memoList_
       + super.toString();
 };
@@ -337,9 +337,7 @@ memorize() {
 */
 notifySizeChanged() {
   var r = this.getScreenRect();
-  goog.array.forEach(this.labViews_, function(view) {
-    view.setScreenRect(r);
-  });
+  goog.array.forEach(this.labViews_, view => view.setScreenRect(r));
   this.broadcast(new GenericEvent(this, LabCanvas.SIZE_CHANGED));
 };
 
@@ -378,9 +376,7 @@ paint() {
         // clearRect is supposed to be faster than fillRect.
         context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
       }
-      goog.array.forEach(this.labViews_, function(view) {
-          view.paint(context);
-        });
+      goog.array.forEach(this.labViews_, view => view.paint(context));
     } finally {
       context.restore();
     }

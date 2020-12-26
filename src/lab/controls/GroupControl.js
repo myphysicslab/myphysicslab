@@ -60,7 +60,7 @@ constructor(name, topElement, controls) {
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', controls_: ['
-      + goog.array.map(this.controls_, function(a) { return a.toStringShort(); })
+      + goog.array.map(this.controls_, a => a.toStringShort())
       +']}';
 };
 
@@ -73,7 +73,7 @@ toStringShort() {
 
 /** @override */
 disconnect() {
-  goog.array.forEach(this.controls_, function(c) { c.disconnect(); });
+  goog.array.forEach(this.controls_, c => c.disconnect());
 };
 
 /** Returns the set of controls in this GroupControl.
@@ -95,7 +95,7 @@ getParameter() {
 
 /** @override */
 setEnabled(enabled) {
-  goog.array.forEach(this.controls_, function(c) { c.setEnabled(enabled); });
+  goog.array.forEach(this.controls_, c => c.setEnabled(enabled));
 };
 
 } // end class

@@ -167,7 +167,7 @@ draw(context, map) {
   var w = r.getWidth();
   var h = r.getHeight();
   context.save();
-  goog.array.forEach(this.paths_, function(path, idx) {
+  goog.array.forEach(this.paths_, (path, idx) => {
       var seq = path.getSequence();
       // Change in sequence number indicates path has changed.
       // If any of the paths have changed, then need to redraw.
@@ -175,7 +175,7 @@ draw(context, map) {
         this.sequence_[idx] = seq;
         this.redraw_ = true;
       }
-    }, this);
+    });
   if (this.lastMap_ == null || this.lastMap_ != map) {
     this.lastMap_ = map;
     // redraw because coordmap changed
@@ -210,9 +210,8 @@ draw(context, map) {
       // 'clearRect fills with transparent black'
       ctx.clearRect(0, 0, w, h);
     }
-    goog.array.forEach(this.paths_, function(path, idx) {
-        this.drawPath(path, ctx, map, this.styles_[idx]);
-      }, this);
+    goog.array.forEach(this.paths_, (path, idx) =>
+      this.drawPath(path, ctx, map, this.styles_[idx]));
     this.redraw_ = false;
   }
   if (useBuffer && this.offScreen_) {

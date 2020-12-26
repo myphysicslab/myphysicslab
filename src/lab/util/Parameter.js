@@ -48,11 +48,9 @@ method will perform notification of changes via
 Here are examples of *getter* and *setter* methods showing how the Parameter is
 broadcast in the *setter* method of the Subject.
 
-    SingleSpringSim.prototype.getMass = function() {
-      return this.block_.getMass();
-    };
+    SingleSpringSim.prototype.getMass = () => this.block_.getMass();
 
-    SingleSpringSim.prototype.setMass = function(value) {
+    SingleSpringSim.prototype.setMass = value => {
       this.block_.setMass(value);
       this.broadcastParameter(SingleSpringSim.en.MASS);
     };

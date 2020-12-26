@@ -288,9 +288,7 @@ graphSetup(body) {
   if (!body) {
     // find first body with finite mass
     body = goog.array.find(this.sim.getBodies(),
-      function(bod) {
-        return isFinite(bod.getMass());
-      });
+      bod => isFinite(bod.getMass()));
   }
   if (body != null) {
     // set graphs to follow the body, but only if the graph has no variable chosen

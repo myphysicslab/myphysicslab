@@ -66,7 +66,7 @@ To update the names of the axes shown in a
 {@link myphysicslab.lab.util.GenericObserver GenericObserver} to watch for changes
 to the variables tracked by the GraphLine, as in this example:
 
-    new GenericObserver(graphLine, function(evt) {
+    new GenericObserver(graphLine, evt => {
       axes.setHorizName(graphLine.getXVarName());
       axes.setVerticalName(graphLine.getYVarName());
     });

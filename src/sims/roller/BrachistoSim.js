@@ -125,7 +125,7 @@ constructor(paths, opt_name, opt_simList) {
       this.getName()+'_VARS'));
   // the variables for x- and y- position and velocity are auto computed.
   var cv = goog.array.map(this.getVarsList().toArray(),
-      function(v) {
+      v => {
         if (v.getName().match(/^.*_(X|Y)_(POSITION|VELOCITY)$/)) {
           v.setComputed(true);
         }

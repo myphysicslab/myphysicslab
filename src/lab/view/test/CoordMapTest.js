@@ -384,12 +384,12 @@ static testCoordMap() {
 
   //check that setting bad alignment value throws an exception
   // (The type casting is needed to fool the compiler into passing bad values).
-  assertThrows(function() { map = CoordMap.make(screenRect1, simRect1,
-        (/** @type {!HorizAlign}*/('foo')), VerticalAlign.MIDDLE); });
-  assertThrows(function() { map = CoordMap.make(screenRect1, simRect1,
-        HorizAlign.MIDDLE, (/** @type {!VerticalAlign}*/('foo'))); });
-  assertThrows(function() { map = CoordMap.make(screenRect1, simRect1,
-        HorizAlign.MIDDLE, VerticalAlign.MIDDLE, -1); });
+  assertThrows(() => map = CoordMap.make(screenRect1, simRect1,
+        (/** @type {!HorizAlign}*/('foo')), VerticalAlign.MIDDLE));
+  assertThrows(() => map = CoordMap.make(screenRect1, simRect1,
+        HorizAlign.MIDDLE, (/** @type {!VerticalAlign}*/('foo'))));
+  assertThrows(() => map = CoordMap.make(screenRect1, simRect1,
+        HorizAlign.MIDDLE, VerticalAlign.MIDDLE, -1));
 };
 
 } // end class

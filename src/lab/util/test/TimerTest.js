@@ -51,7 +51,7 @@ static testTimer1() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer(/*legacy mode=*/true);
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     assertRoughlyEquals(0, myTimer.getPeriod(), 0.001);
     assertFalse(myTimer.isFiring());
     mockClock.tick(1000);
@@ -92,7 +92,7 @@ static testTimer2() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer(/*legacy mode=*/false);
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(0.03);
     mockClock.tick(1000);
     assertEquals(0, testVar);
@@ -123,7 +123,7 @@ static testTimer3() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer(/*legacy mode=*/true);
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/30);
     assertRoughlyEquals(1/30, myTimer.getPeriod(), 0.001);
     mockClock.tick(1000);
@@ -156,7 +156,7 @@ static testTimer4() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer(/*legacy mode=*/false);
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/25);
     assertRoughlyEquals(1/25, myTimer.getPeriod(), 0.001);
     mockClock.tick(1000);
@@ -189,7 +189,7 @@ static testTimer5() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer(/*legacy mode=*/false);
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     assertRoughlyEquals(0, myTimer.getPeriod(), 0.001);
     mockClock.tick(1000);
     assertEquals(0, testVar);
@@ -220,7 +220,7 @@ static testTimer6() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer(/*legacy mode=*/true);
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/40);
     assertRoughlyEquals(1/40, myTimer.getPeriod(), 0.001);
     mockClock.tick(1000);
@@ -252,7 +252,7 @@ static testTimer7() {
     mockClock.install();
     var testVar = 0;
     var myTimer = new Timer();
-    myTimer.setCallBack(function() { testVar++; });
+    myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/40);
     assertRoughlyEquals(1/40, myTimer.getPeriod(), 0.001);
     mockClock.tick(1000);

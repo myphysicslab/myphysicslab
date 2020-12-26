@@ -174,9 +174,8 @@ config() {
       /*rightAngle=*/this.squareBlocks));
 
   // set random colors for blocks
-  goog.array.forEach(blocks, function(b) {
-        this.displayList.findShape(b).setFillStyle(PileConfig.getRandomColor());
-      }, this);
+  goog.array.forEach(blocks, b =>
+    this.displayList.findShape(b).setFillStyle(PileConfig.getRandomColor()));
 
   this.mySim.setElasticity(elasticity);
   this.mySim.getVarsList().setTime(0);

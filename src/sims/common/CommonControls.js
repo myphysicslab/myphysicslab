@@ -64,7 +64,7 @@ static makeAxes(simView, bottomLeft_opt) {
     axes.setXAxisAlignment(VerticalAlign.BOTTOM);
     axes.setYAxisAlignment(HorizAlign.LEFT);
   }
-  new GenericObserver(simView, function(evt) {
+  new GenericObserver(simView, evt => {
       if (evt.nameEquals(LabView.COORD_MAP_CHANGED)) {
         var r = simView.getCoordMap().screenToSimRect(simView.getScreenRect());
         axes.setSimRect(r);
@@ -98,10 +98,10 @@ static makeBackgroundMenu(labCanvas) {
       CommonControls.en.WHITE_WITH_LONG_TRAILS,
       CommonControls.en.BLACK_WITH_LONG_TRAILS
     ];
-  values = goog.array.map(values, function(v) { return Util.toName(v); });
+  values = goog.array.map(values, v => Util.toName(v));
   var longAlpha = CommonControls.LONG_TRAILS;
   var shortAlpha = CommonControls.SHORT_TRAILS;
-  var getter = function() {
+  var getter = () => {
     var bg = labCanvas.getBackground();
     var alpha = labCanvas.getAlpha();
     if (bg == '') {
@@ -126,7 +126,7 @@ static makeBackgroundMenu(labCanvas) {
     return -1;
   };
   /** @type function(string) */
-  var setter = function(value) {
+  var setter = value => {
     var idx = goog.array.indexOf(values, value);
     switch (idx) {
       case 0: labCanvas.setBackground(''); labCanvas.setAlpha(1); break;
@@ -306,21 +306,16 @@ controlling the SimRunner
 */
 static makeEasyScript(subjects, dependent, simRun, terminal) {
   var easyScript = new EasyScriptParser(subjects, dependent);
-  easyScript.addCommand('reset', function() {
-      return simRun.reset();
-    }, 'sets simulation to initial conditions');
-  easyScript.addCommand('save', function() {
-      return simRun.save();
-    }, 'saves simulation initial conditions');
-  easyScript.addCommand('step', function() {
-      return simRun.step();
-    }, 'advance simulation by a small time increment');
-  easyScript.addCommand('pause', function() {
-      return simRun.pause();
-    }, 'pause simulation');
-  easyScript.addCommand('resume', function() {
-      return simRun.resume();
-    }, 'resume simulation');
+  easyScript.addCommand('reset', () => simRun.reset(),
+    'sets simulation to initial conditions');
+  easyScript.addCommand('save', () => simRun.save(),
+    'saves simulation initial conditions');
+  easyScript.addCommand('step', () => simRun.step(),
+    'advance simulation by a small time increment');
+  easyScript.addCommand('pause', () => simRun.pause(),
+    'pause simulation');
+  easyScript.addCommand('resume', () => simRun.resume(),
+    'resume simulation');
   terminal.setParser(easyScript);
   return easyScript;
 };
@@ -351,7 +346,7 @@ static makeShowClockParam(displayClock, targetView, subject) {
         subject.broadcastParameter(DisplayClock.en.SHOW_CLOCK);
       });
   subject.addParameter(pb);
-  new GenericObserver(displayList, function(event) {
+  new GenericObserver(displayList, event => {
       if (event.getValue() == displayClock) {
         subject.broadcastParameter(DisplayClock.en.SHOW_CLOCK);
       }
@@ -393,7 +388,7 @@ static makeShowEnergyParam(energyGraph, targetView, subject, opt_name, opt_i18n_
         subject.broadcastParameter(paramName);
       });
   subject.addParameter(pb);
-  new GenericObserver(displayList, function(event) {
+  new GenericObserver(displayList, event => {
       if (event.getValue() == energyGraph) {
         subject.broadcastParameter(paramName);
       }
@@ -410,8 +405,8 @@ controls.
 static makeShowPanZoomParam(panZoomDiv, subject) {
   var pb = new ParameterBoolean(subject, CommonControls.en.PAN_ZOOM,
       CommonControls.i18n.PAN_ZOOM,
-      /* getter=*/function() { return panZoomDiv.style.display != 'none'; },
-      /* setter=*/function(value) {
+      /* getter=*/() => panZoomDiv.style.display != 'none',
+      /* setter=*/value => {
         if (value) {
           panZoomDiv.style.display = 'block';
         } else {
@@ -434,7 +429,7 @@ static makeURLScriptButton(easyScript, simRun) {
   if (easyScript === undefined) {
     throw '';
   }
-  var copyURL = function() {
+  var copyURL = () => {
       var u = easyScript.scriptURL();
       var p = EasyScriptParser.i18n.PROMPT_URL;
       if (u.length > 2048) {

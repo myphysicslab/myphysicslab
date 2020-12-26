@@ -68,7 +68,7 @@ const ExtraAccel = {
 * @return {!ExtraAccel} the enum corresponding to the choice
 * @throws {!Error} if the value does not represent a valid enum
 */
-ExtraAccel.choiceToEnum = function(value) {
+ExtraAccel.choiceToEnum = value => {
   var choices = ExtraAccel.getChoices();
   for (var i=0, len=choices.length; i<len; i++) {
     if (value == choices[i]) {
@@ -83,7 +83,7 @@ ExtraAccel.choiceToEnum = function(value) {
 * @return {string} the localized choice string corresponding to the enum
 * @throws {!Error} if the value does not represent a valid enum
 */
-ExtraAccel.enumToChoice = function(value) {
+ExtraAccel.enumToChoice = value => {
   var vals = ExtraAccel.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
@@ -96,33 +96,29 @@ ExtraAccel.enumToChoice = function(value) {
 /** Returns the translated string versions of the enums in {@link #getValues}.
 * @return {!Array<string>} the translated string versions of the enums
 */
-ExtraAccel.getChoices = function() {
-  return [ExtraAccel.i18n.NONE,
-      ExtraAccel.i18n.VELOCITY,
-      ExtraAccel.i18n.VELOCITY_AND_DISTANCE,
-      ExtraAccel.i18n.VELOCITY_JOINTS,
-      ExtraAccel.i18n.VELOCITY_AND_DISTANCE_JOINTS];
-};
+ExtraAccel.getChoices = () =>
+  [ ExtraAccel.i18n.NONE,
+    ExtraAccel.i18n.VELOCITY,
+    ExtraAccel.i18n.VELOCITY_AND_DISTANCE,
+    ExtraAccel.i18n.VELOCITY_JOINTS,
+    ExtraAccel.i18n.VELOCITY_AND_DISTANCE_JOINTS ];
 
 /** Returns the set of valid enums.
 * @return {!Array<!ExtraAccel>} the set of valid enums.
 */
-ExtraAccel.getValues = function() {
-  return [
-    ExtraAccel.NONE,
+ExtraAccel.getValues = () =>
+  [ ExtraAccel.NONE,
     ExtraAccel.VELOCITY,
     ExtraAccel.VELOCITY_AND_DISTANCE,
     ExtraAccel.VELOCITY_JOINTS,
-    ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS
-  ];
-};
+    ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS ];
 
 /** Converts a string to an enum.
 * @param {string} value the string to convert
 * @return {!ExtraAccel} the enum corresponding to the value
 * @throws {!Error} if the value does not represent a valid enum
 */
-ExtraAccel.stringToEnum = function(value) {
+ExtraAccel.stringToEnum = value => {
   var vals = ExtraAccel.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {

@@ -75,7 +75,7 @@ static makeSimpleApp() {
   // create the callback that drives the animation
   var clock = new Clock();
   var timer = new Timer();
-  timer.setCallBack(function() {
+  timer.setCallBack(() => {
     point1.setPosition(new Vector(1 + 3*Math.sin(3*clock.getTime()), 0));
     simCanvas.paint();
   });

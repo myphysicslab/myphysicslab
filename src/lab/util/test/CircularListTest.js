@@ -84,9 +84,9 @@ static testUtilCircularList1() {
   // no data yet, should throw exception
   assertFalse(cIter.hasNext());
   assertFalse(cIter.hasPrevious());
-  assertThrows(function() { cIter.nextValue(); });
-  assertThrows(function() { cIter.previousValue(); });
-  assertThrows(function() { cIter.getIndex(); });
+  assertThrows(() => cIter.nextValue());
+  assertThrows(() => cIter.previousValue());
+  assertThrows(() => cIter.getIndex());
 
   // memorize first point
   j = cList.store(new Vector(0, 1));
@@ -106,7 +106,7 @@ static testUtilCircularList1() {
   assertEquals(0, cIter.getIndex());
   assertTrue(cIter.getValue().equals(new Vector(0, 1)));
   assertFalse(cIter.hasNext());
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
 
   // memorize second point
   j = cList.store(new Vector(0.1, 1.1));
@@ -129,10 +129,10 @@ static testUtilCircularList1() {
   assertEquals(1, cIter.getIndex());
   assertTrue(cIter.getValue().equals(new Vector(0.1, 1.1)));
   assertFalse(cIter.hasNext());
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
 
   // ask to iterate from a non-existent point
-  assertThrows(function() { cList.getIterator(2); });
+  assertThrows(() => cList.getIterator(2));
 
   // store enough points to fill the list
   for (i=2; i<10; i++) {
@@ -156,7 +156,7 @@ static testUtilCircularList1() {
     assertTrue(cIter.getValue().equals(new Vector(i*0.1, (i<5 ? 1:10)+i*0.1)));
   }
   assertEquals(9, i);
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
   assertEquals(10, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(9, cList.getEndIndex());
@@ -179,7 +179,7 @@ static testUtilCircularList1() {
     assertTrue(cIter.getValue().equals(new Vector(i*0.1, (i<5 ? 1:10)+i*0.1)));
   }
   assertEquals(10, i);
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
 
   // store points to fill to end of list
   for (i=11; i<20; i++) {
@@ -200,7 +200,7 @@ static testUtilCircularList1() {
     assertTrue(cIter.getValue().equals(new Vector(i*0.1, (i<5 ? 1:10)+i*0.1)));
   }
   assertEquals(19, i);
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
 
   // store another point, which will wrap around and be stored at first
   // position in the list.
@@ -220,7 +220,7 @@ static testUtilCircularList1() {
     assertTrue(cIter.getValue().equals(new Vector(i*0.1, (i<5 ? 1:10)+i*0.1)));
   }
   assertEquals(20, i);
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
 
 };
 
@@ -235,7 +235,7 @@ static testUtilCircularList2() {
   /** @type {!CircularList<!Vector>}*/(cList).causeMaxIntError();
   var i;
   var j=-1;
-  var e = assertThrows(function() {
+  var e = assertThrows(() => {
     for (i=0; i<3000; i++) {
       j = cList.store(new Vector(i*0.1, i*10));
     }
@@ -267,7 +267,7 @@ static testUtilCircularList2() {
     assertTrue(cIter.getValue().equals(new Vector(i*0.1, i*10)));
   }
   assertEquals(2999, i);
-  assertThrows(function() { cIter.nextValue(); });
+  assertThrows(() => cIter.nextValue());
 };
 
 // test iterating backwards: start at end, go to previous points.
@@ -297,7 +297,7 @@ static testUtilCircularList3() {
   assertEquals(0, i);
   assertEquals(0, cIter.getIndex());
   assertFalse(cIter.hasPrevious());
-  assertThrows(function() { cIter.previousValue(); });
+  assertThrows(() => cIter.previousValue());
 
   // fill the list beyond capacity, to wrap around and overwrite.
   for (i=90; i<110; i++) {
@@ -319,7 +319,7 @@ static testUtilCircularList3() {
   }
   assertEquals(10, i);
   assertEquals(10, cIter.getIndex());
-  assertThrows(function() { cIter.previousValue(); });
+  assertThrows(() => cIter.previousValue());
 };
 
 } // end class

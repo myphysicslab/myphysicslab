@@ -117,7 +117,7 @@ static testEasyScript1() {
       easyScript.getParameter('variables.position'));
   assertNull(easyScript.getParameter('foobar'));
   // throw when only Parameter name is given, but multiple Subjects have that Parameter
-  assertThrows(function() { easyScript.getParameter('width'); });
+  assertThrows(() => easyScript.getParameter('width'));
   assertEquals(simView1.getParameter('width'), easyScript.getParameter('view1.width'));
   assertEquals(simView2.getParameter('width'), easyScript.getParameter('view2.width'));
 
@@ -225,10 +225,10 @@ static testEasyScript1() {
   assertEquals('MIDDLE', t.eval('view1.horizontal_align=\'MIDDLE\''));
 
   // Subjects with duplicate names should cause an exception.
-  assertThrows(function() { new EasyScriptParser([va, simView1, simView2, va]) });
+  assertThrows(()=>  new EasyScriptParser([va, simView1, simView2, va]) );
 
   // Test the EasyScriptParser.addCommand() function
-  easyScript.addCommand('how_are_you', function() { return 'OK'; }, 'tells how you are');
+  easyScript.addCommand('how_are_you', () => 'OK', 'tells how you are');
   assertEquals('OK', easyScript.parse('how_are_you'));
   assertEquals('OK', easyScript.parse('HOW_ARE_YOU'));
   assertEquals('OK', t.eval('how_are_you'));

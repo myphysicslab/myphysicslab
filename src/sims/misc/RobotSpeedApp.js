@@ -101,7 +101,7 @@ constructor(elem_ids, opt_name) {
   var sr = this.simRun;
   // pause simulation when bot goes too far in either direction
   /** @type {!GenericMemo} */
-  this.memo = new GenericMemo(function() {
+  this.memo = new GenericMemo(() => {
     var p = bot.getPosition().getX();
     if (p < -0.5 || p > 6)
       sr.pause();

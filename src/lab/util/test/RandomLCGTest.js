@@ -76,9 +76,9 @@ static testRandom2() {
     //s += r+', ';
     assertEquals(exp[i], r);
   }
-  assertThrows(function() { r1.setSeed(-1); });
-  assertThrows(function() { r1.setSeed(r1.getModulus()); });
-  assertThrows(function() { r1.setSeed(0.1); });
+  assertThrows(() => r1.setSeed(-1));
+  assertThrows(() => r1.setSeed(r1.getModulus()));
+  assertThrows(() => r1.setSeed(0.1));
 };
 
 } // end class

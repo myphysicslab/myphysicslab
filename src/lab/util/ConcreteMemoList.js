@@ -40,7 +40,7 @@ constructor() {
 toString() {
   return Util.ADVANCED ? '' : 'ConcreteMemoList{'
       +'memorizables_: ['
-      + goog.array.map(this.memorizables_, function(a) { return a.toStringShort(); })
+      + goog.array.map(this.memorizables_, a => a.toStringShort())
       +']}';
 };
 
@@ -69,7 +69,7 @@ getMemos() {
 memorize() {
   try {
     this.isMemorizing_ = true;
-    goog.array.forEach(this.memorizables_, function(c) { c.memorize(); });
+    goog.array.forEach(this.memorizables_, c => c.memorize());
   } finally {
     this.isMemorizing_ = false;
   }

@@ -46,9 +46,8 @@ const GraphColor = {
 * @return {!Array<string>} the set of localized strings corresponding to
 *     {@link #getValues}.
 */
-GraphColor.getChoices = function() {
-  return [
-    GraphColor.i18n.AQUA,
+GraphColor.getChoices = () =>
+  [ GraphColor.i18n.AQUA,
     GraphColor.i18n.BLACK,
     GraphColor.i18n.BLUE,
     GraphColor.i18n.FUCHSIA,
@@ -63,16 +62,13 @@ GraphColor.getChoices = function() {
     GraphColor.i18n.SILVER,
     GraphColor.i18n.TEAL,
     GraphColor.i18n.WHITE,
-    GraphColor.i18n.YELLOW
-   ];
-};
+    GraphColor.i18n.YELLOW ];
 
 /** The set of GraphColor enum values.
 * @return {!Array<!GraphColor>} the GraphColor enum values.
 */
-GraphColor.getValues = function() {
-  return [
-    GraphColor.AQUA,
+GraphColor.getValues = () =>
+  [ GraphColor.AQUA,
     GraphColor.BLACK,
     GraphColor.BLUE,
     GraphColor.FUCHSIA,
@@ -87,16 +83,14 @@ GraphColor.getValues = function() {
     GraphColor.SILVER,
     GraphColor.TEAL,
     GraphColor.WHITE,
-    GraphColor.YELLOW
-   ];
-};
+    GraphColor.YELLOW ];
 
 /** Converts a string to an enum
 * @param {string} value the string to convert
 * @return {!GraphColor} the enum corresponding to the value, from {@link #getValues}
 * @throws {!Error} if the value does not represent a valid enum
 */
-GraphColor.stringToEnum = function(value) {
+GraphColor.stringToEnum = value => {
   var vals = GraphColor.getValues();
   for (var i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {

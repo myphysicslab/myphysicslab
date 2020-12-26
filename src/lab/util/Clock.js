@@ -221,7 +221,7 @@ addTask(task) {
 @private
 */
 cancelAllTasks() {
-  goog.array.forEach(this.tasks_, function(task) { task.cancel(); });
+  goog.array.forEach(this.tasks_, task =>  task.cancel());
 };
 
 /** Called during [step mode](#stepmode), this indicates that the client has advanced
@@ -248,7 +248,7 @@ clockToSystem(clockTime) {
 @private
 */
 executeTasks(startTime, timeStep) {
-  goog.array.forEach(this.tasks_, function(task) {
+  goog.array.forEach(this.tasks_, task => {
     if (task.getTime() >= startTime && task.getTime() <= startTime + timeStep) {
       task.schedule(0);
     }
@@ -424,7 +424,7 @@ setTimePrivate(time_secs) {
   if (this.isRunning_) {
     this.clockStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
     // schedule all ClockTasks
-    goog.array.forEach(this.tasks_, task => this.scheduleTask(task) );
+    goog.array.forEach(this.tasks_, task => this.scheduleTask(task));
   } else {
     this.saveTime_secs_ = time_secs;
   }

@@ -354,7 +354,7 @@ constructor(elem_ids, centered) {
   /** translate variable index of sim1 to equivalent variable of sim2
   * @type {function(number): number}
   */
-  var translate = function(v1) {
+  var translate = v1 => {
     switch (v1) {
       case 0: return 8; // angle1
       case 1: return 9; // angle1 velocity
@@ -371,7 +371,7 @@ constructor(elem_ids, centered) {
   // keep line2's X and Y variable in sync with line1
   var paramY = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   var paramX = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
-  new GenericObserver(line1, function(evt) {
+  new GenericObserver(line1, evt => {
     if (evt == paramY) {
       var yVar1 = paramY.getValue();
       line2.setYVariable(translate(yVar1));
@@ -413,7 +413,7 @@ constructor(elem_ids, centered) {
   timeLine2.setDrawingMode(DrawingMode.DOTS);
   // keep timeLine2's Y variable in sync with timeLine1
   var timeParamY = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  new GenericObserver(timeLine1, function(evt) {
+  new GenericObserver(timeLine1, evt => {
     if (evt == timeParamY) {
       var yVar1 = timeParamY.getValue();
       timeLine2.setYVariable(translate(yVar1));
@@ -559,7 +559,7 @@ setSeparation_() {
     // Because Joint is immutable we have to replace with a different Joint.
     // (Alternative: connect to an infinite mass 'anchor' body instead of Scrim, and
     // then move the anchor body).
-    goog.array.forEach(this.sim2.getConnectors(), function(connector) {
+    goog.array.forEach(this.sim2.getConnectors(), connector => {
       if (!(connector instanceof Joint)) {
         return;
       }
@@ -576,7 +576,7 @@ setSeparation_() {
         // (order is significant when doing alignConnectors)
         this.sim2.addConnector(j_new, /*follow=*/null);
       }
-    }, this);
+    });
     this.sim2.alignConnectors();
 };
 
