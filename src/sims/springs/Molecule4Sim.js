@@ -671,11 +671,11 @@ mouseDrag(simObject, location, offset, mouseEvent) {
     var n = this.nm_*4;
     va.incrSequence(n, n+1, n+2);
     this.moveObjects(va.getValues());
-    // set all velocities to zero.
+    /* set all velocities to zero.
     for (var i=0; i<this.nm_; i++) {
       va.setValue(2 + i*4, 0);
       va.setValue(3 + i*4, 0);
-    }
+    }*/
   }
 };
 
