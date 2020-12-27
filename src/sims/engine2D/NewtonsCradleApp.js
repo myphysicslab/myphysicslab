@@ -138,8 +138,7 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
+  return super.getSubjects().concat(this.dampingLaw, this.gravityLaw);
 };
 
 /** @override */

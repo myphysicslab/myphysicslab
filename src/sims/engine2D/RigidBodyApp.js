@@ -160,8 +160,7 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
+  return super.getSubjects().concat(this.dampingLaw, this.gravityLaw);
 };
 
 /**
@@ -327,7 +326,7 @@ getStiffness() {
 */
 setStiffness(value) {
   this.stiffness = value;
-  goog.array.forEach(this.springs_, s => s.setStiffness(value));
+  this.springs_.forEach(s => s.setStiffness(value));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(RigidBodyApp.en.SPRING_STIFFNESS);
@@ -345,7 +344,7 @@ getRestLength() {
 */
 setRestLength(value) {
   this.restLength = value;
-  goog.array.forEach(this.springs_, s => s.setRestLength(value));
+  this.springs_.forEach(s => s.setRestLength(value));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(RigidBodyApp.en.SPRING_LENGTH);

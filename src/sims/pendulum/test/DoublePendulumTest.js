@@ -150,7 +150,7 @@ static testDoublePendulum() {
   // there should be only this one observer
   var obsvrs = sim.getObservers();
   assertEquals(1, obsvrs.length);
-  assertTrue(goog.array.contains(obsvrs, mockObsvr1));
+  assertTrue(obsvrs.includes(mockObsvr1));
 
   assertEquals(1.0, sim.getRod1Length());
   sim.setRod1Length(1.2);

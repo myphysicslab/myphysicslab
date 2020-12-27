@@ -226,7 +226,7 @@ toStringShort() {
 * of WayPoints to add
 */
 addWayPoints(wayPoints) {
-  this.wayPoints_ = goog.array.concat(this.wayPoints_, wayPoints);
+  this.wayPoints_ = this.wayPoints_.concat(wayPoints);
 };
 
 /** @override */
@@ -385,9 +385,7 @@ advance(timeStep, opt_memoList) {
 * @private
 */
 allVelocities(collisions) {
-  return goog.array.map(collisions, function(c, index, array) {
-    return c.getVelocity();
-  });
+  return collisions.map(c => c.getVelocity());
 };
 
 /** Determine size of next time step.
@@ -455,7 +453,7 @@ collisions
 checkNoneCollide() {
   if (Util.DEBUG) {
     var numIllegal = 0;
-    goog.array.forEach(this.collisions_, c => {
+    this.collisions_.forEach(c => {
       if (c.illegalState())
         numIllegal++;
       });
@@ -549,7 +547,7 @@ do_advance_sim(stepSize) {
     else
       return 0;
     });
-  goog.array.forEach(this.collisions_, c => c.setNeedsHandling(c.isColliding()));
+  this.collisions_.forEach(c => c.setNeedsHandling(c.isColliding()));
   return error == null;
 };
 
@@ -613,7 +611,7 @@ do_handle_collision(numClose) {
     var time = this.sim_.getTime();
     // Update the collisions to see new velocity (gets velocity from RigidBody)
     // (for debugging).
-    goog.array.forEach(this.collisions_, c => c.updateCollision(time));
+    this.collisions_.forEach(c => c.updateCollision(time));
     this.print(WayPoint.HANDLE_COLLISION_SUCCESS);
     // count number of binary searches completed
     if (this.binarySearch_) {
@@ -678,7 +676,7 @@ do_small_impacts() {
     if (Util.DEBUG) {
       var time = this.sim_.getTime();
       // update the collisions to see new velocity when debugging
-      goog.array.forEach(this.collisions_, c => c.updateCollision(time));
+      this.collisions_.forEach(c => c.updateCollision(time));
     }
     this.print(WayPoint.SMALL_IMPACTS_FINISH);
     this.print(WayPoint.SMALL_IMPACTS);
@@ -720,7 +718,7 @@ getTimeStep() {
 *     WayPoints to show debug messages at.
 */
 getWayPoints() {
-  return goog.array.clone(this.wayPoints_);
+  return Array.from(this.wayPoints_);
 };
 
 /** Returns the joint flags of collisions
@@ -729,9 +727,7 @@ getWayPoints() {
 * @private
 */
 jointFlags(collisions) {
-  return goog.array.map(collisions, function(c, index, array) {
-    return c.bilateral();
-  });
+  return collisions.map(c => c.bilateral());
 };
 
 /** Returns the maximum impulse applied to any of the collisions.
@@ -783,7 +779,7 @@ print(wayPoint) {
   if (!Util.DEBUG) {
     return;
   }
-  if (!goog.array.contains(this.wayPoints_, wayPoint)) {
+  if (!this.wayPoints_.includes(wayPoint)) {
     return;
   }
   var WayPoint = CollisionAdvance.WayPoint;
@@ -849,7 +845,7 @@ print(wayPoint) {
       break;
 
     case WayPoint.HANDLE_REMOVE_DISTANT:
-      goog.array.forEach(this.removedCollisions_, c =>
+      this.removedCollisions_.forEach(c =>
           CollisionAdvance.printCollision(this.sim_.getTime(),
             'HANDLE_REMOVE_DISTANT:', c));
       break;
@@ -1013,7 +1009,7 @@ static printCollision(time, msg, c) {
 printCollisions(msg, printAll) {
   if (Util.DEBUG) {
     var time = this.sim_.getTime();
-    goog.array.forEach(this.collisions_, (c, i) => {
+    this.collisions_.forEach((c, i) => {
       if (printAll || c.needsHandling() || !c.contact()) {
         CollisionAdvance.printCollision(time, msg+' ['+i+']', c);
       }
@@ -1029,7 +1025,7 @@ printCollisions(msg, printAll) {
 printCollisions2(msg, impulse) {
   if (Util.DEBUG) {
     var time = this.sim_.getTime();
-    goog.array.forEach(this.collisions_, (c, i) => {
+    this.collisions_.forEach((c, i) => {
       if (Math.abs(c.getImpulse()) > impulse) {
         CollisionAdvance.printCollision(time, msg+' ['+i+']', c);
       }
@@ -1047,12 +1043,8 @@ printJointDistance() {
   // (Useful when comparing joint distance with small time steps to large time steps)
   if (time - this.printTime_ >= 0.025) {
     this.printTime_ = time;
-    var joints = goog.array.filter(this.collisions_, function(c, index, array) {
-      return c.bilateral();
-    });
-    var dists = goog.array.map(joints, function(c, index, array) {
-      return c.getDistance();
-    });
+    var joints = goog.array.filter(this.collisions_, c => c.bilateral());
+    var dists = joints.map(c => c.getDistance());
     this.myPrint(Util.array2string(dists));
   }
 };
@@ -1243,7 +1235,7 @@ setTimeStep(timeStep) {
 * of WayPoints to show debug messages for
 */
 setWayPoints(wayPoints) {
-  this.wayPoints_ = goog.array.clone(wayPoints);
+  this.wayPoints_ = Array.from(wayPoints);
 };
 
 } // end class

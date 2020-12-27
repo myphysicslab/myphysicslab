@@ -291,9 +291,9 @@ static testAbstractSubject1() {
   /** @type {!Array<!myphysicslab.lab.util.Parameter>} */
   var params = mockSubj1.getParameters();
   assertEquals(3, params.length);
-  assertTrue(goog.array.contains(params, paramFoo));
-  assertTrue(goog.array.contains(params, paramFooBar));
-  assertTrue(goog.array.contains(params, paramQux));
+  assertTrue(params.includes(paramFoo));
+  assertTrue(params.includes(paramFooBar));
+  assertTrue(params.includes(paramQux));
   var mockObsvr1 = new MockObserver1(mockSubj1);
   assertEquals(0, mockObsvr1.numEvents);
   assertEquals(0, mockObsvr1.numBooleans);
@@ -305,7 +305,7 @@ static testAbstractSubject1() {
   /** @type {!Array<!myphysicslab.lab.util.Observer>} */
   var obsvrs = mockSubj1.getObservers();
   assertEquals(1, obsvrs.length);
-  assertTrue(goog.array.contains(obsvrs, mockObsvr1));
+  assertTrue(obsvrs.includes(mockObsvr1));
   var event1 = new GenericEvent(mockSubj1, 'fooEvent');
   // broadcast an event, the mock observer should see it
   event1.getSubject().broadcast(event1);
@@ -357,8 +357,8 @@ static testAbstractSubject1() {
   assertEquals(4, mockObsvr1.numBooleans);
   obsvrs = mockSubj1.getObservers();
   assertEquals(1, obsvrs.length);
-  assertFalse(goog.array.contains(obsvrs, mockObsvr2));
-  assertTrue(goog.array.contains(obsvrs, mockObsvr1));
+  assertFalse(obsvrs.includes(mockObsvr2));
+  assertTrue(obsvrs.includes(mockObsvr1));
 };
 
 } // end class

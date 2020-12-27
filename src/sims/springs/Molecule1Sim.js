@@ -470,7 +470,7 @@ addCollision(collisions, atom, side, time) {
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
-  goog.array.forEach(this.atoms_, atom => {
+  this.atoms_.forEach(atom => {
     var a = atom.getBoundsWorld();
     var t = this.getTime()+stepSize;
     if (a.getLeft() < w.getLeft()) {
@@ -494,7 +494,7 @@ handleCollisions(collisions, opt_totals) {
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
   var va = this.getVarsList();
   var vars = va.getValues();
-  goog.array.forEach(collisions, collision => {
+  collisions.forEach(collision => {
     var c = /** @type {!MoleculeCollision} */(collision);
     var idx = 4*goog.array.indexOf(this.atoms_, c.atom);
     switch (c.side) {

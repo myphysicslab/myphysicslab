@@ -466,7 +466,7 @@ calculateSize() {
   var xmax = Util.NEGATIVE_INFINITY;
   var ymin = Util.POSITIVE_INFINITY;
   var ymax = Util.NEGATIVE_INFINITY;
-  goog.array.forEach(this.edges_, e => {
+  this.edges_.forEach(e => {
     if (e.getLeftBody() < xmin)
       xmin = e.getLeftBody();
     if (e.getRightBody() > xmax)
@@ -499,10 +499,10 @@ a new RigidBodyCollision to the list of collisions.
 checkCollision(collisions, body, time) {
   UtilityCollision.checkVertexes(collisions, this, body, time);
   UtilityCollision.checkVertexes(collisions, body, this, time);
-  goog.array.forEach(this.edges_, e1 => {
+  this.edges_.forEach(e1 => {
     if (body.nonCollideEdge(e1))
       return;
-    goog.array.forEach(body.getEdges(), e2 => {
+    body.getEdges().forEach(e2 => {
       if (this.nonCollideEdge(e2))
         return;
       // can't do this proximity test, unless you calculate a new speed limit
@@ -534,7 +534,7 @@ checkConsistent() {
     throw 'Polygon construction is not finished.';
   }
   // v0 = starting Vertex of the current path being examined
-  goog.array.forEach(this.paths_, v0 => {
+  this.paths_.forEach(v0 => {
     var v = v0; // v = current Vertex being examined
     do {
       // find the next Edge
@@ -613,7 +613,7 @@ closePath_(v1, v2) {
   }
   v1.setEdge1(v2_edge1);
   v2_edge1.setVertex2(v1);
-  goog.asserts.assert(goog.array.contains(this.vertices_, v2));
+  goog.asserts.assert(this.vertices_.includes(v2));
   goog.array.remove(this.vertices_, v2);
 };
 
@@ -621,7 +621,7 @@ closePath_(v1, v2) {
 createCanvasPath(context) {
   context.beginPath();
   // v0 = starting Vertex of the current path being examined
-  goog.array.forEach(this.paths_, v0 => {
+  this.paths_.forEach(v0 => {
     context.moveTo(v0.locBodyX(), v0.locBodyY());
     /** @type {!Vertex} */
     var v = v0; // v = current Vertex being examined
@@ -645,7 +645,7 @@ createCanvasPath(context) {
   });
   if (Util.DEBUG && (Polygon.SHOW_VERTICES || Polygon.SHOW_ALL_VERTICES)) {
     // put a small circle at each Vertex
-    goog.array.forEach(this.vertices_, v => {
+    this.vertices_.forEach(v => {
       context.moveTo(v.locBodyX(), v.locBodyY());
       if (Polygon.SHOW_ALL_VERTICES || v.isEndPoint()) {
         context.arc(v.locBodyX(), v.locBodyY(), 0.1, 0, 2*Math.PI,
@@ -657,7 +657,7 @@ createCanvasPath(context) {
 
 /** @override */
 doesNotCollide(body) {
-  return goog.array.contains(this.nonCollideBodies_, body);
+  return this.nonCollideBodies_.includes(body);
 };
 
 /** @override */
@@ -774,7 +774,7 @@ getEdges_() {
     body.
 */
 getEdges() {
-  return goog.array.clone(this.edges_);
+  return Array.from(this.edges_);
 };
 
 /** @override */
@@ -795,7 +795,7 @@ getMinHeight() {
   if (isNaN(this.minHeight_)) {
     var dist = Util.POSITIVE_INFINITY;
     // find minimum distance to an Edge.
-    goog.array.forEach(this.edges_, e => {
+    this.edges_.forEach(e => {
       var d = e.distanceToPoint(this.cm_body_);
       if (1 == 0 && Util.DEBUG)
         console.log('d='+Util.NF(d)+' cm='+this.cm_body_+' '+e);
@@ -960,7 +960,7 @@ getVertexes_() {
 
 /** @override */
 getVerticesBody() {
-  return goog.array.map(this.vertices_, v => v.locBody());
+  return this.vertices_.map(v => v.locBody());
 };
 
 /** Returns last Edge in current open path or `null` when there is no last Edge or no
@@ -1017,7 +1017,7 @@ any Vertex of this Polygon.
 */
 maxRadiusSquared(p_body) {
   var maxR = 0;
-  goog.array.forEach(this.vertices_, v => {
+  this.vertices_.forEach(v => {
     var d = p_body.distanceTo(v.locBody());
     if (d > maxR)
       maxR = d;
@@ -1026,7 +1026,7 @@ maxRadiusSquared(p_body) {
   // can be in error by, because we are only looking at the 'decorated Vertexes'
   // on the curved Edge.
   var mce = 0;  // maximum chord error
-  goog.array.forEach(this.edges_, e => {
+  this.edges_.forEach(e => {
     var ce = e.chordError();
     if (ce > mce)
       mce = ce;
@@ -1061,12 +1061,12 @@ printAll() {
     console.log(this.toString());
     /** @type {!Vertex} */
     var vLast = this.vertices_[this.vertices_.length - 1];
-    goog.array.forEach(this.vertices_, (v, k) => {
+    this.vertices_.forEach((v, k) => {
       var d = v.locBody().distanceTo(vLast.locBody());
       console.log('('+(k)+') '+v+' dist to prev vertex = '+Util.NF(d));
       vLast = v;
     });
-    goog.array.forEach(this.edges_, (e, k) => console.log('('+(k)+') '+e));
+    this.edges_.forEach((e, k) => console.log('('+(k)+') '+e));
   };
 };
 
@@ -1091,7 +1091,7 @@ probablyPointInside(p_body) {
 /** @override */
 removeNonCollide(bodies) {
   goog.array.removeAllIf(this.nonCollideBodies_, function(body, index, arr) {
-    return goog.array.contains(bodies, body);
+    return bodies.includes(body);
   });
 };
 
@@ -1216,7 +1216,7 @@ setSpecialEdge(edgeIndex, radius) {
   this.centroidRadius_ = radius;
   // Set centroid radius of all non-special edges to zero.
   // This makes all those edges non-operative for collision detection.
-  goog.array.forEach(this.edges_, e => {
+  this.edges_.forEach(e => {
     if (e != this.specialEdge_) {
       e.setCentroidRadius(0);
     }

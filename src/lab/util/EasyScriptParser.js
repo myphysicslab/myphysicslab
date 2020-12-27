@@ -258,8 +258,8 @@ constructor(subjects, dependent) {
   * Because when generating a script, we add commands in order of Subjects list
   * and "configuration Parameters" can change the dependent Subjects.
   */
-  goog.array.removeAllIf(this.subjects_, s => goog.array.contains(this.dependent_, s), this);
-  this.subjects_ = goog.array.concat(this.subjects_, this.dependent_);
+  goog.array.removeAllIf(this.subjects_, s => this.dependent_.includes(s), this);
+  this.subjects_ = this.subjects_.concat(this.dependent_);
   /** Names and initial values of non-dependent Parameters. Used for making the script
   * shorter.
   * @type {!Array<string>}
@@ -329,7 +329,7 @@ constructor(subjects, dependent) {
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', subjects_: ['
-      + goog.array.map(this.subjects_, s => s.toStringShort())
+      + this.subjects_.map(s => s.toStringShort())
       +']}';
 };
 
@@ -353,9 +353,9 @@ addCommand(commandName, commandFnc, helpText) {
 static checkUniqueNames(subjects) {
   /** @type !Array<string> */
   var names = [];
-  goog.array.forEach(subjects, subj => {
+  subjects.forEach(subj => {
     var nm = subj.getName();
-    if (goog.array.contains(names, nm)) {
+    if (names.includes(nm)) {
       throw 'duplicate Subject name: '+nm;
     };
     names.push(nm);
@@ -415,7 +415,7 @@ getSubject(name) {
 * @return {!Array<!Subject>} the list of Subjects being parsed
 */
 getSubjects() {
-  return goog.array.clone(this.subjects_);
+  return Array.from(this.subjects_);
 };
 
 /** Returns the "help" string which gives information on available commands.
@@ -454,7 +454,7 @@ help() {
 *    set by this EasyScriptParser
 */
 names() {
-  return goog.array.clone(this.allSubjParamNames_);
+  return Array.from(this.allSubjParamNames_);
 };
 
 /** Returns a script which sets Parameters to their current values.
@@ -476,7 +476,7 @@ that are being automatically computed, unless `includeComputed` is `true`.
 */
 namesAndValues(dependent, includeComputed, fullName) {
   dependent = dependent == true;
-  var allParams = goog.array.map(this.allSubjects_, (s, idx) =>
+  var allParams = this.allSubjects_.map((s, idx) =>
       s.getParameter(this.allParamNames_[idx]));
   var params = allParams;
   if (!includeComputed) {
@@ -485,9 +485,9 @@ namesAndValues(dependent, includeComputed, fullName) {
   }
   // Keep only Parameters of dependent or non-dependent Subjects as requested.
   params = goog.array.filter(params,
-      p => goog.array.contains(this.dependent_, p.getSubject()) == dependent, this);
+      p => this.dependent_.includes(p.getSubject()) == dependent, this);
   var re = /^[a-zA-Z0-9_]+$/;
-  var s = goog.array.map(params, p => {
+  var s = params.map(p => {
       var paramName = Util.toName(p.getName());
       var idx = goog.array.indexOf(allParams, p);
       var v = p.getValue();
@@ -561,11 +561,11 @@ saveStart() {
 */
 script() {
   var ar = this.namesAndValues(false).split(';');
-  ar = goog.array.concat(ar, this.namesAndValues(true).split(';'));
+  ar = ar.concat(this.namesAndValues(true).split(';'));
   var initSettings = goog.array.concat(this.initialNonDependent_,
       this.initialDependent_);
   // strip out any settings that are identical to initial settings
-  goog.array.removeAllIf(ar, s => goog.array.contains(initSettings, s));
+  goog.array.removeAllIf(ar, s => initSettings.includes(s));
   return ar.join(';')+(ar.length > 0 ? ';' : '');
 };
 

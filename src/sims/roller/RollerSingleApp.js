@@ -196,8 +196,7 @@ setStartTValue(value) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.pathSelect, subjects);
+  return super.getSubjects().concat(this.pathSelect);
 };
 
 /** Returns the parameteric X equation defining the path.

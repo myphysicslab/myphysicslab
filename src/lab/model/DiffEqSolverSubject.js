@@ -83,8 +83,8 @@ constructor(sim, energySystem, advanceStrategy, opt_name) {
         new RungeKutta(this.sim_));
     this.solvers_.push(solver);
   };
-  var choices = goog.array.map(this.solvers_, s => s.getName(/*localized=*/true));
-  var values = goog.array.map(this.solvers_, s => s.getName());
+  var choices = this.solvers_.map(s => s.getName(/*localized=*/true));
+  var values = this.solvers_.map(s => s.getName());
   this.addParameter(
     new ParameterString(this, DiffEqSolverSubject.en.DIFF_EQ_SOLVER,
         DiffEqSolverSubject.i18n.DIFF_EQ_SOLVER,
@@ -100,7 +100,7 @@ toString() {
           : this.energySystem_.toStringShort())
       +', advanceStrategy_: '+this.advanceStrategy_
       +', solvers_: [ '
-      + goog.array.map(this.solvers_, s => s.toStringShort())
+      + this.solvers_.map(s => s.toStringShort())
       +']'
       + super.toString();
 };

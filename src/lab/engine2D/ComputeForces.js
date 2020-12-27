@@ -511,7 +511,7 @@ compute_forces(A, f, b, joint, debug, time) {
   // When a contact is deferred by drive_to_zero, put it on list of rejects,
   // and then process other contacts, returning to the rejects at the end
   // to give them a second chance.
-  goog.array.clear(this.reRejects);
+  this.reRejects.length = 0;
   var solved = 0;
   this.specialCase = false;
   this.states = [];
@@ -604,7 +604,7 @@ compute_forces(A, f, b, joint, debug, time) {
       goog.asserts.assert(error == -1);
       // -1 means success, so remove d from rejects list (if it was on the list)
       // and reset the reRejects list.
-      goog.array.clear(this.reRejects);
+      this.reRejects.length = 0;
       if (this.R[d]) {
         if (Util.DEBUG && this.debugCF)
           this.printContact(' deferral solved ', true, d, -1, -1);
@@ -902,7 +902,7 @@ nextReject() {
   var j = -1;
   var i;
   for (i=0; i<this.n; i++) {
-    if (this.R[i] && !goog.array.contains(this.reRejects, i)) {
+    if (this.R[i] && !this.reRejects.includes(i)) {
       if (!this.joint[i] && this.a[i] < -maxAccel || this.joint[i]
             && Math.abs(this.a[i]) > maxAccel) {
         maxAccel = Math.abs(this.a[i]);

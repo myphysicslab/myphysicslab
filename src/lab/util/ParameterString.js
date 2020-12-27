@@ -152,7 +152,7 @@ getAsString() {
 
 /** @override */
 getChoices() {
-  return goog.array.clone(this.choices_);
+  return Array.from(this.choices_);
 };
 
 /** Returns the maximum length of the string. {@link #setValue} will throw an Error if
@@ -189,7 +189,7 @@ getValue() {
 
 /** @override */
 getValues() {
-  return goog.array.clone(this.values_);
+  return Array.from(this.values_);
 };
 
 /** @override */
@@ -285,7 +285,7 @@ setValue(value) {
     throw 'string too long: '+value+' maxLength='+this.maxLength_;
   }
   if (this.values_.length > 0) {
-    if (!goog.array.contains(this.values_, value)) {
+    if (!this.values_.includes(value)) {
       throw '"'+value+'" is not an allowed value among: ['+this.values_.join(',')+']';
     }
   }

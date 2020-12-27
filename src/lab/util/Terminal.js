@@ -579,8 +579,8 @@ addRegex(names, prefix, opt_addToVars, opt_prepend) {
     if (addToVars) {
       var nms = names.split('|');
       var vrs = this.vars_.split('|');
-      goog.array.forEach(nms, nm => {
-        if (!goog.array.contains(vrs, nm)) {
+      nms.forEach(nm => {
+        if (!vrs.includes(nm)) {
           this.vars_ += (this.vars_.length > 0 ? '|' : '') + nm;
         }
       });
@@ -644,7 +644,7 @@ addRegex2(regex, replace, opt_prepend) {
 */
 addWhiteList(name, opt_addToVars) {
   var addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
-  if (!goog.array.contains(this.whiteList_, name)) {
+  if (!this.whiteList_.includes(name)) {
     this.whiteList_.push(name);
     if (addToVars) {
       this.vars_ += (this.vars_.length > 0 ? '|' : '') + name;
@@ -695,13 +695,13 @@ commands() {
     var t = this.term_output_.value;
     t = t.split('\n');
     // remove leading and trailing whitespace on each command
-    t = goog.array.map(t, e => e.trim());
+    t = t.map(e => e.trim());
     // filter out non-commands, and the 'terminal.remember()' command
     t = goog.array.filter(t, function(/** string */e) {
       return e.length>2 && e.substr(0,2)== '> '
           && !e.match(/^> (terminal|this).(remember|commands)\(\s*\);?$/);
       });
-    t = goog.array.map(t, e => e.substr(2));
+    t = t.map(e => e.substr(2));
     return t;
   } else {
     return [];
@@ -1181,9 +1181,9 @@ recall(opt_execute) {
       if (s) {
         this.println('//start of stored scripts');
         if (execute) {
-          goog.array.forEach(s.split('\n'), t => this.eval(t));
+          s.split('\n').forEach(t => this.eval(t));
         } else {
-          goog.array.forEach(s.split('\n'), t => this.println(t));
+          s.split('\n').forEach(t => this.println(t));
         }
         this.println('//end of stored scripts');
       }

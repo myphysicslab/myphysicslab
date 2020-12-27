@@ -106,7 +106,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, body => this.addBody(body));
+  bodies.forEach(body => this.addBody(body));
 };
 
 /** Adds the SimObject to list of objects that Gravity2Law applies
@@ -133,7 +133,7 @@ calculateForces() {
   var forces = [];
   var j = 0;
   var n = bodies2.length;
-  goog.array.forEach(this.bods_, body1 => {
+  this.bods_.forEach(body1 => {
     j++;
     var m1 = body1.getMass();
     if (m1 <= 0 || !isFinite(m1)) // skip infinite mass and zero mass objects
@@ -180,7 +180,7 @@ disconnect() {
 
 /** @override */
 getBodies() {
-  return goog.array.clone(this.bods_);
+  return Array.from(this.bods_);
 };
 
 /** Returns the strength of gravity, the `G` factor in `F = G m1 m2 / r^2`.
@@ -239,7 +239,7 @@ getPotentialEnergy() {
   var bodies2 = goog.array.toArray(this.bods_);
   var j = 0;
   var n = bodies2.length;
-  goog.array.forEach(this.bods_, body1 => {
+  this.bods_.forEach(body1 => {
     j++;
     var m1 = body1.getMass();
     if (m1 <= 0 || !isFinite(m1)) // skip infinite mass and zero mass objects
@@ -270,7 +270,7 @@ observe(event) {
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
     obj = /** @type {!SimObject} */ (event.getValue());
     goog.array.remove(this.bods_, obj);
-    goog.asserts.assert( !goog.array.contains(this.bods_, obj));
+    goog.asserts.assert(!goog.array.contains(this.bods_, obj));
   }
 };
 
@@ -279,7 +279,7 @@ observe(event) {
     MassObjects to apply forces on.
 */
 setBodies(bodies) {
-  this.bods_ = goog.array.concat(bodies);
+  this.bods_ = Array.from(bodies);
 };
 
 /** Sets the strength of gravity, the `G` factor in `F = G m1 m2 / r^2`.

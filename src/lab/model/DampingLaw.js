@@ -131,7 +131,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, b => this.addBody(b));
+  bodies.forEach(b => this.addBody(b));
 };
 
 /** Adds the SimObject to list of objects that DampingLaw applies forces to, but only
@@ -156,7 +156,7 @@ calculateForces() {
   if (this.damping_ == 0) {
     return forces;
   }
-  goog.array.forEach(this.bods_, bod => {
+  this.bods_.forEach(bod => {
     if (!isFinite(bod.getMass())) // skip infinite mass objects
       return;
     // translational damping: location is center of mass;
@@ -190,7 +190,7 @@ disconnect() {
 
 /** @override */
 getBodies() {
-  return goog.array.clone(this.bods_);
+  return Array.from(this.bods_);
 };
 
 /** Returns the strength of the damping force.
@@ -222,7 +222,7 @@ observe(event) {
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
     obj = /** @type {!SimObject} */ (event.getValue());
     goog.array.remove(this.bods_, obj);
-    goog.asserts.assert( !goog.array.contains(this.bods_, obj));
+    goog.asserts.assert(!goog.array.contains(this.bods_, obj));
   }
 };
 

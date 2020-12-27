@@ -214,7 +214,7 @@ toString() {
       +', timeWindow_: '+Util.NF(this.timeWindow_)
       +', simView_: '+this.simView_.toStringShort()
       +', graphLines_: ['
-      + goog.array.map(this.graphLines_, g => g.toStringShort())
+      + this.graphLines_.map(g => g.toStringShort())
       + ']' + super.toString();
 };
 
@@ -229,7 +229,7 @@ on the line.
 */
 addGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
-    if (!goog.array.contains(this.graphLines_, graphLine)) {
+    if (!this.graphLines_.includes(graphLine)) {
       this.graphLines_.push(graphLine);
       this.lastIndex_.push(-1);
     }
@@ -383,7 +383,7 @@ removeGraphLine(graphLine) {
     var idx = goog.array.indexOf(this.graphLines_, graphLine);
     goog.array.removeAt(this.graphLines_, idx);
     goog.array.removeAt(this.lastIndex_, idx);
-    goog.asserts.assert(!goog.array.contains(this.graphLines_, graphLine));
+    goog.asserts.assert(!this.graphLines_.includes(graphLine));
     this.reset();
   } else {
     throw 'not a GraphLine '+graphLine;
@@ -451,7 +451,7 @@ depending on whether this AutoScale is active.
 setComputed(value) {
   var names = [SimView.en.WIDTH, SimView.en.HEIGHT, SimView.en.CENTER_X,
       SimView.en.CENTER_Y];
-  goog.array.forEach(names, nm => this.simView_.getParameter(nm).setComputed(value));
+  names.forEach(nm => this.simView_.getParameter(nm).setComputed(value));
 };
 
 /** Sets whether this AutoScale is enabled. The AutoScale must be enabled in order

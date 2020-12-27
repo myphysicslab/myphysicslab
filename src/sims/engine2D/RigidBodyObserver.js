@@ -215,7 +215,7 @@ add_(dispObj, simObj) {
 * @private
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, obj => this.addBody(obj));
+  bodies.forEach(obj => this.addBody(obj));
 };
 
 /** Creates DisplayObject for the SimObject, and adds DisplayObject to DisplayList.

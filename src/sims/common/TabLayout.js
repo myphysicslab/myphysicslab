@@ -375,7 +375,7 @@ toString() {
       +', timeGraphCanvas: '+this.timeGraphCanvas.toStringShort()
       +', terminal: '+this.terminal
       +', controls_: ['
-      + goog.array.map(this.controls_, a => a.toStringShort())
+      + this.controls_.map(a => a.toStringShort())
       +']'
       + super.toString();
 };
@@ -765,7 +765,7 @@ setLayoutFromTab(layout) {
 */
 setSelectedTab(layout) {
   if (this.getSelectedTab() != layout) {
-    goog.array.forEach(this.tab_list.childNodes, node => {
+    this.tab_list.childNodes.forEach(node => {
       if (node.nodeType != Node.ELEMENT_NODE) {
         // it's not an Element
         return;

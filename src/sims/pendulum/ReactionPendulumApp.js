@@ -451,7 +451,7 @@ constructor(elem_ids) {
     this.sim1.getVarsList(),
     this.sim2.getVarsList()
   ];
-  subjects = goog.array.concat(subjects, this.layout.getSubjects(),
+  subjects = subjects.concat(this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun,

@@ -166,7 +166,7 @@ getBottomBody() {};
 /** @override */
 getBottomWorld() {
   var min = Util.POSITIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), v => {
+  this.getVerticesBody().forEach(v => {
     var p = this.bodyToWorld(v);
     if (p.getY() < min)
       min = p.getY();
@@ -204,7 +204,7 @@ getCentroidWorld() {
 
 /** @override */
 getDragPoints() {
-  return goog.array.clone(this.dragPts_);
+  return Array.from(this.dragPts_);
 };
 
 /** @override */
@@ -223,7 +223,7 @@ getLeftBody() {};
 /** @override */
 getLeftWorld() {
   var min = Util.POSITIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), v => {
+  this.getVerticesBody().forEach(v => {
     var p = this.bodyToWorld(v);
     if (p.getX() < min)
       min = p.getX();
@@ -250,7 +250,7 @@ getRightBody() {};
 /** @override */
 getRightWorld() {
   var max = Util.NEGATIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), v => {
+  this.getVerticesBody().forEach(v => {
     var p = this.bodyToWorld(v);
     if (p.getX() > max)
       max = p.getX();
@@ -264,7 +264,7 @@ getTopBody() {};
 /** @override */
 getTopWorld() {
   var max = Util.NEGATIVE_INFINITY;
-  goog.array.forEach(this.getVerticesBody(), v => {
+  this.getVerticesBody().forEach(v => {
     var p = this.bodyToWorld(v);
     if (p.getY() > max)
       max = p.getY();
@@ -356,7 +356,7 @@ setCenterOfMass(x_body, y_body) {
 
 /** @override */
 setDragPoints(dragPts) {
-  this.dragPts_ = goog.array.clone(dragPts);
+  this.dragPts_ = Array.from(dragPts);
 };
 
 /** @override */

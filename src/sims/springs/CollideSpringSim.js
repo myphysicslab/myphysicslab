@@ -273,9 +273,9 @@ config(numBlocks, startPosition, startGap)  {
     throw 'too many blocks '+numBlocks;
   }
   this.getSimList().removeAll(this.blocks_);
-  goog.array.clear(this.blocks_);
+  this.blocks_.length = 0;
   this.getSimList().removeAll(this.springs_);
-  goog.array.clear(this.springs_);
+  this.springs_.length = 0;
   this.getSimList().add(this.wall1_);
   this.getSimList().add(this.wall2_);
   var va = this.getVarsList();
@@ -369,8 +369,8 @@ getEnergyInfo_(vars) {
   var ke = 0;
   /** @type {number} */
   var pe = 0;
-  goog.array.forEach(this.springs_, spr => pe += spr.getPotentialEnergy());
-  goog.array.forEach(this.blocks_, block => ke += block.getKineticEnergy());
+  this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
+  this.blocks_.forEach(block => ke += block.getKineticEnergy());
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
@@ -408,7 +408,7 @@ modifyObjects() {
 moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
-  goog.array.forEach(this.blocks_, (block, i) => {
+  this.blocks_.forEach((block, i) => {
     var idx = 2*i;
     block.setPosition(new Vector(vars[idx],  0));
     block.setVelocity(new Vector(vars[1 + idx], 0, 0));
@@ -462,13 +462,13 @@ evaluate(vars, change, timeStep) {
   // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   change[this.blocks_.length*2+3] = 1; // time
-  goog.array.forEach(this.blocks_, (block, listIdx) => {
+  this.blocks_.forEach((block, listIdx) => {
     var idx = 2*listIdx;
     change[idx] = vars[idx+1]; // U' = V
     var mass = block.getMass();
     // for each spring, get force from spring,
     var force = new MutableVector(0, 0);
-    goog.array.forEach(this.springs_, spr => {
+    this.springs_.forEach(spr => {
       if (spr.getBody1() == block) {
         force.add(spr.calculateForces()[0].getVector());
       } else if (spr.getBody2() == block) {
@@ -513,7 +513,7 @@ getSpringDamping() {
 */
 setSpringDamping(value) {
   this.springDamping_ = value;
-  goog.array.forEach(this.springs_, spr => spr.setDamping(value));
+  this.springs_.forEach(spr => spr.setDamping(value));
   this.broadcastParameter(CollideSpringSim.en.SPRING_DAMPING);
 };
 
@@ -530,7 +530,7 @@ getMass() {
 setMass(value) {
   this.mass_ = value;
   var mass = this.mass_/this.blocks_.length;
-  goog.array.forEach(this.blocks_, block => block.setMass(mass));
+  this.blocks_.forEach(block => block.setMass(mass));
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
   var n = this.blocks_.length*2;

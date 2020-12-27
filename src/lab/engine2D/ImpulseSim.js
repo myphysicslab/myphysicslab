@@ -371,7 +371,7 @@ setCollisionAccuracy(value) {
     throw 'accuracy must be between 0 and 1, is '+value;
   }
   this.collisionAccuracy_ = value;
-  goog.array.forEach(this.bods_, b => b.setAccuracy(value));
+  this.bods_.forEach(b => b.setAccuracy(value));
   this.broadcastParameter(RigidBodySim.en.COLLISION_ACCURACY);
 };
 
@@ -391,7 +391,7 @@ object
 */
 setDistanceTol(value) {
   this.distanceTol_ = value;
-  goog.array.forEach(this.bods_, b => b.setDistanceTol(value));
+  this.bods_.forEach(b => b.setDistanceTol(value));
   this.broadcastParameter(RigidBodySim.en.DISTANCE_TOL);
 };
 
@@ -411,7 +411,7 @@ object
 */
 setVelocityTol(value) {
   this.velocityTol_ = value;
-  goog.array.forEach(this.bods_, b => b.setVelocityTol(value));
+  this.bods_.forEach(b => b.setVelocityTol(value));
   this.broadcastParameter(RigidBodySim.en.VELOCITY_TOL);
 };
 
@@ -459,7 +459,7 @@ cleanSlate() {
 * @private
 */
 checkInfiniteMassVelocity(vars) {
-  goog.array.forEach(this.bods_, b => {
+  this.bods_.forEach(b => {
     var idx = b.getVarsIndex();
     goog.asserts.assert(idx >= 0);
     if (b.getMass() == Util.POSITIVE_INFINITY) {
@@ -724,7 +724,7 @@ handleCollisions(collisions, opt_totals) {
     throw 'empty array passed to handleCollisions';
   }
   if (Util.DEBUG) {
-    goog.array.forEach(rbcs, c => c.checkConsistent());
+    rbcs.forEach(c => c.checkConsistent());
   }
   if (1 == 0 && Util.DEBUG)
     energy = this.getEnergyInfo().getTotalEnergy();
@@ -1016,7 +1016,7 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
       debugHCS = true;
       console.log('handleCollisionsSerial loopCtr='+loopCtr);
       if (loopCtr <= LOOP_LIMIT+2) {
-        goog.array.forEach(collisions, (c, i) => console.log('c['+(i)+'] '+c));
+        collisions.forEach((c, i) => console.log('c['+(i)+'] '+c));
         UtilEngine.printArray('nv ',nv, Util.NFE);
       }
     }

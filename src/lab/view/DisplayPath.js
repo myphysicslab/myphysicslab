@@ -111,9 +111,7 @@ toString() {
       +', useBuffer_: '+this.useBuffer_
       +', defaultStyle: '+this.defaultStyle_
       +', paths_: ['
-      + goog.array.map(this.paths_, function(p, idx) {
-          return idx+': '+p.toString();
-        })
+      + this.paths_.map((p, idx) => idx+': '+p.toString())
       +']}';
 };
 
@@ -152,7 +150,7 @@ contains(p_world) {
 * @return {boolean} `true` if `path` is in the set of paths to display
 */
 containsPath(path) {
-  return goog.array.contains(this.paths_, path);
+  return this.paths_.includes(path);
 };
 
 /** @override */
@@ -167,7 +165,7 @@ draw(context, map) {
   var w = r.getWidth();
   var h = r.getHeight();
   context.save();
-  goog.array.forEach(this.paths_, (path, idx) => {
+  this.paths_.forEach((path, idx) => {
       var seq = path.getSequence();
       // Change in sequence number indicates path has changed.
       // If any of the paths have changed, then need to redraw.
@@ -210,7 +208,7 @@ draw(context, map) {
       // 'clearRect fills with transparent black'
       ctx.clearRect(0, 0, w, h);
     }
-    goog.array.forEach(this.paths_, (path, idx) =>
+    this.paths_.forEach((path, idx) =>
       this.drawPath(path, ctx, map, this.styles_[idx]));
     this.redraw_ = false;
   }
@@ -337,7 +335,7 @@ getScreenRect() {
 
 /** @override */
 getSimObjects() {
-  return goog.array.clone(this.paths_);
+  return Array.from(this.paths_);
 };
 
 /** Returns DrawingStyle used for drawing a Path.

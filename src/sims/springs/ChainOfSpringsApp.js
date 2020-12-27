@@ -84,7 +84,7 @@ constructor(elem_ids, numAtoms, attachRight) {
   this.protoSpring.setZIndex(-1);
 
   // Make DisplayObjects for all SimObjects currently on the SimList.
-  goog.array.forEach(this.simList.toArray(), obj => this.addBody(obj));
+  this.simList.toArray().forEach(obj => this.addBody(obj));
   // The observe() method will make DisplayObjects in response to seeing
   // SimObjects being added to the SimList.
   this.simList.addObserver(this);

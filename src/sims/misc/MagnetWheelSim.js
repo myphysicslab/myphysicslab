@@ -250,7 +250,7 @@ evaluate(vars, change, timeStep) {
   // the fixed magnet is at (xf, yf)
   var fm = this.wheel_.getFixedMagnet();
   var magnets = this.wheel_.getMagnets();
-  goog.array.forEach(this.wheel_.calculateForces(), f => {
+  this.wheel_.calculateForces().forEach(f => {
     change[1] += f.getTorque()/m;
     // Add force to SimList, so that it can be displayed.
     // The force should disappear immediately after it is displayed.

@@ -151,7 +151,7 @@ getAsString() {
 
 /** @override */
 getChoices() {
-  return goog.array.clone(this.choices_);
+  return Array.from(this.choices_);
 };
 
 /** Returns the suggested number of decimal places to show or –1 if variable.
@@ -212,7 +212,7 @@ getValue() {
 
 /** @override */
 getValues() {
-  return goog.array.map(this.values_, v => v.toString());
+  return this.values_.map(v => v.toString());
 };
 
 /** @override */
@@ -337,7 +337,7 @@ setValue(value) {
         +' and '+this.upperLimit_;
   }
   if (this.values_.length > 0) {
-    if (!goog.array.contains(this.values_, value)) {
+    if (!this.values_.includes(value)) {
       throw value+' is not an allowed value among: ['+this.values_.join(',')+']';
     }
   }

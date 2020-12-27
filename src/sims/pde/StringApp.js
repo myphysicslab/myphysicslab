@@ -288,7 +288,7 @@ constructor(elem_ids) {
     this.simView,
     this.statusView
   ];
-  subjects = goog.array.concat(subjects, this.layout.getSubjects());
+  subjects = subjects.concat(this.layout.getSubjects());
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun,
       this.terminal);

@@ -427,7 +427,7 @@ constructor(elem_ids) {
     this.layout.graphCanvas,
     this.elasticity
   ];
-  subjects = goog.array.concat(subjects, this.graph.getSubjects());
+  subjects = subjects.concat(this.graph.getSubjects());
 
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [ this.varsList ],
@@ -483,8 +483,8 @@ setGroup(groupIndex) {
   if (this.groupSelected_ != groupIndex) {
     this.groupSelected_ = groupIndex;
     this.testSelected_ = -1;
-    goog.array.clear(this.tests_);
-    goog.array.clear(this.testNames_);
+    this.tests_.length = 0;
+    this.testNames_.length = 0;
     this.addTestsFrom_(this.groups_[groupIndex]);
     this.testParam_.setChoices(this.testNames_,
         goog.array.range(this.testNames_.length));
@@ -596,7 +596,7 @@ startTest_(testIndex) {
   this.tests_[testIndex](this.sim, this.advance);
 
   // Set moveable blocks to random colors. Helps distinguish them visually.
-  goog.array.forEach(this.displayList.toArray(), d => {
+  this.displayList.toArray().forEach(d => {
     if (d instanceof DisplayShape) {
       var ds = /** @type {!DisplayShape} */(d);
       var p = ds.getMassObjects()[0];
@@ -706,7 +706,7 @@ setSimRect_() {
     }
     var rect = bods[0].getBoundsWorld();
     var walls = false;
-    goog.array.forEach(bods, b => {
+    bods.forEach(b => {
       rect = rect.union(b.getBoundsWorld());
       walls = walls || b.getName().match(/^WALL*/);
     });

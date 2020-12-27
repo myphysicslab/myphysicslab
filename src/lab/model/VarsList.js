@@ -138,8 +138,8 @@ toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', timeIdx_: '+this.timeIdx_
       +', history_: '+this.history_
-      + ', ' + goog.array.map(this.varList_, function(v, idx) {
-          return '('+idx+') '+ v.getName()+': '+Util.NF5E(v.getValue()); })
+      + ', ' + this.varList_.map(
+        (v, idx) => '('+idx+') '+ v.getName()+': '+Util.NF5E(v.getValue()))
       + super.toString();
 };
 
@@ -308,7 +308,7 @@ getParameter(name) {
 
 /** @override */
 getParameters() {
-  return goog.array.clone(this.varList_);
+  return Array.from(this.varList_);
 };
 
 /** Returns the value of the time variable, or throws an exception if there is no time
@@ -343,7 +343,7 @@ getValue(index) {
     Computed variables have value of NaN unless requested.
 */
 getValues(computed) {
-  return goog.array.map(this.varList_, v => {
+  return this.varList_.map(v => {
     if (!computed && v.isComputed()) {
       return NaN;
     } else {
@@ -553,7 +553,7 @@ ordering.
     in their correct ordering.
 */
 toArray() {
-  return goog.array.clone(this.varList_);
+  return Array.from(this.varList_);
 };
 
 } // end class

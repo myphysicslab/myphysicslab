@@ -145,7 +145,7 @@ static testSingleSpring() {
   // there should be only this one observer
   var obsvrs = sim.getObservers();
   assertEquals(1, obsvrs.length);
-  assertTrue(goog.array.contains(obsvrs, mockObsvr1));
+  assertTrue(obsvrs.includes(mockObsvr1));
 
   sim.setFixedPoint(0);
   assertEquals(0, sim.getFixedPoint());

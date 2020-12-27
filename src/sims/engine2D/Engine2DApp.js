@@ -261,7 +261,7 @@ getSubjects() {
     this.statusView,
     this.varsList
   ];
-  return goog.array.concat(subjects, this.layout.getSubjects(),
+  return subjects.concat(this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
 };
 
@@ -273,7 +273,7 @@ in EasyScriptParser documentation.
 makeEasyScript(opt_dependent) {
   var dependent = [ this.varsList ];
   if (Array.isArray(opt_dependent)) {
-    dependent = goog.array.concat(dependent, opt_dependent);
+    dependent = dependent.concat(opt_dependent);
   }
   this.easyScript = CommonControls.makeEasyScript(this.getSubjects(), dependent,
       this.simRun, this.terminal);

@@ -68,7 +68,7 @@ static makeVPit(sim, opt_offset) {
   sim.addBody(p4);
   // set each wall to not collide with any other wall
   var walls = [p1, p2, p3, p4];
-  goog.array.forEach(walls, w => w.addNonCollide(walls));
+  walls.forEach(w => w.addNonCollide(walls));
   // return lowest possible point
   return p1.bodyToWorld(new Vector(15.3/2 - 1, 0.5)).getY();
 };
@@ -113,7 +113,7 @@ static makeDoubleVPit(sim, opt_offset) {
       Walls.i18n.WALL_LEFT);
   w.setPosition(new Vector(-10.5,  7.5+offset),  0);
   walls.push(w);
-  goog.array.forEach(walls, p => {
+  walls.forEach(p => {
     p.setMass(Util.POSITIVE_INFINITY);
     sim.addBody(p);
     // set each wall to not collide with any other wall

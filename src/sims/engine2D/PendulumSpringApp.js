@@ -205,9 +205,8 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.gravityLaw, this.dampingLaw, this.graphLine,
-       this.autoScale, subjects);
+  return super.getSubjects().concat(this.gravityLaw, this.dampingLaw, this.graphLine,
+       this.autoScale);
 };
 
 /** @override */
@@ -232,7 +231,7 @@ getStiffness() {
 * @param {number} value
 */
 setStiffness(value) {
-  goog.array.forEach(this.springs_, s =>  s.setStiffness(value));
+  this.springs_.forEach(s =>  s.setStiffness(value));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(PendulumSpringApp.en.SPRING_STIFFNESS);
@@ -249,7 +248,7 @@ getRestLength() {
 * @param {number} value
 */
 setRestLength(value) {
-  goog.array.forEach(this.springs_, s =>  s.setRestLength(value));
+  this.springs_.forEach(s =>  s.setRestLength(value));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.mySim.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(PendulumSpringApp.en.SPRING_LENGTH);

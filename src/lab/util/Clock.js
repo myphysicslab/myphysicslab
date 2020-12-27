@@ -210,7 +210,7 @@ ClockTask.
 @param {!ClockTask} task the ClockTask to add to list of tasks to be run
 */
 addTask(task) {
-  if (!goog.array.contains(this.tasks_, task)) {
+  if (!this.tasks_.includes(task)) {
     this.tasks_.push(task);
     this.scheduleTask(task);
   }
@@ -221,7 +221,7 @@ addTask(task) {
 @private
 */
 cancelAllTasks() {
-  goog.array.forEach(this.tasks_, task =>  task.cancel());
+  this.tasks_.forEach(task =>  task.cancel());
 };
 
 /** Called during [step mode](#stepmode), this indicates that the client has advanced
@@ -248,7 +248,7 @@ clockToSystem(clockTime) {
 @private
 */
 executeTasks(startTime, timeStep) {
-  goog.array.forEach(this.tasks_, task => {
+  this.tasks_.forEach(task => {
     if (task.getTime() >= startTime && task.getTime() <= startTime + timeStep) {
       task.schedule(0);
     }
@@ -281,7 +281,7 @@ getRealTime() {
 @return {!Array<!ClockTask>} array of ClockTasks that are scheduled to run
 */
 getTasks() {
-  return goog.array.clone(this.tasks_);
+  return Array.from(this.tasks_);
 };
 
 /** Returns the [clock time](#clocktime) in seconds. When the Clock
@@ -424,7 +424,7 @@ setTimePrivate(time_secs) {
   if (this.isRunning_) {
     this.clockStart_sys_secs_ = Util.systemTime() - time_secs/this.timeRate_;
     // schedule all ClockTasks
-    goog.array.forEach(this.tasks_, task => this.scheduleTask(task));
+    this.tasks_.forEach(task => this.scheduleTask(task));
   } else {
     this.saveTime_secs_ = time_secs;
   }

@@ -66,8 +66,8 @@ static testDisplayList() {
   assertTrue(displayList.contains(s2));
   assertEquals(2, displayList.length());
   assertEquals(2, displayList.toArray().length);
-  assertTrue(goog.array.contains(displayList.toArray(), s1));
-  assertTrue(goog.array.contains(displayList.toArray(), s2));
+  assertTrue(displayList.toArray().includes(s1));
+  assertTrue(displayList.toArray().includes(s2));
   assertEquals(s1, displayList.find(p1));
   assertEquals(s1, displayList.findShape(p1));
   assertEquals(s2, displayList.find(p2));

@@ -106,7 +106,7 @@ toString() {
       +', useBuffer_: '+this.useBuffer_
       +', zIndex: '+this.zIndex
       +', graphLines_: ['
-      + goog.array.map(this.graphLines_, g => g.toStringShort())
+      + this.graphLines_.map(g => g.toStringShort())
       +']}';
 };
 
@@ -120,7 +120,7 @@ toStringShort() {
 */
 addGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
-    if (!goog.array.contains(this.graphLines_, graphLine)) {
+    if (!this.graphLines_.includes(graphLine)) {
       this.graphLines_.push(graphLine);
       this.memDraw_.push(-1);
     }
@@ -378,7 +378,7 @@ removeGraphLine(graphLine) {
     var idx = goog.array.indexOf(this.graphLines_, graphLine);
     goog.array.removeAt(this.graphLines_, idx);
     goog.array.removeAt(this.memDraw_, idx);
-    goog.asserts.assert(!goog.array.contains(this.graphLines_, graphLine));
+    goog.asserts.assert(!this.graphLines_.includes(graphLine));
     this.needRedraw_ = true;
   } else {
     throw 'not a GraphLine '+graphLine;

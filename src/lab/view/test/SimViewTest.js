@@ -260,8 +260,8 @@ static testSimView1() {
   assertTrue(displayList1.contains(shape1));
   assertTrue(displayList1.contains(dspring1));
   assertEquals(2, displayList1.toArray().length);
-  assertTrue(goog.array.contains(displayList1.toArray(), shape1));
-  assertTrue(goog.array.contains(displayList1.toArray(), dspring1));
+  assertTrue(displayList1.toArray().includes(shape1));
+  assertTrue(displayList1.toArray().includes(dspring1));
   assertEquals(shape1, displayList1.find(point1));
   assertEquals(dspring1, displayList1.find(spring1));
 
@@ -339,12 +339,12 @@ static testSimView1() {
   displayList1.remove(shape1);
   assertFalse(displayList1.contains(shape1));
   assertEquals(1, displayList1.toArray().length);
-  assertFalse(goog.array.contains(displayList1.toArray(), shape1));
+  assertFalse(displayList1.toArray().includes(shape1));
 
   displayList1.removeAll();
   assertFalse(displayList1.contains(dspring1));
   assertEquals(0, displayList1.toArray().length);
-  assertFalse(goog.array.contains(displayList1.toArray(), dspring1));
+  assertFalse(displayList1.toArray().includes(dspring1));
 
   assertThrows(() => new SimView('badView', DoubleRect.EMPTY_RECT));
 };

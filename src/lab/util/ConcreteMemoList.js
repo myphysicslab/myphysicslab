@@ -40,7 +40,7 @@ constructor() {
 toString() {
   return Util.ADVANCED ? '' : 'ConcreteMemoList{'
       +'memorizables_: ['
-      + goog.array.map(this.memorizables_, a => a.toStringShort())
+      + this.memorizables_.map(a => a.toStringShort())
       +']}';
 };
 
@@ -55,21 +55,21 @@ addMemo(memorizable) {
   if (this.isMemorizing_) {
     throw 'addMemo during memorize';
   }
-  if (!goog.array.contains(this.memorizables_, memorizable)) {
+  if (!this.memorizables_.includes(memorizable)) {
     this.memorizables_.push(memorizable);
   }
 };
 
 /** @override */
 getMemos() {
-  return goog.array.clone(this.memorizables_);
+  return Array.from(this.memorizables_);
 };
 
 /** @override */
 memorize() {
   try {
     this.isMemorizing_ = true;
-    goog.array.forEach(this.memorizables_, c => c.memorize());
+    this.memorizables_.forEach(c => c.memorize());
   } finally {
     this.isMemorizing_ = false;
   }

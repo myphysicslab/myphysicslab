@@ -49,7 +49,7 @@ toString() {
 * @param {!EdgeRange} edgeRange  the EdgeRange to add
 */
 add(edgeRange) {
-  if (!goog.array.contains(this.ranges_, edgeRange)) {
+  if (!this.ranges_.includes(edgeRange)) {
     this.ranges_.push(edgeRange);
   }
 };

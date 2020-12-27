@@ -81,9 +81,7 @@ toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', tolerance_: '+Util.NF(this.tolerance_)
       +', elements_: ['
-      + goog.array.map(this.elements_, function(e, idx) {
-          return idx+': '+e.toStringShort();
-        })
+      + this.elements_.map((e, idx) => idx+': '+e.toStringShort())
       + ']' + super.toString();
 };
 
@@ -120,7 +118,7 @@ add(simObjs) {
         this.remove(similar);
       }
     }
-    if (!goog.array.contains(this.elements_, element)) {
+    if (!this.elements_.includes(element)) {
       this.elements_.push(element);
       this.broadcast(new GenericEvent(this, SimList.OBJECT_ADDED, element));
     }
@@ -150,7 +148,7 @@ clear() {
 @return {boolean} true if the SimObject is in this SimList.
 */
 contains(simObj) {
-  return goog.array.contains(this.elements_, simObj);
+  return this.elements_.includes(simObj);
 };
 
 /** Returns the SimObject at the specified position in this SimList, or the first
@@ -325,7 +323,7 @@ setTolerance(tolerance) {
 @return {!Array<!SimObject>} an array containing all the SimObjects on this SimList.
 */
 toArray() {
-  return goog.array.clone(this.elements_);
+  return Array.from(this.elements_);
 };
 
 } // end class

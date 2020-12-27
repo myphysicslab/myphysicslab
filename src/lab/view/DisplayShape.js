@@ -76,7 +76,7 @@ properties that affect how the name is drawn. Example code:
 
 Here is a script that can be executed in Terminal to show names on all DisplayShapes:
 
-    goog.array.forEach(displayList.toArray(), d => {
+    displayList.toArray().forEach(d => {
       if (d instanceof DisplayShape) {
         d.setNameFont('12pt sans-serif');
       }
@@ -370,7 +370,7 @@ draw(context, map) {
     var borderDash = this.getBorderDash();
     if (borderDash.length > 0 && typeof context.setLineDash === 'function') {
       // convert the borderDash to be in sim coords
-      var ld = goog.array.map(borderDash, n => map.screenToSimScaleX(n));
+      var ld = borderDash.map(n => map.screenToSimScaleX(n));
       context.setLineDash(ld);
     }
     context.strokeStyle = strokeStyle;
@@ -434,7 +434,7 @@ draw(context, map) {
       if (sz < d) {
         d = sz;
       }
-      goog.array.forEach(this.massObject_.getDragPoints(), dpt => {
+      this.massObject_.getDragPoints().forEach(dpt => {
         if (this.isDarkColor_) {
           context.fillStyle = '#ccc'; //lightGray;
         } else {

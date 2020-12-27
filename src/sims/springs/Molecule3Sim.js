@@ -308,7 +308,7 @@ from that atom.
 * @param {!PointMass} atom the PointMass to add to the simulation
 */
 addAtom(atom) {
-  if (!goog.array.contains(this.atoms_, atom)) {
+  if (!this.atoms_.includes(atom)) {
     // create 4 variables in vars array for this atom
     var names = [];
     for (var k = 0; k<4; k++) {
@@ -379,7 +379,7 @@ initializeFromAtom(atom) {
 * @return {!Array<!PointMass>}
 */
 getAtoms() {
-  return goog.array.clone(this.atoms_);
+  return Array.from(this.atoms_);
 };
 
 /** Adds a {@link Spring} to the simulation.
@@ -394,7 +394,7 @@ addSpring(spring) {
 * @return {!Array<!Spring>}
 */
 getSprings() {
-  return goog.array.clone(this.springs_);
+  return Array.from(this.springs_);
 };
 
 /** Returns the {@link PointMass} that represents the walls.
@@ -430,9 +430,9 @@ cleanSlate() {
         nv - Molecule3Sim.START_VAR);
   }
   this.getSimList().removeAll(this.atoms_);
-  goog.array.clear(this.atoms_);
+  this.atoms_.length = 0;
   this.getSimList().removeAll(this.springs_);
-  goog.array.clear(this.springs_);
+  this.springs_.length = 0;
 };
 
 /** @override */
@@ -454,9 +454,9 @@ getEnergyInfo_(vars) {
   var ke = 0;
   /** @type {number} */
   var pe = 0;
-  goog.array.forEach(this.springs_, spr => pe += spr.getPotentialEnergy());
+  this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   var bottom = this.walls_.getBoundsWorld().getBottom();
-  goog.array.forEach(this.atoms_, atom => {
+  this.atoms_.forEach(atom => {
     ke += atom.getKineticEnergy();
     // gravity potential = m g (y - floor)
     pe += this.gravity_ * atom.getMass() *
@@ -527,7 +527,7 @@ modifyObjects() {
 moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
-  goog.array.forEach(this.atoms_, (atom, i) => {
+  this.atoms_.forEach((atom, i) => {
     var idx = Molecule3Sim.START_VAR + 4*i;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
     atom.setVelocity(new Vector(vars[2 + idx], vars[3 + idx], 0));
@@ -617,7 +617,7 @@ addCollision(collisions, atom, side, time) {
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
-  goog.array.forEach(this.atoms_, atom => {
+  this.atoms_.forEach(atom => {
     var a = atom.getBoundsWorld();
     var t = this.getTime()+stepSize;
     if (a.getLeft() < w.getLeft()) {
@@ -641,7 +641,7 @@ handleCollisions(collisions, opt_totals) {
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   var va = this.getVarsList();
   var vars = va.getValues();
-  goog.array.forEach(collisions, collision => {
+  collisions.forEach(collision => {
     var c = /** @type {!MoleculeCollision} */(collision);
     var idx = Molecule3Sim.START_VAR + 4*goog.array.indexOf(this.atoms_, c.atom);
     switch (c.side) {
@@ -673,7 +673,7 @@ evaluate(vars, change, timeStep) {
   var walls = this.walls_.getBoundsWorld();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
-  goog.array.forEach(this.atoms_, (atom, listIdx) => {
+  this.atoms_.forEach((atom, listIdx) => {
     if (this.dragAtom_ == listIdx) {
       return;
     }
@@ -686,7 +686,7 @@ evaluate(vars, change, timeStep) {
     var bounds = atom.getBoundsWorld();
     // for each spring, get force from spring
     var force = new MutableVector(0, 0);
-    goog.array.forEach(this.springs_, spr => {
+    this.springs_.forEach(spr => {
       if (spr.getBody1() == atom) {
         force.add(spr.calculateForces()[0].getVector());
       } else if (spr.getBody2() == atom) {

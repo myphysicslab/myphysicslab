@@ -421,7 +421,7 @@ see {@link #alignConnectors}.
     ContactSim
 */
 addConnector(connector, follow) {
-  if (goog.array.contains(this.connectors_, connector)) {
+  if (this.connectors_.includes(connector)) {
     // avoid adding a Connector twice
     return;
   }
@@ -471,7 +471,7 @@ removeConnector(connector) {
 @return {!Array<!Connector>} the list of active Connectors
 */
 getConnectors() {
-  return goog.array.clone(this.connectors_);
+  return Array.from(this.connectors_);
 };
 
 /** Aligns all Connectors. This is generally done only during set up of initial
@@ -580,7 +580,7 @@ calcContactForces(vars, change, subset) {
   /** @type {!Array<number>} */
   var b = this.calculate_b_vector(subset, change, vars);
   /** @type {!Array<boolean>} */
-  var joint = goog.array.map(subset, c => c.joint);
+  var joint = subset.map(c => c.joint);
   /** @type {!Array<number>} */
   var f = Util.newNumberArray(b.length);
   if (Util.DEBUG && pileDebug) {

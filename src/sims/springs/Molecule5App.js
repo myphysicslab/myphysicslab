@@ -232,7 +232,7 @@ constructor(elem_ids, numAtoms) {
   * @private
   */
   this.ke_high_memo_ = new GenericMemo(() => {
-    goog.array.forEach(this.sim_.getAtoms(), (atom, idx) => {
+    this.sim_.getAtoms().forEach((atom, idx) => {
       var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
       var ke_pct = ke_var.getValue();
       var dispAtom = this.displayList.findShape(atom);
@@ -604,7 +604,7 @@ getShowNames() {
 setShowNames(value) {
   if (value != this.showNames_) {
     this.showNames_ = value;
-    goog.array.forEach(this.sim_.getAtoms(), atom => {
+    this.sim_.getAtoms().forEach(atom => {
       var dispAtom = this.displayList.findShape(atom);
       if (value) {
         dispAtom.setNameFont('12pt sans-serif');
@@ -632,9 +632,9 @@ setShowSprings(value) {
   if (value != this.showSprings_) {
     this.showSprings_ = value;
     if (value) {
-      goog.array.forEach(this.sim_.getSprings(), spr => this.addBody(spr));
+      this.sim_.getSprings().forEach(spr => this.addBody(spr));
     } else {
-      goog.array.forEach(this.sim_.getSprings(), spr => this.removeBody(spr));
+      this.sim_.getSprings().forEach(spr => this.removeBody(spr));
     }
     this.broadcastParameter(Molecule5App.en.SHOW_SPRINGS);
   }
@@ -692,8 +692,8 @@ setShowKEHigh(value) {
       this.simRun.addMemo(this.ke_high_memo_);
     } else {
       this.simRun.removeMemo(this.ke_high_memo_);
-      goog.array.forEach(this.sim_.getAtoms(), atom => this.removeBody(atom));
-      goog.array.forEach(this.sim_.getAtoms(), atom => this.addBody(atom));
+      this.sim_.getAtoms().forEach(atom => this.removeBody(atom));
+      this.sim_.getAtoms().forEach(atom => this.addBody(atom));
     }
     this.broadcastParameter(Molecule5App.en.SHOW_KE_HIGH);
   }

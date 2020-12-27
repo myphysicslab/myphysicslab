@@ -110,7 +110,7 @@ update(collisions) {
   var infinity = Util.POSITIVE_INFINITY;
   this.clear();
   this.numCollisions = collisions.length;
-  goog.array.forEach(collisions, c => {
+  collisions.forEach(c => {
     if (c.bilateral()) {
       this.numJoints++;
     } else if (c.contact()) {

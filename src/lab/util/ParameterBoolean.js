@@ -116,7 +116,7 @@ getAsString() {
 
 /** @override */
 getChoices() {
-  return goog.array.clone(this.choices_);
+  return Array.from(this.choices_);
 };
 
 /** @override */
@@ -138,7 +138,7 @@ getValue() {
 
 /** @override */
 getValues() {
-  return goog.array.map(this.values_, v => v.toString());
+  return this.values_.map(v => v.toString());
 };
 
 /** @override */

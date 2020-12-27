@@ -120,7 +120,7 @@ getClassName() {
   possibly add
 */
 addBodies(bodies) {
-  goog.array.forEach(bodies, body => this.addBody(body));
+  bodies.forEach(body => this.addBody(body));
 };
 
 /** Adds the SimObject to list of objects that GravityLaw applies forces to, but only
@@ -141,7 +141,7 @@ addBody(obj) {
 /** @override */
 calculateForces() {
   var forces = [];
-  goog.array.forEach(this.bods_, body => {
+  this.bods_.forEach(body => {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       forces.push(new Force('gravity', body,
         /*location=*/body.getPosition(), CoordType.WORLD,
@@ -172,7 +172,7 @@ disconnect() {
 
 /** @override */
 getBodies() {
-  return goog.array.clone(this.bods_);
+  return Array.from(this.bods_);
 };
 
 /** Returns the magnitude of the gravity force.
@@ -185,7 +185,7 @@ getGravity() {
 /** @override */
 getPotentialEnergy() {
   var pe = 0;
-  goog.array.forEach(this.bods_, body => {
+  this.bods_.forEach(body => {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       if (0 == 1 && Util.DEBUG) {
         console.log('body '+body.getName()
@@ -217,7 +217,7 @@ observe(event) {
     this.addBody(obj);
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
     goog.array.remove(this.bods_, obj);
-    goog.asserts.assert( !goog.array.contains(this.bods_, obj));
+    goog.asserts.assert(!goog.array.contains(this.bods_, obj));
   }
 };
 

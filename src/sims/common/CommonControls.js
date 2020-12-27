@@ -98,7 +98,7 @@ static makeBackgroundMenu(labCanvas) {
       CommonControls.en.WHITE_WITH_LONG_TRAILS,
       CommonControls.en.BLACK_WITH_LONG_TRAILS
     ];
-  values = goog.array.map(values, v => Util.toName(v));
+  values = values.map(v => Util.toName(v));
   var longAlpha = CommonControls.LONG_TRAILS;
   var shortAlpha = CommonControls.SHORT_TRAILS;
   var getter = () => {

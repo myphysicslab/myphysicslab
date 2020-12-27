@@ -245,7 +245,7 @@ config()  {
   }
   var atoms = this.sim_.getAtoms();
   for (i=0; i<this.msm_.length; i++) {
-    var special = goog.array.contains(this.sg_, i);
+    var special = this.sg_.includes(i);
     var name = (special ? 'special ' : '') + 'spring '+i;
     var spring = new Spring(name,
       atoms[this.msm_[i][0]], Vector.ORIGIN,
@@ -308,7 +308,7 @@ static getSG(numAtoms) {
 static getNSG(num_springs, sg) {
   var nsg = [];
   for (var i=0; i<num_springs; i++) {
-    if (!goog.array.contains(sg, i)) {
+    if (!sg.includes(i)) {
       nsg.push(i);
     }
   }
@@ -384,7 +384,7 @@ getMass() {
 @param {number} value mass of atoms
 */
 setMass(value) {
-  goog.array.forEach(this.sim_.getAtoms(), (atom, idx) => {
+  this.sim_.getAtoms().forEach((atom, idx) => {
     if (idx > 0) {
       atom.setMass(value);
     }

@@ -444,7 +444,7 @@ constructor(elem_ids, centered) {
     this.sim1.getVarsList(),
     this.sim2.getVarsList()
   ];
-  subjects = goog.array.concat(subjects, this.layout.getSubjects(),
+  subjects = subjects.concat(this.layout.getSubjects(),
       this.graph.getSubjects(), this.timeGraph.getSubjects());
   /** @type {!EasyScriptParser} */
   this.easyScript = CommonControls.makeEasyScript(subjects, [], this.simRun,
@@ -559,7 +559,7 @@ setSeparation_() {
     // Because Joint is immutable we have to replace with a different Joint.
     // (Alternative: connect to an infinite mass 'anchor' body instead of Scrim, and
     // then move the anchor body).
-    goog.array.forEach(this.sim2.getConnectors(), connector => {
+    this.sim2.getConnectors().forEach(connector => {
       if (!(connector instanceof Joint)) {
         return;
       }

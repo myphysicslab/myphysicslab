@@ -206,7 +206,7 @@ static getVariableName(i, paths, localized) {
 @return {!Array<!NumericalPath>} the set of paths to choose from
 */
 getPaths() {
-  return goog.array.clone(this.paths_);
+  return Array.from(this.paths_);
 };
 
 /** Which path was chosen by user, or -1 if no path chosen.

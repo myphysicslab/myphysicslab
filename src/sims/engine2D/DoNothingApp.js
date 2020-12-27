@@ -140,8 +140,7 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.dampingLaw, subjects);
+  return super.getSubjects().concat(this.dampingLaw);
 };
 
 /**
@@ -168,7 +167,7 @@ config() {
     this.mySim.addBody(block);
     this.displayList.findShape(block).setFillStyle('blue');
     // the free block does not collide with fixed blocks
-    goog.array.forEach(this.mySim.getBodies(), bod => {
+    this.mySim.getBodies().forEach(bod => {
       if (bod.getName().match(/^FIXED.*/) != null) {
         bod.addNonCollide([block]);
         block.addNonCollide([bod]);

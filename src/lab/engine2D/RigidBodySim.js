@@ -252,9 +252,9 @@ toString_() {
       + ', potentialOffset_: '+Util.NF(this.potentialOffset_)
       + ', varsList_: '+ this.varsList_.toStringShort()
       + ', forceLaws_: ['
-      + goog.array.map(this.forceLaws_, f => f.toStringShort())
+      + this.forceLaws_.map(f => f.toStringShort())
       + '], bods_: ['
-      + goog.array.map(this.bods_, b => b.toStringShort())
+      + this.bods_.map(b => b.toStringShort())
       + ']'
       + super.toString();
 };
@@ -336,7 +336,7 @@ reset() {
       this.initialState_.length == this.varsList_.numVariables()) {
     this.varsList_.setValues(this.initialState_);
   }
-  goog.array.forEach(this.bods_, b => b.eraseOldCoords());
+  this.bods_.forEach(b => b.eraseOldCoords());
   this.getSimList().removeTemporary(Util.POSITIVE_INFINITY);
   this.modifyObjects();
   this.broadcast(new GenericEvent(this, Simulation.RESET));
@@ -384,7 +384,7 @@ cleanSlate() {
 /** @override */
 saveState() {
   this.recentState_ = this.varsList_.getValues();
-  goog.array.forEach(this.bods_, b => b.saveOldCoords());
+  this.bods_.forEach(b => b.saveOldCoords());
 };
 
 /** @override */
@@ -392,7 +392,7 @@ restoreState() {
   if (this.recentState_ != null) {
     this.varsList_.setValues(this.recentState_, /*continuous=*/true);
   }
-  goog.array.forEach(this.bods_, b => b.eraseOldCoords());
+  this.bods_.forEach(b => b.eraseOldCoords());
 };
 
 /** Add the Polygon to the simulation and SimList, adds a set of variables to the
@@ -403,7 +403,7 @@ Polygon's position and velocity to the simulation's VarsList).
 addBody(body) {
   if (body instanceof Scrim)
     return;
-  if (!goog.array.contains(this.bods_, body)) {
+  if (!this.bods_.includes(body)) {
     // create 6 variables in vars array for this body
     var names = [];
     for (var k = 0; k<6; k++) {
@@ -420,7 +420,7 @@ addBody(body) {
     this.getSimList().add(body);
   }
   this.initializeFromBody(body);
-  goog.array.forEach(this.bods_, b => b.eraseOldCoords());
+  this.bods_.forEach(b => b.eraseOldCoords());
 };
 
 /** Removes the Polygon from the simulation and SimList, and removes the corresponding
@@ -428,7 +428,7 @@ variables from the VarsList.
 * @param {!Polygon} body Polygon to remove from the simulation
 */
 removeBody(body) {
-  if (goog.array.contains(this.bods_, body)) {
+  if (this.bods_.includes(body)) {
     this.varsList_.deleteVariables(body.getVarsIndex(), 6);
     goog.array.remove(this.bods_, body);
     body.setVarsIndex(-1);
@@ -443,7 +443,7 @@ removeBody(body) {
     RigidBodySim.
 */
 getBodies() {
-  return goog.array.clone(this.bods_);
+  return Array.from(this.bods_);
 };
 
 /** Returns a Polygon in this simulation by specifying its name or index in the list
@@ -530,7 +530,7 @@ addForceLaw(forceLaw) {
   if (sameLaw != null) {
     throw 'cannot add DampingLaw or GravityLaw twice '+sameLaw;
   }
-  if (!goog.array.contains(this.forceLaws_, forceLaw)) {
+  if (!this.forceLaws_.includes(forceLaw)) {
     this.forceLaws_.push(forceLaw);
   }
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
@@ -562,7 +562,7 @@ clearForceLaws() {
 *     this simulation
 */
 getForceLaws() {
-  return goog.array.clone(this.forceLaws_);
+  return Array.from(this.forceLaws_);
 };
 
 /** @override */
@@ -585,13 +585,13 @@ getEnergyInfo_(vars) {
   var re = 0;
   /** @type {number} */
   var te = 0;
-  goog.array.forEach(this.bods_, b => {
+  this.bods_.forEach(b => {
     if (isFinite(b.getMass())) {
       re += b.rotationalEnergy();
       te += b.translationalEnergy();
     }
   });
-  goog.array.forEach(this.forceLaws_, fl => pe += fl.getPotentialEnergy());
+  this.forceLaws_.forEach(fl => pe += fl.getPotentialEnergy());
   return new EnergyInfo(pe + this.potentialOffset_, te, re);
 };
 
@@ -614,7 +614,7 @@ setPEOffset(value) {
 * @protected
 */
 moveObjects(vars) {
-  goog.array.forEach(this.bods_, b => {
+  this.bods_.forEach(b => {
     var idx = b.getVarsIndex();
     if (idx < 0)
       return;
@@ -631,7 +631,7 @@ moveObjects(vars) {
 /** @override */
 evaluate(vars, change, timeStep) {
   this.moveObjects(vars);  // so that rigid body objects know their current state.
-  goog.array.forEach(this.bods_, body => {
+  this.bods_.forEach(body => {
     var idx = body.getVarsIndex();
     if (idx < 0)
       return;
@@ -648,9 +648,9 @@ evaluate(vars, change, timeStep) {
       change[idx + RigidBodySim.VW_] = 0;
     }
   });
-  goog.array.forEach(this.forceLaws_, fl => {
+  this.forceLaws_.forEach(fl => {
     var forces = fl.calculateForces();
-    goog.array.forEach(forces, f => this.applyForce(change, f));
+    forces.forEach(f => this.applyForce(change, f));
   });
   change[this.varsList_.timeIndex()] = 1; // time variable
   return null;
@@ -666,7 +666,7 @@ evaluate(vars, change, timeStep) {
 */
 applyForce(change, force) {
   var obj = force.getBody();
-  if (!(goog.array.contains(this.bods_, obj))) {
+  if (!goog.array.contains(this.bods_, obj)) {
     return;
   }
   var body = /** @type {!RigidBody} */(obj);
@@ -738,7 +738,7 @@ setElasticity(value) {
   if (this.bods_.length == 0) {
     throw 'setElasticity: no bodies';
   }
-  goog.array.forEach(this.bods_, body => body.setElasticity(value));
+  this.bods_.forEach(body => body.setElasticity(value));
   this.broadcast(new GenericEvent(this, RigidBodySim.ELASTICITY_SET, value));
 };
 

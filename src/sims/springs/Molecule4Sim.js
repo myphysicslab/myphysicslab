@@ -304,7 +304,7 @@ constructor(nm, opt_name) {
   */
   this.springs_ = [];
   for (i=0; i<this.msm_.length; i++) {
-    var special = goog.array.contains(this.sg_, i);
+    var special = this.sg_.includes(i);
     var name = (special ? 'special ' : '') + 'spring '+i;
     var spring = new SpringNonLinear(name,
       this.atoms_[this.msm_[i][0]], Vector.ORIGIN,
@@ -486,7 +486,7 @@ static getSG(nm) {
 static getNSG(num_springs, sg) {
   var nsg = [];
   for (var i=0; i<num_springs; i++) {
-    if (!goog.array.contains(sg, i)) {
+    if (!sg.includes(i)) {
       nsg.push(i);
     }
   }
@@ -547,9 +547,9 @@ getEnergyInfo_(vars) {
   var ke = 0;
   /** @type {number} */
   var pe = 0;
-  goog.array.forEach(this.springs_, spr => pe += spr.getPotentialEnergy());
+  this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   var bottom = this.walls_.getBoundsWorld().getBottom();
-  goog.array.forEach(this.atoms_, atom => {
+  this.atoms_.forEach(atom => {
     ke += atom.getKineticEnergy();
     // gravity potential = m g (y - floor)
     pe += this.gravity_ * atom.getMass() *
@@ -614,7 +614,7 @@ modifyObjects() {
 moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
   //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
-  goog.array.forEach(this.atoms_, (atom, i) => {
+  this.atoms_.forEach((atom, i) => {
     var idx = 4*i;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
     atom.setVelocity(new Vector(vars[2 + idx], vars[3 + idx], 0));
@@ -708,7 +708,7 @@ addCollision(collisions, atom, side, time) {
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
   var w = this.walls_.getBoundsWorld();
-  goog.array.forEach(this.atoms_, atom => {
+  this.atoms_.forEach(atom => {
     var a = atom.getBoundsWorld();
     var t = this.getTime()+stepSize;
     if (a.getLeft() < w.getLeft()) {
@@ -732,7 +732,7 @@ handleCollisions(collisions, opt_totals) {
   //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   var va = this.getVarsList();
   var vars = va.getValues();
-  goog.array.forEach(collisions, collision => {
+  collisions.forEach(collision => {
     var c = /** @type {!MoleculeCollision} */(collision);
     var idx = 4*goog.array.indexOf(this.atoms_, c.atom);
     switch (c.side) {
@@ -763,7 +763,7 @@ evaluate(vars, change, timeStep) {
   this.moveObjects(vars);
   change[this.nm_*4+3] = 1; // time
   var walls = this.walls_.getBoundsWorld();
-  goog.array.forEach(this.atoms_, (atom, listIdx) => {
+  this.atoms_.forEach((atom, listIdx) => {
     if (this.dragAtom_ == listIdx) {
       return;
     }
@@ -776,7 +776,7 @@ evaluate(vars, change, timeStep) {
     var bounds = atom.getBoundsWorld();
     // for each spring, get force from spring
     var force = new MutableVector(0, 0);
-    goog.array.forEach(this.springs_, spr => {
+    this.springs_.forEach(spr => {
       if (spr.getBody1() == atom) {
         force.add(spr.calculateForces()[0].getVector());
       } else if (spr.getBody2() == atom) {
@@ -876,7 +876,7 @@ getMass() {
 @param {number} value mass of atoms
 */
 setMass(value) {
-  goog.array.forEach(this.atoms_, (atom, idx) => {
+  this.atoms_.forEach((atom, idx) => {
     if (idx > 0) {
       atom.setMass(value);
     }

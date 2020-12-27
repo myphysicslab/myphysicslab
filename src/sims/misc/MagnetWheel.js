@@ -178,7 +178,7 @@ getFixedMagnet() {
 * @return {!Array<!Vector>} locations of magnets, in body coordinates.
 */
 getMagnets() {
-  return goog.array.clone(this.magnets_);
+  return Array.from(this.magnets_);
 };
 
 /** Returns the strength of each magnet.
@@ -293,10 +293,10 @@ setMass(mass) {
 * @return {undefined}
 */
 setMagnets(locations) {
-  this.magnets_ = goog.array.clone(locations);
+  this.magnets_ = Array.from(locations);
   this.magnetDist_ = [];
   // save the distance from origin for each magnet
-  goog.array.forEach(this.magnets_, m => this.magnetDist_.push(m.length()));
+  this.magnets_.forEach(m => this.magnetDist_.push(m.length()));
 };
 
 /** Set the strength of each magnet.

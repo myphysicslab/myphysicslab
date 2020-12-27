@@ -60,8 +60,8 @@ constructor(hasPath, paths) {
   */
   this.pathName_ = path != null ? path.getName() : '';
   // make array of path name strings for the PATH parameter
-  var names = goog.array.map(paths, p => p.getName());
-  var localNames = goog.array.map(paths, p => p.getName(/*localized=*/true));
+  var names = paths.map(p => p.getName());
+  var localNames = paths.map(p => p.getName(/*localized=*/true));
   var ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
       () => this.getPathName(), a => this.setPathName(a),
       localNames, names);
@@ -75,7 +75,7 @@ toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', pathName: '+this.pathName_
       +', paths: ['
-      + goog.array.map(this.paths_, p => p.getName())
+      + this.paths_.map(p => p.getName())
       + ']' + super.toString();
 };
 

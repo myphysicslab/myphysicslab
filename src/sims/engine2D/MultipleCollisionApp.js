@@ -129,7 +129,7 @@ constructor(elem_ids, opt_name) {
       MultipleCollisionApp.en.ONE_HITS_TWO_IN_BOX,
       MultipleCollisionApp.en.TWO_ON_WALL
     ];
-  this.formations = goog.array.map(this.formations, v => Util.toName(v));
+  this.formations = this.formations.map(v => Util.toName(v));
   /** @type {string} */
   this.formation = this.formations[0];
 
@@ -212,8 +212,7 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.dampingLaw, subjects);
+  return super.getSubjects().concat(this.dampingLaw);
 };
 
 /**
@@ -544,7 +543,7 @@ getFormation() {
 setFormation(value) {
   value = Util.toName(value);
   if (this.formation != value) {
-    if (!goog.array.contains(this.formations, value)) {
+    if (!this.formations.includes(value)) {
       throw 'unknown formation: '+value;
     }
     this.formation = value;

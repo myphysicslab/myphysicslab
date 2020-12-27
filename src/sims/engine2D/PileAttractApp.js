@@ -148,8 +148,7 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.dampingLaw, this.gravityLaw, subjects);
+  return super.getSubjects().concat(this.dampingLaw, this.gravityLaw);
 };
 
 /**
@@ -174,7 +173,7 @@ config() {
       /*rightAngle=*/this.squareBlocks));
 
   // set random colors for blocks
-  goog.array.forEach(blocks, b =>
+  blocks.forEach(b =>
     this.displayList.findShape(b).setFillStyle(PileConfig.getRandomColor()));
 
   this.mySim.setElasticity(elasticity);

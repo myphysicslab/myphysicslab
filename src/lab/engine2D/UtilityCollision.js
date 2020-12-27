@@ -94,7 +94,7 @@ static addCollision(collisions, c2) {
     if (!isFinite(c2.distance)) {
       throw 'distance is NaN '+c2;
     }
-    goog.array.forEach(collisions, c1 => {
+    collisions.forEach(c1 => {
       if (!c2.similarTo(c1)) {
         return;
       }
@@ -132,9 +132,9 @@ static addCollision(collisions, c2) {
     if (1 == 0 && Util.DEBUG) {
       if (removeMe.length > 1)
         console.log('**** removeMe.length='+removeMe.length);
-      goog.array.forEach(removeMe, c => console.log('---- addCollision removing '+c));
+      removeMe.forEach(c => console.log('---- addCollision removing '+c));
     }
-    goog.array.forEach(removeMe, obj => goog.array.remove(collisions, obj));
+    removeMe.forEach(obj => goog.array.remove(collisions, obj));
   }
   if (shouldAdd) {
     collisions.push(c2);
@@ -167,7 +167,7 @@ static checkVertexes(collisions, body1, body2, time) {
     if (Util.DEBUG)
       UtilityCollision.specialNormalRotate++;
   }
-  goog.array.forEach(body2.getVertexes_(), function checkVertex1(v2) {
+  body2.getVertexes_().forEach(function checkVertex1(v2) {
     // skip if body1 doesn't collide with both edges connected to vertex
     if (body1.nonCollideEdge(v2.getEdge1()) && body1.nonCollideEdge(v2.getEdge2())) {
       return;
@@ -390,27 +390,27 @@ static subsetCollisions1(superset) {
     n = subset.length;
     for (i=0, len=superset.length; i<len; i++) {
       c = superset[i];
-      if (goog.array.contains(subset, c)) {
+      if (subset.includes(c)) {
         // This collision already in the subset
         continue;
       }
-      if (goog.array.contains(subsetBods, c.primaryBody)) {
+      if (subsetBods.includes(c.primaryBody)) {
         // This collision involves a body in subsetBods, so add it to the subset
         // and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
         var moveableNormalBody = isFinite(c.normalBody.getMass());
-        if (moveableNormalBody && !goog.array.contains(subsetBods, c.normalBody))
+        if (moveableNormalBody && !subsetBods.includes(c.normalBody))
             subsetBods.push(c.normalBody);
         continue;
       }
-      if (goog.array.contains(subsetBods, c.normalBody)) {
+      if (subsetBods.includes(c.normalBody)) {
         // This collision involves a body in subsetBods, so add it to the subset
         // and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
         var moveableBody = isFinite(c.primaryBody.getMass());
-        if (moveableBody && !goog.array.contains(subsetBods, c.primaryBody))
+        if (moveableBody && !subsetBods.includes(c.primaryBody))
           subsetBods.push(c.primaryBody);
         continue;
       }
@@ -449,7 +449,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
   var c;
   if (superset.length == 0)
     return [];
-  goog.asserts.assert( goog.array.contains(superset, startC) );
+  goog.asserts.assert(superset.includes(startC));
   /** @type {!Array<!RigidBodyCollision>} */
   var subset = [];
   subset.push(startC);
@@ -465,7 +465,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
     // Add all non-joint non-contact collisions involving either body of startC.
     for (i=0, len=superset.length; i<len; i++) {
       c = superset[i];
-      if (goog.array.contains(subset, c)) {
+      if (subset.includes(c)) {
         // This collision already in the subset
         continue;
       }
@@ -473,9 +473,9 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
         if (c.primaryBody == startC.primaryBody || c.normalBody == startC.normalBody ||
           c.primaryBody == startC.normalBody || c.normalBody == startC.primaryBody)   {
           subset.push(c);
-          if (!goog.array.contains(subsetBods, c.primaryBody))
+          if (!subsetBods.includes(c.primaryBody))
             subsetBods.push(c.primaryBody);
-          if (!goog.array.contains(subsetBods, c.normalBody))
+          if (!subsetBods.includes(c.normalBody))
             subsetBods.push(c.normalBody);
         }
       }
@@ -490,27 +490,27 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
     n = subset.length;
     for (i=0, len=superset.length; i<len; i++) {
       c = superset[i];
-      if (goog.array.contains(subset, c)) {
+      if (subset.includes(c)) {
         // This collision already in the subset
         continue;
       }
-      if (goog.array.contains(subsetBods, c.primaryBody) && c.joint) {
+      if (subsetBods.includes(c.primaryBody) && c.joint) {
         // This collision is a joint and involves a body in subsetBods,
         // so add it to the subset and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
         var moveableNormalBody = isFinite(c.normalBody.getMass());
-        if (moveableNormalBody && !goog.array.contains(subsetBods, c.normalBody))
+        if (moveableNormalBody && !subsetBods.includes(c.normalBody))
             subsetBods.push(c.normalBody);
         continue;
       }
-      if (goog.array.contains(subsetBods, c.normalBody) && c.joint) {
+      if (subsetBods.includes(c.normalBody) && c.joint) {
         // This collision is a joint and involves a body in subsetBods,
         // so add it to the subset and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
         var moveableBody = isFinite(c.primaryBody.getMass());
-        if (moveableBody && !goog.array.contains(subsetBods, c.primaryBody))
+        if (moveableBody && !subsetBods.includes(c.primaryBody))
           subsetBods.push(c.primaryBody);
         continue;
       }
@@ -613,7 +613,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
     var distance_old = Util.POSITIVE_INFINITY;
     // A corner might pass through multiple edges of an object;
     // we look for the first edge that it passes through.
-    goog.array.forEach(body1.getEdges_(), e1 => {
+    body1.getEdges_().forEach(e1 => {
       //checkPrint('test edge ', body2, vertex2, e1, v_body);
       if (Util.DEBUG && debugPenetration) {
         console.log('\n===== test edge '+e1);
@@ -691,7 +691,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       // that it passed thru.
       // When we find a closer intersection point to the old vertex2 position
       // we choose that edge.
-      goog.array.forEach(r1_array, r1b => {
+      r1_array.forEach(r1b => {
         // r1b = intersection point on edge, in body1 coords
         if (Util.DEBUG && debugPenetration && UtilEngine.debugEngine2D != null) {
           var t = body1.bodyToWorld(r1b);

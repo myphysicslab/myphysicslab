@@ -201,7 +201,7 @@ toString() {
       +', focusView_: '
       + (this.focusView_ == null ? 'null' : this.focusView_.toStringShort())
       +', labViews_: ['
-      + goog.array.map(this.labViews_, v => v.toStringShort())
+      + this.labViews_.map(v => v.toStringShort())
       +'], memoList_: '+this.memoList_
       + super.toString();
 };
@@ -316,7 +316,7 @@ getScreenRect() {
 @return {!Array<!LabView>} list of LabViews in this LabCanvas
 */
 getViews() {
-  return goog.array.clone(this.labViews_);
+  return Array.from(this.labViews_);
 };
 
 /** Returns the width of the HTML canvas, in screen coords (pixels).
@@ -337,7 +337,7 @@ memorize() {
 */
 notifySizeChanged() {
   var r = this.getScreenRect();
-  goog.array.forEach(this.labViews_, view => view.setScreenRect(r));
+  this.labViews_.forEach(view => view.setScreenRect(r));
   this.broadcast(new GenericEvent(this, LabCanvas.SIZE_CHANGED));
 };
 
@@ -376,7 +376,7 @@ paint() {
         // clearRect is supposed to be faster than fillRect.
         context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
       }
-      goog.array.forEach(this.labViews_, view => view.paint(context));
+      this.labViews_.forEach(view => view.paint(context));
     } finally {
       context.restore();
     }
@@ -444,7 +444,7 @@ observers that the focus has changed by broadcasting the GenericEvent named
 @throws {!Error} if `view` is not contained by this LabCanvas
 */
 setFocusView(view) {
-  if (view != null && !goog.array.contains(this.labViews_, view))
+  if (view != null && !this.labViews_.includes(view))
     throw 'cannot set focus to unknown view '+view;
   if (this.focusView_ != view) {
     if (this.focusView_ != null) {

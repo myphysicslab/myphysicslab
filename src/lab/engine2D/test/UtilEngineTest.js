@@ -547,7 +547,7 @@ static testMatrix11_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -695,7 +695,7 @@ static testMatrix12_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -845,7 +845,7 @@ static testMatrix15_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -937,7 +937,7 @@ static testMatrix16_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1033,7 +1033,7 @@ static testMatrix17_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1132,7 +1132,7 @@ static testMatrix18_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1227,7 +1227,7 @@ static testMatrix19_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1327,7 +1327,7 @@ static testMatrix20_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1419,7 +1419,7 @@ static testMatrix21_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1559,7 +1559,7 @@ static testMatrix22_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         // This gives maxForce=10.8364728 length=25.4836362
@@ -1747,7 +1747,7 @@ static testMatrix23_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1838,7 +1838,7 @@ static testMatrix24_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1928,7 +1928,7 @@ static testMatrix25_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -2004,7 +2004,7 @@ static testMatrix26_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -2077,7 +2077,7 @@ static testMatrix27_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -2177,7 +2177,7 @@ static testMatrix28_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    goog.array.clear(cf.preOrder);
+    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         // use default next contact policy

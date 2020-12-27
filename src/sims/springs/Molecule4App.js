@@ -73,7 +73,7 @@ constructor(elem_ids, numAtoms) {
   this.walls = new DisplayShape(this.simList.getPointMass('walls'))
       .setFillStyle('').setStrokeStyle('gray');
   this.displayList.add(this.walls);
-  goog.array.forEach(this.simList.toArray(), simObj => {
+  this.simList.toArray().forEach(simObj => {
     if (simObj instanceof SpringNonLinear) {
       var s = /** @type {!SpringNonLinear} */(simObj);
       var proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :

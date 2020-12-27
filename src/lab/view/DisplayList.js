@@ -51,9 +51,7 @@ constructor(opt_name) {
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', drawables_: ['
-      + goog.array.map(this.drawables_, function(d, idx) {
-          return idx+': '+d.toStringShort();
-        })
+      + this.drawables_.map((d, idx) => idx+': '+d.toStringShort())
       + ']' + super.toString();
 };
 
@@ -104,7 +102,7 @@ contains(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw 'non-object passed to DisplayList.contains';
   }
-  return goog.array.contains(this.drawables_, dispObj);
+  return this.drawables_.includes(dispObj);
 };
 
 /** Draws the DisplayObjects in order, which means that DisplayObjects drawn later (at
@@ -116,7 +114,7 @@ list).
 */
 draw(context, map) {
   this.sort();
-  goog.array.forEach(this.drawables_, dispObj => dispObj.draw(context, map));
+  this.drawables_.forEach(dispObj => dispObj.draw(context, map));
 };
 
 /** Returns the DisplayObject that shows the given SimObject.
@@ -317,7 +315,7 @@ bottom-most object.
 */
 toArray() {
   this.sort();
-  return goog.array.clone(this.drawables_);
+  return Array.from(this.drawables_);
 };
 
 } // end class

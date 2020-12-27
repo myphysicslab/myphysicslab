@@ -205,14 +205,14 @@ constructor(advance, opt_name) {
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', advanceList_: ['
-      + goog.array.map(this.advanceList_, a => a.toStringShort())
+      + this.advanceList_.map(a => a.toStringShort())
       +'], clock_: '+this.clock_.toStringShort()
       +', timer_: '+this.timer_
       +', timeStep_: '+Util.NF(this.timeStep_)
       +', displayPeriod_: '+Util.NF(this.displayPeriod_)
       +', nonStop_: '+this.nonStop_
       +', canvasList_: ['
-      + goog.array.map(this.canvasList_, a => a.toStringShort())
+      + this.canvasList_.map(a => a.toStringShort())
       +'], memoList_: '+this.memoList_
       + super.toString();
 };
@@ -228,7 +228,7 @@ repainted and memorized after each advance of the Simulation.
     LabCanvas's to update
 */
 addCanvas(canvas) {
-  if (!goog.array.contains(this.canvasList_, canvas)) {
+  if (!this.canvasList_.includes(canvas)) {
     this.canvasList_.push(canvas);
     this.addMemo(canvas);
   }
@@ -240,7 +240,7 @@ error occurs.
     ErrorObserver objects
 */
 addErrorObserver(errorObserver) {
-  if (!goog.array.contains(this.errorObservers_, errorObserver)) {
+  if (!this.errorObservers_.includes(errorObserver)) {
     this.errorObservers_.push(errorObserver);
   }
 };
@@ -339,7 +339,7 @@ Simulation.
 * @return {!Array<!LabCanvas>} the list of LabCanvas that need to be repainted
 */
 getCanvasList() {
-  return goog.array.clone(this.canvasList_);
+  return Array.from(this.canvasList_);
 };
 
 /** Returns the Clock which the Simulation is synchronized to.
@@ -402,7 +402,7 @@ getTimeStep() {
 handleException(error) {
   this.pause();
   this.timer_.stopFiring();
-  goog.array.forEach(this.errorObservers_, e => e.notifyError(error));
+  this.errorObservers_.forEach(e => e.notifyError(error));
   var s = error != null ? ' '+error : '';
   alert(SimRunner.i18n.STUCK + s);
 };
@@ -431,7 +431,7 @@ observe(event) {
 * @return {undefined}
 */
 paintAll() {
-  goog.array.forEach(this.canvasList_, c => c.paint());
+  this.canvasList_.forEach(c => c.paint());
 };
 
 /** Pause the Clock, which therefore also pauses the Simulation.
@@ -489,7 +489,7 @@ zero), and pauses the Clock. Broadcasts a {@link SimRunner.RESET} event.
 reset() {
   this.timer_.startFiring(); // in case the timer was stopped.
   this.clock_.pause();
-  goog.array.forEach(this.advanceList_, strategy => strategy.reset());
+  this.advanceList_.forEach(strategy => strategy.reset());
   // sync clock to simulation time
   var t = this.advanceList_[0].getTime();
   this.clock_.setTime(t);
@@ -512,7 +512,7 @@ resume() {
 @return {number} the current time on the Clock
 */
 save() {
-  goog.array.forEach(this.advanceList_, strategy => strategy.save());
+  this.advanceList_.forEach(strategy => strategy.save());
   // must return something besides 'undefined' to work with EasyScriptParser.
   return this.clock_.getTime();
 };

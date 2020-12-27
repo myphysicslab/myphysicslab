@@ -154,8 +154,7 @@ defineNames(myName) {
 
 /** @override */
 getSubjects() {
-  var subjects = super.getSubjects();
-  return goog.array.concat(this.pathSelect, subjects);
+  return super.getSubjects().concat(this.pathSelect);
 };
 
 /** @override */
