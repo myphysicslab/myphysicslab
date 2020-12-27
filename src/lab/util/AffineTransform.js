@@ -93,6 +93,7 @@ constructor(m11, m12, m21, m22, dx, dy) {
   this.dy_ = dy;
 };
 
+/** @override */
 toString() {
   return Util.ADVANCED ? '' : 'AffineTransform{m11_: '+Util.NF(this.m11_)
       +', m12_: '+Util.NF(this.m12_)

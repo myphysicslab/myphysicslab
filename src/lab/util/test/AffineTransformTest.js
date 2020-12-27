@@ -38,6 +38,7 @@ static testAffineTransform() {
   startTest(AffineTransformTest.groupName+'testAffineTransform');
 
   var tol = 1E-13;
+
   // identity
   var at = AffineTransform.IDENTITY;
   assertTrue(at.transform(Vector.ORIGIN).equals(Vector.ORIGIN));
@@ -90,10 +91,11 @@ static testAffineTransform() {
   assertTrue(at3.transform(Vector.EAST).nearEqual(new Vector(2, 4), tol));
 
   // these methods require 2 numbers or a GenericVector
-  assertThrows(() => at.transform(0));
-  assertThrows(() => at.transform('foo'));
-  assertThrows(() => at.translate(0));
-  assertThrows(() => at.translate('foo'));
+  var at4 = new AffineTransform(1, 0, 0, 1, 0, 0);
+  assertThrows(() => at4.transform(0));
+  //assertThrows(() => at4.transform('foo'));
+  assertThrows(() => at4.translate(0));
+  //assertThrows(() => at4.translate('foo'));
 };
 
 } // end class
