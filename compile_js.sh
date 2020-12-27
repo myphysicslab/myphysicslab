@@ -56,11 +56,11 @@ fi
 # is substituted.
 goog_debug="${3:-false}"
 # must have goog.DEBUG=true for tests, because of goog.DISALLOW_TEST_ONLY_CODE
-if [[ "$source" == *"test"* ]]; then
-	goog_debug="true";
-elif [[ "$source" == *"Test"* ]]; then
-	goog_debug="true";
-fi
+#if [[ "$source" == *"test"* ]]; then
+#	goog_debug="true";
+#elif [[ "$source" == *"Test"* ]]; then
+#	goog_debug="true";
+#fi
 util_debug="${4:-false}"
 COMPILE_LEVEL="${5:-simple}"
 
