@@ -124,7 +124,7 @@ constructor(paths, opt_name, opt_simList) {
       BrachistoSim.makeVarNames(paths, /*localized=*/true),
       this.getName()+'_VARS'));
   // the variables for x- and y- position and velocity are auto computed.
-  var cv = goog.array.map(this.getVarsList().toArray(),
+  var cv = this.getVarsList().toArray().map(
       v => {
         if (v.getName().match(/^.*_(X|Y)_(POSITION|VELOCITY)$/)) {
           v.setComputed(true);

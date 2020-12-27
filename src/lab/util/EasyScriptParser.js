@@ -656,16 +656,14 @@ update() {
         return result.concat(s_params);
       }, []);
 
-  this.allSubjects_ = goog.array.map(params,
-      p => p.getSubject());
+  this.allSubjects_ = params.map(p => p.getSubject());
 
-  this.allParamNames_ = goog.array.map(params,
-      p => Util.toName(p.getName()));
+  this.allParamNames_ = params.map(p => Util.toName(p.getName()));
 
-  this.allSubjParamNames_ = goog.array.map(params,
+  this.allSubjParamNames_ = params.map(
       p => Util.toName(p.getSubject().getName()+'.'+p.getName()));
 
-  this.unique_ = goog.array.map(this.allParamNames_,
+  this.unique_ = this.allParamNames_.map(
       p => 1 == goog.array.count(this.allParamNames_, q => q == p) );
 
   this.initialDependent_ = this.namesAndValues(true).split(';');

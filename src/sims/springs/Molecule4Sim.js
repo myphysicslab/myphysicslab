@@ -204,7 +204,7 @@ constructor(nm, opt_name) {
       this.makeVarNames(nm, /*localized=*/true), this.getName()+'_VARS');
   this.setVarsList(va);
   // variables other than time and x- and y- position and velocity are auto computed.
-  goog.array.map(va.toArray(),
+  va.toArray().map(
       v => {
         if (v.getName().match(/^(X|Y)_(POSITION|VELOCITY).*/)) {
           v.setComputed(false);
@@ -631,7 +631,7 @@ setDebugPaint(fn) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragAtom_ = this.atoms_.indexOf(simObject);
+  this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
   return this.dragAtom_ > -1;
 };
 

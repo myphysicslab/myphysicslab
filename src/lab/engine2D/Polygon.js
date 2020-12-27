@@ -1090,9 +1090,7 @@ probablyPointInside(p_body) {
 
 /** @override */
 removeNonCollide(bodies) {
-  goog.array.removeAllIf(this.nonCollideBodies_, function(body, index, arr) {
-    return bodies.includes(body);
-  });
+  goog.array.removeAllIf(this.nonCollideBodies_, body => bodies.includes(body));
 };
 
 /** @override */
