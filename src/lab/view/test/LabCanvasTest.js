@@ -361,7 +361,7 @@ static testLabCanvas1() {
   assertEquals(simView1, labCanvas.getFocusView());
   assertEquals(simView1, labCanvas.getViews()[0]);
   assertEquals(1, labCanvas.getViews().length);
-  assertEquals(0, goog.array.indexOf(labCanvas.getViews(), simView1));
+  assertEquals(0, labCanvas.getViews().indexOf(simView1));
   labCanvas.setSize(/*width=*/500, /*height=*/300);
   assertEquals(500, labCanvas.getWidth());
   assertEquals(300, labCanvas.getHeight());
@@ -392,7 +392,7 @@ static testLabCanvas1() {
   var simView2 = new SimView('simView2', simRect2);
   var mockViewObsvr2 = new MockViewObserver();
   simView2.addObserver(mockViewObsvr2);
-  assertEquals(-1, goog.array.indexOf(labCanvas.getViews(), simView2));
+  assertEquals(-1, labCanvas.getViews().indexOf(simView2));
   labCanvas.addView(simView2);
   assertEquals(2, mockLCObsvr.numListModifiedEvents);
   assertEquals(1, mockViewObsvr2.numScreenRectEvents);
@@ -400,7 +400,7 @@ static testLabCanvas1() {
   assertEquals(simView1, labCanvas.getFocusView());
   assertEquals(simView2, labCanvas.getViews()[1]);
   assertEquals(2, labCanvas.getViews().length);
-  assertEquals(1, goog.array.indexOf(labCanvas.getViews(), simView2));
+  assertEquals(1, labCanvas.getViews().indexOf(simView2));
 
   // cannot set focus to an unknown view
   assertThrows(() => labCanvas.setFocusView(new SimView('unknown', simRect2)) );
@@ -423,7 +423,7 @@ static testLabCanvas1() {
   assertEquals(simView2, labCanvas.getFocusView());
   assertEquals(simView2, labCanvas.getViews()[0]);
   assertEquals(1, labCanvas.getViews().length);
-  assertEquals(0, goog.array.indexOf(labCanvas.getViews(), simView2));
+  assertEquals(0, labCanvas.getViews().indexOf(simView2));
 
   assertThrows(() => labCanvas.setSize(0, 0));
   assertThrows(() => labCanvas.setSize(100, 0));

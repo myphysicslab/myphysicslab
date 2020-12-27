@@ -159,7 +159,7 @@ static testVarsList1() {
   assertTrue(va.getVariable(5).nameEquals(var_names[5]));
   assertEquals('kinetische Energie', va.getVariable(5).getName(/*localized=*/true));
   assertEquals(var_names.length, va.numVariables());
-  var keIdx = goog.array.indexOf(va.toArray(), va.getVariable('KINETIC_ENERGY'));
+  var keIdx = va.toArray().indexOf(va.getVariable('KINETIC_ENERGY'));
   assertEquals(5, keIdx);
   var nv = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7];
   assertEquals(nv.length, va.numVariables());

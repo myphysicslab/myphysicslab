@@ -125,7 +125,6 @@ static makeBackgroundMenu(labCanvas) {
     }
     return -1;
   };
-  /** @type function(string) */
   var setter = value => {
     var idx = goog.array.indexOf(values, value);
     switch (idx) {

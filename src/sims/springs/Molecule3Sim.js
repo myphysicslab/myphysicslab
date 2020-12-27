@@ -359,7 +359,7 @@ getVarName(atom, index, localized) {
 *     the simulation variables
 */
 initializeFromAtom(atom) {
-  var idx = goog.array.indexOf(this.atoms_, atom);
+  var idx = this.atoms_.indexOf(atom);
   if (idx < 0) {
     throw "atom not found: "+atom;
   }
@@ -544,7 +544,7 @@ setDebugPaint(fn) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
+  this.dragAtom_ = this.atoms_.indexOf(simObject);
   return this.dragAtom_ > -1;
 };
 
@@ -643,7 +643,7 @@ handleCollisions(collisions, opt_totals) {
   var vars = va.getValues();
   collisions.forEach(collision => {
     var c = /** @type {!MoleculeCollision} */(collision);
-    var idx = Molecule3Sim.START_VAR + 4*goog.array.indexOf(this.atoms_, c.atom);
+    var idx = Molecule3Sim.START_VAR + 4*this.atoms_.indexOf(c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:

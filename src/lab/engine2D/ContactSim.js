@@ -436,7 +436,7 @@ addConnector(connector, follow) {
   if (follow === null) {
     this.connectors_.unshift(connector);
   } else if (follow != null) {
-    var idx = goog.array.indexOf(this.connectors_, follow);
+    var idx = this.connectors_.indexOf(follow);
     if (idx < 0) {
       throw 'connector not found '+follow;
     }

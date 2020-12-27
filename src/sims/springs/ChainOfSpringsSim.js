@@ -386,7 +386,7 @@ moveObjects(vars) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
+  this.dragAtom_ = this.atoms_.indexOf(simObject);
   return this.dragAtom_ > -1 || simObject == this.fixed1_ || simObject == this.fixed2_;
 };
 

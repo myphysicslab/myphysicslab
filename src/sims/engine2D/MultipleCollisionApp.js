@@ -278,7 +278,7 @@ config() {
   this.advance.reset();
   var distTol = this.mySim.getDistanceTol();
   var body, body1, body2, body3, body4;
-  var idx = goog.array.indexOf(this.formations, this.formation);
+  var idx = this.formations.indexOf(this.formation);
   switch (idx) {
 
     case 0: //ONE_HITS_TWO:

@@ -263,7 +263,7 @@ remove(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw 'non-object passed to DisplayList.remove';
   }
-  var idx = goog.array.indexOf(this.drawables_, dispObj);
+  var idx = this.drawables_.indexOf(dispObj);
   if (idx > -1) {
     goog.array.removeAt(this.drawables_, idx);
     this.broadcast(new GenericEvent(this, DisplayList.OBJECT_REMOVED, dispObj));

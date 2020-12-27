@@ -394,9 +394,9 @@ getParameter(fullName) {
     if (count > 1) {
       throw 'multiple Subjects have Parameter '+paramName;
     }
-    idx = goog.array.indexOf(this.allParamNames_, paramName);
+    idx = this.allParamNames_.indexOf(paramName);
   } else {
-    idx = goog.array.indexOf(this.allSubjParamNames_, fullName);
+    idx = this.allSubjParamNames_.indexOf(fullName);
   }
   return idx > -1 ? this.allSubjects_[idx].getParameter(paramName) : null;
 };
@@ -489,7 +489,7 @@ namesAndValues(dependent, includeComputed, fullName) {
   var re = /^[a-zA-Z0-9_]+$/;
   var s = params.map(p => {
       var paramName = Util.toName(p.getName());
-      var idx = goog.array.indexOf(allParams, p);
+      var idx = allParams.indexOf(p);
       var v = p.getValue();
       if (typeof v === 'string' && !re.test(v)) {
         // add quotes when string has non-alphanumeric characters

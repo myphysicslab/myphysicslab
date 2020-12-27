@@ -417,7 +417,7 @@ moveObjects(vars) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragIdx_ = goog.array.indexOf(this.blocks_, simObject);
+  this.dragIdx_ = this.blocks_.indexOf(simObject);
   if (this.dragIdx_ < 0) {
     return false;
   } else {

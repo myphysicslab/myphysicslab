@@ -112,7 +112,7 @@ constructor(choices, values, getter, setter, opt_label) {
   * @type {number}
   * @private
   */
-  this.currentIndex_ = goog.array.indexOf(this.values_, getter());
+  this.currentIndex_ = this.values_.indexOf(getter());
   /**
   * @type {!HTMLSelectElement}
   * @private
@@ -224,7 +224,7 @@ itemStateChanged(event) {
 /** @override */
 observe(event) {
   // Ensure that the value displayed by the control matches the target value.
-  var index = goog.array.indexOf(this.values_, this.getter_());
+  var index = this.values_.indexOf(this.getter_());
   this.setChoice(index);
 };
 
@@ -263,7 +263,7 @@ setChoice(index) {
       // that the ChoiceControl has a now invalid value at the corresponding spot.
       //    app.diffEqSolver.getParameter('DIFF_EQ_SOLVER').values_[0]='Foo'
       alert(ex);
-      this.currentIndex_ = goog.array.indexOf(this.values_, this.getter_());
+      this.currentIndex_ = this.values_.indexOf(this.getter_());
     }
     this.selectMenu_.selectedIndex = this.currentIndex_;
   }
@@ -281,7 +281,7 @@ setChoices(choices, values) {
   }
   this.choices = choices;
   this.values_ = values;
-  this.currentIndex_ = goog.array.indexOf(this.values_, this.getter_());
+  this.currentIndex_ = this.values_.indexOf(this.getter_());
   this.buildSelectMenu();
   this.selectMenu_.selectedIndex = this.currentIndex_;
 };

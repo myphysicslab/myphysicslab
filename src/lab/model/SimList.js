@@ -265,7 +265,7 @@ this list, or -1 if this list does not contain the SimObject.
     this list, or -1 if this list does not contain the SimObject
 */
 indexOf(simObj) {
-  return goog.array.indexOf(this.elements_, simObj);
+  return this.elements_.indexOf(simObj);
 };
 
 /** Returns the number of SimObjects in this SimList.

@@ -380,7 +380,7 @@ rectangle of points on the line.
 */
 removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
-    var idx = goog.array.indexOf(this.graphLines_, graphLine);
+    var idx = this.graphLines_.indexOf(graphLine);
     goog.array.removeAt(this.graphLines_, idx);
     goog.array.removeAt(this.lastIndex_, idx);
     goog.asserts.assert(!this.graphLines_.includes(graphLine));

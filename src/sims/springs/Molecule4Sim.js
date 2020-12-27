@@ -631,7 +631,7 @@ setDebugPaint(fn) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
+  this.dragAtom_ = this.atoms_.indexOf(simObject);
   return this.dragAtom_ > -1;
 };
 
@@ -734,7 +734,7 @@ handleCollisions(collisions, opt_totals) {
   var vars = va.getValues();
   collisions.forEach(collision => {
     var c = /** @type {!MoleculeCollision} */(collision);
-    var idx = 4*goog.array.indexOf(this.atoms_, c.atom);
+    var idx = 4*this.atoms_.indexOf(c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:

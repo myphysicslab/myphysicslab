@@ -182,7 +182,7 @@ getDecoratedVertexes() {
 /** @override */
 getIndex() {
   if (this.index_ == -1) {
-    this.index_ = goog.array.indexOf(this.body_.getEdges_(), this);
+    this.index_ = this.body_.getEdges_().indexOf(this);
     if (this.index_ == -1) {
       throw '';
     }

@@ -383,7 +383,7 @@ isDragable() {
 */
 removePath(path) {
   if (this.containsPath(path)) {
-    var idx = goog.array.indexOf(this.paths_, path);
+    var idx = this.paths_.indexOf(path);
     if (idx > -1) {
       goog.array.removeAt(this.paths_, idx);
       goog.array.removeAt(this.styles_, idx);
