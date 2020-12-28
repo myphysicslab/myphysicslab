@@ -15,6 +15,7 @@
 goog.module('myphysicslab.lab.util.test.CompilerTest');
 
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
+const Vector = goog.require('myphysicslab.lab.util.Vector');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
 class CompilerTest {
@@ -37,6 +38,11 @@ static testAffineTransform() {
   var f1 = function() { return at.transform(1, 2) };
   // comment out the following line causes the compile warning to not occur
   at = new AffineTransform(1, 0, 0, 1, 0, 0);
+
+  var v = new Vector(1, 0);
+  var r2 = v.multiply(2);
+  var f2 = function() { return v.multiply(2) };
+  v = new Vector(1, 0);
 };
 
 } // end class
