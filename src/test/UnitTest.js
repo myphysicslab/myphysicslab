@@ -17,7 +17,6 @@ goog.module('myphysicslab.test.UnitTest');
 
 const AbstractSubjectTest =
       goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
-const CompilerTest = goog.require('myphysicslab.lab.util.test.CompilerTest');
 const AffineTransformTest =
       goog.require('myphysicslab.lab.util.test.AffineTransformTest');
 const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
@@ -95,7 +94,6 @@ static runTests() {
   TestRig.startTests();
 
   AbstractSubjectTest.test();
-  CompilerTest.test();
   AffineTransformTest.test();
   CalculusTest.test();
   CircularListTest.test();
