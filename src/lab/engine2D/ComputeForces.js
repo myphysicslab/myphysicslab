@@ -635,11 +635,10 @@ of C, NC, or R. We keep a list of every state seen previously.
 * @private
 */
 checkLoop(d) {
-  var debug = this.debugCF; //time >= 46.4499;
-  var i, len;
+  const debug = this.debugCF;
   if (Util.DEBUG) {
     // check that only one of C, NC, or R are true
-    for (i=0; i<this.n; i++) {
+    for (let i=0; i<this.n; i++) {
       if (this.C[i])
         goog.asserts.assert(!this.NC[i] && !this.R[i]);
       if (this.NC[i])
@@ -649,33 +648,35 @@ checkLoop(d) {
     }
   }
   // if any contact has not yet been treated, then no loop yet
-  for (i=0; i<this.n; i++) {
+  for (let i=0; i<this.n; i++) {
     if (!this.C[i] && !this.NC[i] && !this.R[i]) {
-      if (debug)
+      if (debug) {
         this.print('contact not yet treated i='+i);
+      }
       return false;
     }
   }
-  if (debug)
+  if (debug) {
     this.print('checkLoop states.length='+this.states.length);
+  }
   // make a new state vector
   /** @type {!Array<number>} */
-  var state = [];
-  for (i=0; i<this.n; i++) {
+  const state = [];
+  for (let i=0; i<this.n; i++) {
     state.push(this.C[i] ? 1 : (this.NC[i] ? 2 : 3));
   }
   // also add the current contact being driven to zero to the state
   state.push(d);
-  if (debug)
+  if (debug) {
     UtilEngine.printList('checkLoop state', state);
+  }
   // check whether this state vector already exists
-  var duplicateState = false;
-  for (i=0, len=this.states.length; i<len; i++) {
-    /** @type {!Array<number>} */
-    var s = this.states[i];
-    if (debug)
+  let duplicateState = false;
+  for (let i=0, len=this.states.length; i<len; i++) {
+    if (debug) {
       UtilEngine.printList('state', state);
-    if (goog.array.equals(state, s)) {
+    }
+    if (goog.array.equals(state, this.states[i])) {
       if (Util.DEBUG && this.WARNINGS) {
         var accelOld = this.accels[i];
         var accelMin = UtilEngine.minValue(this.accels);
@@ -697,11 +698,7 @@ checkLoop(d) {
   }
   if (duplicateState && Util.DEBUG && this.WARNINGS) {
     UtilEngine.printList('now state', state);
-    for (i=0, len=this.states.length; i<len; i++) {
-      /** @type {!Array<number>} */
-      var st = this.states[i];
-      UtilEngine.printList('old state', st);
-    }
+    this.states.map(s => UtilEngine.printList('old state', s));
     UtilEngine.printList('accels', this.accels);
   }
   return duplicateState;
@@ -992,8 +989,9 @@ static checkForceAccel(tolerance, force, accel, joint) {
   }
   var n = force.length;
   var i;
-  if (accel.length < n)
+  if (accel.length < n) {
     throw '';
+  }
   var r = true;
   for (i=0; i<n; i++) {
     if (joint[i] || Math.abs(force[i]) > 1E-10) {
@@ -1119,9 +1117,10 @@ drive_to_zero(d) {
   goog.asserts.assert(this.n <= this.f.length);
   goog.asserts.assert(!this.C[d]);
   goog.asserts.assert(!this.NC[d]);
-  if (this.debugCF && Util.DEBUG)
+  if (this.debugCF && Util.DEBUG) {
     this.print('drive_to_zero d='+d+' a['+d+']='+Util.NFE(this.a[d])
       +' joint='+this.joint[d]+' N='+this.n);
+  }
   // First deal with cases where we don't have to do anything at all
   // (no changes to forces needed) because a[d] is already at zero.
   // For non-Joints, when contact is separating, put contact into NC and done.
@@ -1173,8 +1172,9 @@ drive_to_zero(d) {
     var error = this.fdirection(d);
     if (error != -1)
       return error;
-    if (this.debugCF && Util.DEBUG)
+    if (this.debugCF && Util.DEBUG) {
       this.printEverything('drive_to_zero after fdirection, d='+d);
+    }
     if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
       for (i=0; i<this.n; i++) {
         // check that delta_a[i] = 0 for all members of C
@@ -1227,8 +1227,9 @@ drive_to_zero(d) {
     }
     if (Math.abs(this.stepSize) < 1E-12) {
       // We are taking a zero size step;  ensure not happening repeatedly.
-      if (this.debugCF && Util.DEBUG)
+      if (this.debugCF && Util.DEBUG) {
         this.printContact(' ZERO STEP', false, j, d, loopCtr);
+      }
       if (this.zeroSteps[j]) {
         // This contact has previously caused a zero-size step during this
         // drive-to-zero loop, so it is flip-flopping between C and NC,
@@ -1312,10 +1313,11 @@ drive_to_zero(d) {
         // so that we can drive it to zero again.
         if (Math.abs(this.f[j])> 10*this.SMALL_POSITIVE) {
           var s = 'moving C to NC but f[j]='+ Util.NFE(this.f[j]);
-          if (Util.DEBUG)
+          if (Util.DEBUG) {
             this.printEverything(s);
-          else
+          } else {
             throw s;
+          }
         }
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.printContact(' redo C', false, j, d, loopCtr);
@@ -1336,8 +1338,9 @@ drive_to_zero(d) {
         // Instead of moving to C, move this to the set of untreated contacts
         // so that we can drive it to zero again.
         // ??? SHOULD WE ADD THIS TO REJECTS???
-        if (Math.abs(this.a[j])> 10*this.SMALL_POSITIVE)
+        if (Math.abs(this.a[j])> 10*this.SMALL_POSITIVE) {
           this.print('WARNING moving NC to C but a[j]='+Util.NFE(this.a[j]));
+        }
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
           this.printContact(' redo NC', false, j, d, loopCtr);
         }
@@ -1409,12 +1412,13 @@ all the C forces (this involves a matrix equation solve).
 fdirection(d) {
   var i, j;
   goog.asserts.assert(this.n <= this.C.length);
-  for (i=0; i<this.n; i++)
+  for (i=0; i<this.n; i++) {
     this.delta_f[i] = 0;
+  }
   this.delta_f[d] = 1;
   goog.asserts.assert(!this.C[d]);
   var c = UtilEngine.countBoolean(this.C, this.n);  // number of elements in set C
-  if (c>0) {
+  if (c > 0) {
     // Acc is an augmented matrix: the last column is for vector v1
     var Acc = this.resizeMatrix(c);
     if (this.v1 == null || this.v1.length < c)
@@ -1488,14 +1492,15 @@ fdirection(d) {
           // but now we avoid Acc becoming singular.
           // If this assert never happens, then I can remove this code.
           var msg = 'should not need to loosen tolerance on matrix solve';
-          if (Util.DEBUG)
+          if (Util.DEBUG) {
             this.print(msg);
+          }
           // try reducing the tolerance and solve again
           tolerance /= 10;
           ComputeForces.copyMatrix(c, c+1, this.bMatrix, Acc);
-          if ((this.WARNINGS || this.debugCF) && Util.DEBUG)
-            this.print('fdirection retry with tolerance '
-                    +Util.NFE(tolerance)+' d='+d);
+          if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
+            this.print('fdirection retry with tolerance '+Util.NFE(tolerance)+' d='+d);
+          }
           if (tolerance < 1E-17) {
             if ((this.WARNINGS || this.debugCF) && Util.DEBUG)
               this.print('fdirection fail:  tolerance reduced to '
@@ -1508,16 +1513,18 @@ fdirection(d) {
     // transfer x into delta_f
     p = 0;
     for (i=0; i<this.n; i++) {
-      if (this.C[i])
+      if (this.C[i]) {
         this.delta_f[i] = x[p++];
+      }
     }
   }
   // matrix multiply to get the resulting delta_a from a change of 1 in delta_f[d]
   // this is:  delta_a = A delta_f
   for (i=0; i<this.n; i++) {
     this.delta_a[i] = 0;
-    for (j=0; j<this.n; j++)
+    for (j=0; j<this.n; j++) {
       this.delta_a[i] += this.A[i][j]*this.delta_f[j];
+    }
   }
   return -1;
 }
@@ -1539,8 +1546,9 @@ maxStep(d) {
   var s = Util.POSITIVE_INFINITY;
   // for a Joint d with positive acceleration, need to decrease the force f[d],
   // so we will have negative step size in this case.
-  if (this.joint[d] && this.a[d] > 0)
+  if (this.joint[d] && this.a[d] > 0) {
     s = Util.NEGATIVE_INFINITY;
+  }
   var j = -1;
   var i, sPrime;
   //  d is the contact whose acceleration we are trying to drive to zero.
@@ -1669,13 +1677,14 @@ wouldBeSingular1(d) {
   for (i=0; i<this.n; i++) {
     if (this.C[i] || i==d) {
       var q = 0;
-      for (j=0; j<this.n; j++)
+      for (j=0; j<this.n; j++) {
         if (this.C[j] || j==d) {
           // Acc is the submatrix of A obtained by deleting the j-th row and
           // column of A for all j not in C
           Acc[p][q] = this.A[i][j];
           q++;
         }
+      }
       // The last column of Acc is where we put the vector v1 of the algorithm.
       // This is where the matrixSolve algorithm expects to find it.
       // We just put all 1's here, to avoid the algorithm complaining,
@@ -1745,8 +1754,9 @@ wouldBeSingular2(d, e) {
   if (this.debugCF && Util.DEBUG && isSingular) {
     // print the matrix in triangular form after Gaussian Elimination
     var ncol = new Array(c+1);
-    for (i=0; i<c+1; i++)
+    for (i=0; i<c+1; i++) {
       ncol[i] = i;
+    }
     UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, Util.NF7, c);
   }
   return isSingular;
@@ -1797,18 +1807,22 @@ printEverything(s, printMatrix) {
 printContact(s, allInfo, j, d, loopCtr) {
   if (Util.DEBUG) {
     s = s+' j='+j+' N='+this.n+' step='+Util.NFE(this.stepSize);
-    if (allInfo || this.C[j])
+    if (allInfo || this.C[j]) {
         s += ' C['+j+']='+this.C[j]
           +' f['+j+']='+Util.NFE(this.f[j])
           +' delta_f['+j+']='+Util.NFE(this.delta_f[j]);
-    if (allInfo || this.NC[j])
+    }
+    if (allInfo || this.NC[j]) {
         s += ' NC['+j+']='+this.NC[j]
           +' a['+j+']='+Util.NFE(this.a[j])
           +' delta_a['+j+']='+Util.NFE(this.delta_a[j]);
-    if (d >=0)
+    }
+    if (d >=0) {
       s += ' d='+d+' a[d]='+Util.NFE(this.a[d]);
-    if (loopCtr >= 0)
+    }
+    if (loopCtr >= 0) {
       s += ' loopCtr='+loopCtr;
+    }
     this.print(s);
   }
 }
