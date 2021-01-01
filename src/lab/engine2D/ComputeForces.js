@@ -295,11 +295,6 @@ constructor(name, pRNG, tolerance) {
   * @const
   */
   this.name_ = name;
-  /**  simulation time, for debugging only
-  * @type {number}
-  * @private
-  */
-  this.time = 0;
   /** twice-rejected rejects.
   * reRejects allows us to select which reject to handle from rejects list,
   * without looking at any twice-rejected rejects.
@@ -331,8 +326,7 @@ constructor(name, pRNG, tolerance) {
   */
   this.nextContactPolicy = ComputeForces.NEXT_CONTACT_HYBRID;
   if (Util.DEBUG && this.debugCF) {
-    console.log(this.name_+' '+Util.NF7(this.time)+' '+
-        'nextContactPolicy='+ this.nextContactPolicy);
+    console.log(this.name_+' '+'nextContactPolicy='+ this.nextContactPolicy);
   }
   /** SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
   * for Acc to be singular
@@ -406,11 +400,6 @@ constructor(name, pRNG, tolerance) {
   * @private
   */
   this.joint = [];
-  /** number of contacts
-  * @type {number}
-  * @private
-  */
-  this.n = 0;
   /** copy of b-vector for checking matrix solve accuracy
   * @type {!Array<number>}
   * @private
@@ -446,8 +435,7 @@ See {@link #getNextContactPolicy}.
 */
 setNextContactPolicy(nextContactPolicy) {
   if (Util.DEBUG && this.debugCF) {
-    console.log(this.name_+' '+Util.NF7(this.time)+' '+
-        'nextContactPolicy='+ nextContactPolicy);
+    console.log(this.name_+' '+'nextContactPolicy='+ nextContactPolicy);
   }
   this.nextContactPolicy = nextContactPolicy;
 }
@@ -472,19 +460,34 @@ getNextContactPolicy() {
 @param {!Array<number>} b external and inertial forces in the system (vector, length n)
 @param {!Array<boolean>} joint indicates which contacts are Joints (vector, length n)
 @param {boolean} debug true shows debugging messages
-@param {number} time  the current time, used only for debugging
+@param {number} time  the current simulation time, used only for debugging
 @param {number=} tolerance the tolerance to use for checking the results. If not
     provided, then no check is done.
 @return {number} error code, -1 if successful otherwise an error occurred
 */
 compute_forces(A, f, b, joint, debug, time, tolerance) {
+  if (Util.DEBUG && 1==0 && this.name_ == 'C' && this.pRNG.nextFloat() < 0.001) {
+    // test of the ContactSim.reportError mechanism: randomly generate an error
+    return -999;
+  }
+  this.debugCF = debug;
+  const n = b.length;
+  if (A.length != n || A[0].length != n || f.length != n || b.length != n ||
+      joint.length != n) {
+    throw 'wrong length of input array';
+  }
+  // short cut when n==1, (comes up a lot with serial collision handling)
+  if (n==1) {
+    f[0] = (joint[0] || b[0] < 0) ? -b[0]/A[0][0] : 0;
+    return -1;
+  }
 
   /**
   * @param {string} s
   */
   const print = (s) => {
     if (Util.DEBUG) {
-      console.log(this.name_+' '+Util.NF7(this.time)+' '+s);
+      console.log(this.name_+' '+Util.NF7(time)+' '+s);
     }
   }
 
@@ -497,26 +500,26 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       printMatrix = printMatrix || false;
       print('printEverything '+s);
       console.log('seed='+this.pRNG.getSeed());
-      UtilEngine.printArray('f', this.f, Util.NFE, this.n);
-      UtilEngine.printArray('a', this.a, Util.NFSCI, this.n);
-      UtilEngine.printArray('delta_f', this.delta_f, Util.NFE, this.n);
-      //UtilEngine.printArray('delta_f[C]', this.delta_f, this.n, this.C, Util.NFE);
-      UtilEngine.printArray('delta_a', this.delta_a, Util.NFE, this.n);
-      UtilEngine.printArrayIndices('joint', this.joint, this.n);
-      UtilEngine.printArrayIndices('C', this.C, this.n);
-      UtilEngine.printArrayIndices('NC', this.NC, this.n);
-      UtilEngine.printArrayIndices('R', this.R, this.n);
+      UtilEngine.printArray('f', this.f, Util.NFE, n);
+      UtilEngine.printArray('a', this.a, Util.NFSCI, n);
+      UtilEngine.printArray('delta_f', this.delta_f, Util.NFE, n);
+      //UtilEngine.printArray('delta_f[C]', this.delta_f, n, this.C, Util.NFE);
+      UtilEngine.printArray('delta_a', this.delta_a, Util.NFE, n);
+      UtilEngine.printArrayIndices('joint', this.joint, n);
+      UtilEngine.printArrayIndices('C', this.C, n);
+      UtilEngine.printArrayIndices('NC', this.NC, n);
+      UtilEngine.printArrayIndices('R', this.R, n);
       UtilEngine.printList('reRejects', this.reRejects);
       {
-        const p = new Array(this.n);
-        for (let i=0; i<this.n; i++) {
+        const p = new Array(n);
+        for (let i=0; i<n; i++) {
           p[i] = !this.C[i] && !this.NC[i] && !this.R[i];
         }
-        UtilEngine.printArrayIndices('not treated', p, this.n);
+        UtilEngine.printArrayIndices('not treated', p, n);
       }
       if (printMatrix) {
         UtilEngine.printMatrix2('A '+this.A.length+'x'+this.A[0].length, this.A, Util.NFSCI);
-        UtilEngine.printArray('b', this.b, Util.NFSCI, this.n);
+        UtilEngine.printArray('b', this.b, Util.NFSCI, n);
       }
     }
   }
@@ -530,7 +533,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   */
   const printContact = (s, allInfo, j, d, loopCtr) => {
     if (Util.DEBUG) {
-      s = s+' j='+j+' N='+this.n+' step='+Util.NFE(this.stepSize);
+      s = s+' j='+j+' N='+n+' step='+Util.NFE(this.stepSize);
       if (allInfo || this.C[j]) {
           s += ' C['+j+']='+this.C[j]
             +' f['+j+']='+Util.NFE(this.f[j])
@@ -598,7 +601,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     const debug = this.debugCF;
     if (Util.DEBUG) {
       // check that only one of C, NC, or R are true
-      for (let i=0; i<this.n; i++) {
+      for (let i=0; i<n; i++) {
         if (this.C[i])
           goog.asserts.assert(!this.NC[i] && !this.R[i]);
         if (this.NC[i])
@@ -608,7 +611,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       }
     }
     // if any contact has not yet been treated, then no loop yet
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (!this.C[i] && !this.NC[i] && !this.R[i]) {
         if (debug) {
           print('contact not yet treated i='+i);
@@ -622,7 +625,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // make a new state vector
     /** @type {!Array<number>} */
     const state = [];
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       state.push(this.C[i] ? 1 : (this.NC[i] ? 2 : 3));
     }
     // also add the current contact being driven to zero to the state
@@ -641,7 +644,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
           const accelOld = this.accels[i];
           const accelMin = UtilEngine.minValue(this.accels);
           print('num states='+this.states.length
-            +' now accel='+Util.NFE(sumAccelSquare(this.a, this.joint, this.n))
+            +' now accel='+Util.NFE(sumAccelSquare(this.a, this.joint, n))
             +' prev accel='+Util.NFE(accelOld)
             +' min accel='+Util.NFE(accelMin)
             );
@@ -654,7 +657,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     if (!duplicateState) {
       // add this new state to list of states
       this.states.push(state);
-      this.accels.push(sumAccelSquare(this.a, this.joint, this.n));
+      this.accels.push(sumAccelSquare(this.a, this.joint, n));
     }
     if (duplicateState && Util.DEBUG && this.WARNINGS) {
       UtilEngine.printList('now state', state);
@@ -685,9 +688,9 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     //UtilEngine.printList('nextContact ', this.order);
     // for Joints, find the Joint with the maximum absolute value acceleration
     let j = -1;
-    const rand = this.pRNG.randomInts(this.n);
+    const rand = this.pRNG.randomInts(n);
     // Joints first, in random order
-    for (let k=0; k<this.n; k++) {
+    for (let k=0; k<n; k++) {
       let i = rand[k];
       if (this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
         return i;
@@ -696,7 +699,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // find the non-Joint with most negative accel
     let minAccel = Util.POSITIVE_INFINITY;
     j = -1;
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (!this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
         if (this.a[i] < minAccel) {
           minAccel = this.a[i];
@@ -724,7 +727,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // for Joints, find the Joint with the maximum absolute value acceleration
     let maxAccel = -1;
     let j = -1;
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
         if (Math.abs(this.a[i]) > maxAccel) {
           maxAccel = Math.abs(this.a[i]);
@@ -738,7 +741,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // for non-Joints find the non-Joint with most negative accel
     let minAccel = Util.POSITIVE_INFINITY;
     j = -1;
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (!this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
         if (this.a[i] < minAccel) {
           minAccel = this.a[i];
@@ -763,16 +766,16 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   */
   const nextContactRandom = () => {
     //UtilEngine.printList('nextContactRandom ', this.order);
-    const rand = this.pRNG.randomInts(this.n);
+    const rand = this.pRNG.randomInts(n);
     // Joints first
-    for (let k=0; k<this.n; k++) {
+    for (let k=0; k<n; k++) {
       let i = rand[k];
       if (this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
         return i;
       }
     }
     // non-Joints
-    for (let k=0; k<this.n; k++) {
+    for (let k=0; k<n; k++) {
       let i = rand[k];
       if (!this.joint[i] && !this.C[i] && !this.NC[i] && !this.R[i]) {
         return i;
@@ -812,7 +815,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   const nextReject = () => {
     let maxAccel = 0.0;
     let j = -1;
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (this.R[i] && !this.reRejects.includes(i)) {
         if (!this.joint[i] && this.a[i] < -maxAccel || this.joint[i]
               && Math.abs(this.a[i]) > maxAccel) {
@@ -836,7 +839,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   */
   const checkAccel = (tolerance) => {
     if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
-      for (let i=0; i<this.n; i++) {
+      for (let i=0; i<n; i++) {
         if ((this.C[i] || this.joint[i]) && Math.abs(this.a[i]) > this.SMALL_POSITIVE) {
           print('=======  accel s/b zero a['+i+']='
                 +Util.NFE(this.a[i])+' tol='+Util.NFE(this.SMALL_POSITIVE));
@@ -855,29 +858,29 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         accel = UtilEngine.vectorAdd(accel, this.b);
         const minAccel2 = UtilEngine.minValue(accel);
         //goog.asserts.assert(Math.abs(minAccel) < 2E-8);
-        const minAccel = UtilEngine.minValue(this.a, this.n);
+        const minAccel = UtilEngine.minValue(this.a, n);
         print('min accel = '+Util.NFE(minAccel)
             +' min accel2 = '+Util.NFE(minAccel2)
         );
         printEverything('checkAccel', true);
       }
       if (0 == 1 && Util.DEBUG) {
-        UtilEngine.printArrayIndices('C', this.C, this.n);
-        UtilEngine.printArrayIndices('NC', this.NC, this.n);
-        UtilEngine.printArrayIndices('R', this.R, this.n);
+        UtilEngine.printArrayIndices('C', this.C, n);
+        UtilEngine.printArrayIndices('NC', this.NC, n);
+        UtilEngine.printArrayIndices('R', this.R, n);
         //UtilEngine.printList('rejects', rejects);
-        const p = new Array(this.n);
-        for (let i=0; i<this.n; i++) {
+        const p = new Array(n);
+        for (let i=0; i<n; i++) {
           p[i] = !this.C[i] && !this.NC[i];
         }
-        UtilEngine.printArrayIndices('not C or NC', p, this.n);
+        UtilEngine.printArrayIndices('not C or NC', p, n);
       }
     }
     if (!ComputeForces.checkForceAccel(tolerance, this.f, this.a, this.joint)) {
       if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
         print('checkForceAccel FAILED with tolerance='+Util.NFE(tolerance));
-        UtilEngine.printArray('force', this.f, Util.NFE, this.n);
-        UtilEngine.printArray('accel', this.a, Util.NFE, this.n);
+        UtilEngine.printArray('force', this.f, Util.NFE, n);
+        UtilEngine.printArray('accel', this.a, Util.NFE, n);
       }
       return false;
     }
@@ -944,7 +947,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // Then i will move over to NC.
     // Except a Joint has no limit on the force, positive or negative,
     // so Joints always stay in C, and never limit a step size.
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (!this.joint[i] && this.C[i] && this.delta_f[i]*sign < -1E-14) {
         let sPrime = -this.f[i]/this.delta_f[i];  // how much we can decrease f[i] by
         if (sPrime*sign < 0) {
@@ -974,7 +977,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // If i element of NC, we can decrease the acceleration there, but only to zero.
     // Then i will move over to C.
     // For a Joint in NC, any change in acceleration pushes it into C.
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       if (this.NC[i] && (!this.joint[i] && this.delta_a[i]*sign < -1E-14
                   || this.joint[i] && Math.abs(this.delta_a[i]*sign) > 1E-14)) {
         let sPrime = -this.a[i]/this.delta_a[i];  // how much we can decrease f[i] by
@@ -1066,21 +1069,21 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       }
     };
 
-    goog.asserts.assert(this.n <= this.C.length);
-    for (let i=0; i<this.n; i++) {
+    goog.asserts.assert(n <= this.C.length);
+    for (let i=0; i<n; i++) {
       this.delta_f[i] = 0;
     }
     this.delta_f[d] = 1;
     goog.asserts.assert(!this.C[d]);
-    const c = UtilEngine.countBoolean(this.C, this.n);  // number of elements in set C
+    const c = UtilEngine.countBoolean(this.C, n);  // number of elements in set C
     if (c > 0) {
       // Acc is an augmented matrix: the last column is for vector v1
       const Acc = resizeMatrix(c);
       if (this.v1 == null || this.v1.length < c)
         this.v1 = Util.newNumberArray(c+10);
-      for (let i=0, p=0; i<this.n; i++) {
+      for (let i=0, p=0; i<n; i++) {
         if (this.C[i]) {
-          for (let j=0, q=0; j<this.n; j++)
+          for (let j=0, q=0; j<n; j++)
             if (this.C[j]) {
               // Acc is the submatrix of A obtained by deleting the j-th row and
               // column of A for all j not in C
@@ -1165,7 +1168,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         }
       }
       // transfer x into delta_f
-      for (let i=0, p=0; i<this.n; i++) {
+      for (let i=0, p=0; i<n; i++) {
         if (this.C[i]) {
           this.delta_f[i] = x[p++];
         }
@@ -1173,9 +1176,9 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     }
     // matrix multiply to get the resulting delta_a from a change of 1 in delta_f[d]
     // this is:  delta_a = A delta_f
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       this.delta_a[i] = 0;
-      for (let j=0; j<this.n; j++) {
+      for (let j=0; j<n; j++) {
         this.delta_a[i] += this.A[i][j]*this.delta_f[j];
       }
     }
@@ -1194,11 +1197,11 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // calculate the condition number of the matrix Acc.
     goog.asserts.assert(!this.C[d]);
     // c = 1 + number of elements in set C
-    const c = 1 + UtilEngine.countBoolean(this.C, this.n);
+    const c = 1 + UtilEngine.countBoolean(this.C, n);
     const Acc = resizeMatrix(c);
-    for (let i=0, p=0; i<this.n; i++) {
+    for (let i=0, p=0; i<n; i++) {
       if (this.C[i] || i==d) {
-        for (let j=0, q=0; j<this.n; j++) {
+        for (let j=0, q=0; j<n; j++) {
           if (this.C[j] || j==d) {
             // Acc is the submatrix of A obtained by deleting the j-th row and
             // column of A for all j not in C
@@ -1243,11 +1246,11 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // calculate the condition number of the matrix Acc.
     goog.asserts.assert(!this.C[d] && !this.C[e]);
     // c = 2 + number of elements in set C
-    const c = 2 + UtilEngine.countBoolean(this.C, this.n);
+    const c = 2 + UtilEngine.countBoolean(this.C, n);
     const Acc = resizeMatrix(c);
-    for (let i=0, p=0; i<this.n; i++) {
+    for (let i=0, p=0; i<n; i++) {
       if (this.C[i] || i==d || i==e) {
-        for (let j=0, q=0; j<this.n; j++)
+        for (let j=0, q=0; j<n; j++)
           if (this.C[j] || j==d || j==e) {
             // Acc is the submatrix of A obtained by deleting the j-th row and
             // column of A for all j not in C
@@ -1374,12 +1377,12 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       contact to defer till later, or negative integer means general failure.
   */
   const drive_to_zero = (d) => {
-    goog.asserts.assert(this.n <= this.f.length);
+    goog.asserts.assert(n <= this.f.length);
     goog.asserts.assert(!this.C[d]);
     goog.asserts.assert(!this.NC[d]);
     if (this.debugCF && Util.DEBUG) {
       print('drive_to_zero d='+d+' a['+d+']='+Util.NFE(this.a[d])
-        +' joint='+this.joint[d]+' N='+this.n);
+        +' joint='+this.joint[d]+' N='+n);
     }
     // First deal with cases where we don't have to do anything at all
     // (no changes to forces needed) because a[d] is already at zero.
@@ -1413,7 +1416,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       }
     }
     // We now know that contact d has acceleration which must be reduced to zero.
-    for (let i=0; i<this.n; i++) {
+    for (let i=0; i<n; i++) {
       this.delta_a[i] = 0;
       this.delta_f[i] = 0;
       this.zeroSteps[i] = false;
@@ -1436,7 +1439,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         printEverything('drive_to_zero after fdirection, d='+d);
       }
       if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
-        for (let i=0; i<this.n; i++) {
+        for (let i=0; i<n; i++) {
           // check that delta_a[i] = 0 for all members of C
           if (this.C[i] && Math.abs(this.delta_a[i])> this.SMALL_POSITIVE) {
             print('should be zero '+' delta_a['+i+']='+Util.NFE(this.delta_a[i]));
@@ -1498,7 +1501,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
             print('FLIP-FLOP DEFER j='+j
               +' f[j]='+Util.NFE(this.f[j])
               +' a[j]='+Util.NFE(this.a[j])
-              +' while driving d='+d+' N='+this.n);
+              +' while driving d='+d+' N='+n);
           }
           // defer solving this contact by adding to rejects, then continue on
           goog.asserts.assert(Math.abs(this.f[j]) < 10*this.SMALL_POSITIVE);
@@ -1512,15 +1515,15 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         this.zeroSteps[j] = true;
       }
       // apply the step in forces to modify the forces f and accelerations a.
-      for (let i=0; i<this.n; i++) {
+      for (let i=0; i<n; i++) {
         this.f[i] += this.stepSize*this.delta_f[i];
         this.a[i] += this.stepSize*this.delta_a[i];
       }
-      if (loopCtr++ > 10*this.n) {
+      if (loopCtr++ > 10*n) {
         if (Util.DEBUG) {
           this.debugCF = true;
           print('drive_to_zero() loopCtr='+loopCtr+' d='+d+' a[d]='+this.a[d]);
-        } else if (loopCtr > 1000*this.n) {
+        } else if (loopCtr > 1000*n) {
           throw 'drive_to_zero() loopCtr='+loopCtr+' d='+d+' a[d]='+this.a[d];
         }
       }
@@ -1645,30 +1648,13 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
 
 
   // ===========. START OF ACTUAL compute_forces ==========================
-  if (Util.DEBUG && 1==0 && this.name_ == 'C' && this.pRNG.nextFloat() < 0.001) {
-    // test of the ContactSim.reportError mechanism: randomly generate an error
-    return -999;
-  }
-  this.debugCF = debug;
-  this.time = time;
-  this.n = b.length;
-  const n = b.length;
-  if (A.length != n || A[0].length != n || f.length != n || b.length != n ||
-      joint.length != n) {
-    throw 'wrong length of input array';
-  }
-  // short cut when n==1, (comes up a lot with serial collision handling)
-  if (n==1) {
-    f[0] = (joint[0] || b[0] < 0) ? -b[0]/A[0][0] : 0;
-    return -1;
-  }
   this.A = A;
   this.b = b;
   this.f = f;
   this.joint = joint;
   // resize vectors to be at least length n.
-  if (this.a.length < this.n) {
-    const size = this.n+10;  // allocate extra space to avoid frequent resizing
+  if (this.a.length < n) {
+    const size = n+10;  // allocate extra space to avoid frequent resizing
     this.a = Util.newNumberArray(size);
     this.C = Util.newBooleanArray(size);
     this.NC = Util.newBooleanArray(size);
@@ -1684,7 +1670,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   let solved = 0;
   this.states = [];
   this.accels = [];
-  for (let i=0; i<this.n; i++) {
+  for (let i=0; i<n; i++) {
     this.f[i] = 0;
     this.a[i] = this.b[i];
     this.NC[i] = false;
@@ -1739,19 +1725,19 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     if (Util.DEBUG) {
       this.order.push(d);
     }
-    if (Util.DEBUG && loopCtr > 2*this.n) {
+    if (Util.DEBUG && loopCtr > 2*n) {
       this.debugCF = true;
       printEverything('compute_forces loopCtr= '+loopCtr+' d='+d, false);
     }
     const error = drive_to_zero(d);
     if (Util.DEBUG && this.debugCF) {
       print('drive_to_zero returned '+
-          (error == -1 ? 'OK' : error) +' d='+d+' N='+this.n);
+          (error == -1 ? 'OK' : error) +' d='+d+' N='+n);
       //printEverything('after drive_to_zero('+d+')', false);
     }
     if (error > -1) {
       // Positive integer gives index of contact to defer till later.
-      goog.asserts.assert(error < this.n);
+      goog.asserts.assert(error < n);
       this.C[error] = false;
       this.NC[error] = false;
       this.R[error] = true;
