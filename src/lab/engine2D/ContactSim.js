@@ -588,12 +588,12 @@ calcContactForces(vars, change, subset) {
   }
   // ===================== compute forces =====================
   var time = vars[this.varsList_.timeIndex()];
-  var error = this.computeForces_.compute_forces(A, f, b, joint, pileDebug, time);
+  const tol = 1e-4;
+  var error = this.computeForces_.compute_forces(A, f, b, joint, pileDebug, time, tol);
   if (Util.DEBUG && 0 == 1) {
     this.printForceInfo(subset, A, f, b, joint, vars);
   }
-  var tol = 1e-4;
-  if (error !== -1 || !this.computeForces_.checkAccel(tol)) {
+  if (error !== -1) {
     this.reportError(error, tol, A, f, b, joint);
   }
   // ===================== apply forces =====================

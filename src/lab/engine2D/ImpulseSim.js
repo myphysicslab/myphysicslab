@@ -1287,7 +1287,7 @@ hcs_handle(hybrid, grouped, debugHCS,
   var pileDebug = false; //Math.abs(this.getTime() - 16.00) < 1E-4;
   var error = this.computeImpacts_.compute_forces(A1, j1, b1, joint1, pileDebug,
       this.getTime());
-  if (1 == 0 && Util.DEBUG && this.computeImpacts_.specialCase) {
+  if (1 == 0 && Util.DEBUG) {
     // Print the A matrix and b vector for further analysis.
     // This prints the data needed as input to compute_forces, so that
     // you can try it again as a standalone test, see UtilityTest.
