@@ -103,9 +103,9 @@ resulting acceleration at each contact point is still acceptable.
 See the method {@link #checkForceAccel} for how to check the accelerations. For example,
 the following code calculates and checks the acceleration from the calculated forces.
 
-    var error = computeForces.compute_forces(A, f, b, joint, false, time);
+    const error = computeForces.compute_forces(A, f, b, joint, false, time);
     if (error != -1) {
-      var accel = UtilEngine.matrixMultiply(A, f);
+      let accel = UtilEngine.matrixMultiply(A, f);
       accel = UtilEngine.vectorAdd(accel, b);
       if (!computeForces.checkForceAccel(1E-8, f, accel, joint)) {
         throw '';
@@ -508,8 +508,8 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       UtilEngine.printArrayIndices('R', this.R, this.n);
       UtilEngine.printList('reRejects', this.reRejects);
       {
-        var p = new Array(this.n);
-        for (var i=0; i<this.n; i++) {
+        const p = new Array(this.n);
+        for (let i=0; i<this.n; i++) {
           p[i] = !this.C[i] && !this.NC[i] && !this.R[i];
         }
         UtilEngine.printArrayIndices('not treated', p, this.n);
@@ -561,7 +561,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       N = 10 * (2 + N/10);
       this.aMatrix = new Array(N);
       this.bMatrix = new Array(N);
-      for (var i=0; i<N; i++) {
+      for (let i=0; i<N; i++) {
         this.aMatrix[i] = new Float64Array(N+1);
         this.bMatrix[i] = new Float64Array(N+1);
       }
@@ -638,8 +638,8 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       }
       if (goog.array.equals(state, this.states[i])) {
         if (Util.DEBUG && this.WARNINGS) {
-          var accelOld = this.accels[i];
-          var accelMin = UtilEngine.minValue(this.accels);
+          const accelOld = this.accels[i];
+          const accelMin = UtilEngine.minValue(this.accels);
           print('num states='+this.states.length
             +' now accel='+Util.NFE(sumAccelSquare(this.a, this.joint, this.n))
             +' prev accel='+Util.NFE(accelOld)
@@ -851,11 +851,11 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         }
       }
       if (0 == 1 && Util.DEBUG) {
-        var accel = UtilEngine.matrixMultiply(this.A, this.f);
+        let accel = UtilEngine.matrixMultiply(this.A, this.f);
         accel = UtilEngine.vectorAdd(accel, this.b);
-        var minAccel2 = UtilEngine.minValue(accel);
+        const minAccel2 = UtilEngine.minValue(accel);
         //goog.asserts.assert(Math.abs(minAccel) < 2E-8);
-        var minAccel = UtilEngine.minValue(this.a, this.n);
+        const minAccel = UtilEngine.minValue(this.a, this.n);
         print('min accel = '+Util.NFE(minAccel)
             +' min accel2 = '+Util.NFE(minAccel2)
         );
@@ -866,7 +866,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         UtilEngine.printArrayIndices('NC', this.NC, this.n);
         UtilEngine.printArrayIndices('R', this.R, this.n);
         //UtilEngine.printList('rejects', rejects);
-        var p = new Array(this.n);
+        const p = new Array(this.n);
         for (let i=0; i<this.n; i++) {
           p[i] = !this.C[i] && !this.NC[i];
         }
@@ -897,14 +897,13 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         and also sets this.stepSize as a side-effect
   */
   const maxStep = (d) => {
-    var s = Util.POSITIVE_INFINITY;
+    let s = Util.POSITIVE_INFINITY;
     // for a Joint d with positive acceleration, need to decrease the force f[d],
     // so we will have negative step size in this case.
     if (this.joint[d] && this.a[d] > 0) {
       s = Util.NEGATIVE_INFINITY;
     }
-    var j = -1;
-    var sPrime;
+    let j = -1;
     //  d is the contact whose acceleration we are trying to drive to zero.
     //  d is neither in C nor NC.
     goog.asserts.assert(!this.C[d] && !this.NC[d]);
@@ -940,14 +939,14 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // When sign = 1, we are increasing the negative a[d] to zero.
     // When sign = -1, we are decreasing the positive a[d] to zero.
     // sign is usually 1, except at Joints when it can be -1.
-    var sign = s > 0 ? 1 : -1;
+    const sign = s > 0 ? 1 : -1;
     // If i element of C, we can reduce the force there, but only to zero.
     // Then i will move over to NC.
     // Except a Joint has no limit on the force, positive or negative,
     // so Joints always stay in C, and never limit a step size.
     for (let i=0; i<this.n; i++) {
       if (!this.joint[i] && this.C[i] && this.delta_f[i]*sign < -1E-14) {
-        sPrime = -this.f[i]/this.delta_f[i];  // how much we can decrease f[i] by
+        let sPrime = -this.f[i]/this.delta_f[i];  // how much we can decrease f[i] by
         if (sPrime*sign < 0) {
           // Due to numerical inaccuracy, the force is slightly negative
           // so we take a zero size step to switch the contact from C to NC.
@@ -978,7 +977,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     for (let i=0; i<this.n; i++) {
       if (this.NC[i] && (!this.joint[i] && this.delta_a[i]*sign < -1E-14
                   || this.joint[i] && Math.abs(this.delta_a[i]*sign) > 1E-14)) {
-        sPrime = -this.a[i]/this.delta_a[i];  // how much we can decrease f[i] by
+        let sPrime = -this.a[i]/this.delta_a[i];  // how much we can decrease f[i] by
         if (sPrime*sign < 0) {
           // Due to numerical inaccuracy, the accel is slightly negative
           // so we take a zero size step to switch the contact from NC to C.
@@ -1073,17 +1072,15 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     }
     this.delta_f[d] = 1;
     goog.asserts.assert(!this.C[d]);
-    var c = UtilEngine.countBoolean(this.C, this.n);  // number of elements in set C
+    const c = UtilEngine.countBoolean(this.C, this.n);  // number of elements in set C
     if (c > 0) {
       // Acc is an augmented matrix: the last column is for vector v1
-      var Acc = resizeMatrix(c);
+      const Acc = resizeMatrix(c);
       if (this.v1 == null || this.v1.length < c)
         this.v1 = Util.newNumberArray(c+10);
-      var p = 0;
-      for (let i=0; i<this.n; i++) {
+      for (let i=0, p=0; i<this.n; i++) {
         if (this.C[i]) {
-          var q = 0;
-          for (let j=0; j<this.n; j++)
+          for (let j=0, q=0; j<this.n; j++)
             if (this.C[j]) {
               // Acc is the submatrix of A obtained by deleting the j-th row and
               // column of A for all j not in C
@@ -1098,19 +1095,20 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
           p++;
         }
       }
-      var x = Util.newNumberArray(c);
+      const x = Util.newNumberArray(c);
       copyMatrix(c, c+1, Acc, this.bMatrix);
       // this loop reduces the matrix solve tolerance until a good
       // solution is found, or the tolerance gets too small
       // ?? IS THIS TOLERANCE MODIFICATION STILL USEFUL ??  SEE ASSERT BELOW.
-      var tolerance = 1E-9;
+      let tolerance = 1E-9;
       while (true) {
         //UtilEngine.MATRIX_SOLVE_DEBUG = false;
         // note that we put v1 into the last column of Acc earlier
-        var nrow = Util.newNumberArray(c);
-        var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
+        const nrow = Util.newNumberArray(c);
+        // solves Acc x = v1
+        const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); 
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
-          var singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
+          const singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
               this.SINGULAR_MATRIX_LIMIT);
           if (singular) {
             // This can happen because we sometimes ignore the wouldBeSingular test
@@ -1123,9 +1121,9 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
           return -999999;
         } else {
           // check that resulting accelerations are small at each point in C
-          var accelTolerance = 1E-7;
-          var r = UtilEngine.matrixMultiply(this.bMatrix, x, this.v1);
-          var maxError = UtilEngine.maxSize(r);
+          const accelTolerance = 1E-7;
+          const r = UtilEngine.matrixMultiply(this.bMatrix, x, this.v1);
+          const maxError = UtilEngine.maxSize(r);
           if (maxError < accelTolerance) {
             break;
           } else {
@@ -1147,7 +1145,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
             // This code was added because I was solving singular Acc matrices,
             // but now we avoid Acc becoming singular.
             // If this assert never happens, then I can remove this code.
-            var msg = 'should not need to loosen tolerance on matrix solve';
+            const msg = 'should not need to loosen tolerance on matrix solve';
             if (Util.DEBUG) {
               print(msg);
             }
@@ -1167,8 +1165,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         }
       }
       // transfer x into delta_f
-      p = 0;
-      for (let i=0; i<this.n; i++) {
+      for (let i=0, p=0; i<this.n; i++) {
         if (this.C[i]) {
           this.delta_f[i] = x[p++];
         }
@@ -1196,14 +1193,12 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // only to get the matrix in upper triangular form, so that we can
     // calculate the condition number of the matrix Acc.
     goog.asserts.assert(!this.C[d]);
-    var c = UtilEngine.countBoolean(this.C, this.n);  // number of elements in set C
-    c = c+1;
-    var Acc = resizeMatrix(c);
-    var p = 0;
-    for (let i=0; i<this.n; i++) {
+    // c = 1 + number of elements in set C
+    const c = 1 + UtilEngine.countBoolean(this.C, this.n);
+    const Acc = resizeMatrix(c);
+    for (let i=0, p=0; i<this.n; i++) {
       if (this.C[i] || i==d) {
-        var q = 0;
-        for (let j=0; j<this.n; j++) {
+        for (let j=0, q=0; j<this.n; j++) {
           if (this.C[j] || j==d) {
             // Acc is the submatrix of A obtained by deleting the j-th row and
             // column of A for all j not in C
@@ -1219,15 +1214,15 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         p++;
       }
     }
-    var nrow = Util.newNumberArray(c);
-    var x = Util.newNumberArray(c);
-    var tolerance = 1E-9;
-    var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
-    var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
+    const nrow = Util.newNumberArray(c);
+    const x = Util.newNumberArray(c);
+    const tolerance = 1E-9;
+    const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
+    const isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
         this.SINGULAR_MATRIX_LIMIT);
     if (this.debugCF && Util.DEBUG && (1 == 1 || isSingular)) {
       // print the matrix in triangular form after Gaussian Elimination
-      var ncol = new Array(c+1);
+      const ncol = new Array(c+1);
       for (let i=0; i<c+1; i++)
         ncol[i] = i;
       UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, Util.NF7, c);
@@ -1247,14 +1242,12 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // only to get the matrix in upper triangular form, so that we can
     // calculate the condition number of the matrix Acc.
     goog.asserts.assert(!this.C[d] && !this.C[e]);
-    var c = UtilEngine.countBoolean(this.C, this.n);  // number of elements in set C
-    c = c+2;
-    var Acc = resizeMatrix(c);
-    var p = 0;
-    for (let i=0; i<this.n; i++) {
+    // c = 2 + number of elements in set C
+    const c = 2 + UtilEngine.countBoolean(this.C, this.n);
+    const Acc = resizeMatrix(c);
+    for (let i=0, p=0; i<this.n; i++) {
       if (this.C[i] || i==d || i==e) {
-        var q = 0;
-        for (let j=0; j<this.n; j++)
+        for (let j=0, q=0; j<this.n; j++)
           if (this.C[j] || j==d || j==e) {
             // Acc is the submatrix of A obtained by deleting the j-th row and
             // column of A for all j not in C
@@ -1269,15 +1262,15 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         p++;
       }
     }
-    var nrow = Util.newNumberArray(c);
-    var x = Util.newNumberArray(c);
-    var tolerance = 1E-9;
-    var error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
-    var isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
+    const nrow = Util.newNumberArray(c);
+    const x = Util.newNumberArray(c);
+    const tolerance = 1E-9;
+    const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
+    const isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
         this.SINGULAR_MATRIX_LIMIT);
     if (this.debugCF && Util.DEBUG && isSingular) {
       // print the matrix in triangular form after Gaussian Elimination
-      var ncol = new Array(c+1);
+      const ncol = new Array(c+1);
       for (let i=0; i<c+1; i++) {
         ncol[i] = i;
       }
@@ -1401,8 +1394,8 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     // increase f[d].
     if (this.DEFER_SINGULAR) {
       // check whether adding d to C will make Acc+d matrix singular.
-      var singular = wouldBeSingular1(d);
-      var defer = singular && !this.R[d];
+      const singular = wouldBeSingular1(d);
+      const defer = singular && !this.R[d];
       if (defer) {
         // defer d because adding d to C would make Acc+d matrix singular.
         if (Util.DEBUG && (this.debugCF)) {
@@ -1425,18 +1418,18 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       this.delta_f[i] = 0;
       this.zeroSteps[i] = false;
     }
-    var accelTol = this.SMALL_POSITIVE;
-    var loopCtr = 0; // to detect infinite loops
+    let accelTol = this.SMALL_POSITIVE;
+    let loopCtr = 0; // to detect infinite loops
     // for non-Joint:  ensure not accelerating into the contact
     // for Joint: ensure that acceleration is zero
     while (!this.joint[d] && this.a[d] < -accelTol ||
             this.joint[d] && Math.abs(this.a[d]) > accelTol) {
       if (this.debugCF && Util.DEBUG) {
-        var accDsingular = wouldBeSingular1(d);
+        const accDsingular = wouldBeSingular1(d);
         print('Acc+d would be '+(accDsingular? '' : 'non-')+'singular, d='+d);
       }
       // fdirection computes the rest of delta_f resulting from delta_f[d] = 1
-      var error = fdirection(d);
+      const error = fdirection(d);
       if (error != -1)
         return error;
       if (this.debugCF && Util.DEBUG) {
@@ -1458,7 +1451,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       // before some contact other than d is clamped or unclamped?
       // maxStep returns the stepSize and the index j of the force that
       // limited the step.
-      var j = maxStep(d);
+      const j = maxStep(d);
       if (j<0 || Math.abs(this.stepSize) > 1E5) {
         // maxStep found a huge step, or cannot figure what to do.
         if ((this.WARNINGS || this.debugCF) && Util.DEBUG) {
@@ -1535,10 +1528,10 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
         // maxStep is asking to move j from NC to C,
         // check whether this will make Acc+d+j matrix singular.
         // (alternative:  if f[d] = 0, could instead check if Acc+j is singular)
-        var singular = wouldBeSingular2(d, j);
+        const singular = wouldBeSingular2(d, j);
         // because j is in NC, it must have zero force.
         goog.asserts.assert(Math.abs(this.f[j]) < this.SMALL_POSITIVE);
-        var defer = singular && !this.R[j];
+        const defer = singular && !this.R[j];
         if (defer) {
           // we will defer j because it would make Acc+d+j singular
           if ((this.debugCF) && Util.DEBUG) {
@@ -1579,7 +1572,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
           // Instead of moving to NC, move this to the set of untreated contacts
           // so that we can drive it to zero again.
           if (Math.abs(this.f[j])> 10*this.SMALL_POSITIVE) {
-            var s = 'moving C to NC but f[j]='+ Util.NFE(this.f[j]);
+            const s = 'moving C to NC but f[j]='+ Util.NFE(this.f[j]);
             if (Util.DEBUG) {
               printEverything(s);
             } else {
@@ -1675,7 +1668,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   this.joint = joint;
   // resize vectors to be at least length n.
   if (this.a.length < this.n) {
-    var size = this.n+10;  // allocate extra space to avoid frequent resizing
+    const size = this.n+10;  // allocate extra space to avoid frequent resizing
     this.a = Util.newNumberArray(size);
     this.C = Util.newBooleanArray(size);
     this.NC = Util.newBooleanArray(size);
@@ -1688,17 +1681,17 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   // and then process other contacts, returning to the rejects at the end
   // to give them a second chance.
   this.reRejects.length = 0;
-  var solved = 0;
+  let solved = 0;
   this.states = [];
   this.accels = [];
-  for (var i=0; i<this.n; i++) {
+  for (let i=0; i<this.n; i++) {
     this.f[i] = 0;
     this.a[i] = this.b[i];
     this.NC[i] = false;
     this.C[i] = false;
     this.R[i] = false;
   }
-  var loopCtr = 0;
+  let loopCtr = 0;
   if (Util.DEBUG) {
     this.order = [];
   }
@@ -1711,7 +1704,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
   // while there exists d such that a[d] < 0
   while (true) {
     loopCtr++;
-    var d = -1;
+    let d = -1;
     switch (this.nextContactPolicy) {
       case ComputeForces.NEXT_CONTACT_HYBRID:
         d = nextContactHybrid();
@@ -1750,7 +1743,7 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
       this.debugCF = true;
       printEverything('compute_forces loopCtr= '+loopCtr+' d='+d, false);
     }
-    var error = drive_to_zero(d);
+    const error = drive_to_zero(d);
     if (Util.DEBUG && this.debugCF) {
       print('drive_to_zero returned '+
           (error == -1 ? 'OK' : error) +' d='+d+' N='+this.n);
@@ -1769,8 +1762,6 @@ compute_forces(A, f, b, joint, debug, time, tolerance) {
     } else if (error < -1) {
       // negative error code (other than -1) means general failure
       if (Util.DEBUG && (this.WARNINGS || this.debugCF)) {
-        //var e = new Error();
-        //console.log(e.stack);
         print('compute_forces general error '+error);
       }
       return error;
@@ -1834,12 +1825,11 @@ static checkForceAccel(tolerance, force, accel, joint) {
     UtilEngine.checkArrayNaN(accel);
     UtilEngine.checkArrayNaN(force);
   }
-  var n = force.length;
-  if (accel.length < n) {
+  if (accel.length < force.length) {
     throw '';
   }
-  var r = true;
-  for (let i=0; i<n; i++) {
+  let r = true;
+  for (let i=0; i<force.length; i++) {
     if (joint[i] || Math.abs(force[i]) > 1E-10) {
       if (Math.abs(accel[i]) > tolerance) {
         r = false;
