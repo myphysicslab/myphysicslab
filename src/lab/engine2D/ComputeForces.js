@@ -282,13 +282,6 @@ constructor(name, pRNG) {
   * @const
   */
   this.name_ = name;
-  /** twice-rejected rejects.
-  * reRejects allows us to select which reject to handle from rejects list,
-  * without looking at any twice-rejected rejects.
-  * @type {!Array<number>}
-  * @private
-  */
-  this.reRejects = [];
   /** Order in which contacts were treated; each entry is index of contact in A matrix
   * @type {!Array<number>}
   */
@@ -472,6 +465,12 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   let stepSize = 0;
   // SMALL_POSITIVE is used to decide when numbers are equal or zero
   const SMALL_POSITIVE = 1E-10;
+  /** twice-rejected rejects.
+  * reRejects allows us to select which reject to handle from rejects list,
+  * without looking at any twice-rejected rejects.
+  * @type {!Array<number>}
+  */
+  const reRejects = [];
 
   /**
   * @param {string} s
@@ -499,7 +498,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       UtilEngine.printArrayIndices('C', this.C, n);
       UtilEngine.printArrayIndices('NC', this.NC, n);
       UtilEngine.printArrayIndices('R', this.R, n);
-      UtilEngine.printList('reRejects', this.reRejects);
+      UtilEngine.printList('reRejects', reRejects);
       {
         const p = new Array(n);
         for (let i=0; i<n; i++) {
@@ -805,7 +804,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     let maxAccel = 0.0;
     let j = -1;
     for (let i=0; i<n; i++) {
-      if (this.R[i] && !this.reRejects.includes(i)) {
+      if (this.R[i] && !reRejects.includes(i)) {
         if (!this.joint[i] && this.a[i] < -maxAccel || this.joint[i]
               && Math.abs(this.a[i]) > maxAccel) {
           maxAccel = Math.abs(this.a[i]);
@@ -1652,7 +1651,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   // When a contact is deferred by drive_to_zero, put it on list of rejects,
   // and then process other contacts, returning to the rejects at the end
   // to give them a second chance.
-  this.reRejects.length = 0;
+  reRejects.length = 0;
   let solved = 0;
   this.states = [];
   this.accels = [];
@@ -1700,7 +1699,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       break;
     }
     if (this.R[d]) {
-      this.reRejects.push(d);
+      reRejects.push(d);
     }
     if (checkLoop(d)) {
       if (Util.DEBUG && this.WARNINGS) {
@@ -1742,7 +1741,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       goog.asserts.assert(error == -1);
       // -1 means success, so remove d from rejects list (if it was on the list)
       // and reset the reRejects list.
-      this.reRejects.length = 0;
+      reRejects.length = 0;
       if (this.R[d]) {
         if (Util.DEBUG && debugCF) {
           printContact(' deferral solved ', true, d, -1, -1);
