@@ -440,7 +440,6 @@ static testRedundantMatrix10() {
 * @return {!Array<!Float64Array>}
 */
 static makeMatrix11() {
-  startTest(UtilEngineTest.groupName+'makeMatrix11');
   var a = [
     5.24025764299373, 0, 0, 0, 0, 0, 0, 0, 0, -2.615501943799582, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 5.368078595488846, 0, 0, 0, 0,
@@ -492,7 +491,6 @@ static makeMatrix11() {
 * @return {!Array<number>}
 */
 static makeBVector11() {
-  startTest(UtilEngineTest.groupName+'makeBVector11');
   return [
     -0, -0, -1.996325979911138, -0, -0, 1.010768833586209,
     -0, -1.157020417054051, 5.897095231071411, -0, -0, -0,
@@ -547,7 +545,6 @@ static testMatrix11_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -584,7 +581,6 @@ static testMatrix11_CF() {
 * @return {!Array<!Float64Array>}
 */
 static makeMatrix12() {
-  startTest(UtilEngineTest.groupName+'makeMatrix12');
   var a = [
 3.040694642274648, 0, 0, 0.01709055530317863, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.17854656770013483, 0, 0, 0, 0, 0, 0, 0, -0.5950357471205004, 0, -3.0390160802451973, 0, 0, 0, 0, -0.6937593926545077, 0, -0.7269641453882664, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.1797929927395687,
 0, 7.297331768240345, 0, 0, 0, 0, 0.1009238030787658, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.568314678505832, 0, -0.10048587507901019, 0, 0, 0, 0, 1.5853009221352987, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -637,7 +633,6 @@ static makeMatrix12() {
 * @return {!Array<number>}
 */
 static makeBVector12() {
-  startTest(UtilEngineTest.groupName+'makeBVector12');
   return [
     -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0.5519084709951673, -0, -0, 0.32686189269549815, -0, -0.2360817957910113, 0.5631787673751059, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0.9155757777076441, -0, -0, -0, -0, -0, -0, -0, -0, -0
     ];
@@ -695,7 +690,6 @@ static testMatrix12_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -704,10 +698,7 @@ static testMatrix12_CF() {
         // set the specific order in which contacts are treated
         // This causes the FLIP-FLOP DEFER condition to occur.
         var o = [ 31, 7, 3, 33, 22, 40, 10, 36, 20, 29, 42, 6, 21, 23, 14, 9, 4, 5, 38, 32, 11, 35, 16, 13, 24, 1, 27, 26, 18, 12, 19, 8, 37, 0, 39, 17, 2, 28, 15, 25, 30, 34, 41, 1, 10 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -845,7 +836,6 @@ static testMatrix15_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -853,10 +843,7 @@ static testMatrix15_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 12, 13, 14, 15, 0, 1, 2, 3, 5, 4, 7, 6, 8, 9, 10, 11 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -937,7 +924,6 @@ static testMatrix16_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -945,10 +931,7 @@ static testMatrix16_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 12, 14, 13, 15, 7, 10, 3, 2, 6, 5, 1, 4, 11, 9, 0, 8 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1033,7 +1016,6 @@ static testMatrix17_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1041,18 +1023,12 @@ static testMatrix17_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 12, 13, 14, 15, 1, 11, 4, 6, 8, 2, 0, 7, 5, 10, 9, 3 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         // set the specific order in which contacts are treated
         var o2 = [ 14, 15, 12, 13, 6, 7, 0, 5, 3, 9, 4, 1, 8, 10, 11, 2, 0 ];
-        for (j=0; j<o2.length; j++) {
-          cf.preOrder.push(o2[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o2);
         break;
       case 3:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1132,7 +1108,6 @@ static testMatrix18_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1140,10 +1115,7 @@ static testMatrix18_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 15, 14, 13, 12, 8, 0, 4, 5, 7, 10, 9, 11, 2, 3, 1, 6 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1227,7 +1199,6 @@ static testMatrix19_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1235,10 +1206,7 @@ static testMatrix19_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 12, 13, 14, 15, 4, 5, 10, 11, 2, 3, 7, 0, 1, 6, 8, 9 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1246,10 +1214,7 @@ static testMatrix19_CF() {
       case 3:
         // this gives a huge maxForce of 135701
         var o2 = [ 12, 14, 15, 13, 0, 7, 3, 6, 8, 11, 9, 1, 2, 10, 5, 4, 6 ];
-        for (j=0; j<o2.length; j++) {
-          cf.preOrder.push(o2[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o2);
         break;
       default:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
@@ -1327,7 +1292,6 @@ static testMatrix20_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1335,10 +1299,7 @@ static testMatrix20_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 12, 13, 14, 15, 0, 10, 7, 8, 9, 5, 3, 4, 1, 11, 2, 6 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1419,7 +1380,6 @@ static testMatrix21_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1427,19 +1387,13 @@ static testMatrix21_CF() {
       case 1:
         // set the specific order in which contacts are treated
         var o = [ 12, 13, 14, 15, 8, 9, 4, 1, 7, 6, 2, 5, 3, 0, 11, 10, 1, 1, 5, 0, 0, 0, 3, 2, 10, 2 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         // set the specific order in which contacts are treated
         var o2 = [ 12, 14, 13, 15, 5, 7, 11, 0, 10, 2, 1, 3, -3, 4, 6, 8, 9, 5, 3, -3, 10, -10, 11, -11, 3, -3, 10, -10, 11, -11 ];
-        for (j=0; j<o2.length; j++) {
-          if (o2[j] > -1)
-            cf.preOrder.push(o2[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
+            o2.filter(x => x > -1));
         break;
       case 3:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1559,7 +1513,6 @@ static testMatrix22_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         // This gives maxForce=10.8364728 length=25.4836362
@@ -1571,10 +1524,7 @@ static testMatrix22_CF() {
         var o = [ 20, 15, 29, 5, 13, 28, 33, 25, 16, 38, 27, 31, 12, 40, 9, 14, 24, 41,
           21, 10, 35, 37, 19, 32, 0, 2, 6, 39, 7, 1, 4, 43, 17, 22, 36, 26, 8, 34, 30,
           11, 42, 18, 23, 3 ];
-        for (j=0; j<o.length; j++) {
-          cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         // set the specific order in which contacts are treated
@@ -1584,11 +1534,8 @@ static testMatrix22_CF() {
           21, 37, 13, 12, 6, 8, 0, 30, 26, 1, 2, 40, 18, 41, -41, 35, -35, 10, -10, 5,
           -5, 19, -19, 9, -9, 38, -38, 22, 11, -11, 32, 23, -23, 31, -31, 15, -15, 34,
           -34, 41, 35, 10, 5, 19, 9, 38, 23, 31, 15, 34, -30, 34 ];
-        for (j=0; j<o2.length; j++) {
-          if (o2[j] > -1)
-            cf.preOrder.push(o2[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
+            o2.filter(x => x > -1));
         break;
       case 3:
         // set the specific order in which contacts are treated
@@ -1599,33 +1546,24 @@ static testMatrix22_CF() {
         21, 27, 39, 11, 15, 18, 30, 17, 42, 19, 33, 5, 43, 9, 7, 20, 29, 4, 24, 41, -41,
         25, -25, 12, -12, 32, -32, 22, -22, 16, 2, -2, 41, 25, -40, 25, -42, 25, -39,
         25, 12, -18, 12, 32, -24, 32, -37, 32, 22, 40, -19, 40, -5, 40, 39, 24, 19 ];
-        for (j=0; j<o3.length; j++) {
-          if (o3[j] > -1)
-            cf.preOrder.push(o3[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
+            o3.filter(x => x > -1));
         break;
       case 4:
         // set the specific order in which contacts are treated
         var o4 = [ 42, 16, 36, 22, 4, 8, 41, 12, 1, 10, 25, 31, 2, 28, 5, 29, 40, 37, 6,
         24, 18, 43, 0, 34, 11, 7, 14, 15, 27, 33, 9, 35, 38, 39, 17, 30, 3, 32, 13, 20,
         21, 3, 20, 19, 23, 26, 20, 3, 20, 3, 20, 20, 3 ];
-        for (j=0; j<o4.length; j++) {
-          if (o4[j] > -1)
-            cf.preOrder.push(o4[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
+            o4.filter(x => x > -1));
         break;
       case 5:
         // set the specific order in which contacts are treated
         var o5 = [ 16, 18, 0, 28, 42, 1, 29, 36, 26, 12, 19, 32, 27, 40, 8, 13, 31, 14,
         37, 39, 9, 35, 24, 6, 43, 25, 23, 30, 22, 21, 15, 5, 38, 33, 20, 4, 7, 3, -3,
         11, 2, -2, 17, 10, 41, 34, 3 ];
-        for (j=0; j<o5.length; j++) {
-          if (o5[j] > -1)
-            cf.preOrder.push(o5[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
+            o5.filter(x => x > -1));
         break;
       case 6:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -1747,7 +1685,6 @@ static testMatrix23_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1838,7 +1775,6 @@ static testMatrix24_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1928,7 +1864,6 @@ static testMatrix25_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1938,11 +1873,8 @@ static testMatrix25_CF() {
         // This gives min accel of -2.57E-7, max force of 960, when poorly
         // conditioned matrices are allowed.
         var o = [ 11, 12, 10, 13, 6, 5, 0, 9, 4, 7, 1, 3, 2, -2, 8, 9, -9, 2, -2, 9, -9, 2, -2 ];
-        for (j=0; j<o.length; j++) {
-          if (o[j] > -1)
-            cf.preOrder.push(o[j]);
-        }
-        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED);
+        cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
+            o.filter(x => x > -1));
         break;
       case 2:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_HYBRID);
@@ -2004,7 +1936,6 @@ static testMatrix26_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -2077,7 +2008,6 @@ static testMatrix27_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -2177,7 +2107,6 @@ static testMatrix28_CF() {
     if (VERBOSE)
       console.log('\n\n====================================================');
     var f = new Array(n);
-    cf.preOrder.length = 0;
     switch (i) {
       case 0:
         // use default next contact policy

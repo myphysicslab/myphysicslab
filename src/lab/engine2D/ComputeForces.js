@@ -296,6 +296,7 @@ constructor(name, pRNG) {
   /** Order in which treat contacts; each entry is index of contact in A matrix.
   * See {@link #NEXT_CONTACT_PRE_ORDERED}.
   * @type {!Array<number>}
+  * @private
   */
   this.preOrder = [];
   /** Avoid making Acc matrix singular
@@ -411,8 +412,19 @@ See {@link #getNextContactPolicy}.
 @param {number} nextContactPolicy One of {@link #NEXT_CONTACT_MIN_ACCEL},
     {@link #NEXT_CONTACT_RANDOM}, {@link #NEXT_CONTACT_PRE_ORDERED},
     {@link #NEXT_CONTACT_HYBRID}
+@param {!Array<number>=} preOrder Order in which to treat contacts; each entry is
+    index of contact in A matrix. Used only with NEXT_CONTACT_PRE_ORDERED.
 */
-setNextContactPolicy(nextContactPolicy) {
+setNextContactPolicy(nextContactPolicy, preOrder) {
+  if (nextContactPolicy == ComputeForces.NEXT_CONTACT_PRE_ORDERED) {
+    if (Array.isArray(preOrder)) {
+      this.preOrder = preOrder;
+    } else {
+      throw 'no preOrder specified';
+    }
+  } else {
+    this.preOrder.length = 0;
+  }
   this.nextContactPolicy = nextContactPolicy;
 }
 
