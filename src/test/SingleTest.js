@@ -19,7 +19,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 
 //const AbstractSubjectTest =
 //     goog.require('myphysicslab.lab.util.test.AbstractSubjectTest');
-const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
+//const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
 //const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 //const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 //const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
@@ -33,7 +33,7 @@ const CalculusTest = goog.require('myphysicslab.lab.util.test.CalculusTest');
 //const PileTest = goog.require('myphysicslab.test.PileTest');
 //const RopeTest = goog.require('myphysicslab.test.RopeTest');
 //const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
-//const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
 //const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
 //const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
 //const VectorTest = goog.require('myphysicslab.lab.util.test.VectorTest');
@@ -114,7 +114,7 @@ static runTests() {
   //StraightStraightTest.six_blocks_4();
   //StraightStraightTest.six_blocks_performance(100);
   //StraightStraightTest.six_blocks_performance(t);
-  //StraightStraightTest.six_blocks_settle();
+  StraightStraightTest.six_blocks_settle();
   //StraightStraightTest.test();
   //TerminalTest.testTerminal1();
   //UtilTest.test();

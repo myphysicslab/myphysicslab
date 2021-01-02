@@ -1137,8 +1137,8 @@ printContactInfo(subset, b, vars) {
     }
     // print all vars
     UtilEngine.printArray(Util.NF7(this.getTime())+' vars', vars);
-    // print energy info
-    this.myPrint(this.getEnergyInfo().toString());
+    // Don't print energy info! because getEnergyInfo() has side effects that change
+    // the simulation results.
   }
 };
 

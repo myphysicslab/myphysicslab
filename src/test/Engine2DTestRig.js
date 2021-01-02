@@ -398,7 +398,6 @@ static checkContactDistances(sim, tolerance) {
 /** Print all variables in a format that is easy to copy/paste into test
 code.
 @param {!RigidBodySim} sim
-@private
 */
 static printVars(sim) {
   // @todo  fix this for when time is at the front of variable list.

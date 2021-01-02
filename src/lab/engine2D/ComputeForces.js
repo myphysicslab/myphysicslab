@@ -476,7 +476,6 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   */
   const printEverything = (s, printMatrix) => {
     if (Util.DEBUG) {
-      printMatrix = printMatrix || false;
       print('printEverything '+s);
       console.log('seed='+this.pRNG.getSeed());
       UtilEngine.printArray('f', this.f, Util.NFE, n);
@@ -597,7 +596,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         return false;
       }
     }
-    if (debugCF) {
+    if (Util.DEBUG && debugCF) {
       print('checkLoop states.length='+this.states.length);
     }
     // make a new state vector
@@ -608,13 +607,13 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     }
     // also add the current contact being driven to zero to the state
     state.push(d);
-    if (debugCF) {
+    if (Util.DEBUG && debugCF) {
       UtilEngine.printList('checkLoop state', state);
     }
     // check whether this state vector already exists
     let duplicateState = false;
     for (let i=0, len=this.states.length; i<len; i++) {
-      if (debugCF) {
+      if (Util.DEBUG && debugCF) {
         UtilEngine.printList('state', state);
       }
       if (goog.array.equals(state, this.states[i])) {
@@ -913,8 +912,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
     }
     if (debugCF && Util.DEBUG) {
-      print('maxStep start with d='+d+' j='+j
-          +' s='+Util.NFE(s));
+      print('maxStep start with d='+d+' j='+j+' s='+Util.NFE(s));
       //printEverything('maxStep start');
     }
     // When sign = 1, we are increasing the negative a[d] to zero.
@@ -1126,9 +1124,8 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
             // This code was added because I was solving singular Acc matrices,
             // but now we avoid Acc becoming singular.
             // If this assert never happens, then I can remove this code.
-            const msg = 'should not need to loosen tolerance on matrix solve';
             if (Util.DEBUG) {
-              print(msg);
+              print('should not need to loosen tolerance on matrix solve');
             }
             // try reducing the tolerance and solve again
             tolerance /= 10;
@@ -1137,9 +1134,10 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
               print('fdirection retry with tolerance '+Util.NFE(tolerance)+' d='+d);
             }
             if (tolerance < 1E-17) {
-              if ((this.WARNINGS || debugCF) && Util.DEBUG)
+              if ((this.WARNINGS || debugCF) && Util.DEBUG) {
                 print('fdirection fail:  tolerance reduced to '
                   +Util.NFE(tolerance)+' d='+d);
+              }
               break;
             }
           }
@@ -1204,8 +1202,9 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     if (debugCF && Util.DEBUG && (1 == 1 || isSingular)) {
       // print the matrix in triangular form after Gaussian Elimination
       const ncol = new Array(c+1);
-      for (let i=0; i<c+1; i++)
+      for (let i=0; i<c+1; i++) {
         ncol[i] = i;
+      }
       UtilEngine.printMatrixPermutation('Acc '+c+'x'+(c+1), Acc, nrow, ncol, Util.NF7, c);
     }
     return isSingular;
@@ -1379,18 +1378,16 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       const defer = singular && !this.R[d];
       if (defer) {
         // defer d because adding d to C would make Acc+d matrix singular.
-        if (Util.DEBUG && (debugCF)) {
+        if (Util.DEBUG && debugCF) {
           print('SINGULAR MATRIX(1) DEFER d='+d
-                +' f[d]='+Util.NFE(this.f[d])
-                +' a[d]='+Util.NFE(this.a[d])
-                );
+              +' f[d]='+Util.NFE(this.f[d])
+              +' a[d]='+Util.NFE(this.a[d]));
         }
         return d;
       } else if (Util.DEBUG && debugCF && singular && this.R[d]) {
         // we won't defer d because we previously rejected it.
         print('SINGULAR MATRIX(1) IN REJECTS d='+d
-              +' a[d]='+Util.NFE(this.a[d])
-              );
+            +' a[d]='+Util.NFE(this.a[d]));
       }
     }
     // We now know that contact d has acceleration which must be reduced to zero.
@@ -1436,10 +1433,11 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       if (j<0 || Math.abs(stepSize) > 1E5) {
         // maxStep found a huge step, or cannot figure what to do.
         if ((this.WARNINGS || debugCF) && Util.DEBUG) {
-          if (j > -1)
+          if (j > -1) {
             print('HUGE STEP j='+j+' d='+d+' stepSize='+Util.NFE(stepSize));
-          else
+          } else {
             print('maxStep:  no step possible d='+d);
+          }
         }
         // Defer [d] if f[d] = 0;  else if a[d] ≈ 0 then move d to C;
         // otherwise it is a general error, which should not happen.
@@ -1517,8 +1515,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           // we will defer j because it would make Acc+d+j singular
           if (debugCF && Util.DEBUG) {
             print('SINGULAR MATRIX(2) DEFER NC j='+j
-              +' f[j]='+Util.NFE(this.f[j])+' a[j]='+Util.NFE(this.a[j])
-              );
+                +' f[j]='+Util.NFE(this.f[j])+' a[j]='+Util.NFE(this.a[j]));
           }
           this.C[j] = false;
           this.NC[j] = false;
@@ -1529,8 +1526,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           // (This case doesn't seem to happen, and it is unclear what to do here.)
           if ((this.WARNINGS || debugCF) && Util.DEBUG) {
             print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
-                  +' a[j]='+Util.NFE(this.a[j])
-                  );
+                +' a[j]='+Util.NFE(this.a[j]));
           }
         }
       }
@@ -1695,8 +1691,9 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       this.reRejects.push(d);
     }
     if (checkLoop(d)) {
-      if (Util.DEBUG && this.WARNINGS)
+      if (Util.DEBUG && this.WARNINGS) {
         print('checkLoop STOP');
+      }
       break;
     }
     // keep track of the order of treating contacts, for debugging.
@@ -1735,8 +1732,9 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       // and reset the reRejects list.
       this.reRejects.length = 0;
       if (this.R[d]) {
-        if (Util.DEBUG && debugCF)
+        if (Util.DEBUG && debugCF) {
           printContact(' deferral solved ', true, d, -1, -1);
+        }
         solved++;
         this.R[d] = false;
       }

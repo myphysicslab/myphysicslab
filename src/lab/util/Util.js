@@ -929,11 +929,13 @@ static zeroArray(array) {
 * See [Advanced vs. Simple Compile](Building.html#advancedvs.simplecompile).
 * See the shell script `compile_js.sh` which sets this flag at compile time.
 * @define {boolean}
+* @const
 */
 Util.ADVANCED = false;
 
 /** Date and time when the code was compiled.
 * @define {string}
+* @const
 */
 Util.COMPILE_TIME = '00/00/00';
 
@@ -941,6 +943,7 @@ Util.COMPILE_TIME = '00/00/00';
 * to work. Can be set as a compiler option, see the shell script `compile_js.sh`.
 * See [Customizing The Build Process](Building.html#customizingthebuildprocess).
 * @define {boolean}
+* @const
 */
 Util.DEBUG = false;
 

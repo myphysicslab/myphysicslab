@@ -535,11 +535,13 @@ static maxDistance(p) {
   goog.asserts.assert(p.length == 3);
   var dist = p[0].distanceSquaredTo(p[1]);
   var d = p[0].distanceSquaredTo(p[2]);
-  if (d > dist)
+  if (d > dist) {
     dist = d;
+  }
   d = p[1].distanceSquaredTo(p[2]);
-  if (d > dist)
+  if (d > dist) {
     dist = d;
+  }
   return Math.sqrt(dist);
 };
 
@@ -644,9 +646,11 @@ static printArray3(s, r, delim) {
 static printArrayIndices(s, r, n) {
   if (Util.DEBUG) {
     s += ' [';
-    for (var i=0; i<n; i++)
-      if (r[i])
+    for (var i=0; i<n; i++) {
+      if (r[i]) {
         s += i+', ';
+      }
+    }
     s += ']';
     console.log(s);
   }
@@ -663,8 +667,9 @@ static printArrayPermutation(s, r, ncol, nf, opt_n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7;
     opt_n = opt_n || r.length;
-    for (var i=0; i<opt_n; i++)
+    for (var i=0; i<opt_n; i++) {
       s += nf(r[ncol[i]]) + ', ';
+    }
     console.log(s);
   }
 };
@@ -674,12 +679,14 @@ static printArrayPermutation(s, r, ncol, nf, opt_n) {
 * @param {!Array} list
 */
 static printList(s, list) {
-  s += ' [';
-  for (var i=0, len=list.length; i<len; i++) {
-    s += list[i].toString()+', ';
+  if (Util.DEBUG) {
+    s += ' [';
+    for (var i=0, len=list.length; i<len; i++) {
+      s += list[i].toString()+', ';
+    }
+    s += ']';
+    console.log(s);
   }
-  s += ']';
-  console.log(s);
 };
 
 /**
@@ -726,8 +733,9 @@ static printMatrixPermutation(s, m, nrow, ncol, nf, n) {
   if (Util.DEBUG) {
     console.log(s);
     n = n || m.length;
-    for (var i=0; i<n; i++)
+    for (var i=0; i<n; i++) {
       UtilEngine.printArrayPermutation('', m[nrow[i]], ncol, nf, n+1);
+    }
   }
 };
 

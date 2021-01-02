@@ -696,8 +696,9 @@ applyForce(change, force) {
 
 /** @override */
 debugLine(name, pa, pb, expireTime) {
-  if (expireTime === undefined)
+  if (expireTime === undefined) {
     expireTime = this.getTime();
+  }
   var v = new ConcreteLine(name, pa, pb);
   v.setExpireTime(expireTime);
   this.getSimList().add(v);
