@@ -552,8 +552,11 @@ static pile_10_perf() {
   var testName = 'pile_10_perf';
   var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
-  PileTest.pile_10_random_blocks();
-  var duration = Util.systemTime() - startTime;
+  const repeats = 10;
+  for (let i=0; i<repeats; i++) {
+    PileTest.pile_10_random_blocks();
+  }
+  var duration = (Util.systemTime() - startTime)/repeats;
   setTestName(PileTest.groupName+testName);
   var s = TestRig.perfResult(duration, expected);
   var timeLimit = TestRig.getPerfLimit(expected);

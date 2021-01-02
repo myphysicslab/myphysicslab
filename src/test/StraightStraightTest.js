@@ -116,10 +116,12 @@ static six_blocks_perf() {
   var testName = 'six_blocks_perf';
   var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
-  StraightStraightTest.six_blocks_settle();
+  const repeats = 10;
+  for (let i=0; i<repeats; i++) {
+    StraightStraightTest.six_blocks_settle();
+  }
+  var duration = (Util.systemTime() - startTime)/repeats;
   setTestName(StraightStraightTest.groupName+testName);
-  var endTime = Util.systemTime();
-  var duration = endTime - startTime;
   var s = TestRig.perfResult(duration, expected);
   var timeLimit = TestRig.getPerfLimit(expected);
   TestRig.reportTestResults(duration <= timeLimit, 'performance', s);

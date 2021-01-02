@@ -239,10 +239,12 @@ static clock_gears_perf() {
   var testName = 'clock_gears_perf';
   var expected = TestRig.perfExpected(testName);
   var startTime = Util.systemTime();
-  MiscellanyTest.clock_with_gears();
+  const repeats = 10;
+  for (let i=0; i<repeats; i++) {
+    MiscellanyTest.clock_with_gears();
+  }
+  var duration = (Util.systemTime() - startTime)/repeats;
   setTestName(MiscellanyTest.groupName+testName);
-  var endTime = Util.systemTime();
-  var duration = endTime - startTime;
   var s = TestRig.perfResult(duration, expected);
   var timeLimit = TestRig.getPerfLimit(expected);
   TestRig.reportTestResults(duration <= timeLimit, 'performance', s);
