@@ -55,26 +55,26 @@ const ExpectedPerf = {
   'ERN_MacBookPro2013': {
     'Safari': {
       'simple': {
-        'six_blocks_perf': 0.94,
-        'pile_10_perf': 2.86,
-        'clock_gears_perf': 0.64
+        'six_blocks_perf': 0.47,
+        'pile_10_perf': 0.78,
+        'clock_gears_perf': 0.85
       },
       'advanced': {
-        'six_blocks_perf': 0.94,
-        'pile_10_perf': 3.00,
-        'clock_gears_perf': 0.64
+        'six_blocks_perf': 0.47,
+        'pile_10_perf': 0.77,
+        'clock_gears_perf': 0.86
       }
     },
     'Firefox': {
       'simple': {
-        'six_blocks_perf': 0.75,
-        'pile_10_perf': 1.03,
-        'clock_gears_perf': 0.92
+        'six_blocks_perf': 1.24,
+        'pile_10_perf': 2.02,
+        'clock_gears_perf': 2.65
       },
       'advanced': {
-        'six_blocks_perf': 0.66,
-        'pile_10_perf': 1.10,
-        'clock_gears_perf': 1.2
+        'six_blocks_perf': 1.11,
+        'pile_10_perf': 2.03,
+        'clock_gears_perf': 2.62
       }
     },
     'Chrome': {
@@ -82,13 +82,51 @@ const ExpectedPerf = {
         'six_blocks_perf': 0.56,
         'pile_10_perf': 1.08,
         'pile_20_perf': 19.00,
-        'clock_gears_perf': 0.91
+        'clock_gears_perf': 0.75
       },
       'advanced': {
-        'six_blocks_perf': 0.56,
-        'pile_10_perf': 1.15,
+        'six_blocks_perf': 0.54,
+        'pile_10_perf': 1.04,
         'pile_20_perf': 11.24,
-        'clock_gears_perf': 0.9
+        'clock_gears_perf': 0.72
+      }
+    },
+  },
+  'ERN_MacBookPro2017': {
+    'Safari': {
+      'simple': {
+        'six_blocks_perf': 0.41,
+        'pile_10_perf': 0.70,
+        'clock_gears_perf': 0.73
+      },
+      'advanced': {
+        'six_blocks_perf': 0.42,
+        'pile_10_perf': 0.76,
+        'clock_gears_perf': 0.79
+      }
+    },
+    'Firefox': {
+      'simple': {
+        'six_blocks_perf': 1.09,
+        'pile_10_perf': 1.75,
+        'clock_gears_perf': 2.23
+      },
+      'advanced': {
+        'six_blocks_perf': 0.90,
+        'pile_10_perf': 1.61,
+        'clock_gears_perf': 2.36
+      }
+    },
+    'Chrome': {
+      'simple': {
+        'six_blocks_perf': 0.53,
+        'pile_10_perf': 1.18,
+        'clock_gears_perf': 0.86
+      },
+      'advanced': {
+        'six_blocks_perf': 0.50,
+        'pile_10_perf': 1.02,
+        'clock_gears_perf': 0.81
       }
     },
   }
