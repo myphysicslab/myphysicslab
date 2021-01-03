@@ -303,11 +303,6 @@ constructor(name, pRNG) {
   * @private
   */
   this.aMatrix = [];
-  /** copy of aMatrix used to improve tolerance of solution.
-  * @type {!Array<!Float64Array>}
-  * @private
-  */
-  this.bMatrix = [];
   /** acceleration at each point.  a > 0 means separation.
   * @type {!Array<number>}
   * @private
@@ -521,7 +516,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     }
   }
 
-  /** Resize the aMatrix and bMatrix to be at least N x N+1.
+  /** Resize the aMatrix to be at least N x N+1.
   * @param {number} N  the size to make the matrix
   * @return {!Array<!Float64Array>}
   */
@@ -530,10 +525,8 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       // to avoid many re-allocates, bump up the size by larger increments
       N = 10 * (2 + N/10);
       this.aMatrix = new Array(N);
-      this.bMatrix = new Array(N);
       for (let i=0; i<N; i++) {
         this.aMatrix[i] = new Float64Array(N+1);
-        this.bMatrix[i] = new Float64Array(N+1);
       }
     }
     return this.aMatrix;
@@ -1006,34 +999,6 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @return {number} -1 if successful, or an error code
   */
   const fdirection = (d) => {
-
-    /** Copy array to pre-existing correctly sized destination array.
-    * @param {number} n  length of array
-    * @param {!Float64Array} r  array to copy, must have length >= n
-    * @param {!Float64Array} dest  destination array, must have length >= n
-    */
-    const copyArray = (n, r, dest) => {
-      goog.asserts.assert(r.length >= n);
-      goog.asserts.assert(dest.length >= n);
-      for (let i=0; i<n; i++) {
-        dest[i] = r[i];
-      }
-    };
-
-    /** Copy matrix to pre-existing correctly sized destination matrix
-    * @param {number} rows  number of rows
-    * @param {number} cols  number of columns
-    * @param {!Array<!Float64Array>} m  matrix to copy
-    * @param {!Array<!Float64Array>} dest  destination matrix
-    */
-    const copyMatrix = (rows, cols, m, dest) => {
-      goog.asserts.assert(m.length >= rows);
-      goog.asserts.assert(dest.length >= rows);
-      for (let i=0; i<rows; i++) {
-        copyArray(cols, m[i], dest[i]);
-      }
-    };
-
     goog.asserts.assert(n <= this.C.length);
     for (let i=0; i<n; i++) {
       this.delta_f[i] = 0;
@@ -1064,73 +1029,22 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         }
       }
       const x = Util.newNumberArray(c);
-      copyMatrix(c, c+1, Acc, this.bMatrix);
-      // this loop reduces the matrix solve tolerance until a good
-      // solution is found, or the tolerance gets too small
-      // ?? IS THIS TOLERANCE MODIFICATION STILL USEFUL ??  SEE ASSERT BELOW.
-      let tolerance = 1E-9;
-      while (true) {
-        //UtilEngine.MATRIX_SOLVE_DEBUG = false;
-        // note that we put v1 into the last column of Acc earlier
-        const nrow = Util.newNumberArray(c);
-        // solves Acc x = v1
-        const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); 
-        if ((WARNINGS || debugCF) && Util.DEBUG) {
-          const singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
-              SINGULAR_MATRIX_LIMIT);
-          if (singular) {
-            // This can happen because we sometimes ignore the wouldBeSingular test
-            // in drive_to_zero().
-            print('Acc is singular in fdirection d='+d);
-          }
+      // note that we put v1 into the last column of Acc earlier
+      const nrow = Util.newNumberArray(c);
+      // solves Acc x = v1
+      const error = UtilEngine.matrixSolve3(Acc, x, /*tolerance=*/1E-9, nrow);
+      if ((WARNINGS || debugCF) && Util.DEBUG) {
+        const singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
+            SINGULAR_MATRIX_LIMIT);
+        if (singular) {
+          // This can happen because we sometimes ignore the wouldBeSingular test
+          // in drive_to_zero().
+          print('Acc is singular in fdirection d='+d);
         }
-        if (error != -1) {
-          goog.asserts.fail();
-          return -999999;
-        } else {
-          // check that resulting accelerations are small at each point in C
-          const accelTolerance = 1E-7;
-          const r = UtilEngine.matrixMultiply(this.bMatrix, x, this.v1);
-          const maxError = UtilEngine.maxSize(r);
-          if (maxError < accelTolerance) {
-            break;
-          } else {
-            if ((WARNINGS || debugCF) && Util.DEBUG) {
-              print(' %%% maxtrix solve error = '+Util.NFE(maxError)
-                +' not within accel tol='+Util.NFE(accelTolerance)
-                +' using solve tol='+Util.NFE(tolerance)
-                +' d='+d);
-              if (0 == 1) {
-                // Because we have the 'assert false' below, print everything
-                // for debugging.
-                UtilEngine.printMatrix2('bMatrix '+c+'x'+c, this.bMatrix, Util.NF18, c);
-                UtilEngine.printMatrix2('Acc '+c+'x'+c, Acc, Util.NF18, c);
-                UtilEngine.printArray2('v1 ', this.v1, Util.NF18, c);
-                UtilEngine.printArray2('x ', x, Util.NF18, c);
-                printEverything('matrix solve error', true);
-              }
-            }
-            // This code was added because I was solving singular Acc matrices,
-            // but now we avoid Acc becoming singular.
-            // If this assert never happens, then I can remove this code.
-            if (Util.DEBUG) {
-              print('should not need to loosen tolerance on matrix solve');
-            }
-            // try reducing the tolerance and solve again
-            tolerance /= 10;
-            copyMatrix(c, c+1, this.bMatrix, Acc);
-            if ((WARNINGS || debugCF) && Util.DEBUG) {
-              print('fdirection retry with tolerance '+Util.NFE(tolerance)+' d='+d);
-            }
-            if (tolerance < 1E-17) {
-              if ((WARNINGS || debugCF) && Util.DEBUG) {
-                print('fdirection fail:  tolerance reduced to '
-                  +Util.NFE(tolerance)+' d='+d);
-              }
-              break;
-            }
-          }
-        }
+      }
+      if (error != -1) {
+        goog.asserts.fail();
+        return -999999;
       }
       // transfer x into delta_f
       for (let i=0, p=0; i<n; i++) {
