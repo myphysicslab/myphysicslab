@@ -293,27 +293,11 @@ constructor(name, pRNG) {
   * @private
   */
   this.preOrder = [];
-  /** Avoid making Acc matrix singular
-  * @type {boolean}
-  * @private
-  */
-  this.DEFER_SINGULAR = true;
-  /** Print warnings about unusual conditions
-  * @type {boolean}
-  */
-  this.WARNINGS = true;
   /** The Next Contact Policy to use for deciding order in which to treat contacts.
   * @type {number}
   * @private
   */
   this.nextContactPolicy = ComputeForces.NEXT_CONTACT_HYBRID;
-  /** SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
-  * for Acc to be singular
-  * @type {number}
-  * @private
-  * @const
-  */
-  this.SINGULAR_MATRIX_LIMIT = 2E-3;
   /** avoid re-allocating large matrix by re-using this.
   * @type {!Array<!Float64Array>}
   * @private
@@ -480,6 +464,11 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @type {!Array<number>}
   */
   const reRejects = [];
+  const WARNINGS = true; // Print warnings about unusual conditions
+  const DEFER_SINGULAR = true; // Avoid making Acc matrix singular
+  // SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
+  // for Acc to be singular
+  const SINGULAR_MATRIX_LIMIT = 2E-3;
 
   /**
   * @param {string} s
@@ -637,7 +626,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         UtilEngine.printList('state', state);
       }
       if (goog.array.equals(state, this.states[i])) {
-        if (Util.DEBUG && this.WARNINGS) {
+        if (Util.DEBUG && WARNINGS) {
           const accelOld = this.accels[i];
           const accelMin = UtilEngine.minValue(this.accels);
           print('num states='+this.states.length
@@ -656,7 +645,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       this.states.push(state);
       this.accels.push(sumAccelSquare(this.a, this.joint, n));
     }
-    if (duplicateState && Util.DEBUG && this.WARNINGS) {
+    if (duplicateState && Util.DEBUG && WARNINGS) {
       UtilEngine.printList('now state', state);
       this.states.map(s => UtilEngine.printList('old state', s));
       UtilEngine.printList('accels', this.accels);
@@ -835,7 +824,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   @return {boolean} true if acceleration is OK
   */
   const checkAccel = (tolerance) => {
-    if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+    if ((WARNINGS || debugCF) && Util.DEBUG) {
       for (let i=0; i<n; i++) {
         if ((this.C[i] || this.joint[i]) && Math.abs(this.a[i]) > SMALL_POSITIVE) {
           print('=======  accel s/b zero a['+i+']='
@@ -874,7 +863,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
     }
     if (!ComputeForces.checkForceAccel(tolerance, this.f, this.a, this.joint)) {
-      if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+      if ((WARNINGS || debugCF) && Util.DEBUG) {
         print('checkForceAccel FAILED with tolerance='+Util.NFE(tolerance));
         UtilEngine.printArray('force', this.f, Util.NFE, n);
         UtilEngine.printArray('accel', this.a, Util.NFE, n);
@@ -1106,9 +1095,9 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         const nrow = Util.newNumberArray(c);
         // solves Acc x = v1
         const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); 
-        if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+        if ((WARNINGS || debugCF) && Util.DEBUG) {
           const singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
-              this.SINGULAR_MATRIX_LIMIT);
+              SINGULAR_MATRIX_LIMIT);
           if (singular) {
             // This can happen because we sometimes ignore the wouldBeSingular test
             // in drive_to_zero().
@@ -1126,7 +1115,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           if (maxError < accelTolerance) {
             break;
           } else {
-            if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+            if ((WARNINGS || debugCF) && Util.DEBUG) {
               print(' %%% maxtrix solve error = '+Util.NFE(maxError)
                 +' not within accel tol='+Util.NFE(accelTolerance)
                 +' using solve tol='+Util.NFE(tolerance)
@@ -1150,11 +1139,11 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
             // try reducing the tolerance and solve again
             tolerance /= 10;
             copyMatrix(c, c+1, this.bMatrix, Acc);
-            if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+            if ((WARNINGS || debugCF) && Util.DEBUG) {
               print('fdirection retry with tolerance '+Util.NFE(tolerance)+' d='+d);
             }
             if (tolerance < 1E-17) {
-              if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+              if ((WARNINGS || debugCF) && Util.DEBUG) {
                 print('fdirection fail:  tolerance reduced to '
                   +Util.NFE(tolerance)+' d='+d);
               }
@@ -1218,7 +1207,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     const tolerance = 1E-9;
     const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
     const isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
-        this.SINGULAR_MATRIX_LIMIT);
+        SINGULAR_MATRIX_LIMIT);
     if (debugCF && Util.DEBUG && (1 == 1 || isSingular)) {
       // print the matrix in triangular form after Gaussian Elimination
       const ncol = new Array(c+1);
@@ -1267,7 +1256,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     const tolerance = 1E-9;
     const error = UtilEngine.matrixSolve3(Acc, x, tolerance, nrow); // solves Acc x = v1
     const isSingular = UtilEngine.matrixIsSingular(Acc, c, nrow,
-        this.SINGULAR_MATRIX_LIMIT);
+        SINGULAR_MATRIX_LIMIT);
     if (debugCF && Util.DEBUG && isSingular) {
       // print the matrix in triangular form after Gaussian Elimination
       const ncol = new Array(c+1);
@@ -1392,7 +1381,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     }
     // We are now committing to moving d into C, because every non-zero step will
     // increase f[d].
-    if (this.DEFER_SINGULAR) {
+    if (DEFER_SINGULAR) {
       // check whether adding d to C will make Acc+d matrix singular.
       const singular = wouldBeSingular1(d);
       const defer = singular && !this.R[d];
@@ -1433,7 +1422,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       if (debugCF && Util.DEBUG) {
         printEverything('drive_to_zero after fdirection, d='+d);
       }
-      if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+      if ((WARNINGS || debugCF) && Util.DEBUG) {
         for (let i=0; i<n; i++) {
           // check that delta_a[i] = 0 for all members of C
           if (this.C[i] && Math.abs(this.delta_a[i])> SMALL_POSITIVE) {
@@ -1452,7 +1441,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       const j = maxStep(d);
       if (j<0 || Math.abs(stepSize) > 1E5) {
         // maxStep found a huge step, or cannot figure what to do.
-        if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+        if ((WARNINGS || debugCF) && Util.DEBUG) {
           if (j > -1) {
             print('HUGE STEP j='+j+' d='+d+' stepSize='+Util.NFE(stepSize));
           } else {
@@ -1493,7 +1482,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           // This contact has previously caused a zero-size step during this
           // drive-to-zero loop, so it is flip-flopping between C and NC,
           // potentially as an infinite loop.
-          if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+          if ((WARNINGS || debugCF) && Util.DEBUG) {
             print('FLIP-FLOP DEFER j='+j
               +' f[j]='+Util.NFE(this.f[j])
               +' a[j]='+Util.NFE(this.a[j])
@@ -1523,7 +1512,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           throw 'drive_to_zero() loopCtr='+loopCtr+' d='+d+' a[d]='+this.a[d];
         }
       }
-      if (this.DEFER_SINGULAR && this.NC[j]) {
+      if (DEFER_SINGULAR && this.NC[j]) {
         // maxStep is asking to move j from NC to C,
         // check whether this will make Acc+d+j matrix singular.
         // (alternative:  if f[d] = 0, could instead check if Acc+j is singular)
@@ -1544,7 +1533,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         } else if (singular && this.R[j]) {
           // we won't defer j because we previously rejected it.
           // (This case doesn't seem to happen, and it is unclear what to do here.)
-          if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+          if ((WARNINGS || debugCF) && Util.DEBUG) {
             print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
                 +' a[j]='+Util.NFE(this.a[j]));
           }
@@ -1576,7 +1565,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
               throw s;
             }
           }
-          if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+          if ((WARNINGS || debugCF) && Util.DEBUG) {
             printContact(' redo C', false, j, d, loopCtr);
           }
           this.C[j] = false;
@@ -1598,7 +1587,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           if (Math.abs(this.a[j])> 10*SMALL_POSITIVE) {
             print('WARNING moving NC to C but a[j]='+Util.NFE(this.a[j]));
           }
-          if ((this.WARNINGS || debugCF) && Util.DEBUG) {
+          if ((WARNINGS || debugCF) && Util.DEBUG) {
             printContact(' redo NC', false, j, d, loopCtr);
           }
           this.C[j] = false;
@@ -1617,7 +1606,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       } else {
         // when j is in neither C nor NC, then we just deferred it.
         goog.asserts.assert(this.R[j]);
-        if (0 == 1 && (this.WARNINGS || debugCF) && Util.DEBUG) {
+        if (0 == 1 && (WARNINGS || debugCF) && Util.DEBUG) {
           print('we probably just deferred something.  j='+j+' d='+d);
           printContact('we probably deferred', false, j, d, loopCtr);
         }
@@ -1711,7 +1700,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       reRejects.push(d);
     }
     if (checkLoop(d)) {
-      if (Util.DEBUG && this.WARNINGS) {
+      if (Util.DEBUG && WARNINGS) {
         print('checkLoop STOP');
       }
       break;
@@ -1742,7 +1731,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
     } else if (error < -1) {
       // negative error code (other than -1) means general failure
-      if (Util.DEBUG && (this.WARNINGS || debugCF)) {
+      if (Util.DEBUG && (WARNINGS || debugCF)) {
         print('compute_forces general error '+error);
       }
       return error;
