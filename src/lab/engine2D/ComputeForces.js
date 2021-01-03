@@ -298,11 +298,6 @@ constructor(name, pRNG) {
   * @private
   */
   this.nextContactPolicy = ComputeForces.NEXT_CONTACT_HYBRID;
-  /** avoid re-allocating large matrix by re-using this.
-  * @type {!Array<!Float64Array>}
-  * @private
-  */
-  this.aMatrix = [];
   /** acceleration at each point.  a > 0 means separation.
   * @type {!Array<number>}
   * @private
@@ -444,6 +439,10 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   // SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
   // for Acc to be singular
   const SINGULAR_MATRIX_LIMIT = 2E-3;
+  /** avoid re-allocating large matrix by re-using this.
+  * @type {!Array<!Float64Array>}
+  */
+  let aMatrix = [];
 
   /**
   * @param {string} s
@@ -521,15 +520,15 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @return {!Array<!Float64Array>}
   */
   const resizeMatrix = (N) => {
-    if (this.aMatrix == null || this.aMatrix.length < N) {
+    if (aMatrix.length < N) {
       // to avoid many re-allocates, bump up the size by larger increments
       N = 10 * (2 + N/10);
-      this.aMatrix = new Array(N);
+      aMatrix = new Array(N);
       for (let i=0; i<N; i++) {
-        this.aMatrix[i] = new Float64Array(N+1);
+        aMatrix[i] = new Float64Array(N+1);
       }
     }
-    return this.aMatrix;
+    return aMatrix;
   }
 
   /** Detects infinite loop while solving reject contacts by checking if the current
