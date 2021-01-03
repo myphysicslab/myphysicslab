@@ -284,6 +284,7 @@ constructor(name, pRNG) {
   this.name_ = name;
   /** Order in which contacts were treated; each entry is index of contact in A matrix
   * @type {!Array<number>}
+  * @private
   */
   this.order = [];
   /** Order in which treat contacts; each entry is index of contact in A matrix.
@@ -429,6 +430,14 @@ See {@link #setNextContactPolicy}.
 */
 getNextContactPolicy() {
   return this.nextContactPolicy;
+}
+
+/** Returns order in which contacts were treated; each entry is index of contact in
+the A matrix.
+@return {!Array<number>}
+*/
+getOrder() {
+  return this.order;
 }
 
 /**  Calculates the forces at each contact point of a multi-body contact situation.
@@ -1727,7 +1736,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       this.C[error] = false;
       this.NC[error] = false;
       this.R[error] = true;
-      // indicate a deferral/reject with negative index.  (For zero, use -9999).
+      // indicate a deferral/reject with negative index.  For zero, use -9999.
       if (Util.DEBUG) {
         this.order.push(error == 0 ? -9999 : -error);
       }

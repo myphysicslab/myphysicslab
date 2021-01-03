@@ -572,7 +572,7 @@ static testMatrix11_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -723,7 +723,7 @@ static testMatrix12_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -873,7 +873,7 @@ static testMatrix15_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -961,7 +961,7 @@ static testMatrix16_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1058,7 +1058,7 @@ static testMatrix17_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1145,7 +1145,7 @@ static testMatrix18_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1241,7 +1241,7 @@ static testMatrix19_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1329,7 +1329,7 @@ static testMatrix20_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1423,7 +1423,7 @@ static testMatrix21_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1597,7 +1597,7 @@ static testMatrix22_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1716,7 +1716,7 @@ static testMatrix23_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1806,7 +1806,7 @@ static testMatrix24_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1904,7 +1904,7 @@ static testMatrix25_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -1964,7 +1964,7 @@ static testMatrix26_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
   }
 };
@@ -2033,7 +2033,7 @@ static testMatrix27_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
     assertTrue( maxAccel < SMALL_ACCEL );
@@ -2138,7 +2138,7 @@ static testMatrix28_CF() {
         +' maxAccel='+Util.NFE(maxAccel)
         );
       UtilEngine.printArray('f ', f, Util.NF7);
-      UtilEngine.printList('order', cf.order);
+      UtilEngine.printList('order', cf.getOrder());
     }
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
     assertTrue( maxAccel < SMALL_ACCEL );
