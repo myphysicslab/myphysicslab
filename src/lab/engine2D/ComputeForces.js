@@ -298,22 +298,8 @@ constructor(name, pRNG) {
   * @private
   */
   this.nextContactPolicy = ComputeForces.NEXT_CONTACT_HYBRID;
-  /** copy of b-vector for checking matrix solve accuracy
-  * @type {!Array<number>}
-  * @private
-  */
-  this.v1 = [];
-  /** list of states for detecting loops
-  * @type {!Array<!Array<number>>}
-  * @private
-  */
-  this.states = [];
-  /** for each state, the max square accel
-  * @type {!Array<number>}
-  * @private
-  */
-  this.accels = [];
-  /**
+  /** pseudo random number generator, used to randomly decide order in which to
+  * calculate forces
   * @type {!Random}
   * @private
   */
@@ -436,6 +422,21 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @type {!Array<boolean>}
   */
   const zeroSteps = Util.newBooleanArray(n);
+  /** list of states for detecting loops
+  * @type {!Array<!Array<number>>}
+  */
+  const states = [];
+  /** for each state, the max square accel
+  * @type {!Array<number>}
+  */
+  const accels = [];
+  for (let i=0; i<n; i++) {
+    f[i] = 0;
+    a[i] = b[i];
+    NC[i] = false;
+    C[i] = false;
+    R[i] = false;
+  }
 
   /**
   * @param {string} s
@@ -571,7 +572,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
     }
     if (Util.DEBUG && debugCF) {
-      print('checkLoop states.length='+this.states.length);
+      print('checkLoop states.length='+states.length);
     }
     // make a new state vector
     /** @type {!Array<number>} */
@@ -586,15 +587,15 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     }
     // check whether this state vector already exists
     let duplicateState = false;
-    for (let i=0, len=this.states.length; i<len; i++) {
+    for (let i=0, len=states.length; i<len; i++) {
       if (Util.DEBUG && debugCF) {
         UtilEngine.printList('state', state);
       }
-      if (goog.array.equals(state, this.states[i])) {
+      if (goog.array.equals(state, states[i])) {
         if (Util.DEBUG && WARNINGS) {
-          const accelOld = this.accels[i];
-          const accelMin = UtilEngine.minValue(this.accels);
-          print('num states='+this.states.length
+          const accelOld = accels[i];
+          const accelMin = UtilEngine.minValue(accels);
+          print('num states='+states.length
             +' now accel='+Util.NFE(sumAccelSquare(a, joint, n))
             +' prev accel='+Util.NFE(accelOld)
             +' min accel='+Util.NFE(accelMin)
@@ -607,13 +608,13 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     }
     if (!duplicateState) {
       // add this new state to list of states
-      this.states.push(state);
-      this.accels.push(sumAccelSquare(a, joint, n));
+      states.push(state);
+      accels.push(sumAccelSquare(a, joint, n));
     }
     if (duplicateState && Util.DEBUG && WARNINGS) {
       UtilEngine.printList('now state', state);
-      this.states.map(s => UtilEngine.printList('old state', s));
-      UtilEngine.printList('accels', this.accels);
+      states.map(s => UtilEngine.printList('old state', s));
+      UtilEngine.printList('accels', accels);
     }
     return duplicateState;
   };
@@ -991,7 +992,6 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @return {number} -1 if successful, or an error code
   */
   const fdirection = (d) => {
-    goog.asserts.assert(n <= C.length);
     for (let i=0; i<n; i++) {
       delta_f[i] = 0;
     }
@@ -1001,8 +1001,6 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     if (c > 0) {
       // Acc is an augmented matrix: the last column is for vector v1
       const Acc = resizeMatrix(c);
-      if (this.v1 == null || this.v1.length < c)
-        this.v1 = Util.newNumberArray(c+10);
       for (let i=0, p=0; i<n; i++) {
         if (C[i]) {
           for (let j=0, q=0; j<n; j++)
@@ -1016,7 +1014,6 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           // This is where the matrixSolve algorithm expects to find it.
           // v1 is the d-th column of A, but has only elements in C.
           Acc[p][c] = -A[i][d];
-          this.v1[p] = -A[i][d];
           p++;
         }
       }
@@ -1520,17 +1517,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   // When a contact is deferred by drive_to_zero, put it on list of rejects,
   // and then process other contacts, returning to the rejects at the end
   // to give them a second chance.
-  reRejects.length = 0;
   let solved = 0;
-  this.states = [];
-  this.accels = [];
-  for (let i=0; i<n; i++) {
-    f[i] = 0;
-    a[i] = b[i];
-    NC[i] = false;
-    C[i] = false;
-    R[i] = false;
-  }
   let loopCtr = 0;
   if (Util.DEBUG) {
     this.order = [];
