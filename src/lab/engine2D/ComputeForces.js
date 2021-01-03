@@ -282,18 +282,19 @@ constructor(name, pRNG) {
   * @const
   */
   this.name_ = name;
-  /** Order in which contacts were treated; each entry is index of contact in A matrix
+  /** Order in which contacts were treated; each entry is index of contact in A matrix,
+  * for debugging only.
   * @type {!Array<number>}
   * @private
   */
   this.order = [];
-  /** Order in which treat contacts; each entry is index of contact in A matrix.
-  * See {@link #NEXT_CONTACT_PRE_ORDERED}.
+  /** Order in which to treat contacts; each entry is index of contact in A matrix,
+  * when the {@link #NEXT_CONTACT_PRE_ORDERED} policy is used.
   * @type {!Array<number>}
   * @private
   */
   this.preOrder = [];
-  /** The Next Contact Policy to use for deciding order in which to treat contacts.
+  /** The next contact policy to use for deciding order in which to treat contacts.
   * @type {number}
   * @private
   */
@@ -342,16 +343,15 @@ the A matrix.
 @return {!Array<number>}
 */
 getOrder() {
-  return this.order;
+  return Array.from(this.order);
 }
 
 /**  Calculates the forces at each contact point of a multi-body contact situation.
 
 @param {!Array<!Float64Array>} A an n x n matrix giving change in acceleration
     for force at each contact
-@param {!Array<number>} f force at each contact (vector, length n),
-    this is what is solved for
-       and is returned via this vector (this vector is zeroed out at start).
+@param {!Array<number>} f force at each contact (vector, length n), this is what is
+    solved for and is returned via this array (this array is zeroed out at start).
 @param {!Array<number>} b external and inertial forces in the system (vector, length n)
 @param {!Array<boolean>} joint indicates which contacts are Joints (vector, length n)
 @param {boolean} debugCF true shows debugging messages
@@ -365,6 +365,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     // test of the ContactSim.reportError mechanism: randomly generate an error
     return -999;
   }
+  // n = number of contacts
   const n = b.length;
   if (A.length != n || A[0].length != n || f.length != n || b.length != n ||
       joint.length != n) {
@@ -375,16 +376,8 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     f[0] = (joint[0] || b[0] < 0) ? -b[0]/A[0][0] : 0;
     return -1;
   }
-  // size of step to take, calculated in maxStep
-  let stepSize = 0;
   // SMALL_POSITIVE is used to decide when numbers are equal or zero
   const SMALL_POSITIVE = 1E-10;
-  /** twice-rejected rejects.
-  * reRejects allows us to select which reject to handle from rejects list,
-  * without looking at any twice-rejected rejects.
-  * @type {!Array<number>}
-  */
-  const reRejects = [];
   const WARNINGS = true; // Print warnings about unusual conditions
   const DEFER_SINGULAR = true; // Avoid making Acc matrix singular
   // SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
@@ -406,10 +399,16 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @type {!Array<boolean>}
   */
   const NC = Util.newBooleanArray(n);
-  /** contacts that have been rejected by drive-to-zero
+  /** Rejects list. Contacts that have been rejected by drive-to-zero
   * @type {!Array<boolean>}
   */
   const R = Util.newBooleanArray(n);
+  /** twice-rejected rejects.
+  * reRejects allows us to select which reject to handle from rejects list,
+  * without looking at any twice-rejected rejects.
+  * @type {!Array<number>}
+  */
+  const reRejects = [];
   /** change in acceleration from increase of 1 at contact [d]
   * @type {!Array<number>}
   */
@@ -430,6 +429,8 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   * @type {!Array<number>}
   */
   const accels = [];
+  // size of step to take, calculated in maxStep
+  let stepSize = 0;
   for (let i=0; i<n; i++) {
     f[i] = 0;
     a[i] = b[i];
@@ -783,8 +784,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     return -1;
   }
 
-  /** Check that acceleration at each contact is non-negative, for debug only.  Prints
-  debug information to console when errors are detected.
+  /** Check that acceleration at each contact is non-negative.
   @param {number} tolerance tolerance used for testing whether acceleration is
       non-negative
   @return {boolean} true if acceleration is OK
