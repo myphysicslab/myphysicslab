@@ -80,7 +80,12 @@ constructor(opt_name) {
   * @type {number}
   * @private
   */
-  this.slope_ = 0; // Math.PI*(15/180);
+  this.slope_ = 0;
+  /** limit torque by how much wheel can push
+  * @type {boolean}
+  * @private
+  */
+  this.limitTorque_ = true;
   /** starting point of track
   * @type {!Vector}
   * @private
@@ -246,7 +251,7 @@ modifyObjects() {
   this.getSimList().add(f);
   // Display gravity force at center of mass
   f = new Force('gravity', this.robot_, this.robot_.getPosition(), CoordType.WORLD,
-        Vector.SOUTH.multiply(0.1*this.gravityForce_), CoordType.WORLD);
+        Vector.NORTH.multiply(0.1*this.gravityForce_), CoordType.WORLD);
   f.setExpireTime(this.getTime());
   this.getSimList().add(f);
   // Display engine friction force at rear wheel
@@ -274,8 +279,8 @@ modifyObjects() {
   this.ramp_.setAngle(this.slope_);
   // change linear velocity to rpm.  One revolution is 2 pi radius.
   // Linear velocity is in meters / second.  Change to revolutions / minute.
-  // 1 m/s = 60 m / minute = 60 m / minute * (1 rev / 2 pi r meter)
-  vars[3] = vars[1]*60 / (2*Math.PI*this.radius_*100);
+  // meter/sec (60 sec/minute) (1 rev / 2 pi r meter) = (60 / 2 pi r) rev/minute
+  vars[3] = vars[1]*60 / (2*Math.PI*this.radius_);
   vars[4] = this.engineForce_;
   vars[5] = -this.gravityRampForce_;
   va.setValues(vars, /*continuous=*/true);
@@ -308,10 +313,12 @@ evaluate(vars, change, timeStep) {
   }
   // torque = force x radius;  force = torque / radius
   var f = t/this.radius_;
-  // limit force by coef static friction * normal force
-  var limit = this.friction_ * this.Nr_;
-  if (f > limit) {
-    f = limit;
+  if (this.limitTorque_) {
+    // limit force by coef static friction * normal force
+    var limit = this.friction_ * this.Nr_;
+    if (f > limit) {
+      f = limit;
+    }
   }
   this.engineForce_ = f;
   this.gravityForce_ = -this.mass_ * 9.81;
