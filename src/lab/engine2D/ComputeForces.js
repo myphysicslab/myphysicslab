@@ -1258,7 +1258,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     // For non-Joints, when contact is separating, put contact into NC and done.
     // For Joints, if accel is zero, put into NC and done.
     if (!joint[d] && a[d] >= -SMALL_POSITIVE
-      || joint[d] && Math.abs(a[d]) <= SMALL_POSITIVE) {
+        || joint[d] && Math.abs(a[d]) <= SMALL_POSITIVE) {
       NC[d] = true;
       return -1;
     }
@@ -1266,20 +1266,22 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     // increase f[d].
     if (DEFER_SINGULAR) {
       // check whether adding d to C will make Acc+d matrix singular.
-      const singular = wouldBeSingular1(d);
-      const defer = singular && !R[d];
-      if (defer) {
-        // defer d because adding d to C would make Acc+d matrix singular.
-        if (Util.DEBUG && debugCF) {
-          print('SINGULAR MATRIX(1) DEFER d='+d
-              +' f[d]='+Util.NFE(f[d])
-              +' a[d]='+Util.NFE(a[d]));
+      if (wouldBeSingular1(d)) {
+        if (!R[d]) {
+          // defer d because adding d to C would make Acc+d matrix singular.
+          if (Util.DEBUG && debugCF) {
+            print('SINGULAR MATRIX(1) DEFER d='+d
+                +' f[d]='+Util.NFE(f[d])
+                +' a[d]='+Util.NFE(a[d]));
+          }
+          return d;
+        } else {
+          if (Util.DEBUG && debugCF) {
+            // we won't defer d because we previously rejected it.
+            print('SINGULAR MATRIX(1) IN REJECTS d='+d
+                +' a[d]='+Util.NFE(a[d]));
+          }
         }
-        return d;
-      } else if (Util.DEBUG && debugCF && singular && R[d]) {
-        // we won't defer d because we previously rejected it.
-        print('SINGULAR MATRIX(1) IN REJECTS d='+d
-            +' a[d]='+Util.NFE(a[d]));
       }
     }
     // We now know that contact d has acceleration which must be reduced to zero.
@@ -1396,29 +1398,29 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         }
       }
       if (DEFER_SINGULAR && NC[j]) {
+        // because j is in NC, it must have zero force.
+        goog.asserts.assert(Math.abs(f[j]) < SMALL_POSITIVE);
         // maxStep is asking to move j from NC to C,
         // check whether this will make Acc+d+j matrix singular.
         // (alternative:  if f[d] = 0, could instead check if Acc+j is singular)
-        const singular = wouldBeSingular2(d, j);
-        // because j is in NC, it must have zero force.
-        goog.asserts.assert(Math.abs(f[j]) < SMALL_POSITIVE);
-        const defer = singular && !R[j];
-        if (defer) {
-          // we will defer j because it would make Acc+d+j singular
-          if (debugCF && Util.DEBUG) {
-            print('SINGULAR MATRIX(2) DEFER NC j='+j
-                +' f[j]='+Util.NFE(f[j])+' a[j]='+Util.NFE(a[j]));
-          }
-          C[j] = false;
-          NC[j] = false;
-          R[j] = true;
-          continue;
-        } else if (singular && R[j]) {
-          // we won't defer j because we previously rejected it.
-          // (This case doesn't seem to happen, and it is unclear what to do here.)
-          if ((WARNINGS || debugCF) && Util.DEBUG) {
-            print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
-                +' a[j]='+Util.NFE(a[j]));
+        if (wouldBeSingular2(d, j)) {
+          if (!R[j]) {
+            // we will defer j because it would make Acc+d+j singular
+            //if (debugCF && Util.DEBUG) {
+              print('SINGULAR MATRIX(2) DEFER NC j='+j
+                  +' f[j]='+Util.NFE(f[j])+' a[j]='+Util.NFE(a[j]));
+            //}
+            C[j] = false;
+            NC[j] = false;
+            R[j] = true;
+            continue;
+          } else {
+            // we won't defer j because we previously rejected it.
+            // This case doesn't seem to happen, and it is unclear what to do here.
+            if ((WARNINGS || debugCF) && Util.DEBUG) {
+              print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
+                  +' a[j]='+Util.NFE(a[j]));
+            }
           }
         }
       }
@@ -1547,8 +1549,8 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         break;
       default: throw '';
     }
-    if (Util.DEBUG && debugCF) {
-      print('\n--------- in compute_forces, d='+d
+    if (Util.DEBUG && debug) {
+      print('--------- in compute_forces, d='+d
         +' loopCtr='+loopCtr+' --------------');
     }
     if (d < 0) {
