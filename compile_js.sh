@@ -8,8 +8,8 @@
 # param: {string} target = output file, example: build/sims/mechanics/Spring1App-en.js
 # param: {boolean} goog_debug = whether to compile with goog.DEBUG=true
 # param: {boolean} util_debug = whether to compile with Util.DEBUG=true
-# param: {string} COMPILE_LEVEL = "simple" or "advanced", whether to compile with
-#        advanced closure compiler optimizations
+# param: {string} COMPILE_LEVEL = "simple", "advanced", or "whitespace". Specifies
+#        which level of closure compiler optimizations to use
 # input: the variable CLOSURE_COMPILER must be set; it is set in myConfig.mk
 #        so that each user can specify it for their environment.
 # output: compiled version of that file, example: build/sims/mechanics/Spring1App-de.js
@@ -55,12 +55,6 @@ fi
 # the expansion of word is substituted. Otherwise, the value of parameter 
 # is substituted.
 goog_debug="${3:-false}"
-# must have goog.DEBUG=true for tests, because of goog.DISALLOW_TEST_ONLY_CODE
-#if [[ "$source" == *"test"* ]]; then
-#	goog_debug="true";
-#elif [[ "$source" == *"Test"* ]]; then
-#	goog_debug="true";
-#fi
 util_debug="${4:-false}"
 COMPILE_LEVEL="${5:-simple}"
 
@@ -70,6 +64,10 @@ if [[ "$COMPILE_LEVEL" == "advanced" ]] ; then
 	wrapper="--output_wrapper=(/*Copyright_2020_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/function(){%output%}).call(window)"
 elif [[ "$COMPILE_LEVEL" == "simple" ]] ; then
 	comp_level="SIMPLE"
+	advanced="false"
+	wrapper="--output_wrapper=/*Copyright_2020_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/%output%"
+elif [[ "$COMPILE_LEVEL" == "whitespace" ]] ; then
+	comp_level="WHITESPACE_ONLY"
 	advanced="false"
 	wrapper="--output_wrapper=/*Copyright_2020_Erik_Neumann_All_Rights_Reserved_www.myphysicslab.com*/%output%"
 else

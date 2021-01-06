@@ -151,14 +151,16 @@ endif
 
 # COMPILE_LEVEL determines whether HTML file loads advanced-compiled, simple-compiled
 # or uncompiled source code.
-# COMPILE_LEVEL can be "advanced", "simple", or "debug".
+# COMPILE_LEVEL can be "advanced", "simple", "whitespace", or "debug".
 COMPILE_LEVEL ?= simple
 ifneq "$(COMPILE_LEVEL)" "simple"
-    ifneq "$(COMPILE_LEVEL)" "advanced"
-        ifneq "$(COMPILE_LEVEL)" "debug"
-            $(error COMPILE_LEVEL=$(COMPILE_LEVEL), must be simple, advanced, or debug)
-        endif
+  ifneq "$(COMPILE_LEVEL)" "advanced"
+    ifneq "$(COMPILE_LEVEL)" "whitespace"
+      ifneq "$(COMPILE_LEVEL)" "debug"
+        $(error COMPILE_LEVEL=$(COMPILE_LEVEL), must be simple, advanced, or debug)
+      endif
     endif
+  endif
 endif
 
 
@@ -738,7 +740,7 @@ help:
 	@echo "unittest    Make unit tests"
 	@echo ""
 	@echo "Options:"
-	@echo "COMPILE_LEVEL= advanced, simple, debug; default is simple"
+	@echo "COMPILE_LEVEL= advanced, simple, whitespace, debug; default is simple"
 	@echo "BUILD_DIR=     where to put compiled files; default is build"
 	@echo "LOCALE=        en, de; default is en"
 	@echo "UTIL_DEBUG=    true, false; default is false"
