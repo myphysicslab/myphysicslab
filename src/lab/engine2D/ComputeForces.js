@@ -379,7 +379,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   // SMALL_POSITIVE is used to decide when numbers are equal or zero
   const SMALL_POSITIVE = 1E-10;
   const WARNINGS = true; // Print warnings about unusual conditions
-  const DEFER_SINGULAR = true; // Avoid making Acc matrix singular
+  const DEFER_SINGULAR = false; // Avoid making Acc matrix singular
   // SINGULAR_MATRIX_LIMIT specifies min size of diagonal elements in Acc
   // for Acc to be singular
   const SINGULAR_MATRIX_LIMIT = 2E-3;
@@ -1549,7 +1549,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         break;
       default: throw '';
     }
-    if (Util.DEBUG && debug) {
+    if (Util.DEBUG && debugCF) {
       print('--------- in compute_forces, d='+d
         +' loopCtr='+loopCtr+' --------------');
     }
