@@ -551,11 +551,12 @@ static maxDistance(p) {
 * @return {number} the absolute value of the largest entry in the vector
 */
 static maxSize(r, n) {
-  var max = 0;
+  let max = 0;
   n = n || r.length;
-  for (var i=0; i<n; i++) {
-    if (Math.abs(r[i]) > max) {
-      max = Math.abs(r[i]);
+  for (let i=0; i<n; i++) {
+    const v = Math.abs(r[i]);
+    if (v > max) {
+      max = v;
     }
   }
   return max;
