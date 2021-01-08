@@ -314,6 +314,17 @@ static NF3(num) {
     return num === null ? 'null' : 'undefined';
 };
 
+/** Formats a number with 4 decimal places.
+* @param {?number=} num the number to format
+* @return {string} the number with 4 decimal places; or `null` or `undefined`
+*/
+static NF4(num) {
+  if (num != null)
+    return num.toFixed(4);
+  else
+    return num === null ? 'null' : 'undefined';
+};
+
 /** Formats a number with 5 decimal places.
 * @param {?number=} num the number to format
 * @return {string} the number with 5 decimal places; or `null` or `undefined`
