@@ -32,6 +32,8 @@ const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
+const assertTrue = v => TestRig.assertTrue(v);
+const assertLessThan = (v, l) => TestRig.assertLessThan(v, l);
 const makeVars = n => Engine2DTestRig.makeVars(n);
 const schedule = testFunc => TestRig.schedule(testFunc);
 const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
@@ -142,6 +144,11 @@ reliably as of March 2014.
 
 June 2015: this test is now less stable.  Change to run only 20 seconds.
 
+Jan 2021: This test shows why DEFER_SINGULAR in ComputeForces is important.
+If you modify ComputeForces to print the maximum force at it's conclusion,
+then with DEFER_SINGULAR=false there are several places where a huge force is
+calculated, like 6500 or 72000 instead of 25.
+
 * @return {undefined}
 */
 static do_nothing_grinder_test1() {
@@ -160,6 +167,7 @@ static do_nothing_grinder_test1() {
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   Engine2DTestRig.checkTightJoints(sim, 0.005);
+  assertLessThan(sim.getMaxForce(), 200);
 };
 
 /** Same as do_nothing_constant_setup, but with new joint policy and
