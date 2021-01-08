@@ -575,10 +575,8 @@ $(BUILD_DIR)/test/PerformanceTests*.js : override GOOG_DEBUG:=false
 $(BUILD_DIR)/test/Engine2DTests*.js : override GOOG_DEBUG:=true
 $(BUILD_DIR)/test/UnitTest*.js : override GOOG_DEBUG:=true
 $(BUILD_DIR)/test/SingleTest*.js : override GOOG_DEBUG:=true
-# Turn off UTIL_DEBUG to avoid seeing lots of debug messages during tests.
-$(BUILD_DIR)/test/UnitTest*.js \
-$(BUILD_DIR)/test/PerformanceTests*.js \
-$(BUILD_DIR)/test/Engine2DTests*.js : override UTIL_DEBUG:=false
+# Turn off UTIL_DEBUG for performance test, to avoid slowing down browser
+$(BUILD_DIR)/test/PerformanceTests*.js : override UTIL_DEBUG:=false
 
 # GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
 GOOG_DEBUG ?= false
