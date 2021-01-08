@@ -352,6 +352,22 @@ static assertRoughlyEquals(expected, value, tolerance) {
   }
 };
 
+/** If the value is not less than the limit, then report a test failure.
+* @param {*} value  the value to test
+* @param {number} limit  the limit value
+*/
+static assertLessThan(value, limit) {
+  if (typeof value !== 'number') {
+    TestRig.reportTestResults(false, 'value', 'not a number '+value);
+    return;
+  }
+  var num = /** @type {number} */(value);
+  if (value > limit) {
+    var s = 'value of '+value+' exceeds limit of '+limit;
+    TestRig.reportTestResults(false, 'value', s);
+  }
+};
+
 /** If the value is not true, then report a test failure.
 * @param {*} value  the value to test
 */
