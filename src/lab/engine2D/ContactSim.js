@@ -292,6 +292,11 @@ constructor(opt_name) {
   * @private
   */
   this.extraAccelTimeStep_ = 0.025;
+  /** the maximum force calculated between contacts.  For testing.
+  * @type {number}
+  * @private
+  */
+  this.maxForce_ = 0;
   /** for debugging
   * @type {!Array<number>}
   * @private
@@ -590,6 +595,10 @@ calcContactForces(vars, change, subset) {
   var time = vars[this.varsList_.timeIndex()];
   const tol = 1e-4;
   var error = this.computeForces_.compute_forces(A, f, b, joint, pileDebug, time, tol);
+  var maxF = UtilEngine.maxSize(f);
+  if (maxF > this.maxForce_) {
+    this.maxForce_ = maxF;
+  }
   if (Util.DEBUG && 0 == 1) {
     this.printForceInfo(subset, A, f, b, joint, vars);
   }
@@ -1120,6 +1129,13 @@ static matrixDiff(A1, A2) {
     }
   }
   return s;
+};
+
+/** Returns the maximum force calculated between contacts.
+* @return {number}
+*/
+getMaxForce() {
+  return this.maxForce_;
 };
 
 /**
