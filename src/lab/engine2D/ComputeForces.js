@@ -791,7 +791,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
   @return {boolean} true if acceleration is OK
   */
   const checkAccel = (tolerance) => {
-    if ((WARNINGS || debugCF) && Util.DEBUG) {
+    if (WARNINGS && Util.DEBUG) {
       for (let i=0; i<n; i++) {
         if ((C[i] || joint[i]) && Math.abs(a[i]) > SMALL_POSITIVE) {
           print('=======  accel s/b zero a['+i+']='
@@ -830,7 +830,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
     }
     if (!ComputeForces.checkForceAccel(tolerance, f, a, joint)) {
-      if ((WARNINGS || debugCF) && Util.DEBUG) {
+      if (WARNINGS && Util.DEBUG) {
         print('checkForceAccel FAILED with tolerance='+Util.NFE(tolerance));
         UtilEngine.printArray('force', f, Util.NFE, n);
         UtilEngine.printArray('accel', a, Util.NFE, n);
@@ -1023,7 +1023,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       const nrow = Util.newNumberArray(c);
       // solves Acc x = v1
       const error = UtilEngine.matrixSolve3(Acc, x, /*tolerance=*/1E-9, nrow);
-      if ((WARNINGS || debugCF) && Util.DEBUG) {
+      if (WARNINGS && Util.DEBUG) {
         const singular = UtilEngine.matrixIsSingular(Acc, c, nrow,
             SINGULAR_MATRIX_LIMIT);
         if (singular) {
@@ -1308,7 +1308,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       if (debugCF && Util.DEBUG) {
         printEverything('drive_to_zero after fdirection, d='+d);
       }
-      if ((WARNINGS || debugCF) && Util.DEBUG) {
+      if (WARNINGS && Util.DEBUG) {
         for (let i=0; i<n; i++) {
           // check that delta_a[i] = 0 for all members of C
           if (C[i] && Math.abs(delta_a[i])> SMALL_POSITIVE) {
@@ -1327,7 +1327,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       const j = maxStep(d);
       if (j<0 || Math.abs(stepSize) > 1E5) {
         // maxStep found a huge step, or cannot figure what to do.
-        if ((WARNINGS || debugCF) && Util.DEBUG) {
+        if (WARNINGS && Util.DEBUG) {
           if (j > -1) {
             print('HUGE STEP j='+j+' d='+d+' stepSize='+Util.NFE(stepSize));
           } else {
@@ -1368,7 +1368,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           // This contact has previously caused a zero-size step during this
           // drive-to-zero loop, so it is flip-flopping between C and NC,
           // potentially as an infinite loop.
-          if ((WARNINGS || debugCF) && Util.DEBUG) {
+          if (WARNINGS && Util.DEBUG) {
             print('FLIP-FLOP DEFER j='+j
               +' f[j]='+Util.NFE(f[j])
               +' a[j]='+Util.NFE(a[j])
@@ -1407,10 +1407,10 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         if (wouldBeSingular2(d, j)) {
           if (!R[j]) {
             // we will defer j because it would make Acc+d+j singular
-            //if (debugCF && Util.DEBUG) {
+            if (debugCF && Util.DEBUG) {
               print('SINGULAR MATRIX(2) DEFER NC j='+j
                   +' f[j]='+Util.NFE(f[j])+' a[j]='+Util.NFE(a[j]));
-            //}
+            }
             C[j] = false;
             NC[j] = false;
             R[j] = true;
@@ -1418,7 +1418,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           } else {
             // we won't defer j because we previously rejected it.
             // This case doesn't seem to happen, and it is unclear what to do here.
-            if ((WARNINGS || debugCF) && Util.DEBUG) {
+            if (WARNINGS && Util.DEBUG) {
               print('SINGULAR MATRIX(2) IN REJECTS NC j='+j
                   +' a[j]='+Util.NFE(a[j]));
             }
@@ -1451,7 +1451,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
               throw s;
             }
           }
-          if ((WARNINGS || debugCF) && Util.DEBUG) {
+          if (WARNINGS && Util.DEBUG) {
             printContact(' redo C', false, j, d, loopCtr);
           }
           C[j] = false;
@@ -1473,7 +1473,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
           if (Math.abs(a[j])> 10*SMALL_POSITIVE) {
             print('WARNING moving NC to C but a[j]='+Util.NFE(a[j]));
           }
-          if ((WARNINGS || debugCF) && Util.DEBUG) {
+          if (WARNINGS && Util.DEBUG) {
             printContact(' redo NC', false, j, d, loopCtr);
           }
           C[j] = false;
@@ -1492,7 +1492,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       } else {
         // when j is in neither C nor NC, then we just deferred it.
         goog.asserts.assert(R[j]);
-        if (0 == 1 && (WARNINGS || debugCF) && Util.DEBUG) {
+        if (0 == 1 && WARNINGS && Util.DEBUG) {
           print('we probably just deferred something.  j='+j+' d='+d);
           printContact('we probably deferred', false, j, d, loopCtr);
         }
@@ -1592,7 +1592,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
     } else if (error < -1) {
       // negative error code (other than -1) means general failure
-      if (Util.DEBUG && (WARNINGS || debugCF)) {
+      if (Util.DEBUG && WARNINGS) {
         print('compute_forces general error '+error);
       }
       return error;

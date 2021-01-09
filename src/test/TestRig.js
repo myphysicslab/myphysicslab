@@ -201,7 +201,7 @@ static startTests() {
   TestRig.myPrintln('browser = '+TestRig.getBrowserName());
   // global variable COMPILED is created by goog.base
   if (!COMPILED) {
-    TestRig.myPrintln('COMPILE_LEVEL = debug (uncompiled)');
+    TestRig.myPrintln('COMPILE_LEVEL = whitespace or debug');
   } else {
     TestRig.myPrintln('COMPILE_LEVEL = '
       +(Util.ADVANCED ? 'advanced' : 'simple'));
