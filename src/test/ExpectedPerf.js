@@ -96,7 +96,7 @@ const ExpectedPerf = {
     'Safari': {
       'simple': {
         'six_blocks_perf': 0.41,
-        'pile_10_perf': 0.70,
+        'pile_10_perf': 0.75,
         'clock_gears_perf': 0.73
       },
       'advanced': {
