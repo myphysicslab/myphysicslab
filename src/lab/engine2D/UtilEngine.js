@@ -828,31 +828,25 @@ format???
 @return {number} -1 if successful, or row number where error occurs
 */
 static matrixSolve3(A, x, zero_tol, nrow) {
-  /** @type {number}
-  * @const
-  */
-  var ZERO_TOL2 = 0.1;
-  /** @type {boolean}
-  * @const
-  */
-  var debug = UtilEngine.MATRIX_SOLVE_DEBUG;
-  var n = x.length;
-  var c, i, j, k, ncopy;
+  const ZERO_TOL2 = 0.1;
+  const debug = UtilEngine.MATRIX_SOLVE_DEBUG;
+  const n = x.length;
   goog.asserts.assert(A.length >= n);
   goog.asserts.assert(A[0].length >= n+1);
-  if (Util.DEBUG && debug)
+  if (Util.DEBUG && debug) {
     console.log('maxtrixSolve3 n='+n);
+  }
   // Step 1. Initialize row pointer and scaling factors
   goog.asserts.assert(nrow.length >= n);
   /** @type {!Array<number>}*/
-  var ncol = new Array(n+1); // ncol = column pointers
+  const ncol = new Array(n+1); // ncol = column pointers
   /** @type {!Array<number>}*/
-  var s = new Array(n); // s = scaling factors
-  for (i=0; i<n; i++) {
+  const s = new Array(n); // s = scaling factors
+  for (let i=0; i<n; i++) {
     nrow[i] = i;
     ncol[i] = i;
     s[i] = 0;
-    for (j=0; j<n; j++)
+    for (let j=0; j<n; j++)
       if (Math.abs(A[i][j]) > s[i])
         s[i] = Math.abs(A[i][j]);
     // @todo why not use zero_tol here??
@@ -868,21 +862,21 @@ static matrixSolve3(A, x, zero_tol, nrow) {
   ncol[n] = n;  // last column remains the b vector always.
   // Step 2. elimination process
   // c = column;  r = row
-  var r = 0;
-  var loopCtr = 0;
+  let r = 0;
+  let loopCtr = 0;
   eliminate:
-  for (c=0; c<n; c++) {
+  for (let c=0; c<n; c++) {
     if (Util.DEBUG && loopCtr++ > 2*n) {
       console.log('matrixSolv3 loopCtr='+loopCtr+' c='+c+' n='+n);
     }
-    var columnSwaps = 0;
+    let columnSwaps = 0;
     while (true) {
       // Step 3.  let p be the smallest integer with r <= p <= n-1 and
       // |A[nrow[p], c]| / s[nrow[p]]  = max(r<=j<=n-1)  |A[nrow[j], c]| / s[nrow[j]]
-      var p = r;
-      var max = Math.abs(A[nrow[p]][ncol[c]]) / s[nrow[p]];
-      for (j=r+1; j<n; j++) {
-        var d = Math.abs(A[nrow[j]][ncol[c]]) / s[nrow[j]];
+      let p = r;
+      let max = Math.abs(A[nrow[p]][ncol[c]]) / s[nrow[p]];
+      for (let j=r+1; j<n; j++) {
+        let d = Math.abs(A[nrow[j]][ncol[c]]) / s[nrow[j]];
         if (d > max) {
           max = d;
           p = j;
@@ -896,37 +890,41 @@ static matrixSolve3(A, x, zero_tol, nrow) {
               +Util.NFE(A[nrow[p]][ncol[c]]));
         }
         if (columnSwaps >= (n-1 - c)) {
-          if (debug && Util.DEBUG)
+          if (debug && Util.DEBUG) {
             console.log('columnSwaps='+columnSwaps+' >= '+(n-1)+' - '+c);
+          }
           break eliminate;
         }
         // simulated column interchange
-        if (debug && Util.DEBUG)
+        if (debug && Util.DEBUG) {
           UtilEngine.printArray('before column swap; c='+c, ncol);
-        ncopy = ncol[c];
-        for (j=c; j<n-1; j++) {
+        }
+        const ncopy = ncol[c];
+        for (let j=c; j<n-1; j++) {
           ncol[j] = ncol[j+1];
         }
         ncol[n-1] = ncopy;
         columnSwaps++;
-        if (debug && Util.DEBUG)
+        if (debug && Util.DEBUG) {
           UtilEngine.printArray('after column swap', ncol);
+        }
         continue;
       }
       // Step 5.  simulated row interchange
       if (nrow[r] != nrow[p]) {
-        ncopy = nrow[r];
+        const ncopy = nrow[r];
         nrow[r] = nrow[p];
         nrow[p] = ncopy;
       }
-      for (j=r+1; j<n; j++) {
-        var m = A[nrow[j]][ncol[c]] / A[nrow[r]][ncol[c]];
+      for (let j=r+1; j<n; j++) {
+        let m = A[nrow[j]][ncol[c]] / A[nrow[r]][ncol[c]];
         // do a row operation
-        for (k=0; k<n+1; k++)
+        for (let k=0; k<n+1; k++)
           A[nrow[j]][ncol[k]] -= m*A[nrow[r]][ncol[k]];
       }
-      if (debug && Util.DEBUG)
+      if (debug && Util.DEBUG) {
         UtilEngine.printMatrixPermutation('A '+n, A, nrow, ncol, Util.NFE, n);
+      }
       r++;  // only increment row when successful.
       columnSwaps = 0;
       break;
@@ -940,7 +938,7 @@ static matrixSolve3(A, x, zero_tol, nrow) {
   // To have a solution, the corresponding entries in the b vector must be zero.
   // (The b vector is stored in column n of the augmented A matrix).
   if (r < n-1) {
-    for (i=r+1; i<n; i++) {
+    for (let i=r+1; i<n; i++) {
       if (Math.abs(A[nrow[i]][n]) > ZERO_TOL2) {
         if (0 == 1 && Util.DEBUG) {
           console.log('b vector not in column space ['+nrow[i]+'] '
@@ -959,13 +957,13 @@ static matrixSolve3(A, x, zero_tol, nrow) {
   }
   // Step 10. Backward substitution
   // start in the last non-zero row, r.
-  c = n-1; // column
-  var lastC = n;  // last column operated on
+  let c = n-1; // column
+  let lastC = n;  // last column operated on
   while (r >= 0) {
     // find the left most non-zero entry A[r,c], such that c >= r
     // (on or above the diagonal)
-    var lmost = -1;
-    for (k = c; k >= r; k--) {
+    let lmost = -1;
+    for (let k = c; k >= r; k--) {
       if (Math.abs(A[nrow[r]][ncol[k]]) > zero_tol)
         lmost = k;
     }
@@ -977,20 +975,22 @@ static matrixSolve3(A, x, zero_tol, nrow) {
     }
     // if there is a zero at A[r,c], then move up a row
     if (Math.abs(A[nrow[r]][ncol[c]]) < zero_tol) {
-      if (debug && Util.DEBUG)
+      if (debug && Util.DEBUG) {
         console.log('zero on diagonal move up a row r='+r+' c='+c
             +' A[r,c]='+Util.NFE(A[nrow[r]][ncol[c]]));
+      }
       r--;
       continue;
     }
     // we now have the left-most non-zero entry A[r,c] with c >= r
-    if (debug && Util.DEBUG)
+    if (debug && Util.DEBUG) {
       console.log('r='+r+' c='+c+' A[r,c]='+Util.NFE(A[nrow[r]][ncol[c]]));
+    }
     // if underdetermined, set some of the x[i] to 0
     // 'underdetermined' means that we have more than one free variable in this
     // equation for example a single equation with 2 unknowns.
     if (lastC - c > 1) {
-      for (j=c+1; j<lastC; j++)
+      for (let j=c+1; j<lastC; j++)
         x[ncol[j]] = 0;
     }
     lastC = c;
@@ -999,8 +999,9 @@ static matrixSolve3(A, x, zero_tol, nrow) {
     // because this row has A[r][j] == 0 for j < c
     // we can find x[c] in terms of the x[j] already solved for.
     var sum = 0;
-    for (j=c+1; j<n; j++)
+    for (let j=c+1; j<n; j++) {
       sum += A[nrow[r]][ncol[j]]*x[ncol[j]];
+    }
     x[ncol[c]] = (A[nrow[r]][n] - sum)/A[nrow[r]][ncol[c]];
     // move up a row and left a column
     c--;
