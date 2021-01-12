@@ -31,9 +31,9 @@ To build from source code the required tools are
 + [GNU Make](https://www.gnu.org/software/make/)
 
 + [Closure Compiler](https://github.com/google/closure-compiler) Note that you don't
-    need to install Maven or NPM. Just got to their Maven repository, click on the
-    version you want, then click on the jar file to download it. Works with
-    closure-compiler release v20210106.
+    need to install Maven or NPM. Just go to their Maven repository, click on the
+    version you want, then click on the jar file to download it. myPhysicsLab compiles
+    with closure-compiler release v20210106.
 
 + [Closure Library](https://github.com/google/closure-library) is a separate
     download from Closure Compiler. It is a collection of JavaScript source
