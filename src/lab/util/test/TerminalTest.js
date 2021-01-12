@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.test.TerminalTest');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');

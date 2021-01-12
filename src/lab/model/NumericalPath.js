@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.model.NumericalPath');
 
+const asserts = goog.require('goog.asserts');
 const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
@@ -205,8 +206,8 @@ constructor(path, opt_tableLength) {
   */
   this.bounds = DoubleRect.EMPTY_RECT;
   this.make_table(path);
-  goog.asserts.assert( this.pvals[0] < this.pvals[this.pvals.length-1]);
-  goog.asserts.assert(NumericalPath.isMonotonic(this.pvals));
+  asserts.assert( this.pvals[0] < this.pvals[this.pvals.length-1]);
+  asserts.assert(NumericalPath.isMonotonic(this.pvals));
   /**
   * @type {boolean}
   * @private
@@ -299,10 +300,10 @@ static binarySearch(arr, x) {
       i_int = max + Math.floor((min - max)/2);
   }
   if (dir) {
-    goog.asserts.assert( arr[i_int] <= x && x < arr[i_int+1],
+    asserts.assert( arr[i_int] <= x && x < arr[i_int+1],
        ' i='+i_int+' x='+x+' not between '+arr[i_int]+' and '+arr[i_int+1]);
   } else {
-    goog.asserts.assert(arr[i_int+1] <= x && x < arr[i_int],
+    asserts.assert(arr[i_int+1] <= x && x < arr[i_int],
         ' i='+i_int+' x='+x+' not between '+arr[i_int]+' and '+arr[i_int+1]);
   }
   return i_int;
@@ -336,8 +337,8 @@ three-point differentiation formula used here.
 @private
 */
 deriv3(yy, k, type) {
-  goog.asserts.assert(k >= 0);
-  goog.asserts.assert(k <= this.tableLength_-3 );
+  asserts.assert(k >= 0);
+  asserts.assert(k <= this.tableLength_-3 );
   var x0 = this.pvals[k];
   var x1 = this.pvals[k+1];
   var x2 = this.pvals[k+2];
@@ -496,7 +497,7 @@ findNearestLocal(target, ppt) {
         k_int = this.linearSearch(p, k_int);
       }
     } else if (y2 < y1) {  // shift 'right'
-      goog.asserts.assert(y2 < y0);
+      asserts.assert(y2 < y0);
       if (dk_int > 1) {
         k_int = this.modk(k_int + dk_int);
         p = this.pvals[k_int];
@@ -507,14 +508,14 @@ findNearestLocal(target, ppt) {
     } else { // reduce search range
       if (dk_int > 1) {
         dk_int = Math.floor(dk_int/2);
-        goog.asserts.assert(dk_int >= 1);
+        asserts.assert(dk_int >= 1);
         if (dk_int == 1) {
           // switch over from table search mode to interpolation mode
           // initialize d = search range during interpolation mode
           d = this.tableSpacing(k_int);
         }
       } else {
-        goog.asserts.assert(dk_int == 1);
+        asserts.assert(dk_int == 1);
         d = d/2;
       }
     }
@@ -671,7 +672,7 @@ static interp4(xx, yy, x, k, closedLoop) {
   if (Util.DEBUG) {
     // if not at end point, check that the x value is in middle of the range
     if (i > 0 && i < n-4) {
-      goog.asserts.assert(xx[i+1] <= x && x < xx[i+2] ); // xx[i+1]+' '+x+' '+xx[i+2]
+      asserts.assert(xx[i+1] <= x && x < xx[i+2] ); // xx[i+1]+' '+x+' '+xx[i+2]
     }
   }
   // Use Horner's rule for nested multiplication to evaluate the polynomial at x.
@@ -785,7 +786,7 @@ linearSearch(p, k) {
     }
   }
   if (Util.DEBUG && j < this.tableLength_-2)
-    goog.asserts.assert( this.pvals[j] <= p && p < this.pvals[j+1] );
+    asserts.assert( this.pvals[j] <= p && p < this.pvals[j+1] );
     //  : this.pvals[j]+' '+p+' '+this.pvals[j+1];
   return j;
 };
@@ -858,7 +859,7 @@ make_table(path) {
       this.nyVals[i] = this.dxvals[i] > 0 ? 1.0 : -1.0;
     } else {
       var q = -this.dxvals[i]/this.dyvals[i]; // slope of normal
-      goog.asserts.assert(isFinite(q));
+      asserts.assert(isFinite(q));
       var q2 = Math.sqrt(1 + q*q);
       this.nxVals[i] = 1.0 / q2;
       this.nyVals[i] = q / q2;
@@ -907,7 +908,7 @@ map_p_to_index(p) {
   if (k > this.tableLength_-1) {
     k = this.tableLength_-1;
   }
-  goog.asserts.assert(this.pvals[k] <= p || k == 0 ); // this.pvals[k]+' '+p+' '+k
+  asserts.assert(this.pvals[k] <= p || k == 0 ); // this.pvals[k]+' '+p+' '+k
   return k;
 };
 
@@ -1020,8 +1021,8 @@ modk(k) {
     else if (r >= this.tableLength_)
       r = this.tableLength_-1;
   }
-  goog.asserts.assert(r > -1 );
-  goog.asserts.assert(r < this.tableLength_ );
+  asserts.assert(r > -1 );
+  asserts.assert(r < this.tableLength_ );
   return r;
 };
 
@@ -1068,7 +1069,7 @@ map_p_to_slope(ppt) {
     k = this.tableLength_-2;
   if (Util.DEBUG && k > 0 && k < this.tableLength_-2) {
     // if not at endpoint, check that index k corresponds to p
-    goog.asserts.assert( this.pvals[k] <= nowP && nowP < this.pvals[k+1] );
+    asserts.assert( this.pvals[k] <= nowP && nowP < this.pvals[k+1] );
     //      k+' '+this.pvals[k]+' '+nowP+' '+this.pvals[k+1];
   }
   if (!this.closedLoop) {
@@ -1122,12 +1123,12 @@ map_p_to_slope(ppt) {
       ppt.normalX = 1;
       ppt.normalY = 0;
     }
-    goog.asserts.assert(!isNaN(ppt.slope));
+    asserts.assert(!isNaN(ppt.slope));
   } else {
     // figure out direction of path:  left to right = +1, right to left = -1
     ppt.direction = ppt.dxdp > 0 ? 1 : -1;
     ppt.slope = ppt.dydp/ppt.dxdp;
-    goog.asserts.assert(!isNaN(ppt.slope));
+    asserts.assert(!isNaN(ppt.slope));
     // Find slope vector (slopeX, slopeY)
     // the slope vector must point in direction of increasing p
     var s2 = Math.sqrt(1 + ppt.slope * ppt.slope);
@@ -1137,7 +1138,7 @@ map_p_to_slope(ppt) {
       ppt.slopeX = -ppt.slopeX;
       ppt.slopeY = -ppt.slopeY;
     }
-    goog.asserts.assert(!isNaN(ppt.slope));
+    asserts.assert(!isNaN(ppt.slope));
     if (Math.abs(ppt.slope) > 1E-12) {
       // Find normal vector (normalX, normalY)
       // the normal vector should not suddenly flip from positive to negative,
@@ -1198,7 +1199,7 @@ map_p_to_slope(ppt) {
       }
     }
   }
-  goog.asserts.assert(ppt.p == saveP);  // ensure that p value is not changed
+  asserts.assert(ppt.p == saveP);  // ensure that p value is not changed
 };
 
 /** print the table for debugging.

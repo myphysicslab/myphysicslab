@@ -14,9 +14,6 @@
 
 goog.module('myphysicslab.lab.view.SimView');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ConcreteMemoList = goog.require('myphysicslab.lab.util.ConcreteMemoList');
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');

@@ -14,6 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.CircleCircle');
 
+const asserts = goog.require('goog.asserts');
+const CircularEdge = goog.forwardDeclare('myphysicslab.lab.engine2D.CircularEdge');
 const EdgeEdgeCollision = goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
@@ -34,14 +36,14 @@ constructor() {
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
 * positions and velocities of the RigidBodys.
 * @param {!EdgeEdgeCollision} rbc the collision to update
-* @param {!myphysicslab.lab.engine2D.CircularEdge} other
-* @param {!myphysicslab.lab.engine2D.CircularEdge} normalCircle
+* @param {!CircularEdge} other
+* @param {!CircularEdge} normalCircle
 */
 static improveAccuracy(rbc, other, normalCircle) {
   var otherBody = other.getBody();
   var normalBody = normalCircle.getBody();
-  goog.asserts.assert( rbc.getPrimaryBody() == otherBody);
-  goog.asserts.assert( rbc.getNormalBody() == normalBody);
+  asserts.assert( rbc.getPrimaryBody() == otherBody);
+  asserts.assert( rbc.getNormalBody() == normalBody);
   var oldX = rbc.impact1.getX();
   var oldY = rbc.impact1.getY();
   if (0 == 1 && Util.DEBUG) console.log('before improveAccuracy '+rbc);
@@ -128,8 +130,8 @@ Edge/Edge calculation.
 
 * @param {!Array<!RigidBodyCollision>} collisions any new
 *    collision will be added to this array
-* @param {!myphysicslab.lab.engine2D.CircularEdge} self
-* @param {!myphysicslab.lab.engine2D.CircularEdge} other
+* @param {!CircularEdge} self
+* @param {!CircularEdge} other
 * @param {number} time current simulation time
 */
 static testCollision(collisions, self, other, time) {
@@ -178,7 +180,7 @@ static testCollision(collisions, self, other, time) {
     CircleCircle.addCollision(/*contact=*/false, collisions, self, other,
       distance, len, coe, time);
   } else {  // one edge is concave, other edge is convex
-    goog.asserts.assert( self.outsideIsOut() != other.outsideIsOut() );
+    asserts.assert( self.outsideIsOut() != other.outsideIsOut() );
     var convex = self.outsideIsOut() ? self : other;
     var concave = self.outsideIsOut() ? other : self;
     // must have concave radius > convex radius
@@ -223,8 +225,8 @@ static testCollision(collisions, self, other, time) {
 /**
 * @param {boolean} contact  whether to make a contact (true) or collision (false)
 * @param {!Array<!RigidBodyCollision>} collisions
-* @param {!myphysicslab.lab.engine2D.CircularEdge} self
-* @param {!myphysicslab.lab.engine2D.CircularEdge} other
+* @param {!CircularEdge} self
+* @param {!CircularEdge} other
 * @param {number} distance
 * @param {number} len
 * @param {!Vector} coe

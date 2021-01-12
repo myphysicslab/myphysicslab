@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.test.TestViewerApp');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
@@ -325,7 +326,7 @@ constructor(elem_ids) {
   this.addParameter(pn = new ParameterNumber(this, TestViewerApp.en.GROUP,
       TestViewerApp.i18n.GROUP,
       () => this.getGroup(), a => this.setGroup(a),
-      this.groupNames_, goog.array.range(this.groupNames_.length)));
+      this.groupNames_, array.range(this.groupNames_.length)));
   // The menu showing the available groups of tests.
   this.prependControl(new ChoiceControl(pn, /*label=*/''));
 
@@ -336,7 +337,7 @@ constructor(elem_ids) {
   this.testParam_ = new ParameterNumber(this, TestViewerApp.en.TEST,
       TestViewerApp.i18n.TEST,
       () => this.getTest(), a => this.setTest(a),
-      this.testNames_, goog.array.range(this.testNames_.length));
+      this.testNames_, array.range(this.testNames_.length));
   this.addParameter(this.testParam_);
   // The menu showing the available test functions for the current group.
   this.prependControl(new ChoiceControl(this.testParam_, /*label=*/''));
@@ -487,7 +488,7 @@ setGroup(groupIndex) {
     this.testNames_.length = 0;
     this.addTestsFrom_(this.groups_[groupIndex]);
     this.testParam_.setChoices(this.testNames_,
-        goog.array.range(this.testNames_.length));
+        array.range(this.testNames_.length));
     this.testParam_.setValue(0);
     this.broadcastParameter(TestViewerApp.en.GROUP);
   }
@@ -575,7 +576,7 @@ reset method is re-using the ContactSim and not rebuilding controls etc.
 * @private
 */
 startTest_(testIndex) {
-  goog.asserts.assert(typeof testIndex === 'number');
+  asserts.assert(typeof testIndex === 'number');
 
   this.sim.setDistanceTol(0.01);
   this.sim.setVelocityTol(0.5);
@@ -645,7 +646,7 @@ startTest_(testIndex) {
 @private
 */
 makeGravityControl_() {
-  var g = goog.array.find(this.sim.getForceLaws(), function(f, index, array) {
+  var g = array.find(this.sim.getForceLaws(), function(f, index, array) {
     return f instanceof GravityLaw || f instanceof Gravity2Law;
   });
   var e = /** @type {!HTMLInputElement} */(document.getElementById('gravity_control'));
@@ -669,7 +670,7 @@ makeGravityControl_() {
 @private
 */
 makeDampingControl_() {
-  var g = goog.array.find(this.sim.getForceLaws(), function(f, index, array) {
+  var g = array.find(this.sim.getForceLaws(), function(f, index, array) {
     return f instanceof DampingLaw;
   });
   var e = /** @type {!HTMLInputElement} */(document.getElementById('damping_control'));

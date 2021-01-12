@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.RandomLCG');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 const Random = goog.require('myphysicslab.lab.util.Random');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
@@ -110,7 +110,7 @@ constructor(seed) {
   this.seed_ = seed;
   RandomLCG.checkSeed(this.seed_);
   // ensure that maximum number made during the algorithm < 2^53
-  goog.asserts.assert((RandomLCG.m - 1) * RandomLCG.a + RandomLCG.c < Math.pow(2, 53));
+  asserts.assert((RandomLCG.m - 1) * RandomLCG.a + RandomLCG.c < Math.pow(2, 53));
 };
 
 /** @override */

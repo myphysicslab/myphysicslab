@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.test.MiscellanyTest');
 
-goog.require('goog.asserts');
-
 const AdaptiveStepSolver = goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
 const ChainConfig = goog.require('myphysicslab.sims.engine2D.ChainConfig');
 const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
@@ -46,6 +44,8 @@ const TestRig = goog.require('myphysicslab.test.TestRig');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
+
+const assertTrue = v => TestRig.assertTrue(v);
 const makeVars = n => Engine2DTestRig.makeVars(n);
 const schedule = testFunc => TestRig.schedule(testFunc);
 const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
@@ -284,7 +284,7 @@ static non_collide_edges_setup(sim, advance) {
   var pendulumStart = p1.getEdges()[0].getIndex();
   var pendulumEnd = p1.getEdges()[2].getIndex();
   p2.setNonCollideEdge(new EdgeRange(p1, pendulumStart, pendulumEnd));
-  goog.asserts.assert(p2.nonCollideEdge(p1.getEdges()[0]));
+  assertTrue(p2.nonCollideEdge(p1.getEdges()[0]));
   sim.addBody(p2);
   var p3 = Shapes.makeBlock(10, 0.5, 'floor');
   p3.setMass(Util.POSITIVE_INFINITY);

@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.model.AdaptiveStepSolver');
 
+const asserts = goog.require('goog.asserts');
 const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
 const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const ODESim = goog.require('myphysicslab.lab.model.ODESim');
@@ -182,9 +183,9 @@ step(stepSize) {
       // restore state and solve again with smaller step size
       this.diffEq_.restoreState();
       this.diffEq_.modifyObjects();
-      goog.asserts.assert( Math.abs(this.diffEq_.getTime() - startTime) < 1E-12 );
+      asserts.assert( Math.abs(this.diffEq_.getTime() - startTime) < 1E-12 );
       var e = this.energySystem_.getEnergyInfo().getTotalEnergy();
-      goog.asserts.assert( Math.abs(e - startEnergy) < 1E-10 );
+      asserts.assert( Math.abs(e - startEnergy) < 1E-10 );
       d_t = d_t/5;  // reduce step size
       if (d_t < 1E-15)
         throw 'time step too small '+d_t;

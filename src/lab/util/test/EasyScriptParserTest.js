@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.test.EasyScriptParserTest');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const EasyScriptParser = goog.require('myphysicslab.lab.util.EasyScriptParser');
@@ -180,8 +180,7 @@ static testEasyScript1() {
     // global variables.
     t.z.va = va;
     assertEquals(165.1, t.eval(
-        'position=1;goog.array.reduce(z.va.toArray(), '
-        +'function(r, v) { return r+v.getValue(); }, 0)'));
+      'position=1; z.va.toArray().reduce((r,v)=>r+v.getValue(), 0)'));
   }
   var names1 = 'VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.WORK_FROM_DAMPING,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(',');
   assertElementsEquals(names1, easyScript.names());

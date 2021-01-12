@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.engine2D.SixThrusters');
 
-goog.require('goog.array');
-
 const MassObject = goog.require('myphysicslab.lab.model.MassObject');
 const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');

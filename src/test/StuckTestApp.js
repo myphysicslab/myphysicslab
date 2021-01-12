@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.test.StuckTestApp');
 
-goog.require('goog.array');
-
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
 const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');

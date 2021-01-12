@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.view.DisplayArc');
 
-goog.require('goog.asserts');
-
 const Arc = goog.require('myphysicslab.lab.model.Arc');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');

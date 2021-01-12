@@ -14,9 +14,6 @@
 
 goog.module('myphysicslab.sims.pde.StringSim');
 
-goog.require('goog.asserts');
-goog.require('goog.array');
-
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');

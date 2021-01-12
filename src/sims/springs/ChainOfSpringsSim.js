@@ -14,9 +14,6 @@
 
 goog.module('myphysicslab.sims.springs.ChainOfSpringsSim');
 
-goog.require('goog.asserts');
-goog.require('goog.array');
-
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
@@ -386,8 +383,12 @@ moveObjects(vars) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragAtom_ = this.atoms_.indexOf(simObject);
-  return this.dragAtom_ > -1 || simObject == this.fixed1_ || simObject == this.fixed2_;
+  if (simObject instanceof PointMass) {
+    this.dragAtom_ = this.atoms_.indexOf(simObject);
+    return this.dragAtom_ > -1 || simObject == this.fixed1_ || simObject == this.fixed2_;
+  } else {
+    return false;
+  }
 };
 
 /** @override */

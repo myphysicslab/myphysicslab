@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.misc.DisplayMagnetWheel');
 
-goog.require('goog.asserts');
-
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const MagnetWheel = goog.require('myphysicslab.sims.misc.MagnetWheel');

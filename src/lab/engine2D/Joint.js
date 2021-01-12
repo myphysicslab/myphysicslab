@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.Joint');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
+const array = goog.require('goog.array');
 
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
 const ConnectorCollision = goog.require('myphysicslab.lab.engine2D.ConnectorCollision');
@@ -206,7 +207,7 @@ addCollision(collisions, time, accuracy) {
       UtilEngine.debugEngine2D.myPrint('joint '+this.getName()
         +' is loose dist='+Util.NFE(c.distance)+' '+c);
   }
-  goog.array.insertAt(collisions, c, 0);
+  array.insertAt(collisions, c, 0);
 };
 
 /** @override */
@@ -306,11 +307,11 @@ updateCollision(c) {
   c.impact1 = impact_world;
   c.normalFixed = this.normalType_ == CoordType.WORLD;
   var normal_world = this.getNormalWorld();
-  goog.asserts.assert( Math.abs(normal_world.lengthSquared() - 1.0) < 1E-10 );
+  asserts.assert( Math.abs(normal_world.lengthSquared() - 1.0) < 1E-10 );
   c.impact2 = this.body2_.bodyToWorld(this.attach2_body_);
   c.normal = normal_world;
   // offset = how far apart the joint is, ideally zero
-  goog.asserts.assert(c.impact2 != null );
+  asserts.assert(c.impact2 != null );
   var offset = c.impact1.subtract(c.impact2);
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'Joint';

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.ConnectorCollision');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
@@ -57,11 +57,11 @@ getClassName() {
 /** @override */
 checkConsistent() {
   super.checkConsistent();
-  goog.asserts.assert( this.impact2 != null );
+  asserts.assert( this.impact2 != null );
   if (this.normal_dt != null) {
     // Having derivative of normal implies the normal is curved.
     // unless the derivative is always zero.
-    goog.asserts.assert( this.ballNormal);
+    asserts.assert( this.ballNormal);
   }
 };
 

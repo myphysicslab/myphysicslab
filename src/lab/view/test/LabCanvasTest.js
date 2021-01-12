@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.view.test.LabCanvasTest');
 
-goog.require('goog.array');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');

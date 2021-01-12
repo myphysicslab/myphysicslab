@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.sims.misc.MagnetWheelSim');
 
-goog.require('goog.events.KeyCodes');
+const KeyCodes = goog.require('goog.events.KeyCodes');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');
@@ -215,7 +215,6 @@ finishDrag(simObject, location, offset) {
 handleKeyEvent(keyCode, pressed, keyEvent) {
   // console.log('handleKeyEvent keyCode:'+keyCode+'  pressed: '+pressed
   //  +' event:'+Util.propertiesOf(keyEvent, true));
-  var KeyCodes = goog.events.KeyCodes;
   if (keyEvent.ctrlKey || keyEvent.metaKey || keyEvent.altKey)
     return;
   switch (keyCode) {

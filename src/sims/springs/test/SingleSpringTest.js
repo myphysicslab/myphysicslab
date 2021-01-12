@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.sims.springs.test.SingleSpringTest');
 
-goog.require('goog.array');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
 const Observer = goog.require('myphysicslab.lab.util.Observer');

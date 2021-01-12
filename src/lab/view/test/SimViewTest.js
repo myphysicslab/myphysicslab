@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.view.test.SimViewTest');
 
-goog.require('goog.array');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
@@ -254,7 +253,7 @@ static testSimView1() {
   var dspring1 = new DisplaySpring(spring1).setWidth(1.0)
       .setColorCompressed('red').setColorExpanded('green')
 
-  goog.asserts.assert(v1 instanceof Vector);
+  assertTrue(v1 instanceof Vector);
   displayList1.add(shape1);
   displayList1.add(dspring1);
   assertTrue(displayList1.contains(shape1));

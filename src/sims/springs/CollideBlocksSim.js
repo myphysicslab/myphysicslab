@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.sims.springs.CollideBlocksSim');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const BlockCollision = goog.require('myphysicslab.sims.springs.BlockCollision');
@@ -408,14 +409,14 @@ addCollision(collisions, leftBlock, rightBlock, time) {
   if (c.getDistance() < 0.1) {
     // Avoid adding a duplicate collision.
     // Is there already an equivalent collision?
-    var similar = goog.array.find(collisions, function(element, index, array) {
+    var similar = array.find(collisions, function(element, index, array) {
       return c.similarTo(/** @type {!BlockCollision}*/(element));
     });
     if (similar) {
       var c2 = /** @type {!BlockCollision}*/(similar);
       // Pick the collision with smaller distance, or the needsHandling flag
       if (!c2.needsHandling() && c.getDistance() < c2.getDistance()) {
-        goog.array.remove(collisions, c2);
+        array.remove(collisions, c2);
         collisions.push(c);
       }
     } else {
@@ -467,8 +468,8 @@ handleCollisions(collisions, opt_totals) {
       opt_totals.addImpulses(1);
     }
   });
-  goog.asserts.assert(va.getVariable(0).getSequence() == seq0);
-  goog.asserts.assert(va.getVariable(2).getSequence() == seq2);
+  asserts.assert(va.getVariable(0).getSequence() == seq0);
+  asserts.assert(va.getVariable(2).getSequence() == seq2);
   return true;
 };
 

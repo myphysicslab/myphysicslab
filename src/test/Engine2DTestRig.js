@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.test.Engine2DTestRig');
 
+const asserts = goog.require('goog.asserts');
 const ExpectedPerf = goog.require('myphysicslab.test.ExpectedPerf');
 const Collision = goog.require('myphysicslab.lab.model.Collision');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
@@ -114,7 +115,7 @@ static checkResult(sim, expected, tolerance) {
   var maxDiff = 0; // difference of expected to actual
   /** @type {!Array<number>} */
   var vars = sim.getVarsList().getValues(/*computed=*/true);
-  goog.asserts.assert( vars.length >= expected.length );
+  asserts.assert( vars.length >= expected.length );
   for (var i=0; i<expected.length; i++) {
     if (isNaN(expected[i]))
       continue;
@@ -264,7 +265,7 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
     }
   }
 
-  goog.asserts.assert( Math.abs(advance.getTime() - runUntil) < 0.001 );
+  asserts.assert( Math.abs(advance.getTime() - runUntil) < 0.001 );
 
   var didTest = false;
   var passed = true;

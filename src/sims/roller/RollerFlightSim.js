@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.roller.RollerFlightSim');
 
+const asserts = goog.require('goog.asserts');
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const Collision = goog.require('myphysicslab.lab.model.Collision');
 const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
@@ -368,7 +369,7 @@ modifyObjects() {
     if (currentPoint != null) {
       this.jumpOffTrack(currentPoint);
     } else {
-      goog.asserts.fail('advance: currentPoint is null, TRACK_VAR='
+      asserts.fail('advance: currentPoint is null, TRACK_VAR='
           +vars[RollerFlightSim.TRACK_VAR]);
     }
   }
@@ -407,7 +408,7 @@ moveObjects(vars) {
     this.ball1_.setPosition(new Vector(vars[2],  vars[3]));
     this.ball1_.setVelocity(new Vector(vars[4], vars[5], 0));
   } else {
-    goog.asserts.fail('moveObjects: TRACK_VAR='+vars[RollerFlightSim.TRACK_VAR]);
+    asserts.fail('moveObjects: TRACK_VAR='+vars[RollerFlightSim.TRACK_VAR]);
   }
   if (this.debugPaint_ != null) {
     this.debugPaint_();
@@ -421,7 +422,7 @@ moveObjects(vars) {
 */
 jumpOffTrack(pathPoint1) {
   var va = this.getVarsList();
-  goog.asserts.assert (va.getValue(RollerFlightSim.TRACK_VAR) ==
+  asserts.assert (va.getValue(RollerFlightSim.TRACK_VAR) ==
       RollerFlightSim.ON_TRACK);
   // Compare the circular acceleration a = v^2/r to the actual
   // acceleration from gravity and spring that is normal to track.
@@ -704,7 +705,7 @@ evaluate(vars, change, timeStep) {
     // damping:  - (b/m) Vy
     change[5] -= (this.damping_/m)*vars[5];
   } else {
-    goog.asserts.fail();
+    asserts.fail();
   }
   return null;
 };

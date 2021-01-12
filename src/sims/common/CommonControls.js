@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.common.CommonControls');
 
+const array = goog.require('goog.array');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
 const ChoiceControlBase = goog.require('myphysicslab.lab.controls.ChoiceControlBase');
@@ -126,7 +127,7 @@ static makeBackgroundMenu(labCanvas) {
     return -1;
   };
   var setter = value => {
-    var idx = goog.array.indexOf(values, value);
+    var idx = array.indexOf(values, value);
     switch (idx) {
       case 0: labCanvas.setBackground(''); labCanvas.setAlpha(1); break;
       case 1: labCanvas.setBackground('black'); labCanvas.setAlpha(1); break;

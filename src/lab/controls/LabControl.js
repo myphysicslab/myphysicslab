@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.controls.LabControl');
 
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
 const Printable = goog.require('myphysicslab.lab.util.Printable');
 
 /** A user interface control.
@@ -34,7 +35,7 @@ label Element that encloses an input Element.
 getElement() {}
 
 /** Returns the Parameter that this LabControl is connected to, if any.
-* @return {?myphysicslab.lab.util.Parameter} the Parameter that this LabControl
+* @return {?Parameter} the Parameter that this LabControl
 *    is connected to, or null
 */
 getParameter() {}

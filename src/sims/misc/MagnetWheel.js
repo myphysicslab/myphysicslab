@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.sims.misc.MagnetWheel');
 
-goog.require('goog.array');
 const AbstractMassObject = goog.require('myphysicslab.lab.model.AbstractMassObject');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const Calculus = goog.require('myphysicslab.lab.util.Calculus');

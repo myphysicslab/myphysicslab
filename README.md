@@ -30,11 +30,14 @@ To build from source code the required tools are
 
 + [GNU Make](https://www.gnu.org/software/make/)
 
-+ [Closure Compiler](https://github.com/google/closure-compiler)
++ [Closure Compiler](https://github.com/google/closure-compiler) Note that you don't
+    need to install Maven or NPM. Just got to their Maven repository, click on the
+    version you want, then click on the jar file to download it. Works with
+    closure-compiler release v20210106.
 
 + [Closure Library](https://github.com/google/closure-library) is a separate
     download from Closure Compiler. It is a collection of JavaScript source
-    code.
+    code. Use `git checkout` to get a copy into your environment.
 
 Once the prerequisites are on your system, follow these steps:
 

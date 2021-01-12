@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.engine2D.PendulumSpringApp');
 
-goog.require('goog.array');
-
 const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.model.SimList');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const Arc = goog.require('myphysicslab.lab.model.Arc');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
@@ -166,7 +166,7 @@ get(arg) {
     }
   } else if (typeof arg === 'string') {
     arg = Util.toName(arg);
-    var e = goog.array.find(this.elements_,
+    var e = array.find(this.elements_,
       function (/** !SimObject */obj, index, array) {
         return obj.getName() == arg;
       });
@@ -229,7 +229,7 @@ See {@link SimObject#similar} for how similarity is determined.
 */
 getSimilar(simObj, tolerance) {
   var tol = (tolerance === undefined) ? this.tolerance_ : tolerance;
-  return goog.array.find(this.elements_,
+  return array.find(this.elements_,
     function(obj, index, array) {
       return obj.similar(simObj, tol);
     });
@@ -280,7 +280,7 @@ length() {
 @param {!SimObject} simObj the SimObject to remove
 */
 remove(simObj) {
-  if (goog.array.remove(this.elements_, simObj)) {
+  if (array.remove(this.elements_, simObj)) {
     this.broadcast(new GenericEvent(this, SimList.OBJECT_REMOVED, simObj));
   }
 };

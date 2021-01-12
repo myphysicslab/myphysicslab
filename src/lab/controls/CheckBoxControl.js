@@ -23,7 +23,7 @@ const CheckBoxControlBase = goog.require('myphysicslab.lab.controls.CheckBoxCont
 */
 class CheckBoxControl extends CheckBoxControlBase {
 /**
-* @param {!myphysicslab.lab.util.ParameterBoolean} parameter  the ParameterBoolean to
+* @param {!ParameterBoolean} parameter  the ParameterBoolean to
 *     synchronize with
 * @param {!HTMLInputElement=} checkBox  the check box to use; if not provided, then
 *     a check box is created.

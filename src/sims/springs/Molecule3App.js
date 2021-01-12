@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.springs.Molecule3App');
 
+const asserts = goog.require('goog.asserts');
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
@@ -72,7 +73,7 @@ constructor(elem_ids, numAtoms) {
   // The observe() method will make DisplayObjects in response to seeing SimObjects
   // being added to the SimList.  Important that no SimObjects were added prior.
   // Except for the walls.
-  goog.asserts.assert(this.simList.length() == 1);
+  asserts.assert(this.simList.length() == 1);
   this.simList.addObserver(this);
   this.addBody(this.sim_.getWalls());
 

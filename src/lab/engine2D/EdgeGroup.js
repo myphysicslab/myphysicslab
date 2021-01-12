@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.EdgeGroup');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const EdgeRange = goog.require('myphysicslab.lab.engine2D.EdgeRange');
 const EdgeSet = goog.require('myphysicslab.lab.engine2D.EdgeSet');
@@ -68,7 +68,7 @@ contains(edge) {
 * @param {!EdgeRange} edgeRange  the EdgeRange to remove
 */
 remove(edgeRange) {
-  goog.array.remove(this.ranges_, edgeRange);
+  array.remove(this.ranges_, edgeRange);
 };
 
 } // end class

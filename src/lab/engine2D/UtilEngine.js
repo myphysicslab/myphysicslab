@@ -14,8 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.UtilEngine');
 
-goog.require('goog.asserts');
-goog.require('goog.vec.Float64Array');
+const asserts = goog.require('goog.asserts');
 
 const DebugEngine2D = goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
 const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
@@ -80,7 +79,7 @@ static checkArrayNaN(x) {
       isOK = isOK && !isNaN(x[i]);
     if (!isOK) {
       UtilEngine.printArray('fail NaN ', x);
-      goog.asserts.fail('checkArrayNaN');
+      asserts.fail('checkArrayNaN');
     }
   }
 };
@@ -91,7 +90,7 @@ static checkArrayNaN(x) {
 * @private
 */
 static colinearity(p) {
-  goog.asserts.assert(p.length == 3);
+  asserts.assert(p.length == 3);
   // find dot product of two lines
   var v1 = Vector.clone(p[1]).subtract(p[0]).normalize();
   var v2 = Vector.clone(p[2]).subtract(p[0]).normalize();
@@ -235,8 +234,8 @@ static findMinimumSimplex(p, f, tolerance, info) {
   // begin Nelder-Mead Downhill Simplex algorithm
   var md;
   while ((md = UtilEngine.maxDistance(p)) > tolerance) {
-    goog.asserts.assert(v[0] <= v[1]);
-    goog.asserts.assert(v[1] <= v[2]);
+    asserts.assert(v[0] <= v[1]);
+    asserts.assert(v[1] <= v[2]);
     counter++;
     if (UtilEngine.debugSimplex_) {
       console.log('iteration '+counter+' max dist '+Util.NF5(md));
@@ -532,7 +531,7 @@ static linesIntersect(p1, p2, p3, p4) {
 * @private
 */
 static maxDistance(p) {
-  goog.asserts.assert(p.length == 3);
+  asserts.assert(p.length == 3);
   var dist = p[0].distanceSquaredTo(p[1]);
   var d = p[0].distanceSquaredTo(p[2]);
   if (d > dist) {
@@ -749,9 +748,9 @@ static printMatrixPermutation(s, m, nrow, ncol, nf, n) {
 */
 static matrixMultiply(A, x, opt_b) {
   var n = x.length;
-  goog.asserts.assert(A.length >= n);
-  goog.asserts.assert(A[0].length >= n);
-  goog.asserts.assert(!opt_b || opt_b.length >= n);
+  asserts.assert(A.length >= n);
+  asserts.assert(A[0].length >= n);
+  asserts.assert(!opt_b || opt_b.length >= n);
   /** @type {!Array<number>}*/
   var r = new Array(n);
   for (var i=0; i<n; i++) {
@@ -831,13 +830,13 @@ static matrixSolve3(A, x, zero_tol, nrow) {
   const ZERO_TOL2 = 0.1;
   const debug = UtilEngine.MATRIX_SOLVE_DEBUG;
   const n = x.length;
-  goog.asserts.assert(A.length >= n);
-  goog.asserts.assert(A[0].length >= n+1);
+  asserts.assert(A.length >= n);
+  asserts.assert(A[0].length >= n+1);
   if (Util.DEBUG && debug) {
     console.log('maxtrixSolve3 n='+n);
   }
   // Step 1. Initialize row pointer and scaling factors
-  goog.asserts.assert(nrow.length >= n);
+  asserts.assert(nrow.length >= n);
   /** @type {!Array<number>}*/
   const ncol = new Array(n+1); // ncol = column pointers
   /** @type {!Array<number>}*/
@@ -1149,7 +1148,7 @@ static nearness(r1, r2, distTol) {
     // two curves with one concave:  use the concave radius
     r = -r2;
   }
-  goog.asserts.assert(r > 0);
+  asserts.assert(r > 0);
   if (r == Util.POSITIVE_INFINITY) {
     return distTol;
   } else {
@@ -1246,7 +1245,7 @@ static swapPointValue(v, p, i, j) {
 */
 static vectorAdd(v, u) {
   var n = v.length;
-  goog.asserts.assert(u.length == n);
+  asserts.assert(u.length == n);
   var r = new Array(n);
   for (var i=0; i<n; i++) {
     r[i] = v[i] + u[i];

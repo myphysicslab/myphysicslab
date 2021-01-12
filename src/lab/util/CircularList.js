@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.util.CircularList');
 
-goog.require('goog.asserts');
 const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
 const HistoryIterator = goog.require('myphysicslab.lab.util.HistoryIterator');
 const Util = goog.require('myphysicslab.lab.util.Util');

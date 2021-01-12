@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.engine2D.test.UtilEngineTest');
 
-goog.require('goog.asserts');
-goog.require('goog.vec.Float64Array');
 const ComputeForces = goog.require('myphysicslab.lab.engine2D.ComputeForces');
 const RandomLCG = goog.require('myphysicslab.lab.util.RandomLCG');
 const TestRig = goog.require('myphysicslab.test.TestRig');
@@ -189,7 +187,6 @@ static testRedundantMatrix3() {
         -0, -0, -0, -0, -0, -0, -0, -0.8989383, -0, -1.0205326];
   var x = new Array(n);
   // regular matrix solve is unsuccessful
-  //goog.asserts.assert(-1 != UtilEngine.matrixSolve(A, x, b));
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   //UtilEngine.printArray('x', x);
   // check that this linear combo of the rows of A is close to the b vector

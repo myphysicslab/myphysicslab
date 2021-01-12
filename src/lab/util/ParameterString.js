@@ -14,10 +14,10 @@
 
 goog.module('myphysicslab.lab.util.ParameterString');
 
-goog.require('goog.array');
-const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const array = goog.require('goog.array');
+const GenericEvent = goog.forwardDeclare('myphysicslab.lab.util.GenericEvent');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
-const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Provides access to a string value of a {@link Subject}. See {@link Parameter} for

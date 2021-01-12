@@ -35,6 +35,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const assertTrue = v => TestRig.assertTrue(v);
 const makeVars = n => Engine2DTestRig.makeVars(n);
 const schedule = testFunc => TestRig.schedule(testFunc);
 const setBodyVars = (sim, vars, i, x, vx, y, vy, w, vw) =>
@@ -507,7 +508,7 @@ static setup_six_blocks(sim, advance, v, wallsFirst) {
   if (!wallsFirst) {
     zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   }
-  goog.asserts.assert( v.length >= 36 );
+  assertTrue( v.length >= 36 );
   if (!block1)
     throw '';
   var idx = block1.getVarsIndex();

@@ -14,9 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.RigidBodySim');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.vec.Float64Array');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
@@ -322,7 +321,7 @@ setSimRect(rect) {
 */
 formatVars() {
   var v = this.varsList_.getValues(/*computed=*/true);
-  var s = goog.array.reduce(this.bods_,
+  var s = array.reduce(this.bods_,
     function(str, b) {
       return str + (str != '' ? '\n' : '') +
         UtilEngine.formatArray(v, b.getVarsIndex(), 6);
@@ -430,7 +429,7 @@ variables from the VarsList.
 removeBody(body) {
   if (this.bods_.includes(body)) {
     this.varsList_.deleteVariables(body.getVarsIndex(), 6);
-    goog.array.remove(this.bods_, body);
+    array.remove(this.bods_, body);
     body.setVarsIndex(-1);
   }
   this.getSimList().remove(body);
@@ -459,7 +458,7 @@ getBody(numOrName) {
   var bod = null;
   if (typeof numOrName === 'string') {
     var bodName = Util.toName(numOrName);
-    bod = goog.array.find(this.bods_,
+    bod = array.find(this.bods_,
       function(body, index, array) {
         return body.getName() == bodName;
       });
@@ -518,7 +517,7 @@ addForceLaw(forceLaw) {
   // When you don't realize you did it, you then get twice the amount of damping
   // or gravity, and it can be difficult to understand why.  Therefore we
   // throw an error when we detect this case.
-  var sameLaw = goog.array.find(this.forceLaws_, function(f, index, array) {
+  var sameLaw = array.find(this.forceLaws_, function(f, index, array) {
     if (forceLaw instanceof DampingLaw) {
       return f instanceof DampingLaw;
     } else if (forceLaw instanceof GravityLaw) {
@@ -545,14 +544,14 @@ removeForceLaw(forceLaw) {
   forceLaw.disconnect();
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
-  return goog.array.remove(this.forceLaws_, forceLaw);
+  return array.remove(this.forceLaws_, forceLaw);
 };
 
 /** Clears the list of ForceLaws operating in this simulation.
 * @return {undefined}
 */
 clearForceLaws() {
-  goog.array.forEachRight(this.forceLaws_, fl => this.removeForceLaw(fl));
+  array.forEachRight(this.forceLaws_, fl => this.removeForceLaw(fl));
   // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
   this.getVarsList().incrSequence(1, 2, 3);
 };
@@ -666,7 +665,7 @@ evaluate(vars, change, timeStep) {
 */
 applyForce(change, force) {
   var obj = force.getBody();
-  if (!goog.array.contains(this.bods_, obj)) {
+  if (!array.contains(this.bods_, obj)) {
     return;
   }
   var body = /** @type {!RigidBody} */(obj);
@@ -721,7 +720,7 @@ debugCircle(name, center, radius, expireTime) {
 /** @override */
 myPrint(message, colors) {
   if (Util.DEBUG) {
-    var args = goog.array.slice(arguments, 1);
+    var args = array.slice(arguments, 1);
     args.unshift('%c'+Util.NF7(this.getTime())+'%c '+message, 'color:green', 'color:black');
     console.log.apply(console, args);
   }

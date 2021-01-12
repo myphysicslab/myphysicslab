@@ -14,9 +14,11 @@
 
 goog.module('myphysicslab.lab.engine2D.StraightEdge');
 
+const asserts = goog.require('goog.asserts');
 const AbstractEdge = goog.require('myphysicslab.lab.engine2D.AbstractEdge');
 const CornerCornerCollision = goog.require('myphysicslab.lab.engine2D.CornerCornerCollision');
 const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
+const Polygon = goog.forwardDeclare('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -64,7 +66,7 @@ the Edge is outside of the body.
 */
 class StraightEdge extends AbstractEdge {
 /**
-* @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon this Edge is a part of
+* @param {!Polygon} body the Polygon this Edge is a part of
 * @param {!Vertex} vertex1 the previous Vertex, in body coords
 * @param {!Vertex} vertex2 the next Vertex, in body coords
 * @param {boolean} outsideIsUp `true` means the region above the Edge is outside of the
@@ -454,7 +456,7 @@ intersectionPossible(edge, swellage) {
 * @private
 */
 makeVertexVertex(myV, otherV, p_body, dist) {
-  goog.asserts.assert( myV.getEdge1() == this || myV.getEdge2() == this );
+  asserts.assert( myV.getEdge1() == this || myV.getEdge2() == this );
   var rbc = new CornerCornerCollision(otherV, myV);
   rbc.distance = dist;
   // rw = near point in world coords
@@ -470,7 +472,7 @@ makeVertexVertex(myV, otherV, p_body, dist) {
   // nw = normal in world coords
   var nw = this.body_.rotateBodyToWorld(nb);
   rbc.normal = nw;
-  goog.asserts.assert(this.body_ == rbc.normalBody);
+  asserts.assert(this.body_ == rbc.normalBody);
   // problem with this is that the radius is small and can change quickly
   rbc.ballObject = false;
   rbc.radius1 = Util.NaN;

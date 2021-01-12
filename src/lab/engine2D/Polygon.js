@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.Polygon');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractMassObject = goog.require('myphysicslab.lab.model.AbstractMassObject');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
@@ -423,7 +423,7 @@ addEdge(edge) {
     throw 'edge is not connected to open path';
   }
   this.edges_.push(edge);
-  goog.array.extend(this.vertices_, edge.getDecoratedVertexes());
+  array.extend(this.vertices_, edge.getDecoratedVertexes());
   if (edge.getVertex2() == this.startVertex_) {
     this.closePath();
   } else {
@@ -433,8 +433,8 @@ addEdge(edge) {
 
 /** @override */
 addNonCollide(bodies) {
-  this.nonCollideBodies_ = goog.array.join(this.nonCollideBodies_, bodies);
-  goog.array.removeDuplicates(this.nonCollideBodies_);
+  this.nonCollideBodies_ = array.join(this.nonCollideBodies_, bodies);
+  array.removeDuplicates(this.nonCollideBodies_);
 };
 
 /** Adds a StraightEdge to the open path of this Polygon, starting at the current last
@@ -542,11 +542,11 @@ checkConsistent() {
       if (e == null) {
         throw '';
       }
-      goog.asserts.assertObject(e);
-      goog.asserts.assert(e.getVertex1() == v); // starting Vertex of this Edge
+      asserts.assertObject(e);
+      asserts.assert(e.getVertex1() == v); // starting Vertex of this Edge
       // find next Vertex on this Edge
       v = e.getVertex2();
-      goog.asserts.assert(v.getEdge1() == e); // previous Edge of Vertex
+      asserts.assert(v.getEdge1() == e); // previous Edge of Vertex
     } while (v != v0);
   });
 };
@@ -572,7 +572,7 @@ closePath() {
   if (lastEdge.getVertex2() != this.startVertex_) {
     this.closePath_(this.startVertex_, lastEdge.getVertex2());
   } else {
-    goog.asserts.assert(this.startVertex_.getEdge2() == lastEdge);
+    asserts.assert(this.startVertex_.getEdge2() == lastEdge);
   }
   this.paths_.push(this.startVertex_);
   this.startVertex_ = null;
@@ -613,8 +613,8 @@ closePath_(v1, v2) {
   }
   v1.setEdge1(v2_edge1);
   v2_edge1.setVertex2(v1);
-  goog.asserts.assert(this.vertices_.includes(v2));
-  goog.array.remove(this.vertices_, v2);
+  asserts.assert(this.vertices_.includes(v2));
+  array.remove(this.vertices_, v2);
 };
 
 /** @override */
@@ -631,11 +631,11 @@ createCanvasPath(context) {
       if (e == null) {
         throw '';
       }
-      goog.asserts.assertObject(e);
-      goog.asserts.assert(e.getVertex1() == v); // starting Vertex of this Edge
+      asserts.assertObject(e);
+      asserts.assert(e.getVertex1() == v); // starting Vertex of this Edge
       // find next Vertex on this Edge
       v = e.getVertex2();
-      goog.asserts.assert(v.getEdge1() == e); // previous Edge of Vertex
+      asserts.assert(v.getEdge1() == e); // previous Edge of Vertex
       e.addPath(context);
     } while (v != v0);
     // closePath():  Closes the current subpath by drawing a straight line
@@ -1080,7 +1080,7 @@ WARNING:  For debugging only.  Does not work for complex (non-convex) shapes.
 probablyPointInside(p_body) {
   // look for an Edge with positive distance to the point,
   // which means the point is outside the body.
-  var edge = goog.array.find(this.edges_,
+  var edge = array.find(this.edges_,
     function(e, index, array) {
       return e.distanceToLine(p_body) > 0;
     }
@@ -1090,7 +1090,7 @@ probablyPointInside(p_body) {
 
 /** @override */
 removeNonCollide(bodies) {
-  goog.array.removeAllIf(this.nonCollideBodies_, body => bodies.includes(body));
+  array.removeAllIf(this.nonCollideBodies_, body => bodies.includes(body));
 };
 
 /** @override */
@@ -1130,7 +1130,7 @@ setCentroid(centroid_body) {
     // NOTE: there is a performance difference from doing this test!
     var ctrd = this.findCentroid();
     var c_dist = centroid_body.distanceTo(ctrd);
-    goog.asserts.assert(c_dist < 0.01, 'dist='+Util.NF(c_dist)+' ctrd='+ctrd
+    asserts.assert(c_dist < 0.01, 'dist='+Util.NF(c_dist)+' ctrd='+ctrd
         +' centroid_body='+centroid_body);
     if (0 == 1) {
       console.log('centroid '+centroid_body

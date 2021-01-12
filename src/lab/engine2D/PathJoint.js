@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.PathJoint');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
+const array = goog.require('goog.array');
 
 const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
@@ -113,7 +114,7 @@ addCollision(collisions, time, accuracy) {
       UtilEngine.debugEngine2D.myPrint('joint '+this.getName()
         +' is loose dist='+Util.NFE(c.distance)+' '+c);
   }
-  goog.array.insertAt(collisions, c, 0);
+  array.insertAt(collisions, c, 0);
 };
 
 /** @override */
@@ -197,7 +198,7 @@ updateCollision(c) {
   // find slope at nearest point on path to current position of attachment point
   this.path_.findNearestLocal(impact_world, this.ppt_);
   this.path_.map_p_to_slope(this.ppt_);
-  goog.asserts.assert(!isNaN(this.ppt_.slope));
+  asserts.assert(!isNaN(this.ppt_.slope));
   // Detect if the joint has moved past the end of the path.
   if (!this.path_.isClosedLoop()) {
     // If on the path, then the normal at the point on curve should intersect
@@ -216,7 +217,7 @@ updateCollision(c) {
   var attachVelocity = this.body_.getVelocity(this.attach_body_);
   // slope vector is a unit vector tangent at point, in direction of increasing p
   var slopeVector = new Vector(this.ppt_.slopeX, this.ppt_.slopeY);
-  goog.asserts.assert( Math.abs(slopeVector.lengthSquared() - 1.0) < 1E-10);
+  asserts.assert( Math.abs(slopeVector.lengthSquared() - 1.0) < 1E-10);
   var pathVelocity = attachVelocity.dotProduct(slopeVector);
   if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     // show visually the velocity vector of the attachment point

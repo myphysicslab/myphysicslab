@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.test.RigidBodySimTest');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');

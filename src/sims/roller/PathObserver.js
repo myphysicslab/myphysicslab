@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.roller.PathObserver');
 
+const array = goog.require('goog.array');
 const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
 const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
@@ -177,13 +178,13 @@ addPath(np) {
 * @private
 */
 removePath(np) {
-  var memObj = goog.array.find(this.memObjs_, element => element.simObj == np);
+  var memObj = array.find(this.memObjs_, element => element.simObj == np);
   if (memObj != null) {
     // Disconnect things to help with garbage collection.
     this.displayList_.remove(memObj.dispPath);
     memObj.obs.disconnect();
     memObj.dispPath.removePath(np);
-    goog.array.remove(this.memObjs_, memObj);
+    array.remove(this.memObjs_, memObj);
   }
 };
 

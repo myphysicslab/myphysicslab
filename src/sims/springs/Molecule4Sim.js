@@ -14,9 +14,7 @@
 
 goog.module('myphysicslab.sims.springs.Molecule4Sim');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-
+const array = goog.require('goog.array');
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const Collision = goog.require('myphysicslab.lab.model.Collision');
 const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
@@ -631,8 +629,12 @@ setDebugPaint(fn) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragAtom_ = goog.array.indexOf(this.atoms_, simObject);
-  return this.dragAtom_ > -1;
+  if (simObject instanceof PointMass) {
+    this.dragAtom_ = array.indexOf(this.atoms_, simObject);
+    return this.dragAtom_ > -1;
+  } else {
+    return false;
+  }
 };
 
 /** @override */
@@ -693,8 +695,8 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 };
 
 /**
-* @param {!Array<!myphysicslab.lab.model.Collision>} collisions
-* @param {!myphysicslab.lab.model.PointMass} atom
+* @param {!Array<!Collision>} collisions
+* @param {!PointMass} atom
 * @param {string} side which side of the wall colliding with
 * @param {number} time
 * @private

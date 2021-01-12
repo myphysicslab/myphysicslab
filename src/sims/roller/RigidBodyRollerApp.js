@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.roller.RigidBodyRollerApp');
 
+const asserts = goog.require('goog.asserts');
 const CardioidPath = goog.require('myphysicslab.sims.roller.CardioidPath');
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
 const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
@@ -194,7 +195,7 @@ graphSetup(body) {
 * @return {undefined}
 */
 config() {
-  goog.asserts.assert(this.path != null);
+  asserts.assert(this.path != null);
   if (this.resetObserver != null) {
     this.resetObserver.disconnect();
     this.resetObserver = null;

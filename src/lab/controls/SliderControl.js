@@ -14,9 +14,11 @@
 
 goog.module('myphysicslab.lab.controls.SliderControl');
 
-goog.require('goog.array');
-goog.require('goog.events');
-goog.require('goog.events.Event');
+const asserts = goog.require('goog.asserts');
+const Event = goog.require('goog.events.Event');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
 
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -219,7 +221,7 @@ constructor(parameter, min, max, multiply, increments) {
   * @private
   */
   this.paramValue_ = parameter.getValue();
-  goog.asserts.assert( typeof this.paramValue_ === 'number' );
+  asserts.assert( typeof this.paramValue_ === 'number' );
   /**
   * @type {!HTMLInputElement}
   * @private
@@ -267,40 +269,40 @@ constructor(parameter, min, max, multiply, increments) {
   this.textboxValue_ = '';
   this.textField_.textAlign = 'right';
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.sliderKey_ = goog.events.listen(this.slider_, goog.events.EventType.INPUT,
+  this.sliderKey_ = events.listen(this.slider_, EventType.INPUT,
       /*callback=*/this.sliderChange, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.sliderKey2_ = goog.events.listen(this.slider_, goog.events.EventType.CHANGE,
+  this.sliderKey2_ = events.listen(this.slider_, EventType.CHANGE,
       /*callback=*/this.sliderChange, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.clickKey2_ = goog.events.listen(this.slider_, goog.events.EventType.CLICK,
+  this.clickKey2_ = events.listen(this.slider_, EventType.CLICK,
       /*callback=*/this.doClick2, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.changeKey_ = goog.events.listen(this.textField_, goog.events.EventType.CHANGE,
+  this.changeKey_ = events.listen(this.textField_, EventType.CHANGE,
       /*callback=*/this.validateText, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.focusKey_ = goog.events.listen(this.textField_, goog.events.EventType.FOCUS,
+  this.focusKey_ = events.listen(this.textField_, EventType.FOCUS,
       /*callback=*/this.gainFocus, /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.clickKey_ = goog.events.listen(this.textField_, goog.events.EventType.CLICK,
+  this.clickKey_ = events.listen(this.textField_, EventType.CLICK,
       /*callback=*/this.doClick, /*capture=*/true, this);
   /**  True when first click in field after gaining focus.
   * @type {boolean}
@@ -369,16 +371,16 @@ decimalPlacesNeeded(x, sigDigits) {
 /** @override */
 disconnect() {
   this.parameter_.getSubject().removeObserver(this);
-  goog.events.unlistenByKey(this.sliderKey_);
-  goog.events.unlistenByKey(this.sliderKey2_);
-  goog.events.unlistenByKey(this.changeKey_);
-  goog.events.unlistenByKey(this.clickKey_);
-  goog.events.unlistenByKey(this.clickKey2_);
-  goog.events.unlistenByKey(this.focusKey_);
+  events.unlistenByKey(this.sliderKey_);
+  events.unlistenByKey(this.sliderKey2_);
+  events.unlistenByKey(this.changeKey_);
+  events.unlistenByKey(this.clickKey_);
+  events.unlistenByKey(this.clickKey2_);
+  events.unlistenByKey(this.focusKey_);
 };
 
 /**
-* @param {!goog.events.Event} evt the event that caused this callback to fire
+* @param {!Event} evt the event that caused this callback to fire
 * @private
 */
 doClick(evt) {
@@ -390,7 +392,7 @@ doClick(evt) {
 };
 
 /**
-* @param {!goog.events.Event} evt the event that caused this callback to fire
+* @param {!Event} evt the event that caused this callback to fire
 * @private
 */
 doClick2(evt) {
@@ -416,7 +418,7 @@ formatTextField() {
 };
 
 /**
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 gainFocus(event) {
@@ -578,7 +580,7 @@ setValue(value) {
 };
 
 /** Called when slider changes value.
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 sliderChange(event) {
@@ -590,7 +592,7 @@ sliderChange(event) {
 
 /** Checks that an entered number is a valid number, updates the double value
 * if valid, otherwise restores the old value.
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 validateText(event) {

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.model.AbstractMassObject');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.Rope');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');

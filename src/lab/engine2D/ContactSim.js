@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.ContactSim');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const ComputeForces = goog.require('myphysicslab.lab.engine2D.ComputeForces');
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
@@ -359,7 +359,7 @@ getExtraAccel() {
 */
 setExtraAccel(value) {
   var a = ExtraAccel.stringToEnum(value);
-  goog.asserts.assert(a == value);
+  asserts.assert(a == value);
   if (this.extra_accel_ != a) {
     this.extra_accel_ = a;
     this.broadcastParameter(RigidBodySim.en.EXTRA_ACCEL);
@@ -407,7 +407,7 @@ reset() {
 removeBody(body) {
   super.removeBody(body);
   // remove any Connectors attached to the removed body
-  goog.array.forEachRight(this.connectors_, connect => {
+  array.forEachRight(this.connectors_, connect => {
     if (connect.getBody1() == body || connect.getBody2() == body) {
       this.removeConnector(connect);
     }
@@ -431,11 +431,11 @@ addConnector(connector, follow) {
     return;
   }
   var b = connector.getBody1();
-  if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
+  if (!(array.contains(this.bods_, b) || b instanceof Scrim)) {
     throw 'body not found '+b;
   }
   b = connector.getBody2();
-  if (!(goog.array.contains(this.bods_, b) || b instanceof Scrim)) {
+  if (!(array.contains(this.bods_, b) || b instanceof Scrim)) {
     throw 'body not found '+b;
   }
   if (follow === null) {
@@ -445,7 +445,7 @@ addConnector(connector, follow) {
     if (idx < 0) {
       throw 'connector not found '+follow;
     }
-    goog.array.insertAt(this.connectors_, connector, idx+1);
+    array.insertAt(this.connectors_, connector, idx+1);
   } else {
     this.connectors_.push(connector);
   }
@@ -468,7 +468,7 @@ also a SimObject, then removes it from the {@link com.SimList}.
 @param {!Connector} connector the Connector to remove
 */
 removeConnector(connector) {
-  goog.array.remove(this.connectors_, connector);
+  array.remove(this.connectors_, connector);
   this.getSimList().remove(connector);
 };
 
@@ -523,7 +523,7 @@ evaluate(vars, change, timeStep) {
   this.findCollisions(contactsFound, vars, timeStep);
   // If there are penetrating collisions, these must be handled before
   // doing contact calculations.
-  var ccount = goog.array.count(contactsFound, c => c.illegalState());
+  var ccount = array.count(contactsFound, c => c.illegalState());
   if (ccount > 0) {
     return contactsFound;
   }
@@ -552,7 +552,7 @@ evaluate(vars, change, timeStep) {
       // remove all of subset from contactsFound, continue with remaining that
       // are left in contactsFound.
       for (var i=0, len=subset.length; i<len; i++) {
-        goog.array.remove(contactsFound, subset[i]);
+        array.remove(contactsFound, subset[i]);
       }
     }
   }
@@ -641,7 +641,7 @@ removeNonContacts(contactsFound) {
     }
     if (!c.contact()) {
       // remove non-contacts (imminent collisions) from the list
-      goog.array.removeAt(contactsFound, i);
+      array.removeAt(contactsFound, i);
       continue;
     } else {
       // compile statistics about contacts
@@ -851,7 +851,7 @@ calculate_b_vector(contacts, change, vars) {
     var fixedNBody = c.normalBody.getMass() == Util.POSITIVE_INFINITY;
     var obj = fixedObj ? -1 : c.primaryBody.getVarsIndex();
     var nobj = fixedNBody ? -1 : c.normalBody.getVarsIndex();
-    goog.asserts.assert( c.contact() );
+    asserts.assert( c.contact() );
     // Adjust acceleration to eliminate velocity at contact.
     // See notes above for how we derive a = v / h
     // totalTimeStep is overall length of time step, it is not affected by
@@ -883,7 +883,7 @@ calculate_b_vector(contacts, change, vars) {
         extrab = (2*v0*h + x0)/(h*h);
         break;
       default:
-        goog.asserts.fail();
+        asserts.fail();
     }
     b[i] += extrab;
     if (0 == 1 && Util.DEBUG && Math.abs(extrab) > 1E-10) {
@@ -931,11 +931,11 @@ calculate_b_vector(contacts, change, vars) {
           var radius;
           if (c.ballObject) {
             // Curved Edge/Curved Edge
-            goog.asserts.assert( !isNaN(c.radius1) && !isNaN(c.radius2) );
+            asserts.assert( !isNaN(c.radius1) && !isNaN(c.radius2) );
             radius = c.radius1 + c.radius2;
           } else {
             // Curved Edge/Vertex or Rope
-            goog.asserts.assert( !isNaN(c.radius2) );
+            asserts.assert( !isNaN(c.radius2) );
             radius = c.radius2;
           }
           npx =  (vx1 - w1*Ry)/radius;
@@ -948,7 +948,7 @@ calculate_b_vector(contacts, change, vars) {
       } else {
         // Straight Edge defines the normal.
         // Derivative of normal should not exist, it is only for curved edges.
-        goog.asserts.assert( c.normal_dt == null );
+        asserts.assert( c.normal_dt == null );
         npx = -w2*c.normal.getY();
         npy = w2*c.normal.getX();
         if (c.ballObject) {
@@ -959,7 +959,7 @@ calculate_b_vector(contacts, change, vars) {
             b[i] += -c.radius1*w2*w2;
         } else {
           // Straight Edge/Vertex case
-          //goog.asserts.assert( c.vertex != null || c.theConnector != null );
+          //asserts.assert( c.vertex != null || c.theConnector != null );
         }
       }
       {

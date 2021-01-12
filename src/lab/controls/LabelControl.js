@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.controls.LabelControl');
 
-goog.require('goog.events');
-goog.require('goog.events.Event');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Util = goog.require('myphysicslab.lab.util.Util');
 

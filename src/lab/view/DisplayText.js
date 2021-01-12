@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.view.DisplayText');
 
-goog.require('goog.asserts');
-
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const Util = goog.require('myphysicslab.lab.util.Util');

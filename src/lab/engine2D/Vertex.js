@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.Vertex');
 
+const Edge = goog.forwardDeclare('myphysicslab.lab.engine2D.Edge');
 const Printable = goog.require('myphysicslab.lab.util.Printable');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -24,7 +25,7 @@ mid-point Vertex is connected to only a single Edge, which is considered to be b
 'previous' and 'next' Edge in that case.
 
 See {@link myphysicslab.lab.engine2D.Polygon}, and
-{@link myphysicslab.lab.engine2D.Edge}.
+{@link Edge}.
 
 ## Decorated Mid-Point Vertexes
 
@@ -77,14 +78,14 @@ concave
 getCurvature() {}
 
 /** Returns the 'previous' Edge that this Vertex is connected to.
-@return {!myphysicslab.lab.engine2D.Edge} the 'previous' Edge that this Vertex is
+@return {!Edge} the 'previous' Edge that this Vertex is
     connected to.
 @throws {!Error} if edge1 not yet set for this Vertex
 */
 getEdge1() {}
 
 /** Returns the 'next' Edge that this Vertex is connected to.
-@return {!myphysicslab.lab.engine2D.Edge} the 'next' Edge that this Vertex is
+@return {!Edge} the 'next' Edge that this Vertex is
     connected to.
 @throws {!Error} if edge2 not yet set for this Vertex
 */
@@ -123,20 +124,20 @@ locBodyX() {}
 locBodyY() {}
 
 /** Returns the next edge, or null if not yet assigned.
-@return {?myphysicslab.lab.engine2D.Edge} edge the next edge, or `null` if not yet
+@return {?Edge} edge the next edge, or `null` if not yet
     assigned.
 */
 safeGetEdge2() {}
 
 /** Sets the 'previous' Edge that this Vertex is connected to.
-@param {!myphysicslab.lab.engine2D.Edge} edge the 'previous' Edge that this Vertex is
+@param {!Edge} edge the 'previous' Edge that this Vertex is
     connected to.
 @throws {!Error} if this Vertex was already connected to a previous Edge
 */
 setEdge1(edge) {}
 
 /** Sets the 'next' Edge that this Vertex is connected to.
-@param {!myphysicslab.lab.engine2D.Edge} edge the 'next' Edge that this Vertex is
+@param {!Edge} edge the 'next' Edge that this Vertex is
     connected to
 @throws {!Error} if this Vertex was already connected to a next Edge
 */

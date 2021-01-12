@@ -14,11 +14,7 @@
 
 goog.module('myphysicslab.lab.app.SimRunner');
 
-goog.require('goog.asserts');
-goog.require('goog.events');
-goog.require('goog.events.BrowserEvent');
-goog.require('goog.events.EventType');
-goog.require('goog.events.KeyEvent');
+const array = goog.require('goog.array');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const AdvanceStrategy = goog.require('myphysicslab.lab.model.AdvanceStrategy');
@@ -463,7 +459,7 @@ repainted and memorized after each advance of the Simulation.
     of LabCanvas's to update
 */
 removeCanvas(canvas) {
-  goog.array.remove(this.canvasList_, canvas);
+  array.remove(this.canvasList_, canvas);
   this.removeMemo(canvas);
 };
 
@@ -473,7 +469,7 @@ error occurs.
     the list of ErrorObserver objects
 */
 removeErrorObserver(errorObserver) {
-  goog.array.remove(this.errorObservers_, errorObserver);
+  array.remove(this.errorObservers_, errorObserver);
 };
 
 /** @override */

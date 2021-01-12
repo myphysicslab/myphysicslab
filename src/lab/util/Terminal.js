@@ -14,12 +14,17 @@
 
 goog.module('myphysicslab.lab.util.Terminal');
 
-goog.require('goog.array');
-goog.require('goog.events');
-goog.require('goog.events.KeyCodes');
-goog.require('goog.events.KeyEvent');
-const Util = goog.require('myphysicslab.lab.util.Util');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
+const Event = goog.require('goog.events.Event');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
+const KeyCodes = goog.require('goog.events.KeyCodes');
+const KeyEvent = goog.require('goog.events.KeyEvent');
 const Parser = goog.require('myphysicslab.lab.util.Parser');
+const Util = goog.require('myphysicslab.lab.util.Util');
+
 // GenericMemo is required only in case user wants to use it in Terminal.
 const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 
@@ -446,18 +451,18 @@ constructor(term_input, term_output) {
   */
   this.afterEvalFn_;
   /** key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.keyDownKey_ = this.term_input_ ? goog.events.listen(this.term_input_,
-        goog.events.EventType.KEYDOWN,
+  this.keyDownKey_ = this.term_input_ ? events.listen(this.term_input_,
+        EventType.KEYDOWN,
         /*callback=*/this.handleKey,  /*capture=*/false, this) : NaN;
   /** key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.changeKey_ = this.term_input_ ? goog.events.listen(this.term_input_,
-      goog.events.EventType.CHANGE, /*callback=*/this.inputCallback,
+  this.changeKey_ = this.term_input_ ? events.listen(this.term_input_,
+      EventType.CHANGE, /*callback=*/this.inputCallback,
       /*capture=*/true, this): NaN;
   /** Whether the {@link #alertOnce} function has happened.
   * @private
@@ -697,7 +702,7 @@ commands() {
     // remove leading and trailing whitespace on each command
     t = t.map(e => e.trim());
     // filter out non-commands, and the 'terminal.remember()' command
-    t = goog.array.filter(t, function(/** string */e) {
+    t = array.filter(t, function(/** string */e) {
       return e.length>2 && e.substr(0,2)== '> '
           && !e.match(/^> (terminal|this).(remember|commands)\(\s*\);?$/);
       });
@@ -712,8 +717,8 @@ commands() {
 * @return {undefined}
 */
 destroy() {
-  goog.events.unlistenByKey(this.keyDownKey_);
-  goog.events.unlistenByKey(this.changeKey_);
+  events.unlistenByKey(this.keyDownKey_);
+  events.unlistenByKey(this.changeKey_);
 };
 
 /** Replace unicode characters with the regular text. Example: `\x64` and `\u0064` are
@@ -799,8 +804,8 @@ eval(script, opt_output, opt_userInput) {
     output = false;
   }
   if (output) {
-    goog.asserts.assert(this.evalCalls_ == 1);
-    goog.asserts.assert(this.resultStack_.length == 0);
+    asserts.assert(this.evalCalls_ == 1);
+    asserts.assert(this.resultStack_.length == 0);
     // add script to session history
     this.history_.unshift(script);
     this.histIndex_ = -1;
@@ -907,7 +912,7 @@ expand(script) {
       var e = a[0]; // the non-quoted string at start of c
       c = c.slice(e.length); // remove the non-quoted string from start of c
       // process the non-quoted string with desired regexs
-      e = goog.array.reduce(this.regexs_,
+      e = array.reduce(this.regexs_,
         function(cmd, rp) {
           return cmd.replace(rp.regex, rp.replace);
         }, e);
@@ -1004,16 +1009,16 @@ forget() {
 /** Called when a key has been pressed.  Implements the `meta-K` command to clear
 * the output area, and the up/down arrow keys to scroll through
 * [session history](#sessionhistory).
-* @param {!goog.events.KeyEvent} evt the event that caused this callback to fire
+* @param {!KeyEvent} evt the event that caused this callback to fire
 */
 handleKey(evt) {
   if (this.term_input_ && this.term_output_) {
-    if (evt.metaKey && evt.keyCode==goog.events.KeyCodes.K) {
+    if (evt.metaKey && evt.keyCode==KeyCodes.K) {
       // cmd-K = clear all terminal output
       this.term_output_.value = '';
       evt.preventDefault();
-    } else if (evt.keyCode==goog.events.KeyCodes.UP ||
-          evt.keyCode==goog.events.KeyCodes.DOWN) {
+    } else if (evt.keyCode==KeyCodes.UP ||
+          evt.keyCode==KeyCodes.DOWN) {
       // arrow up/down keys = get terminal session history
       // save current contents of input to history if it is non-empty and was user-input
       if (this.histIndex_ == -1 && this.term_input_.value != '') {
@@ -1022,13 +1027,13 @@ handleKey(evt) {
         // pretend we were just displaying the first history item
         this.histIndex_ = 0;
       }
-      if (evt.keyCode==goog.events.KeyCodes.UP) {
+      if (evt.keyCode==KeyCodes.UP) {
         if (this.histIndex_ < this.history_.length-1) {
           // there is more session history available
           this.histIndex_++;
           this.term_input_.value = this.history_[this.histIndex_];
         }
-      } else if (evt.keyCode==goog.events.KeyCodes.DOWN) {
+      } else if (evt.keyCode==KeyCodes.DOWN) {
         if (this.histIndex_ > 0) {
           // there is more session history available
           this.histIndex_--;
@@ -1040,7 +1045,7 @@ handleKey(evt) {
         }
       }
       evt.preventDefault();
-    } else if (evt.keyCode==goog.events.KeyCodes.ENTER) {
+    } else if (evt.keyCode==KeyCodes.ENTER) {
       // This fixes a problem:
       // When we change term_input to show a history text (with arrow keys), but then
       // typing return key has no effect unless and until some character is typed
@@ -1058,12 +1063,12 @@ handleKey(evt) {
 hasRegex(q) {
   var regex = q.regex.toString();
   var replace = q.replace;
-  return goog.array.some(this.regexs_,
+  return array.some(this.regexs_,
     r => r.replace == replace && r.regex.toString() == regex);
 };
 
 /** This callback fires when the textbox 'changes' (usually from focus lost).
-* @param {!goog.events.Event} evt the event that caused this callback to fire
+* @param {!Event} evt the event that caused this callback to fire
 * @private
 */
 inputCallback(evt) {
@@ -1237,7 +1242,7 @@ replaceVar(script) {
   if (m) {
     // suppose the script was 'var foo = 3;'
     // Add a regexp that replaces 'foo' with 'z.foo', and remove 'var' from script
-    goog.asserts.assert(m.length >= 3);
+    asserts.assert(m.length >= 3);
     var varName = m[1];
     // important to prepend because the regexp's are executed in order
     this.addRegex(varName, 'z.', /*addToVars=*/true, /*prepend=*/true);
@@ -1443,7 +1448,7 @@ static stdRegex(terminal) {
 */
 vars() {
   var v = this.vars_.split('|');
-  goog.array.sort(v);
+  array.sort(v);
   return v;
 };
 

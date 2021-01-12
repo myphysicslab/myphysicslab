@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.model.AbstractODESim');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');

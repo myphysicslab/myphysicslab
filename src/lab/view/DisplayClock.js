@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.view.DisplayClock');
 
-goog.require('goog.asserts');
-
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');

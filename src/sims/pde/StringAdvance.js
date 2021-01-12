@@ -13,9 +13,9 @@
 // limitations under the License.
 
 goog.module('myphysicslab.sims.pde.StringAdvance');
-goog.forwardDeclare('myphysicslab.sims.pde.StringSim');
 
 const AdvanceStrategy = goog.require('myphysicslab.lab.model.AdvanceStrategy');
+const StringSim = goog.forwardDeclare('myphysicslab.sims.pde.StringSim');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** This is an Adapter that forwards to {@link StringSim}.
@@ -23,11 +23,11 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 */
 class StringAdvance {
 /**
-* @param {!myphysicslab.sims.pde.StringSim} sim
+* @param {!StringSim} sim
 */
 constructor(sim) {
   /**
-  * @type {!myphysicslab.sims.pde.StringSim}
+  * @type {!StringSim}
   * @private
   */
   this.sim_ = sim;

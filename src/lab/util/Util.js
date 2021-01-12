@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.util.Util');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 /** Provides static utility functions.
 */
@@ -80,7 +80,7 @@ static colorString3(red, green, blue) {
   for (var i=0; i<3; i++) {
     s += Util.numToHexChar1(colors[i]);
   }
-  goog.asserts.assert( s.length == 4 );
+  asserts.assert( s.length == 4 );
   return s;
 };
 
@@ -98,7 +98,7 @@ static colorString6(red, green, blue) {
   for (var i=0; i<3; i++) {
     s += Util.numToHexChar2(colors[i]);
   }
-  goog.asserts.assert( s.length == 7 );
+  asserts.assert( s.length == 7 );
   return s;
 };
 
@@ -215,7 +215,7 @@ static methodsOf(obj) {
       }
     }
   }
-  goog.array.sort(s);
+  array.sort(s);
   return s;
 };
 
@@ -698,7 +698,7 @@ static propertiesOf(obj, showValues) {
       s.push(p);
     }
   }
-  goog.array.sort(s);
+  array.sort(s);
   return s;
 };
 
@@ -737,7 +737,7 @@ static setErrorHandler() {
   if (goog.DEBUG && !Util.ADVANCED) {
     try {
       var a = 1;
-      goog.asserts.assert(1 == 0);
+      asserts.assert(1 == 0);
       a = 2;
     } catch(e) {
       console.log('asserts are working');
@@ -837,7 +837,7 @@ static uniqueElements(arr) {
     for (var i=0; i<len; i++) {
       a[i] = arr[i];
     }
-    goog.array.sort(a);
+    array.sort(a);
     var last = /** @type {string} */(a[0]);
     for (i=1; i<len; i++) {
       if (last == a[i]) {

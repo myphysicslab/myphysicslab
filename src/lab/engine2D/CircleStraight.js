@@ -14,6 +14,9 @@
 
 goog.module('myphysicslab.lab.engine2D.CircleStraight');
 
+const asserts = goog.require('goog.asserts');
+const CircularEdge = goog.forwardDeclare('myphysicslab.lab.engine2D.CircularEdge');
+const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
 const EdgeEdgeCollision = goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -40,14 +43,14 @@ constructor() {
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
 positions and velocities of the RigidBodys.
 * @param {!EdgeEdgeCollision} rbc
-* @param {!myphysicslab.lab.engine2D.CircularEdge} circle
-* @param {!myphysicslab.lab.engine2D.StraightEdge} straight
+* @param {!CircularEdge} circle
+* @param {!StraightEdge} straight
 */
 static improveAccuracy(rbc, circle, straight) {
   var circleBody = circle.getBody();
   var straightBody = straight.getBody();
-  goog.asserts.assert( rbc.getPrimaryBody() == circleBody);
-  goog.asserts.assert( rbc.getNormalBody() == straightBody);
+  asserts.assert( rbc.getPrimaryBody() == circleBody);
+  asserts.assert( rbc.getNormalBody() == straightBody);
   var oldX = rbc.impact1.getX();
   var oldY = rbc.impact1.getY();
   // The scenario is:  collision between a circle and straight happened,
@@ -94,8 +97,8 @@ static improveAccuracy(rbc, circle, straight) {
 * is detected, adds an EdgeEdgeCollision to the given array.
 * @param {!Array<!RigidBodyCollision>} collisions any new
 *    collision will be added to this array
-* @param {!myphysicslab.lab.engine2D.StraightEdge} straight
-* @param {!myphysicslab.lab.engine2D.CircularEdge} circle
+* @param {!StraightEdge} straight
+* @param {!CircularEdge} circle
 @param {number} time current simulation time
 */
 static testCollision(collisions, straight, circle, time) {
@@ -127,7 +130,7 @@ static testCollision(collisions, straight, circle, time) {
     if (dist2 == Util.POSITIVE_INFINITY) { // center is not 'next to' the edge
       return;
     }
-    goog.asserts.assert( Math.abs(dist - dist2) < 1e-8 );
+    asserts.assert( Math.abs(dist - dist2) < 1e-8 );
     // pw must be within the arc
     if (!circle.isWithinArc2(pw)) {
       // In this case, the vertex on the arc is nearest point
@@ -218,8 +221,8 @@ static testCollision(collisions, straight, circle, time) {
 /**
 * @param {boolean} contact whether to make a contact (true) or collision (false)
 * @param {!Array<!RigidBodyCollision>} collisions
-* @param {!myphysicslab.lab.engine2D.StraightEdge} straight
-* @param {!myphysicslab.lab.engine2D.CircularEdge} circle
+* @param {!StraightEdge} straight
+* @param {!CircularEdge} circle
 * @param {number} dist
 * @param {!Vector} pw
 * @param {!Vector} pb
@@ -228,12 +231,12 @@ static testCollision(collisions, straight, circle, time) {
 */
 static addCollision(contact, collisions, straight, circle, dist, pw, pb, time) {
   var rbc = new EdgeEdgeCollision(circle, straight);
-  goog.asserts.assert( circle.outsideIsOut() );
+  asserts.assert( circle.outsideIsOut() );
   rbc.ballNormal = false;
   rbc.ballObject = true;
   rbc.radius1 = circle.getRadius();
   rbc.radius2 = Util.POSITIVE_INFINITY;
-  goog.asserts.assert( rbc.radius1 > 0 );  // only convex circles here.
+  asserts.assert( rbc.radius1 > 0 );  // only convex circles here.
   if (contact) {
     // add the gap distance to the radius, for better accuracy in contact
     // force calculation (improves stability of contact distance)

@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.roller.RollerSingleSim');
 
+const asserts = goog.require('goog.asserts');
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
@@ -369,7 +370,7 @@ evaluate(vars, change, timeStep) {
           throw '';
       }
       var force = this.spring_.calculateForces()[0];
-      goog.asserts.assert( force.getBody() == this.ball1_);
+      asserts.assert( force.getBody() == this.ball1_);
       var f = force.getVector();
       change[1] += f.dotProduct(tangent) / this.ball1_.getMass();
     }

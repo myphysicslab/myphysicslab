@@ -13,9 +13,7 @@
 // limitations under the License.
 goog.module('myphysicslab.lab.app.RigidBodyEventHandler');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.events.KeyCodes');
+const KeyCodes = goog.require('goog.events.KeyCodes');
 
 const Clock = goog.require('myphysicslab.lab.util.Clock');
 const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
@@ -263,7 +261,6 @@ resetDrag() {
 handleKeyEvent(keyCode, pressed, keyEvent) {
   //console.log('RBEH.handleKeyEvent keyCode:'+keyCode+'  pressed: '+pressed
   //  +' event:'+Util.propertiesOf(keyEvent, true));
-  var KeyCodes = goog.events.KeyCodes;
   var thrustRight = this.thrustRight_;
   var thrustLeft = this.thrustLeft_;
   if (keyEvent.ctrlKey || keyEvent.metaKey || keyEvent.altKey)

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.JointUtil');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');

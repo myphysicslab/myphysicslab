@@ -14,9 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.ComputeForces');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.vec.Float64Array');
+const asserts = goog.require('goog.asserts');
+const array = goog.require('goog.array');
 
 const Random = goog.require('myphysicslab.lab.util.Random');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -557,11 +556,11 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       // check that only one of C, NC, or R are true
       for (let i=0; i<n; i++) {
         if (C[i])
-          goog.asserts.assert(!NC[i] && !R[i]);
+          asserts.assert(!NC[i] && !R[i]);
         if (NC[i])
-          goog.asserts.assert(!C[i] && !R[i]);
+          asserts.assert(!C[i] && !R[i]);
         if (R[i])
-          goog.asserts.assert(!C[i] && !NC[i]);
+          asserts.assert(!C[i] && !NC[i]);
       }
     }
     // if any contact has not yet been treated, then no loop yet
@@ -593,7 +592,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       if (Util.DEBUG && debugCF) {
         UtilEngine.printList('state', state);
       }
-      if (goog.array.equals(state, states[i])) {
+      if (array.equals(state, states[i])) {
         if (Util.DEBUG && WARNINGS) {
           const accelOld = accels[i];
           const accelMin = UtilEngine.minValue(accels);
@@ -810,7 +809,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         let accel = UtilEngine.matrixMultiply(A, f);
         accel = UtilEngine.vectorAdd(accel, b);
         const minAccel2 = UtilEngine.minValue(accel);
-        //goog.asserts.assert(Math.abs(minAccel) < 2E-8);
+        //asserts.assert(Math.abs(minAccel) < 2E-8);
         const minAccel = UtilEngine.minValue(a, n);
         print('min accel = '+Util.NFE(minAccel)
             +' min accel2 = '+Util.NFE(minAccel2)
@@ -862,7 +861,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     let j = -1;
     //  d is the contact whose acceleration we are trying to drive to zero.
     //  d is neither in C nor NC.
-    goog.asserts.assert(!C[d] && !NC[d]);
+    asserts.assert(!C[d] && !NC[d]);
     //  Figure the stepsize that would drive the acceleration to zero at contact d.
     if (joint[d]) {
       j = d;
@@ -872,7 +871,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       // it to zero.
       // It is OK if delta_a[d] is tiny, that will result in a huge step,
       // which will likely be limited by other contacts.
-      goog.asserts.assert(a[d] < -SMALL_POSITIVE);
+      asserts.assert(a[d] < -SMALL_POSITIVE);
       j = d;
       s = -a[d]/delta_a[d];
     } else {
@@ -997,7 +996,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       delta_f[i] = 0;
     }
     delta_f[d] = 1;
-    goog.asserts.assert(!C[d]);
+    asserts.assert(!C[d]);
     const c = UtilEngine.countBoolean(C, n);  // number of elements in set C
     if (c > 0) {
       // Acc is an augmented matrix: the last column is for vector v1
@@ -1033,7 +1032,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         }
       }
       if (error != -1) {
-        goog.asserts.fail();
+        asserts.fail();
         return -999999;
       }
       // transfer x into delta_f
@@ -1064,7 +1063,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     // Set up the matrix Acc as though d is in C, and solve a sample problem but
     // only to get the matrix in upper triangular form, so that we can
     // calculate the condition number of the matrix Acc.
-    goog.asserts.assert(!C[d]);
+    asserts.assert(!C[d]);
     // c = 1 + number of elements in set C
     const c = 1 + UtilEngine.countBoolean(C, n);
     const Acc = resizeMatrix(c);
@@ -1114,7 +1113,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     // Set up the matrix Acc as though d and k are in C, and solve a sample problem but
     // only to get the matrix in upper triangular form, so that we can
     // calculate the condition number of the matrix Acc.
-    goog.asserts.assert(!C[d] && !C[e]);
+    asserts.assert(!C[d] && !C[e]);
     // c = 2 + number of elements in set C
     const c = 2 + UtilEngine.countBoolean(C, n);
     const Acc = resizeMatrix(c);
@@ -1247,9 +1246,9 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       contact to defer till later, or negative integer means general failure.
   */
   const drive_to_zero = (d) => {
-    goog.asserts.assert(n <= f.length);
-    goog.asserts.assert(!C[d]);
-    goog.asserts.assert(!NC[d]);
+    asserts.assert(n <= f.length);
+    asserts.assert(!C[d]);
+    asserts.assert(!NC[d]);
     if (debugCF && Util.DEBUG) {
       print('drive_to_zero d='+d+' a['+d+']='+Util.NFE(a[d])
         +' joint='+joint[d]+' N='+n);
@@ -1351,11 +1350,11 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
             printEverything('maxStep failed but f[d]>0, d='+d+' j='+j, false);
           }
           // If this assert ever happens, we need to debug it.
-          //goog.asserts.fail();
+          //asserts.fail();
           return -2;  // general error, unable to drive d to zero accel
         }
       }
-      goog.asserts.assert(j > -1);
+      asserts.assert(j > -1);
       if (debugCF && Util.DEBUG) {
         printContact(' maxStep', false, j, d, loopCtr);
       }
@@ -1375,7 +1374,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
               +' while driving d='+d+' N='+n);
           }
           // defer solving this contact by adding to rejects, then continue on
-          goog.asserts.assert(Math.abs(f[j]) < 10*SMALL_POSITIVE);
+          asserts.assert(Math.abs(f[j]) < 10*SMALL_POSITIVE);
           C[j] = false;
           NC[j] = false;
           R[j] = true;
@@ -1400,7 +1399,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
       if (DEFER_SINGULAR && NC[j]) {
         // because j is in NC, it must have zero force.
-        goog.asserts.assert(Math.abs(f[j]) < SMALL_POSITIVE);
+        asserts.assert(Math.abs(f[j]) < SMALL_POSITIVE);
         // maxStep is asking to move j from NC to C,
         // check whether this will make Acc+d+j matrix singular.
         // (alternative:  if f[d] = 0, could instead check if Acc+j is singular)
@@ -1437,7 +1436,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       // driven-to-zero later on.
       if (C[j]) {
         // This is moving from C to NC, we've just reduced the force to near zero.
-        goog.asserts.assert(Math.abs(f[j]) <= SMALL_POSITIVE);
+        asserts.assert(Math.abs(f[j]) <= SMALL_POSITIVE);
         if (Math.abs(a[j]) > SMALL_POSITIVE) {
           // A contact in C, should have zero accel, but errors have
           // accumulated to give this a non-zero accel.
@@ -1460,10 +1459,10 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         } else {
           C[j] = false;
           NC[j] = true;
-          goog.asserts.assert(!R[j]);  // it was in C, so not in R
+          asserts.assert(!R[j]);  // it was in C, so not in R
         }
       } else if (NC[j]) {
-        goog.asserts.assert(Math.abs(a[j]) <= SMALL_POSITIVE);
+        asserts.assert(Math.abs(a[j]) <= SMALL_POSITIVE);
         if (Math.abs(f[j]) > SMALL_POSITIVE) {
           // A contact in NC, should have zero force, but errors have
           // accumulated to give this a non-zero force.
@@ -1482,7 +1481,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         } else {
           C[j] = true;
           NC[j] = false;
-          goog.asserts.assert(!R[j]);  // it was in NC, so not in R
+          asserts.assert(!R[j]);  // it was in NC, so not in R
         }
       } else if (j == d) {
         // If j is not in C or NC, then j is the one we are driving to zero, ie. j = d
@@ -1491,7 +1490,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
         // We continue the loop, which will end when a[d] = 0.
       } else {
         // when j is in neither C nor NC, then we just deferred it.
-        goog.asserts.assert(R[j]);
+        asserts.assert(R[j]);
         if (0 == 1 && WARNINGS && Util.DEBUG) {
           print('we probably just deferred something.  j='+j+' d='+d);
           printContact('we probably deferred', false, j, d, loopCtr);
@@ -1503,7 +1502,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     NC[d] = !C[d];
     //R[d] = false;  don't do this here; done in loop outside
     // If we applied some force at f[d], it must be in C, otherwise in NC.
-    goog.asserts.assert( (Math.abs(f[d]) > SMALL_POSITIVE && C[d])
+    asserts.assert( (Math.abs(f[d]) > SMALL_POSITIVE && C[d])
           || (Math.abs(f[d]) <= SMALL_POSITIVE && NC[d]) );
     if (debugCF && Util.DEBUG) {
       print('drive_to_zero finish d='+d
@@ -1582,7 +1581,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
     }
     if (error > -1) {
       // Positive integer gives index of contact to defer till later.
-      goog.asserts.assert(error < n);
+      asserts.assert(error < n);
       C[error] = false;
       NC[error] = false;
       R[error] = true;
@@ -1597,7 +1596,7 @@ compute_forces(A, f, b, joint, debugCF, time, tolerance) {
       }
       return error;
     } else {
-      goog.asserts.assert(error == -1);
+      asserts.assert(error == -1);
       // -1 means success, so remove d from rejects list (if it was on the list)
       // and reset the reRejects list.
       reRejects.length = 0;

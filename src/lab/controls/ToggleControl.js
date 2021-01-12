@@ -14,10 +14,10 @@
 
 goog.module('myphysicslab.lab.controls.ToggleControl');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.events');
-goog.require('goog.events.Event');
+const Event = goog.require('goog.events.Event');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
 
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -77,10 +77,10 @@ constructor(parameter, imageOn, imageOff) {
   this.button_.appendChild(imageOn);
   this.button_.appendChild(imageOff);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.clickKey_ = goog.events.listen(this.button_, goog.events.EventType.CLICK,
+  this.clickKey_ = events.listen(this.button_, EventType.CLICK,
       /*callback=*/this.handleClick, /*capture=*/true, this);
   this.parameter_.getSubject().addObserver(this);
 };
@@ -101,7 +101,7 @@ toStringShort() {
 /** @override */
 disconnect() {
   this.parameter_.getSubject().removeObserver(this);
-  goog.events.unlistenByKey(this.clickKey_);
+  events.unlistenByKey(this.clickKey_);
 };
 
 /** @override */
@@ -123,7 +123,7 @@ getState() {
 };
 
 /** This callback fires when the button is clicked.
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 handleClick(event) {

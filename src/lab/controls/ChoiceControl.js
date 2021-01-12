@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.controls.ChoiceControl');
 
+const array = goog.require('goog.array');
 const ChoiceControlBase = goog.require('myphysicslab.lab.controls.ChoiceControlBase');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -123,7 +124,7 @@ observe(event) {
 rebuildMenu() {
   var newChoices = this.parameter_.getChoices();
   // Does the current menu match the current set of choices?  If so, do nothing.
-  if (!goog.array.equals(this.choices, newChoices)) {
+  if (!array.equals(this.choices, newChoices)) {
     this.setChoices(newChoices, this.parameter_.getValues());
   }
 };

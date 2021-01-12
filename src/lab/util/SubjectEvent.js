@@ -15,13 +15,14 @@
 goog.module('myphysicslab.lab.util.SubjectEvent');
 
 const Printable = goog.require('myphysicslab.lab.util.Printable');
+const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Provides information about an event that has happened to a
-{@link myphysicslab.lab.util.Subject Subject}. A SubjectEvent has a name, a value,
+{@link Subject Subject}. A SubjectEvent has a name, a value,
 and can identify which Subject broadcast the event.
 
-See {@link myphysicslab.lab.util.Subject} for more extensive documentation.
+See {@link Subject} for more extensive documentation.
 
 * @interface
 */
@@ -41,7 +42,7 @@ underscore, see {@link Util#toName} and {@link #nameEquals}.
 getName(opt_localized) {}
 
 /** Returns the Subject to which this SubjectEvent refers.
-@return {!myphysicslab.lab.util.Subject} the Subject to which this SubjectEvent refers.
+@return {!Subject} the Subject to which this SubjectEvent refers.
 */
 getSubject() {}
 

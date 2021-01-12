@@ -14,10 +14,9 @@
 
 goog.module('myphysicslab.lab.engine2D.EdgeSet');
 
-var Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
 
-/** Specifies a set of {@link myphysicslab.lab.engine2D.Edge}s of a
-{@link myphysicslab.lab.engine2D.Polygon}.
+/** Specifies a set of {@link Edge}s of a {@link myphysicslab.lab.engine2D.Polygon}.
 * @interface
 */
 class EdgeSet {

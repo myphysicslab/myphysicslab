@@ -14,8 +14,7 @@
 
 goog.module('myphysicslab.sims.springs.CollideSpringApp');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
@@ -86,7 +85,7 @@ constructor(elem_ids) {
 
   // The observe() method will make DisplayObjects in response to seeing SimObjects
   // being added to the SimList.  Important that no SimObjects were added prior.
-  goog.asserts.assert(this.simList.length() == 0);
+  asserts.assert(this.simList.length() == 0);
   this.simList.addObserver(this);
   sim.config(this.numBlocks, this.startPosition, this.startGap);
 

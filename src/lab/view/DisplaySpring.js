@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.view.DisplaySpring');
 
-goog.require('goog.asserts');
-
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const Spring = goog.require('myphysicslab.lab.model.Spring');

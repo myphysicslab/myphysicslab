@@ -15,6 +15,7 @@
 goog.module('myphysicslab.lab.engine2D.AbstractEdge');
 
 const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const Polygon = goog.forwardDeclare('myphysicslab.lab.engine2D.Polygon');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -43,7 +44,7 @@ const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 */
 class AbstractEdge {
 /**
-* @param {!myphysicslab.lab.engine2D.Polygon} body the Polygon this Edge belongs to
+* @param {!Polygon} body the Polygon this Edge belongs to
 * @param {!Vertex} vertex1 the previous vertex, in body
   coords; matches the next (second) vertex of the previous edge
 * @param {!Vertex} vertex2 the next vertex, in body coords
@@ -62,7 +63,7 @@ constructor(body, vertex1, vertex2) {
   this.v2_ = vertex2;
   /** the 'center' of this edge, an arbitrary point selected to minimize the centroid
   * radius of this edge
-  * @type {!myphysicslab.lab.util.Vector}
+  * @type {!Vector}
   * @protected
   */
   this.centroid_body_ = this.v1_.locBody().add(this.v2_.locBody()).multiply(0.5);
@@ -78,7 +79,7 @@ constructor(body, vertex1, vertex2) {
   */
   this.centroidRadius_ = Util.NaN;
   /** the Polygon that this edge is a part of
-  * @type {!myphysicslab.lab.engine2D.Polygon}
+  * @type {!Polygon}
   * @protected
   */
   this.body_ = body;

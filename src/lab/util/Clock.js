@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.util.Clock');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ClockTask = goog.require('myphysicslab.lab.util.ClockTask');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
@@ -344,7 +344,7 @@ pause() {
 @param {!ClockTask} task the ClockTask to remove
 */
 removeTask(task) {
-  goog.array.remove(this.tasks_, task);
+  array.remove(this.tasks_, task);
   task.cancel();
 };
 
@@ -443,9 +443,9 @@ setTimeRate(rate) {
     this.setTimePrivate(t);
     this.setRealTime(sysT);
     var diff = Math.abs(t - this.getTime());
-    goog.asserts.assert(diff < 2E-3, 'time diff='+diff);
+    asserts.assert(diff < 2E-3, 'time diff='+diff);
     diff = Math.abs(sysT - this.getRealTime());
-    goog.asserts.assert(diff < 2E-3, 'realTime diff='+diff);
+    asserts.assert(diff < 2E-3, 'realTime diff='+diff);
     this.broadcastParameter(Clock.en.TIME_RATE);
   };
 };
@@ -462,7 +462,7 @@ Simulation to match the current clock time, and then call {@link #clearStepMode}
 step(timeStep) {
   this.pause();
   this.stepMode_ = true;
-  goog.asserts.assertNumber(timeStep);
+  asserts.assertNumber(timeStep);
   var startStepTime = this.saveTime_secs_;
   this.saveTime_secs_ += timeStep;
   this.saveRealTime_secs_ += timeStep;

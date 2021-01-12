@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.view.test.DisplayListTest');
 
-goog.require('goog.array');
 const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');

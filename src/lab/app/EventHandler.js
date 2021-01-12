@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.app.EventHandler');
 
-goog.require('goog.events.BrowserEvent');
+const BrowserEvent = goog.require('goog.events.BrowserEvent');
 
 const Printable = goog.require('myphysicslab.lab.util.Printable');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
@@ -49,7 +49,7 @@ the SimObject then it should return `false`.
     SimObject in body coordinates of the SimObject; this is where for example a spring
     will be attached on the SimObject when dragging; or `null` when no SimObject
     was found
-@param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
+@param {!BrowserEvent} mouseEvent the original BrowserEvent
 @return {boolean} `true` if the EventHandler will handle dragging the SimObject
 */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {}
@@ -71,7 +71,7 @@ smoothly along with the mouse movement.
 @param {!Vector} offset distance from the initial object position (from
     [DisplayObject#getPosition](myphysicslab.lab.view.DisplayObject.html#getPosition))
     to the mouse location at start of drag.
-@param {!goog.events.BrowserEvent} mouseEvent the original BrowserEvent
+@param {!BrowserEvent} mouseEvent the original BrowserEvent
 */
 mouseDrag(simObject, location, offset, mouseEvent) {}
 
@@ -95,7 +95,7 @@ for that event.
 @param {number} keyCode the key code of the key that was pressed
 @param {boolean} pressed `true` means this is a key-down event; `false` means a key-up
     event
-@param {!goog.events.BrowserEvent} keyEvent the original BrowserEvent
+@param {!BrowserEvent} keyEvent the original BrowserEvent
 */
 handleKeyEvent(keyCode, pressed, keyEvent) {}
 

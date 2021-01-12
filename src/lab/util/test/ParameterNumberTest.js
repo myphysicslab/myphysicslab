@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.test.ParameterNumberTest');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -497,7 +497,7 @@ static testParameterNumber4() {
       MockSubject4.BAZ,
       () => mockSubj2.getBaz(),
       a => mockSubj2.setBaz(a),
-      bazChoices, goog.array.range(bazChoices.length)
+      bazChoices, array.range(bazChoices.length)
       );
   mockSubj2.addParameter(paramBaz);
   assertEquals(MockSubject4.BAZ, paramBaz.getName());

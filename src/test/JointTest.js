@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.test.JointTest');
 
+const array = goog.require('goog.array');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
@@ -356,7 +357,7 @@ static pendulum_2_joints_offset_setup(sim, advance) {
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(5.0, sim.getSimList()));
   // show the line that joint1 travels on
-  var joint =  /** @type {?Joint} */(goog.array.find(sim.getSimList().toArray(),
+  var joint =  /** @type {?Joint} */(array.find(sim.getSimList().toArray(),
       function(obj, index, array) { return obj.getName() == 'JOINT1';}));
   var line;
   if (joint != null) {
@@ -366,7 +367,7 @@ static pendulum_2_joints_offset_setup(sim, advance) {
     sim.getSimList().add(line);
   }
   // show the line that joint0 travels on
-  joint = /** @type {?Joint} */(goog.array.find(sim.getSimList().toArray(),
+  joint = /** @type {?Joint} */(array.find(sim.getSimList().toArray(),
       function(obj, index, array) { return obj.getName() == 'JOINT0'; }));
   if (joint != null) {
     line = new ConcreteLine('joint0_line', joint.getPosition1().add(new Vector(0, -4)),

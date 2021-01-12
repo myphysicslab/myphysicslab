@@ -14,6 +14,8 @@
 
 goog.module('myphysicslab.sims.springs.Molecule5App');
 
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
@@ -78,7 +80,7 @@ constructor(elem_ids, numAtoms) {
   // The observe() method will make DisplayObjects in response to seeing SimObjects
   // being added to the SimList.  Important that no SimObjects were added prior.
   // Except for the walls.
-  goog.asserts.assert(this.simList.length() == 1);
+  asserts.assert(this.simList.length() == 1);
   this.simList.addObserver(this);
   this.addBody(this.sim_.getWalls());
 
@@ -256,7 +258,7 @@ constructor(elem_ids, numAtoms) {
       if (this.residualEnergySamples_.length > 100) {
         this.residualEnergySamples_.shift();
       }
-      var max = goog.array.reduce(this.residualEnergySamples_,
+      var max = array.reduce(this.residualEnergySamples_,
         function(prev, cur) {
           return Math.max(prev, cur);
         }, /*initial value=*/0);
@@ -552,7 +554,7 @@ getSpring(index1, index2) {
   }
   var atom1 = this.sim_.getAtoms()[index1-1];
   var atom2 = this.sim_.getAtoms()[index2-1];
-  return goog.array.find(this.sim_.getSprings(), spr => {
+  return array.find(this.sim_.getSprings(), spr => {
     if (spr.getBody1() == atom1 && spr.getBody2() == atom2) {
       return true;
     } else if (spr.getBody1() == atom2 && spr.getBody1() == atom1) {

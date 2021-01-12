@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.engine2D.TestBodyApp');
 
-goog.require('goog.array');
-
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');

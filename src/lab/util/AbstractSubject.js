@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.AbstractSubject');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -115,7 +115,7 @@ doCommands() {
           this.observers_.push(cmd.observer);
         }
       } else {
-        goog.array.remove(this.observers_, cmd.observer);
+        array.remove(this.observers_, cmd.observer);
       }
     }
     this.commandList_ = [];
@@ -194,7 +194,7 @@ getObservers() {
 */
 getParam(name) {
   name = Util.toName(name);
-  return goog.array.find(this.paramList_, p => p.getName() == name);
+  return array.find(this.paramList_, p => p.getName() == name);
 };
 
 /** @override */
@@ -253,7 +253,7 @@ removeObserver(observer) {
 @param {!Parameter} parameter the Parameter to remove
 */
 removeParameter(parameter) {
-  goog.array.remove(this.paramList_, parameter);
+  array.remove(this.paramList_, parameter);
 };
 
 /** Sets whether this Subject will broadcast events, typically used to temporarily

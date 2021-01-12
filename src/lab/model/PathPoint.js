@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.model.PathPoint');
 
+const asserts = goog.require('goog.asserts');
 const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -167,7 +168,7 @@ PathPoint. The normal line passes thru this PathPoint's {@link #getPosition loca
 distanceToNormalLine(point) {
   //console.log('PathPoint.distanceToNormalLine '+this.toString());
   var err = Math.abs(this.normalX*this.normalX + this.normalY*this.normalY - 1);
-  goog.asserts.assert( err < 1E-15);
+  asserts.assert( err < 1E-15);
   if (Math.abs(this.normalX) < 1E-16) {
     // vertical normal
     return Math.abs(point.getX() - this.x);

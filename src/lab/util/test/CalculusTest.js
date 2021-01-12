@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.util.test.CalculusTest');
 
-goog.require('goog.asserts');
 const Calculus = goog.require('myphysicslab.lab.util.Calculus');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 

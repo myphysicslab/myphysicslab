@@ -14,8 +14,7 @@
 
 goog.module('myphysicslab.sims.springs.CollideSpringSim');
 
-goog.require('goog.asserts');
-goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
@@ -417,16 +416,20 @@ moveObjects(vars) {
 
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
-  this.dragIdx_ = this.blocks_.indexOf(simObject);
-  if (this.dragIdx_ < 0) {
-    return false;
+  if (simObject instanceof PointMass) {
+    this.dragIdx_ = this.blocks_.indexOf(simObject);
+    if (this.dragIdx_ < 0) {
+      return false;
+    } else {
+      this.mouse_.setPosition(location);
+      this.dragSpring_ = new Spring('drag spring', this.mouse_, Vector.ORIGIN,
+          this.blocks_[this.dragIdx_], Vector.ORIGIN,
+          /*restLength=*/0, /*stiffness=*/1);
+      this.getSimList().add(this.dragSpring_);
+      return true;
+    }
   } else {
-    this.mouse_.setPosition(location);
-    this.dragSpring_ = new Spring('drag spring', this.mouse_, Vector.ORIGIN,
-        this.blocks_[this.dragIdx_], Vector.ORIGIN,
-        /*restLength=*/0, /*stiffness=*/1);
-    this.getSimList().add(this.dragSpring_);
-    return true;
+    return false;
   }
 };
 
@@ -477,7 +480,7 @@ evaluate(vars, change, timeStep) {
     });
     // apply spring force when dragging
     if (this.dragSpring_ != null && this.dragIdx_ == listIdx) {
-      goog.asserts.assert(this.dragSpring_.getBody2() == block);
+      asserts.assert(this.dragSpring_.getBody2() == block);
       force.add(this.dragSpring_.calculateForces()[1].getVector());
     }
     force.add(new Vector(vars[idx+1], 0).multiply(-this.damping_));

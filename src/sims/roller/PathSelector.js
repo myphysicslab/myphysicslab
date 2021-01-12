@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.sims.roller.PathSelector');
 
-goog.require('goog.array');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const HasPath = goog.require('myphysicslab.sims.roller.HasPath');

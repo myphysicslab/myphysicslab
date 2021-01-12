@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.roller.BrachistoSim');
 
+const asserts = goog.require('goog.asserts');
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
@@ -197,7 +198,7 @@ static getVariableName(i, paths, localized) {
     case 1: return name+' '+type;
     case 2: return name+' x-'+type;
     case 3: return name+' y-'+type;
-    default:  goog.asserts.fail();
+    default:  asserts.fail();
   }
   return '';
 };

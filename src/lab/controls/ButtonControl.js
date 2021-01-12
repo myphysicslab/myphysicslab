@@ -14,8 +14,10 @@
 
 goog.module('myphysicslab.lab.controls.ButtonControl');
 
-goog.require('goog.events');
-goog.require('goog.events.Event');
+const Event = goog.require('goog.events.Event');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
@@ -59,22 +61,22 @@ constructor(label, clickFunction, opt_image) {
   */
   this.clickFunction_ = clickFunction;
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.mouseDownKey_ = goog.events.listen(this.button_, goog.events.EventType.MOUSEDOWN,
+  this.mouseDownKey_ = events.listen(this.button_, EventType.MOUSEDOWN,
       /*callback=*/this.handleClick, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.mouseUpKey_ = goog.events.listen(this.button_, goog.events.EventType.MOUSEUP,
+  this.mouseUpKey_ = events.listen(this.button_, EventType.MOUSEUP,
       /*callback=*/this.handleMouseUp, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.dragLeaveKey_ = goog.events.listen(this.button_, goog.events.EventType.DRAGLEAVE,
+  this.dragLeaveKey_ = events.listen(this.button_, EventType.DRAGLEAVE,
       /*callback=*/this.handleMouseUp, /*capture=*/false, this);
   /** the ID used to cancel the callback
   * @type {number|undefined}
@@ -110,9 +112,9 @@ toStringShort() {
 
 /** @override */
 disconnect() {
-  goog.events.unlistenByKey(this.mouseDownKey_);
-  goog.events.unlistenByKey(this.mouseUpKey_);
-  goog.events.unlistenByKey(this.dragLeaveKey_);
+  events.unlistenByKey(this.mouseDownKey_);
+  events.unlistenByKey(this.mouseUpKey_);
+  events.unlistenByKey(this.dragLeaveKey_);
 };
 
 /** @override */
@@ -126,7 +128,7 @@ getParameter() {
 };
 
 /** This callback fires when the button is clicked.
-* @param {!goog.events.Event} evt the event that caused this callback to fire
+* @param {!Event} evt the event that caused this callback to fire
 * @private
 */
 handleClick(evt) {
@@ -134,7 +136,7 @@ handleClick(evt) {
 };
 
 /** This callback fires when a mouseUp or dragLeave occurs on the button.
-* @param {!goog.events.Event} evt the event that caused this callback to fire
+* @param {!Event} evt the event that caused this callback to fire
 * @private
 */
 handleMouseUp(evt) {

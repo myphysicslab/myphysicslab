@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.sims.pendulum.ReactionPendulumSim');
 
-goog.require('goog.vec.Float64Array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
@@ -214,12 +214,12 @@ getEnergyInfo_(vars) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   var ke = 0.5* this.mass_ *(vars[1]*vars[1] + vars[3]*vars[3]);
-  goog.asserts.assert(!Util.veryDifferent(ke, this.bob_.translationalEnergy()));
+  asserts.assert(!Util.veryDifferent(ke, this.bob_.translationalEnergy()));
   // rotational inertia I = m r^2 / 2
   var I = this.mass_ * this.radius_ * this.radius_ / 2;
-  goog.asserts.assert(!Util.veryDifferent(I, this.bob_.momentAboutCM()));
+  asserts.assert(!Util.veryDifferent(I, this.bob_.momentAboutCM()));
   var re = 0.5 * I * vars[5] * vars[5];
-  goog.asserts.assert(!Util.veryDifferent(re, this.bob_.rotationalEnergy()));
+  asserts.assert(!Util.veryDifferent(re, this.bob_.rotationalEnergy()));
   var pe = this.gravity_ * this.mass_ * (vars[2] + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke, re);
 };

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.view.DisplayList');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
@@ -90,7 +90,7 @@ add(dispObj) {
       break;
     }
   }
-  goog.array.insertAt(this.drawables_, dispObj, i);
+  array.insertAt(this.drawables_, dispObj, i);
   this.broadcast(new GenericEvent(this, DisplayList.OBJECT_ADDED, dispObj));
 };
 
@@ -136,7 +136,7 @@ find(search) {
     }
   } else if (typeof search === 'string') {
     var objName = Util.toName(search);
-    return goog.array.find(this.drawables_, function(element, index, array) {
+    return array.find(this.drawables_, element => {
       var simObjs = element.getSimObjects();
       for (var i=0, n=simObjs.length; i<n; i++) {
         if (simObjs[i].getName() == objName) {
@@ -146,9 +146,9 @@ find(search) {
       return false;
     });
   } else if (goog.isObject(search)) {
-    return goog.array.find(this.drawables_, function(element, index, array) {
+    return array.find(this.drawables_, element => {
       var simObjs = element.getSimObjects();
-      return goog.array.contains(simObjs, search);
+      return array.contains(simObjs, search);
     });
   } else {
     return null;
@@ -252,7 +252,7 @@ prepend(dispObj) {
       break;
     }
   }
-  goog.array.insertAt(this.drawables_, dispObj, i);
+  array.insertAt(this.drawables_, dispObj, i);
   this.broadcast(new GenericEvent(this, DisplayList.OBJECT_ADDED, dispObj));
 };
 
@@ -265,7 +265,7 @@ remove(dispObj) {
   }
   var idx = this.drawables_.indexOf(dispObj);
   if (idx > -1) {
-    goog.array.removeAt(this.drawables_, idx);
+    array.removeAt(this.drawables_, idx);
     this.broadcast(new GenericEvent(this, DisplayList.OBJECT_REMOVED, dispObj));
   };
 };
@@ -274,7 +274,7 @@ remove(dispObj) {
 * @return {undefined}
 */
 removeAll() {
-  goog.array.forEachRight(this.drawables_, dispObj => this.remove(dispObj));
+  array.forEachRight(this.drawables_, dispObj => this.remove(dispObj));
 };
 
 /** Sorts the DisplayList by zIndex. Avoids sorting if the list is already sorted.
@@ -293,7 +293,7 @@ sort() {
     lastZ = z;
   }
   if (!isSorted) {
-    goog.array.stableSort(this.drawables_, function(arg1, arg2) {
+    array.stableSort(this.drawables_, function(arg1, arg2) {
       var e1 = /** @type {!DisplayObject}*/(arg1);
       var e2 = /** @type {!DisplayObject}*/(arg2);
       var z1 = e1.getZIndex();

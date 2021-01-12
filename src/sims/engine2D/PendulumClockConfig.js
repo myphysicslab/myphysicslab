@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.engine2D.PendulumClockConfig');
 
+const asserts = goog.require('goog.asserts');
 const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');
@@ -162,7 +163,7 @@ static makeClock(sim, pendulumLength, center) {
   var anchor = PendulumClockConfig.makeAnchor(scale, anchorJoint,
       /*rodLength=*/pendulumLength, /*bobRadius=*/0.6, anchorEdges);
   // anchorEdges contains start edge for anchor and pendulum
-  goog.asserts.assert(anchorEdges.length >= 2);
+  asserts.assert(anchorEdges.length >= 2);
   anchor.setMass(10);
   sim.addBody(anchor);
 
@@ -194,7 +195,7 @@ static makeClockWithGears(sim, pendulumLength, center) {
   var anchor = PendulumClockConfig.makeAnchor(scale, anchorJoint, pendulumLength,
       /*bobRadius=*/0.6, anchorEdges);
   // anchorEdges contains start edges for anchor and pendulum
-  goog.asserts.assert(anchorEdges.length >= 2);
+  asserts.assert(anchorEdges.length >= 2);
   anchor.setMass(10);
   sim.addBody(anchor);
   // move anchor to zero energy position, and record zero energy level
@@ -232,7 +233,7 @@ static makeClockWithGears(sim, pendulumLength, center) {
   var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
       /*withGear=*/true, escapeEdges);
   // escapeEdges contains start edges for escape wheel and gear
-  goog.asserts.assert(escapeEdges.length >= 2);
+  asserts.assert(escapeEdges.length >= 2);
   escapeWheel.setPosition(center,  0);
   escapeWheel.setMass(1);
   sim.addBody(escapeWheel);

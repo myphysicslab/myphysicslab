@@ -14,10 +14,6 @@
 
 goog.module('myphysicslab.lab.util.Calculus');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-const Util = goog.require('myphysicslab.lab.util.Util');
-
 /** Provides functions for numerically estimating integrals.
 */
 class Calculus {

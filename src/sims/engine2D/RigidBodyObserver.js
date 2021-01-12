@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.engine2D.RigidBodyObserver');
 
+const array = goog.require('goog.array');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
 const DisplayConnector = goog.require('myphysicslab.lab.view.DisplayConnector');
@@ -298,10 +299,10 @@ addBody(obj) {
 * @private
 */
 removeBody(obj) {
-  var pair = goog.array.find(this.memPairs_, element => element.simObj == obj);
+  var pair = array.find(this.memPairs_, element => element.simObj == obj);
   if (pair != null) {
     this.displayList_.remove(pair.dispObj);
-    goog.array.remove(this.memPairs_, pair);
+    array.remove(this.memPairs_, pair);
   }
 };
 

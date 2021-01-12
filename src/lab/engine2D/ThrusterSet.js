@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.ThrusterSet');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');
 const Force = goog.require('myphysicslab.lab.model.Force');
@@ -60,17 +60,17 @@ constructor(numThrusters, body, magnitude) {
   * @type {!Array<!Vector>}
   * @private
   */
-  this.locations_body_ = goog.array.repeat(Vector.ORIGIN, numThrusters);
+  this.locations_body_ = array.repeat(Vector.ORIGIN, numThrusters);
   /** Direction and magnitude of thrust force, in body coords.
   * @type {!Array<!Vector>}
   * @private
   */
-  this.directions_body_ = goog.array.repeat(Vector.ORIGIN, numThrusters);
+  this.directions_body_ = array.repeat(Vector.ORIGIN, numThrusters);
   /** flags indicating which thrusters are currently firing
   * @type {!Array<boolean>}
   * @private
   */
-  this.active_ = goog.array.repeat(false, numThrusters);
+  this.active_ = array.repeat(false, numThrusters);
 };
 
 /** @override */

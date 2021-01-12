@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.util.Timer');
 
-goog.require('goog.asserts');
-goog.require('goog.array');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Periodically executes a callback function.

@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.misc.DisplayRobotWheel');
 
-goog.require('goog.asserts');
-
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');

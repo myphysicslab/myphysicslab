@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.CornerEdgeCollision');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
@@ -92,20 +92,20 @@ getClassName() {
 checkConsistent() {
   super.checkConsistent();
   // both primary and normal edge always exist for non-joint
-  goog.asserts.assert( this.primaryEdge != null );
+  asserts.assert( this.primaryEdge != null );
   // vertex/edge collision.
-  goog.asserts.assert( this.primaryEdge == this.vertex.getEdge1() );
+  asserts.assert( this.primaryEdge == this.vertex.getEdge1() );
   if (this.vertex.isEndPoint()) {
     // endpoint vertex, must specify both edges
-    goog.asserts.assert( this.primaryEdge2 != null );
-    goog.asserts.assert( this.primaryEdge2 == this.vertex.getEdge2() );
+    asserts.assert( this.primaryEdge2 != null );
+    asserts.assert( this.primaryEdge2 == this.vertex.getEdge2() );
   } else {
     // midpoint 'decorated' vertex
-    goog.asserts.assert( this.primaryEdge2 == null );
+    asserts.assert( this.primaryEdge2 == null );
   }
-  goog.asserts.assert( this.ballObject == false );
+  asserts.assert( this.ballObject == false );
   // normal edge is of two types:  curved or straight
-  goog.asserts.assert( this.normalEdge.isStraight == !this.ballNormal );
+  asserts.assert( this.normalEdge.isStraight == !this.ballNormal );
 };
 
 /** @override */

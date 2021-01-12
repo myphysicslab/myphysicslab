@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.ConcreteMemoList');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const MemoList = goog.require('myphysicslab.lab.util.MemoList');
 const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -80,7 +80,7 @@ removeMemo(memorizable) {
   if (this.isMemorizing_) {
     throw 'removeMemo during memorize';
   }
-  goog.array.remove(this.memorizables_, memorizable);
+  array.remove(this.memorizables_, memorizable);
 };
 
 } // end class

@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.view.DisplayLine');
 
-goog.require('goog.asserts');
-
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const Line = goog.require('myphysicslab.lab.model.Line');

@@ -14,8 +14,7 @@
 
 goog.module('myphysicslab.lab.util.test.ClockTest');
 
-goog.require('goog.array');
-goog.require('goog.testing.MockClock');
+const MockClock = goog.require('goog.testing.MockClock');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
@@ -177,7 +176,7 @@ static testClock1() {
   startTest(ClockTest.groupName+'testClock1');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -192,7 +191,7 @@ static testClock1() {
     assertEquals(0, mockObsvr1.numDoubles);
     assertEquals(0, mockObsvr1.numStrings);
 
-    // Note that installing goog.testing.MockClock redefines Date.now()
+    // Note that installing MockClock redefines Date.now()
     assertEquals(0, Date.now());
     assertRoughlyEquals(0, Util.systemTime(), tol);
 
@@ -470,7 +469,7 @@ static testClock2() {
   startTest(ClockTest.groupName+'testClock2');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -641,7 +640,7 @@ static testClock3() {
   startTest(ClockTest.groupName+'testClock3');
   var tol = 1E-3;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();

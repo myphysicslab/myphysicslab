@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.model.CollisionAdvance');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 const Collision = goog.require('myphysicslab.lab.model.Collision');
 const CollisionSim = goog.require('myphysicslab.lab.model.CollisionSim');
 const CollisionStats = goog.require('myphysicslab.lab.model.CollisionStats');
@@ -283,7 +283,7 @@ advance(timeStep, opt_memoList) {
     var didAdvance = this.do_advance_sim(this.currentStep_);
     this.stats_.update(this.collisions_);
     // did not advance implies there are collisions
-    goog.asserts.assert(didAdvance || this.stats_.numNeedsHandling > 0);
+    asserts.assert(didAdvance || this.stats_.numNeedsHandling > 0);
     this.print(WayPoint.ADVANCE_SIM_FINISH);
     // If there are any colliding collisions, then must backup.
     var didBackup = false;
@@ -321,7 +321,7 @@ advance(timeStep, opt_memoList) {
     //
     // Find the number of collisions that are close enough (in distance) to the point
     // of collision to be able to handle the collision (apply an impulse).
-    this.numClose_ = goog.array.count(this.collisions_, c =>
+    this.numClose_ = array.count(this.collisions_, c =>
        (c.needsHandling() || !c.contact())
         && c.getVelocity() < 0 && c.closeEnough(/*allowTiny=*/didBackup)
     );
@@ -429,7 +429,7 @@ calc_next_step(didBackup) {
     // 1) we backed up from a collision, found earliest estimate
     // 2) we removed a collision while handling collisions and remembered its estimate
     var nextStep = this.nextEstimate_ - this.sim_.getTime();
-    goog.asserts.assert( nextStep >= 0 );
+    asserts.assert( nextStep >= 0 );
     this.currentStep_ = Math.min(nextStep, fullStep);
     this.print(WayPoint.NEXT_STEP_ESTIMATE);
   } else {
@@ -477,7 +477,7 @@ checkNoneCollide() {
 */
 do_advance_sim(stepSize) {
   var WayPoint = CollisionAdvance.WayPoint;
-  goog.asserts.assert(!isNaN(stepSize) && isFinite(stepSize));
+  asserts.assert(!isNaN(stepSize) && isFinite(stepSize));
   this.collisions_ = [];
   // ===================== save current state =====================
   this.sim_.saveState();
@@ -530,7 +530,7 @@ do_advance_sim(stepSize) {
   // have tiny differences in calculation of estimated collision time.
   // (Note: could still have rare cases where tiny differences round to different
   // numbers)
-  goog.array.stableSort(this.collisions_,
+  array.stableSort(this.collisions_,
     function(c1, c2) {
     // Round to 7 decimal places, to suppress differences between browsers.
     var est1 = Math.round(1E7 * c1.getEstimatedTime());
@@ -582,7 +582,7 @@ do_backup(stepSize) {
     // found statically in findCollisions() according to current conditions.
     // The retained collisions can be replaced in findCollisions() as appropriate.
     if (!c.isColliding()) {
-      goog.array.removeAt(this.collisions_, i);
+      array.removeAt(this.collisions_, i);
       continue;
     }
     c.updateCollision(time);
@@ -736,7 +736,7 @@ jointFlags(collisions) {
 * @private
 */
 maxImpulse(collisions) {
-  return goog.array.reduce(collisions, function(max, c, index, array) {
+  return array.reduce(collisions, function(max, c, index, array) {
     var impulse = c.getImpulse();
     return isFinite(impulse) ? Math.max(max, impulse) : max;
   }, 0);
@@ -748,7 +748,7 @@ maxImpulse(collisions) {
 * @private
 */
 minVelocity(collisions) {
-  return goog.array.reduce(collisions, function(min, c, index, array) {
+  return array.reduce(collisions, function(min, c, index, array) {
     var v = c.getVelocity();
     return isFinite(v) ? Math.min(min, v) : min;
   }, Util.POSITIVE_INFINITY);
@@ -765,7 +765,7 @@ myPrint(message, colors) {
   // Note that `colors` is never referenced within this function body.
   // It primarily exists so it can be annotated with `...` for the Compiler,
   // we get the CSS strings from `arguments`.
-  var args = goog.array.slice(arguments, 1);
+  var args = array.slice(arguments, 1);
   args.unshift('%c'+Util.NF7(this.sim_.getTime())+'%c '+message, 'color:blue', 'color:black');
   console.log.apply(console, args);
 };
@@ -801,7 +801,7 @@ print(wayPoint) {
       break;
 
     case WayPoint.ADVANCE_SIM_FAIL:
-      ccount = goog.array.count(this.collisions_, c => c.isColliding());
+      ccount = array.count(this.collisions_, c => c.isColliding());
       this.myPrint('ADVANCE_SIM_FAIL couldnt advance to '
           +Util.NF7(this.sim_.getTime() + this.currentStep_)
           +' odeSolver.step found '+ccount+' colliding'
@@ -810,7 +810,7 @@ print(wayPoint) {
       break;
 
     case WayPoint.ADVANCE_SIM_COLLIDING:
-      ccount = goog.array.count(this.collisions_, c => c.isColliding());
+      ccount = array.count(this.collisions_, c => c.isColliding());
       if (ccount > 0) {
         this.myPrint('ADVANCE_SIM_COLLIDING advanced by '+Util.NF7(this.currentStep_)
             +' but found '+ccount+' colliding'
@@ -977,7 +977,7 @@ print(wayPoint) {
       break;
 
     default:
-      goog.asserts.fail();
+      asserts.fail();
   }
 };
 
@@ -1043,7 +1043,7 @@ printJointDistance() {
   // (Useful when comparing joint distance with small time steps to large time steps)
   if (time - this.printTime_ >= 0.025) {
     this.printTime_ = time;
-    var joints = goog.array.filter(this.collisions_, c => c.bilateral());
+    var joints = array.filter(this.collisions_, c => c.bilateral());
     var dists = joints.map(c => c.getDistance());
     this.myPrint(Util.array2string(dists));
   }
@@ -1065,7 +1065,7 @@ removeDistant(allowTiny) {
   while (i-- > 0) {
     var c = this.collisions_[i];
     if (!c.isTouching()) {
-      goog.array.removeAt(this.collisions_, i);
+      array.removeAt(this.collisions_, i);
       this.removedCollisions_.push(c);
       removed = true;
     }
@@ -1098,7 +1098,7 @@ setDebugLevel(debugLevel) {
   switch (debugLevel) {
     case CollisionAdvance.DebugLevel.NONE:
       this.wayPoints_ = [WayPoint.STUCK];
-      goog.asserts.assert(this.wayPoints_.length == 1);
+      asserts.assert(this.wayPoints_.length == 1);
       break;
     case CollisionAdvance.DebugLevel.LOW:
       this.wayPoints_ = [
@@ -1177,7 +1177,7 @@ setDebugLevel(debugLevel) {
         ];
       break;
     default:
-      goog.asserts.fail();
+      asserts.fail();
   }
 };
 

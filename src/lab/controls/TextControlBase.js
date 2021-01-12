@@ -14,10 +14,11 @@
 
 goog.module('myphysicslab.lab.controls.TextControlBase');
 
-goog.require('goog.array');
-goog.require('goog.dom');
-goog.require('goog.events');
-goog.require('goog.events.Event');
+const dom = goog.require('goog.dom');
+const Event = goog.require('goog.events.Event');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
 
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -75,7 +76,7 @@ constructor(label, getter, setter, textField) {
   var labelElement = null;
   if (goog.isObject(textField)) {
     // see if the parent is a label
-    var parent = goog.dom.getParentElement(textField);
+    var parent = dom.getParentElement(textField);
     if (parent != null && parent.tagName == 'LABEL') {
       labelElement = /** @type {!HTMLLabelElement} */(parent);
     }
@@ -106,22 +107,22 @@ constructor(label, getter, setter, textField) {
   this.lastValue_ = '';
   this.textField_.textAlign = 'left';
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.changeKey_ = goog.events.listen(this.textField_, goog.events.EventType.CHANGE,
+  this.changeKey_ = events.listen(this.textField_, EventType.CHANGE,
       /*callback=*/this.validate, /*capture=*/true, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.focusKey_ = goog.events.listen(this.textField_, goog.events.EventType.FOCUS,
+  this.focusKey_ = events.listen(this.textField_, EventType.FOCUS,
       /*callback=*/this.gainFocus, /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.clickKey_ = goog.events.listen(this.textField_, goog.events.EventType.CLICK,
+  this.clickKey_ = events.listen(this.textField_, EventType.CLICK,
       /*callback=*/this.doClick, /*capture=*/false, this);
   /**  True when first click in field after gaining focus.
   * @type {boolean}
@@ -145,13 +146,13 @@ toStringShort() {
 
 /** @override */
 disconnect() {
-  goog.events.unlistenByKey(this.changeKey_);
-  goog.events.unlistenByKey(this.clickKey_);
-  goog.events.unlistenByKey(this.focusKey_);
+  events.unlistenByKey(this.changeKey_);
+  events.unlistenByKey(this.clickKey_);
+  events.unlistenByKey(this.focusKey_);
 };
 
 /**
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 doClick(event) {
@@ -173,7 +174,7 @@ formatTextField() {
 };
 
 /**
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 gainFocus(event) {
@@ -262,7 +263,7 @@ setValue(value) {
 
 /** Checks that an entered number is a valid number, updates the target value
 * if valid; if an exception occurs then shows an alert and restores the old value.
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 validate(event) {

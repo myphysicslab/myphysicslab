@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.sims.roller.test.RollerTest');
 
-goog.require('goog.array');
 const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');

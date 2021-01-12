@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.lab.view.DisplayRope');
 
-goog.require('goog.asserts');
-
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const Rope = goog.require('myphysicslab.lab.engine2D.Rope');

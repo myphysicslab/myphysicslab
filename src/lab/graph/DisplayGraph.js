@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.graph.DisplayGraph');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
@@ -67,7 +67,7 @@ constructor(opt_graphLine) {
   * @type {!Array<number>}
   * @private
   */
-  this.memDraw_ = goog.array.repeat(-1, this.graphLines_.length);
+  this.memDraw_ = array.repeat(-1, this.graphLines_.length);
   /** The offscreen buffer to draw the graph into
   * @type {?HTMLCanvasElement}
   * @private
@@ -170,7 +170,7 @@ draw(context, map) {
     var w = this.screenRect_.getWidth();
     var h = this.screenRect_.getHeight();
     if (this.offScreen_ == null) {
-      goog.asserts.assert(w > 0 && h > 0);
+      asserts.assert(w > 0 && h > 0);
       // make the offscreen buffer that has an alpha channel.
       this.offScreen_ = /** @type {!HTMLCanvasElement} */
           (document.createElement('canvas'));
@@ -178,11 +178,11 @@ draw(context, map) {
       this.offScreen_.height = h;
       this.needRedraw_ = true;
     }
-    goog.asserts.assertObject(this.offScreen_);
+    asserts.assertObject(this.offScreen_);
     // osb = off screen buffer
     var osb = /** @type {!CanvasRenderingContext2D} */(
         this.offScreen_.getContext('2d'));
-    goog.asserts.assertObject(osb);
+    asserts.assertObject(osb);
     if (this.needRedraw_) {
       // Clear image with transparent alpha by drawing a rectangle
       // 'clearRect fills with transparent black'
@@ -305,7 +305,7 @@ drawPoints(context, coordMap, from, graphLine) {
 */
 fullDraw(context, coordMap) {
   // Redraw entire memory list by drawing from oldest point in list
-  this.memDraw_ = goog.array.repeat(-1, this.graphLines_.length);
+  this.memDraw_ = array.repeat(-1, this.graphLines_.length);
   this.incrementalDraw(context, coordMap);
 };
 
@@ -376,9 +376,9 @@ isDragable() {
 removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
     var idx = this.graphLines_.indexOf(graphLine);
-    goog.array.removeAt(this.graphLines_, idx);
-    goog.array.removeAt(this.memDraw_, idx);
-    goog.asserts.assert(!this.graphLines_.includes(graphLine));
+    array.removeAt(this.graphLines_, idx);
+    array.removeAt(this.memDraw_, idx);
+    asserts.assert(!this.graphLines_.includes(graphLine));
     this.needRedraw_ = true;
   } else {
     throw 'not a GraphLine '+graphLine;
@@ -389,7 +389,7 @@ removeGraphLine(graphLine) {
 * @return {undefined}
 */
 reset() {
-  this.memDraw_ = goog.array.repeat(-1, this.graphLines_.length);
+  this.memDraw_ = array.repeat(-1, this.graphLines_.length);
   this.needRedraw_ = true;
 };
 

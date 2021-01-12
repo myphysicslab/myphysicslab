@@ -14,9 +14,11 @@
 
 goog.module('myphysicslab.lab.controls.CheckBoxControlBase');
 
-goog.require('goog.dom');
-goog.require('goog.events');
-goog.require('goog.events.Event');
+const dom = goog.require('goog.dom');
+const events = goog.require('goog.events');
+const Event = goog.require('goog.events.Event');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
 
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -65,7 +67,7 @@ constructor(label, getter, setter, checkBox) {
   var labelElement = null;
   if (goog.isObject(checkBox)) {
     // see if the parent is a label
-    var parent = goog.dom.getParentElement(checkBox);
+    var parent = dom.getParentElement(checkBox);
     if (parent != null && parent.tagName == 'LABEL') {
       labelElement = /** @type {!HTMLLabelElement} */(parent);
     }
@@ -91,10 +93,10 @@ constructor(label, getter, setter, checkBox) {
   */
   this.topElement_ = labelElement !== null ? labelElement : this.checkBox_;
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.changeKey_ = goog.events.listen(this.checkBox_, goog.events.EventType.CHANGE,
+  this.changeKey_ = events.listen(this.checkBox_, EventType.CHANGE,
       /*callback=*/this.handleClick, /*capture=*/true, this);
 };
 
@@ -112,7 +114,7 @@ toStringShort() {
 
 /** @override */
 disconnect() {
-  goog.events.unlistenByKey(this.changeKey_);
+  events.unlistenByKey(this.changeKey_);
 };
 
 /** Returns name of class of this object.
@@ -141,7 +143,7 @@ getState() {
 };
 
 /** This callback fires when the button is clicked.
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 handleClick(event) {

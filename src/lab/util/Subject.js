@@ -14,11 +14,17 @@
 
 goog.module('myphysicslab.lab.util.Subject');
 
+const Observer = goog.require('myphysicslab.lab.util.Observer');
+const Parameter = goog.require('myphysicslab.lab.util.Parameter');
+const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
+const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
+const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
 const Printable = goog.require('myphysicslab.lab.util.Printable');
+const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
 
-/** A Subject notifies its {@link myphysicslab.lab.util.Observer Observers} when
+/** A Subject notifies its {@link Observer Observers} when
 something changes in the Subject. This can be a change in the value of a
-{@link myphysicslab.lab.util.Parameter Parameter}, or the occurrence of an
+{@link Parameter Parameter}, or the occurrence of an
 {@link myphysicslab.lab.util.GenericEvent GenericEvent}. The Subject maintains a list
 of its Observers. An Observer is connected to the Subject via the {@link #addObserver}
 method, which is typically called by the Observer's constructor or the entity that
@@ -64,7 +70,7 @@ Subject. It has a list of Parameters, including a Parameter representing the dis
 tolerance which determines when objects are in contact. The Subject also has a list of
 Observers, including a {@link myphysicslab.lab.controls.NumericControl NumericControl}
 which is connected to the distance tolerance
-{@link myphysicslab.lab.util.ParameterNumber ParameterNumber}. In its constructor, the
+{@link ParameterNumber ParameterNumber}. In its constructor, the
 NumericControl adds itself to the list of Observers by calling {@link #addObserver} on
 the Subject of the ParameterNumber.
 
@@ -84,21 +90,20 @@ class Subject extends Printable {
 /** Adds the given Observer to the Subject's list of Observers, so that the Observer
 will be notified of changes in this Subject. An Observer may call `Subject.addObserver`
 during its `observe` method.
-@param {!myphysicslab.lab.util.Observer} observer the Observer to add
+@param {!Observer} observer the Observer to add
 */
 addObserver(observer) {}
 
 /** Notifies all Observers that the Subject has changed by calling
-{@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
+{@link Observer#observe observe} on each Observer.
 An Observer may call `Subject.addObserver` or `Subject.removeObserver` during its
 `observe` method.
-@param {!myphysicslab.lab.util.SubjectEvent} evt a SubjectEvent with information
-    relating to the change
+@param {!SubjectEvent} evt a SubjectEvent with information relating to the change
 */
 broadcast(evt) {}
 
 /** Notifies all Observers that the Parameter with the given `name` has changed by
-calling {@link myphysicslab.lab.util.Observer#observe observe} on each Observer.
+calling {@link Observer#observe observe} on each Observer.
 @param {string} name the language-independent or English name of the Parameter
     that has changed
 @throws {!Error} if there is no Parameter with the given name
@@ -111,51 +116,48 @@ broadcastParameter(name) {}
 getName() {}
 
 /** Returns a copy of the list of Observers of this Subject.
-@return {!Array<!myphysicslab.lab.util.Observer>} a copy of the list of Observers of
+@return {!Array<!Observer>} a copy of the list of Observers of
     this Subject.
 */
 getObservers() {}
 
 /** Returns the Parameter with the given name.
 @param {string} name the language-independent or English name of the Parameter
-@return {!myphysicslab.lab.util.Parameter} the Parameter with the given name
+@return {!Parameter} the Parameter with the given name
 @throws {!Error} if there is no Parameter with the given name
 */
 getParameter(name) {}
 
 /** Returns a copy of the list of this Subject's available Parameters.
-@return {!Array<!myphysicslab.lab.util.Parameter>} a copy of the list of
+@return {!Array<!Parameter>} a copy of the list of
         available Parameters for this Subject
 */
 getParameters() {}
 
 /** Returns the ParameterBoolean with the given name.
 @param {string} name the language-independent or English name of the ParameterBoolean
-@return {!myphysicslab.lab.util.ParameterBoolean} the ParameterBoolean with
-    the given name
+@return {!ParameterBoolean} the ParameterBoolean with the given name
 @throws {!Error} if there is no ParameterBoolean with the given name
 */
 getParameterBoolean(name) {}
 
 /** Returns the ParameterNumber with the given name.
 @param {string} name the language-independent or English name of the ParameterNumber
-@return {!myphysicslab.lab.util.ParameterNumber} the ParameterNumber with
-    the given name
+@return {!ParameterNumber} the ParameterNumber with the given name
 @throws {!Error} if there is no ParameterNumber with the given name
 */
 getParameterNumber(name) {}
 
 /** Returns the ParameterString with the given name.
 @param {string} name the language-independent or English name of the ParameterString
-@return {!myphysicslab.lab.util.ParameterString} the ParameterString with
-    the given name
+@return {!ParameterString} the ParameterString with the given name
 @throws {!Error} if there is no ParameterString with the given name
 */
 getParameterString(name) {}
 
 /** Removes the Observer from the Subject's list of Observers. An Observer may
 call `Subject.removeObserver` during its `observe` method.
-@param {!myphysicslab.lab.util.Observer} observer the Observer to
+@param {!Observer} observer the Observer to
         detach from list of Observers
 */
 removeObserver(observer) {}

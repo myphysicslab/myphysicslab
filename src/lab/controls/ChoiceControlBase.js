@@ -14,10 +14,11 @@
 
 goog.module('myphysicslab.lab.controls.ChoiceControlBase');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.events');
-goog.require('goog.events.Event');
+const asserts = goog.require('goog.asserts');
+const Event = goog.require('goog.events.Event');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
 
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -119,9 +120,9 @@ constructor(choices, values, getter, setter, opt_label) {
   */
   this.selectMenu_ =
       /** @type {!HTMLSelectElement} */(document.createElement('select'));
-  goog.asserts.assert(!this.selectMenu_.multiple);
+  asserts.assert(!this.selectMenu_.multiple);
   // `type` is a read-only field for SelectElement
-  goog.asserts.assert(this.selectMenu_.type == 'select-one');
+  asserts.assert(this.selectMenu_.type == 'select-one');
   this.buildSelectMenu();
   /**
   * @type {string}
@@ -147,10 +148,10 @@ constructor(choices, values, getter, setter, opt_label) {
   */
   this.topElement_ = myLabel !== null ? myLabel : this.selectMenu_;
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.changeKey_ = goog.events.listen(this.selectMenu_, goog.events.EventType.CHANGE,
+  this.changeKey_ = events.listen(this.selectMenu_, EventType.CHANGE,
       /*callback=*/this.itemStateChanged, /*capture=*/true, this);
 };
 
@@ -183,7 +184,7 @@ buildSelectMenu() {
 
 /** @override */
 disconnect() {
-  goog.events.unlistenByKey(this.changeKey_);
+  events.unlistenByKey(this.changeKey_);
 };
 
 /** Returns the index of the currently selected choice, or -1 if no item selected. The
@@ -212,7 +213,7 @@ getParameter() {
 };
 
 /**
-* @param {!goog.events.Event} event the event that caused this callback to fire
+* @param {!Event} event the event that caused this callback to fire
 * @private
 */
 itemStateChanged(event) {

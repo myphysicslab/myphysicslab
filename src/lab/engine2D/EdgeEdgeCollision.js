@@ -14,8 +14,9 @@
 
 goog.module('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
+const CircularEdge = goog.forwardDeclare('myphysicslab.lab.engine2D.CircularEdge');
 const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -75,10 +76,10 @@ getClassName() {
 checkConsistent() {
   super.checkConsistent();
   // both primary and normal edge always exist for non-joint
-  goog.asserts.assert( this.primaryEdge != null );
-  goog.asserts.assert( this.primaryEdge.isStraight == !this.ballObject );
-  goog.asserts.assert( this.normalEdge != null );
-  goog.asserts.assert( this.normalEdge.isStraight == !this.ballNormal );
+  asserts.assert( this.primaryEdge != null );
+  asserts.assert( this.primaryEdge.isStraight == !this.ballObject );
+  asserts.assert( this.normalEdge != null );
+  asserts.assert( this.normalEdge.isStraight == !this.ballNormal );
 };
 
 /** @override */
@@ -88,8 +89,8 @@ getU1() {
   }
   if (this.ballObject) {
     var primaryCircle =
-        /** @type {!myphysicslab.lab.engine2D.CircularEdge} */(this.primaryEdge);
-    goog.asserts.assert(this.primaryBody == primaryCircle.getBody());
+        /** @type {!CircularEdge} */(this.primaryEdge);
+    asserts.assert(this.primaryBody == primaryCircle.getBody());
     var cw = this.primaryBody.bodyToWorld(primaryCircle.getCenterBody());
     this.u1_ = cw.subtract(this.primaryBody.getPosition());
     return this.u1_; // cached value to speed up performance
@@ -106,8 +107,8 @@ getU2() {
     // maybe I should have a CircleCircleCollision and StraightCircleCollision etc.
     // Otherwise I have to do some ugly type casting here
     var normalCircle =
-        /** @type {!myphysicslab.lab.engine2D.CircularEdge} */(this.normalEdge);
-    goog.asserts.assert(this.normalBody == normalCircle.getBody());
+        /** @type {!CircularEdge} */(this.normalEdge);
+    asserts.assert(this.normalBody == normalCircle.getBody());
     var cnw = this.normalBody.bodyToWorld(normalCircle.getCenterBody());
     this.u2_ = cnw.subtract(this.normalBody.getPosition());
     return this.u2_; // cached value to speed up performance

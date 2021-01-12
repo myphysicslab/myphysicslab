@@ -14,8 +14,10 @@
 
 goog.module('myphysicslab.lab.engine2D.Edge');
 
+const EdgeEdgeCollision = goog.forwardDeclare('myphysicslab.lab.engine2D.EdgeEdgeCollision');
+const Polygon = goog.forwardDeclare('myphysicslab.lab.engine2D.Polygon');
 const Printable = goog.require('myphysicslab.lab.util.Printable');
-const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RigidBodyCollision = goog.forwardDeclare('myphysicslab.lab.engine2D.RigidBodyCollision');
 const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -24,7 +26,7 @@ Polygon. Vertex location is defined in body coordinates of the associated Polygo
 Edge knows which side is outside or inside the Polygon; the method
 {@link #getNormalBody} returns a normal vector that points to the outside.
 
-Edges are ordered in a Polygon, see {@link myphysicslab.lab.engine2D.Polygon}. For a
+Edges are ordered in a Polygon, see {@link Polygon}. For a
 given Edge, the start Vertex must be the same as the finish Vertex of the previous Edge
 of the Polygon.
 
@@ -143,7 +145,7 @@ findVertexContact(v, p_body, distTol) {}
 forgetPosition() {}
 
 /** Returns the Polygon that this Edge belongs to.
-@return {!myphysicslab.lab.engine2D.Polygon} the Polygon that this Edge belongs to
+@return {!Polygon} the Polygon that this Edge belongs to
 */
 getBody() {}
 
@@ -242,13 +244,13 @@ getRightBody() {}
 getTopBody() {}
 
 /** The start Vertex of this Edge. Should match the finish Vertex of the previous
-Edge in the Polygon. See {@link myphysicslab.lab.engine2D.Polygon}.
+Edge in the Polygon. See {@link Polygon}.
 @return {!Vertex} the start Vertex of this Edge
 */
 getVertex1() {}
 
 /** The finish Vertex of this Edge. Should match the start Vertex of the next
-Edge in the Polygon. See {@link myphysicslab.lab.engine2D.Polygon}.
+Edge in the Polygon. See {@link Polygon}.
 @return {!Vertex} the finish Vertex of this Edge
 */
 getVertex2() {}
@@ -267,8 +269,7 @@ highlight() {}
 
 /** Updates the EdgeEdgeCollision to have more accurate information based on current
 positions and velocities of the RigidBodys.
-@param {!myphysicslab.lab.engine2D.EdgeEdgeCollision} rbc the EdgeEdgeCollision to
-    update
+@param {!EdgeEdgeCollision} rbc the EdgeEdgeCollision to update
 @param {!Edge} edge the other Edge involved in the collision
 */
 improveAccuracyEdge(rbc, edge) {}
@@ -322,7 +323,7 @@ See {@link #getCentroidRadius}, {@link #getCentroidBody} and {@link #getCentroid
 setCentroidRadius(value) {}
 
 /** Sets the finish Vertex of this Edge. Should match the start Vertex of the next Edge
-in the Polygon. See {@link myphysicslab.lab.engine2D.Polygon}.
+in the Polygon. See {@link Polygon}.
 @param {!Vertex} vertex the finish Vertex of this Edge
 */
 setVertex2(vertex) {}

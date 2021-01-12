@@ -14,9 +14,8 @@
 
 goog.module('myphysicslab.lab.engine2D.ImpulseSim');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.vec.Float64Array');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const Util = goog.require('myphysicslab.lab.util.Util');
 const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
@@ -343,7 +342,7 @@ getCollisionHandling() {
 */
 setCollisionHandling(value) {
   var a = CollisionHandling.stringToEnum(value);
-  goog.asserts.assert(a == value);
+  asserts.assert(a == value);
   if (this.collisionHandling_ != a) {
     this.collisionHandling_ = a;
     this.broadcastParameter(RigidBodySim.en.COLLISION_HANDLING);
@@ -461,7 +460,7 @@ cleanSlate() {
 checkInfiniteMassVelocity(vars) {
   this.bods_.forEach(b => {
     var idx = b.getVarsIndex();
-    goog.asserts.assert(idx >= 0);
+    asserts.assert(idx >= 0);
     if (b.getMass() == Util.POSITIVE_INFINITY) {
       var vx = vars[idx + RigidBodySim.VX_];
       var vy = vars[idx + RigidBodySim.VY_];
@@ -1215,7 +1214,7 @@ hcs_handle(hybrid, grouped, debugHCS,
     for (i=0; i<len; i++) {
       var c = subset[i];
       // find loc such that collisions[loc] == c
-      var loc = goog.array.findIndex(collisions,
+      var loc = array.findIndex(collisions,
         function(element, index, array) {
           return element == c;
         });

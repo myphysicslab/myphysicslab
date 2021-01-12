@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.view.CoordMap');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
@@ -326,7 +326,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
     // use alignment to figure out offset (and therefore origin location)
     if (!horizFull) {
       // y is 'full justified':  simRect matches the screenRect on y axis
-      goog.asserts.assert(horizAlign != HorizAlign.FULL);
+      asserts.assert(horizAlign != HorizAlign.FULL);
       offset_y = 0;
       var ideal_width = Math.floor(0.5 + sim_width*pixel_per_unit_x);
       switch (horizAlign) {
@@ -340,7 +340,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
       }
     } else {
       // x is 'full justified':  simRect matches the screenRect on x axis
-      goog.asserts.assert(verticalAlign != VerticalAlign.FULL);
+      asserts.assert(verticalAlign != VerticalAlign.FULL);
       offset_x = 0;
       var ideal_height = Math.floor(0.5 + sim_height*pixel_per_unit_y);
       switch (verticalAlign) {

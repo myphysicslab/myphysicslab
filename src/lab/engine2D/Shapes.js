@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.Shapes');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const CircularEdge = goog.require('myphysicslab.lab.engine2D.CircularEdge');
 const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');

@@ -14,13 +14,14 @@
 
 goog.module('myphysicslab.lab.graph.AutoScale');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
+const GraphPoint = goog.require('myphysicslab.lab.graph.GraphPoint');
 const LabView = goog.require('myphysicslab.lab.view.LabView');
 const Memorizable = goog.require('myphysicslab.lab.util.Memorizable');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -136,7 +137,7 @@ constructor(name, graphLine, simView) {
   * @type {!Array<number>}
   * @private
   */
-  this.lastIndex_ = goog.array.repeat(-1, this.graphLines_.length);
+  this.lastIndex_ = array.repeat(-1, this.graphLines_.length);
   /** `false` indicates that the range has never been set based on graph data
   * @type {boolean}
   * @private
@@ -302,7 +303,7 @@ memorize() {
     graphPts = this.graphLines_[i].getGraphPoints();
     var iter = graphPts.getIterator(this.lastIndex_[i]);
     while (iter.hasNext()) {
-      /** @type {!myphysicslab.lab.graph.GraphPoint} */
+      /** @type {!GraphPoint} */
       var gp = iter.nextValue();
       this.updateRange_(this.graphLines_[i], gp.x, gp.y);
       this.lastIndex_[i] = iter.getIndex();
@@ -321,7 +322,7 @@ observe(event) {
         this.setActive(false);
       }
     }
-  } else if (goog.array.contains(this.graphLines_, event.getSubject())) {
+  } else if (array.contains(this.graphLines_, event.getSubject())) {
     if (event.nameEquals(GraphLine.en.X_VARIABLE) ||
         event.nameEquals(GraphLine.en.Y_VARIABLE)) {
       // the GraphLine's X or Y variable has changed
@@ -381,9 +382,9 @@ rectangle of points on the line.
 removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
     var idx = this.graphLines_.indexOf(graphLine);
-    goog.array.removeAt(this.graphLines_, idx);
-    goog.array.removeAt(this.lastIndex_, idx);
-    goog.asserts.assert(!this.graphLines_.includes(graphLine));
+    array.removeAt(this.graphLines_, idx);
+    array.removeAt(this.lastIndex_, idx);
+    asserts.assert(!this.graphLines_.includes(graphLine));
     this.reset();
   } else {
     throw 'not a GraphLine '+graphLine;
@@ -427,7 +428,7 @@ setActive(value) {
       this.broadcastParameter(AutoScale.en.ACTIVE);
     }
   }
-  goog.asserts.assert(this.enabled_ || !this.isActive_);
+  asserts.assert(this.enabled_ || !this.isActive_);
 };
 
 /** Set which axis to auto scale: one of `VERTICAL`, `HORIZONTAL`, or `BOTH_AXES`.
@@ -464,7 +465,7 @@ setEnabled(value) {
     this.setActive(value);
     this.broadcastParameter(AutoScale.en.ENABLED);
   }
-  goog.asserts.assert(this.enabled_ || !this.isActive_);
+  asserts.assert(this.enabled_ || !this.isActive_);
 };
 
 /** Sets length of time to include in the range rectangle for a *time graph*,

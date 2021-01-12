@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.springs.ChainOfSpringsApp');
 
-goog.require('goog.asserts');
-
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
 const ChainOfSpringsSim = goog.require('myphysicslab.sims.springs.ChainOfSpringsSim');

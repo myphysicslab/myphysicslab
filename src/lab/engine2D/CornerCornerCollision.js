@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.CornerCornerCollision');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -65,7 +65,7 @@ getClassName() {
 /** @override */
 checkConsistent() {
   super.checkConsistent();
-  goog.asserts.assert( this.normalVertex != null );
+  asserts.assert( this.normalVertex != null );
 };
 
 /** @override */
@@ -87,7 +87,7 @@ similarTo(c) {
 
 /** @override */
 updateCollision(time) {
-  goog.asserts.assert( this.normalVertex != null );
+  asserts.assert( this.normalVertex != null );
   var pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
   var pnb = this.normalBody.worldToBody(pbw);
   this.impact1 = this.normalBody.bodyToWorld(this.normalVertex.locBody());

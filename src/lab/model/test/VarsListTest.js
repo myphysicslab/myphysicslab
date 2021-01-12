@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.model.test.VarsListTest');
 
-goog.require('goog.array');
 const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const TestRig = goog.require('myphysicslab.test.TestRig');

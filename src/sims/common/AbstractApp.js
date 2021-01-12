@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.common.AbstractApp');
 
-goog.require('goog.array');
-
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
 const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');

@@ -14,9 +14,7 @@
 
 goog.module('myphysicslab.lab.view.DisplayShape');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
-goog.require('goog.color');
+const gcolor = goog.require('goog.color');
 
 const AffineTransform = goog.require('myphysicslab.lab.util.AffineTransform');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
@@ -331,15 +329,15 @@ static darkColor(color) {
     return false;
   if (color == '')
     return false;
-  // goog.color.parse() does not accept 'rgba' type of colors.  Therefore
+  // gcolor.parse() does not accept 'rgba' type of colors.  Therefore
   // transform rgba to rgb.
   // Matches things like: rgba(192, 255, 192, 0.5) or rgba(192, 255, 192, 1)
   var m = color.match(/^rgba\((.*),\s*\d*\.?\d+\)/);
   if (m != null) {
     color = 'rgb('+m[1]+')';
   }
-  var c = goog.color.parse(color);
-  var hsb = goog.color.hexToHsv(c.hex);
+  var c = gcolor.parse(color);
+  var hsb = gcolor.hexToHsv(c.hex);
   // decide if its a dark color by looking at the saturation and brightness
   // low brightness  OR  (high saturation AND close to blue)
   return hsb[2] < 0.65 || hsb[1] > 0.57 && Math.abs(hsb[0] - 0.677) < 0.11;

@@ -22,7 +22,7 @@ const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
 class PathIterator {
 
 /** Sets the given MutableVector to the location of the next point on the path.
-* @param {!myphysicslab.lab.util.MutableVector} point the MutableVector where the
+* @param {!MutableVector} point the MutableVector where the
 *   location is stored.
 * @return {boolean} true if a next point was found
 */

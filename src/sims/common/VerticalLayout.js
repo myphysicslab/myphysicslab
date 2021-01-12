@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.sims.common.VerticalLayout');
 
-goog.require('goog.events');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
 
 const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
@@ -111,7 +112,7 @@ constructor(elem_ids) {
     this.div_graph.style.display = visible ? 'block' : 'none';
     show_graph_cb.checked = visible;
   };
-  goog.events.listen(show_graph_cb, goog.events.EventType.CLICK,
+  events.listen(show_graph_cb, EventType.CLICK,
       e => this.showGraph(show_graph_cb.checked) );
 
   /* <form> for sim controls */
@@ -131,7 +132,7 @@ constructor(elem_ids) {
     this.sim_controls.style.display = visible ? 'block' : 'none';
     show_controls_cb.checked = visible;
   });
-  goog.events.listen(show_controls_cb, goog.events.EventType.CLICK,
+  events.listen(show_controls_cb, EventType.CLICK,
       e => this.showControls(show_controls_cb.checked) );
 
   /* <form> element for Terminal */
@@ -161,7 +162,7 @@ constructor(elem_ids) {
         term_input.focus();
       }
     });
-    goog.events.listen(show_term_cb, goog.events.EventType.CLICK,
+    events.listen(show_term_cb, EventType.CLICK,
       e => this.showTerminal(show_term_cb.checked) );
   }
 

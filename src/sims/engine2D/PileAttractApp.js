@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.engine2D.PileAttractApp');
 
+const array = goog.require('goog.array');
 const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
@@ -168,7 +169,7 @@ config() {
   var rest = this.numBlocks-half;
   var blocks = PileConfig.makeRandomBlocks(this.mySim, /* num blocks=*/half,
       /* x=*/-half/2, /* y=*/1, this.buildRNG, /*rightAngle=*/this.squareBlocks);
-  goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim,
+  array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim,
       /* num blocks=*/rest, /* x=*/-half/2, /* y=*/-1, this.buildRNG,
       /*rightAngle=*/this.squareBlocks));
 

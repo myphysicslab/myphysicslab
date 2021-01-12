@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.view.LabCanvas');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ConcreteMemoList = goog.require('myphysicslab.lab.util.ConcreteMemoList');
@@ -223,7 +223,7 @@ Notifies any Observers by broadcasting GenericEvents named {@link #VIEW_ADDED} a
 @param {!LabView} view the LabView to add
 */
 addView(view) {
-  goog.asserts.assertObject(view);
+  asserts.assertObject(view);
   if (this.getWidth() > 0 && this.getHeight() > 0) {
     var sr = new ScreenRect(0, 0, this.getWidth(), this.getHeight());
     //console.log('LabCanvas.addView of '+view+' sr='+sr);
@@ -395,12 +395,12 @@ and {@link #VIEW_REMOVED} and possibly also {@link #FOCUS_VIEW_CHANGED}.
 * @param {!LabView} view the LabView to remove
 */
 removeView(view) {
-  goog.asserts.assertObject(view);
-  goog.array.remove(this.labViews_, view);
+  asserts.assertObject(view);
+  array.remove(this.labViews_, view);
   this.removeMemo(view);
   if (this.focusView_==view) {
     // pick first view to focus on, if possible
-    this.setFocusView(goog.array.isEmpty(this.labViews_) ? null : this.labViews_[0]);
+    this.setFocusView(array.isEmpty(this.labViews_) ? null : this.labViews_[0]);
   }
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_REMOVED, view));
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_LIST_MODIFIED));

@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.graph.GraphLine');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const CircularList = goog.require('myphysicslab.lab.util.CircularList');
@@ -331,12 +331,12 @@ getGraphStyle(index) {
   for (var i=1, len=styles.length; i<len; i++) {
     var s = styles[i];
     // assert that indices in style list are non-decreasing
-    goog.asserts.assert(last.index_ <= s.index_);
+    asserts.assert(last.index_ <= s.index_);
     if (s.index_ > index)
       break;
     last = s;
   }
-  goog.asserts.assertObject(last);
+  asserts.assertObject(last);
   return last;
 };
 
@@ -462,7 +462,7 @@ memorized after this time.
 */
 setDrawingMode(value) {
   var dm = DrawingMode.stringToEnum(value);
-  goog.asserts.assert(dm == value);
+  asserts.assert(dm == value);
   if (this.drawMode_ != dm) {
     this.drawMode_ = dm;
     this.addGraphStyle();

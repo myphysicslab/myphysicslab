@@ -15,9 +15,9 @@
 goog.module('myphysicslab.lab.util.ParameterBoolean');
 
 const Util = goog.require('myphysicslab.lab.util.Util');
-const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GenericEvent = goog.forwardDeclare('myphysicslab.lab.util.GenericEvent');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
-const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
 
 /** Provides access to a boolean value of a {@link Subject}. See {@link Parameter} for
 more information.

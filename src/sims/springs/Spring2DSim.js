@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.springs.Spring2DSim');
 
+const asserts = goog.require('goog.asserts');
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
@@ -347,7 +348,7 @@ evaluate(vars, change, timeStep) {
   if (!this.isDragging_) {
     var forces = this.spring_.calculateForces();
     var f = forces[1];
-    goog.asserts.assert(f.getBody() == this.bob_);
+    asserts.assert(f.getBody() == this.bob_);
     var m = this.bob_.getMass();
     change[0] = vars[2]; // Ux' = Vx
     change[1] = vars[3]; // Uy' = Vy

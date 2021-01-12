@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.model.VarsList');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const ConcreteVariable = goog.require('myphysicslab.lab.model.ConcreteVariable');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
@@ -275,8 +275,8 @@ findOpenSlot_(quantity) {
     // Found a group of deleted variables at end of VarsList, but need more.
     // Expand to get full quantity.
     expand = quantity - found;
-    goog.asserts.assert(startIdx >= 0);
-    goog.asserts.assert(expand > 0);
+    asserts.assert(startIdx >= 0);
+    asserts.assert(expand > 0);
   } else {
     // Did not find contiguous group of deleted variables of requested size.
     // Add space at end of current variables.
@@ -299,7 +299,7 @@ getHistory() {
 /** @override */
 getParameter(name) {
   name = Util.toName(name);
-  var p = goog.array.find(this.varList_, p => p.getName() == name);
+  var p = array.find(this.varList_, p => p.getName() == name);
   if (p != null) {
     return p;
   }
@@ -363,7 +363,7 @@ getVariable(id) {
     index = id;
   } else if (typeof id === 'string') {
     id = Util.toName(id);
-    index = goog.array.findIndex(this.varList_,
+    index = array.findIndex(this.varList_,
         v => v.getName() == id);
     if (index < 0) {
       throw 'unknown variable name '+id;

@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.test.UtilTest');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const TestRig = goog.require('myphysicslab.test.TestRig');
 
@@ -206,7 +206,7 @@ static testUtil() {
   if (!Util.ADVANCED) {
     try {
       var b = 1;
-      goog.asserts.assert(1 == 0);
+      asserts.assert(1 == 0);
       b = 2;
     } catch(e) {
       //asserts are working

@@ -14,8 +14,7 @@
 
 goog.module('myphysicslab.lab.util.test.TimerTest');
 
-goog.require('goog.array');
-goog.require('goog.testing.MockClock');
+const MockClock = goog.require('goog.testing.MockClock');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Timer = goog.require('myphysicslab.lab.util.Timer');
 const TestRig = goog.require('myphysicslab.test.TestRig');
@@ -45,7 +44,7 @@ static testTimer1() {
   startTest(TimerTest.groupName+'testTimer1');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -86,7 +85,7 @@ static testTimer2() {
   startTest(TimerTest.groupName+'testTimer2');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -117,7 +116,7 @@ static testTimer3() {
   startTest(TimerTest.groupName+'testTimer3');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -150,7 +149,7 @@ static testTimer4() {
   startTest(TimerTest.groupName+'testTimer4');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -183,7 +182,7 @@ static testTimer5() {
   startTest(TimerTest.groupName+'testTimer5');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -214,7 +213,7 @@ static testTimer6() {
   startTest(TimerTest.groupName+'testTimer6');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
@@ -246,7 +245,7 @@ static testTimer7() {
   startTest(TimerTest.groupName+'testTimer7');
   var tol = 1E-14;
 
-  var mockClock = new goog.testing.MockClock();
+  var mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();

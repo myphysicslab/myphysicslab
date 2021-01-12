@@ -14,18 +14,20 @@
 
 goog.module('myphysicslab.lab.engine2D.EdgeRange');
 
+const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
 const EdgeSet = goog.require('myphysicslab.lab.engine2D.EdgeSet');
 const Util = goog.require('myphysicslab.lab.util.Util');
+const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 
 /** Specifies a set of Edges in a Polygon. The Edges must be contiguous in the list of
 Edges in the Polygon. Edges are specified by their index in the list of Edges of the
-Polygon, see {@link myphysicslab.lab.engine2D.Polygon}.
+Polygon, see {@link Polygon}.
 
 * @implements {EdgeSet}
 */
 class EdgeRange {
 /**
-* @param {!myphysicslab.lab.engine2D.Polygon} body  the Polygon the Edges belong to
+* @param {!Polygon} body  the Polygon the Edges belong to
 * @param {number} beginIdx  the index of the first Edge within the list of Edges
 *    in the Polygon
 * @param {number} endIdx  the index of the last Edge within the list of Edges
@@ -43,7 +45,7 @@ constructor(body, beginIdx, endIdx) {
     throw '';
   }
   /** the Polygon the Edges belong to
-  * @type {!myphysicslab.lab.engine2D.Polygon}
+  * @type {!Polygon}
   * @private
   */
   this.body_ = body;
@@ -71,14 +73,14 @@ toString() {
 /** Creates an EdgeRange by finding all the set of all Edges connected to a given Edge.
 Any Edge in the set can be specified to the constructor: the first, the last, or any
 Edge in the middle of the set. This set of Edges corresponds to the concept of a "path
-of edges" discussed in {@link myphysicslab.lab.engine2D.Polygon}, see the section about
+of edges" discussed in {@link Polygon}, see the section about
 'Structure of a Polygon'.
 
 Assumption: Edges in set are contiguous in the Polygon's list of Edges.
 
 @todo check that Edges in set are contiguous in the Polygon's list of Edges
 
-* @param {!myphysicslab.lab.engine2D.Edge} edge  the Edge to start with
+* @param {!Edge} edge  the Edge to start with
 * @return {!EdgeRange} an EdgeRange representing all Edges connected to
 *     the starting Edge
 */
@@ -100,7 +102,7 @@ static fromEdge(edge) {
 };
 
 /** Creates an EdgeRange containing all Edges of the given Polygon.
-* @param {!myphysicslab.lab.engine2D.Polygon} body  the Polygon of interest
+* @param {!Polygon} body  the Polygon of interest
 * @return {!EdgeRange} an EdgeRange representing all Edges contained in the Polygon
 */
 static fromPolygon(body) {

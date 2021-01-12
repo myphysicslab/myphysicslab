@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.sims.pendulum.test.DoublePendulumTest');
 
-goog.require('goog.array');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const DoublePendulumSim = goog.require('myphysicslab.sims.pendulum.DoublePendulumSim');
 const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
@@ -173,7 +172,6 @@ static testDoublePendulum() {
   assertEquals(5.0, sim.getGravity());
   assertEquals(5, mockObsvr1.numDoubles);
   sim.restState();
-  /** @type {!myphysicslab.lab.model.EnergyInfo} */
   var ei = sim.getEnergyInfo();
   assertEquals(0, ei.getPotential());
   assertEquals(0, ei.getTranslational());

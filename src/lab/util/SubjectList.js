@@ -17,7 +17,7 @@ goog.module('myphysicslab.lab.util.SubjectList');
 const Printable = goog.require('myphysicslab.lab.util.Printable');
 const Subject = goog.require('myphysicslab.lab.util.Subject');
 
-/** Provides a list of {@link myphysicslab.lab.util.Subject Subjects} contained
+/** Provides a list of {@link Subject Subjects} contained
 in this object. Used when creating an
 {@link myphysicslab.lab.util.EasyScriptParser EasyScriptParser}.
 
@@ -27,7 +27,7 @@ class SubjectList extends Printable {
 
 /** Returns list of Subjects contained in this object, possibly including this object
 itself.
-@return {!Array<!myphysicslab.lab.util.Subject>} the Subjects contained in this object
+@return {!Array<!Subject>} the Subjects contained in this object
 */
 getSubjects() {}
 } // end class

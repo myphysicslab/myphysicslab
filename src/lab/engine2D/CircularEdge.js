@@ -14,11 +14,13 @@
 
 goog.module('myphysicslab.lab.engine2D.CircularEdge');
 
+const asserts = goog.require('goog.asserts');
 const AbstractEdge = goog.require('myphysicslab.lab.engine2D.AbstractEdge');
 const CircleCircle = goog.require('myphysicslab.lab.engine2D.CircleCircle');
 const CircleStraight = goog.require('myphysicslab.lab.engine2D.CircleStraight');
 const ConcreteVertex = goog.require('myphysicslab.lab.engine2D.ConcreteVertex');
 const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
+const Polygon = goog.forwardDeclare('myphysicslab.lab.engine2D.Polygon');
 const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
 const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -31,8 +33,8 @@ const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
 
 + If you know the center of the circle use the constructor: `new CircularEdge(...)`.
 + If you know the radius but not the center, use the static method {@link #make}.
-+ Use {@link myphysicslab.lab.engine2D.Polygon#addCircularEdge}
-+ Use {@link myphysicslab.lab.engine2D.Polygon#addCircularEdge2}
++ Use {@link Polygon#addCircularEdge}
++ Use {@link Polygon#addCircularEdge2}
 
 For the CircularEdge constructor, the Edge starts at `vertex1` (given in body
 coordinates) proceeding along a circular arc with given center to the ending `vertex2`.
@@ -110,7 +112,7 @@ coordinates.
 */
 class CircularEdge extends AbstractEdge {
 /**
-* @param {!myphysicslab.lab.engine2D.Polygon} body Edge will be added to this
+* @param {!Polygon} body Edge will be added to this
   Polygon
 * @param {!Vertex} vertex1 Edge starts at this Vertex, given
   in body coordinates
@@ -277,7 +279,7 @@ two given Vertexes: either above or below the line. The `aboveRight` parameter
 specifies which choice to make. For a vertical connecting line, the choice is right or
 left of the line.
 
-* @param {!myphysicslab.lab.engine2D.Polygon} body edge will be added to this
+* @param {!Polygon} body edge will be added to this
   RigidBody
 * @param {!Vertex} vertex1 edge starts at this Vertex, given
   in body coordinates
@@ -552,7 +554,7 @@ findVertexContact(v, p_body, distTol) {
   // note: because bodyToEdge does not rotate, the normal is same in edge or body coords
   // nw = normal in world coords
   rbc.normal = this.body_.rotateBodyToWorld(ne);
-  goog.asserts.assert( Math.abs(rbc.normal.length() - 1.0) < 1e-8 );
+  asserts.assert( Math.abs(rbc.normal.length() - 1.0) < 1e-8 );
   // find point on circle nearest to vertex: at center + radius * normal
   rbc.radius2 = (this.outsideIsOut_ ? 1 : -1)*this.radius_;
   // Add half of the gap distance to the radius, for better accuracy in contact
@@ -792,7 +794,7 @@ intersection(p1_body, p2_body) {
   if (qb1!=null) {
     return [qb1];
   }
-  goog.asserts.assert(qb2!=null);
+  asserts.assert(qb2!=null);
   return [qb2];
 };
 
@@ -805,8 +807,8 @@ coordinates.
 @private
 */
 static isWithinArc(p_edge, angleLow, angleHigh) {
-  goog.asserts.assert(!isNaN(p_edge.getX()));
-  goog.asserts.assert(!isNaN(p_edge.getY()));
+  asserts.assert(!isNaN(p_edge.getX()));
+  asserts.assert(!isNaN(p_edge.getY()));
   var angle = p_edge.getAngle();
   if (angle < angleLow) {
     angle += 2*Math.PI;

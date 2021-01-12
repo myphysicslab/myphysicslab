@@ -16,7 +16,7 @@ goog.module('myphysicslab.lab.engine2D.Connector');
 
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
-const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
+const RigidBodyCollision = goog.forwardDeclare('myphysicslab.lab.engine2D.RigidBodyCollision');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** Connects RigidBody objects together or to some other object like a NumericalPath

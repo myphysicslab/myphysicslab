@@ -13,11 +13,12 @@
 // limitations under the License.
 goog.module('myphysicslab.lab.app.SimController');
 
-goog.require('goog.asserts');
-goog.require('goog.events');
-goog.require('goog.events.BrowserEvent');
-goog.require('goog.events.EventType');
-goog.require('goog.events.KeyEvent');
+const asserts = goog.require('goog.asserts');
+const events = goog.require('goog.events');
+const BrowserEvent = goog.require('goog.events.BrowserEvent');
+const EventType = goog.require('goog.events.EventType');
+const Key = goog.require('goog.events.Key');
+const KeyEvent = goog.require('goog.events.KeyEvent');
 
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
@@ -221,53 +222,53 @@ constructor(labCanvas, eventHandler, panModifier) {
   this.debug_ = false;
   /**  key used for removing the listener.  Only process mousedown events that occur on
   * LabCanvas, to prevent eating events needed by other elements.
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.mouseDownKey_ = goog.events.listen(labCanvas.getCanvas(),
-      goog.events.EventType.MOUSEDOWN, /*callback=*/this.mouseDown,
+  this.mouseDownKey_ = events.listen(labCanvas.getCanvas(),
+      EventType.MOUSEDOWN, /*callback=*/this.mouseDown,
       /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.mouseMoveKey_ = goog.events.listen(document, goog.events.EventType.MOUSEMOVE,
+  this.mouseMoveKey_ = events.listen(document, EventType.MOUSEMOVE,
       /*callback=*/this.mouseMove,  /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.mouseUpKey_ = goog.events.listen(document, goog.events.EventType.MOUSEUP,
+  this.mouseUpKey_ = events.listen(document, EventType.MOUSEUP,
       /*callback=*/this.mouseUp,  /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.keyDownKey_ = goog.events.listen(document, goog.events.EventType.KEYDOWN,
+  this.keyDownKey_ = events.listen(document, EventType.KEYDOWN,
       /*callback=*/this.keyPressed,  /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.keyUpKey_ = goog.events.listen(document, goog.events.EventType.KEYUP,
+  this.keyUpKey_ = events.listen(document, EventType.KEYUP,
       /*callback=*/this.keyReleased,  /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.touchStartKey_ = goog.events.listen(document, goog.events.EventType.TOUCHSTART,
+  this.touchStartKey_ = events.listen(document, EventType.TOUCHSTART,
       /*callback=*/this.touchStart,  /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.touchMoveKey_ = goog.events.listen(document, goog.events.EventType.TOUCHMOVE,
+  this.touchMoveKey_ = events.listen(document, EventType.TOUCHMOVE,
       /*callback=*/this.touchMove,  /*capture=*/false, this);
   /**  key used for removing the listener
-  * @type {goog.events.Key}
+  * @type {Key}
   * @private
   */
-  this.touchEndKey_ = goog.events.listen(document, goog.events.EventType.TOUCHEND,
+  this.touchEndKey_ = events.listen(document, EventType.TOUCHEND,
       /*callback=*/this.touchEnd,  /*capture=*/false, this);
 };
 
@@ -304,18 +305,18 @@ notifyError(error) {
 * @return {undefined}
 */
 destroy() {
-  goog.events.unlistenByKey(this.mouseDownKey_);
-  goog.events.unlistenByKey(this.mouseMoveKey_);
-  goog.events.unlistenByKey(this.mouseUpKey_);
-  goog.events.unlistenByKey(this.keyDownKey_);
-  goog.events.unlistenByKey(this.keyUpKey_);
-  goog.events.unlistenByKey(this.touchStartKey_);
-  goog.events.unlistenByKey(this.touchMoveKey_);
-  goog.events.unlistenByKey(this.touchEndKey_);
+  events.unlistenByKey(this.mouseDownKey_);
+  events.unlistenByKey(this.mouseMoveKey_);
+  events.unlistenByKey(this.mouseUpKey_);
+  events.unlistenByKey(this.keyDownKey_);
+  events.unlistenByKey(this.keyUpKey_);
+  events.unlistenByKey(this.touchStartKey_);
+  events.unlistenByKey(this.touchMoveKey_);
+  events.unlistenByKey(this.touchEndKey_);
 };
 
 /**  Callback for mouseDown event.
-@param {!goog.events.BrowserEvent} evt the mouse down event that occurred
+@param {!BrowserEvent} evt the mouse down event that occurred
 @private
 */
 mouseDown(evt) {
@@ -329,7 +330,7 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 of (0,0) for the top left corner of the client area (the canvas). See
 <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX>
 
-@param {!goog.events.BrowserEvent} evt the mouse down event that occurred
+@param {!BrowserEvent} evt the mouse down event that occurred
 @param {number} mouseX X-coordinate relative to the client area (canvas)
 @param {number} mouseY Y-coordinate relative to the client area (canvas)
 @private
@@ -339,7 +340,7 @@ doMouseDown(evt, mouseX, mouseY) {
   //  +' shift='+evt.shiftKey+' alt='+evt.altKey);
   if (evt.target != this.labCanvas_.getCanvas()) {
     // this should never happen.
-    goog.asserts.assert(false);
+    asserts.assert(false);
     return;
   }
   this.labCanvas_.focus();
@@ -402,7 +403,7 @@ eventToScreen(mouseX, mouseY) {
 };
 
 /** Callback for mouseMove event.
-@param {!goog.events.BrowserEvent} evt the mouse move event that occurred
+@param {!BrowserEvent} evt the mouse move event that occurred
 @private
 */
 mouseMove(evt) {
@@ -417,7 +418,7 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 (0,0) for the top left corner of the client area (the canvas). See
 <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX>
 
-@param {!goog.events.BrowserEvent} evt the mouse move event that occurred
+@param {!BrowserEvent} evt the mouse move event that occurred
 @param {number} mouseX X-coordinate relative to the client area (canvas)
 @param {number} mouseY Y-coordinate relative to the client area (canvas)
 @private
@@ -447,7 +448,7 @@ doMouseMove(evt, mouseX, mouseY) {
 };
 
 /** Callback for mouseUp event.
-@param {!goog.events.BrowserEvent} evt the mouse up event that occurred
+@param {!BrowserEvent} evt the mouse up event that occurred
 @private
 */
 mouseUp(evt) {
@@ -486,7 +487,7 @@ finishDrag() {
 /** Called when a key has been pressed, forwards the event by calling {@link
 EventHandler#handleKeyEvent}. Only forwards when the event target is the LabCanvas, or
 when there is no specific target (`document.body` is the event target in that case).
-* @param {!goog.events.KeyEvent} evt the key down event that occurred
+* @param {!KeyEvent} evt the key down event that occurred
 * @private
 */
 keyPressed(evt) {
@@ -503,7 +504,7 @@ keyPressed(evt) {
 /** Called when a key has been released, forwards the event by calling {@link
 EventHandler#handleKeyEvent}. Only forwards when the event target is the LabCanvas, or
 when there is no specific target (`document.body` is the event target in that case).
-* @param {!goog.events.KeyEvent} evt the key up event that occurred
+* @param {!KeyEvent} evt the key up event that occurred
 * @private
 */
 keyReleased(evt) {
@@ -520,7 +521,7 @@ keyReleased(evt) {
 /** Callback for touchStart event. If single touch in canvas, then process as a
 mouse-down event. Multiple touch cancels an ongoing mouse drag by calling
 {@link #finishDrag}.
-@param {!goog.events.BrowserEvent} evt the touch start event that occurred
+@param {!BrowserEvent} evt the touch start event that occurred
 @private
 */
 touchStart(evt) {
@@ -542,7 +543,7 @@ touchStart(evt) {
 /** Callback for touchMove event. If single touch in canvas, then process as a
 mouse-move event.  Multiple touch cancels an ongoing mouse drag by calling
 {@link #finishDrag}.
-@param {!goog.events.BrowserEvent} evt the touch move event that occurred
+@param {!BrowserEvent} evt the touch move event that occurred
 @private
 */
 touchMove(evt) {
@@ -559,7 +560,7 @@ touchMove(evt) {
 
 /** Callback for touchEnd event. If a mouseDrag is happening, then process as a
 mouse-up event.
-@param {!goog.events.BrowserEvent} evt the touch end event that occurred
+@param {!BrowserEvent} evt the touch end event that occurred
 @private
 */
 touchEnd(evt) {
@@ -588,7 +589,7 @@ static modifierToString(modifier) {
 
 /** Returns true if the set of modifier keys matches the event's modifiers
 @param {!SimController.modifierKey} modifier set of modifier keys to match
-@param {!goog.events.BrowserEvent} evt the browser event
+@param {!BrowserEvent} evt the browser event
 @return {boolean} true if the set of modifier keys matches the event's modifiers
 @private
 */

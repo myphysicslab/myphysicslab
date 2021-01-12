@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.lab.model.DiffEqSolverSubject');
 
+const array = goog.require('goog.array');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const AdaptiveStepSolver = goog.require('myphysicslab.lab.model.AdaptiveStepSolver');
 const DiffEqSolver = goog.require('myphysicslab.lab.model.DiffEqSolver');
@@ -122,7 +123,7 @@ getDiffEqSolver() {
 */
 setDiffEqSolver(value) {
   if (!this.advanceStrategy_.getDiffEqSolver().nameEquals(value)) {
-    var solver = goog.array.find(this.solvers_, s => s.nameEquals(value));
+    var solver = array.find(this.solvers_, s => s.nameEquals(value));
     if (solver != null) {
       this.advanceStrategy_.setDiffEqSolver(solver);
       this.broadcastParameter(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);

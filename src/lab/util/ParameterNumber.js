@@ -14,11 +14,10 @@
 
 goog.module('myphysicslab.lab.util.ParameterNumber');
 
-goog.require('goog.asserts');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
-const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
-const Subject = goog.require('myphysicslab.lab.util.Subject');
+const GenericEvent = goog.forwardDeclare('myphysicslab.lab.util.GenericEvent');
+const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
 
 /** Provides access to a numeric value of a {@link Subject}. Has options for setting
 number of significant digits to show, and upper/lower limit on value. Default is 3

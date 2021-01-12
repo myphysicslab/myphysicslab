@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.lab.model.Gravity2Law');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');
@@ -114,7 +115,7 @@ forces to, but only if it has positive finite mass.
 * @param {!SimObject} obj the SimObject to possibly add
 */
 addBody(obj) {
-  if (!obj.isMassObject() || goog.array.contains(this.bods_, obj)) {
+  if (!obj.isMassObject() || array.contains(this.bods_, obj)) {
     return;
   }
   var mobj = /** @type {!MassObject}*/(obj);
@@ -129,7 +130,7 @@ calculateForces() {
   // Calculate the force between each pair of bodies.
   // Avoid duplicate calculations by only looking at the 'upper triangle' of the matrix:
   // in a matrix of bodies x bodies, only look at the entries above the diagonal.
-  var bodies2 = goog.array.toArray(this.bods_);
+  var bodies2 = array.toArray(this.bods_);
   var forces = [];
   var j = 0;
   var n = bodies2.length;
@@ -236,7 +237,7 @@ non-infinite number for the minimum PE.
 */
 getPotentialEnergy() {
   var pe = 0;
-  var bodies2 = goog.array.toArray(this.bods_);
+  var bodies2 = array.toArray(this.bods_);
   var j = 0;
   var n = bodies2.length;
   this.bods_.forEach(body1 => {
@@ -269,8 +270,8 @@ observe(event) {
     this.addBody(obj);
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
     obj = /** @type {!SimObject} */ (event.getValue());
-    goog.array.remove(this.bods_, obj);
-    goog.asserts.assert(!goog.array.contains(this.bods_, obj));
+    array.remove(this.bods_, obj);
+    asserts.assert(!array.contains(this.bods_, obj));
   }
 };
 

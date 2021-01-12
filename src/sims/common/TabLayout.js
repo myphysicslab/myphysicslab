@@ -14,10 +14,11 @@
 
 goog.module('myphysicslab.sims.common.TabLayout');
 
-goog.require('goog.array');
-goog.require('goog.dom');
-goog.require('goog.events');
-goog.require('goog.style');
+const array = goog.require('goog.array');
+const dom = goog.require('goog.dom');
+const style = goog.require('goog.style');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
@@ -196,7 +197,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   }
 
   // when click on a tab (other than current selected tab) we switch to that layout.
-  goog.events.listen(this.tab_list, goog.events.EventType.CLICK,
+  events.listen(this.tab_list, EventType.CLICK,
       e => {
         var target = /** @type {Element} */(e.target);
         if (target === undefined) {
@@ -212,9 +213,9 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
         this.setLayoutFromTab(target.className);
       });
 
-  goog.events.listen(window, goog.events.EventType.RESIZE,
+  events.listen(window, EventType.RESIZE,
       () => this.redoLayout() );
-  goog.events.listen(window, goog.events.EventType.ORIENTATIONCHANGE,
+  events.listen(window, EventType.ORIENTATIONCHANGE,
       () => this.redoLayout() );
 
   var term_output = /**@type {?HTMLInputElement}*/
@@ -256,13 +257,13 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   */
   this.show_sim_cb = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'show_sim'));
-  var p = goog.dom.getParentElement(this.show_sim_cb);
+  var p = dom.getParentElement(this.show_sim_cb);
   if (p == null || p.tagName != 'LABEL') {
     throw '';
   }
   /** @type {!HTMLLabelElement} */
   this.show_sim_label = /** @type {!HTMLLabelElement} */(p);
-  goog.events.listen(this.show_sim_cb, goog.events.EventType.CLICK,
+  events.listen(this.show_sim_cb, EventType.CLICK,
     e => {
       this.showSim(this.show_sim_cb.checked);
     });
@@ -321,7 +322,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
     label_term.style.display = 'inline';
     this.show_term_cb = /**@type {!HTMLInputElement}*/
         (TabLayout.getElementById(elem_ids, 'show_terminal'));
-    goog.events.listen(this.show_term_cb, goog.events.EventType.CLICK,
+    events.listen(this.show_term_cb, EventType.CLICK,
       e => this.showTerminal(this.show_term_cb.checked) );
   }
 
@@ -522,7 +523,7 @@ getLayout() {
 @private
 */
 getSelectedTab() {
-  var tab = goog.array.find(this.tab_list.childNodes,
+  var tab = array.find(this.tab_list.childNodes,
     function(/** !Node */n) {
       if (n.nodeType != Node.ELEMENT_NODE) {
         return false;
@@ -573,10 +574,10 @@ redoLayout() {
   // WARNING-NOTE: viewport size can change if scrollbars appear or disappear
   // due to layout changes.
   var Layout = TabLayout.Layout;
-  var view_sz = goog.dom.getViewportSize();
-  goog.style.setFloat(this.div_sim, 'left');
-  goog.style.setFloat(this.div_graph, 'left');
-  goog.style.setFloat(this.div_time_graph, 'left');
+  var view_sz = dom.getViewportSize();
+  style.setFloat(this.div_sim, 'left');
+  style.setFloat(this.div_graph, 'left');
+  style.setFloat(this.div_time_graph, 'left');
   switch (this.layout_) {
     case '':
     case Layout.SIM:
@@ -680,7 +681,7 @@ setDisplaySize(max_width, graph_div) {
     //    divsim_w <= window_h (cvs_w/cvs_h)
     // Convert this to fractional width:
     //    (divsim_w/window_w) <= (window_h/window_w) * (cvs_w/cvs_h)
-    var window_sz = goog.dom.getViewportSize();
+    var window_sz = dom.getViewportSize();
     var window_h = (window_sz.height - 80);
     // Use the container div for width, not the screen. container div is more reliable.
     // This avoids issues with whether scrollbars are visible.

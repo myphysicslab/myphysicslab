@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.sims.experimental.BikeTimerApp');
 
-goog.require('goog.events');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
 
 const Clock = goog.require('myphysicslab.lab.util.Clock');
 const DisplayText = goog.require('myphysicslab.lab.view.DisplayText');
@@ -122,7 +123,7 @@ static makeBikeTimerApp(sound_url) {
   if (field_period != null) {
     field_period.textAlign = 'right'; // this is not working
     field_period.value = period.toFixed(1);
-    goog.events.listen(field_period, goog.events.EventType.CHANGE,
+    events.listen(field_period, EventType.CHANGE,
       /*callback=*/event => {
         //console.log('period change '+field_period.value);
         var value = parseFloat(field_period.value);
@@ -139,7 +140,7 @@ static makeBikeTimerApp(sound_url) {
   if (field_start != null) {
     field_start.textAlign = 'right'; // this is not working
     field_start.value = startTime.toFixed(1);
-    goog.events.listen(field_start, goog.events.EventType.CHANGE,
+    events.listen(field_start, EventType.CHANGE,
       /*callback=*/event => {
         //console.log('startTime change '+field_start.value);
         var value = parseFloat(field_start.value);

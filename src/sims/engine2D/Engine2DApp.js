@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.sims.engine2D.Engine2DApp');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
@@ -287,7 +287,7 @@ makeEasyScript(opt_dependent) {
 graphSetup(body) {
   if (!body) {
     // find first body with finite mass
-    body = goog.array.find(this.sim.getBodies(),
+    body = array.find(this.sim.getBodies(),
       bod => isFinite(bod.getMass()));
   }
   if (body != null) {

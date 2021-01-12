@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.pendulum.ComparePendulumApp');
 
-goog.require('goog.array');
-
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const Arc = goog.require('myphysicslab.lab.model.Arc');
 const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');

@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.test.TestRig');
 
+const asserts = goog.require('goog.asserts');
 const ExpectedPerf = goog.require('myphysicslab.test.ExpectedPerf');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
@@ -114,7 +115,7 @@ static perfExpected(testName, defaultTime) {
   var browser = TestRig.getBrowserName();
   var compiled = Util.ADVANCED ? 'advanced' : 'simple';
   var e0 = ExpectedPerf;
-  goog.asserts.assertObject(e0, 'not an object '+e0);
+  asserts.assertObject(e0, 'not an object '+e0);
   var err = 'no expected results for machine: '+machine;
   var e1 = e0[machine];
   if (!goog.isObject(e1)) {
@@ -224,7 +225,7 @@ static startTests() {
   if (goog.DEBUG && !Util.ADVANCED) {
     try {
       var a = 1;
-      goog.asserts.assert(1 == 0);
+      asserts.assert(1 == 0);
       a = 2;
     } catch(e) {
       TestRig.myPrintln('asserts are working');

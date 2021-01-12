@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.graph.EnergyBarGraph');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
@@ -378,7 +378,7 @@ draw(context, map) {
   //g.setColor(Color.red);  // for debugging, draw outline in red
   //g.drawRect(left, top, width, height);
   this.totalEnergy_ = te + pe + (isNaN(re) ? 0 : re);
-  goog.asserts.assert(Math.abs(this.totalEnergy_ - e.getTotalEnergy()) < 1e-12);
+  asserts.assert(Math.abs(this.totalEnergy_ - e.getTotalEnergy()) < 1e-12);
   // find the minimum and maximum energy being graphed
   this.minEnergy_ = pe < 0 ? pe : 0;
   this.maxEnergy_ = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
@@ -419,7 +419,7 @@ draw(context, map) {
   var totalLoc = this.graphOrigin_ +
     Math.floor(0.5 + this.totalEnergy_ * this.graphFactor_);
   // check this is no more than 2 pixels away from the 'flicker' way to calc.
-  goog.asserts.assert(Math.abs(w + w2 - totalLoc) <= 2);
+  asserts.assert(Math.abs(w + w2 - totalLoc) <= 2);
   w2 = totalLoc - w;
   context.fillStyle = this.translationColor;
   context.fillRect(w, top + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
@@ -683,7 +683,7 @@ rescale(maxWidth) {
   if (Util.DEBUG) { this.printEverything('(status)'); }
   // keep track of most negative min energy value during this time check period
   this.megaMinEnergy_ = this.minHistory();
-  goog.asserts.assert(isFinite(this.megaMinEnergy_));
+  asserts.assert(isFinite(this.megaMinEnergy_));
   // Note: Don't rescale when megaMinEnergy is very near to zero.
   if (this.megaMinEnergy_ < -1E-6) {
     // rescale when minEnergy is negative and has gone past left edge
@@ -762,7 +762,7 @@ rescale(maxWidth) {
     } else {  // decreasing
       this.graphFactor_ = 0.95*maxWidth/total;
     }
-    goog.asserts.assert(isFinite(this.graphFactor_));
+    asserts.assert(isFinite(this.graphFactor_));
     if (this.megaMinEnergy_ < -1E-12) {
       this.graphOrigin_ = this.leftEdge_ +
           Math.floor(0.5 + this.graphFactor_ * (-this.megaMinEnergy_));
@@ -793,7 +793,7 @@ rescale(maxWidth) {
 * @private
 */
 resizeRect(height) {
-  goog.asserts.assertObject(this.visibleRect_);
+  asserts.assertObject(this.visibleRect_);
   var top = this.rect_.isEmpty() ?
       this.visibleRect_.getTop() : this.rect_.getTop();
   var bottom = top - height;

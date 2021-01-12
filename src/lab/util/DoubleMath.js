@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.DoubleMath');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 /** Utility functions to convert a floating point double-precision number to/from its
 representation as a IEEE 754 binary number. The main functions defined here are
@@ -145,7 +145,7 @@ static hexToNum(hex) {
   if (hex.length != 16)
     throw '';
   var s = DoubleMath.hexToBinary(hex);
-  goog.asserts.assert( s.length == 64 );
+  asserts.assert( s.length == 64 );
   return DoubleMath.binaryToNum(s);
 };
 
@@ -195,10 +195,10 @@ static numToBinary(x) {
     s += '00000000000';
     num = absx * Math.pow(2, 1022);
     // for subnormal, the first digit of mantissa must be zero
-    goog.asserts.assert( num > 0 && num < 1 );
+    asserts.assert( num > 0 && num < 1 );
   } else {
     num = absx * Math.pow(2, -log);
-    goog.asserts.assert( num < 2 );
+    asserts.assert( num < 2 );
     if (num >= 1) {
       // exponent is 1023 + log
       s += DoubleMath.numToBits(1023 + log, 11);
@@ -236,7 +236,7 @@ static numToBits(num, size) {
     s = (bit = num % 2) + s;
     num = (num - bit) / 2;
   }
-  goog.asserts.assert( Math.floor(num) == 0 );
+  asserts.assert( Math.floor(num) == 0 );
   return s;
 };
 

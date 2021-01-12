@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.test.SingleViewerApp');
 
-goog.require('goog.array');
-
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
 const CollisionAdvance = goog.require('myphysicslab.lab.model.CollisionAdvance');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');

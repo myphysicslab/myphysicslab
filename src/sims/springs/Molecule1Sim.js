@@ -14,8 +14,7 @@
 
 goog.module('myphysicslab.sims.springs.Molecule1Sim');
 
-goog.require('goog.asserts');
-goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractODESim = goog.require('myphysicslab.lab.model.AbstractODESim');
 const Collision = goog.require('myphysicslab.lab.model.Collision');
@@ -530,7 +529,7 @@ evaluate(vars, change, timeStep) {
 
   if (!this.dragAtom1_) {
     var sf1 = forces[0];
-    goog.asserts.assert(sf1.getBody() == this.atom1_);
+    asserts.assert(sf1.getBody() == this.atom1_);
     var m1 = this.atom1_.getMass();
     var b1 = this.atom1_.getBoundsWorld();
     change[0] = vars[2]; // Ux' = Vx
@@ -565,7 +564,7 @@ evaluate(vars, change, timeStep) {
 
   if (!this.dragAtom2_) {
     var sf2 = forces[1];
-    goog.asserts.assert(sf2.getBody() == this.atom2_);
+    asserts.assert(sf2.getBody() == this.atom2_);
     var m2 = this.atom2_.getMass();
     var b2 = this.atom2_.getBoundsWorld();
     change[4] = vars[6]; // Ux' = Vx

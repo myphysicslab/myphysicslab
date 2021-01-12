@@ -14,7 +14,8 @@
 
 goog.module('myphysicslab.lab.model.DampingLaw');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const CoordType = goog.require('myphysicslab.lab.model.CoordType');
@@ -139,7 +140,7 @@ addBodies(bodies) {
 * @param {!SimObject} obj the SimObject to possibly add
 */
 addBody(obj) {
-  if (!obj.isMassObject() || goog.array.contains(this.bods_, obj)) {
+  if (!obj.isMassObject() || array.contains(this.bods_, obj)) {
     return;
   }
   var mobj = /** @type {!MassObject}*/(obj);
@@ -221,8 +222,8 @@ observe(event) {
     this.addBody(obj);
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
     obj = /** @type {!SimObject} */ (event.getValue());
-    goog.array.remove(this.bods_, obj);
-    goog.asserts.assert(!goog.array.contains(this.bods_, obj));
+    array.remove(this.bods_, obj);
+    asserts.assert(!array.contains(this.bods_, obj));
   }
 };
 

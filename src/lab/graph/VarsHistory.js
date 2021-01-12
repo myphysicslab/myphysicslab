@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.graph.VarsHistory');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const CircularList = goog.require('myphysicslab.lab.util.CircularList');
 const HistoryList = goog.require('myphysicslab.lab.util.HistoryList');
@@ -70,7 +70,7 @@ constructor(variablesList, opt_capacity) {
   * @type {!Array<number>}
   * @private
   */
-  this.varIndex_ = goog.array.range(this.variablesList_.numVariables());
+  this.varIndex_ = array.range(this.variablesList_.numVariables());
   /** number formatting function
   * @type {function(number): string}
   */
@@ -116,7 +116,7 @@ memorize() {
   var data = this.varIndex_.map(idx => vars[idx]);
   // only store if the new point is different from the last point
   var last = this.dataPoints_.getEndValue();
-  if (last == null || !goog.array.equals(data, last)) {
+  if (last == null || !array.equals(data, last)) {
     this.dataPoints_.store(data);
   }
 };

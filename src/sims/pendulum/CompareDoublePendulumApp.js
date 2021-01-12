@@ -14,8 +14,6 @@
 
 goog.module('myphysicslab.sims.pendulum.CompareDoublePendulumApp');
 
-goog.require('goog.array');
-
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const AutoScale = goog.require('myphysicslab.lab.graph.AutoScale');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');

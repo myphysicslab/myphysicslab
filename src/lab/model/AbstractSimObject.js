@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.model.AbstractSimObject');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const Util = goog.require('myphysicslab.lab.util.Util');
 

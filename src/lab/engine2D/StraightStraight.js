@@ -13,6 +13,7 @@
 // limitations under the License.
 
 goog.module('myphysicslab.lab.engine2D.StraightStraight');
+const asserts = goog.require('goog.asserts');
 
 const EdgeEdgeCollision = goog.require('myphysicslab.lab.engine2D.EdgeEdgeCollision');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
@@ -63,8 +64,8 @@ positions and velocities of the RigidBodys.
 static improveAccuracy(rbc, edge1, edge2) {
   var edge1Body = edge1.getBody();
   var edge2Body = edge2.getBody();
-  goog.asserts.assert( rbc.getPrimaryBody() == edge1Body);
-  goog.asserts.assert( rbc.getNormalBody() == edge2Body);
+  asserts.assert( rbc.getPrimaryBody() == edge1Body);
+  asserts.assert( rbc.getNormalBody() == edge2Body);
   // The scenario is:  collision between a edge1 and edge2 happened,
   // it was detected by the two lines intersecting.
   var pt = StraightStraight.intersect(edge1, edge2);

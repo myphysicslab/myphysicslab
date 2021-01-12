@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.engine2D.Walls');
 
-goog.require('goog.asserts');
+const asserts = goog.require('goog.asserts');
 
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const GenericVector = goog.require('myphysicslab.lab.util.GenericVector');

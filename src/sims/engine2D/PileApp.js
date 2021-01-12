@@ -14,6 +14,7 @@
 
 goog.module('myphysicslab.sims.engine2D.PileApp');
 
+const array = goog.require('goog.array');
 const ButtonControl = goog.require('myphysicslab.lab.controls.ButtonControl');
 const CheckBoxControl = goog.require('myphysicslab.lab.controls.CheckBoxControl');
 const ChoiceControl = goog.require('myphysicslab.lab.controls.ChoiceControl');
@@ -234,15 +235,15 @@ config() {
   var blocks = [];
   if (this.twoPiles) {
     this.zeroEnergyLevel = PileConfig.makeDoubleVPit(this.mySim, 5);
-    goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, this.numBlocks,
+    array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, this.numBlocks,
          -7, 10, this.buildRNG, /*rightAngle=*/this.squareBlocks));
   } else {
     this.zeroEnergyLevel = PileConfig.makeVPit(this.mySim, 9.348706704297266);
     var half = Math.floor(this.numBlocks/2);
     var rest = this.numBlocks-half;
-    goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, rest, -9.9, 19,
+    array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, rest, -9.9, 19,
         this.buildRNG, /*rightAngle=*/this.squareBlocks));
-    goog.array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, half, -9, 16,
+    array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, half, -9, 16,
           this.buildRNG, /*rightAngle=*/this.squareBlocks));
   }
   this.gravityLaw.setZeroEnergyLevel(this.zeroEnergyLevel);
@@ -253,7 +254,7 @@ config() {
     var thrustForce1 = SixThrusters.make(10.0, connect[0]);
     this.rbeh.setThrusters(thrustForce1, 'right');
     this.mySim.addForceLaw(thrustForce1);
-    goog.array.extend(blocks, connect);
+    array.extend(blocks, connect);
   }
 
   // set random colors for blocks

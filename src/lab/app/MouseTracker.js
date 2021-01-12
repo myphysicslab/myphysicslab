@@ -13,7 +13,7 @@
 // limitations under the License.
 goog.module('myphysicslab.lab.app.MouseTracker');
 
-goog.require('goog.events.BrowserEvent');
+const BrowserEvent = goog.require('goog.events.BrowserEvent');
 
 const Coordmap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
@@ -156,7 +156,7 @@ MouseTracker should however be able to move such DisplayObjects if they exist.
 */
 
 /** Called when a mouse down event occurs.
-@param {!goog.events.BrowserEvent} evt the mouse down event that occurred
+@param {!BrowserEvent} evt the mouse down event that occurred
 */
 startDrag(evt) {
   if (this.eventHandler_ != null) {
@@ -169,7 +169,7 @@ startDrag(evt) {
 
 /** Called when a mouse move event occurs.
 @param {!Vector} loc_screen location of the event in screen coordinates
-@param {!goog.events.BrowserEvent} evt the mouse move event that occurred
+@param {!BrowserEvent} evt the mouse move event that occurred
 */
 mouseDrag(loc_screen, evt) {
   var map = this.view_.getCoordMap();

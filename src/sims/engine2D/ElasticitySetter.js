@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.sims.engine2D.ElasticitySetter');
 
-goog.require('goog.array');
+const array = goog.require('goog.array');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
@@ -95,7 +95,7 @@ getElasticity_() {
   if (bods.length == 0) {
     return this.lastValue_;
   } else {
-    return goog.array.reduce(bods, function(value, body) {
+    return array.reduce(bods, function(value, body) {
       return Math.min(value, body.getElasticity());
     }, 1);
   }

@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.util.test.AbstractSubjectTest');
 
-goog.require('goog.array');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
@@ -288,7 +287,6 @@ static testAbstractSubject1() {
   assertThrows(()=>  mockSubj1.getParameter('BLARG') );
   assertThrows(()=>  mockSubj1.getParameterNumber('BLARG') );
 
-  /** @type {!Array<!myphysicslab.lab.util.Parameter>} */
   var params = mockSubj1.getParameters();
   assertEquals(3, params.length);
   assertTrue(params.includes(paramFoo));
@@ -302,7 +300,6 @@ static testAbstractSubject1() {
   // add the observer to the subject
   mockSubj1.addObserver(mockObsvr1);
   // there should be only this one observer
-  /** @type {!Array<!myphysicslab.lab.util.Observer>} */
   var obsvrs = mockSubj1.getObservers();
   assertEquals(1, obsvrs.length);
   assertTrue(obsvrs.includes(mockObsvr1));

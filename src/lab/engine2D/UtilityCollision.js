@@ -14,11 +14,12 @@
 
 goog.module('myphysicslab.lab.engine2D.UtilityCollision');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const CornerEdgeCollision = goog.require('myphysicslab.lab.engine2D.CornerEdgeCollision');
 const Edge = goog.require('myphysicslab.lab.engine2D.Edge');
+const Polygon = goog.forwardDeclare('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
@@ -106,8 +107,8 @@ static addCollision(collisions, c2) {
       // The first one has better estimate of velocity, so prefer that one.
       var time1 = c1.getDetectedTime();
       var time2 = c2.getDetectedTime();
-      goog.asserts.assert(isFinite(time1));
-      goog.asserts.assert(isFinite(time2));
+      asserts.assert(isFinite(time1));
+      asserts.assert(isFinite(time2));
       if (time1 > time2 + 1e-14) {
         // Prefer the collision that was detected later
         shouldAdd = false;
@@ -134,7 +135,7 @@ static addCollision(collisions, c2) {
         console.log('**** removeMe.length='+removeMe.length);
       removeMe.forEach(c => console.log('---- addCollision removing '+c));
     }
-    removeMe.forEach(obj => goog.array.remove(collisions, obj));
+    removeMe.forEach(obj => array.remove(collisions, obj));
   }
   if (shouldAdd) {
     collisions.push(c2);
@@ -153,8 +154,8 @@ static addCollision(collisions, c2) {
 /** Checks for collision of each vertex of body2 with edges of body1.
 @param {!Array<!RigidBodyCollision>} collisions  the list of
     collisions to add to
-@param {!myphysicslab.lab.engine2D.Polygon} body1 the Polygon whose edges are checked
-@param {!myphysicslab.lab.engine2D.Polygon} body2 the Polygon whose Vertexes are checked
+@param {!Polygon} body1 the Polygon whose edges are checked
+@param {!Polygon} body2 the Polygon whose Vertexes are checked
 @param {number} time current simulation time
 @package
 */
@@ -238,9 +239,9 @@ two bodies is possible.
 Further checks are needed besides this rough check to determine if there really is
 intersection of the two bodies. The bounding rectangle can be increased in size by the
 `swellage` amount.
-@param {!myphysicslab.lab.engine2D.Polygon} body1  the first body to check for
+@param {!Polygon} body1  the first body to check for
     intersection with
-@param {!myphysicslab.lab.engine2D.Polygon} body2  the second body to check for
+@param {!Polygon} body2  the second body to check for
     intersection with
 @param {number} swellage  amount to increase the bounding rectangle sizes
 @return {boolean} false if there can be no intersection between the two bodies.
@@ -263,9 +264,9 @@ static intersectionPossible(body1, body2, swellage) {
 
 /** special edge proximity test:  look at only the component of the
 distance that is normal to the edge.
-@param {!myphysicslab.lab.engine2D.Polygon} poly1  the first body to check for
+@param {!Polygon} poly1  the first body to check for
     intersection with
-@param {!myphysicslab.lab.engine2D.Polygon} poly2  the second body to check for
+@param {!Polygon} poly2  the second body to check for
     intersection with
 @param {number} swellage  amount to increase the bounding rectangle sizes
 @return {boolean} false if there can be no intersection between the two bodies.
@@ -449,7 +450,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
   var c;
   if (superset.length == 0)
     return [];
-  goog.asserts.assert(superset.includes(startC));
+  asserts.assert(superset.includes(startC));
   /** @type {!Array<!RigidBodyCollision>} */
   var subset = [];
   subset.push(startC);
@@ -535,12 +536,12 @@ from among those that got calculated (instead of recalculating the distance
 yet again when making the collision record).
 
 @param {!Array<!RigidBodyCollision>} collisions  the list of collisions to add to
-@param {!myphysicslab.lab.engine2D.Polygon} body1 the Polygon whose edges we are
+@param {!Polygon} body1 the Polygon whose edges we are
     checking for collisions
 @param {!Vertex} vertex2 the Vertex of body2
 @param {!Vector} v_body  the current position of vertex2 in body coords of body1
 @param {!Vector} v_body_old the position of vertex2 at the last time step in body
-    coords of body1, see {@link myphysicslab.lab.engine2D.Polygon#saveOldCoords}
+    coords of body1, see {@link Polygon#saveOldCoords}
 @param {number} travelDist  the distance between v_body and v_body_old
 @param {number} time current simulation time
 @private
@@ -554,9 +555,9 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
     throw Util.DEBUG ? 'vertex2 has no edge: '+vertex2 : '';
   }
   // type needed for NTI?
-  /** @type {!myphysicslab.lab.engine2D.Polygon} */
+  /** @type {!Polygon} */
   var body2 = edge2.getBody();
-  goog.asserts.assertObject(body2);
+  asserts.assertObject(body2);
   // v_body = point of impact in body1's body coords
   // v_body_old = old location of point of impact, at time before the current time
   //              step, in 'old body coords', the body1 coords at that time
@@ -595,7 +596,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       console.log('*****  PROBABLY POINT INSIDE v_body='+v_body);
       // show what Vertexes are being tested
       // type cast needed for NTI?
-      var p = /** @type {!myphysicslab.lab.engine2D.Polygon} */(body2);
+      var p = /** @type {!Polygon} */(body2);
       p.printAll();
       console.log('testCollisionVertex '+body1.getName()+' '+p.getName()
           +' v: '+vertex2.getID());
@@ -674,15 +675,15 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
           console.log('findVertexContact '+c);
         }
         if (c != null) {
-          goog.asserts.assert(c != null);
-          goog.asserts.assert(c.primaryBody == body2);
-          goog.asserts.assert(c.normalBody == body1);
+          asserts.assert(c != null);
+          asserts.assert(c.primaryBody == body2);
+          asserts.assert(c.normalBody == body1);
           c.setDetectedTime(time);
           UtilityCollision.addCollision(collisions, c);
         }
         return;  // continue to next edge
       }
-      goog.asserts.assert(v_body != v_body_old);
+      asserts.assert(v_body != v_body_old);
       if (0 == 1 && Util.DEBUG) {
         console.log('r1_array[0]='+r1_array[0]);
       }
@@ -737,7 +738,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
         // removed on May 27 2013.
 
         // both bodies must be Polygon's, because Scrim doesn't collide with anything
-        // goog.asserts.assert(body1 instanceof Polygon);
+        // asserts.assert(body1 instanceof Polygon);
         var noSpecialEdge = body1.getSpecialNormalWorld() == null;
 
         // note May 9 2016: If you make an EdgeRange or EdgeGroup such that two

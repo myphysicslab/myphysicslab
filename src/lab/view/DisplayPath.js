@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.view.DisplayPath');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
@@ -160,8 +160,8 @@ draw(context, map) {
     // don't bother if the screen isn't visible
     return;
   }
-  goog.asserts.assert( r.getLeft() == 0);
-  goog.asserts.assert( r.getTop() == 0);
+  asserts.assert( r.getLeft() == 0);
+  asserts.assert( r.getTop() == 0);
   var w = r.getWidth();
   var h = r.getHeight();
   context.save();
@@ -308,7 +308,7 @@ getPath(arg) {
     }
   } else if (typeof arg === 'string') {
     arg = Util.toName(arg);
-    var e = goog.array.find(this.paths_,
+    var e = array.find(this.paths_,
       function (/** !Path */obj) {
         return obj.getName() == arg;
       });
@@ -385,9 +385,9 @@ removePath(path) {
   if (this.containsPath(path)) {
     var idx = this.paths_.indexOf(path);
     if (idx > -1) {
-      goog.array.removeAt(this.paths_, idx);
-      goog.array.removeAt(this.styles_, idx);
-      goog.array.removeAt(this.sequence_, idx);
+      array.removeAt(this.paths_, idx);
+      array.removeAt(this.styles_, idx);
+      array.removeAt(this.sequence_, idx);
       this.redraw_ = true;
       this.flush();
     }

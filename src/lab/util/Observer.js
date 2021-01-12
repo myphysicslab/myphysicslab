@@ -15,7 +15,8 @@
 goog.module('myphysicslab.lab.util.Observer');
 
 const Printable = goog.require('myphysicslab.lab.util.Printable');
-const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
+const SubjectEvent = goog.forwardDeclare('myphysicslab.lab.util.SubjectEvent');
 
 /** An Observer is notified whenever something changes in a {@link Subject} it is
 observing. The change can be in the value of a Subject's
@@ -36,7 +37,7 @@ See {@link Subject} for more extensive documentation.
 class Observer extends Printable {
 
 /** Notifies this Observer that a change has occurred in the Subject.
-@param {!myphysicslab.lab.util.SubjectEvent} event  contains information about
+@param {!SubjectEvent} event  contains information about
       what has changed in the Subject: typically either a one-time GenericEvent,
       or a change to the value of a Parameter
 */

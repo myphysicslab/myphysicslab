@@ -14,8 +14,8 @@
 
 goog.module('myphysicslab.lab.graph.VectorGraph');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
+const array = goog.require('goog.array');
+const asserts = goog.require('goog.asserts');
 
 const CoordMap = goog.require('myphysicslab.lab.view.CoordMap');
 const DisplayObject = goog.require('myphysicslab.lab.view.DisplayObject');
@@ -158,7 +158,7 @@ draw(context, map) {
   var w = this.screenRect_.getWidth();
   var h = this.screenRect_.getHeight();
   if (this.offScreen_ == null) {
-    goog.asserts.assert(w > 0 && h > 0);
+    asserts.assert(w > 0 && h > 0);
     // make the offscreen buffer that has an alpha channel.
     this.offScreen_ = /** @type {!HTMLCanvasElement} */
         (document.createElement('canvas'));
@@ -166,10 +166,10 @@ draw(context, map) {
     this.offScreen_.height = h;
     this.needRedraw_ = true;
   }
-  goog.asserts.assertObject(this.offScreen_);
+  asserts.assertObject(this.offScreen_);
   // osb = off screen buffer
   var osb = /** @type {!CanvasRenderingContext2D} */(this.offScreen_.getContext('2d'));
-  goog.asserts.assertObject(osb);
+  asserts.assertObject(osb);
   if (this.needRedraw_) {
     // Clear image with transparent alpha by drawing a rectangle
     // 'clearRect fills with transparent black'

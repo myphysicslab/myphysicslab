@@ -14,7 +14,6 @@
 
 goog.module('myphysicslab.lab.model.CollisionStats');
 
-goog.require('goog.array');
 
 const Collision = goog.require('myphysicslab.lab.model.Collision');
 const Util = goog.require('myphysicslab.lab.util.Util');

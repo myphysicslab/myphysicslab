@@ -13,12 +13,12 @@
 // limitations under the License.
 
 goog.module('myphysicslab.sims.pde.StringPath');
-goog.forwardDeclare('myphysicslab.sims.pde.StringSim');
 
 const AbstractSimObject = goog.require('myphysicslab.lab.model.AbstractSimObject');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const Path = goog.require('myphysicslab.lab.model.Path');
 const PathIterator = goog.require('myphysicslab.lab.model.PathIterator');
+const StringSim = goog.forwardDeclare('myphysicslab.sims.pde.StringSim');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** This is an Adapter that forwards to {@link StringSim}.
@@ -26,12 +26,12 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 */
 class StringPath extends AbstractSimObject {
 /**
-* @param {!myphysicslab.sims.pde.StringSim} sim
+* @param {!StringSim} sim
 */
 constructor(sim) {
   super('string');
   /**
-  * @type {!myphysicslab.sims.pde.StringSim}
+  * @type {!StringSim}
   * @private
   */
   this.sim_ = sim;
@@ -75,11 +75,11 @@ getSequence() {
 */
 class StringIterator {
 /**
-* @param {!myphysicslab.sims.pde.StringSim} sim
+* @param {!StringSim} sim
 */
 constructor(sim) {
   /**
-  * @type {!myphysicslab.sims.pde.StringSim}
+  * @type {!StringSim}
   * @private
   */
   this.sim_ = sim;
