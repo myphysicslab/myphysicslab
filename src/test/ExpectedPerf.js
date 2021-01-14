@@ -100,9 +100,9 @@ const ExpectedPerf = {
         'clock_gears_perf': 0.73
       },
       'advanced': {
-        'six_blocks_perf': 0.42,
-        'pile_10_perf': 0.76,
-        'clock_gears_perf': 0.79
+        'six_blocks_perf': 0.40,
+        'pile_10_perf': 0.69,
+        'clock_gears_perf': 0.76
       }
     },
     'Firefox': {
