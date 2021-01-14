@@ -16,7 +16,7 @@ goog.module('myphysicslab.lab.util.Observer');
 
 const Printable = goog.require('myphysicslab.lab.util.Printable');
 const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
-const SubjectEvent = goog.forwardDeclare('myphysicslab.lab.util.SubjectEvent');
+const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
 
 /** An Observer is notified whenever something changes in a {@link Subject} it is
 observing. The change can be in the value of a Subject's
