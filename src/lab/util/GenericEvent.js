@@ -14,7 +14,7 @@
 
 goog.module('myphysicslab.lab.util.GenericEvent');
 
-const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Subject = goog.forwardDeclare('myphysicslab.lab.util.Subject');
 const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
