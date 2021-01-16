@@ -83,6 +83,7 @@
 # Are variable definitions attached to a target that are valid only during the
 # processing of that target and any of its prerequisites.
 #   target : variable := value
+# Note that wildcards (*) should not be used in the target, use patterns (%) instead.
 #
 # Order-only Prerequisites:
 # In a rule, the prerequisites to the right of a | (pipe symbol) are "order-only".
@@ -409,6 +410,19 @@ $(BUILD_DIR)/deps.js : $(src_js)
 	python ./closure-library/closure/bin/build/depswriter.py \
 	--root_with_prefix="src ../../../src" > $@
 
+# Note on using wildcard (*) for prerequisites.
+# Wildcards are automatically expanded by make whenever a wildcard appears in a target,
+# prerequisite, or command script context. But this means if there are currently no
+# files matching the wildcard expression, then there will be nothing in that spot.
+# For example:
+# $(BUILD_DIR)/sims/pendulum/PendulumApp*.js : src/sims/pendulum/PendulumSim.js
+# would expand to
+#  : src/sims/pendulum/PendulumSim.js
+# Therefore, the following prerequisites rules only "fire" when the app already
+# exists. This turns out OK because the app is going to built anyway, since it doesn't
+# exist.  If it does exist, then that rule will be valid (the wildcard expands to the
+# file we are trying to build) which will cause the app to be rebuilt if the sim file
+# is newer.
 
 # src/sims/engine2D prerequisites
 
@@ -561,22 +575,23 @@ src/macros_vert.html
 $(BUILD_DIR)/sims/*/*.js : $(sims_req)
 $(BUILD_DIR)/test/*.js : $(test_req)
 
+
+# The following use Pattern-specific Variable Values
+# https://www.gnu.org/software/make/manual/make.html#Pattern_002dspecific
+# Unlike wildcards (*), the pattern (%) will match the target even when it doesn't
+# yet exist.
+# Turn off GOOG_DEBUG & UTIL_DEBUG for maximum performance
+$(BUILD_DIR)/test/PerformanceTests%.js : override GOOG_DEBUG:=false
+$(BUILD_DIR)/test/PerformanceTests%.js : override UTIL_DEBUG:=false
+# Turn on GOOG_DEBUG to ensure that assertions are working.
+$(BUILD_DIR)/test/Engine2DTests%.js : override GOOG_DEBUG:=true
 # Note that goog.DEBUG must be true for unittests because goog.testing.MockClock uses
 # goog.async.run which requires goog.DEBUG to be true.
 # The error message was something like `goog.async.run.resetQueue is undefined`
 # which happened while trying to uninstall a MockClock.
 # Also goog.DEBUG must be true for goog.asserts.asserts() to work.
-
-# The following use Target Specific Variable Values
-# https://www.gnu.org/software/make/manual/make.html#Target_002dspecific
-# Turn off GOOG_DEBUG for maximum performance
-$(BUILD_DIR)/test/PerformanceTests*.js : override GOOG_DEBUG:=false
-# Turn on GOOG_DEBUG to ensure that assertions are working.
-$(BUILD_DIR)/test/Engine2DTests*.js : override GOOG_DEBUG:=true
-$(BUILD_DIR)/test/UnitTest*.js : override GOOG_DEBUG:=true
-$(BUILD_DIR)/test/SingleTest*.js : override GOOG_DEBUG:=true
-# Turn off UTIL_DEBUG for performance test, to avoid slowing down browser
-$(BUILD_DIR)/test/PerformanceTests*.js : override UTIL_DEBUG:=false
+$(BUILD_DIR)/test/UnitTest%.js : override GOOG_DEBUG:=true
+$(BUILD_DIR)/test/SingleTest%.js : override GOOG_DEBUG:=true
 
 # GOOG_DEBUG is passed to compile_js, determines whether goog.DEBUG=true
 GOOG_DEBUG ?= false
