@@ -238,13 +238,13 @@ static test() {
 
 static testAbstractSubject1() {
   startTest(AbstractSubjectTest.groupName+'testAbstractSubject1');
-  var mockSubj1 = new MockSubject1();
+  const mockSubj1 = new MockSubject1();
   assertEquals(0, mockSubj1.getFooness());
   assertFalse(mockSubj1.getFooBarness());
   assertEquals('corge', mockSubj1.getQux());
 
   // make parameters
-  var paramFoo = new ParameterNumber(mockSubj1,
+  const paramFoo = new ParameterNumber(mockSubj1,
       MockSubject1.FOONESS,
       MockSubject1.FOONESS,
       () => mockSubj1.getFooness(),
@@ -252,14 +252,14 @@ static testAbstractSubject1() {
   mockSubj1.addParameter(paramFoo);
   assertEquals(0, paramFoo.getValue());
 
-  var paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
+  const paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
       () => mockSubj1.getFooBarness(),
       a => mockSubj1.setFooBarness(a));
   mockSubj1.addParameter(paramFooBar);
   assertFalse(paramFooBar.getValue());
 
-  var paramQux = new ParameterString(mockSubj1,
+  const paramQux = new ParameterString(mockSubj1,
       MockSubject1.QUX,
       MockSubject1.QUX,
       () => mockSubj1.getQux(),
@@ -287,12 +287,12 @@ static testAbstractSubject1() {
   assertThrows(()=>  mockSubj1.getParameter('BLARG') );
   assertThrows(()=>  mockSubj1.getParameterNumber('BLARG') );
 
-  var params = mockSubj1.getParameters();
+  const params = mockSubj1.getParameters();
   assertEquals(3, params.length);
   assertTrue(params.includes(paramFoo));
   assertTrue(params.includes(paramFooBar));
   assertTrue(params.includes(paramQux));
-  var mockObsvr1 = new MockObserver1(mockSubj1);
+  const mockObsvr1 = new MockObserver1(mockSubj1);
   assertEquals(0, mockObsvr1.numEvents);
   assertEquals(0, mockObsvr1.numBooleans);
   assertEquals(0, mockObsvr1.numDoubles);
@@ -300,10 +300,10 @@ static testAbstractSubject1() {
   // add the observer to the subject
   mockSubj1.addObserver(mockObsvr1);
   // there should be only this one observer
-  var obsvrs = mockSubj1.getObservers();
+  const obsvrs = mockSubj1.getObservers();
   assertEquals(1, obsvrs.length);
   assertTrue(obsvrs.includes(mockObsvr1));
-  var event1 = new GenericEvent(mockSubj1, 'fooEvent');
+  const event1 = new GenericEvent(mockSubj1, 'fooEvent');
   // broadcast an event, the mock observer should see it
   event1.getSubject().broadcast(event1);
   assertEquals(1, mockObsvr1.numEvents);
@@ -339,7 +339,7 @@ static testAbstractSubject1() {
 
   // make a second observer, to test the claim that
   // "you can do removeObserver() during observe()"
-  var mockObsvr2 = new MockObserver2(mockSubj1);
+  const mockObsvr2 = new MockObserver2(mockSubj1);
   mockSubj1.addObserver(mockObsvr2);
   mockSubj1.addObserver(mockObsvr1);
   assertEquals(2, mockSubj1.getObservers().length);
@@ -352,8 +352,8 @@ static testAbstractSubject1() {
   // both observers should increase by one
   assertEquals(1, mockObsvr2.numBooleans);
   assertEquals(4, mockObsvr1.numBooleans);
-  obsvrs = mockSubj1.getObservers();
-  assertEquals(1, obsvrs.length);
+  const obsvrs2 = mockSubj1.getObservers();
+  assertEquals(1, obsvrs2.length);
   assertFalse(obsvrs.includes(mockObsvr2));
   assertTrue(obsvrs.includes(mockObsvr1));
 };
