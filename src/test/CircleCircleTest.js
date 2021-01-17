@@ -80,18 +80,18 @@ offset center of mass. Energy should be constant with a small enough time step.
 */
 static ball_ball_contact_setup(sim, advance) {
   CircleCircleTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBall(0.75, 'ball1');
+  const body0 = Shapes.makeBall(0.75, 'ball1');
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-0.754,  -0.2),  0);
   body0.setVelocity(new Vector(0,  0),  1.0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBall(1, 'ball2');
+  const body1 = Shapes.makeBall(1, 'ball2');
   body1.setCenterOfMass(0, -0.3);
   body1.setPosition(new Vector(0.95,  0.3),  Math.PI);
   sim.addBody(body1);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 }
@@ -103,10 +103,10 @@ are no collisions (after initial collision settles down).
 */
 static ball_ball_contact() {
   setTestName(CircleCircleTest.groupName+'ball_ball_contact');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleCircleTest.ball_ball_contact_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -0.7845976, 0.0291469, -0.1822277, 0.0576237, 0.6655733, 0.4093619);
   setBodyVars(sim, vars, 1, 0.9805976, -0.0291469, 0.2822277, -0.0576237, 3.4239727, 0.5085931);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
@@ -126,10 +126,10 @@ static ball_ball_contact() {
 */
 static concave_circle_and_ball_setup(sim, advance) {
   CircleCircleTest.commonSetup1(sim, advance);
-  var p = TestShapes.makeConcaveCirclePoly();
+  const p = TestShapes.makeConcaveCirclePoly();
   p.setPosition(new Vector(0,  -2),  0);
   sim.addBody(p);
-  var p2 = Shapes.makeBall(0.5, 'ball');
+  const p2 = Shapes.makeBall(0.5, 'ball');
   p2.setCenterOfMass(0.2, 0);
   p2.setPosition(new Vector(0.5,  -0.22),  0);
   sim.addBody(p2);
@@ -143,10 +143,10 @@ static concave_circle_and_ball_setup(sim, advance) {
 */
 static concave_circle_and_ball() {
   setTestName(CircleCircleTest.groupName+'concave_circle_and_ball');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleCircleTest.concave_circle_and_ball_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.1967144, -0.8904188, -1.4219796, 0.1258683, -0.10235, 0.1459626);
   setBodyVars(sim, vars, 1, 0.3032856, 0.8904188, -0.7980204, -0.1258683, -1.8963003, 3.4576941);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/6.0,

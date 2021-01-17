@@ -236,13 +236,13 @@ constructor(elem_ids) {
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
   this.layout.simCanvas.setBackground('black');
-  var sim_controls = this.layout.sim_controls;
+  const sim_controls = this.layout.sim_controls;
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
-  var graphCanvas = this.layout.graphCanvas;
-  var div_sim = this.layout.div_sim;
+  const simCanvas = this.layout.simCanvas;
+  const graphCanvas = this.layout.graphCanvas;
+  const div_sim = this.layout.div_sim;
   /** @type {!ContactSim} */
   this.sim = new ContactSim();
   this.terminal.setAfterEval(() => this.sim.modifyObjects());
@@ -311,16 +311,16 @@ constructor(elem_ids) {
   this.addGroup_(SpeedTest, 'Speed');
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
 
-  var pbc = CommonControls.makePlaybackControls(this.simRun);
+  const pbc = CommonControls.makePlaybackControls(this.simRun);
   this.prependControl(pbc);
   // insert a <BR> element to break up long lines of controls into logical groups
-  var br = new GroupControl('BR', document.createElement('BR'), []);
+  let br = new GroupControl('BR', document.createElement('BR'), []);
   this.prependControl(br);
 
   this.addParameter(pn = new ParameterNumber(this, TestViewerApp.en.GROUP,
@@ -384,7 +384,7 @@ constructor(elem_ids) {
       this.statusView, this);
   this.addControl(new CheckBoxControl(this.showClockParam));
 
-  var panzoom = CommonControls.makePanZoomControls(this.simView,
+  const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom);
@@ -392,7 +392,7 @@ constructor(elem_ids) {
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
   this.addControl(new CheckBoxControl(this.panZoomParam));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
   br = new GroupControl('BR', document.createElement('BR'), []);
@@ -416,7 +416,7 @@ constructor(elem_ids) {
       .setNameColor('gray').setNameFont('12pt sans-serif')
       .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
-  var subjects = [
+  let subjects = [
     this,
     this.sim,
     this.diffEqSolver,
@@ -554,12 +554,12 @@ the '_setup' suffix.
 * @private
 */
 addTestsFrom_(c) {
-  var nms = Object.getOwnPropertyNames(c);
+  const nms = Object.getOwnPropertyNames(c);
   for (let i=0; i<nms.length; i++) {
     let p = nms[i];
     if (typeof c[p] !== 'function') continue;  // skip non-functions
     if (!p.match(/.*_setup$/)) continue;  // skip non-setup functions
-    var nm = p.replace(/_setup$/, '').replace(/_/g, ' ');
+    const nm = p.replace(/_setup$/, '').replace(/_/g, ' ');
     this.testNames_.push(nm);
     this.tests_.push(c[p]);
   }
@@ -583,13 +583,13 @@ startTest_(testIndex) {
   this.sim.setCollisionAccuracy(0.6);
   this.sim.cleanSlate();
   this.advance.reset();
-  var groupName = this.groupNames_[this.groupSelected_];
-  var testName = this.testNames_[testIndex];
+  const groupName = this.groupNames_[this.groupSelected_];
+  const testName = this.testNames_[testIndex];
   if (Util.DEBUG) {
     console.log('TestViewerApp.startTest group='+groupName+' test="'+testName+'"');
   }
   // preserve the 'show forces' setting
-  var showForce = this.sim.getShowForces();
+  const showForce = this.sim.getShowForces();
   // start naming polygons from "1"
   Polygon.ID = 1;
 
@@ -599,8 +599,8 @@ startTest_(testIndex) {
   // Set moveable blocks to random colors. Helps distinguish them visually.
   this.displayList.toArray().forEach(d => {
     if (d instanceof DisplayShape) {
-      var ds = /** @type {!DisplayShape} */(d);
-      var p = ds.getMassObjects()[0];
+      const ds = /** @type {!DisplayShape} */(d);
+      const p = ds.getMassObjects()[0];
       if (isFinite(p.getMass())) {
         ds.setFillStyle(PileConfig.getRandomColor());
       }
@@ -646,10 +646,10 @@ startTest_(testIndex) {
 @private
 */
 makeGravityControl_() {
-  var g = array.find(this.sim.getForceLaws(), function(f, index, array) {
+  const g = array.find(this.sim.getForceLaws(), function(f, index, array) {
     return f instanceof GravityLaw || f instanceof Gravity2Law;
   });
-  var e = /** @type {!HTMLInputElement} */(document.getElementById('gravity_control'));
+  const e = /** @type {!HTMLInputElement} */(document.getElementById('gravity_control'));
   if (!goog.isObject(e)) {
     throw 'gravity_control not found';
   }
@@ -659,8 +659,8 @@ makeGravityControl_() {
     return;
   } else {
     this.gravityLaw = /** @type {!GravityLaw} */(g);
-    var p = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
-    var nc = new NumericControl(p, e);
+    const p = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
+    const nc = new NumericControl(p, e);
     nc.setEnabled(true);
   }
 };
@@ -670,10 +670,10 @@ makeGravityControl_() {
 @private
 */
 makeDampingControl_() {
-  var g = array.find(this.sim.getForceLaws(), function(f, index, array) {
+  const g = array.find(this.sim.getForceLaws(), function(f, index, array) {
     return f instanceof DampingLaw;
   });
-  var e = /** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
+  const e = /** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
   if (!goog.isObject(e)) {
     throw 'damping_control not found';
   }
@@ -683,8 +683,8 @@ makeDampingControl_() {
     return;
   } else {
     this.dampingLaw = /** @type {!DampingLaw} */(g);
-    var p = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
-    var nc = new NumericControl(p, e);
+    const p = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
+    const nc = new NumericControl(p, e);
     nc.setEnabled(true);
   }
 };
@@ -696,17 +696,17 @@ that size. If there are no walls, then sets to twice the size.
 */
 setSimRect_() {
   // does sim have a specified simRect?
-  var simRect = this.sim.getSimRect();
+  const simRect = this.sim.getSimRect();
   if (simRect != null) {
     this.simRect = simRect;
   } else {
     // Find a rectangle that surrounds all the objects
-    var bods = this.sim.getSimList().toArray();
+    const bods = this.sim.getSimList().toArray();
     if (bods.length == 0) {
       return;
     }
-    var rect = bods[0].getBoundsWorld();
-    var walls = false;
+    let rect = bods[0].getBoundsWorld();
+    let walls = false;
     bods.forEach(b => {
       rect = rect.union(b.getBoundsWorld());
       walls = walls || b.getName().match(/^WALL*/);
@@ -753,11 +753,11 @@ addControl(control) {
 * @return {!LabControl} the control that was passed in
 */
 prependControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'inline-block';
   this.layout.controls_.push(control);
   // add playback controls before the pre-existing damping and gravity controls
-  var e = /** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
+  const e =/** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
   if (!goog.isObject(e)) {
     throw 'damping_control not found';
   }

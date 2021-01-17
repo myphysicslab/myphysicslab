@@ -114,17 +114,17 @@ static commonSetup1(sim, advance, damping) {
 /** Performance test that runs the six_blocks_settle test.
 */
 static six_blocks_perf() {
-  var testName = 'six_blocks_perf';
-  var expected = TestRig.perfExpected(testName);
-  var startTime = Util.systemTime();
+  const testName = 'six_blocks_perf';
+  const expected = TestRig.perfExpected(testName);
+  const startTime = Util.systemTime();
   const repeats = 10;
   for (let i=0; i<repeats; i++) {
     StraightStraightTest.six_blocks_settle();
   }
-  var duration = (Util.systemTime() - startTime)/repeats;
+  const duration = (Util.systemTime() - startTime)/repeats;
   setTestName(StraightStraightTest.groupName+testName);
-  var s = TestRig.perfResult(duration, expected);
-  var timeLimit = TestRig.getPerfLimit(expected);
+  const s = TestRig.perfResult(duration, expected);
+  const timeLimit = TestRig.getPerfLimit(expected);
   TestRig.reportTestResults(duration <= timeLimit, 'performance', s);
 };
 
@@ -137,17 +137,18 @@ One of the blocks has less mass than the others.
 static six_blocks_settle_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   sim.setCollisionAccuracy(0.6);
-  for (var i=0; i<6; i++) {
-    var p = Shapes.makeBlock(1, 3, 'block'+i);
-    if (i==0)
+  for (let i=0; i<6; i++) {
+    const p = Shapes.makeBlock(1, 3, 'block'+i);
+    if (i==0) {
       p.setMass(0.6);
+    }
     p.setPosition(new Vector(-4.4+i*1.73, -3+(i%2)*2.0), Math.PI*(0.30 - i*0.15));
     sim.addBody(p);
   }
-  var gravity = new GravityLaw(5.0, sim.getSimList());
+  const gravity = new GravityLaw(5.0, sim.getSimList());
   sim.setElasticity(0.6);
   sim.addForceLaw(gravity);
-  var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
+  const zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   gravity.setZeroEnergyLevel(zel);
 };
 
@@ -157,11 +158,11 @@ collisions happen after blocks settle on the ground.
 */
 static six_blocks_settle() {
   setTestName(StraightStraightTest.groupName+'six_blocks_settle');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   StraightStraightTest.six_blocks_settle_setup(sim, advance);
-  var vars = makeVars(6*6);
+  const vars = makeVars(6*6);
   setBodyVars(sim, vars, 0, -4.4957656, 0, -5.4912852, -0, 1.570724, 0);
   setBodyVars(sim, vars, 1, -2.487432, -0, -4.4929667, 0, 0.0006014, 0);
   setBodyVars(sim, vars, 2, -1.4838306, -0, -4.4927091, -0, -0.0006352, 0);
@@ -198,10 +199,10 @@ at all contacts.
 */
 static six_blocks_settle2() {
   setTestName(StraightStraightTest.groupName+'six_blocks_settle2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_settle_2_setup(sim, advance);
-  var vars = makeVars(6*6);
+  const vars = makeVars(6*6);
   setBodyVars(sim, vars, 0, -4.495, -0, -5.495, 0, 1.5707963, -0);
   setBodyVars(sim, vars, 1, -2.49, -0, -4.495, 0, -0, -0);
   setBodyVars(sim, vars, 2, -1.485, 0, -4.495, 0, -0, -0);
@@ -234,22 +235,23 @@ the A matrix be non-singular.
 */
 static six_blocks_1_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
-  for (var i=0; i<6; i++) {
-    var p = Shapes.makeBlock(1, 3);
+  const zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
+  let block1;
+  for (let i=0; i<6; i++) {
+    const p = Shapes.makeBlock(1, 3);
     if (i == 0) {
-      var block1 = p;
+      block1 = p;
     }
     sim.addBody(p);
   }
   sim.setElasticity(0.8);
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   if (!block1)
     throw '';
-  var idx = block1.getVarsIndex() - 24;
-  var vars = sim.getVarsList();
+  const idx = block1.getVarsIndex() - 24;
+  const vars = sim.getVarsList();
   vars.setValue(idx + 24, -4.490076631581924);
   vars.setValue(idx + 25, 2.0679515313825692E-25);
   vars.setValue(idx + 26, -5.490392097196945);
@@ -295,11 +297,11 @@ ensures that no further collisions happen, and energy is constant.
 */
 static six_blocks_1() {
   setTestName(StraightStraightTest.groupName+'six_blocks_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_1_setup(sim, advance);
-  var e1 = sim.getEnergyInfo().getTotalEnergy();
-  var vars = makeVars(10*6);
+  const e1 = sim.getEnergyInfo().getTotalEnergy();
+  const vars = makeVars(10*6);
   setBodyVars(sim, vars, 4, -4.4900766, -0, -5.4903921, -0, 1.570729, -0);
   setBodyVars(sim, vars, 5, -1.5402974, -0, -4.4900519, -0, 0.0000647, -0);
   setBodyVars(sim, vars, 6, -0.5301101, 0, -4.4902639, 0, -0.0001342, -0);
@@ -319,22 +321,23 @@ static six_blocks_1() {
 */
 static six_blocks_2_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
-  for (var i=0; i<6; i++) {
-    var p = Shapes.makeBlock(1, 3);
+  const zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
+  let block1;
+  for (let i=0; i<6; i++) {
+    const p = Shapes.makeBlock(1, 3);
     if (i == 0) {
-      var block1 = p;
+      block1 = p;
     }
     sim.addBody(p);
   }
   sim.setElasticity(0.8);
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   if (!block1)
     throw '';
-  var idx = block1.getVarsIndex() - 24;
-  var vars = sim.getVarsList();
+  const idx = block1.getVarsIndex() - 24;
+  const vars = sim.getVarsList();
   vars.setValue(idx + 24, -4.4894873151917505);
   vars.setValue(idx + 25, -0.0012904083411035517);
   vars.setValue(idx + 26, -4.69275495630202);
@@ -380,11 +383,11 @@ static six_blocks_2_setup(sim, advance) {
 */
 static six_blocks_2() {
   setTestName(StraightStraightTest.groupName+'six_blocks_2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_2_setup(sim, advance);
-  var e1 = sim.getEnergyInfo().getTotalEnergy();
-  var vars = makeVars(10*6);
+  const e1 = sim.getEnergyInfo().getTotalEnergy();
+  const vars = makeVars(10*6);
   setBodyVars(sim, vars, 4, -4.4895196, 0, -4.6926962, -0, -0.9299124, -0);
   setBodyVars(sim, vars, 5, -2.537595, -0, -5.4907714, -0, -1.5707396, 0);
   setBodyVars(sim, vars, 6, -0.4676891, 0.1452027, -4.481081, -0.0000001, 1.5706511, -0.0000056);
@@ -405,22 +408,24 @@ needs to be increased.
 */
 static six_blocks_3_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance, /*damping=*/0.05);
-  var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
-  for (var i=0; i<6; i++) {
-    var p = Shapes.makeBlock(1, 3);
+  const zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
+  let block1;
+  for (let i=0; i<6; i++) {
+    const p = Shapes.makeBlock(1, 3);
     if (i == 0) {
-      var block1 = p;
+      block1 = p;
     }
     sim.addBody(p);
   }
   sim.setElasticity(0.8);
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
-  if (!block1)
+  if (!block1) {
     throw '';
-  var idx = block1.getVarsIndex() - 24;
-  var vars = sim.getVarsList();
+  }
+  const idx = block1.getVarsIndex() - 24;
+  const vars = sim.getVarsList();
   vars.setValue(idx + 24, -5.490049008239955);
   vars.setValue(idx + 25, 8.673617379884035E-19);
   vars.setValue(idx + 26, -4.490068145680414);
@@ -466,11 +471,11 @@ static six_blocks_3_setup(sim, advance) {
 */
 static six_blocks_3() {
   setTestName(StraightStraightTest.groupName+'six_blocks_3');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_3_setup(sim, advance);
-  var e1 = sim.getEnergyInfo().getTotalEnergy();
-  var vars = makeVars(10*6);
+  const e1 = sim.getEnergyInfo().getTotalEnergy();
+  const vars = makeVars(10*6);
   setBodyVars(sim, vars, 4, -5.490049, 0, -4.4900537, -0, -0.0000319, -0);
   setBodyVars(sim, vars, 5, -3.412413, -0.011482, -4.885132, 0.0631779, -1.1187094, 0.0558667);
   setBodyVars(sim, vars, 6, -0.9617754, -0.2450511, -5.4902956, 0, -1.5707096, 0);
@@ -494,14 +499,15 @@ static setup_six_blocks(sim, advance, v, wallsFirst) {
   if (wallsFirst === undefined)
     wallsFirst = true;
   StraightStraightTest.commonSetup1(sim, advance, 0.05);
-  var zel = 0;
+  let zel = 0;
   if (wallsFirst) {
     zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   }
-  for (var i=0; i<6; i++) {
-    var p = Shapes.makeBlock(1, 3);
+  let block1;
+  for (let i=0; i<6; i++) {
+    const p = Shapes.makeBlock(1, 3);
     if (i == 0) {
-      var block1 = p;
+      block1 = p;
     }
     sim.addBody(p);
   }
@@ -511,13 +517,13 @@ static setup_six_blocks(sim, advance, v, wallsFirst) {
   assertTrue( v.length >= 36 );
   if (!block1)
     throw '';
-  var idx = block1.getVarsIndex();
-  var vars = sim.getVarsList();
-  for (var i=0; i<36; i++) {
+  const idx = block1.getVarsIndex();
+  const vars = sim.getVarsList();
+  for (let i=0; i<36; i++) {
     vars.setValue(idx + i, v[i]);
   }
   sim.setElasticity(0.8);
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   sim.modifyObjects();
@@ -568,7 +574,7 @@ static six_blocks_4_setup(sim, advance) {
   -1.570843916633821,
   -0.0027203695546943584
   ] );
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -579,10 +585,10 @@ static six_blocks_4_setup(sim, advance) {
 */
 static six_blocks_4() {
   setTestName(StraightStraightTest.groupName+'six_blocks_4');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_4_setup(sim, advance);
-  var energyDiff, expectCollisions;
+  let energyDiff, expectCollisions;
   if (Util.isChrome()) {
     energyDiff = -1.751934748;
     expectCollisions = 7;
@@ -654,8 +660,8 @@ static six_blocks_5_setup(sim, advance) {
 */
 static six_blocks_5() {
   setTestName(StraightStraightTest.groupName+'six_blocks_5');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_5_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
           /*expectedVars=*/null, /*tolerance=*/Util.NaN,
@@ -717,8 +723,8 @@ static six_blocks_6_setup(sim, advance) {
 */
 static six_blocks_6() {
   setTestName(StraightStraightTest.groupName+'six_blocks_6');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_6_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
           /*expectedVars=*/null, /*tolerance=*/Util.NaN,
@@ -779,8 +785,8 @@ static six_blocks_7_setup(sim, advance) {
 */
 static six_blocks_7() {
   setTestName(StraightStraightTest.groupName+'six_blocks_7');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_7_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
           /*expectedVars=*/null, /*tolerance=*/Util.NaN,
@@ -841,8 +847,8 @@ static six_blocks_8_setup(sim, advance) {
 */
 static six_blocks_8() {
   setTestName(StraightStraightTest.groupName+'six_blocks_8');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_8_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
           /*expectedVars=*/null, /*tolerance=*/Util.NaN,
@@ -903,8 +909,8 @@ static six_blocks_9_setup(sim, advance) {
 */
 static six_blocks_9() {
   setTestName(StraightStraightTest.groupName+'six_blocks_9');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_9_setup(sim, advance);
   if (Util.isChrome()) {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
@@ -972,7 +978,7 @@ static six_blocks_10_setup(sim, advance) {
     -1.5724773538024814,
     2.7755575615628914E-17
     ]);
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -983,8 +989,8 @@ static six_blocks_10_setup(sim, advance) {
 */
 static six_blocks_10() {
   setTestName(StraightStraightTest.groupName+'six_blocks_10');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_10_setup(sim, advance);
   // Note: the expected energy diff given here is less than what you
   // would measure before/after due to the advance(0) doing initial impulses
@@ -1058,10 +1064,10 @@ static six_blocks_11_setup(sim, advance) {
 static six_blocks_11() {
   setTestName(StraightStraightTest.groupName+'six_blocks_11');
   // set the flag saying to not find related subsets of contacts
-  var saveFlag = ContactSim.SUBSET_COLLISIONS;
+  const saveFlag = ContactSim.SUBSET_COLLISIONS;
   ContactSim.SUBSET_COLLISIONS = false;
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_11_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
           /*expectedVars=*/null, /*tolerance=*/Util.NaN,
@@ -1135,7 +1141,7 @@ static six_blocks_12_setup(sim, advance) {
     -1.974518458830297E-16,
     -5.007438423172913E-16
     ], /*wallsFirst=*/false);
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -1146,8 +1152,8 @@ static six_blocks_12_setup(sim, advance) {
 */
 static six_blocks_12() {
   setTestName(StraightStraightTest.groupName+'six_blocks_12');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_12_setup(sim, advance);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
       /*expectedVars=*/null, /*tolerance=*/Util.NaN,
@@ -1165,14 +1171,14 @@ down-is-out for edges that are not horizontal or vertical in body position.
 */
 static hexagon_1_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var a = Math.sin(Math.PI/3);
-  var hex = Shapes.makeHexagon(1.0, 'hexagon');
+  const a = Math.sin(Math.PI/3);
+  const hex = Shapes.makeHexagon(1.0, 'hexagon');
   hex.setPosition(new Vector(0,  a + 0.009), -2*Math.PI/3);
   sim.addBody(hex);
-  var block = Shapes.makeBlock(1, 1, 'block');
+  const block = Shapes.makeBlock(1, 1, 'block');
   block.setPosition(new Vector(0, 2*a + 2*0.009 + Math.sqrt(2)/2), Math.PI/4);
   sim.addBody(block);
-  var floor = Shapes.makeBlock(6, 1, 'floor');
+  const floor = Shapes.makeBlock(6, 1, 'floor');
   floor.setMass(Util.POSITIVE_INFINITY);
   floor.setPosition(new Vector(0,  -0.5),  0);
   sim.addBody(floor);
@@ -1186,10 +1192,10 @@ static hexagon_1_setup(sim, advance) {
 */
 static hexagon_1() {
   setTestName(StraightStraightTest.groupName+'hexagon_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.hexagon_1_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0, 0, 0.8750254, -0, -2.0943951, 0);
   setBodyVars(sim, vars, 1, -0, -0, 2.4571576, -0, 0.7853982, -0);
   // Note: in runTest, advance(0) handles the initial small collisions,
@@ -1208,11 +1214,11 @@ static hexagon_1() {
 */
 static block_block_contact_1_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBlock(1, 1, 'block1');
+  const body0 = Shapes.makeBlock(1, 1, 'block1');
   body0.setPosition(new Vector(-0.502,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 2.5, 'block2');
+  const body1 = Shapes.makeBlock(1, 2.5, 'block2');
   body1.setPosition(new Vector(0.502,  0),  0);
   body1.setVelocity(new Vector(0,  -0.6),  0);
   sim.addBody(body1);
@@ -1227,10 +1233,10 @@ are no collisions.
 */
 static block_block_contact_1() {
   setTestName(StraightStraightTest.groupName+'block_block_contact_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.block_block_contact_1_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.0052001, 0.1069955, 0.5355385, -0.0866979, -1.2245951, -0.6316525);
   setBodyVars(sim, vars, 1, -0.0052001, -0.1069955, -0.5355385, 0.0866979, -1.2245951, -0.6316525);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
@@ -1247,11 +1253,11 @@ eventually settling into rotating/sliding contact.
 */
 static block_block_contact_2_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBlock(1, 1, 'block1');
+  const body0 = Shapes.makeBlock(1, 1, 'block1');
   body0.setPosition(new Vector(-1,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 2, 'block2');
+  const body1 = Shapes.makeBlock(1, 2, 'block2');
   body1.setPosition(new Vector(1,  0),  0);
   body1.setVelocity(new Vector(0,  -0.6),  0);
   sim.addBody(body1);
@@ -1265,10 +1271,10 @@ static block_block_contact_2_setup(sim, advance) {
 */
 static block_block_contact_2() {
   setTestName(StraightStraightTest.groupName+'block_block_contact_2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.block_block_contact_2_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.5034152, 0.2143205, 0.1531754, -0.330582, -9.4336534, -1.3740094);
   setBodyVars(sim, vars, 1, -0.5034152, -0.2143205, -0.1531754, 0.330582, -9.4355238, -1.3740094);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
@@ -1288,11 +1294,11 @@ to show that energy remains constant at a very small tolerance of 0.0000001.
 */
 static block_block_contact_2b() {
   setTestName(StraightStraightTest.groupName+'block_block_contact_2b');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.block_block_contact_2_setup(sim, advance);
   advance.setTimeStep(0.0025);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.5063086, 0.1469399, 0.1376723, -0.5306998, -9.4363357, -1.0665345);
   setBodyVars(sim, vars, 1, -0.5063086, -0.1469399, -0.1376723, 0.5306998, -9.4363639, -1.0665345);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
@@ -1317,12 +1323,12 @@ winds up in this situation as the vertex rolls to become the new contact point.
 */
 static ngon_block_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var body0 = TestShapes.makeNGon(16, 0.75);
+  const body0 = TestShapes.makeNGon(16, 0.75);
   body0.setCenterOfMass(0, -0.2);
   body0.setPosition(new Vector(-0.255,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  1);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 3, 'block');
+  const body1 = Shapes.makeBlock(1, 3, 'block');
   body1.setPosition(new Vector(1,  0),  0);
   body1.setVelocity(new Vector(0,  -0.6),  0);
   sim.addBody(body1);
@@ -1335,10 +1341,10 @@ static ngon_block_setup(sim, advance) {
 */
 static ngon_block() {
   setTestName(StraightStraightTest.groupName+'ngon_block');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.ngon_block_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.8490859, 0.203748, 0.2930717, -0.2101944, -0.1612429, -0.0790571);
   setBodyVars(sim, vars, 1, -0.1040859, -0.203748, -0.2930717, 0.2101944, -2.3103895, -0.1556946);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -1353,10 +1359,10 @@ static ngon_block() {
 static diamonds_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
-  var body0 = Shapes.makeDiamond(1, 1, Math.PI/4, 'diamond1');
+  const body0 = Shapes.makeDiamond(1, 1, Math.PI/4, 'diamond1');
   body0.setPosition(new Vector(-2,  0.5),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeDiamond(1, 2, -Math.PI/4, 'diamond2');
+  const body1 = Shapes.makeDiamond(1, 2, -Math.PI/4, 'diamond2');
   body1.setPosition(new Vector(2,  -0.5),  0);
   sim.addBody(body1);
   sim.setElasticity(0.5);
@@ -1369,10 +1375,10 @@ static diamonds_setup(sim, advance) {
 */
 static diamonds() {
   setTestName(StraightStraightTest.groupName+'diamonds');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.diamonds_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -0.571369, 0.463846, 0.147005, 0.1908704, -0.0140063, 0.6080322);
   setBodyVars(sim, vars, 1, 0.571369, -0.463846, -0.147005, -0.1908704, -0.0137379, 0.6075645);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/7.0,
@@ -1399,11 +1405,11 @@ time step, etc.
 */
 static one_block1_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
-  var block = Shapes.makeBlock(1, 3, 'blue');
+  const block = Shapes.makeBlock(1, 3, 'blue');
   block.setPosition(new Vector(-4,  -4));
   sim.addBody(block);
-  var zel = Walls.make(sim, /*width=*/20, /*height=*/20);
-  var gravity = new GravityLaw(4.0, sim.getSimList());
+  const zel = Walls.make(sim, /*width=*/20, /*height=*/20);
+  const gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   sim.setElasticity(0.8);
@@ -1415,10 +1421,10 @@ simply that the collision handling is able to cope with this unusual case.
 */
 static one_block1() {
   setTestName(StraightStraightTest.groupName+'one_block1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.one_block1_setup(sim, advance);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 0, -4, 0, -6.4464191, 1.3062236, 9.9004282, 1.5690463);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
@@ -1433,12 +1439,12 @@ gap and large velocity (-0.3 is large for a contact).
 static one_block2_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   sim.setExtraAccel(ExtraAccel.NONE);
-  var block = Shapes.makeBlock(1, 3, 'blue');
+  const block = Shapes.makeBlock(1, 3, 'blue');
   block.setPosition(new Vector(0,  -5 + 1.5 + 0.005),  0.01);
   block.setVelocity(new Vector(0,  -0.3));
   sim.addBody(block);
-  var zel = Walls.make(sim, /*width=*/10, /*height=*/10);
-  var gravity = new GravityLaw(4.0, sim.getSimList());
+  const zel = Walls.make(sim, /*width=*/10, /*height=*/10);
+  const gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   sim.setElasticity(0.8);
@@ -1449,10 +1455,10 @@ static one_block2_setup(sim, advance) {
 */
 static one_block2() {
   setTestName(StraightStraightTest.groupName+'one_block2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.one_block2_setup(sim, advance);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 0, 0, 0, -3.4970902, 0.0519124, 0.0025727, 0.0153277);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
               /*expectedVars=*/vars, /*tolerance=*/0.00001);
@@ -1470,12 +1476,12 @@ cannot backup to a time when distance was around targetGap.
 static fast_close_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   sim.setExtraAccel(ExtraAccel.NONE);
-  var zel = Walls.make(sim, /*width=*/10, /*height=*/10);
-  var block = Shapes.makeBlock(1, 3, 'blue');
+  const zel = Walls.make(sim, /*width=*/10, /*height=*/10);
+  const block = Shapes.makeBlock(1, 3, 'blue');
   block.setPosition(new Vector(0,  -5 + 1.5 + 0.005),  0.01);
   block.setVelocity(new Vector(0,  -3));
   sim.addBody(block);
-  var gravity = new GravityLaw(4.0, sim.getSimList());
+  const gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
   sim.setElasticity(0.8);
@@ -1486,10 +1492,10 @@ static fast_close_setup(sim, advance) {
 */
 static fast_close() {
   setTestName(StraightStraightTest.groupName+'fast_close');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.fast_close_setup(sim, advance);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 4, 0, 0, -4.2240973, 0.9174399, -1.6750292, 0.2982996);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
               /*expectedVars=*/vars, /*tolerance=*/0.00001);
@@ -1503,11 +1509,11 @@ static fast_close() {
 static corner_collision_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
-  var body0 = Shapes.makeDiamond(1, 1, Math.PI/4, 'diamond1');
+  const body0 = Shapes.makeDiamond(1, 1, Math.PI/4, 'diamond1');
   body0.setPosition(new Vector(-2,  0),  0);
   body0.setVelocity(new Vector(3,  0),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeDiamond(1, 1, -Math.PI/4, 'diamond2');
+  const body1 = Shapes.makeDiamond(1, 1, -Math.PI/4, 'diamond2');
   body1.setPosition(new Vector(2,  0),  0);
   sim.addBody(body1);
   sim.setElasticity(0.5);
@@ -1518,10 +1524,10 @@ static corner_collision_setup(sim, advance) {
 */
 static corner_collision() {
   setTestName(StraightStraightTest.groupName+'corner_collision');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.corner_collision_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 1.8204803, 1.0881406, -0.0851541, -0.0746966, -0.3249214, -0.2850188);
   setBodyVars(sim, vars, 1, 4.1795197, 1.9118594, 0.0851541, 0.0746966, -0.4005913, -0.3513959);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
@@ -1536,11 +1542,11 @@ static corner_collision() {
 static rounded_corner_collision_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
-  var body0 = Shapes.makeRoundCornerBlock(1, 1, 0.02, 'rounded1');
+  const body0 = Shapes.makeRoundCornerBlock(1, 1, 0.02, 'rounded1');
   body0.setPosition(new Vector(-2,  0),  Math.PI/4);
   body0.setVelocity(new Vector(3,  0),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeRoundCornerBlock(1, 1, 0.02, 'rounded2');
+  const body1 = Shapes.makeRoundCornerBlock(1, 1, 0.02, 'rounded2');
   body1.setPosition(new Vector(2,  0),  Math.PI/4);
   sim.addBody(body1);
   sim.setElasticity(0.5);
@@ -1551,10 +1557,10 @@ static rounded_corner_collision_setup(sim, advance) {
 */
 static rounded_corner_collision() {
   setTestName(StraightStraightTest.groupName+'rounded_corner_collision');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.rounded_corner_collision_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 1.4480162, 0.75, -0, -0, 0.7853982, -0);
   setBodyVars(sim, vars, 1, 4.5519838, 2.25, 0, 0, 0.7853982, -0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
@@ -1584,12 +1590,12 @@ static oblique_corner_collision_setup(sim, advance) {
   sim.setSimRect(new DoubleRect(-0.04602673981896506, -0.0309592659798244, 0.029428926297351846, 0.04412223980864299));
   sim.setCollisionAccuracy(0.1);
   advance.setTimeStep(0.025);
-  var body0 = Shapes.makeBlock(2, 2, 'fixed');
+  const body0 = Shapes.makeBlock(2, 2, 'fixed');
   body0.setMass(Util.POSITIVE_INFINITY);
   // origin is top-left corner of fixed block
   body0.setPosition(new Vector(1,  -1),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 1, 'moving');
+  const body1 = Shapes.makeBlock(1, 1, 'moving');
   // bottom right corner starts at (-0.025, 0.01)
   // bottom right corner should end at (0.015, -0.005) after 0.025 second
   // distance is sqrt(0.04^2 + 0.015^2) = 0.0427
@@ -1606,10 +1612,10 @@ static oblique_corner_collision_setup(sim, advance) {
 */
 static oblique_corner_collision() {
   setTestName(StraightStraightTest.groupName+'oblique_corner_collision');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.oblique_corner_collision_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 1, 0, -1, 0, 0, 0);
   setBodyVars(sim, vars, 1, 1.9052262, 1.1502723, 2.4186528, 1.1348587, 1.6275154, 0.7021148);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
@@ -1654,9 +1660,9 @@ collisions between StraightEdges, as long as this tolerance is large enough in
 static acute_corners_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS);
-  var zel = Walls.make2(sim, new DoubleRect(-4.5, -3.6, 3.1, 4));
+  const zel = Walls.make2(sim, new DoubleRect(-4.5, -3.6, 3.1, 4));
   Polygon.ID = 1;
-  var p = Shapes.makePolygon([new Vector(1, 0),
+  let p = Shapes.makePolygon([new Vector(1, 0),
       new Vector(-0.513177951173234170, 0.858282232386085031),
       new Vector(-0.969768795922141824, 0.244025577462116117),
       new Vector(0.513177951173234059, -0.858282232386085142)
@@ -1678,11 +1684,11 @@ static acute_corners_setup(sim, advance) {
   ], [true, true, false, false], /*moment=*/1/6);
   sim.addBody(p);
 
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.setElasticity(0.8);
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel);
-  var va = sim.getVarsList();
+  const va = sim.getVarsList();
   va.setValue(0, 0);
   va.setValue(1, 0.03178706216753517);
   va.setValue(2, 21.275092573513827);
@@ -1754,10 +1760,10 @@ static acute_corners_setup(sim, advance) {
 */
 static acute_corners() {
   setTestName(StraightStraightTest.groupName+'acute_corners');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   StraightStraightTest.acute_corners_setup(sim, advance);
-  var vars = makeVars(10*6);
+  const vars = makeVars(10*6);
   setBodyVars(sim, vars, 0, -0.7, 0, -4.1, 0, 0, 0);
   setBodyVars(sim, vars, 1, 3.6, 0, 0.2, 0, 0, 0);
   setBodyVars(sim, vars, 2, -0.7, 0, 4.5, 0, 0, 0);

@@ -99,7 +99,7 @@ static newtons_cradle_setup(sim, advance) {
   advance.setDiffEqSolver(new RungeKutta(sim));
   advance.setTimeStep(0.025);
   /** @type {!NewtonsCradleApp.options} */
-  var options = {
+  const options = {
       stickLength: 3.0,
       radius: 0.6,
       gapDistance: 0,
@@ -117,10 +117,10 @@ static newtons_cradle_setup(sim, advance) {
 */
 static newtons_cradle() {
   setTestName(MiscellanyTest.groupName+'newtons_cradle');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.newtons_cradle_setup(sim, advance);
-  var vars = makeVars(3*5);
+  const vars = makeVars(3*5);
   setBodyVars(sim, vars, 0, -2.4099971, 0.0000096, -0.9999987, 0, 0.0000002, 0.0000032);
   setBodyVars(sim, vars, 1, -1.2008376, 0.0000096, -1, 0, 0.000001, 0.0000032);
   setBodyVars(sim, vars, 2, 0.0083218, 0.0000096, -1, 0, 0.000001, 0.0000032);
@@ -150,7 +150,7 @@ static chain_setup(sim, advance) {
   advance.setDiffEqSolver(new RungeKutta(sim));
   advance.setTimeStep(0.025);
   /** @type {!ChainConfig.options} */
-  var options = {
+  const options = {
       wallPivotX: -5,
       wallPivotY: 4,
       fixedLeft: true,
@@ -159,7 +159,7 @@ static chain_setup(sim, advance) {
       blockHeight: 3.0,
       numLinks: 7
     };
-  var r = ChainConfig.makeChain(sim, options);
+  const r = ChainConfig.makeChain(sim, options);
   sim.setElasticity(0.8);
   sim.setSimRect(r.scale(1.15));
   sim.addForceLaw(new DampingLaw(0.0, 0.15, sim.getSimList()));
@@ -171,10 +171,10 @@ static chain_setup(sim, advance) {
 */
 static chain() {
   setTestName(MiscellanyTest.groupName+'chain');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.chain_setup(sim, advance);
-  var vars = makeVars(3*7);
+  const vars = makeVars(3*7);
   setBodyVars(sim, vars, 0, -4.3917922, 0.2739492, 3.1440883, 0.1946673, -2.5237903, 0.3200673);
   setBodyVars(sim, vars, 1, -3.1342985, 0.3464647, 1.4629927, 0.230839, -2.4749292, -0.2441077);
   setBodyVars(sim, vars, 2, -1.628153, 0.0725155, 0.0309381, -0.0300435, -2.1870376, -0.1194909);
@@ -207,8 +207,8 @@ static clock_with_gears_setup(sim, advance) {
   PendulumClockConfig.makeClockWithGears(sim, /*pendulum_length=*/4.0,
       /*center=*/Vector.ORIGIN);
   sim.setElasticity(0.3);
-  var body = sim.getBody(PendulumClockConfig.en.ESCAPE_WHEEL);
-  var f = new Force('turning', body,
+  const body = sim.getBody(PendulumClockConfig.en.ESCAPE_WHEEL);
+  const f = new Force('turning', body,
       /*location=*/new Vector(2, 0), CoordType.BODY,
       /*direction=*/new Vector(0, -1.0), CoordType.BODY);
   sim.addForceLaw(new ConstantForceLaw(f));
@@ -222,10 +222,10 @@ static clock_with_gears_setup(sim, advance) {
 */
 static clock_with_gears() {
   setTestName(MiscellanyTest.groupName+'clock_with_gears');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.clock_with_gears_setup(sim, advance);
-  var vars = makeVars(3*6);
+  const vars = makeVars(3*6);
   setBodyVars(sim, vars, 0, 0.2576836, 0.7900146, 0.0072232, 0.0443248, 0.0560475, 0.1720124);
   setBodyVars(sim, vars, 1, 4.728, 0, -0, -0, 0.190146, 0.1462387);
   setBodyVars(sim, vars, 2, -0, -0, -0, 0, -0.2306657, -0.1377898);
@@ -236,17 +236,17 @@ static clock_with_gears() {
 /**  Performance test that runs the clock_with_gears test.
 */
 static clock_gears_perf() {
-  var testName = 'clock_gears_perf';
-  var expected = TestRig.perfExpected(testName);
-  var startTime = Util.systemTime();
+  const testName = 'clock_gears_perf';
+  const expected = TestRig.perfExpected(testName);
+  const startTime = Util.systemTime();
   const repeats = 10;
   for (let i=0; i<repeats; i++) {
     MiscellanyTest.clock_with_gears();
   }
-  var duration = (Util.systemTime() - startTime)/repeats;
+  const duration = (Util.systemTime() - startTime)/repeats;
   setTestName(MiscellanyTest.groupName+testName);
-  var s = TestRig.perfResult(duration, expected);
-  var timeLimit = TestRig.getPerfLimit(expected);
+  const s = TestRig.perfResult(duration, expected);
+  const timeLimit = TestRig.getPerfLimit(expected);
   TestRig.reportTestResults(duration <= timeLimit, 'performance', s);
 };
 
@@ -275,21 +275,21 @@ pendulum rod does collide with the floor.
 */
 static non_collide_edges_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
-  var p1 = Shapes.makePendulum(0.05, 3.0, 0.6, 'pendulum1');
+  const p1 = Shapes.makePendulum(0.05, 3.0, 0.6, 'pendulum1');
   p1.setPosition(new Vector(0,  0),  5*Math.PI/4);
   sim.addBody(p1);
-  var p2 = Shapes.makeBall(0.5, 'ball');
+  const p2 = Shapes.makeBall(0.5, 'ball');
   p2.setMass(0.7);
   p2.setPosition(new Vector(-0.2,  -2),  0);
-  var pendulumStart = p1.getEdges()[0].getIndex();
-  var pendulumEnd = p1.getEdges()[2].getIndex();
+  const pendulumStart = p1.getEdges()[0].getIndex();
+  const pendulumEnd = p1.getEdges()[2].getIndex();
   p2.setNonCollideEdge(new EdgeRange(p1, pendulumStart, pendulumEnd));
   assertTrue(p2.nonCollideEdge(p1.getEdges()[0]));
   sim.addBody(p2);
-  var p3 = Shapes.makeBlock(10, 0.5, 'floor');
+  const p3 = Shapes.makeBlock(10, 0.5, 'floor');
   p3.setMass(Util.POSITIVE_INFINITY);
   p3.setPosition(new Vector(0,  -6),  0);
-  var floor = p3.getTopWorld();
+  const floor = p3.getTopWorld();
   p1.setZeroEnergyLevel(floor + 0.6);
   p2.setZeroEnergyLevel(floor + 0.5);
   sim.addBody(p3);
@@ -304,10 +304,10 @@ static non_collide_edges_setup(sim, advance) {
 */
 static non_collide_edges() {
   setTestName(MiscellanyTest.groupName+'non_collide_edges');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.non_collide_edges_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 2.677745, 0.67036, -4.8452014, -0.4877325, 7.9760692, 2.9017526);
   setBodyVars(sim, vars, 1, -3.776975, -0.8291956, -4.2064328, -0.4007804, -0, -0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/5.0,
@@ -319,12 +319,12 @@ static non_collide_edges() {
 @private
 */
 static damping_init(sim) {
-  var p1 = Shapes.makeBall(0.5, 'small');
+  const p1 = Shapes.makeBall(0.5, 'small');
   //console.log('small moment '+p1.momentAboutCM());
   p1.setPosition(new Vector(2,  0),  0);
   p1.setVelocity(new Vector(0,  0),  2.0);
   sim.addBody(p1);
-  var p2 = Shapes.makeBall(1.0, 'large');
+  const p2 = Shapes.makeBall(1.0, 'large');
   //console.log('large moment '+p2.momentAboutCM());
   p2.setPosition(new Vector(-2,  0),  0);
   p2.setVelocity(new Vector(0,  0),  2.0);
@@ -350,10 +350,10 @@ static damping_standard_setup(sim, advance) {
 */
 static damping_standard() {
   setTestName(MiscellanyTest.groupName+'damping_standard');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.damping_standard_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 2, 0, 0, 0, 6.3536101, 1.2375668);
   setBodyVars(sim, vars, 1, -2, 0, 0, 0, 7.5386376, 1.7738409);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4.0,
@@ -382,14 +382,14 @@ static three_body_spin_setup(sim, advance, damping) {
   advance.setDiffEqSolver(new RungeKutta(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var block1 = Shapes.makeBlock(1, 3, 'block1');
+  const block1 = Shapes.makeBlock(1, 3, 'block1');
   block1.setMass(2);
   block1.setVelocity(new Vector(-6,  0),  -6);
   sim.addBody(block1);
-  var block2 = Shapes.makeBlock(1, 6, 'block2');
+  const block2 = Shapes.makeBlock(1, 6, 'block2');
   block2.setMass(0.2);
   sim.addBody(block2);
-  var block3 = Shapes.makeBlock(1, 3, 'block3');
+  const block3 = Shapes.makeBlock(1, 3, 'block3');
   block3.setAngle(Math.PI);
   block3.setMass(1);
   block3.setVelocity(new Vector(12,  0),  -6);
@@ -414,7 +414,7 @@ static three_body_spin_setup(sim, advance, damping) {
   // The above initial conditions for velocity are approximate and sloppy.
   // To get the joints to stop moving with respect to each other
   // we first find and handle collisions at the joints.
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
   Engine2DTestRig.checkTightJoints(sim, 0.005);
@@ -425,10 +425,10 @@ static three_body_spin_setup(sim, advance, damping) {
 */
 static three_body_spin_test1() {
   setTestName(MiscellanyTest.groupName+'three_body_spin_test1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
-  var vars = makeVars((3)*6);
+  const vars = makeVars((3)*6);
   setBodyVars(sim, vars, 0, 2.3679591, 2.5231233, 0.1758214, 4.7692645, 11.1720974, 6.6244896);
   setBodyVars(sim, vars, 1, -1.070704, -0.9423498, 1.5687438, -10.3375145, 10.3514746, 3.0702532);
   setBodyVars(sim, vars, 2, -4.5217775, -4.8577766, 3.3346085, -7.4710261, 14.0257479, -7.3496166);
@@ -444,11 +444,11 @@ of 0.0025 and tolerance of 0.0001 for energy compared to 0.025 and 0.01.
 */
 static three_body_spin_test2() {
   setTestName(MiscellanyTest.groupName+'three_body_spin_test2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
   advance.setTimeStep(0.0025);
-  var vars = makeVars((3)*6);
+  const vars = makeVars((3)*6);
   setBodyVars(sim, vars, 0, 2.3693978, 2.5157571, 0.1774004, 4.7723935, 11.1720697, 6.6244608);
   setBodyVars(sim, vars, 1, -1.0715336, -0.9428909, 1.5676422, -10.3428559, 10.3527691, 3.0711914);
   setBodyVars(sim, vars, 2, -4.5244888, -4.8429361, 3.3316707, -7.4762159, 14.0249841, -7.3569172);
@@ -467,22 +467,22 @@ time step is specified.
 */
 static three_body_spin_test3A() {
   setTestName(MiscellanyTest.groupName+'three_body_spin_test3A');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
-  var solver = new AdaptiveStepSolver(sim, sim, new RungeKutta(sim));
+  const solver = new AdaptiveStepSolver(sim, sim, new RungeKutta(sim));
   solver.setSecondDiff(false);
   advance.setDiffEqSolver(solver);
-  var vars = makeVars((3)*6);
+  const vars = makeVars((3)*6);
   setBodyVars(sim, vars, 0, 2.3693976, 2.515764, 0.1774025, 4.772389, 11.1720697, 6.624474);
   setBodyVars(sim, vars, 1, -1.0715337, -0.9428688, 1.5676466, -10.3428519, 10.3527684, 3.0711811);
   setBodyVars(sim, vars, 2, -4.5244885, -4.8429543, 3.3316656, -7.4762076, 14.0249893, -7.3568965);
   // there are initial collisions that change the energy, handle those first.
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
-  var startEnergy = sim.getEnergyInfo().getTotalEnergy();
+  const startEnergy = sim.getEnergyInfo().getTotalEnergy();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.0001,
@@ -503,22 +503,22 @@ here.
 */
 static three_body_spin_test3B() {
   setTestName(MiscellanyTest.groupName+'three_body_spin_test3B');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance);
-  var solver = new AdaptiveStepSolver(sim, sim, new RungeKutta(sim));
+  const solver = new AdaptiveStepSolver(sim, sim, new RungeKutta(sim));
   solver.setSecondDiff(true);
   advance.setDiffEqSolver(solver);
-  var vars = makeVars((3)*6);
+  const vars = makeVars((3)*6);
   setBodyVars(sim, vars, 0, 2.3693979, 2.5157564, 0.1774006, 4.7723939, 11.1720697, 6.6244607);
   setBodyVars(sim, vars, 1, -1.0715337, -0.942891, 1.5676421, -10.3428564, 10.3527692, 3.0711915);
   setBodyVars(sim, vars, 2, -4.5244891, -4.8429346, 3.3316704, -7.4762165, 14.024984, -7.356918);
   // there are initial collisions that change the energy, handle those first.
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
-  var startEnergy = sim.getEnergyInfo().getTotalEnergy();
+  const startEnergy = sim.getEnergyInfo().getTotalEnergy();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
        /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.000001,
@@ -539,20 +539,20 @@ needed to get the same accuracy as the AdaptiveStepSolver, see
 */
 static three_body_spin_test4A() {
   setTestName(MiscellanyTest.groupName+'three_body_spin_test4A');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance, /*damping=*/0.1);
   advance.setTimeStep(0.001);
-  var vars = makeVars((3)*6);
+  const vars = makeVars((3)*6);
   setBodyVars(sim, vars, 0, -0.3914985, 4.2712576, -0.9371374, -0.2752856, 7.1893131, 2.9115049);
   setBodyVars(sim, vars, 1, 0.999713, 1.1355909, 0.9358352, 3.456432, 9.2880734, 2.0450875);
   setBodyVars(sim, vars, 2, 0.4230309, -8.8727579, 4.5037653, -0.5909616, 13.3797935, 5.0812079);
   // there are initial collisions that change the energy, handle those first.
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
-  var startEnergy = sim.getEnergyInfo().getTotalEnergy();
+  const startEnergy = sim.getEnergyInfo().getTotalEnergy();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   if (0 == 1 && Util.DEBUG) {
@@ -571,22 +571,22 @@ RungeKutta solver with a very small step size of 0.001, see
 */
 static three_body_spin_test4B() {
   setTestName(MiscellanyTest.groupName+'three_body_spin_test4B');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.three_body_spin_setup(sim, advance, /*damping=*/0.1);
-  var solver = new AdaptiveStepSolver(sim, sim, new RungeKutta(sim));
+  const solver = new AdaptiveStepSolver(sim, sim, new RungeKutta(sim));
   solver.setSecondDiff(true);
   advance.setDiffEqSolver(solver);
-  var vars = makeVars((3)*6);
+  const vars = makeVars((3)*6);
   setBodyVars(sim, vars, 0, -0.3914985, 4.2712576, -0.9371374, -0.2752856, 7.1893131, 2.9115049);
   setBodyVars(sim, vars, 1, 0.999713, 1.1355909, 0.9358352, 3.456432, 9.2880734, 2.0450875);
   setBodyVars(sim, vars, 2, 0.4230309, -8.8727579, 4.5037653, -0.5909616, 13.3797935, 5.0812079);
   // there are initial collisions that change the energy, handle those first.
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
   // now we can record the true starting energy (after initial collision)
-  var startEnergy = sim.getEnergyInfo().getTotalEnergy();
+  const startEnergy = sim.getEnergyInfo().getTotalEnergy();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
   if (0 == 1 && Util.DEBUG) {
@@ -810,13 +810,13 @@ static curved_test_error_setup(sim, advance) {
   sim.setCollisionAccuracy(0.6);
   sim.setDistanceTol(0.01);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
-  var r = new DoubleRect(-4, -6, 8, 6);
+  const r = new DoubleRect(-4, -6, 8, 6);
   sim.setSimRect(r);
   advance.setTimeStep(0.025);
   /** @type {!DampingLaw} */
-  var damping = new DampingLaw(0, 0.15);
+  const damping = new DampingLaw(0, 0.15);
   /** @type {!GravityLaw} */
-  var gravity = new GravityLaw(3.0);
+  const gravity = new GravityLaw(3.0);
   CurvedTestApp.make(sim, gravity, damping, /*numBods=*/6, r, /*displayList=*/null);
   MiscellanyTest.setupCurvedError(sim);
 };
@@ -829,8 +829,8 @@ TO DO: This error state should be fixed or prevented from happening.
 */
 static curved_test_error() {
   setTestName(MiscellanyTest.groupName+'curved_test_error');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.curved_test_error_setup(sim, advance);
   Engine2DTestRig.runExceptionTest(advance, /*time=*/sim.getTime()+1.0);
 };
@@ -845,14 +845,14 @@ static roller_hump_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   advance.setJointSmallImpacts(false);
   sim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
-  var path = new NumericalPath(new HumpPath());
+  const path = new NumericalPath(new HumpPath());
   sim.getSimList().add(path);
-  var block = Shapes.makeBlock(1, 3, 'block');
+  const block = Shapes.makeBlock(1, 3, 'block');
   block.setPosition(new Vector(-4,  4),  Math.PI/4);
   block.setVelocity(new Vector(0,  0),  0);
   sim.addBody(block);
-  var attach = block.getDragPoints()[1];
-  var pathJoint = new PathJoint(path, block, attach);
+  const attach = block.getDragPoints()[1];
+  const pathJoint = new PathJoint(path, block, attach);
   sim.addConnector(pathJoint);
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(3.0, sim.getSimList()));
@@ -864,10 +864,10 @@ with a PathJoint.
 */
 static roller_hump_test() {
   setTestName(MiscellanyTest.groupName+'roller_hump_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.roller_hump_setup(sim, advance);
-  var vars = makeVars(1*6);
+  const vars = makeVars(1*6);
   setBodyVars(sim, vars, 0, 0.9930475, 0.7033436, 3.1804777, -2.0938717, 6.084699, 0.8542802);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/4,
        /*expectedVars=*/vars, /*tolerance=*/0.00001,
@@ -887,18 +887,18 @@ static roller_end_point_setup(sim, advance) {
   MiscellanyTest.commonSetup1(sim, advance);
   advance.setJointSmallImpacts(false);
   sim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
-  var path = new NumericalPath(new CirclePath(/*radius=*/3));
+  const path = new NumericalPath(new CirclePath(/*radius=*/3));
   sim.getSimList().add(path);
-  var block = Shapes.makeBlock(1, 3, 'block');
+  const block = Shapes.makeBlock(1, 3, 'block');
   block.setPosition(new Vector(-4,  4),  Math.PI/4);
   block.setVelocity(new Vector(0,  0),  0);
   block.setElasticity(0.5);
   sim.addBody(block);
-  var attach = block.getDragPoints()[1];
-  var pathJoint = new PathJoint(path, block, attach);
+  const attach = block.getDragPoints()[1];
+  const pathJoint = new PathJoint(path, block, attach);
   sim.addConnector(pathJoint);
   // stop-point at 45 degrees southwest of center.
-  var endPt = path.findNearestGlobal(new Vector(-2, -2));
+  const endPt = path.findNearestGlobal(new Vector(-2, -2));
   sim.addConnector(new PathEndPoint('stop point', path, block,
     attach, endPt.p, /*upperLimit=*/true));
   sim.alignConnectors();
@@ -911,10 +911,10 @@ with a PathJoint; also there is a PathEndPoint that limits travel of the RigidBo
 */
 static roller_end_point_test() {
   setTestName(MiscellanyTest.groupName+'roller_end_point_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MiscellanyTest.roller_end_point_setup(sim, advance);
-  var vars = makeVars(1*6);
+  const vars = makeVars(1*6);
   setBodyVars(sim, vars, 0, -1.7363317, 0.5083806, -2.9337104, 0.2411583, 9.8677229, 0.6252024);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10,
        /*expectedVars=*/vars, /*tolerance=*/0.00001);

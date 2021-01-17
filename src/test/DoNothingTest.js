@@ -76,7 +76,7 @@ static do_nothing_variable_setup(sim, advance) {
   sim.setElasticity(0.8);
   sim.setSimRect(new DoubleRect(-5, -5, 5, 5));
   // add a rotating force turning the handle
-  var handle = sim.getBody('handle');
+  const handle = sim.getBody('handle');
   sim.addForceLaw(new RotatingTestForce(sim, handle, new Vector(0, -3),
     /*magnitude=*/2, /*rotation_rate=*/0.3));
 };
@@ -88,10 +88,10 @@ that looks for singular matrices.
 */
 static do_nothing_variable_test() {
   setTestName(DoNothingTest.groupName+'do_nothing_variable_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_variable_setup(sim, advance);
-  var vars = makeVars((4 + 3)*6);
+  const vars = makeVars((4 + 3)*6);
   setBodyVars(sim, vars, 0, -1.0069176, -1.941661, 0.3746982, -0.1073186, -6.6510389, -0.7431672);
   setBodyVars(sim, vars, 1, -0, 0, 2.9873821, -0.8556268, 3.1415927, 0);
   setBodyVars(sim, vars, 2, -1.1513247, -2.2201244, -0, -0, 1.5707963, 0);
@@ -128,8 +128,8 @@ static do_nothing_constant_setup(sim, advance) {
   sim.setElasticity(0.8);
   sim.setSimRect(new DoubleRect(-5, -5, 5, 5));
   // add a constant force turning the handle
-  var handle = sim.getBody('handle');
-  var f = new Force('turning', handle,
+  const handle = sim.getBody('handle');
+  const f = new Force('turning', handle,
     /*location=*/new Vector(0, -3), CoordType.BODY,
     /*direction=*/Vector.EAST, CoordType.BODY);
   sim.addForceLaw(new ConstantForceLaw(f));
@@ -153,10 +153,10 @@ calculated, like 6500 or 72000 instead of 25.
 */
 static do_nothing_grinder_test1() {
   setTestName(DoNothingTest.groupName+'do_nothing_grinder_test1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
-  var vars = makeVars((4 + 3)*6);
+  const vars = makeVars((4 + 3)*6);
   setBodyVars(sim, vars, 0, -2.7257349, -4.1971916, -0.0918363, 2.5622131, 61.0303112, 6.5543294);
   setBodyVars(sim, vars, 1, 0, -0, -0.7321898, 20.4279338, 3.1415927, -0);
   setBodyVars(sim, vars, 2, -3.1166463, -4.7991321, 0, -0, 1.5707963, -0);
@@ -191,16 +191,16 @@ code for VELOCITY_AND_DISTANCE
   // factor of 0.1 is to slow the distance adjustment, which avoids collisions.
   // See for example DoNothingTest.do_nothing_grinder_test1b which gets
   // lots of collisions without the 0.1 factor
-  // var x0 = 0.1 * c.distanceToHalfGap();
+  // const x0 = 0.1 * c.distanceToHalfGap();
   // extrab = (2*v0*h + x0)/(h*h)
 * @return {undefined}
 */
 static do_nothing_grinder_test1b() {
   setTestName(DoNothingTest.groupName+'do_nothing_grinder_test1b');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_1b_setup(sim, advance);
-  var vars = makeVars((4 + 3)*6);
+  const vars = makeVars((4 + 3)*6);
   setBodyVars(sim, vars, 0, -2.7245937, -4.2309373, -0.0925957, 2.560584, 61.028377, 6.5529456);
   setBodyVars(sim, vars, 1, -0, -0, -0.7382445, 20.4149451, 3.1415927, 0);
   setBodyVars(sim, vars, 2, -3.1153414, -4.8377173, -0, -0, 1.5707963, 0);
@@ -219,17 +219,17 @@ static do_nothing_grinder_test1b() {
 */
 static do_nothing_grinder_test2() {
   setTestName(DoNothingTest.groupName+'do_nothing_grinder_test2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_constant_setup(sim, advance);
   // run for several seconds with handle force, to get it up to speed.
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10);
   // turn off the constant handle turning force, and damping
-  var fls = sim.getForceLaws();
-  for (var i=0; i<fls.length; i++) {
+  const fls = sim.getForceLaws();
+  for (let i=0; i<fls.length; i++) {
     sim.removeForceLaw(fls[i]);
   }
-  var vars = makeVars((4 + 3)*6);
+  const vars = makeVars((4 + 3)*6);
   setBodyVars(sim, vars, 0, 1.8024594, 6.5378506, 0.307294, -0.7887431, 107.5135207, 3.0512303);
   setBodyVars(sim, vars, 1, 0, 0, 2.4499844, -6.2884668, 3.1415927, 0);
   setBodyVars(sim, vars, 2, 2.0609592, 7.4754767, 0, 0, 1.5707963, 0);
@@ -277,8 +277,8 @@ and you can see the contact distances just before the error are unsteady:
 */
 static do_nothing_error() {
   setTestName(DoNothingTest.groupName+'do_nothing_error');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_variable_setup(sim, advance);
   sim.setRandomSeed(9872392);
   sim.setExtraAccel(ExtraAccel.NONE);

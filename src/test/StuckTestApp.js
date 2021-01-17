@@ -45,9 +45,9 @@ class StuckTestApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
 
   super(elem_ids, simRect, sim, advance);
 
@@ -61,7 +61,7 @@ constructor(elem_ids) {
   this.addPlaybackControls();
   this.addStandardControls();
   /** @type {!ParameterString} */
-  var ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
+  const ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   this.addControl(new ChoiceControl(ps));
   // show compile time so user can ensure loading latest version
   if (Util.DEBUG) {

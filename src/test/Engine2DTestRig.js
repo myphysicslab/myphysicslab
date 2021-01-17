@@ -63,8 +63,8 @@ static setTestName(name) {
 @return {!Array<number>} an array of doubles, all of which are NaN
 */
 static makeVars(n) {
-  var vars = new Array(n);
-  for (var i=0; i<n; i++)
+  const vars = new Array(n);
+  for (let i=0; i<n; i++)
     vars[i] = Util.NaN;
   return vars;
 };
@@ -84,7 +84,7 @@ find their index within the VarsList.
 @param {number} vw angular velocity of the body
 */
 static setBodyVars(sim, vars, i, x, vx, y, vy, w, vw) {
-  var idx = sim.getBody(i).getVarsIndex();
+  const idx = sim.getBody(i).getVarsIndex();
   vars[idx + RigidBodySim.X_] = x;
   vars[idx + RigidBodySim.VX_] = vx;
   vars[idx + RigidBodySim.Y_] = y;
@@ -109,17 +109,17 @@ which variable was out of tolerance.
 static checkResult(sim, expected, tolerance) {
   if (expected == null || isNaN(tolerance))
     throw '';
-  var passed = true;
+  let passed = true;
   // Find variable with biggest difference to show in error result message
-  var idx = -1; // index of variable with error
-  var maxDiff = 0; // difference of expected to actual
+  let idx = -1; // index of variable with error
+  let maxDiff = 0; // difference of expected to actual
   /** @type {!Array<number>} */
-  var vars = sim.getVarsList().getValues(/*computed=*/true);
+  const vars = sim.getVarsList().getValues(/*computed=*/true);
   asserts.assert( vars.length >= expected.length );
-  for (var i=0; i<expected.length; i++) {
+  for (let i=0; i<expected.length; i++) {
     if (isNaN(expected[i]))
       continue;
-    var diff = Math.abs(vars[i] - expected[i]);
+    const diff = Math.abs(vars[i] - expected[i]);
     if (diff > tolerance) {
       passed = false;
       if (idx < 0 || diff > maxDiff) {
@@ -130,7 +130,7 @@ static checkResult(sim, expected, tolerance) {
   }
   if (!passed) {
     Engine2DTestRig.printVars(sim);
-    var s = 'vars['+idx+']='+vars[idx]+' != '+expected[idx]
+    const s = 'vars['+idx+']='+vars[idx]+' != '+expected[idx]
         +' with tolerance='+tolerance
         +' diff='+Util.NF5E(maxDiff);
     TestRig.reportTestResults(false, 'vars', s);
@@ -146,7 +146,7 @@ static checkResult(sim, expected, tolerance) {
 */
 static checkValue(message, value, expected, tolerance) {
   if (Math.abs(expected - value) > tolerance) {
-    var s = message+' expected='+expected+' actual='+value
+    const s = message+' expected='+expected+' actual='+value
                 + ' tolerance='+tolerance;
     TestRig.reportTestResults(false, 'value', s);
   }
@@ -227,21 +227,20 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
     advance.getCollisionTotals().reset();
   }
 
-  var e1 = sim.getEnergyInfo().getTotalEnergy();
-  var nc1 = advance.getCollisionTotals().getCollisions();
-  var bs1 = advance.getCollisionTotals().getSearches();
+  const e1 = sim.getEnergyInfo().getTotalEnergy();
+  const nc1 = advance.getCollisionTotals().getCollisions();
+  const bs1 = advance.getCollisionTotals().getSearches();
 
   if (Engine2DTestRig.debug && !Engine2DTestRig.PRINT_ALL_VARS) {
     // print header that goes with printRigidBody format
     TestRig.myPrintln(' time      X        VX        Y       VY       W      VW     energy');
   }
-  var lastReportTime = advance.getTime();
-  var advanced = true;
+  let lastReportTime = advance.getTime();
 
   while (advance.getTime() < runUntil - 0.0000001) {
     if (0 == 1) {
       // turn on debugging at a particular time
-      var destTime = advance.getTime() + advance.getTimeStep();
+      const destTime = advance.getTime() + advance.getTimeStep();
       advance.setDebugLevel(destTime > 2.5251 && destTime < 2.551 ?
           CollisionAdvance.DebugLevel.LOW : CollisionAdvance.DebugLevel.HIGH);
     }
@@ -267,10 +266,9 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
 
   asserts.assert( Math.abs(advance.getTime() - runUntil) < 0.001 );
 
-  var didTest = false;
-  var passed = true;
-  var s;
-  var testType = '';
+  let didTest = false;
+  let passed = true;
+  let testType = '';
 
   // expected variables test
   if (expectedVars != null && tolerance !== undefined) {
@@ -282,10 +280,10 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
   // expected energy test
   if (expectedEnergyDiff !== undefined && !isNaN(expectedEnergyDiff)) {
     testType += (testType != '' ? '+' : '') + 'energy';
-    var e2 = sim.getEnergyInfo().getTotalEnergy();
-    var energyEqual = Math.abs(e2 - e1 - expectedEnergyDiff) < energyTol;
+    const e2 = sim.getEnergyInfo().getTotalEnergy();
+    const energyEqual = Math.abs(e2 - e1 - expectedEnergyDiff) < energyTol;
     if (!energyEqual) {
-      s = 'energy diff='+Util.NF9(e2 - e1)
+      const s = 'energy diff='+Util.NF9(e2 - e1)
           +', expected diff='+Util.NF9(expectedEnergyDiff)
           +', energyTol='+energyTol
           +', error='+Util.NF9(e2-e1 - expectedEnergyDiff)
@@ -299,9 +297,10 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
   // expected number of collisions test
   if (expectedCollisions > -1) {
     testType += (testType != '' ? '+' : '') + 'num_collisions';
-    var nc2 = advance.getCollisionTotals().getCollisions();
+    const nc2 = advance.getCollisionTotals().getCollisions();
     if (nc2 - nc1 != expectedCollisions) {
-      s = 'should have had '+expectedCollisions+' but had '+(nc2 - nc1)+' collisions';
+      const s = 'should have had '+expectedCollisions+' but had '+(nc2 - nc1)
+          +' collisions';
       TestRig.reportTestResults(false, testType, s);
       passed = false;
     }
@@ -310,9 +309,9 @@ static runTest(sim, advance, runUntil, expectedVars, tolerance, expectedEnergyDi
   // number of collision searches test
   if (expectedSearches > -1) {
     testType += (testType != '' ? '+' : '') + 'collision_search';
-    var bs2 = advance.getCollisionTotals().getSearches();
+    const bs2 = advance.getCollisionTotals().getSearches();
     if (bs2 - bs1 != expectedSearches) {
-      s = 'should have had '+expectedSearches+' but had '+(bs2 - bs1)
+      const s = 'should have had '+expectedSearches+' but had '+(bs2 - bs1)
           +' collision searches';
       TestRig.reportTestResults(false, testType, s);
       passed = false;
@@ -334,7 +333,7 @@ simulation is able to advance thru the entire time.
     exception has occured by then.
 */
 static runExceptionTest(advance, time) {
-  var testType = 'exception';
+  const testType = 'exception';
   while (advance.getTime() < (time - 0.0000001)) {
     try {
       advance.advance(advance.getTimeStep());
@@ -353,12 +352,12 @@ static runExceptionTest(advance, time) {
 @param {number} tolerance the maximum allowed Joint normal distance
 */
 static checkTightJoints(sim, tolerance) {
-  var joints = sim.getConnectors();
-  var len = joints.length;
+  const joints = sim.getConnectors();
+  const len = joints.length;
   if (len > 0) {
-    for (var i=0; i<len; i++) {
-      var joint = joints[i];
-      var dist = joint.getNormalDistance();
+    for (let i=0; i<len; i++) {
+      const joint = joints[i];
+      const dist = joint.getNormalDistance();
       if (Math.abs(dist) > tolerance) {
         TestRig.reportTestResults(false, 'joints', 'joint not tight, tolerance='
             +Util.NF9(tolerance)+' dist='+Util.NF9(dist)+' joint='+joint);
@@ -376,14 +375,14 @@ static checkTightJoints(sim, tolerance) {
 */
 static checkContactDistances(sim, tolerance) {
   /** @type {!Array<!Collision>} */
-  var contacts = [];
+  const contacts = [];
   sim.findCollisions(contacts, sim.getVarsList().getValues(), /*stepSize=*/0);
-  var len = contacts.length;
+  const len = contacts.length;
   if (len > 0) {
-    for (var i=0; i<len; i++) {
-      var c = /** @type {!RigidBodyCollision} */(contacts[i]);
-      var d = Math.abs(c.distanceToHalfGap());
-      var isClose = d < tolerance;
+    for (let i=0; i<len; i++) {
+      const c = /** @type {!RigidBodyCollision} */(contacts[i]);
+      const d = Math.abs(c.distanceToHalfGap());
+      const isClose = d < tolerance;
       if (!isClose) {
         TestRig.reportTestResults(false, 'contact dist',
           'contact is not close, distanceToHalfGap='+Util.NFE(d)
@@ -402,11 +401,11 @@ code.
 */
 static printVars(sim) {
   // @todo  fix this for when time is at the front of variable list.
-  var X=0, VX=1, Y=2, VY=3, W=4, VW=5;
-  var vars = sim.getVarsList().getValues(/*computed=*/true);
-  var numBods = sim.getBodies().length;
-  for (var i=0; i<numBods; i++) {
-    var idx = sim.getBody(i).getVarsIndex();
+  const X=0, VX=1, Y=2, VY=3, W=4, VW=5;
+  const vars = sim.getVarsList().getValues(/*computed=*/true);
+  const numBods = sim.getBodies().length;
+  for (let i=0; i<numBods; i++) {
+    const idx = sim.getBody(i).getVarsIndex();
     TestRig.myPrintln(
       'Engine2DTestRig.setBodyVars(sim, vars, '+i+', '
       +Util.nf7(vars[idx + X])+', '
@@ -425,10 +424,10 @@ static printVars(sim) {
 @private
 */
 static printRigidBody(sim, index) {
-  var vars = sim.getVarsList().getValues(/*computed=*/true);
-  var offset = index*6;
+  const vars = sim.getVarsList().getValues(/*computed=*/true);
+  const offset = index*6;
   // @todo  fix this for when time is at the front of variable list.
-  var X=0, VX=1, Y=2, VY=3, W=4, VW=5;
+  const X=0, VX=1, Y=2, VY=3, W=4, VW=5;
   TestRig.myPrintln(Util.NF5(sim.getTime())+' '
         +Util.NF5(vars[offset + X])+' '
         +Util.NF5(vars[offset + VX])+' '

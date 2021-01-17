@@ -82,7 +82,7 @@ static commonSetup1(sim, advance, damping) {
 */
 static ball_vs_wall_setup(sim, advance) {
   SpeedTest.commonSetup1(sim, advance);
-  var p = Shapes.makeBall(0.2, 'fast_ball');
+  const p = Shapes.makeBall(0.2, 'fast_ball');
   p.setMass(0.1);
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);
@@ -98,10 +98,10 @@ static ball_vs_wall_setup(sim, advance) {
 */
 static ball_vs_wall_0() {
   setTestName(SpeedTest.groupName+'ball_vs_wall_0');
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_wall_setup(sim, advance);
-  var vars = makeVars(6*1);
+  const vars = makeVars(6*1);
   setBodyVars(sim, vars, 0, -4.349276, 0.4830918, 4.4247788, -0.4310427, 0, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
@@ -115,10 +115,10 @@ static ball_vs_wall_0() {
 */
 static ball_vs_wall_1() {
   setTestName(SpeedTest.groupName+'ball_vs_wall_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_wall_setup(sim, advance);
-  var vars = makeVars(6*1);
+  const vars = makeVars(6*1);
   setBodyVars(sim, vars, 0, -4.3493183, 0.4830918, 4.4248186, -0.4310427, 0, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
       /*expectedVars=*/vars, /*tolerance=*/0.00001,
@@ -133,14 +133,14 @@ static ball_vs_wall_1() {
 */
 static ball_vs_circle_setup(sim, advance) {
   SpeedTest.commonSetup1(sim, advance);
-  var p = Shapes.makeBall(0.2, 'fast_ball');
+  const p = Shapes.makeBall(0.2, 'fast_ball');
   p.setMass(0.1);
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);
   sim.addBody(p);
   // super-thin walls
   Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/0.01);
-  var b = Shapes.makeBall(4, 'fixBall');
+  const b = Shapes.makeBall(4, 'fixBall');
   b.setMass(Util.POSITIVE_INFINITY);
   b.setPosition(new Vector(0,  0),  0);
   sim.addBody(b);
@@ -153,11 +153,11 @@ static ball_vs_circle_setup(sim, advance) {
 */
 static ball_vs_circle_0() {
   setTestName(SpeedTest.groupName+'ball_vs_circle_0');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   SpeedTest.ball_vs_circle_setup(sim, advance);
-  var vars = makeVars(6*1);
-  var expectedCollisions;
+  const vars = makeVars(6*1);
+  let expectedCollisions;
   if (Util.isChrome()) {
     setBodyVars(sim, vars, 0, -5.6805659, -0.1123115, 5.6022192, 0.2347565, -0.0000012, -0);
     expectedCollisions = 55;
@@ -191,10 +191,10 @@ static small_small_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   // use large time step of 0.1 to ensure that object passes thru in single step
   advance.setTimeStep(0.1);
-  var b1 = Shapes.makeBlock(1, 1, 'block0');
+  const b1 = Shapes.makeBlock(1, 1, 'block0');
   b1.setPosition(new Vector(-30,  0),  Math.PI/4);
   b1.setVelocity(new Vector(100,  0),  0);  // high speed moving rightwards
-  var b2 = Shapes.makeBlock(1, 1.3, 'block1');
+  const b2 = Shapes.makeBlock(1, 1.3, 'block1');
   b2.setPosition(new Vector(5,  0));  // stationary
   sim.addBody(b1);
   sim.addBody(b2);
@@ -207,10 +207,10 @@ static small_small_setup(sim, advance) {
 */
 static small_small() {
   setTestName(SpeedTest.groupName+'small_small');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   SpeedTest.small_small_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 3.7878932, 0, 0, 0, 0.7853982, -0);
   setBodyVars(sim, vars, 1, 71.2121068, 100, 0, 0, 0, 0);
   // use large time step of 0.1 to ensure that object passes thru in single step

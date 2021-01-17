@@ -36,7 +36,7 @@ constructor() {
 * @return {!Polygon}
 */
 static makeBlockRoundEdge() {
-  var p = new Polygon('block-round-edge');
+  const p = new Polygon('block-round-edge');
   p.startPath(new ConcreteVertex(new Vector(0, 0)));
   p.addStraightEdge(new Vector(2, 0), /*outsideIsUp=*/false);
   p.addStraightEdge(new Vector(2, 1), /*outsideIsUp=*/true);
@@ -54,7 +54,7 @@ static makeBlockRoundEdge() {
 * @return {!Polygon}
 */
 static makeConcaveCirclePoly() {
-  var p = new Polygon('concave_circle');
+  const p = new Polygon('concave_circle');
   p.startPath(new ConcreteVertex(new Vector(0, -0.5)));
   p.addStraightEdge(new Vector(3, -0.5), /*outsideIsUp=*/false);
   p.addStraightEdge(new Vector(3, 1), /*outsideIsUp=*/true);
@@ -76,10 +76,10 @@ static makeConcaveCirclePoly() {
 @return {!Polygon} an n-sided Polygon with n equal sides.
 */
 static makeNGon(n, radius) {
-  var p = new Polygon('polygon-'+n+'-sides');
-  var delta = 2*Math.PI/n;
+  const p = new Polygon('polygon-'+n+'-sides');
+  const delta = 2*Math.PI/n;
   p.startPath(new ConcreteVertex(new Vector(radius, 0)));
-  for (var i=1; i<n; i++) {
+  for (let i=1; i<n; i++) {
     p.addStraightEdge(new Vector(radius*Math.cos(delta*i), radius*Math.sin(delta*i)),
       /*outsideIsUp=*/i <= n/2);
   }

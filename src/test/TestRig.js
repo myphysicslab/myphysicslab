@@ -49,7 +49,7 @@ constructor() {
 */
 static getMachineName() {
   if (window.hasOwnProperty(TestRig.machineName)) {
-    var s = window[TestRig.machineName];
+    const s = window[TestRig.machineName];
     if (typeof s === 'string') {
       return s;
     }
@@ -66,7 +66,7 @@ unrecognized browsers.
 * @return {string}
 */
 static getBrowserName() {
-  var nav = navigator;
+  const nav = navigator;
   if (nav == null)
     return 'unknown';
   if (nav.userAgent.match(/.*Chrome.*/) != null)
@@ -111,25 +111,25 @@ static perfExpected(testName, defaultTime) {
   if (defaultTime === undefined) {
     defaultTime = 10000;
   }
-  var machine = TestRig.getMachineName();
-  var browser = TestRig.getBrowserName();
-  var compiled = Util.ADVANCED ? 'advanced' : 'simple';
-  var e0 = ExpectedPerf;
+  const machine = TestRig.getMachineName();
+  const browser = TestRig.getBrowserName();
+  const compiled = Util.ADVANCED ? 'advanced' : 'simple';
+  const e0 = ExpectedPerf;
   asserts.assertObject(e0, 'not an object '+e0);
-  var err = 'no expected results for machine: '+machine;
-  var e1 = e0[machine];
+  let err = 'no expected results for machine: '+machine;
+  const e1 = e0[machine];
   if (!goog.isObject(e1)) {
     TestRig.myPrintln(err, /*error=*/true);
     return defaultTime;
   }
   err += ', browser: '+browser;
-  var e2 = e1[browser];
+  const e2 = e1[browser];
   if (!goog.isObject(e2)) {
     TestRig.myPrintln(err, /*error=*/true);
     return defaultTime;
   }
   err += ', compiled: '+compiled;
-  var e3 = e2[compiled];
+  let e3 = e2[compiled];
   if (!goog.isObject(e3)) {
     // 'all' property has results for either advanced or simple compile
     e3 = e2['all'];
@@ -139,7 +139,7 @@ static perfExpected(testName, defaultTime) {
     }
   }
   err += ', test: '+testName;
-  var e4 = e3[testName];
+  const e4 = e3[testName];
   if (typeof e4 !== 'number') {
     TestRig.myPrintln(err, /*error=*/true);
     return defaultTime;
@@ -176,7 +176,7 @@ results, and so that the user can interrupt the test.
 * @return {undefined}
 */
 static runTests() {
-  var testFunc = TestRig.testFns.shift();
+  const testFunc = TestRig.testFns.shift();
   if (typeof testFunc === 'function') {
     testFunc();
     setTimeout(TestRig.runTests, 10);
@@ -190,12 +190,12 @@ for writing the results.
 static startTests() {
   TestRig.testsFailed = 0;
   // Find the  element to show test results
-  var test_results = document.getElementById('test_results');
+  const test_results = document.getElementById('test_results');
   if (!goog.isObject(test_results)) {
     throw '<p> element with id="test_results" not found';
   }
   TestRig.output = test_results;
-  var d = new Date();
+  const d = new Date();
   TestRig.myPrintln(d.toDateString()+' '+d.toTimeString());
   TestRig.myPrintln('compiled '+Util.COMPILE_TIME);
   TestRig.myPrintln('machine = '+TestRig.getMachineName());
@@ -210,7 +210,7 @@ static startTests() {
   TestRig.myPrintln('goog.DEBUG = '+goog.DEBUG);
   TestRig.myPrintln('Util.DEBUG = '+Util.DEBUG);
   TestRig.myPrintln('myPhysicsLab version = '+Util.VERSION);
-  var nav = navigator;
+  const nav = navigator;
   if (nav != null) {
     TestRig.myPrintln('userAgent = '+nav.userAgent);
     TestRig.myPrintln('platform = '+nav.platform);
@@ -223,8 +223,8 @@ static startTests() {
         +' for Windows Phone');
   }
   if (goog.DEBUG && !Util.ADVANCED) {
+    let a = 1;
     try {
-      var a = 1;
       asserts.assert(1 == 0);
       a = 2;
     } catch(e) {
@@ -242,13 +242,13 @@ static startTests() {
 * @return {undefined}
 */
 static finishTests() {
-  var f = TestRig.testsFailed;
+  const f = TestRig.testsFailed;
   if (f > 0) {
     TestRig.myPrintln('Tests finished -- '+f+' TESTS FAILED', /*error=*/true);
   } else {
     TestRig.myPrintln('Tests finished and passed.');
   }
-  var d = new Date();
+  const d = new Date();
   TestRig.myPrintln(d.toDateString()+' '+d.toTimeString());
 };
 
@@ -282,9 +282,9 @@ static myPrintln(s, opt_error, opt_warning) {
       s = '<span class="warning">'+s+'</span>';
     }
     TestRig.output.innerHTML += s + '<br>';
-    var docElement = /** @type {!HTMLElement}*/(document.documentElement);
-    var documentHeight = docElement.offsetHeight;
-    var viewportHeight = window.innerHeight;
+    const docElement = /** @type {!HTMLElement}*/(document.documentElement);
+    const documentHeight = docElement.offsetHeight;
+    const viewportHeight = window.innerHeight;
     window.scrollTo(0, documentHeight - viewportHeight);
   }
 };
@@ -303,12 +303,12 @@ whose name includes the word 'error' is printed with the 'warning' highlighting.
 @throws {!Error} if `passed` is false and `ABORT_ON_FAIL` is true
 */
 static reportTestResults(passed, testType, reason) {
-  var s = TestRig.testName+' ['+testType+']';
+  let s = TestRig.testName+' ['+testType+']';
   if (passed) {
     if (testType == 'performance') {
       s += ' '+reason;
     }
-    var warning = TestRig.testName.match(/.*error.*/) != null;
+    const warning = TestRig.testName.match(/.*error.*/) != null;
     TestRig.myPrintln('passed: '+s, /*error=*/false, warning);
   } else {
     TestRig.testsFailed += 1;
@@ -330,7 +330,7 @@ static reportTestResults(passed, testType, reason) {
 */
 static assertEquals(expected, value) {
   if (value !== expected) {
-    var s = 'expected='+expected+' but was actual='+value;
+    const s = 'expected='+expected+' but was actual='+value;
     TestRig.reportTestResults(false, 'value', s);
   }
 };
@@ -345,9 +345,9 @@ static assertRoughlyEquals(expected, value, tolerance) {
     TestRig.reportTestResults(false, 'value', 'not a number '+value);
     return;
   }
-  var num = /** @type {number} */(value);
+  const num = /** @type {number} */(value);
   if (Math.abs(expected - num) > tolerance) {
-    var s = 'expected='+expected+' but was actual='+num
+    const s = 'expected='+expected+' but was actual='+num
                 + ' tolerance='+tolerance;
     TestRig.reportTestResults(false, 'value', s);
   }
@@ -362,9 +362,9 @@ static assertLessThan(value, limit) {
     TestRig.reportTestResults(false, 'value', 'not a number '+value);
     return;
   }
-  var num = /** @type {number} */(value);
+  const num = /** @type {number} */(value);
   if (value > limit) {
-    var s = 'value of '+value+' exceeds limit of '+limit;
+    const s = 'value of '+value+' exceeds limit of '+limit;
     TestRig.reportTestResults(false, 'value', s);
   }
 };
@@ -387,15 +387,15 @@ static assertElementsEquals(expected, value) {
     TestRig.reportTestResults(false, 'assert', 'not an array '+value);
     return;
   }
-  var arr = /** !Array */(value);
+  const arr = /** !Array */(value);
   if (expected.length != arr.length) {
     TestRig.reportTestResults(false, 'assert', 'expected array length '
         +expected.length+' but found '+arr.length);
     return;
   }
-  for (var i=0, n=expected.length; i<n; i++) {
+  for (let i=0, n=expected.length; i<n; i++) {
     if (expected[i] != arr[i]) {
-      var s = 'expected='+expected[i]+' but was actual='+arr[i];
+      const s = 'expected='+expected[i]+' but was actual='+arr[i];
       TestRig.reportTestResults(false, 'assert', 'array elements not equal '+s);
     }
   }

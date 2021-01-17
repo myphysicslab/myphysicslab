@@ -90,12 +90,12 @@ static connected_blocks_pile_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var zel = PileConfig.makeVPit(sim);
-  var buildRNG = new RandomLCG(4);
+  const zel = PileConfig.makeVPit(sim);
+  const buildRNG = new RandomLCG(4);
   PileConfig.makeRandomBlocks(sim, /*quantity=*/5, /*x=*/-6, /*y=*/-2, buildRNG);
   PileConfig.makeConnectedBlocks(sim, /*x=*/6, /*y=*/7, /*angle=*/Math.PI/8+0.05);
   sim.setElasticity(0.8);
-  var gravityLaw = new GravityLaw(10.0);
+  const gravityLaw = new GravityLaw(10.0);
   sim.addForceLaw(gravityLaw);
   gravityLaw.addBodies(sim.getBodies());
   gravityLaw.setZeroEnergyLevel(zel);
@@ -119,8 +119,8 @@ loses energy over time
 */
 static connected_blocks_pile_test() {
   setTestName(PileTest.groupName+'connected_blocks_pile_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.connected_blocks_pile_setup(sim, advance);
   // run until collisions end; ignore binary searches
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/10.0,
@@ -152,12 +152,12 @@ static stable_connected_blocks_pile_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var zel = PileConfig.makeVPit(sim);
-  var buildRNG = new RandomLCG(4);
+  const zel = PileConfig.makeVPit(sim);
+  const buildRNG = new RandomLCG(4);
   PileConfig.makeRandomBlocks(sim, /*quantity=*/5, /*x=*/-6, /*y=*/-2, buildRNG);
   PileConfig.makeConnectedBlocks(sim, /*x=*/6, /*y=*/7, /*angle=*/Math.PI/8+0.05);
   sim.setElasticity(0.8);
-  var vars = sim.getVarsList();
+  const vars = sim.getVarsList();
   vars.setValue(28, -1.307317532081011);
   vars.setValue(29, 3.4568078175222356e-14);
   vars.setValue(30, -7.679563403384621);
@@ -204,7 +204,7 @@ static stable_connected_blocks_pile_setup(sim, advance) {
   sim.saveInitialState();
 
   sim.setRandomSeed(1);
-  var gravityLaw = new GravityLaw(10.0);
+  const gravityLaw = new GravityLaw(10.0);
   sim.addForceLaw(gravityLaw);
   gravityLaw.addBodies(sim.getBodies());
   gravityLaw.setZeroEnergyLevel(zel);
@@ -217,10 +217,10 @@ configuration across different browsers and changes to myPhysicsLab software.
 */
 static stable_connected_blocks_pile_test() {
   setTestName(PileTest.groupName+'stable_connected_blocks_pile_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.stable_connected_blocks_pile_setup(sim, advance);
-  var vars = makeVars(11*6);
+  const vars = makeVars(11*6);
   setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
   setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
   setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
@@ -256,12 +256,12 @@ static near_stable_connected_blocks_pile_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var zel = PileConfig.makeVPit(sim);
-  var buildRNG = new RandomLCG(4);
+  const zel = PileConfig.makeVPit(sim);
+  const buildRNG = new RandomLCG(4);
   PileConfig.makeRandomBlocks(sim, /*quantity=*/5, /*x=*/-6, /*y=*/-2, buildRNG);
   PileConfig.makeConnectedBlocks(sim, /*x=*/6, /*y=*/7, /*angle=*/Math.PI/8+0.05);
   sim.setElasticity(0.8);
-  var vars = sim.getVarsList();
+  const vars = sim.getVarsList();
   vars.setValue(28, -1.3074166349097716);
   vars.setValue(29, -0.010840525228905605);
   vars.setValue(30, -7.6748558792433785);
@@ -308,7 +308,7 @@ static near_stable_connected_blocks_pile_setup(sim, advance) {
   sim.saveInitialState();
 
   sim.setRandomSeed(1);
-  var gravityLaw = new GravityLaw(10.0);
+  const gravityLaw = new GravityLaw(10.0);
   sim.addForceLaw(gravityLaw);
   gravityLaw.addBodies(sim.getBodies());
   gravityLaw.setZeroEnergyLevel(zel);
@@ -330,10 +330,10 @@ is still moving at the time of these test results.
 */
 static near_stable_connected_blocks_pile_test() {
   setTestName(PileTest.groupName + 'near_stable_connected_blocks_pile_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.near_stable_connected_blocks_pile_setup(sim, advance);
-  var vars = makeVars(11*6);
+  const vars = makeVars(11*6);
   if (Util.isChrome()) {
     setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
     setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
@@ -389,15 +389,15 @@ static pile_config_1_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(false);
   advance.setTimeStep(0.025);
-  var buildRNG = new RandomLCG(594074265);
-  var zel = PileConfig.makeVPit(sim, 9.348706704297266);
-  var half = 3;
-  var rest = 3;
+  const buildRNG = new RandomLCG(594074265);
+  const zel = PileConfig.makeVPit(sim, 9.348706704297266);
+  const half = 3;
+  const rest = 3;
   PileConfig.makeRandomBlocks(sim, /*quantity=*/rest, /*x=*/-9.9, /*y=*/19, buildRNG);
   PileConfig.makeRandomBlocks(sim, /*quantity=*/half, /*x=*/-9, /*y=*/16, buildRNG);
   PileConfig.makeConnectedBlocks(sim, /*x=*/3, /*y=*/21, /*angle=*/0);
   sim.setElasticity(0.8);
-  var vars = sim.getVarsList();
+  const vars = sim.getVarsList();
   vars.setValue(28, -4.826036961610339);
   vars.setValue(29, 5.507262977202934);
   vars.setValue(30, 6.3686904268363635);
@@ -449,7 +449,7 @@ static pile_config_1_setup(sim, advance) {
   sim.modifyObjects();
   sim.saveInitialState();
   sim.setRandomSeed(0);
-  var gravityLaw = new GravityLaw(10.0);
+  const gravityLaw = new GravityLaw(10.0);
   sim.addForceLaw(gravityLaw);
   gravityLaw.addBodies(sim.getBodies());
   gravityLaw.setZeroEnergyLevel(zel);
@@ -461,8 +461,8 @@ to May 12, 2016.
 */
 static pile_config_1_test() {
   setTestName(PileTest.groupName+'pile_config_1_test');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.pile_config_1_setup(sim, advance);
   // run until collisions are done; ignore binary searches
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
@@ -492,16 +492,16 @@ static pile_10_random_blocks_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var buildSeed = 0;
-  var seed = 13;
+  const buildSeed = 0;
+  const seed = 13;
   //console.log(' buildSeed= '+buildSeed+'  seed = '+seed);
   sim.setRandomSeed(seed);
-  var zel = PileConfig.makeVPit(sim);
-  var buildRNG = new RandomLCG(buildSeed);
+  const zel = PileConfig.makeVPit(sim);
+  const buildRNG = new RandomLCG(buildSeed);
   PileConfig.makeRandomBlocks(sim, /*n=*/10, /*x=*/-5.5, /*y=*/-2,
       buildRNG);
   sim.setElasticity(0.5);
-  var gravityLaw = new GravityLaw(3.0);
+  const gravityLaw = new GravityLaw(3.0);
   sim.addForceLaw(gravityLaw);
   gravityLaw.addBodies(sim.getBodies());
   gravityLaw.setZeroEnergyLevel(zel);
@@ -512,10 +512,10 @@ static pile_10_random_blocks_setup(sim, advance) {
 */
 static pile_10_random_blocks() {
   setTestName(PileTest.groupName+'pile_10_random_blocks');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.pile_10_random_blocks_setup(sim, advance);
-  var vars = makeVars(14*6);
+  const vars = makeVars(14*6);
   setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
   setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
   setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
@@ -530,7 +530,7 @@ static pile_10_random_blocks() {
   setBodyVars(sim, vars, 11, 0.7205631, 0, -8.2682827, -0, 0.7924107, 0);
   setBodyVars(sim, vars, 12, 0.7795149, 0, -7.7446799, 0, 3.9304584, -0);
   setBodyVars(sim, vars, 13, 0.3485821, 0, -6.9817453, -0, 2.3673243, -0);
-  var startTime = Util.systemTime();
+  const startTime = Util.systemTime();
   // run until all collisions are done and energy is stable.
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
               /*expectedVars=*/vars, /*tolerance=*/0.01);
@@ -539,7 +539,7 @@ static pile_10_random_blocks() {
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0); // new Jan '13: test expected collisions
-  var s = ' collisions='+advance.getCollisionTotals().getCollisions()
+  const s = ' collisions='+advance.getCollisionTotals().getCollisions()
       +', steps='+advance.getCollisionTotals().getSteps()
       +', contacts='+sim.getNumContacts();
   TestRig.myPrintln('info: '+TestRig.testName+s);
@@ -549,17 +549,17 @@ static pile_10_random_blocks() {
 contact force calculation.
 */
 static pile_10_perf() {
-  var testName = 'pile_10_perf';
-  var expected = TestRig.perfExpected(testName);
-  var startTime = Util.systemTime();
+  const testName = 'pile_10_perf';
+  const expected = TestRig.perfExpected(testName);
+  const startTime = Util.systemTime();
   const repeats = 10;
   for (let i=0; i<repeats; i++) {
     PileTest.pile_10_random_blocks();
   }
-  var duration = (Util.systemTime() - startTime)/repeats;
+  const duration = (Util.systemTime() - startTime)/repeats;
   setTestName(PileTest.groupName+testName);
-  var s = TestRig.perfResult(duration, expected);
-  var timeLimit = TestRig.getPerfLimit(expected);
+  const s = TestRig.perfResult(duration, expected);
+  const timeLimit = TestRig.getPerfLimit(expected);
   TestRig.reportTestResults(duration < timeLimit, 'performance', s);
 };
 
@@ -581,8 +581,8 @@ static pile_make_v_pit(sim, advance, damping, gravity) {
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
   sim.setRandomSeed(14);
-  var zel = PileConfig.makeVPit(sim);
-  var gravityLaw = new GravityLaw(gravity, sim.getSimList());
+  const zel = PileConfig.makeVPit(sim);
+  const gravityLaw = new GravityLaw(gravity, sim.getSimList());
   sim.addForceLaw(gravityLaw);
   gravityLaw.setZeroEnergyLevel(zel);
 };
@@ -594,7 +594,7 @@ static pile_make_v_pit(sim, advance, damping, gravity) {
 */
 static pile_uniform_balls_setup(sim, advance) {
   PileTest.pile_make_v_pit(sim, advance, /*damping=*/0.05, /*gravity=*/3.0);
-  var rect = new DoubleRect(-9, 5, 9, 20);
+  const rect = new DoubleRect(-9, 5, 9, 20);
   PileConfig.makeUniformBlocks(sim, rect, /*circular=*/true, /*size=*/2.0,
       /*buffer=*/0.2, /*limit=*/10);
   sim.setElasticity(0.8);
@@ -607,7 +607,7 @@ static pile_uniform_balls_setup(sim, advance) {
 */
 static pile_uniform_blocks_setup(sim, advance) {
   PileTest.pile_make_v_pit(sim, advance, /*damping=*/0.05, /*gravity=*/3.0);
-  var rect = new DoubleRect(-9, 5, 9, 20);
+  const rect = new DoubleRect(-9, 5, 9, 20);
   PileConfig.makeUniformBlocks(sim, rect, /*circular=*/false, /*size=*/2.0,
       /*buffer=*/0.2, /*limit=*/10);
   sim.setElasticity(0.8);
@@ -628,16 +628,16 @@ static pile_20_random_blocks_setup(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var buildSeed = 0;
-  var seed = 14;
+  const buildSeed = 0;
+  const seed = 14;
   //console.log(' buildSeed= '+buildSeed+'  seed = '+seed);
   sim.setRandomSeed(seed);
-  var zel = PileConfig.makeVPit(sim);
-  var buildRNG = new RandomLCG(buildSeed);
+  const zel = PileConfig.makeVPit(sim);
+  const buildRNG = new RandomLCG(buildSeed);
   PileConfig.makeRandomBlocks(sim, /*n=*/10, /*x=*/-5.5, /*y=*/-2, buildRNG);
   PileConfig.makeRandomBlocks(sim, /*n=*/10, /*x=*/-6, /*y=*/-0.5, buildRNG);
   sim.setElasticity(0.5);
-  var gravityLaw = new GravityLaw(3.0);
+  const gravityLaw = new GravityLaw(3.0);
   sim.addForceLaw(gravityLaw);
   gravityLaw.addBodies(sim.getBodies());
   gravityLaw.setZeroEnergyLevel(zel);
@@ -648,14 +648,14 @@ static pile_20_random_blocks_setup(sim, advance) {
 */
 static pile_20_random_blocks() {
   setTestName(PileTest.groupName+'pile_20_random_blocks');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.pile_20_random_blocks_setup(sim, advance);
   if (!Util.isChrome()) {
     // this test takes too long on non-Chrome browsers
     throw '';
   }
-  var startTime = Util.systemTime();
+  const startTime = Util.systemTime();
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/9.0,
               /*expectedVars=*/null, /*tolerance=*/NaN);
   // run another few seconds to have lots of contact calculations as well
@@ -663,7 +663,7 @@ static pile_20_random_blocks() {
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/0.0, /*energyTol=*/0.00001,
                /*expectedCollisions=*/0);
-  var s = ' collisions='+advance.getCollisionTotals().getCollisions()
+  const s = ' collisions='+advance.getCollisionTotals().getCollisions()
       +', steps='+advance.getCollisionTotals().getSteps()
       +', contacts='+sim.getNumContacts();
   TestRig.myPrintln('info: '+TestRig.testName+s);
@@ -689,14 +689,14 @@ changed so that the blocks are not moving after 7 or 8 seconds.
 @return {undefined}
 */
 static pile_20_perf() {
-  var testName = 'pile_20_perf';
-  var expected = TestRig.perfExpected(testName);
-  var startTime = Util.systemTime();
+  const testName = 'pile_20_perf';
+  const expected = TestRig.perfExpected(testName);
+  const startTime = Util.systemTime();
   PileTest.pile_20_random_blocks();
-  var duration = Util.systemTime() - startTime;
+  const duration = Util.systemTime() - startTime;
   setTestName(PileTest.groupName+testName);
-  var s = TestRig.perfResult(duration, expected);
-  var timeLimit = TestRig.getPerfLimit(expected);
+  const s = TestRig.perfResult(duration, expected);
+  const timeLimit = TestRig.getPerfLimit(expected);
   TestRig.reportTestResults(duration < timeLimit, 'performance', s);
 };
 
@@ -717,7 +717,7 @@ static additive_pile_setup_(sim, advance) {
   advance.setDiffEqSolver(new ModifiedEuler(sim));
   advance.setJointSmallImpacts(true);
   advance.setTimeStep(0.025);
-  var zel = PileConfig.makeVPit(sim);
+  const zel = PileConfig.makeVPit(sim);
   sim.addForceLaw(new GravityLaw(3.0, sim.getSimList()));
 };
 
@@ -730,14 +730,14 @@ to the point that the sim is barely keeping up with real time.
 @private
 */
 static additive_pile_test(square, start_num_blocks) {
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   PileTest.additive_pile_setup_(sim, advance);
-  var simTime = 0;
-  var TIME_SPAN = 5.0;
-  var LIMIT_TIME = 0.9*TIME_SPAN;
-  var num_blocks = 0;
-  var startTime = Util.systemTime();
+  let simTime = 0;
+  const TIME_SPAN = 5.0;
+  const LIMIT_TIME = 0.9*TIME_SPAN;
+  let num_blocks = 0;
+  const startTime = Util.systemTime();
   // feed in blocks at start more quickly, to speed up the test.
   while (num_blocks < start_num_blocks) {
     simTime += 1.0;
@@ -747,7 +747,7 @@ static additive_pile_test(square, start_num_blocks) {
   while (true) {
     simTime += TIME_SPAN;
     num_blocks++;
-    var realTime = PileTest.add_block_and_run(sim, advance, simTime, square);
+    const realTime = PileTest.add_block_and_run(sim, advance, simTime, square);
     TestRig.myPrintln('num_bodies='+num_blocks
         +' time='+Util.NF2(realTime)
         +' limit='+Util.NF2(LIMIT_TIME)
@@ -771,8 +771,8 @@ static additive_pile_test(square, start_num_blocks) {
 @private
 */
 static add_block_and_run(sim, advance, runUntil, square) {
-  var startTime = Util.systemTime();
-  var p = square ? Shapes.makeBlock(1.0, 1.0, 'block')
+  const startTime = Util.systemTime();
+  const p = square ? Shapes.makeBlock(1.0, 1.0, 'block')
                  : Shapes.makeBall(0.5, 'ball');
   // move a bit right of center and tilted, to avoid 'perfect' bounces
   p.setPosition(new Vector(0.5,  0),  0.5);
@@ -789,11 +789,11 @@ to the point that the sim is barely keeping up with real time
 */
 static additive_pile_square_test(expectedBlocks) {
   setTestName(PileTest.groupName+'additive_pile_square_test');
-  var startTime = Util.systemTime();
-  var num_blocks = PileTest.additive_pile_test(/*square=*/true,
+  const startTime = Util.systemTime();
+  const num_blocks = PileTest.additive_pile_test(/*square=*/true,
     /*start_num_blocks=*/expectedBlocks-3);
-  var totalTime = Util.systemTime() - startTime;
-  var s = 'reached '+num_blocks
+  const totalTime = Util.systemTime() - startTime;
+  const s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+Util.NF5(totalTime);
   TestRig.myPrintln('additive_pile_square_test '+s);
@@ -806,11 +806,11 @@ to the point that the sim is barely keeping up with real time
 */
 static additive_pile_circle_test(expectedBlocks) {
   setTestName(PileTest.groupName+'additive_pile_circle_test');
-  var startTime = Util.systemTime();
-  var num_blocks = PileTest.additive_pile_test(/*square=*/false,
+  const startTime = Util.systemTime();
+  const num_blocks = PileTest.additive_pile_test(/*square=*/false,
       /*start_num_blocks=*/expectedBlocks-3);
-  var totalTime = Util.systemTime() - startTime;
-  var s = 'reached '+num_blocks
+  const totalTime = Util.systemTime() - startTime;
+  const s = 'reached '+num_blocks
         +' blocks; expected='+expectedBlocks
         +' totalTime='+Util.NF5(totalTime);
   TestRig.myPrintln('additive_pile_circle_test '+s);

@@ -116,11 +116,11 @@ static commonSetup1(sim, advance) {
 */
 static one_hits_wall_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var b0 = Shapes.makeBlock(1, 1, 'block');
+  const b0 = Shapes.makeBlock(1, 1, 'block');
   b0.setPosition(new Vector(0,  2),  0);
   b0.setVelocity(new Vector(0,  -3),  0);
   sim.addBody(b0);
-  var b1 = Shapes.makeBlock(3, 1, 'wall');
+  const b1 = Shapes.makeBlock(3, 1, 'wall');
   b1.setPosition(new Vector(0,  -2),  0);
   b1.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(b1);
@@ -132,11 +132,11 @@ static one_hits_wall_setup(sim, advance) {
 */
 static test1_0(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test1_0 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_wall_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0, 0, 2.01, 3, 0, 0);
   setBodyVars(sim, vars, 1, 0, 0, -2, 0, 0, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
@@ -150,11 +150,11 @@ static test1_0(collisionType) {
 */
 static test1_1(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test1_1 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_wall_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0, 0, 1.7696, 2.76, -2.8848, -2.88);
   setBodyVars(sim, vars, 1, 0, 0, -2, 0, 0, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/2.0,
@@ -174,17 +174,17 @@ Because resting contact is involved, we need to use ContactSim instead of Impuls
 */
 static test2_prep(sim, advance, offset, balls) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var radius = 0.5;
-  var b0 = balls ? Shapes.makeBall(radius, 'ball0')
+  const radius = 0.5;
+  const b0 = balls ? Shapes.makeBall(radius, 'ball0')
                  : Shapes.makeBlock(2*radius, 2*radius, 'block0');
   b0.setPosition(new Vector(-3,  0),  0);
   b0.setVelocity(new Vector(3,  0),  0);
   sim.addBody(b0);
-  var b1 = balls ? Shapes.makeBall(radius, 'ball1')
+  const b1 = balls ? Shapes.makeBall(radius, 'ball1')
                  : Shapes.makeBlock(2*radius, 2*radius, 'block1');
   b1.setPosition(new Vector(0,  0),  0);
   sim.addBody(b1);
-  var b2 = balls ? Shapes.makeBall(radius, 'ball2')
+  const b2 = balls ? Shapes.makeBall(radius, 'ball2')
                  : Shapes.makeBlock(2*radius, 2*radius, 'block2');
   b2.setPosition(new Vector(2*radius + MultipleCollisionTest.distanceTol_/2 + offset,  0),  0);
   sim.addBody(b2);
@@ -216,11 +216,11 @@ static one_hits_two_block_setup(sim, advance) {
 */
 static test2_0(collisionType, balls) {
   setTestName(MultipleCollisionTest.groupName+'test2_0 '+collisionType+' balls='+balls);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test2_prep(sim, advance, 0, balls);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -2.34, -1, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 2.67, 2, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 3.675, 2, 0, 0, 0, 0);
@@ -236,11 +236,11 @@ static test2_0(collisionType, balls) {
 */
 static test2_1(collisionType, balls) {
   setTestName(MultipleCollisionTest.groupName+'test2_1 '+collisionType+' balls='+balls);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test2_prep(sim, advance, 0, balls);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -1.005, 0, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 5.01, 3, 0, 0, 0, 0);
@@ -275,16 +275,16 @@ ImpulseSim here (don't need to use ContactSim).
 */
 static two_hits_one_asymmetric_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var distTol = sim.getDistanceTol();
-  var radius = 0.5;
-  var b0 = Shapes.makeBall(radius, 'left');
+  const distTol = sim.getDistanceTol();
+  const radius = 0.5;
+  const b0 = Shapes.makeBall(radius, 'left');
   b0.setPosition(new Vector(-5 + distTol/2,  0),  0);
   b0.setVelocity(new Vector(3,  0),  0);
   sim.addBody(b0);
-  var b1 = Shapes.makeBall(radius, 'center');
+  const b1 = Shapes.makeBall(radius, 'center');
   b1.setPosition(new Vector(0,  0),  0);
   sim.addBody(b1);
-  var b2 = Shapes.makeBall(radius, 'right');
+  const b2 = Shapes.makeBall(radius, 'right');
   b2.setPosition(new Vector(3,  0),  0);
   b2.setVelocity(new Vector(-1.5,  0),  0);
   sim.addBody(b2);
@@ -300,11 +300,11 @@ MAY 2016: I've solved the above problem, see the setup function above.
 */
 static test3_0(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test3_0 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_hits_one_asymmetric_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -2.345, -2, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 0.67, 1, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 2.68, 2.5, 0, 0, 0, 0);
@@ -320,11 +320,11 @@ the two balls exchange velocity.
 */
 static test3_1(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test3_1 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_hits_one_asymmetric_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -2.01, -1.5, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 3.015, 3, 0, 0, 0, 0);
@@ -344,15 +344,15 @@ ImpulseSim here (don't need to use ContactSim).
 */
 static one_hits_two_separate_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var b0 = Shapes.makeBlock(1, 3, 'block0');
+  const b0 = Shapes.makeBlock(1, 3, 'block0');
   b0.setPosition(new Vector(-4,  0),  0); // could modify angle slightly here
   b0.setVelocity(new Vector(3,  0),  0);
   b0.setMass(2);
   sim.addBody(b0);
-  var b1 = Shapes.makeBall(0.5, 'ball1');
+  const b1 = Shapes.makeBall(0.5, 'ball1');
   b1.setPosition(new Vector(0,  1),  0);
   sim.addBody(b1);
-  var b2 = Shapes.makeBall(0.5, 'ball2');
+  const b2 = Shapes.makeBall(0.5, 'ball2');
   b2.setPosition(new Vector(0,  -1),  0);
   sim.addBody(b2);
   sim.setElasticity(1.0);
@@ -363,11 +363,11 @@ static one_hits_two_separate_setup(sim, advance) {
 */
 static test4_0(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test4_0 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_separate_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -1.005, 0, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 3.005, 3, 1, 0, 0, 0);
   setBodyVars(sim, vars, 2, 3.005, 3, -1, 0, 0, 0);
@@ -382,11 +382,11 @@ static test4_0(collisionType) {
 */
 static test4_1(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test4_1 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_separate_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -0.9981859, 0.0068027, 0, 0, 0.1635374, 0.1632653);
   setBodyVars(sim, vars, 1, 3.1344671, 3.1292517, 1, 0, 0, 0);
   setBodyVars(sim, vars, 2, 2.8619048, 2.8571429, -1, 0, 0, 0);
@@ -409,21 +409,21 @@ Because this test involves resting contacts, we must use ContactSim.
 */
 static test5_prep(sim, advance, balls) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var radius = 0.5;
-  var b0 = balls ? Shapes.makeBall(radius, 'ball0')
+  const radius = 0.5;
+  const b0 = balls ? Shapes.makeBall(radius, 'ball0')
                      : Shapes.makeBlock(2*radius, 2*radius, 'block0');
   b0.setPosition(new Vector(-3,  0),  0);
   b0.setVelocity(new Vector(3,  0),  0);
   sim.addBody(b0);
-  var b1 = balls ? Shapes.makeBall(radius, 'ball1')
+  const b1 = balls ? Shapes.makeBall(radius, 'ball1')
                      : Shapes.makeBlock(2*radius, 2*radius, 'block1');
   b1.setPosition(new Vector(0,  0),  0);
   sim.addBody(b1);
-  var b2 = balls ? Shapes.makeBall(radius, 'ball2')
+  const b2 = balls ? Shapes.makeBall(radius, 'ball2')
                      : Shapes.makeBlock(2*radius, 2*radius, 'block2');
   b2.setPosition(new Vector(2*radius + MultipleCollisionTest.distanceTol_/2,  0),  0);
   sim.addBody(b2);
-  var b3 = Shapes.makeBlock(1, 3, 'wall');
+  const b3 = Shapes.makeBlock(1, 3, 'wall');
   b3.setMass(Util.POSITIVE_INFINITY);
   b3.setPosition(new Vector(3*radius + 0.5 + MultipleCollisionTest.distanceTol_,  0),  0);
   sim.addBody(b3);
@@ -454,11 +454,11 @@ static one_hits_two_on_wall_block_setup(sim, advance) {
 */
 static test5_0(collisionType, balls) {
   setTestName(MultipleCollisionTest.groupName+'test5_0 '+collisionType+' balls='+balls);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.test5_prep(sim, advance, balls);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -5.01, -3, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 0, 0, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 1.005, 0, 0, 0, 0, 0);
@@ -481,14 +481,14 @@ This corresponds to the 'center spin' version of the interactive SimultaneousCol
 */
 static center_spin_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var b0 = Shapes.makeBlock(1, 3, 'block0');
+  const b0 = Shapes.makeBlock(1, 3, 'block0');
   b0.setPosition(new Vector(0,  0),  0);
   b0.setVelocity(new Vector(0,  0),  2);
   sim.addBody(b0);
-  var b1 = Shapes.makeBlock(1, 3, 'block1');
+  const b1 = Shapes.makeBlock(1, 3, 'block1');
   b1.setPosition(new Vector(2.8,  0),  Math.PI/2);
   sim.addBody(b1);
-  var b2 = Shapes.makeBlock(1, 3, 'block2');
+  const b2 = Shapes.makeBlock(1, 3, 'block2');
   b2.setPosition(new Vector(-2.8,  0),  -Math.PI/2);
   sim.addBody(b2);
   sim.setElasticity(1.0);
@@ -499,11 +499,11 @@ static center_spin_setup(sim, advance) {
 */
 static test6_0(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test6_0 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.center_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, 0.1855924, 0.3179762, 0.2040219, 0.3495516, 0.4374322, -0.6771538);
   setBodyVars(sim, vars, 1, 3.0447046, 0.4192534, 0.269004, 0.4608857, 1.2334118, -0.5780423);
   setBodyVars(sim, vars, 2, -3.230297, -0.7372296, -0.473026, -0.8104373, -2.1640649, -1.0164494);
@@ -519,11 +519,11 @@ static test6_0(collisionType) {
 */
 static test6_1(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test6_1 '+collisionType);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.center_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, 0, 0, 0, 0, 0.3612164, -0.8077347);
   setBodyVars(sim, vars, 1, 3.1539628, 0.6064458, 0.3891116, 0.6666666, 1.082773, -0.8361323);
   setBodyVars(sim, vars, 2, -3.1539628, -0.6064458, -0.3891116, -0.6666666, -2.0588196, -0.8361323);
@@ -545,14 +545,14 @@ This corresponds to the 'side spin' version of the interactive SimultaneousColli
 */
 static side_spin_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var b0 = Shapes.makeBlock(1, 3, 'block0');
+  const b0 = Shapes.makeBlock(1, 3, 'block0');
   b0.setPosition(new Vector(0,  0),  Math.PI/2);
   sim.addBody(b0);
-  var b1 = Shapes.makeBlock(1, 3, 'block1');
+  const b1 = Shapes.makeBlock(1, 3, 'block1');
   b1.setPosition(new Vector(2.8,  1.001),  0);
   b1.setVelocity(new Vector(0,  0),  2);
   sim.addBody(b1);
-  var b2 = Shapes.makeBlock(1, 3, 'block2');
+  const b2 = Shapes.makeBlock(1, 3, 'block2');
   b2.setPosition(new Vector(-2.8,  1.001),  Math.PI/2);
   sim.addBody(b2);
   sim.setElasticity(1.0);
@@ -569,12 +569,12 @@ static side_spin_setup(sim, advance) {
 */
 static test7_0(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test7_0 '+collisionType);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.side_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
   sim.setVelocityTol(0.05);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -0, -0, -0.2407811, -1.1140238, 1.3296854, -1.1155496);
   setBodyVars(sim, vars, 1, 2.8, 0, 1.2018587, 0.9293143, 1.6380862, 0.3255308);
   setBodyVars(sim, vars, 2, -2.8, 0, 1.0409225, 0.1847096, 1.6330754, 0.2881469);
@@ -589,12 +589,12 @@ static test7_0(collisionType) {
 */
 static test7_1(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test7_1 '+collisionType);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.side_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -0, -0, -0.2696156, -1.2474324, 1.4082314, -0.7521404);
   setBodyVars(sim, vars, 1, 2.8, 0, 1.1939246, 0.8926056, 1.6523821, 0.3916737);
   setBodyVars(sim, vars, 2, -2.8, 0, 1.077691, 0.3548268, 1.6904343, 0.5535298);
@@ -609,12 +609,12 @@ static test7_1(collisionType) {
 */
 static test7_2(collisionType) {
   setTestName(MultipleCollisionTest.groupName+'test7_2 '+collisionType);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.side_spin_setup(sim, advance);
   sim.setCollisionHandling(collisionType);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, -0.0005129, -0.002373, -0.2514185, -1.16324, 1.4220696, -0.6881151);
   setBodyVars(sim, vars, 1, 2.8005129, 0.002373, 1.1681077, 0.7731586, 1.7396203, 0.7952992);
   setBodyVars(sim, vars, 2, -2.8, 0, 1.0853108, 0.3900814, 1.7023212, 0.608527);
@@ -633,10 +633,10 @@ a collision.
 */
 static joint_collision_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var zel = Walls.make(sim, /*width=*/20, /*height=*/10);
-  var j1 = Shapes.makeBlock(1, 3, 'joint1');
+  const zel = Walls.make(sim, /*width=*/20, /*height=*/10);
+  const j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  -5 + 0.5 + 0.005),  Math.PI/2);
-  var j2 = Shapes.makeBlock(1, 3, 'joint2');
+  const j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(4,  -5 + 0.5 + 0.005),  Math.PI/2);
   sim.addBody(j1);
   sim.addBody(j2);
@@ -647,11 +647,11 @@ static joint_collision_setup(sim, advance) {
     );
   /* move the bodies so their joints line up over each other. */
   sim.alignConnectors();
-  var f1 = Shapes.makeBlock(1, 3, 'free1');
+  const f1 = Shapes.makeBlock(1, 3, 'free1');
   f1.setPosition(new Vector(-6,  -5 + 0.5 + 0.005),  Math.PI/2);
   f1.setVelocity(new Vector(3,  0),  0);
   sim.addBody(f1);
-  var gravity = new GravityLaw(4.0, sim.getSimList());
+  const gravity = new GravityLaw(4.0, sim.getSimList());
   sim.addForceLaw(gravity);
   gravity.setZeroEnergyLevel(zel + 0.5);
   sim.setElasticity(0.8);
@@ -662,12 +662,12 @@ static joint_collision_setup(sim, advance) {
 */
 static test8_0() {
   setTestName(MultipleCollisionTest.groupName+'test8_0');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*7);
+  const vars = makeVars(6*7);
   setBodyVars(sim, vars, 4, 5.3468095, 1.3378378, -4.4909991, -0, 1.5708394, -0);
   setBodyVars(sim, vars, 5, 3.3468392, 1.3378378, -4.4943779, 0, 1.5741319, 0);
   setBodyVars(sim, vars, 6, -2.1936486, 0.3243243, -4.49445, 0.0000026, 1.5687089, -0.0000012);
@@ -686,9 +686,9 @@ static test8_0() {
 */
 static joint_collision_2_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var j1 = Shapes.makeBlock(1, 3, 'joint1');
+  const j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
-  var j2 = Shapes.makeBlock(1, 3, 'joint2');
+  const j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   j2.setVelocity(new Vector(3,  0),  0);
   sim.addBody(j1);
@@ -700,7 +700,7 @@ static joint_collision_2_setup(sim, advance) {
     );
   /* move the bodies so their joints line up over each other. */
   sim.alignConnectors();
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
   sim.setElasticity(0.8);
@@ -711,12 +711,12 @@ static joint_collision_2_setup(sim, advance) {
 */
 static test8_1() {
   setTestName(MultipleCollisionTest.groupName+'test8_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_2_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 6.5, 1.5, -0, -0, 1.5707963, 0);
   setBodyVars(sim, vars, 1, 4.5, 1.5, 0, 0, 1.5707963, 0);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
@@ -730,10 +730,10 @@ static test8_1() {
 */
 static joint_collision_3_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var j1 = Shapes.makeBlock(1, 3, 'joint1');
+  const j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
   sim.addBody(j1);
-  var j2 = Shapes.makeBlock(1, 3, 'joint2');
+  const j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   sim.addBody(j2);
   JointUtil.attachRigidBody(sim,
@@ -743,7 +743,7 @@ static joint_collision_3_setup(sim, advance) {
     );
   /* move the bodies so their joints line up over each other. */
   sim.alignConnectors();
-  var f1 = Shapes.makeBall(/*radius=*/0.5, 'free1');
+  const f1 = Shapes.makeBall(/*radius=*/0.5, 'free1');
   f1.setPosition(new Vector(-6,  0),  Math.PI/2);
   f1.setVelocity(new Vector(3,  0),  0);
   sim.addBody(f1);
@@ -755,12 +755,12 @@ static joint_collision_3_setup(sim, advance) {
 */
 static test8_2() {
   setTestName(MultipleCollisionTest.groupName+'test8_2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_3_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, 5.3366667, 2, -0, -0, 1.5707963, 0);
   setBodyVars(sim, vars, 1, 3.3366667, 2, -0, -0, 1.5707963, 0);
   setBodyVars(sim, vars, 2, -3.6733333, -1, 0, 0, 1.5707963, 0);
@@ -777,11 +777,11 @@ spinning joints tight with just contact force calculations.
 */
 static joint_collision_4_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var j1 = Shapes.makeBlock(1, 3, 'joint1');
+  const j1 = Shapes.makeBlock(1, 3, 'joint1');
   j1.setPosition(new Vector(2,  0),  Math.PI/2);
   j1.setVelocity(new Vector(0,  0),  3);
   sim.addBody(j1);
-  var j2 = Shapes.makeBlock(1, 3, 'joint2');
+  const j2 = Shapes.makeBlock(1, 3, 'joint2');
   j2.setPosition(new Vector(0,  0),  Math.PI/2);
   j2.setVelocity(new Vector(0,  0),  -5);
   sim.addBody(j2);
@@ -793,7 +793,7 @@ static joint_collision_4_setup(sim, advance) {
   /* move the bodies so their joints line up over each other. */
   sim.alignConnectors();
   sim.setElasticity(0.8);
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -803,12 +803,12 @@ static joint_collision_4_setup(sim, advance) {
 */
 static test8_3() {
   setTestName(MultipleCollisionTest.groupName+'test8_3');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_4_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 1.4983143, 0.2052494, 0.8618191, -0.5534606, 8.9952832, 3.5216341);
   setBodyVars(sim, vars, 1, 0.5016857, -0.2052494, -0.8618191, 0.5534606, -10.0437751, -4.435186);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
@@ -824,8 +824,8 @@ the jointed rectangle blocks.
 */
 static joint_collision_5_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var distTol = sim.getDistanceTol();
-  var body = Shapes.makeBall(0.5, 'body4');
+  const distTol = sim.getDistanceTol();
+  let body = Shapes.makeBall(0.5, 'body4');
   body.setMass(2);
   body.setPosition(new Vector(1 + distTol/2,  0));
   sim.addBody(body);
@@ -835,11 +835,11 @@ static joint_collision_5_setup(sim, advance) {
   body.setVelocity(new Vector(3,  0),  0);
   sim.addBody(body);
 
-  var body2 = Shapes.makeBlock(2, 1, 'body2');
+  const body2 = Shapes.makeBlock(2, 1, 'body2');
   body2.setPosition(new Vector(-2,  0));
   sim.addBody(body2);
 
-  var body3 = Shapes.makeBlock(2, 1, 'body3');
+  const body3 = Shapes.makeBlock(2, 1, 'body3');
   body3.setPosition(new Vector(-0.5,  0));
   sim.addBody(body3);
 
@@ -857,12 +857,12 @@ static joint_collision_5_setup(sim, advance) {
 */
 static test8_5() {
   setTestName(MultipleCollisionTest.groupName+'test8_5');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.joint_collision_5_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*4);
+  const vars = makeVars(6*4);
   setBodyVars(sim, vars, 0, 2.51, 3, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, -3.505, 0, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, -2, 0, 0, 0, 0, 0);
@@ -881,8 +881,8 @@ et. al. Chapter 6-2 'Multiple Points of Collision'.
 */
 static two_in_box_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var distTol = sim.getDistanceTol();
-  var body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
+  const distTol = sim.getDistanceTol();
+  let body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
       /*height=*/1 + 2*distTol/2 + 0.2, /*thickness=*/0.2, 'body1');
   body.setPosition(new Vector(0,  0));
   sim.addBody(body);
@@ -903,12 +903,12 @@ static two_in_box_setup(sim, advance) {
 */
 static two_in_box() {
   setTestName(MultipleCollisionTest.groupName+'two_in_box');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.two_in_box_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*3);
+  const vars = makeVars(6*3);
   setBodyVars(sim, vars, 0, 1, 1, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 0.4975, 1, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 1.5025, 1, 0, 0, 0, 0);
@@ -926,8 +926,8 @@ et. al. Chapter 6-2 'Multiple Points of Collision'.
 */
 static one_hits_two_in_box_setup(sim, advance) {
   MultipleCollisionTest.commonSetup1(sim, advance);
-  var distTol = sim.getDistanceTol();
-  var body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
+  const distTol = sim.getDistanceTol();
+  let body = Shapes.makeFrame(/*width=*/2 + 3*distTol/2 + 0.2,
       /*height=*/1 + 2*distTol/2 + 0.2, /*thickness=*/0.2, 'body1');
   body.setPosition(new Vector(0,  0));
   sim.addBody(body);
@@ -952,12 +952,12 @@ static one_hits_two_in_box_setup(sim, advance) {
 */
 static one_hits_two_in_box() {
   setTestName(MultipleCollisionTest.groupName+'two_in_box');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   MultipleCollisionTest.one_hits_two_in_box_setup(sim, advance);
   sim.setCollisionHandling(CollisionHandling.SERIAL_GROUPED_LASTPASS);
   sim.setRandomSeed(86161959);
-  var vars = makeVars(6*4);
+  const vars = makeVars(6*4);
   setBodyVars(sim, vars, 0, 0.9041667, 1, 0, 0, 0, 0);
   setBodyVars(sim, vars, 1, 0.4016667, 1, 0, 0, 0, 0);
   setBodyVars(sim, vars, 2, 1.4066667, 1, 0, 0, 0, 0);

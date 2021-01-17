@@ -96,12 +96,12 @@ static commonSetup1(sim, advance, damping) {
 */
 static ball_block_collide_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBall(0.75, 'ball');
+  const body0 = Shapes.makeBall(0.75, 'ball');
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-2,  2),  0);
   body0.setVelocity(new Vector(1,  -1),  1);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 1, 'block');
+  const body1 = Shapes.makeBlock(1, 1, 'block');
   body1.setPosition(new Vector(0,  0),  0);
   sim.addBody(body1);
   sim.setElasticity(1.0);
@@ -114,10 +114,10 @@ static ball_block_collide_setup(sim, advance) {
 */
 static ball_block_collide() {
   setTestName(CircleStraightTest.groupName+'ball_block_collide');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.ball_block_collide_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.135972, 0.0179439, 1.1812653, 0.0028806, 3.1087039, 1.0499788);
   setBodyVars(sim, vars, 1, 2.135972, 0.9820561, -2.1812653, -1.0028806, 0.1358799, 0.0624735);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3.0,
@@ -149,12 +149,12 @@ lets us get past this point, though it doesn't fix the tiny distance.
 */
 static ball_block_attract_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBall(0.75, 'ball');
+  const body0 = Shapes.makeBall(0.75, 'ball');
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-2,  2),  0);
   body0.setVelocity(new Vector(0.1,  -0.1),  1);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 1, 'block');
+  const body1 = Shapes.makeBlock(1, 1, 'block');
   body1.setPosition(new Vector(0,  0),  0);
   body1.setVelocity(new Vector(-0.1,  0.1),  -1);
   sim.addBody(body1);
@@ -169,10 +169,10 @@ static ball_block_attract_setup(sim, advance) {
 */
 static ball_block_attract() {
   setTestName(CircleStraightTest.groupName+'ball_block_attract');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.ball_block_attract_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.3699699, 0.2138555, 1.5307076, -0.2372712, 33.3931299, 1.7136164);
   setBodyVars(sim, vars, 1, -0.6300301, -0.2138555, 0.4692924, 0.2372712, -7.2779759, -1.8957024);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/20.0,
@@ -187,18 +187,18 @@ offset center of mass. Energy should be constant with a small enough time step.
 */
 static ball_block_contact_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBall(0.75, 'ball');
+  const body0 = Shapes.makeBall(0.75, 'ball');
   body0.setCenterOfMass(0, 0.2);
   body0.setPosition(new Vector(-0.2525,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  1);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 3, 'block');
+  const body1 = Shapes.makeBlock(1, 3, 'block');
   body1.setPosition(new Vector(1,  0),  0);
   body1.setVelocity(new Vector(0,  -0.6),  0);
   sim.addBody(body1);
   sim.setElasticity(0.8);
   sim.addForceLaw(new Gravity2Law(3.0, sim.getSimList()));
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -211,10 +211,10 @@ in the setup function).
 */
 static ball_block_contact() {
   setTestName(CircleStraightTest.groupName+'ball_block_contact');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.ball_block_contact_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -0.2749218, 0.0874195, 0.4044095, 0.1208178, 0.4380613, 0.0903604);
   setBodyVars(sim, vars, 1, 1.0224218, -0.0874195, -0.4044095, -0.1208178, -0.0766021, -0.3218581);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/1.0,
@@ -236,10 +236,10 @@ they settle into rocking contact under mutual gravitation.
 static circle_arc_block_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
-  var p = TestShapes.makeBlockRoundEdge();
+  const p = TestShapes.makeBlockRoundEdge();
   p.setPosition(new Vector(0,  -1),  0);
   sim.addBody(p);
-  var p2 = Shapes.makeBlock(1, 1, 'block');
+  const p2 = Shapes.makeBlock(1, 1, 'block');
   p2.setPosition(new Vector(2.5,  0.3),  Math.PI/8 - Math.PI/24);
   sim.addBody(p2);
   sim.setElasticity(0.8);
@@ -252,10 +252,10 @@ static circle_arc_block_setup(sim, advance) {
 */
 static circle_arc_block() {
   setTestName(CircleStraightTest.groupName+'circle_arc_block');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.circle_arc_block_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.8343664, 0.164365, -0.7928884, -0.2694134, -1.0677983, -0.8300614);
   setBodyVars(sim, vars, 1, 1.6656336, -0.164365, 0.0928884, 0.2694134, 0.5765963, 0.188213);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -276,11 +276,11 @@ static circle_arc_block() {
 static concave_ball_block_collide_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
-  var p = TestShapes.makeConcaveCirclePoly();
+  const p = TestShapes.makeConcaveCirclePoly();
   //p.printAll();
   p.setPosition(new Vector(0,  -2),  0);
   sim.addBody(p);
-  var p2 = Shapes.makeBlock(1, 1, 'block');
+  const p2 = Shapes.makeBlock(1, 1, 'block');
   p2.setPosition(new Vector(0.5,  -0.22),  Math.PI/8 - Math.PI/24);
 
   sim.addBody(p2);
@@ -294,10 +294,10 @@ static concave_ball_block_collide_setup(sim, advance) {
 */
 static concave_ball_block_collide() {
   setTestName(CircleStraightTest.groupName+'concave_ball_block_collide');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.concave_ball_block_collide_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.3091927, 0.5475717, -1.5539282, 0.0193363, 0.084485, -0.2984758);
   setBodyVars(sim, vars, 1, 0.1908073, -0.5475717, -0.6660718, -0.0193363, -1.5117501, -1.2518051);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -326,17 +326,17 @@ the depth of the collision plus the desired ending gap, and try again.
 static concave_ball_block_contact_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   advance.setTimeStep(0.01);
-  var p = TestShapes.makeConcaveCirclePoly();
+  const p = TestShapes.makeConcaveCirclePoly();
   // p.printAll();  // use this to learn where circle origin is.
   // Set position so the center of the circle is at the origin.
   p.setPosition(new Vector(0,  -2.3228757),  0);
   p.setElasticity(0.8);
   sim.addBody(p);
-  var p2 = Shapes.makeBlock(1, 1, 'block');
+  const p2 = Shapes.makeBlock(1, 1, 'block');
   p2.setElasticity(0.8);
-  var angle = Math.PI/16; // angle to set block at
-  var dist = 1.5;  // distance from origin to place block at
-  var error = Util.POSITIVE_INFINITY;
+  const angle = Math.PI/16; // angle to set block at
+  let dist = 1.5;  // distance from origin to place block at
+  let error = Util.POSITIVE_INFINITY;
   // Loop until error = 0, or equiv: distanceToHalfGap() = 0.001.
   while (Math.abs(error) > 1e-8) {
     //console.log('dist='+Util.NF7(dist)+' error='+Util.NF7(error));
@@ -347,17 +347,17 @@ static concave_ball_block_contact_setup(sim, advance) {
     p.saveOldCoords();
     // move to current location, at given distance from origin and angle
     p2.setPosition(new Vector(dist*Math.sin(angle), -dist*Math.cos(angle)), angle);
-    var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
+    const collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
     p.checkCollision(collisions, p2, /*time=*/0);
     if (collisions.length == 0) {
       dist += 0.01;
     } else {
       error = Util.POSITIVE_INFINITY;
       // find most negative or least positive depth among all collisions
-      for (var i=0, len=collisions.length; i<len; i++) {
+      for (let i=0, len=collisions.length; i<len; i++) {
         /** @type {!RigidBodyCollision} */
-        var c = collisions[i];
-        var depth = c.distanceToHalfGap() - 0.001;
+        const c = collisions[i];
+        const depth = c.distanceToHalfGap() - 0.001;
         if (depth < error) {
           error = depth;
         }
@@ -378,10 +378,10 @@ CircularEdge.findVertexContact results in near stable contact:
 */
 static concave_ball_block_contact() {
   setTestName(CircleStraightTest.groupName+'concave_ball_block_contact');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.concave_ball_block_contact_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.0976832, -0.7068779, -2.3078333, 0.0053314, -0.0510627, 0.3847691);
   setBodyVars(sim, vars, 1, 0.1813533, 0.7068779, -1.417854, -0.0053314, -0.0243965, 1.6129892);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -397,11 +397,11 @@ places.
 */
 static concave_ball_block_contact_2() {
   setTestName(CircleStraightTest.groupName+'concave_ball_block_contact_2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.concave_ball_block_contact_setup(sim, advance);
   advance.setTimeStep(0.0025);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.0976759, -0.7068614, -2.3078333, 0.0053102, -0.0510571, 0.3847591);
   setBodyVars(sim, vars, 1, 0.1813607, 0.7068614, -1.417854, -0.0053102, -0.024377, 1.6129487);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -428,11 +428,11 @@ occur.
 */
 static rotating_block_vs_ball_init(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
-  var body0 = Shapes.makeBall(0.75, 'ball');
+  const body0 = Shapes.makeBall(0.75, 'ball');
   body0.setPosition(new Vector(-0.4,  0),  0);
   body0.setVelocity(new Vector(0,  0),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 3, 'block');
+  const body1 = Shapes.makeBlock(1, 3, 'block');
   body1.setPosition(new Vector(1.5,  0),  -Math.PI/4);
   body1.setVelocity(new Vector(-0.2,  0),  0.5);
   sim.addBody(body1);
@@ -455,10 +455,10 @@ static rotating_block_vs_ball_1_setup(sim, advance) {
 */
 static rotating_block_vs_ball_1() {
   setTestName(CircleStraightTest.groupName+'rotating_block_vs_ball_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.rotating_block_vs_ball_1_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.6324684, -0.2331973, -0.7357376, -0.1458555, -0, -0);
   setBodyVars(sim, vars, 1, 1.1324684, 0.0331973, 0.7357376, 0.1458555, 1.965865, 0.2512581);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -481,10 +481,10 @@ static rotating_block_vs_ball_0_setup(sim, advance) {
 */
 static rotating_block_vs_ball_0() {
   setTestName(CircleStraightTest.groupName+'rotating_block_vs_ball_0');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.rotating_block_vs_ball_0_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, -1.6274159, -0.2325424, -0.7371557, -0.1463887, -0, -0);
   setBodyVars(sim, vars, 1, 1.1274159, 0.0325424, 0.7371557, 0.1463887, 1.964511, 0.2505587);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
@@ -502,16 +502,16 @@ zero and the simulation gets stuck.
 static ball_falls_on_floor_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   sim.clearForceLaws();
-  var body0 = Shapes.makeBall(0.5, 'ball');
+  const body0 = Shapes.makeBall(0.5, 'ball');
   body0.setPosition(new Vector(0,  0),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(10, 1, 'wall');
+  const body1 = Shapes.makeBlock(10, 1, 'wall');
   body1.setMass(Util.POSITIVE_INFINITY);
   body1.setPosition(new Vector(0,  -2.5),  0);
   sim.addBody(body1);
-  var floor = body1.getTopWorld();
+  const floor = body1.getTopWorld();
   body0.setZeroEnergyLevel(floor + body0.getMinHeight());
-  var g = new GravityLaw(3.0, sim.getSimList());
+  const g = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(g);
   sim.setElasticity(0.8);
 };
@@ -523,8 +523,8 @@ AdvanceException will occur.
 */
 static ball_falls_on_floor_stuck() {
   setTestName(CircleStraightTest.groupName+'ball_falls_on_floor_stuck');
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   //advance.addWayPoints([CollisionAdvance.WayPoint.HANDLE_COLLISION_FAIL]);
   //advance.setDebugLevel(CollisionAdvance.DebugLevel.HIGH);
   CircleStraightTest.ball_falls_on_floor_setup(sim, advance);
@@ -541,17 +541,17 @@ static wedged_ball_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   sim.setCollisionAccuracy(0.6);
-  var body0 = Shapes.makeBall(1.5, 'ball');
+  const body0 = Shapes.makeBall(1.5, 'ball');
   body0.setCenterOfMass(0.4, 0.2);
   body0.setPosition(new Vector(-5.5+1.5+.01,  -3),  0);
   sim.addBody(body0);
-  var body1 = Shapes.makeBlock(1, 1, 'fixed block');
+  const body1 = Shapes.makeBlock(1, 1, 'fixed block');
   body1.setPosition(new Vector(-2.5,  -5),  0);
   body1.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(body1);
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
-  var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
+  const zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   gravity.setZeroEnergyLevel(zel);
   sim.setElasticity(0.8);
 };
@@ -562,10 +562,10 @@ the space is slightly smaller than the radius of the ball.
 */
 static wedged_ball() {
   setTestName(CircleStraightTest.groupName+'wedged_ball');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.wedged_ball_setup(sim, advance);
-  var vars = makeVars(1*6);
+  const vars = makeVars(1*6);
   setBodyVars(sim, vars, 0, -4.9277059, -0.1631422, -4.4398357, 0.6282979, -3.3497083, -1.4515518);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/3,
       /*expectedVars=*/vars, /*tolerance=*/0.00001);
@@ -584,7 +584,7 @@ static wedged_ball() {
 static elastic_balls_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance, /*damping=*/0);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
-  var body = Shapes.makeBall(0.8, 'ball1');
+  let body = Shapes.makeBall(0.8, 'ball1');
   body.setPosition(new Vector(-5,  2));
   body.setElasticity(1.0);
   sim.addBody(body);
@@ -608,9 +608,9 @@ static elastic_balls_setup(sim, advance) {
   body.setPosition(new Vector(5,  2));
   body.setElasticity(0);
   sim.addBody(body);
-  var gravity = new GravityLaw(3.0, sim.getSimList());
+  const gravity = new GravityLaw(3.0, sim.getSimList());
   sim.addForceLaw(gravity);
-  var zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
+  const zel = Walls.make(sim, /*width=*/12.0, /*height=*/12.0, /*thickness=*/1.0);
   gravity.setZeroEnergyLevel(zel);
 };
 
@@ -619,10 +619,10 @@ static elastic_balls_setup(sim, advance) {
 */
 static elastic_balls() {
   setTestName(CircleStraightTest.groupName+'elastic_balls');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   CircleStraightTest.elastic_balls_setup(sim, advance);
-  var vars = makeVars(6*6);
+  const vars = makeVars(6*6);
   setBodyVars(sim, vars, 0, -5, 0, -0.3044753, -3.7184475, 0, 0);
   setBodyVars(sim, vars, 1, -3, 0, -3.5265603, -1.1428554, 0, 0);
   setBodyVars(sim, vars, 2, -1, 0, -5.195, -0, 0, 0);

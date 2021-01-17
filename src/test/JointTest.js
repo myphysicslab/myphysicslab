@@ -133,16 +133,16 @@ static buildJointTest(sim, testConfig, normalType) {
 static makeBlockPendulum(sim, testConfig, normalType) {
   const JointTestConfig = JointTest.JointTestConfig;
   // pendulum from fixed point, start it moving.
-  var p1 = Shapes.makeBlock(1.0, 5.0, 'PENDULUM');
+  const p1 = Shapes.makeBlock(1.0, 5.0, 'PENDULUM');
   p1.setDragPoints([new Vector(0.0, -2.0)]);
   p1.setPosition(new Vector(0.0,  -2.0),  0.0);
   p1.setZeroEnergyLevel();
   sim.addBody(p1);
-  var attach1 = new Vector(0.0, 2.0);
-  var attach2 = new Vector(0.0, 0.0);
-  var attach3 = new Vector(-0.4, -1.0);
-  var normal0 = Vector.NORTH;
-  var normal1 = Vector.EAST;
+  const attach1 = new Vector(0.0, 2.0);
+  const attach2 = new Vector(0.0, 0.0);
+  const attach3 = new Vector(-0.4, -1.0);
+  const normal0 = Vector.NORTH;
+  const normal1 = Vector.EAST;
   // optional:  add the 'second' joint in two different places
   switch (testConfig) {
     case JointTestConfig.PENDULUM_2_JOINTS:
@@ -160,7 +160,7 @@ static makeBlockPendulum(sim, testConfig, normalType) {
   // always add the 'first' joint
   {
     JointUtil.addSingleFixedJoint(sim, p1, attach1, normalType, normal0);
-    var pt1 = PointMass.makeCircle(0.2, 'ATTACH1')
+    const pt1 = PointMass.makeCircle(0.2, 'ATTACH1')
         .setMass(Util.POSITIVE_INFINITY);
     pt1.setPosition(p1.bodyToWorld(attach1));
     sim.getSimList().add(pt1);
@@ -189,12 +189,12 @@ static makeBlockPendulum(sim, testConfig, normalType) {
 */
 static makeConnectedBlocks(sim, testConfig, normalType) {
   const JointTestConfig = JointTest.JointTestConfig;
-  var x = 0;
-  var y = 0;
-  var angle = 0;
-  var zeroEnergyLevel = 0;
-  var p1 = Shapes.makeBlock(1.0, 1.0, 'connect1');
-  var p2 = Shapes.makeBlock(0.9, 1.1, 'connect2');
+  const x = 0;
+  const y = 0;
+  const angle = 0;
+  const zeroEnergyLevel = 0;
+  const p1 = Shapes.makeBlock(1.0, 1.0, 'connect1');
+  const p2 = Shapes.makeBlock(0.9, 1.1, 'connect2');
   p1.setMass(0.6);
   p2.setMass(0.6);
   p1.setPosition(new Vector(x,  y),  angle);
@@ -203,20 +203,20 @@ static makeConnectedBlocks(sim, testConfig, normalType) {
   sim.addBody(p2);
   p1.setZeroEnergyLevel(zeroEnergyLevel);
   p2.setZeroEnergyLevel(zeroEnergyLevel);
-  var attach1 = new Vector(0, -0.4);
-  var attach2 = new Vector(-0.4, 0);
-  var attach3 = new Vector(0.4, 0);
-  var attach4 = new Vector(0, 0.4);
-  var attach5 = new Vector(0, 0);
-  var attach6 = new Vector(-0.4, 0.4);
-  var attach7 = new Vector(0.4, -0.4);
-  var attach8 = new Vector(0.0, 0.0);
-  var normal0 = Vector.NORTH;
-  var normal1 = Vector.EAST;
-  var normal2 = (new Vector(0.2, 0.8)).normalize();
-  var normal6 = (new Vector(-0.5, 0.5)).normalize();
-  var normal4 = Vector.EAST;
-  var normal8 = (new Vector(0.6, -0.4)).normalize();
+  const attach1 = new Vector(0, -0.4);
+  const attach2 = new Vector(-0.4, 0);
+  const attach3 = new Vector(0.4, 0);
+  const attach4 = new Vector(0, 0.4);
+  const attach5 = new Vector(0, 0);
+  const attach6 = new Vector(-0.4, 0.4);
+  const attach7 = new Vector(0.4, -0.4);
+  const attach8 = new Vector(0.0, 0.0);
+  const normal0 = Vector.NORTH;
+  const normal1 = Vector.EAST;
+  const normal2 = (new Vector(0.2, 0.8)).normalize();
+  const normal6 = (new Vector(-0.5, 0.5)).normalize();
+  const normal4 = Vector.EAST;
+  const normal8 = (new Vector(0.6, -0.4)).normalize();
   // all configs have at least one joint
   switch (testConfig) {
     // use case statement fall-thru here to get 1,2, 3 or 4 joints
@@ -259,12 +259,12 @@ static pendulum_1_joint_setup(sim, advance) {
   const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_1_JOINT, CoordType.WORLD);
-  var pendulum = sim.getBody('pendulum');
+  const pendulum = sim.getBody('pendulum');
   pendulum.setAngle(Math.PI/3);
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(5.0, sim.getSimList()));
   // show the line that the joint travels on
-  var line = new ConcreteLine('joint-line', new Vector(0, 0), new Vector(4, 0));
+  const line = new ConcreteLine('joint-line', new Vector(0, 0), new Vector(4, 0));
   DisplayLine.color = 'yellow';
   sim.getSimList().add(line);
 };
@@ -275,10 +275,10 @@ and joint tightness using 'small impacts' on joints  and ExtraAccel.VELOCITY.
 */
 static pendulum_1_joint_1() {
   setTestName(JointTest.groupName+'pendulum_1_joint_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   JointTest.pendulum_1_joint_setup(sim, advance);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3687651, -1.3515045, -0.8170398, 0.9268013);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
@@ -295,13 +295,13 @@ is turned off.
 */
 static pendulum_1_joint_2() {
   setTestName(JointTest.groupName+'pendulum_1_joint_2');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   JointTest.pendulum_1_joint_setup(sim, advance);
   // special settings here:
   advance.setJointSmallImpacts(false);
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 0, 1.7320508, 0, -1.3680947, -1.3501097, -0.8175124, 0.9262573);
   // loose tolerance for energy
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/15.0,
@@ -320,7 +320,7 @@ static pendulum_2_joints_setup(sim, advance) {
   const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_2_JOINTS, CoordType.WORLD);
-  var pendulum = sim.getBody('pendulum');
+  const pendulum = sim.getBody('pendulum');
   pendulum.setAngle(Math.PI/3);
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(5.0, sim.getSimList()));
@@ -331,10 +331,10 @@ static pendulum_2_joints_setup(sim, advance) {
 */
 static pendulum_2_joints_1() {
   setTestName(JointTest.groupName+'pendulum_2_joints_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   JointTest.pendulum_2_joints_setup(sim, advance);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 0, -1.7297436, 0.0807141, -1.0039856, -0.1390604, -1.0448949, 0.0803936);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
@@ -352,29 +352,33 @@ static pendulum_2_joints_offset_setup(sim, advance) {
   const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_2_JOINTS_OFFSET, CoordType.WORLD);
-  var pendulum = sim.getBody('pendulum');
+  const pendulum = sim.getBody('pendulum');
   pendulum.setAngle(Math.PI/3);
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(5.0, sim.getSimList()));
-  // show the line that joint1 travels on
-  var joint =  /** @type {?Joint} */(array.find(sim.getSimList().toArray(),
-      function(obj, index, array) { return obj.getName() == 'JOINT1';}));
-  var line;
-  if (joint != null) {
-    line = new ConcreteLine('joint1_line', joint.getPosition1().add(new Vector(-4, 0)),
-        joint.getPosition1().add(new Vector(4, 0)));
-    DisplayLine.color = 'yellow';
-    sim.getSimList().add(line);
+  {
+    // show the line that joint1 travels on
+    const joint =  /** @type {?Joint} */(array.find(sim.getSimList().toArray(),
+        function(obj, index, array) { return obj.getName() == 'JOINT1';}));
+    if (joint != null) {
+      const line = new ConcreteLine('joint1_line',
+          joint.getPosition1().add(new Vector(-4, 0)),
+          joint.getPosition1().add(new Vector(4, 0)));
+      DisplayLine.color = 'yellow';
+      sim.getSimList().add(line);
+    }
   }
-  // show the line that joint0 travels on
-  joint = /** @type {?Joint} */(array.find(sim.getSimList().toArray(),
-      function(obj, index, array) { return obj.getName() == 'JOINT0'; }));
-  if (joint != null) {
-    line = new ConcreteLine('joint0_line', joint.getPosition1().add(new Vector(0, -4)),
-        joint.getPosition1().add(new Vector(0, 4)));
-    console.log('line='+line);
-    DisplayLine.color = 'yellow';
-    sim.getSimList().add(line);
+  {
+    // show the line that joint0 travels on
+    const joint = /** @type {?Joint} */(array.find(sim.getSimList().toArray(),
+        function(obj, index, array) { return obj.getName() == 'JOINT0'; }));
+    if (joint != null) {
+      const line = new ConcreteLine('joint0_line',
+          joint.getPosition1().add(new Vector(0, -4)),
+          joint.getPosition1().add(new Vector(0, 4)));
+      DisplayLine.color = 'yellow';
+      sim.getSimList().add(line);
+    }
   }
 };
 
@@ -384,10 +388,10 @@ static pendulum_2_joints_offset_setup(sim, advance) {
 static pendulum_2_joints_offset_1() {
   const JointTestConfig = JointTest.JointTestConfig;
   setTestName(JointTest.groupName+'pendulum_2_joints_offset_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   JointTest.pendulum_2_joints_offset_setup(sim, advance);
-  var vars = makeVars(6);
+  const vars = makeVars(6);
   setBodyVars(sim, vars, 0, 1.7320508, 0, -1.1100682, 0.7857346, 0.9823923, 0.4722942);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/vars, /*tolerance=*/0.00001,
@@ -406,7 +410,7 @@ static pendulum_3_joints_offset_setup(sim, advance) {
   const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.PENDULUM_3_JOINTS_OFFSET, CoordType.WORLD);
-  var pendulum = sim.getBody('pendulum');
+  const pendulum = sim.getBody('pendulum');
   pendulum.setAngle(Math.PI/3);
   sim.alignConnectors();
   sim.addForceLaw(new GravityLaw(5.0, sim.getSimList()));
@@ -454,10 +458,10 @@ static two_blocks_4_joints_setup(sim, advance) {
   const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_4_JOINTS, CoordType.BODY);
-  var body1 = sim.getBody('connect1');
+  const body1 = sim.getBody('connect1');
   body1.setVelocity(new Vector(0,  0),  6);
   sim.initializeFromBody(body1);
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -482,11 +486,11 @@ static two_blocks_2_dbl_joint_setup(sim, advance) {
   const JointTestConfig = JointTest.JointTestConfig;
   JointTest.commonSetup1(sim, advance);
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_2_DBL_JOINT, CoordType.BODY);
-  var body1 = sim.getBody('connect1');
+  const body1 = sim.getBody('connect1');
   body1.setVelocity(new Vector(0,  0),  6);
   sim.setElasticity(0.8);
   sim.initializeFromBody(body1);
-  var collisions = [];
+  const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
 };
@@ -497,10 +501,10 @@ static two_blocks_2_dbl_joint_setup(sim, advance) {
 static two_blocks_2_dbl_joint_1() {
   const JointTestConfig = JointTest.JointTestConfig;
   setTestName(JointTest.groupName+'two_blocks_2_dbl_joint_1');
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   JointTest.two_blocks_2_dbl_joint_setup(sim, advance);
-  var vars = makeVars(6*2);
+  const vars = makeVars(6*2);
   setBodyVars(sim, vars, 0, 0.4674208, 0.1861004, -0.2921196, 0.5402443, 16.1616176, 2.0202021);
   setBodyVars(sim, vars, 1, -0.0674208, -0.1861004, -0.1078804, -0.5402443, 16.1616176, 2.0202021);
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,

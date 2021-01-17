@@ -39,9 +39,9 @@ class SingleViewerApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -51,7 +51,7 @@ constructor(elem_ids) {
   this.addPlaybackControls();
   this.addStandardControls();
   /** @type {!ParameterString} */
-  var ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
+  let ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   this.addControl(new ChoiceControl(ps));
   ps = this.mySim.getParameterString(RigidBodySim.en.EXTRA_ACCEL);
   this.addControl(new ChoiceControl(ps));
