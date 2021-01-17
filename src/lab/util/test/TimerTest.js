@@ -42,14 +42,14 @@ static test() {
 // Use default period of zero = 60 fps (frame per second) with legacy Timer.
 static testTimer1() {
   startTest(TimerTest.groupName+'testTimer1');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer(/*legacy mode=*/true);
+    let testVar = 0;
+    const myTimer = new Timer(/*legacy mode=*/true);
     myTimer.setCallBack(() => testVar++);
     assertRoughlyEquals(0, myTimer.getPeriod(), 0.001);
     assertFalse(myTimer.isFiring());
@@ -83,14 +83,14 @@ static testTimer1() {
 // We get 50 fps for requestAnimationFrame (legacy=false) with mockClock.
 static testTimer2() {
   startTest(TimerTest.groupName+'testTimer2');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer(/*legacy mode=*/false);
+    let testVar = 0;
+    const myTimer = new Timer(/*legacy mode=*/false);
     myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(0.03);
     mockClock.tick(1000);
@@ -114,14 +114,14 @@ static testTimer2() {
 // Set period for frame per second = 30 with legacy Timer.
 static testTimer3() {
   startTest(TimerTest.groupName+'testTimer3');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer(/*legacy mode=*/true);
+    let testVar = 0;
+    const myTimer = new Timer(/*legacy mode=*/true);
     myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/30);
     assertRoughlyEquals(1/30, myTimer.getPeriod(), 0.001);
@@ -147,14 +147,14 @@ static testTimer3() {
 // We get 50 fps for requestAnimationFrame (legacy=false) with mockClock.
 static testTimer4() {
   startTest(TimerTest.groupName+'testTimer4');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer(/*legacy mode=*/false);
+    let testVar = 0;
+    const myTimer = new Timer(/*legacy mode=*/false);
     myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/25);
     assertRoughlyEquals(1/25, myTimer.getPeriod(), 0.001);
@@ -180,14 +180,14 @@ static testTimer4() {
 // We get 50 fps for requestAnimationFrame (legacy=false) with mockClock.
 static testTimer5() {
   startTest(TimerTest.groupName+'testTimer5');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer(/*legacy mode=*/false);
+    let testVar = 0;
+    const myTimer = new Timer(/*legacy mode=*/false);
     myTimer.setCallBack(() => testVar++);
     assertRoughlyEquals(0, myTimer.getPeriod(), 0.001);
     mockClock.tick(1000);
@@ -211,14 +211,14 @@ static testTimer5() {
 // set period to 40 fps with legacy Timer
 static testTimer6() {
   startTest(TimerTest.groupName+'testTimer6');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer(/*legacy mode=*/true);
+    let testVar = 0;
+    const myTimer = new Timer(/*legacy mode=*/true);
     myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/40);
     assertRoughlyEquals(1/40, myTimer.getPeriod(), 0.001);
@@ -243,14 +243,14 @@ static testTimer6() {
 // set period to 40 fps, with non-legacy Timer
 static testTimer7() {
   startTest(TimerTest.groupName+'testTimer7');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
-    var testVar = 0;
-    var myTimer = new Timer();
+    let testVar = 0;
+    const myTimer = new Timer();
     myTimer.setCallBack(() => testVar++);
     myTimer.setPeriod(1/40);
     assertRoughlyEquals(1/40, myTimer.getPeriod(), 0.001);

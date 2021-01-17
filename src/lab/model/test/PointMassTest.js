@@ -42,10 +42,10 @@ static test() {
 
 static testPointMassAngle() {
   startTest(PointMassTest.groupName+'testPointMassAngle');
-  var p1 = PointMass.makeOval(1, 2, 'point1');
+  const p1 = PointMass.makeOval(1, 2, 'point1');
   // set PointMass at an angle of 45 degrees clockwise
   p1.setAngle(-Math.PI/4);
-  var r2 = 1/(2*Math.sqrt(2));
+  const r2 = 1/(2*Math.sqrt(2));
   assertTrue(p1.bodyToWorld(new Vector(-0.5, 1)).nearEqual(new Vector(r2, 3*r2)));
   assertTrue(p1.bodyToWorld(new Vector(0.5, 1)).nearEqual(new Vector(3*r2, r2)));
   assertTrue(p1.bodyToWorld(new Vector(-0.5, -1)).nearEqual(new Vector(-3*r2, -r2)));
@@ -59,8 +59,8 @@ static testPointMassAngle() {
   assertRoughlyEquals(-3*r2, p1.getBottomWorld(), 1e-14);
   assertRoughlyEquals(-3*r2, p1.getLeftWorld(), 1e-14);
   assertTrue(p1.getBoundsWorld().nearEqual(new DoubleRect(-3*r2, -3*r2, 3*r2, 3*r2)));
-  var v1 = new Vector(0, 1);
-  var r3 = 1/Math.sqrt(2);
+  const v1 = new Vector(0, 1);
+  const r3 = 1/Math.sqrt(2);
   assertTrue(p1.rotateBodyToWorld(v1).nearEqual(new Vector(r3, r3)));
   assertTrue(p1.rotateWorldToBody(v1).nearEqual(new Vector(-r3, r3)));
 
@@ -83,7 +83,7 @@ static testPointMassAngle() {
 
 static testPointMass() {
   startTest(PointMassTest.groupName+'testPointMass');
-  var p1 = PointMass.makeCircle(1, 'point1');
+  const p1 = PointMass.makeCircle(1, 'point1');
   // instanceof works for class inheritance, but not for interfaces
   assertTrue(p1 instanceof PointMass);
   assertTrue(p1 instanceof AbstractSimObject);
@@ -99,7 +99,7 @@ static testPointMass() {
   assertEquals(1, p1.getWidth());
   assertEquals(1, p1.getHeight());
   assertTrue(p1.getBoundsWorld().equals(new DoubleRect(-0.5, -0.5, 0.5, 0.5)));
-  var p2 = PointMass.makeCircle(1, 'point2').setMass(5);
+  const p2 = PointMass.makeCircle(1, 'point2').setMass(5);
   assertEquals('POINT2', p2.getName());
   assertTrue(p2.nameEquals('point2'));
   assertEquals(5, p2.getMass());
@@ -119,13 +119,13 @@ static testPointMass() {
   p1.setVelocity(p2.getVelocity().multiply(2));
   assertEquals(12, p1.getVelocity().getX());
   assertEquals(-14, p1.getVelocity().getY());
-  var v1 = new Vector(1, 1);
+  const v1 = new Vector(1, 1);
   assertTrue(p2.rotateBodyToWorld(v1).equals(v1));
   assertTrue(p2.rotateWorldToBody(v1).equals(v1));
-  var v2 = p2.bodyToWorld(v1);
+  const v2 = p2.bodyToWorld(v1);
   assertEquals(98, v2.getX());
   assertEquals(99, v2.getY());
-  var v3 = p2.worldToBody(v2);
+  const v3 = p2.worldToBody(v2);
   assertEquals(v3.getX(), v1.getX());
   assertEquals(v3.getY(), v1.getY());
   p2.setExpireTime(99);
@@ -136,19 +136,19 @@ static testPointMass() {
 
 static testPointMassSimilar() {
   startTest(PointMassTest.groupName+'testPointMassSimilar');
-  var p1 = PointMass.makeCircle(1);
+  const p1 = PointMass.makeCircle(1);
   p1.setPosition(new Vector(2,  -2));
   assertTrue(p1.similar(p1));
-  var p2 = PointMass.makeCircle(1).setMass(5);
+  const p2 = PointMass.makeCircle(1).setMass(5);
   p2.setPosition(new Vector(2.01,  -2.02));
   assertTrue(p1.similar(p2, 0.015));
   // see Util.veryDifferent: tolerance is multiplied by magnitude
   assertFalse(p1.similar(p2, 0.007));
-  var r1 = PointMass.makeSquare(1);
+  const r1 = PointMass.makeSquare(1);
   r1.setShape(ShapeType.OVAL);
   r1.setPosition(new Vector(2,  -2));
   assertTrue(r1.similar(r1));
-  var r2 = PointMass.makeSquare(1);
+  const r2 = PointMass.makeSquare(1);
   r2.setShape(ShapeType.OVAL);
   r2.setPosition(new Vector(2.01,  -2.02));
   assertTrue(r1.similar(r2, 0.015));
@@ -166,7 +166,7 @@ static testPointMassSimilar() {
 */
 static testPointMassThrows() {
   startTest(PointMassTest.groupName+'testPointMassThrows');
-  var p1 = new PointMass('point1', 0);
+  const p1 = new PointMass('point1', 0);
   assertThrows(() => p1.setPosition(3) );
   assertThrows(() => p1.setPosition(null) );
   assertThrows(() => p1.setPosition('0') );

@@ -35,7 +35,7 @@ static test() {
 
 static testEnergyInfo1() {
   startTest(EnergyInfoTest.groupName+'testEnergyInfo1');
-  var e1 = new EnergyInfo();
+  const e1 = new EnergyInfo();
   assertEquals(0, e1.getPotential());
   assertEquals(0, e1.getTranslational());
   assertNaN(e1.getRotational());
@@ -51,11 +51,11 @@ static testEnergyInfo1() {
   assertEquals(6, e1.getTotalEnergy());
   assertEquals(5, e1.getWorkDone());
   assertEquals(10, e1.getInitialEnergy());
-  var e2 = new EnergyInfo(-10, 2);
+  const e2 = new EnergyInfo(-10, 2);
   assertEquals(-8, e2.getTotalEnergy());
-  var e3 = new EnergyInfo(6, 4, 2);
+  const e3 = new EnergyInfo(6, 4, 2);
   assertEquals(12, e3.getTotalEnergy());
-  var e4 = new EnergyInfo(6, 4, 2, 100, 200);
+  const e4 = new EnergyInfo(6, 4, 2, 100, 200);
   assertEquals(12, e4.getTotalEnergy());
   assertEquals(100, e4.getWorkDone());
   assertEquals(200, e4.getInitialEnergy());

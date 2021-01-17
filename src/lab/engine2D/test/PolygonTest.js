@@ -41,19 +41,19 @@ static test() {
 static testPolygon1() {
   startTest(PolygonTest.groupName+'testPolygon1');
 
-  var p = new Polygon('polygon1');
-  var w = 0.5;
-  var h = 1.5;
-  var v1 = new Vector(w, -h);
-  var v2 = new Vector(w, h);
-  var v3 = new Vector(-w, h);
-  var v4 = new Vector(-w, -h);
+  const p = new Polygon('polygon1');
+  const w = 0.5;
+  const h = 1.5;
+  const v1 = new Vector(w, -h);
+  const v2 = new Vector(w, h);
+  const v3 = new Vector(-w, h);
+  const v4 = new Vector(-w, -h);
   //console.log(v1.toString());
   p.startPath(new ConcreteVertex(new Vector(-w, -h)));
-  var e1 = p.addStraightEdge(v1, /*outsideIsUp=*/false);
-  var e2 = p.addStraightEdge(v2, /*outsideIsUp=*/true);
-  var e3 = p.addStraightEdge(v3, /*outsideIsUp=*/true);
-  var e4 = p.addStraightEdge(v4, /*outsideIsUp=*/false);
+  const e1 = p.addStraightEdge(v1, /*outsideIsUp=*/false);
+  const e2 = p.addStraightEdge(v2, /*outsideIsUp=*/true);
+  const e3 = p.addStraightEdge(v3, /*outsideIsUp=*/true);
+  const e4 = p.addStraightEdge(v4, /*outsideIsUp=*/false);
   p.finish();
   assertTrue(p.isMassObject());
   p.setCentroid(Vector.ORIGIN);
@@ -72,7 +72,7 @@ static testPolygon1() {
   assertTrue(p.getCentroidBody().equals(Vector.ORIGIN));
   assertTrue(p.getPosition().equals(Vector.ORIGIN));
   assertEquals(0, p.getAngle());
-  var v5 = new Vector(0.5, 1.5);
+  const v5 = new Vector(0.5, 1.5);
   p.setPosition(v5);
   assertTrue(p.getPosition().equals(v5));
   assertTrue(p.getCentroidWorld().equals(v5));
@@ -84,7 +84,7 @@ static testPolygon1() {
   assertEquals(3, p.getTopWorld());
   assertEquals(0, p.getLeftWorld());
   assertEquals(1, p.getRightWorld());
-  var v6 = new Vector(3.1456, 2.71828);
+  const v6 = new Vector(3.1456, 2.71828);
   p.setPosition(v6);
   assertTrue(p.getPosition().equals(v6));
   assertTrue(p.getCentroidWorld().equals(v6));

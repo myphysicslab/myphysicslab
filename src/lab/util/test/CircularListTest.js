@@ -73,14 +73,14 @@ static test() {
 static testUtilCircularList1() {
   startTest(CircularListTest.groupName+'testUtilCircularList1');
   /** @type {!HistoryList<!Vector>}*/
-  var cList = new CircularList(10);
-  var i, j;
+  const cList = new CircularList(10);
+  let i, j;
   assertEquals(0, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(-1, cList.getEndIndex());
   assertNull(cList.getEndValue());
   /** @type {!HistoryIterator<!Vector>}*/
-  var cIter = cList.getIterator();
+  let cIter = cList.getIterator();
   // no data yet, should throw exception
   assertFalse(cIter.hasNext());
   assertFalse(cIter.hasPrevious());
@@ -94,7 +94,7 @@ static testUtilCircularList1() {
   assertEquals(1, cList.getSize());
   assertEquals(0, cList.getStartIndex());
   assertEquals(0, cList.getEndIndex());
-  var endValue;
+  let endValue;
   assertNotNull(endValue = cList.getEndValue());
   if (endValue)
     assertTrue(endValue.equals(new Vector(0, 1)));

@@ -48,13 +48,12 @@ static test() {
 static testRigidBodySim1() {
   startTest(RigidBodySimTest.groupName+'testRigidBodySim1');
 
-  var i;
-  var tol = 1E-15;
-  var sim = new RigidBodySim();
+  const tol = 1E-15;
+  const sim = new RigidBodySim();
 
-  var p1 = Shapes.makeBlock(1, 3, 'block1');
+  const p1 = Shapes.makeBlock(1, 3, 'block1');
   p1.setPosition(new Vector(-1,  -1),  Math.PI/4);
-  var p2 = Shapes.makeBlock(1, 3, 'block2');
+  const p2 = Shapes.makeBlock(1, 3, 'block2');
   p2.setPosition(new Vector(5,  5),  Math.PI/3);
   p2.setVelocity(new Vector(-1,  -1),  2);
   sim.addBody(p1);
@@ -69,7 +68,7 @@ static testRigidBodySim1() {
   assertEquals(16, sim.getVarsList().getValues().length);
 
   sim.removeBody(p1);
-  var va = sim.getVarsList();
+  const va = sim.getVarsList();
   assertEquals(VarsList.DELETED, va.getVariable(4).getName());
   assertEquals(VarsList.DELETED, va.getVariable(5).getName());
   assertEquals(VarsList.DELETED, va.getVariable(6).getName());

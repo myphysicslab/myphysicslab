@@ -47,7 +47,7 @@ static testEasyScript1() {
   startTest(EasyScriptParserTest.groupName+'testEasyScript1');
   // Make several Subjects for EasyScriptParser to operate on:
   // a VarsList, and two SimViews.
-  var var_names = [
+  const var_names = [
     'position',
     'velocity',
     'work from damping',
@@ -57,7 +57,7 @@ static testEasyScript1() {
     'spring energy',
     'total energy'
   ];
-  var i18n_names = [
+  const i18n_names = [
     'Position',
     'Geschwindigkeit',
     'Arbeit von Dämpfung',
@@ -67,30 +67,30 @@ static testEasyScript1() {
     'Federenergie',
     'gesamte Energie'
   ];
-  var va = new VarsList(var_names, i18n_names);
+  const va = new VarsList(var_names, i18n_names);
   va.setComputed(2, 4, 5, 6, 7);
   va.setValues([1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8]);
   assertEquals('VARIABLES', va.getName());
-  var screenRect = new ScreenRect(/*top=*/0, /*left=*/0, /*width=*/500, /*height=*/300);
-  var simRect1 = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
-  var simView1 = new SimView('view1', simRect1);
+  const screenRect = new ScreenRect(/*top=*/0, /*left=*/0, /*width=*/500, /*height=*/300);
+  const simRect1 = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
+  const simView1 = new SimView('view1', simRect1);
   simView1.setScreenRect(screenRect);
   assertEquals('VIEW1', simView1.getName());
-  var simRect2 = new DoubleRect(/*left=*/0, /*bottom=*/0, /*right=*/1, /*top=*/1);
-  var simView2 = new SimView('view2', simRect2);
+  const simRect2 = new DoubleRect(/*left=*/0, /*bottom=*/0, /*right=*/1, /*top=*/1);
+  const simView2 = new SimView('view2', simRect2);
   simView2.setScreenRect(screenRect);
   assertEquals('VIEW2', simView2.getName());
 
   // set up the Terminal with our EasyScriptParser
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  const output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  const input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
   input_elem.type = 'text';
   window.terminal = new Terminal(input_elem, output_elem);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   // EasyScriptParser operates on three Subjects, two are the same type with same
   // Parameter names.
-  var easyScript = new EasyScriptParser([va, simView1, simView2]);
+  const easyScript = new EasyScriptParser([va, simView1, simView2]);
   easyScript.saveStart();
   t.setParser(easyScript);
   // Set up a "z variable" to be able to reference "easyScript" in Terminal.
@@ -182,7 +182,7 @@ static testEasyScript1() {
     assertEquals(165.1, t.eval(
       'position=1; z.va.toArray().reduce((r,v)=>r+v.getValue(), 0)'));
   }
-  var names1 = 'VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.WORK_FROM_DAMPING,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(',');
+  const names1 = 'VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.WORK_FROM_DAMPING,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(',');
   assertElementsEquals(names1, easyScript.names());
   if (!Util.ADVANCED) {
     // cannot eval JavaScript under advanced compile
@@ -202,9 +202,9 @@ static testEasyScript1() {
   assertElementsEquals('VARIABLES.POSITION,VARIABLES.VELOCITY,VARIABLES.TIME,VARIABLES.ACCELERATION,VARIABLES.KINETIC_ENERGY,VARIABLES.SPRING_ENERGY,VARIABLES.TOTAL_ENERGY,VIEW1.WIDTH,VIEW1.HEIGHT,VIEW1.CENTER_X,VIEW1.CENTER_Y,VIEW1.SCALE_X_Y_TOGETHER,VIEW1.VERTICAL_ALIGN,VIEW1.HORIZONTAL_ALIGN,VIEW1.ASPECT_RATIO,VIEW2.WIDTH,VIEW2.HEIGHT,VIEW2.CENTER_X,VIEW2.CENTER_Y,VIEW2.SCALE_X_Y_TOGETHER,VIEW2.VERTICAL_ALIGN,VIEW2.HORIZONTAL_ALIGN,VIEW2.ASPECT_RATIO'.split(','), easyScript.names());
 
   // Add variable, it should appear in script().
-  var newVar = new ConcreteVariable(va, 'FOO_BAR', 'foo-bar');
+  const newVar = new ConcreteVariable(va, 'FOO_BAR', 'foo-bar');
   newVar.setValue(7);
-  var newIdx = va.addVariable(newVar);
+  const newIdx = va.addVariable(newVar);
   easyScript.update();
   assertEquals('POSITION=1;FOO_BAR=7;VIEW1.WIDTH=5;VIEW1.HEIGHT=20;'
       +'VIEW1.SCALE_X_Y_TOGETHER=false;VIEW2.WIDTH=2;VIEW2.HEIGHT=2;',

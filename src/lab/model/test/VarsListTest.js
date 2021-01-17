@@ -35,8 +35,7 @@ static test() {
 
 static testVarsList1() {
   startTest(VarsListTest.groupName+'testVarsList1');
-  var i, n;
-  var var_names = [
+  const var_names = [
     'position',
     'velocity',
     'work from damping',
@@ -46,7 +45,7 @@ static testVarsList1() {
     'spring energy',
     'total energy'
   ];
-  var i18n_names = [
+  const i18n_names = [
     'Position',
     'Geschwindigkeit',
     'Arbeit von Dämpfung',
@@ -56,9 +55,9 @@ static testVarsList1() {
     'Federenergie',
     'gesamte Energie'
   ];
-  var va = new VarsList(var_names, i18n_names);
+  const va = new VarsList(var_names, i18n_names);
 
-  var timeIdx = va.timeIndex();
+  const timeIdx = va.timeIndex();
   assertEquals(3, timeIdx);
   assertEquals('TIME', va.getVariable(timeIdx).getName());
   assertEquals('Zeit', va.getVariable(timeIdx).getName(/*localized=*/true));
@@ -67,7 +66,7 @@ static testVarsList1() {
   assertEquals(0, va.getVariable(timeIdx).getSequence());
   assertEquals(0, va.getVariable(1).getSequence());
 
-  var timeVar = va.getVariable('TIME');
+  const timeVar = va.getVariable('TIME');
   assertEquals('TIME', timeVar.getName());
   assertEquals('Zeit', timeVar.getName(/*localized=*/true));
   assertTrue(timeVar.nameEquals('time'));
@@ -79,7 +78,7 @@ static testVarsList1() {
   assertEquals(0, va.getVariable(timeIdx).getSequence());
   assertEquals(1, va.getVariable(1).getSequence());
 
-  var positionVar = va.getVariable(0);
+  const positionVar = va.getVariable(0);
   assertEquals(positionVar, va.getParameter(var_names[0]));
   assertTrue(positionVar.nameEquals(var_names[0]));
   assertEquals('POSITION', positionVar.getName());
@@ -87,7 +86,7 @@ static testVarsList1() {
   assertEquals(3, positionVar.getValue());
   assertEquals(va, positionVar.getSubject());
 
-  var velocityVar = va.getVariable(1);
+  const velocityVar = va.getVariable(1);
   assertEquals(velocityVar, va.getParameter(var_names[1]));
   assertTrue(velocityVar.nameEquals(var_names[1]));
   assertEquals('VELOCITY', velocityVar.getName());
@@ -109,8 +108,8 @@ static testVarsList1() {
   assertEquals(3, va.getVariable(1).getSequence());
   va.setValue(timeIdx, va.getTime() + 0.01, /*continuous=*/true);
   assertEquals(0, va.getVariable(timeIdx).getSequence());
-  var recentVars = va.getValues(/*computed=*/true);
-  var recentTime = va.getTime();
+  const recentVars = va.getValues(/*computed=*/true);
+  const recentTime = va.getTime();
   assertEquals(0.01, recentTime);
   assertEquals(3.1, va.getValue(0));
   assertEquals(-1.99, va.getValue(1));
@@ -158,9 +157,9 @@ static testVarsList1() {
   assertTrue(va.getVariable(5).nameEquals(var_names[5]));
   assertEquals('kinetische Energie', va.getVariable(5).getName(/*localized=*/true));
   assertEquals(var_names.length, va.numVariables());
-  var keIdx = va.toArray().indexOf(va.getVariable('KINETIC_ENERGY'));
+  const keIdx = va.toArray().indexOf(va.getVariable('KINETIC_ENERGY'));
   assertEquals(5, keIdx);
-  var nv = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7];
+  const nv = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7];
   assertEquals(nv.length, va.numVariables());
   va.setValues(nv);
   assertEquals(1.0, positionVar.getValue());
@@ -180,55 +179,61 @@ static testVarsList1() {
 // @todo  exercise each of these more.
 static testVarsList2() {
   startTest(VarsListTest.groupName+'testVarsList2');
-  // no variables
-  var va = new VarsList([], []);
-  assertEquals(0, va.numVariables());
-  assertEquals(-1, va.timeIndex());
-  // 1 variable
-  va = new VarsList(['foo'], ['foo']);
-  assertEquals(1, va.numVariables());
-  assertEquals(-1, va.timeIndex());
-  assertEquals('FOO', va.getVariable(0).getName());
-  assertEquals('foo', va.getVariable(0).getName(/*localized=*/true));
-  assertEquals(0, va.getValue(0));
+  {
+    // no variables
+    const va = new VarsList([], []);
+    assertEquals(0, va.numVariables());
+    assertEquals(-1, va.timeIndex());
+  }
+  {
+    // 1 variable
+    const va = new VarsList(['foo'], ['foo']);
+    assertEquals(1, va.numVariables());
+    assertEquals(-1, va.timeIndex());
+    assertEquals('FOO', va.getVariable(0).getName());
+    assertEquals('foo', va.getVariable(0).getName(/*localized=*/true));
+    assertEquals(0, va.getValue(0));
 
-  var var0 = va.getVariable(0);
-  assertEquals('FOO', var0.getName());
-  assertEquals('foo', var0.getName(/*localized=*/true));
-  assertEquals(0, var0.getValue());
+    const var0 = va.getVariable(0);
+    assertEquals('FOO', var0.getName());
+    assertEquals('foo', var0.getName(/*localized=*/true));
+    assertEquals(0, var0.getValue());
+  }
 
-  // 2 variables, with names
-  va = new VarsList(['foo', 'bar'], ['foo', 'bar']);
-  assertEquals(2, va.numVariables());
-  assertEquals(-1, va.timeIndex());
-  assertEquals('FOO', va.getVariable(0).getName());
-  assertEquals('BAR', va.getVariable(1).getName());
-  assertEquals('foo', va.getVariable(0).getName(/*localized=*/true));
-  assertEquals('bar', va.getVariable(1).getName(/*localized=*/true));
-  assertEquals(0, va.getValue(0));
-  assertEquals(0, va.getValue(1));
+  {
+    // 2 variables, with names
+    const va = new VarsList(['foo', 'bar'], ['foo', 'bar']);
+    assertEquals(2, va.numVariables());
+    assertEquals(-1, va.timeIndex());
+    assertEquals('FOO', va.getVariable(0).getName());
+    assertEquals('BAR', va.getVariable(1).getName());
+    assertEquals('foo', va.getVariable(0).getName(/*localized=*/true));
+    assertEquals('bar', va.getVariable(1).getName(/*localized=*/true));
+    assertEquals(0, va.getValue(0));
+    assertEquals(0, va.getValue(1));
 
-  var0 = va.getVariable(0);
-  assertEquals('FOO', var0.getName());
-  assertEquals('foo', var0.getName(/*localized=*/true));
-  assertEquals(0, var0.getValue());
+    const var0 = va.getVariable(0);
+    assertEquals('FOO', var0.getName());
+    assertEquals('foo', var0.getName(/*localized=*/true));
+    assertEquals(0, var0.getValue());
 
-  var var1 = va.getVariable(1);
-  assertEquals('BAR', var1.getName());
-  assertEquals('bar', var1.getName(/*localized=*/true));
-  assertEquals(0, var1.getValue());
+    const var1 = va.getVariable(1);
+    assertEquals('BAR', var1.getName());
+    assertEquals('bar', var1.getName(/*localized=*/true));
+    assertEquals(0, var1.getValue());
 
-  // add a variable
-  va.addVariable(new ConcreteVariable(va, 'baz', 'baz'));
-  assertEquals(3, va.numVariables());
-  assertEquals('BAZ', va.getVariable(2).getName());
-  assertEquals('baz', va.getVariable(2).getName(/*localized=*/true));
-  assertEquals(0, va.getValue(2));
+    // add a variable
+    va.addVariable(new ConcreteVariable(va, 'baz', 'baz'));
+    assertEquals(3, va.numVariables());
+    assertEquals('BAZ', va.getVariable(2).getName());
+    assertEquals('baz', va.getVariable(2).getName(/*localized=*/true));
+    assertEquals(0, va.getValue(2));
 
-  var var2 = va.getVariable('BAZ');
-  assertEquals('BAZ', var2.getName());
-  assertEquals('baz', var2.getName(/*localized=*/true));
-  assertEquals(0, var2.getValue());
+    const var2 = va.getVariable('BAZ');
+    assertEquals('BAZ', var2.getName());
+    assertEquals('baz', var2.getName(/*localized=*/true));
+    assertEquals(0, var2.getValue());
+  }
 
   // variable names must be unique
   assertThrows(() => new VarsList(['foo', 'foo'], ['foo', 'foo']) );

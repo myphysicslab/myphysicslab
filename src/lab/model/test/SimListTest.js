@@ -60,12 +60,12 @@ class MockObserver1 {
 
   /** @override */
   observe(event) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (obj instanceof Spring) {
         this.numSprings++;
       } else if (obj instanceof PointMass) {
-        var pm = /** @type {!PointMass} */(obj);
+        const pm = /** @type {!PointMass} */(obj);
         if (pm.getShape() == ShapeType.OVAL) {
           this.numPoints++;
         } else if (pm.getShape() == ShapeType.RECTANGLE) {
@@ -78,7 +78,7 @@ class MockObserver1 {
       if (obj instanceof Spring) {
         this.numSprings--;
       } else if (obj instanceof PointMass) {
-        pm = /** @type {!PointMass} */(obj);
+        const pm = /** @type {!PointMass} */(obj);
         if (pm.getShape() == ShapeType.OVAL) {
           this.numPoints--;
         } else if (pm.getShape() == ShapeType.RECTANGLE) {
@@ -104,37 +104,37 @@ static test() {
 static testSimList() {
   startTest(SimListTest.groupName+'testSimList');
 
-  var myMockObserver = new MockObserver1();
+  const myMockObserver = new MockObserver1();
 
   // create a bunch of SimObject's
-  var p1 = PointMass.makeCircle(1, 'point1');
+  const p1 = PointMass.makeCircle(1, 'point1');
   p1.setPosition(new Vector(2,  -2));
-  var p2 = PointMass.makeCircle(1, 'point2');
+  const p2 = PointMass.makeCircle(1, 'point2');
   p2.setPosition(new Vector(2.01,  -2.02));
-  var l1 = new ConcreteLine('line1');
+  const l1 = new ConcreteLine('line1');
   l1.setStartPoint(new Vector(2, 0));
   l1.setEndPoint(new Vector(0, 2));
   l1.setExpireTime(/*time=*/3);
-  var l2 = new ConcreteLine('line2');
+  const l2 = new ConcreteLine('line2');
   l2.setStartPoint(new Vector(2.01, 0.01));
   l2.setEndPoint(new Vector(0.02, 2.02));
   l2.setExpireTime(/*time=*/3);
   // l3 is similar to l1, and so will not be added to SimList
-  var l3 = new ConcreteLine('line3');
+  const l3 = new ConcreteLine('line3');
   l3.setStartPoint(new Vector(2.01, 0.01));
   l3.setEndPoint(new Vector(0.02, 2.02));
   l3.setExpireTime(/*time=*/3);
-  var l4 = new ConcreteLine('line4');
+  const l4 = new ConcreteLine('line4');
   l4.setStartPoint(new Vector(20, 20));
   l4.setEndPoint(new Vector(40, 40));
   l4.setExpireTime(/*time=*/3);
-  var s1 = new Spring('spring1',
+  const s1 = new Spring('spring1',
       p1, Vector.ORIGIN,
       p2, Vector.ORIGIN,
       /*restLength=*/2, /*stiffness=*/12);
-  var r1 = PointMass.makeRectangle(3, 2, 'rect1').setMass(2);
+  const r1 = PointMass.makeRectangle(3, 2, 'rect1').setMass(2);
   // put objects into SimList
-  var simList = new SimList();
+  const simList = new SimList();
   assertEquals(0.1, simList.getTolerance());
   assertEquals(0, simList.length());
   simList.addObserver(myMockObserver);
@@ -220,11 +220,11 @@ static testSimList() {
 */
 static testSimListThrows() {
   startTest(SimListTest.groupName+'testSimListThrows');
-  var simList = new SimList();
-  var e = assertThrows(() => simList.add(null)  );
+  const simList = new SimList();
+  const e = assertThrows(() => simList.add(null)  );
   assertTrue(typeof e === 'string');
   assertEquals('cannot add invalid SimObject', e);
-  var p1 = new PointMass('point1');
+  const p1 = new PointMass('point1');
   simList.add(p1);
   assertEquals(p1, simList.get('point1'));
   assertEquals(p1, simList.getPointMass('point1'));

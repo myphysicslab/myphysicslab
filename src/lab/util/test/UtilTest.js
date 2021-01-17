@@ -46,8 +46,8 @@ static testUtil() {
   assertTrue( Util.veryDifferent(1.123456789E5, 1.123456790E5, 1E-10, 1E6));
   assertFalse(Util.veryDifferent(1.123456789E5, 1.1234567899E5, 1E-10, 1E6));
   // two small numbers that are different
-  var small1 = 1.2345678969481254e-8;
-  var small2 = 1.234567893829028e-8;
+  const small1 = 1.2345678969481254e-8;
+  const small2 = 1.234567893829028e-8;
   assertFalse(Util.veryDifferent(small1, small2));
   assertFalse(Util.veryDifferent(small1, small2, 1e-8, 1e-8));
   assertTrue(Util.veryDifferent(small1, small2, 1e-10, 1e-8));
@@ -124,7 +124,7 @@ static testUtil() {
   assertThrows(() => Util.validName('FOO-BAR'));
   assertThrows(() => Util.validName('FOO+'));
 
-  var txt = 'abcdefghijklmnopqrstuvwxyz';
+  const txt = 'abcdefghijklmnopqrstuvwxyz';
   assertEquals('abcd', Util.take(txt, 4));
   assertEquals('wxyz', Util.take(txt, -4));
   assertEquals('abcd', Util.drop(txt, -22));
@@ -191,7 +191,7 @@ static testUtil() {
   assertTrue(Util.uniqueElements(['1']));
   assertTrue(Util.uniqueElements([]));
 
-  var a = ["red", "green", "blue"];
+  const a = ["red", "green", "blue"];
   assertEquals(a[0], Util.get(a, 0));
   assertEquals(a[1], Util.get(a, 1));
   assertEquals(a[2], Util.get(a, 2));
@@ -204,8 +204,8 @@ static testUtil() {
 
   // ensure that goog.asserts is working
   if (!Util.ADVANCED) {
+    let b = 1;
     try {
-      var b = 1;
       asserts.assert(1 == 0);
       b = 2;
     } catch(e) {

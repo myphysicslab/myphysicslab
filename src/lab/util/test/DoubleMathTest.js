@@ -34,7 +34,7 @@ static test() {
 
 static testDoubleMath() {
   startTest(DoubleMathTest.groupName+'testDoubleMath');
-  var n, s;
+  let n, s;
   assertEquals(s = '3FF0000000000000', DoubleMath.numToHex(n = 1));
   assertEquals(n, DoubleMath.hexToNum(s));
   assertEquals(s = '3FF0000000000001', DoubleMath.numToHex(n = 1.0000000000000002));
@@ -92,9 +92,9 @@ static testDoubleMath() {
   // 0xBFD4470BB84303C9 = -3.16836290305272216816234731596E-1  Javascript's value, off by 268
   // mathematica says:   -0.31683629030527219006269881180
   // 0xBFD4470BB84303C8 = -3.16836290305272161305083500338E-1  Java's value, off by 287
-  var angle = DoubleMath.hexToNum(s = 'BFFE4A7FE8F6B56D');
+  const angle = DoubleMath.hexToNum(s = 'BFFE4A7FE8F6B56D');
   assertEquals(s, DoubleMath.numToHex(angle));
-  var cos = Math.cos(angle);
+  const cos = Math.cos(angle);
   // March 2014:  Chrome version 33 returns BFD4470BB84303C0 which is less accurate than version 32.
   // Oct 2014:  Chrome version 38 returns BFD4470BB84303C8, same as Java.
   if (Util.isChrome() || Util.isIPhone()) {

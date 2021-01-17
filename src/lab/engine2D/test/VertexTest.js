@@ -36,8 +36,8 @@ static test() {
 
 static testVertex1() {
   startTest(VertexTest.groupName+'testVertex1');
-  var vec1 = new Vector(2, 1);
-  var vertex1 = new ConcreteVertex(vec1, /*endPoint=*/true);
+  const vec1 = new Vector(2, 1);
+  const vertex1 = new ConcreteVertex(vec1, /*endPoint=*/true);
   assertEquals(vec1, vertex1.locBody());
   assertTrue(vertex1.isEndPoint());
 };

@@ -74,12 +74,12 @@ class MockObserver1 {
     } else if (event instanceof ParameterBoolean) {
       this.numBooleans++;
       assertEquals(this.sim, event.getSubject());
-      var val = event.getValue();
+      const val = event.getValue();
       assertTrue(typeof val === 'boolean');
     } else if (event instanceof ParameterNumber) {
       this.numDoubles++;
       assertEquals(this.sim, event.getSubject());
-      var val = event.getValue();
+      const val = event.getValue();
       assertTrue(typeof val === 'number');
     } else if (event instanceof ParameterString) {
       this.numStrings++;
@@ -101,45 +101,44 @@ static test() {
 
 static testDoublePendulum() {
   startTest(DoublePendulumTest.groupName+'testDoublePendulum');
-  var i;
-  var tol = 1E-15;
-  var sim = new DoublePendulumSim();
-  var simList = sim.getSimList();
-  var simpleAdv = new SimpleAdvance(sim);
+  const tol = 1E-15;
+  const sim = new DoublePendulumSim();
+  const simList = sim.getSimList();
+  const simpleAdv = new SimpleAdvance(sim);
 
   // confirm rods and masses exist
-  var bob1 = simList.getPointMass('bob1');
+  const bob1 = simList.getPointMass('bob1');
   assertTrue(bob1 instanceof PointMass);
-  var bob2 = simList.getPointMass('bob2');
+  const bob2 = simList.getPointMass('bob2');
   assertTrue(bob2 instanceof PointMass);
-  var rod1 = simList.getConcreteLine('rod1');
+  const rod1 = simList.getConcreteLine('rod1');
   assertTrue(rod1 instanceof ConcreteLine);
-  var rod2 = simList.getConcreteLine('rod2');
+  const rod2 = simList.getConcreteLine('rod2');
   assertTrue(rod2 instanceof ConcreteLine);
 
   // confirm parameters exist
-  var rod1LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_1_LENGTH);
+  const rod1LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_1_LENGTH);
   assertEquals('ROD_1_LENGTH', Util.toName(DoublePendulumSim.en.ROD_1_LENGTH));
   assertTrue(rod1LengthParam.nameEquals(DoublePendulumSim.en.ROD_1_LENGTH));
   assertEquals(Util.toName(DoublePendulumSim.en.ROD_1_LENGTH),
       rod1LengthParam.getName());
   assertEquals(1.0, rod1LengthParam.getValue());
-  var rod2LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_2_LENGTH);
+  const rod2LengthParam = sim.getParameterNumber(DoublePendulumSim.en.ROD_2_LENGTH);
   assertEquals(Util.toName(DoublePendulumSim.en.ROD_2_LENGTH),
       rod2LengthParam.getName());
   assertEquals(1.0, rod2LengthParam.getValue());
-  var mass1Param = sim.getParameterNumber(DoublePendulumSim.en.MASS_1);
+  const mass1Param = sim.getParameterNumber(DoublePendulumSim.en.MASS_1);
   assertEquals(Util.toName(DoublePendulumSim.en.MASS_1), mass1Param.getName());
   assertEquals(2.0, mass1Param.getValue());
-  var mass2Param = sim.getParameterNumber(DoublePendulumSim.en.MASS_2);
+  const mass2Param = sim.getParameterNumber(DoublePendulumSim.en.MASS_2);
   assertEquals(Util.toName(DoublePendulumSim.en.MASS_2), mass2Param.getName());
   assertEquals(2.0, mass2Param.getValue());
-  var gravityParam = sim.getParameterNumber(DoublePendulumSim.en.GRAVITY);
+  const gravityParam = sim.getParameterNumber(DoublePendulumSim.en.GRAVITY);
   assertEquals(Util.toName(DoublePendulumSim.en.GRAVITY),
       gravityParam.getName());
   assertEquals(9.8, gravityParam.getValue());
 
-  var mockObsvr1 = new MockObserver1(sim);
+  const mockObsvr1 = new MockObserver1(sim);
   assertEquals(0, mockObsvr1.numEvents);
   assertEquals(0, mockObsvr1.numBooleans);
   assertEquals(0, mockObsvr1.numDoubles);
@@ -147,7 +146,7 @@ static testDoublePendulum() {
   // add the observer to the subject
   sim.addObserver(mockObsvr1);
   // there should be only this one observer
-  var obsvrs = sim.getObservers();
+  const obsvrs = sim.getObservers();
   assertEquals(1, obsvrs.length);
   assertTrue(obsvrs.includes(mockObsvr1));
 
@@ -172,18 +171,22 @@ static testDoublePendulum() {
   assertEquals(5.0, sim.getGravity());
   assertEquals(5, mockObsvr1.numDoubles);
   sim.restState();
-  var ei = sim.getEnergyInfo();
-  assertEquals(0, ei.getPotential());
-  assertEquals(0, ei.getTranslational());
-  assertEquals(0, ei.getTotalEnergy());
+  {
+    const ei = sim.getEnergyInfo();
+    assertEquals(0, ei.getPotential());
+    assertEquals(0, ei.getTranslational());
+    assertEquals(0, ei.getTotalEnergy());
+  }
   sim.getVarsList().setValue(0, Math.PI/8);
   sim.saveInitialState();
-  ei = sim.getEnergyInfo();
-  assertEquals(1.004790170851014, ei.getPotential());
-  assertEquals(0, ei.getTranslational());
-  assertEquals(ei.getPotential(), ei.getTotalEnergy());
+  {
+    const ei = sim.getEnergyInfo();
+    assertEquals(1.004790170851014, ei.getPotential());
+    assertEquals(0, ei.getTranslational());
+    assertEquals(ei.getPotential(), ei.getTotalEnergy());
+  }
 
-  var expect = [
+  const expect = [
     [ 0.39177, -0.07457, 0.00115, 0.09186 ],
     [ 0.38897, -0.14902, 0.00459, 0.18354 ],
     [ 0.38432, -0.22321, 0.01032, 0.27484 ],
@@ -199,15 +202,15 @@ static testDoublePendulum() {
   // step to time zero to ensure energy is updated
   simpleAdv.advance(0);
   // step forward in time
-  var timeStep = 0.025;
-  var time = 0;
-  for (i=0; i<10; i++) {
+  const timeStep = 0.025;
+  let time = 0;
+  for (let i=0; i<10; i++) {
     simpleAdv.advance(timeStep);
     time += timeStep;
     assertRoughlyEquals(time, sim.getTime(), tol);
-    var vars = sim.getVarsList().getValues(/*computed=*/true);
+    const vars = sim.getVarsList().getValues(/*computed=*/true);
     // check expected values
-    for (var j=0; j<4; j++) {
+    for (let j=0; j<4; j++) {
       assertRoughlyEquals(expect[i][j], vars[j], 2E-5);
     }
     // check that energy is constant
@@ -217,9 +220,11 @@ static testDoublePendulum() {
   }
 
   sim.setPEOffset(99 - sim.getEnergyInfo().getPotential());
-  ei = sim.getEnergyInfo();
-  assertEquals(99, ei.getPotential());
-  assertRoughlyEquals(0.37563230349452903, ei.getTranslational(), 1e-10);
+  {
+    const ei = sim.getEnergyInfo();
+    assertEquals(99, ei.getPotential());
+    assertRoughlyEquals(0.37563230349452903, ei.getTranslational(), 1e-10);
+  }
 };
 
 } // end class

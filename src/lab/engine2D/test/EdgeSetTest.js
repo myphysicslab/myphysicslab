@@ -37,19 +37,18 @@ static test() {
 static testEdgeSet1() {
   startTest(EdgeSetTest.groupName+'testEdgeSet1');
 
-  var body1 = Shapes.makeBlock(1, 1);
-  var body2 = Shapes.makeBall(0.5);
-  var body3 = Shapes.makeHexagon(0.5);
-  var edgeGroup = new EdgeGroup(EdgeRange.fromPolygon(body1));
+  const body1 = Shapes.makeBlock(1, 1);
+  const body2 = Shapes.makeBall(0.5);
+  const body3 = Shapes.makeHexagon(0.5);
+  const edgeGroup = new EdgeGroup(EdgeRange.fromPolygon(body1));
   edgeGroup.add(EdgeRange.fromPolygon(body2));
   body3.setNonCollideEdge(edgeGroup);
-  var j;
-  var b2 = body2.getEdges();
-  for (j=0; j<b2.length; j++) {
+  const b2 = body2.getEdges();
+  for (let j=0; j<b2.length; j++) {
     assertTrue(body3.nonCollideEdge(b2[j]));
   }
-  var b1 = body1.getEdges();
-  for (j=0; j<b1.length; j++) {
+  const b1 = body1.getEdges();
+  for (let j=0; j<b1.length; j++) {
     assertTrue(body3.nonCollideEdge(b1[j]));
   }
 };

@@ -50,20 +50,20 @@ obtained by running the simulation previously).  Check that energy stays constan
 */
 static testRoller1() {
   startTest(RollerTest.groupName+'testRoller1');
-  var sim = new RollerSingleSim();
-  var simList = sim.getSimList();
-  var solvr = new ModifiedEuler(sim);
-  var simpleAdv = new SimpleAdvance(sim, solvr);
-  var path = new NumericalPath(new CirclePath(3.0));
+  const sim = new RollerSingleSim();
+  const simList = sim.getSimList();
+  const solvr = new ModifiedEuler(sim);
+  const simpleAdv = new SimpleAdvance(sim, solvr);
+  const path = new NumericalPath(new CirclePath(3.0));
   sim.setPath(path);
   assertEquals(0, sim.getDamping());
   assertEquals(0.5, sim.getMass());
   assertEquals(9.8, sim.getGravity());
   // March 2014: increase tolerance from 1E-13 to 2E-13 because Chrome version 33
   // has less accurate trig functions.
-  var tol = 2E-13;
-  var va = sim.getVarsList();
-  var expect = [
+  const tol = 2E-13;
+  const va = sim.getVarsList();
+  const expect = [
     [ 2.3586219743147407, 0.17325628055424852 ],
     [ 2.36512064742212, 0.3467624393969093 ],
     [ 2.3759616566049595, 0.5207674926568824 ],
@@ -78,9 +78,9 @@ static testRoller1() {
   // step to time zero to ensure energy is updated
   simpleAdv.advance(0);
   // step forward in time
-  var timeStep = 0.025;
-  var time = 0;
-  for (var i=0; i<10; i++) {
+  const timeStep = 0.025;
+  let time = 0;
+  for (let i=0; i<10; i++) {
     simpleAdv.advance(timeStep);
     time += timeStep;
     assertRoughlyEquals(time, sim.getTime(), tol);
@@ -94,7 +94,7 @@ static testRoller1() {
   }
 
   sim.setPEOffset(99 - sim.getEnergyInfo().getPotential());
-  var ei = sim.getEnergyInfo();
+  const ei = sim.getEnergyInfo();
   assertEquals(99, ei.getPotential());
   assertRoughlyEquals(0.7860347478272578, ei.getTranslational(), 1e-10);
 };

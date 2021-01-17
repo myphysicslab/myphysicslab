@@ -75,8 +75,8 @@ to do:  figure out what is the smallest increment from 1.0 to the next bigger nu
 */
 static testNumericalMath() {
   startTest(UtilEngineTest.groupName+'testNumericalMath');
-  var x = 1.0;
-  var y = x/Number.POSITIVE_INFINITY;
+  const x = 1.0;
+  let y = x/Number.POSITIVE_INFINITY;
   assertEquals(0.0, y);
   y = 1.0/Number.NEGATIVE_INFINITY;
   assertEquals(0.0, y);
@@ -100,12 +100,12 @@ static testNumericalMath() {
   assertTrue(!isNaN(Number.MAX_VALUE));
   assertTrue(!isNaN(-Number.MAX_VALUE));
   assertTrue(-Number.MAX_VALUE < -Number.MAX_VALUE/10);
-  var big = 690E45;
+  const big = 690E45;
   assertTrue((big + 1) - big == 0);
-  var cosAngle = 0.9999937675535157;
-  var sinAngle = 0.0035305600299897267;
-  var angle = 0.0035305673646834944;
-  var l2 = cosAngle*cosAngle + sinAngle*sinAngle;
+  const cosAngle = 0.9999937675535157;
+  const sinAngle = 0.0035305600299897267;
+  const angle = 0.0035305673646834944;
+  const l2 = cosAngle*cosAngle + sinAngle*sinAngle;
   assertTrue(Math.abs(l2 - 1.0) < 1E-12);
   assertTrue(cosAngle == Math.cos(angle));
   assertTrue(sinAngle == Math.sin(angle));
@@ -116,21 +116,20 @@ This came up in CollisionSim.advance in calculating the amount of time advanced.
 */
 static testNumericalBug1() {
   startTest(UtilEngineTest.groupName+'testNumericalBug1');
-  var timeStep = 0.01;
-  var timeAdvanced=0.0018413108427360715;
-  var stepSize = timeStep - timeAdvanced;
+  const timeStep = 0.01;
+  const timeAdvanced=0.0018413108427360715;
+  const stepSize = timeStep - timeAdvanced;
   assertTrue(timeAdvanced + stepSize < timeStep);
 };
 
 static testRandomInts() {
   startTest(UtilEngineTest.groupName+'testRandomInts');
-  var i;
   // 2 arrays of random ints should be different
-  var prng = new RandomLCG(6473275);
-  var a = prng.randomInts(100);
-  var b = prng.randomInts(100);
-  var same = true;
-  for (i=0; i<a.length; i++) {
+  const prng = new RandomLCG(6473275);
+  const a = prng.randomInts(100);
+  const b = prng.randomInts(100);
+  let same = true;
+  for (let i=0; i<a.length; i++) {
     if (a[i] != b[i]) {
       same = false;
       break;
@@ -138,12 +137,12 @@ static testRandomInts() {
   }
   assertFalse(same);
   // all digits should be in the result
-  var digit = new Array(a.length);
-  for (i=0; i<digit.length; i++)
+  const digit = new Array(a.length);
+  for (let i=0; i<digit.length; i++)
     digit[i] = false;
-  for (i=0; i<a.length; i++)
+  for (let i=0; i<a.length; i++)
     digit[a[i]] = true;
-  for (i=0; i<digit.length; i++)
+  for (let i=0; i<digit.length; i++)
     assertTrue(digit[i]);
 };
 
@@ -153,9 +152,8 @@ Here is the mathematica solution:
 */
 static testRedundantMatrix3() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix3');
-  var i, j;
-  var n = 17;
-  var a = [
+  const n = 17;
+  const a = [
     2.7831932, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.1081028, -0.108503, 0, 0, 0,
     0, 0, 0, 3.7002506, -1.6999999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.3237729,
     -3.7002753, 0.8981675, 0, 0, 0, -1.6999999, 3.6997493, 0, 0, 0, 0, 0,
@@ -182,21 +180,21 @@ static testRedundantMatrix3() {
     -3.0212405, 0.672041, -0.160466, 0, 0, 0, 0, 0, 0, 0.6732344,
     -0.6834598, 5.2225903
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [-0, -0, -0, -0, -0, 1.6999992, -0.8984231,
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [-0, -0, -0, -0, -0, 1.6999992, -0.8984231,
         -0, -0, -0, -0, -0, -0, -0, -0.8989383, -0, -1.0205326];
-  var x = new Array(n);
+  const x = new Array(n);
   // regular matrix solve is unsuccessful
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   //UtilEngine.printArray('x', x);
   // check that this linear combo of the rows of A is close to the b vector
-  var err = UtilEngine.matrixSolveError(A, x, b);
+  const err = UtilEngine.matrixSolveError(A, x, b);
   assertTrue( err < 1e-6 );
 };
 
 static testRedundantMatrix4() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix4');
-  var a = [
+  const a = [
     2.7831878, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.1081068, 0, 0, 0, 0,
     0, 3.7002506, -1.6999999, 0, 0, 0, 0, 0, 0, 0, 0, 1.3237512, 0, 0, 0,
     0, -1.6999999, 3.6997493, 0, 0, 0, 0, 0, 0, 0, 0, -3.3235354, 0, 0, 0,
@@ -213,10 +211,10 @@ static testRedundantMatrix4() {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.9869618, 1.2252569, -2.7875288, 5.2209376, -0.6834391,
     0, 0, 0, 0, 0, 1.020529, -3.0212368, 0.6720397, 0, 0, 0, 0, -1.0210311, -0.6834391, 5.2225786
     ];
-  var A = UtilEngine.newMatrixFromArray(15, a);
-  var b = [0.9438315, -1.2617722, 3.127175, -0, -0, -0, -0, -0, -0, -0,
+  const A = UtilEngine.newMatrixFromArray(15, a);
+  const b = [0.9438315, -1.2617722, 3.127175, -0, -0, -0, -0, -0, -0, -0,
             -0.4735505, -2.8214364, -0, -0, -0];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
 };
@@ -227,7 +225,7 @@ value for testing whether a pivot in the matrix was zero.  May 11 2011.
 */
 static testRedundantMatrix5() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix5');
-  var a = [
+  const a = [
     2.7795861, 0, 0, 0, 0, 0, 0, 0, -0.9528866, 0.1061772, -0.1117673, 0,
      0, 0, 0, -0, 0, 3.700137, -1.7, 0, 0, 0, 0, 0, 1.259836, 0, 0,
     1.3130398, 0.8986781, -0.9003413, 0, -0, 0, -1.7, 3.6998629, 0, 0,
@@ -253,12 +251,12 @@ static testRedundantMatrix5() {
      0, 0, 0, 0, 0, 0.05738, 0, 0, 0, -1.0623076, 0, 0.5119813, 0, 0,
     5.1198566, 0.8590623
     ];
-  var A = UtilEngine.newMatrixFromArray2(15, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray2(15, a);
+  const b = [
     0 ,0 ,0 ,-588.61458E-3 ,589.39835E-3 ,423.07566E-3 ,0 ,0 ,0 ,0 ,0 ,0 ,
     -588.95623E-3 ,588.17558E-3 ,859.06227E-3
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
 };
@@ -268,7 +266,7 @@ static testRedundantMatrix5() {
 */
 static testRedundantMatrix6() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix6');
-  var a = [
+  const a = [
 3.70010194720032, -1.6999999903751832, 0, 0, 0, 0, 0, 0, -0.8998890165420942, -1.77200233034648, 0.4940241310921793, 0, 0, 0, 0, 0, -0,
 -1.6999999903751832, 3.6998980373999726, 0, 0, 0, 0, 0, 0, 0.8998844014814961, -0.2280268175322451, -0.4941187576462762, 0, 0, 0, 0, 0, -0,
 0, 0, 3.699973570417178, -1.6999999993532446, 0, 0, 0, 0, -0.8999269792050215, 0, 0, -0.2100233451942024, 1.6998040445570157, 0.8996350911077936, -0.8981809267936222, -3.7003851855598255, -0,
@@ -286,19 +284,19 @@ static testRedundantMatrix6() {
 0, 0, -0.8981809267936223, 0.8991920002730466, 0, -0.9002846442953208, -1.3003284570816998, 0, -0.7004654529710449, 0, 0, -0.2634289743638025, -0.8993150922839647, 1.4002471134791408, 2.5988805570349998, 0.8978895800445713, 0.8233460071965841,
 0, 0, -3.7003851855598255, 1.7004118020378045, 0, 0, 0, 0, 0.9004925856654026, 0, 0, 0.209902787140184, -1.700215736685026, -0.9002006530594638, 0.8978895800445711, 6.995334564518396, 1.4897967319965286
     ];
-  var A = UtilEngine.newMatrixFromArray2(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray2(16, a);
+  const b = [
     -0, -0, -0, -0, -0, -1.4714573224953436, -0.8254209463791108, -0, -0, -0, -0,
     -0, -0, -0.8243970766288274, 0.8233460071965841, 1.4897967319965286
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
 };
 
 static testRedundantMatrix7() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix7');
-  var a = [
+  const a = [
     3.6974923776779236, -1.6999941991396543, 0, 0, 0, 0, 0, 0, -0.8990570561135972, 1.6967629614324449, 0.4759223607581712, 0, 0, 0, 0, 0, 0, -0,
     -1.6999941991396543, 3.702498340945523, 0, 0, 0, 0, 0, 0, 0.8971085142255755, -3.6992634550637478, -0.4735813775528715, 0, 0, 0, 0, 0, 0, -0,
     0, 0, 3.700075274798905, -1.699999994752845, 0, 0, 0, 0, -0.9022627888809575, 0, 0, -2.5307148787240794, 1.7008008141769886, 0.8972848325079772, -0.9027032551922569, -3.6032530346411638, -3.7013647914671264, -0,
@@ -317,19 +315,19 @@ static testRedundantMatrix7() {
     0, 0, -3.6032530346411638, 1.6031804558180192, 0, 0, 0, 0, 0.8699004252221901, 0, 0, 2.4758248386689456, -1.6039526040040066, -0.8651493379192831, 0.8703184910144361, 7.207235013004815, 7.206432607758408, 1.6993518040000097,
     0, 0, -3.7013647914671264, 1.7012917888300407, 0, 0, 0, 0, 0.9042157318944609, 0, 0, 2.5314454885431403, -1.7020942181217824, -0.8992347511892808, 0.9016134131018749, 7.206432607758408, 7.212573489731945, 1.6038855336843656
     ];
-  var A = UtilEngine.newMatrixFromArray2(17, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray2(17, a);
+  const b = [
     -0, -0, -0, -0, -0, -1.5863768281323543, 3.587683208621223, -0, -0, -0, -0, -0,
     -0, -0.8612070985226529, 0.8597585625723888, 1.6993518040000097, 1.6038855336843656
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
 };
 
 static testRedundantMatrix8() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix8');
-  var a = [
+  const a = [
       3.699900499932072, -1.6999999908344403, 0, 0, 0, 0, 0, 0, 0, 0.899839223244678, 1.6986878768332623, 0.4884437738078804, 0, 0, 0, 0, 0, -0,
       -1.6999999908344403, 3.7000994854030322, 0, 0, 0, 0, 0, 0, 0, -0.8999829316972552, -3.6987855127777705, -0.4883512233620975, 0, 0, 0, 0, 0, -0,
       0, 0, 3.6992772903045075, -1.6999995168973068, 0, 0, 0, 0, 0, 0.8987021612700457, 0, 0, -3.612111392769896, 1.7004879536749893, -0.8973474004852573, 0.899710848795327, 0, -0,
@@ -348,12 +346,12 @@ static testRedundantMatrix8() {
       0, 0, 0.899710848795327, -0.8994570533367248, 0, 0.8976983513724901, -0.8980448231901583, -0.7004874601754172, 0, -0.7005493624121167, 0, 0, -0.8702638273768061, 0.9009649618255118, 1.4014198228283234, 2.598305500687045, 0, -0.8637050139968621,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.8690611265530939, 0, -0.890549821517301, 0.8628582206819851, 0, 0, 2.5969142049592207, -0.9025189416848407
     ];
-  var A = UtilEngine.newMatrixFromArray2(17, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray2(17, a);
+  const b = [
     -0, -0, -0, -0, -0, -1.597471214805085, 3.5970430749613307, -0.8666417290085902,
     -0, -0, -0, -0, -0, -0, 0.8659984735204442, -0.8637050139968621, -0.9025189416848407
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 3e-10 );
 };
@@ -365,7 +363,7 @@ which is where this matrix came from.
 */
 static testRedundantMatrix9() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix9');
-  var a = [
+  const a = [
       2.884788914934762, -0.4908891516982347, -0.5392791553437065, 0.4194142399376012, -0.4193991545308258, -2.2582186908325808, 0.2582214925726989, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0,
       -0.4908891516982346, 3.0140128092800715, 0.6046112861037997, 0, 0, 0, 0, 0, 0, 0, 0, 0.8217046091839957, -2.422668819683555, 0, 0, 0, 0, 0, -0,
       -0.5392791553437064, 0.6046112861037997, 1.9744325339033397, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0,
@@ -385,12 +383,12 @@ static testRedundantMatrix9() {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.6676478225183875, -3.699709190430424, -1.6999999961715782, 3.699935695341994, 0.8998928306745508, 0.9000857331633055,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.8890955083561018, -0.9001402951786913, -0.8999142622425873, 0.8998928306745508, 1.2999357014674675, -0.7000000038284219
     ];
-  var A = UtilEngine.newMatrixFromArray2(18, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray2(18, a);
+  const b = [
     -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, -0, 0.8893575501879827,
      -0.8996872983508283, -0.9001071693254477, 0.9000857331633055, -0.7000000038284219
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
 };
@@ -400,7 +398,7 @@ on the floor.
 */
 static testRedundantMatrix10() {
   startTest(UtilEngineTest.groupName+'testRedundantMatrix10');
-  var a = [
+  const a = [
       2.1865166979865847, -0.0215396751014439, 0.0220271511411966, -0.0217713199944046, -0.000105975801523, -0.9891708035070803, -0.3427241601957276, 0.185686498254954, -0.1861364526269131, 0, 0, 0, 0, 0, 0, -0,
       -0.0215396751014439, 7.073409102180113, -1.2757615772836437, 1.3864623270581653, -1.0001278257247672, -1.1928044457508398, 0, -1.4567128591697207, 0, 0, 0, 0, 0, 0, 0, -0,
       0.0220271511411966, -1.275761577283644, 4.692326605078205, -3.3996865896554183, -0.999871426117676, 1.199260982087394, 0, 1.8094851379510586, 0, 0, 0, 0, 0, 0, 0, -0,
@@ -417,16 +415,16 @@ static testRedundantMatrix10() {
       0, 0, 0, 0, 0, 0, 0, 0, 0, -0.2667699659857678, 0, 0, 0, 1.9600057606104482, -0.4400014401310075, -0.960007200767381,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0.4001454472255172, 0, 0, 0, -0.4400014401310075, 3.1599913590735254, 1.4400036003556043
     ];
-  var A = UtilEngine.newMatrixFromArray2(15, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray2(15, a);
+  const b = [
     -0, -0, -0, -0, -0, -0, -0, -0, -0, 1.266767365854981, -0, -0, -0,
      -0.960007200767381, 1.4400036003556043
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
     // this is the solution found by Mathematica
-  var x2 = [
+  const x2 = [
     0.953361, 830.42, -2733.38, -3558.21, 1655.25, 0.151034, 0.602682, 1902.96,
     1903.33, 0.760965, 6.5475*10E-6, 0.0506631, -0.352014, -0.315417, 0.31542
     ];
@@ -438,7 +436,7 @@ static testRedundantMatrix10() {
 * @return {!Array<!Float64Array>}
 */
 static makeMatrix11() {
-  var a = [
+  const a = [
     5.24025764299373, 0, 0, 0, 0, 0, 0, 0, 0, -2.615501943799582, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 5.368078595488846, 0, 0, 0, 0,
     -0.8140299898490666, 0, 0, 0, 0, 0, 0, 0, -3.5581732469449725,
@@ -504,13 +502,13 @@ A .x = b has such large numbers.
 */
 static testMatrix11() {
   startTest(UtilEngineTest.groupName+'testMatrix11');
-  var A = UtilEngineTest.makeMatrix11();
-  var b = UtilEngineTest.makeBVector11();
-  var x = new Array(A.length);
+  const A = UtilEngineTest.makeMatrix11();
+  const b = UtilEngineTest.makeBVector11();
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
     // this is the solution found by Mathematica
-  var x2 = [
+  const x2 = [
     -1.991727687322564e-12, -9.246912067359662e-8,
     4334.209315080085, -1.3477624064693302e-10, 1.2793529321355117e-10,
     -4334.209315079608, -9.746529446177438e-8, 5871.395512421495, -5871.3955124216745,
@@ -527,22 +525,21 @@ Checks that various contact ordering policies find a valid solution.
 */
 static testMatrix11_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix11_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix11_CF ***');
-  var i;
-  var A = UtilEngineTest.makeMatrix11();
-  var n = A.length;
-  var b = UtilEngineTest.makeBVector11();
-  var joint = new Array(n);
-  for (i=0; i<n; i++) {
+  const A = UtilEngineTest.makeMatrix11();
+  const n = A.length;
+  const b = UtilEngineTest.makeBVector11();
+  const joint = new Array(n);
+  for (let i=0; i<n; i++) {
     joint[i] = false;
   }
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -554,16 +551,16 @@ static testMatrix11_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
       console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
         +' length='+Util.NF7(UtilEngine.vectorLength(f))
@@ -579,7 +576,7 @@ static testMatrix11_CF() {
 * @return {!Array<!Float64Array>}
 */
 static makeMatrix12() {
-  var a = [
+  const a = [
 3.040694642274648, 0, 0, 0.01709055530317863, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.17854656770013483, 0, 0, 0, 0, 0, 0, 0, -0.5950357471205004, 0, -3.0390160802451973, 0, 0, 0, 0, -0.6937593926545077, 0, -0.7269641453882664, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.1797929927395687,
 0, 7.297331768240345, 0, 0, 0, 0, 0.1009238030787658, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.568314678505832, 0, -0.10048587507901019, 0, 0, 0, 0, 1.5853009221352987, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 3.066366738615902, 0, 0, 0, 0, 0, 0.4552680563439062, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.0642241163106276, 0, 0, 0, 0, 0.09503934242557888, 0, 0, 0, 0, -0.1009265950846363, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -643,13 +640,13 @@ the matrixSolve tolerance, and why the solution x, in A x = b has such large num
 */
 static testMatrix12() {
   startTest(UtilEngineTest.groupName+'testMatrix12');
-  var A = UtilEngineTest.makeMatrix12();
-  var b = UtilEngineTest.makeBVector12();
-  var x = new Array(A.length);
+  const A = UtilEngineTest.makeMatrix12();
+  const b = UtilEngineTest.makeBVector12();
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
     // this is the solution found by Mathematica
-  var x2 = [
+  const x2 = [
     -104.47425733426672, 0.29697908590886235, -2.1489983966328114e-16, 104.47263842618734, 1.5187297128665126e-14,
      2.8242287610253716e-15, -0.05092244616138966, -648210.2501095879, 1.132422250834543e-15, 1.48897517444417e-15,
      -523.5962002648035, 648210.250109583, 175095.66182544356, -174571.98664439825, 0.05639481629245197,
@@ -672,22 +669,21 @@ between C/NC while driving a particular contact to zero.
 */
 static testMatrix12_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix12_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix12_CF ***');
-  var i, j;
-  var A = UtilEngineTest.makeMatrix12();
-  var n = A.length;
-  var b = UtilEngineTest.makeBVector12();
-  var joint = new Array(n);
-  for (i=0; i<n; i++) {
+  const A = UtilEngineTest.makeMatrix12();
+  const n = A.length;
+  const b = UtilEngineTest.makeBVector12();
+  const joint = new Array(n);
+  for (let i=0; i<n; i++) {
     joint[i] = false;
   }
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -695,7 +691,7 @@ static testMatrix12_CF() {
       case 1:
         // set the specific order in which contacts are treated
         // This causes the FLIP-FLOP DEFER condition to occur.
-        var o = [ 31, 7, 3, 33, 22, 40, 10, 36, 20, 29, 42, 6, 21, 23, 14, 9, 4, 5, 38, 32, 11, 35, 16, 13, 24, 1, 27, 26, 18, 12, 19, 8, 37, 0, 39, 17, 2, 28, 15, 25, 30, 34, 41, 1, 10 ];
+        const o = [ 31, 7, 3, 33, 22, 40, 10, 36, 20, 29, 42, 6, 21, 23, 14, 9, 4, 5, 38, 32, 11, 35, 16, 13, 24, 1, 27, 26, 18, 12, 19, 8, 37, 0, 39, 17, 2, 28, 15, 25, 30, 34, 41, 1, 10 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
@@ -705,16 +701,16 @@ static testMatrix12_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
       console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
         +' length='+Util.NF7(UtilEngine.vectorLength(f))
@@ -731,7 +727,7 @@ This matrix is from DoNothingGrinder, on Nov 29 2011.
 */
 static testMatrix13() {
   startTest(UtilEngineTest.groupName+'testMatrix13');
-  var a = [
+  const a = [
       1.0830295556083844, 0.5366085787025969, 0, 0, -1.4633914212974029, -0.000000000000007228,
       0.5366085787025969, 3.5862068965517095, 0, 0, 1.5862068965517095, 0,
       0, 0, 3.5862068965517206, -1.5862068965517246, 0, 0,
@@ -739,15 +735,15 @@ static testMatrix13() {
       -1.463391421297403, 1.5862068965517095, 0, 0, 3.5862068965517095, 0,
       -0.000000000000007228, 0, 0, 0, 0, 7.5624545695114005
     ];
-  var A = UtilEngine.newMatrixFromArray(6, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(6, a);
+  const b = [
     -1, -1, -0, -0, 1, 1.0701009352565578
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
     // this is the solution found by Mathematica
-  var x2 = [
+  const x2 = [
     3.4834803047893805, -1.929658607091768, 0., 0., 2.5538216976976114,
     0.14150180016562014
     ];
@@ -762,7 +758,7 @@ This matrix is from DoNothingGrinder, on Nov 29 2011.
 */
 static testMatrix14() {
   startTest(UtilEngineTest.groupName+'testMatrix14');
-  var a = [
+  const a = [
       3.586206896147961, 0, 0, -3.586206896551724, 0, -1,
       0, 3.5862068965517238, -1.5862068965517238, 0, 0, 0,
       0, -1.5862068965517238, 3.586206896551724, 0, 0, 0,
@@ -770,15 +766,15 @@ static testMatrix14() {
       0, 0, 0, 0, 3.089825306743734, 0.028751860945604155,
       -1, 0, 0, 1, 0.028751860945604155, 3.009203080265496
     ];
-  var A = UtilEngine.newMatrixFromArray(6, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(6, a);
+  const b = [
     -0, -0, -0, -0, 0.20048009236083858, -1.9358290447661308
     ];
-  var x = new Array(A.length);
+  const x = new Array(A.length);
   assertEquals(-1, UtilEngine.matrixSolve4(A, x, b, 1e-9));
   assertTrue( UtilEngine.matrixSolveError(A, x, b) < 1e-10 );
     // this is the solution found by Mathematica
-  var x2 = [
+  const x2 = [
     -179942.89225152493, 0., 0., -179942.69431674527, 0.07148853438707764,
     -0.7097624174303598
     ];
@@ -795,11 +791,10 @@ Update May 2013: all the solutions seem to be the maxForce = 7.60 now.
 */
 static testMatrix15_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix15_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix15_CF ***');
-  var i, j;
-  var a = [
+  const a = [
       3.586206896551724E0, -1.5862068965517242E0, 1.5553194204865006E0, -5.426116139962586E-1, 0, 0, 0, 0, 5.426116139962587E-1, -1.5553194204865006E0, 1.5862068965517242E0, -3.586206896551724E0, 0, 0, -1E0, 0,
       -1.5862068965517242E0, 3.586206896551724E0, -3.5553194204865006E0, -1.4573883860037413E0, 0, 0, 0, 0, 1.4573883860037413E0, 3.5553194204865006E0, -3.586206896551724E0, 1.5862068965517242E0, 0, 0, -1E0, 0,
       1.5553194204865006E0, -3.5553194204865006E0, 3.52480083840998E0, 1.4519257245113302E0, 0, 0, 0, 0, -1.4519257245113297E0, -3.52480083840998E0, 3.5553194204865006E0, -1.5553194204865006E0, 6.123233995736766E-17, 0, 1E0, 0,
@@ -817,8 +812,8 @@ static testMatrix15_CF() {
       -1E0, -1E0, 1E0, 1E0, 0, 0, 0, 0, -1E0, -1E0, 1E0, 1E0, -2.19279540886184E-2, 1.9642898956827006E0, 3.005121366124348E0, 1.528985643395266E-1,
       0, 0, 0, 0, -1E0, -1E0, 1E0, 1E0, 0, 0, 0, 0, 1.3453401655638317E0, -1.066126410406695E0, 1.528985643395266E-1, 7.564791973365036E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -8.581529099367793E-15, -7.401486968697812E-15,
     -8.286272949361454E-16, -3.500022067364011E-16, -8.271806125530277E-24,
     -8.271806125530277E-24, 8.271806125530277E-24, 8.271806125530277E-24,
@@ -826,21 +821,21 @@ static testMatrix15_CF() {
     8.581529099367793E-15, -1.7136728774722613E1, -4.811055899284179E0,
     -6.759204746260199E-1, 1.6636681372681814E1
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 12, 13, 14, 15, 0, 1, 2, 3, 5, 4, 7, 6, 8, 9, 10, 11 ];
+        const o = [ 12, 13, 14, 15, 0, 1, 2, 3, 5, 4, 7, 6, 8, 9, 10, 11 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
@@ -850,16 +845,16 @@ static testMatrix15_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 7.7 );
     } else {
@@ -883,11 +878,10 @@ contact order does not find a lower force.
 */
 static testMatrix16_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix16_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix16_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     3.586206896551724E0, 3.5535547053368117E0, -1.4556236708540526E0, 1.5862068965517242E0, 0, 0, 0, 0, -1.5862068965517242E0, 1.4556236708540529E0, -3.5535547053368117E0, -3.586206896551724E0, 0, 1E0, 0, 0,
     3.5535547053368117E0, 3.5213147648171383E0, -1.4498711878479162E0, 1.5535547053368117E0, 0, 0, 0, 0, -1.5535547053368117E0, 1.4498711878479162E0, -3.5213147648171383E0, -3.5535547053368117E0, 6.123233995736766E-17, 1E0, 0, 0,
     -1.4556236708540526E0, -1.4498711878479162E0, 1.0802692660511086E0, 5.443763291459475E-1, 0, 0, 0, 0, -5.443763291459475E-1, -1.0802692660511086E0, 1.4498711878479162E0, 1.4556236708540526E0, -6.123233995736766E-17, -1E0, 0, 0,
@@ -905,8 +899,8 @@ static testMatrix16_CF() {
     0, 0, 0, 0, 1E0, -1E0, 1E0, -1E0, 0, 0, 0, 0, 1.3451215287497018E0, 1.5274494124655502E-1, 7.566316477591808E0, -1.0650552318278812E0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5274494123202206E-1, 1.9643735164638259E0, -1.0650552318278812E0, 3.2484152494489766E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -1.3424401586643434E-14, -4.844789302125198E-15,
     -7.066670319407715E-16, -2.626209332430736E-16, -1.5728165174817075E-16,
     -5.551116260499125E-17, 5.551116260499125E-17, 1.5728165174817075E-16,
@@ -914,21 +908,21 @@ static testMatrix16_CF() {
     1.3424401586643434E-14, -1.3809827337877498E0, 2.2468390235588426E-1,
     2.128406055877737E0, 2.6960622252634066E0
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 12, 14, 13, 15, 7, 10, 3, 2, 6, 5, 1, 4, 11, 9, 0, 8 ];
+        const o = [ 12, 14, 13, 15, 7, 10, 3, 2, 6, 5, 1, 4, 11, 9, 0, 8 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
@@ -938,16 +932,16 @@ static testMatrix16_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 3.1 );
     } else {
@@ -975,11 +969,10 @@ get many cases where maxForce is 54 or 179.
 */
 static testMatrix17_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix17_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix17_CF ***');
-  var i, j;
-  var a = [
+  const a = [
        3.5862068965644167E0, 8.740518805228181E-1, -1.2238791539650893E0, 1.5862068965644176E0, 0, 0, 0, 0, -1.5862068965517242E0, 1.223879153952218E0, -8.740518805356892E-1, -3.5862068965517233E0, 1E0, 0, 0, 0,
        8.74051880522818E-1, 2.3580005743378982E0, 8.37769688861518E-1, 2.874051880522819E0, 0, 0, 0, 0, -2.874051880513621E0, -8.37769688870845E-1, -2.358000574347225E0, -8.7405188051362E-1, -1E0, 0, 6.13521489875853E-12, 0,
        -1.2238791539650893E0, 8.37769688861518E-1, 1.0193804585575528E0, 7.761208460349106E-1, 0, 0, 0, 0, -7.761208460360094E-1, -1.0193804585564386E0, -8.377696888604038E-1, 1.2238791539639904E0, -1E0, 0, 6.13521489875853E-12, 0,
@@ -997,8 +990,8 @@ static testMatrix17_CF() {
        0, 6.13521489875853E-12, 6.13521489875853E-12, 0, 0, 0, 0, 0, 0, -6.13521489875853E-12, -6.13521489875853E-12, 0, 5.955732643915111E-1, 1.3190364034858493E0, 7.7482020369568E0, -8.54141649668102E-2,
        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.9892863882668392E0, 1.2249676091359045E-2, -8.54141649668102E-2, 3.0015364930810007E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -2.638039120484648E-9, -1.6540337075666244E-9,
       -5.840191026463354E-10, -6.394885122036331E-14, -1.9984022384181354E-15,
       -2.220464578090694E-16, 2.220464578101376E-16, 1.9984022384192035E-15,
@@ -1006,26 +999,26 @@ static testMatrix17_CF() {
       2.6380391204788796E-9, -3.01606595264602E1, -5.425522183449384E-1,
       3.783091433465525E0, 4.3254922651818015E0
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=30; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 12, 13, 14, 15, 1, 11, 4, 6, 8, 2, 0, 7, 5, 10, 9, 3 ];
+        const o = [ 12, 13, 14, 15, 1, 11, 4, 6, 8, 2, 0, 7, 5, 10, 9, 3 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         // set the specific order in which contacts are treated
-        var o2 = [ 14, 15, 12, 13, 6, 7, 0, 5, 3, 9, 4, 1, 8, 10, 11, 2, 0 ];
+        const o2 = [ 14, 15, 12, 13, 6, 7, 0, 5, 3, 9, 4, 1, 8, 10, 11, 2, 0 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o2);
         break;
       case 3:
@@ -1035,16 +1028,16 @@ static testMatrix17_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 50 );
     } else {
@@ -1068,11 +1061,10 @@ that random contact order does not find a lower force.
 */
 static testMatrix18_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix18_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix18_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     3.586206896551724E0, -1.586206896551725E0, 0, 0, 0, 0, 0, 0, 0, 0, 1.586206896551725E0, -3.586206896551724E0, 0, 0, 0, 1E0,
     -1.586206896551725E0, 3.586206896551726E0, 0, 0, 0, 0, 0, 0, 0, 0, -3.586206896551726E0, 1.586206896551725E0, 0, 0, 0, 1E0,
     0, 0, 1.1550310893277975E0, 6.413791004629619E-1, 1.6332001835118781E0, 3.667998164881218E-1, -3.667998164881218E-1, -1.6332001835118781E0, -6.413791004629619E-1, -1.1550310893277973E0, 0, 0, -6.123233995736766E-17, -1E0, 0, 0,
@@ -1090,29 +1082,29 @@ static testMatrix18_CF() {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4.325570099261159E-2, 1.9972795945573838E0, 3.018968759471169E0, -3.016120225119102E-1,
     1E0, 1E0, 0, 0, 0, 0, 0, 0, 0, 0, -1E0, -1E0, 1.3122144080438458E0, 4.325570097754454E-2, -3.016120225119102E-1, 7.795770238005858E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -4.109840485099998E-10, -4.1098397946800547E-10,
     -7.918240297620283E-11, -7.918097625963677E-11, -7.91788615053803E-11, -7.9175343959606E-11,
     7.9175343959606E-11, 7.91788615053803E-11, 7.918097625963677E-11, 7.918240297620283E-11,
     4.1098397946800547E-10, 4.109840485099998E-10, -2.404079701283457E0, 2.7018865568001954E-2,
     8.368861113133583E-1, 3.556984289290667E0
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 15, 14, 13, 12, 8, 0, 4, 5, 7, 10, 9, 11, 2, 3, 1, 6 ];
+        const o = [ 15, 14, 13, 12, 8, 0, 4, 5, 7, 10, 9, 11, 2, 3, 1, 6 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
@@ -1122,16 +1114,16 @@ static testMatrix18_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 1.135 );
     } else {
@@ -1159,11 +1151,10 @@ of 135701.
 */
 static testMatrix19_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix19_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix19_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     3.58620689655037E0, -1.5862068965517238E0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5862068965503702E0, -3.586206896551724E0, 0, 0, -1E0, 0,
     -1.5862068965517238E0, 3.586206896553078E0, 0, 0, 0, 0, 0, 0, 0, 0, -3.586206896551724E0, 1.5862068965530782E0, 0, 0, -1E0, 0,
     0, 0, 3.5862068965500393E0, 3.521473773241473E0, -1.4235427387576882E0, 1.5862068965500393E0, -1.5862068965517242E0, 1.4235427387593973E0, -3.5214737732397636E0, -3.586206896551724E0, 0, 0, 0, 0, 0, -1E0,
@@ -1181,29 +1172,29 @@ static testMatrix19_CF() {
     -1E0, -1E0, 0, 0, 0, 0, 0, 0, 0, 0, 1E0, 1E0, 1.3436181964875642E0, 2.1463436270464566E-2, 3.0941350241541787E0, -1.496595886024558E-1,
     0, 0, -1E0, -1E0, 1E0, 1E0, -1E0, -1E0, 1E0, 1E0, 0, 0, 1.0435417801446258E0, 1.9658765791893604E0, -1.496595886024558E-1, 3.2379347396137255E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -9.802835414341164E-10, -9.802833573221373E-10,
     -2.0749740176094107E-10, -6.827922471993871E-11, -1.588176623987044E-11,
     -1.1046713335701318E-16, 1.1046720536256166E-16, 1.5881766239797517E-11,
     6.827922471986578E-11, 2.0749740176101307E-10, 9.802833573221373E-10, 9.802835414341164E-10,
     -3.8765249595272606E0, -1.0001151174251222E-1, 2.8926563999698773E0, 3.0548386435724364E0
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 12, 13, 14, 15, 4, 5, 10, 11, 2, 3, 7, 0, 1, 6, 8, 9 ];
+        const o = [ 12, 13, 14, 15, 4, 5, 10, 11, 2, 3, 7, 0, 1, 6, 8, 9 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
@@ -1211,23 +1202,23 @@ static testMatrix19_CF() {
         break;
       case 3:
         // this gives a huge maxForce of 135701
-        var o2 = [ 12, 14, 15, 13, 0, 7, 3, 6, 8, 11, 9, 1, 2, 10, 5, 4, 6 ];
+        const o2 = [ 12, 14, 15, 13, 0, 7, 3, 6, 8, 11, 9, 1, 2, 10, 5, 4, 6 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o2);
         break;
       default:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 6.3 );
     } else {
@@ -1252,11 +1243,10 @@ that random contact order does not find a lower force.
 */
 static testMatrix20_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix20_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix20_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     3.586206896550237E0, 1.586206896550237E0, 1.2942338775898112E0, 0, 0, 8.036971568938533E-1, -8.036971568923449E-1, 0, 0, -1.2942338775883022E0, -1.5862068965517242E0, -3.586206896551724E0, 0, 1E0, 0, 0,
     1.586206896550237E0, 3.586206896550237E0, 3.2942338775898112E0, 0, 0, -1.1963028431061467E0, 1.1963028431076552E0, 0, 0, -3.294233877588302E0, -3.586206896551724E0, -1.5862068965517242E0, 0, -1E0, 0, 0,
     1.2942338775898112E0, 3.2942338775898112E0, 3.0352235128990728E0, 0, 0, -1.1741409913963436E0, 1.1741409913976817E0, 0, 0, -3.035223512897734E0, -3.2942338775911306E0, -1.2942338775911306E0, 0, -1E0, 0, 7.191028954271661E-13,
@@ -1274,29 +1264,29 @@ static testMatrix20_CF() {
     0, 0, 0, 1E0, 1E0, 0, 0, -1E0, -1E0, 0, 0, 0, 1.8285938513485908E-2, -1.2750362986632482E-1, 3.0955381464574026E0, 1.3338345485270449E0,
     0, 0, 7.191028954271661E-13, 0, 0, -7.191028954271661E-13, 7.191028954271661E-13, 0, 0, -7.191028954271661E-13, 0, 0, -1.2750363009056684E-1, 8.890533918010681E-1, 1.3338345485270449E0, 7.6450179869674635E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -1.5740438009726838E-9, -1.287890877406221E-9,
     -9.195010270075594E-10, -5.852012398803241E-10, -5.852012330480435E-10,
     -2.4129967854526093E-10, 2.41299678543599E-10, 5.852012330480435E-10, 5.852012398803241E-10,
     9.195010270058973E-10, 1.2878908774078831E-9, 1.5740438009743458E-9, -4.366768028062232E0,
     -2.078376190930253E0, -2.6440020599753483E-1, 1.762811379370378E0
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 12, 13, 14, 15, 0, 10, 7, 8, 9, 5, 3, 4, 1, 11, 2, 6 ];
+        const o = [ 12, 13, 14, 15, 0, 10, 7, 8, 9, 5, 3, 4, 1, 11, 2, 6 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
@@ -1306,16 +1296,16 @@ static testMatrix20_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 1.93 );
     } else {
@@ -1340,11 +1330,10 @@ that random contact order does not find a lower force.
 */
 static testMatrix21_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix21_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix21_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     2.078562005204573E0, 7.237403386582231E-1, -2.670145052455683E0, 6.701450524416293E-1, 0, 0, 0, 0, 2.6701450524416295E0, -6.701450524556825E-1, -2.078562005190323E0, -7.237403386439727E-1, -1E0, 0, 1.0518375399978647E-11, 0,
     7.237403386582232E-1, 1.0707603272842876E0, -5.722140179640969E-1, -1.4277859820323031E0, 0, 0, 0, 0, 5.722140179676967E-1, 1.427785982035903E0, -7.237403386618733E-1, -1.0707603272879378E0, -1E0, 0, 1.0518375399978647E-11, 0,
     -2.670145052455683E0, -5.722140179640969E-1, 3.5862068965734872E0, -1.5862068965517242E0, 0, 0, 0, 0, -3.586206896551725E0, 1.5862068965734863E0, 2.6701450524336163E0, 5.722140179420303E-1, 1E0, 0, 0, 0,
@@ -1362,34 +1351,34 @@ static testMatrix21_CF() {
     1.0518375399978647E-11, 1.0518375399978647E-11, 0, 0, 0, 0, 0, 0, 0, 0, -1.0518375399978647E-11, -1.0518375399978647E-11, -4.4952795205048696E-1, 1.3155661964054726E0, 7.772398986765666E0, 6.446906972182279E-2,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.993927446350773E0, -9.245834375179108E-3, 6.446906972182279E-2, 3.000870895531225E0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -2.0087562035464356E-9, -2.0087562035464356E-9,
     -8.230447094902625E-24, -8.230447094902625E-24, -5.1440294343204224E-24,
     -5.144029434320422E-24, 5.1440294343078586E-24, 5.144029434307859E-24, 8.230447094902625E-24,
     8.230447094902625E-24, 2.0087562035464356E-9, 2.0087562035464356E-9, -2.5651362656358345E0,
     -5.59276608081908E-1, 6.85598912214008E-1, 4.83970180002438E0
     ];
-  var n = A.length;
-  var joint = [ false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ false, false, false, false, false, false, false,
     false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=30; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
         break;
       case 1:
         // set the specific order in which contacts are treated
-        var o = [ 12, 13, 14, 15, 8, 9, 4, 1, 7, 6, 2, 5, 3, 0, 11, 10, 1, 1, 5, 0, 0, 0, 3, 2, 10, 2 ];
+        const o = [ 12, 13, 14, 15, 8, 9, 4, 1, 7, 6, 2, 5, 3, 0, 11, 10, 1, 1, 5, 0, 0, 0, 3, 2, 10, 2 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
         break;
       case 2:
         // set the specific order in which contacts are treated
-        var o2 = [ 12, 14, 13, 15, 5, 7, 11, 0, 10, 2, 1, 3, -3, 4, 6, 8, 9, 5, 3, -3, 10, -10, 11, -11, 3, -3, 10, -10, 11, -11 ];
+        const o2 = [ 12, 14, 13, 15, 5, 7, 11, 0, 10, 2, 1, 3, -3, 4, 6, 8, 9, 5, 3, -3, 10, -10, 11, -11, 3, -3, 10, -10, 11, -11 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
             o2.filter(x => x > -1));
         break;
@@ -1400,16 +1389,16 @@ static testMatrix21_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 8.5 );
     } else {
@@ -1433,12 +1422,11 @@ maxForce=9.46, length = 24.00.
 */
 static testMatrix22_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix22_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix22_CF ***');
-  var i, j;
-  var n = 44;
-  var a = [
+  const n = 44;
+  const a = [
     1.423698997455812E1, 1.4430146816633396E1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5.888364479898706E0, 0, 0, 0, 0, 0, 5.851221032058561E0, 0, -1.446735175025391E1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     1.4430146816633394E1, 3.099059926775411E1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4.298377612022811E0, 0, 0, 0, 0, 0, 4.250625072468184E0, 0, -3.1038458595165892E1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 1.1728970420438674E1, 0, 0, 0, 0, 0, -3.6289045193184446E0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4.4406504857644E0, 0, 8.856804711317096E0, 0, 0, 0, 0, 1.511587861551819E0, 0, 0, 0, 0, 0, -8.76274381473226E0, 0, 0, 0, 0, 0, 0,
@@ -1484,8 +1472,8 @@ static testMatrix22_CF() {
     0, 0, 0, 0, 0, -1.5663070641668646E0, 0, 1.3986755339267716E0, 0, 0, 0, 0, 0, 0, 2.1179980670015657E0, 0, 0, 0, 0, 0, 0, 0, 0, -1.3256895500651645E1, 0, -5.030767718588454E0, 0, 0, 0, 0, 0, 0, 0, 0, -1.3192218535124667E0, 0, 1.4114063891375705E0, 0, 0, 2.322961825716781E0, 8.529167134070601E0, 1.0207409719119422E1, 2.1400574758500536E1, 0,
     0, 0, 0, -2.098436240426845E0, -7.951711015183778E-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.1345518355915978E1, 0, 0, 0, 0, 0, 0, 1.0092381385862708E1, -3.103299118660482E-1, -2.4946379460180108E1, 0, 7.995714421043685E-1, 3.0811778150048874E-1, 0, 6.206016607484574E0, 9.951585451229072E-1, 0, -8.017860953811171E-1, 0, 0, 0, 0, 3.406347913230373E1
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [
     -7.071067811865543E0, -7.07106781186552E0, -7.071067811865481E0,
     -7.07106781186548E0, -7.071067811865479E0, -7.071067811865479E0,
     -7.071067811865479E0, -7.071067811865477E0, -7.071067811865475E0,
@@ -1502,15 +1490,15 @@ static testMatrix22_CF() {
     1.9539925233402755E-14, 2.1316282072803006E-14, 3.019806626980426E-14,
     4.707345624410664E-14
     ];
-  var joint = new Array(n);
-  for (i=0; i<n; i++) {
+  const joint = new Array(n);
+  for (let i=0; i<n; i++) {
     joint[i] = false;
   }
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=30; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         // This gives maxForce=10.8364728 length=25.4836362
@@ -1519,7 +1507,7 @@ static testMatrix22_CF() {
       case 1:
         // set the specific order in which contacts are treated
         // this gives maxForce=10.0192409 length=24.5573210
-        var o = [ 20, 15, 29, 5, 13, 28, 33, 25, 16, 38, 27, 31, 12, 40, 9, 14, 24, 41,
+        const o = [ 20, 15, 29, 5, 13, 28, 33, 25, 16, 38, 27, 31, 12, 40, 9, 14, 24, 41,
           21, 10, 35, 37, 19, 32, 0, 2, 6, 39, 7, 1, 4, 43, 17, 22, 36, 26, 8, 34, 30,
           11, 42, 18, 23, 3 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED, o);
@@ -1528,7 +1516,7 @@ static testMatrix22_CF() {
         // set the specific order in which contacts are treated
         // Negative numbers are rejects, so ignore those.
         // This gives maxForce=9.4596439 length=24.0006861
-        var o2 = [ 28, 20, 33, 3, 25, 4, 36, 16, 43, 7, 39, 29, 42, 27, 17, 14, 24,
+        const o2 = [ 28, 20, 33, 3, 25, 4, 36, 16, 43, 7, 39, 29, 42, 27, 17, 14, 24,
           21, 37, 13, 12, 6, 8, 0, 30, 26, 1, 2, 40, 18, 41, -41, 35, -35, 10, -10, 5,
           -5, 19, -19, 9, -9, 38, -38, 22, 11, -11, 32, 23, -23, 31, -31, 15, -15, 34,
           -34, 41, 35, 10, 5, 19, 9, 38, 23, 31, 15, 34, -30, 34 ];
@@ -1540,7 +1528,7 @@ static testMatrix22_CF() {
         // this gives maxForce=10.8382509 length=25.5588426
         // correction:  now gives maxForce=10.0192409 length=24.3128044
         // this is just a random order that I'm investigating to watch how it works
-        var o3 = [ 36, 10, 37, 0, 6, 1, 35, 26, 40, 38, 31, 3, 8, 23, 28, 34, 13, 14,
+        const o3 = [ 36, 10, 37, 0, 6, 1, 35, 26, 40, 38, 31, 3, 8, 23, 28, 34, 13, 14,
         21, 27, 39, 11, 15, 18, 30, 17, 42, 19, 33, 5, 43, 9, 7, 20, 29, 4, 24, 41, -41,
         25, -25, 12, -12, 32, -32, 22, -22, 16, 2, -2, 41, 25, -40, 25, -42, 25, -39,
         25, 12, -18, 12, 32, -24, 32, -37, 32, 22, 40, -19, 40, -5, 40, 39, 24, 19 ];
@@ -1549,7 +1537,7 @@ static testMatrix22_CF() {
         break;
       case 4:
         // set the specific order in which contacts are treated
-        var o4 = [ 42, 16, 36, 22, 4, 8, 41, 12, 1, 10, 25, 31, 2, 28, 5, 29, 40, 37, 6,
+        const o4 = [ 42, 16, 36, 22, 4, 8, 41, 12, 1, 10, 25, 31, 2, 28, 5, 29, 40, 37, 6,
         24, 18, 43, 0, 34, 11, 7, 14, 15, 27, 33, 9, 35, 38, 39, 17, 30, 3, 32, 13, 20,
         21, 3, 20, 19, 23, 26, 20, 3, 20, 3, 20, 20, 3 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
@@ -1557,7 +1545,7 @@ static testMatrix22_CF() {
         break;
       case 5:
         // set the specific order in which contacts are treated
-        var o5 = [ 16, 18, 0, 28, 42, 1, 29, 36, 26, 12, 19, 32, 27, 40, 8, 13, 31, 14,
+        const o5 = [ 16, 18, 0, 28, 42, 1, 29, 36, 26, 12, 19, 32, 27, 40, 8, 13, 31, 14,
         37, 39, 9, 35, 24, 6, 43, 25, 23, 30, 22, 21, 15, 5, 38, 33, 20, 4, 7, 3, -3,
         11, 2, -2, 17, 10, 41, 34, 3 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
@@ -1570,16 +1558,16 @@ static testMatrix22_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     switch (i) {
       case 0: assertTrue( maxForce < 10.9 ); break;
       case 1: assertTrue( maxForce < 10.1 ); break;
@@ -1605,12 +1593,11 @@ Max force is 16.588.
 */
 static testMatrix23_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix23_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix23_CF ***');
-  var i;
-  var n = 44;
-  var a = [
+  const n = 44;
+  const a = [
     2.7414885463757365E1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.010587753898783E0, -2.203087788332417E1, 7.220160495885183E0, 0, 0, 0, 0, 0, 2.4535739374819943E0, -9.445121406795906E0, 4.581118882279485E0, 0, 0, 0,
     0, 6.19797704862407E0, 0, 0, 0, 0, 0, 0, 5.637034175704319E-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.480402744533718E0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4.1208885045302557E-1, -2.337151327337315E0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4.2665193568298243E-1, -7.897227155254729E0, 0,
     0, 0, 3.001041717148918E0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9.7250001861966E-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.8386120331892102E0, 1.7728620247658535E0, 0, -1.7778577990214717E0, 0, -1.5227677604968237E0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.7653588355126755E0, 0,
@@ -1656,8 +1643,8 @@ static testMatrix23_CF() {
     0, -7.897227155254729E0, 1.765358835512675E0, 0, 0, 0, 0, 0, 2.7146969354878205E0, 0, 0, 0, 0, 0, 0, 0, -1.2091306937417767E0, 0, 0, -1.233268009268305E1, 0, 0, 0, 0, 0, 0, -4.493032796484321E0, 8.039210446997831E-1, 0, 4.28485810103691E-1, 1.3369438508784748E-1, 9.110139754932856E-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.2118467011799532E0, 2.1264644798270666E1, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9.260564621241118E0, 0, 0, -2.8840746987088304E0, -1.607682007567818E1, 1.8791292381258264E0, 0, 0, 0, 0, 0, 0, 0, 0, -1.433775934268895E0, -4.712072805462519E0, 0, 0, 0, 0, -3.5856442855198867E0, -4.609254673425198E0, 4.149092730943442E0, 0, 0, 2.0250873990976437E1
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [
     -1.8208771552344952E1, -7.335832168696026E0, -7.071103109325087E0,
     -7.07109623632823E0, -7.071074651967621E0, -7.0710678118654755E0,
     -7.071067811865464E0, -7.071061892144378E0, -7.070980560945015E0,
@@ -1674,15 +1661,15 @@ static testMatrix23_CF() {
     3.912928815505978E-2, 2.563724048388609E-1, 2.8121608178816615E-1,
     7.534374908426562E-1
     ];
-  var joint = new Array(n);
-  for (i=0; i<n; i++) {
+  const joint = new Array(n);
+  for (let i=0; i<n; i++) {
     joint[i] = false;
   }
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1694,16 +1681,16 @@ static testMatrix23_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     switch (i) {
       case 0: assertTrue( maxForce < 16.6 ); break;
       default: assertTrue( maxForce > 16.5 );
@@ -1726,12 +1713,11 @@ static testMatrix23_CF() {
 */
 static testMatrix24_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix24_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix24_CF ***');
-  var i;
-  var n = 23;
-  var a = [
+  const n = 23;
+  const a = [
     2.7892400774463088E1, 0, 0, 0, 0, 0, 0, -6.230431677828652E0, 0, 0, 0, 0, -2.7882893674773086E1, 0, -4.542833933237243E0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 2.2670970180659054E0, -7.567128279462625E-1, 0, 1.2323600883731283E0, -1.1783015390344096E0, 0, 0, 0, 0, 0, -1.6009197023013324E0, 0, 0, -2.26581916585393E0, 0, 2.58609391617948E-1, -8.115036477049442E-2, 0, 0, 0, 0, 0,
     0, -7.567128279462622E-1, 3.092753373281611E0, 0, -1.5688580795485185E0, 1.5000387525523968E0, 0, 0, 0, 0, 0, -9.13652228408558E-2, 0, 0, 7.550861555537789E-1, 0, -3.298741216209521E-1, -2.026110129569325E0, 0, 0, 0, 0, 0,
@@ -1756,8 +1742,8 @@ static testMatrix24_CF() {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3.5085667053189606E-3, 0, 0, 9.599905476993722E-1, -2.6016352640624296E-3, 2.9600070693819194E0, 1.9974148864184846E0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.3033627532796106E0, 0, 0, 3.456493228735369E-3, 9.513593597702511E-1, 1.9974148864184846E0, 2.9453177529600003E0
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [
     -7.074506590979136E0, -7.0710678118654755E0, -7.0710678118654755E0,
     -6.914236058013229E0, -6.765034480758734E0, -6.765034480758734E0,
     -6.083465377072029E0, -5.85964898993373E0, -4.6651058518460164E0,
@@ -1767,12 +1753,12 @@ static testMatrix24_CF() {
     3.2408071050424527E0, -9.225207869949514E-4, -9.225207854006712E-4,
     9.284166964205198E-4, 9.28416698019241E-4
     ];
-  var joint = [ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=20; i++) {
+  const joint = [ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true ];
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=20; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1784,16 +1770,16 @@ static testMatrix24_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     switch (i) {
       case 0: assertTrue( maxForce < 15.5 ); break;
       default: assertTrue( maxForce > 15.4 );
@@ -1826,12 +1812,11 @@ allowing diagonal entries as small as 0.0016.
 */
 static testMatrix25_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix25_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix25_CF ***');
-  var i, j;
-  var n = 14;
-  var a = [
+  const n = 14;
+  const a = [
     3.5745763362333545E0, 1.4813679726385824E0, 1.5803850636054817E0, 0, 0, 0, 0, -3.5803850636005627E0, -1.5803850636005625E0, -1.4813679726435707E0, -2.3831435123204035E-12, 0, 1E0, 0,
     1.4813679726385822E0, 1.0900012642162251E0, -5.175459708792775E-1, 0, 0, 0, 0, -1.482454029119803E0, 5.175459708801972E-1, -1.090001264217158E0, -2.3831435123204035E-12, 0, 1E0, 0,
     1.5803850636054815E0, -5.175459708792773E-1, 3.5862068965566545E0, 0, 0, 0, 0, -1.5862068965517242E0, -3.586206896551724E0, 5.175459708742778E-1, 0, 0, -1E0, 0,
@@ -1847,21 +1832,21 @@ static testMatrix25_CF() {
     1E0, 1E0, -1E0, 0, 0, 0, 0, -1E0, 1E0, -1E0, 2.2274747140121797E-2, 1.963091579725481E0, 3.005293222668998E0, -1.553166724675945E-1,
     0, 0, 0, 1E0, -1E0, 1E0, -1E0, 0, 0, 0, 1.3464020272330979E0, 1.0829873182265197E0, -1.553166724675945E-1, 7.557387862727747E0
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [
     -2.8354858962890304E-10, -2.835485896288947E-10, -1.44032824160894E-23,
     -1.8004103020096633E-24, -7.716044151468356E-25, 7.716044151474067E-25,
     1.8004103020102352E-24, 6.172835321167163E-24, 1.4403282416069786E-23,
     2.835485896288947E-10, -4.926858550202041E0, -9.103527204532552E-1,
     -7.663596612753361E-1, 7.222901656807832E0
     ];
-  var joint = [ false, false, false, false, false, false, false, false, false,
+  const joint = [ false, false, false, false, false, false, false, false, false,
     false, true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=30; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1870,7 +1855,7 @@ static testMatrix25_CF() {
         // set the specific order in which contacts are treated
         // This gives min accel of -2.57E-7, max force of 960, when poorly
         // conditioned matrices are allowed.
-        var o = [ 11, 12, 10, 13, 6, 5, 0, 9, 4, 7, 1, 3, 2, -2, 8, 9, -9, 2, -2, 9, -9, 2, -2 ];
+        const o = [ 11, 12, 10, 13, 6, 5, 0, 9, 4, 7, 1, 3, 2, -2, 8, 9, -9, 2, -2, 9, -9, 2, -2 ];
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_PRE_ORDERED,
             o.filter(x => x > -1));
         break;
@@ -1881,16 +1866,16 @@ static testMatrix25_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-8;
+    const SMALL_ACCEL = 2E-8;
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
     assertTrue( maxAccel < SMALL_ACCEL );
-    var maxForce = UtilEngine.maxSize(f);
+    const maxForce = UtilEngine.maxSize(f);
     if (i==0) {
       assertTrue( maxForce < 2.65 );
     } else {
@@ -1913,27 +1898,26 @@ a singular matrix and not being able to get all contact accelerations to zero.
 */
 static testMatrix26_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix26_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix26_CF ***');
-  var i, j;
-  var n = 4;
-  var a = [
+  const n = 4;
+  const a = [
     4.917491749174901E0, -1.6909937783360363E-7, 3.333333502432712E0, 1.5841584158415662E0,
     -1.6909937738951442E-7, 4.933333333333353E0, 1.5999999999999823E0, 3.333333164233956E0,
     3.3333335024327124E0, 1.599999999999982E0, 4.933333333333352E0, 1.6909937772258132E-7,
     1.5841584158415665E0, 3.3333331642339554E0, 1.6909937761155902E-7, 4.917491749174898E0
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [
     -1.3501442501864875E0, 1.3015946886900078E0, -1.3501446747723067E0, 1.3015945549350354E0
     ];
-  var joint = [ true, true, true, true ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=30; i++) {
+  const joint = [ true, true, true, true ];
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -1945,14 +1929,14 @@ static testMatrix26_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 2E-6;
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
-    var maxForce = UtilEngine.maxSize(f);
+    const SMALL_ACCEL = 2E-6;
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxForce = UtilEngine.maxSize(f);
     assertTrue( ComputeForces.checkForceAccel(SMALL_ACCEL, f, accel, joint) );
     assertTrue( maxAccel < SMALL_ACCEL );
     assertTrue( maxForce < 0.41 );
@@ -1973,12 +1957,11 @@ see {@link myphysicslab.lab.engine2D.ComputeForces#checkLoop}.
 */
 static testMatrix27_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix27_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix27_CF ***');
-  var i, j;
-  var n = 16;
-  var a = [
+  const n = 16;
+  const a = [
     3.0990277097284387E0, 3.500191511238789E-4, 1.3095026290678669E0, -2.4406027796634766E-3, 0, 1.4037887002254656E-7, 0, 0, 0, -1.4037887002254656E-7, 0, 1.4037887002254656E-7, 0, 0, 0, -1.4037887002254656E-7,
     3.500191511238789E-4, 3.0000012371628757E0, -2.4406027796634775E-3, 1.9999913735487218E0, -1E0, -9.999999999999901E-1, 0, 0, 1E0, 9.999999999999901E-1, -1E0, -9.999999999999901E-1, 0, 0, 1E0, 9.999999999999901E-1,
     1.3095026290678669E0, -2.4406027796634775E-3, 7.814678846675021E0, 1.7017760053914734E-2, 0, 0, -1E0, -1E0, 0, 0, 0, 0, 1E0, 1E0, 0, 0,
@@ -1996,16 +1979,16 @@ static testMatrix27_CF() {
     0, 1E0, 0, 0, 1.5862066061126399E0, 7.146745179378156E-2, 0, 0, -1.5862068965516647E0, -7.146715728860997E-2, -3.5862068965516647E0, -2.026463464886861E0, 0, 0, 3.58620660611264E0, 2.0264637593920325E0,
     -1.4037887002254656E-7, 9.999999999999901E-1, 0, 0, 2.646375939205216E-2, -5.747352489027919E-1, 0, 0, -2.646387466711664E-2, 5.747353657917075E-1, -2.026463874667097E0, -1.407402697277183E0, 0, 0, 2.0264637593920325E0, 1.4074028141660986E0
     ];
-  var A = UtilEngine.newMatrixFromArray(n, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(n, a);
+  const b = [
     1.3416364873286568E-5, 1.5043632174490534E-3, -9.354921660786886E-5, -1.0489577608414624E-2, 1.6100155690118795E-13, -5.256531264513286E-6, 1.6132928326584313E-17, 1.6416266494327183E-16, -2.1848152271592347E-14, 5.256531123411734E-6, 2.4781759127279856E-6, -4.251383179613047E-6, -1.6132928326584313E-17, -1.6416266494327183E-16, -2.478175773574581E-6, 4.2513830385114946E-6
     ];
-  var joint = [ true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false ];
-  var cf = new ComputeForces('T', new RandomLCG(99999));
-  for (i=0; i<=30; i++) {
+  const joint = [ true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false ];
+  const cf = new ComputeForces('T', new RandomLCG(99999));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_MIN_ACCEL);
@@ -2017,14 +2000,14 @@ static testMatrix27_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 1E-5;
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
-    var maxForce = UtilEngine.maxSize(f);
+    const SMALL_ACCEL = 1E-5;
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
       console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
         +' length='+Util.NF7(UtilEngine.vectorLength(f))
@@ -2043,17 +2026,15 @@ static testMatrix27_CF() {
 static testLinesIntersect() {
   startTest(UtilEngineTest.groupName+'testLinesIntersect');
   // p1 to p2 is horizontal edge
-  var p1 = new Vector(3.5355339059327378, 0.5);
-  var p2 = new Vector(-3.5355339059327378, 0.5);
+  const p1 = new Vector(3.5355339059327378, 0.5);
+  const p2 = new Vector(-3.5355339059327378, 0.5);
   // p3 to p4 is diagonal
-  var p3 = new Vector(-3.497695148119348, 0.47209383993684373);
-  var p4 = new Vector(-3.665778648699753, 0.5768083643426545);
-  var intsct = UtilEngine.linesIntersect(p1, p2, p3, p4);
-  assertTrue( intsct === null );
-  // p1 to p2 is vertical edge
-  p1 = new Vector(-3.5355339059327378, -0.5);
-  intsct = UtilEngine.linesIntersect(p1, p2, p3, p4);
-  assertTrue( intsct != null );
+  const p3 = new Vector(-3.497695148119348, 0.47209383993684373);
+  const p4 = new Vector(-3.665778648699753, 0.5768083643426545);
+  assertTrue(UtilEngine.linesIntersect(p1, p2, p3, p4) === null );
+  // p5 to p2 is vertical edge
+  const p5 = new Vector(-3.5355339059327378, -0.5);
+  assertTrue(UtilEngine.linesIntersect(p5, p2, p3, p4) != null );
 };
 
 /** From DoNothingGrinder, this results in large forces of 39 and 45 which is a bad
@@ -2068,11 +2049,10 @@ rely on that.
 */
 static testMatrix28_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix28_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix28_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     3.09902894689131436e+0, 0, 1.30949400261658866e+0, 0, 0, 0, 0, 0, 1.28458531376337726e-1, 1.28458602716797654e-1, -1.28458531376337726e-1, -1.28458602716797654e-1, 1.28458531376337726e-1, 1.28458602716797654e-1, -1.28458531376337726e-1, -1.28458602716797654e-1,
     0, 3.00000000000000044e+0, -2.77555756156289135e-17, 2.00000000000000044e+0, 0, 0, 0, 0, -9.91714881262066417e-1, -9.91714872021211558e-1, 9.91714881262066417e-1, 9.91714872021211558e-1, -9.91714881262066417e-1, -9.91714872021211558e-1, 9.91714881262066417e-1, 9.91714872021211558e-1,
     1.30949400261658866e+0, -5.55111512312578270e-17, 7.81473899692937479e+0, 0, -9.91714872021211558e-1, -9.91714872021211558e-1, 9.91714872021211558e-1, 9.91714872021211558e-1, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2090,21 +2070,21 @@ static testMatrix28_CF() {
     -1.28458531376337726e-1, 9.91714881262066417e-1, 0, 0, 0, 0, 0, 0, -8.54502457861398890e-1, -8.01940981653729845e-1, 8.54502446303693319e-1, 8.01940993051861617e-1, -1.01516792892080887e+0, -1.19805900694813316e+0, 1.01516791736310341e+0, 1.19805901834626494e+0,
     -1.28458602716797654e-1, 9.91714872021211558e-1, 0, 0, 0, 0, 0, 0, 8.99871925585836840e-1, 1.58620704538577373e+0, -8.99872076503578255e-1, -1.58620689655170910e+0, -1.19805916926400635e+0, -3.58620689655170866e+0, 1.19805901834626516e+0, 3.58620704538577328e+0
     ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -5.33319652234680230e+0, 3.53386329770627672e-1, 6.53679795221036741e+0, 1.10064447440803037e+0,
     3.44249215717682934e-10, 2.96965094790328458e-10, -3.44249215186528291e-10, -2.96965094259173814e-10,
     -1.91013382106722499e-7, -9.52391463184272534e-9, 1.91013378261178810e-7, 9.52391853439279372e-9,
     -1.89429245334199004e-7, -5.61825197769212870e-9, 1.89429241488655288e-7, 5.61825588024219708e-9
     ];
-  var n = A.length;
-  var joint = [ true, true, true, true, false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ true, true, true, true, false, false, false, false, false, false, false,
     false, false, false, false, false ];
-  var cf = new ComputeForces('T', new RandomLCG(81976022));
-  for (i=0; i<=30; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(81976022));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         // use default next contact policy
@@ -2122,14 +2102,14 @@ static testMatrix28_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 5E-6;
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
-    var maxForce = UtilEngine.maxSize(f);
+    const SMALL_ACCEL = 5E-6;
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
       console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
         +' length='+Util.NF7(UtilEngine.vectorLength(f))
@@ -2165,11 +2145,10 @@ force of 65022, and results in an error:
 */
 static testMatrix29_CF() {
   startTest(UtilEngineTest.groupName+'testMatrix29_CF');
-  var VERBOSE = false;
+  const VERBOSE = false;
   if (VERBOSE)
     console.log('\n\n*** testMatrix29_CF ***');
-  var i, j;
-  var a = [
+  const a = [
     3.09902894689131436e+0, 0.00000000000000000e+0, 1.30949400261658866e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 1.82631811694281762e-2, 1.82631811848982702e-2, -1.82631811694281762e-2, -1.82631811848982702e-2, 1.82631811694281762e-2, 1.82631811848982702e-2, -1.82631811694281762e-2, -1.82631811848982702e-2,
     6.93889390390722838e-18, 3.00000000000000000e+0, 0.00000000000000000e+0, 2.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 9.99833214198034392e-1, 9.99833214197751841e-1, -9.99833214198034392e-1, -9.99833214197751841e-1, 9.99833214198034392e-1, 9.99833214197751841e-1, -9.99833214198034392e-1, -9.99833214197751841e-1,
     1.30949400261658844e+0, 0.00000000000000000e+0, 7.81473899692937213e+0, 1.38777878078144568e-17, 9.99833214197751841e-1, 9.99833214197751841e-1, -9.99833214197751841e-1, -9.99833214197751841e-1, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0,
@@ -2187,18 +2166,18 @@ static testMatrix29_CF() {
     -1.82631811694281762e-2, -9.99833214198034392e-1, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, -5.80198096812027275e-1, -7.20058809596574173e-2, 5.80198096823674847e-1, 7.20058809481706058e-2, -1.33298692618221248e+0, -1.92799411905182949e+0, 1.33298692619386006e+0, 1.92799411904034268e+0,
     -1.82631811848982702e-2, -9.99833214197751841e-1, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 0.00000000000000000e+0, 1.69936915461893490e-1, 1.58620689651971247e+0, -1.69936915429433011e-1, -1.58620689655172420e+0, -1.92799411900788176e+0, -3.58620689655172420e+0, 1.92799411904034246e+0, 3.58620689651971247e+0,
   ];
-  var A = UtilEngine.newMatrixFromArray(16, a);
-  var b = [
+  const A = UtilEngine.newMatrixFromArray(16, a);
+  const b = [
     -4.59283366470280046e-9, -4.64265533701581200e-7, 3.20247829750491730e-8, 3.23721644338841176e-6, -3.32487342739907993e-18, 5.92685276224588301e-18, 3.32487342739907839e-18, -5.92685276224588301e-18, -1.73562875970576125e-10, 4.44091327432430900e-17, 1.73562875970576125e-10, -4.44091327432430777e-17, -1.73562875969717227e-10, 4.44112503256112257e-17, 1.73562875969717227e-10, -4.44112503256112134e-17
   ];
-  var n = A.length;
-  var joint = [ true, true, true, true, false, false, false, false, false, false, false,
+  const n = A.length;
+  const joint = [ true, true, true, true, false, false, false, false, false, false, false,
     false, false, false, false, false ];
-  var cf = new ComputeForces('T', new RandomLCG(81976022));
-  for (i=0; i<=30; i++) {
+  const cf = new ComputeForces('T', new RandomLCG(81976022));
+  for (let i=0; i<=30; i++) {
     if (VERBOSE)
       console.log('\n\n====================================================');
-    var f = new Array(n);
+    const f = new Array(n);
     switch (i) {
       case 0:
         // use default next contact policy
@@ -2216,14 +2195,14 @@ static testMatrix29_CF() {
         cf.setNextContactPolicy(ComputeForces.NEXT_CONTACT_RANDOM);
         break;
     }
-    var error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
+    const error2 = cf.compute_forces(A, f, b, joint, false, i*0.1);
     assertEquals(-1, error2);
     assertTrue( b.length == n && f.length == n );
-    var accel = UtilEngine.matrixMultiply(A, f);
+    let accel = UtilEngine.matrixMultiply(A, f);
     accel = UtilEngine.vectorAdd(accel, b);
-    var SMALL_ACCEL = 5E-6;
-    var maxAccel = ComputeForces.maxAccel(accel, joint, n);
-    var maxForce = UtilEngine.maxSize(f);
+    const SMALL_ACCEL = 5E-6;
+    const maxAccel = ComputeForces.maxAccel(accel, joint, n);
+    const maxForce = UtilEngine.maxSize(f);
     if (VERBOSE) {
       console.log(Util.NF7(i*0.1)+' maxForce='+Util.NF7(maxForce)
         +' length='+Util.NF7(UtilEngine.vectorLength(f))

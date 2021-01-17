@@ -51,19 +51,19 @@ static testTerminal1() {
     // Terminal doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  const output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  const input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
   input_elem.type = 'text';
   window.terminal = new Terminal(input_elem, output_elem);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   assertEquals('> 2+2\n4\n', output_elem.value);
   assertEquals('mpl$lab$util$DoubleRect',
       t.expand('DoubleRect'));
   // test that expand() ignores quoted strings containing escaped quotes
-  var txt = 'replace this DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
-  var exp = 'replace this mpl$lab$util$DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
+  let txt = 'replace this DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
+  let exp = 'replace this mpl$lab$util$DoubleRect "but not this DoubleRect " and  "also not this \\\"DoubleRect\\\""';
   assertEquals(exp, t.expand(txt));
   txt = " this Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
   exp = " this mpl$lab$util$Vector is OK 'but not this Vector' and also 'don\\\'t process \"this Vector\"' and dont get confused by \"that 'Vector over there'\" or \"this 3\\\" Vector here\"";
@@ -109,20 +109,20 @@ static testTerminal2() {
     // Terminal doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  const output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  const input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
   input_elem.type = 'text';
   window.terminal = new Terminal(input_elem, output_elem);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   // having a EasyScriptParser changes how Terminal.eval() works.
-  var easyScript = new EasyScriptParser([]);
+  const easyScript = new EasyScriptParser([]);
   easyScript.saveStart();
   t.setParser(easyScript);
 
   assertEquals(4, t.eval('2+2', /*output=*/true));
   assertEquals(4, t.eval('result', /*output=*/true));
-  var out = output_elem.value;
+  let out = output_elem.value;
   // when output==false, then `result` is only defined for commands in the same string
   assertUndefined(t.eval('result', /*output=*/false));
   assertEquals(6, t.eval('3+3;result', /*output=*/false));
@@ -168,8 +168,8 @@ static testTerminal2() {
       /**@type {Object}*/(t.eval('[-2, 1.7]', /*output=*/false)));
   assertNotThrows(() => Terminal.vetBrackets('[-2, 1.7]'));
   // test afterEval function; should only fire when output==true
-  var r = 0;
-  var afterFn = () => r++;
+  let r = 0;
+  const afterFn = () => r++;
   t.setAfterEval(afterFn);
   assertEquals(5, t.eval('2+3', /*output=*/true));
   assertEquals(1, r);
@@ -192,11 +192,11 @@ static testTerminal3() {
     // Terminal doesn't work under advanced-compile.
     return;
   }
-  var output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
-  var input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
+  const output_elem = /**@type {!HTMLInputElement}*/(document.createElement('textarea'));
+  const input_elem = /**@type {!HTMLInputElement}*/(document.createElement('input'));
   input_elem.type = 'text';
   window.terminal = new Terminal(input_elem, output_elem);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   // test the Terminal.replaceVar() method.
@@ -262,7 +262,7 @@ static testTerminal3() {
 
   // Should get "SyntaxError: Unexpected number '456'. Parse error."
   // But the error message could vary in different browsers.
-  var err = String(assertThrows(() => t.eval('123/*foo*/456')));
+  const err = String(assertThrows(() => t.eval('123/*foo*/456')));
   assertNotNull(err.match(/.*SyntaxError.*/i));
   t.setVerbose(false);
 
@@ -282,7 +282,7 @@ static testTerminal4() {
     return;
   }
   window.terminal = new Terminal(null, null);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   // test blacklist. These are variant spellings of "window".
@@ -339,7 +339,7 @@ static testTerminal6() {
     return;
   }
   window.terminal = new Terminal(null, null);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   // test recursion of Terminal.eval. The `result` variable should be preserved.
   assertEquals(4, t.eval('2+2'));
@@ -359,7 +359,7 @@ static testTerminal7() {
     return;
   }
   window.terminal = new Terminal(null, null);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   // Property access with square brackets is prohibited,
   // except for accessing array elements with explicit numbers.
@@ -396,14 +396,14 @@ static testTerminal8() {
     return;
   }
   window.terminal = new Terminal(null, null);
-  var t = window.terminal;
+  const t = window.terminal;
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   assertEquals('mpl$lab$util$DoubleRect',
       t.expand('DoubleRect'));
   // regex containing a semicolon.
-  var txt = 'SIM_VARS.foo=1.00;';
-  var r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/SIM_VARS.*;/)'));
+  let txt = 'SIM_VARS.foo=1.00;';
+  let r = /** @type {!Array}*/(t.eval('"'+txt+'".match(/SIM_VARS.*;/)'));
   assertEquals(txt, r[0]);
   // regex containing a quote
   txt = 'foo\'bar';
@@ -416,7 +416,7 @@ static testTerminal8() {
   assertRoughlyEquals(3/8, t.eval('(1\t/8);(3 /8)'), 1E-10);
   // incomplete string gives "SyntaxError: Unexpected EOF" in Safari.
   // In Firefox and Chrome get "SyntaxError: unterminated string literal"
-  var err = String(assertThrows(() => t.eval('foo"bar')));
+  let err = String(assertThrows(() => t.eval('foo"bar')));
   assertNotNull(err.match(/^SyntaxError.*/i));
   err = String(assertThrows(() => t.eval('\'incomplete string')));
   assertNotNull(err.match(/^SyntaxError.*/i));

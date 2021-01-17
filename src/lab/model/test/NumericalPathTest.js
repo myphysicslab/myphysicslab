@@ -65,21 +65,21 @@ d normal/dp = (sin(t), -cos(t)) dt/dp = (sin(t), -cos(t))/r
 */
 static testNumericalPath1() {
   startTest(NumericalPathTest.groupName+'testNumericalPath1');
-  var tol = 1E-6;
-  var tol2 = 1E-4;
-  var r = 3;
-  var path = new NumericalPath(new CirclePath(r));
+  const tol = 1E-6;
+  const tol2 = 1E-4;
+  const r = 3;
+  const path = new NumericalPath(new CirclePath(r));
   assertFalse(path.isMassObject());
-  var startP = path.getStartPValue();
+  const startP = path.getStartPValue();
   assertEquals(0, startP);
-  var finishP = path.getFinishPValue();
+  const finishP = path.getFinishPValue();
   assertRoughlyEquals(6*Math.PI, finishP, 1E-6);
-  var n = 1000;
-  var pp = new PathPoint(0, /*calculateRadius=*/true);
-  var delta = (finishP - startP)/n;
-  for (var i=0; i<=n; i++) {
+  const n = 1000;
+  const pp = new PathPoint(0, /*calculateRadius=*/true);
+  const delta = (finishP - startP)/n;
+  for (let i=0; i<=n; i++) {
     pp.p = startP + delta*i;
-    var theta = pp.p/r - 3*Math.PI/2;
+    const theta = pp.p/r - 3*Math.PI/2;
     path.map_p_to_slope(pp);
     assertRoughlyEquals(r*Math.cos(theta), pp.x, tol);
     assertRoughlyEquals(r*Math.sin(theta), pp.y, tol);
@@ -95,7 +95,7 @@ static testNumericalPath1() {
       // radius is infinite there which is wrong.
       assertRoughlyEquals(r, pp.radius, tol);
     }
-    var k = -1/Math.tan(theta);
+    const k = -1/Math.tan(theta);
     // nearly vertical (huge) slope is too inaccurate to test
     if (Math.abs(k) < 1E6) {
       // use a relative error test here.
@@ -103,34 +103,34 @@ static testNumericalPath1() {
     }
   };
   // Ask for a point that is before first entry in path table
-  var index = path.map_p_to_index(-1);
+  const index = path.map_p_to_index(-1);
   assertEquals(0, index);
 
   // Find the 'east-most' point on the circle.
   // The p-value starts at zero on top of circle; goes counterclockwise.
   // The p-value should be (3/4)*(2*pi*r) = (3/2)*pi*r
   pp.idx = 0;
-  var clickPoint = new Vector(3.1, 0);
+  const clickPoint = new Vector(3.1, 0);
   path.findNearestLocal(clickPoint, pp);
-  tol = 1e-6;
-  assertRoughlyEquals((3/2)*Math.PI*r, pp.p, tol);
+  const tol3 = 1e-6;
+  assertRoughlyEquals((3/2)*Math.PI*r, pp.p, tol3);
   path.map_p_to_slope(pp);
-  assertRoughlyEquals(r, pp.x, tol);
-  assertRoughlyEquals(0, pp.y, tol);
+  assertRoughlyEquals(r, pp.x, tol3);
+  assertRoughlyEquals(0, pp.y, tol3);
   // Similar results with the global version, but much less accurate, bigger tolerance.
-  pp = path.findNearestGlobal(clickPoint);
-  tol = 0.01;
-  assertRoughlyEquals((3/2)*Math.PI*r, pp.p, tol);
-  path.map_p_to_slope(pp);
-  assertRoughlyEquals(r, pp.x, tol);
-  assertRoughlyEquals(0, pp.y, tol);
+  const pp2 = path.findNearestGlobal(clickPoint);
+  const tol4 = 0.01;
+  assertRoughlyEquals((3/2)*Math.PI*r, pp2.p, tol4);
+  path.map_p_to_slope(pp2);
+  assertRoughlyEquals(r, pp2.x, tol4);
+  assertRoughlyEquals(0, pp2.y, tol4);
 
   // Because x values are not monotonically increasing or decreasing,
   // these methods should throw exceptions.
   assertThrows(() => path.map_x_to_p(1));
   assertThrows(() => path.map_x_to_y(0));
-  pp.x = 1;
-  assertThrows(() => path.map_x_to_y_p(pp));
+  pp2.x = 1;
+  assertThrows(() => path.map_x_to_y_p(pp2));
 };
 
 /** Test a parabola shaped path. Tests the straight line extension beyond the parabola
@@ -203,36 +203,36 @@ getting the normal that is "outward" facing here.
 */
 static testNumericalPath2() {
   startTest(NumericalPathTest.groupName+'testNumericalPath2');
-  var tol = 1E-6;
-  var tol2 = 1E-4;
+  const tol = 1E-6;
+  const tol2 = 1E-4;
   /** @type {function(number):number} */
-  var invsinh = x => Math.log(x + Math.sqrt(x*x + 1));
-  var parabola = new CustomPath(/*start_t=*/-1, /*finish_t=*/1);
+  const invsinh = x => Math.log(x + Math.sqrt(x*x + 1));
+  const parabola = new CustomPath(/*start_t=*/-1, /*finish_t=*/1);
   parabola.setXEquation('t');
   parabola.setYEquation('t*t');
-  var path = new NumericalPath(parabola);
+  const path = new NumericalPath(parabola);
   assertFalse(path.isMassObject());
-  var startP = path.getStartPValue();
+  const startP = path.getStartPValue();
   assertEquals(0, startP);
   // p(x) = (1/4) (2x sqrt(1 + 4 x^2) + invsinh(2x) + 2 sqrt(5) - invsinh(-2))
   // at the finish point, x = 1.
   // p(1) = (1/4) (2 sqrt(5) + invsinh(2) + 2 sqrt(5) - invsinh(-2))
   // p(1) = (1/4) (4 sqrt(5) + invsinh(2) - invsinh(-2))
   // p(1) = sqrt(5) + (1/4) (invsinh(2) - invsinh(-2))
-  var fp = Math.sqrt(5) + (invsinh(2) - invsinh(-2))/4;
-  var finishP = path.getFinishPValue();
+  const fp = Math.sqrt(5) + (invsinh(2) - invsinh(-2))/4;
+  const finishP = path.getFinishPValue();
   assertRoughlyEquals(fp, finishP, tol);
-  var n = 1000;
-  var pp = new PathPoint(0, /*calculateRadius=*/true);
-  var delta = (finishP - startP)/n;
-  for (var i=0; i<=n; i++) {
+  const n = 1000;
+  const pp = new PathPoint(0, /*calculateRadius=*/true);
+  const delta = (finishP - startP)/n;
+  for (let i=0; i<=n; i++) {
     pp.p = startP + delta*i;
     path.map_p_to_slope(pp);
     // take the x-value in pp, use our formula to find what p should be
-    var x2 = pp.x * pp.x;
+    const x2 = pp.x * pp.x;
     // p(x) = (1/4) (2x sqrt(1 + 4 x^2) + invsinh(2x) + 2 sqrt(5) - invsinh(-2))
-    var myp = 2*Math.sqrt(5) + invsinh(2*pp.x) - invsinh(-2);
-    var sqrt4x2 = Math.sqrt(1 + 4 * x2);
+    let myp = 2*Math.sqrt(5) + invsinh(2*pp.x) - invsinh(-2);
+    const sqrt4x2 = Math.sqrt(1 + 4 * x2);
     myp += 2 * pp.x * sqrt4x2;
     myp = myp/4;
     assertRoughlyEquals(myp, pp.p, tol);
@@ -245,8 +245,8 @@ static testNumericalPath2() {
     // dy/dp = dy/dx dx/dp = 2x (1/sqrt(1 + 4 x^2))
     assertRoughlyEquals(2*pp.x/sqrt4x2 , pp.dydp, tol);
     // d Nx /dx (dx/dp) = [-2 + 8 x^2/(4 x^2 + 1)] (1/(4 x^2 + 1))
-    var d1 = 4 * x2 + 1;
-    var exp = (-2 + 8 * x2 / d1) / d1;
+    const d1 = 4 * x2 + 1;
+    const exp = (-2 + 8 * x2 / d1) / d1;
     assertRoughlyEquals((-2 + 8 * x2 / d1) / d1, pp.normalXdp, tol2);
     // d Ny /dx (dx/dp) = -4x/(4 x^2 + 1)^2
     assertRoughlyEquals(-4 * pp.x/(d1 * d1), pp.normalYdp, tol2);
@@ -256,32 +256,36 @@ static testNumericalPath2() {
       assertRoughlyEquals(Math.pow(1 + 4*pp.x*pp.x, 3/2)/2, pp.radius, 0.002);
     }
   };
-  // test a point before the starting point of path.
-  var p = path.getStartPValue() - Math.sqrt(5);
-  pp = new PathPoint(p);
-  path.map_p_to_slope(pp);
-  assertRoughlyEquals(p, pp.p, tol);
-  assertRoughlyEquals(-2, pp.x, tol);
-  assertRoughlyEquals(3, pp.y, tol);
-  assertRoughlyEquals(-2, pp.slope, tol);
-  // test a point after the ending point of path.
-  p = path.getFinishPValue() + Math.sqrt(5);
-  pp = new PathPoint(p);
-  path.map_p_to_slope(pp);
-  assertRoughlyEquals(p, pp.p, tol);
-  assertRoughlyEquals(2, pp.x, tol);
-  assertRoughlyEquals(3, pp.y, tol);
-  assertRoughlyEquals(2, pp.slope, tol);
+  {
+    // test a point before the starting point of path.
+    const p = path.getStartPValue() - Math.sqrt(5);
+    const pp = new PathPoint(p);
+    path.map_p_to_slope(pp);
+    assertRoughlyEquals(p, pp.p, tol);
+    assertRoughlyEquals(-2, pp.x, tol);
+    assertRoughlyEquals(3, pp.y, tol);
+    assertRoughlyEquals(-2, pp.slope, tol);
+  }
+  {
+    // test a point after the ending point of path.
+    const p = path.getFinishPValue() + Math.sqrt(5);
+    const pp = new PathPoint(p);
+    path.map_p_to_slope(pp);
+    assertRoughlyEquals(p, pp.p, tol);
+    assertRoughlyEquals(2, pp.x, tol);
+    assertRoughlyEquals(3, pp.y, tol);
+    assertRoughlyEquals(2, pp.slope, tol);
+  }
 };
 
 /** Test an OvalPath, to check that vertical segments have correct info.
 */
 static testNumericalPath3() {
   startTest(NumericalPathTest.groupName+'testNumericalPath3');
-  var tol = 1E-6;
-  var tol2 = 1E-5;
-  var path = new NumericalPath(new OvalPath());
-  var pp = new PathPoint(0, /*calculateRadius=*/true);
+  const tol = 1E-6;
+  const tol2 = 1E-5;
+  const path = new NumericalPath(new OvalPath());
+  const pp = new PathPoint(0, /*calculateRadius=*/true);
   // t = pi to 2+pi is straight down section
   // p = t - pi/2
   // p = pi/2 to 2 + pi/2 is straight down section
@@ -322,10 +326,10 @@ static testNumericalPath3() {
 */
 static testNumericalPath4() {
   startTest(NumericalPathTest.groupName+'testNumericalPath4');
-  var tol = 1E-6;
-  var tol2 = 1E-5;
-  var path = new NumericalPath(new FlatPath());
-  var pp = new PathPoint(0, /*calculateRadius=*/true);
+  const tol = 1E-6;
+  const tol2 = 1E-5;
+  const path = new NumericalPath(new FlatPath());
+  const pp = new PathPoint(0, /*calculateRadius=*/true);
   // t = goes from -5 to 5
   // p = t + 5
   // p = goes from 0 to 10

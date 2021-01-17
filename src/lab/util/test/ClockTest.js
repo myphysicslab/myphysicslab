@@ -174,15 +174,15 @@ stage    system     clock    real    expect  period  events  fired  running?  fi
 */
 static testClock1() {
   startTest(ClockTest.groupName+'testClock1');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
 
-    var myClock = new Clock();
-    var mockObsvr1 = new MockObserver1();
+    const myClock = new Clock();
+    const mockObsvr1 = new MockObserver1();
     // add the observer to the subject
     myClock.addObserver(mockObsvr1);
 
@@ -467,15 +467,15 @@ stage     system     clock    real    expect  period  events  fired  rate
 // tests changing time rateClock
 static testClock2() {
   startTest(ClockTest.groupName+'testClock2');
-  var tol = 1E-14;
+  const tol = 1E-14;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
 
-    var myClock = new Clock();
-    var mockObsvr1 = new MockObserver1();
+    const myClock = new Clock();
+    const mockObsvr1 = new MockObserver1();
     // add the observer to the subject
     myClock.addObserver(mockObsvr1);
 
@@ -638,19 +638,19 @@ static testClock2() {
 // test that ClockTasks are executed at proper times.
 static testClock3() {
   startTest(ClockTest.groupName+'testClock3');
-  var tol = 1E-3;
+  const tol = 1E-3;
 
-  var mockClock = new MockClock();
+  const mockClock = new MockClock();
   try {
     Util.MOCK_CLOCK = true;
     mockClock.install();
 
-    var myClock = new Clock();
-    var testVar = '';
-    var myTask_0 = new ClockTask(0, () => testVar='');
-    var myTask_A = new ClockTask(0.1, () => testVar='A');
-    var myTask_B = new ClockTask(0.2, () => testVar='B');
-    var myTask_C = new ClockTask(0.3, () => { testVar='C'; myClock.setTime(0) });
+    const myClock = new Clock();
+    let testVar = '';
+    const myTask_0 = new ClockTask(0, () => testVar='');
+    const myTask_A = new ClockTask(0.1, () => testVar='A');
+    const myTask_B = new ClockTask(0.2, () => testVar='B');
+    const myTask_C = new ClockTask(0.3, () => { testVar='C'; myClock.setTime(0) });
     myClock.addTask(myTask_0);
     myClock.addTask(myTask_A);
     myClock.addTask(myTask_B);

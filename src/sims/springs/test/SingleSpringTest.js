@@ -74,12 +74,12 @@ class MockObserver1 {
     } else if (event instanceof ParameterBoolean) {
       this.numBooleans++;
       assertEquals(this.sim, event.getSubject());
-      var val = event.getValue();
+      const val = event.getValue();
       assertTrue(typeof val === 'boolean');
     } else if (event instanceof ParameterNumber) {
       this.numDoubles++;
       assertEquals(this.sim, event.getSubject());
-      var val = event.getValue();
+      const val = event.getValue();
       assertTrue(typeof val === 'number');
     } else if (event instanceof ParameterString) {
       this.numStrings++;
@@ -101,40 +101,39 @@ static test() {
 
 static testSingleSpring() {
   startTest(SingleSpringTest.groupName+'testSingleSpring');
-  var i;
-  var tol = 1E-15;
-  var sim = new SingleSpringSim();
-  var simList = sim.getSimList();
-  var solvr = new ModifiedEuler(sim);
-  var simpleAdv = new SimpleAdvance(sim, solvr);
+  const tol = 1E-15;
+  const sim = new SingleSpringSim();
+  const simList = sim.getSimList();
+  const solvr = new ModifiedEuler(sim);
+  const simpleAdv = new SimpleAdvance(sim, solvr);
 
   // confirm block and spring exist
-  var block = simList.getPointMass('block');
+  const block = simList.getPointMass('block');
   assertTrue(block instanceof PointMass);
-  var spring = simList.getSpring('spring');
+  const spring = simList.getSpring('spring');
   assertTrue(spring instanceof Spring);
 
   // confirm parameters exist
-  var dampingParam = sim.getParameterNumber(SingleSpringSim.en.DAMPING);
+  const dampingParam = sim.getParameterNumber(SingleSpringSim.en.DAMPING);
   assertTrue(dampingParam.nameEquals(SingleSpringSim.en.DAMPING));
   assertEquals(Util.toName(SingleSpringSim.en.DAMPING), dampingParam.getName());
   assertEquals(0.1, dampingParam.getValue());
-  var lengthParam = sim.getParameterNumber(SingleSpringSim.en.SPRING_LENGTH);
+  const lengthParam = sim.getParameterNumber(SingleSpringSim.en.SPRING_LENGTH);
   assertEquals(Util.toName(SingleSpringSim.en.SPRING_LENGTH),
      lengthParam.getName());
   assertTrue(lengthParam.nameEquals(SingleSpringSim.en.SPRING_LENGTH));
   assertEquals(2.5, lengthParam.getValue());
-  var massParam = sim.getParameterNumber(SingleSpringSim.en.MASS);
+  const massParam = sim.getParameterNumber(SingleSpringSim.en.MASS);
   assertTrue(massParam.nameEquals(SingleSpringSim.en.MASS));
   assertEquals(Util.toName(SingleSpringSim.en.MASS), massParam.getName());
   assertEquals(0.5, massParam.getValue());
-  var stiffnessParam = sim.getParameterNumber(SingleSpringSim.en.SPRING_STIFFNESS);
+  const stiffnessParam = sim.getParameterNumber(SingleSpringSim.en.SPRING_STIFFNESS);
   assertTrue(stiffnessParam.nameEquals(SingleSpringSim.en.SPRING_STIFFNESS));
   assertEquals(Util.toName(SingleSpringSim.en.SPRING_STIFFNESS),
       stiffnessParam.getName());
   assertEquals(3.0, stiffnessParam.getValue());
 
-  var mockObsvr1 = new MockObserver1(sim);
+  const mockObsvr1 = new MockObserver1(sim);
   assertEquals(0, mockObsvr1.numEvents);
   assertEquals(0, mockObsvr1.numBooleans);
   assertEquals(0, mockObsvr1.numDoubles);
@@ -142,7 +141,7 @@ static testSingleSpring() {
   // add the observer to the subject
   sim.addObserver(mockObsvr1);
   // there should be only this one observer
-  var obsvrs = sim.getObservers();
+  const obsvrs = sim.getObservers();
   assertEquals(1, obsvrs.length);
   assertTrue(obsvrs.includes(mockObsvr1));
 
@@ -164,7 +163,7 @@ static testSingleSpring() {
   sim.setMass(0.7);
   assertEquals(0.7, sim.getMass());
   assertEquals(5, mockObsvr1.numDoubles);
-  var va = sim.getVarsList();
+  const va = sim.getVarsList();
   va.setValue(0, 0.5);
   sim.initWork();
   sim.saveInitialState();
@@ -178,12 +177,12 @@ static testSingleSpring() {
   assertEquals(SingleSpringSim.i18n.VELOCITY,
       va.getVariable(1).getName(/*localized=*/true));
   assertEquals(0, va.getValue(1));
-  var timeIdx = va.timeIndex();
+  const timeIdx = va.timeIndex();
   va.setValue(timeIdx, 100);
   sim.saveInitialState();
   va.setValue(timeIdx, 0);
 
-  var expect = [
+  const expect = [
     [ 0.5040178571428572, 0.32056760204081636 ],
     [ 0.516017675638894, 0.6377051511841583 ],
     [ 0.5358925536030913, 0.9497343223285384 ],
@@ -199,9 +198,9 @@ static testSingleSpring() {
   // step to time zero to ensure energy is updated
   simpleAdv.advance(0);
   // step forward in time
-  var timeStep = 0.025;
-  var time = 0;
-  for (i=0; i<10; i++) {
+  const timeStep = 0.025;
+  let time = 0;
+  for (let i=0; i<10; i++) {
     simpleAdv.advance(timeStep);
     time += timeStep;
     assertEquals(va.getValue(0), block.getPosition().getX());
@@ -223,7 +222,7 @@ static testSingleSpring() {
 
   // advance again after reset, with time starting at 100
   time = 100;
-  for (i=0; i<10; i++) {
+  for (let i=0; i<10; i++) {
     simpleAdv.advance(timeStep);
     time += timeStep;
     assertRoughlyEquals(time, sim.getTime(), tol);
@@ -235,7 +234,7 @@ static testSingleSpring() {
   }
 
   sim.setPEOffset(99 - sim.getEnergyInfo().getPotential());
-  var ei = sim.getEnergyInfo();
+  const ei = sim.getEnergyInfo();
   assertEquals(99, ei.getPotential());
   assertRoughlyEquals(2.8621575302237665, ei.getTranslational(), 1e-10);
 };

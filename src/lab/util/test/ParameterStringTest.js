@@ -83,11 +83,11 @@ static test() {
 static testParameterString1() {
   startTest(ParameterStringTest.groupName+'testParameterString1');
   /** @type {!MockSubject2} */
-  var mockSubj2 = new MockSubject2();
+  const mockSubj2 = new MockSubject2();
   assertEquals('foo', mockSubj2.getFooness());
   assertEquals('none', mockSubj2.getFooBarness());
   // make parameters
-  var paramFoo = new ParameterString(mockSubj2, MockSubject2.FOONESS,
+  const paramFoo = new ParameterString(mockSubj2, MockSubject2.FOONESS,
       MockSubject2.FOONESS,
       () => mockSubj2.getFooness(),
       a => mockSubj2.setFooness(a));
@@ -119,7 +119,7 @@ static testParameterString1() {
   assertEquals('blarg', paramFoo.getValue());
 
   // make a parameter with choices
-  var paramFooBar = new ParameterString(mockSubj2, MockSubject2.FOOBARNESS,
+  const paramFooBar = new ParameterString(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
       () => mockSubj2.getFooBarness(),
       a => mockSubj2.setFooBarness(a),

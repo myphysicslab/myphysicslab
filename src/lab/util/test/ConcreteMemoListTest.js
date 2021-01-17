@@ -36,14 +36,14 @@ static test() {
 
 static testConcreteMemoList1() {
   startTest(ConcreteMemoListTest.groupName+'testConcreteMemoList1');
-  var vec1 = new MutableVector(1, 1);
-  var memVec1 = MutableVector.clone(vec1);
-  var vec2 = new MutableVector(2, 2);
-  var memVec2 = MutableVector.clone(vec2);
-  var mem1 = new GenericMemo(() => memVec1.setToVector(vec1));
-  var mem2 = new GenericMemo(() => memVec2.setToVector(vec2));
-  var memList1 = new ConcreteMemoList();
-  var memList2 = new ConcreteMemoList();
+  const vec1 = new MutableVector(1, 1);
+  const memVec1 = MutableVector.clone(vec1);
+  const vec2 = new MutableVector(2, 2);
+  const memVec2 = MutableVector.clone(vec2);
+  const mem1 = new GenericMemo(() => memVec1.setToVector(vec1));
+  const mem2 = new GenericMemo(() => memVec2.setToVector(vec2));
+  const memList1 = new ConcreteMemoList();
+  const memList2 = new ConcreteMemoList();
   memList1.addMemo(mem1);
   memList1.addMemo(memList2);
   memList2.addMemo(mem2);
@@ -60,7 +60,7 @@ static testConcreteMemoList1() {
   assertTrue(memVec2.equals(vec2));
 
   // should not be able to add/remove memos within a memorize() method.
-  var mem3 = new GenericMemo(() => memList1.removeMemo(mem1));
+  const mem3 = new GenericMemo(() => memList1.removeMemo(mem1));
   memList2.addMemo(mem3);
   assertEquals(2, memList1.getMemos().length);
   assertEquals(2, memList2.getMemos().length);
@@ -74,7 +74,7 @@ static testConcreteMemoList1() {
   assertTrue(memVec2.equals(vec2));
 
   // should not be able to add/remove memos within a memorize() method.
-  var mem4 = new GenericMemo(() => memList2.addMemo(memList1));
+  const mem4 = new GenericMemo(() => memList2.addMemo(memList1));
   memList2.addMemo(mem4);
   assertThrows(() => memList1.memorize());
   // remove the bad memo, confirm things still work

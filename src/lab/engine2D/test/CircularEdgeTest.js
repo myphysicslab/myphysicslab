@@ -38,12 +38,12 @@ static test() {
 
 static testCircularEdge1() {
   startTest(CircularEdgeTest.groupName+'testCircularEdge1');
-  var vec2 = new Vector(2, 0);
-  var vertex2 = new ConcreteVertex(vec2, /*endPoint=*/true);
-  var poly1 = new Polygon('test1');
-  var vertex1 = new ConcreteVertex(new Vector(0, 2));
+  const vec2 = new Vector(2, 0);
+  const vertex2 = new ConcreteVertex(vec2, /*endPoint=*/true);
+  const poly1 = new Polygon('test1');
+  const vertex1 = new ConcreteVertex(new Vector(0, 2));
   poly1.startPath(vertex1);
-  var edge1 = new CircularEdge(poly1, vertex1, vertex2, Vector.ORIGIN,
+  const edge1 = new CircularEdge(poly1, vertex1, vertex2, Vector.ORIGIN,
     /*clockwise=*/true, /*outsideIsOut=*/true);
   assertEquals(vertex1, edge1.getVertex1());
   assertEquals(vertex2, edge1.getVertex2());

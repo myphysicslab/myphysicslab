@@ -39,11 +39,11 @@ static test() {
 static testStraightEdge1() {
   startTest(StraightEdgeTest.groupName+'testStraightEdge1');
 
-  var poly1 = new Polygon('test1');
-  var vertex1 = new ConcreteVertex(new Vector(0, 0));
-  var vertex2 = new ConcreteVertex(new Vector(1, 2), /*endPoint=*/true);
+  const poly1 = new Polygon('test1');
+  const vertex1 = new ConcreteVertex(new Vector(0, 0));
+  const vertex2 = new ConcreteVertex(new Vector(1, 2), /*endPoint=*/true);
   poly1.startPath(vertex1);
-  var edge1 = new StraightEdge(poly1, vertex1, vertex2, /*outsideIsUp=*/true);
+  const edge1 = new StraightEdge(poly1, vertex1, vertex2, /*outsideIsUp=*/true);
   assertEquals(vertex1, edge1.getVertex1());
   assertEquals(vertex2, edge1.getVertex2());
 };

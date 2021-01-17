@@ -271,11 +271,11 @@ static test() {
 
 static testParameterNumber1() {
   startTest(ParameterNumberTest.groupName+'testParameterNumber1');
-  var mockSubj1 = new MockSubject1();
+  const mockSubj1 = new MockSubject1();
   assertEquals(0, mockSubj1.getFooness());
   assertEquals(0, mockSubj1.getFooBarness());
   // now make parameters
-  var paramFoo = new ParameterNumber(mockSubj1, MockSubject1.FOONESS,
+  const paramFoo = new ParameterNumber(mockSubj1, MockSubject1.FOONESS,
       MockSubject1.FOONESS,
       () => mockSubj1.getFooness(),
       a => mockSubj1.setFooness(a));
@@ -317,7 +317,7 @@ static testParameterNumber1() {
   // compare to the next representable number that is more negative
   assertRoughlyEquals(-1.00000000000000013969727991388E200, paramFoo.getValue(), 1E185);
   // test making a param from a name with an underbar in it, here 'foo_barness'
-  var paramFooBar = new ParameterNumber(mockSubj1, MockSubject1.FOOBARNESS,
+  const paramFooBar = new ParameterNumber(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
       () => mockSubj1.getFooBarness(),
       a => mockSubj1.setFooBarness(a));
@@ -339,11 +339,11 @@ static testParameterNumber1() {
 static testParameterNumber2() {
   startTest(ParameterNumberTest.groupName+'testParameterNumber2');
   /** @type {!MockSubject2} */
-  var mockSubj2 = new MockSubject2();
+  const mockSubj2 = new MockSubject2();
   assertEquals(0, mockSubj2.getFooness());
   assertEquals(0, mockSubj2.getFooBarness());
   // now make parameters
-  var paramFoo = new ParameterNumber(mockSubj2, MockSubject2.FOONESS,
+  const paramFoo = new ParameterNumber(mockSubj2, MockSubject2.FOONESS,
       MockSubject2.FOONESS,
       () => mockSubj2.getFooness(),
       a => mockSubj2.setFooness(a));
@@ -364,7 +364,7 @@ static testParameterNumber2() {
   assertEquals(0, paramFoo.getLowerLimit());
   assertEquals(Util.POSITIVE_INFINITY, paramFoo.getUpperLimit());
   // test making a param from a name with an underbar in it, here 'foo_barness'
-  var paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
+  const paramFooBar = new ParameterNumber(mockSubj2, MockSubject2.FOOBARNESS,
       MockSubject2.FOOBARNESS,
       () => mockSubj2.getFooBarness(),
       a => mockSubj2.setFooBarness(a));
@@ -380,11 +380,11 @@ static testParameterNumber2() {
 
 static testParameterNumber3() {
   startTest(ParameterNumberTest.groupName+'testParameterNumber3');
-  var mockSubj3 = new MockSubject3();
+  const mockSubj3 = new MockSubject3();
   assertEquals(0, mockSubj3.getFooness());
   assertEquals(0, mockSubj3.getFooBarness());
   // now make parameters
-  var paramFoo = new ParameterNumber(mockSubj3, MockSubject3.FOONESS,
+  const paramFoo = new ParameterNumber(mockSubj3, MockSubject3.FOONESS,
       MockSubject3.FOONESS,
       () => mockSubj3.getFooness(),
       a => mockSubj3.setFooness(a));
@@ -401,7 +401,7 @@ static testParameterNumber3() {
   assertEquals(0, paramFoo.getLowerLimit());
   assertEquals(Util.POSITIVE_INFINITY, paramFoo.getUpperLimit());
   // test making a param from a name with an underbar in it, here 'foo_barness'
-  var paramFooBar = new ParameterNumber(mockSubj3, MockSubject3.FOOBARNESS,
+  const paramFooBar = new ParameterNumber(mockSubj3, MockSubject3.FOOBARNESS,
       MockSubject3.FOOBARNESS,
       () => mockSubj3.getFooBarness(),
       a => mockSubj3.setFooBarness(a));
@@ -417,13 +417,13 @@ static testParameterNumber3() {
 static testParameterNumber4() {
   startTest(ParameterNumberTest.groupName+'testParameterNumber4');
   /** @type {!MockSubject4} */
-  var mockSubj2 = new MockSubject4();
+  const mockSubj2 = new MockSubject4();
 
   // make a parameter with choices and non-integer values
-  var pi = Math.PI; //3.141592653589793;
-  var e = Math.E; //2.718281828459045;
-  var sqrt2 = Math.sqrt(2); //1.4142135623730951;
-  var paramFooness = new ParameterNumber(mockSubj2, MockSubject4.FOONESS,
+  const pi = Math.PI; //3.141592653589793;
+  const e = Math.E; //2.718281828459045;
+  const sqrt2 = Math.sqrt(2); //1.4142135623730951;
+  const paramFooness = new ParameterNumber(mockSubj2, MockSubject4.FOONESS,
       MockSubject4.FOONESS,
       () => mockSubj2.getFooness(),
       a => mockSubj2.setFooness(a),
@@ -458,7 +458,7 @@ static testParameterNumber4() {
   assertEquals(sqrt2, paramFooness.getValue());
 
   // make a parameter with choices and integer values
-  var paramFooBar = new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
+  const paramFooBar = new ParameterNumber(mockSubj2, MockSubject4.FOOBARNESS,
       MockSubject4.FOOBARNESS,
       () => mockSubj2.getFooBarness(),
       a => mockSubj2.setFooBarness(a),
@@ -492,8 +492,8 @@ static testParameterNumber4() {
   assertEquals(1000, paramFooBar.getValue());
 
   // make a parameter with choices and integers
-  var bazChoices = ['red', 'green', 'blue', 'black'];
-  var paramBaz = new ParameterNumber(mockSubj2, MockSubject4.BAZ,
+  const bazChoices = ['red', 'green', 'blue', 'black'];
+  const paramBaz = new ParameterNumber(mockSubj2, MockSubject4.BAZ,
       MockSubject4.BAZ,
       () => mockSubj2.getBaz(),
       a => mockSubj2.setBaz(a),

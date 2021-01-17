@@ -83,11 +83,11 @@ static test() {
 static testParameterBoolean1() {
   startTest(ParameterBooleanTest.groupName+'testParameterBoolean1');
 
-  var mockSubj1 = new MockSubject1();
+  const mockSubj1 = new MockSubject1();
   assertFalse(mockSubj1.getFooness());
   assertTrue(mockSubj1.getFooBarness());
   // now make parameters
-  var paramFoo = new ParameterBoolean(mockSubj1, MockSubject1.FOONESS,
+  const paramFoo = new ParameterBoolean(mockSubj1, MockSubject1.FOONESS,
       MockSubject1.FOONESS,
       () => mockSubj1.getFooness(),
       a => mockSubj1.setFooness(a));
@@ -111,7 +111,7 @@ static testParameterBoolean1() {
   paramFoo.setFromString('false');
   assertFalse(paramFoo.getValue());
   // make a parameter with choices
-  var paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
+  const paramFooBar = new ParameterBoolean(mockSubj1, MockSubject1.FOOBARNESS,
       MockSubject1.FOOBARNESS,
       () => mockSubj1.getFooBarness(),
       a => mockSubj1.setFooBarness(a),
