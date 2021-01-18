@@ -56,6 +56,7 @@ static testTerminal1() {
   input_elem.type = 'text';
   window.terminal = new Terminal(input_elem, output_elem);
   const t = window.terminal;
+  t.clear();
   Terminal.stdRegex(t);
   assertEquals(4, t.eval('2+2'));
   assertEquals('> 2+2\n4\n', output_elem.value);

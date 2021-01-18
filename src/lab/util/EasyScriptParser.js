@@ -421,9 +421,7 @@ getSubjects() {
 * @return {string} the "help" string which gives information on available commands.
 */
 help() {
-  var s = 'myPhysicsLab version '+ Util.VERSION + ', '
-  s += (Util.ADVANCED ? 'advanced' : 'simple') + '-compiled on '
-  s += Util.COMPILE_TIME+'.\n';
+  let s = Terminal.version() + '\n';
   s += 'Use the "values" command to see what can be set and the syntax.\n\n';
   s += 'command-K            clear Terminal window\n'
   s += 'arrow up/down        retrieve previous or next command\n'

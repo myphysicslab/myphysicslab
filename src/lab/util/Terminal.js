@@ -540,6 +540,7 @@ constructor(term_input, term_output) {
   // Allow scripts to call eval() but those calls are replaced by "terminal.eval"
   // so that they go thru Terminal.eval() and are properly vetted for script safety.
   this.addRegex('eval', 'terminal.', /*addToVars=*/false);
+  this.println(Terminal.version());
 };
 
 /** @override */
@@ -688,6 +689,15 @@ static badCommand(command, name, whiteList) {
   }
   var re = new RegExp('\\b'+name+'\\b', 'g');
   return re.test(command);
+};
+
+/** Clear all terminal output.
+* @return {undefined}
+*/
+clear() {
+  if (this.term_output_) {
+    this.term_output_.value = '';
+  }
 };
 
 /** Returns command scripts in current Terminal output text area, as array of strings,
@@ -1451,6 +1461,15 @@ vars() {
   array.sort(v);
   return v;
 };
+
+/** Returns string identifying current version of myPhysicsLab software.
+* @return {string} version information
+*/
+static version() {
+  return 'myPhysicsLab version '+ Util.VERSION + ', '
+      + (Util.ADVANCED ? 'advanced' : 'simple') + '-compiled on '
+      + Util.COMPILE_TIME+'.'
+}
 
 /** Throws an error if the script contains prohibited usage of square brackets.
 See [Safe Subset of JavaScript](#safesubsetofjavascript).
