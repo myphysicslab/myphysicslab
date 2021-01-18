@@ -152,14 +152,14 @@ constructor(advance, opt_name) {
   this.timer_.setCallBack(() => this.callback());
   // Clock name should be just 'CLOCK' when opt_name is not specified.
   // When opt_name is specified, prefix it to the clock name.
-  var clockName = (opt_name ? opt_name + '_' : '')+'CLOCK';
+  const clockName = (opt_name ? opt_name + '_' : '')+'CLOCK';
   /**
   * @type {!Clock}
   * @private
   */
   this.clock_ = new Clock(clockName);
   // set Clock to match simulation time.
-  var t = advance.getTime();
+  const t = advance.getTime();
   this.clock_.setTime(t);
   this.clock_.setRealTime(t);
   this.clock_.addObserver(this);
@@ -260,13 +260,12 @@ Memorizables after each time step.
 * @private
 */
 advanceSims(strategy, targetTime) {
-  var  simTime = strategy.getTime();
-  var n = 0;
+  let  simTime = strategy.getTime();
   while (simTime < targetTime) {
     // the AdvanceStrategy is what actually calls `memorize`
     strategy.advance(this.timeStep_, /*memoList=*/this);
     // Prevent infinite loop when time doesn't advance.
-    var lastSimTime = simTime;
+    const lastSimTime = simTime;
     simTime = strategy.getTime();
     if (simTime - lastSimTime <= 1e-15) {
       throw 'SimRunner: time did not advance';
@@ -290,20 +289,20 @@ step. This is the callback function that is being run by the {@link Timer}.
 callback() {
   try {
     if (this.clock_.isRunning() || this.clock_.isStepping()) {
-      var clockTime = this.clock_.getTime();
-      var simTime = this.advanceList_[0].getTime();
+      let clockTime = this.clock_.getTime();
+      let simTime = this.advanceList_[0].getTime();
       // If clockTime is VERY far ahead or behind of simTime, assume simTime was
       // intentionally modified. Match clock to simTime, but just a little ahead
       // by a timeStep so that the simulation advances.
       if (clockTime > simTime + 1 || clockTime < simTime - 1) {
-        var t = simTime + this.timeStep_;
+        const t = simTime + this.timeStep_;
         this.clock_.setTime(t);
         this.clock_.setRealTime(t);
         clockTime = t;
       }
       // If sim reaches almost current clock time, that is good enough.
-      var targetTime = clockTime;// - this.timeStep_/10;
-      for (var i=0, n=this.advanceList_.length; i<n; i++) {
+      const targetTime = clockTime;// - this.timeStep_/10;
+      for (let i=0, n=this.advanceList_.length; i<n; i++) {
         this.advanceSims(this.advanceList_[i], targetTime);
       }
       if (this.clock_.isStepping()) {
@@ -399,7 +398,7 @@ handleException(error) {
   this.pause();
   this.timer_.stopFiring();
   this.errorObservers_.forEach(e => e.notifyError(error));
-  var s = error != null ? ' '+error : '';
+  const s = error != null ? ' '+error : '';
   alert(SimRunner.i18n.STUCK + s);
 };
 
@@ -413,7 +412,7 @@ observe(event) {
   if (event.getSubject() == this.clock_) {
     if (event.nameEquals(Clock.CLOCK_RESUME) || event.nameEquals(Clock.CLOCK_PAUSE)) {
       // sync clock to simulation time
-      var t = this.advanceList_[0].getTime();
+      const t = this.advanceList_[0].getTime();
       this.clock_.setTime(t);
       this.clock_.setRealTime(t);
       this.broadcastParameter(SimRunner.en.RUNNING);
@@ -444,7 +443,7 @@ resumes advancing the Simulation, and creates a ClockTask to stop the Clock.
 @return {number} the current time on the Clock
 */
 playUntil(pauseTime) {
-  var pauseTask = new ClockTask(pauseTime, null);
+  const pauseTask = new ClockTask(pauseTime, null);
   pauseTask.setCallback( () => {
       this.clock_.pause();
       this.clock_.removeTask(pauseTask);
@@ -487,7 +486,7 @@ reset() {
   this.clock_.pause();
   this.advanceList_.forEach(strategy => strategy.reset());
   // sync clock to simulation time
-  var t = this.advanceList_[0].getTime();
+  const t = this.advanceList_[0].getTime();
   this.clock_.setTime(t);
   this.clock_.setRealTime(t);
   this.paintAll();
@@ -591,7 +590,7 @@ startFiring() {
 step() {
   //this.clock_.pause();
   // advance clock to be exactly one timeStep past current sim time
-  var dt = this.advanceList_[0].getTime() + this.timeStep_ - this.clock_.getTime();
+  const dt = this.advanceList_[0].getTime() + this.timeStep_ - this.clock_.getTime();
   this.clock_.step(dt);
   this.timer_.startFiring(); // in case the timer was stopped.
   return this.clock_.getTime();

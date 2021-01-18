@@ -132,9 +132,9 @@ constructor(choices, values, getter, setter, opt_label) {
   /** text label to show next to the choice control, or null if no label desired.
   * @type {?HTMLLabelElement}
   */
-  var myLabel = null;
+  let myLabel = null;
   if (this.label_.length > 0) {
-    var html_label = /** @type {!HTMLLabelElement} */(document.createElement('LABEL'));
+    const html_label = /** @type {!HTMLLabelElement} */(document.createElement('LABEL'));
     html_label.appendChild(document.createTextNode(this.label_));
     html_label.appendChild(this.selectMenu_);
     myLabel = html_label;
@@ -177,7 +177,7 @@ toStringShort() {
 buildSelectMenu() {
   // remove any existing options from list
   this.selectMenu_.options.length = 0;
-  for (var i=0, len=this.choices.length; i<len; i++) {
+  for (let i=0, len=this.choices.length; i<len; i++) {
     this.selectMenu_.options[i] = new Option(this.choices[i]);
   }
 };
@@ -225,7 +225,7 @@ itemStateChanged(event) {
 /** @override */
 observe(event) {
   // Ensure that the value displayed by the control matches the target value.
-  var index = this.values_.indexOf(this.getter_());
+  const index = this.values_.indexOf(this.getter_());
   this.setChoice(index);
 };
 
@@ -238,7 +238,7 @@ to enter the
 */
 setChoice(index) {
   if (this.currentIndex_ !== index) {
-    var n = this.selectMenu_.options.length;
+    const n = this.selectMenu_.options.length;
     if (this.values_.length != n) {
       throw 'ChoiceControl: values_.length='+this.values_.length+
           ' but menu.options.length='+n;

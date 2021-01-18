@@ -348,15 +348,15 @@ doMouseDown(evt, mouseX, mouseY) {
   // The event target is the canvas (unlike with mouseMove events where the event
   // target can be other HTML elements) so could use evt.offsetX, evt.offsetY.
   // But instead we use the same eventToScreen function for all events.
-  var start_screen = this.eventToScreen(mouseX, mouseY);
-  var pv = this.enablePanning_
+  const start_screen = this.eventToScreen(mouseX, mouseY);
+  const pv = this.enablePanning_
       && (this.panControl_ == evt.ctrlKey)
       && (this.panMeta_ == evt.metaKey)
       && (this.panShift_ == evt.shiftKey)
       && (this.panAlt_ == evt.altKey);
   if (pv) {
     // Only pan the simRect, don't send the event to the event handler.
-    var view = this.labCanvas_.getFocusView();
+    const view = this.labCanvas_.getFocusView();
     if (view != null) {
       this.myViewPanner_ = new ViewPanner(view, start_screen);
       this.myViewPanner_.mouseDrag(start_screen);
@@ -394,11 +394,11 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 @private
 */
 eventToScreen(mouseX, mouseY) {
-  var cvs = this.labCanvas_.getCanvas();
-  var r = cvs.getBoundingClientRect();
-  var p = new Vector(mouseX - r.left, mouseY - r.top);
+  const cvs = this.labCanvas_.getCanvas();
+  const r = cvs.getBoundingClientRect();
+  const p = new Vector(mouseX - r.left, mouseY - r.top);
   // how much the canvas is stretched by CSS styling
-  var stretch = cvs.offsetWidth / this.labCanvas_.getWidth();
+  const stretch = cvs.offsetWidth / this.labCanvas_.getWidth();
   return p.divide(stretch);
 };
 
@@ -425,14 +425,14 @@ The input coordinates are from `MouseEvent.clientX` and `clientY` which gives a 
 */
 doMouseMove(evt, mouseX, mouseY) {
   //console.log('SimController.mouseMove evt='+Util.propertiesOf(evt, true));
-  var cvs = this.labCanvas_.getCanvas();
+  const cvs = this.labCanvas_.getCanvas();
   // offsetParent returns null when the element has style.display set to 'none'.
   // see https://developer.mozilla.org/en/DOM/element.offsetParent
   if (cvs.offsetParent == null) {
     // the canvas is not visible, so don't send mouseMove events
     return;
   }
-  var loc_screen = this.eventToScreen(mouseX, mouseY);
+  const loc_screen = this.eventToScreen(mouseX, mouseY);
   // cancel browser's default action, which would be to select the canvas
   if (evt.target == cvs || evt.target == document.body) {
     if (this.mouseDrag_) {
@@ -452,7 +452,7 @@ doMouseMove(evt, mouseX, mouseY) {
 @private
 */
 mouseUp(evt) {
-  var cvs = this.labCanvas_.getCanvas();
+  const cvs = this.labCanvas_.getCanvas();
   // offsetParent returns null when the element has style.display set to 'none'.
   // see https://developer.mozilla.org/en/DOM/element.offsetParent
   if (cvs.offsetParent == null) {
@@ -526,9 +526,9 @@ mouse-down event. Multiple touch cancels an ongoing mouse drag by calling
 */
 touchStart(evt) {
   if (evt.target == this.labCanvas_.getCanvas()) {
-    var bevt = /** @type {!TouchEvent} */(evt.getBrowserEvent());
+    const bevt = /** @type {!TouchEvent} */(evt.getBrowserEvent());
     if (bevt != null) {
-      var touches = bevt.touches;
+      const touches = bevt.touches;
       if (touches && touches.length == 1) {
         // single touch in our canvas is treated as mouseDown.
         this.doMouseDown(evt, touches[0].clientX, touches[0].clientY);
@@ -547,8 +547,8 @@ mouse-move event.  Multiple touch cancels an ongoing mouse drag by calling
 @private
 */
 touchMove(evt) {
-  var e = /** @type {!TouchEvent} */(evt.getBrowserEvent());
-  var touches = e != null ? e.touches : [];
+  const e = /** @type {!TouchEvent} */(evt.getBrowserEvent());
+  const touches = e != null ? e.touches : [];
   if (this.mouseDrag_ && touches && touches.length == 1) {
     // single touch in our canvas is treated as mouseMove.
     this.doMouseMove(evt, touches[0].clientX, touches[0].clientY);
@@ -575,7 +575,7 @@ touchEnd(evt) {
 @private
 */
 static modifierToString(modifier) {
-  var s = '';
+  let s = '';
   if (modifier.control == true)
     s += 'control';
   if (modifier.alt == true)

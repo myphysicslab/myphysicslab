@@ -110,7 +110,7 @@ constructor(dragDispObj, view, loc_sim, drag_body, eventHandler) {
   */
   this.dragSimObj_ = null;
   if (dragDispObj != null) {
-    var simObjs = dragDispObj.getSimObjects();
+    const simObjs = dragDispObj.getSimObjects();
     if (simObjs.length > 0) {
       this.dragSimObj_ = simObjs[0];
     }
@@ -172,7 +172,7 @@ startDrag(evt) {
 @param {!BrowserEvent} evt the mouse move event that occurred
 */
 mouseDrag(loc_screen, evt) {
-  var map = this.view_.getCoordMap();
+  const map = this.view_.getCoordMap();
   this.loc_sim_ = map.screenToSim(loc_screen);
   if (this.dragDispObj_ != null && (this.dragSimObj_ == null || !this.ehDrag_)) {
     // we move the dragObj directly
@@ -218,38 +218,38 @@ static findNearestDragable(labCanvas, start_screen, eventHandler) {
   /** the DisplayObject currently being dragged.
   * @type {?DisplayObject}
   */
-  var dragDispObj = null;
+  let dragDispObj = null;
   /** the LabView to search for dragable objects
   * @type {!LabView}
   */
-  var view;
+  let view;
   /** location of mouse event in LabView's simulation coords
   * @type {!Vector}
   */
-  var start_sim;
+  let start_sim;
   /** drag point on SimObject in body coords of the SimObject;  this is where
   * we will attach (for example) a spring to the SimObject to drag it.
   * Note that some SimObject's have multiple drag points.
   * @type {?Vector}
   */
-  var dragPt = null;
-  var distance = Util.POSITIVE_INFINITY;
+  let dragPt = null;
+  let distance = Util.POSITIVE_INFINITY;
   // iterate in reverse order, which is visually front to back.
-  var views = labCanvas.getViews();
+  const views = labCanvas.getViews();
   searchViews:
-  for (var j=views.length-1; j >= 0; j--) {
-    var v = views[j];
-    var map = v.getCoordMap();
-    var loc_sim = map.screenToSim(start_screen);
+  for (let j=views.length-1; j >= 0; j--) {
+    const v = views[j];
+    const map = v.getCoordMap();
+    const loc_sim = map.screenToSim(start_screen);
     // iterate in reverse order, which is visually front to back.
-    var objs = v.getDisplayList().toArray();
+    const objs = v.getDisplayList().toArray();
     searchObjs:
-    for (var i=objs.length-1; i>= 0; i--) {
-      var dispObj = objs[i];
+    for (let i=objs.length-1; i>= 0; i--) {
+      const dispObj = objs[i];
       if (!dispObj.isDragable()) {
         continue searchObjs;
       }
-      var massObjs = dispObj.getMassObjects();
+      const massObjs = dispObj.getMassObjects();
       if (massObjs.length > 1) {
         // DisplayObject with multiple MassObjects is never dragable
         continue searchObjs;
@@ -269,12 +269,12 @@ static findNearestDragable(labCanvas, start_screen, eventHandler) {
         }
       } else {
         // DisplayObject has a single MassObject
-        var massObj = massObjs[0];
-        var dpts = massObj.getDragPoints();
-        for (var k=dpts.length-1; k>=0; k--) {
+        const massObj = massObjs[0];
+        const dpts = massObj.getDragPoints();
+        for (let k=dpts.length-1; k>=0; k--) {
           // Find drag point closest to the mouse, across all LabViews & SimObjects
-          var dpt = massObj.bodyToWorld(dpts[k]);
-          var dist = start_screen.distanceTo(map.simToScreen(dpt));
+          const dpt = massObj.bodyToWorld(dpts[k]);
+          const dist = start_screen.distanceTo(map.simToScreen(dpt));
           if (dist <= distance) {
             distance = dist;
             dragDispObj = dispObj;
@@ -289,7 +289,7 @@ static findNearestDragable(labCanvas, start_screen, eventHandler) {
   if (dragDispObj == null) {
     // did not find a dragable object;
     // get the location in sim coords of focus view anyway.
-    var nv = labCanvas.getFocusView();
+    const nv = labCanvas.getFocusView();
     if (nv != null) {
       view = nv;
       start_sim = view.getCoordMap().screenToSim(start_screen);

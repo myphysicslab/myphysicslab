@@ -73,10 +73,10 @@ constructor(label, getter, setter, textField) {
   */
   this.columns_ = 40;
   /** @type {HTMLLabelElement} */
-  var labelElement = null;
+  let labelElement = null;
   if (goog.isObject(textField)) {
     // see if the parent is a label
-    var parent = dom.getParentElement(textField);
+    const parent = dom.getParentElement(textField);
     if (parent != null && parent.tagName == 'LABEL') {
       labelElement = /** @type {!HTMLLabelElement} */(parent);
     }
@@ -268,12 +268,12 @@ setValue(value) {
 */
 validate(event) {
   // trim whitespace from start and end of string
-  var nowValue = this.textField_.value.replace(/^\s*|\s*$/g, '');
+  const nowValue = this.textField_.value.replace(/^\s*|\s*$/g, '');
   // Compare the current and previous text value of the field.
   // Note that the double value may be different from the text value because
   // of rounding.
   if (nowValue != this.lastValue_) {
-    var value = nowValue;
+    const value = nowValue;
     if (typeof value !== 'string') {
       alert('not a string: '+nowValue);
       this.formatTextField();

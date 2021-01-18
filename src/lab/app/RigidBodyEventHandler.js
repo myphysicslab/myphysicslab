@@ -181,13 +181,13 @@ setThrusters(thrusters, side) {
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
   this.optionKey_ = mouseEvent.altKey || mouseEvent.metaKey || mouseEvent.ctrlKey;
   this.resetDrag();
-  var numBods = this.sim_.getBodies().length;
-  for (var i=0; i<numBods; i++) {
+  const numBods = this.sim_.getBodies().length;
+  for (let i=0; i<numBods; i++) {
     if (simObject === this.sim_.getBody(i))
       this.dragObj_ = i;
   }
   if (this.dragObj_ > -1) {
-    var body = this.sim_.getBody(this.dragObj_);
+    const body = this.sim_.getBody(this.dragObj_);
     if (!this.clock_.isRunning()) {
       if (this.optionKey_) {
         // record starting angles
@@ -210,10 +210,10 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
   if (!this.clock_.isRunning() && this.dragObj_ > -1) {
-    var body = this.sim_.getBody(this.dragObj_);
+    const body = this.sim_.getBody(this.dragObj_);
     if (this.optionKey_) {
       // rotate the body around body's CM
-      var angle = Math.atan2(location.getY() - body.getPosition().getY(),
+      const angle = Math.atan2(location.getY() - body.getPosition().getY(),
           location.getX() - body.getPosition().getX());
       body.setAngle(this.startBodyAngle_ + angle - this.startDragAngle_);
     } else {
@@ -233,7 +233,7 @@ finishDrag(simObject, location, offset) {
     // demonstration of giving a onMouseUp action to a RigidBody.
     // Clicking on the body named 'click' causes a ball to be created.
     if (simObject != null && simObject.nameEquals(RigidBodyEventHandler.en.CLICK)) {
-      var b = Shapes.makeBlock(0.2, 0.2, RigidBodyEventHandler.en.CLICK,
+      const b = Shapes.makeBlock(0.2, 0.2, RigidBodyEventHandler.en.CLICK,
           RigidBodyEventHandler.i18n.CLICK);
       b.setPosition(new Vector(-2,  2));
       b.setVelocity(new Vector(10.0,  1.0),  0.0);
@@ -248,7 +248,7 @@ finishDrag(simObject, location, offset) {
 @private
 */
 resetDrag() {
-  var spring = this.dragSpring_;
+  const spring = this.dragSpring_;
   if (spring != null) {
     this.sim_.removeForceLaw(spring);
     this.sim_.getSimList().remove(spring);
@@ -261,8 +261,8 @@ resetDrag() {
 handleKeyEvent(keyCode, pressed, keyEvent) {
   //console.log('RBEH.handleKeyEvent keyCode:'+keyCode+'  pressed: '+pressed
   //  +' event:'+Util.propertiesOf(keyEvent, true));
-  var thrustRight = this.thrustRight_;
-  var thrustLeft = this.thrustLeft_;
+  const thrustRight = this.thrustRight_;
+  const thrustLeft = this.thrustLeft_;
   if (keyEvent.ctrlKey || keyEvent.metaKey || keyEvent.altKey)
     return;
   switch (keyCode) {

@@ -122,10 +122,10 @@ constructor(label, getter, setter, textField) {
   */
   this.columns_ = Math.max(8, 1+this.signifDigits_);
   /** @type {HTMLLabelElement} */
-  var labelElement = null;
+  let labelElement = null;
   if (goog.isObject(textField)) {
     // see if the parent is a label
-    var parent = dom.getParentElement(textField);
+    const parent = dom.getParentElement(textField);
     if (parent != null && parent.tagName == 'LABEL') {
       labelElement = /** @type {!HTMLLabelElement} */(parent);
     }
@@ -209,7 +209,7 @@ significant digits.
 @private
 */
 columnsNeeded(x, sigDigits) {
-  var mag = NumericControlBase.magnitude(x);
+  const mag = NumericControlBase.magnitude(x);
   return 2 + this.decimalPlacesNeeded(x, sigDigits) + (mag > 0 ? mag : 0);
 };
 
@@ -224,10 +224,11 @@ decimalPlacesNeeded(x, sigDigits) {
   if (this.decimalPlaces_ > -1) {
     return this.decimalPlaces_;
   } else {
-    var d = sigDigits - 1 - NumericControlBase.magnitude(x);
+    let d = sigDigits - 1 - NumericControlBase.magnitude(x);
     // limit of 16 decimal places; this could be a settable option.
-    if (d > 16)
+    if (d > 16) {
       d = 16;
+    }
     return d > 0 ? d : 0;
   }
 };
@@ -256,8 +257,8 @@ doClick(event) {
 * @private
 */
 formatTextField() {
-  var dec = this.decimalPlacesNeeded(this.value_, this.signifDigits_);
-  var col = this.columnsNeeded(this.value_, this.signifDigits_);
+  const dec = this.decimalPlacesNeeded(this.value_, this.signifDigits_);
+  const col = this.columnsNeeded(this.value_, this.signifDigits_);
   if (Util.DEBUG && 0 == 1) {
     console.log('columnsNeeded '+col+' dec='+dec+' x='
         +Util.NFE(this.value_)+' '+this.label_);
@@ -406,12 +407,12 @@ setValue(value) {
 */
 validate(event) {
   // trim whitespace from start and end of string
-  var nowValue = this.textField_.value.replace(/^\s*|\s*$/g, '');
+  const nowValue = this.textField_.value.replace(/^\s*|\s*$/g, '');
   // Compare the current and previous text value of the field.
   // Note that the double value may be different from the text value because
   // of rounding.
   if (nowValue != this.lastValue_) {
-    var value = parseFloat(nowValue);
+    const value = parseFloat(nowValue);
     if (isNaN(value)) {
       alert('not a number: '+nowValue);
       this.formatTextField();

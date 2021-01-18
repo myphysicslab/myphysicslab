@@ -58,9 +58,9 @@ class ChoiceControl extends ChoiceControlBase {
     if not specified, then the Parameter's values are used.
 */
 constructor(parameter, opt_label, opt_choices, opt_values) {
-  var choices = opt_choices !== undefined ? opt_choices : parameter.getChoices();
-  var values = opt_values !== undefined ? opt_values : parameter.getValues();
-  var label = opt_label !== undefined ?
+  const choices = opt_choices !== undefined ? opt_choices : parameter.getChoices();
+  const values = opt_values !== undefined ? opt_values : parameter.getValues();
+  const label = opt_label !== undefined ?
       opt_label : parameter.getName(/*localized=*/true);
   super(choices, values,
       () => parameter.getAsString(),
@@ -122,7 +122,7 @@ observe(event) {
 * @private
 */
 rebuildMenu() {
-  var newChoices = this.parameter_.getChoices();
+  const newChoices = this.parameter_.getChoices();
   // Does the current menu match the current set of choices?  If so, do nothing.
   if (!array.equals(this.choices, newChoices)) {
     this.setChoices(newChoices, this.parameter_.getValues());

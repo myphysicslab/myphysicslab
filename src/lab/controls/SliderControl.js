@@ -160,7 +160,7 @@ constructor(parameter, min, max, multiply, increments) {
   * @private
   */
   this.min_ = min;
-  var lowerLimit = parameter.getLowerLimit();
+  const lowerLimit = parameter.getLowerLimit();
   if (lowerLimit > min) {
     throw 'lower limit on slider ='+Util.NF(min)
         +' is less than parameter lower limit ='+Util.NF(lowerLimit);
@@ -173,7 +173,7 @@ constructor(parameter, min, max, multiply, increments) {
   if (min >= max) {
     throw 'min >= max';
   }
-  var upperLimit = parameter.getUpperLimit();
+  const upperLimit = parameter.getUpperLimit();
   if (upperLimit < max) {
     throw 'upper limit on slider ='+Util.NF(max)
         +' is greater than parameter upper limit ='+Util.NF(upperLimit);
@@ -345,7 +345,7 @@ with the given number of significant digits.
 @private
 */
 columnsNeeded(x, sigDigits) {
-  var mag = SliderControl.magnitude(x);
+  const mag = SliderControl.magnitude(x);
   return 2 + this.decimalPlacesNeeded(x, sigDigits) + (mag > 0 ? mag : 0);
 };
 
@@ -360,10 +360,11 @@ decimalPlacesNeeded(x, sigDigits) {
   if (this.decimalPlaces_ > -1) {
     return this.decimalPlaces_;
   } else {
-    var d = sigDigits - 1 - SliderControl.magnitude(x);
+    let d = sigDigits - 1 - SliderControl.magnitude(x);
     // limit of 16 decimal places; this could be a settable option.
-    if (d > 16)
+    if (d > 16) {
       d = 16;
+    }
     return d > 0 ? d : 0;
   }
 };
@@ -405,8 +406,8 @@ doClick2(evt) {
 * @private
 */
 formatTextField() {
-  var dec = this.decimalPlacesNeeded(this.paramValue_, this.signifDigits_);
-  var col = this.columnsNeeded(this.paramValue_, this.signifDigits_);
+  const dec = this.decimalPlacesNeeded(this.paramValue_, this.signifDigits_);
+  const col = this.columnsNeeded(this.paramValue_, this.signifDigits_);
   // console.log('columnsNeeded '+col+' dec='+dec+' x='
   //      +Util.NFE(this.paramValue_)+' '+this.parameter_.getName());
   this.textboxValue_ = this.paramValue_.toFixed(dec);
@@ -571,7 +572,7 @@ setValue(value) {
     this.formatTextField();
     // note that the scroll can only reach certain discrete values,
     // so its positioning will only approximate this.value
-    var incr = this.valueToIncrement(this.paramValue_);
+    const incr = this.valueToIncrement(this.paramValue_);
     // We store the sliderValue to be able to ignore upcoming "slider changed" event.
     this.sliderValue_ = this.incrementToValue(incr);
     // Note that this will fire a 'slider changed' event
@@ -584,7 +585,7 @@ setValue(value) {
 * @private
 */
 sliderChange(event) {
-  var newValue = this.incrementToValue(Number(this.slider_.value));
+  const newValue = this.incrementToValue(Number(this.slider_.value));
   if (Util.veryDifferent(newValue, this.sliderValue_)) {
     this.setValue(newValue);
   }
@@ -597,12 +598,12 @@ sliderChange(event) {
 */
 validateText(event) {
   // trim whitespace from start and end of string
-  var newValue = this.textField_.value.trim();
+  const newValue = this.textField_.value.trim();
   // Compare the current and previous text value of the field.
   // Note that the double value may be different from the text value because
   // of rounding.
   if (newValue != this.textboxValue_) {
-    var value = parseFloat(newValue);
+    const value = parseFloat(newValue);
     if (isNaN(value)) {
       alert('not a number: '+newValue);
       this.formatTextField();

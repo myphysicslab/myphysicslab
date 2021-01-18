@@ -41,7 +41,7 @@ constructor(view, start_screen) {
   * @private
   */
   this.panMap_ = view.getCoordMap();
-  var sr = view.getSimRect();
+  const sr = view.getSimRect();
   /** center of simRect in panMap screen coords
   * @type {!Vector}
   * @private
@@ -62,10 +62,10 @@ mouseDrag(loc_screen) {
   // Use panMap_ because it doesn't change as we move the LabView's simRect.
   // Move the center in opposite direction of the mouse, because
   // simRect is the 'window' we look thru to see the simulation.
-  var offset = this.start_screen_.subtract(loc_screen);
-  var center = this.panMap_.screenToSim(this.center_screen_.add(offset));
-  var sr = this.view_.getSimRect();
-  var dr = DoubleRect.makeCentered(center, sr.getWidth(), sr.getHeight());
+  const offset = this.start_screen_.subtract(loc_screen);
+  const center = this.panMap_.screenToSim(this.center_screen_.add(offset));
+  const sr = this.view_.getSimRect();
+  const dr = DoubleRect.makeCentered(center, sr.getWidth(), sr.getHeight());
   this.view_.setSimRect(dr);  // note: this changes the LabView's CoordMap.
 };
 

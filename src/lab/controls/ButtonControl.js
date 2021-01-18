@@ -154,7 +154,7 @@ holdClick() {
   this.clickFunction_();
   if (this.repeatDelay > 0) {
     // make the first delay longer to avoid unwanted held-button repeats.
-    var d = this.timeoutID_ !== undefined ?
+    const d = this.timeoutID_ !== undefined ?
         this.repeatDelay : this.repeatFirst * this.repeatDelay;
     this.timeoutID_ = setTimeout( () => this.holdClick(), d);
   }

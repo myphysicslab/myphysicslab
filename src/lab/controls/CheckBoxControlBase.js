@@ -64,10 +64,10 @@ constructor(label, getter, setter, checkBox) {
   */
   this.state_ = getter();
   /** @type {HTMLLabelElement} */
-  var labelElement = null;
+  let labelElement = null;
   if (goog.isObject(checkBox)) {
     // see if the parent is a label
-    var parent = dom.getParentElement(checkBox);
+    const parent = dom.getParentElement(checkBox);
     if (parent != null && parent.tagName == 'LABEL') {
       labelElement = /** @type {!HTMLLabelElement} */(parent);
     }
