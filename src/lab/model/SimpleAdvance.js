@@ -68,7 +68,7 @@ toStringShort() {
 /** @override */
 advance(timeStep, opt_memoList) {
   this.sim_.getSimList().removeTemporary(this.sim_.getTime());
-  var err = this.odeSolver_.step(timeStep);
+  const err = this.odeSolver_.step(timeStep);
   if (err != null) {
     throw 'error during advance '+err;
   }

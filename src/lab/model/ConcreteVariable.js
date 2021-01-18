@@ -158,7 +158,7 @@ setComputed(value) {
 
 /** @override */
 setFromString(value) {
-  var v = Number(value);
+  const v = Number(value);
   if (isNaN(v)) {
     throw 'not a number: '+value+' (ConcreteVariable.setFromString)';
   }

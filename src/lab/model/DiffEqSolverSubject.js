@@ -77,15 +77,15 @@ constructor(sim, energySystem, advanceStrategy, opt_name) {
   this.solvers_.push(new ModifiedEuler(this.sim_));
   this.solvers_.push(new RungeKutta(this.sim_));
   if (this.energySystem_ != null) {
-    var solver = new AdaptiveStepSolver(this.sim_, this.energySystem_,
+    let solver = new AdaptiveStepSolver(this.sim_, this.energySystem_,
         new ModifiedEuler(this.sim_));
     this.solvers_.push(solver);
     solver = new AdaptiveStepSolver(this.sim_, this.energySystem_,
         new RungeKutta(this.sim_));
     this.solvers_.push(solver);
   };
-  var choices = this.solvers_.map(s => s.getName(/*localized=*/true));
-  var values = this.solvers_.map(s => s.getName());
+  const choices = this.solvers_.map(s => s.getName(/*localized=*/true));
+  const values = this.solvers_.map(s => s.getName());
   this.addParameter(
     new ParameterString(this, DiffEqSolverSubject.en.DIFF_EQ_SOLVER,
         DiffEqSolverSubject.i18n.DIFF_EQ_SOLVER,
@@ -123,7 +123,7 @@ getDiffEqSolver() {
 */
 setDiffEqSolver(value) {
   if (!this.advanceStrategy_.getDiffEqSolver().nameEquals(value)) {
-    var solver = array.find(this.solvers_, s => s.nameEquals(value));
+    const solver = array.find(this.solvers_, s => s.nameEquals(value));
     if (solver != null) {
       this.advanceStrategy_.setDiffEqSolver(solver);
       this.broadcastParameter(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);

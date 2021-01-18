@@ -70,8 +70,8 @@ class DampingLaw extends AbstractSubject {
    when objects are added; also adds all existing bodies on that SimList.
 */
 constructor(damping, rotateRatio, opt_simList) {
-  var id = DampingLaw.NAME_ID++;
-  var nm = 'DAMPING_LAW' + (id > 0 ? '_'+id : '');
+  const id = DampingLaw.NAME_ID++;
+  const nm = 'DAMPING_LAW' + (id > 0 ? '_'+id : '');
   super(nm);
   /**
   * @type {number}
@@ -143,8 +143,8 @@ addBody(obj) {
   if (!obj.isMassObject() || array.contains(this.bods_, obj)) {
     return;
   }
-  var mobj = /** @type {!MassObject}*/(obj);
-  var m = mobj.getMass();
+  const mobj = /** @type {!MassObject}*/(obj);
+  const m = mobj.getMass();
   if (m > 0 && isFinite(m)) {
     this.bods_.push(mobj);
   }
@@ -153,7 +153,7 @@ addBody(obj) {
 /** @override */
 calculateForces() {
   /** @type {!Array<!Force>} */
-  var forces = [];
+  const forces = [];
   if (this.damping_ == 0) {
     return forces;
   }
@@ -162,8 +162,8 @@ calculateForces() {
       return;
     // translational damping: location is center of mass;
     // direction/magnitude is  -k*body.vx, -k*body.vy
-    var cm = bod.getPosition();
-    var f = new Force('damping', bod,
+    const cm = bod.getPosition();
+    const f = new Force('damping', bod,
         /*location=*/cm, CoordType.WORLD,
         /*direction=*/bod.getVelocity().multiply(-this.damping_), CoordType.WORLD,
         /*torque=*/-this.damping_*this.rotateRatio_* bod.getAngularVelocity());
@@ -216,12 +216,11 @@ getRotateRatio() {
 
 /** @override */
 observe(event) {
-  var obj;
   if (event.nameEquals(SimList.OBJECT_ADDED)) {
-    obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     this.addBody(obj);
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-    obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     array.remove(this.bods_, obj);
     asserts.assert(!array.contains(this.bods_, obj));
   }

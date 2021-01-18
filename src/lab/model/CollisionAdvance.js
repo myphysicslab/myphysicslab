@@ -231,14 +231,14 @@ addWayPoints(wayPoints) {
 
 /** @override */
 advance(timeStep, opt_memoList) {
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   if (timeStep < 1E-16) {
     this.sim_.modifyObjects();
     return;
   }
   if (0 == 1 && Util.DEBUG) {
     // turn on debug at a specific time
-    var t = this.sim_.getTime();
+    const t = this.sim_.getTime();
     if (t >= 6.5 && t < 8.0) {
       this.setDebugLevel(CollisionAdvance.DebugLevel.HIGH);
     } else {
@@ -267,7 +267,7 @@ advance(timeStep, opt_memoList) {
   this.collisions_ = [];
   this.sim_.getVarsList().saveHistory();
   this.print(WayPoint.START);
-  var didHandle = false;
+  let didHandle = false;
   // It may seem strange that we step forward, backup, and then handle collision.
   // Why not just handle the collision before step forward, and avoid the backup?
   // The reason is we usually don't know about the collision until we step forward,
@@ -280,13 +280,13 @@ advance(timeStep, opt_memoList) {
   // See UtilEngine_test.testNumericalBug1().
   // ===================== until entire time step done =====================
   while (this.timeAdvanced_ < this.totalTimeStep_ - 1E-16) {
-    var didAdvance = this.do_advance_sim(this.currentStep_);
+    const didAdvance = this.do_advance_sim(this.currentStep_);
     this.stats_.update(this.collisions_);
     // did not advance implies there are collisions
     asserts.assert(didAdvance || this.stats_.numNeedsHandling > 0);
     this.print(WayPoint.ADVANCE_SIM_FINISH);
     // If there are any colliding collisions, then must backup.
-    var didBackup = false;
+    let didBackup = false;
     if (this.stats_.numNeedsHandling > 0) {
       this.detectedTime_ = this.stats_.detectedTime;
       this.do_backup(this.currentStep_);
@@ -330,7 +330,7 @@ advance(timeStep, opt_memoList) {
       if (this.removeDistant(didBackup)) {
         this.print(WayPoint.HANDLE_REMOVE_DISTANT);
       }
-      var b = this.do_handle_collision(this.numClose_);
+      const b = this.do_handle_collision(this.numClose_);
       didHandle = didHandle || b;
       this.nextEstimate_ = NaN;
       // stats_ are used by calc_next_step; base stats on removedCollisions
@@ -393,7 +393,7 @@ allVelocities(collisions) {
 * @private
 */
 calc_next_step(didBackup) {
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   // assumes that stats are up-to-date
   this.nextEstimate_ = this.stats_.estTime;
   if (!this.binarySearch_) {
@@ -408,7 +408,7 @@ calc_next_step(didBackup) {
       this.print(WayPoint.NO_ESTIMATE);
     }
   }
-  var fullStep = this.totalTimeStep_ - this.timeAdvanced_;
+  const fullStep = this.totalTimeStep_ - this.timeAdvanced_;
   if (this.binarySearch_) {
     this.nextEstimate_ = NaN;
     // Note that stuckCount can increase during binary search whenever we backup
@@ -428,7 +428,7 @@ calc_next_step(didBackup) {
     // We have an estimate for next collision time -- from 2 scenarios:
     // 1) we backed up from a collision, found earliest estimate
     // 2) we removed a collision while handling collisions and remembered its estimate
-    var nextStep = this.nextEstimate_ - this.sim_.getTime();
+    const nextStep = this.nextEstimate_ - this.sim_.getTime();
     asserts.assert( nextStep >= 0 );
     this.currentStep_ = Math.min(nextStep, fullStep);
     this.print(WayPoint.NEXT_STEP_ESTIMATE);
@@ -452,7 +452,7 @@ collisions
 */
 checkNoneCollide() {
   if (Util.DEBUG) {
-    var numIllegal = 0;
+    let numIllegal = 0;
     this.collisions_.forEach(c => {
       if (c.illegalState())
         numIllegal++;
@@ -476,7 +476,7 @@ checkNoneCollide() {
 * @private
 */
 do_advance_sim(stepSize) {
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   asserts.assert(!isNaN(stepSize) && isFinite(stepSize));
   this.collisions_ = [];
   // ===================== save current state =====================
@@ -486,7 +486,7 @@ do_advance_sim(stepSize) {
   }
   this.print(WayPoint.ADVANCE_SIM_START);
   // ===================== step the ODE forward =====================
-  var error = this.odeSolver_.step(stepSize);
+  const error = this.odeSolver_.step(stepSize);
   this.sim_.modifyObjects();
   if (Util.DEBUG && this.debugPaint_ != null) {
     this.debugPaint_();
@@ -505,7 +505,7 @@ do_advance_sim(stepSize) {
   } else {
     // sim_.getTime() is now timeAdvanced + stepSize; vars have been updated
     // ===================== find collisions =====================
-    var vars = this.sim_.getVarsList().getValues();
+    const vars = this.sim_.getVarsList().getValues();
     this.sim_.findCollisions(this.collisions_, vars, stepSize);
     // For ImpulseSim, it is rare to find a collision here because
     // the collision checking is done inside evaluate().
@@ -533,8 +533,8 @@ do_advance_sim(stepSize) {
   array.stableSort(this.collisions_,
     function(c1, c2) {
     // Round to 7 decimal places, to suppress differences between browsers.
-    var est1 = Math.round(1E7 * c1.getEstimatedTime());
-    var est2 = Math.round(1E7 * c2.getEstimatedTime());
+    const est1 = Math.round(1E7 * c1.getEstimatedTime());
+    const est2 = Math.round(1E7 * c2.getEstimatedTime());
     // Sort NaN at back, but if both are NaN then report equality.
     if (isNaN(est1))
       return isNaN(est2) ? 0 : 1;
@@ -559,7 +559,7 @@ always in a legal state.
 * @private
 */
 do_backup(stepSize) {
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   this.print(WayPoint.POST_COLLISION);
   this.sim_.restoreState();
   this.sim_.modifyObjects();
@@ -572,9 +572,9 @@ do_backup(stepSize) {
   // isColliding() or getDistance();
   // However the needsHandling() status should be unchanged -- it remembers
   // which collisions caused the backup to occur.
-  var time = this.sim_.getTime();
-  for (var i=this.collisions_.length-1; i>=0; i--) {
-    var c = this.collisions_[i];
+  const time = this.sim_.getTime();
+  for (let i=this.collisions_.length-1; i>=0; i--) {
+    const c = this.collisions_[i];
     // We only retain *penetrating* collisions from the future set of collisions.
     // Those penetrating collisions were found by advancing to future time when
     // they are penetrating.
@@ -593,7 +593,7 @@ do_backup(stepSize) {
   // Therefore this will only find collisions that are within the distance tolerance,
   // which will usually be resting contacts, but could be separating contacts,
   // and also imminent colliding contacts that are within distance tolerance.
-  var vars = this.sim_.getVarsList().getValues();
+  const vars = this.sim_.getVarsList().getValues();
   this.sim_.findCollisions(this.collisions_, vars, stepSize);
 };
 
@@ -603,12 +603,12 @@ do_backup(stepSize) {
 * @private
 */
 do_handle_collision(numClose) {
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   this.print(WayPoint.HANDLE_COLLISION_START);
   this.print(WayPoint.COLLISIONS_TO_HANDLE);
   if (this.sim_.handleCollisions(this.collisions_, this.collisionTotals_)) {
     this.sim_.modifyObjects(); // updates velocities stored in RigidBody
-    var time = this.sim_.getTime();
+    const time = this.sim_.getTime();
     // Update the collisions to see new velocity (gets velocity from RigidBody)
     // (for debugging).
     this.collisions_.forEach(c => c.updateCollision(time));
@@ -642,7 +642,7 @@ do_handle_collision(numClose) {
 * @private
 */
 do_small_impacts() {
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   // EXPERIMENT OCT 2011:  Disable this entirely, because we are now
   // dealing with negative velocity at contacts by increasing acceleration.
   // See ContactSim.calculate_b_vector.
@@ -674,7 +674,7 @@ do_small_impacts() {
     // NOTE: not adding these small impacts to the collision totals.
     this.sim_.modifyObjects();
     if (Util.DEBUG) {
-      var time = this.sim_.getTime();
+      const time = this.sim_.getTime();
       // update the collisions to see new velocity when debugging
       this.collisions_.forEach(c => c.updateCollision(time));
     }
@@ -737,7 +737,7 @@ jointFlags(collisions) {
 */
 maxImpulse(collisions) {
   return array.reduce(collisions, function(max, c, index, array) {
-    var impulse = c.getImpulse();
+    const impulse = c.getImpulse();
     return isFinite(impulse) ? Math.max(max, impulse) : max;
   }, 0);
 };
@@ -749,7 +749,7 @@ maxImpulse(collisions) {
 */
 minVelocity(collisions) {
   return array.reduce(collisions, function(min, c, index, array) {
-    var v = c.getVelocity();
+    const v = c.getVelocity();
     return isFinite(v) ? Math.min(min, v) : min;
   }, Util.POSITIVE_INFINITY);
 };
@@ -765,7 +765,7 @@ myPrint(message, colors) {
   // Note that `colors` is never referenced within this function body.
   // It primarily exists so it can be annotated with `...` for the Compiler,
   // we get the CSS strings from `arguments`.
-  var args = array.slice(arguments, 1);
+  const args = array.slice(arguments, 1);
   args.unshift('%c'+Util.NF7(this.sim_.getTime())+'%c '+message, 'color:blue', 'color:black');
   console.log.apply(console, args);
 };
@@ -782,9 +782,8 @@ print(wayPoint) {
   if (!this.wayPoints_.includes(wayPoint)) {
     return;
   }
-  var WayPoint = CollisionAdvance.WayPoint;
-  var s;
-  var ccount;
+  const WayPoint = CollisionAdvance.WayPoint;
+  let ccount;
   switch (wayPoint) {
 
     case WayPoint.START:
@@ -989,7 +988,7 @@ are colliding or close enough to handle.
 * @private
 */
 static printCollision(time, msg, c) {
-  var style = 'color:black'; // color corresponding to distance
+  let style = 'color:black'; // color corresponding to distance
   if (c.getVelocity() < 0) {
     if (c.isColliding()) {
       style = 'background:#fc6'; // orange
@@ -1008,7 +1007,7 @@ static printCollision(time, msg, c) {
 */
 printCollisions(msg, printAll) {
   if (Util.DEBUG) {
-    var time = this.sim_.getTime();
+    const time = this.sim_.getTime();
     this.collisions_.forEach((c, i) => {
       if (printAll || c.needsHandling() || !c.contact()) {
         CollisionAdvance.printCollision(time, msg+' ['+i+']', c);
@@ -1024,7 +1023,7 @@ printCollisions(msg, printAll) {
 */
 printCollisions2(msg, impulse) {
   if (Util.DEBUG) {
-    var time = this.sim_.getTime();
+    const time = this.sim_.getTime();
     this.collisions_.forEach((c, i) => {
       if (Math.abs(c.getImpulse()) > impulse) {
         CollisionAdvance.printCollision(time, msg+' ['+i+']', c);
@@ -1038,13 +1037,13 @@ printCollisions2(msg, impulse) {
 @private
 */
 printJointDistance() {
-  var time = this.sim_.getTime();
+  const time = this.sim_.getTime();
   // avoid printing too often when using small time steps.
   // (Useful when comparing joint distance with small time steps to large time steps)
   if (time - this.printTime_ >= 0.025) {
     this.printTime_ = time;
-    var joints = array.filter(this.collisions_, c => c.bilateral());
-    var dists = joints.map(c => c.getDistance());
+    const joints = array.filter(this.collisions_, c => c.bilateral());
+    const dists = joints.map(c => c.getDistance());
     this.myPrint(Util.array2string(dists));
   }
 };
@@ -1059,11 +1058,11 @@ removed collisions array.
 * @private
 */
 removeDistant(allowTiny) {
-  var removed = false;
+  let removed = false;
   // iterate backwards because we remove items from the list we are iterating over
-  var i = this.collisions_.length;
+  let i = this.collisions_.length;
   while (i-- > 0) {
-    var c = this.collisions_[i];
+    const c = this.collisions_[i];
     if (!c.isTouching()) {
       array.removeAt(this.collisions_, i);
       this.removedCollisions_.push(c);
@@ -1092,9 +1091,9 @@ see {@link CollisionAdvance.DebugLevel}.
 */
 setDebugLevel(debugLevel) {
   // display stack (for when you don't know who is setting debug level)
-  //var e = new Error();
+  //const e = new Error();
   //console.log('setDebugLevel '+debugLevel+' '+e.stack);
-  var WayPoint = CollisionAdvance.WayPoint;
+  const WayPoint = CollisionAdvance.WayPoint;
   switch (debugLevel) {
     case CollisionAdvance.DebugLevel.NONE:
       this.wayPoints_ = [WayPoint.STUCK];

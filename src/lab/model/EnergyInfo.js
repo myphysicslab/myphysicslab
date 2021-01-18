@@ -102,7 +102,7 @@ getRotational() {
 * @return {number} the total energy of the system
 */
 getTotalEnergy() {
-  var tot = this.potential_ + this.translational_;
+  let tot = this.potential_ + this.translational_;
   if (!isNaN(this.rotational_)) {
     tot += this.rotational_;
   }

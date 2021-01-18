@@ -77,7 +77,7 @@ getClassName() {
 
 /** @override */
 getValue() {
-  var r = this.terminal_.eval(this.expression_, /*output=*/false);
+  const r = this.terminal_.eval(this.expression_, /*output=*/false);
   return typeof r === 'number' ? r : Number.NaN;
 };
 

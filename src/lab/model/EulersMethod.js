@@ -78,25 +78,25 @@ nameEquals(name) {
 
 /** @override */
 step(stepSize) {
-  var error, i;
-  var va = this.ode_.getVarsList();
-  var vars = va.getValues();
-  var N = vars.length;
+  const va = this.ode_.getVarsList();
+  const vars = va.getValues();
+  const N = vars.length;
   if (this.inp_.length != N) {
     this.inp_ = new Array(N);
     this.k1_ = new Array(N);
   }
-  var inp = this.inp_;
-  var k1 = this.k1_;
-  for (i=0; i<N; i++) {
+  const inp = this.inp_;
+  const k1 = this.k1_;
+  for (let i=0; i<N; i++) {
     // set up input to diffeqs (note: this protects vars from being changed)
     inp[i] = vars[i];
   }
   Util.zeroArray(k1);
-  error = this.ode_.evaluate(inp, k1, 0);  // evaluate at time t
-  if (error != null)
+  const error = this.ode_.evaluate(inp, k1, 0);  // evaluate at time t
+  if (error != null) {
     return error;
-  for (i=0; i<N; i++) {
+  }
+  for (let i=0; i<N; i++) {
       vars[i] += k1[i] * stepSize;
   }
   va.setValues(vars, /*continuous=*/true);

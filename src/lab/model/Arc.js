@@ -138,7 +138,7 @@ similar(obj, opt_tolerance) {
   if (!(obj instanceof Arc)) {
     return false;
   }
-  var arc = /** @type {!Arc} */ (obj);
+  const arc = /** @type {!Arc} */ (obj);
   if (Util.veryDifferent(arc.startAngle_, this.startAngle_, opt_tolerance)) {
     return false;
   }

@@ -115,33 +115,33 @@ toString() {
 
 /** @override */
 alignTo(p_body, p_world, opt_angle) {
-  var angle = (opt_angle === undefined) ? this.angle_ : opt_angle;
+  const angle = (opt_angle === undefined) ? this.angle_ : opt_angle;
   // vector from CM to target point
-  var rx = p_body.getX() - this.cm_body_.getX();
-  var ry = p_body.getY() - this.cm_body_.getY();
+  const rx = p_body.getX() - this.cm_body_.getX();
+  const ry = p_body.getY() - this.cm_body_.getY();
   // p_world says where p_body should wind up in world coords;
   // need to find where CM will wind up.
   // rotate the vector rx, ry by the angle, subtract from p_world;
   // this gives where CM will be.
-  var sin = Math.sin(angle);
-  var cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  const cos = Math.cos(angle);
   this.setPosition(new Vector(p_world.getX() - (rx*cos - ry*sin),
               p_world.getY() - (rx*sin + ry*cos)), angle);
 };
 
 /** @override */
 bodyToWorld(p_body) {
-  var rx = p_body.getX() - this.cm_body_.getX();  // vector from cm to p_body
-  var ry = p_body.getY() - this.cm_body_.getY();
-  var vx = this.loc_world_.getX() + (rx*this.cosAngle_ - ry*this.sinAngle_);
-  var vy = this.loc_world_.getY() + (rx*this.sinAngle_ + ry*this.cosAngle_);
+  const rx = p_body.getX() - this.cm_body_.getX();  // vector from cm to p_body
+  const ry = p_body.getY() - this.cm_body_.getY();
+  const vx = this.loc_world_.getX() + (rx*this.cosAngle_ - ry*this.sinAngle_);
+  const vy = this.loc_world_.getY() + (rx*this.sinAngle_ + ry*this.cosAngle_);
   return new Vector(vx, vy);
 };
 
 /** @override */
 bodyToWorldTransform() {
   // move to global sim position
-  var at = new AffineTransform(1, 0, 0, 1, this.loc_world_.getX(),
+  let at = new AffineTransform(1, 0, 0, 1, this.loc_world_.getX(),
     this.loc_world_.getY());
   at = at.rotate(this.angle_);  //  rotate by angle
   return at.translate(-this.cm_body_.getX(), -this.cm_body_.getY());
@@ -165,9 +165,9 @@ getBottomBody() {};
 
 /** @override */
 getBottomWorld() {
-  var min = Util.POSITIVE_INFINITY;
+  let min = Util.POSITIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
-    var p = this.bodyToWorld(v);
+    const p = this.bodyToWorld(v);
     if (p.getY() < min)
       min = p.getY();
   });
@@ -222,9 +222,9 @@ getLeftBody() {};
 
 /** @override */
 getLeftWorld() {
-  var min = Util.POSITIVE_INFINITY;
+  let min = Util.POSITIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
-    var p = this.bodyToWorld(v);
+    const p = this.bodyToWorld(v);
     if (p.getX() < min)
       min = p.getX();
   });
@@ -249,9 +249,9 @@ getRightBody() {};
 
 /** @override */
 getRightWorld() {
-  var max = Util.NEGATIVE_INFINITY;
+  let max = Util.NEGATIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
-    var p = this.bodyToWorld(v);
+    const p = this.bodyToWorld(v);
     if (p.getX() > max)
       max = p.getX();
   });
@@ -263,9 +263,9 @@ getTopBody() {};
 
 /** @override */
 getTopWorld() {
-  var max = Util.NEGATIVE_INFINITY;
+  let max = Util.NEGATIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
-    var p = this.bodyToWorld(v);
+    const p = this.bodyToWorld(v);
     if (p.getY() > max)
       max = p.getY();
   });
@@ -280,7 +280,7 @@ getWidth() {
 /** @override */
 getVelocity(p_body) {
   if (p_body !== undefined) {
-    var r = this.rotateBodyToWorld(Vector.clone(p_body).subtract(this.cm_body_));
+    const r = this.rotateBodyToWorld(Vector.clone(p_body).subtract(this.cm_body_));
     return new Vector(this.velocity_.getX() - r.getY()*this.angular_velocity_,
                     this.velocity_.getY() + r.getX()*this.angular_velocity_);
   } else {
@@ -308,7 +308,7 @@ momentAboutCM() {
 
 /** @override */
 momentum() {
-  var result = new Array(3);
+  const result = new Array(3);
   result[0] = this.mass_*this.velocity_.getX();
   result[1] = this.mass_*this.velocity_.getY();
   result[2] = this.momentAboutCM()*this.angular_velocity_
@@ -411,13 +411,13 @@ translationalEnergy() {
 /** @override */
 worldToBody(p_world) {
   // get the vector from cm (which is at x_world,y_world) to p_world
-  var rx = p_world.getX() - this.loc_world_.getX();
-  var ry = p_world.getY() - this.loc_world_.getY();
-  var sin = -this.sinAngle_;
-  var cos = this.cosAngle_;
+  const rx = p_world.getX() - this.loc_world_.getX();
+  const ry = p_world.getY() - this.loc_world_.getY();
+  const sin = -this.sinAngle_;
+  const cos = this.cosAngle_;
   // add the reverse-rotated vector to the cm location (in body-coords)
-  var vx = this.cm_body_.getX() + (rx*cos - ry*sin);
-  var vy = this.cm_body_.getY() + (rx*sin + ry*cos);
+  const vx = this.cm_body_.getX() + (rx*cos - ry*sin);
+  const vy = this.cm_body_.getY() + (rx*sin + ry*cos);
   return new Vector(vx, vy);
 };
 

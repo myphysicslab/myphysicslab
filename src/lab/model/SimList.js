@@ -105,15 +105,15 @@ any existing similar SimObject in this SimList, as found using
 @param {...!SimObject} simObjs the SimObjects to add
 */
 add(simObjs) {
-  for (var i=0; i<arguments.length; i++) {
+  for (let i=0; i<arguments.length; i++) {
     /** @type {!SimObject} */
-    var element = arguments[i];
+    const element = arguments[i];
     if (!element) {
       throw 'cannot add invalid SimObject';
     }
-    var expire = element.getExpireTime();
+    const expire = element.getExpireTime();
     if (isFinite(expire)) {
-      var similar;
+      let similar;
       while (similar = this.getSimilar(element)) {
         this.remove(similar);
       }
@@ -130,7 +130,7 @@ add(simObjs) {
 @param {!Array<!SimObject>} objList the SimObjects to add
 */
 addAll(objList) {
-  for (var i=0, len=objList.length; i<len; i++) {
+  for (let i=0, len=objList.length; i<len; i++) {
     this.add(objList[i]);
   }
 };
@@ -166,7 +166,7 @@ get(arg) {
     }
   } else if (typeof arg === 'string') {
     arg = Util.toName(arg);
-    var e = array.find(this.elements_,
+    const e = array.find(this.elements_,
       function (/** !SimObject */obj, index, array) {
         return obj.getName() == arg;
       });
@@ -183,7 +183,7 @@ get(arg) {
 @throws {!Error} if Arc not found
 */
 getArc(name) {
-  var obj = this.get(name);
+  const obj = this.get(name);
   if (obj instanceof Arc) {
     return /** @type {!Arc} */(obj);
   } else {
@@ -197,7 +197,7 @@ getArc(name) {
 @throws {!Error} if ConcreteLine not found
 */
 getConcreteLine(name) {
-  var obj = this.get(name);
+  const obj = this.get(name);
   if (obj instanceof ConcreteLine) {
     return /** @type {!ConcreteLine} */(obj);
   } else {
@@ -211,7 +211,7 @@ getConcreteLine(name) {
 @throws {!Error} if PointMass not found
 */
 getPointMass(name) {
-  var obj = this.get(name);
+  const obj = this.get(name);
   if (obj instanceof PointMass) {
     return /** @type {!PointMass} */(obj);
   } else {
@@ -228,7 +228,7 @@ See {@link SimObject#similar} for how similarity is determined.
     or `null` if there isn't one
 */
 getSimilar(simObj, tolerance) {
-  var tol = (tolerance === undefined) ? this.tolerance_ : tolerance;
+  const tol = (tolerance === undefined) ? this.tolerance_ : tolerance;
   return array.find(this.elements_,
     function(obj, index, array) {
       return obj.similar(simObj, tol);
@@ -241,7 +241,7 @@ getSimilar(simObj, tolerance) {
 @throws {!Error} if Spring not found
 */
 getSpring(name) {
-  var obj = this.get(name);
+  const obj = this.get(name);
   if (obj instanceof Spring) {
     return /** @type {!Spring} */(obj);
   } else {
@@ -290,7 +290,7 @@ the {@link #OBJECT_REMOVED} event for each SimObject removed.
 @param {!Array<!SimObject>} objList the SimObjects to remove
 */
 removeAll(objList) {
-  for (var i=0, len=objList.length; i<len; i++) {
+  for (let i=0, len=objList.length; i<len; i++) {
     this.remove(objList[i]);
   }
 };
@@ -301,8 +301,8 @@ SimObject removed. See {@link SimObject#getExpireTime}
 @param {number} time the current simulation time
 */
 removeTemporary(time) {
-  for (var i = this.elements_.length-1; i >= 0; i--) {
-    var simobj = this.elements_[i];
+  for (let i = this.elements_.length-1; i >= 0; i--) {
+    const simobj = this.elements_[i];
     if (simobj.getExpireTime() < time) {
       this.elements_.splice(i, 1);
       this.broadcast(new GenericEvent(this, SimList.OBJECT_REMOVED, simobj));

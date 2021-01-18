@@ -60,8 +60,8 @@ class GravityLaw extends AbstractSubject {
     when objects are added; also adds all existing bodies on that SimList.
 */
 constructor(gravity, opt_simList) {
-  var id = GravityLaw.NAME_ID++;
-  var nm = 'GRAVITY_LAW' + (id > 0 ? '_'+id : '');
+  const id = GravityLaw.NAME_ID++;
+  const nm = 'GRAVITY_LAW' + (id > 0 ? '_'+id : '');
   super(nm);
   /**
   * @type {number}
@@ -132,8 +132,8 @@ addBody(obj) {
   if (!obj.isMassObject() || array.contains(this.bods_, obj)) {
     return;
   }
-  var mobj = /** @type {!MassObject}*/(obj);
-  var m = mobj.getMass();
+  const mobj = /** @type {!MassObject}*/(obj);
+  const m = mobj.getMass();
   if (m > 0 && isFinite(m)) {
     this.bods_.push(mobj);
   }
@@ -141,7 +141,7 @@ addBody(obj) {
 
 /** @override */
 calculateForces() {
-  var forces = [];
+  const forces = [];
   this.bods_.forEach(body => {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       forces.push(new Force('gravity', body,
@@ -185,7 +185,7 @@ getGravity() {
 
 /** @override */
 getPotentialEnergy() {
-  var pe = 0;
+  let pe = 0;
   this.bods_.forEach(body => {
     if (isFinite(body.getMass())) { // skip infinite mass objects
       if (0 == 1 && Util.DEBUG) {
@@ -194,7 +194,7 @@ getPotentialEnergy() {
           +' zel='+Util.NF(body.getZeroEnergyLevel())
           );
       }
-      var zel = body.getZeroEnergyLevel();
+      let zel = body.getZeroEnergyLevel();
       zel = zel != null ? zel : this.zeroEnergyLevel_;
       pe += (body.getPosition().getY() - zel) * body.getMass() * this.gravity_;
     }
@@ -213,7 +213,7 @@ getZeroEnergyLevel() {
 
 /** @override */
 observe(event) {
-  var obj = /** @type {!SimObject} */ (event.getValue());
+  const obj = /** @type {!SimObject} */ (event.getValue());
   if (event.nameEquals(SimList.OBJECT_ADDED)) {
     this.addBody(obj);
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {

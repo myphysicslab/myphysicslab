@@ -167,15 +167,15 @@ PathPoint. The normal line passes thru this PathPoint's {@link #getPosition loca
 */
 distanceToNormalLine(point) {
   //console.log('PathPoint.distanceToNormalLine '+this.toString());
-  var err = Math.abs(this.normalX*this.normalX + this.normalY*this.normalY - 1);
+  const err = Math.abs(this.normalX*this.normalX + this.normalY*this.normalY - 1);
   asserts.assert( err < 1E-15);
   if (Math.abs(this.normalX) < 1E-16) {
     // vertical normal
     return Math.abs(point.getX() - this.x);
   } else {
-    var A = -this.normalY;
-    var B = this.normalX;
-    var C = this.normalY * this.x - this.normalX * this.y;
+    const A = -this.normalY;
+    const B = this.normalX;
+    const C = this.normalY * this.x - this.normalX * this.y;
     return Math.abs(A * point.getX() + B * point.getY() + C) /
                  Math.sqrt(A * A + B * B);
   }

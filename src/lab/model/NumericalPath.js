@@ -257,11 +257,12 @@ increasing or decreasing.
 @private
 */
 static binarySearch(arr, x) {
-  var i_int, min, max;
-  var n_int = arr.length;
-  if (n_int<2)
+  let i_int, min, max;
+  const n_int = arr.length;
+  if (n_int<2) {
     throw 'array must have more than one element';
-  var dir = arr[0] < arr[n_int-1];  // sort direction of array
+  }
+  const dir = arr[0] < arr[n_int-1];  // sort direction of array
   i_int = Math.floor(n_int/2);
   if (dir) {
     min = 0;
@@ -272,32 +273,39 @@ static binarySearch(arr, x) {
   }
   // deal with x being outside array first
   if (dir) {
-    if (x < arr[0])
+    if (x < arr[0]) {
       return -1;
-    if (x >= arr[n_int-1])
+    }
+    if (x >= arr[n_int-1]) {
       return n_int;
+    }
   } else {
-    if (x < arr[n_int-1])
+    if (x < arr[n_int-1]) {
       return n_int;
-    if (x >= arr[0])
+    }
+    if (x >= arr[0]) {
       return -1;
+    }
   }
   while (Math.abs(max - min) > 1) {
     if (arr[i_int] <= x) {
-      if (dir)
+      if (dir) {
         min = i_int;
-      else
+      } else {
         max = i_int;
+      }
     } else {
-      if (dir)
+      if (dir) {
         max = i_int;
-      else
+      } else {
         min = i_int;
+      }
     }
-    if (dir)
+    if (dir) {
       i_int = min + Math.floor((max - min)/2);
-    else
+    } else {
       i_int = max + Math.floor((min - max)/2);
+    }
   }
   if (dir) {
     asserts.assert( arr[i_int] <= x && x < arr[i_int+1],
@@ -339,17 +347,17 @@ three-point differentiation formula used here.
 deriv3(yy, k, type) {
   asserts.assert(k >= 0);
   asserts.assert(k <= this.tableLength_-3 );
-  var x0 = this.pvals[k];
-  var x1 = this.pvals[k+1];
-  var x2 = this.pvals[k+2];
-  var xj;
+  const x0 = this.pvals[k];
+  const x1 = this.pvals[k+1];
+  const x2 = this.pvals[k+2];
+  let xj;
   switch (type) {
     case 0: xj = x0; break;
     case 1: xj = x1; break;
     case 2: xj = x2; break;
     default: throw '';
   }
-  var r = yy[k]*(2*xj - x1 - x2) / ((x0 - x1)*(x0 - x2));
+  let r = yy[k]*(2*xj - x1 - x2) / ((x0 - x1)*(x0 - x2));
   r += yy[k+1]*(2*xj - x0 - x2) / ((x1 - x0)*(x1 - x2));
   r += yy[k+2]*(2*xj - x0 - x1) / ((x2 - x0)*(x2 - x1));
   return r;
@@ -362,10 +370,9 @@ deriv3(yy, k, type) {
 @private
 */
 distanceSquared(point, i) {
-  var xd = point.getX() - this.xvals[i];
-  var yd = point.getY() - this.yvals[i];
-  var len = xd*xd + yd*yd;
-  return len;
+  const xd = point.getX() - this.xvals[i];
+  const yd = point.getY() - this.yvals[i];
+  return xd*xd + yd*yd;
 };
 
 /** Returns the distance-squared between the given point and an interpolated point on
@@ -378,12 +385,11 @@ the path.
 @private
 */
 distanceSquared2(point, p, k) {
-  var xp = NumericalPath.interp4(this.pvals, this.xvals, p, k-1, this.closedLoop);
-  var yp = NumericalPath.interp4(this.pvals, this.yvals, p, k-1, this.closedLoop);
-  var xd = point.getX() - xp;
-  var yd = point.getY() - yp;
-  var len = xd*xd + yd*yd;
-  return len;
+  const xp = NumericalPath.interp4(this.pvals, this.xvals, p, k-1, this.closedLoop);
+  const yp = NumericalPath.interp4(this.pvals, this.yvals, p, k-1, this.closedLoop);
+  const xd = point.getX() - xp;
+  const yd = point.getY() - yp;
+  return xd*xd + yd*yd;
 };
 
 /** Finds the closest point in the path table to the given `x,y` position in `point`.
@@ -396,16 +402,16 @@ mapping using interpolation.
     closest point in the table.
 */
 findNearestGlobal(point) {
-  var ppt = new PathPoint();
+  const ppt = new PathPoint();
   // just do a straight search; improve later if necessary.
-  var x = point.getX();
-  var y = point.getY();
-  var best_len = Util.POSITIVE_INFINITY;
+  const x = point.getX();
+  const y = point.getY();
+  let best_len = Util.POSITIVE_INFINITY;
   // for each point in the table, check the distance */
-  for (var i=0;i<this.tableLength_;i++) {
-    var xd = x - this.xvals[i];
-    var yd = y - this.yvals[i];
-    var len = xd*xd + yd*yd;
+  for (let i=0;i<this.tableLength_;i++) {
+    const xd = x - this.xvals[i];
+    const yd = y - this.yvals[i];
+    const len = xd*xd + yd*yd;
     if (len < best_len) {
       best_len = len;
       ppt.x = this.xvals[i];
@@ -454,14 +460,14 @@ Outline of the algorithm:
 */
 findNearestLocal(target, ppt) {
   // NOTE: k_int and dk_int should be integers at all times!
-  var k_int = this.modk(ppt.idx);
+  let k_int = this.modk(ppt.idx);
   // plen/20 is an arbitrary value; what is a good policy?
-  var dk_int = Math.floor(this.tableLength_/20);
-  var d = this.plen/20;
-  var p = this.pvals[k_int];
-  var ctr = 0;
+  let dk_int = Math.floor(this.tableLength_/20);
+  let d = this.plen/20;
+  let p = this.pvals[k_int];
+  let ctr = 0;
   do {
-    var y0, y1, y2;
+    let y0, y1, y2;
     if (dk_int > 1) {
       p = this.pvals[k_int];
       // table search mode:  use nearest table points
@@ -470,13 +476,13 @@ findNearestLocal(target, ppt) {
       y2 = this.distanceSquared(target, this.modk(k_int + dk_int));
     } else {
       // interpolation mode:  interpolate between table points
-      var p0 = this.mod_p(p - d);
+      const p0 = this.mod_p(p - d);
       y0 = this.distanceSquared2(target, p0, this.linearSearch(p0, k_int));
       y1 = this.distanceSquared2(target, p, k_int);
-      var p2 = this.mod_p(p + d);
+      const p2 = this.mod_p(p + d);
       y2 = this.distanceSquared2(target, p2, this.linearSearch(p2, k_int));
     }
-    if (ctr > 1000 && Util.DEBUG)
+    if (ctr > 1000 && Util.DEBUG) {
       console.log(ctr
         +' y0='+Util.NF5(y0)
         +' y1='+Util.NF5(y1)
@@ -486,6 +492,7 @@ findNearestLocal(target, ppt) {
         +' dk='+dk_int
         +' k='+k_int
         );
+    }
     if (y0 < y1 && y0 < y2) {  // shift 'left'
       // It is possible to have y0 < y1 and y2 < y1;  in that case,
       // we want to shift in the direction of least y.
@@ -531,39 +538,42 @@ findNearestLocal(target, ppt) {
   if (this.closedLoop) {
     // preserve p-value, it may be multiples of total path length from circling around
     // the path multiple times.
-    var oldp = ppt.p;
-    var oldmodp = this.mod_p(ppt.p);
+    const oldp = ppt.p;
+    const oldmodp = this.mod_p(ppt.p);
     // Assume that the point hasn't travelled more than 1/3 of circle since its
     // previous position at oldp.
     if (oldmodp < this.plen/6 && p > 5*this.plen/6) {
       // we passed from low p to high p over stitch point
-      var diff = ((p - this.plen) - oldmodp);
-      if (0 == 1)
+      const diff = ((p - this.plen) - oldmodp);
+      if (0 == 1) {
         console.log('low to high, diff='+Util.NFE(diff)
         +' (p-plen)='+Util.NFE(p-this.plen)
         +' oldmodp='+Util.NFE(oldmodp)
         );
+      }
       ppt.p = ppt.p + diff;
     } else if (p < this.plen/6 && oldmodp > 5*this.plen/6) {
       // we passed from high p to low p over stitch point
-      var diff = ((p + this.plen) - oldmodp);
-      if (0 == 1)
+      const diff = ((p + this.plen) - oldmodp);
+      if (0 == 1) {
         console.log('high to low, diff='+Util.NFE(diff)
         +' (p+plen)='+Util.NFE(p+this.plen)
         +' oldmodp='+Util.NFE(oldmodp)
         );
+      }
       ppt.p = ppt.p + diff;
     } else {
       // we did not cross stitch point.
       ppt.p = ppt.p + (p - oldmodp);
     }
-    if (0 == 1 && (p < 0.1 || p > this.plen - 0.1))
+    if (0 == 1 && (p < 0.1 || p > this.plen - 0.1)) {
       console.log('near stitch, '
         +' oldp='+Util.NF7(oldp)
         +' newp='+Util.NF7(ppt.p)
         +' oldmodp='+Util.NF7(oldmodp)
         +' newmodp='+Util.NF7(p)
         );
+    }
   } else {
     ppt.p = p;
   }
@@ -658,10 +668,11 @@ chapter 2 <cite>Polynomial Interpolation</cite> p. 77.
 @private
 */
 static interp4(xx, yy, x, k, closedLoop) {
-  var n = xx.length;
-  if (yy.length != n)
+  const n = xx.length;
+  if (yy.length != n) {
     throw '';
-  var i = k;
+  }
+  let i = k;
   // check if at either end point of the table, fix index if needed.
   if (i > n-4) {
     // use xx[n-4], xx[n-3], xx[n-2], xx[n-1]
@@ -678,14 +689,13 @@ static interp4(xx, yy, x, k, closedLoop) {
   // Use Horner's rule for nested multiplication to evaluate the polynomial at x.
   //  see Van Loan, p. 80
   // calculate the constants on the polynomial
-  var c1,c2,c3,c4;
+  let c1,c2,c3,c4;
   c1 = yy[i+0];
   c2 = (yy[i+1]-c1)/(xx[i+1]-xx[i+0]);
   c3 = (yy[i+2]- (c1 + c2*(xx[i+2]-xx[i+0]))) / ((xx[i+2]-xx[i+0])*(xx[i+2]-xx[i+1]));
   c4 = yy[i+3] - (c1 + c2*(xx[i+3]-xx[i+0]) + c3*(xx[i+3]-xx[i+0])*(xx[i+3]-xx[i+1]));
   c4 = c4 / ((xx[i+3]-xx[i+0])*(xx[i+3]-xx[i+1])*(xx[i+3]-xx[i+2]));
-  var r = ((c4*(x-xx[i+2]) + c3)*(x-xx[i+1]) + c2)*(x-xx[i+0]) + c1;
-  return r;
+  return ((c4*(x-xx[i+2]) + c3)*(x-xx[i+1]) + c2)*(x-xx[i+0]) + c1;
 };
 
 /** Whether this NumericalPath is a closed loop, ending at the same point it starts.
@@ -701,11 +711,12 @@ isClosedLoop() {
 @private
 */
 static isMonotonic(arr) {
-  var n_int = arr.length;
-  if (n_int<2)
+  const n_int = arr.length;
+  if (n_int<2) {
     throw 'array must have more than one element';
-  var dir = arr[0] < arr[n_int-1];  // sort direction of array
-  for (var i=1; i<n_int; i++) {
+  }
+  const dir = arr[0] < arr[n_int-1];  // sort direction of array
+  for (let i=1; i<n_int; i++) {
     if (dir) {
       if (arr[i-1] > arr[i]) {
         return false;
@@ -754,11 +765,13 @@ the `p` value.
 @private
 */
 linearSearch(p, k) {
-  var j = k;
-  if (j > this.tableLength_-2)
+  let j = k;
+  if (j > this.tableLength_-2) {
     j = this.tableLength_-2;
-  if (j < 0)
+  }
+  if (j < 0) {
     j = 0;
+  }
   // for closedLoop, we might have gone past the stitch point (wrap around end)
   // so switch to binary search if pval is very far away
   if (Math.abs(this.pvals[j] - p) > this.plen/20) {
@@ -773,21 +786,23 @@ linearSearch(p, k) {
         break;
       }
       if (p < this.pvals[j]) {
-        if (j > 0)
+        if (j > 0) {
           j = j - 1;
-        else
+        } else {
           break;
+        }
       } else {
-        if (j < this.tableLength_-2)
+        if (j < this.tableLength_-2) {
           j = j + 1;
-        else
+        } else {
           break;
+        }
       }
     }
   }
-  if (Util.DEBUG && j < this.tableLength_-2)
+  if (Util.DEBUG && j < this.tableLength_-2) {
     asserts.assert( this.pvals[j] <= p && p < this.pvals[j+1] );
-    //  : this.pvals[j]+' '+p+' '+this.pvals[j+1];
+  }
   return j;
 };
 
@@ -797,39 +812,43 @@ linearSearch(p, k) {
 @private
 */
 make_table(path) {
-  var tLow = path.getStartTValue();
-  var tHigh = path.getFinishTValue();
-  var i;
+  const tLow = path.getStartTValue();
+  const tHigh = path.getFinishTValue();
   /* Create table of x,y, and p (= path distance). */
-  if (NumericalPath.debug && Util.DEBUG)
+  if (NumericalPath.debug && Util.DEBUG) {
     console.log('make_table '+this.getName());
+  }
   {
-    var delta = (tHigh-tLow)/(this.tableLength_-1);
-    var t = tLow;
-    var p = 0;  // path distance always starts at zero
+    const delta = (tHigh-tLow)/(this.tableLength_-1);
+    let t = tLow;
+    let p = 0;  // path distance always starts at zero
     this.pvals[0] = 0;
-    var x1, x2, y1, y2;  // bounds rectangle
+    let x1, x2, y1, y2;  // bounds rectangle
     x1 = x2 = this.xvals[0] = path.x_func(t);
     y1 = y2 = this.yvals[0] = path.y_func(t);
-    for (i=1; i<this.tableLength_; i++) {
+    for (let i=1; i<this.tableLength_; i++) {
       t += delta;
       this.xvals[i] = path.x_func(t);
       this.yvals[i] = path.y_func(t);
-      var dx = this.xvals[i] - this.xvals[i-1];
-      var dy = this.yvals[i] - this.yvals[i-1];
+      const dx = this.xvals[i] - this.xvals[i-1];
+      const dy = this.yvals[i] - this.yvals[i-1];
       // use distance between points for path distance; crude but effective
       // (alternatively, could do numerical integration using Simpson's rule?)
       p += Math.sqrt(dx*dx + dy*dy);
       this.pvals[i] = p;
       // expand bounds rectangle
-      if (this.xvals[i] < x1)
+      if (this.xvals[i] < x1) {
         x1 = this.xvals[i];
-      if (this.xvals[i] > x2)
+      }
+      if (this.xvals[i] > x2) {
         x2 = this.xvals[i];
-      if (this.yvals[i] < y1)
+      }
+      if (this.yvals[i] < y1) {
         y1 = this.yvals[i];
-      if (this.yvals[i] > y2)
+      }
+      if (this.yvals[i] > y2) {
         y2 = this.yvals[i];
+      }
     }
     this.bounds = new DoubleRect(x1, y1, x2, y2);
     this.plen = this.pvals[this.tableLength_-1] - this.pvals[0];
@@ -837,7 +856,7 @@ make_table(path) {
   // calculate dy/dp and dx/dp
   // @todo  for closed loop we can use the regular centered three-point formula!
   // for end points, use special three-point formula
-  for (i=0; i<this.tableLength_; i++) {
+  for (let i=0; i<this.tableLength_; i++) {
     if (i==0) {
       this.dxvals[0] = this.deriv3(this.xvals, 0, 0);
       this.dyvals[0] = this.deriv3(this.yvals, 0, 0);
@@ -858,19 +877,19 @@ make_table(path) {
       this.nxVals[i] = 0.0;
       this.nyVals[i] = this.dxvals[i] > 0 ? 1.0 : -1.0;
     } else {
-      var q = -this.dxvals[i]/this.dyvals[i]; // slope of normal
+      const q = -this.dxvals[i]/this.dyvals[i]; // slope of normal
       asserts.assert(isFinite(q));
-      var q2 = Math.sqrt(1 + q*q);
+      const q2 = Math.sqrt(1 + q*q);
       this.nxVals[i] = 1.0 / q2;
       this.nyVals[i] = q / q2;
-      var direction = this.dxvals[i] > 0 ? 1 : -1;
+      const direction = this.dxvals[i] > 0 ? 1 : -1;
       if (direction * q < 0) {
         this.nxVals[i] = -this.nxVals[i];
         this.nyVals[i] = -this.nyVals[i];
       }
     }
   }
-  for (i=0; i<this.tableLength_; i++) {
+  for (let i=0; i<this.tableLength_; i++) {
     if (i==0) {
       this.nxpVals[0] = this.deriv3(this.nxVals, 0, 0);
       this.nypVals[0] = this.deriv3(this.nyVals, 0, 0);
@@ -901,7 +920,7 @@ returns 0 if `p < pvals[0]`.
 @return {number} index in the path table just before the given `p` value
 */
 map_p_to_index(p) {
-  var k = NumericalPath.binarySearch(this.pvals, p);
+  let k = NumericalPath.binarySearch(this.pvals, p);
   if (k < 0) {
     k = 0;
   }
@@ -926,7 +945,7 @@ map_p_to_vector(p) {
 */
 map_p_to_x(p) {
   p = this.mod_p(p);
-  var k = NumericalPath.binarySearch(this.pvals, p);
+  const k = NumericalPath.binarySearch(this.pvals, p);
   return NumericalPath.interp4(this.pvals, this.xvals, p, k-1, this.closedLoop);
 };
 
@@ -936,7 +955,7 @@ map_p_to_x(p) {
 */
 map_p_to_y(p) {
   p = this.mod_p(p);
-  var k = NumericalPath.binarySearch(this.pvals, p);
+  const k = NumericalPath.binarySearch(this.pvals, p);
   return NumericalPath.interp4(this.pvals, this.yvals, p, k-1, this.closedLoop);
 };
 
@@ -946,9 +965,10 @@ map_p_to_y(p) {
 @throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
 map_x_to_p(x) {
-  if (!this.x_monotonic)
+  if (!this.x_monotonic) {
     throw 'x is not monotonic';
-  var k = NumericalPath.binarySearch(this.xvals, x);
+  }
+  const k = NumericalPath.binarySearch(this.xvals, x);
   return NumericalPath.interp4(this.xvals, this.pvals, x, k-1, this.closedLoop);
 };
 
@@ -958,9 +978,10 @@ map_x_to_p(x) {
 @throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
 map_x_to_y(x) {
-  if (!this.x_monotonic)
+  if (!this.x_monotonic) {
     throw 'x is not monotonic';
-  var k = NumericalPath.binarySearch(this.xvals, x);
+  }
+  const k = NumericalPath.binarySearch(this.xvals, x);
   return NumericalPath.interp4(this.xvals, this.yvals, x, k-1, this.closedLoop);
 };
 
@@ -972,9 +993,10 @@ interpolates to find corresponding `y` and `p` values.
 @throws {!Error} if `x` values are not monotonically increasing or decreasing
 */
 map_x_to_y_p(ppt) {
-  if (!this.x_monotonic)
+  if (!this.x_monotonic) {
     throw 'x is not monotonic';
-  var k = NumericalPath.binarySearch(this.xvals, ppt.x);
+  }
+  const k = NumericalPath.binarySearch(this.xvals, ppt.x);
   ppt.y = NumericalPath.interp4(this.xvals, this.yvals, ppt.x, k-1, this.closedLoop);
   ppt.p = NumericalPath.interp4(this.xvals, this.pvals, ppt.x, k-1, this.closedLoop);
 };
@@ -1007,7 +1029,7 @@ table loops around or not.
 @private
 */
 modk(k) {
-  var r = k;
+  let r = k;
   if (this.closedLoop) {
     while (r < 0) {
       r += this.tableLength_;
@@ -1016,10 +1038,11 @@ modk(k) {
       r -= this.tableLength_;
     }
   } else {
-    if (r < 0)
+    if (r < 0) {
       r = 0;
-    else if (r >= this.tableLength_)
+    } else if (r >= this.tableLength_) {
       r = this.tableLength_-1;
+    }
   }
   asserts.assert(r > -1 );
   asserts.assert(r < this.tableLength_ );
@@ -1046,27 +1069,30 @@ radius is infinite there which is wrong.
     the radius of curvature if `PathPoint.radius_flag` is set.
 */
 map_p_to_slope(ppt) {
-  var saveP = ppt.p;
-  var nowP = this.mod_p(ppt.p);
+  const saveP = ppt.p;
+  const nowP = this.mod_p(ppt.p);
   // If `PathPoint.idx` corresponds to `PathPoint.p`, then can avoid searching
   // for index of `p` in the table.
-  var k = ppt.idx;
+  let k = ppt.idx;
   if (k < 0 || k > this.tableLength_-2 || this.pvals[k] > nowP ||
       this.pvals[k+1] <= nowP) {
-    var k0 = k;
+    const k0 = k;
     ppt.idx = k = NumericalPath.binarySearch(this.pvals, nowP);
     if (0 == 1 && Util.DEBUG) {
-      var s = 'binarySearch needed '+k0+'->'+k+' p='+Util.NF5(nowP);
-      if (k0 > -1 && k0 < this.tableLength_)
+      let s = 'binarySearch needed '+k0+'->'+k+' p='+Util.NF5(nowP);
+      if (k0 > -1 && k0 < this.tableLength_) {
         s += ' p['+k0+']='+Util.NF5(this.pvals[k0]);
+      }
       console.log(s);
     }
   }
   // adjust index if beyond end points
-  if (k<0)
+  if (k<0) {
     k = 0;
-  if (k >= this.tableLength_-1)
+  }
+  if (k >= this.tableLength_-1) {
     k = this.tableLength_-2;
+  }
   if (Util.DEBUG && k > 0 && k < this.tableLength_-2) {
     // if not at endpoint, check that index k corresponds to p
     asserts.assert( this.pvals[k] <= nowP && nowP < this.pvals[k+1] );
@@ -1076,13 +1102,12 @@ map_p_to_slope(ppt) {
     // Allow p-value outside of the path. When the p-value is before the start of the
     // path, or after the end of the path, we use a linear extension of the path.
     // This allows a ball in RollerSingleSim to move beyond the endpoints of the path.
-    var m;
     if (nowP < this.getStartPValue()) {
       // nowP is before the starting point of path. Use straight-line extension.
       ppt.copyFrom(this.startPoint_);
       ppt.p = nowP;
       ppt.idx = k;
-      m = ppt.slope;
+      const m = ppt.slope;
       ppt.x = this.startPoint_.x + (nowP - this.getStartPValue())/Math.sqrt(1 + m*m);
       ppt.y = this.startPoint_.y + m * (ppt.x - this.startPoint_.x);
       return;
@@ -1091,7 +1116,7 @@ map_p_to_slope(ppt) {
       ppt.copyFrom(this.endPoint_);
       ppt.p = nowP;
       ppt.idx = k;
-      m = ppt.slope;
+      const m = ppt.slope;
       ppt.x = this.endPoint_.x + (nowP - this.getFinishPValue())/Math.sqrt(1 + m*m);
       ppt.y = this.endPoint_.y + m * (ppt.x - this.endPoint_.x);
       return;
@@ -1131,7 +1156,7 @@ map_p_to_slope(ppt) {
     asserts.assert(!isNaN(ppt.slope));
     // Find slope vector (slopeX, slopeY)
     // the slope vector must point in direction of increasing p
-    var s2 = Math.sqrt(1 + ppt.slope * ppt.slope);
+    const s2 = Math.sqrt(1 + ppt.slope * ppt.slope);
     ppt.slopeX = 1.0 / s2;
     ppt.slopeY = ppt.slope / s2;
     if (ppt.direction == -1) {
@@ -1143,8 +1168,8 @@ map_p_to_slope(ppt) {
       // Find normal vector (normalX, normalY)
       // the normal vector should not suddenly flip from positive to negative,
       // therefore it has a different policy for when to flip it around.
-      var ns = -1/ppt.slope;  // slope of normal
-      var ns2 = Math.sqrt(1 + ns*ns);
+      const ns = -1/ppt.slope;  // slope of normal
+      const ns2 = Math.sqrt(1 + ns*ns);
       ppt.normalX = 1.0 / ns2;
       ppt.normalY = ns / ns2;
       if (ppt.direction * ppt.slope > 0) {
@@ -1182,15 +1207,15 @@ map_p_to_slope(ppt) {
       //                               <---- p2 ---->
       // Let slopes at p1 & p2 be b1 & b2.
       // Then radius will be inverse of:  atan(b2) - atan(b1)/(p2-p1)
-      var dx = this.xvals[k] - this.xvals[k-2];
-      var dy = this.yvals[k] - this.yvals[k-2];
-      var b1 = dy/dx;
+      const dx = this.xvals[k] - this.xvals[k-2];
+      const dy = this.yvals[k] - this.yvals[k-2];
+      const b1 = dy/dx;
       // ??? or should it be (pvals[k] + pvals[k-2])/2  ???
-      var p1 = this.pvals[k-1];
-      dx = this.xvals[k+3] - this.xvals[k+1];
-      dy = this.yvals[k+3] - this.yvals[k+1];
-      var b2 = dy/dx;
-      var p2 = this.pvals[k+2];
+      const p1 = this.pvals[k-1];
+      const dx2 = this.xvals[k+3] - this.xvals[k+1];
+      const dy2 = this.yvals[k+3] - this.yvals[k+1];
+      const b2 = dy2/dx2;
+      const p2 = this.pvals[k+2];
       ppt.radius = (p2-p1)/(Math.atan(b2)-Math.atan(b1));
       // cludge for straight lines, vertical lines, etc.
       if (isNaN(ppt.radius) || !isFinite(ppt.slope)) {
@@ -1208,7 +1233,7 @@ map_p_to_slope(ppt) {
 */
 printTable() {
   if (Util.DEBUG) {
-    for (var i=0; i<this.tableLength_; i++) {
+    for (let i=0; i<this.tableLength_; i++) {
       this.printPoint(i);
     }
   }
@@ -1221,7 +1246,7 @@ printTable() {
 */
 printPoint(i) {
   if (Util.DEBUG) {
-    var s = 'p='+Util.NF5(this.pvals[i]);
+    let s = 'p='+Util.NF5(this.pvals[i]);
     if (0 == 1 && i > 0) {
       s += ' dp='+Util.NFE(this.pvals[i] - this.pvals[i-1]);
     }
@@ -1252,13 +1277,13 @@ table entry.
 @private
 */
 tableSpacing(k) {
-  var j;
+  let j;
   if (this.closedLoop) {
     j = this.modk(k-1);
     return this.pvals[this.modk(j+2)] - this.pvals[j];
   } else {
     j = this.modk(k);
-    var j2;
+    let j2;
     if (j == 0) {
       j = 0;
       j2 = j + 2;
@@ -1295,10 +1320,11 @@ constructor(path, numberOfPoints) {
   * @private
   */
   this.path_ = path;
-  var p_first = path.getStartPValue();
-  var p_final = path.getFinishPValue();
-  if (p_final <= p_first)
+  const p_first = path.getStartPValue();
+  const p_final = path.getFinishPValue();
+  if (p_final <= p_first) {
     throw 'path data is out of order';
+  }
   /** delta determines how finely the path is drawn
   * @type {number}
   * @private
@@ -1313,14 +1339,14 @@ constructor(path, numberOfPoints) {
 
 /** @override */
 nextPoint(point) {
-  var n = this.path_.getTableLength();
+  const n = this.path_.getTableLength();
   if (this.idx_ >=  n-1) {
     return false;
   }
   if (this.idx_ < 0) {  // first point
     this.idx_ = 0;
   } else {
-    var p_prev = this.path_.pvals[this.idx_];
+    const p_prev = this.path_.pvals[this.idx_];
     do {    // find the next p-value that is bigger by 'delta'
       this.idx_++;
       if (this.idx_ > n-1) {  // we went off end of the list

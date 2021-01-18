@@ -29,7 +29,7 @@ class AbstractSimObject {
 * @param {string=} opt_localName localized name of this SimObject (optional)
 */
 constructor(opt_name, opt_localName) {
-  var name = opt_name || 'SIM_OBJ'+AbstractSimObject.ID++;
+  const name = opt_name || 'SIM_OBJ'+AbstractSimObject.ID++;
   /**
   * @type {string}
   * @private

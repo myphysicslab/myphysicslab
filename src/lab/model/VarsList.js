@@ -87,7 +87,7 @@ class VarsList extends AbstractSubject {
 *     anything other than strings, or have duplicate values
 */
 constructor(varNames, localNames, opt_name) {
-  var name = opt_name !== undefined ? opt_name : 'VARIABLES';
+  const name = opt_name !== undefined ? opt_name : 'VARIABLES';
   super(name);
   /**  Index of time variable, or -1 if there is no time variable.
   * @type {number}
@@ -97,8 +97,8 @@ constructor(varNames, localNames, opt_name) {
   if (varNames.length != localNames.length) {
     throw 'varNames and localNames are different lengths';
   }
-  for (var i = 0, n=varNames.length; i<n; i++) {
-    var s = varNames[i];
+  for (let i = 0, n = varNames.length; i<n; i++) {
+    let s = varNames[i];
     if (typeof s !== 'string') {
       throw 'variable name '+s+' is not a string i='+i;
     }
@@ -117,7 +117,7 @@ constructor(varNames, localNames, opt_name) {
   * @private
   */
   this.varList_ = [];
-  for (i = 0, n=varNames.length; i<n; i++) {
+  for (let i = 0, n = varNames.length; i<n; i++) {
     this.varList_.push(new ConcreteVariable(this, varNames[i], localNames[i]));
   }
   /** Whether to save simulation state history.
@@ -165,12 +165,12 @@ addParameter(parameter) {
 @throws {!Error} if name if the Variable is 'DELETED'
 */
 addVariable(variable) {
-  var name = variable.getName();
+  const name = variable.getName();
   if (name == VarsList.DELETED) {
     throw 'variable cannot be named "'+VarsList.DELETED+'"';
   }
   // add variable to first open slot
-  var position = this.findOpenSlot_(1);
+  const position = this.findOpenSlot_(1);
   this.varList_[position] = variable;
   if (name == VarsList.TIME) {
     // auto-detect time variable
@@ -189,20 +189,20 @@ addVariable(variable) {
 @throws {!Error} if any of the variable names is 'DELETED', or array of names is empty
 */
 addVariables(names, localNames) {
-  var howMany = names.length;
+  const howMany = names.length;
   if (howMany == 0) {
     throw '';
   }
   if (names.length != localNames.length) {
     throw 'names and localNames are different lengths';
   }
-  var position = this.findOpenSlot_(howMany);
-  for (var i=0; i<howMany; i++) {
-    var name = Util.validName(Util.toName(names[i]));
+  const position = this.findOpenSlot_(howMany);
+  for (let i=0; i<howMany; i++) {
+    const name = Util.validName(Util.toName(names[i]));
     if (name == VarsList.DELETED) {
       throw "variable cannot be named ''+VarsList.DELETED+''";
     }
-    var idx = position+i;
+    const idx = position+i;
     this.varList_[idx] = new ConcreteVariable(this, name, localNames[i]);
     if (name == VarsList.TIME) {
       // auto-detect time variable
@@ -237,7 +237,7 @@ deleteVariables(index, howMany) {
   if (howMany < 0 || index < 0 || index+howMany > this.varList_.length) {
     throw 'deleteVariables';
   }
-  for (var i=index; i<index+howMany; i++) {
+  for (let i=index; i<index+howMany; i++) {
     this.varList_[i] = new ConcreteVariable(this, VarsList.DELETED,
         VarsList.DELETED);
   }
@@ -254,9 +254,9 @@ findOpenSlot_(quantity) {
   if (quantity < 0) {
     throw '';
   }
-  var found = 0;
-  var startIdx = -1;
-  for (var i=0, n=this.varList_.length; i<n; i++) {
+  let found = 0;
+  let startIdx = -1;
+  for (let i=0, n=this.varList_.length; i<n; i++) {
     if (this.varList_[i].getName() == VarsList.DELETED) {
       if (startIdx == -1) {
         startIdx = i;
@@ -270,7 +270,7 @@ findOpenSlot_(quantity) {
       found = 0;
     }
   }
-  var expand;
+  let expand;
   if (found > 0) {
     // Found a group of deleted variables at end of VarsList, but need more.
     // Expand to get full quantity.
@@ -283,7 +283,7 @@ findOpenSlot_(quantity) {
     startIdx = this.varList_.length;
     expand = quantity;
   }
-  for (i=0; i<expand; i++) {
+  for (let i=0; i<expand; i++) {
     this.varList_.push(new ConcreteVariable(this, VarsList.DELETED, VarsList.DELETED));
   }
   return startIdx;
@@ -299,7 +299,7 @@ getHistory() {
 /** @override */
 getParameter(name) {
   name = Util.toName(name);
-  var p = array.find(this.varList_, p => p.getName() == name);
+  const p = array.find(this.varList_, p => p.getName() == name);
   if (p != null) {
     return p;
   }
@@ -358,7 +358,7 @@ getValues(computed) {
 @return {!Variable} the Variable object at the given index or with the given name
 */
 getVariable(id) {
-  var index;
+  let index;
   if (typeof id === 'number') {
     index = id;
   } else if (typeof id === 'string') {
@@ -385,13 +385,13 @@ graph to prevent drawing a line between points that have a discontinuity. See
 incrSequence(indexes) {
   if (arguments.length == 0) {
     // increment sequence number on all variables
-    for (var i=0, n=this.varList_.length; i<n; i++) {
+    for (let i=0, n=this.varList_.length; i<n; i++) {
       this.varList_[i].incrSequence();
     }
   } else {
     // increment sequence number only on specified variables
-    for (i = 0, n=arguments.length; i < n; i++) {
-      var idx = arguments[i];
+    for (let i = 0, n=arguments.length; i < n; i++) {
+      const idx = arguments[i];
       this.checkIndex_(idx);
       this.varList_[idx].incrSequence();
     }
@@ -412,11 +412,11 @@ numVariables() {
 @private
 */
 printOneHistory(idx) {
-  var r = '';
+  let r = '';
   if (this.history_ && idx <= this.histArray_.length) {
-    var v = this.histArray_[this.histArray_.length - idx];
+    const v = this.histArray_[this.histArray_.length - idx];
     r = '//time = '+Util.NF5(v[v.length-1]);
-    for (var i=0, len=v.length-1; i<len; i++) {
+    for (let i=0, len=v.length-1; i<len; i++) {
       r += '\nsim.getVarsList().setValue('+i+', '+v[i]+');';
     }
   }
@@ -434,7 +434,7 @@ printHistory(index) {
   if (typeof index === 'number') {
     return this.printOneHistory(index);
   } else {
-    var r = this.printOneHistory(10);
+    let r = this.printOneHistory(10);
     r += '\n' + this.printOneHistory(3);
     r += '\n' + this.printOneHistory(2);
     r += '\n' + this.printOneHistory(1);
@@ -448,7 +448,7 @@ reproduce an error condition. See {@link #printHistory}.
 */
 saveHistory() {
   if (this.history_) {
-    var v = this.getValues();
+    const v = this.getValues();
     v.push(this.getTime());
     this.histArray_.push(v); // adds element to end of histArray_
     if (this.histArray_.length>20) {
@@ -463,8 +463,8 @@ See {@link Parameter#isComputed}.
 @param {...number} indexes  the indexes of the variables
 */
 setComputed(indexes) {
-  for (var i = 0, n=arguments.length; i < n; i++) {
-    var idx = arguments[i];
+  for (let i = 0, n=arguments.length; i < n; i++) {
+    const idx = arguments[i];
     this.checkIndex_(idx);
     this.varList_[idx].setComputed(true);
   }
@@ -500,7 +500,7 @@ See {@link #incrSequence}.
 */
 setValue(index, value, continuous) {
   this.checkIndex_(index);
-  var variable = this.varList_[index];
+  const variable = this.varList_[index];
   if (variable.getName() == VarsList.DELETED) {
     // ignore attempt to set deleted variable
     return;
@@ -528,12 +528,12 @@ See {@link #incrSequence}.
 */
 setValues(vars, continuous) {
   // NOTE: vars.length can be less than this.varList_.length
-  var N = this.varList_.length;
-  var n = vars.length;
+  const N = this.varList_.length;
+  const n = vars.length;
   if (n > N) {
     throw 'setValues bad length n='+n+' > N='+N;
   }
-  for (var i=0; i<N; i++) {
+  for (let i=0; i<N; i++) {
     if (i < n) {
       this.setValue(i, vars[i], continuous);
     }

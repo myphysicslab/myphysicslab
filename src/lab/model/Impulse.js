@@ -141,7 +141,7 @@ similar(obj, opt_tolerance) {
   if (obj.getName() != this.getName()) {
     return false;
   }
-  var f = /** @type {!Impulse} */(obj);
+  const f = /** @type {!Impulse} */(obj);
   if (!this.location_.nearEqual(f.getStartPoint(), opt_tolerance)) {
     return false;
   }

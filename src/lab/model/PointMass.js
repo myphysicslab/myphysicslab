@@ -43,9 +43,9 @@ class PointMass extends AbstractMassObject {
 * @param {string=} opt_localName localized name of this PointMass, for display to user
 */
 constructor(opt_name, opt_localName) {
-  var name, localName;
+  let name, localName;
   if (opt_name === undefined || opt_name == '') {
-    var id = PointMass.ID++;
+    const id = PointMass.ID++;
     name = PointMass.en.POINT_MASS + id;
     localName = PointMass.i18n.POINT_MASS + id;
   } else {
@@ -92,7 +92,7 @@ getClassName() {
 * @return {!PointMass}
 */
 static makeCircle(diameter, opt_name, opt_localName) {
-  var p = new PointMass(opt_name, opt_localName);
+  const p = new PointMass(opt_name, opt_localName);
   p.setWidth(diameter);
   p.setHeight(diameter);
   return p;
@@ -106,7 +106,7 @@ static makeCircle(diameter, opt_name, opt_localName) {
 * @return {!PointMass}
 */
 static makeOval(width, height, opt_name, opt_localName) {
-  var p = new PointMass(opt_name, opt_localName);
+  const p = new PointMass(opt_name, opt_localName);
   p.setWidth(width);
   p.setHeight(height);
   return p;
@@ -119,7 +119,7 @@ static makeOval(width, height, opt_name, opt_localName) {
 * @return {!PointMass}
 */
 static makeSquare(width, opt_name, opt_localName) {
-  var p = new PointMass(opt_name, opt_localName);
+  const p = new PointMass(opt_name, opt_localName);
   p.setWidth(width);
   p.setHeight(width);
   p.setShape(ShapeType.RECTANGLE);
@@ -134,7 +134,7 @@ static makeSquare(width, opt_name, opt_localName) {
 * @return {!PointMass}
 */
 static makeRectangle(width, height, opt_name, opt_localName) {
-  var p = new PointMass(opt_name, opt_localName);
+  const p = new PointMass(opt_name, opt_localName);
   p.setWidth(width);
   p.setHeight(height);
   p.setShape(ShapeType.RECTANGLE);
@@ -144,8 +144,8 @@ static makeRectangle(width, height, opt_name, opt_localName) {
 /** @override */
 createCanvasPath(context) {
   context.beginPath();
-  var h = this.height_/2;
-  var w = this.width_/2;
+  const h = this.height_/2;
+  const w = this.width_/2;
   if (this.shape_ == ShapeType.RECTANGLE) {
     context.rect(-w, -h, this.width_, this.height_);
     /*
@@ -163,7 +163,7 @@ createCanvasPath(context) {
     } else {
       // NOTE: until context.ellipse() is supported by browsers, we only
       // draw a circle here, the smallest that will fit.
-      var min = Math.min(w, h);
+      const min = Math.min(w, h);
       context.arc(0, 0, min, 0, 2*Math.PI, false);
       context.closePath();
     }
@@ -184,8 +184,8 @@ getCentroidBody() {
 
 /** @override */
 getCentroidRadius() {
-  var w = this.width_/2;
-  var h = this.height_/2;
+  const w = this.width_/2;
+  const h = this.height_/2;
   return Math.sqrt(w*w + h*h);
 };
 
@@ -197,10 +197,10 @@ getLeftBody() {
 /** @override */
 getMinHeight() {
   if (isNaN(this.minHeight_)) {
-    var cmx = this.cm_body_.getX();
-    var cmy = this.cm_body_.getY();
-    var dist = cmy - this.getBottomBody();
-    var d = cmx - this.getLeftBody();
+    const cmx = this.cm_body_.getX();
+    const cmy = this.cm_body_.getY();
+    let dist = cmy - this.getBottomBody();
+    let d = cmx - this.getLeftBody();
     if (d < dist) {
       dist = d;
     }
@@ -236,8 +236,8 @@ getTopBody() {
 
 /** @override */
 getVerticesBody() {
-  var w = this.width_/2;
-  var h = this.height_/2;
+  const w = this.width_/2;
+  const h = this.height_/2;
   return [new Vector(-w, -h), new Vector(w, -h), new Vector(w, h), new Vector(-w, h)];
 };
 
@@ -285,7 +285,7 @@ similar(obj, opt_tolerance) {
   if (!(obj instanceof PointMass)) {
     return false;
   }
-  var pm = /** @type {!PointMass} */ (obj);
+  const pm = /** @type {!PointMass} */ (obj);
   if (!pm.loc_world_.nearEqual(this.loc_world_, opt_tolerance))
     return false;
   if (Util.veryDifferent(pm.width_, this.width_, opt_tolerance)) {

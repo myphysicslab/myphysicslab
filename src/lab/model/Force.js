@@ -163,7 +163,7 @@ similar(obj, opt_tolerance) {
   if (obj.getName() != this.getName()) {
     return false;
   }
-  var f = /** @type {!Force} */(obj);
+  const f = /** @type {!Force} */(obj);
   if (!this.getStartPoint().nearEqual(f.getStartPoint(), opt_tolerance)) {
     return false;
   }

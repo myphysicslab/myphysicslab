@@ -49,7 +49,7 @@ constructor() {
   * @type {number}
   */
   this.numImminent = 0;
-  var infinity = Util.POSITIVE_INFINITY;
+  const infinity = Util.POSITIVE_INFINITY;
   /** the minimum --least positive or most negative-- distance among the collisions
   * @type {number}
   */
@@ -69,7 +69,7 @@ toString() {
   if (Util.ADVANCED) {
     return '';
   } else {
-    var s= 'CollisionStats{collisions: '+this.numCollisions;
+    let s= 'CollisionStats{collisions: '+this.numCollisions;
     if (this.numCollisions > 0) {
       s += ', estTime: '+Util.NF7(this.estTime)
           +', detectedTime: '+Util.NF7(this.detectedTime)
@@ -94,7 +94,7 @@ clear() {
   this.numNonContact = 0;
   this.numNeedsHandling = 0;
   this.numImminent = 0;
-  var infinity = Util.POSITIVE_INFINITY;
+  const infinity = Util.POSITIVE_INFINITY;
   this.minDistance = infinity;
   this.estTime = infinity;
   this.detectedTime = infinity;
@@ -106,7 +106,7 @@ First calls {@link #clear} to start from zero.
     examine
 */
 update(collisions) {
-  var infinity = Util.POSITIVE_INFINITY;
+  const infinity = Util.POSITIVE_INFINITY;
   this.clear();
   this.numCollisions = collisions.length;
   collisions.forEach(c => {
@@ -127,7 +127,7 @@ update(collisions) {
     // estimated collision time.
     if ((c.needsHandling() || !c.contact()) && c.getVelocity() < 0) {
       this.numImminent++;
-      var dist = c.getDistance();
+      const dist = c.getDistance();
       if (!isFinite(dist)) {
         throw 'distance is NaN '+c;
       }
@@ -136,7 +136,7 @@ update(collisions) {
       }
       // if _any_ estimated time is NaN, then we don't know estimated time.
       if (!isNaN(this.estTime)) {
-        var t = c.getEstimatedTime();
+        const t = c.getEstimatedTime();
         if (isNaN(t)) {
           this.estTime = Util.NaN;
         } else if (t < this.estTime) {

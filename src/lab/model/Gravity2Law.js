@@ -56,8 +56,8 @@ class Gravity2Law extends AbstractSubject {
     for when objects are added; also adds all existing bodies on that SimList.
 */
 constructor(gravity, opt_simList) {
-  var id = Gravity2Law.NAME_ID++;
-  var nm = 'GRAVITY_INVERSE_SQUARE_LAW' + (id > 0 ? '_'+id : '');
+  const id = Gravity2Law.NAME_ID++;
+  const nm = 'GRAVITY_INVERSE_SQUARE_LAW' + (id > 0 ? '_'+id : '');
   super(nm);
   /**
   * @type {number}
@@ -118,8 +118,8 @@ addBody(obj) {
   if (!obj.isMassObject() || array.contains(this.bods_, obj)) {
     return;
   }
-  var mobj = /** @type {!MassObject}*/(obj);
-  var m = mobj.getMass();
+  const mobj = /** @type {!MassObject}*/(obj);
+  const m = mobj.getMass();
   if (m > 0 && isFinite(m)) {
     this.bods_.push(mobj);
   }
@@ -130,24 +130,24 @@ calculateForces() {
   // Calculate the force between each pair of bodies.
   // Avoid duplicate calculations by only looking at the 'upper triangle' of the matrix:
   // in a matrix of bodies x bodies, only look at the entries above the diagonal.
-  var bodies2 = array.toArray(this.bods_);
-  var forces = [];
-  var j = 0;
-  var n = bodies2.length;
+  const bodies2 = array.toArray(this.bods_);
+  const forces = [];
+  let j = 0;
+  const n = bodies2.length;
   this.bods_.forEach(body1 => {
     j++;
-    var m1 = body1.getMass();
+    const m1 = body1.getMass();
     if (m1 <= 0 || !isFinite(m1)) // skip infinite mass and zero mass objects
       return;  // go to next body1
-    var body1cm = body1.getPosition();
-    for (var k=j; k<n; k++) {
-      var body2 = bodies2[k];
-      var m2 = body2.getMass();
+    const body1cm = body1.getPosition();
+    for (let k=j; k<n; k++) {
+      const body2 = bodies2[k];
+      const m2 = body2.getMass();
       if (m2 <= 0 || !isFinite(m2)) // skip infinite mass and zero mass objects
         continue;  // go to next body2
-      var vector = body1cm.subtract(body2.getPosition());
-      var r = vector.length();
-      var direction = vector.normalize();
+      const vector = body1cm.subtract(body2.getPosition());
+      const r = vector.length();
+      const direction = vector.normalize();
       if (direction != null) {
         direction = direction.multiply(this.gravity_ * m1 * m2 / (r * r));
         forces.push(new Force('gravity', body1,
@@ -236,25 +236,25 @@ non-infinite number for the minimum PE.
 * @return {number} the potential energy due to this ForceLaw
 */
 getPotentialEnergy() {
-  var pe = 0;
-  var bodies2 = array.toArray(this.bods_);
-  var j = 0;
-  var n = bodies2.length;
+  let pe = 0;
+  const bodies2 = array.toArray(this.bods_);
+  let j = 0;
+  const n = bodies2.length;
   this.bods_.forEach(body1 => {
     j++;
-    var m1 = body1.getMass();
+    const m1 = body1.getMass();
     if (m1 <= 0 || !isFinite(m1)) // skip infinite mass and zero mass objects
       return;  // go to next body1
-    var h1 = body1.getMinHeight();
-    var body1cm = body1.getPosition();
-    for (var k=j; k<n; k++) {
-      var body2 = bodies2[k];
-      var m2 = body2.getMass();
+    const h1 = body1.getMinHeight();
+    const body1cm = body1.getPosition();
+    for (let k=j; k<n; k++) {
+      const body2 = bodies2[k];
+      const m2 = body2.getMass();
       if (m2 <= 0 || !isFinite(m2)) // skip infinite mass and zero mass objects
         continue;  // go to next body2
-      var h2 = body2.getMinHeight();
-      var vector = body1cm.subtract(body2.getPosition());
-      var r = vector.length();
+      const h2 = body2.getMinHeight();
+      const vector = body1cm.subtract(body2.getPosition());
+      const r = vector.length();
       pe += this.gravity_ * m1 * m2 * ((1 / (h1 + h2)) - (1 / r)) ;
       //console.log('pe='+pe+' r='+r+' h1+h2='+(h1+h2));
     }
@@ -264,12 +264,11 @@ getPotentialEnergy() {
 
 /** @override */
 observe(event) {
-  var obj;
   if (event.nameEquals(SimList.OBJECT_ADDED)) {
-    obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     this.addBody(obj);
   } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-    obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     array.remove(this.bods_, obj);
     asserts.assert(!array.contains(this.bods_, obj));
   }

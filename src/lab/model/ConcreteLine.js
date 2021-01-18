@@ -97,7 +97,7 @@ similar(obj, opt_tolerance) {
   if (!(obj instanceof ConcreteLine)) {
     return false;
   }
-  var ml = /** @type {!ConcreteLine}*/(obj);
+  const ml = /** @type {!ConcreteLine}*/(obj);
   if (!ml.getStartPoint().nearEqual(this.getStartPoint(), opt_tolerance)) {
     return false;
   }
